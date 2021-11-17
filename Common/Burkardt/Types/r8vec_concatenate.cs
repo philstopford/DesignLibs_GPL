@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r8vec_concatenate ( int n1, double[] a, int n2, double[] b, ref double[] c )
+    public static void r8vec_concatenate ( int n1, double[] a, int n2, double[] b, ref double[] c )
 
         //****************************************************************************80
         //
@@ -38,22 +38,20 @@
         //
         //    Output, double C[N1+N2], the concatenated vector.
         //
+    {
+        int i;
+
+        for ( i = 0; i < n1; i++ )
         {
-            int i;
-
-            for ( i = 0; i < n1; i++ )
-            {
-                c[i] = a[i];
-            }
-            for ( i = 0; i < n2; i++ )
-            {
-                c[n1+i] = b[i];
-            }
-
-            return;
+            c[i] = a[i];
         }
+        for ( i = 0; i < n2; i++ )
+        {
+            c[n1+i] = b[i];
+        }
+    }
 
-        public static double[] r8vec_concatenate_new ( int n1, double[] a, int n2, double[] b )
+    public static double[] r8vec_concatenate_new ( int n1, double[] a, int n2, double[] b )
 
         //****************************************************************************80
         //
@@ -89,22 +87,20 @@
         //
         //    Output, double R8VEC_CONCATENATE_NEW[N1+N2], the concatenated vector.
         //
+    {
+        int i;
+
+        double[] c = new double[n1+n2];
+
+        for ( i = 0; i < n1; i++ )
         {
-            int i;
-            double[] c;
-
-            c = new double[n1+n2];
-
-            for ( i = 0; i < n1; i++ )
-            {
-                c[i] = a[i];
-            }
-            for ( i = 0; i < n2; i++ )
-            {
-                c[n1+i] = b[i];
-            }
-
-            return c;
+            c[i] = a[i];
         }
+        for ( i = 0; i < n2; i++ )
+        {
+            c[n1+i] = b[i];
+        }
+
+        return c;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace FEM1DTest
+namespace FEM1DTest;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
 //****************************************************************************80
 //
 //  Purpose:
@@ -152,75 +152,74 @@ namespace FEM1DTest
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
-            int NSUB = 5;
-            int NL = 2;
+    {
+        int NSUB = 5;
+        int NL = 2;
 
-            double[] adiag = new double[NSUB + 1];
-            double[] aleft = new double[NSUB + 1];
-            double[] arite = new double[NSUB + 1];
-            double[] f = new double[NSUB + 1];
-            double[] h = new double[NSUB];
-            int ibc = 0;
-            int[] indx = new int[NSUB + 1];
-            int[] node = new int[NL * NSUB];
-            int nquad = 0;
-            int nu = 0;
-            double ul = 0;
-            double ur = 0;
-            double xl = 0;
-            double[] xn = new double[NSUB + 1];
-            double[] xquad = new double[NSUB];
-            double xr = 0;
+        double[] adiag = new double[NSUB + 1];
+        double[] aleft = new double[NSUB + 1];
+        double[] arite = new double[NSUB + 1];
+        double[] f = new double[NSUB + 1];
+        double[] h = new double[NSUB];
+        int ibc = 0;
+        int[] indx = new int[NSUB + 1];
+        int[] node = new int[NL * NSUB];
+        int nquad = 0;
+        int nu = 0;
+        double ul = 0;
+        double ur = 0;
+        double xl = 0;
+        double[] xn = new double[NSUB + 1];
+        double[] xquad = new double[NSUB];
+        double xr = 0;
             
-            Console.WriteLine("");
-            Console.WriteLine("FEM1D");
-            Console.WriteLine("");
-            Console.WriteLine("  Solve the two-point boundary value problem");
-            Console.WriteLine("");
-            Console.WriteLine("  - d/dX (P dU/dX) + Q U  =  F");
-            Console.WriteLine("");
-            Console.WriteLine("  on the interval [XL,XR], specifying");
-            Console.WriteLine("  the value of U or U' at each end.");
-            Console.WriteLine("");
-            Console.WriteLine("  The interval [XL,XR] is broken into NSUB = "
-                 + NSUB + " subintervals");
-            Console.WriteLine("  Number of basis functions per element is NL = "
-                 + NL + "");
+        Console.WriteLine("");
+        Console.WriteLine("FEM1D");
+        Console.WriteLine("");
+        Console.WriteLine("  Solve the two-point boundary value problem");
+        Console.WriteLine("");
+        Console.WriteLine("  - d/dX (P dU/dX) + Q U  =  F");
+        Console.WriteLine("");
+        Console.WriteLine("  on the interval [XL,XR], specifying");
+        Console.WriteLine("  the value of U or U' at each end.");
+        Console.WriteLine("");
+        Console.WriteLine("  The interval [XL,XR] is broken into NSUB = "
+                          + NSUB + " subintervals");
+        Console.WriteLine("  Number of basis functions per element is NL = "
+                          + NL + "");
 //
 //  Initialize the data that defines the problem.
 //
-            FEM_1D.init(ref ibc, ref nquad, ref ul, ref ur, ref xl, ref xr);
+        FEM_1D.init(ref ibc, ref nquad, ref ul, ref ur, ref xl, ref xr);
 //
 //  Compute the quantities which define the geometry of the
 //  problem.
 //
-            FEM_1D.geometry(h, ibc, ref indx, NL, ref node, NSUB, ref nu, xl, ref xn, ref xquad, xr);
+        FEM_1D.geometry(h, ibc, ref indx, NL, ref node, NSUB, ref nu, xl, ref xn, ref xquad, xr);
 //
 //  Assemble the linear system.
 //
-            FEM_1D.assemble(ref adiag, ref aleft, ref arite, ref f, h, indx, NL, node, nu, nquad,
-                NSUB, ul, ur, xn, xquad);
+        FEM_1D.assemble(ref adiag, ref aleft, ref arite, ref f, h, indx, NL, node, nu, nquad,
+            NSUB, ul, ur, xn, xquad);
 //
 //  Print out the linear system.
 //
-            FEM_1D.prsys(adiag, aleft, arite, f, nu);
+        FEM_1D.prsys(adiag, aleft, arite, f, nu);
 //
 //  Solve the linear system.
 //
-            FEM_1D.solve(ref adiag, ref aleft, ref arite, ref f, nu);
+        FEM_1D.solve(ref adiag, ref aleft, ref arite, ref f, nu);
 //
 //  Print out the solution.
 //
-            FEM_1D.output(f, ibc, indx, NSUB, nu, ul, ur, xn);
+        FEM_1D.output(f, ibc, indx, NSUB, nu, ul, ur, xn);
 //
 //  Terminate.
 //
-            Console.WriteLine("");
-            Console.WriteLine("FEM1D:");
-            Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+        Console.WriteLine("FEM1D:");
+        Console.WriteLine("  Normal end of execution.");
 
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
     }
 }

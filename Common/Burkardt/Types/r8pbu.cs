@@ -1,1094 +1,1096 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
+    public static void r8pbu_cg(int n, int mu, double[] a, double[] b, ref double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_CG uses the conjugate gradient method on a R8PBU system.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //    The matrix A must be a positive definite symmetric band matrix.
+        //
+        //    The method is designed to reach the solution after N computational
+        //    steps.  However, roundoff may introduce unacceptably large errors for
+        //    some problems.  In such a case, calling the routine again, using
+        //    the computed solution as the new starting estimate, should improve
+        //    the results.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 February 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Frank Beckman,
+        //    The Solution of Linear Equations by the Conjugate Gradient Method,
+        //    in Mathematical Methods for Digital Computers,
+        //    edited by John Ralston, Herbert Wilf,
+        //    Wiley, 1967,
+        //    ISBN: 0471706892,
+        //    LC: QA76.5.R3.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals.
+        //    MU must be at least 0, and no more than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the R8PBU matrix.
+        //
+        //    Input, double B[N], the right hand side vector.
+        //
+        //    Input/output, double X[N].
+        //    On input, an estimate for the solution.
+        //    On output, the approximate solution vector.
+        //
     {
-        public static void r8pbu_cg(int n, int mu, double[] a, double[] b, ref double[] x)
+        double alpha;
+        double[] ap;
+        double beta;
+        int i;
+        int it;
+        double[] p;
+        double pap;
+        double pr;
+        double[] r;
+        double rap;
+        //
+        //  Initialize
+        //    AP = A * x,
+        //    R  = b - A * x,
+        //    P  = b - A * x.
+        //
+        ap = r8pbu_mv(n, n, mu, a, x);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_CG uses the conjugate gradient method on a R8PBU system.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //    The matrix A must be a positive definite symmetric band matrix.
-            //
-            //    The method is designed to reach the solution after N computational
-            //    steps.  However, roundoff may introduce unacceptably large errors for
-            //    some problems.  In such a case, calling the routine again, using
-            //    the computed solution as the new starting estimate, should improve
-            //    the results.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 February 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Frank Beckman,
-            //    The Solution of Linear Equations by the Conjugate Gradient Method,
-            //    in Mathematical Methods for Digital Computers,
-            //    edited by John Ralston, Herbert Wilf,
-            //    Wiley, 1967,
-            //    ISBN: 0471706892,
-            //    LC: QA76.5.R3.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals.
-            //    MU must be at least 0, and no more than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the R8PBU matrix.
-            //
-            //    Input, double B[N], the right hand side vector.
-            //
-            //    Input/output, double X[N].
-            //    On input, an estimate for the solution.
-            //    On output, the approximate solution vector.
-            //
+        r = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double alpha;
-            double[] ap;
-            double beta;
-            int i;
-            int it;
-            double[] p;
-            double pap;
-            double pr;
-            double[] r;
-            double rap;
-            //
-            //  Initialize
-            //    AP = A * x,
-            //    R  = b - A * x,
-            //    P  = b - A * x.
-            //
-            ap = r8pbu_mv(n, n, mu, a, x);
+            r[i] = b[i] - ap[i];
+        }
 
-            r = new double[n];
+        p = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            p[i] = b[i] - ap[i];
+        }
+
+        //
+        //  Do the N steps of the conjugate gradient method.
+        //
+        for (it = 1; it <= n; it++)
+        {
+            //
+            //  Compute the matrix*vector product AP=A*P.
+            //
+            ap = r8pbu_mv(n, n, mu, a, p);
+            //
+            //  Compute the dot products
+            //    PAP = P*AP,
+            //    PR  = P*R
+            //  Set
+            //    ALPHA = PR / PAP.
+            //
+            pap = 0.0;
             for (i = 0; i < n; i++)
             {
-                r[i] = b[i] - ap[i];
+                pap += p[i] * ap[i];
             }
 
-            p = new double[n];
+            if (pap == 0.0)
+            {
+                break;
+            }
+
+            pr = 0.0;
             for (i = 0; i < n; i++)
             {
-                p[i] = b[i] - ap[i];
+                pr += p[i] * r[i];
+            }
+
+            alpha = pr / pap;
+            //
+            //  Set
+            //    X = X + ALPHA * P
+            //    R = R - ALPHA * AP.
+            //
+            for (i = 0; i < n; i++)
+            {
+                x[i] += alpha * p[i];
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                r[i] -= alpha * ap[i];
             }
 
             //
-            //  Do the N steps of the conjugate gradient method.
+            //  Compute the vector dot product
+            //    RAP = R*AP
+            //  Set
+            //    BETA = - RAP / PAP.
             //
-            for (it = 1; it <= n; it++)
+            rap = 0.0;
+            for (i = 0; i < n; i++)
             {
-                //
-                //  Compute the matrix*vector product AP=A*P.
-                //
-                ap = r8pbu_mv(n, n, mu, a, p);
-                //
-                //  Compute the dot products
-                //    PAP = P*AP,
-                //    PR  = P*R
-                //  Set
-                //    ALPHA = PR / PAP.
-                //
-                pap = 0.0;
-                for (i = 0; i < n; i++)
-                {
-                    pap = pap + p[i] * ap[i];
-                }
+                rap += r[i] * ap[i];
+            }
 
-                if (pap == 0.0)
-                {
-                    break;
-                }
+            beta = -rap / pap;
+            //
+            //  Update the perturbation vector
+            //    P = R + BETA * P.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = r[i] + beta * p[i];
+            }
 
-                pr = 0.0;
-                for (i = 0; i < n; i++)
-                {
-                    pr = pr + p[i] * r[i];
-                }
+        }
+    }
 
-                alpha = pr / pap;
-                //
-                //  Set
-                //    X = X + ALPHA * P
-                //    R = R - ALPHA * AP.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    x[i] = x[i] + alpha * p[i];
-                }
+    public static double r8pbu_det(int n, int mu, double[] a_lu)
 
-                for (i = 0; i < n; i++)
-                {
-                    r[i] = r[i] - alpha * ap[i];
-                }
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_DET computes the determinant of a matrix factored by R8PBU_FA.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    03 October 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Dongarra, Bunch, Moler, Stewart.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, 1979,
+        //    ISBN13: 978-0-898711-72-1,
+        //    LC: QA214.L56.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals of the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Input, double A_LU[(MU+1)*N], the LU factors from R8PBU_FA.
+        //
+        //    Output, double R8PBU_DET, the determinant of the matrix.
+        //
+    {
+        double det;
+        int j;
 
-                //
-                //  Compute the vector dot product
-                //    RAP = R*AP
-                //  Set
-                //    BETA = - RAP / PAP.
-                //
-                rap = 0.0;
-                for (i = 0; i < n; i++)
-                {
-                    rap = rap + r[i] * ap[i];
-                }
+        det = 1.0;
 
-                beta = -rap / pap;
-                //
-                //  Update the perturbation vector
-                //    P = R + BETA * P.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    p[i] = r[i] + beta * p[i];
-                }
+        for (j = 0; j < n; j++)
+        {
+            det = det * a_lu[mu + j * (mu + 1)] * a_lu[mu + j * (mu + 1)];
+        }
 
+        return det;
+    }
+
+    public static double[] r8pbu_dif2(int m, int n, int mu)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_DIF2 returns the DIF2 matrix in R8PBU format.
+        //
+        //  Example:
+        //
+        //    N = 5
+        //
+        //    2 -1  .  .  .
+        //   -1  2 -1  .  .
+        //    . -1  2 -1  .
+        //    .  . -1  2 -1
+        //    .  .  . -1  2
+        //
+        //  Properties:
+        //
+        //    A is banded, with bandwidth 3.
+        //
+        //    A is tridiagonal.
+        //
+        //    Because A is tridiagonal, it has property A (bipartite).
+        //
+        //    A is a special case of the TRIS or tridiagonal scalar matrix.
+        //
+        //    A is integral, therefore det ( A ) is integral, and 
+        //    det ( A ) * inverse ( A ) is integral.
+        //
+        //    A is Toeplitz: constant along diagonals.
+        //
+        //    A is symmetric: A' = A.
+        //
+        //    Because A is symmetric, it is normal.
+        //
+        //    Because A is normal, it is diagonalizable.
+        //
+        //    A is persymmetric: A(I,J) = A(N+1-J,N+1-I.
+        //
+        //    A is positive definite.
+        //
+        //    A is an M matrix.
+        //
+        //    A is weakly diagonally dominant, but not strictly diagonally dominant.
+        //
+        //    A has an LU factorization A = L * U, without pivoting.
+        //
+        //      The matrix L is lower bidiagonal with subdiagonal elements:
+        //
+        //        L(I+1,I) = -I/(I+1)
+        //
+        //      The matrix U is upper bidiagonal, with diagonal elements
+        //
+        //        U(I,I) = (I+1)/I
+        //
+        //      and superdiagonal elements which are all -1.
+        //
+        //    A has a Cholesky factorization A = L * L', with L lower bidiagonal.
+        //
+        //      L(I,I) =    Math.Sqrt ( (I+1) / I )
+        //      L(I,I-1) = -sqrt ( (I-1) / I )
+        //
+        //    The eigenvalues are
+        //
+        //      LAMBDA(I) = 2 + 2 * COS(I*PI/(N+1))
+        //                = 4 SIN^2(I*PI/(2*N+2))
+        //
+        //    The corresponding eigenvector X(I) has entries
+        //
+        //       X(I)(J) = sqrt(2/(N+1)) * sin ( I*J*PI/(N+1) ).
+        //
+        //    Simple linear systems:
+        //
+        //      x = (1,1,1,...,1,1),   A*x=(1,0,0,...,0,1)
+        //
+        //      x = (1,2,3,...,n-1,n), A*x=(0,0,0,...,0,n+1)
+        //
+        //    det ( A ) = N + 1.
+        //
+        //    The value of the determinant can be seen by induction,
+        //    and expanding the determinant across the first row:
+        //
+        //      det ( A(N) ) = 2 * det ( A(N-1) ) - (-1) * (-1) * det ( A(N-2) )
+        //                = 2 * N - (N-1)
+        //                = N + 1
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 June 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Robert Gregory, David Karney,
+        //    A Collection of Matrices for Testing Computational Algorithms,
+        //    Wiley, 1969,
+        //    ISBN: 0882756494,
+        //    LC: QA263.68
+        //
+        //    Morris Newman, John Todd,
+        //    Example A8,
+        //    The evaluation of matrix inversion programs,
+        //    Journal of the Society for Industrial and Applied Mathematics,
+        //    Volume 6, Number 4, pages 466-476, 1958.
+        //
+        //    John Todd,
+        //    Basic Numerical Mathematics,
+        //    Volume 2: Numerical Algebra,
+        //    Birkhauser, 1980,
+        //    ISBN: 0817608117,
+        //    LC: QA297.T58.
+        //
+        //    Joan Westlake,
+        //    A Handbook of Numerical Matrix Inversion and Solution of 
+        //    Linear Equations,
+        //    John Wiley, 1968,
+        //    ISBN13: 978-0471936756,
+        //    LC: QA263.W47.
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input, int MU, the number of superdiagonals.
+        //    MU must be at least 0, and no more than N-1.
+        //
+        //    Output, double R8PBU_DIF2[(MU+1)*N], the matrix.
+        //
+    {
+        double[] a = new double[(mu + 1) * n];
+
+        for (int j = 0; j < n; j++)
+        {
+            for (int i = 0; i < mu + 1; i++)
+            {
+                a[i + j * (mu + 1)] = 0.0;
             }
         }
 
-        public static double r8pbu_det(int n, int mu, double[] a_lu)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_DET computes the determinant of a matrix factored by R8PBU_FA.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    03 October 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Dongarra, Bunch, Moler, Stewart.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-            //    LINPACK User's Guide,
-            //    SIAM, 1979,
-            //    ISBN13: 978-0-898711-72-1,
-            //    LC: QA214.L56.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals of the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Input, double A_LU[(MU+1)*N], the LU factors from R8PBU_FA.
-            //
-            //    Output, double R8PBU_DET, the determinant of the matrix.
-            //
+        for (int j = 1; j < n; j++)
         {
-            double det;
-            int j;
-
-            det = 1.0;
-
-            for (j = 0; j < n; j++)
-            {
-                det = det * a_lu[mu + j * (mu + 1)] * a_lu[mu + j * (mu + 1)];
-            }
-
-            return det;
+            int i = mu - 1;
+            a[i + j * (mu + 1)] = -1.0;
         }
 
-        public static double[] r8pbu_dif2(int m, int n, int mu)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_DIF2 returns the DIF2 matrix in R8PBU format.
-            //
-            //  Example:
-            //
-            //    N = 5
-            //
-            //    2 -1  .  .  .
-            //   -1  2 -1  .  .
-            //    . -1  2 -1  .
-            //    .  . -1  2 -1
-            //    .  .  . -1  2
-            //
-            //  Properties:
-            //
-            //    A is banded, with bandwidth 3.
-            //
-            //    A is tridiagonal.
-            //
-            //    Because A is tridiagonal, it has property A (bipartite).
-            //
-            //    A is a special case of the TRIS or tridiagonal scalar matrix.
-            //
-            //    A is integral, therefore det ( A ) is integral, and 
-            //    det ( A ) * inverse ( A ) is integral.
-            //
-            //    A is Toeplitz: constant along diagonals.
-            //
-            //    A is symmetric: A' = A.
-            //
-            //    Because A is symmetric, it is normal.
-            //
-            //    Because A is normal, it is diagonalizable.
-            //
-            //    A is persymmetric: A(I,J) = A(N+1-J,N+1-I.
-            //
-            //    A is positive definite.
-            //
-            //    A is an M matrix.
-            //
-            //    A is weakly diagonally dominant, but not strictly diagonally dominant.
-            //
-            //    A has an LU factorization A = L * U, without pivoting.
-            //
-            //      The matrix L is lower bidiagonal with subdiagonal elements:
-            //
-            //        L(I+1,I) = -I/(I+1)
-            //
-            //      The matrix U is upper bidiagonal, with diagonal elements
-            //
-            //        U(I,I) = (I+1)/I
-            //
-            //      and superdiagonal elements which are all -1.
-            //
-            //    A has a Cholesky factorization A = L * L', with L lower bidiagonal.
-            //
-            //      L(I,I) =    Math.Sqrt ( (I+1) / I )
-            //      L(I,I-1) = -sqrt ( (I-1) / I )
-            //
-            //    The eigenvalues are
-            //
-            //      LAMBDA(I) = 2 + 2 * COS(I*PI/(N+1))
-            //                = 4 SIN^2(I*PI/(2*N+2))
-            //
-            //    The corresponding eigenvector X(I) has entries
-            //
-            //       X(I)(J) = sqrt(2/(N+1)) * sin ( I*J*PI/(N+1) ).
-            //
-            //    Simple linear systems:
-            //
-            //      x = (1,1,1,...,1,1),   A*x=(1,0,0,...,0,1)
-            //
-            //      x = (1,2,3,...,n-1,n), A*x=(0,0,0,...,0,n+1)
-            //
-            //    det ( A ) = N + 1.
-            //
-            //    The value of the determinant can be seen by induction,
-            //    and expanding the determinant across the first row:
-            //
-            //      det ( A(N) ) = 2 * det ( A(N-1) ) - (-1) * (-1) * det ( A(N-2) )
-            //                = 2 * N - (N-1)
-            //                = N + 1
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    05 June 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Robert Gregory, David Karney,
-            //    A Collection of Matrices for Testing Computational Algorithms,
-            //    Wiley, 1969,
-            //    ISBN: 0882756494,
-            //    LC: QA263.68
-            //
-            //    Morris Newman, John Todd,
-            //    Example A8,
-            //    The evaluation of matrix inversion programs,
-            //    Journal of the Society for Industrial and Applied Mathematics,
-            //    Volume 6, Number 4, pages 466-476, 1958.
-            //
-            //    John Todd,
-            //    Basic Numerical Mathematics,
-            //    Volume 2: Numerical Algebra,
-            //    Birkhauser, 1980,
-            //    ISBN: 0817608117,
-            //    LC: QA297.T58.
-            //
-            //    Joan Westlake,
-            //    A Handbook of Numerical Matrix Inversion and Solution of 
-            //    Linear Equations,
-            //    John Wiley, 1968,
-            //    ISBN13: 978-0471936756,
-            //    LC: QA263.W47.
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the number of rows and columns.
-            //
-            //    Input, int MU, the number of superdiagonals.
-            //    MU must be at least 0, and no more than N-1.
-            //
-            //    Output, double R8PBU_DIF2[(MU+1)*N], the matrix.
-            //
+        for (int j = 0; j < n; j++)
         {
-            double[] a = new double[(mu + 1) * n];
-
-            for (int j = 0; j < n; j++)
-            {
-                for (int i = 0; i < mu + 1; i++)
-                {
-                    a[i + j * (mu + 1)] = 0.0;
-                }
-            }
-
-            for (int j = 1; j < n; j++)
-            {
-                int i = mu - 1;
-                a[i + j * (mu + 1)] = -1.0;
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                int i = mu;
-                a[i + j * (mu + 1)] = 2.0;
-            }
-
-            return a;
+            int i = mu;
+            a[i + j * (mu + 1)] = 2.0;
         }
 
-        public static double[] r8pbu_fa(int n, int mu, double[] a)
+        return a;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_FA factors an R8PBU matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //    The matrix A must be a positive definite symmetric band matrix.
-            //
-            //    Once factored, linear systems A*x=b involving the matrix can be solved
-            //    by calling R8PBU_SL.  No pivoting is performed.  Pivoting is not necessary
-            //    for positive definite symmetric matrices.  If the matrix is not positive
-            //    definite, the algorithm may behave correctly, but it is also possible
-            //    that an illegal divide by zero will occur.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    02 February 2004
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Dongarra, Bunch, Moler, Stewart.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-            //    LINPACK User's Guide,
-            //    SIAM, 1979,
-            //    ISBN13: 978-0-898711-72-1,
-            //    LC: QA214.L56.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals of the matrix.
-            //    MU must be at least 0, and no more than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the R8PBU matrix.
-            //
-            //    Output, double R8PBU_FA[(MU+1)*N], information describing a factored
-            //    form of the matrix.
-            //
+    public static double[] r8pbu_fa(int n, int mu, double[] a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_FA factors an R8PBU matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //    The matrix A must be a positive definite symmetric band matrix.
+        //
+        //    Once factored, linear systems A*x=b involving the matrix can be solved
+        //    by calling R8PBU_SL.  No pivoting is performed.  Pivoting is not necessary
+        //    for positive definite symmetric matrices.  If the matrix is not positive
+        //    definite, the algorithm may behave correctly, but it is also possible
+        //    that an illegal divide by zero will occur.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 February 2004
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Dongarra, Bunch, Moler, Stewart.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, 1979,
+        //    ISBN13: 978-0-898711-72-1,
+        //    LC: QA214.L56.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals of the matrix.
+        //    MU must be at least 0, and no more than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the R8PBU matrix.
+        //
+        //    Output, double R8PBU_FA[(MU+1)*N], information describing a factored
+        //    form of the matrix.
+        //
+    {
+        double[] b;
+        int i;
+        int ik;
+        int j;
+        int jk;
+        int k;
+        int mm;
+        double s;
+        double t;
+
+        b = new double[(mu + 1) * n];
+
+        for (j = 0; j < n; j++)
         {
-            double[] b;
-            int i;
-            int ik;
-            int j;
-            int jk;
-            int k;
-            int mm;
-            double s;
-            double t;
-
-            b = new double[(mu + 1) * n];
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < mu + 1; i++)
             {
-                for (i = 0; i < mu + 1; i++)
+                b[i + j * (mu + 1)] = a[i + j * (mu + 1)];
+            }
+        }
+
+        for (j = 1; j <= n; j++)
+        {
+
+            ik = mu + 1;
+            jk = Math.Max(j - mu, 1);
+            mm = Math.Max(mu + 2 - j, 1);
+
+            s = 0.0;
+
+            for (k = mm; k <= mu; k++)
+            {
+                t = 0.0;
+                for (i = 0; i <= k - mm - 1; i++)
                 {
-                    b[i + j * (mu + 1)] = a[i + j * (mu + 1)];
+                    t += b[ik + i - 1 + (jk - 1) * (mu + 1)] * b[mm + i - 1 + (j - 1) * (mu + 1)];
                 }
+
+                b[k - 1 + (j - 1) * (mu + 1)] = (b[k - 1 + (j - 1) * (mu + 1)] - t) /
+                                                b[mu + (jk - 1) * (mu + 1)];
+
+                s += b[k - 1 + (j - 1) * (mu + 1)] * b[k - 1 + (j - 1) * (mu + 1)];
+                ik -= 1;
+                jk += 1;
             }
 
-            for (j = 1; j <= n; j++)
+            s = b[mu + (j - 1) * (mu + 1)] - s;
+
+            switch (s)
             {
-
-                ik = mu + 1;
-                jk = Math.Max(j - mu, 1);
-                mm = Math.Max(mu + 2 - j, 1);
-
-                s = 0.0;
-
-                for (k = mm; k <= mu; k++)
-                {
-                    t = 0.0;
-                    for (i = 0; i <= k - mm - 1; i++)
-                    {
-                        t = t + b[ik + i - 1 + (jk - 1) * (mu + 1)] * b[mm + i - 1 + (j - 1) * (mu + 1)];
-                    }
-
-                    b[k - 1 + (j - 1) * (mu + 1)] = (b[k - 1 + (j - 1) * (mu + 1)] - t) /
-                                                    b[mu + (jk - 1) * (mu + 1)];
-
-                    s = s + b[k - 1 + (j - 1) * (mu + 1)] * b[k - 1 + (j - 1) * (mu + 1)];
-                    ik = ik - 1;
-                    jk = jk + 1;
-                }
-
-                s = b[mu + (j - 1) * (mu + 1)] - s;
-
-                if (s <= 0.0)
-                {
+                case <= 0.0:
                     return null;
-                }
-
-                b[mu + (j - 1) * (mu + 1)] = Math.Sqrt(s);
+                default:
+                    b[mu + (j - 1) * (mu + 1)] = Math.Sqrt(s);
+                    break;
             }
-
-            return b;
         }
 
-        public static double[] r8pbu_indicator(int n, int mu)
+        return b;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_INDICATOR sets up an R8PBU indicator matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 January 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals in the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Output, double R8PBU_INDICATOR[(MU+1)*N], the R8PBU matrix.
-            //
+    public static double[] r8pbu_indicator(int n, int mu)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_INDICATOR sets up an R8PBU indicator matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 January 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals in the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Output, double R8PBU_INDICATOR[(MU+1)*N], the R8PBU matrix.
+        //
+    {
+        double[] a;
+        int fac;
+        int i;
+        int j;
+
+        a = new double[(mu + 1) * n];
+
+        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        //
+        //  Zero out the "junk" entries.
+        //
+        for (j = 0; j < mu; j++)
         {
-            double[] a;
-            int fac;
-            int i;
-            int j;
-
-            a = new double[(mu + 1) * n];
-
-            fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
-            //
-            //  Zero out the "junk" entries.
-            //
-            for (j = 0; j < mu; j++)
+            for (i = 0; i <= mu - j; i++)
             {
-                for (i = 0; i <= mu - j; i++)
-                {
-                    a[i + j * (mu + 1)] = 0.0;
-                }
+                a[i + j * (mu + 1)] = 0.0;
             }
-
-            //
-            //  Set the meaningful values.
-            //
-            for (i = 1; i <= n; i++)
-            {
-                for (j = i; j <= Math.Min(i + mu, n); j++)
-                {
-                    a[mu + i - j + (j - 1) * (mu + 1)] = (double) (fac * i + j);
-                }
-            }
-
-            return a;
         }
 
-        public static double[] r8pbu_ml(int n, int mu, double[] a_lu, double[] x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_ML multiplies a vector times a matrix that was factored by R8PBU_FA.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    06 October 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals of the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Input, double A_LU[(MU+1)*N], the LU factors from R8PBU_FA.
-            //
-            //    Input, double X[N], the vector to be multiplied by A.
-            //
-            //    Output, double R8PBU_ML[N], the product A * x.
-            //
+        //
+        //  Set the meaningful values.
+        //
+        for (i = 1; i <= n; i++)
         {
-            double[] b;
-            int i;
-            int ilo;
-            int j;
-            int jhi;
-            int k;
-
-            b = new double[n];
-
-            for (i = 0; i < n; i++)
+            for (j = i; j <= Math.Min(i + mu, n); j++)
             {
-                b[i] = x[i];
+                a[mu + i - j + (j - 1) * (mu + 1)] = fac * i + j;
             }
-
-            //
-            //  Multiply U * X = Y.
-            //
-            for (k = 1; k <= n; k++)
-            {
-                ilo = Math.Max(1, k - mu);
-                for (i = ilo; i <= k - 1; i++)
-                {
-                    b[i - 1] = b[i - 1] + a_lu[mu + i - k + (k - 1) * (mu + 1)] * b[k - 1];
-                }
-
-                b[k - 1] = a_lu[mu + (k - 1) * (mu + 1)] * b[k - 1];
-            }
-
-            //
-            //  Multiply L * Y = B.
-            //
-            for (k = n; 1 <= k; k--)
-            {
-                jhi = Math.Min(k + mu, n);
-                for (j = k + 1; j <= jhi; j++)
-                {
-                    b[j - 1] = b[j - 1] + a_lu[mu + k - j + (j - 1) * (mu + 1)] * b[k - 1];
-                }
-
-                b[k - 1] = a_lu[mu + (k - 1) * (mu + 1)] * b[k - 1];
-            }
-
-            return b;
         }
 
-        public static double[] r8pbu_mv(int m, int n, int mu, double[] a, double[] x)
+        return a;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_MV multiplies a R8PBU matrix times a vector.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 February 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the number of rows and columns.
-            //
-            //    Input, int MU, the number of superdiagonals in the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the matrix.
-            //
-            //    Input, double X[N], the vector to be multiplied by A.
-            //
-            //    Output, double R8PBU_MV[M], the result vector A * x.
-            //
+    public static double[] r8pbu_ml(int n, int mu, double[] a_lu, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_ML multiplies a vector times a matrix that was factored by R8PBU_FA.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 October 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals of the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Input, double A_LU[(MU+1)*N], the LU factors from R8PBU_FA.
+        //
+        //    Input, double X[N], the vector to be multiplied by A.
+        //
+        //    Output, double R8PBU_ML[N], the product A * x.
+        //
+    {
+        double[] b;
+        int i;
+        int ilo;
+        int j;
+        int jhi;
+        int k;
+
+        b = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double[] b = new double[m];
-            //
-            //  Multiply X by the diagonal of the matrix.
-            //
-            for (int j = 0; j < n; j++)
-            {
-                b[j] = a[mu + j * (mu + 1)] * x[j];
-            }
-
-            //
-            //  Multiply X by the superdiagonals of the matrix.
-            //
-            for (int i = mu; 1 <= i; i--)
-            {
-                for (int j = mu + 2 - i; j <= n; j++)
-                {
-                    int ieqn = i + j - mu - 1;
-                    b[ieqn - 1] = b[ieqn - 1] + a[i - 1 + (j - 1) * (mu + 1)] * x[j - 1];
-                    b[j - 1] = b[j - 1] + a[i - 1 + (j - 1) * (mu + 1)] * x[ieqn - 1];
-                }
-            }
-
-            return b;
+            b[i] = x[i];
         }
 
-        public static void r8pbu_print(int n, int mu, double[] a, string title)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_PRINT prints an R8PBU matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    06 April 2006
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the upper (and lower) bandwidth.
-            //    MU must be nonnegative, and no greater than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the R8PBU matrix.
-            //
-            //    Input, string TITLE, a title.
-            //
+        //
+        //  Multiply U * X = Y.
+        //
+        for (k = 1; k <= n; k++)
         {
-            r8pbu_print_some(n, mu, a, 1, 1, n, n, title);
+            ilo = Math.Max(1, k - mu);
+            for (i = ilo; i <= k - 1; i++)
+            {
+                b[i - 1] += a_lu[mu + i - k + (k - 1) * (mu + 1)] * b[k - 1];
+            }
+
+            b[k - 1] = a_lu[mu + (k - 1) * (mu + 1)] * b[k - 1];
         }
 
-        public static void r8pbu_print_some(int n, int mu, double[] a, int ilo, int jlo, int ihi,
-                int jhi, string title)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_PRINT_SOME prints some of an R8PBU matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    06 April 2006
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the upper (and lower) bandwidth.
-            //    MU must be nonnegative, and no greater than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the R8PBU matrix.
-            //
-            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
-            //    column, and the last row and column to be printed.
-            //
-            //    Input, string TITLE, a title.
-            //
+        //
+        //  Multiply L * Y = B.
+        //
+        for (k = n; 1 <= k; k--)
         {
-            int INCX = 5;
+            jhi = Math.Min(k + mu, n);
+            for (j = k + 1; j <= jhi; j++)
+            {
+                b[j - 1] += a_lu[mu + k - j + (j - 1) * (mu + 1)] * b[k - 1];
+            }
 
-            int i;
-            int i2hi;
-            int i2lo;
-            int j;
-            int j2hi;
-            int j2lo;
-            string cout = "";
+            b[k - 1] = a_lu[mu + (k - 1) * (mu + 1)] * b[k - 1];
+        }
+
+        return b;
+    }
+
+    public static double[] r8pbu_mv(int m, int n, int mu, double[] a, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_MV multiplies a R8PBU matrix times a vector.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 February 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input, int MU, the number of superdiagonals in the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the matrix.
+        //
+        //    Input, double X[N], the vector to be multiplied by A.
+        //
+        //    Output, double R8PBU_MV[M], the result vector A * x.
+        //
+    {
+        double[] b = new double[m];
+        //
+        //  Multiply X by the diagonal of the matrix.
+        //
+        for (int j = 0; j < n; j++)
+        {
+            b[j] = a[mu + j * (mu + 1)] * x[j];
+        }
+
+        //
+        //  Multiply X by the superdiagonals of the matrix.
+        //
+        for (int i = mu; 1 <= i; i--)
+        {
+            for (int j = mu + 2 - i; j <= n; j++)
+            {
+                int ieqn = i + j - mu - 1;
+                b[ieqn - 1] += a[i - 1 + (j - 1) * (mu + 1)] * x[j - 1];
+                b[j - 1] += a[i - 1 + (j - 1) * (mu + 1)] * x[ieqn - 1];
+            }
+        }
+
+        return b;
+    }
+
+    public static void r8pbu_print(int n, int mu, double[] a, string title)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_PRINT prints an R8PBU matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 April 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the upper (and lower) bandwidth.
+        //    MU must be nonnegative, and no greater than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the R8PBU matrix.
+        //
+        //    Input, string TITLE, a title.
+        //
+    {
+        r8pbu_print_some(n, mu, a, 1, 1, n, n, title);
+    }
+
+    public static void r8pbu_print_some(int n, int mu, double[] a, int ilo, int jlo, int ihi,
+            int jhi, string title)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_PRINT_SOME prints some of an R8PBU matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 April 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the upper (and lower) bandwidth.
+        //    MU must be nonnegative, and no greater than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the R8PBU matrix.
+        //
+        //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+        //    column, and the last row and column to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+    {
+        int INCX = 5;
+
+        int i;
+        int i2hi;
+        int i2lo;
+        int j;
+        int j2hi;
+        int j2lo;
+        string cout = "";
+
+        Console.WriteLine("");
+        Console.WriteLine(title + "");
+        //
+        //  Print the columns of the matrix, in strips of 5.
+        //
+        for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
+        {
+            j2hi = j2lo + INCX - 1;
+            j2hi = Math.Min(j2hi, n);
+            j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            Console.WriteLine(title + "");
-            //
-            //  Print the columns of the matrix, in strips of 5.
-            //
-            for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
+
+            cout = "  Col: ";
+            for (j = j2lo; j <= j2hi; j++)
             {
-                j2hi = j2lo + INCX - 1;
-                j2hi = Math.Min(j2hi, n);
-                j2hi = Math.Min(j2hi, jhi);
+                cout += j.ToString().PadLeft(7) + "       ";
+            }
 
-                Console.WriteLine("");
+            Console.WriteLine(cout);
+            Console.WriteLine("  Row");
+            Console.WriteLine("  ---");
+            //
+            //  Determine the range of the rows in this strip.
+            //
+            i2lo = Math.Max(ilo, 1);
+            i2lo = Math.Max(i2lo, j2lo - mu);
+            i2hi = Math.Min(ihi, n);
+            i2hi = Math.Min(i2hi, j2hi + mu);
 
-                cout = "  Col: ";
+            for (i = i2lo; i <= i2hi; i++)
+            {
+                cout = i.ToString().PadLeft(4) + "  ";
+                //
+                //  Print out (up to) 5 entries in row I, that lie in the current strip.
+                //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    cout += j.ToString().PadLeft(7) + "       ";
+                    if (mu < i - j || mu < j - i)
+                    {
+                        cout += "              ";
+                    }
+                    else if (i <= j && j <= i + mu)
+                    {
+                        cout += a[mu + i - j + (j - 1) * (mu + 1)].ToString().PadLeft(12) + "  ";
+                    }
+                    else if (i - mu <= j && j <= i)
+                    {
+                        cout += a[mu + j - i + (i - 1) * (mu + 1)].ToString().PadLeft(12) + "  ";
+                    }
                 }
 
                 Console.WriteLine(cout);
-                Console.WriteLine("  Row");
-                Console.WriteLine("  ---");
-                //
-                //  Determine the range of the rows in this strip.
-                //
-                i2lo = Math.Max(ilo, 1);
-                i2lo = Math.Max(i2lo, j2lo - mu);
-                i2hi = Math.Min(ihi, n);
-                i2hi = Math.Min(i2hi, j2hi + mu);
-
-                for (i = i2lo; i <= i2hi; i++)
-                {
-                    cout = i.ToString().PadLeft(4) + "  ";
-                    //
-                    //  Print out (up to) 5 entries in row I, that lie in the current strip.
-                    //
-                    for (j = j2lo; j <= j2hi; j++)
-                    {
-                        if (mu < i - j || mu < j - i)
-                        {
-                            cout += "              ";
-                        }
-                        else if (i <= j && j <= i + mu)
-                        {
-                            cout += (a[mu + i - j + (j - 1) * (mu + 1)]).ToString().PadLeft(12) + "  ";
-                        }
-                        else if (i - mu <= j && j <= i)
-                        {
-                            cout += (a[mu + j - i + (i - 1) * (mu + 1)]).ToString().PadLeft(12) + "  ";
-                        }
-                    }
-
-                    Console.WriteLine(cout);
-                }
             }
         }
+    }
 
-        public static double[] r8pbu_random(int n, int mu, ref int seed)
+    public static double[] r8pbu_random(int n, int mu, ref int seed)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_RANDOM randomizes an R8PBU matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //    The matrix returned will be positive definite, but of limited
-            //    randomness.  The off diagonal elements are random values between
-            //    0 and 1, and the diagonal element of each row is selected to
-            //    ensure strict diagonal dominance.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 January 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals in the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double R8PBU_RANDOM[(MU+1)*N], the R8PBU matrix.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_RANDOM randomizes an R8PBU matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //    The matrix returned will be positive definite, but of limited
+        //    randomness.  The off diagonal elements are random values between
+        //    0 and 1, and the diagonal element of each row is selected to
+        //    ensure strict diagonal dominance.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 January 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals in the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double R8PBU_RANDOM[(MU+1)*N], the R8PBU matrix.
+        //
+    {
+        double[] a;
+        int i;
+        int j;
+        int jhi;
+        int jlo;
+        double r;
+        double sum2;
+
+        a = new double[(mu + 1) * n];
+        //
+        //  Zero out the "junk" entries.
+        //
+        for (j = 0; j < mu; j++)
         {
-            double[] a;
-            int i;
-            int j;
-            int jhi;
-            int jlo;
-            double r;
-            double sum2;
-
-            a = new double[(mu + 1) * n];
-            //
-            //  Zero out the "junk" entries.
-            //
-            for (j = 0; j < mu; j++)
+            for (i = 0; i <= mu - j; i++)
             {
-                for (i = 0; i <= mu - j; i++)
-                {
-                    a[i + j * (mu + 1)] = 0.0;
-                }
+                a[i + j * (mu + 1)] = 0.0;
             }
-
-            //
-            //  Set the off diagonal values.
-            //
-            for (i = 0; i < n; i++)
-            {
-                for (j = i + 1; j <= Math.Min(i + mu, n - 1); j++)
-                {
-                    a[mu + i - j + j * (mu + 1)] = UniformRNG.r8_uniform_01(ref seed);
-                }
-            }
-
-            //
-            //  Set the diagonal values.
-            //
-            for (i = 1; i <= n; i++)
-            {
-                sum2 = 0.0;
-
-                jlo = Math.Max(1, i - mu);
-                for (j = jlo; j <= i - 1; j++)
-                {
-                    sum2 = sum2 + Math.Abs(a[(mu + j - i) + (i - 1) * (mu + 1)]);
-                }
-
-                jhi = Math.Min(i + mu, n);
-                for (j = i + 1; j <= jhi; j++)
-                {
-                    sum2 = sum2 + Math.Abs(a[mu + i - j + (j - 1) * (mu + 1)]);
-                }
-
-                r = UniformRNG.r8_uniform_01(ref seed);
-
-                a[mu + (i - 1) * (mu + 1)] = (1.0 + r) * (sum2 + 0.01);
-
-            }
-
-            return a;
         }
 
-        public static double[] r8pbu_res(int m, int n, int mu, double[] a, double[] x, double[] b)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_RES computes the residual R = B-A*X for R8PBU matrices.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 June 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, the number of rows of the matrix.
-            //    M must be positive.
-            //
-            //    Input, int N, the number of columns of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals in the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the matrix.
-            //
-            //    Input, double X[N], the vector to be multiplied by A.
-            //
-            //    Input, double B[M], the desired result A * x.
-            //
-            //    Output, double R8PBU_RES[M], the residual R = B - A * X.
-            //
+        //
+        //  Set the off diagonal values.
+        //
+        for (i = 0; i < n; i++)
         {
-            double[] r = r8pbu_mv(m, n, mu, a, x);
-            for (int i = 0; i < m; i++)
+            for (j = i + 1; j <= Math.Min(i + mu, n - 1); j++)
             {
-                r[i] = b[i] - r[i];
+                a[mu + i - j + j * (mu + 1)] = UniformRNG.r8_uniform_01(ref seed);
             }
-
-            return r;
         }
 
-        public static double[] r8pbu_sl(int n, int mu, double[] a_lu, double[] b )
+        //
+        //  Set the diagonal values.
+        //
+        for (i = 1; i <= n; i++)
+        {
+            sum2 = 0.0;
+
+            jlo = Math.Max(1, i - mu);
+            for (j = jlo; j <= i - 1; j++)
+            {
+                sum2 += Math.Abs(a[mu + j - i + (i - 1) * (mu + 1)]);
+            }
+
+            jhi = Math.Min(i + mu, n);
+            for (j = i + 1; j <= jhi; j++)
+            {
+                sum2 += Math.Abs(a[mu + i - j + (j - 1) * (mu + 1)]);
+            }
+
+            r = UniformRNG.r8_uniform_01(ref seed);
+
+            a[mu + (i - 1) * (mu + 1)] = (1.0 + r) * (sum2 + 0.01);
+
+        }
+
+        return a;
+    }
+
+    public static double[] r8pbu_res(int m, int n, int mu, double[] a, double[] x, double[] b)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_RES computes the residual R = B-A*X for R8PBU matrices.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 June 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows of the matrix.
+        //    M must be positive.
+        //
+        //    Input, int N, the number of columns of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals in the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the matrix.
+        //
+        //    Input, double X[N], the vector to be multiplied by A.
+        //
+        //    Input, double B[M], the desired result A * x.
+        //
+        //    Output, double R8PBU_RES[M], the residual R = B - A * X.
+        //
+    {
+        double[] r = r8pbu_mv(m, n, mu, a, x);
+        for (int i = 0; i < m; i++)
+        {
+            r[i] = b[i] - r[i];
+        }
+
+        return r;
+    }
+
+    public static double[] r8pbu_sl(int n, int mu, double[] a_lu, double[] b )
 
         //****************************************************************************80
         //
@@ -1143,54 +1145,54 @@ namespace Burkardt.Types
         //
         //    Output, double R8PBU_SL[N], the solution vector.
         //
+    {
+        int i;
+        int ilo;
+        int k;
+        double t;
+        double[] x;
+
+        x = new double[n];
+
+        for (k = 0; k < n; k++)
         {
-            int i;
-            int ilo;
-            int k;
-            double t;
-            double[] x;
-
-            x = new double[n];
-
-            for (k = 0; k < n; k++)
-            {
-                x[k] = b[k];
-            }
-
-            //
-            //  Solve L * Y = B.
-            //
-            for (k = 1; k <= n; k++)
-            {
-                ilo = Math.Max(1, k - mu);
-                t = 0.0;
-                for (i = ilo; i <= k - 1; i++)
-                {
-                    t = t + x[i - 1] * a_lu[mu + i - k + (k - 1) * (mu + 1)];
-                }
-
-                x[k - 1] = (x[k - 1] - t) / a_lu[mu + (k - 1) * (mu + 1)];
-            }
-
-            //
-            //  Solve U * X = Y.
-            //
-            for (k = n; 1 <= k; k--)
-            {
-                x[k - 1] = x[k - 1] / a_lu[mu + (k - 1) * (mu + 1)];
-
-                ilo = Math.Max(1, k - mu);
-                for (i = ilo; i <= k - 1; i++)
-                {
-                    x[i - 1] = x[i - 1] - x[k - 1] * a_lu[mu + i - k + (k - 1) * (mu + 1)];
-                }
-            }
-
-            return x;
+            x[k] = b[k];
         }
 
-        public static double[] r8pbu_sor(int n, int mu, double[] a, double[] b, double eps, int itchk,
-        int itmax, double omega, double[] x_init )
+        //
+        //  Solve L * Y = B.
+        //
+        for (k = 1; k <= n; k++)
+        {
+            ilo = Math.Max(1, k - mu);
+            t = 0.0;
+            for (i = ilo; i <= k - 1; i++)
+            {
+                t += x[i - 1] * a_lu[mu + i - k + (k - 1) * (mu + 1)];
+            }
+
+            x[k - 1] = (x[k - 1] - t) / a_lu[mu + (k - 1) * (mu + 1)];
+        }
+
+        //
+        //  Solve U * X = Y.
+        //
+        for (k = n; 1 <= k; k--)
+        {
+            x[k - 1] /= a_lu[mu + (k - 1) * (mu + 1)];
+
+            ilo = Math.Max(1, k - mu);
+            for (i = ilo; i <= k - 1; i++)
+            {
+                x[i - 1] -= x[k - 1] * a_lu[mu + i - k + (k - 1) * (mu + 1)];
+            }
+        }
+
+        return x;
+    }
+
+    public static double[] r8pbu_sor(int n, int mu, double[] a, double[] b, double eps, int itchk,
+            int itmax, double omega, double[] x_init )
 
         //****************************************************************************80
         //
@@ -1262,252 +1264,254 @@ namespace Burkardt.Types
         //
         //    Output, double R8PBU_SOR[N], the approximation to the solution.
         //
+    {
+        double err;
+        int i;
+        int it;
+        int itknt;
+        double[] x;
+        double[] xtemp;
+
+        if (itchk <= 0 || itmax < itchk)
         {
-            double err;
-            int i;
-            int it;
-            int itknt;
-            double[] x;
-            double[] xtemp;
+            Console.WriteLine("");
+            Console.WriteLine("R8PBU_SOR - Fatal error!");
+            Console.WriteLine("  Illegal ITCHK = " + itchk + "");
+            return null;
+        }
 
-            if (itchk <= 0 || itmax < itchk)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8PBU_SOR - Fatal error!");
-                Console.WriteLine("  Illegal ITCHK = " + itchk + "");
-                return (null);
-            }
-
-            if (itmax <= 0)
-            {
+        switch (itmax)
+        {
+            case <= 0:
                 Console.WriteLine("");
                 Console.WriteLine("R8PBU_SOR - Fatal error!");
                 Console.WriteLine("  Nonpositive ITMAX = " + itmax + "");
-                return (null);
-            }
+                return null;
+        }
 
-            if (omega <= 0.0 || 2.0 <= omega)
-            {
+        switch (omega)
+        {
+            case <= 0.0:
+            case >= 2.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8PBU_SOR - Fatal error!");
                 Console.WriteLine("  Illegal value of OMEGA = " + omega + "");
-                return (null);
-            }
+                return null;
+        }
 
-            itknt = 0;
+        itknt = 0;
 
-            x = new double[n];
-            for (i = 0; i < n; i++)
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            x[i] = x_init[i];
+        }
+
+        //
+        //  Take ITCHK steps of the iteration before doing a convergence check.
+        //
+        while (itknt <= itmax)
+        {
+            for (it = 1; it <= itchk; it++)
             {
-                x[i] = x_init[i];
-            }
-
-            //
-            //  Take ITCHK steps of the iteration before doing a convergence check.
-            //
-            while (itknt <= itmax)
-            {
-                for (it = 1; it <= itchk; it++)
-                {
-                    //
-                    //  Compute XTEMP(I) = B(I) + A(I,I) * X(I) - SUM ( J=1 to N ) A(I,J) * X(J).
-                    //
-                    xtemp = r8pbu_mv(n, n, mu, a, x);
-
-                    for (i = 0; i < n; i++)
-                    {
-                        xtemp[i] = x[i] + (b[i] - xtemp[i]) / a[mu + i * (mu + 1)];
-                    }
-
-                    //
-                    //  Compute the next iterate as a weighted combination of the
-                    //  old iterate and the just computed standard Jacobi iterate.
-                    //
-                    if (omega != 1.0)
-                    {
-                        for (i = 0; i < n; i++)
-                        {
-                            xtemp[i] = (1.0 - omega) * x[i] + omega * xtemp[i];
-                        }
-                    }
-
-                    //
-                    //  Copy the new result into the old result vector.
-                    //
-                    for (i = 0; i < n; i++)
-                    {
-                        x[i] = xtemp[i];
-                    }
-                }
-
                 //
-                //  Compute the maximum residual, the greatest entry in the vector
-                //  RESID(I) = B(I) - A(I,J) * X(J).
+                //  Compute XTEMP(I) = B(I) + A(I,I) * X(I) - SUM ( J=1 to N ) A(I,J) * X(J).
                 //
                 xtemp = r8pbu_mv(n, n, mu, a, x);
 
-                err = 0.0;
                 for (i = 0; i < n; i++)
                 {
-                    err = Math.Max(err, Math.Abs(b[i] - xtemp[i]));
+                    xtemp[i] = x[i] + (b[i] - xtemp[i]) / a[mu + i * (mu + 1)];
                 }
 
                 //
-                //  Test to see if we can quit because of convergence,
+                //  Compute the next iterate as a weighted combination of the
+                //  old iterate and the just computed standard Jacobi iterate.
                 //
-                if (err <= eps)
+                if (omega != 1.0)
                 {
-                    return x;
+                    for (i = 0; i < n; i++)
+                    {
+                        xtemp[i] = (1.0 - omega) * x[i] + omega * xtemp[i];
+                    }
                 }
 
+                //
+                //  Copy the new result into the old result vector.
+                //
+                for (i = 0; i < n; i++)
+                {
+                    x[i] = xtemp[i];
+                }
             }
 
-            Console.WriteLine("");
-            Console.WriteLine("R8PBU_SOR - Warning!");
-            Console.WriteLine("  The iteration did not converge.");
+            //
+            //  Compute the maximum residual, the greatest entry in the vector
+            //  RESID(I) = B(I) - A(I,J) * X(J).
+            //
+            xtemp = r8pbu_mv(n, n, mu, a, x);
 
-            return x;
+            err = 0.0;
+            for (i = 0; i < n; i++)
+            {
+                err = Math.Max(err, Math.Abs(b[i] - xtemp[i]));
+            }
+
+            //
+            //  Test to see if we can quit because of convergence,
+            //
+            if (err <= eps)
+            {
+                return x;
+            }
+
         }
 
-        public static double[] r8pbu_to_r8ge(int n, int mu, double[] a)
+        Console.WriteLine("");
+        Console.WriteLine("R8PBU_SOR - Warning!");
+        Console.WriteLine("  The iteration did not converge.");
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_TO_R8GE copies an R8PBU matrix to an R8GE matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    19 May 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrices.
-            //    N must be positive.
-            //
-            //    Input, int MU, the upper bandwidth of A1.
-            //    MU must be nonnegative, and no greater than N-1.
-            //
-            //    Input, double A[(MU+1)*N], the R8PBU matrix.
-            //
-            //    Output, double R8PBU_TO_R8GE[N*N], the R8GE matrix.
-            //
+        return x;
+    }
+
+    public static double[] r8pbu_to_r8ge(int n, int mu, double[] a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_TO_R8GE copies an R8PBU matrix to an R8GE matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    19 May 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrices.
+        //    N must be positive.
+        //
+        //    Input, int MU, the upper bandwidth of A1.
+        //    MU must be nonnegative, and no greater than N-1.
+        //
+        //    Input, double A[(MU+1)*N], the R8PBU matrix.
+        //
+        //    Output, double R8PBU_TO_R8GE[N*N], the R8GE matrix.
+        //
+    {
+        double[] b;
+        int i;
+        int j;
+
+        b = new double[n * n];
+
+        for (j = 0; j < n; j++)
         {
-            double[] b;
-            int i;
-            int j;
+            for (i = 0; i < n; i++)
+            {
+                b[i + j * n] = 0.0;
+            }
+        }
 
-            b = new double[n * n];
-
+        for (i = 0; i < n; i++)
+        {
             for (j = 0; j < n; j++)
             {
-                for (i = 0; i < n; i++)
+                if (i <= j && j <= i + mu)
+                {
+                    b[i + j * n] = a[mu + i - j + j * (mu + 1)];
+                }
+                else if (i - mu <= j && j < i)
+                {
+                    b[i + j * n] = a[mu + j - i + i * (mu + 1)];
+                }
+                else
                 {
                     b[i + j * n] = 0.0;
                 }
             }
-
-            for (i = 0; i < n; i++)
-            {
-                for (j = 0; j < n; j++)
-                {
-                    if (i <= j && j <= i + mu)
-                    {
-                        b[i + j * n] = a[mu + i - j + j * (mu + 1)];
-                    }
-                    else if (i - mu <= j && j < i)
-                    {
-                        b[i + j * n] = a[mu + j - i + i * (mu + 1)];
-                    }
-                    else
-                    {
-                        b[i + j * n] = 0.0;
-                    }
-                }
-            }
-
-            return b;
         }
 
-        public static double[] r8pbu_zeros(int n, int mu)
+        return b;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8PBU_ZEROS zeros an R8PBU matrix.
-            //
-            //  Discussion:
-            //
-            //    The R8PBU storage format is used for a symmetric positive definite band matrix.
-            //
-            //    To save storage, only the diagonal and upper triangle of A is stored,
-            //    in a compact diagonal format that preserves columns.
-            //
-            //    The diagonal is stored in row MU+1 of the array.
-            //    The first superdiagonal in row MU, columns 2 through N.
-            //    The second superdiagonal in row MU-1, columns 3 through N.
-            //    The MU-th superdiagonal in row 1, columns MU+1 through N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int MU, the number of superdiagonals in the matrix.
-            //    MU must be at least 0 and no more than N-1.
-            //
-            //    Output, double R8PBU_ZERO[(MU+1)*N], the R8PBU matrix.
-            //
+    public static double[] r8pbu_zeros(int n, int mu)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PBU_ZEROS zeros an R8PBU matrix.
+        //
+        //  Discussion:
+        //
+        //    The R8PBU storage format is used for a symmetric positive definite band matrix.
+        //
+        //    To save storage, only the diagonal and upper triangle of A is stored,
+        //    in a compact diagonal format that preserves columns.
+        //
+        //    The diagonal is stored in row MU+1 of the array.
+        //    The first superdiagonal in row MU, columns 2 through N.
+        //    The second superdiagonal in row MU-1, columns 3 through N.
+        //    The MU-th superdiagonal in row 1, columns MU+1 through N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int MU, the number of superdiagonals in the matrix.
+        //    MU must be at least 0 and no more than N-1.
+        //
+        //    Output, double R8PBU_ZERO[(MU+1)*N], the R8PBU matrix.
+        //
+    {
+        double[] a;
+        int i;
+        int j;
+
+        a = new double[(mu + 1) * n];
+
+        for (j = 0; j < n; j++)
         {
-            double[] a;
-            int i;
-            int j;
-
-            a = new double[(mu + 1) * n];
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < mu + 1; i++)
             {
-                for (i = 0; i < mu + 1; i++)
-                {
-                    a[i + j * (mu + 1)] = 0.0;
-                }
+                a[i + j * (mu + 1)] = 0.0;
             }
-
-            return a;
         }
+
+        return a;
     }
 }

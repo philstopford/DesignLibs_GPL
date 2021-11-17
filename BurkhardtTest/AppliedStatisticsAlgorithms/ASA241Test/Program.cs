@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
 
-namespace ASA241Test
+namespace ASA241Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -28,22 +28,22 @@ namespace ASA241Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ASA241_TEST:");
-            Console.WriteLine("  Test the ASA241 library.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("ASA241_TEST:");
+        Console.WriteLine("  Test the ASA241 library.");
 
-            test01();
-            test02();
+        test01();
+        test02();
 
-            Console.WriteLine("");
-            Console.WriteLine("ASA241_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine("ASA241_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
 
-        }
+    }
 
-        static void test01()
+    private static void test01()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,45 +62,45 @@ namespace ASA241Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST01:");
+        Console.WriteLine("  Let FX = NormalCDF ( X ).");
+        Console.WriteLine("");
+        Console.WriteLine("  NORMAL_01_CDF_VALUES returns some values of ( X, FX ).");
+        Console.WriteLine("");
+        Console.WriteLine("  R4_NORMAL_01_CDF_INVERSE takes the value of FX, and computes an");
+        Console.WriteLine("    estimate X2, of the corresponding input argument,");
+        Console.WriteLine("    accurate to about 7 decimal places.");
+        Console.WriteLine("");
+        Console.WriteLine("          FX                        X                        X2          DIFF");
+        Console.WriteLine("");
+
+        int n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            double x = 0;
+            Algorithms.normal_01_cdf_values(ref n_data, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01:");
-            Console.WriteLine("  Let FX = NormalCDF ( X ).");
-            Console.WriteLine("");
-            Console.WriteLine("  NORMAL_01_CDF_VALUES returns some values of ( X, FX ).");
-            Console.WriteLine("");
-            Console.WriteLine("  R4_NORMAL_01_CDF_INVERSE takes the value of FX, and computes an");
-            Console.WriteLine("    estimate X2, of the corresponding input argument,");
-            Console.WriteLine("    accurate to about 7 decimal places.");
-            Console.WriteLine("");
-            Console.WriteLine("          FX                        X                        X2          DIFF");
-            Console.WriteLine("");
-
-            int n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Algorithms.normal_01_cdf_values(ref n_data, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                float fx2 = (float) (fx);
-                float x2 = Algorithms.r4_normal_01_cdf_inverse(fx2);
-
-                Console.WriteLine("  " + fx.ToString("0.################").PadLeft(24)
-                    + "  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + x2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs(x - x2).ToString("0.################") + "");
+                break;
             }
-        }
 
-        static void test02()
+            float fx2 = (float) fx;
+            float x2 = Algorithms.r4_normal_01_cdf_inverse(fx2);
+
+            Console.WriteLine("  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + x.ToString("0.################").PadLeft(24)
+                                   + "  " + x2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs(x - x2).ToString("0.################") + "");
+        }
+    }
+
+    private static void test02()
         //****************************************************************************80
         //
         //  Purpose:
@@ -119,44 +119,41 @@ namespace ASA241Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST02:");
+        Console.WriteLine("  Let FX = NormalCDF ( X ).");
+        Console.WriteLine("");
+        Console.WriteLine("  NORMAL_01_CDF_VALUES returns some values of ( X, FX ).");
+        Console.WriteLine("");
+        Console.WriteLine("  R8_NORMAL_01_CDF_INVERSE takes the value of FX, and computes an");
+        Console.WriteLine("    estimate X2, of the corresponding input argument,");
+        Console.WriteLine("    accurate to about 16 decimal places.");
+        Console.WriteLine("");
+        Console.WriteLine("          FX                        X                        X2          DIFF");
+        Console.WriteLine("");
+
+        int n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            double x = 0;
+            Algorithms.normal_01_cdf_values(ref n_data, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST02:");
-            Console.WriteLine("  Let FX = NormalCDF ( X ).");
-            Console.WriteLine("");
-            Console.WriteLine("  NORMAL_01_CDF_VALUES returns some values of ( X, FX ).");
-            Console.WriteLine("");
-            Console.WriteLine("  R8_NORMAL_01_CDF_INVERSE takes the value of FX, and computes an");
-            Console.WriteLine("    estimate X2, of the corresponding input argument,");
-            Console.WriteLine("    accurate to about 16 decimal places.");
-            Console.WriteLine("");
-            Console.WriteLine("          FX                        X                        X2          DIFF");
-            Console.WriteLine("");
-
-            int n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Algorithms.normal_01_cdf_values(ref n_data, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                double x2 = Algorithms.r8_normal_01_cdf_inverse(fx);
-
-                Console.WriteLine("  " + fx.ToString("0.################").PadLeft(24)
-                    + "  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + x2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs(x - x2).ToString("0.################") + "");
+                break;
             }
 
-            return;
-        }
+            double x2 = Algorithms.r8_normal_01_cdf_inverse(fx);
 
+            Console.WriteLine("  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + x.ToString("0.################").PadLeft(24)
+                                   + "  " + x2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs(x - x2).ToString("0.################") + "");
+        }
     }
+
 }

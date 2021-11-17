@@ -1,44 +1,44 @@
 ﻿using System;
 
-namespace HermiteIntegrandsTest
+namespace HermiteIntegrandsTest;
+
+public static class Problem01
 {
-    public static class Problem01
+    public static double p01_exact()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P01_EXACT returns the exact integral for problem 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    28 July 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double P01_EXACT, the value of the integral.
+        //
     {
-        public static double p01_exact()
+        double exact;
+        double omega = 1.0;
+        const double r8_pi = 3.141592653589793;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P01_EXACT returns the exact integral for problem 1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    28 July 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double P01_EXACT, the value of the integral.
-            //
-        {
-            double exact;
-            double omega = 1.0;
-            const double r8_pi = 3.141592653589793;
+        exact = Math.Sqrt(r8_pi) * Math.Exp(-omega * omega);
 
-            exact = Math.Sqrt(r8_pi) * Math.Exp(-omega * omega);
+        return exact;
+    }
 
-            return exact;
-        }
-
-        public static void p01_fun(int option, int n, double[] x, ref double[] f )
+    public static void p01_fun(int option, int n, double[] x, ref double[] f )
 
         //****************************************************************************80
         //
@@ -89,66 +89,69 @@ namespace HermiteIntegrandsTest
         //
         //    Output, double F[N], the function values.
         //
+    {
+        int i;
+        double omega = 1.0;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            double omega = 1.0;
+            f[i] = Math.Cos(2.0 * omega * x[i]);
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                f[i] = Math.Cos(2.0 * omega * x[i]);
-            }
-
-            if (option == 0)
+        switch (option)
+        {
+            case 0:
             {
                 for (i = 0; i < n; i++)
                 {
-                    f[i] = f[i] * Math.Exp(-x[i] * x[i]);
+                    f[i] *= Math.Exp(-x[i] * x[i]);
                 }
+
+                break;
             }
-            else if (option == 1)
-            {
-            }
-            else if (option == 2)
+            case 1:
+                break;
+            case 2:
             {
                 for (i = 0; i < n; i++)
                 {
-                    f[i] = f[i] * Math.Exp(-x[i] * x[i] / 2.0);
+                    f[i] *= Math.Exp(-x[i] * x[i] / 2.0);
                 }
+
+                break;
             }
-
-            return;
         }
+    }
 
-        public static string p01_title()
+    public static string p01_title()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P01_TITLE returns the title for problem 1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    26 May 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, string P01_TITLE, the title of the problem.
-            //
-        {
-            string title;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P01_TITLE returns the title for problem 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    26 May 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, string P01_TITLE, the title of the problem.
+        //
+    {
+        string title;
 
-            title = "exp(-x*x) * cos(2*omega*x)";
+        title = "exp(-x*x) * cos(2*omega*x)";
 
-            return title;
-        }
+        return title;
     }
 }

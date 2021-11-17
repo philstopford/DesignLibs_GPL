@@ -1,10 +1,10 @@
 ﻿using Burkardt.SubsetNS;
 
-namespace Burkardt.SolveNS
+namespace Burkardt.SolveNS;
+
+public static class Knapsack
 {
-    public static class Knapsack
-    {
-        public static int[] knapsack_01 ( int n, int[] w, int c )
+    public static int[] knapsack_01 ( int n, int[] w, int c )
 
         //****************************************************************************80
         //
@@ -47,59 +47,58 @@ namespace Burkardt.SolveNS
         //    optimal selection.  It is 1 for the weights to be selected, and 
         //    0 otherwise.
         //
+    {
+        int i;
+        int iadd = 0;
+        bool more;
+        int ncard;
+        int[] s;
+        int[] s_test;
+        int t;
+        int t_test;
+
+        s = new int[n];
+        s_test = new int[n];
+
+        more = false;
+        ncard = 0;
+
+        for ( i = 0; i < n; i++ )
         {
-            int i;
-            int iadd = 0;
-            bool more;
-            int ncard;
-            int[] s;
-            int[] s_test;
-            int t;
-            int t_test;
+            s_test[i] = 0;
+        }
+        t_test = 0;
 
-            s = new int[n];
-            s_test = new int[n];
+        for ( i = 0; i < n; i++ )
+        {
+            s[i] = s_test[i];
+        }
+        t = 0;
 
-            more = false;
-            ncard = 0;
-
-            for ( i = 0; i < n; i++ )
-            {
-                s_test[i] = 0;
-            }
+        for ( ; ; )
+        {
+            Subset.subset_gray_next ( n, ref s_test, ref more, ref ncard, ref iadd );
             t_test = 0;
-
             for ( i = 0; i < n; i++ )
             {
-                s[i] = s_test[i];
+                t_test += s_test[i] * w[i];
             }
-            t = 0;
 
-            for ( ; ; )
+            if ( t < t_test && t_test <= c )
             {
-                Subset.subset_gray_next ( n, ref s_test, ref more, ref ncard, ref iadd );
-                t_test = 0;
+                t = t_test;
                 for ( i = 0; i < n; i++ )
                 {
-                    t_test = t_test + s_test[i] * w[i];
-                }
-
-                if ( t < t_test && t_test <= c )
-                {
-                    t = t_test;
-                    for ( i = 0; i < n; i++ )
-                    {
-                        s[i] = s_test[i];
-                    }
-                }
-
-                if ( ! more )
-                {
-                    break;
+                    s[i] = s_test[i];
                 }
             }
-            
-            return s;
+
+            if ( ! more )
+            {
+                break;
+            }
         }
+            
+        return s;
     }
 }

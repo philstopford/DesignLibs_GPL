@@ -1,8 +1,7 @@
-﻿namespace Burkardt.Sampling
+﻿namespace Burkardt.Sampling;
+
+public class GeometrySampleResult
 {
-    public class GeometrySampleResult
-    {
-        public int seed;
-        public double[] result;
-    }
+    public int seed;
+    public double[] result;
 }

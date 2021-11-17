@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace InterpTest
+namespace InterpTest;
+
+public static class TestInterp
 {
-    public static class TestInterp
-    {
-        public static double[] data_copy_new(int m, int n, double[] a1)
+    public static double[] data_copy_new(int m, int n, double[] a1)
 
 //****************************************************************************80
 //
@@ -37,26 +37,26 @@ namespace InterpTest
 //
 //    Output, double DATA_COPY_NEW[M*N], the copy of A1.
 //
+    {
+        double[] a2;
+        int i;
+        int j;
+
+        a2 = new double[m * n];
+
+        for (j = 0; j < n; j++)
         {
-            double[] a2;
-            int i;
-            int j;
-
-            a2 = new double[m * n];
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < m; i++)
             {
-                for (i = 0; i < m; i++)
-                {
-                    a2[i + j * m] = a1[i + j * m];
-                }
+                a2[i + j * m] = a1[i + j * m];
             }
-
-            return a2;
         }
+
+        return a2;
+    }
 //****************************************************************************80
 
-        public static double[] p00_data(int prob, int dim_num, int data_num)
+    public static double[] p00_data(int prob, int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -87,53 +87,46 @@ namespace InterpTest
 //
 //    Output, double P00_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
+    {
+        double[] p_data;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 p_data = p01_data(dim_num, data_num);
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 p_data = p02_data(dim_num, data_num);
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 p_data = p03_data(dim_num, data_num);
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 p_data = p04_data(dim_num, data_num);
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 p_data = p05_data(dim_num, data_num);
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 p_data = p06_data(dim_num, data_num);
-            }
-            else if (prob == 7)
-            {
+                break;
+            case 7:
                 p_data = p07_data(dim_num, data_num);
-            }
-            else if (prob == 8)
-            {
+                break;
+            case 8:
                 p_data = p08_data(dim_num, data_num);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_DATA - Fatal error!");
                 Console.WriteLine("  Unexpected input value of PROB.");
-                return (new double[1]);
-            }
-
-            return p_data;
+                return new double[1];
         }
 
-        public static int p00_data_num(int prob)
+        return p_data;
+    }
+
+    public static int p00_data_num(int prob)
 
 //****************************************************************************80
 //
@@ -159,53 +152,46 @@ namespace InterpTest
 //
 //    Output, int P00_DATA_NUM, the number of data points.
 //
-        {
-            int data_num;
+    {
+        int data_num;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 data_num = p01_data_num();
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 data_num = p02_data_num();
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 data_num = p03_data_num();
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 data_num = p04_data_num();
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 data_num = p05_data_num();
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 data_num = p06_data_num();
-            }
-            else if (prob == 7)
-            {
+                break;
+            case 7:
                 data_num = p07_data_num();
-            }
-            else if (prob == 8)
-            {
+                break;
+            case 8:
                 data_num = p08_data_num();
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_DATA_NUM - Fatal error!");
                 Console.WriteLine("  Unexpected input value of PROB.");
-                return (1);
-            }
-
-            return data_num;
+                return 1;
         }
 
-        public static int p00_dim_num(int prob)
+        return data_num;
+    }
+
+    public static int p00_dim_num(int prob)
 
 //****************************************************************************80
 //
@@ -232,54 +218,47 @@ namespace InterpTest
 //    Output, int P00_DIM_NUM, the spatial dimension of the
 //    dependent variables.
 //
-        {
-            int dim_num;
+    {
+        int dim_num;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 dim_num = p01_dim_num();
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 dim_num = p02_dim_num();
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 dim_num = p03_dim_num();
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 dim_num = p04_dim_num();
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 dim_num = p05_dim_num();
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 dim_num = p06_dim_num();
-            }
-            else if (prob == 7)
-            {
+                break;
+            case 7:
                 dim_num = p07_dim_num();
-            }
-            else if (prob == 8)
-            {
+                break;
+            case 8:
                 dim_num = p08_dim_num();
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_DIM_NUM - Fatal error!");
                 Console.WriteLine("  Unexpected input value of PROB.");
-                return (1);
-            }
-
-            return dim_num;
+                return 1;
         }
+
+        return dim_num;
+    }
 //****************************************************************************80
 
-        public static int p00_prob_num()
+    public static int p00_prob_num()
 
 //****************************************************************************80
 //
@@ -303,14 +282,14 @@ namespace InterpTest
 //
 //    Output, int P00_PROB_NUM, the number of test problems.
 //
-        {
-            int prob_num = 8;
+    {
+        int prob_num = 8;
 
-            return prob_num;
-        }
+        return prob_num;
+    }
 //****************************************************************************80
 
-        public static void p00_story(int prob)
+    public static void p00_story(int prob)
 
 //****************************************************************************80
 //
@@ -334,50 +313,43 @@ namespace InterpTest
 //
 //    None
 //
+    {
+        switch (prob)
         {
-            if (prob == 1)
-            {
+            case 1:
                 p01_story();
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 p02_story();
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 p03_story();
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 p04_story();
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 p05_story();
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 p06_story();
-            }
-            else if (prob == 7)
-            {
+                break;
+            case 7:
                 p07_story();
-            }
-            else if (prob == 8)
-            {
+                break;
+            case 8:
                 p08_story();
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_STORY - Fatal error!");
                 Console.WriteLine("  Unexpected input value of PROB.");
-                return;
-            }
+                break;
         }
+    }
 //****************************************************************************80
 
-        public static double[] p01_data(int dim_num, int data_num)
+    public static double[] p01_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -406,9 +378,9 @@ namespace InterpTest
 //
 //    Output, double P01_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 0.0, 4.0,
                 1.0, 5.0,
                 2.0, 6.0,
@@ -430,12 +402,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p01_data_num()
+    public static int p01_data_num()
 
 //****************************************************************************80
 //
@@ -459,13 +431,13 @@ namespace InterpTest
 //
 //    Output, int P01_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 18;
+    {
+        int data_num = 18;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p01_dim_num()
+    public static int p01_dim_num()
 
 //****************************************************************************80
 //
@@ -490,13 +462,13 @@ namespace InterpTest
 //    Output, int P01_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p01_story()
+    public static void p01_story()
 
 //****************************************************************************80
 //
@@ -527,17 +499,17 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This example is due to Hans-Joerg Wenz.");
-            Console.WriteLine("  It is an example of good data, which is dense enough in areas");
-            Console.WriteLine("  where the expected curvature of the interpolant is large.");
-            Console.WriteLine("  Good results can be expected with almost any reasonable");
-            Console.WriteLine("  interpolation method.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This example is due to Hans-Joerg Wenz.");
+        Console.WriteLine("  It is an example of good data, which is dense enough in areas");
+        Console.WriteLine("  where the expected curvature of the interpolant is large.");
+        Console.WriteLine("  Good results can be expected with almost any reasonable");
+        Console.WriteLine("  interpolation method.");
 
-        }
+    }
 
-        public static double[] p02_data(int dim_num, int data_num)
+    public static double[] p02_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -570,9 +542,9 @@ namespace InterpTest
 //
 //    Output, double P02_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 0.00, 0.00,
                 1.34, 5.00,
                 5.00, 8.66,
@@ -594,12 +566,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p02_data_num()
+    public static int p02_data_num()
 
 //****************************************************************************80
 //
@@ -623,13 +595,13 @@ namespace InterpTest
 //
 //    Output, int P02_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 18;
+    {
+        int data_num = 18;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p02_dim_num()
+    public static int p02_dim_num()
 
 //****************************************************************************80
 //
@@ -654,13 +626,13 @@ namespace InterpTest
 //    Output, int P02_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p02_story()
+    public static void p02_story()
 
 //****************************************************************************80
 //
@@ -691,17 +663,17 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This example is due to ETY Lee of Boeing.");
-            Console.WriteLine("  Data near the corners is more dense than in regions of small curvature.");
-            Console.WriteLine("  A local interpolation method will produce a more plausible");
-            Console.WriteLine("  interpolant than a nonlocal interpolation method, such as");
-            Console.WriteLine("  cubic splines.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This example is due to ETY Lee of Boeing.");
+        Console.WriteLine("  Data near the corners is more dense than in regions of small curvature.");
+        Console.WriteLine("  A local interpolation method will produce a more plausible");
+        Console.WriteLine("  interpolant than a nonlocal interpolation method, such as");
+        Console.WriteLine("  cubic splines.");
 
-        }
+    }
 
-        public static double[] p03_data(int dim_num, int data_num)
+    public static double[] p03_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -730,10 +702,10 @@ namespace InterpTest
 //
 //    Output, double P03_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
+    {
+        double[] p_data;
 
-            double[] p_data_save = {
+        double[] p_data_save = {
                 0.0, 0.0,
                 2.0, 10.0,
                 3.0, 10.0,
@@ -748,12 +720,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p03_data_num()
+    public static int p03_data_num()
 
 //****************************************************************************80
 //
@@ -777,13 +749,13 @@ namespace InterpTest
 //
 //    Output, int P03_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 11;
+    {
+        int data_num = 11;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p03_dim_num()
+    public static int p03_dim_num()
 
 //****************************************************************************80
 //
@@ -808,13 +780,13 @@ namespace InterpTest
 //    Output, int P03_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p03_story()
+    public static void p03_story()
 
 //****************************************************************************80
 //
@@ -845,16 +817,16 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This example is due to Fred Fritsch and Ralph Carlson.");
-            Console.WriteLine("  This data can cause problems for interpolation methods.");
-            Console.WriteLine("  There are sudden changes in direction, and at the same time,");
-            Console.WriteLine("  sparsely-placed data.  This can cause an interpolant to overshoot");
-            Console.WriteLine("  the data in a way that seems implausible.");
-        }
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This example is due to Fred Fritsch and Ralph Carlson.");
+        Console.WriteLine("  This data can cause problems for interpolation methods.");
+        Console.WriteLine("  There are sudden changes in direction, and at the same time,");
+        Console.WriteLine("  sparsely-placed data.  This can cause an interpolant to overshoot");
+        Console.WriteLine("  the data in a way that seems implausible.");
+    }
 
-        public static double[] p04_data(int dim_num, int data_num)
+    public static double[] p04_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -883,9 +855,9 @@ namespace InterpTest
 //
 //    Output, double P04_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 0.00, 0.00,
                 0.05, 0.70,
                 0.10, 1.00,
@@ -897,12 +869,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p04_data_num()
+    public static int p04_data_num()
 
 //****************************************************************************80
 //
@@ -926,13 +898,13 @@ namespace InterpTest
 //
 //    Output, int P04_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 8;
+    {
+        int data_num = 8;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p04_dim_num()
+    public static int p04_dim_num()
 
 //****************************************************************************80
 //
@@ -957,13 +929,13 @@ namespace InterpTest
 //    Output, int P04_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p04_story()
+    public static void p04_story()
 
 //****************************************************************************80
 //
@@ -994,16 +966,16 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This example is due to Larry Irvine, Samuel Marin and Philip Smith.");
-            Console.WriteLine("  This data can cause problems for interpolation methods.");
-            Console.WriteLine("  There are sudden changes in direction, and at the same time,");
-            Console.WriteLine("  sparsely-placed data.  This can cause an interpolant to overshoot");
-            Console.WriteLine("  the data in a way that seems implausible.");
-        }
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This example is due to Larry Irvine, Samuel Marin and Philip Smith.");
+        Console.WriteLine("  This data can cause problems for interpolation methods.");
+        Console.WriteLine("  There are sudden changes in direction, and at the same time,");
+        Console.WriteLine("  sparsely-placed data.  This can cause an interpolant to overshoot");
+        Console.WriteLine("  the data in a way that seems implausible.");
+    }
 
-        public static double[] p05_data(int dim_num, int data_num)
+    public static double[] p05_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -1032,9 +1004,9 @@ namespace InterpTest
 //
 //    Output, double P05_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 0.00, 0.00,
                 0.10, 0.90,
                 0.20, 0.95,
@@ -1047,12 +1019,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p05_data_num()
+    public static int p05_data_num()
 
 //****************************************************************************80
 //
@@ -1076,13 +1048,13 @@ namespace InterpTest
 //
 //    Output, int P05_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 9;
+    {
+        int data_num = 9;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p05_dim_num()
+    public static int p05_dim_num()
 
 //****************************************************************************80
 //
@@ -1107,13 +1079,13 @@ namespace InterpTest
 //    Output, int P05_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p05_story()
+    public static void p05_story()
 
 //****************************************************************************80
 //
@@ -1144,17 +1116,17 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This example is due to Larry Irvine, Samuel Marin and Philip Smith.");
-            Console.WriteLine("  This data can cause problems for interpolation methods.");
-            Console.WriteLine("  There are sudden changes in direction, and at the same time,");
-            Console.WriteLine("  sparsely-placed data.  This can cause an interpolant to overshoot");
-            Console.WriteLine("  the data in a way that seems implausible.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This example is due to Larry Irvine, Samuel Marin and Philip Smith.");
+        Console.WriteLine("  This data can cause problems for interpolation methods.");
+        Console.WriteLine("  There are sudden changes in direction, and at the same time,");
+        Console.WriteLine("  sparsely-placed data.  This can cause an interpolant to overshoot");
+        Console.WriteLine("  the data in a way that seems implausible.");
 
-        }
+    }
 
-        public static double[] p06_data(int dim_num, int data_num)
+    public static double[] p06_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -1183,9 +1155,9 @@ namespace InterpTest
 //
 //    Output, double P06_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 595.0, 0.644,
                 605.0, 0.622,
                 615.0, 0.638,
@@ -1238,12 +1210,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p06_data_num()
+    public static int p06_data_num()
 
 //****************************************************************************80
 //
@@ -1267,13 +1239,13 @@ namespace InterpTest
 //
 //    Output, int P06_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 49;
+    {
+        int data_num = 49;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p06_dim_num()
+    public static int p06_dim_num()
 
 //****************************************************************************80
 //
@@ -1298,13 +1270,13 @@ namespace InterpTest
 //    Output, int P06_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p06_story()
+    public static void p06_story()
 
 //****************************************************************************80
 //
@@ -1341,19 +1313,19 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  The data is due to deBoor and Rice.");
-            Console.WriteLine("  The data represents a temperature dependent property of titanium.");
-            Console.WriteLine("  The data has been used extensively as an example in spline");
-            Console.WriteLine("  approximation with variably-spaced knots.");
-            Console.WriteLine("  DeBoor considers two sets of knots:");
-            Console.WriteLine("  (595,675,755,835,915,995,1075)");
-            Console.WriteLine("  and");
-            Console.WriteLine("  (595,725,850,910,975,1040,1075).");
-        }
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  The data is due to deBoor and Rice.");
+        Console.WriteLine("  The data represents a temperature dependent property of titanium.");
+        Console.WriteLine("  The data has been used extensively as an example in spline");
+        Console.WriteLine("  approximation with variably-spaced knots.");
+        Console.WriteLine("  DeBoor considers two sets of knots:");
+        Console.WriteLine("  (595,675,755,835,915,995,1075)");
+        Console.WriteLine("  and");
+        Console.WriteLine("  (595,725,850,910,975,1040,1075).");
+    }
 
-        public static double[] p07_data(int dim_num, int data_num)
+    public static double[] p07_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -1382,9 +1354,9 @@ namespace InterpTest
 //
 //    Output, double P07_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 0.0, 1.0,
                 1.0, 2.0,
                 4.0, 2.0,
@@ -1392,12 +1364,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p07_data_num()
+    public static int p07_data_num()
 
 //****************************************************************************80
 //
@@ -1421,13 +1393,13 @@ namespace InterpTest
 //
 //    Output, int P07_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 4;
+    {
+        int data_num = 4;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p07_dim_num()
+    public static int p07_dim_num()
 
 //****************************************************************************80
 //
@@ -1452,13 +1424,13 @@ namespace InterpTest
 //    Output, int P07_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p07_story()
+    public static void p07_story()
 
 //****************************************************************************80
 //
@@ -1482,15 +1454,15 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This data is a simple symmetric set of 4 points,");
-            Console.WriteLine("  for which it is interesting to develop the Shepard");
-            Console.WriteLine("  interpolants for varying values of the exponent p.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This data is a simple symmetric set of 4 points,");
+        Console.WriteLine("  for which it is interesting to develop the Shepard");
+        Console.WriteLine("  interpolants for varying values of the exponent p.");
 
-        }
+    }
 
-        public static double[] p08_data(int dim_num, int data_num)
+    public static double[] p08_data(int dim_num, int data_num)
 
 //****************************************************************************80
 //
@@ -1519,9 +1491,9 @@ namespace InterpTest
 //
 //    Output, double P08_DATA[DIM_NUM*DATA_NUM], the data.
 //
-        {
-            double[] p_data;
-            double[] p_data_save = {
+    {
+        double[] p_data;
+        double[] p_data_save = {
                 -1.0, 1.00,
                 -0.8, 0.64,
                 -0.6, 0.36,
@@ -1537,12 +1509,12 @@ namespace InterpTest
             }
             ;
 
-            p_data = data_copy_new(dim_num, data_num, p_data_save);
+        p_data = data_copy_new(dim_num, data_num, p_data_save);
 
-            return p_data;
-        }
+        return p_data;
+    }
 
-        public static int p08_data_num()
+    public static int p08_data_num()
 
 //****************************************************************************80
 //
@@ -1566,13 +1538,13 @@ namespace InterpTest
 //
 //    Output, int P08_DATA_NUM, the number of data points.
 //
-        {
-            int data_num = 12;
+    {
+        int data_num = 12;
 
-            return data_num;
-        }
+        return data_num;
+    }
 
-        public static int p08_dim_num()
+    public static int p08_dim_num()
 
 //****************************************************************************80
 //
@@ -1597,13 +1569,13 @@ namespace InterpTest
 //    Output, int P08_DIM_NUM, the spatial dimension of the 
 //    dependent variables.
 //
-        {
-            int dim_num = 2;
+    {
+        int dim_num = 2;
 
-            return dim_num;
-        }
+        return dim_num;
+    }
 
-        public static void p08_story()
+    public static void p08_story()
 
 //****************************************************************************80
 //
@@ -1627,14 +1599,11 @@ namespace InterpTest
 //
 //    None
 //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  This is equally spaced data for y = x^2,");
-            Console.WriteLine("  except for one extra point whose x value is");
-            Console.WriteLine("  close to another, but whose y value is not so close.");
-            Console.WriteLine("  A small disagreement in nearby data can be disaster.");
-
-            return;
-        }
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  This is equally spaced data for y = x^2,");
+        Console.WriteLine("  except for one extra point whose x value is");
+        Console.WriteLine("  close to another, but whose y value is not so close.");
+        Console.WriteLine("  A small disagreement in nearby data can be disaster.");
     }
 }

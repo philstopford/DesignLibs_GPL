@@ -3,11 +3,11 @@ using Burkardt.AppliedStatistics;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace ASA082Test
+namespace ASA082Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -30,21 +30,21 @@ namespace ASA082Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("asa082_test");
-            Console.WriteLine("  asa082 computes the determinant of");
-            Console.WriteLine("  an orthogonal matrix.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("asa082_test");
+        Console.WriteLine("  asa082 computes the determinant of");
+        Console.WriteLine("  an orthogonal matrix.");
 
-            detq_test();
+        detq_test();
 
-            Console.WriteLine("");
-            Console.WriteLine("asa082_test");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("asa082_test");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
 
-        static void detq_test()
+    private static void detq_test()
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,35 +63,38 @@ namespace ASA082Test
         //
         //    John Burkardt
         //
+    {
+        double d2 = 0;
+        int ifault = 0;
+
+        for (int n = 5; n <= 10; n++)
         {
-            double d2 = 0;
-            int ifault = 0;
-
-            for (int n = 5; n <= 10; n++)
+            double[] a = helmert_matrix(n);
+            Console.WriteLine("");
+            Console.WriteLine("  Helmert matrix of order " + n + "");
+            switch (false)
             {
-                double[] a = helmert_matrix(n);
-                Console.WriteLine("");
-                Console.WriteLine("  Helmert matrix of order " + n + "");
-                if (false)
-                {
+                case true:
                     typeMethods.r8mat_print(n, n, a, "  Helmert matrix:");
-                }
+                    break;
+            }
 
-                double d1 = helmert_determinant(n);
-                Console.WriteLine("  determinant =      " + d1 + "");
-                Algorithms.detq(a, n, ref d2, ref ifault);
-                if (ifault == 1)
-                {
+            double d1 = helmert_determinant(n);
+            Console.WriteLine("  determinant =      " + d1 + "");
+            Algorithms.detq(a, n, ref d2, ref ifault);
+            switch (ifault)
+            {
+                case 1:
                     Console.WriteLine("  DETQ failed for this case.");
-                }
-                else
-                {
+                    break;
+                default:
                     Console.WriteLine("  DETQ determinant = " + d2 + "");
-                }
+                    break;
             }
         }
+    }
 
-        static double[] helmert_matrix(int n)
+    private static double[] helmert_matrix(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -182,39 +185,46 @@ namespace ASA082Test
         //
         //    Output, double HELMERT[N*N], the matrix.
         //
+    {
+        double[] a = new double[n * n];
+        //
+        //  A begins with the first row, diagonal, and lower triangle set to 1.
+        //
+        for (int j = 0; j < n; j++)
         {
-            double[] a = new double[n * n];
-            //
-            //  A begins with the first row, diagonal, and lower triangle set to 1.
-            //
-            for (int j = 0; j < n; j++)
+            for (int i = 0; i < n; i++)
             {
-                for (int i = 0; i < n; i++)
+                switch (i)
                 {
-                    if (i == 0)
+                    case 0:
+                        a[i + j * n] = 1.0 / Math.Sqrt(n);
+                        break;
+                    default:
                     {
-                        a[i + j * n] = 1.0 / Math.Sqrt((double) (n));
-                    }
-                    else if (j < i)
-                    {
-                        a[i + j * n] = 1.0 / Math.Sqrt((double) (i * (i + 1)));
-                    }
-                    else if (i == j)
-                    {
-                        a[i + j * n] = -Math.Sqrt((double) (i))
-                                       / Math.Sqrt((double) (i + 1));
-                    }
-                    else
-                    {
-                        a[i + j * n] = 0.0;
+                        if (j < i)
+                        {
+                            a[i + j * n] = 1.0 / Math.Sqrt(i * (i + 1));
+                        }
+                        else if (i == j)
+                        {
+                            a[i + j * n] = -Math.Sqrt(i)
+                                           / Math.Sqrt(i + 1);
+                        }
+                        else
+                        {
+                            a[i + j * n] = 0.0;
+                        }
+
+                        break;
                     }
                 }
             }
-
-            return a;
         }
 
-        static double helmert_determinant(int n)
+        return a;
+    }
+
+    private static double helmert_determinant(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -239,20 +249,14 @@ namespace ASA082Test
         //
         //    Output, double HELMERT_DETERMINANT, the determinant.
         //
+    {
+        double determ = (n % 2) switch
         {
-            double determ;
+            0 => -1.0,
+            _ => +1.0
+        };
 
-            if ((n % 2) == 0)
-            {
-                determ = -1.0;
-            }
-            else
-            {
-                determ = +1.0;
-            }
-
-            return determ;
-        }
-
+        return determ;
     }
+
 }

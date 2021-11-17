@@ -1,11 +1,10 @@
 ﻿using System;
-using Burkardt.Table;
 
-namespace Burkardt.Blend
+namespace Burkardt.Blend;
+
+public static class Blend
 {
-    public static class Blend
-    {
-        public static double blend_101 ( double r, double x0, double x1 )
+    public static double blend_101 ( double r, double x0, double x1 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -36,12 +35,12 @@ namespace Burkardt.Blend
         //
         //    Output, double *X, the interpolated data value at (R).
         //
-        {
-            return ( 1.0 - r ) * x0 + r * x1;
-        }        
+    {
+        return ( 1.0 - r ) * x0 + r * x1;
+    }        
         
 
-        public static double blend_102 ( double r, double s, double x00, double x01, double x10, double x11 )
+    public static double blend_102 ( double r, double s, double x00, double x01, double x10, double x11 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -141,17 +140,17 @@ namespace Burkardt.Blend
         //
         //    Output, double *X, the interpolated data value at (R,S).
         //
-        {
-            return  + x00 
-                    + r *     ( - x00 + x10 ) 
-                    + s *     ( - x00       + x01 ) 
-                    + r * s * ( + x00 - x10 - x01 + x11 );
-        }
+    {
+        return  + x00 
+                + r *     ( - x00 + x10 ) 
+                + s *     ( - x00       + x01 ) 
+                + r * s * ( + x00 - x10 - x01 + x11 );
+    }
 
         
-        public static double blend_103 ( double r, double s, double t, double x000, double x001, 
-                                  double x010, double x011, double x100, double x101, double x110, 
-                                  double x111 )
+    public static double blend_103 ( double r, double s, double t, double x000, double x001, 
+            double x010, double x011, double x100, double x101, double x110, 
+            double x111 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -248,12 +247,12 @@ namespace Burkardt.Blend
         //
         //    Output, double *X, the interpolated data value at (R,S,T).
         //
-        {
-            //
-            //  Interpolate the interior point.
-            //
-            return 
-            1.0         * ( + x000 )
+    {
+        //
+        //  Interpolate the interior point.
+        //
+        return 
+            1.0         * + x000
             + r         * ( - x000 + x100 )
             +     s     * ( - x000        + x010 )
             +         t * ( - x000               + x001 )
@@ -261,11 +260,11 @@ namespace Burkardt.Blend
             + r     * t * ( + x000 - x100        - x001        + x101 )
             +     s * t * ( + x000        - x010 - x001 + x011 )
             + r * s * t * ( - x000 + x100 + x010 + x001 - x011 - x101 - x110 + x111 );
-        }
+    }
 
         
-        public static double blend_112 ( double r, double s, double x00, double x01, double x10,
-                                    double x11, double xr0, double xr1, double x0s, double x1s)
+    public static double blend_112 ( double r, double s, double x00, double x01, double x10,
+            double x11, double xr0, double xr1, double x0s, double x1s)
         //****************************************************************************80
         //
         //  Purpose:
@@ -342,24 +341,24 @@ namespace Burkardt.Blend
         //
         //    Output, double *X, the interpolated data value at (R,S).
         //
-        {
-            return
-             - ( 1.0 - r ) * ( 1.0 - s ) * x00
-             + ( 1.0 - r )               * x0s
-             - ( 1.0 - r ) *         s   * x01
-             +               ( 1.0 - s ) * xr0
-             +                       s   * xr1
-             -         r   * ( 1.0 - s ) * x10
-             +         r                 * x1s
-             -         r   *         s   * x11;
-        }
+    {
+        return
+            - ( 1.0 - r ) * ( 1.0 - s ) * x00
+            + ( 1.0 - r )               * x0s
+            - ( 1.0 - r ) *         s   * x01
+            +               ( 1.0 - s ) * xr0
+            +                       s   * xr1
+            -         r   * ( 1.0 - s ) * x10
+            +         r                 * x1s
+            -         r   *         s   * x11;
+    }
 
         
-        public static double blend_113 ( double r, double s, double t, double x000, double x001, 
-                          double x010, double x011, double x100, double x101, double x110, double x111, 
-                          double xr00, double xr01, double xr10, double xr11, double x0s0, double x0s1, 
-                          double x1s0, double x1s1, double x00t, double x01t, double x10t, double x11t 
-                          )
+    public static double blend_113 ( double r, double s, double t, double x000, double x001, 
+            double x010, double x011, double x100, double x101, double x110, double x111, 
+            double xr00, double xr01, double xr10, double xr11, double x0s0, double x0s1, 
+            double x1s0, double x1s1, double x00t, double x01t, double x10t, double x11t 
+        )
         //****************************************************************************80
         //
         //  Purpose:
@@ -443,34 +442,34 @@ namespace Burkardt.Blend
         //
         //    Output, double *X, the interpolated data value at (R,S,T).
         //
-        {
-            //
-            //  Interpolate the points in the centers of the faces.
-            //
-            double x0st = blend_112 ( s, t, x000, x001, x010, x011, x0s0, x0s1, x00t, x01t );
-            double x1st = blend_112 ( s, t, x100, x101, x110, x111, x1s0, x1s1, x10t, x11t );
-            double xr0t = blend_112 ( r, t, x000, x001, x100, x101, xr00, xr01, x00t, x10t );
-            double xr1t = blend_112 ( r, t, x010, x011, x110, x111, xr10, xr11, x01t, x11t );
-            double xrs0 = blend_112 ( r, s, x000, x010, x100, x110, xr00, xr10, x0s0, x1s0 );
-            double xrs1 = blend_112 ( r, s, x001, x011, x101, x111, xr01, xr11, x0s1, x1s1 );
-            //
-            //  Interpolate the I-th coordinate component of the interior point.
-            //
-            double x = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101, x110, x111, 
+    {
+        //
+        //  Interpolate the points in the centers of the faces.
+        //
+        double x0st = blend_112 ( s, t, x000, x001, x010, x011, x0s0, x0s1, x00t, x01t );
+        double x1st = blend_112 ( s, t, x100, x101, x110, x111, x1s0, x1s1, x10t, x11t );
+        double xr0t = blend_112 ( r, t, x000, x001, x100, x101, xr00, xr01, x00t, x10t );
+        double xr1t = blend_112 ( r, t, x010, x011, x110, x111, xr10, xr11, x01t, x11t );
+        double xrs0 = blend_112 ( r, s, x000, x010, x100, x110, xr00, xr10, x0s0, x1s0 );
+        double xrs1 = blend_112 ( r, s, x001, x011, x101, x111, xr01, xr11, x0s1, x1s1 );
+        //
+        //  Interpolate the I-th coordinate component of the interior point.
+        //
+        double x = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101, x110, x111, 
             xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1, x00t, x01t, x10t, x11t, 
             x0st, x1st, xr0t, xr1t, xrs0, xrs1 );
 
-            return x;
-        }
+        return x;
+    }
 
         
-        public static double blend_123 ( double r, double s, double t,
-                                  double x000, double x001, double x010, double x011,
-                                  double x100, double x101, double x110, double x111,
-                                  double xr00, double xr01, double xr10, double xr11,
-                                  double x0s0, double x0s1, double x1s0, double x1s1,
-                                  double x00t, double x01t, double x10t, double x11t,
-                                  double x0st, double x1st, double xr0t, double xr1t, double xrs0, double xrs1 )
+    public static double blend_123 ( double r, double s, double t,
+            double x000, double x001, double x010, double x011,
+            double x100, double x101, double x110, double x111,
+            double xr00, double xr01, double xr10, double xr11,
+            double x0s0, double x0s1, double x1s0, double x1s1,
+            double x00t, double x01t, double x10t, double x11t,
+            double x0st, double x1st, double xr0t, double xr1t, double xrs0, double xrs1 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -546,42 +545,42 @@ namespace Burkardt.Blend
         //
         //    Output, double *X, the interpolated data value at (R,S,T).
         //
-        {
-            //
-            //  Interpolate the interior point.
-            //
+    {
+        //
+        //  Interpolate the interior point.
+        //
 
-            double x =       ( 1.0 - r ) * ( 1.0 - s ) * ( 1.0 - t ) * x000
-                           - ( 1.0 - r ) * ( 1.0 - s )               * x00t
-                           + ( 1.0 - r ) * ( 1.0 - s ) *         t   * x001
-                           - ( 1.0 - r )               * ( 1.0 - t ) * x0s0
-                           + ( 1.0 - r )                             * x0st
-                           - ( 1.0 - r )               *         t   * x0s1
-                           + ( 1.0 - r ) *         s   * ( 1.0 - t ) * x010
-                           - ( 1.0 - r ) *         s                 * x01t
-                           + ( 1.0 - r ) *         s   *         t   * x011
-                           -               ( 1.0 - s ) * ( 1.0 - t ) * xr00
-                           +               ( 1.0 - s )               * xr0t
-                           -               ( 1.0 - s ) *         t   * xr01
-                           +                             ( 1.0 - t ) * xrs0
-                           +                                     t   * xrs1
-                           -                       s   * ( 1.0 - t ) * xr10
-                           +                       s                 * xr1t
-                           -                       s   *         t   * xr11
-                           +         r   * ( 1.0 - s ) * ( 1.0 - t ) * x100
-                           -         r   * ( 1.0 - s )               * x10t
-                           +         r   * ( 1.0 - s ) *         t   * x101
-                           -         r                 * ( 1.0 - t ) * x1s0
-                           +         r                               * x1st
-                           -         r                 *         t   * x1s1
-                           +         r   *         s   * ( 1.0 - t ) * x110
-                           -         r   *         s                 * x11t
-                           +         r   *         s   *         t   * x111;
+        double x =       ( 1.0 - r ) * ( 1.0 - s ) * ( 1.0 - t ) * x000
+                         - ( 1.0 - r ) * ( 1.0 - s )               * x00t
+                         + ( 1.0 - r ) * ( 1.0 - s ) *         t   * x001
+                         - ( 1.0 - r )               * ( 1.0 - t ) * x0s0
+                         + ( 1.0 - r )                             * x0st
+                         - ( 1.0 - r )               *         t   * x0s1
+                         + ( 1.0 - r ) *         s   * ( 1.0 - t ) * x010
+                         - ( 1.0 - r ) *         s                 * x01t
+                         + ( 1.0 - r ) *         s   *         t   * x011
+                         -               ( 1.0 - s ) * ( 1.0 - t ) * xr00
+                         +               ( 1.0 - s )               * xr0t
+                         -               ( 1.0 - s ) *         t   * xr01
+                         +                             ( 1.0 - t ) * xrs0
+                         +                                     t   * xrs1
+                         -                       s   * ( 1.0 - t ) * xr10
+                         +                       s                 * xr1t
+                         -                       s   *         t   * xr11
+                         +         r   * ( 1.0 - s ) * ( 1.0 - t ) * x100
+                         -         r   * ( 1.0 - s )               * x10t
+                         +         r   * ( 1.0 - s ) *         t   * x101
+                         -         r                 * ( 1.0 - t ) * x1s0
+                         +         r                               * x1st
+                         -         r                 *         t   * x1s1
+                         +         r   *         s   * ( 1.0 - t ) * x110
+                         -         r   *         s                 * x11t
+                         +         r   *         s   *         t   * x111;
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] blend_i_0d1 ( ref double[] x, int m )
+    public static double[] blend_i_0d1 ( ref double[] x, int m )
         //****************************************************************************80
         //
         //  Purpose:
@@ -629,26 +628,26 @@ namespace Burkardt.Blend
         //
         //    Input, int M, the number of entries in X.
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            for (int i = 1; i < m - 1; i++ )
-            {
-                double r = ( double ) i  / ( double ) ( m - 1 );
-
-                ret[i] = blend_101 ( r, ret[0], ret[m-1] );
-
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        for (int i = 1; i < m - 1; i++ )
+        {
+            double r = i  / ( double ) ( m - 1 );
+
+            ret[i] = blend_101 ( r, ret[0], ret[m-1] );
+
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_ij_0d1 ( double[] x, int m1, int m2 )
+    public static double[] blend_ij_0d1 ( double[] x, int m1, int m2 )
 
         //****************************************************************************80
         //
@@ -704,48 +703,48 @@ namespace Burkardt.Blend
         //    Input, int M1, M2, the number of rows and columns in the doubly
         //    dimensioned data.
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
+            ret[i] = x[i];
+        }
             
-            //
-            //  Interpolate values along the edges.
-            //
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                ret[i*m2] = blend_101 ( r, ret[0], ret[m1*m2-m2] );
-                ret[i*m2+m2-1] = blend_101 ( r, ret[m2-1], ret[m1*m2-1] );
-            }
+        //
+        //  Interpolate values along the edges.
+        //
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            ret[i*m2] = blend_101 ( r, ret[0], ret[m1*m2-m2] );
+            ret[i*m2+m2-1] = blend_101 ( r, ret[m2-1], ret[m1*m2-1] );
+        }
+
+        for (int j = 1; j < m2 - 1; j++ )
+        {
+            double s = j / ( double ) ( m2 - 1 );
+            ret[j] = blend_101 ( s, ret[0], ret[m2-1] );
+            ret[(m1-1)*m2+j] = blend_101 ( s, ret[m1*m2-m2], ret[m1*m2-1] );
+        }
+        //
+        //  Interpolate values in the interior.
+        //
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
 
             for (int j = 1; j < m2 - 1; j++ )
             {
-                double s = ( double ) j / ( double ) ( m2 - 1 );
-                ret[j] = blend_101 ( s, ret[0], ret[m2-1] );
-                ret[(m1-1)*m2+j] = blend_101 ( s, ret[m1*m2-m2], ret[m1*m2-1] );
+                double s = j / ( double ) ( m2 - 1 );
+                ret[i*m2+j] = blend_112 ( r, s, ret[0], ret[m2-1], ret[m1*m2-m2], ret[m1*m2-1],
+                    ret[i*m2], ret[i*m2+m2-1], ret[j], ret[(m1-1)*m2+j] );
             }
-            //
-            //  Interpolate values in the interior.
-            //
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-                    ret[i*m2+j] = blend_112 ( r, s, ret[0], ret[m2-1], ret[m1*m2-m2], ret[m1*m2-1],
-                        ret[i*m2], ret[i*m2+m2-1], ret[j], ret[(m1-1)*m2+j] );
-                }
-            }
-            return ret;
         }
+        return ret;
+    }
 
         
-        public static double[] blend_ij_1d1 ( double[] x, int m1, int m2 )
+    public static double[] blend_ij_1d1 ( double[] x, int m1, int m2 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -799,35 +798,35 @@ namespace Burkardt.Blend
         //
         //    Input, int M1, M2, the number of rows and columns in X.
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            //
-            //  Interpolate values in the interior.
-            //
-
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-
-                    ret[i*m2+j] = blend_112 ( r, s, ret[0], ret[m2-1], ret[m1*m2-m2], ret[m1*m2-1],
-                        ret[i*m2], ret[i*m2+m2-1], ret[j], ret[(m1-1)*m2+j] );
-
-                }
-            }
-            return ret;
+            ret[i] = x[i];
         }
 
+        //
+        //  Interpolate values in the interior.
+        //
+
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+
+            for (int j = 1; j < m2 - 1; j++ )
+            {
+                double s = j / ( double ) ( m2 - 1 );
+
+                ret[i*m2+j] = blend_112 ( r, s, ret[0], ret[m2-1], ret[m1*m2-m2], ret[m1*m2-1],
+                    ret[i*m2], ret[i*m2+m2-1], ret[j], ret[(m1-1)*m2+j] );
+
+            }
+        }
+        return ret;
+    }
+
         
-        public static double[] blend_ijk_0d1 ( double[] x, int m1, int m2, int m3 )
+    public static double[] blend_ijk_0d1 ( double[] x, int m1, int m2, int m3 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -893,160 +892,160 @@ namespace Burkardt.Blend
         //
         //    Input, int M1, M2, M3, the number of rows, columns, and layers in X.
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
+            ret[i] = x[i];
+        }
 
-            //
-            //  Interpolate values along the "edges", that is, index triplets (i,j,k)
-            //  with exactly two of I, J, K an "extreme" value.
-            //
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                ret[i*m3*m2] = blend_101 ( r, ret[0], ret[(m1-1)*m3*m2]);
+        //
+        //  Interpolate values along the "edges", that is, index triplets (i,j,k)
+        //  with exactly two of I, J, K an "extreme" value.
+        //
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            ret[i*m3*m2] = blend_101 ( r, ret[0], ret[(m1-1)*m3*m2]);
 
-                ret[(i*m3+m2-1)*m2] = blend_101 ( r, ret[(m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2]);
+            ret[(i*m3+m2-1)*m2] = blend_101 ( r, ret[(m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2]);
 
-                ret[i*m3*m2+m3-1] = blend_101 ( r, ret[m3-1], ret[(m1-1)*m3*m2+m3-1]);
+            ret[i*m3*m2+m3-1] = blend_101 ( r, ret[m3-1], ret[(m1-1)*m3*m2+m3-1]);
 
-                ret[(i*m3+m2-1)*m2+m3-1] = blend_101 ( r, ret[(m2-1)*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1]);
-            }
+            ret[(i*m3+m2-1)*m2+m3-1] = blend_101 ( r, ret[(m2-1)*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1]);
+        }
 
-            for (int j = 1; j < m2 - 1; j++ )
-            {
-                double s = ( double ) j / ( double ) ( m2 - 1 );
-                ret[j*m2] = blend_101 ( s, ret[0], ret[(m2-1)*m2]);
+        for (int j = 1; j < m2 - 1; j++ )
+        {
+            double s = j / ( double ) ( m2 - 1 );
+            ret[j*m2] = blend_101 ( s, ret[0], ret[(m2-1)*m2]);
 
-                ret[((m1-1)*m3+j)*m2] = blend_101 ( s, ret[(m1-1)*m3*m2], ret[((m1-1)*m3+m2-1)*m2]);
+            ret[((m1-1)*m3+j)*m2] = blend_101 ( s, ret[(m1-1)*m3*m2], ret[((m1-1)*m3+m2-1)*m2]);
 
-                ret[j*m2+m3-1] = blend_101 ( s, ret[m3-1], ret[(m2-1)*m2+m3-1]);
+            ret[j*m2+m3-1] = blend_101 ( s, ret[m3-1], ret[(m2-1)*m2+m3-1]);
 
-                ret[((m1-1)*m3+j)*m2+m3-1] = blend_101 ( s, ret[(m1-1)*m3*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1]);
-            }
+            ret[((m1-1)*m3+j)*m2+m3-1] = blend_101 ( s, ret[(m1-1)*m3*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1]);
+        }
 
+        for (int k = 1; k < m3 - 1; k++ )
+        {
+            double t = k / ( double ) ( m3 - 1 );
+            ret[k] = blend_101 ( t, ret[0], ret[m3-1]);
+
+            ret[(m1-1)*m3*m2+k] = blend_101 ( t, ret[(m1-1)*m3*m2], ret[(m1-1)*m3*m2+m3-1]);
+
+            ret[(m2-1)*m2+k] = blend_101 ( t, ret[(m2-1)*m2], ret[(m2-1)*m2+m3-1]);
+
+            ret[((m1-1)*m3+m2-1)*m2+k] = blend_101 ( t, ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1]);
+        }
+        //
+        //  Interpolate values along the "faces", that is, index triplets (i,j,k)
+        //  with exactly one of I, J, K is an "extreme" value.
+        //
+        for (int j = 1; j < m2 - 1; j++ )
+        {
+            double s = j / ( double ) ( m2 - 1 );
             for (int k = 1; k < m3 - 1; k++ )
             {
-                double t = ( double ) k / ( double ) ( m3 - 1 );
-                ret[k] = blend_101 ( t, ret[0], ret[m3-1]);
+                double t = k / ( double ) ( m3 - 1 );
 
-                ret[(m1-1)*m3*m2+k] = blend_101 ( t, ret[(m1-1)*m3*m2], ret[(m1-1)*m3*m2+m3-1]);
+                ret[j*m2+k] = blend_112 ( s, t,
+                    ret[0],                   ret[m3-1],
+                    ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
+                    ret[j*m2],                ret[j*m2+m3-1],
+                    ret[k],                   ret[(m2-1)*m2+k]
+                );
 
-                ret[(m2-1)*m2+k] = blend_101 ( t, ret[(m2-1)*m2], ret[(m2-1)*m2+m3-1]);
+                ret[((m1-1)*m3+j)*m2+k] = blend_112 ( s, t,
+                    ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
+                    ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                    ret[((m1-1)*m3+j)*m2],    ret[((m1-1)*m3+j)*m2+m3-1],
+                    ret[(m1-1)*m3*m2+k],      ret[((m1-1)*m3+m2-1)*m2+k]
+                );
 
-                ret[((m1-1)*m3+m2-1)*m2+k] = blend_101 ( t, ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1]);
             }
-            //
-            //  Interpolate values along the "faces", that is, index triplets (i,j,k)
-            //  with exactly one of I, J, K is an "extreme" value.
-            //
+        }
+
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            for (int k = 1; k < m3 - 1; k++ )
+            {
+                double t = k / ( double ) ( m3 - 1 );
+
+                ret[i*m3*m2+k] = blend_112 ( r, t,
+                    ret[0],                   ret[m3-1],
+                    ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
+                    ret[i*m3*m2],             ret[i*m3*m2+m3-1],
+                    ret[k],                   ret[(m1-1)*m3*m2+k]
+                );
+
+                x[(i*m3+m2-1)*m2+k] = blend_112 ( r, t,
+                    ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
+                    ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                    ret[(i*m3+m2-1)*m2],      ret[(i*m3+m2-1)*m2+m3-1],
+                    ret[(m2-1)*m2+k],         ret[((m1-1)*m3+m2-1)*m2+k]
+                );
+            }
+        }
+
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
             for (int j = 1; j < m2 - 1; j++ )
             {
-                double s = ( double ) j / ( double ) ( m2 - 1 );
-                for (int k = 1; k < m3 - 1; k++ )
-                {
-                    double t = ( double ) k / ( double ) ( m3 - 1 );
+                double s = j / ( double ) ( m2 - 1 );
 
-                    ret[j*m2+k] = blend_112 ( s, t,
-                        ret[0],                   ret[m3-1],
-                        ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
-                        ret[j*m2],                ret[j*m2+m3-1],
-                        ret[k],                   ret[(m2-1)*m2+k]
-                    );
+                ret[(i*m3+j)*m2] = blend_112 ( r, s,
+                    ret[0],            ret[(m2-1)*m2],
+                    ret[(m1-1)*m3*m2], ret[((m1-1)*m3+m2-1)*m2],
+                    ret[i*m3*m2],      ret[(i*m3+m2-1)*m2],
+                    ret[j*m2],         ret[((m1-1)*m3+j)*m2]
+                );
 
-                    ret[((m1-1)*m3+j)*m2+k] = blend_112 ( s, t,
-                        ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
-                        ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                        ret[((m1-1)*m3+j)*m2],    ret[((m1-1)*m3+j)*m2+m3-1],
-                        ret[(m1-1)*m3*m2+k],      ret[((m1-1)*m3+m2-1)*m2+k]
-                    );
-
-                }
+                ret[(i*m3+j)*m2+m3-1] = blend_112 ( r, s,
+                    ret[m3-1],              ret[(m2-1)*m2+m3-1],
+                    ret[(m1-1)*m3*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                    ret[i*m3*m2+m3-1],      ret[(i*m3+m2-1)*m2+m3-1],
+                    ret[j*m2+m3-1],         ret[((m1-1)*m3+j)*m2+m3-1]
+                );
             }
-
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int k = 1; k < m3 - 1; k++ )
-                {
-                    double t = ( double ) k / ( double ) ( m3 - 1 );
-
-                    ret[i*m3*m2+k] = blend_112 ( r, t,
-                        ret[0],                   ret[m3-1],
-                        ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
-                        ret[i*m3*m2],             ret[i*m3*m2+m3-1],
-                        ret[k],                   ret[(m1-1)*m3*m2+k]
-                    );
-
-                    x[(i*m3+m2-1)*m2+k] = blend_112 ( r, t,
-                        ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
-                        ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                        ret[(i*m3+m2-1)*m2],      ret[(i*m3+m2-1)*m2+m3-1],
-                        ret[(m2-1)*m2+k],         ret[((m1-1)*m3+m2-1)*m2+k]
-                    );
-                }
-            }
-
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-
-                    ret[(i*m3+j)*m2] = blend_112 ( r, s,
-                        ret[0],            ret[(m2-1)*m2],
-                        ret[(m1-1)*m3*m2], ret[((m1-1)*m3+m2-1)*m2],
-                        ret[i*m3*m2],      ret[(i*m3+m2-1)*m2],
-                        ret[j*m2],         ret[((m1-1)*m3+j)*m2]
-                    );
-
-                    ret[(i*m3+j)*m2+m3-1] = blend_112 ( r, s,
-                        ret[m3-1],              ret[(m2-1)*m2+m3-1],
-                        ret[(m1-1)*m3*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                        ret[i*m3*m2+m3-1],      ret[(i*m3+m2-1)*m2+m3-1],
-                        ret[j*m2+m3-1],         ret[((m1-1)*m3+j)*m2+m3-1]
-                    );
-                }
-            }
-            //
-            //  Interpolate values in the interior.
-            //
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-                    for (int k = 1; k < m3 - 1; k++ )
-                    {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
-                        ret[(i*m3+j)*m2+k] = blend_123 ( r, s, t,
-                            ret[0],                    ret[m3-1],
-                            ret[(m2-1)*m2],            ret[(m2-1)*m2+m3-1],
-                            ret[(m1-1)*m3*m2],         ret[(m1-1)*m3*m2+m3-1],
-                            ret[((m1-1)*m3+m2-1)*m2],  ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                            ret[i*m3*m2],              ret[i*m3*m2+m3-1],
-                            ret[(i*m3+m2-1)*m2],       ret[(i*m3+m2-1)*m2+m3-1],
-                            ret[j*m2],                 ret[j*m2+m3-1],
-                            ret[((m1-1)*m3+j)*m2],     ret[((m1-1)*m3+j)*m2+m3-1],
-                            ret[k],                    ret[(m2-1)*m2+k],
-                            ret[(m1-1)*m3*m2+k],       ret[((m1-1)*m3+m2-1)*m2+k],
-                            ret[j*m3+k],               ret[((m1-1)*m3+j)*m2+k],
-                            ret[i*m3*m2+k],            ret[(i*m3+m2-1)*m2+k],
-                            ret[(i*m3+j)*m2],          ret[(i*m3+j)*m2+m3-1]
-                        );
-                    }
-                }
-            }
-            return ret;
         }
+        //
+        //  Interpolate values in the interior.
+        //
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            for (int j = 1; j < m2 - 1; j++ )
+            {
+                double s = j / ( double ) ( m2 - 1 );
+                for (int k = 1; k < m3 - 1; k++ )
+                {
+                    double t = k / ( double ) ( m3 - 1 );
+                    ret[(i*m3+j)*m2+k] = blend_123 ( r, s, t,
+                        ret[0],                    ret[m3-1],
+                        ret[(m2-1)*m2],            ret[(m2-1)*m2+m3-1],
+                        ret[(m1-1)*m3*m2],         ret[(m1-1)*m3*m2+m3-1],
+                        ret[((m1-1)*m3+m2-1)*m2],  ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                        ret[i*m3*m2],              ret[i*m3*m2+m3-1],
+                        ret[(i*m3+m2-1)*m2],       ret[(i*m3+m2-1)*m2+m3-1],
+                        ret[j*m2],                 ret[j*m2+m3-1],
+                        ret[((m1-1)*m3+j)*m2],     ret[((m1-1)*m3+j)*m2+m3-1],
+                        ret[k],                    ret[(m2-1)*m2+k],
+                        ret[(m1-1)*m3*m2+k],       ret[((m1-1)*m3+m2-1)*m2+k],
+                        ret[j*m3+k],               ret[((m1-1)*m3+j)*m2+k],
+                        ret[i*m3*m2+k],            ret[(i*m3+m2-1)*m2+k],
+                        ret[(i*m3+j)*m2],          ret[(i*m3+j)*m2+m3-1]
+                    );
+                }
+            }
+        }
+        return ret;
+    }
         
         
-        public static double[] blend_ijk_1d1 ( double[] x, int m1, int m2, int m3 )
+    public static double[] blend_ijk_1d1 ( double[] x, int m1, int m2, int m3 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -1112,121 +1111,121 @@ namespace Burkardt.Blend
         //
         //    Input, int M1, M2, M3, the number of rows, columns, and layers in X.
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
+            ret[i] = x[i];
+        }
+
+        //
+        //  Interpolate values along the "faces", that is, index triplets (i,j,k)
+        //  with exactly one of I, J, K is an "extreme" value.
+        //
+        for (int j = 1; j < m2 - 1; j++ )
+        {
+            double s = j / ( double ) ( m2 - 1 );
+            for (int k = 1; k < m3 - 1; k++ )
             {
-                ret[i] = x[i];
+                double t = k / ( double ) ( m3 - 1 );
+
+                ret[j*m2+k] = blend_112 ( s, t,
+                    ret[0],                   ret[m3-1],
+                    ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
+                    ret[j*m2],                ret[j*m2+m3-1],
+                    ret[k],                   ret[(m2-1)*m2+k]
+                );
+
+                ret[((m1-1)*m3+j)*m2+k] = blend_112 ( s, t,
+                    ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
+                    ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                    ret[((m1-1)*m3+j)*m2],    ret[((m1-1)*m3+j)*m2+m3-1],
+                    ret[(m1-1)*m3*m2+k],      ret[((m1-1)*m3+m2-1)*m2+k]
+                );
             }
+        }
 
-            //
-            //  Interpolate values along the "faces", that is, index triplets (i,j,k)
-            //  with exactly one of I, J, K is an "extreme" value.
-            //
-            for (int j = 1; j < m2 - 1; j++ )
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            for (int k = 1; k < m3 - 1; k++ )
             {
-                double s = ( double ) j / ( double ) ( m2 - 1 );
-                for (int k = 1; k < m3 - 1; k++ )
-                {
-                    double t = ( double ) k / ( double ) ( m3 - 1 );
+                double t = k / ( double ) ( m3 - 1 );
 
-                    ret[j*m2+k] = blend_112 ( s, t,
-                        ret[0],                   ret[m3-1],
-                        ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
-                        ret[j*m2],                ret[j*m2+m3-1],
-                        ret[k],                   ret[(m2-1)*m2+k]
-                    );
+                ret[i*m3*m2+k] = blend_112 ( r, t,
+                    ret[0],                   ret[m3-1],
+                    ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
+                    ret[i*m3*m2],             ret[i*m3*m2+m3-1],
+                    ret[k],                   ret[(m1-1)*m3*m2+k]
+                );
 
-                    ret[((m1-1)*m3+j)*m2+k] = blend_112 ( s, t,
-                        ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
-                        ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                        ret[((m1-1)*m3+j)*m2],    ret[((m1-1)*m3+j)*m2+m3-1],
-                        ret[(m1-1)*m3*m2+k],      ret[((m1-1)*m3+m2-1)*m2+k]
-                    );
-                }
-            }
-
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int k = 1; k < m3 - 1; k++ )
-                {
-                    double t = ( double ) k / ( double ) ( m3 - 1 );
-
-                    ret[i*m3*m2+k] = blend_112 ( r, t,
-                        ret[0],                   ret[m3-1],
-                        ret[(m1-1)*m3*m2],        ret[(m1-1)*m3*m2+m3-1],
-                        ret[i*m3*m2],             ret[i*m3*m2+m3-1],
-                        ret[k],                   ret[(m1-1)*m3*m2+k]
-                    );
-
-                    ret[(i*m3+m2-1)*m2+k] = blend_112 ( r, t,
+                ret[(i*m3+m2-1)*m2+k] = blend_112 ( r, t,
                     ret[(m2-1)*m2],           ret[(m2-1)*m2+m3-1],
                     ret[((m1-1)*m3+m2-1)*m2], ret[((m1-1)*m3+m2-1)*m2+m3-1],
                     ret[(i*m3+m2-1)*m2],      ret[(i*m3+m2-1)*m2+m3-1],
                     ret[(m2-1)*m2+k],         ret[((m1-1)*m3+m2-1)*m2+k]
-                    );
-                }
+                );
             }
-
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-
-                    ret[(i*m3+j)*m2] = blend_112 ( r, s,
-                        ret[0],            ret[(m2-1)*m2],
-                        ret[(m1-1)*m3*m2], ret[((m1-1)*m3+m2-1)*m2],
-                        ret[i*m3*m2],      ret[(i*m3+m2-1)*m2],
-                        ret[j*m2],         ret[((m1-1)*m3+j)*m2]
-                    );
-
-                    ret[(i*m3+j)*m2+m3-1] = blend_112 ( r, s,
-                        ret[m3-1],              ret[(m2-1)*m2+m3-1],
-                        ret[(m1-1)*m3*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                        ret[i*m3*m2+m3-1],      ret[(i*m3+m2-1)*m2+m3-1],
-                        ret[j*m2+m3-1],         ret[((m1-1)*m3+j)*m2+m3-1]
-                    );
-                }
-            }
-            //
-            //  Interpolate values in the interior.
-            //
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-                    for (int k = 1; k < m3 - 1; k++ )
-                    {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
-                        ret[(i*m3+j)*m2+k] = blend_123 ( r, s, t,
-                            ret[0],                    ret[m3-1],
-                            ret[(m2-1)*m2],            ret[(m2-1)*m2+m3-1],
-                            ret[(m1-1)*m3*m2],         ret[(m1-1)*m3*m2+m3-1],
-                            ret[((m1-1)*m3+m2-1)*m2],  ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                            ret[i*m3*m2],              ret[i*m3*m2+m3-1],
-                            ret[(i*m3+m2-1)*m2],       ret[(i*m3+m2-1)*m2+m3-1],
-                            ret[j*m2],                 ret[j*m2+m3-1],
-                            ret[((m1-1)*m3+j)*m2],     ret[((m1-1)*m3+j)*m2+m3-1],
-                            ret[k],                    ret[(m2-1)*m2+k],
-                            ret[(m1-1)*m3*m2+k],       ret[((m1-1)*m3+m2-1)*m2+k],
-                            ret[j*m3+k],               ret[((m1-1)*m3+j)*m2+k],
-                            ret[i*m3*m2+k],            ret[(i*m3+m2-1)*m2+k],
-                            ret[(i*m3+j)*m2],          ret[(i*m3+j)*m2+m3-1]
-                        );
-
-                    }
-                }
-            }
-            return ret;
         }
 
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            for (int j = 1; j < m2 - 1; j++ )
+            {
+                double s = j / ( double ) ( m2 - 1 );
 
-        public static double[] blend_ijk_2d1 ( double[] x, int m1, int m2, int m3 )
+                ret[(i*m3+j)*m2] = blend_112 ( r, s,
+                    ret[0],            ret[(m2-1)*m2],
+                    ret[(m1-1)*m3*m2], ret[((m1-1)*m3+m2-1)*m2],
+                    ret[i*m3*m2],      ret[(i*m3+m2-1)*m2],
+                    ret[j*m2],         ret[((m1-1)*m3+j)*m2]
+                );
+
+                ret[(i*m3+j)*m2+m3-1] = blend_112 ( r, s,
+                    ret[m3-1],              ret[(m2-1)*m2+m3-1],
+                    ret[(m1-1)*m3*m2+m3-1], ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                    ret[i*m3*m2+m3-1],      ret[(i*m3+m2-1)*m2+m3-1],
+                    ret[j*m2+m3-1],         ret[((m1-1)*m3+j)*m2+m3-1]
+                );
+            }
+        }
+        //
+        //  Interpolate values in the interior.
+        //
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            for (int j = 1; j < m2 - 1; j++ )
+            {
+                double s = j / ( double ) ( m2 - 1 );
+                for (int k = 1; k < m3 - 1; k++ )
+                {
+                    double t = k / ( double ) ( m3 - 1 );
+                    ret[(i*m3+j)*m2+k] = blend_123 ( r, s, t,
+                        ret[0],                    ret[m3-1],
+                        ret[(m2-1)*m2],            ret[(m2-1)*m2+m3-1],
+                        ret[(m1-1)*m3*m2],         ret[(m1-1)*m3*m2+m3-1],
+                        ret[((m1-1)*m3+m2-1)*m2],  ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                        ret[i*m3*m2],              ret[i*m3*m2+m3-1],
+                        ret[(i*m3+m2-1)*m2],       ret[(i*m3+m2-1)*m2+m3-1],
+                        ret[j*m2],                 ret[j*m2+m3-1],
+                        ret[((m1-1)*m3+j)*m2],     ret[((m1-1)*m3+j)*m2+m3-1],
+                        ret[k],                    ret[(m2-1)*m2+k],
+                        ret[(m1-1)*m3*m2+k],       ret[((m1-1)*m3+m2-1)*m2+k],
+                        ret[j*m3+k],               ret[((m1-1)*m3+j)*m2+k],
+                        ret[i*m3*m2+k],            ret[(i*m3+m2-1)*m2+k],
+                        ret[(i*m3+j)*m2],          ret[(i*m3+j)*m2+m3-1]
+                    );
+
+                }
+            }
+        }
+        return ret;
+    }
+
+
+    public static double[] blend_ijk_2d1 ( double[] x, int m1, int m2, int m3 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -1295,50 +1294,50 @@ namespace Burkardt.Blend
         //
         //    Input, int M1, M2, M3, the number of rows, columns, and layers in X.
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            //
-            //  Interpolate values in the interior.
-            //
-            for (int i = 1; i < m1 - 1; i++ )
-            {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
-                for (int j = 1; j < m2 - 1; j++ )
-                {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
-                    for (int k = 1; k < m3 - 1; k++ )
-                    {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
-                        ret[(i*m3+j)*m2+k] = blend_123 ( r, s, t,
-                            ret[0],                    ret[m3-1],
-                            ret[(m2-1)*m2],            ret[(m2-1)*m2+m3-1],
-                            ret[(m1-1)*m3*m2],         ret[(m1-1)*m3*m2+m3-1],
-                            ret[((m1-1)*m3+m2-1)*m2],  ret[((m1-1)*m3+m2-1)*m2+m3-1],
-                            ret[i*m3*m2],              ret[i*m3*m2+m3-1],
-                            ret[(i*m3+m2-1)*m2],       ret[(i*m3+m2-1)*m2+m3-1],
-                            ret[j*m2],                 ret[j*m2+m3-1],
-                            ret[((m1-1)*m3+j)*m2],     ret[((m1-1)*m3+j)*m2+m3-1],
-                            ret[k],                    ret[(m2-1)*m2+k],
-                            ret[(m1-1)*m3*m2+k],       ret[((m1-1)*m3+m2-1)*m2+k],
-                            ret[j*m3+k],               ret[((m1-1)*m3+j)*m2+k],
-                            ret[i*m3*m2+k],            ret[(i*m3+m2-1)*m2+k],
-                            ret[(i*m3+j)*m2],          ret[(i*m3+j)*m2+m3-1]
-                        );
-
-                    }
-                }
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        //
+        //  Interpolate values in the interior.
+        //
+        for (int i = 1; i < m1 - 1; i++ )
+        {
+            double r = i / ( double ) ( m1 - 1 );
+            for (int j = 1; j < m2 - 1; j++ )
+            {
+                double s = j / ( double ) ( m2 - 1 );
+                for (int k = 1; k < m3 - 1; k++ )
+                {
+                    double t = k / ( double ) ( m3 - 1 );
+                    ret[(i*m3+j)*m2+k] = blend_123 ( r, s, t,
+                        ret[0],                    ret[m3-1],
+                        ret[(m2-1)*m2],            ret[(m2-1)*m2+m3-1],
+                        ret[(m1-1)*m3*m2],         ret[(m1-1)*m3*m2+m3-1],
+                        ret[((m1-1)*m3+m2-1)*m2],  ret[((m1-1)*m3+m2-1)*m2+m3-1],
+                        ret[i*m3*m2],              ret[i*m3*m2+m3-1],
+                        ret[(i*m3+m2-1)*m2],       ret[(i*m3+m2-1)*m2+m3-1],
+                        ret[j*m2],                 ret[j*m2+m3-1],
+                        ret[((m1-1)*m3+j)*m2],     ret[((m1-1)*m3+j)*m2+m3-1],
+                        ret[k],                    ret[(m2-1)*m2+k],
+                        ret[(m1-1)*m3*m2+k],       ret[((m1-1)*m3+m2-1)*m2+k],
+                        ret[j*m3+k],               ret[((m1-1)*m3+j)*m2+k],
+                        ret[i*m3*m2+k],            ret[(i*m3+m2-1)*m2+k],
+                        ret[(i*m3+j)*m2],          ret[(i*m3+j)*m2+m3-1]
+                    );
+
+                }
+            }
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_r_0dn ( double r, double[] x, int n,
+    public static double[] blend_r_0dn ( double r, double[] x, int n,
             Func<double, int, double> bound_r  )
         //****************************************************************************80
         //
@@ -1397,33 +1396,33 @@ namespace Burkardt.Blend
         //
         //      void bound_r ( double r, int i, double *xi )
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            for (int i = 0; i < n; i++ )
-            {
-                //
-                //  Get the I-th coordinate component at the two corners.
-                //
-
-                double x0 = bound_r ( 0.0, i );
-                double x1 = bound_r ( 1.0, i );
-                //
-                //  Interpolate the I-th coordinate component of the interior point.
-                //
-                ret[i] = blend_101 ( r, x0, x1 );
-
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        for (int i = 0; i < n; i++ )
+        {
+            //
+            //  Get the I-th coordinate component at the two corners.
+            //
+
+            double x0 = bound_r ( 0.0, i );
+            double x1 = bound_r ( 1.0, i );
+            //
+            //  Interpolate the I-th coordinate component of the interior point.
+            //
+            ret[i] = blend_101 ( r, x0, x1 );
+
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_rs_0dn ( double r, double s, double[] x, int n,
+    public static double[] blend_rs_0dn ( double r, double s, double[] x, int n,
             Func<double, double, int, double> bound_rs )
 
         //****************************************************************************80
@@ -1488,40 +1487,40 @@ namespace Burkardt.Blend
         //
         //      void bound_rs ( double r, double s, int i, double *xi )
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            for (int i = 0; i < n; i++ )
-            {
-                //
-                //  Get the I-th coordinate component at the four corners.
-                //
-                double x00 = bound_rs ( 0.0, 0.0, i );
-                double x01 = bound_rs ( 0.0, 1.0, i );
-                double x10 = bound_rs ( 1.0, 0.0, i );
-                double x11 = bound_rs ( 1.0, 1.0, i );
-                //
-                //  Interpolate the I-th coordinate component at the sides.
-                //
-                double xr0 = blend_101 ( r, x00, x10 );
-                double xr1 = blend_101 ( r, x01, x11 );
-                double x0s = blend_101 ( s, x00, x01 );
-                double x1s = blend_101 ( s, x10, x11 );
-                //
-                //  Interpolate the I-th coordinate component of the interior point.
-                //
-                ret[i] = blend_112 ( r, s, x00, x01, x10, x11, xr0, xr1, x0s, x1s );
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        for (int i = 0; i < n; i++ )
+        {
+            //
+            //  Get the I-th coordinate component at the four corners.
+            //
+            double x00 = bound_rs ( 0.0, 0.0, i );
+            double x01 = bound_rs ( 0.0, 1.0, i );
+            double x10 = bound_rs ( 1.0, 0.0, i );
+            double x11 = bound_rs ( 1.0, 1.0, i );
+            //
+            //  Interpolate the I-th coordinate component at the sides.
+            //
+            double xr0 = blend_101 ( r, x00, x10 );
+            double xr1 = blend_101 ( r, x01, x11 );
+            double x0s = blend_101 ( s, x00, x01 );
+            double x1s = blend_101 ( s, x10, x11 );
+            //
+            //  Interpolate the I-th coordinate component of the interior point.
+            //
+            ret[i] = blend_112 ( r, s, x00, x01, x10, x11, xr0, xr1, x0s, x1s );
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_rs_1dn ( double r, double s, double[] x, int n,
+    public static double[] blend_rs_1dn ( double r, double s, double[] x, int n,
             Func <double, double, int, double> bound_rs )
         //****************************************************************************80
         //
@@ -1586,42 +1585,42 @@ namespace Burkardt.Blend
         //
         //      void bound_rs ( double r, double s, int i, double *xi )
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            for (int i = 0; i < n; i++ )
-            {
-                //
-                //  Get the I-th coordinate component at the four corners.
-                //
-                double x00 = bound_rs ( 0.0, 0.0, i );
-                double x01 = bound_rs ( 0.0, 1.0, i );
-                double x10 = bound_rs ( 1.0, 0.0, i );
-                double x11 = bound_rs ( 1.0, 1.0, i );
-                //
-                //  Get the I-th coordinate component at the sides.
-                //
-                double xr0 = bound_rs ( r, 0.0, i );
-                double xr1 = bound_rs ( r, 1.0, i );
-                double x0s = bound_rs ( 0.0, s, i );
-                double x1s = bound_rs ( 1.0, s, i );
-                //
-                //  Interpolate the I-th coordinate component of the interior point.
-                //
-                ret[i] = blend_112 ( r, s, x00, x01, x10, x11, xr0, xr1, x0s, x1s );
-
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        for (int i = 0; i < n; i++ )
+        {
+            //
+            //  Get the I-th coordinate component at the four corners.
+            //
+            double x00 = bound_rs ( 0.0, 0.0, i );
+            double x01 = bound_rs ( 0.0, 1.0, i );
+            double x10 = bound_rs ( 1.0, 0.0, i );
+            double x11 = bound_rs ( 1.0, 1.0, i );
+            //
+            //  Get the I-th coordinate component at the sides.
+            //
+            double xr0 = bound_rs ( r, 0.0, i );
+            double xr1 = bound_rs ( r, 1.0, i );
+            double x0s = bound_rs ( 0.0, s, i );
+            double x1s = bound_rs ( 1.0, s, i );
+            //
+            //  Interpolate the I-th coordinate component of the interior point.
+            //
+            ret[i] = blend_112 ( r, s, x00, x01, x10, x11, xr0, xr1, x0s, x1s );
+
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_rst_0dn ( double r, double s, double t, double[] x, int n,
-          Func <double, double, double, int, double > bound_rst )
+    public static double[] blend_rst_0dn ( double r, double s, double t, double[] x, int n,
+            Func <double, double, double, int, double > bound_rst )
 
         //****************************************************************************80
         //
@@ -1705,72 +1704,72 @@ namespace Burkardt.Blend
         //
         //      void bound_rst ( double r, double s, double t, int i, double *xi )
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            for (int i = 0; i < n; i++ )
-            {
-                //
-                //  Get the I-th coordinate component at the corners.
-                //
-                double x000 = bound_rst ( 0.0, 0.0, 0.0, i );
-                double x001 = bound_rst ( 0.0, 0.0, 1.0, i );
-                double x010 = bound_rst ( 0.0, 1.0, 0.0, i );
-                double x011 = bound_rst ( 0.0, 1.0, 1.0, i );
-                double x100 = bound_rst ( 1.0, 0.0, 0.0, i );
-                double x101 = bound_rst ( 1.0, 0.0, 1.0, i );
-                double x110 = bound_rst ( 1.0, 1.0, 0.0, i );
-                double x111 = bound_rst ( 1.0, 1.0, 1.0, i );
-                //
-                //  Interpolate the I-th coordinate component at the edges.
-                //
-                double xr00 = blend_101 ( r, x000, x100 );
-                double xr01 = blend_101 ( r, x001, x101 );
-                double xr10 = blend_101 ( r, x010, x110 );
-                double xr11 = blend_101 ( r, x011, x111 );
-
-                double x0s0 = blend_101 ( s, x000, x010 );
-                double x0s1 = blend_101 ( s, x001, x011 );
-                double x1s0 = blend_101 ( s, x100, x110 );
-                double x1s1 = blend_101 ( s, x101, x111 );
-
-                double x00t = blend_101 ( t, x000, x001 );
-                double x01t = blend_101 ( t, x010, x011 );
-                double x10t = blend_101 ( t, x100, x101 );
-                double x11t = blend_101 ( t, x110, x111 );
-                //
-                //  Interpolate the I-th component on the faces.
-                //
-                double x0st = blend_112 ( s, t, x000, x001, x010, x011, x0s0, x0s1, x00t, x01t );
-
-                double x1st = blend_112 ( s, t, x100, x101, x110, x111, x1s0, x1s1, x10t, x11t );
-
-                double xr0t = blend_112 ( r, t, x000, x001, x100, x101, xr00, xr01, x00t, x10t );
-
-                double xr1t = blend_112 ( r, t, x010, x011, x110, x111, xr10, xr11, x01t, x11t );
-
-                double xrs0 = blend_112 ( r, s, x000, x010, x100, x110, xr00, xr10, x0s0, x1s0 );
-
-                double xrs1 = blend_112 ( r, s, x001, x011, x101, x111, xr01, xr11, x0s1, x1s1 );
-                //
-                //  Interpolate the I-th coordinate component of the interior point.
-                //
-                ret[i] = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101,
-                                    x110, x111, xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1,
-                                    x00t, x01t, x10t, x11t, x0st, x1st, xr0t, xr1t, xrs0, xrs1
-                );
-
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        for (int i = 0; i < n; i++ )
+        {
+            //
+            //  Get the I-th coordinate component at the corners.
+            //
+            double x000 = bound_rst ( 0.0, 0.0, 0.0, i );
+            double x001 = bound_rst ( 0.0, 0.0, 1.0, i );
+            double x010 = bound_rst ( 0.0, 1.0, 0.0, i );
+            double x011 = bound_rst ( 0.0, 1.0, 1.0, i );
+            double x100 = bound_rst ( 1.0, 0.0, 0.0, i );
+            double x101 = bound_rst ( 1.0, 0.0, 1.0, i );
+            double x110 = bound_rst ( 1.0, 1.0, 0.0, i );
+            double x111 = bound_rst ( 1.0, 1.0, 1.0, i );
+            //
+            //  Interpolate the I-th coordinate component at the edges.
+            //
+            double xr00 = blend_101 ( r, x000, x100 );
+            double xr01 = blend_101 ( r, x001, x101 );
+            double xr10 = blend_101 ( r, x010, x110 );
+            double xr11 = blend_101 ( r, x011, x111 );
+
+            double x0s0 = blend_101 ( s, x000, x010 );
+            double x0s1 = blend_101 ( s, x001, x011 );
+            double x1s0 = blend_101 ( s, x100, x110 );
+            double x1s1 = blend_101 ( s, x101, x111 );
+
+            double x00t = blend_101 ( t, x000, x001 );
+            double x01t = blend_101 ( t, x010, x011 );
+            double x10t = blend_101 ( t, x100, x101 );
+            double x11t = blend_101 ( t, x110, x111 );
+            //
+            //  Interpolate the I-th component on the faces.
+            //
+            double x0st = blend_112 ( s, t, x000, x001, x010, x011, x0s0, x0s1, x00t, x01t );
+
+            double x1st = blend_112 ( s, t, x100, x101, x110, x111, x1s0, x1s1, x10t, x11t );
+
+            double xr0t = blend_112 ( r, t, x000, x001, x100, x101, xr00, xr01, x00t, x10t );
+
+            double xr1t = blend_112 ( r, t, x010, x011, x110, x111, xr10, xr11, x01t, x11t );
+
+            double xrs0 = blend_112 ( r, s, x000, x010, x100, x110, xr00, xr10, x0s0, x1s0 );
+
+            double xrs1 = blend_112 ( r, s, x001, x011, x101, x111, xr01, xr11, x0s1, x1s1 );
+            //
+            //  Interpolate the I-th coordinate component of the interior point.
+            //
+            ret[i] = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101,
+                x110, x111, xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1,
+                x00t, x01t, x10t, x11t, x0st, x1st, xr0t, xr1t, xrs0, xrs1
+            );
+
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_rst_1dn ( double r, double s, double t, double[] x, int n,
+    public static double[] blend_rst_1dn ( double r, double s, double t, double[] x, int n,
             Func< double, double, double, int, double > bound_rst )
 
         //****************************************************************************80
@@ -1855,72 +1854,72 @@ namespace Burkardt.Blend
         //
         //      void bound_rst ( r, s, t, i, xi )
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-            for (int i = 0; i < n; i++ )
-            {
-                //
-                //  Get the I-th coordinate component at the corners.
-                //
-                double x000 = bound_rst ( 0.0, 0.0, 0.0, i );
-                double x001 = bound_rst ( 0.0, 0.0, 1.0, i );
-                double x010 = bound_rst ( 0.0, 1.0, 0.0, i );
-                double x011 = bound_rst ( 0.0, 1.0, 1.0, i );
-                double x100 = bound_rst ( 1.0, 0.0, 0.0, i );
-                double x101 = bound_rst ( 1.0, 0.0, 1.0, i );
-                double x110 = bound_rst ( 1.0, 1.0, 0.0, i );
-                double x111 = bound_rst ( 1.0, 1.0, 1.0, i );
-                //
-                //  Get the I-th coordinate component at the edges.
-                //
-                double xr00 = bound_rst ( r, 0.0, 0.0, i );
-                double xr01 = bound_rst ( r, 0.0, 1.0, i );
-                double xr10 = bound_rst ( r, 1.0, 0.0, i );
-                double xr11 = bound_rst ( r, 1.0, 1.0, i );
-
-                double x0s0 = bound_rst ( 0.0, s, 0.0, i );
-                double x0s1 = bound_rst ( 0.0, s, 1.0, i );
-                double x1s0 = bound_rst ( 1.0, s, 0.0, i );
-                double x1s1 = bound_rst ( 1.0, s, 1.0, i );
-
-                double x00t = bound_rst ( 0.0, 0.0, t, i );
-                double x01t = bound_rst ( 0.0, 1.0, t, i );
-                double x10t = bound_rst ( 1.0, 0.0, t, i );
-                double x11t = bound_rst ( 1.0, 1.0, t, i );
-                //
-                //  Interpolate the I-th component on the faces.
-                //
-                double x0st = blend_112 ( s, t, x000, x001, x010, x011, x0s0, x0s1, x00t, x01t );
-
-                double x1st = blend_112 ( s, t, x100, x101, x110, x111, x1s0, x1s1, x10t, x11t );
-
-                double xr0t = blend_112 ( r, t, x000, x001, x100, x101, xr00, xr01, x00t, x10t );
-
-                double xr1t = blend_112 ( r, t, x010, x011, x110, x111, xr10, xr11, x01t, x11t );
-
-                double xrs0 = blend_112 ( r, s, x000, x010, x100, x110, xr00, xr10, x0s0, x1s0 );
-
-                double xrs1 = blend_112 ( r, s, x001, x011, x101, x111, xr01, xr11, x0s1, x1s1 );
-                //
-                //  Interpolate the I-th coordinate component of the interior point.
-                //
-                ret[i] = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101,
-                    x110, x111, xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1,
-                    x00t, x01t, x10t, x11t, x0st, x1st, xr0t, xr1t, xrs0, xrs1
-                );
-
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
 
+        for (int i = 0; i < n; i++ )
+        {
+            //
+            //  Get the I-th coordinate component at the corners.
+            //
+            double x000 = bound_rst ( 0.0, 0.0, 0.0, i );
+            double x001 = bound_rst ( 0.0, 0.0, 1.0, i );
+            double x010 = bound_rst ( 0.0, 1.0, 0.0, i );
+            double x011 = bound_rst ( 0.0, 1.0, 1.0, i );
+            double x100 = bound_rst ( 1.0, 0.0, 0.0, i );
+            double x101 = bound_rst ( 1.0, 0.0, 1.0, i );
+            double x110 = bound_rst ( 1.0, 1.0, 0.0, i );
+            double x111 = bound_rst ( 1.0, 1.0, 1.0, i );
+            //
+            //  Get the I-th coordinate component at the edges.
+            //
+            double xr00 = bound_rst ( r, 0.0, 0.0, i );
+            double xr01 = bound_rst ( r, 0.0, 1.0, i );
+            double xr10 = bound_rst ( r, 1.0, 0.0, i );
+            double xr11 = bound_rst ( r, 1.0, 1.0, i );
+
+            double x0s0 = bound_rst ( 0.0, s, 0.0, i );
+            double x0s1 = bound_rst ( 0.0, s, 1.0, i );
+            double x1s0 = bound_rst ( 1.0, s, 0.0, i );
+            double x1s1 = bound_rst ( 1.0, s, 1.0, i );
+
+            double x00t = bound_rst ( 0.0, 0.0, t, i );
+            double x01t = bound_rst ( 0.0, 1.0, t, i );
+            double x10t = bound_rst ( 1.0, 0.0, t, i );
+            double x11t = bound_rst ( 1.0, 1.0, t, i );
+            //
+            //  Interpolate the I-th component on the faces.
+            //
+            double x0st = blend_112 ( s, t, x000, x001, x010, x011, x0s0, x0s1, x00t, x01t );
+
+            double x1st = blend_112 ( s, t, x100, x101, x110, x111, x1s0, x1s1, x10t, x11t );
+
+            double xr0t = blend_112 ( r, t, x000, x001, x100, x101, xr00, xr01, x00t, x10t );
+
+            double xr1t = blend_112 ( r, t, x010, x011, x110, x111, xr10, xr11, x01t, x11t );
+
+            double xrs0 = blend_112 ( r, s, x000, x010, x100, x110, xr00, xr10, x0s0, x1s0 );
+
+            double xrs1 = blend_112 ( r, s, x001, x011, x101, x111, xr01, xr11, x0s1, x1s1 );
+            //
+            //  Interpolate the I-th coordinate component of the interior point.
+            //
+            ret[i] = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101,
+                x110, x111, xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1,
+                x00t, x01t, x10t, x11t, x0st, x1st, xr0t, xr1t, xrs0, xrs1
+            );
+
+        }
+
+        return ret;
+    }
+
         
-        public static double[] blend_rst_2dn ( double r, double s, double t, double[] x, int n,
+    public static double[] blend_rst_2dn ( double r, double s, double t, double[] x, int n,
             Func< double, double, double, int, double > bound_rst )
 
         //****************************************************************************80
@@ -2005,67 +2004,66 @@ namespace Burkardt.Blend
         //
         //      void bound_rst ( r, s, t, i, xi )
         //
+    {
+        double[] ret = new double[x.Length];
+        for (int i = 0; i < ret.Length; i++)
         {
-            double[] ret = new double[x.Length];
-            for (int i = 0; i < ret.Length; i++)
-            {
-                ret[i] = x[i];
-            }
-
-
-            for (int i = 0; i < n; i++ )
-            {
-                //
-                //  Get the I-th coordinate component at the corners.
-                //
-                double x000 = bound_rst ( 0.0, 0.0, 0.0, i );
-                double x001 = bound_rst ( 0.0, 0.0, 1.0, i );
-                double x010 = bound_rst ( 0.0, 1.0, 0.0, i );
-                double x011 = bound_rst ( 0.0, 1.0, 1.0, i );
-                double x100 = bound_rst ( 1.0, 0.0, 0.0, i );
-                double x101 = bound_rst ( 1.0, 0.0, 1.0, i );
-                double x110 = bound_rst ( 1.0, 1.0, 0.0, i );
-                double x111 = bound_rst ( 1.0, 1.0, 1.0, i );
-                //
-                //  Get the I-th coordinate component at the edges.
-                //
-                double xr00 = bound_rst ( r, 0.0, 0.0, i );
-                double xr01 = bound_rst ( r, 0.0, 1.0, i );
-                double xr10 = bound_rst ( r, 1.0, 0.0, i );
-                double xr11 = bound_rst ( r, 1.0, 1.0, i );
-
-                double x0s0 = bound_rst ( 0.0, s, 0.0, i );
-                double x0s1 = bound_rst ( 0.0, s, 1.0, i );
-                double x1s0 = bound_rst ( 1.0, s, 0.0, i );
-                double x1s1 = bound_rst ( 1.0, s, 1.0, i );
-
-                double x00t = bound_rst ( 0.0, 0.0, t, i );
-                double x01t = bound_rst ( 0.0, 1.0, t, i );
-                double x10t = bound_rst ( 1.0, 0.0, t, i );
-                double x11t = bound_rst ( 1.0, 1.0, t, i );
-                //
-                //  Get the I-th component on the faces.
-                //
-                double x0st = bound_rst ( 0.0, s, t, i );
-                double x1st = bound_rst ( 1.0, s, t, i );
-                double xr0t = bound_rst ( r, 0.0, t, i );
-                double xr1t = bound_rst ( r, 1.0, t, i );
-                double xrs0 = bound_rst ( r, s, 0.0, i );
-                double xrs1 = bound_rst ( r, s, 1.0, i );
-                //
-                //  Interpolate the I-th coordinate component of the interior point.
-                //
-                ret[i] = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101,
-                    x110, x111, xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1,
-                    x00t, x01t, x10t, x11t, x0st, x1st, xr0t, xr1t, xrs0, xrs1
-                );
-
-            }
-
-            return ret;
+            ret[i] = x[i];
         }
+
+
+        for (int i = 0; i < n; i++ )
+        {
+            //
+            //  Get the I-th coordinate component at the corners.
+            //
+            double x000 = bound_rst ( 0.0, 0.0, 0.0, i );
+            double x001 = bound_rst ( 0.0, 0.0, 1.0, i );
+            double x010 = bound_rst ( 0.0, 1.0, 0.0, i );
+            double x011 = bound_rst ( 0.0, 1.0, 1.0, i );
+            double x100 = bound_rst ( 1.0, 0.0, 0.0, i );
+            double x101 = bound_rst ( 1.0, 0.0, 1.0, i );
+            double x110 = bound_rst ( 1.0, 1.0, 0.0, i );
+            double x111 = bound_rst ( 1.0, 1.0, 1.0, i );
+            //
+            //  Get the I-th coordinate component at the edges.
+            //
+            double xr00 = bound_rst ( r, 0.0, 0.0, i );
+            double xr01 = bound_rst ( r, 0.0, 1.0, i );
+            double xr10 = bound_rst ( r, 1.0, 0.0, i );
+            double xr11 = bound_rst ( r, 1.0, 1.0, i );
+
+            double x0s0 = bound_rst ( 0.0, s, 0.0, i );
+            double x0s1 = bound_rst ( 0.0, s, 1.0, i );
+            double x1s0 = bound_rst ( 1.0, s, 0.0, i );
+            double x1s1 = bound_rst ( 1.0, s, 1.0, i );
+
+            double x00t = bound_rst ( 0.0, 0.0, t, i );
+            double x01t = bound_rst ( 0.0, 1.0, t, i );
+            double x10t = bound_rst ( 1.0, 0.0, t, i );
+            double x11t = bound_rst ( 1.0, 1.0, t, i );
+            //
+            //  Get the I-th component on the faces.
+            //
+            double x0st = bound_rst ( 0.0, s, t, i );
+            double x1st = bound_rst ( 1.0, s, t, i );
+            double xr0t = bound_rst ( r, 0.0, t, i );
+            double xr1t = bound_rst ( r, 1.0, t, i );
+            double xrs0 = bound_rst ( r, s, 0.0, i );
+            double xrs1 = bound_rst ( r, s, 1.0, i );
+            //
+            //  Interpolate the I-th coordinate component of the interior point.
+            //
+            ret[i] = blend_123 ( r, s, t, x000, x001, x010, x011, x100, x101,
+                x110, x111, xr00, xr01, xr10, xr11, x0s0, x0s1, x1s0, x1s1,
+                x00t, x01t, x10t, x11t, x0st, x1st, xr0t, xr1t, xrs0, xrs1
+            );
+
+        }
+
+        return ret;
+    }
 
         
 
-    }
 }

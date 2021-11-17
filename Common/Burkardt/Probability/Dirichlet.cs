@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Dirichlet
 {
-    public static class Dirichlet
-    {
-        public static bool dirichlet_check(int n, double[] a)
+    public static bool dirichlet_check(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,39 +33,40 @@ namespace Burkardt.Probability
         //
         //    Output, bool DIRICHLET_CHECK, is true if the parameters are legal.
         //
+    {
+        int i;
+
+        bool positive = false;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-
-            bool positive = false;
-
-            for (i = 0; i < n; i++)
+            switch (a[i])
             {
-                if (a[i] <= 0.0)
-                {
+                case <= 0.0:
                     Console.WriteLine(" ");
                     Console.WriteLine("DIRICHLET_CHECK - Warning!");
                     Console.WriteLine("  A[" + i + "] <= 0.");
                     Console.WriteLine("  A[" + i + "] = " + a[i] + ".");
                     return false;
-                }
-                else if (0.0 < a[i])
-                {
+                case > 0.0:
                     positive = true;
-                }
+                    break;
             }
+        }
 
-            if (!positive)
-            {
+        switch (positive)
+        {
+            case false:
                 Console.WriteLine(" ");
                 Console.WriteLine("DIRICHLET_CHECK - Warning!");
                 Console.WriteLine("  All parameters are zero!");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double[] dirichlet_mean(int n, double[] a)
+    public static double[] dirichlet_mean(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -93,20 +94,20 @@ namespace Burkardt.Probability
         //
         //    Output, double DIRICHLET_MEAN[N], the means of the PDF.
         //
+    {
+        double[] mean = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] mean = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                mean[i] = a[i];
-            }
-
-            typeMethods.r8vec_unit_sum(n, ref mean);
-
-            return mean;
+            mean[i] = a[i];
         }
 
-        public static double[] dirichlet_moment2(int n, double[] a)
+        typeMethods.r8vec_unit_sum(n, ref mean);
+
+        return mean;
+    }
+
+    public static double[] dirichlet_moment2(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -134,30 +135,30 @@ namespace Burkardt.Probability
         //
         //    Output, double DIRICHLET_MOMENT[N*N], the second moments of the PDF.
         //
+    {
+        double[] m2 = new double[n * n];
+
+        double a_sum = typeMethods.r8vec_sum(n, a);
+
+        for (int i = 0; i < n; i++)
         {
-            double[] m2 = new double[n * n];
-
-            double a_sum = typeMethods.r8vec_sum(n, a);
-
-            for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
             {
-                for (int j = 0; j < n; j++)
+                if (i == j)
                 {
-                    if (i == j)
-                    {
-                        m2[i + j * n] = a[i] * (a[i] + 1.0) / (a_sum * (a_sum + 1.0));
-                    }
-                    else
-                    {
-                        m2[i + j * n] = a[i] * a[j] / (a_sum * (a_sum + 1.0));
-                    }
+                    m2[i + j * n] = a[i] * (a[i] + 1.0) / (a_sum * (a_sum + 1.0));
+                }
+                else
+                {
+                    m2[i + j * n] = a[i] * a[j] / (a_sum * (a_sum + 1.0));
                 }
             }
-
-            return m2;
         }
 
-        public static double dirichlet_pdf(double[] x, int n, double[] a )
+        return m2;
+    }
+
+    public static double dirichlet_pdf(double[] x, int n, double[] a )
         //****************************************************************************80
         //
         //  Purpose:
@@ -201,54 +202,55 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
-            double a_prod;
-            double a_sum;
-            int i;
-            double pdf;
-            double tol = 0.0001;
-            double x_sum;
+    {
+        double a_prod;
+        double a_sum;
+        int i;
+        double pdf;
+        double tol = 0.0001;
+        double x_sum;
 
-            for (i = 0; i < n; i++)
+        for (i = 0; i < n; i++)
+        {
+            switch (x[i])
             {
-                if (x[i] <= 0.0)
-                {
+                case <= 0.0:
                     Console.WriteLine(" ");
                     Console.WriteLine("DIRICHLET_PDF - Fatal error!");
                     Console.WriteLine("  X(I) <= 0.");
-                    return (1);
-                }
+                    return 1;
             }
-
-            x_sum = typeMethods.r8vec_sum(n, x);
-
-            if (tol < Math.Abs(x_sum - 1.0))
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("DIRICHLET_PDF - Fatal error!");
-                Console.WriteLine("  SUM X(I) =/= 1.");
-                return (1);
-            }
-
-            a_sum = typeMethods.r8vec_sum(n, a);
-
-            a_prod = 1.0;
-            for (i = 0; i < n; i++)
-            {
-                a_prod = a_prod * Helpers.Gamma(a[i]);
-            }
-
-            pdf = Helpers.Gamma(a_sum) / a_prod;
-
-            for (i = 0; i < n; i++)
-            {
-                pdf = pdf * Math.Pow(x[i], a[i] - 1.0);
-            }
-
-            return pdf;
         }
 
-        public static double[] dirichlet_sample(int n, double[] a, ref int seed )
+        x_sum = typeMethods.r8vec_sum(n, x);
+
+        if (tol < Math.Abs(x_sum - 1.0))
+        {
+            Console.WriteLine(" ");
+            Console.WriteLine("DIRICHLET_PDF - Fatal error!");
+            Console.WriteLine("  SUM X(I) =/= 1.");
+            return 1;
+        }
+
+        a_sum = typeMethods.r8vec_sum(n, a);
+
+        a_prod = 1.0;
+        for (i = 0; i < n; i++)
+        {
+            a_prod *= Helpers.Gamma(a[i]);
+        }
+
+        pdf = Helpers.Gamma(a_sum) / a_prod;
+
+        for (i = 0; i < n; i++)
+        {
+            pdf *= Math.Pow(x[i], a[i] - 1.0);
+        }
+
+        return pdf;
+    }
+
+    public static double[] dirichlet_sample(int n, double[] a, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -285,27 +287,27 @@ namespace Burkardt.Probability
         //    Output, double DIRICHLET_SAMPLE[N], a sample of the PDF.  The entries
         //    of X should sum to 1.
         //
+    {
+        double[] x = new double[n];
+
+        double a2 = 0.0;
+        double b2 = 1.0;
+
+        for (int i = 0; i < n; i++)
         {
-            double[] x = new double[n];
-
-            double a2 = 0.0;
-            double b2 = 1.0;
-
-            for (int i = 0; i < n; i++)
-            {
-                double c2 = a[i];
-                x[i] = Gamma.gamma_sample(a2, b2, c2, ref seed);
-            }
-
-            //
-            //  Rescale the vector to have unit sum.
-            //
-            typeMethods.r8vec_unit_sum(n, ref x);
-
-            return x;
+            double c2 = a[i];
+            x[i] = Gamma.gamma_sample(a2, b2, c2, ref seed);
         }
 
-        public static double[] dirichlet_variance(int n, double[] a)
+        //
+        //  Rescale the vector to have unit sum.
+        //
+        typeMethods.r8vec_unit_sum(n, ref x);
+
+        return x;
+    }
+
+    public static double[] dirichlet_variance(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -333,21 +335,21 @@ namespace Burkardt.Probability
         //
         //    Output, double DIRICHLET_VARIANCE(N), the variances of the PDF.
         //
+    {
+        double[] variance = new double[n];
+
+        double a_sum = typeMethods.r8vec_sum(n, a);
+
+        for (int i = 0; i < n; i++)
         {
-            double[] variance = new double[n];
-
-            double a_sum = typeMethods.r8vec_sum(n, a);
-
-            for (int i = 0; i < n; i++)
-            {
-                variance[i] = a[i] * (a_sum - a[i]) / (a_sum * a_sum * (a_sum + 1.0));
-            }
-
-            return variance;
+            variance[i] = a[i] * (a_sum - a[i]) / (a_sum * a_sum * (a_sum + 1.0));
         }
 
-        public static bool dirichlet_mix_check(int comp_num, int elem_num, double[] a,
-        double[] comp_weight )
+        return variance;
+    }
+
+    public static bool dirichlet_mix_check(int comp_num, int elem_num, double[] a,
+            double[] comp_weight )
         //****************************************************************************80
         //
         //  Purpose:
@@ -385,13 +387,14 @@ namespace Burkardt.Probability
         //
         //    Output, bool DIRICHLET_MIX_CHECK, is true if the parameters are legal.
         //
+    {
+        for (int comp_i = 0; comp_i < comp_num; comp_i++)
         {
-            for (int comp_i = 0; comp_i < comp_num; comp_i++)
+            for (int elem_i = 0; elem_i < elem_num; elem_i++)
             {
-                for (int elem_i = 0; elem_i < elem_num; elem_i++)
+                switch (a[elem_i + comp_i * elem_num])
                 {
-                    if (a[elem_i + comp_i * elem_num] <= 0.0)
-                    {
+                    case <= 0.0:
                         Console.WriteLine(" ");
                         Console.WriteLine("DIRICHLET_MIX_CHECK - Warning!");
                         Console.WriteLine("  A(ELEM,COMP) <= 0.");
@@ -399,42 +402,43 @@ namespace Burkardt.Probability
                         Console.WriteLine("  ELEM = " + elem_i + "");
                         Console.WriteLine("  A(COMP,ELEM) = " + a[elem_i + comp_i * elem_num] + "");
                         return false;
-                    }
                 }
             }
+        }
 
-            bool positive = false;
+        bool positive = false;
 
-            for (int comp_i = 0; comp_i < comp_num; comp_i++)
+        for (int comp_i = 0; comp_i < comp_num; comp_i++)
+        {
+            switch (comp_weight[comp_i])
             {
-                if (comp_weight[comp_i] < 0.0)
-                {
+                case < 0.0:
                     Console.WriteLine(" ");
                     Console.WriteLine("DIRICHLET_MIX_CHECK - Warning!");
                     Console.WriteLine("  COMP_WEIGHT(COMP) < 0.");
                     Console.WriteLine("  COMP = " + comp_i + "");
                     Console.WriteLine("  COMP_WEIGHT(COMP) = " + comp_weight[comp_i] + "");
                     return false;
-                }
-                else if (0.0 < comp_weight[comp_i])
-                {
+                case > 0.0:
                     positive = true;
-                }
+                    break;
             }
+        }
 
-            if (!positive)
-            {
+        switch (positive)
+        {
+            case false:
                 Console.WriteLine(" ");
                 Console.WriteLine("DIRICHLET_MIX_CHECK - Warning!");
                 Console.WriteLine("  All component weights are zero.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double[] dirichlet_mix_mean(int comp_num, int elem_num, double[] a,
-        double[] comp_weight )
+    public static double[] dirichlet_mix_mean(int comp_num, int elem_num, double[] a,
+            double[] comp_weight )
         //****************************************************************************80
         //
         //  Purpose:
@@ -472,44 +476,44 @@ namespace Burkardt.Probability
         //
         //    Output, double DIRICHLET_MIX_MEAN[ELEM_NUM], the means for each element.
         //
+    {
+        double[] a_vec = new double[elem_num];
+        double[] mean = new double[elem_num];
+
+        double comp_weight_sum = 0.0;
+        for (int comp_i = 0; comp_i < comp_num; comp_i++)
         {
-            double[] a_vec = new double[elem_num];
-            double[] mean = new double[elem_num];
-
-            double comp_weight_sum = 0.0;
-            for (int comp_i = 0; comp_i < comp_num; comp_i++)
-            {
-                comp_weight_sum = comp_weight_sum + comp_weight[comp_i];
-            }
-
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
-            {
-                mean[elem_i] = 0.0;
-            }
-
-            for (int comp_i = 0; comp_i < comp_num; comp_i++)
-            {
-                for (int elem_i = 0; elem_i < elem_num; elem_i++)
-                {
-                    a_vec[elem_i] = a[elem_i + comp_i * elem_num];
-                }
-
-                double[] comp_mean = dirichlet_mean(elem_num, a_vec);
-                for (int elem_i = 0; elem_i < elem_num; elem_i++)
-                {
-                    mean[elem_i] = mean[elem_i] + comp_weight[comp_i] * comp_mean[elem_i];
-                }
-            }
-
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
-            {
-                mean[elem_i] = mean[elem_i] / comp_weight_sum;
-            }
-            return mean;
+            comp_weight_sum += comp_weight[comp_i];
         }
 
-        public static double dirichlet_mix_pdf(double[] x, int comp_num, int elem_num, double[] a,
-        double[] comp_weight )
+        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        {
+            mean[elem_i] = 0.0;
+        }
+
+        for (int comp_i = 0; comp_i < comp_num; comp_i++)
+        {
+            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            {
+                a_vec[elem_i] = a[elem_i + comp_i * elem_num];
+            }
+
+            double[] comp_mean = dirichlet_mean(elem_num, a_vec);
+            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            {
+                mean[elem_i] += comp_weight[comp_i] * comp_mean[elem_i];
+            }
+        }
+
+        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        {
+            mean[elem_i] /= comp_weight_sum;
+        }
+        return mean;
+    }
+
+    public static double dirichlet_mix_pdf(double[] x, int comp_num, int elem_num, double[] a,
+            double[] comp_weight )
         //****************************************************************************80
         //
         //  Purpose:
@@ -554,32 +558,32 @@ namespace Burkardt.Probability
         //
         //    Output, double DIRICHLET_MIX_PDF, the value of the PDF.
         //
+    {
+        double[] a_vec = new double[elem_num];
+
+        double comp_weight_sum = 0.0;
+        for (int j = 0; j < comp_num; j++)
         {
-            double[] a_vec = new double[elem_num];
-
-            double comp_weight_sum = 0.0;
-            for (int j = 0; j < comp_num; j++)
-            {
-                comp_weight_sum = comp_weight_sum + comp_weight[j];
-            }
-
-            double pdf = 0.0;
-            for (int j = 0; j < comp_num; j++)
-            {
-                for (int i = 0; i < elem_num; i++)
-                {
-                    a_vec[i] = a[i + j * elem_num];
-                }
-
-                double comp_pdf = dirichlet_pdf(x, elem_num, a_vec);
-
-                pdf = pdf + comp_weight[j] * comp_pdf / comp_weight_sum;
-            }
-            return pdf;
+            comp_weight_sum += comp_weight[j];
         }
 
-        public static double[] dirichlet_mix_sample(int comp_num, int elem_num, double[] a,
-        double[] comp_weight, ref int seed, ref int comp )
+        double pdf = 0.0;
+        for (int j = 0; j < comp_num; j++)
+        {
+            for (int i = 0; i < elem_num; i++)
+            {
+                a_vec[i] = a[i + j * elem_num];
+            }
+
+            double comp_pdf = dirichlet_pdf(x, elem_num, a_vec);
+
+            pdf += comp_weight[j] * comp_pdf / comp_weight_sum;
+        }
+        return pdf;
+    }
+
+    public static double[] dirichlet_mix_sample(int comp_num, int elem_num, double[] a,
+            double[] comp_weight, ref int seed, ref int comp )
         //****************************************************************************80
         //
         //  Purpose:
@@ -622,26 +626,26 @@ namespace Burkardt.Probability
         //
         //    Output, double DIRICHLET_MIX_SAMPLE[ELEM_NUM], a sample of the PDF.
         //
+    {
+        double[] a_vec = new double[elem_num];
+        //
+        //  Choose a particular density component COMP.
+        //
+        comp = Discrete.discrete_sample(comp_num, comp_weight, ref seed);
+        //
+        //  Sample the density number COMP.
+        //
+        for (int elem_i = 0; elem_i < elem_num; elem_i++)
         {
-            double[] a_vec = new double[elem_num];
-            //
-            //  Choose a particular density component COMP.
-            //
-            comp = Discrete.discrete_sample(comp_num, comp_weight, ref seed);
-            //
-            //  Sample the density number COMP.
-            //
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
-            {
-                a_vec[elem_i] = a[elem_i + (comp - 1) * elem_num];
-            }
-
-            double[] x = dirichlet_sample(elem_num, a_vec, ref seed);
-            
-            return x;
+            a_vec[elem_i] = a[elem_i + (comp - 1) * elem_num];
         }
 
-        public static double dirichlet_multinomial_pdf(int[] x, int a, int b, double[] c )
+        double[] x = dirichlet_sample(elem_num, a_vec, ref seed);
+            
+        return x;
+    }
+
+    public static double dirichlet_multinomial_pdf(int[] x, int a, int b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -692,26 +696,25 @@ namespace Burkardt.Probability
         //    Output, double DIRICHLET_MULTINOMIAL_PDF, the value of the Dirichlet
         //     multinomial PDF.
         //
+    {
+        double c_sum;
+        int i;
+        double pdf;
+        double pdf_log;
+
+        c_sum = typeMethods.r8vec_sum(b, c);
+
+        pdf_log = -Helpers.LogGamma(c_sum + a) + Helpers.LogGamma(c_sum)
+                                               + Helpers.LogGamma(a + 1);
+
+        for (i = 0; i < b; i++)
         {
-            double c_sum;
-            int i;
-            double pdf;
-            double pdf_log;
-
-            c_sum = typeMethods.r8vec_sum(b, c);
-
-            pdf_log = -Helpers.LogGamma(c_sum + (double) (a)) + Helpers.LogGamma(c_sum)
-                                                    + Helpers.LogGamma((double) (a + 1));
-
-            for (i = 0; i < b; i++)
-            {
-                pdf_log = pdf_log + Helpers.LogGamma(c[i] + (double) (x[i]))
-                          - Helpers.LogGamma(c[i]) - Helpers.LogGamma((double) (x[i] + 1));
-            }
-
-            pdf = Math.Exp(pdf_log);
-
-            return pdf;
+            pdf_log = pdf_log + Helpers.LogGamma(c[i] + x[i])
+                      - Helpers.LogGamma(c[i]) - Helpers.LogGamma(x[i] + 1);
         }
+
+        pdf = Math.Exp(pdf_log);
+
+        return pdf;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DCHDC
 {
-    public static class DCHDC
-    {
-        public static int dchdc(ref double[] a, int lda, int p, double[] work, ref int[] ipvt, int job )
+    public static int dchdc(ref double[] a, int lda, int p, double[] work, ref int[] ipvt, int job )
 
         //****************************************************************************80
         //
@@ -93,45 +93,44 @@ namespace Burkardt.Linpack
         //    Output, int DCHDC, contains the index of the last positive diagonal
         //    element of the Cholesky factor.
         //
+    {
+        int info;
+        int j;
+        int jp;
+        int jt;
+        int k;
+        int l;
+        double maxdia;
+        int maxl;
+        bool negk;
+        int pl;
+        int pu;
+        bool swapk;
+        double temp;
+
+        pl = 1;
+        pu = 0;
+        info = p;
+        //
+        //  Pivoting has been requested.
+        //  Rearrange the the elements according to IPVT.
+        //
+        if (job != 0)
         {
-            int info;
-            int j;
-            int jp;
-            int jt;
-            int k;
-            int l;
-            double maxdia;
-            int maxl;
-            bool negk;
-            int pl;
-            int pu;
-            bool swapk;
-            double temp;
-
-            pl = 1;
-            pu = 0;
-            info = p;
-            //
-            //  Pivoting has been requested.
-            //  Rearrange the the elements according to IPVT.
-            //
-            if (job != 0)
+            for (k = 1; k <= p; k++)
             {
-                for (k = 1; k <= p; k++)
+                swapk = 0 < ipvt[k - 1];
+                negk = ipvt[k - 1] < 0;
+
+                ipvt[k - 1] = negk switch
                 {
-                    swapk = (0 < ipvt[k - 1]);
-                    negk = (ipvt[k - 1] < 0);
+                    true => -k,
+                    _ => k
+                };
 
-                    if (negk)
-                    {
-                        ipvt[k - 1] = -k;
-                    }
-                    else
-                    {
-                        ipvt[k - 1] = k;
-                    }
-
-                    if (swapk)
+                switch (swapk)
+                {
+                    case true:
                     {
                         if (k != pl)
                         {
@@ -161,15 +160,19 @@ namespace Burkardt.Linpack
                             ipvt[pl - 1] = k;
                         }
 
-                        pl = pl + 1;
+                        pl += 1;
+                        break;
                     }
                 }
+            }
 
-                pu = p;
+            pu = p;
 
-                for (k = p; pl <= k; k--)
+            for (k = p; pl <= k; k--)
+            {
+                switch (ipvt[k - 1])
                 {
-                    if (ipvt[k - 1] < 0)
+                    case < 0:
                     {
                         ipvt[k - 1] = -ipvt[k - 1];
 
@@ -202,88 +205,90 @@ namespace Burkardt.Linpack
                             ipvt[pu - 1] = jt;
                         }
 
-                        pu = pu - 1;
+                        pu -= 1;
+                        break;
+                    }
+                }
+            }
+        }
+
+        for (k = 1; k <= p; k++)
+        {
+            //
+            //  Reduction loop.
+            //
+            maxdia = a[k - 1 + (k - 1) * lda];
+            maxl = k;
+            //
+            //  Determine the pivot element.
+            //
+            if (pl <= k && k < pu)
+            {
+                for (l = k + 1; l <= pu; l++)
+                {
+                    if (maxdia < a[l - 1 + (l - 1) * lda])
+                    {
+                        maxdia = a[l - 1 + (l - 1) * lda];
+                        maxl = l;
                     }
                 }
             }
 
-            for (k = 1; k <= p; k++)
+            switch (maxdia)
             {
-                //
-                //  Reduction loop.
-                //
-                maxdia = a[k - 1 + (k - 1) * lda];
-                maxl = k;
-                //
-                //  Determine the pivot element.
-                //
-                if (pl <= k && k < pu)
-                {
-                    for (l = k + 1; l <= pu; l++)
-                    {
-                        if (maxdia < a[l - 1 + (l - 1) * lda])
-                        {
-                            maxdia = a[l - 1 + (l - 1) * lda];
-                            maxl = l;
-                        }
-                    }
-                }
-
                 //
                 //  Quit if the pivot element is not positive.
                 //
-                if (maxdia <= 0.0)
-                {
+                case <= 0.0:
                     info = k - 1;
                     return info;
-                }
-
-                //
-                //  Start the pivoting and update IPVT.
-                //
-                if (k != maxl)
-                {
-                    BLAS1D.dswap(k - 1, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (maxl - 1) * lda);
-                    a[maxl - 1 + (maxl - 1) * lda] = a[k - 1 + (k - 1) * lda];
-                    a[k - 1 + (k - 1) * lda] = maxdia;
-                    jp = ipvt[maxl - 1];
-                    ipvt[maxl - 1] = ipvt[k - 1];
-                    ipvt[k - 1] = jp;
-                }
-
-                //
-                //  Reduction step.
-                //  Pivoting is contained across the rows.
-                //
-                work[k - 1] = Math.Sqrt(a[k - 1 + (k - 1) * lda]);
-                a[k - 1 + (k - 1) * lda] = work[k - 1];
-
-                for (j = k + 1; j <= p; j++)
-                {
-                    if (k != maxl)
-                    {
-                        if (j < maxl)
-                        {
-                            temp = a[k - 1 + (j - 1) * lda];
-                            a[k - 1 + (j - 1) * lda] = a[j - 1 + (maxl - 1) * lda];
-                            a[j - 1 + (maxl - 1) * lda] = temp;
-                        }
-                        else if (maxl < j)
-                        {
-                            temp = a[k - 1 + (j - 1) * lda];
-                            a[k - 1 + (j - 1) * lda] = a[maxl - 1 + (j - 1) * lda];
-                            a[maxl - 1 + (j - 1) * lda] = temp;
-                        }
-                    }
-
-                    a[k - 1 + (j - 1) * lda] = a[k - 1 + (j - 1) * lda] / work[k - 1];
-                    work[j - 1] = a[k - 1 + (j - 1) * lda];
-                    temp = -a[k - 1 + (j - 1) * lda];
-                    BLAS1D.daxpy(j - k, temp, work, 1, ref a, 1, xIndex: + k, yIndex:  + k + (j - 1) * lda);
-                }
             }
 
-            return info;
+            //
+            //  Start the pivoting and update IPVT.
+            //
+            if (k != maxl)
+            {
+                BLAS1D.dswap(k - 1, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (maxl - 1) * lda);
+                a[maxl - 1 + (maxl - 1) * lda] = a[k - 1 + (k - 1) * lda];
+                a[k - 1 + (k - 1) * lda] = maxdia;
+                jp = ipvt[maxl - 1];
+                ipvt[maxl - 1] = ipvt[k - 1];
+                ipvt[k - 1] = jp;
+            }
+
+            //
+            //  Reduction step.
+            //  Pivoting is contained across the rows.
+            //
+            work[k - 1] = Math.Sqrt(a[k - 1 + (k - 1) * lda]);
+            a[k - 1 + (k - 1) * lda] = work[k - 1];
+
+            for (j = k + 1; j <= p; j++)
+            {
+                if (k != maxl)
+                {
+                    if (j < maxl)
+                    {
+                        temp = a[k - 1 + (j - 1) * lda];
+                        a[k - 1 + (j - 1) * lda] = a[j - 1 + (maxl - 1) * lda];
+                        a[j - 1 + (maxl - 1) * lda] = temp;
+                    }
+                    else if (maxl < j)
+                    {
+                        temp = a[k - 1 + (j - 1) * lda];
+                        a[k - 1 + (j - 1) * lda] = a[maxl - 1 + (j - 1) * lda];
+                        a[maxl - 1 + (j - 1) * lda] = temp;
+                    }
+                }
+
+                a[k - 1 + (j - 1) * lda] /= work[k - 1];
+                work[j - 1] = a[k - 1 + (j - 1) * lda];
+                temp = -a[k - 1 + (j - 1) * lda];
+                BLAS1D.daxpy(j - k, temp, work, 1, ref a, 1, xIndex: + k, yIndex:  + k + (j - 1) * lda);
+            }
         }
+
+        return info;
     }
 }

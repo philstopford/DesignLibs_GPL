@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
 
-namespace ASA047Test
+namespace ASA047Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -28,23 +28,23 @@ namespace ASA047Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ASA047_TEST:");
-            Console.WriteLine("  Test the ASA047 library.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("ASA047_TEST:");
+        Console.WriteLine("  Test the ASA047 library.");
 
-            test01 ( );
-            test02 ( );
-            test03 ( );
-            test04 ( );
+        test01 ( );
+        test02 ( );
+        test03 ( );
+        test04 ( );
 
-            Console.WriteLine("");
-            Console.WriteLine("ASA047_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
-        
-        static void test01 ( )
+        Console.WriteLine("");
+        Console.WriteLine("ASA047_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
+
+    private static void test01 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,67 +63,67 @@ namespace ASA047Test
         //
         //    John Burkardt
         //
+    {
+        int icount = 0;
+        int ifault = 0;
+        int numres = 0;
+
+        int n = 2;
+
+        double[] start = new double[n];
+        double[] step = new double[n];
+        double[] xmin = new double[n];
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST01");
+        Console.WriteLine("  Apply NELMIN to ROSENBROCK function.");
+
+        start[0] = -1.2;
+        start[1] =  1.0;
+
+        double reqmin = 1.0E-08;
+
+        step[0] = 1.0;
+        step[1] = 1.0;
+
+        int konvge = 10;
+        int kcount = 500;
+
+        Console.WriteLine("");
+        Console.WriteLine("  Starting point X:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
         {
-            int icount = 0;
-            int ifault = 0;
-            int numres = 0;
-
-            int n = 2;
-
-            double[] start = new double[n];
-            double[] step = new double[n];
-            double[] xmin = new double[n];
-
-            Console.WriteLine("");
-            Console.WriteLine("TEST01");
-            Console.WriteLine("  Apply NELMIN to ROSENBROCK function.");
-
-            start[0] = -1.2;
-            start[1] =  1.0;
-
-            double reqmin = 1.0E-08;
-
-            step[0] = 1.0;
-            step[1] = 1.0;
-
-            int konvge = 10;
-            int kcount = 500;
-
-            Console.WriteLine("");
-            Console.WriteLine("  Starting point X:");
-            Console.WriteLine("");
-            for (int i = 0; i < n; i++ )
-            {
-                Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
-            }
-
-            double ynewlo = rosenbrock ( start );
-
-            Console.WriteLine("");
-            Console.WriteLine("  F(X) = " + ynewlo + "");
-
-            Algorithms.nelmin ( rosenbrock, n, ref start, ref xmin, ref ynewlo, reqmin, step,
-                konvge, kcount, ref icount, ref numres, ref ifault );
-
-            Console.WriteLine("");
-            Console.WriteLine("  Return code IFAULT = " + ifault + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Estimate of minimizing value X*:");
-            Console.WriteLine("");
-            for (int i = 0; i < n; i++ )
-            {
-                Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  F(X*) = " + ynewlo + "");
-
-            Console.WriteLine("");
-            Console.WriteLine("  Number of iterations = " + icount + "");
-            Console.WriteLine("  Number of restarts =   " + numres + "");
+            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
         }
-        
-        static double rosenbrock ( double[] x )
+
+        double ynewlo = rosenbrock ( start );
+
+        Console.WriteLine("");
+        Console.WriteLine("  F(X) = " + ynewlo + "");
+
+        Algorithms.nelmin ( rosenbrock, n, ref start, ref xmin, ref ynewlo, reqmin, step,
+            konvge, kcount, ref icount, ref numres, ref ifault );
+
+        Console.WriteLine("");
+        Console.WriteLine("  Return code IFAULT = " + ifault + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Estimate of minimizing value X*:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("  F(X*) = " + ynewlo + "");
+
+        Console.WriteLine("");
+        Console.WriteLine("  Number of iterations = " + icount + "");
+        Console.WriteLine("  Number of restarts =   " + numres + "");
+    }
+
+    private static double rosenbrock ( double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -156,16 +156,16 @@ namespace ASA047Test
         //
         //    Output, double ROSENBROCK, the value of the function.
         //
-        {
-            double fx1 = x[1] - x[0] * x[0];
-            double fx2 = 1.0 - x[0];
+    {
+        double fx1 = x[1] - x[0] * x[0];
+        double fx2 = 1.0 - x[0];
 
-            double fx = 100.0 * fx1 * fx1 + fx2 * fx2;
+        double fx = 100.0 * fx1 * fx1 + fx2 * fx2;
 
-            return fx;
-        }
-        
-       static void test02 ( )
+        return fx;
+    }
+
+    private static void test02 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -184,72 +184,72 @@ namespace ASA047Test
         //
         //    John Burkardt
         //
-       {
-           int icount = 0;
-           int ifault = 0;
-           int numres = 0;
+    {
+        int icount = 0;
+        int ifault = 0;
+        int numres = 0;
 
-           int n = 4;
+        int n = 4;
 
-           double[] start = new double[n];
-           double[] step = new double[n];
-           double[] xmin = new double[n];
+        double[] start = new double[n];
+        double[] step = new double[n];
+        double[] xmin = new double[n];
 
-           Console.WriteLine("");
-           Console.WriteLine("TEST02");
-           Console.WriteLine("  Apply NELMIN to POWELL quartic function.");
+        Console.WriteLine("");
+        Console.WriteLine("TEST02");
+        Console.WriteLine("  Apply NELMIN to POWELL quartic function.");
 
-           start[0] =   3.0;
-           start[1] = - 1.0;
-           start[2] =   0.0;
-           start[3] =   1.0;
+        start[0] =   3.0;
+        start[1] = - 1.0;
+        start[2] =   0.0;
+        start[3] =   1.0;
 
-           double reqmin = 1.0E-08;
+        double reqmin = 1.0E-08;
 
-           step[0] = 1.0;
-           step[1] = 1.0;
-           step[2] = 1.0;
-           step[3] = 1.0;
+        step[0] = 1.0;
+        step[1] = 1.0;
+        step[2] = 1.0;
+        step[3] = 1.0;
 
-           int konvge = 10;
-           int kcount = 500;
+        int konvge = 10;
+        int kcount = 500;
 
-           Console.WriteLine("");
-           Console.WriteLine("  Starting point X:");
-           Console.WriteLine("");
-           for (int i = 0; i < n; i++ )
-           {
-               Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
-           }
+        Console.WriteLine("");
+        Console.WriteLine("  Starting point X:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+        }
 
-           double ynewlo = powell ( start );
+        double ynewlo = powell ( start );
 
-           Console.WriteLine("");
-           Console.WriteLine("  F(X) = " + ynewlo + "");
+        Console.WriteLine("");
+        Console.WriteLine("  F(X) = " + ynewlo + "");
 
-           Algorithms.nelmin ( powell, n, ref start, ref xmin, ref ynewlo, reqmin, step,
-               konvge, kcount, ref icount, ref numres, ref ifault );
+        Algorithms.nelmin ( powell, n, ref start, ref xmin, ref ynewlo, reqmin, step,
+            konvge, kcount, ref icount, ref numres, ref ifault );
 
-           Console.WriteLine("");
-           Console.WriteLine("  Return code IFAULT = " + ifault + "");
-           Console.WriteLine("");
-           Console.WriteLine("  Estimate of minimizing value X*:");
-           Console.WriteLine("");
-           for (int i = 0; i < n; i++ )
-           {
-               Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
-           }
+        Console.WriteLine("");
+        Console.WriteLine("  Return code IFAULT = " + ifault + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Estimate of minimizing value X*:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+        }
 
-           Console.WriteLine("");
-           Console.WriteLine("  F(X*) = " + ynewlo + "");
+        Console.WriteLine("");
+        Console.WriteLine("  F(X*) = " + ynewlo + "");
 
-           Console.WriteLine("");
-           Console.WriteLine("  Number of iterations = " + icount + "");
-           Console.WriteLine("  Number of restarts =   " + numres + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of iterations = " + icount + "");
+        Console.WriteLine("  Number of restarts =   " + numres + "");
 
-       }
- 
-       static double powell ( double[] x )
+    }
+
+    private static double powell ( double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -282,22 +282,22 @@ namespace ASA047Test
         //
         //    Output, double POWELL, the value of the function.
         //
-       {
-           double fx1 = x[0] + 10.0 * x[1];
-           double fx2 = x[2] - x[3];
-           double fx3 = x[1] - 2.0 * x[2];
-           double fx4 = x[0] - x[3];
+    {
+        double fx1 = x[0] + 10.0 * x[1];
+        double fx2 = x[2] - x[3];
+        double fx3 = x[1] - 2.0 * x[2];
+        double fx4 = x[0] - x[3];
 
-           double fx = fx1 * fx1
-                       +  5.0 * fx2 * fx2
-                       +            fx3 * fx3 * fx3 * fx3
-                       + 10.0 * fx4 * fx4 * fx4 * fx4;;
+        double fx = fx1 * fx1
+                    +  5.0 * fx2 * fx2
+                    +            fx3 * fx3 * fx3 * fx3
+                    + 10.0 * fx4 * fx4 * fx4 * fx4;;
 
-           return fx;
-       } 
-       
-       
-       static void test03 ( )
+        return fx;
+    }
+
+
+    private static void test03 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -316,71 +316,71 @@ namespace ASA047Test
         //
         //    John Burkardt
         //
-       {
-           int icount = 0;
-           int ifault = 0;
-           int numres = 0;
+    {
+        int icount = 0;
+        int ifault = 0;
+        int numres = 0;
 
-           int n = 3;
+        int n = 3;
 
-           double[] start = new double[n];
-           double[] step = new double[n];
-           double[] xmin = new double[n];
+        double[] start = new double[n];
+        double[] step = new double[n];
+        double[] xmin = new double[n];
 
-           Console.WriteLine("");
-           Console.WriteLine("TEST03");
-           Console.WriteLine("  Apply NELMIN to the HELICAL function.");
+        Console.WriteLine("");
+        Console.WriteLine("TEST03");
+        Console.WriteLine("  Apply NELMIN to the HELICAL function.");
 
-           start[0] = - 1.0;
-           start[1] =   0.0;
-           start[2] =   0.0;
+        start[0] = - 1.0;
+        start[1] =   0.0;
+        start[2] =   0.0;
 
-           double reqmin = 1.0E-08;
+        double reqmin = 1.0E-08;
 
-           step[0] = 1.0;
-           step[1] = 1.0;
-           step[2] = 1.0;
+        step[0] = 1.0;
+        step[1] = 1.0;
+        step[2] = 1.0;
 
-           int konvge = 10;
-           int kcount = 500;
+        int konvge = 10;
+        int kcount = 500;
 
-           Console.WriteLine("");
-           Console.WriteLine("  Starting point X:");
-           Console.WriteLine("");
-           for (int i = 0; i < n; i++ )
-           {
-               Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
-           }
+        Console.WriteLine("");
+        Console.WriteLine("  Starting point X:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+        }
 
-           double ynewlo = helical ( start );
+        double ynewlo = helical ( start );
 
-           Console.WriteLine("");
-           Console.WriteLine("  F(X) = " + ynewlo + "");
+        Console.WriteLine("");
+        Console.WriteLine("  F(X) = " + ynewlo + "");
 
-           Algorithms.nelmin ( helical, n, ref start, ref xmin, ref ynewlo, reqmin, step,
-               konvge, kcount, ref icount, ref numres, ref ifault );
+        Algorithms.nelmin ( helical, n, ref start, ref xmin, ref ynewlo, reqmin, step,
+            konvge, kcount, ref icount, ref numres, ref ifault );
 
-           Console.WriteLine("");
-           Console.WriteLine("  Return code IFAULT = " + ifault + "");
-           Console.WriteLine("");
-           Console.WriteLine("  Estimate of minimizing value X*:");
-           Console.WriteLine("");
-           for (int i = 0; i < n; i++ )
-           {
-               Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
-           }
+        Console.WriteLine("");
+        Console.WriteLine("  Return code IFAULT = " + ifault + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Estimate of minimizing value X*:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+        }
 
-           Console.WriteLine("");
-           Console.WriteLine("  F(X*) = " + ynewlo + "");
+        Console.WriteLine("");
+        Console.WriteLine("  F(X*) = " + ynewlo + "");
 
-           Console.WriteLine("");
-           Console.WriteLine("  Number of iterations = " + icount + "");
-           Console.WriteLine("  Number of restarts =   " + numres + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of iterations = " + icount + "");
+        Console.WriteLine("  Number of restarts =   " + numres + "");
 
-       }
+    }
 
-       
-       static double helical ( double[] x )
+
+    private static double helical ( double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -413,34 +413,26 @@ namespace ASA047Test
         //
         //    Output, double HELICAL, the value of the function.
         //
-       {
-           double theta;
+    {
+        double theta = x[0] switch
+        {
+            > 0.0 => Math.Atan2(x[1], x[0]) / 2.0 / Math.PI,
+            < 0.0 => 0.5 + Math.Atan2(x[1], x[0]) / 2.0 / Math.PI,
+            _ => 0.25
+        };
 
-           if ( 0.0 < x[0] )
-           {
-               theta = Math.Atan2 ( x[1], x[0] ) / 2.0 / Math.PI;
-           }
-           else if ( x[0] < 0.0 )
-           {
-               theta = 0.5 + Math.Atan2 ( x[1], x[0] ) / 2.0 / Math.PI;
-           }
-           else // if ( x[0] == 0.0 )
-           {
-               theta = 0.25;
-           }
+        double fx1 = x[2] - 10.0 * theta;
+        double fx2 = Math.Sqrt ( x[0] * x[0] + x[1] * x[1] );
+        double fx3 = x[2];
 
-           double fx1 = x[2] - 10.0 * theta;
-           double fx2 = Math.Sqrt ( x[0] * x[0] + x[1] * x[1] );
-           double fx3 = x[2];
+        double fx = 100.0 * fx1 * fx1
+                    +         fx2 * fx2
+                    +         fx3 * fx3;
 
-           double fx = 100.0 * fx1 * fx1
-                       +         fx2 * fx2
-                       +         fx3 * fx3;
+        return fx;
+    }
 
-           return fx;
-       }
-       
-       static void test04 ( )
+    private static void test04 ( )
 
 //****************************************************************************80
 //
@@ -460,72 +452,72 @@ namespace ASA047Test
 //
 //    John Burkardt
 //
-       {
-           int icount = 0;
-           int ifault = 0;
-           int numres = 0;
+    {
+        int icount = 0;
+        int ifault = 0;
+        int numres = 0;
 
-           int n = 10;
+        int n = 10;
 
-           double[] start = new double[n];
-           double[] step = new double[n];
-           double[] xmin = new double[n];
+        double[] start = new double[n];
+        double[] step = new double[n];
+        double[] xmin = new double[n];
 
-           Console.WriteLine("");
-           Console.WriteLine("TEST04");
-           Console.WriteLine("  Apply NELMIN to the QUARTIC function.");
+        Console.WriteLine("");
+        Console.WriteLine("TEST04");
+        Console.WriteLine("  Apply NELMIN to the QUARTIC function.");
 
-           for (int i = 0; i < n; i++ )
-           {
-               start[i] = 1.0;
-           }
+        for (int i = 0; i < n; i++ )
+        {
+            start[i] = 1.0;
+        }
 
-           double reqmin = 1.0E-08;
+        double reqmin = 1.0E-08;
 
-           for (int i = 0; i < n; i++ )
-           {
-               step[i] = 1.0;
-           }
+        for (int i = 0; i < n; i++ )
+        {
+            step[i] = 1.0;
+        }
 
-           int konvge = 10;
-           int kcount = 500;
+        int konvge = 10;
+        int kcount = 500;
 
-           Console.WriteLine("");
-           Console.WriteLine("  Starting point X:");
-           Console.WriteLine("");
-           for (int i = 0; i < n; i++ )
-           {
-               Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
-           }
+        Console.WriteLine("");
+        Console.WriteLine("  Starting point X:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+        }
 
-           double ynewlo = quartic ( start );
+        double ynewlo = quartic ( start );
 
-           Console.WriteLine("");
-           Console.WriteLine("  F(X) = " + ynewlo + "");
+        Console.WriteLine("");
+        Console.WriteLine("  F(X) = " + ynewlo + "");
 
-           Algorithms.nelmin ( quartic, n, ref start, ref xmin, ref ynewlo, reqmin, step,
-               konvge, kcount, ref icount, ref numres, ref ifault );
+        Algorithms.nelmin ( quartic, n, ref start, ref xmin, ref ynewlo, reqmin, step,
+            konvge, kcount, ref icount, ref numres, ref ifault );
 
-           Console.WriteLine("");
-           Console.WriteLine("  Return code IFAULT = " + ifault + "");
-           Console.WriteLine("");
-           Console.WriteLine("  Estimate of minimizing value X*:");
-           Console.WriteLine("");
-           for (int i = 0; i < n; i++ )
-           {
-               Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
-           }
+        Console.WriteLine("");
+        Console.WriteLine("  Return code IFAULT = " + ifault + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Estimate of minimizing value X*:");
+        Console.WriteLine("");
+        for (int i = 0; i < n; i++ )
+        {
+            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+        }
 
-           Console.WriteLine("");
-           Console.WriteLine("  F(X*) = " + ynewlo + "");
+        Console.WriteLine("");
+        Console.WriteLine("  F(X*) = " + ynewlo + "");
 
-           Console.WriteLine("");
-           Console.WriteLine("  Number of iterations = " + icount + "");
-           Console.WriteLine("  Number of restarts =   " + numres + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of iterations = " + icount + "");
+        Console.WriteLine("  Number of restarts =   " + numres + "");
 
-       }
-       
-       static double quartic ( double[] x )
+    }
+
+    private static double quartic ( double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -558,18 +550,17 @@ namespace ASA047Test
         //
         //    Output, double QUARTIC, the value of the function.
         //
-       {
-           int i;
+    {
+        int i;
 
-           double fx = 0.0;
+        double fx = 0.0;
 
-           for ( i = 0; i < 10; i++ )
-           {
-               fx = fx + x[i] * x[i] * x[i] * x[i];
-           }
+        for ( i = 0; i < 10; i++ )
+        {
+            fx += x[i] * x[i] * x[i] * x[i];
+        }
 
-           return fx;
-       }
-       
+        return fx;
     }
+       
 }

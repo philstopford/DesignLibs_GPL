@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Benford
 {
-    public static class Benford
-    {
-        public static double benford_cdf(int x)
+    public static double benford_cdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,27 +34,34 @@ namespace Burkardt.Probability
         //    Output, double BENFORD_CDF, the Benford probability that an item taken
         //    from a real world distribution will have the initial digit X or less.
         //
+    {
+        double value = 0;
+
+        switch (x)
         {
-            double value;
-
-            if (x <= 0)
-            {
+            case <= 0:
                 value = 0.0;
-            }
-            else if (typeMethods.i4_is_power_of_10(x + 1))
+                break;
+            default:
             {
-                value = 1.0;
-            }
-            else
-            {
-                value = Math.Log10((double) (x + 1));
-                value = (value % 1.0);
-            }
+                if (typeMethods.i4_is_power_of_10(x + 1))
+                {
+                    value = 1.0;
+                }
+                else
+                {
+                    value = Math.Log10(x + 1);
+                    value %= 1.0;
+                }
 
-            return value;
+                break;
+            }
         }
 
-        public static double benford_pdf(int x)
+        return value;
+    }
+
+    public static double benford_pdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -112,19 +119,13 @@ namespace Burkardt.Probability
         //    Output, double BENFORD_PDF, the Benford probability that an item taken
         //    from a real world distribution will have the initial digits X.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
+            <= 0 => 0.0,
+            _ => Math.Log10((x + 1) / (double) x)
+        };
 
-            if (x <= 0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Log10((double) (x + 1) / (double) (x));
-            }
-
-            return pdf;
-        }
+        return pdf;
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Ellipse
+namespace Burkardt.Ellipse;
+
+public static class Grid
 {
-    public static class Grid
-    {
-        public static double[] ellipse_grid(int n, double[] r, double[] c, int ng )
+    public static double[] ellipse_grid(int n, double[] r, double[] c, int ng )
 
         //****************************************************************************80
         //
@@ -45,82 +45,86 @@ namespace Burkardt.Ellipse
         //
         //    Output, double ELLIPSE_GRID[2*NG], the grid points.
         //
+    {
+        double h;
+        int i;
+        int j;
+        int nj;
+        int p;
+        double x;
+        double[] xy;
+        double y;
+
+        xy = new double[2 * ng];
+
+        if (r[0] < r[1])
         {
-            double h;
-            int i;
-            int j;
-            int nj;
-            int p;
-            double x;
-            double[] xy;
-            double y;
+            h = 2.0 * r[0] / (2 * n + 1);
+            nj = (int)(Math.Ceiling(r[1] / r[0]) * n);
+        }
+        else
+        {
+            h = 2.0 * r[1] / (2 * n + 1);
+            nj = n;
+        }
 
-            xy = new double[2 * ng];
+        p = 0;
 
-            if (r[0] < r[1])
+        for (j = 0; j <= nj; j++)
+        {
+            i = 0;
+            x = c[0];
+            y = c[1] + j * h;
+
+            xy[0 + p * 2] = x;
+            xy[1 + p * 2] = y;
+            p += 1;
+
+            switch (j)
             {
-                h = 2.0 * r[0] / (double) (2 * n + 1);
-                nj = (int)(Math.Ceiling(r[1] / r[0]) * (double) (n));
+                case > 0:
+                    xy[0 + p * 2] = x;
+                    xy[1 + p * 2] = 2.0 * c[1] - y;
+                    p += 1;
+                    break;
             }
-            else
-            {
-                h = 2.0 * r[1] / (double) (2 * n + 1);
-                nj = n;
-            }
 
-            p = 0;
-
-            for (j = 0; j <= nj; j++)
+            for (;;)
             {
-                i = 0;
-                x = c[0];
-                y = c[1] + (double) (j) * h;
+                i += 1;
+                x = c[0] + i * h;
+
+                if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
+                    + Math.Pow((y - c[1]) / r[1], 2))
+                {
+                    break;
+                }
 
                 xy[0 + p * 2] = x;
                 xy[1 + p * 2] = y;
-                p = p + 1;
+                p += 1;
+                xy[0 + p * 2] = 2.0 * c[0] - x;
+                xy[1 + p * 2] = y;
+                p += 1;
 
-                if (0 < j)
+                switch (j)
                 {
-                    xy[0 + p * 2] = x;
-                    xy[1 + p * 2] = 2.0 * c[1] - y;
-                    p = p + 1;
-                }
-
-                for (;;)
-                {
-                    i = i + 1;
-                    x = c[0] + (double) (i) * h;
-
-                    if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
-                        + Math.Pow((y - c[1]) / r[1], 2))
-                    {
-                        break;
-                    }
-
-                    xy[0 + p * 2] = x;
-                    xy[1 + p * 2] = y;
-                    p = p + 1;
-                    xy[0 + p * 2] = 2.0 * c[0] - x;
-                    xy[1 + p * 2] = y;
-                    p = p + 1;
-
-                    if (0 < j)
-                    {
+                    case > 0:
                         xy[0 + p * 2] = x;
                         xy[1 + p * 2] = 2.0 * c[1] - y;
-                        p = p + 1;
+                        p += 1;
                         xy[0 + p * 2] = 2.0 * c[0] - x;
                         xy[1 + p * 2] = 2.0 * c[1] - y;
-                        p = p + 1;
-                    }
+                        p += 1;
+                        break;
                 }
             }
-
-            return xy;
         }
 
-        public static int ellipse_grid_count(int n, double[] r, double[] c )
+        return xy;
+    }
+
+    public static int ellipse_grid_count(int n, double[] r, double[] c )
 
         //****************************************************************************80
         //
@@ -160,64 +164,67 @@ namespace Burkardt.Ellipse
         //    Output, int ELLIPSE_GRID)_COUNT, the number of grid points inside 
         //    the ellipse.
         //
+    {
+        double h;
+        int i;
+        int j;
+        int nj;
+        int p;
+        double x;
+        double y;
+
+        if (r[0] < r[1])
         {
-            double h;
-            int i;
-            int j;
-            int nj;
-            int p;
-            double x;
-            double y;
-
-            if (r[0] < r[1])
-            {
-                h = 2.0 * r[0] / (double) (2 * n + 1);
-                nj = (int)(Math.Ceiling(r[1] / r[0]) * (double) (n));
-            }
-            else
-            {
-                h = 2.0 * r[1] / (double) (2 * n + 1);
-                nj = n;
-            }
-
-            p = 0;
-
-            for (j = 0; j <= nj; j++)
-            {
-                i = 0;
-                x = c[0];
-                y = c[1] + (double) (j) * h;
-
-                p = p + 1;
-
-                if (0 < j)
-                {
-                    p = p + 1;
-                }
-
-                for (;;)
-                {
-                    i = i + 1;
-                    x = c[0] + (double) (i) * h;
-
-                    if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
-                        + Math.Pow((y - c[1]) / r[1], 2))
-                    {
-                        break;
-                    }
-
-                    p = p + 1;
-                    p = p + 1;
-
-                    if (0 < j)
-                    {
-                        p = p + 1;
-                        p = p + 1;
-                    }
-                }
-            }
-
-            return p;
+            h = 2.0 * r[0] / (2 * n + 1);
+            nj = (int)(Math.Ceiling(r[1] / r[0]) * n);
         }
+        else
+        {
+            h = 2.0 * r[1] / (2 * n + 1);
+            nj = n;
+        }
+
+        p = 0;
+
+        for (j = 0; j <= nj; j++)
+        {
+            i = 0;
+            x = c[0];
+            y = c[1] + j * h;
+
+            p += 1;
+
+            switch (j)
+            {
+                case > 0:
+                    p += 1;
+                    break;
+            }
+
+            for (;;)
+            {
+                i += 1;
+                x = c[0] + i * h;
+
+                if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
+                    + Math.Pow((y - c[1]) / r[1], 2))
+                {
+                    break;
+                }
+
+                p += 1;
+                p += 1;
+
+                switch (j)
+                {
+                    case > 0:
+                        p += 1;
+                        p += 1;
+                        break;
+                }
+            }
+        }
+
+        return p;
     }
 }

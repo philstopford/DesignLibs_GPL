@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Normal
 {
-    public static class Normal
-    {
-        public static double normal_01_cdf(double x)
+    public static double normal_01_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -39,44 +39,44 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
+    {
+        double a1 = 0.398942280444;
+        double a2 = 0.399903438504;
+        double a3 = 5.75885480458;
+        double a4 = 29.8213557808;
+        double a5 = 2.62433121679;
+        double a6 = 48.6959930692;
+        double a7 = 5.92885724438;
+        double b0 = 0.398942280385;
+        double b1 = 3.8052E-08;
+        double b2 = 1.00000615302;
+        double b3 = 3.98064794E-04;
+        double b4 = 1.98615381364;
+        double b5 = 0.151679116635;
+        double b6 = 5.29330324926;
+        double b7 = 4.8385912808;
+        double b8 = 15.1508972451;
+        double b9 = 0.742380924027;
+        double b10 = 30.789933034;
+        double b11 = 3.99019417011;
+        double cdf;
+        double q;
+        double y;
+        switch (Math.Abs(x))
         {
-            double a1 = 0.398942280444;
-            double a2 = 0.399903438504;
-            double a3 = 5.75885480458;
-            double a4 = 29.8213557808;
-            double a5 = 2.62433121679;
-            double a6 = 48.6959930692;
-            double a7 = 5.92885724438;
-            double b0 = 0.398942280385;
-            double b1 = 3.8052E-08;
-            double b2 = 1.00000615302;
-            double b3 = 3.98064794E-04;
-            double b4 = 1.98615381364;
-            double b5 = 0.151679116635;
-            double b6 = 5.29330324926;
-            double b7 = 4.8385912808;
-            double b8 = 15.1508972451;
-            double b9 = 0.742380924027;
-            double b10 = 30.789933034;
-            double b11 = 3.99019417011;
-            double cdf;
-            double q;
-            double y;
             //
             //  |X| <= 1.28.
             //
-            if (Math.Abs(x) <= 1.28)
-            {
+            case <= 1.28:
                 y = 0.5 * x * x;
 
                 q = 0.5 - Math.Abs(x) * (a1 - a2 * y / (y + a3 - a4 / (y + a5
                                                                          + a6 / (y + a7))));
-            //
-            //  1.28 < |X| <= 12.7
-            //
-            }
-            else if (Math.Abs(x) <= 12.7)
-            {
+                //
+                //  1.28 < |X| <= 12.7
+                //
+                break;
+            case <= 12.7:
                 y = 0.5 * x * x;
 
                 q = Math.Exp(-y) * b0 / (Math.Abs(x) - b1
@@ -85,31 +85,28 @@ namespace Burkardt.Probability
                                                                      + b6 / (Math.Abs(x) + b7
                                                                              - b8 / (Math.Abs(x) + b9
                                                                                  + b10 / (Math.Abs(x) + b11))))));
-            //
-            //  12.7 < |X|
-            //
-            }
-            else
-            {
+                //
+                //  12.7 < |X|
+                //
+                break;
+            default:
                 q = 0.0;
-            }
+                break;
+        }
 
+        cdf = x switch
+        {
             //
             //  Take account of negative X.
             //
-            if (x < 0.0)
-            {
-                cdf = q;
-            }
-            else
-            {
-                cdf = 1.0 - q;
-            }
+            < 0.0 => q,
+            _ => 1.0 - q
+        };
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double normal_01_cdf_inv(double p)
+    public static double normal_01_cdf_inv(double p)
         //****************************************************************************80
         //
         //  Purpose:
@@ -151,120 +148,119 @@ namespace Burkardt.Probability
         //    with the property that the probability of a standard normal deviate being
         //    less than or equal to this value is P.
         //
-        {
-            double[] a =  {
+    {
+        double[] a =  {
                 3.3871328727963666080, 1.3314166789178437745e+2,
                 1.9715909503065514427e+3, 1.3731693765509461125e+4,
                 4.5921953931549871457e+4, 6.7265770927008700853e+4,
                 3.3430575583588128105e+4, 2.5090809287301226727e+3
             }
             ;
-            double[] b =  {
+        double[] b =  {
                 1.0, 4.2313330701600911252e+1,
                 6.8718700749205790830e+2, 5.3941960214247511077e+3,
                 2.1213794301586595867e+4, 3.9307895800092710610e+4,
                 2.8729085735721942674e+4, 5.2264952788528545610e+3
             }
             ;
-            double[] c =  {
+        double[] c =  {
                 1.42343711074968357734, 4.63033784615654529590,
                 5.76949722146069140550, 3.64784832476320460504,
                 1.27045825245236838258, 2.41780725177450611770e-1,
                 2.27238449892691845833e-2, 7.74545014278341407640e-4
             }
             ;
-            double const1 = 0.180625;
-            double const2 = 1.6;
-            double[] d =  {
+        double const1 = 0.180625;
+        double const2 = 1.6;
+        double[] d =  {
                 1.0, 2.05319162663775882187,
                 1.67638483018380384940, 6.89767334985100004550e-1,
                 1.48103976427480074590e-1, 1.51986665636164571966e-2,
                 5.47593808499534494600e-4, 1.05075007164441684324e-9
             }
             ;
-            double[] e =  {
+        double[] e =  {
                 6.65790464350110377720, 5.46378491116411436990,
                 1.78482653991729133580, 2.96560571828504891230e-1,
                 2.65321895265761230930e-2, 1.24266094738807843860e-3,
                 2.71155556874348757815e-5, 2.01033439929228813265e-7
             }
             ;
-            double[] f =  {
+        double[] f =  {
                 1.0, 5.99832206555887937690e-1,
                 1.36929880922735805310e-1, 1.48753612908506148525e-2,
                 7.86869131145613259100e-4, 1.84631831751005468180e-5,
                 1.42151175831644588870e-7, 2.04426310338993978564e-15
             }
             ;
-            double q;
-            double r;
-            const double r8_huge = 1.0E+30;
-            double split1 = 0.425;
-            double split2 = 5.0;
-            double value;
+        double q;
+        double r;
+        const double r8_huge = 1.0E+30;
+        double split1 = 0.425;
+        double split2 = 5.0;
+        double value = 0;
 
-            if (p <= 0.0)
-            {
+        switch (p)
+        {
+            case <= 0.0:
                 value = -r8_huge;
                 return value;
-            }
-
-            if (1.0 <= p)
-            {
+            case >= 1.0:
                 value = r8_huge;
                 return value;
-            }
+        }
 
-            q = p - 0.5;
+        q = p - 0.5;
 
-            if (Math.Abs(q) <= split1)
+        if (Math.Abs(q) <= split1)
+        {
+            r = const1 - q * q;
+            value = q * typeMethods.r8poly_value_horner(7, a, r) / typeMethods.r8poly_value_horner(7, b, r);
+        }
+        else
+        {
+            r = q switch
             {
-                r = const1 - q * q;
-                value = q * typeMethods.r8poly_value_horner(7, a, r) / typeMethods.r8poly_value_horner(7, b, r);
-            }
-            else
-            {
-                if (q < 0.0)
-                {
-                    r = p;
-                }
-                else
-                {
-                    r = 1.0 - p;
-                }
+                < 0.0 => p,
+                _ => 1.0 - p
+            };
 
-                if (r <= 0.0)
-                {
+            switch (r)
+            {
+                case <= 0.0:
                     value = r8_huge;
-                }
-                else
+                    break;
+                default:
                 {
                     r = Math.Sqrt(-Math.Log(r));
 
                     if (r <= split2)
                     {
-                        r = r - const2;
+                        r -= const2;
                         value = typeMethods.r8poly_value_horner(7, c, r) / typeMethods.r8poly_value_horner(7, d, r);
                     }
                     else
                     {
-                        r = r - split2;
+                        r -= split2;
                         value = typeMethods.r8poly_value_horner(7, e, r) / typeMethods.r8poly_value_horner(7, f, r);
                     }
-                }
 
-                if (q < 0.0)
-                {
-                    value = -value;
+                    break;
                 }
-
             }
 
-            return value;
+            value = q switch
+            {
+                < 0.0 => -value,
+                _ => value
+            };
         }
 
+        return value;
+    }
 
-        public static double normal_01_mean()
+
+    public static double normal_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -287,55 +283,50 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = 0.0;
+    {
+        double mean = 0.0;
 
-            return mean;
-        }
+        return mean;
+    }
         
-        public static double normal_01_moment ( int order )
+    public static double normal_01_moment ( int order )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_01_MOMENT evaluates moments of the Normal 01 PDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 August 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the moment.
-            //    0 <= ORDER.
-            //
-            //    Output, double NORMAL_01_MOMENT, the value of the moment.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_01_MOMENT evaluates moments of the Normal 01 PDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the moment.
+        //    0 <= ORDER.
+        //
+        //    Output, double NORMAL_01_MOMENT, the value of the moment.
+        //
+    {
+        double value = (order % 2) switch
         {
-            double value;
+            0 => typeMethods.r8_factorial2(order - 1),
+            _ => 0.0
+        };
 
-            if ( ( order % 2 ) == 0 )
-            {
-                value = typeMethods.r8_factorial2 ( order - 1 );
-            }
-            else
-            {
-                value = 0.0;
-            }
+        return value;
+    }
 
-            return value;
-        }
-
-        public static double normal_01_pdf(double x)
+    public static double normal_01_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -367,15 +358,15 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double pdf = Math.Exp(-0.5 * x * x) / Math.Sqrt(2.0 * Math.PI);
+        double pdf = Math.Exp(-0.5 * x * x) / Math.Sqrt(2.0 * Math.PI);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double normal_01_sample(ref int seed)
+    public static double normal_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -408,17 +399,17 @@ namespace Burkardt.Probability
         //
         //    Output, double NORMAL_01_SAMPLE, a normally distributed random value.
         //
-        {
+    {
             
 
-            double r1 = UniformRNG.r8_uniform_01(ref seed);
-            double r2 = UniformRNG.r8_uniform_01(ref seed);
-            double x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
+        double r1 = UniformRNG.r8_uniform_01(ref seed);
+        double r2 = UniformRNG.r8_uniform_01(ref seed);
+        double x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] normal_01_samples(int n, ref int seed)
+    public static double[] normal_01_samples(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -453,22 +444,22 @@ namespace Burkardt.Probability
         //
         //    Output, double NORMAL_01_SAMPLES[N], the samples.
         //
-        {
+    {
             
-            double[] x;
+        double[] x;
 
-            double[] r1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-            double[] r2 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] r1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] r2 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-            x = new double[n];
-            for (int i = 0; i < n; i++)
-            {
-                x[i] = Math.Sqrt(-2.0 * Math.Log(r1[i])) * Math.Cos(2.0 * Math.PI * r2[i]);
-            }
-            return x;
+        x = new double[n];
+        for (int i = 0; i < n; i++)
+        {
+            x[i] = Math.Sqrt(-2.0 * Math.Log(r1[i])) * Math.Cos(2.0 * Math.PI * r2[i]);
         }
+        return x;
+    }
 
-        public static double normal_01_variance()
+    public static double normal_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -491,13 +482,13 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 1.0;
+    {
+        double variance = 1.0;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double[] normal_01_vector(int n, ref int seed)
+    public static double[] normal_01_vector(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -549,555 +540,538 @@ namespace Burkardt.Probability
         //    if we have a saved value that can be immediately stored in X(1),
         //    and so on.
         //
-        {
-            int i;
-            int m;
+    {
+        int i;
+        int m;
             
-            double[] r;
+        double[] r;
 
-            double[] x = new double[n];
-            //
-            //  Record the range of X we need to fill in.
-            //
-            int x_lo = 1;
-            int x_hi = n;
+        double[] x = new double[n];
+        //
+        //  Record the range of X we need to fill in.
+        //
+        int x_lo = 1;
+        int x_hi = n;
+        switch (x_hi - x_lo + 1)
+        {
             //
             //  If we need just one new value, do that here to avoid null arrays.
             //
-            if (x_hi - x_lo + 1 == 1)
-            {
+            case 1:
                 r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
                 x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * Math.PI * r[1]);
-            }
+                break;
             //
-            //  If we require an even number of values, that's easy.
-            //
-            else if ((x_hi - x_lo + 1) % 2 == 0)
+            default:
             {
-                m = (x_hi - x_lo + 1) / 2;
-
-                r = UniformRNG.r8vec_uniform_01_new(2 * m, ref seed);
-
-                for (i = 0; i <= 2 * m - 2; i = i + 2)
+                switch ((x_hi - x_lo + 1) % 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                    case 0:
+                    {
+                        m = (x_hi - x_lo + 1) / 2;
+
+                        r = UniformRNG.r8vec_uniform_01_new(2 * m, ref seed);
+
+                        for (i = 0; i <= 2 * m - 2; i += 2)
+                        {
+                            x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                            x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                        }
+
+                        break;
+                    }
+                    //
+                    default:
+                    {
+                        x_hi -= 1;
+
+                        m = (x_hi - x_lo + 1) / 2 + 1;
+
+                        r = UniformRNG.r8vec_uniform_01_new(2 * m, ref seed);
+
+                        for (i = 0; i <= 2 * m - 4; i += 2)
+                        {
+                            x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                            x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                        }
+
+                        i = 2 * m - 2;
+
+                        x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                        break;
+                    }
                 }
+
+                break;
             }
-            //
-            //  If we require an odd number of values, we generate an even number,
-            //  and handle the last pair specially, storing one in X(N).
-            //
-            else
-            {
-                x_hi = x_hi - 1;
-
-                m = (x_hi - x_lo + 1) / 2 + 1;
-
-                r = UniformRNG.r8vec_uniform_01_new(2 * m, ref seed);
-
-                for (i = 0; i <= 2 * m - 4; i = i + 2)
-                {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
-                }
-
-                i = 2 * m - 2;
-
-                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
-
-            }
-
-            return x;
         }
 
-        public static double normal_ms_mean(double mu, double sigma)
+        return x;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_MEAN returns the mean of the Normal PDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 September 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double MU, SIGMA, the parameters of the PDF.
-            //    0.0 < SIGMA.
-            //
-            //    Output, double NORMAL_MS_MEAN, the mean of the PDF.
-            //
+    public static double normal_ms_mean(double mu, double sigma)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_MEAN returns the mean of the Normal PDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double MU, SIGMA, the parameters of the PDF.
+        //    0.0 < SIGMA.
+        //
+        //    Output, double NORMAL_MS_MEAN, the mean of the PDF.
+        //
+    {
+        double mean;
+
+        mean = mu;
+
+        return mean;
+    }
+
+    public static double normal_ms_moment(int order, double mu, double sigma)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_MOMENT evaluates moments of the Normal PDF.
+        //
+        //  Discussion:
+        //
+        //    The formula was posted by John D Cook.
+        //
+        //    Order  Moment
+        //    -----  ------
+        //      0    1
+        //      1    mu
+        //      2    mu^2 +         sigma^2
+        //      3    mu^3 +  3 mu   sigma^2
+        //      4    mu^4 +  6 mu^2 sigma^2 +   3      sigma^4
+        //      5    mu^5 + 10 mu^3 sigma^2 +  15 mu   sigma^4
+        //      6    mu^6 + 15 mu^4 sigma^2 +  45 mu^2 sigma^4 +  15      sigma^6
+        //      7    mu^7 + 21 mu^5 sigma^2 + 105 mu^3 sigma^4 + 105 mu   sigma^6
+        //      8    mu^8 + 28 mu^6 sigma^2 + 210 mu^4 sigma^4 + 420 mu^2 sigma^6 
+        //           + 105 sigma^8
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the moment.
+        //    0 <= ORDER.
+        //
+        //    Input, double MU, the mean of the distribution.
+        //
+        //    Input, double SIGMA, the standard deviation of the distribution.
+        //
+        //    Output, double NORMAL_MS_MOMENT, the value of the central moment.
+        //
+    {
+        int j;
+        int j_hi;
+        double value = 0;
+
+        j_hi = order / 2;
+
+        value = 0.0;
+        for (j = 0; j <= j_hi; j++)
         {
-            double mean;
-
-            mean = mu;
-
-            return mean;
+            value += typeMethods.r8_choose(order, 2 * j)
+                     * typeMethods.r8_factorial2(2 * j - 1)
+                     * Math.Pow(mu, order - 2 * j) * Math.Pow(sigma, 2 * j);
         }
 
-        public static double normal_ms_moment(int order, double mu, double sigma)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_MOMENT evaluates moments of the Normal PDF.
-            //
-            //  Discussion:
-            //
-            //    The formula was posted by John D Cook.
-            //
-            //    Order  Moment
-            //    -----  ------
-            //      0    1
-            //      1    mu
-            //      2    mu^2 +         sigma^2
-            //      3    mu^3 +  3 mu   sigma^2
-            //      4    mu^4 +  6 mu^2 sigma^2 +   3      sigma^4
-            //      5    mu^5 + 10 mu^3 sigma^2 +  15 mu   sigma^4
-            //      6    mu^6 + 15 mu^4 sigma^2 +  45 mu^2 sigma^4 +  15      sigma^6
-            //      7    mu^7 + 21 mu^5 sigma^2 + 105 mu^3 sigma^4 + 105 mu   sigma^6
-            //      8    mu^8 + 28 mu^6 sigma^2 + 210 mu^4 sigma^4 + 420 mu^2 sigma^6 
-            //           + 105 sigma^8
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 August 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the moment.
-            //    0 <= ORDER.
-            //
-            //    Input, double MU, the mean of the distribution.
-            //
-            //    Input, double SIGMA, the standard deviation of the distribution.
-            //
-            //    Output, double NORMAL_MS_MOMENT, the value of the central moment.
-            //
+    public static double normal_ms_moment_central(int order, double mu, double sigma)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_MOMENT_CENTRAL evaluates central moments of the Normal PDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the moment.
+        //    0 <= ORDER.
+        //
+        //    Input, double MU, the mean of the distribution.
+        //
+        //    Input, double SIGMA, the standard deviation of the distribution.
+        //
+        //    Output, double NORMAL_MS_MOMENT_CENTRAL, the value of the central moment.
+        //
+    {
+        double value = (order % 2) switch
         {
-            int j;
-            int j_hi;
-            double value;
+            0 => typeMethods.r8_factorial2(order - 1) * Math.Pow(sigma, order),
+            _ => 0.0
+        };
 
-            j_hi = (order / 2);
+        return value;
+    }
 
-            value = 0.0;
-            for (j = 0; j <= j_hi; j++)
-            {
-                value = value
-                        + typeMethods.r8_choose(order, 2 * j)
-                        * typeMethods.r8_factorial2(2 * j - 1)
-                        * Math.Pow(mu, order - 2 * j) * Math.Pow(sigma, 2 * j);
-            }
+    public static double normal_ms_moment_central_values(int order, double mu, double sigma)
 
-            return value;
-        }
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_MOMENT_CENTRAL_VALUES: moments 0 through 10 of the Normal PDF.
+        //
+        //  Discussion:
+        //
+        //    The formula was posted by John D Cook.
+        //
+        //    Order  Moment
+        //    -----  ------
+        //      0    1
+        //      1    0
+        //      2    sigma^2
+        //      3    0
+        //      4    3 sigma^4
+        //      5    0
+        //      6    15 sigma^6
+        //      7    0
+        //      8    105 sigma^8
+        //      9    0
+        //     10    945 sigma^10
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the moment.
+        //    0 <= ORDER <= 10.
+        //
+        //    Input, double MU, the mean of the distribution.
+        //
+        //    Input, double SIGMA, the standard deviation of the distribution.
+        //
+        //    Output, double NORMAL_MS_MOMENT_CENTRAL_VALUES, the value of the 
+        //    central moment.
+        //
+    {
+        double value = 0;
 
-        public static double normal_ms_moment_central(int order, double mu, double sigma)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_MOMENT_CENTRAL evaluates central moments of the Normal PDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 August 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the moment.
-            //    0 <= ORDER.
-            //
-            //    Input, double MU, the mean of the distribution.
-            //
-            //    Input, double SIGMA, the standard deviation of the distribution.
-            //
-            //    Output, double NORMAL_MS_MOMENT_CENTRAL, the value of the central moment.
-            //
+        switch (order)
         {
-            double value;
-
-            if ((order % 2) == 0)
-            {
-                value = typeMethods.r8_factorial2(order - 1) * Math.Pow(sigma, order);
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
-        }
-
-        public static double normal_ms_moment_central_values(int order, double mu, double sigma)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_MOMENT_CENTRAL_VALUES: moments 0 through 10 of the Normal PDF.
-            //
-            //  Discussion:
-            //
-            //    The formula was posted by John D Cook.
-            //
-            //    Order  Moment
-            //    -----  ------
-            //      0    1
-            //      1    0
-            //      2    sigma^2
-            //      3    0
-            //      4    3 sigma^4
-            //      5    0
-            //      6    15 sigma^6
-            //      7    0
-            //      8    105 sigma^8
-            //      9    0
-            //     10    945 sigma^10
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 August 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the moment.
-            //    0 <= ORDER <= 10.
-            //
-            //    Input, double MU, the mean of the distribution.
-            //
-            //    Input, double SIGMA, the standard deviation of the distribution.
-            //
-            //    Output, double NORMAL_MS_MOMENT_CENTRAL_VALUES, the value of the 
-            //    central moment.
-            //
-        {
-            double value;
-
-            if (order == 0)
-            {
+            case 0:
                 value = 1.0;
-            }
-            else if (order == 1)
-            {
+                break;
+            case 1:
                 value = 0.0;
-            }
-            else if (order == 2)
-            {
+                break;
+            case 2:
                 value = Math.Pow(sigma, 2);
-            }
-            else if (order == 3)
-            {
+                break;
+            case 3:
                 value = 0.0;
-            }
-            else if (order == 4)
-            {
+                break;
+            case 4:
                 value = 3.0 * Math.Pow(sigma, 4);
-            }
-            else if (order == 5)
-            {
+                break;
+            case 5:
                 value = 0.0;
-            }
-            else if (order == 6)
-            {
+                break;
+            case 6:
                 value = 15.0 * Math.Pow(sigma, 6);
-            }
-            else if (order == 7)
-            {
+                break;
+            case 7:
                 value = 0.0;
-            }
-            else if (order == 8)
-            {
+                break;
+            case 8:
                 value = 105.0 * Math.Pow(sigma, 8);
-            }
-            else if (order == 9)
-            {
+                break;
+            case 9:
                 value = 0.0;
-            }
-            else if (order == 10)
-            {
+                break;
+            case 10:
                 value = 945.0 * Math.Pow(sigma, 10);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("NORMAL_MS_MOMENT_CENTRAL_VALUES - Fatal error!");
                 Console.WriteLine("  Only ORDERS 0 through 10 are available.");
-                return (1);
-            }
-
-            return value;
+                return 1;
         }
 
-        public static double normal_ms_moment_values(int order, double mu, double sigma)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_MOMENT_VALUES evaluates moments 0 through 8 of the Normal PDF.
-            //
-            //  Discussion:
-            //
-            //    The formula was posted by John D Cook.
-            //
-            //    Order  Moment
-            //    -----  ------
-            //      0    1
-            //      1    mu
-            //      2    mu^2 +         sigma^2
-            //      3    mu^3 +  3 mu   sigma^2
-            //      4    mu^4 +  6 mu^2 sigma^2 +   3      sigma^4
-            //      5    mu^5 + 10 mu^3 sigma^2 +  15 mu   sigma^4
-            //      6    mu^6 + 15 mu^4 sigma^2 +  45 mu^2 sigma^4 +  15      sigma^6
-            //      7    mu^7 + 21 mu^5 sigma^2 + 105 mu^3 sigma^4 + 105 mu   sigma^6
-            //      8    mu^8 + 28 mu^6 sigma^2 + 210 mu^4 sigma^4 + 420 mu^2 sigma^6 
-            //           + 105 sigma^8
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 August 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the moment.
-            //    0 <= ORDER <= 8.
-            //
-            //    Input, double MU, the mean of the distribution.
-            //
-            //    Input, double SIGMA, the standard deviation of the distribution.
-            //
-            //    Output, double NORMAL_MS_MOMENT_VALUES, the value of the central moment.
-            //
+    public static double normal_ms_moment_values(int order, double mu, double sigma)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_MOMENT_VALUES evaluates moments 0 through 8 of the Normal PDF.
+        //
+        //  Discussion:
+        //
+        //    The formula was posted by John D Cook.
+        //
+        //    Order  Moment
+        //    -----  ------
+        //      0    1
+        //      1    mu
+        //      2    mu^2 +         sigma^2
+        //      3    mu^3 +  3 mu   sigma^2
+        //      4    mu^4 +  6 mu^2 sigma^2 +   3      sigma^4
+        //      5    mu^5 + 10 mu^3 sigma^2 +  15 mu   sigma^4
+        //      6    mu^6 + 15 mu^4 sigma^2 +  45 mu^2 sigma^4 +  15      sigma^6
+        //      7    mu^7 + 21 mu^5 sigma^2 + 105 mu^3 sigma^4 + 105 mu   sigma^6
+        //      8    mu^8 + 28 mu^6 sigma^2 + 210 mu^4 sigma^4 + 420 mu^2 sigma^6 
+        //           + 105 sigma^8
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the moment.
+        //    0 <= ORDER <= 8.
+        //
+        //    Input, double MU, the mean of the distribution.
+        //
+        //    Input, double SIGMA, the standard deviation of the distribution.
+        //
+        //    Output, double NORMAL_MS_MOMENT_VALUES, the value of the central moment.
+        //
+    {
+        double value = 0;
+
+        switch (order)
         {
-            double value;
-
-            if (order == 0)
-            {
+            case 0:
                 value = 1.0;
-            }
-            else if (order == 1)
-            {
+                break;
+            case 1:
                 value = mu;
-            }
-            else if (order == 2)
-            {
+                break;
+            case 2:
                 value = Math.Pow(mu, 2) + Math.Pow(sigma, 2);
-            }
-            else if (order == 3)
-            {
+                break;
+            case 3:
                 value = Math.Pow(mu, 3) + 3.0 * mu * Math.Pow(sigma, 2);
-            }
-            else if (order == 4)
-            {
+                break;
+            case 4:
                 value = Math.Pow(mu, 4) + 6.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 2)
-                                   + 3.0 * Math.Pow(sigma, 4);
-            }
-            else if (order == 5)
-            {
+                                        + 3.0 * Math.Pow(sigma, 4);
+                break;
+            case 5:
                 value = Math.Pow(mu, 5) + 10.0 * Math.Pow(mu, 3) * Math.Pow(sigma, 2)
-                                   + 15.0 * mu * Math.Pow(sigma, 4);
-            }
-            else if (order == 6)
-            {
+                                        + 15.0 * mu * Math.Pow(sigma, 4);
+                break;
+            case 6:
                 value = Math.Pow(mu, 6) + 15.0 * Math.Pow(mu, 4) * Math.Pow(sigma, 2)
-                                   + 45.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 4)
-                                   + 15.0 * Math.Pow(sigma, 6);
-            }
-            else if (order == 7)
-            {
+                                        + 45.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 4)
+                                        + 15.0 * Math.Pow(sigma, 6);
+                break;
+            case 7:
                 value = Math.Pow(mu, 7) + 21.0 * Math.Pow(mu, 5) * Math.Pow(sigma, 2)
-                                   + 105.0 * Math.Pow(mu, 3) * Math.Pow(sigma, 4)
-                                   + 105.0 * mu * Math.Pow(sigma, 6);
-            }
-            else if (order == 8)
-            {
+                                        + 105.0 * Math.Pow(mu, 3) * Math.Pow(sigma, 4)
+                                        + 105.0 * mu * Math.Pow(sigma, 6);
+                break;
+            case 8:
                 value = Math.Pow(mu, 8) + 28.0 * Math.Pow(mu, 6) * Math.Pow(sigma, 2)
-                                   + 210.0 * Math.Pow(mu, 4) * Math.Pow(sigma, 4)
-                                   + 420.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 6) + 105.0 * Math.Pow(sigma, 8);
-            }
-            else
-            {
+                                        + 210.0 * Math.Pow(mu, 4) * Math.Pow(sigma, 4)
+                                        + 420.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 6) + 105.0 * Math.Pow(sigma, 8);
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("NORMAL_MS_MOMENT_VALUES - Fatal error!");
                 Console.WriteLine("  Only ORDERS 0 through 8 are available.");
-                return (1);
-            }
-
-            return value;
+                return 1;
         }
 
-        public static double normal_ms_pdf(double x, double mu, double sigma)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_PDF evaluates the Normal PDF.
-            //
-            //  Discussion:
-            //
-            //    PDF(MU,SIGMA;X)
-            //      = exp ( - 0.5 * ( ( X - MU ) / SIGMA )^2 )
-            //      / ( SIGMA * SQRT ( 2 * PI ) )
-            //
-            //    The normal PDF is also known as the Gaussian PDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 September 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument of the PDF.
-            //
-            //    Input, double MU, SIGMA, the parameters of the PDF.
-            //    0.0 < SIGMA.
-            //
-            //    Output, double NORMAL_MS_PDF, the value of the PDF.
-            //
-        {
-            double pdf;
+    public static double normal_ms_pdf(double x, double mu, double sigma)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_PDF evaluates the Normal PDF.
+        //
+        //  Discussion:
+        //
+        //    PDF(MU,SIGMA;X)
+        //      = exp ( - 0.5 * ( ( X - MU ) / SIGMA )^2 )
+        //      / ( SIGMA * SQRT ( 2 * PI ) )
+        //
+        //    The normal PDF is also known as the Gaussian PDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument of the PDF.
+        //
+        //    Input, double MU, SIGMA, the parameters of the PDF.
+        //    0.0 < SIGMA.
+        //
+        //    Output, double NORMAL_MS_PDF, the value of the PDF.
+        //
+    {
+        double pdf;
             
-            double y;
+        double y;
 
-            y = (x - mu) / sigma;
+        y = (x - mu) / sigma;
 
-            pdf = Math.Exp(-0.5 * y * y) / (sigma * Math.Sqrt(2.0 * Math.PI));
+        pdf = Math.Exp(-0.5 * y * y) / (sigma * Math.Sqrt(2.0 * Math.PI));
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double normal_ms_sample(double mu, double sigma, ref int seed)
+    public static double normal_ms_sample(double mu, double sigma, ref int seed)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_SAMPLE samples the Normal PDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    20 November 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double MU, SIGMA, the parameters of the PDF.
-            //    0.0 < SIGMA.
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double NORMAL_MS_SAMPLE, a sample of the PDF.
-            //
-        {
-            double x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_SAMPLE samples the Normal PDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    20 November 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double MU, SIGMA, the parameters of the PDF.
+        //    0.0 < SIGMA.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double NORMAL_MS_SAMPLE, a sample of the PDF.
+        //
+    {
+        double x;
 
-            x = normal_01_sample(ref seed);
+        x = normal_01_sample(ref seed);
 
-            x = mu + sigma * x;
+        x = mu + sigma * x;
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double normal_ms_variance(double mu, double sigma)
+    public static double normal_ms_variance(double mu, double sigma)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_MS_VARIANCE returns the variance of the Normal PDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 September 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double MU, SIGMA, the parameters of the PDF.
-            //    0.0 < SIGMA.
-            //
-            //    Output, double NORMAL_MS_VARIANCE, the variance of the PDF.
-            //
-        {
-            double variance;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_MS_VARIANCE returns the variance of the Normal PDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double MU, SIGMA, the parameters of the PDF.
+        //    0.0 < SIGMA.
+        //
+        //    Output, double NORMAL_MS_VARIANCE, the variance of the PDF.
+        //
+    {
+        double variance;
 
-            variance = sigma * sigma;
+        variance = sigma * sigma;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static bool normal_check(double mu, double sigma)
+    public static bool normal_check(double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1123,19 +1097,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool NORMAL_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (sigma)
         {
-            if (sigma == 0.0)
-            {
+            case 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("NORMAL_CHECK - Warning!");
                 Console.WriteLine("  SIGMA == 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double normal_mean(double mu, double sigma)
+    public static double normal_mean(double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1161,11 +1136,11 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            return mu;
-        }
+    {
+        return mu;
+    }
 
-        public static double normal_pdf(double x, double mu, double sigma)
+    public static double normal_pdf(double x, double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1201,17 +1176,17 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double y = (x - mu) / sigma;
+        double y = (x - mu) / sigma;
 
-            double pdf = Math.Exp(-0.5 * y * y) / Math.Sqrt(2.0 * Math.PI * sigma * sigma);
+        double pdf = Math.Exp(-0.5 * y * y) / Math.Sqrt(2.0 * Math.PI * sigma * sigma);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double normal_sample(double mu, double sigma, ref int seed)
+    public static double normal_sample(double mu, double sigma, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1239,15 +1214,15 @@ namespace Burkardt.Probability
         //
         //    Output, double NORMAL_SAMPLE, a sample of the PDF.
         //
-        {
-            double x = normal_01_sample(ref seed);
+    {
+        double x = normal_01_sample(ref seed);
 
-            x = mu + sigma * x;
+        x = mu + sigma * x;
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] normal_samples(int n, double mu, double sigma, ref int seed)
+    public static double[] normal_samples(int n, double mu, double sigma, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1277,18 +1252,18 @@ namespace Burkardt.Probability
         //
         //    Output, double NORMAL_SAMPLES[N], the samples.
         //
+    {
+        double[] x = normal_01_samples(n, ref seed);
+
+        for (int i = 0; i < n; i++)
         {
-            double[] x = normal_01_samples(n, ref seed);
-
-            for (int i = 0; i < n; i++)
-            {
-                x[i] = mu + sigma * x[i];
-            }
-
-            return x;
+            x[i] = mu + sigma * x[i];
         }
 
-        public static double normal_variance(double mu, double sigma)
+        return x;
+    }
+
+    public static double normal_variance(double mu, double sigma)
 
         //****************************************************************************80
         //
@@ -1315,13 +1290,13 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = sigma * sigma;
+    {
+        double variance = sigma * sigma;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double[] normal_vector(int n, double mu, double sigma, ref int seed)
+    public static double[] normal_vector(int n, double mu, double sigma, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1368,16 +1343,15 @@ namespace Burkardt.Probability
         //
         //    Output, double NORMAL_VECTOR[N], a sample of the normal PDF.
         //
+    {
+        double[] x = normal_01_vector(n, ref seed);
+
+        for (int i = 0; i < n; i++)
         {
-            double[] x = normal_01_vector(n, ref seed);
-
-            for (int i = 0; i < n; i++)
-            {
-                x[i] = mu + sigma * x[i];
-            }
-
-            return x;
+            x[i] = mu + sigma * x[i];
         }
 
+        return x;
     }
+
 }

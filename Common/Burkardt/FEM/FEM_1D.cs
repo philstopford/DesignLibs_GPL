@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Burkardt.FEM
-{
-    public static class FEM_1D
-    {
+namespace Burkardt.FEM;
 
-        public static void assemble(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
-            double[] h, int[] indx, int nl, int[] node, int nu, int nquad, int nsub,
-            double ul, double ur, double[] xn, double[] xquad)
+public static class FEM_1D
+{
+
+    public static void assemble(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
+        double[] h, int[] indx, int nl, int[] node, int nu, int nquad, int nsub,
+        double ul, double ur, double[] xn, double[] xquad)
 
 //****************************************************************************80
 //
@@ -127,63 +127,72 @@ namespace Burkardt.FEM
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
-            double phii = 0;
-            double phiix = 0;
-            double phij = 0;
-            double phijx = 0;
-            //
+    {
+        double phii = 0;
+        double phiix = 0;
+        double phij = 0;
+        double phijx = 0;
+        //
 //  Zero out the arrays that hold the coefficients of the matrix
 //  and the right hand side.
 //
-            for (int i = 0; i < nu; i++)
-            {
-                f[i] = 0.0;
-                adiag[i] = 0.0;
-                aleft[i] = 0.0;
-                arite[i] = 0.0;
-            }
+        for (int i = 0; i < nu; i++)
+        {
+            f[i] = 0.0;
+            adiag[i] = 0.0;
+            aleft[i] = 0.0;
+            arite[i] = 0.0;
+        }
 
 //
 //  For interval number IE,
 //
-            for (int ie = 0; ie < nsub; ie++)
-            {
-                double he = h[ie];
-                double xleft = xn[node[0 + ie * 2]];
-                double xrite = xn[node[1 + ie * 2]];
+        for (int ie = 0; ie < nsub; ie++)
+        {
+            double he = h[ie];
+            double xleft = xn[node[0 + ie * 2]];
+            double xrite = xn[node[1 + ie * 2]];
 //
 //  consider each quadrature point IQ,
 //
-                for (int iq = 0; iq < nquad; iq++)
-                {
-                    double xquade = xquad[ie];
-                    //
+            for (int iq = 0; iq < nquad; iq++)
+            {
+                double xquade = xquad[ie];
+                //
 //  and evaluate the integrals associated with the basis functions
 //  for the left, and for the right nodes.
 //
-                    for (int il = 1; il <= nl; il++)
-                    {
-                        int ig = node[il - 1 + ie * 2];
-                        int iu = indx[ig] - 1;
+                for (int il = 1; il <= nl; il++)
+                {
+                    int ig = node[il - 1 + ie * 2];
+                    int iu = indx[ig] - 1;
 
-                        if (0 <= iu)
+                    switch (iu)
+                    {
+                        case >= 0:
                         {
                             phi(il, xquade, ref phii, ref phiix, xleft, xrite);
-                            f[iu] = f[iu] + he * ff(xquade) * phii;
+                            f[iu] += he * ff(xquade) * phii;
 //
 //  Take care of boundary nodes at which U' was specified.
 //
                             double x;
-                            if (ig == 0)
+                            switch (ig)
                             {
-                                x = 0.0;
-                                f[iu] = f[iu] - pp(x) * ul;
-                            }
-                            else if (ig == nsub)
-                            {
-                                x = 1.0;
-                                f[iu] = f[iu] + pp(x) * ur;
+                                case 0:
+                                    x = 0.0;
+                                    f[iu] -= pp(x) * ul;
+                                    break;
+                                default:
+                                {
+                                    if (ig == nsub)
+                                    {
+                                        x = 1.0;
+                                        f[iu] += pp(x) * ur;
+                                    }
+
+                                    break;
+                                }
                             }
 
 //
@@ -200,52 +209,58 @@ namespace Burkardt.FEM
 
                                 double aij = he * (pp(xquade) * phiix * phijx
                                                    + qq(xquade) * phii * phij);
-//
-//  If there is no variable associated with the node, then it's
-//  a specified boundary value, so we multiply the coefficient
-//  times the specified boundary value and subtract it from the
-//  right hand side.
-//
-                                if (ju < 0)
+                                switch (ju)
                                 {
-                                    if (jg == 0)
-                                    {
-                                        f[iu] = f[iu] - aij * ul;
-                                    }
-                                    else if (jg == nsub)
-                                    {
-                                        f[iu] = f[iu] - aij * ur;
-                                    }
-                                }
+    
 //
-//  Otherwise, we add the coefficient we've just computed to the
-//  diagonal, or left or right entries of row IU of the matrix.
+                                    //  If there is no variable associated with the node, then it's
+                                    //  a specified boundary value, so we multiply the coefficient
+                                    //  times the specified boundary value and subtract it from the
+                                    //  right hand side.
+                                    //
+                                    case < 0 when jg == 0:
+                                        f[iu] -= aij * ul;
+                                        break;
+case < 0:
+{
+    if (jg == nsub)
+                                        {
+                                            f[iu] -= aij * ur;
+                                        }
+
+    break;
+}
+
 //
-                                else
-                                {
-                                    if (iu == ju)
+                                    default:
                                     {
-                                        adiag[iu] = adiag[iu] + aij;
-                                    }
-                                    else if (ju < iu)
-                                    {
-                                        aleft[iu] = aleft[iu] + aij;
-                                    }
-                                    else
-                                    {
-                                        arite[iu] = arite[iu] + aij;
+                                        if (iu == ju)
+                                        {
+                                            adiag[iu] += aij;
+                                        }
+                                        else if (ju < iu)
+                                        {
+                                            aleft[iu] += aij;
+                                        }
+                                        else
+                                        {
+                                            arite[iu] += aij;
+                                        }
+
+                                        break;
                                     }
                                 }
                             }
+
+                            break;
                         }
                     }
                 }
             }
-
-            return;
         }
+    }
 
-        public static double ff ( double x )
+    public static double ff ( double x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -278,14 +293,14 @@ namespace Burkardt.FEM
 //
 //    Output, double FF, the value of the function.
 //
-        {
-            double value = 0.0;
+    {
+        double value = 0.0;
 
-            return value;
-        }
+        return value;
+    }
         
-        public static void geometry ( double[] h, int ibc, ref int[] indx, int nl, ref int[] node, int nsub, 
-  ref int nu, double xl, ref double[] xn, ref double[] xquad, double xr )
+    public static void geometry ( double[] h, int ibc, ref int[] indx, int nl, ref int[] node, int nsub, 
+        ref int nu, double xl, ref double[] xn, ref double[] xquad, double xr )
 //****************************************************************************80
 //
 //  Purpose: 
@@ -367,124 +382,128 @@ namespace Burkardt.FEM
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
-            int i;
+    {
+        int i;
 //
 //  Set the value of XN, the locations of the nodes.
 //
-            Console.WriteLine("");
-            Console.WriteLine("  Node      Location");
-            Console.WriteLine("");
-            for (i = 0; i <= nsub; i++)
-            {
-                xn[i] = ((double) (nsub - i) * xl
-                         + (double) i * xr)
-                        / (double) (nsub);
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + "  " + xn[i].ToString().PadLeft(14) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("  Node      Location");
+        Console.WriteLine("");
+        for (i = 0; i <= nsub; i++)
+        {
+            xn[i] = ((nsub - i) * xl
+                     + i * xr)
+                    / nsub;
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + xn[i].ToString().PadLeft(14) + "");
+        }
 
 //
 //  Set the lengths of each subinterval.
 //
-            Console.WriteLine("");
-            Console.WriteLine("Subint    Length");
-            Console.WriteLine("");
-            for (i = 0; i < nsub; i++)
-            {
-                h[i] = xn[i + 1] - xn[i];
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + h[i].ToString().PadLeft(14) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("Subint    Length");
+        Console.WriteLine("");
+        for (i = 0; i < nsub; i++)
+        {
+            h[i] = xn[i + 1] - xn[i];
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + h[i].ToString().PadLeft(14) + "");
+        }
 
 //
 //  Set the quadrature points, each of which is the midpoint
 //  of its subinterval.
 //
-            Console.WriteLine("");
-            Console.WriteLine("Subint    Quadrature point");
-            Console.WriteLine("");
-            for (i = 0; i < nsub; i++)
-            {
-                xquad[i] = 0.5 * (xn[i] + xn[i + 1]);
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + xquad[i].ToString().PadLeft(14) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("Subint    Quadrature point");
+        Console.WriteLine("");
+        for (i = 0; i < nsub; i++)
+        {
+            xquad[i] = 0.5 * (xn[i] + xn[i + 1]);
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + xquad[i].ToString().PadLeft(14) + "");
+        }
 
 //
 //  Set the value of NODE, which records, for each interval,
 //  the node numbers at the left and right.
 //
-            Console.WriteLine("");
-            Console.WriteLine("Subint  Left Node  Right Node");
-            Console.WriteLine("");
-            for (i = 0; i < nsub; i++)
-            {
-                node[0 + i * 2] = i;
-                node[1 + i * 2] = i + 1;
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + node[0 + i * 2].ToString().PadLeft(8)
-                    + "  " + node[1 + i * 2].ToString().PadLeft(8) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("Subint  Left Node  Right Node");
+        Console.WriteLine("");
+        for (i = 0; i < nsub; i++)
+        {
+            node[0 + i * 2] = i;
+            node[1 + i * 2] = i + 1;
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + node[0 + i * 2].ToString().PadLeft(8)
+                                   + "  " + node[1 + i * 2].ToString().PadLeft(8) + "");
+        }
 
 //
 //  Starting with node 0, see if an unknown is associated with
 //  the node.  If so, give it an index.
 //
-            nu = 0;
+        nu = 0;
 //
 //  Handle first node.
 //
-            i = 0;
-            if (ibc == 1 || ibc == 3)
-            {
+        i = 0;
+        switch (ibc)
+        {
+            case 1:
+            case 3:
                 indx[i] = -1;
-            }
-            else
-            {
-                nu = nu + 1;
+                break;
+            default:
+                nu += 1;
                 indx[i] = nu;
-            }
+                break;
+        }
 
 //
 //  Handle nodes 1 through nsub-1
 //
-            for (i = 1; i < nsub; i++)
-            {
-                nu = nu + 1;
-                indx[i] = nu;
-            }
+        for (i = 1; i < nsub; i++)
+        {
+            nu += 1;
+            indx[i] = nu;
+        }
 
 //
 //  Handle the last node.
 //
-            i = nsub;
+        i = nsub;
 
-            if (ibc == 2 || ibc == 3)
-            {
+        switch (ibc)
+        {
+            case 2:
+            case 3:
                 indx[i] = -1;
-            }
-            else
-            {
-                nu = nu + 1;
+                break;
+            default:
+                nu += 1;
                 indx[i] = nu;
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Number of unknowns NU = " + nu + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Node  Unknown");
-            Console.WriteLine("");
-            for (i = 0; i <= nsub; i++)
-            {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + "  " + indx[i].ToString().PadLeft(8) + "");
-            }
+                break;
         }
 
+        Console.WriteLine("");
+        Console.WriteLine("  Number of unknowns NU = " + nu + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Node  Unknown");
+        Console.WriteLine("");
+        for (i = 0; i <= nsub; i++)
+        {
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + indx[i].ToString().PadLeft(8) + "");
+        }
+    }
 
-        public static void init(ref int ibc, ref int nquad, ref double ul, ref double ur, ref double xl,
-            ref double xr)
+
+    public static void init(ref int ibc, ref int nquad, ref double ul, ref double ur, ref double xl,
+        ref double xr)
 //****************************************************************************80
 //
 //  Purpose: 
@@ -540,62 +559,66 @@ namespace Burkardt.FEM
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
+    {
 //
 //  IBC declares what the boundary conditions are.
 //
-            ibc = 1;
+        ibc = 1;
 //
 //  NQUAD is the number of quadrature points per subinterval.
 //  The program as currently written cannot handle any value for
 //  NQUAD except 1//
 //
-            nquad = 1;
+        nquad = 1;
 //
 //  Set the values of U or U' at the endpoints.
 //
-            ul = 0.0;
-            ur = 1.0;
+        ul = 0.0;
+        ur = 1.0;
 //
 //  Define the location of the endpoints of the interval.
 //
-            xl = 0.0;
-            xr = 1.0;
+        xl = 0.0;
+        xr = 1.0;
 //
 //  Print out the values that have been set.
 //
-            Console.WriteLine("");
-            Console.WriteLine("  The equation is to be solved for");
-            Console.WriteLine("  X greater than XL = " + xl + "");
-            Console.WriteLine("  and less than XR = " + xr + "");
-            Console.WriteLine("");
-            Console.WriteLine("  The boundary conditions are:");
-            Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine("  The equation is to be solved for");
+        Console.WriteLine("  X greater than XL = " + xl + "");
+        Console.WriteLine("  and less than XR = " + xr + "");
+        Console.WriteLine("");
+        Console.WriteLine("  The boundary conditions are:");
+        Console.WriteLine("");
 
-            if (ibc == 1 || ibc == 3)
-            {
+        switch (ibc)
+        {
+            case 1:
+            case 3:
                 Console.WriteLine("  At X = XL, U = " + ul + "");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  At X = XL, U' = " + ul + "");
-            }
-
-            if (ibc == 2 || ibc == 3)
-            {
-                Console.WriteLine("  At X = XR, U = " + ur + "");
-            }
-            else
-            {
-                Console.WriteLine("  At X = XR, U' = " + ur + "");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Number of quadrature points per element is " + nquad + "");
+                break;
         }
 
-        public static void output ( double[] f, int ibc, int[] indx, int nsub, int nu, double ul, 
-  double ur, double[] xn )
+        switch (ibc)
+        {
+            case 2:
+            case 3:
+                Console.WriteLine("  At X = XR, U = " + ur + "");
+                break;
+            default:
+                Console.WriteLine("  At X = XR, U' = " + ur + "");
+                break;
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("  Number of quadrature points per element is " + nquad + "");
+    }
+
+    public static void output ( double[] f, int ibc, int[] indx, int nsub, int nu, double ul, 
+        double ur, double[] xn )
 
 //****************************************************************************80
 //
@@ -680,61 +703,66 @@ namespace Burkardt.FEM
 //    XN(I) is the location of the I-th node.  XN(0) is XL,
 //    and XN(NSUB) is XR.
 //
+    {
+        double u;
+
+        Console.WriteLine("");
+        Console.WriteLine("  Computed solution coefficients:");
+        Console.WriteLine("");
+        Console.WriteLine("  Node    X(I)        U(X(I))");
+        Console.WriteLine("");
+
+        for (int i = 0; i <= nsub; i++)
         {
-            double u;
-
-            Console.WriteLine("");
-            Console.WriteLine("  Computed solution coefficients:");
-            Console.WriteLine("");
-            Console.WriteLine("  Node    X(I)        U(X(I))");
-            Console.WriteLine("");
-
-            for (int i = 0; i <= nsub; i++)
+            switch (i)
             {
+    
 //
-//  If we're at the first node, check the boundary condition.
+                //  If we're at the first node, check the boundary condition.
+                //
+                case 0 when ibc == 1 || ibc == 3:
+                    u = ul;
+                    break;
+case 0:
+                    u = f[indx[i] - 1];
+                    break;
+
 //
-                if (i == 0)
+                default:
                 {
-                    if (ibc == 1 || ibc == 3)
+                    if (i == nsub)
                     {
-                        u = ul;
+                        switch (ibc)
+                        {
+                            case 2:
+                            case 3:
+                                u = ur;
+                                break;
+                            default:
+                                u = f[indx[i] - 1];
+                                break;
+                        }
                     }
-                    else
-                    {
-                        u = f[indx[i] - 1];
-                    }
-                }
-//
-//  If we're at the last node, check the boundary condition.
-//
-                else if (i == nsub)
-                {
-                    if (ibc == 2 || ibc == 3)
-                    {
-                        u = ur;
-                    }
-                    else
-                    {
-                        u = f[indx[i] - 1];
-                    }
-                }
 //
 //  Any other node, we're sure the value is stored in F.
 //
-                else
-                {
-                    u = f[indx[i] - 1];
+                    else
+                    {
+                        u = f[indx[i] - 1];
+                    }
+
+                    break;
                 }
-
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + "  " + xn[i].ToString().PadLeft(8)
-                    + "  " + u.ToString().PadLeft(14) + "");
             }
-        }
 
-        public static void phi ( int il, double x, ref double phii, ref double phiix, double xleft, 
-            double xrite )
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + xn[i].ToString().PadLeft(8)
+                                   + "  " + u.ToString().PadLeft(14) + "");
+        }
+    }
+
+    public static void phi ( int il, double x, ref double phii, ref double phiix, double xleft, 
+        double xrite )
 //****************************************************************************80
 //
 //  Purpose:
@@ -776,32 +804,33 @@ namespace Burkardt.FEM
 //    Input, double XLEFT, XRITE, the left and right
 //    endpoints of the interval.
 //
+    {
+        if ( xleft <= x && x <= xrite )
         {
-            if ( xleft <= x && x <= xrite )
+            switch (il)
             {
-                if ( il == 1 )
-                {
+                case 1:
                     phii = ( xrite - x ) / ( xrite - xleft );
                     phiix =         -1.0 / ( xrite - xleft );
-                }
-                else
-                {
+                    break;
+                default:
                     phii = ( x - xleft ) / ( xrite - xleft );
                     phiix = 1.0          / ( xrite - xleft );
-                }
+                    break;
             }
+        }
 //
 //  If X is outside of the interval, just set everything to 0.
 //
-            else
-            {
-                phii  = 0.0;
-                phiix = 0.0;
-            }
+        else
+        {
+            phii  = 0.0;
+            phiix = 0.0;
         }
+    }
         
         
-        public static double pp ( double x )
+    public static double pp ( double x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -832,14 +861,14 @@ namespace Burkardt.FEM
 //
 //    Output, double PP, the value of the function.
 //
-        {
-            double value = 1.0;
+    {
+        double value = 1.0;
 
-            return value;
-        }
+        return value;
+    }
 
-        public static void prsys(double[] adiag, double[] aleft, double[] arite, double[] f,
-            int nu)
+    public static void prsys(double[] adiag, double[] aleft, double[] arite, double[] f,
+        int nu)
 //****************************************************************************80
 //
 //  Purpose:
@@ -887,27 +916,25 @@ namespace Burkardt.FEM
 //    NSUB, or NSUB+1 unknown values, which are the coefficients
 //    of basis functions.
 //
+    {
+
+        Console.WriteLine("");
+        Console.WriteLine("Printout of tridiagonal linear system:");
+        Console.WriteLine("");
+        Console.WriteLine("Equation  ALEFT  ADIAG  ARITE  RHS");
+        Console.WriteLine("");
+
+        for (int i = 0; i < nu; i++)
         {
-
-            Console.WriteLine("");
-            Console.WriteLine("Printout of tridiagonal linear system:");
-            Console.WriteLine("");
-            Console.WriteLine("Equation  ALEFT  ADIAG  ARITE  RHS");
-            Console.WriteLine("");
-
-            for (int i = 0; i < nu; i++)
-            {
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + aleft[i].ToString().PadLeft(14)
-                    + "  " + adiag[i].ToString().PadLeft(14)
-                    + "  " + arite[i].ToString().PadLeft(14)
-                    + "  " + f[i].ToString().PadLeft(14) + "");
-            }
-
-            return;
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + aleft[i].ToString().PadLeft(14)
+                                   + "  " + adiag[i].ToString().PadLeft(14)
+                                   + "  " + arite[i].ToString().PadLeft(14)
+                                   + "  " + f[i].ToString().PadLeft(14) + "");
         }
+    }
 
-        public static double qq ( double x )
+    public static double qq ( double x )
 //****************************************************************************80
 //
 //  Purpose: 
@@ -938,13 +965,13 @@ namespace Burkardt.FEM
 //
 //    Output, double QQ, the value of the function.
 //
-        {
-            double value = 0.0;
+    {
+        double value = 0.0;
 
-            return value;
-        }
+        return value;
+    }
         
-        public static void solve ( ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f, 
+    public static void solve ( ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f, 
         int nu )
 //****************************************************************************80
 //
@@ -983,35 +1010,34 @@ namespace Burkardt.FEM
 //
 //    Input, int NU, the number of equations to be solved.
 //
-        {
+    {
 //
 //  Carry out Gauss elimination on the matrix, saving information
 //  needed for the backsolve.
 //
-            arite[0] = arite[0] / adiag[0];
+        arite[0] /= adiag[0];
 
-            for (int i = 1; i < nu - 1; i++ )
-            {
-                adiag[i] = adiag[i] - aleft[i] * arite[i-1];
-                arite[i] = arite[i] / adiag[i];
-            }
-            adiag[nu-1] = adiag[nu-1] - aleft[nu-1] * arite[nu-2];
+        for (int i = 1; i < nu - 1; i++ )
+        {
+            adiag[i] -= aleft[i] * arite[i-1];
+            arite[i] /= adiag[i];
+        }
+        adiag[nu-1] -= aleft[nu-1] * arite[nu-2];
 //
 //  Carry out the same elimination steps on F that were done to the
 //  matrix.
 //
-            f[0] = f[0] / adiag[0];
-            for (int i = 1; i < nu; i++ )
-            {
-                f[i] = ( f[i] - aleft[i] * f[i-1] ) / adiag[i];
-            }
+        f[0] /= adiag[0];
+        for (int i = 1; i < nu; i++ )
+        {
+            f[i] = ( f[i] - aleft[i] * f[i-1] ) / adiag[i];
+        }
 //
 //  And now carry out the steps of "back substitution".
 //
-            for (int i = nu - 2; 0 <= i; i-- )
-            {
-                f[i] = f[i] - arite[i] * f[i+1];
-            }
+        for (int i = nu - 2; 0 <= i; i-- )
+        {
+            f[i] -= arite[i] * f[i+1];
         }
     }
 }

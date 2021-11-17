@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Fisk
 {
-    public static class Fisk
-    {
-        public static double fisk_cdf(double x, double a, double b, double c)
+    public static double fisk_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -35,22 +35,22 @@ namespace Burkardt.Probability
         //
         //    Output, double FISK_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x <= a)
         {
-            double cdf;
-
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 / (1.0 + Math.Pow((b / (x - a)), c));
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            cdf = 1.0 / (1.0 + Math.Pow(b / (x - a), c));
         }
 
-        public static double fisk_cdf_inv(double cdf, double a, double b, double c)
+        return cdf;
+    }
+
+    public static double fisk_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -80,36 +80,34 @@ namespace Burkardt.Probability
         //
         //    Output, double FISK_CDF_INV, the corresponding argument of the CDF.
         //
-        {
-            const double r8_huge = 1.0E+30;
-            double x = 0;
+    {
+        const double r8_huge = 1.0E+30;
+        double x = 0;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("FISK_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf <= 0.0)
-            {
+                return 1;
+            case <= 0.0:
                 x = a;
-            }
-            else if (cdf < 1.0)
-            {
+                break;
+            case < 1.0:
                 x = a + b * Math.Pow(cdf / (1.0 - cdf), 1.0 / c);
-            }
-            else if (1.0 <= cdf)
-            {
+                break;
+            case >= 1.0:
                 x = r8_huge;
-            }
-
-            return x;
+                break;
         }
+
+        return x;
+    }
 //****************************************************************************80
 
-        public static bool fisk_check(double a, double b, double c)
+    public static bool fisk_check(double a, double b, double c)
 
 //****************************************************************************80
 //
@@ -137,27 +135,29 @@ namespace Burkardt.Probability
 //
 //    Output, bool FISK_CHECK, is true if the parameters are legal.
 //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("FISK_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
+        }
 
-            if (c <= 0.0)
-            {
+        switch (c)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("FISK_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double fisk_mean(double a, double b, double c)
+    public static double fisk_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -184,23 +184,26 @@ namespace Burkardt.Probability
         //
         //    Output, double FISK_MEAN, the mean of the PDF.
         //
-        {
+    {
             
 
-            if (c <= 1.0)
-            {
+        switch (c)
+        {
+            case <= 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("FISK_MEAN - Fatal error!");
                 Console.WriteLine("  No mean defined for C <= 1.0");
-                return (1);
+                return 1;
+            default:
+            {
+                double mean = a + Math.PI * (b / c) * typeMethods.r8_csc(Math.PI / c);
+
+                return mean;
             }
-
-            double mean = a + Math.PI * (b / c) * typeMethods.r8_csc(Math.PI / c);
-
-            return mean;
         }
+    }
 
-        public static double fisk_pdf(double x, double a, double b, double c)
+    public static double fisk_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -238,24 +241,24 @@ namespace Burkardt.Probability
         //
         //    Output, double FISK_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x <= a)
         {
-            double pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            double y = (x - a) / b;
 
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                double y = (x - a) / b;
-
-                pdf = (c / b) * Math.Pow(y, (c - 1.0)) / Math.Pow((1.0 + Math.Pow(y, c)), 2);
-            }
-
-            return pdf;
+            pdf = c / b * Math.Pow(y, c - 1.0) / Math.Pow(1.0 + Math.Pow(y, c), 2);
         }
 
-        public static double fisk_sample(double a, double b, double c, ref int seed)
+        return pdf;
+    }
+
+    public static double fisk_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -284,15 +287,15 @@ namespace Burkardt.Probability
         //
         //    Output, double FISK_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = fisk_cdf_inv(cdf, a, b, c);
+        double x = fisk_cdf_inv(cdf, a, b, c);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double fisk_variance(double a, double b, double c)
+    public static double fisk_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -319,26 +322,26 @@ namespace Burkardt.Probability
         //
         //    Output, double FISK_VARIANCE, the variance of the PDF.
         //
-        {
-            double g;
+    {
+        double g;
             
-            double variance;
+        double variance;
 
-            if (c <= 2.0)
-            {
+        switch (c)
+        {
+            case <= 2.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("FISK_VARIANCE - Fatal error!");
                 Console.WriteLine("  No variance defined for C <= 2.0");
-                return (1);
-            }
-
-            g = Math.PI / c;
-
-            variance = b * b * (2.0 * g * typeMethods.r8_csc(2.0 * g)
-                                - Math.Pow((g * typeMethods.r8_csc(g)), 2));
-
-            return variance;
+                return 1;
         }
 
+        g = Math.PI / c;
+
+        variance = b * b * (2.0 * g * typeMethods.r8_csc(2.0 * g)
+                            - Math.Pow(g * typeMethods.r8_csc(g), 2));
+
+        return variance;
     }
+
 }

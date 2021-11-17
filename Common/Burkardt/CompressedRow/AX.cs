@@ -1,9 +1,9 @@
-﻿namespace Burkardt.CompressedRow
+﻿namespace Burkardt.CompressedRow;
+
+public static class AXCR
 {
-    public static class AXCR
-    {
-        public static void ax_cr(int n, int nz_num, int[] ia, int[] ja, double[] a, double[] x,
-        ref double[] w, int aIndex = 0, int xIndex = 0, int wIndex = 0 )
+    public static void ax_cr(int n, int nz_num, int[] ia, int[] ja, double[] a, double[] x,
+            ref double[] w, int aIndex = 0, int xIndex = 0, int wIndex = 0 )
 
         //****************************************************************************80
         //
@@ -80,23 +80,22 @@
         //
         //    Output, double W[N], the value of A*X.
         //
-        {
-            int i;
-            int k;
-            int k1;
-            int k2;
+    {
+        int i;
+        int k;
+        int k1;
+        int k2;
 
-            for (i = 0; i < n; i++)
+        for (i = 0; i < n; i++)
+        {
+            w[wIndex + i] = 0.0;
+            k1 = ia[i];
+            k2 = ia[i + 1];
+            for (k = k1; k < k2; k++)
             {
-                w[wIndex + i] = 0.0;
-                k1 = ia[i];
-                k2 = ia[i + 1];
-                for (k = k1; k < k2; k++)
-                {
-                    w[wIndex + i] = w[wIndex + i] + a[aIndex + k] * x[xIndex + ja[k]];
-                }
+                w[wIndex + i] += a[aIndex + k] * x[xIndex + ja[k]];
             }
         }
-
     }
+
 }

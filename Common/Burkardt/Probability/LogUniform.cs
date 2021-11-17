@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class LogUniform
 {
-    public static class LogUniform
-    {
-        public static double log_uniform_cdf(double x, double a, double b)
+    public static double log_uniform_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,26 +33,26 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x <= a)
         {
-            double cdf;
-
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else if (x < b)
-            {
-                cdf = (Math.Log(x) - Math.Log(a)) / (Math.Log(b) - Math.Log(a));
-            }
-            else
-            {
-                cdf = 1.0;
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else if (x < b)
+        {
+            cdf = (Math.Log(x) - Math.Log(a)) / (Math.Log(b) - Math.Log(a));
+        }
+        else
+        {
+            cdf = 1.0;
         }
 
-        public static double log_uniform_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double log_uniform_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -81,21 +81,25 @@ namespace Burkardt.Probability
         //
         //    Output, double LOG_UNIFORM_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine( "");
                 Console.WriteLine( "LOG_UNIFORM_CDF_INV - Fatal error!");
                 Console.WriteLine( "  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = a * Math.Exp((Math.Log(b) - Math.Log(a)) * cdf);
+
+                return x;
             }
-
-            double x = a * Math.Exp((Math.Log(b) - Math.Log(a)) * cdf);
-
-            return x;
         }
+    }
 
-        public static bool log_uniform_check(double a, double b)
+    public static bool log_uniform_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -121,27 +125,28 @@ namespace Burkardt.Probability
         //
         //    Output, bool LOG_UNIFORM_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 1.0)
-            {
+            case <= 1.0:
                 Console.WriteLine( "");
                 Console.WriteLine( "LOG_UNIFORM_CHECK - Warning!");
                 Console.WriteLine( "  A <= 1.");
                 return false;
-            }
-
-            if (b <= a)
-            {
-                Console.WriteLine( "");
-                Console.WriteLine( "LOG_UNIFORM_CHECK - Warning!");
-                Console.WriteLine( "  B <= A.");
-                return false;
-            }
-
-            return true;
         }
 
-        public static double log_uniform_mean(double a, double b)
+        if (b <= a)
+        {
+            Console.WriteLine( "");
+            Console.WriteLine( "LOG_UNIFORM_CHECK - Warning!");
+            Console.WriteLine( "  B <= A.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public static double log_uniform_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -167,13 +172,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = (b - a) / (Math.Log(b) - Math.Log(a));
+    {
+        double mean = (b - a) / (Math.Log(b) - Math.Log(a));
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double log_uniform_pdf(double x, double a, double b)
+    public static double log_uniform_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -205,26 +210,26 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < a)
         {
-            double pdf;
-
-            if (x < a)
-            {
-                pdf = 0.0;
-            }
-            else if (x <= b)
-            {
-                pdf = 1.0 / (x * (Math.Log(b) - Math.Log(a)));
-            }
-            else
-            {
-                pdf = 0.0;
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else if (x <= b)
+        {
+            pdf = 1.0 / (x * (Math.Log(b) - Math.Log(a)));
+        }
+        else
+        {
+            pdf = 0.0;
         }
 
-        public static double log_uniform_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static double log_uniform_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -252,15 +257,15 @@ namespace Burkardt.Probability
         //
         //    Output, double LOG_UNIFORM_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = log_uniform_cdf_inv(cdf, a, b);
+        double x = log_uniform_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double log_uniform_variance(double a, double b)
+    public static double log_uniform_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -286,14 +291,13 @@ namespace Burkardt.Probability
         //
         //    Output, double LOG_UNIFORM_VARIANCE, the variance of the PDF.
         //
-        {
-            double mean = log_uniform_mean(a, b);
+    {
+        double mean = log_uniform_mean(a, b);
 
-            double variance = ((0.5 * b * b - 2.0 * mean * b + mean * mean * Math.Log(b))
-                               - (0.5 * a * a - 2.0 * mean * a + mean * mean * Math.Log(a)))
-                              / (Math.Log(b) - Math.Log(a));
+        double variance = (0.5 * b * b - 2.0 * mean * b + mean * mean * Math.Log(b)
+                           - (0.5 * a * a - 2.0 * mean * a + mean * mean * Math.Log(a)))
+                          / (Math.Log(b) - Math.Log(a));
 
-            return variance;
-        }
+        return variance;
     }
 }

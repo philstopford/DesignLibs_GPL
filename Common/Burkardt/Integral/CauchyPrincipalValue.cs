@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Quadrature;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static class CauchyPrincipalValue
 {
-    public static class CauchyPrincipalValue
-    {
-        public static double cpv(Func<double,double> f, double a, double b, int n )
+    public static double cpv(Func<double,double> f, double a, double b, int n )
 
         //****************************************************************************80
         //
@@ -71,44 +71,43 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double CPV, the estimate for the Cauchy Principal Value.
         //
+    {
+        int i;
+        double value = 0;
+        double[] w;
+        double[] x;
+        double x2;
+        //
+        //  N must be even.
+        //
+        if (n % 2 != 0)
         {
-            int i;
-            double value;
-            double[] w;
-            double[] x;
-            double x2;
-            //
-            //  N must be even.
-            //
-            if ((n % 2) != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CPV - Fatal error!");
-                Console.WriteLine("  N must be even.");
-                return 1;
-            }
-
-            //
-            //  Get the Gauss-Legendre rule.
-            //
-            x = new double[n];
-            w = new double[n];
-
-            LegendreQuadrature.legendre_set(n, ref x, ref w);
-            //
-            //  Estimate the integral.
-            //
-            value = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                x2 = ((1.0 - x[i]) * a
-                      + (1.0 + x[i]) * b)
-                     / 2.0;
-                value = value + w[i] * (f(x2)) / x[i];
-            }
-
-            return value;
+            Console.WriteLine("");
+            Console.WriteLine("CPV - Fatal error!");
+            Console.WriteLine("  N must be even.");
+            return 1;
         }
 
+        //
+        //  Get the Gauss-Legendre rule.
+        //
+        x = new double[n];
+        w = new double[n];
+
+        LegendreQuadrature.legendre_set(n, ref x, ref w);
+        //
+        //  Estimate the integral.
+        //
+        value = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            x2 = ((1.0 - x[i]) * a
+                  + (1.0 + x[i]) * b)
+                 / 2.0;
+            value += w[i] * f(x2) / x[i];
+        }
+
+        return value;
     }
+
 }

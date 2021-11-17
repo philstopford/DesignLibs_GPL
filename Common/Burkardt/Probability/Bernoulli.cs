@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Bernoulli
 {
-    public static class Bernoulli
-    {
-        public static double bernoulli_cdf(int x, double a)
+    public static double bernoulli_cdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -31,26 +31,18 @@ namespace Burkardt.Probability
         //
         //    Output, double BERNOULLI_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
+            < 0 => 0.0,
+            0 => 1.0 - a,
+            _ => 1.0
+        };
 
-            if (x < 0)
-            {
-                cdf = 0.0;
-            }
-            else if (x == 0)
-            {
-                cdf = 1.0 - a;
-            }
-            else
-            {
-                cdf = 1.0;
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-        public static int bernoulli_cdf_inv(double cdf, double a)
+    public static int bernoulli_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -75,30 +67,32 @@ namespace Burkardt.Probability
         //
         //    Output, int BERNOULLI_CDF_INV, the corresponding argument.
         //
-        {
-            int x;
+    {
+        int x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("BERNOULLI_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
-            }
-
-            if (cdf <= 1.0 - a)
-            {
-                x = 0;
-            }
-            else
-            {
-                x = 1;
-            }
-
-            return x;
         }
 
-        public static bool bernoulli_check(double a)
+        if (cdf <= 1.0 - a)
+        {
+            x = 0;
+        }
+        else
+        {
+            x = 1;
+        }
+
+        return x;
+    }
+
+    public static bool bernoulli_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -119,18 +113,18 @@ namespace Burkardt.Probability
         //    0.0 <= A <= 1.0.
         //
         //    Output, bool BERNOULLI_CHECK, is TRUE if the data is acceptable.
+    {
+        switch (a)
         {
-            if (a < 0.0 || 1.0 < a)
-            {
+            case < 0.0:
+            case > 1.0:
                 return false;
-            }
-            else
-            {
+            default:
                 return true;
-            }
         }
+    }
 
-        public static double bernoulli_mean(double a)
+    public static double bernoulli_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -152,13 +146,13 @@ namespace Burkardt.Probability
         //
         //    Output, double BERNOULLI_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double bernoulli_pdf(int x, double a)
+    public static double bernoulli_pdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -195,30 +189,19 @@ namespace Burkardt.Probability
         //
         //    Output, double BERNOULLI_PDF, the value of the PDF.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
+            < 0 => 0.0,
+            0 => 1.0 - a,
+            1 => a,
+            _ => 0.0
+        };
 
-            if (x < 0)
-            {
-                pdf = 0.0;
-            }
-            else if (x == 0)
-            {
-                pdf = 1.0 - a;
-            }
-            else if (x == 1)
-            {
-                pdf = a;
-            }
-            else
-            {
-                pdf = 0.0;
-            }
+        return pdf;
+    }
 
-            return pdf;
-        }
-
-        public static int bernoulli_sample(double a, ref int seed)
+    public static int bernoulli_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -242,15 +225,15 @@ namespace Burkardt.Probability
         //
         //    Output, int BERNOULLI_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            int x = bernoulli_cdf_inv(cdf, a);
+        int x = bernoulli_cdf_inv(cdf, a);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double bernoulli_variance(double a)
+    public static double bernoulli_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -272,10 +255,9 @@ namespace Burkardt.Probability
         //
         //    Output, double BERNOULLI_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = a * (1.0 - a);
+    {
+        double variance = a * (1.0 - a);
 
-            return variance;
-        }
+        return variance;
     }
 }

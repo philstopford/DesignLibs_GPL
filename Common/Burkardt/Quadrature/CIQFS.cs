@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.MatrixNS;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CIQFS
 {
-    public static class CIQFS
-    {
-        public static double[] ciqfs(int nt, double[] t, int[] mlt, int nwts, ref int[] ndx, int key,
-        int kind, double alpha, double beta, int lo )
+    public static double[] ciqfs(int nt, double[] t, int[] mlt, int nwts, ref int[] ndx, int key,
+            int kind, double alpha, double beta, int lo )
 
         //****************************************************************************80
         //
@@ -87,75 +87,74 @@ namespace Burkardt.Quadrature
         //
         //    Output, double CIQFS[NWTS], the weights.
         //
+    {
+        double[] aj;
+        double[] bj;
+        int j;
+        int jdf;
+        int l;
+        int m;
+        int mex;
+        int mop;
+        int n;
+        int nst;
+        double[] w;
+        double[] wts;
+        double zemu;
+
+        jdf = 0;
+        n = 0;
+        l = Math.Abs(key);
+
+        for (j = 0; j < nt; j++)
         {
-            double[] aj;
-            double[] bj;
-            int j;
-            int jdf;
-            int l;
-            int m;
-            int mex;
-            int mop;
-            int n;
-            int nst;
-            double[] w;
-            double[] wts;
-            double zemu;
-
-            jdf = 0;
-            n = 0;
-            l = Math.Abs(key);
-
-            for (j = 0; j < nt; j++)
+            if (l == 1 || Math.Abs(ndx[j]) != 0)
             {
-                if (l == 1 || Math.Abs(ndx[j]) != 0)
-                {
-                    n = n + mlt[j];
-                }
+                n += mlt[j];
             }
-
-            //
-            //  N knots when counted according to multiplicity.
-            //
-            if (nwts < n)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CIQFS - Fatal error!");
-                Console.WriteLine("  NWTS < N.");
-                return null;
-            }
-
-            m = n + 1;
-            mex = 2 + m;
-            nst = m / 2;
-            //
-            //  Get the Jacobi matrix.
-            //
-            aj = new double[nst];
-            bj = new double[nst];
-
-            zemu = Matrix.class_matrix(kind, nst, alpha, beta, ref aj, ref bj);
-            //
-            //  Call weights routine.
-            //
-            wts = CAWIQ.cawiq(nt, t, mlt, n, ref ndx, key, nst, ref aj, ref bj, ref jdf, zemu);
-
-            //
-            //
-            //  Call checking routine.
-            //
-            if (lo != 0)
-            {
-                mop = m - 1;
-
-                w = new double[mex];
-
-                CHKQFS.chkqfs(t, wts, mlt, nt, n, ndx, key, ref w, mop, mex, kind,
-                    alpha, beta, lo);
-
-            }
-
-            return wts;
         }
+
+        //
+        //  N knots when counted according to multiplicity.
+        //
+        if (nwts < n)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CIQFS - Fatal error!");
+            Console.WriteLine("  NWTS < N.");
+            return null;
+        }
+
+        m = n + 1;
+        mex = 2 + m;
+        nst = m / 2;
+        //
+        //  Get the Jacobi matrix.
+        //
+        aj = new double[nst];
+        bj = new double[nst];
+
+        zemu = Matrix.class_matrix(kind, nst, alpha, beta, ref aj, ref bj);
+        //
+        //  Call weights routine.
+        //
+        wts = CAWIQ.cawiq(nt, t, mlt, n, ref ndx, key, nst, ref aj, ref bj, ref jdf, zemu);
+
+        //
+        //
+        //  Call checking routine.
+        //
+        if (lo != 0)
+        {
+            mop = m - 1;
+
+            w = new double[mex];
+
+            CHKQFS.chkqfs(t, wts, mlt, nt, n, ndx, key, ref w, mop, mex, kind,
+                alpha, beta, lo);
+
+        }
+
+        return wts;
     }
 }

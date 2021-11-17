@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static double r8vec_rsquared(int n, double[] y_data, double[] y_model )
+    public static double r8vec_rsquared(int n, double[] y_data, double[] y_model )
 
         //****************************************************************************80
         //
@@ -41,36 +41,32 @@ namespace Burkardt.Types
         //
         //    Output, double R8VEC_RSQUARED, the R^2 value.
         //
+    {
+        int i;
+
+        double y_average = 0.0;
+        for (i = 0; i < n; i++)
         {
-            double bot;
-            double top;
-            int i;
-            double value;
-            double y_average;
-
-            y_average = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                y_average = y_average + y_data[i];
-            }
-
-            y_average = y_average / (double) (n);
-
-            top = 0.0;
-            bot = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                top = top + Math.Pow(y_data[i] - y_model[i], 2);
-                bot = bot + Math.Pow(y_data[i] - y_average, 2);
-            }
-
-            value = 1.0 - top / bot;
-
-            return value;
+            y_average += y_data[i];
         }
 
-        public static double r8vec_rsquared_adjusted(int n, double[] y_data, double[] y_model,
-        int degree )
+        y_average /= n;
+
+        double top = 0.0;
+        double bot = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            top += Math.Pow(y_data[i] - y_model[i], 2);
+            bot += Math.Pow(y_data[i] - y_average, 2);
+        }
+
+        double value = 1.0 - top / bot;
+
+        return value;
+    }
+
+    public static double r8vec_rsquared_adjusted(int n, double[] y_data, double[] y_model,
+            int degree )
 
         //****************************************************************************80
         //
@@ -111,33 +107,28 @@ namespace Burkardt.Types
         //
         //    Output, double R8VEC_RSQUARED_ADJUSTED, the adjusted R^2 value.
         //
+    {
+        int i;
+
+        double y_average = 0.0;
+        for (i = 0; i < n; i++)
         {
-            double bot;
-            double top;
-            int i;
-            double value;
-            double y_average;
-
-            y_average = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                y_average = y_average + y_data[i];
-            }
-
-            y_average = y_average / (double) (n);
-
-            top = 0.0;
-            bot = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                top = top + Math.Pow(y_data[i] - y_model[i], 2);
-                bot = bot + Math.Pow(y_data[i] - y_average, 2);
-            }
-
-            value = 1.0 - (top / bot)
-                * (double) (n - 1) / (double) (n - degree - 1);
-
-            return value;
+            y_average += y_data[i];
         }
+
+        y_average /= n;
+
+        double top = 0.0;
+        double bot = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            top += Math.Pow(y_data[i] - y_model[i], 2);
+            bot += Math.Pow(y_data[i] - y_average, 2);
+        }
+
+        double value = 1.0 - top / bot
+            * (n - 1) / (n - degree - 1);
+
+        return value;
     }
 }

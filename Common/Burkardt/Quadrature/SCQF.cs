@@ -2,13 +2,13 @@
 using Burkardt.Types;
 using Burkardt.Weight;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class SCQF
 {
-    public static class SCQF
-    {
-        public static void scqf(int nt, double[] t, int[] mlt, double[] wts, int nwts, int[] ndx,
-        ref double[] swts, ref double[] st, int kind, double alpha, double beta, double a,
-        double b )
+    public static void scqf(int nt, double[] t, int[] mlt, double[] wts, int nwts, int[] ndx,
+            ref double[] swts, ref double[] st, int kind, double alpha, double beta, double a,
+            double b )
 
         //****************************************************************************80
         //
@@ -79,17 +79,19 @@ namespace Burkardt.Quadrature
         //
         //    Input, double A, B, the interval endpoints.
         //
+    {
+        double al = 0;
+        double be = 0;
+        double shft = 0;
+        double slp = 0;
+
+        double temp = typeMethods.r8_epsilon();
+
+        PARCHK.parchk(kind, 1, alpha, beta);
+
+        switch (kind)
         {
-            double al = 0;
-            double be = 0;
-            double shft = 0;
-            double slp = 0;
-
-            double temp = typeMethods.r8_epsilon();
-
-            PARCHK.parchk(kind, 1, alpha, beta);
-
-            if (kind == 1)
+            case 1:
             {
                 al = 0.0;
                 be = 0.0;
@@ -103,8 +105,9 @@ namespace Burkardt.Quadrature
 
                 shft = (a + b) / 2.0;
                 slp = (b - a) / 2.0;
+                break;
             }
-            else if (kind == 2)
+            case 2:
             {
                 al = -0.5;
                 be = -0.5;
@@ -118,8 +121,9 @@ namespace Burkardt.Quadrature
 
                 shft = (a + b) / 2.0;
                 slp = (b - a) / 2.0;
+                break;
             }
-            else if (kind == 3)
+            case 3:
             {
                 al = alpha;
                 be = alpha;
@@ -133,8 +137,9 @@ namespace Burkardt.Quadrature
 
                 shft = (a + b) / 2.0;
                 slp = (b - a) / 2.0;
+                break;
             }
-            else if (kind == 4)
+            case 4:
             {
                 al = alpha;
                 be = beta;
@@ -149,38 +154,31 @@ namespace Burkardt.Quadrature
 
                 shft = (a + b) / 2.0;
                 slp = (b - a) / 2.0;
+                break;
             }
-            else if (kind == 5)
-            {
-                if (b <= 0.0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SCQF - Fatal error!");
-                    Console.WriteLine("  B <= 0");
-                    return;
-                }
-
+            case 5 when b <= 0.0:
+                Console.WriteLine("");
+                Console.WriteLine("SCQF - Fatal error!");
+                Console.WriteLine("  B <= 0");
+                return;
+            case 5:
                 shft = a;
                 slp = 1.0 / b;
                 al = alpha;
                 be = 0.0;
-            }
-            else if (kind == 6)
-            {
-                if (b <= 0.0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SCQF - Fatal error!");
-                    Console.WriteLine("  B <= 0.");
-                    return;
-                }
-
+                break;
+            case 6 when b <= 0.0:
+                Console.WriteLine("");
+                Console.WriteLine("SCQF - Fatal error!");
+                Console.WriteLine("  B <= 0.");
+                return;
+            case 6:
                 shft = a;
                 slp = 1.0 / Math.Sqrt(b);
                 al = alpha;
                 be = 0.0;
-            }
-            else if (kind == 7)
+                break;
+            case 7:
             {
                 al = alpha;
                 be = 0.0;
@@ -194,23 +192,20 @@ namespace Burkardt.Quadrature
 
                 shft = (a + b) / 2.0;
                 slp = (b - a) / 2.0;
+                break;
             }
-            else if (kind == 8)
-            {
-                if (a + b <= 0.0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SCQF - Fatal error!");
-                    Console.WriteLine("  A + B <= 0.");
-                    return;
-                }
-
+            case 8 when a + b <= 0.0:
+                Console.WriteLine("");
+                Console.WriteLine("SCQF - Fatal error!");
+                Console.WriteLine("  A + B <= 0.");
+                return;
+            case 8:
                 shft = a;
                 slp = a + b;
                 al = alpha;
                 be = beta;
-            }
-            else if (kind == 9)
+                break;
+            case 9:
             {
                 al = 0.5;
                 be = 0.5;
@@ -224,23 +219,24 @@ namespace Burkardt.Quadrature
 
                 shft = (a + b) / 2.0;
                 slp = (b - a) / 2.0;
+                break;
             }
+        }
 
-            double p = Math.Pow(slp, al + be + 1.0);
+        double p = Math.Pow(slp, al + be + 1.0);
 
-            for (int k = 0; k < nt; k++)
+        for (int k = 0; k < nt; k++)
+        {
+            st[k] = shft + slp * t[k];
+            int l = Math.Abs(ndx[k]);
+
+            if (l != 0)
             {
-                st[k] = shft + slp * t[k];
-                int l = Math.Abs(ndx[k]);
-
-                if (l != 0)
+                double tmp = p;
+                for (int i = l - 1; i <= l - 1 + mlt[k] - 1; i++)
                 {
-                    double tmp = p;
-                    for (int i = l - 1; i <= l - 1 + mlt[k] - 1; i++)
-                    {
-                        swts[i] = wts[i] * tmp;
-                        tmp = tmp * slp;
-                    }
+                    swts[i] = wts[i] * tmp;
+                    tmp *= slp;
                 }
             }
         }

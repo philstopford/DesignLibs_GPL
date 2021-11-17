@@ -1,10 +1,10 @@
 ﻿using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGESL
 {
-    public static class DGESL
-    {
-        public static void dgesl(double[] a, int lda, int n, int[] ipvt, ref double[] b, int job )
+    public static void dgesl(double[] a, int lda, int n, int[] ipvt, ref double[] b, int job )
 
         //****************************************************************************80
         //
@@ -66,14 +66,16 @@ namespace Burkardt.Linpack
         //    0, solve A * X = B;
         //    nonzero, solve A' * X = B.
         //
+    {
+        int k;
+        int l;
+        double t;
+        switch (job)
         {
-            int k;
-            int l;
-            double t;
             //
             //  Solve A * X = B.
             //
-            if (job == 0)
+            case 0:
             {
                 for (k = 1; k <= n - 1; k++)
                 {
@@ -92,15 +94,15 @@ namespace Burkardt.Linpack
 
                 for (k = n; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] / a[k - 1 + (k - 1) * lda];
+                    b[k - 1] /= a[k - 1 + (k - 1) * lda];
                     t = -b[k - 1];
                     BLAS1D.daxpy(k - 1, t, a, 1, ref b, 1, xIndex: + 0 + (k - 1) * lda);
                 }
+
+                break;
             }
             //
-            //  Solve A' * X = B.
-            //
-            else
+            default:
             {
                 for (k = 1; k <= n; k++)
                 {
@@ -110,7 +112,7 @@ namespace Burkardt.Linpack
 
                 for (k = n - 1; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] + BLAS1D.ddot(n - k, a, 1, b, 1, xIndex:  + k + (k - 1) * lda, yIndex: + k);
+                    b[k - 1] += BLAS1D.ddot(n - k, a, 1, b, 1, xIndex:  + k + (k - 1) * lda, yIndex: + k);
                     l = ipvt[k - 1];
 
                     if (l != k)
@@ -120,6 +122,8 @@ namespace Burkardt.Linpack
                         b[k - 1] = t;
                     }
                 }
+
+                break;
             }
         }
     }

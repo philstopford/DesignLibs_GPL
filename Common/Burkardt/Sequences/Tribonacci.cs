@@ -2,150 +2,139 @@
 using System.Numerics;
 using Burkardt.Types;
 
-namespace Burkardt.Sequence
+namespace Burkardt.Sequence;
+
+public class Tribonacci
 {
-    public class Tribonacci
+    public static int tribonacci_direct(int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    tribonacci_direct() computes the N-th Tribonacci number directly.
+        //
+        //  Example:
+        //
+        //     N   T
+        //    --  --
+        //     1   0
+        //     2   0
+        //     3   1
+        //     4   1
+        //     5   2
+        //     6   4
+        //     7   7
+        //     8  13
+        //     9  24
+        //    10  44
+        //    11  81
+        //    12 149
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 May 2021
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Input:
+        //
+        //    int N: the index of the number to compute.
+        //    N should be positive.
+        //
+        //  Output:
+        //
+        //    int TRIBONACCI_DIRECT: the value of the N-th number.
+        //
     {
-        public static int tribonacci_direct(int n)
+        double alpha = 0;
+        Complex beta = new();
+        Complex gamma = new();
+        int t;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    tribonacci_direct() computes the N-th Tribonacci number directly.
-            //
-            //  Example:
-            //
-            //     N   T
-            //    --  --
-            //     1   0
-            //     2   0
-            //     3   1
-            //     4   1
-            //     5   2
-            //     6   4
-            //     7   7
-            //     8  13
-            //     9  24
-            //    10  44
-            //    11  81
-            //    12 149
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 May 2021
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Input:
-            //
-            //    int N: the index of the number to compute.
-            //    N should be positive.
-            //
-            //  Output:
-            //
-            //    int TRIBONACCI_DIRECT: the value of the N-th number.
-            //
+        tribonacci_roots(ref alpha, ref beta, ref gamma);
+
+        t = n switch
         {
-            double alpha = 0;
-            Complex beta = new Complex();
-            Complex gamma = new Complex();
-            int t;
+            <= 0 => 0,
+            _ => (int) Math.Round((Complex.Pow(alpha, n) / (-Complex.Pow(alpha, 2) + 4.0 * alpha - 1.0) +
+                                   Complex.Pow(beta, n) / (-Complex.Pow(beta, 2) + 4.0 * beta - 1.0) +
+                                   Complex.Pow(gamma, n) / (-Complex.Pow(gamma, 2) + 4.0 * gamma - 1.0)).Real)
+        };
 
-            tribonacci_roots(ref alpha, ref beta, ref gamma);
+        return t;
+    }
 
-            if (n <= 0)
-            {
-                t = 0;
-            }
-            else
-            {
-                t = (int)Math.Round
-                (
-                    (
-                        Complex.Pow(alpha, n) / (-Complex.Pow(alpha, 2) + 4.0 * alpha - 1.0)
-                        + Complex.Pow(beta, n) / (-Complex.Pow(beta, 2) + 4.0 * beta - 1.0)
-                        + Complex.Pow(gamma, n) / (-Complex.Pow(gamma, 2) + 4.0 * gamma - 1.0)
-                    ).Real
-                );
-            }
+    public static int[] tribonacci_recursive(int n)
 
-            return t;
-        }
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    tribonacci_recursive() computes the first N Tribonacci numbers.
+        //
+        //  Recursion:
+        //
+        //    F(1) = 0
+        //    F(2) = 0
+        //    F(3) = 1
+        //
+        //    F(N) = F(N-1) + F(N-2) + F(N-3)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 May 2021
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Input:
+        //
+        //    int N, the highest number to compute.
+        //
+        //  Output:
+        //
+        //    int TRIBONACCI_RECURSIVE[N], the first N Tribonacci numbers.
+        //
+    {
+        int[] f;
+        int i;
 
-        public static int[] tribonacci_recursive(int n)
+        f = new int[n];
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    tribonacci_recursive() computes the first N Tribonacci numbers.
-            //
-            //  Recursion:
-            //
-            //    F(1) = 0
-            //    F(2) = 0
-            //    F(3) = 1
-            //
-            //    F(N) = F(N-1) + F(N-2) + F(N-3)
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 May 2021
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Input:
-            //
-            //    int N, the highest number to compute.
-            //
-            //  Output:
-            //
-            //    int TRIBONACCI_RECURSIVE[N], the first N Tribonacci numbers.
-            //
+        for (i = 0; i < n; i++)
         {
-            int[] f;
-            int i;
-
-            f = new int[n];
-
-            for (i = 0; i < n; i++)
+            switch (i)
             {
-                if (i == 0)
-                {
+                case 0:
+                case 1:
                     f[i] = 0;
-                }
-                else if (i == 1)
-                {
-                    f[i] = 0;
-                }
-                else if (i == 2)
-                {
+                    break;
+                case 2:
                     f[i] = 1;
-                }
-                else
-                {
+                    break;
+                default:
                     f[i] = f[i - 1] + f[i - 2] + f[i - 3];
-                }
+                    break;
             }
-
-            return f;
         }
 
-        public static void tribonacci_roots(ref double alpha, ref Complex beta,
-        ref Complex gamma )
+        return f;
+    }
+
+    public static void tribonacci_roots(ref double alpha, ref Complex beta,
+            ref Complex gamma )
 
         //****************************************************************************80
         //
@@ -188,21 +177,20 @@ namespace Burkardt.Sequence
         //
         //    double &ALPHA, complex <double> &BETA, complex <double> &GAMMA, the roots.
         //
-        {
-            double a;
-            double b;
-            double rho;
-            double tau;
+    {
+        double a;
+        double b;
+        double rho;
+        double tau;
 
-            rho = typeMethods.r8_cube_root(19.0 + 3.0 * Math.Sqrt(33.0));
-            tau = typeMethods.r8_cube_root(19.0 - 3.0 * Math.Sqrt(33.0));
+        rho = typeMethods.r8_cube_root(19.0 + 3.0 * Math.Sqrt(33.0));
+        tau = typeMethods.r8_cube_root(19.0 - 3.0 * Math.Sqrt(33.0));
 
-            a = (2.0 - rho - tau) / 6.0;
-            b = Math.Sqrt(3.0) * (rho - tau) / 6.0;
+        a = (2.0 - rho - tau) / 6.0;
+        b = Math.Sqrt(3.0) * (rho - tau) / 6.0;
 
-            alpha = (1.0 + rho + tau) / 3.0;
-            beta = new Complex(a, +b);
-            gamma = new Complex(a, -b);
-        }
+        alpha = (1.0 + rho + tau) / 3.0;
+        beta = new Complex(a, +b);
+        gamma = new Complex(a, -b);
     }
 }

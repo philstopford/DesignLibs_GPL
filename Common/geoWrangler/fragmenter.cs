@@ -4,196 +4,209 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace geoWrangler
+namespace geoWrangler;
+
+using Path = List<IntPoint>;
+using Paths = List<List<IntPoint>>;
+public class Fragmenter
 {
-    using Path = List<IntPoint>;
-    using Paths = List<List<IntPoint>>;
-    public class Fragmenter
+    private double resolution;
+    private double scaleFactor;
+
+    private const double def_res = 1.0;
+    private const double def_scale = 1E4;
+
+    public Fragmenter(double res = def_res, double scaling = def_scale)
     {
-        double resolution;
-        double scaleFactor;
+        pFragmenter(res, scaling);
+    }
 
-        const double def_res = 1.0;
-        const double def_scale = 1E4;
+    private void pFragmenter(double res = def_res, double scaling = def_scale)
+    {
+        resolution = res;
+        scaleFactor = scaling;
+    }
 
-        public Fragmenter(double res = def_res, double scaling = def_scale)
+    public List<GeoLibPointF[]> fragmentPaths(List<GeoLibPointF[]> source)
+    {
+        return pFragmentPaths(source);
+    }
+
+    private List<GeoLibPointF[]> pFragmentPaths(List<GeoLibPointF[]> source)
+    {
+        switch (source.Count)
         {
-            pFragmenter(res, scaling);
-        }
-
-        void pFragmenter(double res = def_res, double scaling = def_scale)
-        {
-            resolution = res;
-            scaleFactor = scaling;
-        }
-
-        public List<GeoLibPointF[]> fragmentPaths(List<GeoLibPointF[]> source)
-        {
-            return pFragmentPaths(source);
-        }
-
-        List<GeoLibPointF[]> pFragmentPaths(List<GeoLibPointF[]> source)
-        {
-            if (source.Count == 0)
-            {
+            case 0:
                 return source.ToList();
-            }
-
-            List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            foreach (GeoLibPointF[] t in source)
-            {
-                ret.Add(pFragmentPath(t.ToArray()));
-            }
-
-            return ret.ToList();
         }
 
-        public GeoLibPointF[] fragmentPath(GeoLibPointF[] pointList)
+        List<GeoLibPointF[]> ret = new();
+        foreach (GeoLibPointF[] t in source)
         {
-            return pFragmentPath(pointList);
+            ret.Add(pFragmentPath(t.ToArray()));
         }
 
-        GeoLibPointF[] pFragmentPath(GeoLibPointF[] pointList)
-        {
-            List<GeoLibPointF> returnList = fragmentPath(pointList.ToList());
+        return ret.ToList();
+    }
 
-            return returnList.ToArray();
+    public GeoLibPointF[] fragmentPath(GeoLibPointF[] pointList)
+    {
+        return pFragmentPath(pointList);
+    }
+
+    private GeoLibPointF[] pFragmentPath(GeoLibPointF[] pointList)
+    {
+        List<GeoLibPointF> returnList = fragmentPath(pointList.ToList());
+
+        return returnList.ToArray();
+    }
+
+    // Returns start and end point with fragmented in between.
+    public List<GeoLibPointF> fragmentPath(List<GeoLibPointF> pointList)
+    {
+        return pFragmentPath(pointList);
+    }
+
+    public Paths fragmentPaths(Paths source)
+    {
+        return pFragmentPaths(source);
+    }
+
+    private Paths pFragmentPaths(Paths source)
+    {
+        Paths ret = new();
+        foreach (Path t in source)
+        {
+            ret.Add(pFragmentPath(t));
         }
 
-        // Returns start and end point with fragmented in between.
-        public List<GeoLibPointF> fragmentPath(List<GeoLibPointF> pointList)
+        return ret;
+    }
+
+    public Path fragmentPath(Path source)
+    {
+        return pFragmentPath(source);
+    }
+
+    private Path pFragmentPath(Path source)
+    {
+        Path ret = new();
+        bool closed = source[0].X == source[^1].X && source[0].Y == source[^1].Y;
+        // Decouple the geometry.
+        Path t = new();
+        for (int p = 0; p < source.Count; p++)
         {
-            return pFragmentPath(pointList);
+            t.Add(new IntPoint(source[p].X, source[p].Y));
         }
 
-        public Paths fragmentPaths(Paths source)
+        t = closed switch
         {
-            return pFragmentPaths(source);
+            true => GeoWrangler.stripTerminators(t, false),
+            _ => t
+        };
+
+        for (int p = 0; p < t.Count - 1; p++)
+        {
+            ret.Add(new IntPoint(t[p]));
+            ret.AddRange(pFragmentPath(t[p], t[p + 1]));
         }
 
-        Paths pFragmentPaths(Paths source)
+        switch (closed)
         {
-            Paths ret = new Paths();
-            foreach (Path t in source)
-            {
-                ret.Add(pFragmentPath(t));
-            }
-
-            return ret;
-        }
-
-        public Path fragmentPath(Path source)
-        {
-            return pFragmentPath(source);
-        }
-
-        Path pFragmentPath(Path source)
-        {
-            Path ret = new Path();
-            bool closed = (source[0].X == source[^1].X) && (source[0].Y == source[^1].Y);
-            // Decouple the geometry.
-            Path t = new Path();
-            for (int p = 0; p < source.Count; p++)
-            {
-                t.Add(new IntPoint(source[p].X, source[p].Y));
-            }
-            if (closed)
-            {
-                t = GeoWrangler.stripTerminators(t, false);
-            }
-
-            for (int p = 0; p < t.Count - 1; p++)
-            {
-                ret.Add(new IntPoint(t[p]));
-                ret.AddRange(pFragmentPath(t[p], t[p + 1]));
-            }
-
-            if (closed)
-            {
+            case true:
                 ret.Add(new IntPoint(t[^1]));
                 ret.AddRange(pFragmentPath(t[^1], t[0]));
                 ret = GeoWrangler.close(ret);
-            }
-
-            return ret;
+                break;
         }
 
-        public Path fragmentPath(IntPoint pt1, IntPoint pt2)
-        {
-            return pFragmentPath(pt1, pt2);
-        }
+        return ret;
+    }
 
-        Path pFragmentPath(IntPoint pt1, IntPoint pt2, bool startAndEndPoints = false)
-        {
-            Path returnPath = new Path();
-            Int64 x_Distance = pt2.X - pt1.X;
-            Int64 y_Distance = pt2.Y - pt1.Y;
-            // We do some manipulation here because the points in the call are scaled by CentralProperties.scaleFactorForOperation.
-            // That would lead to too many points being injected. We therefore scale resolution by 1E4
-            Int32 fragmentCount = Convert.ToInt32(Math.Floor(GeoWrangler.distanceBetweenPoints(pt1, pt2) / (resolution * (scaleFactor / 1E4))));
+    public Path fragmentPath(IntPoint pt1, IntPoint pt2)
+    {
+        return pFragmentPath(pt1, pt2);
+    }
 
-            if (startAndEndPoints)
-            {
+    private Path pFragmentPath(IntPoint pt1, IntPoint pt2, bool startAndEndPoints = false)
+    {
+        Path returnPath = new();
+        long x_Distance = pt2.X - pt1.X;
+        long y_Distance = pt2.Y - pt1.Y;
+        // We do some manipulation here because the points in the call are scaled by CentralProperties.scaleFactorForOperation.
+        // That would lead to too many points being injected. We therefore scale resolution by 1E4
+        int fragmentCount = Convert.ToInt32(Math.Floor(GeoWrangler.distanceBetweenPoints(pt1, pt2) / (resolution * (scaleFactor / 1E4))));
+
+        switch (startAndEndPoints)
+        {
+            case true:
                 returnPath.Add(new IntPoint(pt1));
-            }
-            if (fragmentCount > 0)
+                break;
+        }
+        switch (fragmentCount)
+        {
+            case > 0:
             {
                 double x_Step = Convert.ToDouble(x_Distance) / fragmentCount;
                 double y_Step = Convert.ToDouble(y_Distance) / fragmentCount;
 
-                for (Int32 i = 1; i < fragmentCount; i++)
+                for (int i = 1; i < fragmentCount; i++)
                 {
-                    returnPath.Add(new IntPoint(pt1.X + (i * x_Step), pt1.Y + (i * y_Step)));
+                    returnPath.Add(new IntPoint(pt1.X + i * x_Step, pt1.Y + i * y_Step));
                 }
+
+                break;
             }
-            if (startAndEndPoints)
-            {
+        }
+        switch (startAndEndPoints)
+        {
+            case true:
                 returnPath.Add(new IntPoint(pt2));
-            }
-            return returnPath;
+                break;
         }
+        return returnPath;
+    }
 
-        public List<GeoLibPointF> fragmentPath(List<GeoLibPointF> pointList, double res, double scaling)
-        {
-            resolution = res;
-            scaleFactor = scaling;
-            return pFragmentPath(pointList);
-        }
+    public List<GeoLibPointF> fragmentPath(List<GeoLibPointF> pointList, double res, double scaling)
+    {
+        resolution = res;
+        scaleFactor = scaling;
+        return pFragmentPath(pointList);
+    }
 
-        List<GeoLibPointF> pFragmentPath(List<GeoLibPointF> pointList)
+    private List<GeoLibPointF> pFragmentPath(List<GeoLibPointF> pointList)
+    {
+        List<GeoLibPointF> returnList = new();
+        for (int pt = 0; pt < pointList.Count(); pt++)
         {
-            List<GeoLibPointF> returnList = new List<GeoLibPointF>();
-            for (Int32 pt = 0; pt < pointList.Count(); pt++)
+            returnList.Add(pointList[pt]);
+            if (pt != pointList.Count() - 1)
             {
-                returnList.Add(pointList[pt]);
-                if (pt != (pointList.Count() - 1))
-                {
-                    // Fragment path doesn't return start and end points - just points between.
-                    List<GeoLibPointF> newPtsList = fragmentPath(pointList[pt], pointList[pt + 1]);
-                    returnList.AddRange(newPtsList);
-                }
+                // Fragment path doesn't return start and end points - just points between.
+                List<GeoLibPointF> newPtsList = fragmentPath(pointList[pt], pointList[pt + 1]);
+                returnList.AddRange(newPtsList);
             }
-            return returnList;
         }
+        return returnList;
+    }
 
-        // Internals that don't return start and end points.
+    // Internals that don't return start and end points.
 
-        List<GeoLibPointF> fragmentPath(GeoLibPointF pt1, GeoLibPointF pt2)
+    private List<GeoLibPointF> fragmentPath(GeoLibPointF pt1, GeoLibPointF pt2)
+    {
+        List<GeoLibPointF> returnList = new();
+        double x_Distance = pt2.X - pt1.X;
+        double y_Distance = pt2.Y - pt1.Y;
+        double fragmentCount = Math.Floor(GeoWrangler.distanceBetweenPoints(pt1, pt2) / resolution);
+
+        double x_Step = x_Distance / fragmentCount;
+        double y_Step = y_Distance / fragmentCount;
+
+        // Avoid sending back the first and last vertices of the path.
+        for (int i = 1; i < fragmentCount; i++)
         {
-            List<GeoLibPointF> returnList = new List<GeoLibPointF>();
-            double x_Distance = pt2.X - pt1.X;
-            double y_Distance = pt2.Y - pt1.Y;
-            double fragmentCount = Math.Floor(GeoWrangler.distanceBetweenPoints(pt1, pt2) / (resolution));
-
-            double x_Step = x_Distance / fragmentCount;
-            double y_Step = y_Distance / fragmentCount;
-
-            // Avoid sending back the first and last vertices of the path.
-            for (Int32 i = 1; i < fragmentCount; i++)
-            {
-                returnList.Add(new GeoLibPointF((pt1.X + (i * x_Step)), (pt1.Y + (i * y_Step))));
-            }
-            return returnList;
+            returnList.Add(new GeoLibPointF(pt1.X + i * x_Step, pt1.Y + i * y_Step));
         }
+        return returnList;
     }
 }

@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.RandomNS
+namespace Burkardt.RandomNS;
+
+public static class Normal
 {
-    public static class Normal
-    {
-        public static double[] normal(int dim_num, int n, double[] r, double[] mu, ref int seed )
+    public static double[] normal(int dim_num, int n, double[] r, double[] mu, ref int seed )
 
         //****************************************************************************80
         //
@@ -62,108 +62,108 @@ namespace Burkardt.RandomNS
         //
         //    Output, double NORMAL[DIM_NUM*N], the random points.
         //
+    {
+        int i;
+        int j;
+        int k;
+        double[] v;
+        double[] x;
+
+        v = new double[dim_num];
+        x = new double[dim_num * n];
+        //
+        //  Get a matrix V of normal data.
+        //  Compute X = MU + R' * V.
+        //  We actually carry out this computation in the equivalent form X' * R.
+        //
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-            int k;
-            double[] v;
-            double[] x;
+            typeMethods.r8vec_normal_01(dim_num, ref seed, ref v);
 
-            v = new double[dim_num];
-            x = new double[dim_num * n];
-            //
-            //  Get a matrix V of normal data.
-            //  Compute X = MU + R' * V.
-            //  We actually carry out this computation in the equivalent form X' * R.
-            //
-            for (j = 0; j < n; j++)
+            for (i = 0; i < dim_num; i++)
             {
-                typeMethods.r8vec_normal_01(dim_num, ref seed, ref v);
-
-                for (i = 0; i < dim_num; i++)
+                x[i + j * dim_num] = mu[i];
+                for (k = 0; k <= i; k++)
                 {
-                    x[i + j * dim_num] = mu[i];
-                    for (k = 0; k <= i; k++)
-                    {
-                        x[i + j * dim_num] = x[i + j * dim_num] + v[k] * r[k + i * dim_num];
-                    }
+                    x[i + j * dim_num] += v[k] * r[k + i * dim_num];
                 }
             }
-
-            return x;
         }
 
-        public static double[] normal_circular(int dim_num, int n, ref int seed)
+        return x;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_CIRCULAR creates circularly normal points in 2 space.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    20 August 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz and Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    US Department of Commerce, 1964, page 936.
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the dimension of the space, which must be 2.
-            //
-            //    Input, int N, the number of points.
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double NORMAL_CIRULAR[DIM_NUM*N], the random points.
-            //
+    public static double[] normal_circular(int dim_num, int n, ref int seed)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_CIRCULAR creates circularly normal points in 2 space.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    20 August 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz and Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    US Department of Commerce, 1964, page 936.
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the dimension of the space, which must be 2.
+        //
+        //    Input, int N, the number of points.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double NORMAL_CIRULAR[DIM_NUM*N], the random points.
+        //
+    {
+        int j;
+        double[] r;
+        double[] t;
+        double[] x;
+
+        r = new double[n];
+        t = new double[n];
+        x = new double[dim_num * n];
+        //
+        //  The angle varies uniformly from 0 to 2 pi.
+        //
+        UniformRNG.r8vec_uniform_01(n, ref seed, ref t);
+
+        for (j = 0; j < n; j++)
         {
-            int j;
-            double[] r;
-            double[] t;
-            double[] x;
-
-            r = new double[n];
-            t = new double[n];
-            x = new double[dim_num * n];
-            //
-            //  The angle varies uniformly from 0 to 2 pi.
-            //
-            UniformRNG.r8vec_uniform_01(n, ref seed, ref t);
-
-            for (j = 0; j < n; j++)
-            {
-                t[j] = 2.0 * Math.PI * t[j];
-            }
-
-            //
-            //  The radius is normally distributed.
-            //
-            typeMethods.r8vec_normal_01(n, ref seed, ref r);
-
-            for (j = 0; j < n; j++)
-            {
-                x[0 + j * dim_num] = r[j] * Math.Cos(t[j]);
-                x[1 + j * dim_num] = r[j] * Math.Sin(t[j]);
-            }
-
-            return x;
+            t[j] = 2.0 * Math.PI * t[j];
         }
 
-        public static double[] normal_multivariate(int m, int n, double[] r, double[] mu,
-        ref int seed )
+        //
+        //  The radius is normally distributed.
+        //
+        typeMethods.r8vec_normal_01(n, ref seed, ref r);
+
+        for (j = 0; j < n; j++)
+        {
+            x[0 + j * dim_num] = r[j] * Math.Cos(t[j]);
+            x[1 + j * dim_num] = r[j] * Math.Sin(t[j]);
+        }
+
+        return x;
+    }
+
+    public static double[] normal_multivariate(int m, int n, double[] r, double[] mu,
+            ref int seed )
 
         //****************************************************************************80
         //
@@ -231,89 +231,88 @@ namespace Burkardt.RandomNS
         //    Output, double NORMAL_MULTIVARIATE[DIM_NUM*N], corresponding
         //    points associated with the multivariate normal distribution.
         //
+    {
+        int i;
+        int j;
+        int k;
+        double[] v;
+        double[] x;
+
+        v = new double[m];
+        x = new double[m * n];
+        //
+        //  Compute X = MU + R' * V.
+        //  We actually carry out this computation in the equivalent form MU + V' * R.
+        //
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-            int k;
-            double[] v;
-            double[] x;
+            typeMethods.r8vec_normal_01(m, ref seed, ref v);
 
-            v = new double[m];
-            x = new double[m * n];
-            //
-            //  Compute X = MU + R' * V.
-            //  We actually carry out this computation in the equivalent form MU + V' * R.
-            //
-            for (j = 0; j < n; j++)
+            for (i = 0; i < m; i++)
             {
-                typeMethods.r8vec_normal_01(m, ref seed, ref v);
-
-                for (i = 0; i < m; i++)
+                x[i + j * m] = mu[i];
+                for (k = 0; k <= i; k++)
                 {
-                    x[i + j * m] = mu[i];
-                    for (k = 0; k <= i; k++)
-                    {
-                        x[i + j * m] = x[i + j * m] + v[k] * r[k + i * m];
-                    }
+                    x[i + j * m] += v[k] * r[k + i * m];
                 }
             }
+        }
             
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] normal_simple(int dim_num, int n, ref int seed)
+    public static double[] normal_simple(int dim_num, int n, ref int seed)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_SIMPLE creates normally distributed points in DIM_NUM space.
-            //
-            //  Discussion:
-            //
-            //    The multivariate normal distribution has the form:
-            //
-            //      f(x) = (2*pi*det(V))^(-DIM_NUM/2) * exp(-0.5*(x-mu)'*inverse(V)*(x-mu))
-            //
-            //    where mu is the mean vector, and V is a positive definite symmetric
-            //    matrix called the variance-covariance matrix.
-            //
-            //    This routine implements the simplest version of a multivariate
-            //    normal distribution.  The variance-covariance matrix is the identity,
-            //    and the mean vector is entirely zero.  Thus, a sample on N points
-            //    is simply DIM_NUM*N scalar values generated under the univariate
-            //    normal distribution with zero mean and unit variance.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 August 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the dimension of the space.
-            //
-            //    Input, int N, the number of points.
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double NORMAL_SIMPLE[DIM_NUM*N], the random points.
-            //
-        {
-            double[] x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_SIMPLE creates normally distributed points in DIM_NUM space.
+        //
+        //  Discussion:
+        //
+        //    The multivariate normal distribution has the form:
+        //
+        //      f(x) = (2*pi*det(V))^(-DIM_NUM/2) * exp(-0.5*(x-mu)'*inverse(V)*(x-mu))
+        //
+        //    where mu is the mean vector, and V is a positive definite symmetric
+        //    matrix called the variance-covariance matrix.
+        //
+        //    This routine implements the simplest version of a multivariate
+        //    normal distribution.  The variance-covariance matrix is the identity,
+        //    and the mean vector is entirely zero.  Thus, a sample on N points
+        //    is simply DIM_NUM*N scalar values generated under the univariate
+        //    normal distribution with zero mean and unit variance.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 August 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the dimension of the space.
+        //
+        //    Input, int N, the number of points.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double NORMAL_SIMPLE[DIM_NUM*N], the random points.
+        //
+    {
+        double[] x;
 
-            x = new double[dim_num * n];
+        x = new double[dim_num * n];
 
-            typeMethods.r8vec_normal_01(dim_num * n, ref seed, ref x);
+        typeMethods.r8vec_normal_01(dim_num * n, ref seed, ref x);
 
-            return x;
-        }
+        return x;
     }
 }

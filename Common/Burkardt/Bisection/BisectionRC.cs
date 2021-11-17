@@ -1,20 +1,20 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Bisection
+namespace Burkardt.Bisection;
+
+public class RC_data
 {
-    public class RC_data
-    {
-        public double fa ;
-        public double fb ;
-        public int state ;
-        public double x_local;
+    public double fa ;
+    public double fb ;
+    public int state ;
+    public double x_local;
 
-    }
+}
 
-    public static class RC
-    {
-        public static double bisection_rc(ref RC_data data, ref double a, ref double b, double fx, ref int job )
+public static class RC
+{
+    public static double bisection_rc(ref RC_data data, ref double a, ref double b, double fx, ref int job )
 
         //****************************************************************************80
         //
@@ -61,58 +61,68 @@ namespace Burkardt.Bisection
         //    Output, double BISECTION_RC, a point X at which the function is to 
         //    be evaluated.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (job == 0)
-            {
+        switch (job)
+        {
+            case 0:
                 data.fa = 0.0;
                 data.fb = 0.0;
                 data.state = 1;
                 x = a;
                 job = 1;
-            }
-            else if (data.state == 1)
+                break;
+            default:
             {
-                data.fa = fx;
-                x = b;
-                data.state = 2;
-            }
-            else if (data.state == 2)
-            {
-                data.fb = fx;
-
-                if (typeMethods.r8_sign(data.fa) == typeMethods.r8_sign(data.fb))
+                switch (data.state)
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("BISECTION_RC - Fatal error!");
-                    Console.WriteLine("  F(A) and F(B) have the same sign.");
-                    return 1;
+                    case 1:
+                        data.fa = fx;
+                        x = b;
+                        data.state = 2;
+                        break;
+                    case 2:
+                    {
+                        data.fb = fx;
+
+                        if (typeMethods.r8_sign(data.fa) == typeMethods.r8_sign(data.fb))
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("BISECTION_RC - Fatal error!");
+                            Console.WriteLine("  F(A) and F(B) have the same sign.");
+                            return 1;
+                        }
+
+                        x = (a + b) / 2.0;
+                        data.state = 3;
+                        break;
+                    }
+                    default:
+                    {
+                        if (typeMethods.r8_sign(fx) == typeMethods.r8_sign(data.fa))
+                        {
+                            a = data.x_local;
+                            data.fa = fx;
+                        }
+                        else
+                        {
+                            b = data.x_local;
+                            data.fb = fx;
+                        }
+
+                        x = (a + b) / 2.0;
+                        data.state = 3;
+                        break;
+                    }
                 }
 
-                x = (a + b) / 2.0;
-                data.state = 3;
+                break;
             }
-            else
-            {
-                if (typeMethods.r8_sign(fx) == typeMethods.r8_sign(data.fa))
-                {
-                    a = data.x_local;
-                    data.fa = fx;
-                }
-                else
-                {
-                    b = data.x_local;
-                    data.fb = fx;
-                }
-
-                x = (a + b) / 2.0;
-                data.state = 3;
-            }
-
-            data.x_local = x;
-
-            return x;
         }
+
+        data.x_local = x;
+
+        return x;
     }
 }

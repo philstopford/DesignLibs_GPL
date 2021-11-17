@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.FDM
+namespace Burkardt.FDM;
+
+public static class FD1D_Heat_Steady
 {
-    public static class FD1D_Heat_Steady
-    {
-        public static double[] fd1d_heat_steady(int n, double a, double b, double ua, double ub,
+    public static double[] fd1d_heat_steady(int n, double a, double b, double ua, double ub,
             Func < double, double > k, Func<double, double> f, double[] x )
 
         //****************************************************************************80
@@ -59,67 +59,66 @@ namespace Burkardt.FDM
         //    Output, double FD1D_HEAT_STEADY[N], the approximation to the solution
         //    at the grid points.
         //
-        {
-            double dx;
-            int i;
-            double[] rhs;
-            double[] tri;
-            double[] u;
-            double xm;
-            double xp;
+    {
+        double dx;
+        int i;
+        double[] rhs;
+        double[] tri;
+        double[] u;
+        double xm;
+        double xp;
 
-            Console.WriteLine("");
-            Console.WriteLine("FD1D_HEAT_STEADY");
+        Console.WriteLine("");
+        Console.WriteLine("FD1D_HEAT_STEADY");
             
-            Console.WriteLine("");
-            Console.WriteLine("  Finite difference solution of");
-            Console.WriteLine("  the steady 1D heat equation");
-            Console.WriteLine("");
-            Console.WriteLine("    - d/dx ( k(x) dUdx ) = F(x)");
-            Console.WriteLine("");
-            Console.WriteLine("  for space interval A <= X <= B with boundary conditions");
-            Console.WriteLine("");
-            Console.WriteLine("    U(A) = UA");
-            Console.WriteLine("    U(B) = UB");
-            Console.WriteLine("");
-            Console.WriteLine("  A second order difference approximation is used.");
-            //
-            //  Set the spacing.
-            //
-            dx = (b - a) / (double) (n - 1);
-            //
-            //  Set up the tridiagonal matrix.
-            //
-            tri = new double[3 * n];
-            rhs = new double[n];
+        Console.WriteLine("");
+        Console.WriteLine("  Finite difference solution of");
+        Console.WriteLine("  the steady 1D heat equation");
+        Console.WriteLine("");
+        Console.WriteLine("    - d/dx ( k(x) dUdx ) = F(x)");
+        Console.WriteLine("");
+        Console.WriteLine("  for space interval A <= X <= B with boundary conditions");
+        Console.WriteLine("");
+        Console.WriteLine("    U(A) = UA");
+        Console.WriteLine("    U(B) = UB");
+        Console.WriteLine("");
+        Console.WriteLine("  A second order difference approximation is used.");
+        //
+        //  Set the spacing.
+        //
+        dx = (b - a) / (n - 1);
+        //
+        //  Set up the tridiagonal matrix.
+        //
+        tri = new double[3 * n];
+        rhs = new double[n];
 
-            tri[0 + 0 * 3] = 0.0;
-            tri[1 + 0 * 3] = 1.0;
-            tri[2 + 0 * 3] = 0.0;
-            rhs[0] = ua;
+        tri[0 + 0 * 3] = 0.0;
+        tri[1 + 0 * 3] = 1.0;
+        tri[2 + 0 * 3] = 0.0;
+        rhs[0] = ua;
 
-            for (i = 1; i < n - 1; i++)
-            {
-                xm = (x[i - 1] + x[i]) / 2.0;
-                xp = (x[i] + x[i + 1]) / 2.0;
+        for (i = 1; i < n - 1; i++)
+        {
+            xm = (x[i - 1] + x[i]) / 2.0;
+            xp = (x[i] + x[i + 1]) / 2.0;
 
-                tri[0 + i * 3] = -k(xm) / dx / dx;
-                tri[1 + i * 3] = (k(xm) + k(xp)) / dx / dx;
-                tri[2 + i * 3] = -k(xp) / dx / dx;
+            tri[0 + i * 3] = -k(xm) / dx / dx;
+            tri[1 + i * 3] = (k(xm) + k(xp)) / dx / dx;
+            tri[2 + i * 3] = -k(xp) / dx / dx;
 
-                rhs[i] = f(x[i]);
-            }
-
-            tri[0 + (n - 1) * 3] = 0.0;
-            tri[1 + (n - 1) * 3] = 1.0;
-            tri[2 + (n - 1) * 3] = 0.0;
-            rhs[n - 1] = ub;
-            //
-            //  Solve the linear system.
-            //
-            u = typeMethods.r83np_fs(n, ref tri, rhs);
-
-            return u;
+            rhs[i] = f(x[i]);
         }
+
+        tri[0 + (n - 1) * 3] = 0.0;
+        tri[1 + (n - 1) * 3] = 1.0;
+        tri[2 + (n - 1) * 3] = 0.0;
+        rhs[n - 1] = ub;
+        //
+        //  Solve the linear system.
+        //
+        u = typeMethods.r83np_fs(n, ref tri, rhs);
+
+        return u;
     }
 }

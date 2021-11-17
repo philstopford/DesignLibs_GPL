@@ -6,307 +6,348 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace geoCoreLib
+namespace geoCoreLib;
+
+public class GCPolygon : GCElement
 {
-    public class GCPolygon : GCElement
+    public bool text;
+    public string name;
+    public GeoLibPoint[] pointarray { get; set; }
+
+    public GCPolygon()
     {
-        public bool text;
-        public string name;
-        public GeoLibPoint[] pointarray { get; set; }
+        pGCPolygon();
+    }
 
-        public GCPolygon()
-        {
-            pGCPolygon();
-        }
+    private void pGCPolygon()
+    {
+        pointarray = new GeoLibPoint[0];
+    }
 
-        void pGCPolygon()
-        {
-            pointarray = new GeoLibPoint[0];
-        }
+    public GCPolygon(GCPolygon source)
+    {
+        pGCPolygon(source);
+    }
 
-        public GCPolygon(GCPolygon source)
-        {
-            pGCPolygon(source);
-        }
+    private void pGCPolygon(GCPolygon source)
+    {
+        pointarray = source.pointarray.ToArray();
+        layer_nr = source.layer_nr;
+        datatype_nr = source.datatype_nr;
+    }
 
-        void pGCPolygon(GCPolygon source)
-        {
-            pointarray = source.pointarray.ToArray();
-            layer_nr = source.layer_nr;
-            datatype_nr = source.datatype_nr;
-        }
+    public GCPolygon(GeoLibPoint[] points, int layer, int datatype)
+    {
+        pGCPolygon(points, layer, datatype);
+    }
 
-        public GCPolygon(GeoLibPoint[] points, Int32 layer, Int32 datatype)
-        {
-            pGCPolygon(points, layer, datatype);
-        }
+    private void pGCPolygon(GeoLibPoint[] points, int layer, int datatype)
+    {
+        pointarray = points.ToArray();
+        layer_nr = layer;
+        datatype_nr = datatype;
+    }
 
-        void pGCPolygon(GeoLibPoint[] points, Int32 layer, Int32 datatype)
-        {
-            pointarray = points.ToArray();
-            layer_nr = layer;
-            datatype_nr = datatype;
-        }
+    public override void rotate(double angleDegree, GeoLibPoint pos)
+    {
+        pRotate(angleDegree, pos);
+    }
 
-        public override void rotate(double angleDegree, GeoLibPoint pos)
+    private void pRotate(double angleDegree, GeoLibPoint pos)
+    {
+        switch (angleDegree)
         {
-            pRotate(angleDegree, pos);
-        }
-
-        void pRotate(double angleDegree, GeoLibPoint pos)
-        {
-            if (angleDegree == 0)
-            {
+            case 0:
                 return;
-            }
-
-            pointarray = GeoWrangler.Rotate(pos, pointarray, angleDegree);
+            default:
+                pointarray = GeoWrangler.Rotate(pos, pointarray, angleDegree);
+                break;
         }
+    }
 
-        public override void scale(double size)
+    public override void scale(double size)
+    {
+        pScale(size);
+    }
+
+    private void pScale(double size)
+    {
+        pointarray = GeoWrangler.resize(pointarray, size);
+    }
+
+    public override void resize(double factor)
+    {
+        for (int i = 0; i < pointarray.Length; i++)
         {
-            pScale(size);
+            pointarray[i] = new GeoLibPoint(pointarray[i].X * factor, pointarray[i].Y * factor);
         }
+    }
 
-        void pScale(double size)
+    public override void scale(GeoLibPoint origin, double size)
+    {
+        pScale(origin, size);
+    }
+
+    private void pScale(GeoLibPoint origin, double size)
+    {
+        pointarray = GeoWrangler.resize(origin, pointarray, size);
+    }
+
+    public void deletePoint(int pos)
+    {
+        pDeletePoint(pos);
+    }
+
+    private void pDeletePoint(int pos)
+    {
+        GeoLibPoint[] newPointArray = new GeoLibPoint[pointarray.Length - 1];
+        for (int i = pos; i < pointarray.Length - 1; i++)
         {
-            pointarray = GeoWrangler.resize(pointarray, size);
+            newPointArray[i] = pointarray[i + 1];
         }
+        pointarray = newPointArray;
+    }
 
-        public override void resize(double factor)
+    public void addPoint(int pos)
+    {
+        pAddPoint(pos);
+    }
+
+    private void pAddPoint(int pos)
+    {
+        GeoLibPoint[] newPointArray = new GeoLibPoint[pointarray.Length + 1];
+        for (int pt = newPointArray.Length - 1; pt > pos; pt--)
         {
-            for (int i = 0; i < pointarray.Length; i++)
-            {
-                pointarray[i] = new GeoLibPoint(pointarray[i].X * factor, pointarray[i].Y * factor);
-            }
+            newPointArray[pt] = pointarray[pt - 1];
         }
+        pointarray = newPointArray;
+    }
 
-        public override void scale(GeoLibPoint origin, double size)
-        {
-            pScale(origin, size);
-        }
+    public override void mapSelect(GCStrans m)
+    {
+        pMapSelect(m);
+    }
 
-        void pScale(GeoLibPoint origin, double size)
+    private void pMapSelect(GCStrans m)
+    {
+        switch (@select)
         {
-            pointarray = GeoWrangler.resize(origin, pointarray, size);
-        }
-
-        public void deletePoint(Int32 pos)
-        {
-            pDeletePoint(pos);
-        }
-
-        void pDeletePoint(Int32 pos)
-        {
-            GeoLibPoint[] newPointArray = new GeoLibPoint[pointarray.Length - 1];
-            for (Int32 i = pos; i < pointarray.Length - 1; i++)
-            {
-                newPointArray[i] = pointarray[i + 1];
-            }
-            pointarray = newPointArray;
-        }
-
-        public void addPoint(Int32 pos)
-        {
-            pAddPoint(pos);
-        }
-
-        void pAddPoint(Int32 pos)
-        {
-            GeoLibPoint[] newPointArray = new GeoLibPoint[pointarray.Length + 1];
-            for (Int32 pt = newPointArray.Length - 1; pt > pos; pt--)
-            {
-                newPointArray[pt] = pointarray[pt - 1];
-            }
-            pointarray = newPointArray;
-        }
-
-        public override void mapSelect(GCStrans m)
-        {
-            pMapSelect(m);
-        }
-
-        void pMapSelect(GCStrans m)
-        {
-            if (select)
-            {
+            case true:
                 m.matrix.TransformPoints(pointarray);
-            }
+                break;
         }
+    }
 
-        public override void map(GCStrans m)
+    public override void map(GCStrans m)
+    {
+        pMap(m);
+    }
+
+    private void pMap(GCStrans m)
+    {
+        m.matrix.TransformPoints(pointarray);
+    }
+
+    public override void minimum(GeoLibPoint pos)
+    {
+        pMinimum(pos);
+    }
+
+    private void pMinimum(GeoLibPoint pos)
+    {
+        GeoLibPoint t = GeoWrangler.getMinimumPoint(pointarray);
+
+        pos.X = Math.Min(pos.X, t.X);
+        pos.Y = Math.Min(pos.Y, t.Y);
+    }
+
+    public override void maximum(GeoLibPoint pos)
+    {
+        pMaximum(pos);
+    }
+
+    private void pMaximum(GeoLibPoint pos)
+    {
+        GeoLibPoint t = GeoWrangler.getMaximumPoint(pointarray);
+
+        pos.X = Math.Max(pos.X, t.X);
+        pos.Y = Math.Max(pos.Y, t.Y);
+    }
+
+    public override void moveSelect(GeoLibPoint pos)
+    {
+        pMoveSelect(pos);
+    }
+
+    private void pMoveSelect(GeoLibPoint pos)
+    {
+        switch (@select)
         {
-            pMap(m);
-        }
-
-        void pMap(GCStrans m)
-        {
-            m.matrix.TransformPoints(pointarray);
-        }
-
-        public override void minimum(GeoLibPoint pos)
-        {
-            pMinimum(pos);
-        }
-
-        void pMinimum(GeoLibPoint pos)
-        {
-            GeoLibPoint t = GeoWrangler.getMinimumPoint(pointarray);
-
-            pos.X = Math.Min(pos.X, t.X);
-            pos.Y = Math.Min(pos.Y, t.Y);
-        }
-
-        public override void maximum(GeoLibPoint pos)
-        {
-            pMaximum(pos);
-        }
-
-        void pMaximum(GeoLibPoint pos)
-        {
-            GeoLibPoint t = GeoWrangler.getMaximumPoint(pointarray);
-
-            pos.X = Math.Max(pos.X, t.X);
-            pos.Y = Math.Max(pos.Y, t.Y);
-        }
-
-        public override void moveSelect(GeoLibPoint pos)
-        {
-            pMoveSelect(pos);
-        }
-
-        void pMoveSelect(GeoLibPoint pos)
-        {
-            if (select)
+            case true:
             {
-                for (Int32 i = 0; i < pointarray.Count(); i++)
+                for (int i = 0; i < pointarray.Count(); i++)
                 {
                     pointarray[i].Offset(pos);
                 }
+
+                break;
             }
         }
+    }
 
-        public override void move(GeoLibPoint pos)
+    public override void move(GeoLibPoint pos)
+    {
+        pMove(pos);
+    }
+
+    private void pMove(GeoLibPoint pos)
+    {
+        for (int i = 0; i < pointarray.Count(); i++)
         {
-            pMove(pos);
+            pointarray[i] = new GeoLibPoint(pointarray[i].X + pos.X, pointarray[i].Y + pos.Y);
         }
+    }
 
-        void pMove(GeoLibPoint pos)
+    public override List<GCPolygon> convertToPolygons()
+    {
+        return pConvertToPolygons();
+    }
+
+    private List<GCPolygon> pConvertToPolygons()
+    {
+        List<GCPolygon> ret = new() {new GCPolygon(this)};
+        return ret;
+    }
+
+    public override void clean()
+    {
+        pClean();
+    }
+
+    private void pClean()
+    {
+        GeoLibPoint p = new(0, 0);
+        double a;
+        int anz = 0;
+        for (a = 0; (a < 350 || a > 370) && anz < 3;)
         {
-            for (Int32 i = 0; i < pointarray.Count(); i++)
+            a = 0;
+            for (int i = 0; i < pointarray.Length - 1; i++)
             {
-                pointarray[i] = new GeoLibPoint(pointarray[i].X + pos.X, pointarray[i].Y + pos.Y);
-            }
-        }
-
-        public override List<GCPolygon> convertToPolygons()
-        {
-            return pConvertToPolygons();
-        }
-
-        List<GCPolygon> pConvertToPolygons()
-        {
-            List<GCPolygon> ret = new List<GCPolygon> {new GCPolygon(this)};
-            return ret;
-        }
-
-        public override void clean()
-        {
-            pClean();
-        }
-
-        void pClean()
-        {
-            GeoLibPoint p = new GeoLibPoint(0, 0);
-            double a;
-            int anz = 0;
-            for (a = 0; ((a < 350) || (a > 370)) && (anz < 3);)
-            {
-                a = 0;
-                for (int i = 0; i < pointarray.Length - 1; i++)
+                switch (pointarray.Length)
                 {
-                    if (pointarray.Length < 4)
-                    {
+                    case < 4:
                         return; //no area
+                }
+                if (pointarray[i] == pointarray[i + 1])
+                {
+                    deletePoint(i + 1);
+                    if (pointarray.Length == i + 1)
+                    {
+                        pointarray[0] = pointarray[i];
                     }
-                    if (pointarray[i] == pointarray[i + 1])
+                    i--;
+                }
+                if (i < pointarray.Length - 2)
+                {
+                    if (nearlyParallel(pointarray[i], pointarray[i + 1], pointarray[i + 1], pointarray[i + 2]))
                     {
                         deletePoint(i + 1);
-                        if (pointarray.Length == (i + 1))
-                        {
-                            pointarray[0] = pointarray[i];
-                        }
-                        i--;
+                        i = 0;
                     }
-                    if (i < pointarray.Length - 2)
+                }
+                switch (pointarray.Length)
+                {
+                    case > 3:
                     {
-                        if (nearlyParallel(pointarray[i], pointarray[i + 1], pointarray[i + 1], pointarray[i + 2]))
-                        {
-                            deletePoint(i + 1);
-                            i = 0;
-                        }
-                    }
-                    if (pointarray.Length > 3)
-                    {
-                        while ((pointarray.Length > 3) && (parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2])))
+                        while (pointarray.Length > 3 && parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2]))
                         {
                             deletePoint(pointarray.Length - 1);
                             pointarray[0] = pointarray[^1];
                         }
+
+                        break;
                     }
                 }
-                // sort points
-                for (Int32 i = 0; i < pointarray.Length - 2; i++)
-                {
-                    a += angle(pointarray[i], pointarray[i + 1], pointarray[i + 2]);
-                }
-                if (pointarray.Length > 3)
-                {
+            }
+            // sort points
+            for (int i = 0; i < pointarray.Length - 2; i++)
+            {
+                a += angle(pointarray[i], pointarray[i + 1], pointarray[i + 2]);
+            }
+            switch (pointarray.Length)
+            {
+                case > 3:
                     a += angle(pointarray[^2], pointarray[0], pointarray[1]);
-                }
+                    break;
+            }
 
-                if (a < -185)
+            switch (a)
+            {
+                case < -185:
                 {
-                    for (Int32 i = 1; i < (pointarray.Length) / 2; i++)
+                    for (int i = 1; i < pointarray.Length / 2; i++)
                     {
                         p = pointarray[pointarray.Length - i - 1];
                         pointarray[pointarray.Length - i - 1] = pointarray[i];
                         pointarray[i] = p;
                     }
+
+                    break;
                 }
+            }
+
+            switch (a)
+            {
                 // (simple self-intersecting)
-                if ((a > 370) || ((a < 350) && (a > -350)))
+                case > 370:
+                case < 350 and > -350:
                 {
-                    for (Int32 i = 0; i < pointarray.Length - 1; i++)
+                    for (int i = 0; i < pointarray.Length - 1; i++)
                     {
-                        for (Int32 j = i + 2; j < pointarray.Length - 1; j++)
+                        for (int j = i + 2; j < pointarray.Length - 1; j++)
                         {
                             bool b = cutPoint2(pointarray[i], pointarray[i + 1], pointarray[j], pointarray[j + 1], p);
-                            if (b)
+                            switch (b)
                             {
-                                if (!((i == 0) && (j == pointarray.Length - 2)))
+                                case true:
                                 {
-                                    addPoint(j + 1);
-                                    j++;
-                                    pointarray[j] = p;
-                                    addPoint(i + 1);
-                                    i++;
-                                    pointarray[i] = p;
-                                    for (Int32 k = i + 1; k <= (i + j) / 2; k++)
+                                    switch ((i == 0 && j == pointarray.Length - 2))
                                     {
-                                        p = pointarray[j - k + i + 1];
-                                        pointarray[j - k + i + 1] = pointarray[k];
-                                        pointarray[k] = p;
+                                        case false:
+                                        {
+                                            addPoint(j + 1);
+                                            j++;
+                                            pointarray[j] = p;
+                                            addPoint(i + 1);
+                                            i++;
+                                            pointarray[i] = p;
+                                            for (int k = i + 1; k <= (i + j) / 2; k++)
+                                            {
+                                                p = pointarray[j - k + i + 1];
+                                                pointarray[j - k + i + 1] = pointarray[k];
+                                                pointarray[k] = p;
+                                            }
+                                            j = pointarray.Length;
+                                            i = pointarray.Length;
+                                            break;
+                                        }
                                     }
-                                    j = pointarray.Length;
-                                    i = pointarray.Length;
+
+                                    break;
                                 }
                             }
                         }
                     }
+
+                    break;
                 }
+            }
+
+            switch (pointarray.Length)
+            {
                 // remove self-intersection 
-                if (pointarray.Length >= 8)
+                case >= 8:
                 {
                     bool ende2 = false;
                     for (int i = 0; i < pointarray.Length - 1; i++)
@@ -322,11 +363,11 @@ namespace geoCoreLib
                                 if (pointarray[j + 1] == pointarray[i])
                                 {
                                     change = true;
-                                    h1 = i - 1;
-                                    if (h1 == (-1))
+                                    h1 = h1 switch
                                     {
-                                        h1 = pointarray.Length - 2;
-                                    }
+                                        -1 => pointarray.Length - 2,
+                                        _ => i - 1
+                                    };
                                     h2 = j + 2;
                                     if (h2 == pointarray.Length)
                                     {
@@ -335,13 +376,17 @@ namespace geoCoreLib
 
                                     double d1 = angle(pointarray[h1], pointarray[i], pointarray[i + 1]);
                                     double d2 = angle(pointarray[h2], pointarray[j + 1], pointarray[j]);
-                                    if (d1 < 0)
+                                    switch (d1)
                                     {
-                                        d1 += 360;
+                                        case < 0:
+                                            d1 += 360;
+                                            break;
                                     }
-                                    if (d2 < 0)
+                                    switch (d2)
                                     {
-                                        d2 += 360;
+                                        case < 0:
+                                            d2 += 360;
+                                            break;
                                     }
                                     if (d1 < d2)
                                     {
@@ -364,11 +409,11 @@ namespace geoCoreLib
                                 else if (onLine2(pointarray[j], pointarray[j + 1], pointarray[i]))
                                 {
                                     change = true;
-                                    h1 = i - 1;
-                                    if (h1 == -1)
+                                    h1 = h1 switch
                                     {
-                                        h1 = pointarray.Length - 2;
-                                    }
+                                        -1 => pointarray.Length - 2,
+                                        _ => i - 1
+                                    };
                                     if (distance(pointarray[j], pointarray[j + 1], pointarray[h1]) < 0)
                                     {
                                         side = false;
@@ -381,9 +426,11 @@ namespace geoCoreLib
                                 while (pointarray[j] == pointarray[i + 1])
                                 {
                                     j--; i++;
-                                    if (j == (-1))
+                                    switch (j)
                                     {
-                                        j = pointarray.Length - 2; ende1 = true;
+                                        case -1:
+                                            j = pointarray.Length - 2; ende1 = true;
+                                            break;
                                     }
                                     if (i == pointarray.Length)
                                     {
@@ -400,11 +447,12 @@ namespace geoCoreLib
                                 {
                                     h3 = 1;
                                 }
-                                h1 = j - 1;
-                                if (h1 == -1)
+
+                                h1 = h1 switch
                                 {
-                                    h1 = pointarray.Length - 2;
-                                }
+                                    -1 => pointarray.Length - 2,
+                                    _ => j - 1
+                                };
                                 int h4 = j + 1;
                                 if (h4 == pointarray.Length)
                                 {
@@ -416,20 +464,21 @@ namespace geoCoreLib
                                     h5 = 1;
                                 }
                                 int h6 = i - 1;
-                                if (h6 == -1)
+                                h6 = h6 switch
                                 {
-                                    h6 = pointarray.Length - 2;
-                                }
+                                    -1 => pointarray.Length - 2,
+                                    _ => h6
+                                };
                                 if (onLine2(pointarray[i], pointarray[h2], pointarray[j]))
                                 {
-                                    if ((distance(pointarray[i], pointarray[h2], pointarray[h1]) < 0) != side)
+                                    if (distance(pointarray[i], pointarray[h2], pointarray[h1]) < 0 != side)
                                     {
                                         change = false;
                                     }
                                 }
                                 else if (onLine2(pointarray[j], pointarray[h4], pointarray[h2]))
                                 {
-                                    if ((distance(pointarray[j], pointarray[h4], pointarray[h3]) < 0) != side)
+                                    if (distance(pointarray[j], pointarray[h4], pointarray[h3]) < 0 != side)
                                     {
                                         change = false;
                                     }
@@ -438,26 +487,35 @@ namespace geoCoreLib
                                 {
                                     double d1 = angle(pointarray[h6], pointarray[i], pointarray[h2]);
                                     double d2 = angle(pointarray[h5], pointarray[h4], pointarray[j]);
-                                    if (d1 < 0)
+                                    switch (d1)
                                     {
-                                        d1 += 360;
+                                        case < 0:
+                                            d1 += 360;
+                                            break;
                                     }
-                                    if (d2 < 0)
+                                    switch (d2)
                                     {
-                                        d2 += 360;
+                                        case < 0:
+                                            d2 += 360;
+                                            break;
                                     }
-                                    if ((d1 < d2) != side)
+                                    if (d1 < d2 != side)
                                     {
                                         change = false;
                                     }
                                 }
-                                if (change)
+                                switch (change)
                                 {
-                                    for (Int32 k = i + 1; k < (i + j + 2) / 2; k++)
+                                    case true:
                                     {
-                                        p = pointarray[j + i - k + 1];
-                                        pointarray[j + i - k + 1] = pointarray[k];
-                                        pointarray[k] = p;
+                                        for (int k = i + 1; k < (i + j + 2) / 2; k++)
+                                        {
+                                            p = pointarray[j + i - k + 1];
+                                            pointarray[j + i - k + 1] = pointarray[k];
+                                            pointarray[k] = p;
+                                        }
+
+                                        break;
                                     }
                                 }
                             }
@@ -471,127 +529,134 @@ namespace geoCoreLib
                             break;
                         }
                     }
+
+                    break;
                 }
-                anz++;
             }
+            anz++;
         }
+    }
 
-        public override void saveGDS(gdsWriter gw)
+    public override void saveGDS(gdsWriter gw)
+    {
+        pSaveGDS(gw);
+    }
+
+    private void pSaveGDS(gdsWriter gw)
+    {
+        GeoLibPoint pc = new();
+        int r = 0;
+        if (isCircle())
         {
-            pSaveGDS(gw);
+            GCPath tPath = new(new [] { pc }, layer_nr, datatype_nr);
+            tPath.setWidth(r * 2);
+            tPath.setCap(1); // set cap to 'round' type. Also forced in the saver for a round path type, as a safety.
+            tPath.setRound(true); // this is the important thing to set - it forces the correct handling (including cap value)
+            tPath.saveGDS(gw);
         }
-
-        void pSaveGDS(gdsWriter gw)
+        else
         {
-            GeoLibPoint pc = new GeoLibPoint();
-            int r = 0;
-            if (isCircle())
+            // polygon (boundary)
+            gw.bw.Write((ushort)4);
+            gw.bw.Write((byte)8);
+            gw.bw.Write((byte)0);
+            //layer
+            gw.bw.Write((ushort)6);
+            gw.bw.Write((byte)0x0D);
+            gw.bw.Write((byte)2);
+            gw.bw.Write((short)layer_nr);
+            //datatype
+            gw.bw.Write((ushort)6);
+            gw.bw.Write((byte)0x0E);
+            gw.bw.Write((byte)2);
+            gw.bw.Write((short)datatype_nr);
+            int i = pointarray.Length;
+            i = i switch
             {
-                GCPath tPath = new GCPath(new [] { pc }, layer_nr, datatype_nr);
-                tPath.setWidth(r * 2);
-                tPath.setCap(1); // set cap to 'round' type. Also forced in the saver for a round path type, as a safety.
-                tPath.setRound(true); // this is the important thing to set - it forces the correct handling (including cap value)
-                tPath.saveGDS(gw);
+                > 8191 => 8191,
+                _ => i
+            };
+            //xy 
+            // Add one to the point-list length value (i) to mark the closed shape.
+            int val = (i + 1) * 2 * 4 + 4;
+            gw.bw.Write((ushort)val);
+            gw.bw.Write((byte)0x10);
+            gw.bw.Write((byte)3);
+
+            for (int k = 0; k < i; k++)
+            {
+                gw.bw.Write(pointarray[k].X);
+                gw.bw.Write(pointarray[k].Y);
             }
-            else
-            {
-                // polygon (boundary)
-                gw.bw.Write((UInt16)4);
-                gw.bw.Write((byte)8);
-                gw.bw.Write((byte)0);
-                //layer
-                gw.bw.Write((UInt16)6);
-                gw.bw.Write((byte)0x0D);
-                gw.bw.Write((byte)2);
-                gw.bw.Write((Int16)layer_nr);
-                //datatype
-                gw.bw.Write((UInt16)6);
-                gw.bw.Write((byte)0x0E);
-                gw.bw.Write((byte)2);
-                gw.bw.Write((Int16)(datatype_nr));
-                int i = pointarray.Length;
-                if (i > 8191)
-                {
-                    i = 8191;
-                    // "Polygon with more than 8191 points. Data is lost."
-                }
-                //xy 
-                // Add one to the point-list length value (i) to mark the closed shape.
-                int val = ((i + 1) * 2 * 4) + 4;
-                gw.bw.Write((UInt16)val);
-                gw.bw.Write((byte)0x10);
-                gw.bw.Write((byte)3);
 
-                for (int k = 0; k < i; k++)
-                {
-                    gw.bw.Write(pointarray[k].X);
-                    gw.bw.Write(pointarray[k].Y);
-                }
+            // close the polygon.
+            gw.bw.Write(pointarray[0].X);
+            gw.bw.Write(pointarray[0].Y);
 
-                // close the polygon.
-                gw.bw.Write(pointarray[0].X);
-                gw.bw.Write(pointarray[0].Y);
-
-                // endel
-                gw.bw.Write((UInt16)4);
-                gw.bw.Write((byte)0x11);
-                gw.bw.Write((byte)0);
-            }
+            // endel
+            gw.bw.Write((ushort)4);
+            gw.bw.Write((byte)0x11);
+            gw.bw.Write((byte)0);
         }
+    }
 
-        public override void saveOASIS(oasWriter ow)
-        {
-            pSaveOASIS(ow);
-        }
+    public override void saveOASIS(oasWriter ow)
+    {
+        pSaveOASIS(ow);
+    }
 
-        bool isCircle()
+    private bool isCircle()
+    {
+        switch (pointarray.Length)
         {
-            if (pointarray.Length < 10)
-            {
+            case < 10:
                 return false;
-            }
-
-            GeoLibPointF mid = GeoWrangler.midPoint(pointarray);
-
-            double min_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
-            double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
-
-
-            for (int i = 1; i < pointarray.Length; i++)
-            {
-                double distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[i])));
-                min_distance = Math.Min(min_distance, distance);
-                max_distance = Math.Max(max_distance, distance);
-            }
-
-            double delta = max_distance - min_distance;
-
-            // Tolerance value - one DB unit.
-            double tol = 1.0f * 1000;
-
-            if (delta < tol)
-            {
-                return true;
-            }
-
-            return false;
         }
 
-        void pSaveOASIS(oasWriter ow)
+        GeoLibPointF mid = GeoWrangler.midPoint(pointarray);
+
+        double min_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
+        double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
+
+
+        for (int i = 1; i < pointarray.Length; i++)
         {
-            byte info_byte;
-            if (GCSetup.oasisSaveCircle)
+            double distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[i])));
+            min_distance = Math.Min(min_distance, distance);
+            max_distance = Math.Max(max_distance, distance);
+        }
+
+        double delta = max_distance - min_distance;
+
+        // Tolerance value - one DB unit.
+        double tol = 1.0f * 1000;
+
+        if (delta < tol)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void pSaveOASIS(oasWriter ow)
+    {
+        byte info_byte;
+        switch (GCSetup.oasisSaveCircle)
+        {
+            case true:
             {
                 // pc and r are manipulated in isCircle()
-                GeoLibPoint pc = new GeoLibPoint();
+                GeoLibPoint pc = new();
                 int r = 0;
                 if (isCircle())
                 {
-                    // save as circle
-                    if (!ow.modal.absoluteMode)
+                    ow.modal.absoluteMode = ow.modal.absoluteMode switch
                     {
-                        ow.modal.absoluteMode = true;
-                    }
+                        // save as circle
+                        false => true,
+                        _ => ow.modal.absoluteMode
+                    };
                     info_byte = 0;
                     if (layer_nr != ow.modal.layer)
                     {
@@ -609,84 +674,105 @@ namespace geoCoreLib
                     {
                         info_byte += 8;
                     }
-                    if (Math.Abs(r - ow.modal.circle_radius) > Double.Epsilon)
+                    switch (Math.Abs(r - ow.modal.circle_radius))
                     {
-                        info_byte += 32;
+                        case > double.Epsilon:
+                            info_byte += 32;
+                            break;
                     }
                     ow.writeUnsignedInteger(27);
                     ow.writeRaw(info_byte);
-                    if ((info_byte & 1) > 0)
+                    switch (info_byte & 1)
                     {
-                        ow.modal.layer = layer_nr;
-                        ow.writeUnsignedInteger((uint)ow.modal.layer);
+                        case > 0:
+                            ow.modal.layer = layer_nr;
+                            ow.writeUnsignedInteger((uint)ow.modal.layer);
+                            break;
                     }
-                    if ((info_byte & 2) > 0)
+                    switch (info_byte & 2)
                     {
-                        ow.modal.datatype = datatype_nr;
-                        ow.writeUnsignedInteger((uint)datatype_nr);
+                        case > 0:
+                            ow.modal.datatype = datatype_nr;
+                            ow.writeUnsignedInteger((uint)datatype_nr);
+                            break;
                     }
-                    if ((info_byte & 32) > 0)
+                    switch (info_byte & 32)
                     {
-                        ow.modal.circle_radius = r;
-                        ow.writeUnsignedInteger((uint)ow.modal.circle_radius);
+                        case > 0:
+                            ow.modal.circle_radius = r;
+                            ow.writeUnsignedInteger((uint)ow.modal.circle_radius);
+                            break;
                     }
-                    if ((info_byte & 16) > 0)
+                    switch (info_byte & 16)
                     {
-                        ow.modal.geometry_x = pc.X;
-                        ow.writeSignedInteger(ow.modal.geometry_x);
+                        case > 0:
+                            ow.modal.geometry_x = pc.X;
+                            ow.writeSignedInteger(ow.modal.geometry_x);
+                            break;
                     }
-                    if ((info_byte & 8) > 0)
+                    switch (info_byte & 8)
                     {
-                        ow.modal.geometry_y = pc.Y;
-                        ow.writeSignedInteger(ow.modal.geometry_y);
+                        case > 0:
+                            ow.modal.geometry_y = pc.Y;
+                            ow.writeSignedInteger(ow.modal.geometry_y);
+                            break;
                     }
                     return;
 
                 }
+
+                break;
             }
+        }
+
+        switch (GCSetup.oasisSaveCtrapezoid)
+        {
             // check if ctrapezoid
-            if ((GCSetup.oasisSaveCtrapezoid) && ((pointarray.Length == 4) || (pointarray.Length == 5)))
+            case true when (pointarray.Length == 4 || pointarray.Length == 5):
             {
                 int form = 0;
                 int off = 0;
                 for (int i = 1; i < pointarray.Length; i++)
                 {
                     GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
-                    if ((Math.Abs(pd.X - pd.Y) < Double.Epsilon) && (pd.X > 0))
+                    switch (Math.Abs(pd.X - pd.Y))
                     {
-                        form = form * 10 + 9;
-                    }
-                    else if ((Math.Abs(pd.X - pd.Y) < Double.Epsilon) && (pd.X < 0))
-                    {
-                        form = form * 10 + 1;
-                    }
-                    else if ((Math.Abs(pd.X - (-pd.Y)) < Double.Epsilon) && (pd.X < 0))
-                    {
-                        form = form * 10 + 7;
-                    }
-                    else if ((Math.Abs(pd.X - (-pd.Y)) < Double.Epsilon) && (pd.X > 0))
-                    {
-                        form = form * 10 + 3;
-                    }
-                    else if ((pd.X == 0) && (pd.Y > 0))
-                    {
-                        form = form * 10 + 8;
-                    }
-                    else if ((pd.X == 0) && (pd.Y < 0))
-                    {
-                        form = form * 10 + 2;
-                    }
-                    else if ((pd.Y == 0) && (pd.X > 0))
-                    {
-                        form = form * 10 + 6;
-                    }
-                    else if ((pd.Y == 0) && (pd.X < 0))
-                    {
-                        form = form * 10 + 4;
-                    }
-                    else
-                    {
-                        form = -1;
+                        case <= double.Epsilon when pd.X > 0:
+                            form = form * 10 + 9;
+                            break;
+                        case <= double.Epsilon when pd.X < 0:
+                            form = form * 10 + 1;
+                            break;
+                        default:
+                        {
+                            switch (Math.Abs(pd.X - -pd.Y))
+                            {
+                                case <= double.Epsilon when pd.X < 0:
+                                    form = form * 10 + 7;
+                                    break;
+                                case <= double.Epsilon when pd.X > 0:
+                                    form = form * 10 + 3;
+                                    break;
+                                default:
+                                {
+                                    form = pd.X switch
+                                    {
+                                        0 when pd.Y > 0 => form * 10 + 8,
+                                        0 when pd.Y < 0 => form * 10 + 2,
+                                        _ => pd.Y switch
+                                        {
+                                            0 when pd.X > 0 => form * 10 + 6,
+                                            0 when pd.X < 0 => form * 10 + 4,
+                                            _ => -1
+                                        }
+                                    };
+
+                                    break;
+                                }
+                            }
+
+                            break;
+                        }
                     }
                     if (form == -1)
                     {
@@ -697,332 +783,290 @@ namespace geoCoreLib
                 {
                     int w;
                     int h;
-                    if (pointarray.Length == 4)
+                    switch (pointarray.Length)
                     {
-                        switch (form)
-                        {
-                            case 726: off = 2; form = 672; break;
-                            case 267: off = 1; form = 672; break;
-                            case 429: off = 2; form = 942; break;
-                            case 294: off = 1; form = 942; break;
-                            case 816: off = 2; form = 681; break;
-                            case 168: off = 1; form = 681; break;
-                            case 384: off = 2; form = 438; break;
-                            case 843: off = 1; form = 438; break;
-                            case 167: off = 1; form = 671; break;
-                            case 716: off = 2; form = 671; break;
-                            case 394: off = 1; form = 943; break;
-                            case 439: off = 2; form = 943; break;
-                            case 297: off = 1; form = 972; break;
-                            case 729: off = 2; form = 972; break;
-                            case 381: off = 1; form = 813; break;
-                            case 138: off = 2; form = 813; break;
-                        }
-                        switch (form)
-                        {
-                            case 672: ow.writeCtrapezoid(layer_nr, 16, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
-                            case 942: ow.writeCtrapezoid(layer_nr, 17, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
-                            case 681: ow.writeCtrapezoid(layer_nr, 18, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
-                            case 438: w = pointarray[0 + off].X - pointarray[1 + off].X; ow.writeCtrapezoid(layer_nr, 19, pointarray[0 + off].X - w, pointarray[0 + off].Y - w, w, 0, datatype_nr); return;
-                            case 671: h = (pointarray[1 + off].X - pointarray[0 + off].X) / 2; ow.writeCtrapezoid(layer_nr, 20, pointarray[0 + off].X, pointarray[0 + off].Y, 0, h, datatype_nr); return;
-                            case 943: h = pointarray[1 + off].Y - pointarray[0 + off].Y; ow.writeCtrapezoid(layer_nr, 21, pointarray[0 + off].X - h, pointarray[0 + off].Y, 0, h, datatype_nr); return;
-                            case 972: w = pointarray[1 + off].X - pointarray[0 + off].X; ow.writeCtrapezoid(layer_nr, 22, pointarray[0 + off].X, pointarray[0 + off].Y, w, 0, datatype_nr); return;
-                            case 813: w = (pointarray[1 + off].Y - pointarray[0 + off].Y) / 2; ow.writeCtrapezoid(layer_nr, 23, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, 0, datatype_nr); return;
-                        }
-                    }
-                    else if (pointarray.Length == 5)
-                    {
-                        switch (form)
-                        {
-                            //type 24
-                            case 2684: off = 1; form = 6842; break;
-                            case 4268: off = 2; form = 6842; break;
-                            case 8426: off = 3; form = 6842; break;
-                            //type 0
-                            case 2674: off = 1; form = 6742; break;
-                            case 4267: off = 2; form = 6742; break;
-                            case 7426: off = 3; form = 6742; break;
-                            //type 1
-                            case 2694: off = 1; form = 6942; break;
-                            case 4269: off = 2; form = 6942; break;
-                            case 9426: off = 3; form = 6942; break;
-                            //type 2
-                            case 1684: off = 1; form = 6841; break;
-                            case 4168: off = 2; form = 6841; break;
-                            case 8416: off = 3; form = 6841; break;
-                            //type 3
-                            case 3684: off = 1; form = 6843; break;
-                            case 4368: off = 2; form = 6843; break;
-                            case 8436: off = 3; form = 6843; break;
-                            //type 4
-                            case 1674: off = 1; form = 6741; break;
-                            case 4167: off = 2; form = 6741; break;
-                            case 7416: off = 3; form = 6741; break;
-                            //type 5
-                            case 3694: off = 1; form = 6943; break;
-                            case 4369: off = 2; form = 6943; break;
-                            case 9436: off = 3; form = 6943; break;
-                            //type 6
-                            case 1694: off = 1; form = 6941; break;
-                            case 4169: off = 2; form = 6941; break;
-                            case 9416: off = 3; form = 6941; break;
-                            //type 7
-                            case 3674: off = 1; form = 6743; break;
-                            case 4367: off = 2; form = 6743; break;
-                            case 7436: off = 3; form = 6743; break;
-                            //type 8
-                            case 2687: off = 1; form = 6872; break;
-                            case 7268: off = 2; form = 6872; break;
-                            case 8726: off = 3; form = 6872; break;
-                            //type 9
-                            case 2681: off = 1; form = 6812; break;
-                            case 1268: off = 2; form = 6812; break;
-                            case 8126: off = 3; form = 6812; break;
-                            //type 10
-                            case 2984: off = 1; form = 9842; break;
-                            case 4298: off = 2; form = 9842; break;
-                            case 8429: off = 3; form = 9842; break;
-                            //type 11
-                            case 3842: off = 1; form = 8423; break;
-                            case 2384: off = 2; form = 8423; break;
-                            case 4238: off = 3; form = 8423; break;
-                            //type 12
-                            case 2987: off = 1; form = 9872; break;
-                            case 7298: off = 2; form = 9872; break;
-                            case 8729: off = 3; form = 9872; break;
-                            //type 13
-                            case 3812: off = 1; form = 8123; break;
-                            case 2381: off = 2; form = 8123; break;
-                            case 1238: off = 3; form = 8123; break;
-                            //type 14
-                            case 2981: off = 1; form = 9812; break;
-                            case 1298: off = 2; form = 9812; break;
-                            case 8129: off = 3; form = 9812; break;
-                            //type 15
-                            case 3872: off = 1; form = 8723; break;
-                            case 2387: off = 2; form = 8723; break;
-                            case 7238: off = 3; form = 8723; break;
+                        case 4:
+                            switch (form)
+                            {
+                                case 726: off = 2; form = 672; break;
+                                case 267: off = 1; form = 672; break;
+                                case 429: off = 2; form = 942; break;
+                                case 294: off = 1; form = 942; break;
+                                case 816: off = 2; form = 681; break;
+                                case 168: off = 1; form = 681; break;
+                                case 384: off = 2; form = 438; break;
+                                case 843: off = 1; form = 438; break;
+                                case 167: off = 1; form = 671; break;
+                                case 716: off = 2; form = 671; break;
+                                case 394: off = 1; form = 943; break;
+                                case 439: off = 2; form = 943; break;
+                                case 297: off = 1; form = 972; break;
+                                case 729: off = 2; form = 972; break;
+                                case 381: off = 1; form = 813; break;
+                                case 138: off = 2; form = 813; break;
+                            }
+                            switch (form)
+                            {
+                                case 672: ow.writeCtrapezoid(layer_nr, 16, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
+                                case 942: ow.writeCtrapezoid(layer_nr, 17, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
+                                case 681: ow.writeCtrapezoid(layer_nr, 18, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
+                                case 438: w = pointarray[0 + off].X - pointarray[1 + off].X; ow.writeCtrapezoid(layer_nr, 19, pointarray[0 + off].X - w, pointarray[0 + off].Y - w, w, 0, datatype_nr); return;
+                                case 671: h = (pointarray[1 + off].X - pointarray[0 + off].X) / 2; ow.writeCtrapezoid(layer_nr, 20, pointarray[0 + off].X, pointarray[0 + off].Y, 0, h, datatype_nr); return;
+                                case 943: h = pointarray[1 + off].Y - pointarray[0 + off].Y; ow.writeCtrapezoid(layer_nr, 21, pointarray[0 + off].X - h, pointarray[0 + off].Y, 0, h, datatype_nr); return;
+                                case 972: w = pointarray[1 + off].X - pointarray[0 + off].X; ow.writeCtrapezoid(layer_nr, 22, pointarray[0 + off].X, pointarray[0 + off].Y, w, 0, datatype_nr); return;
+                                case 813: w = (pointarray[1 + off].Y - pointarray[0 + off].Y) / 2; ow.writeCtrapezoid(layer_nr, 23, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, 0, datatype_nr); return;
+                            }
 
-                        }
-                        switch (form)
-                        {
-                            case 6842:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 3)
-                                {
-                                    h = pointarray[1].Y - pointarray[2].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[2 + off].Y - pointarray[1 + off].Y;
-                                }
-                                if (h == w)
-                                {
-                                    ow.writeCtrapezoid(layer_nr, 25, pointarray[0 + off].X, pointarray[0 + off].Y, w, 0, datatype_nr);
-                                }
-                                else
-                                {
-                                    ow.writeCtrapezoid(layer_nr, 24, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                }
-                                return;
-                            case 6742:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 0, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6942:
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                ow.writeCtrapezoid(layer_nr, 1, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6841:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 2, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6843:
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                ow.writeCtrapezoid(layer_nr, 3, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6741:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 4, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6943:
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                w = pointarray[1 + off].X - pointarray[0 + off].X + h + h;
-                                ow.writeCtrapezoid(layer_nr, 5, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6941:
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                ow.writeCtrapezoid(layer_nr, 6, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6743:
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[1].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                ow.writeCtrapezoid(layer_nr, 7, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6872:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[3].Y - pointarray[0].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 8, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 6812:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[0].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y + w;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 9, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 9842:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[3].Y - pointarray[0].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 10, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 8423:
-                                h = pointarray[1 + off].Y - pointarray[0 + off].Y;
-                                if (off == 0)
-                                {
-                                    w = pointarray[0].X - pointarray[2].X;
-                                }
-                                else
-                                {
-                                    w = pointarray[0 + off].X - pointarray[-1 + off].X;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 11, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 9872:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[3].Y - pointarray[0].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 12, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 8123:
-                                h = pointarray[1 + off].Y - pointarray[0 + off].Y;
-                                if (off == 0)
-                                {
-                                    w = pointarray[0].X - pointarray[2].X;
-                                }
-                                else
-                                {
-                                    w = pointarray[0 + off].X - pointarray[-1 + off].X;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 13, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 9812:
-                                w = pointarray[1 + off].X - pointarray[0 + off].X;
-                                if (off == 0)
-                                {
-                                    h = pointarray[2].Y - pointarray[0].Y;
-                                }
-                                else
-                                {
-                                    h = pointarray[-1 + off].Y - pointarray[0 + off].Y + w;
-                                }
-                                ow.writeCtrapezoid(layer_nr, 14, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                            case 8723:
-                                if (off == 0)
-                                {
-                                    w = pointarray[0].X - pointarray[2].X;
-                                }
-                                else
-                                {
-                                    w = pointarray[0 + off].X - pointarray[-1 + off].X;
-                                }
-                                h = pointarray[1 + off].Y - pointarray[0 + off].Y + w;
-                                ow.writeCtrapezoid(layer_nr, 15, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
-                                return;
-                        }
+                            break;
+                        case 5:
+                            switch (form)
+                            {
+                                //type 24
+                                case 2684: off = 1; form = 6842; break;
+                                case 4268: off = 2; form = 6842; break;
+                                case 8426: off = 3; form = 6842; break;
+                                //type 0
+                                case 2674: off = 1; form = 6742; break;
+                                case 4267: off = 2; form = 6742; break;
+                                case 7426: off = 3; form = 6742; break;
+                                //type 1
+                                case 2694: off = 1; form = 6942; break;
+                                case 4269: off = 2; form = 6942; break;
+                                case 9426: off = 3; form = 6942; break;
+                                //type 2
+                                case 1684: off = 1; form = 6841; break;
+                                case 4168: off = 2; form = 6841; break;
+                                case 8416: off = 3; form = 6841; break;
+                                //type 3
+                                case 3684: off = 1; form = 6843; break;
+                                case 4368: off = 2; form = 6843; break;
+                                case 8436: off = 3; form = 6843; break;
+                                //type 4
+                                case 1674: off = 1; form = 6741; break;
+                                case 4167: off = 2; form = 6741; break;
+                                case 7416: off = 3; form = 6741; break;
+                                //type 5
+                                case 3694: off = 1; form = 6943; break;
+                                case 4369: off = 2; form = 6943; break;
+                                case 9436: off = 3; form = 6943; break;
+                                //type 6
+                                case 1694: off = 1; form = 6941; break;
+                                case 4169: off = 2; form = 6941; break;
+                                case 9416: off = 3; form = 6941; break;
+                                //type 7
+                                case 3674: off = 1; form = 6743; break;
+                                case 4367: off = 2; form = 6743; break;
+                                case 7436: off = 3; form = 6743; break;
+                                //type 8
+                                case 2687: off = 1; form = 6872; break;
+                                case 7268: off = 2; form = 6872; break;
+                                case 8726: off = 3; form = 6872; break;
+                                //type 9
+                                case 2681: off = 1; form = 6812; break;
+                                case 1268: off = 2; form = 6812; break;
+                                case 8126: off = 3; form = 6812; break;
+                                //type 10
+                                case 2984: off = 1; form = 9842; break;
+                                case 4298: off = 2; form = 9842; break;
+                                case 8429: off = 3; form = 9842; break;
+                                //type 11
+                                case 3842: off = 1; form = 8423; break;
+                                case 2384: off = 2; form = 8423; break;
+                                case 4238: off = 3; form = 8423; break;
+                                //type 12
+                                case 2987: off = 1; form = 9872; break;
+                                case 7298: off = 2; form = 9872; break;
+                                case 8729: off = 3; form = 9872; break;
+                                //type 13
+                                case 3812: off = 1; form = 8123; break;
+                                case 2381: off = 2; form = 8123; break;
+                                case 1238: off = 3; form = 8123; break;
+                                //type 14
+                                case 2981: off = 1; form = 9812; break;
+                                case 1298: off = 2; form = 9812; break;
+                                case 8129: off = 3; form = 9812; break;
+                                //type 15
+                                case 3872: off = 1; form = 8723; break;
+                                case 2387: off = 2; form = 8723; break;
+                                case 7238: off = 3; form = 8723; break;
+
+                            }
+                            switch (form)
+                            {
+                                case 6842:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        3 => pointarray[1].Y - pointarray[2].Y,
+                                        _ => pointarray[2 + off].Y - pointarray[1 + off].Y
+                                    };
+                                    if (h == w)
+                                    {
+                                        ow.writeCtrapezoid(layer_nr, 25, pointarray[0 + off].X, pointarray[0 + off].Y, w, 0, datatype_nr);
+                                    }
+                                    else
+                                    {
+                                        ow.writeCtrapezoid(layer_nr, 24, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    }
+                                    return;
+                                case 6742:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 0, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6942:
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
+                                    ow.writeCtrapezoid(layer_nr, 1, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6841:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 2, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6843:
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
+                                    ow.writeCtrapezoid(layer_nr, 3, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6741:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 4, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6943:
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h + h;
+                                    ow.writeCtrapezoid(layer_nr, 5, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6941:
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
+                                    ow.writeCtrapezoid(layer_nr, 6, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6743:
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[1].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
+                                    ow.writeCtrapezoid(layer_nr, 7, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6872:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[3].Y - pointarray[0].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 8, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 6812:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[0].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y + w
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 9, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 9842:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[3].Y - pointarray[0].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 10, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 8423:
+                                    h = pointarray[1 + off].Y - pointarray[0 + off].Y;
+                                    w = off switch
+                                    {
+                                        0 => pointarray[0].X - pointarray[2].X,
+                                        _ => pointarray[0 + off].X - pointarray[-1 + off].X
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 11, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 9872:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[3].Y - pointarray[0].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 12, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 8123:
+                                    h = pointarray[1 + off].Y - pointarray[0 + off].Y;
+                                    w = off switch
+                                    {
+                                        0 => pointarray[0].X - pointarray[2].X,
+                                        _ => pointarray[0 + off].X - pointarray[-1 + off].X
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 13, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 9812:
+                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    h = off switch
+                                    {
+                                        0 => pointarray[2].Y - pointarray[0].Y,
+                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y + w
+                                    };
+                                    ow.writeCtrapezoid(layer_nr, 14, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                                case 8723:
+                                    w = off switch
+                                    {
+                                        0 => pointarray[0].X - pointarray[2].X,
+                                        _ => pointarray[0 + off].X - pointarray[-1 + off].X
+                                    };
+                                    h = pointarray[1 + off].Y - pointarray[0 + off].Y + w;
+                                    ow.writeCtrapezoid(layer_nr, 15, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    return;
+                            }
+
+                            break;
                     }
                 }
+
+                break;
             }
+        }
+
+        switch (GCSetup.oasisSaveTrapezoid)
+        {
             //trapezoid
-            if ((GCSetup.oasisSaveTrapezoid) && (pointarray.Length == 5))
+            case true when pointarray.Length == 5:
             {
                 int form = 0;
                 int da, db;
@@ -1049,17 +1093,25 @@ namespace geoCoreLib
                         minY = pointarray[i].Y;
                     }
                     GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
-                    if (pd.X == 0)
+                    switch (pd.X)
                     {
-                        form = form * 10 + 1;
-                    }
-                    else if (pd.Y == 0)
-                    {
-                        form = form * 10 + 2;
-                    }
-                    else
-                    {
-                        form = form * 10;
+                        case 0:
+                            form = form * 10 + 1;
+                            break;
+                        default:
+                        {
+                            switch (pd.Y)
+                            {
+                                case 0:
+                                    form = form * 10 + 2;
+                                    break;
+                                default:
+                                    form *= 10;
+                                    break;
+                            }
+
+                            break;
+                        }
                     }
                 }
                 int w = maxX - minX;
@@ -1128,74 +1180,86 @@ namespace geoCoreLib
                         ow.writeTrapezoid(layer_nr, 0, minX, minY, w, h, -da, -db, datatype_nr);
                         return;
                 }
+
+                break;
             }
+        }
+
+        ow.modal.absoluteMode = ow.modal.absoluteMode switch
+        {
             // save as polygon
-            if (!ow.modal.absoluteMode)
-            {
-                ow.modal.absoluteMode = true;
-            }
-            info_byte = 32;  //write point-list;
-            if (layer_nr != ow.modal.layer)
-            {
-                info_byte += 1;
-            }
-            if (datatype_nr != ow.modal.datatype)
-            {
-                info_byte += 2;
-            }
-            if (pointarray[0].X != ow.modal.geometry_x)
-            {
-                info_byte += 16;
-            }
-            if (pointarray[0].Y != ow.modal.geometry_y)
-            {
-                info_byte += 8;
-            }
-            ow.writeUnsignedInteger(21);
-            ow.writeRaw(info_byte);
-            if ((info_byte & 1) > 0)
-            {
+            false => true,
+            _ => ow.modal.absoluteMode
+        };
+        info_byte = 32;  //write point-list;
+        if (layer_nr != ow.modal.layer)
+        {
+            info_byte += 1;
+        }
+        if (datatype_nr != ow.modal.datatype)
+        {
+            info_byte += 2;
+        }
+        if (pointarray[0].X != ow.modal.geometry_x)
+        {
+            info_byte += 16;
+        }
+        if (pointarray[0].Y != ow.modal.geometry_y)
+        {
+            info_byte += 8;
+        }
+        ow.writeUnsignedInteger(21);
+        ow.writeRaw(info_byte);
+        switch (info_byte & 1)
+        {
+            case > 0:
                 ow.modal.layer = layer_nr;
                 ow.writeUnsignedInteger((uint)ow.modal.layer);
-            }
-            if ((info_byte & 2) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 2)
+        {
+            case > 0:
                 ow.modal.datatype = datatype_nr;
                 ow.writeUnsignedInteger((uint)datatype_nr);
-            }
-            ow.writePointArray(pointarray, false);
-            if ((info_byte & 16) > 0)
-            {
+                break;
+        }
+        ow.writePointArray(pointarray, false);
+        switch (info_byte & 16)
+        {
+            case > 0:
                 ow.modal.geometry_x = pointarray[0].X;
                 ow.writeSignedInteger(ow.modal.geometry_x);
-            }
-            if ((info_byte & 8) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 8)
+        {
+            case > 0:
                 ow.modal.geometry_y = pointarray[0].Y;
                 ow.writeSignedInteger(ow.modal.geometry_y);
-            }
-
-
-        }
-        public override bool isText()
-        {
-            return pIsText();
+                break;
         }
 
-        bool pIsText()
-        {
-            return text;
-        }
-
-        public override string getName()
-        {
-            return pGetName();
-        }
-
-        string pGetName()
-        {
-            return name;
-        }
 
     }
+    public override bool isText()
+    {
+        return pIsText();
+    }
+
+    private bool pIsText()
+    {
+        return text;
+    }
+
+    public override string getName()
+    {
+        return pGetName();
+    }
+
+    private string pGetName()
+    {
+        return name;
+    }
+
 }

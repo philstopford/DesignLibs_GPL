@@ -1,9 +1,9 @@
-﻿namespace Burkardt.AppliedStatistics
-{
-    public static partial class Algorithms
-    {
+﻿namespace Burkardt.AppliedStatistics;
 
-        public static void trigamma_values(ref int n_data, ref double x, ref double fx)
+public static partial class Algorithms
+{
+
+    public static void trigamma_values(ref int n_data, ref double x, ref double fx)
         //****************************************************************************80
         //
         //  Purpose:
@@ -56,10 +56,10 @@
         //
         //    Output, double *FX, the value of the function.
         //
-        {
-            int N_MAX = 11;
+    {
+        const int N_MAX = 11;
 
-            double[] fx_vec =  {
+        double[] fx_vec =  {
                 0.1644934066848226E+01,
                 0.1433299150792759E+01,
                 0.1267377205423779E+01,
@@ -74,7 +74,7 @@
             }
             ;
 
-            double[] x_vec =  {
+        double[] x_vec =  {
                 1.0E+00,
                 1.1E+00,
                 1.2E+00,
@@ -89,24 +89,24 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

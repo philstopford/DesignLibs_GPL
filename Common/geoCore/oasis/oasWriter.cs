@@ -7,119 +7,121 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 
-namespace oasis
+namespace oasis;
+
+public partial class oasWriter
 {
-    public partial class oasWriter
+    public delegate void StatusUpdateUI(string text);
+    public StatusUpdateUI statusUpdateUI { get; set; }
+    public delegate void ProgressUpdateUI(double progress);
+    public ProgressUpdateUI progressUpdateUI { get; set; }
+
+    private EndianBinaryWriter bw;
+    private GCDrawingfield drawing_;
+    private Dictionary<string, string> namedLayers;
+    private string filename_;
+
+    public modals modal;
+
+    public struct modals
     {
-        public delegate void StatusUpdateUI(string text);
-        public StatusUpdateUI statusUpdateUI { get; set; }
-        public delegate void ProgressUpdateUI(double progress);
-        public ProgressUpdateUI progressUpdateUI { get; set; }
+        public bool absoluteMode { get; set; }
+        public int placement_x { get; set; }
+        public int placement_y { get; set; }
+        public int layer { get; set; }
+        public int datatype { get; set; }
+        public string placement_cell { get; set; }
+        public double mag { get; set; }
+        public double angle { get; set; }
+        public bool mirror_x { get; set; }
+        public int textlayer { get; set; }
+        public int texttype { get; set; }
+        public int text_x { get; set; }
+        public int text_y { get; set; }
+        public string text_string { get; set; }
+        public int geometry_x { get; set; }
+        public int geometry_y { get; set; }
+        public int xy_model { get; set; }
+        public int geometry_w { get; set; }
+        public int geometry_h { get; set; }
+        public List<GeoLibPoint> polygon_point_list { get; set; }
+        public int path_halfwidth { get; set; }
+        public int path_point_list { get; set; }
+        public int path_start_extension { get; set; }
+        public int path_end_extension{ get; set; }
+        public int path_start_extension_value { get; set; }
+        public int path_end_extension_value { get; set; }
+        public int ctrapezoid_type { get; set; }
+        public double circle_radius { get; set; }
+        public int last_property_name { get; set; }
+        public int last_value_list { get; set; }
+        //  repetition;
+        public int repetition { get; set; }
+        public int x_dimension { get; set; }
+        public int y_dimension { get; set; }
+        public int x_space { get; set; }
+        public int y_space { get; set; }
+        public List<GeoLibPoint> repArray { get; set; }
+        public double trapezonid_delta_a { get; set; }
+        public double trapezonid_delta_b { get; set; }
+        public bool trapezonid_orientation { get; set; }
+    }
 
-        EndianBinaryWriter bw;
-        GCDrawingfield drawing_;
-        Dictionary<string, string> namedLayers;
-        string filename_;
+    private void resetModal()
+    {
+        modal.placement_x = 0;
+        modal.placement_y = 0;
+        modal.geometry_x = 0;
+        modal.geometry_y = 0;
+        modal.text_x = 0;
+        modal.text_y = 0;
+        modal.absoluteMode = true;
+        // undefined
+        modal.layer = -1;
+        modal.datatype = -1;
+        modal.text_string = "";
+        modal.textlayer = -1;
+        modal.texttype = -1;
+        modal.circle_radius = -1;
+        modal.repetition = -1;
+        modal.polygon_point_list = new List<GeoLibPoint>();
+        modal.repArray = new List<GeoLibPoint>();
+    }
 
-        public modals modal;
+    public oasWriter(GeoCore gc, string filename)
+    {
+        pOASWriter(gc, filename);
+    }
 
-        public struct modals
+    private void pOASWriter(GeoCore gc, string filename)
+    {
+        drawing_ = gc.getDrawing();
+        filename_ = filename;
+        namedLayers = gc.getLayerNames();
+    }
+
+    public bool save()
+    {
+        return pSave_setup();
+    }
+
+    private bool pSave_setup()
+    {
+
+        bool compressed = filename_.ToLower().EndsWith(".gz");
+
+        statusUpdateUI?.Invoke("Saving Oasis");
+        progressUpdateUI?.Invoke(0);
+
+        Stream s = File.OpenWrite(filename_);
+
+        bool ret = false;
+
+        switch (compressed)
         {
-            public bool absoluteMode { get; set; }
-            public Int32 placement_x { get; set; }
-            public Int32 placement_y { get; set; }
-            public Int32 layer { get; set; }
-            public Int32 datatype { get; set; }
-            public string placement_cell { get; set; }
-            public double mag { get; set; }
-            public double angle { get; set; }
-            public bool mirror_x { get; set; }
-            public Int32 textlayer { get; set; }
-            public Int32 texttype { get; set; }
-            public Int32 text_x { get; set; }
-            public Int32 text_y { get; set; }
-            public string text_string { get; set; }
-            public Int32 geometry_x { get; set; }
-            public Int32 geometry_y { get; set; }
-            public Int32 xy_model { get; set; }
-            public Int32 geometry_w { get; set; }
-            public Int32 geometry_h { get; set; }
-            public List<GeoLibPoint> polygon_point_list { get; set; }
-            public Int32 path_halfwidth { get; set; }
-            public Int32 path_point_list { get; set; }
-            public Int32 path_start_extension { get; set; }
-            public Int32 path_end_extension{ get; set; }
-            public Int32 path_start_extension_value { get; set; }
-            public Int32 path_end_extension_value { get; set; }
-            public Int32 ctrapezoid_type { get; set; }
-            public double circle_radius { get; set; }
-            public Int32 last_property_name { get; set; }
-            public Int32 last_value_list { get; set; }
-            //  repetition;
-            public Int32 repetition { get; set; }
-            public Int32 x_dimension { get; set; }
-            public Int32 y_dimension { get; set; }
-            public Int32 x_space { get; set; }
-            public Int32 y_space { get; set; }
-            public List<GeoLibPoint> repArray { get; set; }
-            public double trapezonid_delta_a { get; set; }
-            public double trapezonid_delta_b { get; set; }
-            public bool trapezonid_orientation { get; set; }
-        }
-
-        void resetModal()
-        {
-            modal.placement_x = 0;
-            modal.placement_y = 0;
-            modal.geometry_x = 0;
-            modal.geometry_y = 0;
-            modal.text_x = 0;
-            modal.text_y = 0;
-            modal.absoluteMode = true;
-            // undefined
-            modal.layer = -1;
-            modal.datatype = -1;
-            modal.text_string = "";
-            modal.textlayer = -1;
-            modal.texttype = -1;
-            modal.circle_radius = -1;
-            modal.repetition = -1;
-            modal.polygon_point_list = new List<GeoLibPoint>();
-            modal.repArray = new List<GeoLibPoint>();
-        }
-
-        public oasWriter(GeoCore gc, String filename)
-        {
-            pOASWriter(gc, filename);
-        }
-
-        void pOASWriter(GeoCore gc, String filename)
-        {
-            drawing_ = gc.getDrawing();
-            filename_ = filename;
-            namedLayers = gc.getLayerNames();
-        }
-
-        public bool save()
-        {
-            return pSave_setup();
-        }
-
-        bool pSave_setup()
-        {
-
-            bool compressed = filename_.ToLower().EndsWith(".gz");
-
-            statusUpdateUI?.Invoke("Saving Oasis");
-            progressUpdateUI?.Invoke(0);
-
-            Stream s = File.OpenWrite(filename_);
-
-            bool ret = false;
-
-            if (compressed)
+            case true:
             {
-                using (GZipStream gzs = new GZipStream(s, CompressionMode.Compress))
+                using (GZipStream gzs = new(s, CompressionMode.Compress))
                 {
                     bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
                     try
@@ -132,9 +134,10 @@ namespace oasis
 
                     }
                 }
+
+                break;
             }
-            else
-            {
+            default:
                 bw = new EndianBinaryWriter(EndianBitConverter.Little, s);
                 try
                 {
@@ -145,59 +148,64 @@ namespace oasis
                 {
 
                 }
-            }
 
-            s.Close();
-            s.Dispose();
-
-            return ret;
+                break;
         }
 
-        void pSave_write()
+        s.Close();
+        s.Dispose();
+
+        return ret;
+    }
+
+    private void pSave_write()
+    {
+        bw.Write("%SEMI-OASIS".ToCharArray());
+        bw.Write((byte)13);
+        bw.Write((byte)10);
+
+        // start record
+        bw.Write((byte)1);
+        writeString("1.0");
+        writeReal(drawing_.databaseunits);
+
+        //  offset table:
+        for (int i = 0; i < 13; ++i)
         {
-            bw.Write("%SEMI-OASIS".ToCharArray());
-            bw.Write((byte)13);
-            bw.Write((byte)10);
+            writeRaw(0);
+        }
 
-            // start record
-            bw.Write((byte)1);
-            writeString("1.0");
-            writeReal(drawing_.databaseunits);
+        writeUnsignedInteger(28);
+        writeUnsignedInteger(21);
+        writeString("S_MAX_SIGNED_INTEGER_WIDTH");
+        writeUnsignedInteger(8);
+        writeUnsignedInteger(4);
+        writeUnsignedInteger(28);
+        writeUnsignedInteger(13);
+        writeString("S_MAX_UNSIGNED_INTEGER_WIDTH");
+        writeUnsignedInteger(28);
+        writeUnsignedInteger(21);
+        writeString("S_TOP_CELL");
 
-            //  offset table:
-            for (int i = 0; i < 13; ++i)
+        int cellCount = 0;
+        foreach (GCCell t in drawing_.cellList)
+        {
+            t.saved = false;
+            cellCount++;
+        }
+
+        List<string> cellNames_beingWritten = new();
+        for (int i = 0; i < drawing_.cellList.Count; i++)
+        {
+            switch (drawing_.cellList[i].elementList)
             {
-                writeRaw(0);
-            }
-
-            writeUnsignedInteger(28);
-            writeUnsignedInteger(21);
-            writeString("S_MAX_SIGNED_INTEGER_WIDTH");
-            writeUnsignedInteger(8);
-            writeUnsignedInteger(4);
-            writeUnsignedInteger(28);
-            writeUnsignedInteger(13);
-            writeString("S_MAX_UNSIGNED_INTEGER_WIDTH");
-            writeUnsignedInteger(28);
-            writeUnsignedInteger(21);
-            writeString("S_TOP_CELL");
-
-            int cellCount = 0;
-            foreach (GCCell t in drawing_.cellList)
-            {
-                t.saved = false;
-                cellCount++;
-            }
-
-            List<string> cellNames_beingWritten = new List<string>();
-            for (int i = 0; i < drawing_.cellList.Count; i++)
-            {
-                if (drawing_.cellList[i].elementList == null)
-                {
+                case null:
                     continue;
-                }
+            }
 
-                if (!drawing_.cellList[i].saved)
+            switch (drawing_.cellList[i].saved)
+            {
+                case false:
                 {
                     writeUnsignedInteger(12);
                     cellNames_beingWritten.Add(drawing_.cellList[i].cellName);
@@ -208,70 +216,78 @@ namespace oasis
                         writeUnsignedInteger(17);
                     }
                     drawing_.cellList[i].saved = true;
+                    break;
                 }
             }
+        }
 
-            cellNames_beingWritten.Reverse();
+        cellNames_beingWritten.Reverse();
 
-            foreach (string t in cellNames_beingWritten)
+        foreach (string t in cellNames_beingWritten)
+        {
+            bw.Write((byte)3);
+            writeString(t);
+        }
+
+        // Write out the layer names.
+        // Layer name mapping
+        foreach (KeyValuePair<string, string> entry in namedLayers)
+        {
+            // split the key.
+            string key = entry.Key; // LxxxDyyy
+            string[] tokens = key.Split('D');
+            int datatype = Convert.ToInt32(tokens[1]);
+            int layer = Convert.ToInt32(tokens[0].Split('L')[1]);
+
+            string name = entry.Value;
+
+            bw.Write((byte)11);
+            writeString(name);
+            bw.Write((byte)3);
+            writeUnsignedInteger((uint)layer);
+            bw.Write((byte)3);
+            writeUnsignedInteger((uint)datatype);
+            bw.Write((byte)12);
+            writeString(name);
+            bw.Write((byte)3);
+            writeUnsignedInteger((uint)layer);
+            bw.Write((byte)3);
+            writeUnsignedInteger((uint)datatype);
+        }
+
+        foreach (GCCell t in drawing_.cellList)
+        {
+            t.saved = false;
+        }
+
+        int cellCounter = cellNames_beingWritten.Count;
+        int cc = 0;
+        int updateInterval = cellCount / 100;
+        updateInterval = updateInterval switch
+        {
+            0 => 1,
+            _ => updateInterval
+        };
+        double progress = 0;
+        foreach (GCCell t in drawing_.cellList)
+        {
+            switch (cc % updateInterval)
             {
-                bw.Write((byte)3);
-                writeString(t);
-            }
-
-            // Write out the layer names.
-            // Layer name mapping
-            foreach (KeyValuePair<string, string> entry in namedLayers)
-            {
-                // split the key.
-                string key = entry.Key; // LxxxDyyy
-                string[] tokens = key.Split('D');
-                int datatype = Convert.ToInt32(tokens[1]);
-                int layer = Convert.ToInt32(tokens[0].Split('L')[1]);
-
-                string name = entry.Value;
-
-                bw.Write((byte)11);
-                writeString(name);
-                bw.Write((byte)3);
-                writeUnsignedInteger((uint)layer);
-                bw.Write((byte)3);
-                writeUnsignedInteger((uint)datatype);
-                bw.Write((byte)12);
-                writeString(name);
-                bw.Write((byte)3);
-                writeUnsignedInteger((uint)layer);
-                bw.Write((byte)3);
-                writeUnsignedInteger((uint)datatype);
-            }
-
-            foreach (GCCell t in drawing_.cellList)
-            {
-                t.saved = false;
-            }
-
-            int cellCounter = cellNames_beingWritten.Count;
-            int cc = 0;
-            int updateInterval = cellCount / 100;
-            if (updateInterval == 0)
-            {
-                updateInterval = 1;
-            }
-            double progress = 0;
-            foreach (GCCell t in drawing_.cellList)
-            {
-                if (cc % updateInterval == 0)
-                {
+                case 0:
                     statusUpdateUI?.Invoke(t.cellName);
                     progressUpdateUI?.Invoke(progress);
                     progress += 0.01;
-                }
-                if (t.elementList == null)
-                {
+                    break;
+            }
+            switch (t.elementList)
+            {
+                case null:
                     continue;
-                }
-                cellCounter--;
-                if (t.saved == false)
+            }
+            cellCounter--;
+            switch (t.saved)
+            {
+                case false:
                 {
                     if (!t.dependNotSaved())
                     {
@@ -281,20 +297,22 @@ namespace oasis
                         t.saveOASIS(this);
                         t.saved = true;
                     }
+
+                    break;
                 }
-                cc++;
             }
-
-            writeUnsignedInteger(2);
-            for (int i = 0; i < 253; i++)
-            {
-                bw.Write((byte)128);
-            }
-            writeUnsignedInteger(0);
-            writeUnsignedInteger(0);
-
-            bw.Close();
-            bw.Dispose();
+            cc++;
         }
+
+        writeUnsignedInteger(2);
+        for (int i = 0; i < 253; i++)
+        {
+            bw.Write((byte)128);
+        }
+        writeUnsignedInteger(0);
+        writeUnsignedInteger(0);
+
+        bw.Close();
+        bw.Dispose();
     }
 }

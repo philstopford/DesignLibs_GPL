@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static double[] r8vec_expand_linear(int n, double[] x, int fat )
+    public static double[] r8vec_expand_linear(int n, double[] x, int fat )
 
         //****************************************************************************80
         //
@@ -37,38 +37,36 @@
         //
         //    Output, double R8VEC_EXPAND_LINEAR[(N-1)*(FAT+1)+1], the "fattened" data.
         //
+    {
+        int i;
+
+        double[] xfat = new double[(n - 1) * (fat + 1) + 1];
+
+        int k = 0;
+
+        for (i = 0; i < n - 1; i++)
         {
-            int i;
+            xfat[k] = x[i];
+            k += 1;
+
             int j;
-            int k;
-            double[] xfat;
-
-            xfat = new double[(n - 1) * (fat + 1) + 1];
-
-            k = 0;
-
-            for (i = 0; i < n - 1; i++)
+            for (j = 1; j <= fat; j++)
             {
-                xfat[k] = x[i];
-                k = k + 1;
-
-                for (j = 1; j <= fat; j++)
-                {
-                    xfat[k] = ((double) (fat - j + 1) * x[i]
-                               + (double) (j) * x[i + 1])
-                              / (double) (fat + 1);
-                    k = k + 1;
-                }
+                xfat[k] = ((fat - j + 1) * x[i]
+                           + j * x[i + 1])
+                          / (fat + 1);
+                k += 1;
             }
-
-            xfat[k] = x[n - 1];
-            k = k + 1;
-
-            return xfat;
         }
 
-        public static double[] r8vec_expand_linear2(int n, double[] x, int before, int fat,
-        int after )
+        xfat[k] = x[n - 1];
+        k += 1;
+
+        return xfat;
+    }
+
+    public static double[] r8vec_expand_linear2(int n, double[] x, int before, int fat,
+            int after )
 
         //****************************************************************************80
         //
@@ -133,56 +131,53 @@
         //    Output, double R8VEC_EXPAND_LINEAR2[BEFORE+(N-1)*(FAT+1)+1+AFTER], the
         //    "fattened" data.
         //
+    {
+        int i;
+        int j;
+
+        double[] xfat = new double[before + (n - 1) * (fat + 1) + 1 + after];
+
+        int k = 0;
+        //
+        //  Points BEFORE.
+        //
+        for (j = 1 - before + fat; j <= fat; j++)
         {
-            int i;
-            int j;
-            int k;
-            double[] xfat;
-
-            xfat = new double[before + (n - 1) * (fat + 1) + 1 + after];
-
-            k = 0;
-            //
-            //  Points BEFORE.
-            //
-            for (j = 1 - before + fat; j <= fat; j++)
-            {
-                xfat[k] = ((double) (fat - j + 1) * (x[0] - (x[1] - x[0]))
-                           + (double) (j) * x[0])
-                          / (double) (fat + 1);
-                k = k + 1;
-            }
-
-            //
-            //  Original points and FAT points.
-            //
-            for (i = 0; i < n - 1; i++)
-            {
-                xfat[k] = x[0];
-                k = k + 1;
-                for (j = 1; j <= fat; j++)
-                {
-                    xfat[k] = ((double) (fat - j + 1) * x[i]
-                               + (double) (j) * x[i + 1])
-                              / (double) (fat + 1);
-                    k = k + 1;
-                }
-            }
-
-            xfat[k] = x[n - 1];
-            k = k + 1;
-            //
-            //  Points AFTER.
-            //
-            for (j = 1; j <= after; j++)
-            {
-                xfat[k] = ((double) (fat - j + 1) * x[n - 1]
-                           + (double) (j) * (x[n - 1] + (x[n - 1] - x[n - 2])))
-                          / (double) (fat + 1);
-                k = k + 1;
-            }
-
-            return xfat;
+            xfat[k] = ((fat - j + 1) * (x[0] - (x[1] - x[0]))
+                       + j * x[0])
+                      / (fat + 1);
+            k += 1;
         }
+
+        //
+        //  Original points and FAT points.
+        //
+        for (i = 0; i < n - 1; i++)
+        {
+            xfat[k] = x[0];
+            k += 1;
+            for (j = 1; j <= fat; j++)
+            {
+                xfat[k] = ((fat - j + 1) * x[i]
+                           + j * x[i + 1])
+                          / (fat + 1);
+                k += 1;
+            }
+        }
+
+        xfat[k] = x[n - 1];
+        k += 1;
+        //
+        //  Points AFTER.
+        //
+        for (j = 1; j <= after; j++)
+        {
+            xfat[k] = ((fat - j + 1) * x[n - 1]
+                       + j * (x[n - 1] + (x[n - 1] - x[n - 2])))
+                      / (fat + 1);
+            k += 1;
+        }
+
+        return xfat;
     }
 }

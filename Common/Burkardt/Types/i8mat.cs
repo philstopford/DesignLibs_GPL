@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using Burkardt.Table;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void i8mat_transpose_print ( int m, int n, long[] a, string title )
+    public static void i8mat_transpose_print ( int m, int n, long[] a, string title )
 
         //****************************************************************************80
         //
@@ -41,12 +41,12 @@ namespace Burkardt.Types
         //
         //    Input, string TITLE, a title.
         //
-        {
-            i8mat_transpose_print_some ( m, n, a, 1, 1, m, n, title );
-        }
+    {
+        i8mat_transpose_print_some ( m, n, a, 1, 1, m, n, title );
+    }
 
-        public static void i8mat_transpose_print_some ( int m, int n, long[] a, int ilo, int jlo,
-        int ihi, int jhi, string title )
+    public static void i8mat_transpose_print_some ( int m, int n, long[] a, int ilo, int jlo,
+            int ihi, int jhi, string title )
 
         //****************************************************************************80
         //
@@ -85,83 +85,84 @@ namespace Burkardt.Types
         //
         //    Input, string TITLE, a title.
         //
+    {
+        int INCX = 10;
+
+        Console.WriteLine();
+        Console.WriteLine(title);
+
+        if ( m <= 0 || n <= 0 )
         {
-            int INCX = 10;
-
             Console.WriteLine();
-            Console.WriteLine(title);
-
-            if ( m <= 0 || n <= 0 )
+            Console.WriteLine("  (None)");
+            return;
+        }
+        //
+        //  Print the columns of the matrix, in strips of INCX.
+        //
+        for (int i2lo = ilo; i2lo <= ihi; i2lo += INCX )
+        {
+            int i2hi = i2lo + INCX - 1;
+            if ( m < i2hi )
             {
-                Console.WriteLine();
-                Console.WriteLine("  (None)");
-                return;
+                i2hi = m;
             }
-            //
-            //  Print the columns of the matrix, in strips of INCX.
-            //
-            for (int i2lo = ilo; i2lo <= ihi; i2lo = i2lo + INCX )
+            if ( ihi < i2hi )
             {
-                int i2hi = i2lo + INCX - 1;
-                if ( m < i2hi )
-                {
-                    i2hi = m;
-                }
-                if ( ihi < i2hi )
-                {
-                    i2hi = ihi;
-                }
-                Console.WriteLine();
+                i2hi = ihi;
+            }
+            Console.WriteLine();
+            //
+            //  For each row I in the current range...
+            //
+            //  Write the header.
+            //
+            string line = "  Row: ";
+            for (int  i = i2lo; i <= i2hi; i++ )
+            {
+                string t = i - 1 + "  ";
+                line += t.PadLeft(6);
+            }
+            Console.WriteLine(line);
+            Console.WriteLine();
+            Console.WriteLine("  Col");
+            Console.WriteLine();
+            //
+            //  Determine the range of the rows in this strip.
+            //
+            int j2lo = jlo;
+            j2lo = j2lo switch
+            {
+                < 1 => 1,
+                _ => j2lo
+            };
+            int j2hi = jhi;
+            if ( n < j2hi )
+            {
+                j2hi = n;
+            }
+            for (int  j = j2lo; j <= j2hi; j++ )
+            {
                 //
-                //  For each row I in the current range...
+                //  Print out (up to INCX) entries in column J, that lie in the current strip.
                 //
-                //  Write the header.
-                //
-                string line = "  Row: ";
+                string t = j - 1 + ":";
+                line = "";
+                line += t.PadLeft(5);
+
                 for (int  i = i2lo; i <= i2hi; i++ )
                 {
-                    string t = (i - 1) + "  ";
+                    t = a[i-1+(j-1)*m] + "  ";
                     line += t.PadLeft(6);
                 }
                 Console.WriteLine(line);
-                Console.WriteLine();
-                Console.WriteLine("  Col");
-                Console.WriteLine();
-                //
-                //  Determine the range of the rows in this strip.
-                //
-                int j2lo = jlo;
-                if ( j2lo < 1 )
-                {
-                    j2lo = 1;
-                }
-                int j2hi = jhi;
-                if ( n < j2hi )
-                {
-                    j2hi = n;
-                }
-                for (int  j = j2lo; j <= j2hi; j++ )
-                {
-                    //
-                    //  Print out (up to INCX) entries in column J, that lie in the current strip.
-                    //
-                    string t = (j - 1) + ":";
-                    line = "";
-                    line += t.PadLeft(5);
 
-                    for (int  i = i2lo; i <= i2hi; i++ )
-                    {
-                        t = a[i-1+(j-1)*m] + "  ";
-                        line += t.PadLeft(6);
-                    }
-                    Console.WriteLine(line);
-
-                    Console.WriteLine();
-                }
+                Console.WriteLine();
             }
-        }        
+        }
+    }        
         
-        public static void i8mat_print ( int m, int n, long[] a, string title )
+    public static void i8mat_print ( int m, int n, long[] a, string title )
         //****************************************************************************80
         //
         //  Purpose:
@@ -194,12 +195,12 @@ namespace Burkardt.Types
         //
         //    Input, string TITLE, a title.
         //
-        {
-            i8mat_print_some ( m, n, a, 1, 1, m, n, title );
-        }
+    {
+        i8mat_print_some ( m, n, a, 1, 1, m, n, title );
+    }
 
-        public static void i8mat_print_some ( int m, int n, long[] a, int ilo, int jlo, int ihi,
-        int jhi, string title )
+    public static void i8mat_print_some ( int m, int n, long[] a, int ilo, int jlo, int ihi,
+            int jhi, string title )
         //****************************************************************************80
         //
         //  Purpose:
@@ -236,197 +237,198 @@ namespace Burkardt.Types
         //    column, and the last row and column to be printed.
         //
         //    Input, string TITLE, a title.
-        {
-            int INCX = 10;
+    {
+        int INCX = 10;
 
-            int i;
-            int i2hi;
-            int i2lo;
-            int j;
-            int j2hi;
-            int j2lo;
+        int i;
+        int i2hi;
+        int i2lo;
+        int j;
+        int j2hi;
+        int j2lo;
+
+        Console.WriteLine();
+        Console.WriteLine(title);
+        //
+        //  Print the columns of the matrix, in strips of INCX.
+        //
+        for ( j2lo = jlo; j2lo <= jhi; j2lo += INCX )
+        {
+            j2hi = j2lo + INCX - 1;
+            if ( n < j2hi )
+            {
+                j2hi = n;
+            }
+            if ( jhi < j2hi )
+            {
+                j2hi = jhi;
+            }
 
             Console.WriteLine();
-            Console.WriteLine(title);
             //
-            //  Print the columns of the matrix, in strips of INCX.
+            //  For each column J in the current range...
             //
-            for ( j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX )
+            //  Write the header.
+            //
+            string cout = "  Col: ";
+            for ( j = j2lo; j <= j2hi; j++ )
             {
-                j2hi = j2lo + INCX - 1;
-                if ( n < j2hi )
-                {
-                    j2hi = n;
-                }
-                if ( jhi < j2hi )
-                {
-                    j2hi = jhi;
-                }
-
-                Console.WriteLine();
-                //
-                //  For each column J in the current range...
-                //
-                //  Write the header.
-                //
-                string cout = "  Col: ";
-                for ( j = j2lo; j <= j2hi; j++ )
-                {
-                    cout += j.ToString().PadLeft(6) + "  ";
-                }
-                Console.WriteLine(cout);
-                Console.WriteLine("  Row");
-                Console.WriteLine("  ---");
+                cout += j.ToString().PadLeft(6) + "  ";
+            }
+            Console.WriteLine(cout);
+            Console.WriteLine("  Row");
+            Console.WriteLine("  ---");
+            i2lo = ilo switch
+            {
                 //
                 //  Determine the range of the rows in this strip.
                 //
-                if ( 1 < ilo )
-                {
-                    i2lo = 1;
-                }
-                else
-                {
-                    i2lo = ilo;
-                }
-                if ( ihi < m )
-                {
-                    i2hi = ihi;
-                }
-                else
-                {
-                    i2hi = m;
-                }
+                > 1 => 1,
+                _ => ilo
+            };
+            if ( ihi < m )
+            {
+                i2hi = ihi;
+            }
+            else
+            {
+                i2hi = m;
+            }
 
-                cout = "";
-                for ( i = i2lo; i <= i2hi; i++ )
+            cout = "";
+            for ( i = i2lo; i <= i2hi; i++ )
+            {
+                //
+                //  Print out (up to INCX) entries in row I, that lie in the current strip.
+                //
+                cout += i.ToString().PadLeft(5) + "  ";
+                for ( j = j2lo; j <= j2hi; j++ )
                 {
-                    //
-                    //  Print out (up to INCX) entries in row I, that lie in the current strip.
-                    //
-                    cout += i.ToString().PadLeft(5) + "  ";
-                    for ( j = j2lo; j <= j2hi; j++ )
-                    {
-                        cout += a[i-1+(j-1)*m].ToString().PadLeft(6) + "  ";
-                    }
-                    Console.WriteLine(cout);
+                    cout += a[i-1+(j-1)*m].ToString().PadLeft(6) + "  ";
                 }
+                Console.WriteLine(cout);
             }
         }
+    }
         
-        public static void i8mat_write ( string output_filename, int m, int n, long[] table )
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I8MAT_WRITE writes an I8MAT file with no header.
-            //
-            //  Discussion:
-            //
-            //    An I8MAT is an array of I8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    01 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string OUTPUT_FILENAME, the output filename.
-            //
-            //    Input, int M, the spatial dimension.
-            //
-            //    Input, int N, the number of points.
-            //
-            //    Input, long TABLE[M*N], the data.
-            //
+    public static void i8mat_write ( string output_filename, int m, int n, long[] table )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I8MAT_WRITE writes an I8MAT file with no header.
+        //
+        //  Discussion:
+        //
+        //    An I8MAT is an array of I8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string OUTPUT_FILENAME, the output filename.
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int N, the number of points.
+        //
+        //    Input, long TABLE[M*N], the data.
+        //
+    {
+        string[] outData = new string[n];
+        for (int j = 0; j < n; j++ )
         {
-            string[] outData = new string[n];
-            for (int j = 0; j < n; j++ )
+            string line = "";
+            for (int i = 0; i < m; i++ )
             {
-                string line = "";
-                for (int i = 0; i < m; i++ )
-                {
-                    line += "  " + table[i+j*m].ToString().PadLeft(10);
-                }
-
-                outData[j] = line;
+                line += "  " + table[i+j*m].ToString().PadLeft(10);
             }
 
-            try
-            {
-                File.WriteAllLines(output_filename, outData);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine();
-                Console.WriteLine("I8MAT_WRITE - Fatal error!");
-                Console.WriteLine("  Could not open the output file: \"" + output_filename + "\"");
-                throw;
-            }
+            outData[j] = line;
         }
 
-        public static TableHeader i8mat_header_read ( string input_filename, int m, int n )
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I8MAT_HEADER_READ reads the header from an I8MAT file.
-            //
-            //  Discussion:
-            //
-            //    An I8MAT is an array of I8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    23 February 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string INPUT_FILENAME, the name of the input file.
-            //
-            //    Output, int &M, the number of spatial dimensions.
-            //
-            //    Output, int &N, the number of points
-            //
+        try
         {
-            TableHeader ret = TableMisc.readHeader(input_filename);
+            File.WriteAllLines(output_filename, outData);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine();
+            Console.WriteLine("I8MAT_WRITE - Fatal error!");
+            Console.WriteLine("  Could not open the output file: \"" + output_filename + "\"");
+            throw;
+        }
+    }
 
-            if ( ret.m <= 0 )
-            {
+    public static TableHeader i8mat_header_read ( string input_filename, int m, int n )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I8MAT_HEADER_READ reads the header from an I8MAT file.
+        //
+        //  Discussion:
+        //
+        //    An I8MAT is an array of I8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 February 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string INPUT_FILENAME, the name of the input file.
+        //
+        //    Output, int &M, the number of spatial dimensions.
+        //
+        //    Output, int &N, the number of points
+        //
+    {
+        TableHeader ret = TableMisc.readHeader(input_filename);
+
+        switch (ret.m)
+        {
+            case <= 0:
                 Console.WriteLine();
                 Console.WriteLine("I8MAT_HEADER_READ - Fatal error!");
                 Console.WriteLine("  FILE_COLUMN_COUNT failed.");
                 ret.code = 1;
-            }
+                break;
+        }
             
-            if ( ret.n <= 0 )
-            {
+        switch (ret.n)
+        {
+            case <= 0:
                 Console.WriteLine();
                 Console.WriteLine("I8MAT_HEADER_READ - Fatal error!");
                 Console.WriteLine("  FILE_ROW_COUNT failed.");
                 ret.code = 1;
-            }
-
-            return ret;
+                break;
         }
+
+        return ret;
+    }
         
         
-        public static long[] i8mat_data_read ( string input_filename, int m, int n )
+    public static long[] i8mat_data_read ( string input_filename, int m, int n )
         //****************************************************************************80
         //
         //  Purpose:
@@ -470,52 +472,56 @@ namespace Burkardt.Types
         //
         //    Output, long I8MAT_DATA_READ[M*N], the data.
         //
+    {
+        string[] lines;
+
+        try
         {
-            string[] lines;
+            lines = File.ReadLines(input_filename).ToArray();
+        }
+        catch (Exception)
+        {
+            Console.WriteLine();
+            Console.WriteLine("I8MAT_DATA_READ - Fatal error!");
+            Console.WriteLine("  Could not open the input file: \"" + input_filename + "\"");
+            throw;
+        }
 
-            try
-            {
-                lines = File.ReadLines(input_filename).ToArray();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine();
-                Console.WriteLine("I8MAT_DATA_READ - Fatal error!");
-                Console.WriteLine("  Could not open the input file: \"" + input_filename + "\"");
-                throw;
-            }
-
-            long[] table = new long[m*n];
+        long[] table = new long[m*n];
             
-            int j = 0;
-            int l = 0;
+        int j = 0;
+        int l = 0;
 
-            while ( j < n )
+        while ( j < n )
+        {
+            string line = lines[l];
+            l++;
+            if (line[0] == '#' || s_len_trim(line) == 0)
             {
-                string line = lines[l];
-                l++;
-                if (line[0] == '#' || typeMethods.s_len_trim(line) == 0)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                i8vec res = typeMethods.s_to_i8vec(line, m);
+            i8vec res = s_to_i8vec(line, m);
 
-                bool error = res.error;
-                long[] x = res.ivec;
+            bool error = res.error;
+            long[] x = res.ivec;
 
-                if (!error)
+            switch (error)
+            {
+                case false:
                 {
                     int i;
                     for (i = 0; i < m; i++)
                     {
-                        table[i + (j * m)] = x[i];
+                        table[i + j * m] = x[i];
                     }
+
+                    break;
                 }
-                j += 1;
             }
-            
-            return table;
+            j += 1;
         }
+            
+        return table;
     }
 }

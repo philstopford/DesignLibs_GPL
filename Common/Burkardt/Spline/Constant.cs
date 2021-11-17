@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Spline
+﻿namespace Burkardt.Spline;
+
+public static class Constant
 {
-    public static class Constant
-    {
-        public static double spline_constant_val ( int ndata, double[] tdata, double[] ydata, 
-        double tval )
+    public static double spline_constant_val ( int ndata, double[] tdata, double[] ydata, 
+            double tval )
 
         //****************************************************************************80
         //
@@ -44,18 +44,17 @@
         //
         //    Output, double *SPLINE_CONSTANT_VAL, the value of the spline at TVAL.
         //
+    {
+        int i;
+
+        for ( i = 0; i < ndata-1; i++ )
         {
-            int i;
-
-            for ( i = 0; i < ndata-1; i++ )
+            if ( tval <= tdata[i] )
             {
-                if ( tval <= tdata[i] )
-                {
-                    return ydata[i];
-                }
+                return ydata[i];
             }
-
-            return ydata[ndata-1];
         }
+
+        return ydata[ndata-1];
     }
 }

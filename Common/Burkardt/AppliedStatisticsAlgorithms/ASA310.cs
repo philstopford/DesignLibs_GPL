@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static double ncbeta(double a, double b, double lambda, double x, double errmax,
+    public static double ncbeta(double a, double b, double lambda, double x, double errmax,
             ref int ifault)
         //****************************************************************************80
         //
@@ -64,159 +64,154 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double NCBETA, the value of the noncentral Beta CDF.
         //
-        {
-            double sum;
+    {
+        double sum;
 
-            ifault = 0;
-            double value = x;
+        ifault = 0;
+        double value = x;
+        switch (lambda)
+        {
             //
             //  Check parameters.
             //
-            if (lambda <= 0.0)
-            {
+            case <= 0.0:
                 ifault = 3;
                 return value;
-            }
+        }
 
-            if (a <= 0.0)
-            {
+        switch (a)
+        {
+            case <= 0.0:
                 ifault = 3;
                 return value;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 ifault = 3;
                 return value;
-            }
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 value = 0.0;
                 return value;
-            }
-
-            if (1.0 <= x)
-            {
+            case >= 1.0:
                 value = 1.0;
                 return value;
-            }
+        }
 
-            double c = 0.5 * lambda;
-            int xj = 0;
+        double c = 0.5 * lambda;
+        switch (lambda)
+        {
             //
             //  AS 226 as it stands is sufficient in this situation.
             //
-            if (lambda < 54.0)
-            {
+            case < 54.0:
                 value = betanc(x, a, b, lambda, ref ifault);
                 return value;
-            }
-            else
-            {
-                int m = (int) (c + 0.5);
-                double mr = (double) (m);
-                int iterlo = m - (int) (5.0 * Math.Sqrt(mr));
-                int iterhi = m + (int) (5.0 * Math.Sqrt(mr));
-                double t = -c + mr * Math.Log(c) - Helpers.LogGamma(mr + 1.0);
-                double q = Math.Exp(t);
-                double r = q;
-                double psum = q;
-
-                double beta = Helpers.LogGamma(a + mr)
-                              + Helpers.LogGamma(b)
-                              - Helpers.LogGamma(a + mr + b);
-
-                double s1 = (a + mr) * Math.Log(x)
-                    + b * Math.Log(1.0 - x) - Math.Log(a + mr) - beta;
-                double gx = Math.Exp(s1);
-                double fx = gx;
-                double temp = betain(x, a + mr, b, beta, ref ifault);
-                double ftemp = temp;
-                xj = xj + 1;
-                //
-                //  The online copy of AS 310 has "SUM = Q - TEMP" which is incorrect.
-                //
-                sum = q * temp;
-                int iter1 = m;
-                //
-                //  The first set of iterations starts from M and goes downwards
-                //
-                for (;;)
-                {
-                    if (iter1 < iterlo)
-                    {
-                        break;
-                    }
-
-                    if (q < errmax)
-                    {
-                        break;
-                    }
-
-                    //
-                    //  The online copy of AS 310 has "Q = Q - ITER1 / C" which is incorrect.
-                    //
-                    q = q * iter1 / c;
-                    xj = xj + 1;
-                    gx = (a + iter1) / (x * (a + b + iter1 - 1.0)) * gx;
-                    iter1 = iter1 - 1;
-                    temp = temp + gx;
-                    psum = psum + q;
-                    sum = sum + q * temp;
-                }
-
-                double t0 = Helpers.LogGamma(a + b)
-                            - Helpers.LogGamma(a + 1.0)
-                            - Helpers.LogGamma(b);
-
-                double s0 = a * Math.Log(x) + b * Math.Log(1.0 - x);
-                //
-                //  Both the online copy of AS 310 and the text printed in the reference
-                //  did not initialize the variable S to zero, which is incorrect.
-                //  JVB, 12 January 2008.
-                //
-                double s = 0.0;
-                for (int i = 1; i <= iter1; i++)
-                {
-                    int j = i - 1;
-                    s = s + Math.Exp(t0 + s0 + j * Math.Log(x));
-                    double t1 = Math.Log(a + b + j) - Math.Log(a + 1.0 + j) + t0;
-                    t0 = t1;
-                }
-
-                //
-                //  Compute the first part of error bound.
-                //
-                double errbd = (1.0 - gammad(c, (double) (iter1), ref ifault)) * (temp + s);
-
-                q = r;
-                temp = ftemp;
-                gx = fx;
-                int iter2 = m;
-
-                for (;;)
-                {
-                    double ebd = errbd + (1.0 - psum) * temp;
-
-                    if (ebd < errmax || iterhi <= iter2)
-                    {
-                        break;
-                    }
-
-                    iter2 = iter2 + 1;
-                    xj = xj + 1;
-                    q = q * c / iter2;
-                    psum = psum + q;
-                    temp = temp - gx;
-                    gx = x * (a + b + iter2 - 1.0) / (a + iter2) * gx;
-                    sum = sum + q * temp;
-                }
-            }
-
-            value = sum;
-
-            return value;
         }
+
+        int m = (int) (c + 0.5);
+        double mr = m;
+        int iterlo = m - (int) (5.0 * Math.Sqrt(mr));
+        int iterhi = m + (int) (5.0 * Math.Sqrt(mr));
+        double t = -c + mr * Math.Log(c) - Helpers.LogGamma(mr + 1.0);
+        double q = Math.Exp(t);
+        double r = q;
+        double psum = q;
+
+        double beta = Helpers.LogGamma(a + mr)
+                      + Helpers.LogGamma(b)
+                      - Helpers.LogGamma(a + mr + b);
+
+        double s1 = (a + mr) * Math.Log(x)
+            + b * Math.Log(1.0 - x) - Math.Log(a + mr) - beta;
+        double gx = Math.Exp(s1);
+        double fx = gx;
+        double temp = betain(x, a + mr, b, beta, ref ifault);
+        double ftemp = temp;
+        //
+        //  The online copy of AS 310 has "SUM = Q - TEMP" which is incorrect.
+        //
+        sum = q * temp;
+        int iter1 = m;
+        //
+        //  The first set of iterations starts from M and goes downwards
+        //
+        for (;;)
+        {
+            if (iter1 < iterlo)
+            {
+                break;
+            }
+
+            if (q < errmax)
+            {
+                break;
+            }
+
+            //
+            //  The online copy of AS 310 has "Q = Q - ITER1 / C" which is incorrect.
+            //
+            q = q * iter1 / c;
+            gx = (a + iter1) / (x * (a + b + iter1 - 1.0)) * gx;
+            iter1 -= 1;
+            temp += gx;
+            psum += q;
+            sum += q * temp;
+        }
+
+        double t0 = Helpers.LogGamma(a + b)
+                    - Helpers.LogGamma(a + 1.0)
+                    - Helpers.LogGamma(b);
+
+        double s0 = a * Math.Log(x) + b * Math.Log(1.0 - x);
+        //
+        //  Both the online copy of AS 310 and the text printed in the reference
+        //  did not initialize the variable S to zero, which is incorrect.
+        //  JVB, 12 January 2008.
+        //
+        double s = 0.0;
+        for (int i = 1; i <= iter1; i++)
+        {
+            int j = i - 1;
+            s += Math.Exp(t0 + s0 + j * Math.Log(x));
+            double t1 = Math.Log(a + b + j) - Math.Log(a + 1.0 + j) + t0;
+            t0 = t1;
+        }
+
+        //
+        //  Compute the first part of error bound.
+        //
+        double errbd = (1.0 - gammad(c, iter1, ref ifault)) * (temp + s);
+
+        q = r;
+        temp = ftemp;
+        gx = fx;
+        int iter2 = m;
+
+        for (;;)
+        {
+            double ebd = errbd + (1.0 - psum) * temp;
+
+            if (ebd < errmax || iterhi <= iter2)
+            {
+                break;
+            }
+
+            iter2 += 1;
+            q = q * c / iter2;
+            psum += q;
+            temp -= gx;
+            gx = x * (a + b + iter2 - 1.0) / (a + iter2) * gx;
+            sum += q * temp;
+        }
+
+        value = sum;
+
+        return value;
     }
 }

@@ -2,68 +2,68 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Geometry
+namespace Burkardt.Geometry;
+
+public static class Direction
 {
-    public static class Direction
+    public static double[] direction_pert_3d(double sigma, double[] vbase, ref int seed)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DIRECTION_PERT_3D randomly perturbs a direction vector in 3D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 July 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double SIGMA, determines the strength of the perturbation.
+        //    SIGMA <= 0 results in a completely random direction.
+        //    1 <= SIGMA results in VBASE.
+        //    0 < SIGMA < 1 results in a perturbation from VBASE, which is
+        //    large when SIGMA is near 0, and small when SIGMA is near 1.
+        //
+        //    Input, double VBASE[3], the base direction vector, which should have
+        //    unit norm.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double DIRECTION_PERT_3D[3], the perturbed vector, which will
+        //    have unit norm.
+        //
     {
-        public static double[] direction_pert_3d(double sigma, double[] vbase, ref int seed)
+        int DIM_NUM = 3;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DIRECTION_PERT_3D randomly perturbs a direction vector in 3D.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    04 July 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double SIGMA, determines the strength of the perturbation.
-            //    SIGMA <= 0 results in a completely random direction.
-            //    1 <= SIGMA results in VBASE.
-            //    0 < SIGMA < 1 results in a perturbation from VBASE, which is
-            //    large when SIGMA is near 0, and small when SIGMA is near 1.
-            //
-            //    Input, double VBASE[3], the base direction vector, which should have
-            //    unit norm.
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double DIRECTION_PERT_3D[3], the perturbed vector, which will
-            //    have unit norm.
-            //
+        double dphi;
+        double[] p = new double[DIM_NUM];
+        double phi;
+        double psi;
+        double theta;
+        double vdot;
+        double[] vran;
+        double x;
+        //
+        //  0 <= SIGMA, just use the base vector.
+        //
+        vran = new double[DIM_NUM];
+
+        switch (sigma)
         {
-            int DIM_NUM = 3;
-
-            double dphi;
-            double[] p = new double[DIM_NUM];
-            double phi;
-            double psi;
-            double theta;
-            double vdot;
-            double[] vran;
-            double x;
-            //
-            //  0 <= SIGMA, just use the base vector.
-            //
-            vran = new double[DIM_NUM];
-
-            if (1.0 <= sigma)
-            {
+            case >= 1.0:
                 typeMethods.r8vec_copy(DIM_NUM, vbase, ref vran);
-            }
-            else if (sigma <= 0.0)
-            {
+                break;
+            case <= 0.0:
                 vdot = UniformRNG.r8_uniform_01(ref seed);
                 vdot = 2.0 * vdot - 1.0;
                 phi = Math.Acos(vdot);
@@ -73,9 +73,8 @@ namespace Burkardt.Geometry
                 vran[0] = Math.Cos(theta) * Math.Sin(phi);
                 vran[1] = Math.Sin(theta) * Math.Sin(phi);
                 vran[2] = Math.Cos(phi);
-            }
-            else
-            {
+                break;
+            default:
                 phi = Math.Acos(vbase[2]);
                 theta = Math.Atan2(vbase[1], vbase[0]);
                 //
@@ -107,159 +106,159 @@ namespace Burkardt.Geometry
                 psi = UniformRNG.r8_uniform_01(ref seed);
                 psi = 2.0 * Math.PI * psi;
 
-                Burkardt.Vector.Geometry.vector_rotate_3d(p, vbase, psi, ref vran);
-            }
-
-            return vran;
+                Vector.Geometry.vector_rotate_3d(p, vbase, psi, ref vran);
+                break;
         }
 
-        public static double[] direction_uniform_2d(ref int seed)
+        return vran;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DIRECTION_UNIFORM_2D picks a random direction vector in 2D.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 June 2002
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double DIRECTION_UNIFORM_2D[2], the random direction vector,
-            //    with unit norm.
-            //
-        {
-            int DIM_NUM = 2;
+    public static double[] direction_uniform_2d(ref int seed)
 
-            double theta;
-            double[] vran;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DIRECTION_UNIFORM_2D picks a random direction vector in 2D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 June 2002
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double DIRECTION_UNIFORM_2D[2], the random direction vector,
+        //    with unit norm.
+        //
+    {
+        int DIM_NUM = 2;
 
-            theta = UniformRNG.r8_uniform_01(ref seed);
-            theta = 2.0 * Math.PI * theta;
+        double theta;
+        double[] vran;
 
-            vran = new double[DIM_NUM];
+        theta = UniformRNG.r8_uniform_01(ref seed);
+        theta = 2.0 * Math.PI * theta;
 
-            vran[0] = Math.Cos(theta);
-            vran[1] = Math.Sin(theta);
+        vran = new double[DIM_NUM];
 
-            return vran;
-        }
+        vran[0] = Math.Cos(theta);
+        vran[1] = Math.Sin(theta);
 
-        public static double[] direction_uniform_3d(ref int seed)
+        return vran;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DIRECTION_UNIFORM_3D picks a random direction vector in 3D.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    11 September 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double DIRECTION_UNIFORM_3D[3], the random direction vector,
-            //    with unit norm.
-            //
-        {
-            int DIM_NUM = 3;
+    public static double[] direction_uniform_3d(ref int seed)
 
-            double phi;
-            double theta;
-            double vdot;
-            double[] vran;
-            //
-            //  Pick a uniformly random VDOT, which must be between -1 and 1.
-            //  This represents the dot product of the random vector with the Z unit vector.
-            //
-            //  This works because the surface area of the sphere between
-            //  Z and Z + dZ is independent of Z.  So choosing Z uniformly chooses
-            //  a patch of area uniformly.
-            //
-            vdot = UniformRNG.r8_uniform_01(ref seed);
-            vdot = 2.0 * vdot - 1.0;
-            phi = Math.Acos(vdot);
-            //
-            //  Pick a uniformly random rotation between 0 and 2 Pi around the
-            //  axis of the Z vector.
-            //
-            theta = UniformRNG.r8_uniform_01(ref seed);
-            theta = 2.0 * Math.PI * theta;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DIRECTION_UNIFORM_3D picks a random direction vector in 3D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    11 September 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double DIRECTION_UNIFORM_3D[3], the random direction vector,
+        //    with unit norm.
+        //
+    {
+        int DIM_NUM = 3;
 
-            vran = new double[DIM_NUM];
+        double phi;
+        double theta;
+        double vdot;
+        double[] vran;
+        //
+        //  Pick a uniformly random VDOT, which must be between -1 and 1.
+        //  This represents the dot product of the random vector with the Z unit vector.
+        //
+        //  This works because the surface area of the sphere between
+        //  Z and Z + dZ is independent of Z.  So choosing Z uniformly chooses
+        //  a patch of area uniformly.
+        //
+        vdot = UniformRNG.r8_uniform_01(ref seed);
+        vdot = 2.0 * vdot - 1.0;
+        phi = Math.Acos(vdot);
+        //
+        //  Pick a uniformly random rotation between 0 and 2 Pi around the
+        //  axis of the Z vector.
+        //
+        theta = UniformRNG.r8_uniform_01(ref seed);
+        theta = 2.0 * Math.PI * theta;
 
-            vran[0] = Math.Cos(theta) * Math.Sin(phi);
-            vran[1] = Math.Sin(theta) * Math.Sin(phi);
-            vran[2] = Math.Cos(phi);
+        vran = new double[DIM_NUM];
 
-            return vran;
-        }
+        vran[0] = Math.Cos(theta) * Math.Sin(phi);
+        vran[1] = Math.Sin(theta) * Math.Sin(phi);
+        vran[2] = Math.Cos(phi);
 
-        public static double[] direction_uniform_nd(int dim_num, ref int seed)
+        return vran;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DIRECTION_UNIFORM_ND generates a random direction vector in ND.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    11 September 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the dimension of the space.
-            //
-            //    Input/output, int &SEED, a seed for the random number generator.
-            //
-            //    Output, double DIRECTION_UNIFORM_ND[DIM_NUM], a random direction vector, 
-            //    with unit norm.
-            //
-        {
-            double[] a;
-            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
-            //
-            //  Take DIM_NUM random samples from the normal distribution.
-            //
-            a = typeMethods.r8vec_normal_01_new(dim_num, ref data, ref seed);
-            //
-            //  Normalize the vector.
-            //
-            Burkardt.Vector.Geometry.vector_unit_nd(dim_num, ref a);
+    public static double[] direction_uniform_nd(int dim_num, ref int seed)
 
-            return a;
-        }
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DIRECTION_UNIFORM_ND generates a random direction vector in ND.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    11 September 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the dimension of the space.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double DIRECTION_UNIFORM_ND[DIM_NUM], a random direction vector, 
+        //    with unit norm.
+        //
+    {
+        double[] a;
+        typeMethods.r8vecNormalData data = new();
+        //
+        //  Take DIM_NUM random samples from the normal distribution.
+        //
+        a = typeMethods.r8vec_normal_01_new(dim_num, ref data, ref seed);
+        //
+        //  Normalize the vector.
+        //
+        Vector.Geometry.vector_unit_nd(dim_num, ref a);
+
+        return a;
     }
 }

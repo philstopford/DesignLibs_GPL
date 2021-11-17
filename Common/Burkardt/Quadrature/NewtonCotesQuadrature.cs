@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class NewtonCotesQuadrature
 {
-    public static class NewtonCotesQuadrature
-    {
-        public static void nc_rule(int norder, double a, double b, double[] xtab, ref double[] weight )
+    public static void nc_rule(int norder, double a, double b, double[] xtab, ref double[] weight )
 
         //****************************************************************************80
         //
@@ -50,36 +50,36 @@ namespace Burkardt.Quadrature
         //
         //    Output, double WEIGHT[NORDER], the weights of the rule.
         //
+    {
+        int i;
+        double[] poly_cof;
+        double yvala;
+        double yvalb;
+        //
+        //  Allocate temporary space for POLY_COF.
+        //
+        poly_cof = new double[norder];
+
+        for (i = 1; i <= norder; i++)
         {
-            int i;
-            double[] poly_cof;
-            double yvala;
-            double yvalb;
             //
-            //  Allocate temporary space for POLY_COF.
+            //  Compute the Lagrange basis polynomial which is 1 at XTAB(I),
+            //  and zero at the other nodes.
             //
-            poly_cof = new double[norder];
+            typeMethods.r8poly_basis_1(i, norder, xtab, ref poly_cof);
+            //
+            //  Evaluate the antiderivative of the polynomial at the left and
+            //  right endpoints.
+            //
+            yvala = typeMethods.r8poly_ant_val(norder - 1, poly_cof, a);
 
-            for (i = 1; i <= norder; i++)
-            {
-                //
-                //  Compute the Lagrange basis polynomial which is 1 at XTAB(I),
-                //  and zero at the other nodes.
-                //
-                typeMethods.r8poly_basis_1(i, norder, xtab, ref poly_cof);
-                //
-                //  Evaluate the antiderivative of the polynomial at the left and
-                //  right endpoints.
-                //
-                yvala = typeMethods.r8poly_ant_val(norder - 1, poly_cof, a);
+            yvalb = typeMethods.r8poly_ant_val(norder - 1, poly_cof, b);
 
-                yvalb = typeMethods.r8poly_ant_val(norder - 1, poly_cof, b);
-
-                weight[i - 1] = yvalb - yvala;
-            }
+            weight[i - 1] = yvalb - yvala;
         }
+    }
 
-        public static void ncc_rule(int norder, ref double[] xtab, ref double[] weight )
+    public static void ncc_rule(int norder, ref double[] xtab, ref double[] weight )
 
         //****************************************************************************80
         //
@@ -120,94 +120,96 @@ namespace Burkardt.Quadrature
         //
         //    Output, double WEIGHT[NORDER], the weights of the rule.
         //
+    {
+        double a;
+        double b;
+        int i;
+        //
+        //  Compute a closed quadrature rule.
+        //
+        a = -1.0;
+        b = 1.0;
+
+        for (i = 1; i <= norder; i++)
         {
-            double a;
-            double b;
-            int i;
-            //
-            //  Compute a closed quadrature rule.
-            //
-            a = -1.0;
-            b = 1.0;
-
-            for (i = 1; i <= norder; i++)
-            {
-                xtab[i - 1] = ((double) (norder - i) * a + (double) (i - 1) * b)
-                              / (double) (norder - 1);
-            }
-
-            nc_rule(norder, a, b, xtab, ref weight);
+            xtab[i - 1] = ((norder - i) * a + (i - 1) * b)
+                          / (norder - 1);
         }
 
-        public static double nco_abscissa ( int order, int i )
+        nc_rule(norder, a, b, xtab, ref weight);
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NCO_ABSCISSA returns the I-th abscissa for the Newton Cotes open rule.
-            //
-            //  Discussion:
-            //
-            //    Our convention is that the abscissas are numbered from left to
-            //    right.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    25 May 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the rule.
-            //    1 <= ORDER.
-            //
-            //    Input, int I, the index of the desired abscissa.  
-            //    1 <= I <= ORDER.
-            //
-            //    Output, double NCO_ABSCISSA, the value of the I-th 
-            //    abscissa in the Newton Cotes open rule of order ORDER.
-            //
+    public static double nco_abscissa ( int order, int i )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NCO_ABSCISSA returns the I-th abscissa for the Newton Cotes open rule.
+        //
+        //  Discussion:
+        //
+        //    Our convention is that the abscissas are numbered from left to
+        //    right.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    25 May 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //    1 <= ORDER.
+        //
+        //    Input, int I, the index of the desired abscissa.  
+        //    1 <= I <= ORDER.
+        //
+        //    Output, double NCO_ABSCISSA, the value of the I-th 
+        //    abscissa in the Newton Cotes open rule of order ORDER.
+        //
+    {
+        double value = 0;
+        double x_max = +1.0;
+        double x_min = -1.0;
+
+        switch (order)
         {
-            double value;
-            double x_max = +1.0;
-            double x_min = -1.0;
-
-            if ( order < 1 )
-            {
+            case < 1:
                 value = - typeMethods.r8_huge ( );
                 return value;
-            }
+        }
 
-            if ( i < 1 || order < i )
-            {
-                Console.WriteLine("");
-                Console.WriteLine("NCO_ABSCISSA - Fatal error!");
-                Console.WriteLine("  1 <= I <= ORDER is required.");
-                return ( 1 );
-            }
+        if ( i < 1 || order < i )
+        {
+            Console.WriteLine("");
+            Console.WriteLine("NCO_ABSCISSA - Fatal error!");
+            Console.WriteLine("  1 <= I <= ORDER is required.");
+            return 1;
+        }
 
-            if ( order == 1 )
-            {
+        switch (order)
+        {
+            case 1:
                 value = ( x_min + x_max ) / 2.0;
                 return value;
-            }
+            default:
+                value = ( (order - i + 1) * x_min
+                          + i * x_max )
+                        / (order     + 1);
 
-            value = ( ( double ) ( order - i + 1 ) * x_min
-                      + ( double ) (         i     ) * x_max )
-                    / ( double ) ( order     + 1 );
-
-            return value;
+                return value;
         }
+    }
         
-        public static void nco_rule(int norder, ref double[] xtab, ref double[] weight )
+    public static void nco_rule(int norder, ref double[] xtab, ref double[] weight )
 
         //****************************************************************************80
         //
@@ -248,126 +250,125 @@ namespace Burkardt.Quadrature
         //
         //    Output, double WEIGHT[NORDER], the weights of the  rule.
         //
+    {
+        double a;
+        double b;
+        int i;
+
+        a = -1.0;
+        b = 1.0;
+
+        for (i = 1; i <= norder; i++)
         {
-            double a;
-            double b;
-            int i;
-
-            a = -1.0;
-            b = 1.0;
-
-            for (i = 1; i <= norder; i++)
-            {
-                xtab[i - 1] = ((double) (norder + 1 - i) * a + (double) (i) * b)
-                              / (double) (norder + 1);
-            }
-
-            nc_rule(norder, a, b, xtab, ref weight);
+            xtab[i - 1] = ((norder + 1 - i) * a + i * b)
+                          / (norder + 1);
         }
 
-        public static double[] nco_weights(int order)
+        nc_rule(norder, a, b, xtab, ref weight);
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NCO_WEIGHTS computes weights for a Newton-Cotes Open rule.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    28 May 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Output, double W[ORDER], the weights.
-            //
+    public static double[] nco_weights(int order)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NCO_WEIGHTS computes weights for a Newton-Cotes Open rule.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    28 May 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+    {
+        double[] diftab;
+        int i;
+        int j;
+        int k;
+        double[] w;
+        double x_max = +1.0;
+        double x_min = -1.0;
+        double[] x;
+        double yvala;
+        double yvalb;
+
+        diftab = new double[order];
+        w = new double[order];
+        x = new double[order];
+
+        for (i = 1; i <= order; i++)
         {
-            double[] diftab;
-            int i;
-            int j;
-            int k;
-            double[] w;
-            double x_max = +1.0;
-            double x_min = -1.0;
-            double[] x;
-            double yvala;
-            double yvalb;
-
-            diftab = new double[order];
-            w = new double[order];
-            x = new double[order];
-
-            for (i = 1; i <= order; i++)
-            {
-                x[i - 1] = ((double) (order + 1 - i) * x_min
-                            + (double) (i) * x_max)
-                           / (double) (order + 1);
-            }
-
-            for (i = 1; i <= order; i++)
-            {
-                //
-                //  Compute the Lagrange basis polynomial which is 1 at X(I),
-                //  and zero at the other nodes.
-                //
-                for (j = 0; j < order; j++)
-                {
-                    diftab[j] = 0.0;
-                }
-
-                diftab[i - 1] = 1.0;
-
-                for (j = 2; j <= order; j++)
-                {
-                    for (k = j; k <= order; k++)
-                    {
-                        diftab[order + j - k - 1] = (diftab[order + j - k - 1 - 1] - diftab[order + j - k - 1])
-                                                    / (x[order + 1 - k - 1] - x[order + j - k - 1]);
-                    }
-                }
-
-                for (j = 1; j < order; j++)
-                {
-                    for (k = 1; k <= order - j; k++)
-                    {
-                        diftab[order - k - 1] = diftab[order - k - 1] - x[order - k - j] * diftab[order - k];
-                    }
-                }
-
-                //
-                //  Evaluate the antiderivative of the polynomial at the left and
-                //  right endpoints.
-                //
-                yvala = diftab[order - 1] / (double) (order);
-                for (j = order - 1; 1 <= j; j--)
-                {
-                    yvala = yvala * x_min + diftab[j - 1] / (double) (j);
-                }
-
-                yvala = yvala * x_min;
-
-                yvalb = diftab[order - 1] / (double) (order);
-                for (j = order - 1; 1 <= j; j--)
-                {
-                    yvalb = yvalb * x_max + diftab[j - 1] / (double) (j);
-                }
-
-                yvalb = yvalb * x_max;
-
-                w[i - 1] = yvalb - yvala;
-            }
-
-            return w;
+            x[i - 1] = ((order + 1 - i) * x_min
+                        + i * x_max)
+                       / (order + 1);
         }
+
+        for (i = 1; i <= order; i++)
+        {
+            //
+            //  Compute the Lagrange basis polynomial which is 1 at X(I),
+            //  and zero at the other nodes.
+            //
+            for (j = 0; j < order; j++)
+            {
+                diftab[j] = 0.0;
+            }
+
+            diftab[i - 1] = 1.0;
+
+            for (j = 2; j <= order; j++)
+            {
+                for (k = j; k <= order; k++)
+                {
+                    diftab[order + j - k - 1] = (diftab[order + j - k - 1 - 1] - diftab[order + j - k - 1])
+                                                / (x[order + 1 - k - 1] - x[order + j - k - 1]);
+                }
+            }
+
+            for (j = 1; j < order; j++)
+            {
+                for (k = 1; k <= order - j; k++)
+                {
+                    diftab[order - k - 1] -= x[order - k - j] * diftab[order - k];
+                }
+            }
+
+            //
+            //  Evaluate the antiderivative of the polynomial at the left and
+            //  right endpoints.
+            //
+            yvala = diftab[order - 1] / order;
+            for (j = order - 1; 1 <= j; j--)
+            {
+                yvala = yvala * x_min + diftab[j - 1] / j;
+            }
+
+            yvala *= x_min;
+
+            yvalb = diftab[order - 1] / order;
+            for (j = order - 1; 1 <= j; j--)
+            {
+                yvalb = yvalb * x_max + diftab[j - 1] / j;
+            }
+
+            yvalb *= x_max;
+
+            w[i - 1] = yvalb - yvala;
+        }
+
+        return w;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Interpolation
+namespace Burkardt.Interpolation;
+
+public static class Nearest1D
 {
-    public static class Nearest1D
-    {
-        public static double[] nearest_interp_1d ( int nd, double[] xd, double[] yd, int ni, 
-        double[] xi )
+    public static double[] nearest_interp_1d ( int nd, double[] xd, double[] yd, int ni, 
+            double[] xi )
 
         //****************************************************************************80
         //
@@ -46,33 +46,32 @@ namespace Burkardt.Interpolation
         //
         //    Output, double NEAREST_INTERP_1D[NI], the interpolated values.
         //
+    {
+        double d;
+        double d2;
+        int i;
+        int j;
+        int k;
+        double[] yi;
+
+        yi = new double[ni];
+
+        for ( i = 0; i < ni; i++ )
         {
-            double d;
-            double d2;
-            int i;
-            int j;
-            int k;
-            double[] yi;
-
-            yi = new double[ni];
-
-            for ( i = 0; i < ni; i++ )
+            k = 0;
+            d = Math.Abs ( xi[i] - xd[k] );
+            for ( j = 1; j < nd; j++ )
             {
-                k = 0;
-                d = Math.Abs ( xi[i] - xd[k] );
-                for ( j = 1; j < nd; j++ )
+                d2 = Math.Abs ( xi[i] - xd[j] );
+                if ( d2 < d )
                 {
-                    d2 = Math.Abs ( xi[i] - xd[j] );
-                    if ( d2 < d )
-                    {
-                        k = j;
-                        d = d2;
-                    }
+                    k = j;
+                    d = d2;
                 }
-                yi[i] = yd[k];
             }
-
-            return yi;
+            yi[i] = yd[k];
         }
+
+        return yi;
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Sobol
+﻿namespace Burkardt.Sobol;
+
+public static class Tau
 {
-    public static class Tau
-    {
-        public static int tau_sobol ( int dim_num )
+    public static int tau_sobol ( int dim_num )
 
         //****************************************************************************80
         //
@@ -77,26 +77,22 @@
         //
         //    Output, int TAU_SOBOL, the value TAU.
         //
+    {
+        int DIM_MAX = 13;
+
+        int tau;
+        int[] tau_table = {
+            0,  0,  1,  3,  5, 
+            8, 11, 15, 19, 23, 
+            27, 31, 35
+        };
+
+        tau = dim_num switch
         {
-            int DIM_MAX = 13;
+            >= 1 when dim_num <= DIM_MAX => tau_table[dim_num - 1],
+            _ => -1
+        };
 
-            int tau;
-            int[] tau_table = {
-                                0,  0,  1,  3,  5, 
-                                8, 11, 15, 19, 23, 
-                                27, 31, 35
-                              };
-
-            if ( 1 <= dim_num && dim_num <= DIM_MAX )
-            {
-                tau = tau_table[dim_num-1];
-            }
-            else
-            {
-                tau = - 1;
-            }
-
-            return tau;
-        }
+        return tau;
     }
 }

@@ -1,17 +1,17 @@
-﻿namespace Burkardt.SolveNS
-{
-    public class ConjugateGradientData
-    {
-        public int iter;
-        public double rho;
-        public double rho_old;
-        public int rlbl;
-    }
+﻿namespace Burkardt.SolveNS;
 
-    public static class ConjugateGradientRC
-    {
-        public static int cg_rc(ref ConjugateGradientData data, int n, double[] b, ref double[] x, ref double[] r, ref double[] z,
-                ref double[] p, ref double[] q, ref int job )
+public class ConjugateGradientData
+{
+    public int iter;
+    public double rho;
+    public double rho_old;
+    public int rlbl;
+}
+
+public static class ConjugateGradientRC
+{
+    public static int cg_rc(ref ConjugateGradientData data, int n, double[] b, ref double[] x, ref double[] r, ref double[] z,
+            ref double[] p, ref double[] q, ref int job )
 
         //****************************************************************************80
         //
@@ -111,13 +111,15 @@
         //               If satisfactory, terminate the iteration.
         //               If too many iterations were taken, terminate the iteration.
         //
+    {
+        int job_next = 0;
+        switch (job)
         {
-            int job_next = 0;
             //
             //  Initialization.
             //  Ask the user to compute the initial residual.
             //
-            if (job == 1)
+            case 1:
             {
                 for (int i = 0; i < n; i++)
                 {
@@ -126,88 +128,100 @@
 
                 job_next = 3;
                 data.rlbl = 2;
+                break;
             }
-            //
-            //  Begin first conjugate gradient loop.
-            //  Ask the user for a preconditioner solve.
-            //
-            else if (data.rlbl == 2)
-            {
-                data.iter = 1;
-
-                job_next = 2;
-                data.rlbl = 3;
-            }
-            //
-            //  Compute the direction.
-            //  Ask the user to compute ALPHA.
-            //  Save A*P to Q.
-            //
-            else if (data.rlbl == 3)
-            {
-                data.rho = 0.0;
-                for (int i = 0; i < n; i++)
+            default:
+                switch (data.rlbl)
                 {
-                    data.rho = data.rho + r[i] * z[i];
-                }
+                    //
+                    //  Begin first conjugate gradient loop.
+                    //  Ask the user for a preconditioner solve.
+                    //
+                    case 2:
+                        data.iter = 1;
 
-                if (1 < data.iter)
-                {
-                    double beta = data.rho / data.rho_old;
-                    for (int i = 0; i < n; i++)
+                        job_next = 2;
+                        data.rlbl = 3;
+                        break;
+                    //
+                    //  Compute the direction.
+                    //  Ask the user to compute ALPHA.
+                    //  Save A*P to Q.
+                    //
+                    case 3:
                     {
-                        z[i] = z[i] + beta * p[i];
+                        data.rho = 0.0;
+                        for (int i = 0; i < n; i++)
+                        {
+                            data.rho += r[i] * z[i];
+                        }
+
+                        switch (data.iter)
+                        {
+                            case > 1:
+                            {
+                                double beta = data.rho / data.rho_old;
+                                for (int i = 0; i < n; i++)
+                                {
+                                    z[i] += beta * p[i];
+                                }
+
+                                break;
+                            }
+                        }
+
+                        for (int i = 0; i < n; i++)
+                        {
+                            p[i] = z[i];
+                        }
+
+                        job_next = 1;
+                        data.rlbl = 4;
+                        break;
                     }
+                    //
+                    //  Compute current solution vector.
+                    //  Ask the user to check the stopping criterion.
+                    //
+                    case 4:
+                    {
+                        double pdotq = 0.0;
+                        for (int i = 0; i < n; i++)
+                        {
+                            pdotq += p[i] * q[i];
+                        }
+
+                        double alpha = data.rho / pdotq;
+                        for (int i = 0; i < n; i++)
+                        {
+                            x[i] += alpha * p[i];
+                        }
+
+                        for (int i = 0; i < n; i++)
+                        {
+                            r[i] -= alpha * q[i];
+                        }
+
+                        job_next = 4;
+                        data.rlbl = 5;
+                        break;
+                    }
+                    //
+                    //  Begin the next step.
+                    //  Ask for a preconditioner solve.
+                    //
+                    case 5:
+                        data.rho_old = data.rho;
+                        data.iter += 1;
+
+                        job_next = 2;
+                        data.rlbl = 3;
+                        break;
                 }
 
-                for (int i = 0; i < n; i++)
-                {
-                    p[i] = z[i];
-                }
-
-                job_next = 1;
-                data.rlbl = 4;
-            }
-            //
-            //  Compute current solution vector.
-            //  Ask the user to check the stopping criterion.
-            //
-            else if (data.rlbl == 4)
-            {
-                double pdotq = 0.0;
-                for (int i = 0; i < n; i++)
-                {
-                    pdotq = pdotq + p[i] * q[i];
-                }
-
-                double alpha = data.rho / pdotq;
-                for (int i = 0; i < n; i++)
-                {
-                    x[i] = x[i] + alpha * p[i];
-                }
-
-                for (int i = 0; i < n; i++)
-                {
-                    r[i] = r[i] - alpha * q[i];
-                }
-
-                job_next = 4;
-                data.rlbl = 5;
-            }
-            //
-            //  Begin the next step.
-            //  Ask for a preconditioner solve.
-            //
-            else if (data.rlbl == 5)
-            {
-                data.rho_old = data.rho;
-                data.iter = data.iter + 1;
-
-                job_next = 2;
-                data.rlbl = 3;
-            }
-
-            return job_next;
+                break;
         }
+
+        return job_next;
     }
 }

@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Levy
 {
-    public static class Levy
-    {
-        public static double levy_cdf(double x, double a, double b)
+    public static double levy_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -35,30 +35,31 @@ namespace Burkardt.Probability
         //
         //    Output, double LEVY_CDF, the value of the PDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("LEVY_CDF - Fatal error!");
                 Console.WriteLine("  B <= 0.0.");
-                return (1);
-            }
-
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - typeMethods.r8_error_f(Math.Sqrt(b / (2.0 * (x - a))));
-            }
-
-            return cdf;
+                return 1;
         }
 
-        public static double levy_cdf_inv(double cdf, double a, double b)
+        if (x <= a)
+        {
+            cdf = 0.0;
+        }
+        else
+        {
+            cdf = 1.0 - typeMethods.r8_error_f(Math.Sqrt(b / (2.0 * (x - a))));
+        }
+
+        return cdf;
+    }
+
+    public static double levy_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -87,35 +88,38 @@ namespace Burkardt.Probability
         //
         //    Output, double LEVY_CDF_INV, the corresponding argument.
         //
-        {
-            double cdf1;
-            double x;
-            double x1;
+    {
+        double cdf1;
+        double x;
+        double x1;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("LEVY_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("LEVY_CDF_INV - Fatal error!");
                 Console.WriteLine("  B <= 0.0.");
-                return(1);
-            }
-
-            cdf1 = 1.0 - 0.5 * cdf;
-            x1 = Normal.normal_01_cdf_inv(cdf1);
-            x = a + b / (x1 * x1);
-
-            return x;
+                return 1;
         }
 
-        public static double levy_pdf(double x, double a, double b)
+        cdf1 = 1.0 - 0.5 * cdf;
+        x1 = Normal.normal_01_cdf_inv(cdf1);
+        x = a + b / (x1 * x1);
+
+        return x;
+    }
+
+    public static double levy_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -154,33 +158,34 @@ namespace Burkardt.Probability
         //
         //    Output, double LEVY_PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
             
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("LEVY_PDF - Fatal error!");
                 Console.WriteLine("  B <= 0.0.");
-                return (1);
-            }
-
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Sqrt(b / (2.0 * Math.PI))
-                      * Math.Exp(-b / (2.0 * (x - a)))
-                      / Math.Sqrt(Math.Pow(x - a, 3));
-            }
-
-            return pdf;
+                return 1;
         }
 
-        public static double levy_sample(double a, double b, ref int seed)
+        if (x <= a)
+        {
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = Math.Sqrt(b / (2.0 * Math.PI))
+                  * Math.Exp(-b / (2.0 * (x - a)))
+                  / Math.Sqrt(Math.Pow(x - a, 3));
+        }
+
+        return pdf;
+    }
+
+    public static double levy_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -208,12 +213,11 @@ namespace Burkardt.Probability
         //
         //    Output, double LEVY_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = levy_cdf_inv(cdf, a, b);
+        double x = levy_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Bradford
 {
-    public static class Bradford
-    {
-        public static double bradford_cdf(double x, double a, double b, double c)
+    public static double bradford_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,26 +34,26 @@ namespace Burkardt.Probability
         //
         //    Output, double BRADFORD_CDF, the value of the CDF.
         //
+    {
+        double cdf = 0;
+
+        if (x <= a)
         {
-            double cdf = 0;
-
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else if (x <= b)
-            {
-                cdf = Math.Log(1.0 + c * (x - a) / (b - a)) / Math.Log(c + 1.0);
-            }
-            else if (b < x)
-            {
-                cdf = 1.0;
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else if (x <= b)
+        {
+            cdf = Math.Log(1.0 + c * (x - a) / (b - a)) / Math.Log(c + 1.0);
+        }
+        else if (b < x)
+        {
+            cdf = 1.0;
         }
 
-        public static double bradford_cdf_inv(double cdf, double a, double b, double c)
+        return cdf;
+    }
+
+    public static double bradford_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -83,34 +83,32 @@ namespace Burkardt.Probability
         //
         //    Output, double BRADFORD_CDF_INV, the corresponding argument of the CDF.
         //
-        {
-            double x = 0;
+    {
+        double x = 0;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("BRADFORD_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1.0;
-            }
-
-            if (cdf <= 0.0)
-            {
+            case <= 0.0:
                 x = a;
-            }
-            else if (cdf < 1.0)
-            {
-                x = a + (b - a) * (Math.Pow((c + 1.0), cdf) - 1.0) / c;
-            }
-            else if (1.0 <= cdf)
-            {
+                break;
+            case < 1.0:
+                x = a + (b - a) * (Math.Pow(c + 1.0, cdf) - 1.0) / c;
+                break;
+            case >= 1.0:
                 x = b;
-            }
-
-            return x;
+                break;
         }
 
-        public static bool bradford_check(double a, double b, double c)
+        return x;
+    }
+
+    public static bool bradford_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -137,27 +135,28 @@ namespace Burkardt.Probability
         //
         //    Output, bool BRADFORD_CHECK, is true if the parameters are legal.
         //
+    {
+        if (b <= a)
         {
-            if (b <= a)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("BRADFORD_CHECK - Warning!");
-                Console.WriteLine("  B <= A.");
-                return false;
-            }
+            Console.WriteLine(" ");
+            Console.WriteLine("BRADFORD_CHECK - Warning!");
+            Console.WriteLine("  B <= A.");
+            return false;
+        }
 
-            if (c <= 0.0)
-            {
+        switch (c)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("BRADFORD_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double bradford_mean(double a, double b, double c)
+    public static double bradford_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -184,14 +183,14 @@ namespace Burkardt.Probability
         //
         //    Output, double BRADFORD_MEAN, the mean of the PDF.
         //
-        {
-            double mean = (c * (b - a) + Math.Log(c + 1.0) * (a * (c + 1.0) - b))
-                          / (c * Math.Log(c + 1.0));
+    {
+        double mean = (c * (b - a) + Math.Log(c + 1.0) * (a * (c + 1.0) - b))
+                      / (c * Math.Log(c + 1.0));
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double bradford_pdf(double x, double a, double b, double c)
+    public static double bradford_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -225,26 +224,26 @@ namespace Burkardt.Probability
         //
         //    Output, double BRADFORD_PDF, the value of the PDF.
         //
+    {
+        double pdf = 0;
+
+        if (x <= a)
         {
-            double pdf = 0;
-
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else if (x <= b)
-            {
-                pdf = c / ((c * (x - a) + b - a) * Math.Log(c + 1.0));
-            }
-            else if (b < x)
-            {
-                pdf = 0.0;
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else if (x <= b)
+        {
+            pdf = c / ((c * (x - a) + b - a) * Math.Log(c + 1.0));
+        }
+        else if (b < x)
+        {
+            pdf = 0.0;
         }
 
-        public static double bradford_sample(double a, double b, double c, ref int seed)
+        return pdf;
+    }
+
+    public static double bradford_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -273,15 +272,15 @@ namespace Burkardt.Probability
         //
         //    Output, double BRADFORD_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = a + (b - a) * (Math.Pow((c + 1.0), cdf) - 1.0) / c;
+        double x = a + (b - a) * (Math.Pow(c + 1.0, cdf) - 1.0) / c;
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double bradford_variance(double a, double b, double c)
+    public static double bradford_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -308,12 +307,11 @@ namespace Burkardt.Probability
         //
         //    Output, double BRADFORD_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (b - a) * (b - a) *
-                              (c * (Math.Log(c + 1.0) - 2.0) + 2.0 * Math.Log(c + 1.0))
-                              / (2.0 * c * Math.Pow((Math.Log(c + 1.0)), 2));
+    {
+        double variance = (b - a) * (b - a) *
+                          (c * (Math.Log(c + 1.0) - 2.0) + 2.0 * Math.Log(c + 1.0))
+                          / (2.0 * c * Math.Pow(Math.Log(c + 1.0), 2));
 
-            return variance;
-        }
+        return variance;
     }
 }

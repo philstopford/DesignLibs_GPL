@@ -1,55 +1,55 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class Jacobi_sn
 {
-    public static class Jacobi_sn
+    public static double evaluate(double u, double m)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    JACOBI_SN evaluates the Jacobi elliptic function SN(U,M).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 June 2018
+        //
+        //  Author:
+        //
+        //    Original ALGOL version by Roland Bulirsch.
+        //    C++ version by John Burkardt
+        //
+        //  Reference:
+        //
+        //    Roland Bulirsch,
+        //    Numerical calculation of elliptic integrals and elliptic functions,
+        //    Numerische Mathematik,
+        //    Volume 7, Number 1, 1965, pages 78-90.
+        //
+        //  Parameters:
+        //
+        //    Input, double U, M, the arguments.
+        //
+        //    Output, double JACOBI_SN, the function value.
+        //
     {
-        public static double evaluate(double u, double m)
+        double cn = 0;
+        double dn = 0;
+        double sn = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    JACOBI_SN evaluates the Jacobi elliptic function SN(U,M).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 June 2018
-            //
-            //  Author:
-            //
-            //    Original ALGOL version by Roland Bulirsch.
-            //    C++ version by John Burkardt
-            //
-            //  Reference:
-            //
-            //    Roland Bulirsch,
-            //    Numerical calculation of elliptic integrals and elliptic functions,
-            //    Numerische Mathematik,
-            //    Volume 7, Number 1, 1965, pages 78-90.
-            //
-            //  Parameters:
-            //
-            //    Input, double U, M, the arguments.
-            //
-            //    Output, double JACOBI_SN, the function value.
-            //
-        {
-            double cn = 0;
-            double dn = 0;
-            double sn = 0;
+        Jacobi.sncndn(u, m, ref sn, ref cn, ref dn);
 
-            Jacobi.sncndn(u, m, ref sn, ref cn, ref dn);
+        return sn;
+    }
 
-            return sn;
-        }
-
-        public static void values(ref int n_data, ref double u, ref double a, ref double k,
-        ref double m, ref double fx )
+    public static void values(ref int n_data, ref double u, ref double a, ref double k,
+            ref double m, ref double fx )
 
         //****************************************************************************80
         //
@@ -106,10 +106,10 @@ namespace Burkardt.Elliptic
         //
         //    double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] m_vec =
+        double[] m_vec =
             {
                 0.0E+00,
                 0.0E+00,
@@ -134,7 +134,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.9983341664682815E-01,
                 0.1986693307950612E+00,
@@ -159,7 +159,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] u_vec =
+        double[] u_vec =
             {
                 0.1E+00,
                 0.2E+00,
@@ -184,30 +184,30 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                k = 0.0;
-                m = 0.0;
-                u = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                m = m_vec[n_data - 1];
-                k = Math.Sqrt(m);
-                a = Math.Asin(k);
-                u = u_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            k = 0.0;
+            m = 0.0;
+            u = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            m = m_vec[n_data - 1];
+            k = Math.Sqrt(m);
+            a = Math.Asin(k);
+            u = u_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

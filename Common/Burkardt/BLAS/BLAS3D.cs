@@ -1,13 +1,13 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.BLAS
+namespace Burkardt.BLAS;
+
+public static class BLAS3D
 {
-    public static class BLAS3D
-    {
-        public static void dgemm(char transa, char transb, int m, int n, int k,
+    public static void dgemm(char transa, char transb, int m, int n, int k,
             double alpha, double[] a, int lda, double[] b, int ldb, double beta,
-        ref double[] c, int ldc )
+            ref double[] c, int ldc )
 
         //****************************************************************************80
         //
@@ -98,302 +98,328 @@ namespace Burkardt.BLAS
         //    Input, int LDC, the first dimension of C as declared in the calling 
         //    routine.  max ( 1, M ) <= LDC.
         //
+    {
+        int i;
+        //int info;
+        int j;
+        int l;
+        //int ncola;
+        int nrowa;
+        int nrowb;
+        bool nota;
+        bool notb;
+        double temp;
+        //
+        //  Set NOTA and NOTB as true if A and B respectively are not
+        //  transposed and set NROWA, NCOLA and NROWB as the number of rows
+        //  and columns of A and the number of rows of B respectively.
+        //
+        nota = transa == 'N' || transa == 'n';
+
+        nrowa = nota switch
         {
-            int i;
-            //int info;
-            int j;
-            int l;
-            //int ncola;
-            int nrowa;
-            int nrowb;
-            bool nota;
-            bool notb;
-            double temp;
-            //
-            //  Set NOTA and NOTB as true if A and B respectively are not
-            //  transposed and set NROWA, NCOLA and NROWB as the number of rows
-            //  and columns of A and the number of rows of B respectively.
-            //
-            nota = ((transa == 'N') || (transa == 'n'));
+            true => m,
+            _ => k
+        };
 
-            if (nota)
-            {
-                nrowa = m;
-                //  ncola = k;
-            }
-            else
-            {
-                nrowa = k;
-                //  ncola = m;
-            }
+        notb = transb == 'N' || transb == 'n';
 
-            notb = ((transb == 'N') || (transb == 'n'));
+        nrowb = notb switch
+        {
+            true => k,
+            _ => n
+        };
+        //
+        //  Test the input parameters.
+        //
+        //info = 0;
 
-            if (notb)
-            {
-                nrowb = k;
-            }
-            else
-            {
-                nrowb = n;
-            }
-            //
-            //  Test the input parameters.
-            //
-            //info = 0;
-
-            if (!(transa == 'N' || transa == 'n' ||
-                  transa == 'C' || transa == 'c' ||
-                  transa == 'T' || transa == 't'))
-            {
+        switch ((transa == 'N' || transa == 'n' ||
+                 transa == 'C' || transa == 'c' ||
+                 transa == 'T' || transa == 't'))
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("DGEMM - Fatal error!");
                 Console.WriteLine("  Input TRANSA has an illegal value.");
                 return;
-            }
+        }
 
-            if (!(transb == 'N' || transb == 'n' ||
-                  transb == 'C' || transb == 'c' ||
-                  transb == 'T' || transb == 't'))
-            {
+        switch ((transb == 'N' || transb == 'n' ||
+                 transb == 'C' || transb == 'c' ||
+                 transb == 'T' || transb == 't'))
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("DGEMM - Fatal error!");
                 Console.WriteLine("  Input TRANSB has an illegal value.");
                 return;
-            }
+        }
 
-            if (m < 0)
-            {
+        switch (m)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("DGEMM - Fatal error!");
                 Console.WriteLine("  Input M has an illegal value.");
                 return;
-            }
+        }
 
-            if (n < 0)
-            {
+        switch (n)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("DGEMM - Fatal error!");
                 Console.WriteLine("  Input N has an illegal value.");
                 return;
-            }
+        }
 
-            if (k < 0)
-            {
+        switch (k)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("DGEMM - Fatal error!");
                 Console.WriteLine("  Input K has an illegal value.");
                 return;
-            }
+        }
 
-            if (lda < Math.Max(1, nrowa))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DGEMM - Fatal error!");
-                Console.WriteLine("  Input LDA has an illegal value.");
-                return;
-            }
-
-            if (ldb < Math.Max(1, nrowb))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DGEMM - Fatal error!");
-                Console.WriteLine("  Input LDB has an illegal value.");
-                return;
-            }
-
-            if (ldc < Math.Max(1, m))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DGEMM - Fatal error!");
-                Console.WriteLine("  Input LDC has an illegal value.");
-                return;
-            }
-
-            //
-            //  Quick return if possible.
-            //
-            if (m == 0)
-            {
-                return;
-            }
-
-            if (n == 0)
-            {
-                return;
-            }
-
-            if ((alpha == 0.0 || k == 0) && (beta == 1.0))
-            {
-                return;
-            }
-
-            //
-            //  And if alpha is 0.0.
-            //
-            if (alpha == 0.0)
-            {
-                if (beta == 0.0)
-                {
-                    for (j = 0; j < n; j++)
-                    {
-                        for (i = 0; i < m; i++)
-                        {
-                            c[i + j * ldc] = 0.0;
-                        }
-                    }
-                }
-                else
-                {
-                    for (j = 0; j < n; j++)
-                    {
-                        for (i = 0; i < m; i++)
-                        {
-                            c[i + j * ldc] = beta * c[i + j * ldc];
-                        }
-                    }
-                }
-
-                return;
-            }
-
-            //
-            //  Start the operations.
-            //
-            if (notb)
-            {
-                //
-                //  Form  C := alpha*A*B + beta*C.
-                //
-                if (nota)
-                {
-                    for (j = 0; j < n; j++)
-                    {
-                        if (beta == 0.0)
-                        {
-                            for (i = 0; i < m; i++)
-                            {
-                                c[i + j * ldc] = 0.0;
-                            }
-                        }
-                        else if (beta != 1.0)
-                        {
-                            for (i = 0; i < m; i++)
-                            {
-                                c[i + j * ldc] = beta * c[i + j * ldc];
-                            }
-                        }
-
-                        for (l = 0; l < k; l++)
-                        {
-                            if (b[l + j * ldb] != 0.0)
-                            {
-                                temp = alpha * b[l + j * ldb];
-                                for (i = 0; i < m; i++)
-                                {
-                                    c[i + j * ldc] = c[i + j * ldc] + temp * a[i + l * lda];
-                                }
-                            }
-                        }
-
-                    }
-                }
-                //
-                //  Form  C := alpha*A'*B + beta*C
-                //
-                else
-                {
-                    for (j = 0; j < n; j++)
-                    {
-                        for (i = 0; i < m; i++)
-                        {
-                            temp = 0.0;
-                            for (l = 0; l < k; l++)
-                            {
-                                temp = temp + a[l + i * lda] * b[l + j * ldb];
-                            }
-
-                            if (beta == 0.0)
-                            {
-                                c[i + j * ldc] = alpha * temp;
-                            }
-                            else
-                            {
-                                c[i + j * ldc] = alpha * temp + beta * c[i + j * ldc];
-                            }
-                        }
-                    }
-                }
-            }
-            //
-            //  Form  C := alpha*A*B' + beta*C
-            //
-            else
-            {
-                if (nota)
-                {
-                    for (j = 0; j < n; j++)
-                    {
-                        if (beta == 0.0)
-                        {
-                            for (i = 0; i < m; i++)
-                            {
-                                c[i + j * ldc] = 0.0;
-                            }
-                        }
-                        else if (beta != 1.0)
-                        {
-                            for (i = 0; i < m; i++)
-                            {
-                                c[i + j * ldc] = beta * c[i + j * ldc];
-                            }
-                        }
-
-                        for (l = 0; l < k; l++)
-                        {
-                            if (b[j + l * ldb] != 0.0)
-                            {
-                                temp = alpha * b[j + l * ldb];
-                                for (i = 0; i < m; i++)
-                                {
-                                    c[i + j * ldc] = c[i + j * ldc] + temp * a[i + l * lda];
-                                }
-                            }
-                        }
-                    }
-                }
-                //
-                //  Form  C := alpha*A'*B' + beta*C
-                //
-                else
-                {
-                    for (j = 0; j < n; j++)
-                    {
-                        for (i = 0; i < m; i++)
-                        {
-                            temp = 0.0;
-                            for (l = 0; l < k; l++)
-                            {
-                                temp = temp + a[l + i * lda] * b[j + l * ldb];
-                            }
-
-                            if (beta == 0.0)
-                            {
-                                c[i + j * ldc] = alpha * temp;
-                            }
-                            else
-                            {
-                                c[i + j * ldc] = alpha * temp + beta * c[i + j * ldc];
-                            }
-                        }
-                    }
-                }
-            }
-
+        if (lda < Math.Max(1, nrowa))
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DGEMM - Fatal error!");
+            Console.WriteLine("  Input LDA has an illegal value.");
             return;
         }
 
-        public static void dtrmm(char side, char uplo, char transa, char diag, int m, int n,
+        if (ldb < Math.Max(1, nrowb))
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DGEMM - Fatal error!");
+            Console.WriteLine("  Input LDB has an illegal value.");
+            return;
+        }
+
+        if (ldc < Math.Max(1, m))
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DGEMM - Fatal error!");
+            Console.WriteLine("  Input LDC has an illegal value.");
+            return;
+        }
+
+        switch (m)
+        {
+            //
+            //  Quick return if possible.
+            //
+            case 0:
+                return;
+        }
+
+        switch (n)
+        {
+            case 0:
+                return;
+        }
+
+        switch (alpha)
+        {
+            case 0.0 or 0 when beta == 1.0:
+                return;
+            //
+            //  And if alpha is 0.0.
+            //
+            case 0.0:
+            {
+                switch (beta)
+                {
+                    case 0.0:
+                    {
+                        for (j = 0; j < n; j++)
+                        {
+                            for (i = 0; i < m; i++)
+                            {
+                                c[i + j * ldc] = 0.0;
+                            }
+                        }
+
+                        break;
+                    }
+                    default:
+                    {
+                        for (j = 0; j < n; j++)
+                        {
+                            for (i = 0; i < m; i++)
+                            {
+                                c[i + j * ldc] = beta * c[i + j * ldc];
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                return;
+            }
+        }
+
+        switch (notb)
+        {
+            //
+            //  Start the operations.
+            //
+            //
+            //  Form  C := alpha*A*B + beta*C.
+            //
+            case true when nota:
+            {
+                for (j = 0; j < n; j++)
+                {
+                    switch (beta)
+                    {
+                        case 0.0:
+                        {
+                            for (i = 0; i < m; i++)
+                            {
+                                c[i + j * ldc] = 0.0;
+                            }
+
+                            break;
+                        }
+                        default:
+                        {
+                            if (beta != 1.0)
+                            {
+                                for (i = 0; i < m; i++)
+                                {
+                                    c[i + j * ldc] = beta * c[i + j * ldc];
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+
+                    for (l = 0; l < k; l++)
+                    {
+                        if (b[l + j * ldb] != 0.0)
+                        {
+                            temp = alpha * b[l + j * ldb];
+                            for (i = 0; i < m; i++)
+                            {
+                                c[i + j * ldc] += temp * a[i + l * lda];
+                            }
+                        }
+                    }
+                }
+
+                break;
+            }
+            //
+            //  Form  C := alpha*A'*B + beta*C
+            //
+            case true:
+            {
+                for (j = 0; j < n; j++)
+                {
+                    for (i = 0; i < m; i++)
+                    {
+                        temp = 0.0;
+                        for (l = 0; l < k; l++)
+                        {
+                            temp += a[l + i * lda] * b[l + j * ldb];
+                        }
+
+                        c[i + j * ldc] = beta switch
+                        {
+                            0.0 => alpha * temp,
+                            _ => alpha * temp + beta * c[i + j * ldc]
+                        };
+                    }
+                }
+
+                break;
+            }
+            //
+            default:
+            {
+                switch (nota)
+                {
+                    case true:
+                    {
+                        for (j = 0; j < n; j++)
+                        {
+                            switch (beta)
+                            {
+                                case 0.0:
+                                {
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        c[i + j * ldc] = 0.0;
+                                    }
+
+                                    break;
+                                }
+                                default:
+                                {
+                                    if (beta != 1.0)
+                                    {
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            c[i + j * ldc] = beta * c[i + j * ldc];
+                                        }
+                                    }
+
+                                    break;
+                                }
+                            }
+
+                            for (l = 0; l < k; l++)
+                            {
+                                if (b[j + l * ldb] != 0.0)
+                                {
+                                    temp = alpha * b[j + l * ldb];
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        c[i + j * ldc] += temp * a[i + l * lda];
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                    //
+                    default:
+                    {
+                        for (j = 0; j < n; j++)
+                        {
+                            for (i = 0; i < m; i++)
+                            {
+                                temp = 0.0;
+                                for (l = 0; l < k; l++)
+                                {
+                                    temp += a[l + i * lda] * b[j + l * ldb];
+                                }
+
+                                c[i + j * ldc] = beta switch
+                                {
+                                    0.0 => alpha * temp,
+                                    _ => alpha * temp + beta * c[i + j * ldc]
+                                };
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+    }
+
+    public static void dtrmm(char side, char uplo, char transa, char diag, int m, int n,
             double alpha, double[] a, int lda, ref double[] b, int ldb )
 
         //****************************************************************************80
@@ -480,86 +506,117 @@ namespace Burkardt.BLAS
         //    Input, integer LDB, the first dimension of B as declared
         //    in the calling program.   max ( 1, M ) <= LDB.
         //
+    {
+        int i;
+        int info;
+        int j;
+        int k;
+        bool lside;
+        bool nounit;
+        int nrowa;
+        double temp;
+        bool upper;
+        //
+        //  Test the input parameters.
+        //
+        lside = side == 'L';
+
+        nrowa = lside switch
         {
-            int i;
-            int info;
-            int j;
-            int k;
-            bool lside;
-            bool nounit;
-            int nrowa;
-            double temp;
-            bool upper;
-            //
-            //  Test the input parameters.
-            //
-            lside = side == 'L';
+            true => m,
+            _ => n
+        };
 
-            if (lside)
-            {
-                nrowa = m;
-            }
-            else
-            {
-                nrowa = n;
-            }
+        nounit = diag == 'N';
+        upper = uplo == 'U';
 
-            nounit = diag == 'N';
-            upper = uplo == 'U';
-
-            info = 0;
-            if (!lside && side != 'R')
-            {
+        info = 0;
+        switch (lside)
+        {
+            case false when side != 'R':
                 info = 1;
-            }
-            else if (!upper && uplo != 'L')
+                break;
+            default:
             {
-                info = 2;
-            }
-            else if ((transa != 'N') && (transa != 'T') &&
-                     (transa != 'C'))
-            {
-                info = 3;
-            }
-            else if ((diag != 'U') && (diag != 'N'))
-            {
-                info = 4;
-            }
-            else if (m < 0)
-            {
-                info = 5;
-            }
-            else if (n < 0)
-            {
-                info = 6;
-            }
-            else if (lda < Math.Max(1, nrowa))
-            {
-                info = 9;
-            }
-            else if (ldb < Math.Max(1, m))
-            {
-                info = 11;
-            }
+                switch (upper)
+                {
+                    case false when uplo != 'L':
+                        info = 2;
+                        break;
+                    default:
+                    {
+                        if (transa != 'N' && transa != 'T' &&
+                            transa != 'C')
+                        {
+                            info = 3;
+                        }
+                        else if (diag != 'U' && diag != 'N')
+                        {
+                            info = 4;
+                        }
+                        else
+                        {
+                            switch (m)
+                            {
+                                case < 0:
+                                    info = 5;
+                                    break;
+                                default:
+                                {
+                                    switch (n)
+                                    {
+                                        case < 0:
+                                            info = 6;
+                                            break;
+                                        default:
+                                        {
+                                            if (lda < Math.Max(1, nrowa))
+                                            {
+                                                info = 9;
+                                            }
+                                            else if (ldb < Math.Max(1, m))
+                                            {
+                                                info = 11;
+                                            }
 
-            if (info != 0)
-            {
-                typeMethods.xerbla("DTRMM", info);
-                return;
-            }
+                                            break;
+                                        }
+                                    }
 
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        if (info != 0)
+        {
+            typeMethods.xerbla("DTRMM", info);
+            return;
+        }
+
+        switch (n)
+        {
             //
             //  Quick return if possible.
             //
-            if (n == 0)
-            {
+            case 0:
                 return;
-            }
+        }
 
+        switch (alpha)
+        {
             //
             //  And when alpha is 0.0.
             //
-            if (alpha == 0.0)
+            case 0.0:
             {
                 for (j = 0; j < n; j++)
                 {
@@ -571,18 +628,21 @@ namespace Burkardt.BLAS
 
                 return;
             }
+        }
 
+        switch (lside)
+        {
             //
             //  Start the operations.
             //
-            if (lside)
+            //
+            //  Form  B := alpha*A*B.
+            //
+            case true when transa == 'N':
             {
-                //
-                //  Form  B := alpha*A*B.
-                //
-                if (transa == 'N')
+                switch (upper)
                 {
-                    if (upper)
+                    case true:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -593,20 +653,24 @@ namespace Burkardt.BLAS
                                     temp = alpha * b[k + j * ldb];
                                     for (i = 0; i < k; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] + temp * a[i + k * lda];
+                                        b[i + j * ldb] += temp * a[i + k * lda];
                                     }
 
-                                    if (nounit)
+                                    switch (nounit)
                                     {
-                                        temp = temp * a[k + k * lda];
+                                        case true:
+                                            temp *= a[k + k * lda];
+                                            break;
                                     }
 
                                     b[k + j * ldb] = temp;
                                 }
                             }
                         }
+
+                        break;
                     }
-                    else
+                    default:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -616,84 +680,95 @@ namespace Burkardt.BLAS
                                 {
                                     temp = alpha * b[k + j * ldb];
                                     b[k + j * ldb] = temp;
-                                    if (nounit)
+                                    switch (nounit)
                                     {
-                                        b[k + j * ldb] = b[k + j * ldb] * a[k + k * lda];
+                                        case true:
+                                            b[k + j * ldb] *= a[k + k * lda];
+                                            break;
                                     }
 
                                     for (i = k + 1; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] + temp * a[i + k * lda];
+                                        b[i + j * ldb] += temp * a[i + k * lda];
                                     }
                                 }
                             }
                         }
+
+                        break;
                     }
                 }
-                //
-                //  Form  B := alpha*A'*B.
-                //
-                else
-                {
-                    if (upper)
-                    {
-                        for (j = 0; j < n; j++)
-                        {
-                            for (i = m - 1; 0 <= i; i--)
-                            {
-                                temp = b[i + j * ldb];
-                                if (nounit)
-                                {
-                                    temp = temp * a[i + i * lda];
-                                }
 
-                                for (k = 0; k < i; k++)
-                                {
-                                    temp = temp + a[k + i * lda] * b[k + j * ldb];
-                                }
-
-                                b[i + j * ldb] = alpha * temp;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (j = 0; j < n; j++)
-                        {
-                            for (i = 0; i < m; i++)
-                            {
-                                temp = b[i + j * ldb];
-                                if (nounit)
-                                {
-                                    temp = temp * a[i + i * lda];
-                                }
-
-                                for (k = i + 1; k < m; k++)
-                                {
-                                    temp = temp + a[k + i * lda] * b[k + j * ldb];
-                                }
-
-                                b[i + j * ldb] = alpha * temp;
-                            }
-                        }
-                    }
-                }
+                break;
             }
             //
-            //  Form  B := alpha*B*A.
+            //  Form  B := alpha*A'*B.
             //
-            else
+            case true when upper:
             {
-                if (transa == 'n')
+                for (j = 0; j < n; j++)
                 {
-                    if (upper)
+                    for (i = m - 1; 0 <= i; i--)
+                    {
+                        temp = b[i + j * ldb];
+                        switch (nounit)
+                        {
+                            case true:
+                                temp *= a[i + i * lda];
+                                break;
+                        }
+
+                        for (k = 0; k < i; k++)
+                        {
+                            temp += a[k + i * lda] * b[k + j * ldb];
+                        }
+
+                        b[i + j * ldb] = alpha * temp;
+                    }
+                }
+
+                break;
+            }
+            case true:
+            {
+                for (j = 0; j < n; j++)
+                {
+                    for (i = 0; i < m; i++)
+                    {
+                        temp = b[i + j * ldb];
+                        switch (nounit)
+                        {
+                            case true:
+                                temp *= a[i + i * lda];
+                                break;
+                        }
+
+                        for (k = i + 1; k < m; k++)
+                        {
+                            temp += a[k + i * lda] * b[k + j * ldb];
+                        }
+
+                        b[i + j * ldb] = alpha * temp;
+                    }
+                }
+
+                break;
+            }
+            //
+            default:
+            {
+                switch (transa)
+                {
+                    case 'n' when upper:
                     {
                         for (j = n - 1; 0 <= j; j--)
                         {
                             temp = alpha;
-                            if (nounit)
+                            switch (nounit)
                             {
-                                temp = temp * a[j + j * lda];
+                                case true:
+                                    temp *= a[j + j * lda];
+                                    break;
                             }
 
                             for (i = 0; i < m; i++)
@@ -708,20 +783,24 @@ namespace Burkardt.BLAS
                                     temp = alpha * a[k + j * lda];
                                     for (i = 0; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] + temp * b[i + k * ldb];
+                                        b[i + j * ldb] += temp * b[i + k * ldb];
                                     }
                                 }
                             }
                         }
+
+                        break;
                     }
-                    else
+                    case 'n':
                     {
                         for (j = 0; j < n; j++)
                         {
                             temp = alpha;
-                            if (nounit)
+                            switch (nounit)
                             {
-                                temp = temp * a[j + j * lda];
+                                case true:
+                                    temp *= a[j + j * lda];
+                                    break;
                             }
 
                             for (i = 0; i < m; i++)
@@ -736,85 +815,101 @@ namespace Burkardt.BLAS
                                     temp = alpha * a[k + j * lda];
                                     for (i = 0; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] + temp * b[i + k * ldb];
+                                        b[i + j * ldb] += temp * b[i + k * ldb];
                                     }
                                 }
                             }
                         }
+
+                        break;
+                    }
+                    //
+                    default:
+                    {
+                        switch (upper)
+                        {
+                            case true:
+                            {
+                                for (k = 0; k < n; k++)
+                                {
+                                    for (j = 0; j < k; j++)
+                                    {
+                                        if (a[j + k * lda] != 0.0)
+                                        {
+                                            temp = alpha * a[j + k * lda];
+                                            for (i = 0; i < m; i++)
+                                            {
+                                                b[i + j * ldb] += temp * b[i + k * ldb];
+                                            }
+                                        }
+                                    }
+
+                                    temp = alpha;
+                                    switch (nounit)
+                                    {
+                                        case true:
+                                            temp *= a[k + k * lda];
+                                            break;
+                                    }
+
+                                    if (temp != 1.0)
+                                    {
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + k * ldb] = temp * b[i + k * ldb];
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
+                            default:
+                            {
+                                for (k = n - 1; 0 <= k; k--)
+                                {
+                                    for (j = k + 1; j < n; j++)
+                                    {
+                                        if (a[j + k * lda] != 0.0)
+                                        {
+                                            temp = alpha * a[j + k * lda];
+                                            for (i = 0; i < m; i++)
+                                            {
+                                                b[i + j * ldb] += temp * b[i + k * ldb];
+                                            }
+                                        }
+                                    }
+
+                                    temp = alpha;
+                                    switch (nounit)
+                                    {
+                                        case true:
+                                            temp *= a[k + k * lda];
+                                            break;
+                                    }
+
+                                    if (temp != 1.0)
+                                    {
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + k * ldb] = temp * b[i + k * ldb];
+                                        }
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
                     }
                 }
-                //
-                //  Form  B := alpha*B*A'.
-                //
-                else
-                {
-                    if (upper)
-                    {
-                        for (k = 0; k < n; k++)
-                        {
-                            for (j = 0; j < k; j++)
-                            {
-                                if (a[j + k * lda] != 0.0)
-                                {
-                                    temp = alpha * a[j + k * lda];
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        b[i + j * ldb] = b[i + j * ldb] + temp * b[i + k * ldb];
-                                    }
-                                }
-                            }
 
-                            temp = alpha;
-                            if (nounit)
-                            {
-                                temp = temp * a[k + k * lda];
-                            }
-
-                            if (temp != 1.0)
-                            {
-                                for (i = 0; i < m; i++)
-                                {
-                                    b[i + k * ldb] = temp * b[i + k * ldb];
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (k = n - 1; 0 <= k; k--)
-                        {
-                            for (j = k + 1; j < n; j++)
-                            {
-                                if (a[j + k * lda] != 0.0)
-                                {
-                                    temp = alpha * a[j + k * lda];
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        b[i + j * ldb] = b[i + j * ldb] + temp * b[i + k * ldb];
-                                    }
-                                }
-                            }
-
-                            temp = alpha;
-                            if (nounit)
-                            {
-                                temp = temp * a[k + k * lda];
-                            }
-
-                            if (temp != 1.0)
-                            {
-                                for (i = 0; i < m; i++)
-                                {
-                                    b[i + k * ldb] = temp * b[i + k * ldb];
-                                }
-                            }
-                        }
-                    }
-                }
+                break;
             }
         }
+    }
 
-        public static void dtrsm(char side, char uplo, char transa, char diag, int m, int n,
+    public static void dtrsm(char side, char uplo, char transa, char diag, int m, int n,
             double alpha, double[] a, int lda, ref double[] b, int ldb )
 
         //****************************************************************************80
@@ -902,88 +997,119 @@ namespace Burkardt.BLAS
         //    Input, int LDB, the first dimension of B as declared
         //    in the calling program.  LDB must be at least max ( 1, M ).
         //
+    {
+        int i;
+        int info;
+        int j;
+        int k;
+        bool lside;
+        bool nounit;
+        int nrowa;
+        double temp;
+        bool upper;
+        //
+        //  Test the input parameters.
+        //
+        lside = side == 'L';
+
+        nrowa = lside switch
         {
-            int i;
-            int info;
-            int j;
-            int k;
-            bool lside;
-            bool nounit;
-            int nrowa;
-            double temp;
-            bool upper;
-            //
-            //  Test the input parameters.
-            //
-            lside = side == 'L';
+            true => m,
+            _ => n
+        };
 
-            if (lside)
-            {
-                nrowa = m;
-            }
-            else
-            {
-                nrowa = n;
-            }
+        nounit = diag == 'N';
+        upper = uplo == 'U';
 
-            nounit = diag == 'N';
-            upper = uplo == 'U';
+        info = 0;
 
-            info = 0;
-
-            if ((!lside) && (side != 'R'))
-            {
+        switch (lside)
+        {
+            case false when side != 'R':
                 info = 1;
-            }
-            else if ((!upper) && (uplo != 'L'))
+                break;
+            default:
             {
-                info = 2;
-            }
-            else if ((transa != 'N') &&
-                     (transa != 'T') &&
-                     (transa != 'C'))
-            {
-                info = 3;
-            }
-            else if ((diag != 'U') && (diag != 'N'))
-            {
-                info = 4;
-            }
-            else if (m < 0)
-            {
-                info = 5;
-            }
-            else if (n < 0)
-            {
-                info = 6;
-            }
-            else if (lda < Math.Max(1, nrowa))
-            {
-                info = 9;
-            }
-            else if (ldb < Math.Max(1, m))
-            {
-                info = 11;
-            }
+                switch (upper)
+                {
+                    case false when uplo != 'L':
+                        info = 2;
+                        break;
+                    default:
+                    {
+                        if (transa != 'N' &&
+                            transa != 'T' &&
+                            transa != 'C')
+                        {
+                            info = 3;
+                        }
+                        else if (diag != 'U' && diag != 'N')
+                        {
+                            info = 4;
+                        }
+                        else
+                        {
+                            switch (m)
+                            {
+                                case < 0:
+                                    info = 5;
+                                    break;
+                                default:
+                                {
+                                    switch (n)
+                                    {
+                                        case < 0:
+                                            info = 6;
+                                            break;
+                                        default:
+                                        {
+                                            if (lda < Math.Max(1, nrowa))
+                                            {
+                                                info = 9;
+                                            }
+                                            else if (ldb < Math.Max(1, m))
+                                            {
+                                                info = 11;
+                                            }
 
-            if (info != 0)
-            {
-                typeMethods.xerbla("DTRSM", info);
-                return;
-            }
+                                            break;
+                                        }
+                                    }
 
+                                    break;
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        if (info != 0)
+        {
+            typeMethods.xerbla("DTRSM", info);
+            return;
+        }
+
+        switch (n)
+        {
             //
             //  Quick return if possible.
             //
-            if (n == 0)
-            {
+            case 0:
                 return;
-            }
+        }
 
+        switch (alpha)
+        {
             //
             //  and when alpha is 0.0.
             //
-            if (alpha == 0.0)
+            case 0.0:
             {
                 for (j = 0; j < n; j++)
                 {
@@ -995,18 +1121,21 @@ namespace Burkardt.BLAS
 
                 return;
             }
+        }
 
+        switch (lside)
+        {
             //
             //  Start the operations.
             //
-            if (lside)
+            //
+            //  Form  B := alpha*inv( a )*B.
+            //
+            case true when transa == 'N':
             {
-                //
-                //  Form  B := alpha*inv( a )*B.
-                //
-                if (transa == 'N')
+                switch (upper)
                 {
-                    if (upper)
+                    case true:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -1022,20 +1151,24 @@ namespace Burkardt.BLAS
                             {
                                 if (b[k + j * ldb] != 0.0)
                                 {
-                                    if (nounit)
+                                    switch (nounit)
                                     {
-                                        b[k + j * ldb] = b[k + j * ldb] / a[k + k * lda];
+                                        case true:
+                                            b[k + j * ldb] /= a[k + k * lda];
+                                            break;
                                     }
 
                                     for (i = 0; i < k; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] - b[k + j * ldb] * a[i + k * lda];
+                                        b[i + j * ldb] -= b[k + j * ldb] * a[i + k * lda];
                                     }
                                 }
                             }
                         }
+
+                        break;
                     }
-                    else
+                    default:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -1051,77 +1184,86 @@ namespace Burkardt.BLAS
                             {
                                 if (b[k + j * ldb] != 0.0)
                                 {
-                                    if (nounit)
+                                    switch (nounit)
                                     {
-                                        b[k + j * ldb] = b[k + j * ldb] / a[k + k * lda];
+                                        case true:
+                                            b[k + j * ldb] /= a[k + k * lda];
+                                            break;
                                     }
 
                                     for (i = k + 1; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] - b[k + j * ldb] * a[i + k * lda];
+                                        b[i + j * ldb] -= b[k + j * ldb] * a[i + k * lda];
                                     }
                                 }
                             }
                         }
+
+                        break;
                     }
                 }
-                //
-                //  Form  B := alpha*inv( A' )*B.
-                //
-                else
-                {
-                    if (upper)
-                    {
-                        for (j = 0; j < n; j++)
-                        {
-                            for (i = 0; i < m; i++)
-                            {
-                                temp = alpha * b[i + j * ldb];
-                                for (k = 0; k < i; k++)
-                                {
-                                    temp = temp - a[k + i * lda] * b[k + j * ldb];
-                                }
 
-                                if (nounit)
-                                {
-                                    temp = temp / a[i + i * lda];
-                                }
-
-                                b[i + j * ldb] = temp;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (j = 0; j < n; j++)
-                        {
-                            for (i = m - 1; 0 <= i; i--)
-                            {
-                                temp = alpha * b[i + j * ldb];
-                                for (k = i + 1; k < m; k++)
-                                {
-                                    temp = temp - a[k + i * lda] * b[k + j * ldb];
-                                }
-
-                                if (nounit)
-                                {
-                                    temp = temp / a[i + i * lda];
-                                }
-
-                                b[i + j * ldb] = temp;
-                            }
-                        }
-                    }
-                }
+                break;
             }
             //
-            //  Form  B := alpha*B*inv( A ).
+            //  Form  B := alpha*inv( A' )*B.
             //
-            else
+            case true when upper:
             {
-                if (transa == 'N')
+                for (j = 0; j < n; j++)
                 {
-                    if (upper)
+                    for (i = 0; i < m; i++)
+                    {
+                        temp = alpha * b[i + j * ldb];
+                        for (k = 0; k < i; k++)
+                        {
+                            temp -= a[k + i * lda] * b[k + j * ldb];
+                        }
+
+                        switch (nounit)
+                        {
+                            case true:
+                                temp /= a[i + i * lda];
+                                break;
+                        }
+
+                        b[i + j * ldb] = temp;
+                    }
+                }
+
+                break;
+            }
+            case true:
+            {
+                for (j = 0; j < n; j++)
+                {
+                    for (i = m - 1; 0 <= i; i--)
+                    {
+                        temp = alpha * b[i + j * ldb];
+                        for (k = i + 1; k < m; k++)
+                        {
+                            temp -= a[k + i * lda] * b[k + j * ldb];
+                        }
+
+                        switch (nounit)
+                        {
+                            case true:
+                                temp /= a[i + i * lda];
+                                break;
+                        }
+
+                        b[i + j * ldb] = temp;
+                    }
+                }
+
+                break;
+            }
+            //
+            default:
+            {
+                switch (transa)
+                {
+                    case 'N' when upper:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -1139,22 +1281,29 @@ namespace Burkardt.BLAS
                                 {
                                     for (i = 0; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] - a[k + j * lda] * b[i + k * ldb];
+                                        b[i + j * ldb] -= a[k + j * lda] * b[i + k * ldb];
                                     }
                                 }
                             }
 
-                            if (nounit)
+                            switch (nounit)
                             {
-                                temp = 1.0 / a[j + j * lda];
-                                for (i = 0; i < m; i++)
+                                case true:
                                 {
-                                    b[i + j * ldb] = temp * b[i + j * ldb];
+                                    temp = 1.0 / a[j + j * lda];
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        b[i + j * ldb] = temp * b[i + j * ldb];
+                                    }
+
+                                    break;
                                 }
                             }
                         }
+
+                        break;
                     }
-                    else
+                    case 'N':
                     {
                         for (j = n - 1; 0 <= j; j--)
                         {
@@ -1172,100 +1321,124 @@ namespace Burkardt.BLAS
                                 {
                                     for (i = 0; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] - a[k + j * lda] * b[i + k * ldb];
+                                        b[i + j * ldb] -= a[k + j * lda] * b[i + k * ldb];
                                     }
                                 }
                             }
 
-                            if (nounit)
+                            switch (nounit)
                             {
-                                temp = 1.0 / a[j + j * lda];
-                                for (i = 0; i < m; i++)
+                                case true:
                                 {
-                                    b[i + j * ldb] = temp * b[i + j * ldb];
-                                }
-                            }
-                        }
-                    }
-                }
-                //
-                //  Form  B := alpha*B*inv( A' ).
-                //
-                else
-                {
-                    if (upper)
-                    {
-                        for (k = n - 1; 0 <= k; k--)
-                        {
-                            if (nounit)
-                            {
-                                temp = 1.0 / a[k + k * lda];
-                                for (i = 0; i < m; i++)
-                                {
-                                    b[i + k * ldb] = temp * b[i + k * ldb];
-                                }
-                            }
-
-                            for (j = 0; j < k; j++)
-                            {
-                                if (a[j + k * lda] != 0.0)
-                                {
-                                    temp = a[j + k * lda];
+                                    temp = 1.0 / a[j + j * lda];
                                     for (i = 0; i < m; i++)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] - temp * b[i + k * ldb];
+                                        b[i + j * ldb] = temp * b[i + j * ldb];
                                     }
-                                }
-                            }
 
-                            if (alpha != 1.0)
-                            {
-                                for (i = 0; i < m; i++)
-                                {
-                                    b[i + k * ldb] = alpha * b[i + k * ldb];
+                                    break;
                                 }
                             }
                         }
+
+                        break;
                     }
-                    else
+                    //
+                    default:
                     {
-                        for (k = 0; k < n; k++)
+                        switch (upper)
                         {
-                            if (nounit)
+                            case true:
                             {
-                                temp = 1.0 / a[k + k * lda];
-                                for (i = 0; i < m; i++)
+                                for (k = n - 1; 0 <= k; k--)
                                 {
-                                    b[i + k * ldb] = temp * b[i + k * ldb];
-                                }
-                            }
-
-                            for (j = k + 1; j < n; j++)
-                            {
-                                if (a[j + k * lda] != 0.0)
-                                {
-                                    temp = a[j + k * lda];
-                                    for (i = 0; i < m; i++)
+                                    switch (nounit)
                                     {
-                                        b[i + j * ldb] = b[i + j * ldb] - temp * b[i + k * ldb];
+                                        case true:
+                                        {
+                                            temp = 1.0 / a[k + k * lda];
+                                            for (i = 0; i < m; i++)
+                                            {
+                                                b[i + k * ldb] = temp * b[i + k * ldb];
+                                            }
+
+                                            break;
+                                        }
+                                    }
+
+                                    for (j = 0; j < k; j++)
+                                    {
+                                        if (a[j + k * lda] != 0.0)
+                                        {
+                                            temp = a[j + k * lda];
+                                            for (i = 0; i < m; i++)
+                                            {
+                                                b[i + j * ldb] -= temp * b[i + k * ldb];
+                                            }
+                                        }
+                                    }
+
+                                    if (alpha != 1.0)
+                                    {
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + k * ldb] = alpha * b[i + k * ldb];
+                                        }
                                     }
                                 }
-                            }
 
-                            if (alpha != 1.0)
+                                break;
+                            }
+                            default:
                             {
-                                for (i = 0; i < m; i++)
+                                for (k = 0; k < n; k++)
                                 {
-                                    b[i + k * ldb] = alpha * b[i + k * ldb];
+                                    switch (nounit)
+                                    {
+                                        case true:
+                                        {
+                                            temp = 1.0 / a[k + k * lda];
+                                            for (i = 0; i < m; i++)
+                                            {
+                                                b[i + k * ldb] = temp * b[i + k * ldb];
+                                            }
+
+                                            break;
+                                        }
+                                    }
+
+                                    for (j = k + 1; j < n; j++)
+                                    {
+                                        if (a[j + k * lda] != 0.0)
+                                        {
+                                            temp = a[j + k * lda];
+                                            for (i = 0; i < m; i++)
+                                            {
+                                                b[i + j * ldb] -= temp * b[i + k * ldb];
+                                            }
+                                        }
+                                    }
+
+                                    if (alpha != 1.0)
+                                    {
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + k * ldb] = alpha * b[i + k * ldb];
+                                        }
+                                    }
                                 }
+
+                                break;
                             }
                         }
+
+                        break;
                     }
                 }
+
+                break;
             }
-
-            return;
         }
-
     }
+
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.FDM
+namespace Burkardt.FDM;
+
+public static class FDM_1D_BVP
 {
-    public static class FDM_1D_BVP
-    {
-        public static double[] fd1d_bvp(int n, Func<double,double> a , Func<double,double> aprime,
+    public static double[] fd1d_bvp(int n, Func<double,double> a , Func<double,double> aprime,
         Func<double,double> c, Func<double,double> f, double[] x )
 //****************************************************************************80
 //
@@ -82,63 +82,62 @@ namespace Burkardt.FDM
 //    Output, double FD1D_BVP[N], the value of the finite difference
 //    approximation to the solution.
 //
-        {
-            double am;
-            double apm;
-            double cm;
-            double fm;
-            int i;
-            double[] rhs;
-            double[] tri;
-            double[] u;
-            double xm;
+    {
+        double am;
+        double apm;
+        double cm;
+        double fm;
+        int i;
+        double[] rhs;
+        double[] tri;
+        double[] u;
+        double xm;
 //
 //  Equation 1 is the left boundary condition, U(X[0]) = 0.0;
 //
-            tri = new double[3 * n];
-            rhs = new double[n];
+        tri = new double[3 * n];
+        rhs = new double[n];
 
-            tri[0 + 0 * 3] = 0.0;
-            tri[1 + 0 * 3] = 1.0;
-            tri[2 + 0 * 3] = 0.0;
-            rhs[0] = 0.0;
+        tri[0 + 0 * 3] = 0.0;
+        tri[1 + 0 * 3] = 1.0;
+        tri[2 + 0 * 3] = 0.0;
+        rhs[0] = 0.0;
 //
 //  Now gather the multipliers of U(I-1) to get the matrix entry A(I,I-1),
 //  and so on.
 //
-            for (i = 1; i < n - 1; i++)
-            {
-                xm = x[i];
-                am = a(xm);
-                apm = aprime(xm);
-                cm = c(xm);
-                fm = f(xm);
+        for (i = 1; i < n - 1; i++)
+        {
+            xm = x[i];
+            am = a(xm);
+            apm = aprime(xm);
+            cm = c(xm);
+            fm = f(xm);
 
-                tri[0 + i * 3] = -2.0 * am / (x[i] - x[i - 1]) / (x[i + 1] - x[i - 1])
-                                 + apm / (x[i + 1] - x[i - 1]);
+            tri[0 + i * 3] = -2.0 * am / (x[i] - x[i - 1]) / (x[i + 1] - x[i - 1])
+                             + apm / (x[i + 1] - x[i - 1]);
 
-                tri[1 + i * 3] = +2.0 * am / (x[i] - x[i - 1]) / (x[i + 1] - x[i])
-                                 + cm;
+            tri[1 + i * 3] = +2.0 * am / (x[i] - x[i - 1]) / (x[i + 1] - x[i])
+                             + cm;
 
-                tri[2 + i * 3] = -2.0 * am / (x[i + 1] - x[i]) / (x[i + 1] - x[i - 1])
-                                 - apm / (x[i + 1] - x[i - 1]);
+            tri[2 + i * 3] = -2.0 * am / (x[i + 1] - x[i]) / (x[i + 1] - x[i - 1])
+                             - apm / (x[i + 1] - x[i - 1]);
 
-                rhs[i] = fm;
-            }
+            rhs[i] = fm;
+        }
 
 //
 //  Equation N is the right boundary condition, U(X[N-1]) = 0.0;
 //
-            tri[0 + (n - 1) * 3] = 0.0;
-            tri[1 + (n - 1) * 3] = 1.0;
-            tri[2 + (n - 1) * 3] = 0.0;
-            rhs[n - 1] = 0.0;
+        tri[0 + (n - 1) * 3] = 0.0;
+        tri[1 + (n - 1) * 3] = 1.0;
+        tri[2 + (n - 1) * 3] = 0.0;
+        rhs[n - 1] = 0.0;
 //
 //  Solve the linear system.
 //
-            u = typeMethods.r83np_fs(n, ref tri, rhs);
+        u = typeMethods.r83np_fs(n, ref tri, rhs);
 
-            return u;
-        }
+        return u;
     }
 }

@@ -2,12 +2,12 @@
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGBCO
 {
-    public static class DGBCO
-    {
-        public static double dgbco(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt,
-        double[] z )
+    public static double dgbco(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt,
+            double[] z )
 
         //****************************************************************************80
         //
@@ -126,270 +126,278 @@ namespace Burkardt.Linpack
         //    is true, then A may be singular to working precision.  In particular,
         //    RCOND is zero if exact singularity is detected or the estimate underflows.
         //
+    {
+        double anorm;
+        double ek;
+        int i;
+        int is_;
+        int j;
+        int ju;
+        int k;
+        int l;
+        int la;
+        int lm;
+        int lz;
+        int m;
+        int mm;
+        double rcond;
+        double s;
+        double sm;
+        double t;
+        double wk;
+        double wkm;
+        double ynorm;
+        //
+        //  Compute the 1-norm of A.
+        //
+        anorm = 0.0;
+        l = ml + 1;
+        is_ = l + mu;
+
+        for (j = 1; j <= n; j++)
         {
-            double anorm;
-            double ek;
-            int i;
-            int is_;
-            int j;
-            int ju;
-            int k;
-            int l;
-            int la;
-            int lm;
-            int lz;
-            int m;
-            int mm;
-            double rcond;
-            double s;
-            double sm;
-            double t;
-            double wk;
-            double wkm;
-            double ynorm;
-            //
-            //  Compute the 1-norm of A.
-            //
-            anorm = 0.0;
-            l = ml + 1;
-                is_ = l + mu;
-
-            for (j = 1; j <= n; j++)
+            anorm = Math.Max(anorm, BLAS1D.dasum(l, abd, 1, index: + is_ -1 + (j - 1) * lda));
+            if (ml + 1 < is_)
             {
-                anorm = Math.Max(anorm, BLAS1D.dasum(l, abd, 1, index: + is_ -1 + (j - 1) * lda));
-                if (ml + 1 < is_)
-                {
-                    is_ = is_ -1;
-                }
-
-                if (j <= mu)
-                {
-                    l = l + 1;
-                }
-
-                if (n - ml <= j)
-                {
-                    l = l - 1;
-                }
+                is_ -= 1;
             }
 
-            //
-            //  Factor.
-            //
-            DGBFA.dgbfa(ref abd, lda, n, ml, mu, ref ipvt);
-            //
-            //  RCOND = 1/(norm(A)*(estimate of norm(inverse(A)))).
-            //
-            //  Estimate = norm(Z)/norm(Y) where  a*z = y  and A'*Y = E.
-            //
-            //  A' is the transpose of A.  The components of E are
-            //  chosen to cause maximum local growth in the elements of W where
-            //  U'*W = E.  The vectors are frequently rescaled to avoid
-            //  overflow.
-            //
-            //  Solve U' * W = E.
-            //
-            ek = 1.0;
-            for (i = 1; i <= n; i++)
+            if (j <= mu)
             {
-                z[i - 1] = 0.0;
+                l += 1;
             }
 
-            m = ml + mu + 1;
-            ju = 0;
-
-            for (k = 1; k <= n; k++)
+            if (n - ml <= j)
             {
-                if (z[k - 1] != 0.0)
-                {
-                    ek = ek * typeMethods.r8_sign(-z[k - 1]);
-                }
+                l -= 1;
+            }
+        }
 
-                if (Math.Abs(abd[m - 1 + (k - 1) * lda]) < Math.Abs(ek - z[k - 1]))
-                {
-                    s = Math.Abs(abd[m - 1 + (k - 1) * lda]) / Math.Abs(ek - z[k - 1]);
-                    for (i = 1; i <= n; i++)
-                    {
-                        z[i - 1] = s * z[i - 1];
-                    }
+        //
+        //  Factor.
+        //
+        DGBFA.dgbfa(ref abd, lda, n, ml, mu, ref ipvt);
+        //
+        //  RCOND = 1/(norm(A)*(estimate of norm(inverse(A)))).
+        //
+        //  Estimate = norm(Z)/norm(Y) where  a*z = y  and A'*Y = E.
+        //
+        //  A' is the transpose of A.  The components of E are
+        //  chosen to cause maximum local growth in the elements of W where
+        //  U'*W = E.  The vectors are frequently rescaled to avoid
+        //  overflow.
+        //
+        //  Solve U' * W = E.
+        //
+        ek = 1.0;
+        for (i = 1; i <= n; i++)
+        {
+            z[i - 1] = 0.0;
+        }
 
-                    ek = s * ek;
-                }
+        m = ml + mu + 1;
+        ju = 0;
 
-                wk = ek - z[k - 1];
-                wkm = -ek - z[k - 1];
-                s = Math.Abs(wk);
-                sm = Math.Abs(wkm);
-
-                if (abd[m - 1 + (k - 1) * lda] != 0.0)
-                {
-                    wk = wk / abd[m - 1 + (k - 1) * lda];
-                    wkm = wkm / abd[m - 1 + (k - 1) * lda];
-                }
-                else
-                {
-                    wk = 1.0;
-                    wkm = 1.0;
-                }
-
-                ju = Math.Min(Math.Max(ju, mu + ipvt[k - 1]), n);
-                mm = m;
-
-                if (k + 1 <= ju)
-                {
-                    for (j = k + 1; j <= ju; j++)
-                    {
-                        mm = mm - 1;
-                        sm = sm + Math.Abs(z[j - 1] + wkm * abd[mm - 1 + (j - 1) * lda]);
-                        z[j - 1] = z[j - 1] + wk * abd[mm - 1 + (j - 1) * lda];
-                        s = s + Math.Abs(z[j - 1]);
-                    }
-
-                    if (s < sm)
-                    {
-                        t = wkm - wk;
-                        wk = wkm;
-                        mm = m;
-                        for (j = k + 1; j <= ju; ju++)
-                        {
-                            mm = mm - 1;
-                            z[j - 1] = z[j - 1] + t * abd[mm - 1 + (j - 1) * lda];
-                        }
-                    }
-                }
-
-                z[k - 1] = wk;
+        for (k = 1; k <= n; k++)
+        {
+            if (z[k - 1] != 0.0)
+            {
+                ek *= typeMethods.r8_sign(-z[k - 1]);
             }
 
-            s = BLAS1D.dasum(n, z, 1);
-
-            for (i = 1; i <= n; i++)
+            if (Math.Abs(abd[m - 1 + (k - 1) * lda]) < Math.Abs(ek - z[k - 1]))
             {
-                z[i - 1] = z[i - 1] / s;
-            }
-
-            //
-            //  Solve L' * Y = W.
-            //
-            for (k = n; 1 <= k; k--)
-            {
-                lm = Math.Min(ml, n - k);
-
-                if (k < m)
+                s = Math.Abs(abd[m - 1 + (k - 1) * lda]) / Math.Abs(ek - z[k - 1]);
+                for (i = 1; i <= n; i++)
                 {
-                    z[k - 1] = z[k - 1] + BLAS1D.ddot(lm, abd, 1, z, 1, xIndex: + m + (k - 1) * lda, yIndex: + k);
+                    z[i - 1] = s * z[i - 1];
                 }
 
-                if (1.0 < Math.Abs(z[k - 1]))
-                {
-                    s = 1.0 / Math.Abs(z[k - 1]);
-                    for (i = 1; i <= n; i++)
-                    {
-                        z[i - 1] = s * z[i - 1];
-                    }
-                }
-
-                l = ipvt[k - 1];
-                t = z[l - 1];
-                z[l - 1] = z[k - 1];
-                z[k - 1] = t;
+                ek = s * ek;
             }
 
-            s = BLAS1D.dasum(n, z, 1);
-            for (i = 1; i <= n; i++)
+            wk = ek - z[k - 1];
+            wkm = -ek - z[k - 1];
+            s = Math.Abs(wk);
+            sm = Math.Abs(wkm);
+
+            if (abd[m - 1 + (k - 1) * lda] != 0.0)
             {
-                z[i - 1] = z[i - 1] / s;
-            }
-
-            ynorm = 1.0;
-            //
-            //  Solve L * V = Y.
-            //
-            for (k = 1; k <= n; k++)
-            {
-                l = ipvt[k - 1];
-                t = z[l - 1];
-                z[l - 1] = z[k - 1];
-                z[k - 1] = t;
-                lm = Math.Min(ml, n - k);
-
-                if (k < n)
-                {
-                    BLAS1D.daxpy(lm, t, abd, 1, ref z, 1, xIndex: + m + (k - 1) * lda, yIndex: + k);
-                }
-
-                if (1.0 < Math.Abs(z[k - 1]))
-                {
-                    s = 1.0 / Math.Abs(z[k - 1]);
-                    for (i = 1; i <= n; i++)
-                    {
-                        z[i - 1] = s * z[i - 1];
-                    }
-
-                    ynorm = s * ynorm;
-                }
-            }
-
-            s = 1.0 / BLAS1D.dasum(n, z, 1);
-            for (i = 1; i <= n; i++)
-            {
-                z[i - 1] = s * z[i - 1];
-            }
-
-            ynorm = s * ynorm;
-            //
-            //  Solve U * Z = W.
-            //
-            for (k = n; 1 <= k; k--)
-            {
-                if (Math.Abs(abd[m - 1 + (k - 1) * lda]) < Math.Abs(z[k - 1]))
-                {
-                    s = Math.Abs(abd[m - 1 + (k - 1) * lda]) / Math.Abs(z[k - 1]);
-                    for (i = 1; i <= n; i++)
-                    {
-                        z[i - 1] = s * z[i - 1];
-                    }
-
-                    ynorm = s * ynorm;
-                }
-
-                if (abd[m - 1 + (k - 1) * lda] != 0.0)
-                {
-                    z[k - 1] = z[k - 1] / abd[m - 1 + (k - 1) * lda];
-                }
-                else
-                {
-                    z[k - 1] = 1.0;
-                }
-
-                lm = Math.Min(k, m) - 1;
-                la = m - lm;
-                lz = k - lm;
-                t = -z[k - 1];
-                BLAS1D.daxpy(lm, t, abd, 1, ref z, 1, xIndex:  + la - 1 + (k - 1) * lda, yIndex:  + lz - 1);
-            }
-
-            //
-            //  Make ZNORM = 1.0.
-            //
-            s = 1.0 / BLAS1D.dasum(n, z, 1);
-            for (i = 1; i <= n; i++)
-            {
-                z[i - 1] = s * z[i - 1];
-            }
-
-            ynorm = s * ynorm;
-
-            if (anorm != 0.0)
-            {
-                rcond = ynorm / anorm;
+                wk /= abd[m - 1 + (k - 1) * lda];
+                wkm /= abd[m - 1 + (k - 1) * lda];
             }
             else
             {
-                rcond = 0.0;
+                wk = 1.0;
+                wkm = 1.0;
             }
 
-            return rcond;
+            ju = Math.Min(Math.Max(ju, mu + ipvt[k - 1]), n);
+            mm = m;
+
+            if (k + 1 <= ju)
+            {
+                for (j = k + 1; j <= ju; j++)
+                {
+                    mm -= 1;
+                    sm += Math.Abs(z[j - 1] + wkm * abd[mm - 1 + (j - 1) * lda]);
+                    z[j - 1] += wk * abd[mm - 1 + (j - 1) * lda];
+                    s += Math.Abs(z[j - 1]);
+                }
+
+                if (s < sm)
+                {
+                    t = wkm - wk;
+                    wk = wkm;
+                    mm = m;
+                    for (j = k + 1; j <= ju; ju++)
+                    {
+                        mm -= 1;
+                        z[j - 1] += t * abd[mm - 1 + (j - 1) * lda];
+                    }
+                }
+            }
+
+            z[k - 1] = wk;
         }
+
+        s = BLAS1D.dasum(n, z, 1);
+
+        for (i = 1; i <= n; i++)
+        {
+            z[i - 1] /= s;
+        }
+
+        //
+        //  Solve L' * Y = W.
+        //
+        for (k = n; 1 <= k; k--)
+        {
+            lm = Math.Min(ml, n - k);
+
+            if (k < m)
+            {
+                z[k - 1] += BLAS1D.ddot(lm, abd, 1, z, 1, xIndex: + m + (k - 1) * lda, yIndex: + k);
+            }
+
+            switch (Math.Abs(z[k - 1]))
+            {
+                case > 1.0:
+                {
+                    s = 1.0 / Math.Abs(z[k - 1]);
+                    for (i = 1; i <= n; i++)
+                    {
+                        z[i - 1] = s * z[i - 1];
+                    }
+
+                    break;
+                }
+            }
+
+            l = ipvt[k - 1];
+            t = z[l - 1];
+            z[l - 1] = z[k - 1];
+            z[k - 1] = t;
+        }
+
+        s = BLAS1D.dasum(n, z, 1);
+        for (i = 1; i <= n; i++)
+        {
+            z[i - 1] /= s;
+        }
+
+        ynorm = 1.0;
+        //
+        //  Solve L * V = Y.
+        //
+        for (k = 1; k <= n; k++)
+        {
+            l = ipvt[k - 1];
+            t = z[l - 1];
+            z[l - 1] = z[k - 1];
+            z[k - 1] = t;
+            lm = Math.Min(ml, n - k);
+
+            if (k < n)
+            {
+                BLAS1D.daxpy(lm, t, abd, 1, ref z, 1, xIndex: + m + (k - 1) * lda, yIndex: + k);
+            }
+
+            switch (Math.Abs(z[k - 1]))
+            {
+                case > 1.0:
+                {
+                    s = 1.0 / Math.Abs(z[k - 1]);
+                    for (i = 1; i <= n; i++)
+                    {
+                        z[i - 1] = s * z[i - 1];
+                    }
+
+                    ynorm = s * ynorm;
+                    break;
+                }
+            }
+        }
+
+        s = 1.0 / BLAS1D.dasum(n, z, 1);
+        for (i = 1; i <= n; i++)
+        {
+            z[i - 1] = s * z[i - 1];
+        }
+
+        ynorm = s * ynorm;
+        //
+        //  Solve U * Z = W.
+        //
+        for (k = n; 1 <= k; k--)
+        {
+            if (Math.Abs(abd[m - 1 + (k - 1) * lda]) < Math.Abs(z[k - 1]))
+            {
+                s = Math.Abs(abd[m - 1 + (k - 1) * lda]) / Math.Abs(z[k - 1]);
+                for (i = 1; i <= n; i++)
+                {
+                    z[i - 1] = s * z[i - 1];
+                }
+
+                ynorm = s * ynorm;
+            }
+
+            if (abd[m - 1 + (k - 1) * lda] != 0.0)
+            {
+                z[k - 1] /= abd[m - 1 + (k - 1) * lda];
+            }
+            else
+            {
+                z[k - 1] = 1.0;
+            }
+
+            lm = Math.Min(k, m) - 1;
+            la = m - lm;
+            lz = k - lm;
+            t = -z[k - 1];
+            BLAS1D.daxpy(lm, t, abd, 1, ref z, 1, xIndex:  + la - 1 + (k - 1) * lda, yIndex:  + lz - 1);
+        }
+
+        //
+        //  Make ZNORM = 1.0.
+        //
+        s = 1.0 / BLAS1D.dasum(n, z, 1);
+        for (i = 1; i <= n; i++)
+        {
+            z[i - 1] = s * z[i - 1];
+        }
+
+        ynorm = s * ynorm;
+
+        if (anorm != 0.0)
+        {
+            rcond = ynorm / anorm;
+        }
+        else
+        {
+            rcond = 0.0;
+        }
+
+        return rcond;
     }
 }

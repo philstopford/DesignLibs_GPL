@@ -8,375 +8,407 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace etoViewport
+namespace etoViewport;
+
+public class TestViewport : GLSurface
 {
-    public class TestViewport : GLSurface
+    public delegate void updateHost();
+    public updateHost updateHostFunc { get; set; }
+
+    public bool ok { get; set; }
+    private bool immediateMode;
+    public bool savedLocation_valid { get; set; }
+    private PointF savedLocation;
+
+    private Vector3[] polyArray;
+    private Vector4[] polyColorArray;
+    private int[] first;
+    private int[] count;
+    private int poly_vbo_size;
+
+    private Vector3[] tessPolyArray;
+    private Vector4[] tessPolyColorArray;
+    private int[] tessFirst;
+    private int[] tessCount;
+    private int tessPoly_vbo_size;
+
+    private Vector3[] lineArray;
+    private Vector4[] lineColorArray;
+    private int[] lineFirst;
+    private int[] lineCount;
+    private int line_vbo_size;
+
+    private Vector3[] gridArray;
+    private Vector3[] gridColorArray;
+    private int grid_vbo_size;
+
+    private Vector3[] axesArray;
+    private Vector3[] axesColorArray;
+    private int axes_vbo_size;
+
+    public OVPSettings ovpSettings { get; set; } // note that this is a reference to the real settings.
+    private float axisZ;
+    private float gridZ;
+
+    // Use for drag handling.
+    private bool dragging;
+    private float x_orig;
+    private float y_orig;
+
+    private ContextMenu menu;
+
+    private object polyLock = new();
+
+    private Point WorldToScreen(float x, float y)
     {
-        public delegate void updateHost();
-        public updateHost updateHostFunc { get; set; }
+        return new Point((int)(x - ovpSettings.cameraPosition.X / (ovpSettings.zoomFactor * ovpSettings.base_zoom) + Width / 2),
+            (int)(y - ovpSettings.cameraPosition.Y / (ovpSettings.zoomFactor * ovpSettings.base_zoom) + Height / 2));
+    }
 
-        public bool ok { get; set; }
-        bool immediateMode;
-        public bool savedLocation_valid { get; set; }
-        PointF savedLocation;
+    private Point WorldToScreen(PointF pt)
+    {
+        return WorldToScreen(pt.X, pt.Y);
+    }
 
-        Vector3[] polyArray;
-        Vector4[] polyColorArray;
-        int[] first;
-        int[] count;
-        int poly_vbo_size;
+    private Size WorldToScreen(SizeF pt)
+    {
+        Point pt1 = WorldToScreen(0, 0);
+        Point pt2 = WorldToScreen(pt.Width, pt.Height);
+        return new Size(pt2.X - pt1.X, pt2.Y - pt1.Y);
+    }
 
-        Vector3[] tessPolyArray;
-        Vector4[] tessPolyColorArray;
-        int[] tessFirst;
-        int[] tessCount;
-        int tessPoly_vbo_size;
+    private PointF ScreenToWorld(int x, int y)
+    {
+        return new PointF((x - Width / 2) * (ovpSettings.zoomFactor * ovpSettings.base_zoom) + ovpSettings.cameraPosition.X,
+            (y - Height / 2) * (ovpSettings.zoomFactor * ovpSettings.base_zoom) + ovpSettings.cameraPosition.Y);
+    }
 
-        Vector3[] lineArray;
-        Vector4[] lineColorArray;
-        int[] lineFirst;
-        int[] lineCount;
-        int line_vbo_size;
+    private PointF ScreenToWorld(Point pt)
+    {
+        return ScreenToWorld(pt.X, pt.Y);
+    }
 
-        Vector3[] gridArray;
-        Vector3[] gridColorArray;
-        int grid_vbo_size;
+    private RectangleF getViewPort()
+    {
+        PointF bl = ScreenToWorld(Location.X - Width / 2, Location.Y - Height / 2);
+        PointF tr = ScreenToWorld(Location.X + Width / 2, Location.Y + Height / 2);
+        return new RectangleF(bl.X, bl.Y, tr.X - bl.X, tr.Y - bl.Y);
+    }
 
-        Vector3[] axesArray;
-        Vector3[] axesColorArray;
-        int axes_vbo_size;
-
-        public OVPSettings ovpSettings { get; set; } // note that this is a reference to the real settings.
-        float axisZ;
-        float gridZ;
-
-        // Use for drag handling.
-        bool dragging;
-        float x_orig;
-        float y_orig;
-
-        ContextMenu menu;
-
-        object polyLock = new object();
-
-        Point WorldToScreen(float x, float y)
+    private void setViewPort(float x1, float y1, float x2, float y2)
+    {
+        float h = Math.Abs(y1 - y2);
+        float w = Math.Abs(x1 - x2);
+        ovpSettings.cameraPosition = new PointF((x1 + x2) / 2, (y1 + y2) / 2);
+        if (Height != 0 && Width != 0)
         {
-            return new Point((int)((x - ovpSettings.cameraPosition.X / (ovpSettings.zoomFactor * ovpSettings.base_zoom)) + Width / 2),
-                    (int)((y - ovpSettings.cameraPosition.Y / (ovpSettings.zoomFactor * ovpSettings.base_zoom)) + Height / 2));
+            ovpSettings.zoomFactor = Math.Max(h / Height, w / Width);
         }
-
-        Point WorldToScreen(PointF pt)
+        else
         {
-            return WorldToScreen(pt.X, pt.Y);
+            ovpSettings.zoomFactor = 1;
         }
+    }
 
-        Size WorldToScreen(SizeF pt)
+    private void downHandler(object sender, MouseEventArgs e)
+    {
+        switch (e.Buttons)
         {
-            Point pt1 = WorldToScreen(0, 0);
-            Point pt2 = WorldToScreen(pt.Width, pt.Height);
-            return new Size(pt2.X - pt1.X, pt2.Y - pt1.Y);
-        }
-
-        PointF ScreenToWorld(int x, int y)
-        {
-            return new PointF((x - Width / 2) * (ovpSettings.zoomFactor * ovpSettings.base_zoom) + ovpSettings.cameraPosition.X,
-                     (y - Height / 2) * (ovpSettings.zoomFactor * ovpSettings.base_zoom) + ovpSettings.cameraPosition.Y);
-        }
-
-        PointF ScreenToWorld(Point pt)
-        {
-            return ScreenToWorld(pt.X, pt.Y);
-        }
-
-        RectangleF getViewPort()
-        {
-            PointF bl = ScreenToWorld(Location.X - Width / 2, Location.Y - Height / 2);
-            PointF tr = ScreenToWorld(Location.X + Width / 2, Location.Y + Height / 2);
-            return new RectangleF(bl.X, bl.Y, tr.X - bl.X, tr.Y - bl.Y);
-        }
-
-        void setViewPort(float x1, float y1, float x2, float y2)
-        {
-            float h = Math.Abs(y1 - y2);
-            float w = Math.Abs(x1 - x2);
-            ovpSettings.cameraPosition = new PointF((x1 + x2) / 2, (y1 + y2) / 2);
-            if ((Height != 0) && (Width != 0))
+            case MouseButtons.Primary:
             {
-                ovpSettings.zoomFactor = Math.Max(h / Height, w / Width);
-            }
-            else
-            {
-                ovpSettings.zoomFactor = 1;
-            }
-        }
-
-        void downHandler(object sender, MouseEventArgs e)
-        {
-            if (e.Buttons == MouseButtons.Primary)
-            {
-                if (!dragging && !ovpSettings.lockedViewport) // might not be needed, but seemed like a safe approach to avoid re-setting these in a drag event.
+                switch (dragging)
                 {
-                    x_orig = e.Location.X;
-                    y_orig = e.Location.Y;
-                    dragging = true;
+                    // might not be needed, but seemed like a safe approach to avoid re-setting these in a drag event.
+                    case false when !ovpSettings.lockedViewport:
+                        x_orig = e.Location.X;
+                        y_orig = e.Location.Y;
+                        dragging = true;
+                        break;
                 }
+
+                break;
             }
-            //e.Handled = true;
+        }
+        //e.Handled = true;
+    }
+
+    public void saveLocation()
+    {
+        savedLocation = new PointF(ovpSettings.cameraPosition.X, ovpSettings.cameraPosition.Y);
+        savedLocation_valid = true;
+    }
+
+    public void zoomExtents()
+    {
+        getExtents();
+
+        if (ovpSettings.polyList.Count == 0 && ovpSettings.bgPolyList.Count == 0 && ovpSettings.lineList.Count == 0 ||
+            ovpSettings.minX == 0 && ovpSettings.maxX == 0 ||
+            ovpSettings.minY == 0 && ovpSettings.maxY == 0)
+        {
+            reset();
+            return;
         }
 
-        public void saveLocation()
+        // Locate camera at center of the polygon field.
+        float dX = ovpSettings.maxX - ovpSettings.minX;
+        float dY = ovpSettings.maxY - ovpSettings.minY;
+        float cX = dX / 2.0f + ovpSettings.minX;
+        float cY = dY / 2.0f + ovpSettings.minY;
+
+        // Now need to get the zoom level organized.
+        float zoomLevel_x = dX / Width;
+        float zoomLevel_y = dY / Height;
+
+        if (zoomLevel_x > zoomLevel_y)
         {
-            savedLocation = new PointF(ovpSettings.cameraPosition.X, ovpSettings.cameraPosition.Y);
-            savedLocation_valid = true;
+            ovpSettings.zoomFactor = zoomLevel_x / ovpSettings.base_zoom;
+        }
+        else
+        {
+            ovpSettings.zoomFactor = zoomLevel_y / ovpSettings.base_zoom;
         }
 
-        public void zoomExtents()
+        goToLocation(cX, cY);
+    }
+
+    public void loadLocation()
+    {
+        switch (savedLocation_valid)
         {
-            getExtents();
-
-            if (((ovpSettings.polyList.Count == 0) && (ovpSettings.bgPolyList.Count == 0 && (ovpSettings.lineList.Count == 0))) ||
-                ((ovpSettings.minX == 0) && (ovpSettings.maxX == 0)) ||
-                ((ovpSettings.minY == 0) && (ovpSettings.maxY == 0)))
-            {
-                reset();
-                return;
-            }
-
-            // Locate camera at center of the polygon field.
-            float dX = ovpSettings.maxX - ovpSettings.minX;
-            float dY = ovpSettings.maxY - ovpSettings.minY;
-            float cX = (dX / 2.0f) + ovpSettings.minX;
-            float cY = (dY / 2.0f) + ovpSettings.minY;
-
-            // Now need to get the zoom level organized.
-            float zoomLevel_x = dX / Width;
-            float zoomLevel_y = dY / Height;
-
-            if (zoomLevel_x > zoomLevel_y)
-            {
-                ovpSettings.zoomFactor = zoomLevel_x / ovpSettings.base_zoom;
-            }
-            else
-            {
-                ovpSettings.zoomFactor = zoomLevel_y / ovpSettings.base_zoom;
-            }
-
-            goToLocation(cX, cY);
-        }
-
-        public void loadLocation()
-        {
-            if (savedLocation_valid)
-            {
+            case true:
                 ovpSettings.cameraPosition = new PointF(savedLocation.X, savedLocation.Y);
                 updateViewport();
-            }
+                break;
         }
+    }
 
-        public void goToLocation(float x, float y)
-        {
-            ovpSettings.cameraPosition = new PointF(x, y);
-            updateViewport();
-        }
+    public void goToLocation(float x, float y)
+    {
+        ovpSettings.cameraPosition = new PointF(x, y);
+        updateViewport();
+    }
 
-        void dragHandler(object sender, MouseEventArgs e)
+    private void dragHandler(object sender, MouseEventArgs e)
+    {
+        switch (ovpSettings.lockedViewport)
         {
-            if (ovpSettings.lockedViewport)
-            {
+            case true:
                 return;
-            }
-            if (e.Buttons == MouseButtons.Primary)
+        }
+        switch (e.Buttons)
+        {
+            case MouseButtons.Primary:
             {
-                object locking = new object();
+                object locking = new();
                 lock (locking)
                 {
                     // Scaling factor is arbitrary - just based on testing to avoid insane panning speeds.
-                    float new_X = ovpSettings.cameraPosition.X - ((e.Location.X - x_orig) * (ovpSettings.base_zoom * ovpSettings.zoomFactor));
-                    float new_Y = ovpSettings.cameraPosition.Y + ((e.Location.Y - y_orig) * (ovpSettings.base_zoom * ovpSettings.zoomFactor));
+                    float new_X = ovpSettings.cameraPosition.X - (e.Location.X - x_orig) * (ovpSettings.base_zoom * ovpSettings.zoomFactor);
+                    float new_Y = ovpSettings.cameraPosition.Y + (e.Location.Y - y_orig) * (ovpSettings.base_zoom * ovpSettings.zoomFactor);
                     ovpSettings.cameraPosition = new PointF(new_X, new_Y);
                     x_orig = e.Location.X;
                     y_orig = e.Location.Y;
                 }
+
+                break;
             }
-            //e.Handled = true;
-            updateViewport();
         }
+        //e.Handled = true;
+        updateViewport();
+    }
 
-        public void freeze_thaw()
-        {
-            ovpSettings.lockedViewport = !ovpSettings.lockedViewport;
-            updateHostFunc?.Invoke();
-        }
+    public void freeze_thaw()
+    {
+        ovpSettings.lockedViewport = !ovpSettings.lockedViewport;
+        updateHostFunc?.Invoke();
+    }
 
-        void upHandler(object sender, MouseEventArgs e)
+    private void upHandler(object sender, MouseEventArgs e)
+    {
+        switch (e.Buttons)
         {
-            if (e.Buttons == MouseButtons.Alternate)
-            {
+            case MouseButtons.Alternate:
                 menu.Show(this);
-            }
-            if (ovpSettings.lockedViewport)
-            {
+                break;
+        }
+        switch (ovpSettings.lockedViewport)
+        {
+            case true:
                 return;
-            }
-            if (e.Buttons == MouseButtons.Primary)
-            {
-                dragging = false;
-            }
-            //e.Handled = true
         }
 
-        public void zoomIn(float delta)
+        dragging = e.Buttons switch
         {
-            if (ovpSettings.lockedViewport)
-            {
+            MouseButtons.Primary => false,
+            _ => dragging
+        };
+        //e.Handled = true
+    }
+
+    public void zoomIn(float delta)
+    {
+        switch (ovpSettings.lockedViewport)
+        {
+            case true:
                 return;
-            }
-            ovpSettings.zoomFactor += (ovpSettings.zoomStep * 0.01f * delta);
+            default:
+                ovpSettings.zoomFactor += ovpSettings.zoomStep * 0.01f * delta;
+                break;
         }
+    }
 
-        public void zoomOut(float delta)
+    public void zoomOut(float delta)
+    {
+        switch (ovpSettings.lockedViewport)
         {
-            if (ovpSettings.lockedViewport)
-            {
+            case true:
                 return;
-            }
-            ovpSettings.zoomFactor -= (ovpSettings.zoomStep * 0.01f * delta);
-            if (ovpSettings.zoomFactor < 0.0001)
-            {
-                ovpSettings.zoomFactor = 0.0001f; // avoid any chance of getting to zero.
-            }
         }
-
-        void panVertical(float delta)
+        ovpSettings.zoomFactor -= ovpSettings.zoomStep * 0.01f * delta;
+        if (ovpSettings.zoomFactor < 0.0001)
         {
-            if (ovpSettings.lockedViewport)
-            {
+            ovpSettings.zoomFactor = 0.0001f; // avoid any chance of getting to zero.
+        }
+    }
+
+    private void panVertical(float delta)
+    {
+        switch (ovpSettings.lockedViewport)
+        {
+            case true:
                 return;
-            }
-            ovpSettings.cameraPosition = new PointF(ovpSettings.cameraPosition.Y, ovpSettings.cameraPosition.Y + delta);// / 10;
+            default:
+                ovpSettings.cameraPosition = new PointF(ovpSettings.cameraPosition.Y, ovpSettings.cameraPosition.Y + delta);// / 10;
+                break;
         }
+    }
 
-        void panHorizontal(float delta)
+    private void panHorizontal(float delta)
+    {
+        switch (ovpSettings.lockedViewport)
         {
-            if (ovpSettings.lockedViewport)
-            {
+            case true:
                 return;
-            }
-            ovpSettings.cameraPosition = new PointF(ovpSettings.cameraPosition.X, ovpSettings.cameraPosition.X + delta);// / 10;
+            default:
+                ovpSettings.cameraPosition = new PointF(ovpSettings.cameraPosition.X, ovpSettings.cameraPosition.X + delta);// / 10;
+                break;
         }
+    }
 
-        void addKeyHandler(object sender, EventArgs e)
-        {
-            KeyDown += keyHandler;
-        }
+    private void addKeyHandler(object sender, EventArgs e)
+    {
+        KeyDown += keyHandler;
+    }
 
-        void removeKeyHandler(object sender, EventArgs e)
-        {
-            KeyDown -= keyHandler;
-        }
+    private void removeKeyHandler(object sender, EventArgs e)
+    {
+        KeyDown -= keyHandler;
+    }
 
-        public void reset()
+    public void reset()
+    {
+        switch (ovpSettings.lockedViewport)
         {
-            if (ovpSettings.lockedViewport)
-            {
+            case true:
                 return;
-            }
-            ovpSettings.cameraPosition = new PointF(ovpSettings.default_cameraPosition.X, ovpSettings.default_cameraPosition.Y);
-            ovpSettings.zoomFactor = 1.0f;
+            default:
+                ovpSettings.cameraPosition = new PointF(ovpSettings.default_cameraPosition.X, ovpSettings.default_cameraPosition.Y);
+                ovpSettings.zoomFactor = 1.0f;
+                break;
         }
+    }
 
-        void keyHandler(object sender, KeyEventArgs e)
+    private void keyHandler(object sender, KeyEventArgs e)
+    {
+        switch (ovpSettings.lockedViewport)
         {
-            if (ovpSettings.lockedViewport)
-            {
-                if (e.Key != Keys.F)
-                {
-                    return;
-                }
+            case true when e.Key != Keys.F:
+                return;
+            case true:
                 ovpSettings.lockedViewport = false;
                 return;
-            }
+        }
 
-            if (e.Key == Keys.F)
-            {
+        switch (e.Key)
+        {
+            case Keys.F:
                 ovpSettings.lockedViewport = true;
                 return;
-            }
-
-            if (e.Key == Keys.R)
-            {
+            case Keys.R:
                 reset();
-            }
+                break;
+        }
 
-            float stepping = 10.0f * (ovpSettings.zoomFactor * ovpSettings.base_zoom);
+        float stepping = 10.0f * (ovpSettings.zoomFactor * ovpSettings.base_zoom);
 
-            bool doUpdate = true;
-            if (e.Key == Keys.A)
-            {
+        bool doUpdate = true;
+        switch (e.Key)
+        {
+            case Keys.A:
                 panHorizontal(-stepping);
-            }
-            if (e.Key == Keys.D)
-            {
+                break;
+            case Keys.D:
                 panHorizontal(stepping);
-            }
-            if (e.Key == Keys.W)
-            {
+                break;
+            case Keys.W:
                 panVertical(stepping);
-            }
-            if (e.Key == Keys.S)
-            {
+                break;
+            case Keys.S:
                 panVertical(-stepping);
-            }
-            if (e.Key == Keys.N)
-            {
+                break;
+            case Keys.N:
                 zoomOut(-1);
-            }
-            if (e.Key == Keys.M)
-            {
+                break;
+            case Keys.M:
                 zoomIn(-1);
-            }
-
-            if (e.Key == Keys.X)
-            {
+                break;
+            case Keys.X:
                 zoomExtents();
                 doUpdate = false; // update performed in extents
-            }
+                break;
+        }
 
-            if (doUpdate)
-            {
+        switch (doUpdate)
+        {
+            case true:
                 updateViewport();
-            }
-            e.Handled = true;
+                break;
         }
+        e.Handled = true;
+    }
 
-        void zoomHandler(object sender, MouseEventArgs e)
+    private void zoomHandler(object sender, MouseEventArgs e)
+    {
+        switch (ovpSettings.lockedViewport)
         {
-            if (ovpSettings.lockedViewport)
-            {
+            case true:
                 return;
-            }
-
-            float wheelZoom = e.Delta.Height; // SystemInformation.MouseWheelScrollLines;
-            if (wheelZoom > 0)
-            {
-                zoomIn(wheelZoom);
-            }
-            if (wheelZoom < 0)
-            {
-                zoomOut(-wheelZoom);
-            }
-            updateViewport();
-            //e.Handled = true;
         }
 
-        public void updateViewport()
+        float wheelZoom = e.Delta.Height; // SystemInformation.MouseWheelScrollLines;
+        switch (wheelZoom)
         {
-            if (immediateMode)
-            {
+            case > 0:
+                zoomIn(wheelZoom);
+                break;
+            case < 0:
+                zoomOut(-wheelZoom);
+                break;
+        }
+
+        updateViewport();
+        //e.Handled = true;
+    }
+
+    public void updateViewport()
+    {
+        switch (immediateMode)
+        {
+            case true:
                 _updateVP_immediate();
-            }
-            else
-            {
+                break;
+            default:
                 try
                 {
                     _updateVP_VBO();
@@ -387,381 +419,432 @@ namespace etoViewport
                     immediateMode = true;
                     _updateVP_immediate();
                 }
-            }
-        }
 
-        void _updateVP_immediate()
+                break;
+        }
+    }
+
+    private void _updateVP_immediate()
+    {
+        MakeCurrent();
+        init();
+        drawGrid_immediate();
+        drawAxes_immediate();
+        drawPolygons_immediate();
+        switch (ovpSettings.showDrawn)
         {
-            MakeCurrent();
-            init();
-            drawGrid_immediate();
-            drawAxes_immediate();
-            drawPolygons_immediate();
-            if (ovpSettings.showDrawn)
-            {
+            case true:
                 drawLines_immediate();
-            }
-            SwapBuffers();
+                break;
         }
+        SwapBuffers();
+    }
 
-        // Need this to handle the OpenTK memory violation if VBO isn't supported. Without this, the exception is managed by the runtime and the tool crashes.
-        // We can, however, handle this gracefully.
-        [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
-        void _updateVP_VBO()
+    // Need this to handle the OpenTK memory violation if VBO isn't supported. Without this, the exception is managed by the runtime and the tool crashes.
+    // We can, however, handle this gracefully.
+    [System.Runtime.ExceptionServices.HandleProcessCorruptedStateExceptions]
+    private void _updateVP_VBO()
+    {
+        switch (IsInitialized)
         {
-            if (!IsInitialized)
+            case false:
                 return;
-            try
-            {
-                init();
+            default:
                 try
                 {
-                    drawGrid_VBO();
-                    drawAxes_VBO();
-                    drawPolygons_VBO();
-                    if (ovpSettings.showDrawn)
+                    init();
+                    try
                     {
-                        drawLines_VBO();
-                    }
-                    else
-                    {
-                        lineArray = null;
-                        lineColorArray = null;
-                    }
-                }
-                catch (Exception)
-                {
-                    throw new Exception("VBO had an issue. Aborting.");
-                }
-
-                // Fix in case of nulls
-                if (polyArray == null)
-                {
-                    polyArray = new Vector3[2];
-                    polyColorArray = new Vector4[polyArray.Length];
-                    for (int i = 0; i < polyArray.Length; i++)
-                    {
-                        polyArray[i] = new Vector3(0.0f);
-                        polyColorArray[i] = new Vector4(1.0f);
-                    }
-                }
-                if (tessPolyArray == null)
-                {
-                    tessPolyArray = new Vector3[2];
-                    tessPolyColorArray = new Vector4[tessPolyArray.Length];
-                    for (int i = 0; i < tessPolyArray.Length; i++)
-                    {
-                        tessPolyArray[i] = new Vector3(0.0f);
-                        tessPolyColorArray[i] = new Vector4(1.0f);
-                    }
-                }
-                if (lineArray == null)
-                {
-                    lineArray = new Vector3[2];
-                    lineColorArray = new Vector4[lineArray.Length];
-                    for (int i = 0; i < lineArray.Length; i++)
-                    {
-                        lineArray[i] = new Vector3(0.0f);
-                        lineColorArray[i] = new Vector4(1.0f);
-                    }
-                }
-
-
-                // Now we wrangle our VBOs
-                grid_vbo_size = gridArray.Length; // Necessary for rendering later on
-                axes_vbo_size = axesArray.Length; // Necessary for rendering later on
-                poly_vbo_size = polyArray.Length; // Necessary for rendering later on
-                tessPoly_vbo_size = tessPolyArray.Length;
-                line_vbo_size = lineArray.Length;
-
-                int numBuffers = 5;
-                int[] vbo_id = new int[numBuffers];
-                GL.GenBuffers(numBuffers, vbo_id);
-
-                int[] col_id = new int[numBuffers];
-                GL.GenBuffers(numBuffers, col_id);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[0]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(gridArray.Length * BlittableValueType.StrideOf(gridArray)),
-                          gridArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[0]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(gridColorArray.Length * BlittableValueType.StrideOf(gridColorArray)),
-                          gridColorArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[1]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(axesArray.Length * BlittableValueType.StrideOf(axesArray)),
-                          axesArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[1]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(axesColorArray.Length * BlittableValueType.StrideOf(axesColorArray)),
-                          axesColorArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[2]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(polyArray.Length * BlittableValueType.StrideOf(polyArray)),
-                          polyArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[2]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(polyColorArray.Length * BlittableValueType.StrideOf(polyColorArray)),
-                          polyColorArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[3]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(lineArray.Length * BlittableValueType.StrideOf(lineArray)),
-                          lineArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[3]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(lineColorArray.Length * BlittableValueType.StrideOf(lineColorArray)),
-                          lineColorArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[4]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(tessPolyArray.Length * BlittableValueType.StrideOf(tessPolyArray)),
-                          tessPolyArray, BufferUsageHint.StaticDraw);
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[4]);
-                GL.BufferData(BufferTarget.ArrayBuffer,
-                          new IntPtr(tessPolyColorArray.Length * BlittableValueType.StrideOf(tessPolyColorArray)),
-                          tessPolyColorArray, BufferUsageHint.StaticDraw);
-
-                // To draw a VBO:
-                // 1) Ensure that the VertexArray client state is enabled.
-                // 2) Bind the vertex and element buffer handles.
-                // 3) Set up the data pointers(vertex, normal, color) according to your vertex format.
-
-
-                try
-                {
-                    if (ovpSettings.antiAlias)
-                    {
-                        GL.Enable(EnableCap.Multisample);
-                        if (ovpSettings.drawPoints)
+                        drawGrid_VBO();
+                        drawAxes_VBO();
+                        drawPolygons_VBO();
+                        switch (ovpSettings.showDrawn)
                         {
-                            GL.Enable(EnableCap.PointSmooth); // should result in circles rather than squares. We shall see.
+                            case true:
+                                drawLines_VBO();
+                                break;
+                            default:
+                                lineArray = null;
+                                lineColorArray = null;
+                                break;
                         }
-                        //GL.Enable(EnableCap.LineSmooth);
-                        //GL.Enable(EnableCap.PolygonSmooth);
+                    }
+                    catch (Exception)
+                    {
+                        throw new Exception("VBO had an issue. Aborting.");
                     }
 
-                    GL.EnableClientState(ArrayCap.VertexArray);
-                    GL.EnableClientState(ArrayCap.ColorArray);
+                    switch (polyArray)
+                    {
+                        // Fix in case of nulls
+                        case null:
+                        {
+                            polyArray = new Vector3[2];
+                            polyColorArray = new Vector4[polyArray.Length];
+                            for (int i = 0; i < polyArray.Length; i++)
+                            {
+                                polyArray[i] = new Vector3(0.0f);
+                                polyColorArray[i] = new Vector4(1.0f);
+                            }
+
+                            break;
+                        }
+                    }
+                    switch (tessPolyArray)
+                    {
+                        case null:
+                        {
+                            tessPolyArray = new Vector3[2];
+                            tessPolyColorArray = new Vector4[tessPolyArray.Length];
+                            for (int i = 0; i < tessPolyArray.Length; i++)
+                            {
+                                tessPolyArray[i] = new Vector3(0.0f);
+                                tessPolyColorArray[i] = new Vector4(1.0f);
+                            }
+
+                            break;
+                        }
+                    }
+                    switch (lineArray)
+                    {
+                        case null:
+                        {
+                            lineArray = new Vector3[2];
+                            lineColorArray = new Vector4[lineArray.Length];
+                            for (int i = 0; i < lineArray.Length; i++)
+                            {
+                                lineArray[i] = new Vector3(0.0f);
+                                lineColorArray[i] = new Vector4(1.0f);
+                            }
+
+                            break;
+                        }
+                    }
+
+
+                    // Now we wrangle our VBOs
+                    grid_vbo_size = gridArray.Length; // Necessary for rendering later on
+                    axes_vbo_size = axesArray.Length; // Necessary for rendering later on
+                    poly_vbo_size = polyArray.Length; // Necessary for rendering later on
+                    tessPoly_vbo_size = tessPolyArray.Length;
+                    line_vbo_size = lineArray.Length;
+
+                    int numBuffers = 5;
+                    int[] vbo_id = new int[numBuffers];
+                    GL.GenBuffers(numBuffers, vbo_id);
+
+                    int[] col_id = new int[numBuffers];
+                    GL.GenBuffers(numBuffers, col_id);
+
                     GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[0]);
-                    GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(gridArray.Length * BlittableValueType.StrideOf(gridArray)),
+                        gridArray, BufferUsageHint.StaticDraw);
+
                     GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[0]);
-                    GL.ColorPointer(3, ColorPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
-                    GL.DrawArrays(PrimitiveType.Lines, 0, grid_vbo_size);
-                    GL.DisableClientState(ArrayCap.VertexArray);
-                    GL.DisableClientState(ArrayCap.ColorArray);
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(gridColorArray.Length * BlittableValueType.StrideOf(gridColorArray)),
+                        gridColorArray, BufferUsageHint.StaticDraw);
 
-                    GL.EnableClientState(ArrayCap.VertexArray);
-                    GL.EnableClientState(ArrayCap.ColorArray);
                     GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[1]);
-                    GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(axesArray.Length * BlittableValueType.StrideOf(axesArray)),
+                        axesArray, BufferUsageHint.StaticDraw);
+
                     GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[1]);
-                    GL.ColorPointer(3, ColorPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
-                    GL.DrawArrays(PrimitiveType.Lines, 0, axes_vbo_size);
-                    GL.DisableClientState(ArrayCap.VertexArray);
-                    GL.DisableClientState(ArrayCap.ColorArray);
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(axesColorArray.Length * BlittableValueType.StrideOf(axesColorArray)),
+                        axesColorArray, BufferUsageHint.StaticDraw);
 
-                    GL.EnableClientState(ArrayCap.VertexArray);
-                    GL.EnableClientState(ArrayCap.ColorArray);
-
-                    if (ovpSettings.drawPoints)
-                    {
-                        GL.PointSize(2.0f);
-                    }
-
-                    // Allow alpha blending
-                    GL.Enable(EnableCap.Blend);
-                    GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-
-                    // Poly data
                     GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[2]);
-                    GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(polyArray.Length * BlittableValueType.StrideOf(polyArray)),
+                        polyArray, BufferUsageHint.StaticDraw);
+
                     GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[2]);
-                    GL.ColorPointer(4, ColorPointerType.Float, Vector4.SizeInBytes, new IntPtr(0));
-                    // Draw the border.
-                    GL.DrawArrays(PrimitiveType.Lines, 0, poly_vbo_size);
-                    if (ovpSettings.drawPoints)
-                    {
-                        GL.DrawArrays(PrimitiveType.Points, 0, poly_vbo_size);
-                    }
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(polyColorArray.Length * BlittableValueType.StrideOf(polyColorArray)),
+                        polyColorArray, BufferUsageHint.StaticDraw);
 
-                    GL.DisableClientState(ArrayCap.VertexArray);
-                    GL.DisableClientState(ArrayCap.ColorArray);
-
-                    GL.EnableClientState(ArrayCap.VertexArray);
-                    GL.EnableClientState(ArrayCap.ColorArray);
-                    // Line data
                     GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[3]);
-                    GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(lineArray.Length * BlittableValueType.StrideOf(lineArray)),
+                        lineArray, BufferUsageHint.StaticDraw);
+
                     GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[3]);
-                    GL.ColorPointer(4, ColorPointerType.Float, Vector4.SizeInBytes, new IntPtr(0));
-                    GL.DrawArrays(PrimitiveType.Lines, 0, line_vbo_size);
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(lineColorArray.Length * BlittableValueType.StrideOf(lineColorArray)),
+                        lineColorArray, BufferUsageHint.StaticDraw);
 
-                    GL.Disable(EnableCap.Blend);
-                    if (ovpSettings.antiAlias)
-                    {
-                        GL.Disable(EnableCap.Multisample);
-                        //GL.Disable(EnableCap.LineSmooth);
-                        //GL.Disable(EnableCap.PolygonSmooth);
-                    }
-                    GL.DisableClientState(ArrayCap.VertexArray);
-                    GL.DisableClientState(ArrayCap.ColorArray);
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[4]);
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(tessPolyArray.Length * BlittableValueType.StrideOf(tessPolyArray)),
+                        tessPolyArray, BufferUsageHint.StaticDraw);
 
-                    if (tessCount.Length > 0)
+                    GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[4]);
+                    GL.BufferData(BufferTarget.ArrayBuffer,
+                        new IntPtr(tessPolyColorArray.Length * BlittableValueType.StrideOf(tessPolyColorArray)),
+                        tessPolyColorArray, BufferUsageHint.StaticDraw);
+
+                    // To draw a VBO:
+                    // 1) Ensure that the VertexArray client state is enabled.
+                    // 2) Bind the vertex and element buffer handles.
+                    // 3) Set up the data pointers(vertex, normal, color) according to your vertex format.
+
+
+                    try
                     {
+                        switch (ovpSettings.antiAlias)
+                        {
+                            case true:
+                            {
+                                GL.Enable(EnableCap.Multisample);
+                                switch (ovpSettings.drawPoints)
+                                {
+                                    case true:
+                                        GL.Enable(EnableCap.PointSmooth); // should result in circles rather than squares. We shall see.
+                                        break;
+                                }
+                                //GL.Enable(EnableCap.LineSmooth);
+                                //GL.Enable(EnableCap.PolygonSmooth);
+                                break;
+                            }
+                        }
+
                         GL.EnableClientState(ArrayCap.VertexArray);
                         GL.EnableClientState(ArrayCap.ColorArray);
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[0]);
+                        GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[0]);
+                        GL.ColorPointer(3, ColorPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                        GL.DrawArrays(PrimitiveType.Lines, 0, grid_vbo_size);
+                        GL.DisableClientState(ArrayCap.VertexArray);
+                        GL.DisableClientState(ArrayCap.ColorArray);
+
+                        GL.EnableClientState(ArrayCap.VertexArray);
+                        GL.EnableClientState(ArrayCap.ColorArray);
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[1]);
+                        GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[1]);
+                        GL.ColorPointer(3, ColorPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                        GL.DrawArrays(PrimitiveType.Lines, 0, axes_vbo_size);
+                        GL.DisableClientState(ArrayCap.VertexArray);
+                        GL.DisableClientState(ArrayCap.ColorArray);
+
+                        GL.EnableClientState(ArrayCap.VertexArray);
+                        GL.EnableClientState(ArrayCap.ColorArray);
+
+                        switch (ovpSettings.drawPoints)
+                        {
+                            case true:
+                                GL.PointSize(2.0f);
+                                break;
+                        }
 
                         // Allow alpha blending
                         GL.Enable(EnableCap.Blend);
                         GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-                        // Tessellation Poly data
-                        GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[4]);
+                        // Poly data
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[2]);
                         GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
-                        GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[4]);
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[2]);
                         GL.ColorPointer(4, ColorPointerType.Float, Vector4.SizeInBytes, new IntPtr(0));
-                        // GL.MultiDrawArrays(PrimitiveType.Triangles, tessFirst, tessCount, tessCount.Length);
-                        GL.DrawArrays(PrimitiveType.Triangles, 0, tessPoly_vbo_size);
-
-                        GL.Disable(EnableCap.Blend);
-                        if (ovpSettings.antiAlias)
+                        // Draw the border.
+                        GL.DrawArrays(PrimitiveType.Lines, 0, poly_vbo_size);
+                        switch (ovpSettings.drawPoints)
                         {
-                            GL.Disable(EnableCap.Multisample);
-                            //GL.Disable(EnableCap.LineSmooth);
-                            //GL.Disable(EnableCap.PolygonSmooth);
+                            case true:
+                                GL.DrawArrays(PrimitiveType.Points, 0, poly_vbo_size);
+                                break;
                         }
 
                         GL.DisableClientState(ArrayCap.VertexArray);
                         GL.DisableClientState(ArrayCap.ColorArray);
+
+                        GL.EnableClientState(ArrayCap.VertexArray);
+                        GL.EnableClientState(ArrayCap.ColorArray);
+                        // Line data
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[3]);
+                        GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                        GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[3]);
+                        GL.ColorPointer(4, ColorPointerType.Float, Vector4.SizeInBytes, new IntPtr(0));
+                        GL.DrawArrays(PrimitiveType.Lines, 0, line_vbo_size);
+
+                        GL.Disable(EnableCap.Blend);
+                        switch (ovpSettings.antiAlias)
+                        {
+                            case true:
+                                GL.Disable(EnableCap.Multisample);
+                                //GL.Disable(EnableCap.LineSmooth);
+                                //GL.Disable(EnableCap.PolygonSmooth);
+                                break;
+                        }
+                        GL.DisableClientState(ArrayCap.VertexArray);
+                        GL.DisableClientState(ArrayCap.ColorArray);
+
+                        switch (tessCount.Length)
+                        {
+                            case > 0:
+                            {
+                                GL.EnableClientState(ArrayCap.VertexArray);
+                                GL.EnableClientState(ArrayCap.ColorArray);
+
+                                // Allow alpha blending
+                                GL.Enable(EnableCap.Blend);
+                                GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+
+                                // Tessellation Poly data
+                                GL.BindBuffer(BufferTarget.ArrayBuffer, vbo_id[4]);
+                                GL.VertexPointer(3, VertexPointerType.Float, Vector3.SizeInBytes, new IntPtr(0));
+                                GL.BindBuffer(BufferTarget.ArrayBuffer, col_id[4]);
+                                GL.ColorPointer(4, ColorPointerType.Float, Vector4.SizeInBytes, new IntPtr(0));
+                                // GL.MultiDrawArrays(PrimitiveType.Triangles, tessFirst, tessCount, tessCount.Length);
+                                GL.DrawArrays(PrimitiveType.Triangles, 0, tessPoly_vbo_size);
+
+                                GL.Disable(EnableCap.Blend);
+                                switch (ovpSettings.antiAlias)
+                                {
+                                    case true:
+                                        GL.Disable(EnableCap.Multisample);
+                                        //GL.Disable(EnableCap.LineSmooth);
+                                        //GL.Disable(EnableCap.PolygonSmooth);
+                                        break;
+                                }
+
+                                GL.DisableClientState(ArrayCap.VertexArray);
+                                GL.DisableClientState(ArrayCap.ColorArray);
+                                break;
+                            }
+                        }
                     }
+                    catch (Exception)
+                    {
+                        throw new Exception("VBO had an issue. Aborting.");
+                    }
+
+                    SwapBuffers();
+                    GL.Flush();
+                    GL.DeleteBuffers(numBuffers, vbo_id);
+                    GL.DeleteBuffers(numBuffers, col_id);
                 }
                 catch (Exception)
                 {
+                    ok = false;
                     throw new Exception("VBO had an issue. Aborting.");
                 }
-
-                SwapBuffers();
-                GL.Flush();
-                GL.DeleteBuffers(numBuffers, vbo_id);
-                GL.DeleteBuffers(numBuffers, col_id);
-            }
-            catch (Exception)
-            {
-                ok = false;
-                throw new Exception("VBO had an issue. Aborting.");
-            }
-            updateHostFunc?.Invoke();
+                updateHostFunc?.Invoke();
+                break;
         }
+    }
 
-        void getExtents()
+    private void getExtents()
+    {
+        float minX = 0;
+        float maxX = 0;
+        float minY = 0, maxY = 0;
+
+        int polyListCount = ovpSettings.polyList.Count;
+        int bgPolyListCount = ovpSettings.bgPolyList.Count;
+        int lineListCount = ovpSettings.lineList.Count;
+
+        switch (polyListCount)
         {
-            float minX = 0;
-            float maxX = 0;
-            float minY = 0, maxY = 0;
-
-            int polyListCount = ovpSettings.polyList.Count;
-            int bgPolyListCount = ovpSettings.bgPolyList.Count;
-            int lineListCount = ovpSettings.lineList.Count;
-
-            if ((polyListCount == 0) && (bgPolyListCount == 0) && (lineListCount == 0))
-            {
+            case 0 when bgPolyListCount == 0 && lineListCount == 0:
                 ovpSettings.minX = 0;
                 ovpSettings.maxX = 0;
                 ovpSettings.minY = 0;
                 ovpSettings.maxY = 0;
                 return;
-            }
+        }
 
-            if (polyListCount != 0)
+        if (polyListCount != 0)
+        {
+            minX = ovpSettings.polyList[0].poly[0].X;
+            maxX = ovpSettings.polyList[0].poly[0].X;
+            minY = ovpSettings.polyList[0].poly[0].Y;
+            maxY = ovpSettings.polyList[0].poly[0].Y;
+            for (int poly = 0; poly < polyListCount; poly++)
             {
-                minX = ovpSettings.polyList[0].poly[0].X;
-                maxX = ovpSettings.polyList[0].poly[0].X;
-                minY = ovpSettings.polyList[0].poly[0].Y;
-                maxY = ovpSettings.polyList[0].poly[0].Y;
-                for (int poly = 0; poly < polyListCount; poly++)
+                switch (ovpSettings.drawnPoly[poly])
                 {
-                    if (ovpSettings.drawnPoly[poly] && !ovpSettings.showDrawn)
-                    {
+                    case true when !ovpSettings.showDrawn:
                         continue;
-                    }
-                    float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
-                    if (tMinX < minX)
-                    {
-                        minX = tMinX;
-                    }
-                    float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
-                    if (tMaxX > maxX)
-                    {
-                        maxX = tMaxX;
-                    }
-                    float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
-                    if (tMinY < minY)
-                    {
-                        minY = tMinY;
-                    }
-                    float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
-                    if (tMaxY > maxY)
-                    {
-                        maxY = tMaxY;
-                    }
+                }
+                float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
+                if (tMinX < minX)
+                {
+                    minX = tMinX;
+                }
+                float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
+                if (tMaxX > maxX)
+                {
+                    maxX = tMaxX;
+                }
+                float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
+                if (tMinY < minY)
+                {
+                    minY = tMinY;
+                }
+                float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
+                if (tMaxY > maxY)
+                {
+                    maxY = tMaxY;
                 }
             }
+        }
 
-            if (bgPolyListCount != 0)
+        if (bgPolyListCount != 0)
+        {
+            switch (polyListCount)
             {
-                if (polyListCount == 0)
-                {
+                case 0:
                     minX = ovpSettings.bgPolyList[0].poly[0].X;
                     maxX = ovpSettings.bgPolyList[0].poly[0].X;
                     minY = ovpSettings.bgPolyList[0].poly[0].Y;
                     maxY = ovpSettings.bgPolyList[0].poly[0].Y;
-                }
-
-                for (int line = 0; line < bgPolyListCount; line++)
-                {
-                    float tMinX = ovpSettings.bgPolyList[line].poly.Min(p => p.X);
-                    if (tMinX < minX)
-                    {
-                        minX = tMinX;
-                    }
-                    float tMaxX = ovpSettings.bgPolyList[line].poly.Max(p => p.X);
-                    if (tMaxX > maxX)
-                    {
-                        maxX = tMaxX;
-                    }
-                    float tMinY = ovpSettings.bgPolyList[line].poly.Min(p => p.Y);
-                    if (tMinY < minY)
-                    {
-                        minY = tMinY;
-                    }
-                    float tMaxY = ovpSettings.bgPolyList[line].poly.Max(p => p.Y);
-                    if (tMaxY > maxY)
-                    {
-                        maxY = tMaxY;
-                    }
-                }
+                    break;
             }
 
-            if (ovpSettings.showDrawn)
+            for (int line = 0; line < bgPolyListCount; line++)
+            {
+                float tMinX = ovpSettings.bgPolyList[line].poly.Min(p => p.X);
+                if (tMinX < minX)
+                {
+                    minX = tMinX;
+                }
+                float tMaxX = ovpSettings.bgPolyList[line].poly.Max(p => p.X);
+                if (tMaxX > maxX)
+                {
+                    maxX = tMaxX;
+                }
+                float tMinY = ovpSettings.bgPolyList[line].poly.Min(p => p.Y);
+                if (tMinY < minY)
+                {
+                    minY = tMinY;
+                }
+                float tMaxY = ovpSettings.bgPolyList[line].poly.Max(p => p.Y);
+                if (tMaxY > maxY)
+                {
+                    maxY = tMaxY;
+                }
+            }
+        }
+
+        switch (ovpSettings.showDrawn)
+        {
+            case true:
             {
                 if (lineListCount != 0)
                 {
-                    if ((polyListCount == 0) && (bgPolyListCount == 0))
+                    switch (polyListCount)
                     {
-                        minX = ovpSettings.lineList[0].poly[0].X;
-                        maxX = ovpSettings.lineList[0].poly[0].X;
-                        minY = ovpSettings.lineList[0].poly[0].Y;
-                        maxY = ovpSettings.lineList[0].poly[0].Y;
+                        case 0 when bgPolyListCount == 0:
+                            minX = ovpSettings.lineList[0].poly[0].X;
+                            maxX = ovpSettings.lineList[0].poly[0].X;
+                            minY = ovpSettings.lineList[0].poly[0].Y;
+                            maxY = ovpSettings.lineList[0].poly[0].Y;
+                            break;
                     }
 
                     for (int line = 0; line < lineListCount; line++)
@@ -788,51 +871,58 @@ namespace etoViewport
                         }
                     }
                 }
+
+                break;
             }
-            ovpSettings.minX = minX;
-            ovpSettings.maxX = maxX;
-            ovpSettings.minY = minY;
-            ovpSettings.maxY = maxY;
         }
+        ovpSettings.minX = minX;
+        ovpSettings.maxX = maxX;
+        ovpSettings.minY = minY;
+        ovpSettings.maxY = maxY;
+    }
 
-        void drawPolygons_VBO()
+    private void drawPolygons_VBO()
+    {
+        try
         {
-            try
+            List<Vector3> polyList = new();
+            List<Vector4> polyColorList = new();
+
+            List<Vector3> tessPolyList = new();
+            List<Vector4> tessPolyColorList = new();
+
+            int polyListCount = ovpSettings.polyList.Count();
+            int bgPolyListCount = ovpSettings.bgPolyList.Count();
+            int tessPolyListCount = ovpSettings.tessPolyList.Count();
+
+            // Carve our Z-space up to stack polygons
+            int numPolys = 1;
+
+            numPolys = polyListCount + bgPolyListCount;
+            switch (ovpSettings.enableFilledPolys)
             {
-                List<Vector3> polyList = new List<Vector3>();
-                List<Vector4> polyColorList = new List<Vector4>();
-
-                List<Vector3> tessPolyList = new List<Vector3>();
-                List<Vector4> tessPolyColorList = new List<Vector4>();
-
-                int polyListCount = ovpSettings.polyList.Count();
-                int bgPolyListCount = ovpSettings.bgPolyList.Count();
-                int tessPolyListCount = ovpSettings.tessPolyList.Count();
-
-                // Carve our Z-space up to stack polygons
-                int numPolys = 1;
-
-                numPolys = polyListCount + bgPolyListCount;
-                if (ovpSettings.enableFilledPolys)
-                {
+                case true:
                     numPolys += tessPolyListCount;
-                }
+                    break;
+            }
 
-                float polyZStep = 1.0f / Math.Max(1, numPolys + 1); // avoid a div by zero risk; pad the poly number also to reduce risk of adding a poly beyond the clipping range
+            float polyZStep = 1.0f / Math.Max(1, numPolys + 1); // avoid a div by zero risk; pad the poly number also to reduce risk of adding a poly beyond the clipping range
 
-                // Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-                first = new int[numPolys];
-                count = new int[numPolys];
+            // Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
+            first = new int[numPolys];
+            count = new int[numPolys];
 
-                tessFirst = new int[tessPolyListCount];
-                tessCount = new int[tessPolyListCount];
+            tessFirst = new int[tessPolyListCount];
+            tessCount = new int[tessPolyListCount];
 
-                int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
-                int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
+            int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
+            int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
 
-                float polyZ = 0;
+            float polyZ = 0;
 
-                if (ovpSettings.enableFilledPolys)
+            switch (ovpSettings.enableFilledPolys)
+            {
+                case true:
                 {
                     for (int i = 0; i < tessPolyListCount; i++)
                     {
@@ -846,77 +936,82 @@ namespace etoViewport
                         }
                         tessCount[i] = 3;
                     }
+
+                    break;
                 }
-
-                // Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-                for (int poly = 0; poly < polyListCount; poly++)
-                {
-                    float alpha = ovpSettings.polyList[poly].alpha;
-                    if (ovpSettings.enableFilledPolys)
-                    {
-                        alpha = 1.0f;
-                    }
-                    polyZ += polyZStep;
-                    first[poly] = counter;
-                    previouscounter = counter;
-                    int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
-                    for (int pt = 0; pt < polyLength; pt++)
-                    {
-                        polyList.Add(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ));
-                        counter++;
-                        polyColorList.Add(new Vector4(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha));
-                        polyList.Add(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ));
-                        counter++;
-                        polyColorList.Add(new Vector4(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha));
-                    }
-                    count[poly] = counter - previouscounter; // set our vertex count for the polygon.
-                }
-
-                polyZ = 0;
-                for (int poly = 0; poly < bgPolyListCount; poly++)
-                {
-                    float alpha = ovpSettings.bgPolyList[poly].alpha;
-                    polyZ += polyZStep;
-                    first[poly] = counter;
-                    previouscounter = counter;
-
-                    int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
-                    for (int pt = 0; pt < bgPolyLength; pt++)
-                    {
-                        polyList.Add(new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X, ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ));
-                        counter++;
-                        polyColorList.Add(new Vector4(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G, ovpSettings.bgPolyList[poly].color.B, alpha));
-                        polyList.Add(new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X, ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ));
-                        counter++;
-                        polyColorList.Add(new Vector4(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G, ovpSettings.bgPolyList[poly].color.B, alpha));
-                    }
-                    count[poly + polyListCount] = counter - previouscounter; // set our vertex count for the polygon.
-                }
-
-                polyArray = polyList.ToArray();
-                polyColorArray = polyColorList.ToArray();
-
-                tessPolyArray = tessPolyList.ToArray();
-                tessPolyColorArray = tessPolyColorList.ToArray();
             }
-            catch (Exception)
+
+            // Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
+            for (int poly = 0; poly < polyListCount; poly++)
             {
-                // Can ignore - not critical.
+                float alpha = ovpSettings.enableFilledPolys switch
+                {
+                    true => 1.0f,
+                    _ => ovpSettings.polyList[poly].alpha
+                };
+                polyZ += polyZStep;
+                first[poly] = counter;
+                previouscounter = counter;
+                int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
+                for (int pt = 0; pt < polyLength; pt++)
+                {
+                    polyList.Add(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ));
+                    counter++;
+                    polyColorList.Add(new Vector4(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha));
+                    polyList.Add(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ));
+                    counter++;
+                    polyColorList.Add(new Vector4(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha));
+                }
+                count[poly] = counter - previouscounter; // set our vertex count for the polygon.
             }
+
+            polyZ = 0;
+            for (int poly = 0; poly < bgPolyListCount; poly++)
+            {
+                float alpha = ovpSettings.bgPolyList[poly].alpha;
+                polyZ += polyZStep;
+                first[poly] = counter;
+                previouscounter = counter;
+
+                int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
+                for (int pt = 0; pt < bgPolyLength; pt++)
+                {
+                    polyList.Add(new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X, ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ));
+                    counter++;
+                    polyColorList.Add(new Vector4(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G, ovpSettings.bgPolyList[poly].color.B, alpha));
+                    polyList.Add(new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X, ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ));
+                    counter++;
+                    polyColorList.Add(new Vector4(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G, ovpSettings.bgPolyList[poly].color.B, alpha));
+                }
+                count[poly + polyListCount] = counter - previouscounter; // set our vertex count for the polygon.
+            }
+
+            polyArray = polyList.ToArray();
+            polyColorArray = polyColorList.ToArray();
+
+            tessPolyArray = tessPolyList.ToArray();
+            tessPolyColorArray = tessPolyColorList.ToArray();
         }
-
-        void drawPolygons_immediate()
+        catch (Exception)
         {
-            MakeCurrent();
-            try
+            // Can ignore - not critical.
+        }
+    }
+
+    private void drawPolygons_immediate()
+    {
+        MakeCurrent();
+        try
+        {
+            GL.LoadIdentity();
+
+            int polyListCount = ovpSettings.polyList.Count;
+            int tessPolyListCount = ovpSettings.tessPolyList.Count;
+            int bgPolyListCount = ovpSettings.bgPolyList.Count;
+
+            switch (ovpSettings.enableFilledPolys)
             {
-                GL.LoadIdentity();
-
-                int polyListCount = ovpSettings.polyList.Count;
-                int tessPolyListCount = ovpSettings.tessPolyList.Count;
-                int bgPolyListCount = ovpSettings.bgPolyList.Count;
-
-                if (ovpSettings.enableFilledPolys)
+                case true:
                 {
                     int numPolys = tessPolyListCount + bgPolyListCount;
                     float polyZ = 1.0f / (numPolys + 1); // push our filled polygons behind the boundary
@@ -942,8 +1037,10 @@ namespace etoViewport
                         GL.Vertex3(new Vector3(ovpSettings.bgPolyList[poly].poly[2].X, ovpSettings.bgPolyList[poly].poly[2].Y, polyZ));
                         GL.End();
                     }
+
+                    break;
                 }
-                else
+                default:
                 {
                     int numPolys = polyListCount + bgPolyListCount;
                     // Carve our Z-space up to stack polygons
@@ -975,219 +1072,229 @@ namespace etoViewport
                         GL.End();
                         polyZ += polyZStep;
                     }
+
+                    break;
                 }
             }
-            catch (Exception)
-            {
-                // Can ignore - not critical.
-            }
         }
-
-        void drawLines_VBO()
+        catch (Exception)
         {
-            try
+            // Can ignore - not critical.
+        }
+    }
+
+    private void drawLines_VBO()
+    {
+        try
+        {
+            List<Vector3> polyList = new();
+            List<Vector4> polyColorList = new();
+
+            int lineListCount = ovpSettings.lineList.Count;
+
+            // Carve our Z-space up to stack polygons
+            float polyZStep = 1.0f / lineListCount;
+
+            // Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
+            lineFirst = new int[lineListCount];
+            lineCount = new int[lineListCount];
+            int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
+            int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
+
+            for (int poly = 0; poly < lineListCount; poly++)
             {
-                List<Vector3> polyList = new List<Vector3>();
-                List<Vector4> polyColorList = new List<Vector4>();
-
-                int lineListCount = ovpSettings.lineList.Count;
-
-                // Carve our Z-space up to stack polygons
-                float polyZStep = 1.0f / lineListCount;
-
-                // Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-                lineFirst = new int[lineListCount];
-                lineCount = new int[lineListCount];
-                int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
-                int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
-
-                for (int poly = 0; poly < lineListCount; poly++)
+                int lineListPolyLength = ovpSettings.lineList[poly].poly.Length - 1;
+                float alpha = ovpSettings.lineList[poly].alpha;
+                float polyZ = poly * polyZStep;
+                lineFirst[poly] = counter;
+                previouscounter = counter;
+                for (int pt = 0; pt < lineListPolyLength; pt++)
                 {
-                    int lineListPolyLength = ovpSettings.lineList[poly].poly.Length - 1;
-                    float alpha = ovpSettings.lineList[poly].alpha;
-                    float polyZ = poly * polyZStep;
-                    lineFirst[poly] = counter;
-                    previouscounter = counter;
-                    for (int pt = 0; pt < lineListPolyLength; pt++)
-                    {
-                        polyList.Add(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ));
-                        counter++;
-                        polyColorList.Add(new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha));
-                        polyList.Add(new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X, ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ));
-                        counter++;
-                        polyColorList.Add(new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha));
-                    }
-                    lineCount[poly] = counter - previouscounter; // set our vertex count for the polygon.
+                    polyList.Add(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ));
+                    counter++;
+                    polyColorList.Add(new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha));
+                    polyList.Add(new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X, ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ));
+                    counter++;
+                    polyColorList.Add(new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha));
                 }
+                lineCount[poly] = counter - previouscounter; // set our vertex count for the polygon.
+            }
 
-                lineArray = polyList.ToArray();
-                lineColorArray = polyColorList.ToArray();
-            }
-            catch (Exception)
-            {
-                // Can ignore - not critical.
-            }
+            lineArray = polyList.ToArray();
+            lineColorArray = polyColorList.ToArray();
         }
-
-        void drawLines_VBO_()
+        catch (Exception)
         {
-            try
+            // Can ignore - not critical.
+        }
+    }
+
+    private void drawLines_VBO_()
+    {
+        try
+        {
+            int lineListCount = ovpSettings.lineList.Count;
+            int lineListPtCount = ovpSettings.lineListPtCount.Sum();
+
+            lineArray = new Vector3[lineListPtCount * 2];
+            lineColorArray = new Vector4[lineListPtCount * 2];
+
+            // Carve our Z-space up to stack polygons
+            float polyZStep = 1.0f / lineListCount;
+
+            // Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
+            lineFirst = new int[lineListCount];
+            lineCount = new int[lineListCount];
+
+            for (int poly = 0; poly < lineListCount; poly++)
             {
-                int lineListCount = ovpSettings.lineList.Count;
-                int lineListPtCount = ovpSettings.lineListPtCount.Sum();
-
-                lineArray = new Vector3[lineListPtCount * 2];
-                lineColorArray = new Vector4[lineListPtCount * 2];
-
-                // Carve our Z-space up to stack polygons
-                float polyZStep = 1.0f / lineListCount;
-
-                // Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-                lineFirst = new int[lineListCount];
-                lineCount = new int[lineListCount];
-
-                for (int poly = 0; poly < lineListCount; poly++)
+                int lineListPolyLength = ovpSettings.lineListPtCount[poly];
+                float alpha = ovpSettings.lineList[poly].alpha;
+                float polyZ = poly * polyZStep;
+                lineFirst[poly] = ovpSettings.lineListPtCount.Take(poly).Sum() * 2;
+                for (int pt = 0; pt < lineListPolyLength / 2; pt++)
                 {
-                    int lineListPolyLength = (ovpSettings.lineListPtCount[poly]);
-                    float alpha = ovpSettings.lineList[poly].alpha;
-                    float polyZ = poly * polyZStep;
-                    lineFirst[poly] = ovpSettings.lineListPtCount.Take(poly).Sum() * 2;
-                    for (int pt = 0; pt < (lineListPolyLength) / 2; pt++)
-                    {
-                        lineArray[lineFirst[poly] + (pt * 2)] = new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ);
-                        lineColorArray[lineFirst[poly] + (pt * 2)] = new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha);
-                        lineArray[lineFirst[poly] + (pt * 2) + 1] = new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X, ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ);
-                        lineColorArray[lineFirst[poly] + (pt * 2) + 1] = new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha);
-                    }
-                    lineCount[poly] = (ovpSettings.lineListPtCount[poly]) * 2; // set our vertex count for the polygon.
+                    lineArray[lineFirst[poly] + pt * 2] = new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ);
+                    lineColorArray[lineFirst[poly] + pt * 2] = new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha);
+                    lineArray[lineFirst[poly] + pt * 2 + 1] = new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X, ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ);
+                    lineColorArray[lineFirst[poly] + pt * 2 + 1] = new Vector4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha);
                 }
-            }
-            catch (Exception)
-            {
-                // Can ignore - not critical.
+                lineCount[poly] = ovpSettings.lineListPtCount[poly] * 2; // set our vertex count for the polygon.
             }
         }
-
-        void drawLines_immediate()
+        catch (Exception)
         {
-            try
-            {
-                // Carve our Z-space up to stack polygons
-                int lineListCount = ovpSettings.lineList.Count();
-                float polyZStep = 1.0f / lineListCount;
+            // Can ignore - not critical.
+        }
+    }
 
-                for (int poly = 0; poly < lineListCount; poly++)
+    private void drawLines_immediate()
+    {
+        try
+        {
+            // Carve our Z-space up to stack polygons
+            int lineListCount = ovpSettings.lineList.Count();
+            float polyZStep = 1.0f / lineListCount;
+
+            for (int poly = 0; poly < lineListCount; poly++)
+            {
+                int lineListPolyLength = ovpSettings.lineList[poly].poly.Length - 1;
+                float polyZ = poly * polyZStep;
+                GL.Color4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, ovpSettings.lineList[poly].alpha);
+                GL.Begin(PrimitiveType.Lines);
+                for (int pt = 0; pt < lineListPolyLength; pt++)
                 {
-                    int lineListPolyLength = ovpSettings.lineList[poly].poly.Length - 1;
-                    float polyZ = poly * polyZStep;
-                    GL.Color4(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, ovpSettings.lineList[poly].alpha);
-                    GL.Begin(PrimitiveType.Lines);
-                    for (int pt = 0; pt < lineListPolyLength; pt++)
-                    {
-                        GL.Vertex3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ);
-                        GL.Vertex3(ovpSettings.lineList[poly].poly[pt + 1].X, ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ);
-                    }
-                    GL.End();
+                    GL.Vertex3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ);
+                    GL.Vertex3(ovpSettings.lineList[poly].poly[pt + 1].X, ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ);
                 }
-            }
-            catch (Exception)
-            {
-                // Can ignore - not critical.
+                GL.End();
             }
         }
-
-        public void defaults()
+        catch (Exception)
         {
-            MakeCurrent();
-            if (ovpSettings.antiAlias)
-            {
+            // Can ignore - not critical.
+        }
+    }
+
+    public void defaults()
+    {
+        MakeCurrent();
+        switch (ovpSettings.antiAlias)
+        {
+            case true:
                 GL.Enable(EnableCap.LineSmooth);
-            }
-            else
-            {
+                break;
+            default:
                 GL.Disable(EnableCap.LineSmooth);
-            }
-            GL.Disable(EnableCap.Lighting);
-            GL.ShadeModel(ShadingModel.Flat);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-            GL.PolygonOffset(0.0f, 0.5f);
-            GL.LineStipple(1, 61680);
-            gridZ = -0.95f;
-            axisZ = gridZ + 0.01f;
+                break;
         }
+        GL.Disable(EnableCap.Lighting);
+        GL.ShadeModel(ShadingModel.Flat);
+        GL.Enable(EnableCap.Blend);
+        GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        GL.PolygonOffset(0.0f, 0.5f);
+        GL.LineStipple(1, 61680);
+        gridZ = -0.95f;
+        axisZ = gridZ + 0.01f;
+    }
 
-        public TestViewport(ref OVPSettings svpSettings)
+    public TestViewport(ref OVPSettings svpSettings)
+    {
+        try
         {
-            try
+            immediateMode = svpSettings.immediateMode;
+            ovpSettings = svpSettings;
+            MouseDown += downHandler;
+            MouseMove += dragHandler;
+            MouseUp += upHandler;
+            MouseWheel += zoomHandler;
+            GotFocus += addKeyHandler;
+            // MouseHover += addKeyHandler;
+            LostFocus += removeKeyHandler;
+            ok = true;
+        }
+        catch (Exception)
+        {
+            //Console.WriteLine($"Error: {ex}");
+            ok = false;
+        }
+    }
+
+    public void setContextMenu(ref ContextMenu menu_)
+    {
+        menu = menu_;
+    }
+
+    public void changeSettingsRef(ref OVPSettings newSettings)
+    {
+        ovpSettings = newSettings;
+        updateViewport();
+    }
+
+    protected override void OnDraw(EventArgs e)
+    {
+        base.OnDraw(e);
+        updateViewport();
+    }
+
+    public void init()
+    {
+        MakeCurrent();
+        GL.MatrixMode(MatrixMode.Projection);
+        GL.LoadIdentity();
+        GL.Ortho(ovpSettings.cameraPosition.X - Width * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
+            ovpSettings.cameraPosition.X + Width * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
+            ovpSettings.cameraPosition.Y - Height * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
+            ovpSettings.cameraPosition.Y + Height * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
+            -1.0f, 1.0f);
+        GL.MatrixMode(MatrixMode.Modelview);
+        GL.LoadIdentity();
+        ovpSettings.bounds = getViewPort();
+        GL.ClearColor(ovpSettings.backColor.R, ovpSettings.backColor.G, ovpSettings.backColor.B, ovpSettings.backColor.A);
+        GL.ClearDepth(1.0);
+        GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+    }
+
+    public void drawGrid_VBO()
+    {
+        try
+        {
+            switch (ovpSettings.showGrid)
             {
-                immediateMode = svpSettings.immediateMode;
-                ovpSettings = svpSettings;
-                MouseDown += downHandler;
-                MouseMove += dragHandler;
-                MouseUp += upHandler;
-                MouseWheel += zoomHandler;
-                GotFocus += addKeyHandler;
-                // MouseHover += addKeyHandler;
-                LostFocus += removeKeyHandler;
-                ok = true;
-            }
-            catch (Exception)
-            {
-                //Console.WriteLine($"Error: {ex}");
-                ok = false;
-            }
-        }
-
-        public void setContextMenu(ref ContextMenu menu_)
-        {
-            menu = menu_;
-        }
-
-        public void changeSettingsRef(ref OVPSettings newSettings)
-        {
-            ovpSettings = newSettings;
-            updateViewport();
-        }
-
-        protected override void OnDraw(EventArgs e)
-        {
-            base.OnDraw(e);
-            updateViewport();
-        }
-
-        public void init()
-        {
-            MakeCurrent();
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            GL.Ortho(ovpSettings.cameraPosition.X - Width * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
-                      ovpSettings.cameraPosition.X + Width * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
-                      ovpSettings.cameraPosition.Y - Height * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
-                      ovpSettings.cameraPosition.Y + Height * (ovpSettings.zoomFactor * ovpSettings.base_zoom) / 2,
-                      -1.0f, 1.0f);
-            GL.MatrixMode(MatrixMode.Modelview);
-            GL.LoadIdentity();
-            ovpSettings.bounds = getViewPort();
-            GL.ClearColor(ovpSettings.backColor.R, ovpSettings.backColor.G, ovpSettings.backColor.B, ovpSettings.backColor.A);
-            GL.ClearDepth(1.0);
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-        }
-
-        public void drawGrid_VBO()
-        {
-            try
-            {
-                if (ovpSettings.showGrid)
+                case true:
                 {
                     float spacing = ovpSettings.gridSpacing;
-                    if (ovpSettings.dynamicGrid)
+                    switch (ovpSettings.dynamicGrid)
                     {
-                        while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
-                            spacing /= 10.0f;
+                        case true:
+                        {
+                            while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
+                                spacing /= 10.0f;
 
-                        while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
-                            spacing *= 10.0f;
+                            while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
+                                spacing *= 10.0f;
+                            break;
+                        }
                     }
 
                     float xLimit = Width * 0.5f;
@@ -1198,11 +1305,11 @@ namespace etoViewport
                     {
                         float nX_end = -(xLimit * zoom) + ovpSettings.cameraPosition.X;
                         int nX_iterations = (int)Math.Abs(Math.Ceiling(nX_end / spacing)) + 1;
-                        float pX_end = (xLimit * zoom) + ovpSettings.cameraPosition.X;
+                        float pX_end = xLimit * zoom + ovpSettings.cameraPosition.X;
                         int pX_iterations = (int)Math.Abs(Math.Ceiling(pX_end / spacing)) + 1;
                         float nY_end = -(yLimit * zoom) + ovpSettings.cameraPosition.Y;
                         int nY_iterations = (int)Math.Abs(Math.Ceiling(nY_end / spacing)) + 1;
-                        float pY_end = (yLimit * zoom) + ovpSettings.cameraPosition.Y;
+                        float pY_end = yLimit * zoom + ovpSettings.cameraPosition.Y;
                         int pY_iterations = (int)Math.Abs(Math.Ceiling(pY_end / spacing)) + 1;
 
                         int lines = 2 * (nX_iterations + pX_iterations + nY_iterations + pY_iterations);
@@ -1210,30 +1317,31 @@ namespace etoViewport
                         gridArray = new Vector3[lines];
                         gridColorArray = new Vector3[lines];
 
-                        ParallelOptions po = new ParallelOptions();
+                        ParallelOptions po = new();
 
                         Parallel.For(0, nX_iterations, po, (i, loopState) =>
                         {
                             float r = 0.0f;
                             float g = 0.0f;
                             float b = 0.0f;
-                            if (i % 10 == 0)
+                            switch (i % 10)
                             {
-                                r = ovpSettings.majorGridColor.R;
-                                g = ovpSettings.majorGridColor.G;
-                                b = ovpSettings.majorGridColor.B;
-                            }
-                            else
-                            {
-                                r = ovpSettings.minorGridColor.R;
-                                g = ovpSettings.minorGridColor.G;
-                                b = ovpSettings.minorGridColor.B;
+                                case 0:
+                                    r = ovpSettings.majorGridColor.R;
+                                    g = ovpSettings.majorGridColor.G;
+                                    b = ovpSettings.majorGridColor.B;
+                                    break;
+                                default:
+                                    r = ovpSettings.minorGridColor.R;
+                                    g = ovpSettings.minorGridColor.G;
+                                    b = ovpSettings.minorGridColor.B;
+                                    break;
                             }
 
                             int index = i * 2;
-                            gridArray[index] = new Vector3(-i * spacing, ovpSettings.cameraPosition.Y + (yLimit * zoom), gridZ);
+                            gridArray[index] = new Vector3(-i * spacing, ovpSettings.cameraPosition.Y + yLimit * zoom, gridZ);
                             gridColorArray[index] = new Vector3(r, g, b);
-                            gridArray[index + 1] = new Vector3(-i * spacing, ovpSettings.cameraPosition.Y - (yLimit * zoom), gridZ);
+                            gridArray[index + 1] = new Vector3(-i * spacing, ovpSettings.cameraPosition.Y - yLimit * zoom, gridZ);
                             gridColorArray[index + 1] = new Vector3(r, g, b);
                         });
 
@@ -1242,24 +1350,25 @@ namespace etoViewport
                             float r = 0.0f;
                             float g = 0.0f;
                             float b = 0.0f;
-                            if (i % 10 == 0)
+                            switch (i % 10)
                             {
-                                r = ovpSettings.majorGridColor.R;
-                                g = ovpSettings.majorGridColor.G;
-                                b = ovpSettings.majorGridColor.B;
-                            }
-                            else
-                            {
-                                r = ovpSettings.minorGridColor.R;
-                                g = ovpSettings.minorGridColor.G;
-                                b = ovpSettings.minorGridColor.B;
+                                case 0:
+                                    r = ovpSettings.majorGridColor.R;
+                                    g = ovpSettings.majorGridColor.G;
+                                    b = ovpSettings.majorGridColor.B;
+                                    break;
+                                default:
+                                    r = ovpSettings.minorGridColor.R;
+                                    g = ovpSettings.minorGridColor.G;
+                                    b = ovpSettings.minorGridColor.B;
+                                    break;
                             }
 
                             int index = nX_iterations + i;
                             index *= 2;
-                            gridArray[index] = new Vector3(i * spacing, ovpSettings.cameraPosition.Y + (zoom * yLimit), gridZ);
+                            gridArray[index] = new Vector3(i * spacing, ovpSettings.cameraPosition.Y + zoom * yLimit, gridZ);
                             gridColorArray[index] = new Vector3(r, g, b);
-                            gridArray[index + 1] = new Vector3(i * spacing, ovpSettings.cameraPosition.Y + (zoom * -yLimit), gridZ);
+                            gridArray[index + 1] = new Vector3(i * spacing, ovpSettings.cameraPosition.Y + zoom * -yLimit, gridZ);
                             gridColorArray[index + 1] = new Vector3(r, g, b);
                         });
 
@@ -1268,24 +1377,25 @@ namespace etoViewport
                             float r = 0.0f;
                             float g = 0.0f;
                             float b = 0.0f;
-                            if (i % 10 == 0)
+                            switch (i % 10)
                             {
-                                r = ovpSettings.majorGridColor.R;
-                                g = ovpSettings.majorGridColor.G;
-                                b = ovpSettings.majorGridColor.B;
-                            }
-                            else
-                            {
-                                r = ovpSettings.minorGridColor.R;
-                                g = ovpSettings.minorGridColor.G;
-                                b = ovpSettings.minorGridColor.B;
+                                case 0:
+                                    r = ovpSettings.majorGridColor.R;
+                                    g = ovpSettings.majorGridColor.G;
+                                    b = ovpSettings.majorGridColor.B;
+                                    break;
+                                default:
+                                    r = ovpSettings.minorGridColor.R;
+                                    g = ovpSettings.minorGridColor.G;
+                                    b = ovpSettings.minorGridColor.B;
+                                    break;
                             }
 
                             int index = nX_iterations + pX_iterations + i;
                             index *= 2;
-                            gridArray[index] = new Vector3(ovpSettings.cameraPosition.X + (zoom * xLimit), -i * spacing, gridZ);
+                            gridArray[index] = new Vector3(ovpSettings.cameraPosition.X + zoom * xLimit, -i * spacing, gridZ);
                             gridColorArray[index] = new Vector3(r, g, b);
-                            gridArray[index + 1] = new Vector3(ovpSettings.cameraPosition.X + (zoom * -xLimit), -i * spacing, gridZ);
+                            gridArray[index + 1] = new Vector3(ovpSettings.cameraPosition.X + zoom * -xLimit, -i * spacing, gridZ);
                             gridColorArray[index + 1] = new Vector3(r, g, b);
                         });
 
@@ -1294,38 +1404,44 @@ namespace etoViewport
                             float r = 0.0f;
                             float g = 0.0f;
                             float b = 0.0f;
-                            if (i % 10 == 0)
+                            switch (i % 10)
                             {
-                                r = ovpSettings.majorGridColor.R;
-                                g = ovpSettings.majorGridColor.G;
-                                b = ovpSettings.majorGridColor.B;
-                            }
-                            else
-                            {
-                                r = ovpSettings.minorGridColor.R;
-                                g = ovpSettings.minorGridColor.G;
-                                b = ovpSettings.minorGridColor.B;
+                                case 0:
+                                    r = ovpSettings.majorGridColor.R;
+                                    g = ovpSettings.majorGridColor.G;
+                                    b = ovpSettings.majorGridColor.B;
+                                    break;
+                                default:
+                                    r = ovpSettings.minorGridColor.R;
+                                    g = ovpSettings.minorGridColor.G;
+                                    b = ovpSettings.minorGridColor.B;
+                                    break;
                             }
 
                             int index = nX_iterations + pX_iterations + nY_iterations + i;
                             index *= 2;
-                            gridArray[index] = new Vector3(ovpSettings.cameraPosition.X + (zoom * xLimit), i * spacing, gridZ);
+                            gridArray[index] = new Vector3(ovpSettings.cameraPosition.X + zoom * xLimit, i * spacing, gridZ);
                             gridColorArray[index] = new Vector3(r, g, b);
-                            gridArray[index + 1] = new Vector3(ovpSettings.cameraPosition.X + (zoom * -xLimit), i * spacing, gridZ);
+                            gridArray[index + 1] = new Vector3(ovpSettings.cameraPosition.X + zoom * -xLimit, i * spacing, gridZ);
                             gridColorArray[index + 1] = new Vector3(r, g, b);
                         });
                     }
+
+                    break;
                 }
             }
-            catch (Exception)
-            {
-
-            }
         }
-
-        public void drawAxes_VBO()
+        catch (Exception)
         {
-            if (ovpSettings.showAxes)
+
+        }
+    }
+
+    public void drawAxes_VBO()
+    {
+        switch (ovpSettings.showAxes)
+        {
+            case true:
             {
                 float xLimit = Width * 0.5f;
                 float yLimit = Height * 0.5f;
@@ -1337,27 +1453,35 @@ namespace etoViewport
                 {
                     axesColorArray[i] = new Vector3(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B);
                 }
-                axesArray[0] = new Vector3(0.0f, ovpSettings.cameraPosition.Y + (yLimit * zoom), axisZ);
-                axesArray[1] = new Vector3(0.0f, ovpSettings.cameraPosition.Y - (yLimit * zoom), axisZ);
-                axesArray[2] = new Vector3(ovpSettings.cameraPosition.X + (xLimit * zoom), 0.0f, axisZ);
-                axesArray[3] = new Vector3(ovpSettings.cameraPosition.X - (xLimit * zoom), 0.0f, axisZ);
+                axesArray[0] = new Vector3(0.0f, ovpSettings.cameraPosition.Y + yLimit * zoom, axisZ);
+                axesArray[1] = new Vector3(0.0f, ovpSettings.cameraPosition.Y - yLimit * zoom, axisZ);
+                axesArray[2] = new Vector3(ovpSettings.cameraPosition.X + xLimit * zoom, 0.0f, axisZ);
+                axesArray[3] = new Vector3(ovpSettings.cameraPosition.X - xLimit * zoom, 0.0f, axisZ);
+                break;
             }
         }
+    }
 
-        public void drawGrid_immediate()
+    public void drawGrid_immediate()
+    {
+        MakeCurrent();
+        GL.LoadIdentity();
+        switch (ovpSettings.showGrid)
         {
-            MakeCurrent();
-            GL.LoadIdentity();
-            if (ovpSettings.showGrid)
+            case true:
             {
                 float spacing = ovpSettings.gridSpacing;
-                if (ovpSettings.dynamicGrid)
+                switch (ovpSettings.dynamicGrid)
                 {
-                    while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
-                        spacing /= 10.0f;
+                    case true:
+                    {
+                        while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
+                            spacing /= 10.0f;
 
-                    while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
-                        spacing *= 10.0f;
+                        while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
+                            spacing *= 10.0f;
+                        break;
+                    }
                 }
 
                 float xLimit = Width * 0.5f;
@@ -1366,11 +1490,11 @@ namespace etoViewport
 
                 float nX_end = -(xLimit * zoom) + ovpSettings.cameraPosition.X;
                 int nX_iterations = (int)Math.Abs(Math.Ceiling(nX_end / spacing)) + 1;
-                float pX_end = (xLimit * zoom) + ovpSettings.cameraPosition.X;
+                float pX_end = xLimit * zoom + ovpSettings.cameraPosition.X;
                 int pX_iterations = (int)Math.Abs(Math.Ceiling(pX_end / spacing)) + 1;
                 float nY_end = -(yLimit * zoom) + ovpSettings.cameraPosition.Y;
                 int nY_iterations = (int)Math.Abs(Math.Ceiling(nY_end / spacing)) + 1;
-                float pY_end = (yLimit * zoom) + ovpSettings.cameraPosition.Y;
+                float pY_end = yLimit * zoom + ovpSettings.cameraPosition.Y;
                 int pY_iterations = (int)Math.Abs(Math.Ceiling(pY_end / spacing)) + 1;
 
                 int lines = 2 * (nX_iterations + pX_iterations + nY_iterations + pY_iterations);
@@ -1382,18 +1506,20 @@ namespace etoViewport
 
                     for (float i = 0; i < nX_iterations; i++)
                     {
-                        if (k <= 1)
+                        switch (k)
                         {
-                            GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                            case <= 1:
+                                GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                                break;
+                            case 10:
+                                GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
+                                k = 0;
+                                break;
                         }
-                        if (k == 10)
-                        {
-                            GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
-                            k = 0;
-                        }
+
                         k++;
-                        GL.Vertex3(-i * spacing, ovpSettings.cameraPosition.Y + (yLimit * zoom), gridZ);
-                        GL.Vertex3(-i * spacing, ovpSettings.cameraPosition.Y - (yLimit * zoom), gridZ);
+                        GL.Vertex3(-i * spacing, ovpSettings.cameraPosition.Y + yLimit * zoom, gridZ);
+                        GL.Vertex3(-i * spacing, ovpSettings.cameraPosition.Y - yLimit * zoom, gridZ);
                     }
                     GL.End();
                     k = 0;
@@ -1401,18 +1527,20 @@ namespace etoViewport
 
                     for (float i = 0; i < pX_iterations; i++)
                     {
-                        if (k <= 1)
+                        switch (k)
                         {
-                            GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                            case <= 1:
+                                GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                                break;
+                            case 10:
+                                GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
+                                k = 0;
+                                break;
                         }
-                        if (k == 10)
-                        {
-                            GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
-                            k = 0;
-                        }
+
                         k++;
-                        GL.Vertex3(i * spacing, ovpSettings.cameraPosition.Y + (yLimit * zoom), gridZ);
-                        GL.Vertex3(i * spacing, ovpSettings.cameraPosition.Y - (yLimit * zoom), gridZ);
+                        GL.Vertex3(i * spacing, ovpSettings.cameraPosition.Y + yLimit * zoom, gridZ);
+                        GL.Vertex3(i * spacing, ovpSettings.cameraPosition.Y - yLimit * zoom, gridZ);
                     }
                     GL.End();
                     k = 0;
@@ -1420,18 +1548,20 @@ namespace etoViewport
                     GL.Begin(PrimitiveType.Lines);
                     for (float i = 0; i < nY_iterations; i++)
                     {
-                        if (k <= 1)
+                        switch (k)
                         {
-                            GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                            case <= 1:
+                                GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                                break;
+                            case 10:
+                                GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
+                                k = 0;
+                                break;
                         }
-                        if (k == 10)
-                        {
-                            GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
-                            k = 0;
-                        }
+
                         k++;
-                        GL.Vertex3(ovpSettings.cameraPosition.X + (xLimit * zoom), -i * spacing, gridZ);
-                        GL.Vertex3(ovpSettings.cameraPosition.X - (xLimit * zoom), -i * spacing, gridZ);
+                        GL.Vertex3(ovpSettings.cameraPosition.X + xLimit * zoom, -i * spacing, gridZ);
+                        GL.Vertex3(ovpSettings.cameraPosition.X - xLimit * zoom, -i * spacing, gridZ);
                     }
                     GL.End();
                     k = 0;
@@ -1439,29 +1569,36 @@ namespace etoViewport
                     GL.Begin(PrimitiveType.Lines);
                     for (float i = 0; i < pY_iterations; i++)
                     {
-                        if (k <= 1)
+                        switch (k)
                         {
-                            GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                            case <= 1:
+                                GL.Color4(ovpSettings.minorGridColor.R, ovpSettings.minorGridColor.G, ovpSettings.minorGridColor.B, ovpSettings.minorGridColor.A);
+                                break;
+                            case 10:
+                                GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
+                                k = 0;
+                                break;
                         }
-                        if (k == 10)
-                        {
-                            GL.Color4(ovpSettings.majorGridColor.R, ovpSettings.majorGridColor.G, ovpSettings.majorGridColor.B, ovpSettings.majorGridColor.A);
-                            k = 0;
-                        }
+
                         k++;
-                        GL.Vertex3(ovpSettings.cameraPosition.X + (xLimit * zoom), i * spacing, gridZ);
-                        GL.Vertex3(ovpSettings.cameraPosition.X - (xLimit * zoom), i * spacing, gridZ);
+                        GL.Vertex3(ovpSettings.cameraPosition.X + xLimit * zoom, i * spacing, gridZ);
+                        GL.Vertex3(ovpSettings.cameraPosition.X - xLimit * zoom, i * spacing, gridZ);
                     }
                     GL.End();
                 }
+
+                break;
             }
         }
+    }
 
-        public void drawAxes_immediate()
+    public void drawAxes_immediate()
+    {
+        MakeCurrent();
+        GL.LoadIdentity();
+        switch (ovpSettings.showAxes)
         {
-            MakeCurrent();
-            GL.LoadIdentity();
-            if (ovpSettings.showAxes)
+            case true:
             {
                 float xLimit = Width * 0.5f;
                 float yLimit = Height * 0.5f;
@@ -1469,13 +1606,13 @@ namespace etoViewport
 
                 GL.Color4(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, ovpSettings.axisColor.A);
                 GL.Begin(PrimitiveType.Lines);
-                GL.Vertex3(0.0f, ovpSettings.cameraPosition.Y + (yLimit * zoom), axisZ);
-                GL.Vertex3(0.0f, ovpSettings.cameraPosition.Y - (yLimit * zoom), axisZ);
-                GL.Vertex3(ovpSettings.cameraPosition.X + (xLimit * zoom), 0.0f, axisZ);
-                GL.Vertex3(ovpSettings.cameraPosition.X - (xLimit * zoom), 0.0f, axisZ);
+                GL.Vertex3(0.0f, ovpSettings.cameraPosition.Y + yLimit * zoom, axisZ);
+                GL.Vertex3(0.0f, ovpSettings.cameraPosition.Y - yLimit * zoom, axisZ);
+                GL.Vertex3(ovpSettings.cameraPosition.X + xLimit * zoom, 0.0f, axisZ);
+                GL.Vertex3(ovpSettings.cameraPosition.X - xLimit * zoom, 0.0f, axisZ);
                 GL.End();
+                break;
             }
         }
     }
 }
-

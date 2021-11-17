@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static partial class Matrix
 {
-    public static partial class Matrix
-    {
-        public static int dgb_fa ( int n, int ml, int mu, ref double[] a, ref int[] pivot )
+    public static int dgb_fa ( int n, int ml, int mu, ref double[] a, ref int[] pivot )
 
         //****************************************************************************80
         //
@@ -57,7 +57,7 @@ namespace Burkardt.MatrixNS
         //    0, no singularity detected.
         //    nonzero, the factorization failed on the INFO-th step.
         //
-        {
+    {
         int col = 2 * ml + mu + 1;
         int i;
         int i0;
@@ -82,11 +82,11 @@ namespace Burkardt.MatrixNS
 
         for ( jz = j0; jz <= j1; jz++ )
         {
-        i0 = m + 1 - jz;
-        for ( i = i0; i <= ml; i++ )
-        {
-        a[i-1+(jz-1)*col] = 0.0;
-        }
+            i0 = m + 1 - jz;
+            for ( i = i0; i <= ml; i++ )
+            {
+                a[i-1+(jz-1)*col] = 0.0;
+            }
         }
 
         jz = j1;
@@ -94,94 +94,95 @@ namespace Burkardt.MatrixNS
 
         for ( k = 1; k <= n-1; k++ )
         {
-        //
-        //  Zero out the next fill-in column.
-        //
-        jz = jz + 1;
-        if ( jz <= n )
-        {
-        for ( i = 1; i <= ml; i++ )
-        {
-        a[i-1+(jz-1)*col] = 0.0;
-        }
-        }
-        //
-        //  Find L = pivot index.
-        //
-        lm = Math.Min ( ml, n-k );
-        l = m;
+            //
+            //  Zero out the next fill-in column.
+            //
+            jz += 1;
+            if ( jz <= n )
+            {
+                for ( i = 1; i <= ml; i++ )
+                {
+                    a[i-1+(jz-1)*col] = 0.0;
+                }
+            }
+            //
+            //  Find L = pivot index.
+            //
+            lm = Math.Min ( ml, n-k );
+            l = m;
 
-        for ( j = m+1; j <= m + lm; j++ )
-        {
-        if ( Math.Abs ( a[l-1+(k-1)*col] ) < Math.Abs ( a[j-1+(k-1)*col] ) )
-        {
-        l = j;
-        }
-        }
+            for ( j = m+1; j <= m + lm; j++ )
+            {
+                if ( Math.Abs ( a[l-1+(k-1)*col] ) < Math.Abs ( a[j-1+(k-1)*col] ) )
+                {
+                    l = j;
+                }
+            }
 
-        pivot[k-1] = l + k - m;
-        //
-        //  Zero pivot implies this column already triangularized.
-        //
-        if ( a[l-1+(k-1)*col] == 0.0 )
-        {
-        Console.WriteLine("");
-        Console.WriteLine("DGB_FA - Fatal error!");
-        Console.WriteLine("  Zero pivot on step " + k + "");
-        return k;
-        }
-        //
-        //  Interchange if necessary.
-        //
-        t                = a[l-1+(k-1)*col];
-        a[l-1+(k-1)*col] = a[m-1+(k-1)*col];
-        a[m-1+(k-1)*col] = t;
-        //
-        //  Compute multipliers.
-        //
-        for ( i = m+1; i <= m+lm; i++ )
-        {
-        a[i-1+(k-1)*col] = - a[i-1+(k-1)*col] / a[m-1+(k-1)*col];
-        }
-        //
-        //  Row elimination with column indexing.
-        //
-        ju = Math.Max ( ju, mu + pivot[k-1] );
-        ju = Math.Min ( ju, n );
-        mm = m;
+            pivot[k-1] = l + k - m;
+            switch (a[l-1+(k-1)*col])
+            {
+                //
+                //  Zero pivot implies this column already triangularized.
+                //
+                case 0.0:
+                    Console.WriteLine("");
+                    Console.WriteLine("DGB_FA - Fatal error!");
+                    Console.WriteLine("  Zero pivot on step " + k + "");
+                    return k;
+            }
+            //
+            //  Interchange if necessary.
+            //
+            t                = a[l-1+(k-1)*col];
+            a[l-1+(k-1)*col] = a[m-1+(k-1)*col];
+            a[m-1+(k-1)*col] = t;
+            //
+            //  Compute multipliers.
+            //
+            for ( i = m+1; i <= m+lm; i++ )
+            {
+                a[i-1+(k-1)*col] = - a[i-1+(k-1)*col] / a[m-1+(k-1)*col];
+            }
+            //
+            //  Row elimination with column indexing.
+            //
+            ju = Math.Max ( ju, mu + pivot[k-1] );
+            ju = Math.Min ( ju, n );
+            mm = m;
 
-        for ( j = k+1; j <= ju; j++ )
-        {
-        l = l - 1;
-        mm = mm - 1;
+            for ( j = k+1; j <= ju; j++ )
+            {
+                l -= 1;
+                mm -= 1;
 
-        if ( l != mm )
-        {
-        t                 = a[l-1+(j-1)*col];
-        a[l-1+(j-1)*col]  = a[mm-1+(j-1)*col];
-        a[mm-1+(j-1)*col] = t;
-        }
-        for ( i = 1; i <= lm; i++ )
-        {
-        a[mm+i-1+(j-1)*col] = a[mm+i-1+(j-1)*col]
-        + a[mm-1+(j-1)*col] * a[m+i-1+(k-1)*col];
-        }
-        }
+                if ( l != mm )
+                {
+                    t                 = a[l-1+(j-1)*col];
+                    a[l-1+(j-1)*col]  = a[mm-1+(j-1)*col];
+                    a[mm-1+(j-1)*col] = t;
+                }
+                for ( i = 1; i <= lm; i++ )
+                {
+                    a[mm+i-1+(j-1)*col] += a[mm-1+(j-1)*col] * a[m+i-1+(k-1)*col];
+                }
+            }
         }
 
         pivot[n-1] = n;
 
-        if ( a[m-1+(n-1)*col] == 0.0 )
+        switch (a[m-1+(n-1)*col])
         {
-        Console.WriteLine("");
-        Console.WriteLine("DGB_FA - Fatal error!");
-        Console.WriteLine("  Zero pivot on step " + n + "");
-        return n;
+            case 0.0:
+                Console.WriteLine("");
+                Console.WriteLine("DGB_FA - Fatal error!");
+                Console.WriteLine("  Zero pivot on step " + n + "");
+                return n;
+            default:
+                return 0;
         }
-
-        return 0;
-        }
-        public static int dgbfa(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
+    }
+    public static int dgbfa(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
 
         //****************************************************************************80
         //
@@ -243,75 +244,74 @@ namespace Burkardt.MatrixNS
         //      subroutine, but it does indicate that DGBSL will divide by zero if
         //      called.  Use RCOND in DGBCO for a reliable indication of singularity.
         //
+    {
+        int i;
+        int i0;
+        int info;
+        int j;
+        int j0;
+        int j1;
+        int ju;
+        int jz;
+        int k;
+        int l;
+        int lm;
+        int m;
+        int mm;
+        double t;
+
+        m = ml + mu + 1;
+        info = 0;
+        //
+        //  Zero initial fill-in columns.
+        //
+        j0 = mu + 2;
+        j1 = Math.Min(n, m) - 1;
+
+        for (jz = j0; jz <= j1; jz++)
         {
-            int i;
-            int i0;
-            int info;
-            int j;
-            int j0;
-            int j1;
-            int ju;
-            int jz;
-            int k;
-            int l;
-            int lm;
-            int m;
-            int mm;
-            double t;
-
-            m = ml + mu + 1;
-            info = 0;
-            //
-            //  Zero initial fill-in columns.
-            //
-            j0 = mu + 2;
-            j1 = Math.Min(n, m) - 1;
-
-            for (jz = j0; jz <= j1; jz++)
+            i0 = m + 1 - jz;
+            for (i = i0; i <= ml; i++)
             {
-                i0 = m + 1 - jz;
-                for (i = i0; i <= ml; i++)
+                abd[i - 1 + (jz - 1) * lda] = 0.0;
+            }
+        }
+
+        jz = j1;
+        ju = 0;
+        //
+        //  Gaussian elimination with partial pivoting.
+        //
+        for (k = 1; k <= n - 1; k++)
+        {
+            //
+            //  Zero out the next fill-in column.
+            //
+            jz += 1;
+            if (jz <= n)
+            {
+                for (i = 1; i <= ml; i++)
                 {
                     abd[i - 1 + (jz - 1) * lda] = 0.0;
                 }
             }
 
-            jz = j1;
-            ju = 0;
             //
-            //  Gaussian elimination with partial pivoting.
+            //  Find L = pivot index.
             //
-            for (k = 1; k <= n - 1; k++)
+            lm = Math.Min(ml, n - k);
+            l = BLAS1D.idamax(lm + 1, abd, 1,  + m - 1 + (k - 1) * lda) + m - 1;
+            ipvt[k - 1] = l + k - m;
+            switch (abd[l - 1 + (k - 1) * lda])
             {
-                //
-                //  Zero out the next fill-in column.
-                //
-                jz = jz + 1;
-                if (jz <= n)
-                {
-                    for (i = 1; i <= ml; i++)
-                    {
-                        abd[i - 1 + (jz - 1) * lda] = 0.0;
-                    }
-                }
-
-                //
-                //  Find L = pivot index.
-                //
-                lm = Math.Min(ml, n - k);
-                l = BLAS1D.idamax(lm + 1, abd, 1,  + m - 1 + (k - 1) * lda) + m - 1;
-                ipvt[k - 1] = l + k - m;
                 //
                 //  Zero pivot implies this column already triangularized.
                 //
-                if (abd[l - 1 + (k - 1) * lda] == 0.0)
-                {
+                case 0.0:
                     info = k;
-                }
+                    break;
                 //
-                //  Interchange if necessary.
-                //
-                else
+                default:
                 {
                     if (l != m)
                     {
@@ -333,8 +333,8 @@ namespace Burkardt.MatrixNS
 
                     for (j = k + 1; j <= ju; j++)
                     {
-                        l = l - 1;
-                        mm = mm - 1;
+                        l -= 1;
+                        mm -= 1;
                         t = abd[l - 1 + (j - 1) * lda];
                         if (l != mm)
                         {
@@ -345,18 +345,20 @@ namespace Burkardt.MatrixNS
                         BLAS1D.daxpy(lm, t, abd, 1, ref abd, 1,  + m + (k - 1) * lda,  + mm + (j - 1) * lda);
                     }
 
+                    break;
                 }
-
             }
 
-            ipvt[n - 1] = n;
-
-            if (abd[m - 1 + (n - 1) * lda] == 0.0)
-            {
-                info = n;
-            }
-
-            return info;
         }
+
+        ipvt[n - 1] = n;
+
+        info = abd[m - 1 + (n - 1) * lda] switch
+        {
+            0.0 => n,
+            _ => info
+        };
+
+        return info;
     }
 }

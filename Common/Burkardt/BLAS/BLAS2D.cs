@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.BLAS
+namespace Burkardt.BLAS;
+
+public static class BLAS2D
 {
-    public static class BLAS2D
-    {
-        public static void dgemv(char trans, int m, int n, double alpha, double[] a, int lda,
-        double[] x, int incx, double beta, ref double[] y, int incy )
+    public static void dgemv(char trans, int m, int n, double alpha, double[] a, int lda,
+            double[] x, int incx, double beta, ref double[] y, int incy )
 
         //****************************************************************************80
         //
@@ -80,235 +80,284 @@ namespace Burkardt.BLAS
         //    Input, int INCY, the increment for the elements of
         //    Y.  INCY must not be zero.
         //
+    {
+        int i;
+        int info;
+        int ix;
+        int iy;
+        int j;
+        int jx;
+        int jy;
+        int kx;
+        int ky;
+        int lenx;
+        int leny;
+        double temp;
+        //
+        //  Test the input parameters.
+        //
+        info = 0;
+        if (trans != 'N' &&
+            trans != 'T' &&
+            trans != 'C')
         {
-            int i;
-            int info;
-            int ix;
-            int iy;
-            int j;
-            int jx;
-            int jy;
-            int kx;
-            int ky;
-            int lenx;
-            int leny;
-            double temp;
-            //
-            //  Test the input parameters.
-            //
-            info = 0;
-            if ((trans != 'N') &&
-                (trans != 'T') &&
-                (trans != 'C'))
+            info = 1;
+        }
+        else
+        {
+            switch (m)
             {
-                info = 1;
-            }
-            else if (m < 0)
-            {
-                info = 2;
-            }
-            else if (n < 0)
-            {
-                info = 3;
-            }
-            else if (lda < Math.Max(1, m))
-            {
-                info = 6;
-            }
-            else if (incx == 0)
-            {
-                info = 8;
-            }
-            else if (incy == 0)
-            {
-                info = 11;
-            }
+                case < 0:
+                    info = 2;
+                    break;
+                default:
+                {
+                    switch (n)
+                    {
+                        case < 0:
+                            info = 3;
+                            break;
+                        default:
+                        {
+                            if (lda < Math.Max(1, m))
+                            {
+                                info = 6;
+                            }
+                            else
+                            {
+                                info = incx switch
+                                {
+                                    0 => 8,
+                                    _ => incy switch
+                                    {
+                                        0 => 11,
+                                        _ => info
+                                    }
+                                };
+                            }
 
-            if (info != 0)
-            {
-                typeMethods.xerbla("DGEMV", info);
-                return;
-            }
+                            break;
+                        }
+                    }
 
-            //
-            //  Quick return if possible.
-            //
-            if ((m == 0) ||
-                (n == 0) ||
-                ((alpha == 0.0) && (beta == 1.0)))
-            {
-                return;
+                    break;
+                }
             }
+        }
 
+        if (info != 0)
+        {
+            typeMethods.xerbla("DGEMV", info);
+            return;
+        }
+
+        //
+        //  Quick return if possible.
+        //
+        if (m == 0 ||
+            n == 0 ||
+            alpha == 0.0 && beta == 1.0)
+        {
+            return;
+        }
+
+        switch (trans)
+        {
             //
             //  Set LENX and LENY, the lengths of the vectors x and y, and set
             //  up the start points in X and Y.
             //
-            if (trans == 'N')
-            {
+            case 'N':
                 lenx = n;
                 leny = m;
-            }
-            else
-            {
+                break;
+            default:
                 lenx = m;
                 leny = n;
-            }
+                break;
+        }
 
-            if (0 < incx)
-            {
-                kx = 0;
-            }
-            else
-            {
-                kx = 0 - (lenx - 1) * incx;
-            }
+        kx = incx switch
+        {
+            > 0 => 0,
+            _ => 0 - (lenx - 1) * incx
+        };
 
-            if (0 < incy)
-            {
-                ky = 0;
-            }
-            else
-            {
-                ky = 0 - (leny - 1) * incy;
-            }
+        ky = incy switch
+        {
+            > 0 => 0,
+            _ => 0 - (leny - 1) * incy
+        };
 
-            //
-            //  Start the operations. In this version the elements of A are
-            //  accessed sequentially with one pass through A.
-            //
-            //  First form  y := beta*y.
-            //
-            if (beta != 1.0)
+        //
+        //  Start the operations. In this version the elements of A are
+        //  accessed sequentially with one pass through A.
+        //
+        //  First form  y := beta*y.
+        //
+        if (beta != 1.0)
+        {
+            switch (incy)
             {
-                if (incy == 1)
+                case 1 when beta == 0.0:
                 {
-                    if (beta == 0.0)
+                    for (i = 0; i < leny; i++)
                     {
-                        for (i = 0; i < leny; i++)
-                        {
-                            y[i] = 0.0;
-                        }
+                        y[i] = 0.0;
                     }
-                    else
-                    {
-                        for (i = 0; i < leny; i++)
-                        {
-                            y[i] = beta * y[i];
-                        }
-                    }
+
+                    break;
                 }
-                else
+                case 1:
+                {
+                    for (i = 0; i < leny; i++)
+                    {
+                        y[i] = beta * y[i];
+                    }
+
+                    break;
+                }
+                default:
                 {
                     iy = ky;
-                    if (beta == 0.0)
+                    switch (beta)
                     {
-                        for (i = 0; i < leny; i++)
+                        case 0.0:
                         {
-                            y[iy] = 0.0;
-                            iy = iy + incy;
+                            for (i = 0; i < leny; i++)
+                            {
+                                y[iy] = 0.0;
+                                iy += incy;
+                            }
+
+                            break;
+                        }
+                        default:
+                        {
+                            for (i = 0; i < leny; i++)
+                            {
+                                y[iy] = beta * y[iy];
+                                iy += incy;
+                            }
+
+                            break;
                         }
                     }
-                    else
-                    {
-                        for (i = 0; i < leny; i++)
-                        {
-                            y[iy] = beta * y[iy];
-                            iy = iy + incy;
-                        }
-                    }
+
+                    break;
                 }
             }
+        }
 
-            if (alpha == 0.0)
-            {
+        switch (alpha)
+        {
+            case 0.0:
                 return;
-            }
+        }
 
+        switch (trans)
+        {
             //
             //  Form y := alpha*A*x + y.
             //
-            if (trans == 'N')
+            case 'N':
             {
                 jx = kx;
-                if (incy == 1)
+                switch (incy)
                 {
-                    for (j = 0; j < n; j++)
+                    case 1:
                     {
-                        if (x[jx] != 0.0)
+                        for (j = 0; j < n; j++)
                         {
-                            temp = alpha * x[jx];
-                            for (i = 0; i < m; i++)
+                            if (x[jx] != 0.0)
                             {
-                                y[i] = y[i] + temp * a[i + j * lda];
+                                temp = alpha * x[jx];
+                                for (i = 0; i < m; i++)
+                                {
+                                    y[i] += temp * a[i + j * lda];
+                                }
                             }
+
+                            jx += incx;
                         }
 
-                        jx = jx + incx;
+                        break;
                     }
-                }
-                else
-                {
-                    for (j = 0; j < n; j++)
+                    default:
                     {
-                        if (x[jx] != 0.0)
+                        for (j = 0; j < n; j++)
                         {
-                            temp = alpha * x[jx];
-                            iy = ky;
-                            for (i = 0; i < m; i++)
+                            if (x[jx] != 0.0)
                             {
-                                y[iy] = y[iy] + temp * a[i + j * lda];
-                                iy = iy + incy;
+                                temp = alpha * x[jx];
+                                iy = ky;
+                                for (i = 0; i < m; i++)
+                                {
+                                    y[iy] += temp * a[i + j * lda];
+                                    iy += incy;
+                                }
                             }
+
+                            jx += incx;
                         }
 
-                        jx = jx + incx;
+                        break;
                     }
                 }
+
+                break;
             }
             /*
-            Form y := alpha*A'*x + y.
-            */
-            else
+        Form y := alpha*A'*x + y.
+        */
+            default:
             {
                 jy = ky;
-                if (incx == 1)
+                switch (incx)
                 {
-                    for (j = 0; j < n; j++)
+                    case 1:
                     {
-                        temp = 0.0;
-                        for (i = 0; i < m; i++)
+                        for (j = 0; j < n; j++)
                         {
-                            temp = temp + a[i + j * lda] * x[i];
+                            temp = 0.0;
+                            for (i = 0; i < m; i++)
+                            {
+                                temp += a[i + j * lda] * x[i];
+                            }
+
+                            y[jy] += alpha * temp;
+                            jy += incy;
                         }
 
-                        y[jy] = y[jy] + alpha * temp;
-                        jy = jy + incy;
+                        break;
                     }
-                }
-                else
-                {
-                    for (j = 0; j < n; j++)
+                    default:
                     {
-                        temp = 0.0;
-                        ix = kx;
-                        for (i = 0; i < m; i++)
+                        for (j = 0; j < n; j++)
                         {
-                            temp = temp + a[i + j * lda] * x[ix];
-                            ix = ix + incx;
+                            temp = 0.0;
+                            ix = kx;
+                            for (i = 0; i < m; i++)
+                            {
+                                temp += a[i + j * lda] * x[ix];
+                                ix += incx;
+                            }
+
+                            y[jy] += alpha * temp;
+                            jy += incy;
                         }
 
-                        y[jy] = y[jy] + alpha * temp;
-                        jy = jy + incy;
+                        break;
                     }
                 }
+
+                break;
             }
-
-            return;
         }
+    }
 
-        public static void dger(int m, int n, double alpha, double[] x, int incx, double[] y,
-        int incy, ref double[] a, int lda )
+    public static void dger(int m, int n, double alpha, double[] x, int incx, double[] y,
+            int incy, ref double[] a, int lda )
 
         //****************************************************************************80
         //
@@ -366,67 +415,94 @@ namespace Burkardt.BLAS
         //    Input, int LDA, the first dimension of A as declared
         //    in the calling program. max ( 1, M ) <= LDA.
         //
+    {
+        int i;
+        int info;
+        int ix;
+        int j;
+        int jy;
+        int kx;
+        double temp;
+        //
+        //  Test the input parameters.
+        //
+        info = 0;
+        switch (m)
         {
-            int i;
-            int info;
-            int ix;
-            int j;
-            int jy;
-            int kx;
-            double temp;
-            //
-            //  Test the input parameters.
-            //
-            info = 0;
-            if (m < 0)
-            {
+            case < 0:
                 info = 1;
-            }
-            else if (n < 0)
+                break;
+            default:
             {
-                info = 2;
-            }
-            else if (incx == 0)
-            {
-                info = 5;
-            }
-            else if (incy == 0)
-            {
-                info = 7;
-            }
-            else if (lda < Math.Max(1, m))
-            {
-                info = 9;
-            }
+                switch (n)
+                {
+                    case < 0:
+                        info = 2;
+                        break;
+                    default:
+                    {
+                        switch (incx)
+                        {
+                            case 0:
+                                info = 5;
+                                break;
+                            default:
+                            {
+                                switch (incy)
+                                {
+                                    case 0:
+                                        info = 7;
+                                        break;
+                                    default:
+                                    {
+                                        if (lda < Math.Max(1, m))
+                                        {
+                                            info = 9;
+                                        }
 
-            if (info != 0)
-            {
-                typeMethods.xerbla("DGER", info);
-                return;
-            }
+                                        break;
+                                    }
+                                }
 
-            //
-            //  Quick return if possible.
-            //
-            if (m == 0 || n == 0 || alpha == 0.0)
-            {
-                return;
-            }
+                                break;
+                            }
+                        }
 
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        if (info != 0)
+        {
+            typeMethods.xerbla("DGER", info);
+            return;
+        }
+
+        //
+        //  Quick return if possible.
+        //
+        if (m == 0 || n == 0 || alpha == 0.0)
+        {
+            return;
+        }
+
+        jy = incy switch
+        {
             //
             //  Start the operations. In this version the elements of A are
             //  accessed sequentially with one pass through A.
             //
-            if (0 < incy)
-            {
-                jy = 0;
-            }
-            else
-            {
-                jy = 0 - (n - 1) * incy;
-            }
+            > 0 => 0,
+            _ => 0 - (n - 1) * incy
+        };
 
-            if (incx == 1)
+        switch (incx)
+        {
+            case 1:
             {
                 for (j = 0; j < n; j++)
                 {
@@ -435,23 +511,22 @@ namespace Burkardt.BLAS
                         temp = alpha * y[jy];
                         for (i = 0; i < m; i++)
                         {
-                            a[i + j * lda] = a[i + j * lda] + x[i] * temp;
+                            a[i + j * lda] += x[i] * temp;
                         }
                     }
 
-                    jy = jy + incy;
+                    jy += incy;
                 }
+
+                break;
             }
-            else
+            default:
             {
-                if (0 < incx)
+                kx = incx switch
                 {
-                    kx = 0;
-                }
-                else
-                {
-                    kx = 0 - (m - 1) * incx;
-                }
+                    > 0 => 0,
+                    _ => 0 - (m - 1) * incx
+                };
 
                 for (j = 0; j < n; j++)
                 {
@@ -461,20 +536,21 @@ namespace Burkardt.BLAS
                         ix = kx;
                         for (i = 0; i < m; i++)
                         {
-                            a[i + j * lda] = a[i + j * lda] + x[ix] * temp;
-                            ix = ix + incx;
+                            a[i + j * lda] += x[ix] * temp;
+                            ix += incx;
                         }
                     }
 
-                    jy = jy + incy;
+                    jy += incy;
                 }
+
+                break;
             }
-
-            return;
         }
+    }
 
-        public static void dtrmv(char uplo, char trans, char diag, int n, double[] a, int lda,
-        ref double[] x, int incx )
+    public static void dtrmv(char uplo, char trans, char diag, int n, double[] a, int lda,
+            ref double[] x, int incx )
 
         //****************************************************************************80
         //
@@ -547,84 +623,108 @@ namespace Burkardt.BLAS
         //    Input, int INCX, the increment for the elements of
         //    X.  INCX must not be zero.
         //
+    {
+        int info;
+        int ix = 0;
+        int j;
+        int jx;
+        int kx = 0;
+        bool nounit;
+        double temp;
+        //
+        //  Test the input parameters.
+        //
+        info = 0;
+        if (uplo != 'U' && uplo != 'L')
         {
-            int info;
-            int ix = 0;
-            int j;
-            int jx;
-            int kx = 0;
-            bool nounit;
-            double temp;
-            //
-            //  Test the input parameters.
-            //
-            info = 0;
-            if ((uplo != 'U') && (uplo != 'L'))
+            info = 1;
+        }
+        else if (trans != 'N' && trans != 'T' &&
+                 trans != 'C')
+        {
+            info = 2;
+        }
+        else if (diag != 'U' && diag != 'N')
+        {
+            info = 3;
+        }
+        else
+        {
+            switch (n)
             {
-                info = 1;
-            }
-            else if ((trans != 'N') && (trans != 'T') &&
-                     (trans != 'C'))
-            {
-                info = 2;
-            }
-            else if ((diag != 'U') && (diag != 'N'))
-            {
-                info = 3;
-            }
-            else if (n < 0)
-            {
-                info = 4;
-            }
-            else if (lda < Math.Max(1, n))
-            {
-                info = 6;
-            }
-            else if (incx == 0)
-            {
-                info = 8;
-            }
+                case < 0:
+                    info = 4;
+                    break;
+                default:
+                {
+                    if (lda < Math.Max(1, n))
+                    {
+                        info = 6;
+                    }
+                    else
+                    {
+                        info = incx switch
+                        {
+                            0 => 8,
+                            _ => info
+                        };
+                    }
 
-            if (info != 0)
-            {
-                typeMethods.xerbla("DTRMV", info);
-                return;
+                    break;
+                }
             }
+        }
 
+        if (info != 0)
+        {
+            typeMethods.xerbla("DTRMV", info);
+            return;
+        }
+
+        switch (n)
+        {
             //
             //  Quick return if possible.
             //
-            if (n == 0)
-            {
+            case 0:
                 return;
-            }
+        }
 
-            nounit = (diag == 'N');
+        nounit = diag == 'N';
+        switch (incx)
+        {
             //
             //  Set up the start point in X if the increment is not unity. This
             //  will be  ( N - 1 ) * INCX  too small for descending loops.
             //
-            if (incx <= 0)
-            {
+            case <= 0:
                 kx = 0 - (n - 1) * incx;
-            }
-            else if (incx != 1)
+                break;
+            default:
             {
-                kx = 0;
-            }
+                if (incx != 1)
+                {
+                    kx = 0;
+                }
 
+                break;
+            }
+        }
+
+        switch (trans)
+        {
             //
             //  Start the operations. In this version the elements of A are
             //  accessed sequentially with one pass through A.
             //
-            if (trans == 'N')
+            //
+            //  Form x := A*x.
+            //
+            case 'N' when uplo == 'U':
             {
-                //
-                //  Form x := A*x.
-                //
-                if (uplo == 'U')
+                switch (incx)
                 {
-                    if (incx == 1)
+                    case 1:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -633,17 +733,21 @@ namespace Burkardt.BLAS
                                 temp = x[j];
                                 for (int i = 0; i < j; i++)
                                 {
-                                    x[i] = x[i] + temp * a[i + j * lda];
+                                    x[i] += temp * a[i + j * lda];
                                 }
 
-                                if (nounit)
+                                switch (nounit)
                                 {
-                                    x[j] = x[j] * a[j + j * lda];
+                                    case true:
+                                        x[j] *= a[j + j * lda];
+                                        break;
                                 }
                             }
                         }
+
+                        break;
                     }
-                    else
+                    default:
                     {
                         jx = kx;
                         for (j = 0; j < n; j++)
@@ -654,159 +758,191 @@ namespace Burkardt.BLAS
                                 ix = kx;
                                 for (int i = 0; i < j; i++)
                                 {
-                                    x[ix] = x[ix] + temp * a[i + j * lda];
-                                    ix = ix + incx;
+                                    x[ix] += temp * a[i + j * lda];
+                                    ix += incx;
                                 }
 
-                                if (nounit)
+                                switch (nounit)
                                 {
-                                    x[jx] = x[jx] * a[j + j * lda];
+                                    case true:
+                                        x[jx] *= a[j + j * lda];
+                                        break;
                                 }
                             }
 
-                            jx = jx + incx;
+                            jx += incx;
                         }
+
+                        break;
                     }
                 }
-                else
+
+                break;
+            }
+            case 'N' when incx == 1:
+            {
+                for (j = n - 1; 0 <= j; j--)
                 {
-                    if (incx == 1)
+                    if (x[j] != 0.0)
                     {
-                        for (j = n - 1; 0 <= j; j--)
+                        temp = x[j];
+                        for (int i = n - 1; j < i; i--)
                         {
-                            if (x[j] != 0.0)
-                            {
-                                temp = x[j];
-                                for (int i = n - 1; j < i; i--)
-                                {
-                                    x[i] = x[i] + temp * a[i + j * lda];
-                                }
-
-                                if (nounit)
-                                {
-                                    x[j] = x[j] * a[j + j * lda];
-                                }
-                            }
+                            x[i] += temp * a[i + j * lda];
                         }
-                    }
-                    else
-                    {
-                        kx = kx + (n - 1) * incx;
-                        jx = kx;
-                        for (j = n - 1; 0 <= j; j--)
+
+                        switch (nounit)
                         {
-                            if (x[jx] != 0.0)
-                            {
-                                temp = x[jx];
-                                ix = kx;
-                                for (int i = n - 1; j < i; i--)
-                                {
-                                    x[ix] = x[ix] + temp * a[i + j * lda];
-                                    ix = ix - incx;
-                                }
-
-                                if (nounit)
-                                {
-                                    x[jx] = x[jx] * a[j + j * lda];
-                                }
-                            }
-
-                            jx = jx - incx;
+                            case true:
+                                x[j] *= a[j + j * lda];
+                                break;
                         }
                     }
                 }
+
+                break;
+            }
+            case 'N':
+            {
+                kx += (n - 1) * incx;
+                jx = kx;
+                for (j = n - 1; 0 <= j; j--)
+                {
+                    if (x[jx] != 0.0)
+                    {
+                        temp = x[jx];
+                        ix = kx;
+                        for (int i = n - 1; j < i; i--)
+                        {
+                            x[ix] += temp * a[i + j * lda];
+                            ix -= incx;
+                        }
+
+                        switch (nounit)
+                        {
+                            case true:
+                                x[jx] *= a[j + j * lda];
+                                break;
+                        }
+                    }
+
+                    jx -= incx;
+                }
+
+                break;
             }
             //
-            //  Form x := A'*x.
-            //
-            else
+            default:
             {
-                if (uplo == 'U')
+                switch (uplo)
                 {
-                    if (incx == 1)
+                    case 'U' when incx == 1:
                     {
                         for (j = n - 1; 0 <= j; j--)
                         {
                             temp = x[j];
-                            if (nounit)
+                            switch (nounit)
                             {
-                                temp = temp * a[j + j * lda];
+                                case true:
+                                    temp *= a[j + j * lda];
+                                    break;
                             }
 
                             for (int i = j - 1; 0 <= i; i--)
                             {
-                                temp = temp + a[i + j * lda] * x[i];
+                                temp += a[i + j * lda] * x[i];
                             }
 
                             x[j] = temp;
                         }
+
+                        break;
                     }
-                    else
+                    case 'U':
                     {
                         jx = kx + (n - 1) * incx;
                         for (j = n - 1; 0 <= j; j--)
                         {
                             temp = x[jx];
                             ix = jx;
-                            if (nounit)
+                            switch (nounit)
                             {
-                                temp = temp * a[j + j * lda];
+                                case true:
+                                    temp *= a[j + j * lda];
+                                    break;
                             }
 
                             for (int i = j - 1; 0 <= i; i--)
                             {
-                                ix = ix - incx;
-                                temp = temp + a[i + j * lda] * x[ix];
+                                ix -= incx;
+                                temp += a[i + j * lda] * x[ix];
                             }
 
                             x[jx] = temp;
-                            jx = jx - incx;
+                            jx -= incx;
                         }
+
+                        break;
+                    }
+                    default:
+                    {
+                        switch (incx)
+                        {
+                            case 1:
+                            {
+                                for (j = 0; j < n; j++)
+                                {
+                                    temp = x[j];
+                                    switch (nounit)
+                                    {
+                                        case true:
+                                            temp *= a[j + j * lda];
+                                            break;
+                                    }
+
+                                    for (int i = j + 1; i < n; i++)
+                                    {
+                                        temp += a[i + j * lda] * x[i];
+                                    }
+
+                                    x[j] = temp;
+                                }
+
+                                break;
+                            }
+                            default:
+                            {
+                                jx = kx;
+                                for (j = 0; j < n; j++)
+                                {
+                                    temp = x[jx];
+                                    ix = jx;
+                                    switch (nounit)
+                                    {
+                                        case true:
+                                            temp *= a[j + j * lda];
+                                            break;
+                                    }
+
+                                    for (int i = j + 1; i < n; i++)
+                                    {
+                                        ix += incx;
+                                        temp += a[i + j * lda] * x[ix];
+                                    }
+
+                                    x[jx] = temp;
+                                    jx += incx;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
                     }
                 }
-                else
-                {
-                    if (incx == 1)
-                    {
-                        for (j = 0; j < n; j++)
-                        {
-                            temp = x[j];
-                            if (nounit)
-                            {
-                                temp = temp * a[j + j * lda];
-                            }
 
-                            for (int i = j + 1; i < n; i++)
-                            {
-                                temp = temp + a[i + j * lda] * x[i];
-                            }
-
-                            x[j] = temp;
-                        }
-                    }
-                    else
-                    {
-                        jx = kx;
-                        for (j = 0; j < n; j++)
-                        {
-                            temp = x[jx];
-                            ix = jx;
-                            if (nounit)
-                            {
-                                temp = temp * a[j + j * lda];
-                            }
-
-                            for (int i = j + 1; i < n; i++)
-                            {
-                                ix = ix + incx;
-                                temp = temp + a[i + j * lda] * x[ix];
-                            }
-
-                            x[jx] = temp;
-                            jx = jx + incx;
-                        }
-                    }
-                }
+                break;
             }
         }
     }

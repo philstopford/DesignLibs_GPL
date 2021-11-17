@@ -3,12 +3,12 @@ using Burkardt.AppliedStatistics;
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static class DSVDC
 {
-    public static class DSVDC
-    {
-        public static int dsvdc(ref double[] a, int lda, int m, int n, ref double[] s, ref double[] e,
-        ref double[] u, int ldu, ref double[] v, int ldv, double[] work, int job )
+    public static int dsvdc(ref double[] a, int lda, int m, int n, ref double[] s, ref double[] e,
+            ref double[] u, int ldu, ref double[] v, int ldv, double[] work, int job )
 
         //****************************************************************************80
         //
@@ -102,224 +102,233 @@ namespace Burkardt.MatrixNS
         //    matrix with the elements of S on its diagonal and the elements of E on
         //    its superdiagonal.  Thus the singular values of A and B are the same.
         //
+    {
+        double b = 0;
+        double c = 0;
+        double cs = 0;
+        double el = 0;
+        double emm1 = 0;
+        double f = 0;
+        double g = 0;
+        int i = 0;
+        int info = 0;
+        int iter = 0;
+        int j = 0;
+        int jobu = 0;
+        int k = 0;
+        int kase = 0;
+        int kk = 0;
+        int l = 0;
+        int ll = 0;
+        int lls = 0;
+        int ls = 0;
+        int lu = 0;
+        int maxit = 30;
+        int mm = 0;
+        int mm1 = 0;
+        int mn = 0;
+        int nct = 0;
+        int nctp1 = 0;
+        int ncu = 0;
+        int nrt = 0;
+        int nrtp1 = 0;
+        double scale = 0;
+        double shift = 0;
+        double sl = 0;
+        double sm = 0;
+        double smm1 = 0;
+        double sn = 0;
+        double t = 0;
+        double t1 = 0;
+        double test = 0;
+        bool wantu = false;
+        bool wantv = false;
+        double ztest = 0;
+        //
+        //  Determine what is to be computed.
+        //
+        info = 0;
+        wantu = false;
+        wantv = false;
+        jobu = job % 100 / 10;
+
+        ncu = jobu switch
         {
-            double b = 0;
-            double c = 0;
-            double cs = 0;
-            double el = 0;
-            double emm1 = 0;
-            double f = 0;
-            double g = 0;
-            int i = 0;
-            int info = 0;
-            int iter = 0;
-            int j = 0;
-            int jobu = 0;
-            int k = 0;
-            int kase = 0;
-            int kk = 0;
-            int l = 0;
-            int ll = 0;
-            int lls = 0;
-            int ls = 0;
-            int lu = 0;
-            int maxit = 30;
-            int mm = 0;
-            int mm1 = 0;
-            int mn = 0;
-            int nct = 0;
-            int nctp1 = 0;
-            int ncu = 0;
-            int nrt = 0;
-            int nrtp1 = 0;
-            double scale = 0;
-            double shift = 0;
-            double sl = 0;
-            double sm = 0;
-            double smm1 = 0;
-            double sn = 0;
-            double t = 0;
-            double t1 = 0;
-            double test = 0;
-            bool wantu = false;
-            bool wantv = false;
-            double ztest = 0;
+            > 1 => Math.Min(m, n),
+            _ => m
+        };
+
+        if (jobu != 0)
+        {
+            wantu = true;
+        }
+
+        if (job % 10 != 0)
+        {
+            wantv = true;
+        }
+
+        //
+        //  Reduce A to bidiagonal form, storing the diagonal elements
+        //  in S and the super-diagonal elements in E.
+        //
+        nct = Math.Min(m - 1, n);
+        nrt = Math.Max(0, Math.Min(m, n - 2));
+        lu = Math.Max(nct, nrt);
+
+        for (l = 1; l <= lu; l++)
+        {
             //
-            //  Determine what is to be computed.
+            //  Compute the transformation for the L-th column and
+            //  place the L-th diagonal in S(L).
             //
-            info = 0;
-            wantu = false;
-            wantv = false;
-            jobu = (job % 100) / 10;
-
-            if (1 < jobu)
+            if (l <= nct)
             {
-                ncu = Math.Min(m, n);
-            }
-            else
-            {
-                ncu = m;
-            }
+                s[l - 1] = BLAS1D.dnrm2(m - l + 1, a, 1,  + l - 1 + (l - 1) * lda);
 
-            if (jobu != 0)
-            {
-                wantu = true;
-            }
-
-            if ((job % 10) != 0)
-            {
-                wantv = true;
-            }
-
-            //
-            //  Reduce A to bidiagonal form, storing the diagonal elements
-            //  in S and the super-diagonal elements in E.
-            //
-            nct = Math.Min(m - 1, n);
-            nrt = Math.Max(0, Math.Min(m, n - 2));
-            lu = Math.Max(nct, nrt);
-
-            for (l = 1; l <= lu; l++)
-            {
-                //
-                //  Compute the transformation for the L-th column and
-                //  place the L-th diagonal in S(L).
-                //
-                if (l <= nct)
+                if (s[l - 1] != 0.0)
                 {
-                    s[l - 1] = BLAS1D.dnrm2(m - l + 1, a, 1,  + l - 1 + (l - 1) * lda);
-
-                    if (s[l - 1] != 0.0)
+                    if (a[l - 1 + (l - 1) * lda] != 0.0)
                     {
-                        if (a[l - 1 + (l - 1) * lda] != 0.0)
-                        {
-                            s[l - 1] = typeMethods.r8_sign(a[l - 1 + (l - 1) * lda]) * Math.Abs(s[l - 1]);
-                        }
-
-                        BLAS1D.dscal(m - l + 1, 1.0 / s[l - 1], ref a, 1, + l - 1 + (l - 1) * lda);
-                        a[l - 1 + (l - 1) * lda] = 1.0 + a[l - 1 + (l - 1) * lda];
+                        s[l - 1] = typeMethods.r8_sign(a[l - 1 + (l - 1) * lda]) * Math.Abs(s[l - 1]);
                     }
 
-                    s[l - 1] = -s[l - 1];
+                    BLAS1D.dscal(m - l + 1, 1.0 / s[l - 1], ref a, 1, + l - 1 + (l - 1) * lda);
+                    a[l - 1 + (l - 1) * lda] = 1.0 + a[l - 1 + (l - 1) * lda];
                 }
 
-                for (j = l + 1; j <= n; j++)
+                s[l - 1] = -s[l - 1];
+            }
+
+            for (j = l + 1; j <= n; j++)
+            {
+                //
+                //  Apply the transformation.
+                //
+                if (l <= nct && s[l - 1] != 0.0)
                 {
-                    //
-                    //  Apply the transformation.
-                    //
-                    if (l <= nct && s[l - 1] != 0.0)
-                    {
-                        t = -BLAS1D.ddot(m - l + 1, a, 1, a, 1,  + l - 1 + (l - 1) * lda,  + l - 1 + (j - 1) * lda)
-                            / a[l - 1 + (l - 1) * lda];
-                        BLAS1D.daxpy(m - l + 1, t, a, 1, ref a, 1,  + l - 1 + (l - 1) * lda,  + l - 1 + (j - 1) * lda);
-                    }
-
-                    //
-                    //  Place the L-th row of A into E for the
-                    //  subsequent calculation of the row transformation.
-                    //
-                    e[j - 1] = a[l - 1 + (j - 1) * lda];
+                    t = -BLAS1D.ddot(m - l + 1, a, 1, a, 1,  + l - 1 + (l - 1) * lda,  + l - 1 + (j - 1) * lda)
+                        / a[l - 1 + (l - 1) * lda];
+                    BLAS1D.daxpy(m - l + 1, t, a, 1, ref a, 1,  + l - 1 + (l - 1) * lda,  + l - 1 + (j - 1) * lda);
                 }
 
+                //
+                //  Place the L-th row of A into E for the
+                //  subsequent calculation of the row transformation.
+                //
+                e[j - 1] = a[l - 1 + (j - 1) * lda];
+            }
+
+            switch (wantu)
+            {
                 //
                 //  Place the transformation in U for subsequent back multiplication.
                 //
-                if (wantu && l <= nct)
+                case true when l <= nct:
                 {
                     for (i = l; i <= m; i++)
                     {
                         u[i - 1 + (l - 1) * ldu] = a[i - 1 + (l - 1) * lda];
                     }
+
+                    break;
+                }
+            }
+
+            if (l <= nrt)
+            {
+                //
+                //  Compute the L-th row transformation and place the
+                //  L-th superdiagonal in E(L).
+                //
+                e[l - 1] = BLAS1D.dnrm2(n - l, e, 1,  + l);
+
+                if (e[l - 1] != 0.0)
+                {
+                    if (e[l] != 0.0)
+                    {
+                        e[l - 1] = typeMethods.r8_sign(e[l]) * Math.Abs(e[l - 1]);
+                    }
+
+                    BLAS1D.dscal(n - l, 1.0 / e[l - 1], ref e, 1,  + l);
+                    e[l] = 1.0 + e[l];
                 }
 
-                if (l <= nrt)
+                e[l - 1] = -e[l - 1];
+                //
+                //  Apply the transformation.
+                //
+                if (l + 1 <= m && e[l - 1] != 0.0)
                 {
-                    //
-                    //  Compute the L-th row transformation and place the
-                    //  L-th superdiagonal in E(L).
-                    //
-                    e[l - 1] = BLAS1D.dnrm2(n - l, e, 1,  + l);
-
-                    if (e[l - 1] != 0.0)
+                    for (j = l + 1; j <= m; j++)
                     {
-                        if (e[l] != 0.0)
-                        {
-                            e[l - 1] = typeMethods.r8_sign(e[l]) * Math.Abs(e[l - 1]);
-                        }
-
-                        BLAS1D.dscal(n - l, 1.0 / e[l - 1], ref e, 1,  + l);
-                        e[l] = 1.0 + e[l];
+                        work[j - 1] = 0.0;
                     }
 
-                    e[l - 1] = -e[l - 1];
-                    //
-                    //  Apply the transformation.
-                    //
-                    if (l + 1 <= m && e[l - 1] != 0.0)
+                    for (j = l + 1; j <= n; j++)
                     {
-                        for (j = l + 1; j <= m; j++)
-                        {
-                            work[j - 1] = 0.0;
-                        }
-
-                        for (j = l + 1; j <= n; j++)
-                        {
-                            BLAS1D.daxpy(m - l, e[j - 1], a, 1, ref work, 1,  + l + (j - 1) * lda,  + l);
-                        }
-
-                        for (j = l + 1; j <= n; j++)
-                        {
-                            BLAS1D.daxpy(m - l, -e[j - 1] / e[l], work, 1, ref a, 1,  + l,  + l + (j - 1) * lda);
-                        }
+                        BLAS1D.daxpy(m - l, e[j - 1], a, 1, ref work, 1,  + l + (j - 1) * lda,  + l);
                     }
 
+                    for (j = l + 1; j <= n; j++)
+                    {
+                        BLAS1D.daxpy(m - l, -e[j - 1] / e[l], work, 1, ref a, 1,  + l,  + l + (j - 1) * lda);
+                    }
+                }
+
+                switch (wantv)
+                {
                     //
                     //  Place the transformation in V for subsequent back multiplication.
                     //
-                    if (wantv)
+                    case true:
                     {
                         for (j = l + 1; j <= n; j++)
                         {
                             v[j - 1 + (l - 1) * ldv] = e[j - 1];
                         }
+
+                        break;
                     }
                 }
             }
+        }
 
-            //
-            //  Set up the final bidiagonal matrix of order MN.
-            //
-            mn = Math.Min(m + 1, n);
-            nctp1 = nct + 1;
-            nrtp1 = nrt + 1;
+        //
+        //  Set up the final bidiagonal matrix of order MN.
+        //
+        mn = Math.Min(m + 1, n);
+        nctp1 = nct + 1;
+        nrtp1 = nrt + 1;
 
-            if (nct < n)
-            {
-                s[nctp1 - 1] = a[nctp1 - 1 + (nctp1 - 1) * lda];
-            }
+        if (nct < n)
+        {
+            s[nctp1 - 1] = a[nctp1 - 1 + (nctp1 - 1) * lda];
+        }
 
-            if (m < mn)
-            {
-                s[mn - 1] = 0.0;
-            }
+        if (m < mn)
+        {
+            s[mn - 1] = 0.0;
+        }
 
-            if (nrtp1 < mn)
-            {
-                e[nrtp1 - 1] = a[nrtp1 - 1 + (mn - 1) * lda];
-            }
+        if (nrtp1 < mn)
+        {
+            e[nrtp1 - 1] = a[nrtp1 - 1 + (mn - 1) * lda];
+        }
 
-            e[mn - 1] = 0.0;
+        e[mn - 1] = 0.0;
+        switch (wantu)
+        {
             //
             //  If required, generate U.
             //
-            if (wantu)
+            case true:
             {
                 for (i = 1; i <= m; i++)
                 {
                     for (j = nctp1; j <= ncu; j++)
                     {
-                        u[(i - 1) + (j - 1) * ldu] = 0.0;
+                        u[i - 1 + (j - 1) * ldu] = 0.0;
                     }
                 }
 
@@ -358,12 +367,17 @@ namespace Burkardt.MatrixNS
                         u[l - 1 + (l - 1) * ldu] = 1.0;
                     }
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (wantv)
+        {
             //
             //  If it is required, generate V.
             //
-            if (wantv)
+            case true:
             {
                 for (ll = 1; ll <= n; ll++)
                 {
@@ -387,112 +401,117 @@ namespace Burkardt.MatrixNS
 
                     v[l - 1 + (l - 1) * ldv] = 1.0;
                 }
+
+                break;
+            }
+        }
+
+        //
+        //  Main iteration loop for the singular values.
+        //
+        mm = mn;
+        iter = 0;
+
+        while (0 < mn)
+        {
+            //
+            //  If too many iterations have been performed, set flag and return.
+            //
+            if (maxit <= iter)
+            {
+                info = mn;
+                return info;
             }
 
             //
-            //  Main iteration loop for the singular values.
+            //  This section of the program inspects for
+            //  negligible elements in the S and E arrays.
             //
-            mm = mn;
-            iter = 0;
-
-            while (0 < mn)
+            //  On completion the variables KASE and L are set as follows:
+            //
+            //  KASE = 1     if S(MN) and E(L-1) are negligible and L < MN
+            //  KASE = 2     if S(L) is negligible and L < MN
+            //  KASE = 3     if E(L-1) is negligible, L < MN, and
+            //               S(L), ..., S(MN) are not negligible (QR step).
+            //  KASE = 4     if E(MN-1) is negligible (convergence).
+            //
+            for (ll = 1; ll <= mn; ll++)
             {
-                //
-                //  If too many iterations have been performed, set flag and return.
-                //
-                if (maxit <= iter)
+                l = mn - ll;
+
+                if (l == 0)
                 {
-                    info = mn;
-                    return info;
+                    break;
                 }
 
-                //
-                //  This section of the program inspects for
-                //  negligible elements in the S and E arrays.
-                //
-                //  On completion the variables KASE and L are set as follows:
-                //
-                //  KASE = 1     if S(MN) and E(L-1) are negligible and L < MN
-                //  KASE = 2     if S(L) is negligible and L < MN
-                //  KASE = 3     if E(L-1) is negligible, L < MN, and
-                //               S(L), ..., S(MN) are not negligible (QR step).
-                //  KASE = 4     if E(MN-1) is negligible (convergence).
-                //
-                for (ll = 1; ll <= mn; ll++)
+                test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
+                ztest = test + Math.Abs(e[l - 1]);
+
+                if (ztest == test)
                 {
-                    l = mn - ll;
-
-                    if (l == 0)
-                    {
-                        break;
-                    }
-
-                    test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
-                    ztest = test + Math.Abs(e[l - 1]);
-
-                    if (ztest == test)
-                    {
-                        e[l - 1] = 0.0;
-                        break;
-                    }
+                    e[l - 1] = 0.0;
+                    break;
                 }
+            }
 
-                if (l == mn - 1)
+            if (l == mn - 1)
+            {
+                kase = 4;
+            }
+            else
+            {
+                for (lls = l + 1; lls <= mn + 1; lls++)
                 {
-                    kase = 4;
-                }
-                else
-                {
-                    for (lls = l + 1; lls <= mn + 1; lls++)
-                    {
-                        ls = mn - lls + l + 1;
-
-                        if (ls == l)
-                        {
-                            break;
-                        }
-
-                        test = 0.0;
-                        if (ls != mn)
-                        {
-                            test = test + Math.Abs(e[ls - 1]);
-                        }
-
-                        if (ls != l + 1)
-                        {
-                            test = test + Math.Abs(e[ls - 2]);
-                        }
-
-                        ztest = test + Math.Abs(s[ls - 1]);
-
-                        if (ztest == test)
-                        {
-                            s[ls - 1] = 0.0;
-                            break;
-                        }
-
-                    }
+                    ls = mn - lls + l + 1;
 
                     if (ls == l)
                     {
-                        kase = 3;
+                        break;
                     }
-                    else if (ls == mn)
+
+                    test = 0.0;
+                    if (ls != mn)
                     {
-                        kase = 1;
+                        test += Math.Abs(e[ls - 1]);
                     }
-                    else
+
+                    if (ls != l + 1)
                     {
-                        kase = 2;
-                        l = ls;
+                        test += Math.Abs(e[ls - 2]);
                     }
+
+                    ztest = test + Math.Abs(s[ls - 1]);
+
+                    if (ztest == test)
+                    {
+                        s[ls - 1] = 0.0;
+                        break;
+                    }
+
                 }
 
-                l = l + 1;
+                if (ls == l)
+                {
+                    kase = 3;
+                }
+                else if (ls == mn)
+                {
+                    kase = 1;
+                }
+                else
+                {
+                    kase = 2;
+                    l = ls;
+                }
+            }
+
+            l += 1;
+            switch (kase)
+            {
                 //
                 //  Deflate negligible S(MN).
                 //
-                if (kase == 1)
+                case 1:
                 {
                     mm1 = mn - 1;
                     f = e[mn - 2];
@@ -511,16 +530,20 @@ namespace Burkardt.MatrixNS
                             e[k - 2] = cs * e[k - 2];
                         }
 
-                        if (wantv)
+                        switch (wantv)
                         {
-                            BLAS1D.drot(n, ref v, 1, ref v, 1, cs, sn,  + 0 + (k - 1) * ldv,  + 0 + (mn - 1) * ldv);
+                            case true:
+                                BLAS1D.drot(n, ref v, 1, ref v, 1, cs, sn,  + 0 + (k - 1) * ldv,  + 0 + (mn - 1) * ldv);
+                                break;
                         }
                     }
+
+                    break;
                 }
                 //
                 //  Split at negligible S(L).
                 //
-                else if (kase == 2)
+                case 2:
                 {
                     f = e[l - 2];
                     e[l - 2] = 0.0;
@@ -532,16 +555,20 @@ namespace Burkardt.MatrixNS
                         s[k - 1] = t1;
                         f = -sn * e[k - 1];
                         e[k - 1] = cs * e[k - 1];
-                        if (wantu)
+                        switch (wantu)
                         {
-                            BLAS1D.drot(m, ref u, 1, ref u, 1, cs, sn,  + 0 + (k - 1) * ldu,  + 0 + (l - 2) * ldu);
+                            case true:
+                                BLAS1D.drot(m, ref u, 1, ref u, 1, cs, sn,  + 0 + (k - 1) * ldu,  + 0 + (l - 2) * ldu);
+                                break;
                         }
                     }
+
+                    break;
                 }
                 //
                 //  Perform one QR step.
                 //
-                else if (kase == 3)
+                case 3:
                 {
                     //
                     //  Calculate the shift.
@@ -557,16 +584,16 @@ namespace Burkardt.MatrixNS
                     sl = s[l - 1] / scale;
                     el = e[l - 1] / scale;
                     b = ((smm1 + sm) * (smm1 - sm) + emm1 * emm1) / 2.0;
-                    c = (sm * emm1) * (sm * emm1);
+                    c = sm * emm1 * (sm * emm1);
                     shift = 0.0;
 
                     if (b != 0.0 || c != 0.0)
                     {
-                        shift = Math.Sqrt(b * b + c);
-                        if (b < 0.0)
+                        shift = b switch
                         {
-                            shift = -shift;
-                        }
+                            < 0.0 => -shift,
+                            _ => Math.Sqrt(b * b + c)
+                        };
 
                         shift = c / (b + shift);
                     }
@@ -592,9 +619,11 @@ namespace Burkardt.MatrixNS
                         g = sn * s[k];
                         s[k] = cs * s[k];
 
-                        if (wantv)
+                        switch (wantv)
                         {
-                            BLAS1D.drot(n, ref v, 1, ref v, 1, cs, sn,  + 0 + (k - 1) * ldv,  + 0 + k * ldv);
+                            case true:
+                                BLAS1D.drot(n, ref v, 1, ref v, 1, cs, sn,  + 0 + (k - 1) * ldv,  + 0 + k * ldv);
+                                break;
                         }
 
                         BLAS1D.drotg(ref f, ref g, ref cs, ref sn);
@@ -604,29 +633,39 @@ namespace Burkardt.MatrixNS
                         g = sn * e[k];
                         e[k] = cs * e[k];
 
-                        if (wantu && k < m)
+                        switch (wantu)
                         {
-                            BLAS1D.drot(m, ref u, 1, ref u, 1, cs, sn,  + 0 + (k - 1) * ldu,  + 0 + k * ldu);
+                            case true when k < m:
+                                BLAS1D.drot(m, ref u, 1, ref u, 1, cs, sn,  + 0 + (k - 1) * ldu,  + 0 + k * ldu);
+                                break;
                         }
                     }
 
                     e[mn - 2] = f;
-                    iter = iter + 1;
+                    iter += 1;
+                    break;
                 }
                 //
                 //  Convergence.
                 //
-                else if (kase == 4)
+                case 4:
                 {
-                    //
-                    //  Make the singular value nonnegative.
-                    //
-                    if (s[l - 1] < 0.0)
+                    switch (s[l - 1])
                     {
-                        s[l - 1] = -s[l - 1];
-                        if (wantv)
+                        //
+                        //  Make the singular value nonnegative.
+                        //
+                        case < 0.0:
                         {
-                            BLAS1D.dscal(n, -1.0, ref v, 1,  + 0 + (l - 1) * ldv);
+                            s[l - 1] = -s[l - 1];
+                            switch (wantv)
+                            {
+                                case true:
+                                    BLAS1D.dscal(n, -1.0, ref v, 1,  + 0 + (l - 1) * ldv);
+                                    break;
+                            }
+
+                            break;
                         }
                     }
 
@@ -649,25 +688,30 @@ namespace Burkardt.MatrixNS
                         s[l - 1] = s[l];
                         s[l] = t;
 
-                        if (wantv && l < n)
+                        switch (wantv)
                         {
-                            BLAS1D.dswap(n, ref v, 1, ref v, 1,  + 0 + (l - 1) * ldv,  + 0 + l * ldv);
+                            case true when l < n:
+                                BLAS1D.dswap(n, ref v, 1, ref v, 1,  + 0 + (l - 1) * ldv,  + 0 + l * ldv);
+                                break;
                         }
 
-                        if (wantu && l < m)
+                        switch (wantu)
                         {
-                            BLAS1D.dswap(m, ref u, 1, ref u, 1,  + 0 + (l - 1) * ldu,  + 0 + l * ldu);
+                            case true when l < m:
+                                BLAS1D.dswap(m, ref u, 1, ref u, 1,  + 0 + (l - 1) * ldu,  + 0 + l * ldu);
+                                break;
                         }
 
-                        l = l + 1;
+                        l += 1;
                     }
 
                     iter = 0;
-                    mn = mn - 1;
+                    mn -= 1;
+                    break;
                 }
             }
-
-            return info;
         }
+
+        return info;
     }
 }

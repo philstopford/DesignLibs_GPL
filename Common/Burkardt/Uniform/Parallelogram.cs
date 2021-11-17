@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Uniform
+﻿namespace Burkardt.Uniform;
+
+public static class Parallelogram
 {
-    public static class Parallelogram
-    {
-        public static double[] uniform_in_parallelogram_map ( double[] v1, double[] v2,
-        double[] v3, int n, ref int seed )
+    public static double[] uniform_in_parallelogram_map ( double[] v1, double[] v2,
+            double[] v3, int n, ref int seed )
 
         //****************************************************************************80
         //
@@ -46,31 +46,27 @@
         //
         //    Output, double UNIFORM_IN_PARALLELOGRAM_MAP[2*N], the points.
         //
+    {
+        const int DIM_NUM = 2;
+
+        int j;
+
+        double[] x = new double[DIM_NUM*n];
+
+        for ( j = 0; j < n; j++ )
         {
-            int DIM_NUM = 2;
+            double r = UniformRNG.r8_uniform_01 ( ref seed );
+            double s = UniformRNG.r8_uniform_01 ( ref seed );
 
             int i;
-            int j;
-            double r;
-            double s;
-            double[] x;
-
-            x = new double[DIM_NUM*n];
-
-            for ( j = 0; j < n; j++ )
+            for ( i = 0; i < DIM_NUM; i++ )
             {
-                r = UniformRNG.r8_uniform_01 ( ref seed );
-                s = UniformRNG.r8_uniform_01 ( ref seed );
-
-                for ( i = 0; i < DIM_NUM; i++ )
-                {
-                    x[i+j*DIM_NUM] = ( 1.0 - r - s ) * v1[i]
-                                     + r       * v2[i]
-                                     + s   * v3[i];
-                }
+                x[i+j*DIM_NUM] = ( 1.0 - r - s ) * v1[i]
+                                 + r       * v2[i]
+                                 + s   * v3[i];
             }
-
-            return x;
         }
+
+        return x;
     }
 }

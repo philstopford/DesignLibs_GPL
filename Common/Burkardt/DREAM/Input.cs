@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Burkardt.DREAM
+namespace Burkardt.DREAM;
+
+public static class Input
 {
-    public static class Input
-    {
-        public static void input_print(string chain_filename, int chain_num, int cr_num,
+    public static void input_print(string chain_filename, int chain_num, int cr_num,
             string gr_filename, double gr_threshold, int jumpstep, double[] limits,
-        int gen_num, int pair_num, int par_num, int printstep,
-        string restart_read_filename, string restart_write_filename )
+            int gen_num, int pair_num, int par_num, int printstep,
+            string restart_read_filename, string restart_write_filename )
 
         //****************************************************************************80
         //
@@ -76,90 +76,91 @@ namespace Burkardt.DREAM
         //    to be written, containing restart information.  If a restart file is
         //    not to be written, this should be set to "".
         //
+    {
+        int j;
+
+        Console.WriteLine("");
+        Console.WriteLine("INPUT_PRINT:");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of parameters");
+        Console.WriteLine("  PAR_NUM = " + par_num + "");
+        Console.WriteLine("");
+        Console.WriteLine("  LIMITS: Lower and upper limits for each parameter:");
+        Console.WriteLine("");
+        Console.WriteLine("  Index           Lower           Upper");
+        Console.WriteLine("");
+        for (j = 0; j < par_num; j++)
         {
-            int j;
+            Console.WriteLine("  " + j.ToString().PadLeft(5)
+                                   + "  " + limits[0 + j * 2].ToString().PadLeft(14)
+                                   + "  " + limits[1 + j * 2].ToString().PadLeft(14) + "");
+        }
 
-            Console.WriteLine("");
-            Console.WriteLine("INPUT_PRINT:");
-            Console.WriteLine("");
-            Console.WriteLine("  Number of parameters");
-            Console.WriteLine("  PAR_NUM = " + par_num + "");
-            Console.WriteLine("");
-            Console.WriteLine("  LIMITS: Lower and upper limits for each parameter:");
-            Console.WriteLine("");
-            Console.WriteLine("  Index           Lower           Upper");
-            Console.WriteLine("");
-            for (j = 0; j < par_num; j++)
-            {
-                Console.WriteLine("  " + j.ToString().PadLeft(5)
-                    + "  " + limits[0 + j * 2].ToString().PadLeft(14)
-                    + "  " + limits[1 + j * 2].ToString().PadLeft(14) + "");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Number of generations:");
-            Console.WriteLine("  GEN_NUM = " + gen_num + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Number of simultaneous chains:");
-            Console.WriteLine("  CHAIN_NUM = " + chain_num + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Chain filename (base):");
-            if (chain_filename.Length == 0)
-            {
+        Console.WriteLine("");
+        Console.WriteLine("  Number of generations:");
+        Console.WriteLine("  GEN_NUM = " + gen_num + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of simultaneous chains:");
+        Console.WriteLine("  CHAIN_NUM = " + chain_num + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Chain filename (base):");
+        switch (chain_filename.Length)
+        {
+            case 0:
                 Console.WriteLine("  CHAIN_FILENAME = \"(Null)\".");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  CHAIN_FILENAME = \"" + chain_filename + "\".");
-            }
+                break;
+        }
 
-            Console.WriteLine("");
-            Console.WriteLine("  Number of pairs of chains for crossover:");
-            Console.WriteLine("  PAIR_NUM = " + pair_num + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Number of crossover values:");
-            Console.WriteLine("  CR_NUM = " + cr_num + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Number of steps til a long jump:");
-            Console.WriteLine("  JUMPSTEP = " + jumpstep + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Interval between Gelman-Rubin computations:");
-            Console.WriteLine("  PRINTSTEP = " + printstep + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Gelman-Rubin data filename:");
-            if (gr_filename.Length == 0)
-            {
+        Console.WriteLine("");
+        Console.WriteLine("  Number of pairs of chains for crossover:");
+        Console.WriteLine("  PAIR_NUM = " + pair_num + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of crossover values:");
+        Console.WriteLine("  CR_NUM = " + cr_num + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of steps til a long jump:");
+        Console.WriteLine("  JUMPSTEP = " + jumpstep + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Interval between Gelman-Rubin computations:");
+        Console.WriteLine("  PRINTSTEP = " + printstep + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Gelman-Rubin data filename:");
+        switch (gr_filename.Length)
+        {
+            case 0:
                 Console.WriteLine("  GR_FILENAME = \"(Null)\".");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  GR_FILENAME = \"" + gr_filename + "\".");
-            }
+                break;
+        }
 
-            Console.WriteLine("  GR_THRESHOLD = " + gr_threshold + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Restart read filename:");
-            if (restart_read_filename.Length == 0)
-            {
+        Console.WriteLine("  GR_THRESHOLD = " + gr_threshold + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Restart read filename:");
+        switch (restart_read_filename.Length)
+        {
+            case 0:
                 Console.WriteLine("  RESTART_READ_FILENAME = \"(Null)\".");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  RESTART_READ_FILENAME = \"" + restart_read_filename + "\".");
-            }
+                break;
+        }
 
-            Console.WriteLine("");
-            Console.WriteLine("  Restart write filename:");
-            if (restart_write_filename.Length == 0)
-            {
+        Console.WriteLine("");
+        Console.WriteLine("  Restart write filename:");
+        switch (restart_write_filename.Length)
+        {
+            case 0:
                 Console.WriteLine("  RESTART_WRITE_FILENAME = \"(Null)\".");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  RESTART_WRITE_FILENAME = \"" + restart_write_filename + "\".");
-            }
-
-            return;
+                break;
         }
     }
 }

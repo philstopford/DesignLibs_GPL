@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.HyperGeometry.Hypercube
+namespace Burkardt.HyperGeometry.Hypercube;
+
+public static class MonteCarlo
 {
-    public static class MonteCarlo
-    {
         
-        public static double hypercube01_monomial_integral ( int m, int[] e )
+    public static double hypercube01_monomial_integral ( int m, int[] e )
         //****************************************************************************80
         //
         //  Purpose:
@@ -49,32 +49,33 @@ namespace Burkardt.HyperGeometry.Hypercube
         //
         //    Output, double HYPERCUBE01_MONOMIAL_INTEGRAL, the integral.
         //
-        {
-            double integral;
+    {
+        double integral;
 
-            for (int i = 0; i < m; i++ )
+        for (int i = 0; i < m; i++ )
+        {
+            switch (e[i])
             {
-                if ( e[i] < 0 )
-                {
+                case < 0:
                     Console.WriteLine();
                     Console.WriteLine("HYPERCUBE01_MONOMIAL_INTEGRAL - Fatal error!");
                     Console.WriteLine("  All exponents must be nonnegative.");
                     Console.WriteLine("  E[" + i + "] = " + e[i]);
                     return 0;
-                }
             }
-
-            integral = 1.0;
-            for (int i = 0; i < m; i++ )
-            {
-                integral = integral /  ( e[i] + 1 );
-            }
-
-            return integral;
         }
+
+        integral = 1.0;
+        for (int i = 0; i < m; i++ )
+        {
+            integral /= ( e[i] + 1 );
+        }
+
+        return integral;
+    }
         
         
-        public static double[] hypercube01_sample ( int m, int n, ref int seed )
+    public static double[] hypercube01_sample ( int m, int n, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -119,14 +120,14 @@ namespace Burkardt.HyperGeometry.Hypercube
         //
         //    Output, double X[M*N], the points.
         //
-        {
-            double[] x = UniformRNG.r8mat_uniform_01 ( m, n, ref seed );
+    {
+        double[] x = UniformRNG.r8mat_uniform_01 ( m, n, ref seed );
 
-            return x;
-        }
+        return x;
+    }
         
         
-        public static double hypercube01_volume ( int m )
+    public static double hypercube01_volume ( int m )
         //****************************************************************************80
         //
         //  Purpose:
@@ -151,10 +152,9 @@ namespace Burkardt.HyperGeometry.Hypercube
         //
         //    Output, double HYPERCUBE01_VOLUME, the volume.
         //
-        {
-            double volume = 1.0;
+    {
+        double volume = 1.0;
 
-            return volume;
-        }
+        return volume;
     }
 }

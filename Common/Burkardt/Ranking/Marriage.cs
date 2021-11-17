@@ -1,8 +1,8 @@
-﻿namespace Burkardt.RankingNS
+﻿namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
-    {
-        public static void marriage(int n, int[] prefer, int[] rank, ref int[] fiancee, ref int[] next )
+    public static void marriage(int n, int[] prefer, int[] rank, ref int[] fiancee, ref int[] next )
 
         //****************************************************************************80
         // 
@@ -64,54 +64,53 @@
         //    ranking for the woman to whom he is now engaged.  A value of 1 represents
         //    his first choice, a value of N his last.
         // 
+    {
+        int i;
+        int m;
+        int temp;
+        int w;
+        // 
+        //  For man I, NEXT(I) is the woman I has most recently proposed to,
+        //  and hence NEXT(I)+1 is the next one to try.
+        // 
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int m;
-            int temp;
-            int w;
-            // 
-            //  For man I, NEXT(I) is the woman I has most recently proposed to,
-            //  and hence NEXT(I)+1 is the next one to try.
-            // 
-            for (i = 0; i < n; i++)
-            {
-                next[i] = 0;
-            }
+            next[i] = 0;
+        }
 
-            // 
-            //  For woman I, FIANCEE(I) is the man she has agree to marry,
-            //  or 0 if she has not agreed to any man yet.
-            // 
-            for (i = 0; i < n; i++)
-            {
-                fiancee[i] = -1;
-            }
+        // 
+        //  For woman I, FIANCEE(I) is the man she has agree to marry,
+        //  or 0 if she has not agreed to any man yet.
+        // 
+        for (i = 0; i < n; i++)
+        {
+            fiancee[i] = -1;
+        }
 
-            // 
-            //  Start with an unengaged man, and end with an engaged woman.
-            // 
-            for (i = 1; i <= n; i++)
-            {
-                m = i;
+        // 
+        //  Start with an unengaged man, and end with an engaged woman.
+        // 
+        for (i = 1; i <= n; i++)
+        {
+            m = i;
 
-                for (;;)
+            for (;;)
+            {
+                next[m - 1] += 1;
+
+                w = prefer[m - 1 + (next[m - 1] - 1) * n];
+
+                if (fiancee[w - 1] == -1)
                 {
-                    next[m - 1] = next[m - 1] + 1;
+                    fiancee[w - 1] = m;
+                    break;
+                }
 
-                    w = prefer[m - 1 + (next[m - 1] - 1) * n];
-
-                    if (fiancee[w - 1] == -1)
-                    {
-                        fiancee[w - 1] = m;
-                        break;
-                    }
-
-                    if (rank[w - 1 + (m - 1) * n] < rank[w - 1 + (fiancee[w - 1] - 1) * n])
-                    {
-                        temp = fiancee[w - 1];
-                        fiancee[w - 1] = m;
-                        m = temp;
-                    }
+                if (rank[w - 1 + (m - 1) * n] < rank[w - 1 + (fiancee[w - 1] - 1) * n])
+                {
+                    temp = fiancee[w - 1];
+                    fiancee[w - 1] = m;
+                    m = temp;
                 }
             }
         }

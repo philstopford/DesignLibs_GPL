@@ -1,101 +1,103 @@
 ﻿using System;
 
-namespace Burkardt.FDM
+namespace Burkardt.FDM;
+
+public static class FD1D_Wave
 {
-    public static class FD1D_Wave
+    public static double fd1d_wave_alpha(int x_num, double x1, double x2, int t_num, double t1,
+            double t2, double c)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    FD1D_WAVE_ALPHA computes ALPHA for the 1D wave equation.
+        //
+        //  Discussion:
+        //
+        //    The explicit timestepping procedure uses the quantity ALPHA, which
+        //    is determined by this function.
+        //
+        //    If the spatial region bounds are X1 <= X <= X2, containing X_NUM equally
+        //    spaced nodes, including the endpoints, and the time domain similarly
+        //    extends from T1 <= T <= T2 containing T_NUM equally spaced time values,
+        //    then
+        //
+        //      ALPHA = C * DT / DX
+        //            = C * ( ( T2 - T1 ) / ( T_NUM - 1 ) )
+        //                / ( ( X2 - X1 ) / ( X_NUM - 1 ) ).
+        //
+        //    For a stable computation, it must be the case that ALPHA < 1.
+        //
+        //    If ALPHA is greater than 1, then the middle coefficient 1-C^2 DT^2 / DX^2 
+        //    is negative, and the sum of the magnitudes of the three coefficients 
+        //    becomes unbounded.  In such a case, the user must reduce the time step 
+        //    size appropriately.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 January 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    George Lindfield, John Penny,
+        //    Numerical Methods Using MATLAB,
+        //    Second Edition,
+        //    Prentice Hall, 1999,
+        //    ISBN: 0-13-012641-1,
+        //    LC: QA297.P45.
+        //
+        //  Parameters:
+        //
+        //    Input, int X_NUM, the number of nodes in the X direction.
+        //
+        //    Input, double X1, X2, the first and last X coordinates.
+        //
+        //    Input, int T_NUM, the number of time steps, including the 
+        //    initial condition.
+        //
+        //    Input, double T1, T2, the first and last T coordinates.
+        //
+        //    Input, double C, a parameter which gives the speed of waves.
+        //
+        //    Output, double FD1D_WAVE_ALPHA, the stability coefficient.
+        //
     {
-        public static double fd1d_wave_alpha(int x_num, double x1, double x2, int t_num, double t1,
-                double t2, double c)
+        double alpha;
+        double t_delta;
+        double x_delta;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    FD1D_WAVE_ALPHA computes ALPHA for the 1D wave equation.
-            //
-            //  Discussion:
-            //
-            //    The explicit timestepping procedure uses the quantity ALPHA, which
-            //    is determined by this function.
-            //
-            //    If the spatial region bounds are X1 <= X <= X2, containing X_NUM equally
-            //    spaced nodes, including the endpoints, and the time domain similarly
-            //    extends from T1 <= T <= T2 containing T_NUM equally spaced time values,
-            //    then
-            //
-            //      ALPHA = C * DT / DX
-            //            = C * ( ( T2 - T1 ) / ( T_NUM - 1 ) )
-            //                / ( ( X2 - X1 ) / ( X_NUM - 1 ) ).
-            //
-            //    For a stable computation, it must be the case that ALPHA < 1.
-            //
-            //    If ALPHA is greater than 1, then the middle coefficient 1-C^2 DT^2 / DX^2 
-            //    is negative, and the sum of the magnitudes of the three coefficients 
-            //    becomes unbounded.  In such a case, the user must reduce the time step 
-            //    size appropriately.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    24 January 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    George Lindfield, John Penny,
-            //    Numerical Methods Using MATLAB,
-            //    Second Edition,
-            //    Prentice Hall, 1999,
-            //    ISBN: 0-13-012641-1,
-            //    LC: QA297.P45.
-            //
-            //  Parameters:
-            //
-            //    Input, int X_NUM, the number of nodes in the X direction.
-            //
-            //    Input, double X1, X2, the first and last X coordinates.
-            //
-            //    Input, int T_NUM, the number of time steps, including the 
-            //    initial condition.
-            //
-            //    Input, double T1, T2, the first and last T coordinates.
-            //
-            //    Input, double C, a parameter which gives the speed of waves.
-            //
-            //    Output, double FD1D_WAVE_ALPHA, the stability coefficient.
-            //
+        t_delta = (t2 - t1) / (t_num - 1);
+        x_delta = (x2 - x1) / (x_num - 1);
+        alpha = c * t_delta / x_delta;
+
+        Console.WriteLine("");
+        Console.WriteLine("  Stability condition ALPHA = C * DT / DX = " + alpha + "");
+
+        switch (Math.Abs(alpha))
         {
-            double alpha;
-            double t_delta;
-            double x_delta;
-
-            t_delta = (t2 - t1) / (double) (t_num - 1);
-            x_delta = (x2 - x1) / (double) (x_num - 1);
-            alpha = c * t_delta / x_delta;
-
-            Console.WriteLine("");
-            Console.WriteLine("  Stability condition ALPHA = C * DT / DX = " + alpha + "");
-
-            if (1.0 < Math.Abs(alpha))
-            {
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("FD1D_WAVE_ALPHA - Warning!");
                 Console.WriteLine("  The stability condition |ALPHA| <= 1 fails.");
                 Console.WriteLine("  Computed results are liable to be inaccurate.");
-            }
-
-            return alpha;
+                break;
         }
 
-        public static double[] fd1d_wave_start(int x_num, double[] x_vec, double t, double t_delta,
-        double alpha, Func<double, double> u_x1, Func<double, double> u_x2,
-        Func <int, double[], double[]> ut_t1, double[] u1 )
+        return alpha;
+    }
+
+    public static double[] fd1d_wave_start(int x_num, double[] x_vec, double t, double t_delta,
+            double alpha, Func<double, double> u_x1, Func<double, double> u_x2,
+            Func <int, double[], double[]> ut_t1, double[] u1 )
 
         //****************************************************************************80
         //
@@ -220,31 +222,31 @@ namespace Burkardt.FDM
         //
         //    Output, real FD1D_WAVE_START[X_NUM], the solution at the first time step.
         //
+    {
+        int j;
+        double[] u2;
+        double[] ut;
+
+        ut = ut_t1(x_num, x_vec);
+
+        u2 = new double[x_num];
+
+        u2[0] = u_x1(t);
+
+        for (j = 1; j < x_num - 1; j++)
         {
-            int j;
-            double[] u2;
-            double[] ut;
-
-            ut = ut_t1(x_num, x_vec);
-
-            u2 = new double[x_num];
-
-            u2[0] = u_x1(t);
-
-            for (j = 1; j < x_num - 1; j++)
-            {
-                u2[j] = alpha * alpha * u1[j + 1] / 2.0
-                        + (1.0 - alpha * alpha) * u1[j]
-                        + alpha * alpha * u1[j - 1] / 2.0
-                        + t_delta * ut[j];
-            }
-
-            u2[x_num - 1] = u_x2(t);
-
-            return u2;
+            u2[j] = alpha * alpha * u1[j + 1] / 2.0
+                    + (1.0 - alpha * alpha) * u1[j]
+                    + alpha * alpha * u1[j - 1] / 2.0
+                    + t_delta * ut[j];
         }
 
-        public static double[] fd1d_wave_step(int x_num, double t, double alpha,
+        u2[x_num - 1] = u_x2(t);
+
+        return u2;
+    }
+
+    public static double[] fd1d_wave_step(int x_num, double t, double alpha,
             Func < double, double > u_x1, Func <double, double > u_x2, double[] u1, double[] u2 )
 
         //****************************************************************************80
@@ -365,25 +367,24 @@ namespace Burkardt.FDM
         //
         //    Output, double FD1D_WAVE_STEP[X_NUM], the solution at the new time.
         //
+    {
+        int j;
+        double[] u3;
+
+        u3 = new double[x_num];
+
+        u3[0] = u_x1(t);
+
+        for (j = 1; j < x_num - 1; j++)
         {
-            int j;
-            double[] u3;
-
-            u3 = new double[x_num];
-
-            u3[0] = u_x1(t);
-
-            for (j = 1; j < x_num - 1; j++)
-            {
-                u3[j] = alpha * alpha * u2[j + 1]
-                        + 2.0 * (1.0 - alpha * alpha) * u2[j]
-                        + alpha * alpha * u2[j - 1]
-                        - u1[j];
-            }
-
-            u3[x_num - 1] = u_x2(t);
-
-            return u3;
+            u3[j] = alpha * alpha * u2[j + 1]
+                    + 2.0 * (1.0 - alpha * alpha) * u2[j]
+                    + alpha * alpha * u2[j - 1]
+                    - u1[j];
         }
+
+        u3[x_num - 1] = u_x2(t);
+
+        return u3;
     }
 }

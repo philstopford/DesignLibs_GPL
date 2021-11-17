@@ -1,62 +1,62 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class r8TanData
     {
-        public class r8TanData
-        {
-            public int nterms = 0;
-            public double sqeps = 0.0;
-            public double xmax = 0.0;
-            public double xsml = 0.0;
+        public int nterms;
+        public double sqeps;
+        public double xmax;
+        public double xsml;
 
-        }
-        public static double r8_tan( ref r8TanData data, double x)
+    }
+    public static double r8_tan( ref r8TanData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_TAN evaluates the tangent of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_TAN, the tangent of X.
-            //
-        {
-            double ainty;
-            double ainty2;
-            int ifn;
-            const double pi2rec = 0.011619772367581343075535053490057;
-            double prodbg;
-            double[] tancs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_TAN evaluates the tangent of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_TAN, the tangent of X.
+        //
+    {
+        double ainty;
+        double ainty2;
+        int ifn;
+        const double pi2rec = 0.011619772367581343075535053490057;
+        double prodbg;
+        double[] tancs = {
                 +0.22627932763129357846578636531752,
                 +0.43017913146548961775583410748067E-01,
                 +0.68544610682565088756929473623461E-03,
@@ -78,153 +78,153 @@ namespace Burkardt.FullertonFnLib
                 +0.14419111371369130666666666666666E-31
             }
             ;
-            double value;
-            double y;
-            double yrem;
+        double value = 0;
+        double y;
+        double yrem;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(tancs, 19, 0.1 * r8_mach(3));
                 data.xmax = 1.0 / r8_mach(4);
                 data.xsml = Math.Sqrt(3.0 * r8_mach(3));
                 data.sqeps = Math.Sqrt(r8_mach(4));
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (data.xmax < y)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_TAN - Warning");
-                Console.WriteLine("  No precision because |X| is big.");
-                value = 0.0;
-                return value;
-            }
+        if (data.xmax < y)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_TAN - Warning");
+            Console.WriteLine("  No precision because |X| is big.");
+            value = 0.0;
+            return value;
+        }
 
-            //
-            //  Carefully compute y * (2/pi) = (aint(y) + rem(y)) * (.625 + pi2rec)
-            //  = aint(.625*y) + rem(.625*y) + y*pi2rec  =  aint(.625*y) + z
-            //  = aint(.625*y) + aint(z) + rem(z)
-            //
-            ainty = r8_aint(y);
-            yrem = y - ainty;
-            prodbg = 0.625 * ainty;
-            ainty = r8_aint(prodbg);
-            y = (prodbg - ainty) + 0.625 * yrem + pi2rec * y;
-            ainty2 = r8_aint(y);
-            ainty = ainty + ainty2;
-            y = y - ainty2;
+        //
+        //  Carefully compute y * (2/pi) = (aint(y) + rem(y)) * (.625 + pi2rec)
+        //  = aint(.625*y) + rem(.625*y) + y*pi2rec  =  aint(.625*y) + z
+        //  = aint(.625*y) + aint(z) + rem(z)
+        //
+        ainty = r8_aint(y);
+        yrem = y - ainty;
+        prodbg = 0.625 * ainty;
+        ainty = r8_aint(prodbg);
+        y = prodbg - ainty + 0.625 * yrem + pi2rec * y;
+        ainty2 = r8_aint(y);
+        ainty += ainty2;
+        y -= ainty2;
 
-            ifn = (int) (ainty % 2.0);
+        ifn = (int) (ainty % 2.0);
 
-            if (ifn == 1)
-            {
-                y = 1.0 - y;
-            }
+        y = ifn switch
+        {
+            1 => 1.0 - y,
+            _ => y
+        };
 
-            if (1.0 - y < Math.Abs(x) * data.sqeps)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_TAN - Warning!");
-                Console.WriteLine("  Answer < half precision.");
-                Console.WriteLine("  |X| big or X near pi/2 or 3*pi/2.");
-            }
+        if (1.0 - y < Math.Abs(x) * data.sqeps)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_TAN - Warning!");
+            Console.WriteLine("  Answer < half precision.");
+            Console.WriteLine("  |X| big or X near pi/2 or 3*pi/2.");
+        }
 
-            if (y == 1.0)
-            {
+        switch (y)
+        {
+            case 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_TAN - Fatal error!");
                 Console.WriteLine("  X is pi/2 or 3*pi/2.");
-                return (1);
-            }
-
-            if (y <= 0.25)
+                return 1;
+            case <= 0.25:
             {
                 value = y;
                 if (data.xsml < y)
                 {
                     value = y * (1.5 + r8_csevl(32.0 * y * y - 1.0, tancs, data.nterms));
                 }
+
+                break;
             }
-            else if (y <= 0.5)
-            {
+            case <= 0.5:
                 value = 0.5 * y * (1.5 + r8_csevl(
                     8.0 * y * y - 1.0, tancs, data.nterms));
                 value = 2.0 * value / (1.0 - value * value);
-            }
-            else
-            {
+                break;
+            default:
                 value = 0.25 * y * (1.5 + r8_csevl(
                     2.0 * y * y - 1.0, tancs, data.nterms));
                 value = 2.0 * value / (1.0 - value * value);
                 value = 2.0 * value / (1.0 - value * value);
-            }
-
-            if (x < 0.0)
-            {
-                value = -Math.Abs(value);
-            }
-            else if (0.0 < x)
-            {
-                value = +Math.Abs(value);
-            }
-
-            if (ifn == 1)
-            {
-                value = -value;
-            }
-
-            return value;
+                break;
         }
 
-        public class r8TanhData
+        value = ifn switch
         {
-            public int nterms = 0;
-            public double sqeps = 0.0;
-            public double xmax = 0.0;
+            1 => -value,
+            _ => x switch
+            {
+                < 0.0 => -Math.Abs(value),
+                > 0.0 => +Math.Abs(value),
+                _ => value
+            }
+        };
 
-        }
+        return value;
+    }
+
+    public class r8TanhData
+    {
+        public int nterms;
+        public double sqeps;
+        public double xmax;
+
+    }
         
-        public static double r8_tanh(ref r8TanhData data, double x)
+    public static double r8_tanh(ref r8TanhData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_TANH evaluates the hyperbolic tangent of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_TANH, the hyperbolic tangent of X.
-            //
-        {
-            double[] tanhcs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_TANH evaluates the hyperbolic tangent of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_TANH, the hyperbolic tangent of X.
+        //
+    {
+        double[] tanhcs = {
                 -0.25828756643634710438338151450605,
                 -0.11836106330053496535383671940204,
                 +0.98694426480063988762827307999681E-02,
@@ -258,51 +258,59 @@ namespace Burkardt.FullertonFnLib
                 +0.99158055384640389120000000000000E-32
             }
             ;
-            double value;
-            double y;
-            double yrec;
+        double value = 0;
+        double y;
+        double yrec;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(tanhcs, 31, 0.1 * r8_mach(3));
                 data.sqeps = Math.Sqrt(3.0 * r8_mach(3));
                 data.xmax = -0.5 * Math.Log(r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.sqeps)
-            {
-                value = x;
-            }
-            else if (y <= 1.0)
-            {
-                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, tanhcs, data.nterms));
-            }
-            else if (y <= data.xmax)
-            {
-                y = Math.Exp(y);
-                yrec = 1.0 / y;
-                value = (y - yrec) / (y + yrec);
-
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-            else
-            {
-                if (x < 0.0)
-                {
-                    value = -1.0;
-                }
-                else
-                {
-                    value = +1.0;
-                }
-            }
-
-            return value;
+                break;
         }
+
+        y = Math.Abs(x);
+
+        if (y <= data.sqeps)
+        {
+            value = x;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 1.0:
+                    value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, tanhcs, data.nterms));
+                    break;
+                default:
+                {
+                    if (y <= data.xmax)
+                    {
+                        y = Math.Exp(y);
+                        yrec = 1.0 / y;
+
+                        value = x switch
+                        {
+                            < 0.0 => -value,
+                            _ => (y - yrec) / (y + yrec)
+                        };
+                    }
+                    else
+                    {
+                        value = x switch
+                        {
+                            < 0.0 => -1.0,
+                            _ => +1.0
+                        };
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
     }
 }

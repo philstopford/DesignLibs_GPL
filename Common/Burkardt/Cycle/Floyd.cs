@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Cycle
+namespace Burkardt.Cycle;
+
+public static class Floyd
 {
-    public static class Floyd
-    {
-        public static void cycle_floyd(Func < int, int > f, int x0, ref int lam, ref int mu )
+    public static void cycle_floyd(Func < int, int > f, int x0, ref int lam, ref int mu )
 
         //****************************************************************************80
         //
@@ -62,36 +62,35 @@ namespace Burkardt.Cycle
         //    Output, int &MU, the index in the sequence starting
         //    at X0, of the first appearance of an element of the cycle.
         //
+    {
+        int hare;
+        int tortoise;
+
+        tortoise = f(x0);
+        hare = f(tortoise);
+
+        while (tortoise != hare)
         {
-            int hare;
-            int tortoise;
+            tortoise = f(tortoise);
+            hare = f(f(hare));
+        }
 
-            tortoise = f(x0);
-            hare = f(tortoise);
+        mu = 0;
+        tortoise = x0;
 
-            while (tortoise != hare)
-            {
-                tortoise = f(tortoise);
-                hare = f(f(hare));
-            }
+        while (tortoise != hare)
+        {
+            tortoise = f(tortoise);
+            hare = f(hare);
+            mu += 1;
+        }
 
-            mu = 0;
-            tortoise = x0;
-
-            while (tortoise != hare)
-            {
-                tortoise = f(tortoise);
-                hare = f(hare);
-                mu = mu + 1;
-            }
-
-            lam = 1;
-            hare = f(tortoise);
-            while (tortoise != hare)
-            {
-                hare = f(hare);
-                lam = lam + 1;
-            }
+        lam = 1;
+        hare = f(tortoise);
+        while (tortoise != hare)
+        {
+            hare = f(hare);
+            lam += 1;
         }
     }
 }

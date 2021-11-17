@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGBDI
 {
-    public static class DGBDI
-    {
-        public static void dgbdi(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
-        ref double[] det )
+    public static void dgbdi(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
+            ref double[] det )
 
         //****************************************************************************80
         //
@@ -59,39 +59,39 @@ namespace Burkardt.Linpack
         //      determinant = DET[0] * 10.0**DET[1]
         //    with  1.0D+00 <= abs ( DET[0] ) < 10.0D+00 or DET[0] = 0.0D+00.
         //
+    {
+        int i;
+        int m;
+
+        m = ml + mu + 1;
+        det[0] = 1.0;
+        det[1] = 0.0;
+
+        for (i = 1; i <= n; i++)
         {
-            int i;
-            int m;
-
-            m = ml + mu + 1;
-            det[0] = 1.0;
-            det[1] = 0.0;
-
-            for (i = 1; i <= n; i++)
+            if (ipvt[i - 1] != i)
             {
-                if (ipvt[i - 1] != i)
-                {
-                    det[0] = -det[0];
-                }
+                det[0] = -det[0];
+            }
 
-                det[0] = det[0] * abd[m - 1 + (i - 1) * lda];
+            det[0] *= abd[m - 1 + (i - 1) * lda];
 
-                if (det[0] == 0.0)
-                {
+            switch (det[0])
+            {
+                case 0.0:
                     return;
-                }
+            }
 
-                while (Math.Abs(det[0]) < 1.0)
-                {
-                    det[0] = det[0] * 10.0;
-                    det[1] = det[1] - 1.0;
-                }
+            while (Math.Abs(det[0]) < 1.0)
+            {
+                det[0] *= 10.0;
+                det[1] -= 1.0;
+            }
 
-                while (10.0 <= Math.Abs(det[0]))
-                {
-                    det[0] = det[0] / 10.0;
-                    det[1] = det[1] + 1.0;
-                }
+            while (10.0 <= Math.Abs(det[0]))
+            {
+                det[0] /= 10.0;
+                det[1] += 1.0;
             }
         }
     }

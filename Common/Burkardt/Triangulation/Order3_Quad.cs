@@ -1,14 +1,14 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.TriangulationNS
+namespace Burkardt.TriangulationNS;
+
+public static partial class Quad
 {
-    public static partial class Quad
-    {
-        public static void triangulation_order3_quad(int node_num, double[] node_xy,
-        int triangle_order, int triangle_num, int[] triangle_node,
-        Func<int, double[], double[], double[] > quad_fun, int quad_num,
-        double[] quad_xy, double[] quad_w, ref double quad_value, ref double region_area )
+    public static void triangulation_order3_quad(int node_num, double[] node_xy,
+            int triangle_order, int triangle_num, int[] triangle_node,
+            Func<int, double[], double[], double[] > quad_fun, int quad_num,
+            double[] quad_xy, double[] quad_w, ref double quad_value, ref double region_area )
 
         //****************************************************************************80
         //
@@ -77,51 +77,50 @@ namespace Burkardt.TriangulationNS
         //
         //    Output, double *REGION_AREA, the area of the region.
         //
+    {
+        int i;
+        int j;
+        int quad;
+        double[] quad_f;
+        double[] quad2_xy;
+        double temp;
+        int triangle;
+        double triangle_area;
+        double[] triangle_xy = new double[2 * 3];
+
+        quad_f = new double[quad_num];
+        quad2_xy = new double[2 * quad_num];
+
+        quad_value = 0.0;
+        region_area = 0.0;
+
+        for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            int i;
-            int j;
-            int quad;
-            double[] quad_f;
-            double[] quad2_xy;
-            double temp;
-            int triangle;
-            double triangle_area;
-            double[] triangle_xy = new double[2 * 3];
-
-            quad_f = new double[quad_num];
-            quad2_xy = new double[2 * quad_num];
-
-            quad_value = 0.0;
-            region_area = 0.0;
-
-            for (triangle = 0; triangle < triangle_num; triangle++)
+            for (j = 0; j < 3; j++)
             {
-                for (j = 0; j < 3; j++)
+                for (i = 0; i < 2; i++)
                 {
-                    for (i = 0; i < 2; i++)
-                    {
-                        triangle_xy[i + j * 2] = node_xy[i + (triangle_node[j + triangle * 3] - 1) * 2];
-                    }
+                    triangle_xy[i + j * 2] = node_xy[i + (triangle_node[j + triangle * 3] - 1) * 2];
                 }
-
-                triangle_area = typeMethods.triangle_area_2d(triangle_xy);
-
-                Triangulation.triangle_order3_reference_to_physical(triangle_xy,
-                    quad_num, quad_xy, ref quad2_xy);
-
-                quad_fun(quad_num, quad2_xy, quad_f);
-
-                temp = 0.0;
-                for (quad = 0; quad < quad_num; quad++)
-                {
-                    temp = temp + quad_w[quad] * quad_f[quad];
-                }
-
-                quad_value = quad_value + triangle_area * temp;
-
-                region_area = region_area + triangle_area;
             }
-        }
 
+            triangle_area = typeMethods.triangle_area_2d(triangle_xy);
+
+            Triangulation.triangle_order3_reference_to_physical(triangle_xy,
+                quad_num, quad_xy, ref quad2_xy);
+
+            quad_fun(quad_num, quad2_xy, quad_f);
+
+            temp = 0.0;
+            for (quad = 0; quad < quad_num; quad++)
+            {
+                temp += quad_w[quad] * quad_f[quad];
+            }
+
+            quad_value += triangle_area * temp;
+
+            region_area += triangle_area;
+        }
     }
+
 }

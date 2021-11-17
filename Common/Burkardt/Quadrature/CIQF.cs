@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Interpolation;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CIQF
 {
-    public static class CIQF
-    {
-        public static double[] ciqf(int nt, double[] t, int[] mlt, int nwts, ref int[] ndx, int key,
-        int kind, double alpha, double beta, double a, double b, int lo )
+    public static double[] ciqf(int nt, double[] t, int[] mlt, int nwts, ref int[] ndx, int key,
+            int kind, double alpha, double beta, double a, double b, int lo )
 
         //****************************************************************************80
         //
@@ -90,60 +90,59 @@ namespace Burkardt.Quadrature
         //
         //    Output, double CIQF[NWTS], the weights.
         //
+    {
+        int j;
+        int l;
+        int lu;
+        int m;
+        int mex;
+        int mop;
+        double[] st;
+        double[] wts;
+
+        m = 1;
+        l = Math.Abs(key);
+
+        for (j = 0; j < nt; j++)
         {
-            int j;
-            int l;
-            int lu;
-            int m;
-            int mex;
-            int mop;
-            double[] st;
-            double[] wts;
-
-            m = 1;
-            l = Math.Abs(key);
-
-            for (j = 0; j < nt; j++)
+            if (l == 1 || Math.Abs(ndx[j]) != 0)
             {
-                if (l == 1 || Math.Abs(ndx[j]) != 0)
-                {
-                    m = m + mlt[j];
-                }
+                m += mlt[j];
             }
-
-            if (nwts + 1 < m)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CIQF - Fatal error!");
-                Console.WriteLine("  NWTS + 1 < M.");
-                return null;
-            }
-
-            mex = 2 + m;
-            //
-            //  Scale the knots to default A, B.
-            //
-            st = SCT.sct(nt, t, kind, a, b);
-            //
-            //  Compute the weights.
-            //
-            lu = 0;
-
-            wts = CIQFS.ciqfs(nt, st, mlt, nwts, ref ndx, key, kind, alpha, beta, lu);
-            //
-            //  Don't scale user's knots - only scale weights.
-            //
-            SCQF.scqf(nt, st, mlt, wts, nwts, ndx, ref wts, ref st, kind, alpha, beta, a, b);
-
-            if (lo != 0)
-            {
-                mop = m - 1;
-
-                CHKQF.chkqf(t, wts, mlt, nt, nwts, ndx, key, mop, mex, kind,
-                    alpha, beta, lo, a, b);
-            }
-
-            return wts;
         }
+
+        if (nwts + 1 < m)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CIQF - Fatal error!");
+            Console.WriteLine("  NWTS + 1 < M.");
+            return null;
+        }
+
+        mex = 2 + m;
+        //
+        //  Scale the knots to default A, B.
+        //
+        st = SCT.sct(nt, t, kind, a, b);
+        //
+        //  Compute the weights.
+        //
+        lu = 0;
+
+        wts = CIQFS.ciqfs(nt, st, mlt, nwts, ref ndx, key, kind, alpha, beta, lu);
+        //
+        //  Don't scale user's knots - only scale weights.
+        //
+        SCQF.scqf(nt, st, mlt, wts, nwts, ndx, ref wts, ref st, kind, alpha, beta, a, b);
+
+        if (lo != 0)
+        {
+            mop = m - 1;
+
+            CHKQF.chkqf(t, wts, mlt, nt, nwts, ndx, key, mop, mex, kind,
+                alpha, beta, lo, a, b);
+        }
+
+        return wts;
     }
 }

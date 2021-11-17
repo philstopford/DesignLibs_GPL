@@ -1,77 +1,77 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class FK_inc
 {
-    public static class FK_inc
+    public static double evaluate(double phi, double k)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_INC_FK evaluates the incomplete elliptic integral F(PHI,K).
+        //
+        //  Discussion:
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      F(phi,k) = sin(phi) * RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double PHI, K, the arguments.
+        //    0 <= PHI <= PI/2.
+        //    0 <= K^2 * sin^2(PHI) <= 1.
+        //
+        //    Output, double ELLIPTIC_INC_FK, the function value.
+        //
     {
-        public static double evaluate(double phi, double k)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_INC_FK evaluates the incomplete elliptic integral F(PHI,K).
-            //
-            //  Discussion:
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      F(phi,k) = sin(phi) * RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    25 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double PHI, K, the arguments.
-            //    0 <= PHI <= PI/2.
-            //    0 <= K^2 * sin^2(PHI) <= 1.
-            //
-            //    Output, double ELLIPTIC_INC_FK, the function value.
-            //
-        {
-            double cp;
-            double errtol;
-            int ierr = 0;
+        double cp;
+        double errtol;
+        int ierr = 0;
             
-            double sp;
-            double value;
-            double x;
-            double y;
-            double z;
+        double sp;
+        double value = 0;
+        double x;
+        double y;
+        double z;
 
-            cp = Math.Cos(phi);
-            sp = Math.Sin(phi);
-            x = cp * cp;
-            y = (1.0 - k * sp) * (1.0 + k * sp);
-            z = 1.0;
-            errtol = 1.0E-03;
+        cp = Math.Cos(phi);
+        sp = Math.Sin(phi);
+        x = cp * cp;
+        y = (1.0 - k * sp) * (1.0 + k * sp);
+        z = 1.0;
+        errtol = 1.0E-03;
 
-            value = Integral.rf(x, y, z, errtol, ref ierr);
+        value = Integral.rf(x, y, z, errtol, ref ierr);
 
-            if (ierr != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPTIC_INC_FK - Fatal error!");
-                Console.WriteLine("  RF returned IERR = " + ierr + "");
-                return (1);
-            }
-
-            value = sp * value;
-
-            return value;
+        if (ierr != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPTIC_INC_FK - Fatal error!");
+            Console.WriteLine("  RF returned IERR = " + ierr + "");
+            return 1;
         }
 
-        public static void values(ref int n_data, ref double phi, ref double k, ref double fk )
+        value = sp * value;
+
+        return value;
+    }
+
+    public static void values(ref int n_data, ref double phi, ref double k, ref double fk )
 
         //****************************************************************************80
         //
@@ -120,10 +120,10 @@ namespace Burkardt.Elliptic
         //
         //    Output, double &FK, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fk_vec =
+        double[] fk_vec =
             {
                 0.4340870330108736,
                 1.307312511398114,
@@ -148,7 +148,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] k_vec =
+        double[] k_vec =
             {
                 2.712952582080266,
                 0.1279518954120547,
@@ -173,7 +173,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] phi_vec =
+        double[] phi_vec =
             {
                 0.3430906586047127,
                 1.302990057703935,
@@ -198,25 +198,25 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (N_MAX <= n_data)
-            {
-                n_data = 0;
-                fk = 0.0;
-                k = 0.0;
-                phi = 0.0;
-            }
-            else
-            {
-                fk = fk_vec[n_data];
-                k = k_vec[n_data];
-                phi = phi_vec[n_data];
-                n_data = n_data + 1;
-            }
+        if (N_MAX <= n_data)
+        {
+            n_data = 0;
+            fk = 0.0;
+            k = 0.0;
+            phi = 0.0;
+        }
+        else
+        {
+            fk = fk_vec[n_data];
+            k = k_vec[n_data];
+            phi = phi_vec[n_data];
+            n_data += 1;
         }
     }
 }

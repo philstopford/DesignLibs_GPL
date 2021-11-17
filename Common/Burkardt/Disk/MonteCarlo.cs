@@ -3,11 +3,11 @@ using Burkardt.PDFLib;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Disk
+namespace Burkardt.Disk;
+
+public static class MonteCarlo
 {
-    public static class MonteCarlo
-    {
-        public static double disk_area(double[] center, double r )
+    public static double disk_area(double[] center, double r )
 
         //****************************************************************************80
         //
@@ -36,16 +36,16 @@ namespace Burkardt.Disk
         //
         //    Output, double DISK01_AREA, the area of the unit disk.
         //
-        {
-            double area;
+    {
+        double area;
             
 
-            area = Math.PI * r * r;
+        area = Math.PI * r * r;
 
-            return area;
-        }
+        return area;
+    }
 
-        public static double[] disk_sample(double[] center, double r, int n, ref typeMethods.r8vecNormalData data, ref int seed )
+    public static double[] disk_sample(double[] center, double r, int n, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -79,46 +79,46 @@ namespace Burkardt.Disk
         //
         //    Output, double X[2*N], the points.
         //
+    {
+        int i;
+        int j;
+        double norm;
+        double r2;
+        double[] v;
+        double[] x;
+
+        x = new double[2 * n];
+
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-            double norm;
-            double r2;
-            double[] v;
-            double[] x;
-
-            x = new double[2 * n];
-
-            for (j = 0; j < n; j++)
+            v = typeMethods.r8vec_normal_01_new(2, ref data, ref seed);
+            //
+            //  Compute the length of the vector.
+            //
+            norm = Math.Sqrt(Math.Pow(v[0], 2) + Math.Pow(v[1], 2));
+            //
+            //  Normalize the vector.
+            //
+            for (i = 0; i < 2; i++)
             {
-                v = typeMethods.r8vec_normal_01_new(2, ref data, ref seed);
-                //
-                //  Compute the length of the vector.
-                //
-                norm = Math.Sqrt(Math.Pow(v[0], 2) + Math.Pow(v[1], 2));
-                //
-                //  Normalize the vector.
-                //
-                for (i = 0; i < 2; i++)
-                {
-                    v[i] = v[i] / norm;
-                }
-
-                //
-                //  Now compute a value to map the point ON the circle INTO the circle.
-                //
-                r2 = UniformRNG.r8_uniform_01(ref seed);
-
-                for (i = 0; i < 2; i++)
-                {
-                    x[i + j * 2] = center[i] + r * Math.Sqrt(r2) * v[i];
-                }
+                v[i] /= norm;
             }
 
-            return x;
+            //
+            //  Now compute a value to map the point ON the circle INTO the circle.
+            //
+            r2 = UniformRNG.r8_uniform_01(ref seed);
+
+            for (i = 0; i < 2; i++)
+            {
+                x[i + j * 2] = center[i] + r * Math.Sqrt(r2) * v[i];
+            }
         }
 
-        public static double disk01_monomial_integral(int[] e )
+        return x;
+    }
+
+    public static double disk01_monomial_integral(int[] e )
 
         //****************************************************************************80
         //
@@ -160,49 +160,48 @@ namespace Burkardt.Disk
         //
         //    Output, double DISK01_MONOMIAL_INTEGRAL, the integral.
         //
+    {
+        double arg;
+        int i;
+        double integral;
+        const double r = 1.0;
+        double s;
+
+        if (e[0] < 0 || e[1] < 0)
         {
-            double arg;
-            int i;
-            double integral;
-            const double r = 1.0;
-            double s;
-
-            if (e[0] < 0 || e[1] < 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DISK01_MONOMIAL_INTEGRAL - Fatal error!");
-                Console.WriteLine("  All exponents must be nonnegative.");
-                Console.WriteLine("  E[0] = " + e[0] + "");
-                Console.WriteLine("  E[1] = " + e[1] + "");
-                return 1;
-            }
-
-            if ((e[0] % 2) == 1 || (e[1] % 2) == 1)
-            {
-                integral = 0.0;
-            }
-            else
-            {
-                integral = 2.0;
-
-                for (i = 0; i < 2; i++)
-                {
-                    arg = 0.5 * (double) (e[i] + 1);
-                    integral = integral * typeMethods.r8_gamma(arg);
-                }
-
-                arg = 0.5 * (double) (e[0] + e[1] + 2);
-                integral = integral / typeMethods.r8_gamma(arg);
-            }
-
-            //
-            //  Adjust the surface integral to get the volume integral.
-            //
-            s = e[0] + e[1] + 2;
-            integral = integral * Math.Pow(r, s) / (double) (s);
-
-            return integral;
+            Console.WriteLine("");
+            Console.WriteLine("DISK01_MONOMIAL_INTEGRAL - Fatal error!");
+            Console.WriteLine("  All exponents must be nonnegative.");
+            Console.WriteLine("  E[0] = " + e[0] + "");
+            Console.WriteLine("  E[1] = " + e[1] + "");
+            return 1;
         }
 
+        if (e[0] % 2 == 1 || e[1] % 2 == 1)
+        {
+            integral = 0.0;
+        }
+        else
+        {
+            integral = 2.0;
+
+            for (i = 0; i < 2; i++)
+            {
+                arg = 0.5 * (e[i] + 1);
+                integral *= typeMethods.r8_gamma(arg);
+            }
+
+            arg = 0.5 * (e[0] + e[1] + 2);
+            integral /= typeMethods.r8_gamma(arg);
+        }
+
+        //
+        //  Adjust the surface integral to get the volume integral.
+        //
+        s = e[0] + e[1] + 2;
+        integral = integral * Math.Pow(r, s) / s;
+
+        return integral;
     }
+
 }

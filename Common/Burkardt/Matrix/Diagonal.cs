@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static class Diagonal
 {
-    public static class Diagonal
-    {
-        public static int[] diag_index ( int m, int[] ia, int[] ja, int n )
+    public static int[] diag_index ( int m, int[] ia, int[] ja, int n )
 
         //****************************************************************************80
         //
@@ -35,48 +35,48 @@ namespace Burkardt.MatrixNS
         //    Output, int DIAG_INDEX[N], contains for each index 0 <= I < N, the unique
         //    index J such that IA[J] = JA[J] = I.
         //
+    {
+        int[] diag;
+        int i;
+        int j;
+
+        diag = new int[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            int[] diag;
-            int i;
-            int j;
+            diag[i] = -1;
+        }
 
-            diag = new int[n];
-
-            for ( i = 0; i < n; i++ )
+        for ( j = 0; j < m; j++ )
+        {
+            if ( ia[j] == ja[j] )
             {
-                diag[i] = -1;
-            }
-
-            for ( j = 0; j < m; j++ )
-            {
-                if ( ia[j] == ja[j] )
+                i = ia[j] - 1;
+                if ( diag[i] != -1 )
                 {
-                    i = ia[j] - 1;
-                    if ( diag[i] != -1 )
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("DIAG_INDEX - Fatal error!");
-                        Console.WriteLine("  Multiple occurrences of diagonal pairs.");
-                        Console.WriteLine("  IA[" + j       + "] = JA[" + j       + "] = " + ia[j] + " and");
-                        Console.WriteLine("  IA[" + diag[i] + "] = JA[" + diag[i] + "] = " + ia[j] + "");
-                        return null;
-                    }
-                    diag[i] = j;
+                    Console.WriteLine("");
+                    Console.WriteLine("DIAG_INDEX - Fatal error!");
+                    Console.WriteLine("  Multiple occurrences of diagonal pairs.");
+                    Console.WriteLine("  IA[" + j       + "] = JA[" + j       + "] = " + ia[j] + " and");
+                    Console.WriteLine("  IA[" + diag[i] + "] = JA[" + diag[i] + "] = " + ia[j] + "");
+                    return null;
                 }
+                diag[i] = j;
             }
+        }
 
-            for ( i = 0; i < n; i++ )
+        for ( i = 0; i < n; i++ )
+        {
+            switch (diag[i])
             {
-                if ( diag[i] == -1 )
-                {
+                case -1:
                     Console.WriteLine("");
                     Console.WriteLine("DIAG_INDEX - Fatal error!");
                     Console.WriteLine("  DIAG[" + i + "] = -1.");
                     return null;
-                }
             }
+        }
 
-            return diag;
-        }        
-    }
+        return diag;
+    }        
 }

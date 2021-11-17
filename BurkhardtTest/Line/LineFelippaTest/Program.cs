@@ -1,50 +1,49 @@
 ﻿using System;
 using Burkardt.LineNS;
 
-namespace LineFelippaTest
+namespace LineFelippaTest;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MAIN is the main program for LINE_FELIPPA_RULE_TEST.
+        //
+        //  Discussion:
+        //
+        //    LINE_FELIPPA_RULE_TEST tests the LINE_FELIPPA_RULE library.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 September 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        static void Main(string[] args)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MAIN is the main program for LINE_FELIPPA_RULE_TEST.
-            //
-            //  Discussion:
-            //
-            //    LINE_FELIPPA_RULE_TEST tests the LINE_FELIPPA_RULE library.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    07 September 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-        {
-            int degree_max;
+        int degree_max;
 
-            Console.WriteLine("");
-            Console.WriteLine("LINE_FELIPPA_RULE_TEST");
-            Console.WriteLine("  Test the LINE_FELIPPA_RULE library.");
+        Console.WriteLine("");
+        Console.WriteLine("LINE_FELIPPA_RULE_TEST");
+        Console.WriteLine("  Test the LINE_FELIPPA_RULE library.");
 
-            degree_max = 4;
-            Felippa.line_monomial_test(degree_max);
+        degree_max = 4;
+        Felippa.line_monomial_test(degree_max);
 
-            degree_max = 10;
-            Felippa.line_quad_test(degree_max);
+        degree_max = 10;
+        Felippa.line_quad_test(degree_max);
 
-            Console.WriteLine("");
-            Console.WriteLine("LINE_FELIPPA_RULE_TEST");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("LINE_FELIPPA_RULE_TEST");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
     }
 }

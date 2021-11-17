@@ -2,11 +2,11 @@
 using Burkardt.Probability;
 using Burkardt.Types;
 
-namespace ProbabilityTest
+namespace ProbabilityTest;
+
+internal partial class Program
 {
-    partial class Program
-    {
-    static void arcsin_cdf_test()
+    private static void arcsin_cdf_test()
 
 //****************************************************************************80
 //
@@ -71,11 +71,9 @@ namespace ProbabilityTest
                               + cdf.ToString().PadLeft(12) + "  "
                               + x2.ToString().PadLeft(12) + "");
         }
-
-        return;
     }
 
-    static void arcsin_sample_test()
+    private static void arcsin_sample_test()
 
 //****************************************************************************80
 //
@@ -116,14 +114,12 @@ namespace ProbabilityTest
 
         for (i = 1; i <= 2; i++)
         {
-            if (i == 1)
+            a = i switch
             {
-                a = 1.0E+00;
-            }
-            else if (i == 2)
-            {
-                a = 16.0E+00;
-            }
+                1 => 1.0E+00,
+                2 => 16.0E+00,
+                _ => a
+            };
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -162,5 +158,4 @@ namespace ProbabilityTest
 
     }
         
-    }
 }

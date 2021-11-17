@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Ziggurat
+﻿namespace Burkardt.Ziggurat;
+
+public static class MultiplyWithCarry
 {
-    public static class MultiplyWithCarry
-    {
-        public static int mwc_seeded ( ref int w, ref int z )
+    public static int mwc_seeded ( ref int w, ref int z )
 
         //****************************************************************************80
         //
@@ -36,15 +36,12 @@
         //
         //    Output, uint32_t MWC_SEEDED, the new value.
         //
-        {
-            int value;
+    {
+        z = 36969 * ( z & 65535 ) + ( z >> 16 );
+        w = 18000 * ( w & 65535 ) + ( w >> 16 );
 
-            z = 36969 * ( z & 65535 ) + ( z >> 16 );
-            w = 18000 * ( w & 65535 ) + ( w >> 16 );
+        int value = ( z << 16 ) + w;
 
-            value = ( z << 16 ) + w;
-
-            return value;
-        }
+        return value;
     }
 }

@@ -1,58 +1,56 @@
-﻿using System.Collections.Generic;
+﻿namespace Burkardt.Types;
 
-namespace Burkardt.Types
+public static partial class typeMethods
 {
-    public static partial class typeMethods
+    public static void r8vec_append(ref int n, ref double[][] a, double value)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_APPEND appends an entry to an R8VEC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 May 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input/output, int *N, the current size of the array.  On output,
+        //    the array is one entry longer.
+        //
+        //    Input/output, double **A, the array.  On output, the array has had 
+        //    VALUE appended.
+        //
+        //    Input, double VALUE, a value to be appended to A.
+        //
     {
-        public static void r8vec_append(ref int n, ref double[][] a, double value)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_APPEND appends an entry to an R8VEC.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 May 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input/output, int *N, the current size of the array.  On output,
-            //    the array is one entry longer.
-            //
-            //    Input/output, double **A, the array.  On output, the array has had 
-            //    VALUE appended.
-            //
-            //    Input, double VALUE, a value to be appended to A.
-            //
+        for (int r = 0; r < a.Length; r++)
         {
-            for (int r = 0; r < a.Length; r++)
+            double[] temp = new double[n + 1];
+            for (int c = 0; c < n; c++)
             {
-                double[] temp = new double[n + 1];
-                for (int c = 0; c < n; c++)
-                {
-                    temp[c] = a[r][c];
-                }
-
-                temp[n] = value;
-                a[r] = temp;
+                temp[c] = a[r][c];
             }
-            //
-            //  Increase N.
-            //
-            n = n + 1;
-        }
 
-        public static double[] r8vec_append_new(int n, double[] a, double value )
+            temp[n] = value;
+            a[r] = temp;
+        }
+        //
+        //  Increase N.
+        //
+        n += 1;
+    }
+
+    public static double[] r8vec_append_new(int n, double[] a, double value )
 
         //****************************************************************************80
         //
@@ -90,20 +88,18 @@ namespace Burkardt.Types
         //    with one more entry than on input, and that last
         //    entry is VALUE.
         //
+    {
+        int i;
+
+        double[] b = new double[n + 1];
+
+        for (i = 0; i < n; i++)
         {
-            double[] b;
-            int i;
-
-            b = new double[n + 1];
-
-            for (i = 0; i < n; i++)
-            {
-                b[i] = a[i];
-            }
-
-            b[n] = value;
-
-            return b;
+            b[i] = a[i];
         }
+
+        b[n] = value;
+
+        return b;
     }
 }

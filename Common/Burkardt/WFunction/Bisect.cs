@@ -1,17 +1,17 @@
 ﻿using System;
 using Burkardt.Function;
 
-namespace Burkardt.WFunction
+namespace Burkardt.WFunction;
+
+public static class Bisect
 {
-    public static class Bisect
+    public class BisectData
     {
-        public class BisectData
-        {
-            public int nbits = 0;
-            public Crude.CrudeData data = new Crude.CrudeData();
-        }
+        public int nbits;
+        public Crude.CrudeData data = new();
+    }
         
-        public static double bisect(ref BisectData data, double xx, int nb, ref int ner, int l )
+    public static double bisect(ref BisectData data, double xx, int nb, ref int ner, int l )
 
         //****************************************************************************80
         //
@@ -73,101 +73,101 @@ namespace Burkardt.WFunction
         //
         //    Output, double BISECT, the value of W(X), as determined
         //
+    {
+        double d;
+        double f;
+        double fd;
+        int i;
+        const int n0 = 500;
+        double r;
+        double tol;
+        double u;
+        double x;
+
+        double value = 0.0;
+        ner = 0;
+
+        data.nbits = data.nbits switch
         {
-            double d;
-            double f;
-            double fd;
-            int i;
-            int n0 = 500;
-            double r;
-            double test;
-            double tol;
-            double u;
-            double value;
-            double x;
+            0 => NBITS.nbits_compute(),
+            _ => data.nbits
+        };
 
-            value = 0.0;
-            ner = 0;
+        x = l switch
+        {
+            1 => xx - Math.Exp(-1.0),
+            _ => xx
+        };
 
-            if (data.nbits == 0)
+        switch (nb)
+        {
+            case 0:
             {
-                data.nbits = NBITS.nbits_compute();
-            }
-
-            if (l == 1)
-            {
-                x = xx - Math.Exp(-1.0);
-            }
-            else
-            {
-                x = xx;
-            }
-
-            if (nb == 0)
-            {
-                test = 1.0 / Math.Pow(Math.Pow(2.0, data.nbits), (1.0 / 7.0));
+                double test = 1.0 / Math.Pow(Math.Pow(2.0, data.nbits), 1.0 / 7.0);
 
                 if (Math.Abs(x) < test)
                 {
                     value = x
                             * Math.Exp(-x
-                                  * Math.Exp(-x
-                                        * Math.Exp(-x
-                                              * Math.Exp(-x
-                                                    * Math.Exp(-x
-                                                          * Math.Exp(-x))))));
+                                       * Math.Exp(-x
+                                                  * Math.Exp(-x
+                                                             * Math.Exp(-x
+                                                                        * Math.Exp(-x
+                                                                            * Math.Exp(-x))))));
 
                     return value;
                 }
-                else
+
+                u = Crude.crude(ref data.data, x, nb) + 1.0E-03;
+                tol = Math.Abs(u) / Math.Pow(2.0, data.nbits);
+                d = Math.Max(u - 2.0E-03, -1.0);
+
+                for (i = 1; i <= n0; i++)
                 {
-                    u = Crude.crude(ref data.data, x, nb) + 1.0E-03;
-                    tol = Math.Abs(u) / Math.Pow(2.0, data.nbits);
-                    d = Math.Max(u - 2.0E-03, -1.0);
-
-                    for (i = 1; i <= n0; i++)
+                    r = 0.5 * (u - d);
+                    value = d + r;
+                    //
+                    //  Find root using w*Math.Exp(w)-x to avoid ln(0) error.
+                    //
+                    if (x < Math.Exp(1.0))
                     {
-                        r = 0.5 * (u - d);
-                        value = d + r;
-                        //
-                        //  Find root using w*Math.Exp(w)-x to avoid ln(0) error.
-                        //
-                        if (x < Math.Exp(1.0))
-                        {
-                            f = value * Math.Exp(value) - x;
-                            fd = d * Math.Exp(d) - x;
-                        }
-                        //
-                        //  Find root using ln(w/x)+w to avoid overflow error.
-                        //
-                        else
-                        {
-                            f = Math.Log(value / x) + value;
-                            fd = Math.Log(d / x) + d;
-                        }
+                        f = value * Math.Exp(value) - x;
+                        fd = d * Math.Exp(d) - x;
+                    }
+                    //
+                    //  Find root using ln(w/x)+w to avoid overflow error.
+                    //
+                    else
+                    {
+                        f = Math.Log(value / x) + value;
+                        fd = Math.Log(d / x) + d;
+                    }
 
-                        if (f == 0.0)
-                        {
+                    switch (f)
+                    {
+                        case 0.0:
                             return value;
-                        }
+                    }
 
-                        if (Math.Abs(r) <= tol)
-                        {
-                            return value;
-                        }
+                    if (Math.Abs(r) <= tol)
+                    {
+                        return value;
+                    }
 
-                        if (0.0 < fd * f)
-                        {
+                    switch (fd * f)
+                    {
+                        case > 0.0:
                             d = value;
-                        }
-                        else
-                        {
+                            break;
+                        default:
                             u = value;
-                        }
+                            break;
                     }
                 }
+
+                break;
             }
-            else
+            default:
             {
                 d = Crude.crude(ref data.data, x, nb) - 1.0E-03;
                 u = Math.Min(d + 2.0E-03, -1.0);
@@ -179,9 +179,10 @@ namespace Burkardt.WFunction
                     value = d + r;
                     f = value * Math.Exp(value) - x;
 
-                    if (f == 0.0)
+                    switch (f)
                     {
-                        return value;
+                        case 0.0:
+                            return value;
                     }
 
                     if (Math.Abs(r) <= tol)
@@ -191,23 +192,26 @@ namespace Burkardt.WFunction
 
                     fd = d * Math.Exp(d) - x;
 
-                    if (0.0 < fd * f)
+                    switch (fd * f)
                     {
-                        d = value;
-                    }
-                    else
-                    {
-                        u = value;
+                        case > 0.0:
+                            d = value;
+                            break;
+                        default:
+                            u = value;
+                            break;
                     }
                 }
+
+                break;
             }
-
-            //
-            //  The iteration did not converge.
-            //
-            ner = 1;
-
-            return value;
         }
+
+        //
+        //  The iteration did not converge.
+        //
+        ner = 1;
+
+        return value;
     }
 }

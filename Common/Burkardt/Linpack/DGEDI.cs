@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGEDI
 {
-    public static class DGEDI
-    {
-        public static void dgedi(ref double[] a, int lda, int n, int[] ipvt, ref double[] det,
-        double[] work, int job )
+    public static void dgedi(ref double[] a, int lda, int n, int[] ipvt, ref double[] det,
+            double[] work, int job )
 
         //****************************************************************************80
         //
@@ -67,89 +67,88 @@ namespace Burkardt.Linpack
         //    01, inverse only.
         //    10, determinant only.
         //
+    {
+        int i;
+        int j;
+        int k;
+        int l;
+        double t;
+        //
+        //  Compute the determinant.
+        //
+        if (job / 10 != 0)
         {
-            int i;
-            int j;
-            int k;
-            int l;
-            double t;
-            //
-            //  Compute the determinant.
-            //
-            if (job / 10 != 0)
+            det[0] = 1.0;
+            det[1] = 0.0;
+
+            for (i = 1; i <= n; i++)
             {
-                det[0] = 1.0;
-                det[1] = 0.0;
-
-                for (i = 1; i <= n; i++)
+                if (ipvt[i - 1] != i)
                 {
-                    if (ipvt[i - 1] != i)
-                    {
-                        det[0] = -det[0];
-                    }
+                    det[0] = -det[0];
+                }
 
-                    det[0] = det[0] * a[i - 1 + (i - 1) * lda];
+                det[0] *= a[i - 1 + (i - 1) * lda];
 
-                    if (det[0] == 0.0)
-                    {
-                        break;
-                    }
+                if (det[0] == 0.0)
+                {
+                    break;
+                }
 
-                    while (Math.Abs(det[0]) < 1.0)
-                    {
-                        det[0] = det[0] * 10.0;
-                        det[1] = det[1] - 1.0;
-                    }
+                while (Math.Abs(det[0]) < 1.0)
+                {
+                    det[0] *= 10.0;
+                    det[1] -= 1.0;
+                }
 
-                    while (10.0 <= Math.Abs(det[0]))
-                    {
-                        det[0] = det[0] / 10.0;
-                        det[1] = det[1] + 1.0;
-                    }
+                while (10.0 <= Math.Abs(det[0]))
+                {
+                    det[0] /= 10.0;
+                    det[1] += 1.0;
+                }
+            }
+        }
+
+        //
+        //  Compute inverse(U).
+        //
+        if (job % 10 != 0)
+        {
+            for (k = 1; k <= n; k++)
+            {
+                a[k - 1 + (k - 1) * lda] = 1.0 / a[k - 1 + (k - 1) * lda];
+                t = -a[k - 1 + (k - 1) * lda];
+                BLAS1D.dscal(k - 1, t, ref a, 1, index:  + 0 + (k - 1) * lda);
+
+                for (j = k + 1; j <= n; j++)
+                {
+                    t = a[k - 1 + (j - 1) * lda];
+                    a[k - 1 + (j - 1) * lda] = 0.0;
+                    BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (j - 1) * lda);
                 }
             }
 
             //
-            //  Compute inverse(U).
+            //  Form inverse(U) * inverse(L).
             //
-            if ((job % 10) != 0)
+            for (k = n - 1; 1 <= k; k--)
             {
-                for (k = 1; k <= n; k++)
+                for (i = k + 1; i <= n; i++)
                 {
-                    a[k - 1 + (k - 1) * lda] = 1.0 / a[k - 1 + (k - 1) * lda];
-                    t = -a[k - 1 + (k - 1) * lda];
-                    BLAS1D.dscal(k - 1, t, ref a, 1, index:  + 0 + (k - 1) * lda);
-
-                    for (j = k + 1; j <= n; j++)
-                    {
-                        t = a[k - 1 + (j - 1) * lda];
-                        a[k - 1 + (j - 1) * lda] = 0.0;
-                        BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (j - 1) * lda);
-                    }
+                    work[i - 1] = a[i - 1 + (k - 1) * lda];
+                    a[i - 1 + (k - 1) * lda] = 0.0;
                 }
 
-                //
-                //  Form inverse(U) * inverse(L).
-                //
-                for (k = n - 1; 1 <= k; k--)
+                for (j = k + 1; j <= n; j++)
                 {
-                    for (i = k + 1; i <= n; i++)
-                    {
-                        work[i - 1] = a[i - 1 + (k - 1) * lda];
-                        a[i - 1 + (k - 1) * lda] = 0.0;
-                    }
+                    t = work[j - 1];
+                    BLAS1D.daxpy(n, t, a, 1, ref a, 1, xIndex:  + 0 + (j - 1) * lda, yIndex:  + 0 + (k - 1) * lda);
+                }
 
-                    for (j = k + 1; j <= n; j++)
-                    {
-                        t = work[j - 1];
-                        BLAS1D.daxpy(n, t, a, 1, ref a, 1, xIndex:  + 0 + (j - 1) * lda, yIndex:  + 0 + (k - 1) * lda);
-                    }
-
-                    l = ipvt[k - 1];
-                    if (l != k)
-                    {
-                        BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (l - 1) * lda);
-                    }
+                l = ipvt[k - 1];
+                if (l != k)
+                {
+                    BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (l - 1) * lda);
                 }
             }
         }

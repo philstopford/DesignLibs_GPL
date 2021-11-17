@@ -1,57 +1,57 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.DaubechiesWavelet
-{
-    public static class Coefficients
-    {
-        public static double[] daub_coefficients(int n)
+namespace Burkardt.DaubechiesWavelet;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DAUB_COEFFICIENTS returns a set of Daubechies coefficients.
-            //
-            //  Discussion:
-            //
-            //    Often, the uses to which these coefficients are applied require that they
-            //    be rescaled, by being multiplied by sqrt ( 2 ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    28 April 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the coefficient set.
-            //    2 <= N <= 20, and N must be even.
-            //
-            //    Output, double DAUB_COEFFICIENTS[N], the coefficients.
-            //
-        {
-            double[] c;
-            double[] c02 = {
+public static class Coefficients
+{
+    public static double[] daub_coefficients(int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DAUB_COEFFICIENTS returns a set of Daubechies coefficients.
+        //
+        //  Discussion:
+        //
+        //    Often, the uses to which these coefficients are applied require that they
+        //    be rescaled, by being multiplied by sqrt ( 2 ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    28 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the coefficient set.
+        //    2 <= N <= 20, and N must be even.
+        //
+        //    Output, double DAUB_COEFFICIENTS[N], the coefficients.
+        //
+    {
+        double[] c;
+        double[] c02 = {
                 7.071067811865475E-01,
                 7.071067811865475E-01
             }
             ;
-            double[] c04 = {
+        double[] c04 = {
                 0.4829629131445341E+00,
                 0.8365163037378079E+00,
                 0.2241438680420133E+00,
                 -0.1294095225512603E+00
             }
             ;
-            double[] c06 = {
+        double[] c06 = {
                 0.3326705529500826E+00,
                 0.8068915093110925E+00,
                 0.4598775021184915E+00,
@@ -60,7 +60,7 @@ namespace Burkardt.DaubechiesWavelet
                 0.3522629188570953E-01
             }
             ;
-            double[] c08 = {
+        double[] c08 = {
                 0.2303778133088965E+00,
                 0.7148465705529156E+00,
                 0.6308807679298589E+00,
@@ -71,7 +71,7 @@ namespace Burkardt.DaubechiesWavelet
                 -0.1059740178506903E-01
             }
             ;
-            double[] c10 = {
+        double[] c10 = {
                 0.1601023979741929E+00,
                 0.6038292697971896E+00,
                 0.7243085284377729E+00,
@@ -84,7 +84,7 @@ namespace Burkardt.DaubechiesWavelet
                 0.3335725285473771E-02
             }
             ;
-            double[] c12 = {
+        double[] c12 = {
                 0.1115407433501094E+00,
                 0.4946238903984530E+00,
                 0.7511339080210953E+00,
@@ -99,7 +99,7 @@ namespace Burkardt.DaubechiesWavelet
                 -0.1077301085308479E-02
             }
             ;
-            double[] c14 = {
+        double[] c14 = {
                 7.785205408500917E-02,
                 3.965393194819173E-01,
                 7.291320908462351E-01,
@@ -116,7 +116,7 @@ namespace Burkardt.DaubechiesWavelet
                 3.537137999745202E-04
             }
             ;
-            double[] c16 = {
+        double[] c16 = {
                 5.441584224310400E-02,
                 3.128715909142999E-01,
                 6.756307362972898E-01,
@@ -135,7 +135,7 @@ namespace Burkardt.DaubechiesWavelet
                 -1.174767841247695E-04
             }
             ;
-            double[] c18 = {
+        double[] c18 = {
                 3.807794736387834E-02,
                 2.438346746125903E-01,
                 6.048231236901111E-01,
@@ -156,7 +156,7 @@ namespace Burkardt.DaubechiesWavelet
                 3.934732031627159E-05
             }
             ;
-            double[] c20 = {
+        double[] c20 = {
                 2.667005790055555E-02,
                 1.881768000776914E-01,
                 5.272011889317255E-01,
@@ -180,56 +180,46 @@ namespace Burkardt.DaubechiesWavelet
             }
             ;
 
-            if (n == 2)
-            {
+        switch (n)
+        {
+            case 2:
                 c = typeMethods.r8vec_copy_new(n, c02);
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 c = typeMethods.r8vec_copy_new(n, c04);
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 c = typeMethods.r8vec_copy_new(n, c06);
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 c = typeMethods.r8vec_copy_new(n, c08);
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 c = typeMethods.r8vec_copy_new(n, c10);
-            }
-            else if (n == 12)
-            {
+                break;
+            case 12:
                 c = typeMethods.r8vec_copy_new(n, c12);
-            }
-            else if (n == 14)
-            {
+                break;
+            case 14:
                 c = typeMethods.r8vec_copy_new(n, c14);
-            }
-            else if (n == 16)
-            {
+                break;
+            case 16:
                 c = typeMethods.r8vec_copy_new(n, c16);
-            }
-            else if (n == 18)
-            {
+                break;
+            case 18:
                 c = typeMethods.r8vec_copy_new(n, c18);
-            }
-            else if (n == 20)
-            {
+                break;
+            case 20:
                 c = typeMethods.r8vec_copy_new(n, c20);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("DAUB_COEFFICIENTS - Fatal error!");
                 Console.WriteLine("  Value of N = " + n + "");
                 Console.WriteLine("  Legal values are 2, 4, 6, 8, 10, 12, 14, 16, 18, 20.");
                 return null;
-            }
-
-            return c;
         }
+
+        return c;
     }
 }

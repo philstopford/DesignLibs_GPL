@@ -1,10 +1,10 @@
 ﻿using Burkardt.Uniform;
 
-namespace Burkardt.Sequence
+namespace Burkardt.Sequence;
+
+public static class Vibonacci
 {
-    public static class Vibonacci
-    {
-        public static void vibonacci ( int n, ref int seed, ref int[] v )
+    public static void vibonacci ( int n, ref int seed, ref int[] v )
 
         //****************************************************************************80
         //
@@ -50,54 +50,49 @@ namespace Burkardt.Sequence
         //    Output, int V(N), the first N Vibonacci numbers.  By convention,
         //    V(1) and V(2) are taken to be 1.
         //
+    {
+        int i;
+        int j;
+        int s1;
+        int s2;
+
+        switch (n)
         {
-            int i;
-            int j;
-            int s1;
-            int s2;
-
-            if ( n <= 0 )
-            {
+            case <= 0:
                 return;
-            }
-
-            v[0] = 1;
-
-            if ( n <= 1 )
-            {
-                return;
-            }
-
-            v[1] = 1;
-
-            for ( i = 2; i < n; i++ )
-            {
-                j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
-
-                if ( j == 0 )
-                {
-                    s1 = -1;
-                }
-                else
-                {
-                    s1 = +1;
-                }
-
-                j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
-
-                if ( j == 0 )
-                {
-                    s2 = -1;
-                }
-                else
-                {
-                    s2 = +1;
-                }
-
-                v[i] = s1 * v[i-1] + s2 * v[i-2];
-
-            }
         }
 
+        v[0] = 1;
+
+        switch (n)
+        {
+            case <= 1:
+                return;
+        }
+
+        v[1] = 1;
+
+        for ( i = 2; i < n; i++ )
+        {
+            j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
+
+            s1 = j switch
+            {
+                0 => -1,
+                _ => +1
+            };
+
+            j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
+
+            s2 = j switch
+            {
+                0 => -1,
+                _ => +1
+            };
+
+            v[i] = s1 * v[i-1] + s2 * v[i-2];
+
+        }
     }
+
 }

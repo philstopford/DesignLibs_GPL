@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGBFA
 {
-    public static class DGBFA
-    {
-        public static int dgbfa(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
+    public static int dgbfa(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
 
         //****************************************************************************80
         //
@@ -67,75 +67,74 @@ namespace Burkardt.Linpack
         //      subroutine, but it does indicate that DGBSL will divide by zero if
         //      called.  Use RCOND in DGBCO for a reliable indication of singularity.
         //
+    {
+        int i;
+        int i0;
+        int info;
+        int j;
+        int j0;
+        int j1;
+        int ju;
+        int jz;
+        int k;
+        int l;
+        int lm;
+        int m;
+        int mm;
+        double t;
+
+        m = ml + mu + 1;
+        info = 0;
+        //
+        //  Zero initial fill-in columns.
+        //
+        j0 = mu + 2;
+        j1 = Math.Min(n, m) - 1;
+
+        for (jz = j0; jz <= j1; jz++)
         {
-            int i;
-            int i0;
-            int info;
-            int j;
-            int j0;
-            int j1;
-            int ju;
-            int jz;
-            int k;
-            int l;
-            int lm;
-            int m;
-            int mm;
-            double t;
-
-            m = ml + mu + 1;
-            info = 0;
-            //
-            //  Zero initial fill-in columns.
-            //
-            j0 = mu + 2;
-            j1 = Math.Min(n, m) - 1;
-
-            for (jz = j0; jz <= j1; jz++)
+            i0 = m + 1 - jz;
+            for (i = i0; i <= ml; i++)
             {
-                i0 = m + 1 - jz;
-                for (i = i0; i <= ml; i++)
+                abd[i - 1 + (jz - 1) * lda] = 0.0;
+            }
+        }
+
+        jz = j1;
+        ju = 0;
+        //
+        //  Gaussian elimination with partial pivoting.
+        //
+        for (k = 1; k <= n - 1; k++)
+        {
+            //
+            //  Zero out the next fill-in column.
+            //
+            jz += 1;
+            if (jz <= n)
+            {
+                for (i = 1; i <= ml; i++)
                 {
                     abd[i - 1 + (jz - 1) * lda] = 0.0;
                 }
             }
 
-            jz = j1;
-            ju = 0;
             //
-            //  Gaussian elimination with partial pivoting.
+            //  Find L = pivot index.
             //
-            for (k = 1; k <= n - 1; k++)
+            lm = Math.Min(ml, n - k);
+            l = BLAS1D.idamax(lm + 1, abd, 1, index:  + m - 1 + (k - 1) * lda) + m - 1;
+            ipvt[k - 1] = l + k - m;
+            switch (abd[l - 1 + (k - 1) * lda])
             {
-                //
-                //  Zero out the next fill-in column.
-                //
-                jz = jz + 1;
-                if (jz <= n)
-                {
-                    for (i = 1; i <= ml; i++)
-                    {
-                        abd[i - 1 + (jz - 1) * lda] = 0.0;
-                    }
-                }
-
-                //
-                //  Find L = pivot index.
-                //
-                lm = Math.Min(ml, n - k);
-                l = BLAS1D.idamax(lm + 1, abd, 1, index:  + m - 1 + (k - 1) * lda) + m - 1;
-                ipvt[k - 1] = l + k - m;
                 //
                 //  Zero pivot implies this column already triangularized.
                 //
-                if (abd[l - 1 + (k - 1) * lda] == 0.0)
-                {
+                case 0.0:
                     info = k;
-                }
+                    break;
                 //
-                //  Interchange if necessary.
-                //
-                else
+                default:
                 {
                     if (l != m)
                     {
@@ -157,8 +156,8 @@ namespace Burkardt.Linpack
 
                     for (j = k + 1; j <= ju; j++)
                     {
-                        l = l - 1;
-                        mm = mm - 1;
+                        l -= 1;
+                        mm -= 1;
                         t = abd[l - 1 + (j - 1) * lda];
                         if (l != mm)
                         {
@@ -169,18 +168,20 @@ namespace Burkardt.Linpack
                         BLAS1D.daxpy(lm, t, abd, 1, ref abd, 1, xIndex:  + m + (k - 1) * lda, yIndex:  + mm + (j - 1) * lda);
                     }
 
+                    break;
                 }
-
             }
 
-            ipvt[n - 1] = n;
-
-            if (abd[m - 1 + (n - 1) * lda] == 0.0)
-            {
-                info = n;
-            }
-
-            return info;
         }
+
+        ipvt[n - 1] = n;
+
+        info = abd[m - 1 + (n - 1) * lda] switch
+        {
+            0.0 => n,
+            _ => info
+        };
+
+        return info;
     }
 }

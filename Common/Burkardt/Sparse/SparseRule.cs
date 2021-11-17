@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Sparse
+﻿namespace Burkardt.Sparse;
+
+public static class SparseRule
 {
-    public static class SparseRule
-    {
-        public static int symmetric_sparse_size ( int nr, int dim, double[] nodes, double x0 )
+    public static int symmetric_sparse_size ( int nr, int dim, double[] nodes, double x0 )
 
         //****************************************************************************80
         //
@@ -44,30 +44,29 @@
         //    Output, int SYMMETRIC_SPARSE_SIZE, the dimension of the rule 
         //    when "unfolded" to the full space.
         //
+    {
+        int count;
+        int j;
+        int nr2;
+        int r;
+        //
+        //  Count the size of the full rule.
+        //
+        nr2 = 0;
+
+        for ( r = 0; r < nr; r++ )
         {
-            int count;
-            int j;
-            int nr2;
-            int r;
-            //
-            //  Count the size of the full rule.
-            //
-            nr2 = 0;
-
-            for ( r = 0; r < nr; r++ )
+            count = 1;
+            for ( j = 0; j < dim; j++ )
             {
-                count = 1;
-                for ( j = 0; j < dim; j++ )
+                if ( nodes[r+j*nr] != x0 )
                 {
-                    if ( nodes[r+j*nr] != x0 )
-                    {
-                        count = 2 * count;
-                    }
+                    count = 2 * count;
                 }
-                nr2 = nr2 + count;
             }
-
-            return nr2;
+            nr2 += count;
         }
+
+        return nr2;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.DifferNS
+namespace Burkardt.DifferNS;
+
+public static class Differ
 {
-    public static class Differ
-    {
-        public static void differ_backward(double h, int o, int p, ref double[] c, ref double[] x )
+    public static void differ_backward(double h, int o, int p, ref double[] c, ref double[] x )
 
         //****************************************************************************80
         //
@@ -46,49 +46,45 @@ namespace Burkardt.DifferNS
         //
         //    Output, double X[O+P], the evaluation points.
         //
+    {
+        int i;
+        int info = 0;
+
+        int n = o + p;
+
+        for (i = 0; i < n; i++)
         {
-            double[] b;
-            int i;
-            int info = 0;
-            int job;
-            int n;
-            double t;
-
-            n = o + p;
-
-            for (i = 0; i < n; i++)
-            {
-                x[i] = (double) (i + 1 - n) * h;
-            }
-
-            b = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                b[i] = 0.0;
-            }
-
-            b[o] = 1.0;
-
-            job = 0;
-            typeMethods.r8vm_sl(n, x, b, job, c, ref info);
-
-            if (info != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DIFFER_BACKWARD - Fatal error!");
-                Console.WriteLine("  Vandermonde linear system is singular.");
-                return;
-            }
-
-            t = typeMethods.r8_factorial(o);
-            for (i = 0; i < n; i++)
-            {
-                c[i] = c[i] * t;
-            }
+            x[i] = (i + 1 - n) * h;
         }
 
-        public static void differ_central(double h, int o, int p, ref double[] c, ref double[] x )
+        double[] b = new double[n];
+
+        for (i = 0; i < n; i++)
+        {
+            b[i] = 0.0;
+        }
+
+        b[o] = 1.0;
+
+        int job = 0;
+        typeMethods.r8vm_sl(n, x, b, job, c, ref info);
+
+        if (info != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DIFFER_BACKWARD - Fatal error!");
+            Console.WriteLine("  Vandermonde linear system is singular.");
+            return;
+        }
+
+        double t = typeMethods.r8_factorial(o);
+        for (i = 0; i < n; i++)
+        {
+            c[i] *= t;
+        }
+    }
+
+    public static void differ_central(double h, int o, int p, ref double[] c, ref double[] x )
 
         //****************************************************************************80
         //
@@ -130,48 +126,44 @@ namespace Burkardt.DifferNS
         //
         //    Output, double X[O+P], the evaluation points.
         //
+    {
+        int i;
+        int info = 0;
+
+        int n = o + p;
+
+        for (i = 0; i < n; i++)
         {
-            double[] b;
-            int i;
-            int info = 0;
-            int job;
-            int n;
-            double t;
-
-            n = o + p;
-
-            for (i = 0; i < n; i++)
-            {
-                x[i] = (double) (-n + 1 + 2 * i) * h / 2.0;
-            }
-
-            b = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                b[i] = 0.0;
-            }
-
-            b[o] = 1.0;
-
-            job = 0;
-            typeMethods.r8vm_sl(n, x, b, job, c, ref info);
-
-            if (info != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DIFFER_CENTRAL - Fatal error!");
-                Console.WriteLine("  Vandermonde linear system is singular.");
-                return;
-            }
-
-            t = typeMethods.r8_factorial(o);
-            for (i = 0; i < n; i++)
-            {
-                c[i] = c[i] * t;
-            }
+            x[i] = (-n + 1 + 2 * i) * h / 2.0;
         }
 
-        public static void differ_forward(double h, int o, int p, ref double[] c, ref double[] x )
+        double[] b = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            b[i] = 0.0;
+        }
+
+        b[o] = 1.0;
+
+        int job = 0;
+        typeMethods.r8vm_sl(n, x, b, job, c, ref info);
+
+        if (info != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DIFFER_CENTRAL - Fatal error!");
+            Console.WriteLine("  Vandermonde linear system is singular.");
+            return;
+        }
+
+        double t = typeMethods.r8_factorial(o);
+        for (i = 0; i < n; i++)
+        {
+            c[i] *= t;
+        }
+    }
+
+    public static void differ_forward(double h, int o, int p, ref double[] c, ref double[] x )
 
         //****************************************************************************80
         //
@@ -212,201 +204,195 @@ namespace Burkardt.DifferNS
         //
         //    Output, real X[O+P], the evaluation points.
         //
+    {
+        int i;
+        int info = 0;
+
+        int n = o + p;
+
+        for (i = 0; i < n; i++)
         {
-            double[] b;
-            int i;
-            int info = 0;
-            int job;
-            int n;
-            double t;
+            x[i] = i * h;
+        }
 
-            n = o + p;
+        double[] b = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            b[i] = 0.0;
+        }
 
+        b[o] = 1.0;
+
+        int job = 0;
+        typeMethods.r8vm_sl(n, x, b, job, c, ref info);
+
+        if (info != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DIFFER_FORWARD - Fatal error!");
+            Console.WriteLine("  Vandermonde linear system is singular.");
+            return;
+        }
+
+        double t = typeMethods.r8_factorial(o);
+        for (i = 0; i < n; i++)
+        {
+            c[i] *= t;
+        }
+    }
+
+    public static double[] differ_inverse(int n, double[] stencil)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DIFFER_INVERSE returns the inverse of the DIFFER matrix.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 November 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, double STENCIL[N], the values that define A.
+        //
+        //    Output, double DIFFER_INVERSE[N*N], the matrix.
+        //
+    {
+        int i;
+        int j;
+
+        double[] a = new double[n * n];
+
+        for (j = 0; j < n; j++)
+        {
             for (i = 0; i < n; i++)
             {
-                x[i] = (double) (i) * h;
-            }
-
-            b = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                b[i] = 0.0;
-            }
-
-            b[o] = 1.0;
-
-            job = 0;
-            typeMethods.r8vm_sl(n, x, b, job, c, ref info);
-
-            if (info != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DIFFER_FORWARD - Fatal error!");
-                Console.WriteLine("  Vandermonde linear system is singular.");
-                return;
-            }
-
-            t = typeMethods.r8_factorial(o);
-            for (i = 0; i < n; i++)
-            {
-                c[i] = c[i] * t;
+                a[i + j * n] = j switch
+                {
+                    0 => 1.0,
+                    _ => 0.0
+                };
             }
         }
 
-        public static double[] differ_inverse(int n, double[] stencil)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DIFFER_INVERSE returns the inverse of the DIFFER matrix.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 November 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //
-            //    Input, double STENCIL[N], the values that define A.
-            //
-            //    Output, double DIFFER_INVERSE[N*N], the matrix.
-            //
+        for (i = 0; i < n; i++)
         {
-            double[] a;
-            int i;
-            int indx;
-            int j;
+            int indx = 0;
+
             int k;
-
-            a = new double[n * n];
-
-            for (j = 0; j < n; j++)
+            for (k = 0; k < n; k++)
             {
-                for (i = 0; i < n; i++)
+                if (k == i)
                 {
-                    if (j == 0)
+                    continue;
+                }
+
+                for (j = indx + 1; 0 <= j; j--)
+                {
+                    a[i + j * n] = -stencil[k] * a[i + j * n] / (stencil[i] - stencil[k]);
+
+                    switch (j)
                     {
-                        a[i + j * n] = 1.0;
-                    }
-                    else
-                    {
-                        a[i + j * n] = 0.0;
+                        case > 0:
+                            a[i + j * n] += a[i + (j - 1) * n] / (stencil[i] - stencil[k]);
+                            break;
                     }
                 }
-            }
 
+                indx += 1;
+            }
+        }
+
+        for (j = 0; j < n; j++)
+        {
             for (i = 0; i < n; i++)
             {
-                indx = 0;
-
-                for (k = 0; k < n; k++)
-                {
-                    if (k != i)
-                    {
-                        for (j = indx + 1; 0 <= j; j--)
-                        {
-                            a[i + j * n] = -stencil[k] * a[i + j * n] / (stencil[i] - stencil[k]);
-
-                            if (0 < j)
-                            {
-                                a[i + j * n] = a[i + j * n] + a[i + (j - 1) * n] / (stencil[i] - stencil[k]);
-                            }
-                        }
-
-                        indx = indx + 1;
-                    }
-                }
+                a[i + j * n] /= stencil[i];
             }
-
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i < n; i++)
-                {
-                    a[i + j * n] = a[i + j * n] / stencil[i];
-                }
-            }
-
-            return a;
         }
 
-        public static double[] differ_matrix(int n, double[] stencil)
+        return a;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DIFFER_MATRIX computes the stencil matrix from the stencil vector.
-            //
-            //  Discussion:
-            //
-            //    If N = 4, and STENCIL = ( -3, -2, -1, 1 ), then A will be
-            //
-            //    -3  -2  -1  1
-            //     9   4   1  1
-            //   -27  -8  -1  1
-            //    81  16   1  1
-            //
-            //    This matrix is a generalized form of a Vandermonde matrix A2:
-            //
-            //     1   1   1  1
-            //    -3  -2  -1  1
-            //     9   4   1  1
-            //   -27  -8  -1  1    
-            //
-            //    and if A * x = b, the A2 * x2 = b, where x2(i) = x(i) * stencil(i)
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 November 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of stencil points.
-            //
-            //    Input, double STENCIL[N], the stencil vector.
-            //    The entries in this vector must be distinct.
-            //    No entry of STENCIL may be 0.
-            //
-            //    Output, double DIFFER_MATRIX[N*N], the stencil matrix.
-            //
+    public static double[] differ_matrix(int n, double[] stencil)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DIFFER_MATRIX computes the stencil matrix from the stencil vector.
+        //
+        //  Discussion:
+        //
+        //    If N = 4, and STENCIL = ( -3, -2, -1, 1 ), then A will be
+        //
+        //    -3  -2  -1  1
+        //     9   4   1  1
+        //   -27  -8  -1  1
+        //    81  16   1  1
+        //
+        //    This matrix is a generalized form of a Vandermonde matrix A2:
+        //
+        //     1   1   1  1
+        //    -3  -2  -1  1
+        //     9   4   1  1
+        //   -27  -8  -1  1    
+        //
+        //    and if A * x = b, the A2 * x2 = b, where x2(i) = x(i) * stencil(i)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 November 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of stencil points.
+        //
+        //    Input, double STENCIL[N], the stencil vector.
+        //    The entries in this vector must be distinct.
+        //    No entry of STENCIL may be 0.
+        //
+        //    Output, double DIFFER_MATRIX[N*N], the stencil matrix.
+        //
+    {
+        int j;
+
+        double[] a = new double[n * n];
+
+        for (j = 0; j < n; j++)
         {
-            double[] a;
+            a[0 + j * n] = stencil[j];
             int i;
-            int j;
-
-            a = new double[n * n];
-
-            for (j = 0; j < n; j++)
+            for (i = 1; i < n; i++)
             {
-                a[0 + j * n] = stencil[j];
-                for (i = 1; i < n; i++)
-                {
-                    a[i + j * n] = a[i - 1 + j * n] * stencil[j];
-                }
+                a[i + j * n] = a[i - 1 + j * n] * stencil[j];
             }
-
-            return a;
         }
 
-        public static double[] differ_solve(int n, double[] stencil, int order )
+        return a;
+    }
+
+    public static double[] differ_solve(int n, double[] stencil, int order )
 
         //****************************************************************************80
         //
@@ -442,30 +428,27 @@ namespace Burkardt.DifferNS
         //    approximation to the derivative of order ORDER, with error 
         //    of order H^(N+1-ORDER).
         //
+    {
+        int i;
+
+        double[] a = differ_matrix(n, stencil);
+
+        double[] b = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double[] a;
-            double[] b;
-            double[] c;
-            int i;
-
-            a = differ_matrix(n, stencil);
-
-            b = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                b[i] = 0.0;
-            }
-
-            b[order - 1] = 1.0;
-            //
-            //  Solve A * C = B.
-            //
-            c = typeMethods.r8mat_fs_new(n, a, b);
-
-            return c;
+            b[i] = 0.0;
         }
 
-        public static void differ_stencil(double x0, int o, int p, double[] x, ref double[] c )
+        b[order - 1] = 1.0;
+        //
+        //  Solve A * C = B.
+        //
+        double[] c = typeMethods.r8mat_fs_new(n, a, b);
+
+        return c;
+    }
+
+    public static void differ_stencil(double x0, int o, int p, double[] x, ref double[] c )
 
         //****************************************************************************80
         //
@@ -509,49 +492,43 @@ namespace Burkardt.DifferNS
         //
         //    Output, double C[O+P], the coefficients.
         //
+    {
+        int i;
+        int info = 0;
+
+        int n = o + p;
+
+        double[] dx = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double[] b;
-            double[] dx;
-            int i;
-            int info = 0;
-            int job;
-            int n;
-            double t;
+            dx[i] = x[i] - x0;
+        }
 
-            n = o + p;
+        double[] b = new double[n];
 
-            dx = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            b[i] = 0.0;
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                dx[i] = x[i] - x0;
-            }
+        b[o] = 1.0;
 
-            b = new double[n];
+        int job = 0;
+        typeMethods.r8vm_sl(n, dx, b, job, c, ref info);
 
-            for (i = 0; i < n; i++)
-            {
-                b[i] = 0.0;
-            }
+        if (info != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DIFFER_STENCIL - Fatal error!");
+            Console.WriteLine("  Vandermonde linear system is singular.");
+            return;
+        }
 
-            b[o] = 1.0;
-
-            job = 0;
-            typeMethods.r8vm_sl(n, dx, b, job, c, ref info);
-
-            if (info != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DIFFER_STENCIL - Fatal error!");
-                Console.WriteLine("  Vandermonde linear system is singular.");
-                return;
-            }
-
-            t = typeMethods.r8_factorial(o);
-            for (i = 0; i < n; i++)
-            {
-                c[i] = c[i] * t;
-            }
+        double t = typeMethods.r8_factorial(o);
+        for (i = 0; i < n; i++)
+        {
+            c[i] *= t;
         }
     }
 }

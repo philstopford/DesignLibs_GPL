@@ -4,133 +4,140 @@ using System.IO;
 using System.Linq;
 using Burkardt.Types;
 
-namespace Burkardt.Table
+namespace Burkardt.Table;
+
+public static partial class TableMisc
 {
-    
-    public static partial class TableMisc
+    public static void readHeader(string input_filename, ref int m, ref int n)
     {
-        public static void readHeader(string input_filename, ref int m, ref int n)
-        {
-            TableHeader ret = readHeader(input_filename);
+        TableHeader ret = readHeader(input_filename);
 
-            m = ret.m;
-            n = ret.n;
-        }
-        public static TableHeader readHeader(string input_filename)
-        {
-            TableHeader ret = new TableHeader {m = TableMisc.file_column_count(input_filename), n = TableMisc.file_row_count ( input_filename )};
+        m = ret.m;
+        n = ret.n;
+    }
+    public static TableHeader readHeader(string input_filename)
+    {
+        TableHeader ret = new() {m = file_column_count(input_filename), n = file_row_count ( input_filename )};
 
-            return ret;
-        }
+        return ret;
+    }
         
-        public static string file_name_ext_swap(string filename, string extension)
+    public static string file_name_ext_swap(string filename, string extension)
+    {
+        string[] tokens = filename.Split('.');
+        switch (tokens.Length)
         {
-            string[] tokens = filename.Split('.');
-            if (tokens.Length == 1)
+            case 1:
+                return string.Join('.', filename, extension);
+        }
+
+        string ret = "";
+        for (int i = 0; i < tokens.Length - 1; i++)
+        {
+            ret += tokens[i] + ".";
+        }
+
+        ret += extension;
+
+        return ret;
+    }
+        
+    public static int file_column_count(string filename)
+    {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    FILE_COLUMN_COUNT counts the columns in the first line of a file.
+        //
+        //  Discussion:
+        //
+        //    The file is assumed to be a simple text file.
+        //
+        //    Most lines of the file are presumed to consist of COLUMN_NUM words,
+        //    separated by spaces.  There may also be some blank lines, and some
+        //    comment lines, which have a "#" in column 1.
+        //
+        //    The routine tries to find the first non-comment non-blank line and
+        //    counts the number of words in that line.
+        //
+        //    If all lines are blanks or comments, it goes back and tries to analyze
+        //    a comment line.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 July 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string FILENAME, the name of the file.
+        //
+        //    Output, int FILE_COLUMN_COUNT, the number of columns assumed
+        //    to be in the file.
+        //
+        int ret = -1;
+        string[] lines = File.ReadLines(filename).ToArray();
+        foreach (string line in lines)
+        {
+            if (line.StartsWith('#'))
             {
-                return String.Join('.', filename, extension);
+                continue;
             }
 
-            string ret = "";
-            for (int i = 0; i < tokens.Length - 1; i++)
-            {
-                ret += tokens[i] + ".";
-            }
+            bool found = false;
+            List<string> fields = new();
 
-            ret += extension;
-
-            return ret;
-        }
-        
-        public static int file_column_count(string filename)
-        {
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    FILE_COLUMN_COUNT counts the columns in the first line of a file.
-            //
-            //  Discussion:
-            //
-            //    The file is assumed to be a simple text file.
-            //
-            //    Most lines of the file are presumed to consist of COLUMN_NUM words,
-            //    separated by spaces.  There may also be some blank lines, and some
-            //    comment lines, which have a "#" in column 1.
-            //
-            //    The routine tries to find the first non-comment non-blank line and
-            //    counts the number of words in that line.
-            //
-            //    If all lines are blanks or comments, it goes back and tries to analyze
-            //    a comment line.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    05 July 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string FILENAME, the name of the file.
-            //
-            //    Output, int FILE_COLUMN_COUNT, the number of columns assumed
-            //    to be in the file.
-            //
-            int ret = -1;
-            string[] lines = File.ReadLines(filename).ToArray();
-            foreach (string line in lines)
-            {
-                if (line.StartsWith('#'))
-                {
-                    continue;
-                }
-
-                bool found = false;
-                List<string> fields = new List<string>();
-
-                string tmp = "";
+            string tmp = "";
                 
-                foreach (char t in line)
+            foreach (char t in line)
+            {
+                switch (t)
                 {
-                    if (t == ' ')
+                    case ' ':
                     {
-                        if (found)
+                        switch (found)
                         {
-                            // Got whitespace, commit string to the list and then set to false and continue.
-                            fields.Add(tmp);
-                            tmp = "";
-                            found = false;
+                            case true:
+                                // Got whitespace, commit string to the list and then set to false and continue.
+                                fields.Add(tmp);
+                                tmp = "";
+                                found = false;
+                                break;
                         }
+
+                        break;
                     }
-                    else
-                    {
+                    default:
                         found = true;
                         tmp += t;
-                    }
-                }
-
-                if (tmp != "")
-                {
-                    fields.Add(tmp);
-                }
-
-                if (fields.Count > 0)
-                {
-                    ret = fields.Count;
+                        break;
                 }
             }
-            
-            return ret;
-        }
 
-        public static int file_row_count(string filename)
+            if (tmp != "")
+            {
+                fields.Add(tmp);
+            }
+
+            ret = fields.Count switch
+            {
+                > 0 => fields.Count,
+                _ => ret
+            };
+        }
+            
+        return ret;
+    }
+
+    public static int file_row_count(string filename)
         //****************************************************************************80
         //
         //  Purpose:
@@ -159,16 +166,15 @@ namespace Burkardt.Table
         //    Input, string INPUT_FILENAME, the name of the input file.
         //
         //    Output, int FILE_ROW_COUNT, the number of rows found.
-        {
-            string[] lines = File.ReadLines(filename).ToArray();
+    {
+        string[] lines = File.ReadLines(filename).ToArray();
 
-            return lines.Count(line => !line.StartsWith('#') && (typeMethods.s_len_trim(line) != 0));
-        }
-
-
-        
-
-        
-
+        return lines.Count(line => !line.StartsWith('#') && typeMethods.s_len_trim(line) != 0);
     }
+
+
+        
+
+        
+
 }

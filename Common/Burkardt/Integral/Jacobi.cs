@@ -1,186 +1,177 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static partial class Integral
 {
-    public static partial class Integral
+    public static double j_double_product_integral(int i, int j, double a, double b)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    J_DOUBLE_PRODUCT_INTEGRAL: integral of J(i,x)*J(j,x)*(1-x)^a*(1+x)^b.
+        //
+        //  Discussion:
+        //
+        //    VALUE = integral ( -1 <= x <= +1 ) J(i,x)*J(j,x)*(1-x)^a*(1+x)^b dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int I, J, the polynomial indices.
+        //
+        //    Input, double A, B, the parameters.
+        //    -1 < A, B.
+        //
+        //    Output, double VALUE, the value of the integral.
+        //
     {
-        public static double j_double_product_integral(int i, int j, double a, double b)
+        double i_r8;
+        double value = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    J_DOUBLE_PRODUCT_INTEGRAL: integral of J(i,x)*J(j,x)*(1-x)^a*(1+x)^b.
-            //
-            //  Discussion:
-            //
-            //    VALUE = integral ( -1 <= x <= +1 ) J(i,x)*J(j,x)*(1-x)^a*(1+x)^b dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 April 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int I, J, the polynomial indices.
-            //
-            //    Input, double A, B, the parameters.
-            //    -1 < A, B.
-            //
-            //    Output, double VALUE, the value of the integral.
-            //
+        if (i != j)
         {
-            double i_r8;
-            double value;
-
-            if (i != j)
-            {
-                value = 0.0;
-            }
-            else
-            {
-                i_r8 = (double) (i);
-
-                value = Math.Pow(2, a + b + 1.0)
-                        / (2.0 * i_r8 + a + b + 1.0)
-                        * Helpers.Gamma(i_r8 + a + 1.0)
-                        * Helpers.Gamma(i_r8 + b + 1.0)
-                        / typeMethods.r8_factorial(i)
-                        / Helpers.Gamma(i_r8 + a + b + 1.0);
-            }
-
-            return value;
+            value = 0.0;
         }
-        public static double j_integral(int n)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    J_INTEGRAL evaluates a monomial integral associated with J(n,a,b,x).
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( -1 <= x < +1 ) x^n dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 April 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the exponent.
-            //    0 <= N.
-            //
-            //    Output, double J_INTEGRAL, the value of the integral.
-            //
+        else
         {
-            double value;
+            i_r8 = i;
 
-            if ((n % 2) == 1)
-            {
-                value = 0.0;
-            }
-            else
-            {
-                value = 2.0 / (double) (n + 1);
-            }
-
-            return value;
+            value = Math.Pow(2, a + b + 1.0)
+                    / (2.0 * i_r8 + a + b + 1.0)
+                    * Helpers.Gamma(i_r8 + a + 1.0)
+                    * Helpers.Gamma(i_r8 + b + 1.0)
+                    / typeMethods.r8_factorial(i)
+                    / Helpers.Gamma(i_r8 + a + b + 1.0);
         }
 
-        public static double jacobi_integral ( int expon, double alpha, double beta )
+        return value;
+    }
+    public static double j_integral(int n)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    JACOBI_INTEGRAL evaluates the integral of a monomial with Jacobi weight.
-            //
-            //  Discussion:
-            //
-            //    VALUE = Integral ( -1 <= X <= +1 ) x^EXPON (1-x)^ALPHA (1+x)^BETA dx
-            //
-            //  Modified:
-            //
-            //    08 September 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int EXPON, the exponent.
-            //
-            //    Input, double ALPHA, the exponent of (1-X) in the weight factor.
-            //
-            //    Input, double BETA, the exponent of (1+X) in the weight factor.
-            //
-            //    Output, double JACOBI_INTEGRAL, the value of the integral.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    J_INTEGRAL evaluates a monomial integral associated with J(n,a,b,x).
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( -1 <= x < +1 ) x^n dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the exponent.
+        //    0 <= N.
+        //
+        //    Output, double J_INTEGRAL, the value of the integral.
+        //
+    {
+        double value = (n % 2) switch
         {
-            double arg1;
-            double arg2;
-            double arg3;
-            double arg4;
-            double c;
-            double s;
-            double value;
-            double value1;
-            double value2;
+            1 => 0.0,
+            _ => 2.0 / (n + 1)
+        };
 
-            c = ( double ) ( expon );
+        return value;
+    }
 
-            if ( ( expon % 2 ) == 0 )
-            {
-                s = +1.0;
-            }
-            else
-            {
-                s = -1.0;
-            }
+    public static double jacobi_integral ( int expon, double alpha, double beta )
 
-            arg1 = - alpha;
-            arg2 =   1.0 + c;
-            arg3 =   2.0 + beta + c;
-            arg4 = - 1.0;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    JACOBI_INTEGRAL evaluates the integral of a monomial with Jacobi weight.
+        //
+        //  Discussion:
+        //
+        //    VALUE = Integral ( -1 <= X <= +1 ) x^EXPON (1-x)^ALPHA (1+x)^BETA dx
+        //
+        //  Modified:
+        //
+        //    08 September 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int EXPON, the exponent.
+        //
+        //    Input, double ALPHA, the exponent of (1-X) in the weight factor.
+        //
+        //    Input, double BETA, the exponent of (1+X) in the weight factor.
+        //
+        //    Output, double JACOBI_INTEGRAL, the value of the integral.
+        //
+    {
+        double arg1;
+        double arg2;
+        double arg3;
+        double arg4;
+        double c;
+        double s;
+        double value = 0;
+        double value1;
+        double value2;
 
-            value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        c = expon;
 
-            arg1 = - beta;
-            arg2 =   1.0 + c;
-            arg3 =   2.0 + alpha + c;
-            arg4 = - 1.0;
+        s = (expon % 2) switch
+        {
+            0 => +1.0,
+            _ => -1.0
+        };
 
-            value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        arg1 = - alpha;
+        arg2 =   1.0 + c;
+        arg3 =   2.0 + beta + c;
+        arg4 = - 1.0;
 
-            value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
-                s * typeMethods.r8_gamma ( 1.0 + beta  ) * value1 
-                / typeMethods.r8_gamma ( 2.0 + beta  + c ) 
-                +     typeMethods.r8_gamma ( 1.0 + alpha ) * value2 
-                / typeMethods.r8_gamma ( 2.0 + alpha + c ) );
+        value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
-            return value;
-        }
+        arg1 = - beta;
+        arg2 =   1.0 + c;
+        arg3 =   2.0 + alpha + c;
+        arg4 = - 1.0;
+
+        value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+
+        value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
+            s * typeMethods.r8_gamma ( 1.0 + beta  ) * value1 
+            / typeMethods.r8_gamma ( 2.0 + beta  + c ) 
+            +     typeMethods.r8_gamma ( 1.0 + alpha ) * value2 
+            / typeMethods.r8_gamma ( 2.0 + alpha + c ) );
+
+        return value;
     }
 }

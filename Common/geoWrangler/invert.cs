@@ -4,87 +4,87 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace geoWrangler
+namespace geoWrangler;
+
+using Path = List<IntPoint>;
+using Paths = List<List<IntPoint>>;
+
+public static partial class GeoWrangler
 {
-    using Path = List<IntPoint>;
-    using Paths = List<List<IntPoint>>;
-
-    public static partial class GeoWrangler
+    // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
+    public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
     {
-        // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
-        public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
-        {
-            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation, useBounds), scaleFactor);
-        }
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation, useBounds), scaleFactor);
+    }
 
-        public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
-        {
-            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation, useBounds), scaleFactor);
-        }
+    public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
+    {
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation, useBounds), scaleFactor);
+    }
 
-        public static Paths invertTone(Path sourcePath, bool useTriangulation = false, bool useBounds = false)
-        {
-            Paths t = new Paths {sourcePath};
-            return invertTone(t, useTriangulation, useBounds);
-        }
+    public static Paths invertTone(Path sourcePath, bool useTriangulation = false, bool useBounds = false)
+    {
+        Paths t = new() {sourcePath};
+        return invertTone(t, useTriangulation, useBounds);
+    }
 
-        public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false, bool useBounds = false)
-        {
-            return pInvertTone(sourcePaths, useTriangulation, useBounds);
-        }
+    public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false, bool useBounds = false)
+    {
+        return pInvertTone(sourcePaths, useTriangulation, useBounds);
+    }
 
-        static Paths pInvertTone(Paths sourcePaths, bool useTriangulation, bool useBounds)
+    private static Paths pInvertTone(Paths sourcePaths, bool useTriangulation, bool useBounds)
+    {
+        switch (sourcePaths.Count())
         {
-            if ((sourcePaths.Count() == 1) && !useBounds)
-            {
-                sourcePaths[0].Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
-                sourcePaths[0].Add(new IntPoint(-Int32.MaxValue, Int32.MaxValue));
-                sourcePaths[0].Add(new IntPoint(Int32.MaxValue, Int32.MaxValue));
-                sourcePaths[0].Add(new IntPoint(Int32.MaxValue, -Int32.MaxValue));
-                sourcePaths[0].Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
+            case 1 when !useBounds:
+                sourcePaths[0].Add(new IntPoint(-int.MaxValue, -int.MaxValue));
+                sourcePaths[0].Add(new IntPoint(-int.MaxValue, int.MaxValue));
+                sourcePaths[0].Add(new IntPoint(int.MaxValue, int.MaxValue));
+                sourcePaths[0].Add(new IntPoint(int.MaxValue, -int.MaxValue));
+                sourcePaths[0].Add(new IntPoint(-int.MaxValue, -int.MaxValue));
 
                 return sourcePaths.ToList();
-            }
-            else
+        }
+
+        Path firstLayerBP = new();
+        switch (useBounds)
+        {
+            case false:
+                firstLayerBP.Add(new IntPoint(-int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new IntPoint(-int.MaxValue, int.MaxValue));
+                firstLayerBP.Add(new IntPoint(int.MaxValue, int.MaxValue));
+                firstLayerBP.Add(new IntPoint(int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new IntPoint(-int.MaxValue, -int.MaxValue));
+                break;
+            default:
             {
-                Path firstLayerBP = new Path();
-                if (!useBounds)
-                {
-                    firstLayerBP.Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
-                    firstLayerBP.Add(new IntPoint(-Int32.MaxValue, Int32.MaxValue));
-                    firstLayerBP.Add(new IntPoint(Int32.MaxValue, Int32.MaxValue));
-                    firstLayerBP.Add(new IntPoint(Int32.MaxValue, -Int32.MaxValue));
-                    firstLayerBP.Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
-                }
-                else
-                {
-                    IntRect bounds = ClipperBase.GetBounds(sourcePaths);
-                    firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
-                    firstLayerBP.Add(new IntPoint(bounds.left, bounds.top));
-                    firstLayerBP.Add(new IntPoint(bounds.right, bounds.top));
-                    firstLayerBP.Add(new IntPoint(bounds.right, bounds.bottom));
-                    firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
-                }
-
-                Clipper c = new Clipper {PreserveCollinear = false};
-
-                c.AddPath(firstLayerBP, PolyType.ptSubject, true);
-                // Add hole polygons from our paths
-                c.AddPaths(sourcePaths, PolyType.ptClip, true);
-
-                Paths cutters = new Paths();
-                c.Execute(ClipType.ctDifference, cutters);
-
-                if (!useTriangulation)
-                {
-                    sourcePaths = cutters;
-                    return sourcePaths;
-                }
-                else
-                {
-                    return pMakeKeyHole(sourcePaths);
-                }
+                IntRect bounds = ClipperBase.GetBounds(sourcePaths);
+                firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
+                firstLayerBP.Add(new IntPoint(bounds.left, bounds.top));
+                firstLayerBP.Add(new IntPoint(bounds.right, bounds.top));
+                firstLayerBP.Add(new IntPoint(bounds.right, bounds.bottom));
+                firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
+                break;
             }
+        }
+
+        Clipper c = new() {PreserveCollinear = false};
+
+        c.AddPath(firstLayerBP, PolyType.ptSubject, true);
+        // Add hole polygons from our paths
+        c.AddPaths(sourcePaths, PolyType.ptClip, true);
+
+        Paths cutters = new();
+        c.Execute(ClipType.ctDifference, cutters);
+
+        switch (useTriangulation)
+        {
+            case false:
+                sourcePaths = cutters;
+                return sourcePaths;
+            default:
+                return pMakeKeyHole(sourcePaths);
         }
     }
 }

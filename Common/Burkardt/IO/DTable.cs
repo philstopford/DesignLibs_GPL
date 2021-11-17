@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.IO
+namespace Burkardt.IO;
+
+public static class DTable
 {
-    public static class DTable
-    {
-        public static void dtable_data_write(ref List<string> output, int m, int n, double[] table )
+    public static void dtable_data_write(ref List<string> output, int m, int n, double[] table )
 
         //****************************************************************************80
         //
@@ -40,24 +40,24 @@ namespace Burkardt.IO
         //
         //    Input, double TABLE[M*N], the table data.
         //
+    {
+        int i;
+        int j;
+
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-
-            for (j = 0; j < n; j++)
+            string cout = "";
+            for (i = 0; i < m; i++)
             {
-                string cout = "";
-                for (i = 0; i < m; i++)
-                {
-                    cout += table[i + j * m].ToString().PadLeft(10) + "  ";
-                }
-
-                output.Add(cout);
+                cout += table[i + j * m].ToString().PadLeft(10) + "  ";
             }
-        }
 
-        public static void dtable_write(string output_filename, int m, int n, double[] table,
-        bool header )
+            output.Add(cout);
+        }
+    }
+
+    public static void dtable_write(string output_filename, int m, int n, double[] table,
+            bool header )
 
         //****************************************************************************80
         //
@@ -89,27 +89,28 @@ namespace Burkardt.IO
         //
         //    Input, bool HEADER, is TRUE if the header is to be included.
         //
+    {
+
+        try
         {
-
-            try
+            List<string> output = new();
+            switch (header)
             {
-                List<string> output = new List<string>();
-                if (header)
-                {
+                case true:
                     //  dtable_header_write ( output_filename, output, m, n );
-                }
+                    break;
+            }
 
-                dtable_data_write(ref output, m, n, table);
+            dtable_data_write(ref output, m, n, table);
             
-                File.WriteAllLines(output_filename, output);
+            File.WriteAllLines(output_filename, output);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DTABLE_WRITE - Fatal error!");
-                Console.WriteLine("  Could not open the output file.");
-            }
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DTABLE_WRITE - Fatal error!");
+            Console.WriteLine("  Could not open the output file.");
         }
     }
 }

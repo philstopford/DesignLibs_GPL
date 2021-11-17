@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace Burkardt.DREAM
+namespace Burkardt.DREAM;
+
+public static class Restart
 {
-    public static class Restart
-    {
-        public static void restart_read(int chain_num, ref double[] fit, int gen_num, int par_num,
-        string restart_read_filename, ref double[] z )
+    public static void restart_read(int chain_num, ref double[] fit, int gen_num, int par_num,
+            string restart_read_filename, ref double[] z )
 
         //****************************************************************************80
         //
@@ -53,56 +53,55 @@ namespace Burkardt.DREAM
         //    Output, double Z[PAR_NUM*CHAIN_NUM*GEN_NUM], the Markov chain 
         //    sample data.
         //
-        {
-            int chain_index;
-            int gen_index = 0;
-            int index;
-            string line;
-            int par_index;
-            string[] restart;
+    {
+        int chain_index;
+        int gen_index = 0;
+        int index;
+        int par_index;
+        string[] restart;
 
-            try
-            {
-                //
-                //  Read and ignore line 1.
-                //
-                restart = File.ReadAllLines(restart_read_filename).Skip(1).ToArray();
+        try
+        {
+            //
+            //  Read and ignore line 1.
+            //
+            restart = File.ReadAllLines(restart_read_filename).Skip(1).ToArray();
                 
-                //
-                //  Assume only one generation.
-                //
-                gen_index = 0;
-                //
-                //  Read the final fitness and parameter values for each chain.
-                //
-                int lineIndex = 0;
-                for (chain_index = 0; chain_index < chain_num; chain_index++)
+            //
+            //  Assume only one generation.
+            //
+            gen_index = 0;
+            //
+            //  Read the final fitness and parameter values for each chain.
+            //
+            int lineIndex = 0;
+            for (chain_index = 0; chain_index < chain_num; chain_index++)
+            {
+                index = chain_index
+                        + chain_num * gen_index;
+                fit[index] = Convert.ToDouble(restart[lineIndex]);
+                lineIndex++;
+                for (par_index = 0; par_index < par_num; par_index++)
                 {
-                    index = chain_index
-                            + chain_num * gen_index;
-                    fit[index] = Convert.ToDouble(restart[lineIndex]);
+                    index = par_index
+                            + par_num * chain_index
+                            + par_num * chain_num * gen_index;
+                    z[index] = Convert.ToDouble(restart[lineIndex]);
                     lineIndex++;
-                    for (par_index = 0; par_index < par_num; par_index++)
-                    {
-                        index = par_index
-                                + par_num * chain_index
-                                + par_num * chain_num * gen_index;
-                        z[index] = Convert.ToDouble(restart[lineIndex]);
-                        lineIndex++;
-                    }
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("RESTART_READ - Fatal error!");
-                Console.WriteLine("  Could not open the file \""
-                                  + restart_read_filename + "\".");
-            }
         }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("RESTART_READ - Fatal error!");
+            Console.WriteLine("  Could not open the file \""
+                              + restart_read_filename + "\".");
+        }
+    }
 
-        public static void restart_write(int chain_num, double[] fit, int gen_num, int par_num,
-        string restart_write_filename, double[] z )
+    public static void restart_write(int chain_num, double[] fit, int gen_num, int par_num,
+            string restart_write_filename, double[] z )
 
         //****************************************************************************80
         //
@@ -147,42 +146,39 @@ namespace Burkardt.DREAM
         //    Input, double Z[PAR_NUM*CHAIN_NUM*GEN_NUM], the Markov chain 
         //    sample data.
         //
+    {
+        int c;
+        int p;
+        List<string> restart = new() {"DREAM.C:Parameter_values_for_restart."};
+
+
+        for (c = 0; c < chain_num; c++)
         {
-            int c;
-            int p;
-            List<string> restart = new List<string>();
-            
-
-            restart.Add("DREAM.C:Parameter_values_for_restart.");
-
-            for (c = 0; c < chain_num; c++)
+            string tmp =  "  " + c
+                               + "  " + fit[c + (gen_num - 1) * chain_num];
+            for (p = 0; p < par_num; p++)
             {
-                string tmp =  "  " + c
-                    + "  " + fit[c + (gen_num - 1) * chain_num];
-                for (p = 0; p < par_num; p++)
-                {
-                    tmp += "  " + z[p + c * par_num + (gen_num - 1) * par_num * chain_num];
-                }
-
-                restart.Add(tmp);
+                tmp += "  " + z[p + c * par_num + (gen_num - 1) * par_num * chain_num];
             }
 
-            try
-            {
-                File.WriteAllLines(restart_write_filename, restart);
-            }
-            catch
-            {
-                Console.WriteLine("");
-                Console.WriteLine("RESTART_WRITE - Fatal error!");
-                Console.WriteLine("  Could not open \"" + restart_write_filename + "\".");
-                return;
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("RESTART_WRITE:");
-            Console.WriteLine("  Created restart file \"" + restart_write_filename + "\".");
-
+            restart.Add(tmp);
         }
+
+        try
+        {
+            File.WriteAllLines(restart_write_filename, restart);
+        }
+        catch
+        {
+            Console.WriteLine("");
+            Console.WriteLine("RESTART_WRITE - Fatal error!");
+            Console.WriteLine("  Could not open \"" + restart_write_filename + "\".");
+            return;
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("RESTART_WRITE:");
+        Console.WriteLine("  Created restart file \"" + restart_write_filename + "\".");
+
     }
 }

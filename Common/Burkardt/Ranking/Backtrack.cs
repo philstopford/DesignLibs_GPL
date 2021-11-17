@@ -1,9 +1,9 @@
-﻿namespace Burkardt.RankingNS
+﻿namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
-    {
-        public static void backtrack(int l, ref int[] iarray, ref int indx, ref int k, ref int nstack,
-        ref int[] stack, int maxstack )
+    public static void backtrack(int l, ref int[] iarray, ref int indx, ref int k, ref int nstack,
+            ref int[] stack, int maxstack )
 
         //****************************************************************************80
         // 
@@ -66,63 +66,61 @@
         // 
         //    Input, int MAXSTACK, the maximum length of the stack.
         // 
+    {
+        switch (indx)
         {
             // 
             //  If this is the first call, request a candidate for position 1.
             // 
-            if (indx == 0)
-            {
+            case 0:
                 k = 1;
                 nstack = 0;
                 indx = 2;
                 return;
-            }
+        }
 
+        // 
+        //  Examine the stack.
+        // 
+        for (;;)
+        {
+            nstack -= 1;
             // 
-            //  Examine the stack.
+            //  If there are candidates for position K, take the first available
+            //  one off the stack, and increment K.
             // 
-            for (;;)
+            //  This may cause K to reach the desired value of L, in which case
+            //  we need to signal the user that a complete set of candidates
+            //  is being returned.
+            // 
+            if (stack[nstack] != 0)
             {
-                nstack = nstack - 1;
-                // 
-                //  If there are candidates for position K, take the first available
-                //  one off the stack, and increment K.
-                // 
-                //  This may cause K to reach the desired value of L, in which case
-                //  we need to signal the user that a complete set of candidates
-                //  is being returned.
-                // 
-                if (stack[nstack] != 0)
+                iarray[k - 1] = stack[nstack - 1];
+                stack[nstack - 1] = stack[nstack] - 1;
+
+                if (k != l)
                 {
-                    iarray[k - 1] = stack[nstack - 1];
-                    stack[nstack - 1] = stack[nstack] - 1;
-
-                    if (k != l)
-                    {
-                        k = k + 1;
-                        indx = 2;
-                    }
-                    else
-                    {
-                        indx = 1;
-                    }
-
-                    break;
+                    k += 1;
+                    indx = 2;
                 }
-                // 
-                //  If there are no candidates for position K, then decrement K.
-                //  If K is still positive, repeat the examination of the stack.
-                // 
                 else
                 {
-                    k = k - 1;
-
-                    if (k <= 0)
-                    {
-                        indx = 3;
-                        break;
-                    }
+                    indx = 1;
                 }
+
+                break;
+            }
+            // 
+            //  If there are no candidates for position K, then decrement K.
+            //  If K is still positive, repeat the examination of the stack.
+            // 
+
+            k -= 1;
+
+            if (k <= 0)
+            {
+                indx = 3;
+                break;
             }
         }
     }

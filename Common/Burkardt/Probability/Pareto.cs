@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Pareto
 {
-    public static class Pareto
-    {
-        public static double pareto_cdf(double x, double a, double b)
+    public static double pareto_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,22 +34,22 @@ namespace Burkardt.Probability
         //
         //    Output, double PARETO_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x < a)
         {
-            double cdf;
-
-            if (x < a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Pow((a / x), b);
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            cdf = 1.0 - Math.Pow(a / x, b);
         }
 
-        public static double pareto_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double pareto_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -79,21 +79,25 @@ namespace Burkardt.Probability
         //
         //    Output, double PARETO_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PARETO_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = a / Math.Pow(1.0 - cdf, 1.0 / b);
+
+                return x;
             }
-
-            double x = a / Math.Pow(1.0 - cdf, 1.0 / b);
-
-            return x;
         }
+    }
 
-        public static bool pareto_check(double a, double b)
+    public static bool pareto_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -120,27 +124,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool PARETO_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PARETO_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PARETO_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double pareto_mean(double a, double b)
+    public static double pareto_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -167,24 +173,25 @@ namespace Burkardt.Probability
         //
         //    Output, double PARETO_MEAN, the mean of the PDF.
         //
-        {
-            double mean;
+    {
+        double mean;
 
-            if (b <= 1.0)
-            {
+        switch (b)
+        {
+            case <= 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PARETO_MEAN - Fatal error!");
                 Console.WriteLine("  For B <= 1, the mean does not exist.");
                 mean = 0.0;
                 return mean;
-            }
+            default:
+                mean = b * a / (b - 1.0);
 
-            mean = b * a / (b - 1.0);
-
-            return mean;
+                return mean;
         }
+    }
 
-        public static double pareto_pdf(double x, double a, double b)
+    public static double pareto_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -218,22 +225,22 @@ namespace Burkardt.Probability
         //
         //    Output, double PARETO_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < a)
         {
-            double pdf;
-
-            if (x < a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = b * Math.Pow(a, b) / Math.Pow(x, (b + 1.0));
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = b * Math.Pow(a, b) / Math.Pow(x, b + 1.0);
         }
 
-        public static double pareto_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static double pareto_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -262,15 +269,15 @@ namespace Burkardt.Probability
         //
         //    Output, double PARETO_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = pareto_cdf_inv(cdf, a, b);
+        double x = pareto_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double pareto_variance(double a, double b)
+    public static double pareto_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -297,21 +304,21 @@ namespace Burkardt.Probability
         //
         //    Output, double PARETO_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance;
+    {
+        double variance;
 
-            if (b <= 2.0)
-            {
+        switch (b)
+        {
+            case <= 2.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PARETO_VARIANCE - Warning!");
                 Console.WriteLine("  For B <= 2, the variance does not exist.");
                 variance = 0.0;
                 return variance;
-            }
+            default:
+                variance = a * a * b / (Math.Pow(b - 1.0, 2) * (b - 2.0));
 
-            variance = a * a * b / (Math.Pow((b - 1.0), 2) * (b - 2.0));
-
-            return variance;
+                return variance;
         }
     }
 }

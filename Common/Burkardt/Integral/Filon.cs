@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static class Filon
 {
-    public static class Filon
-    {
-        public static double filon_fun_cos(int n, Func< int, double[], double[] > f, double a,
-        double b, double t )
+    public static double filon_fun_cos(int n, Func< int, double[], double[] > f, double a,
+            double b, double t )
 
         //****************************************************************************80
         //
@@ -76,63 +76,65 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double FILON_FUN_COS, the approximate value of the integral.
         //
+    {
+        double alpha;
+        double beta;
+        double c2n;
+        double c2nm1;
+        double cost;
+        double[] ftab;
+        double gamma;
+        double h;
+        int i;
+        double sint;
+        double theta;
+        double value = 0;
+        double[] x;
+
+        if (a == b)
         {
-            double alpha;
-            double beta;
-            double c2n;
-            double c2nm1;
-            double cost;
-            double[] ftab;
-            double gamma;
-            double h;
-            int i;
-            double sint;
-            double theta;
-            double value;
-            double[] x;
+            value = 0.0;
+            return value;
+        }
 
-            if (a == b)
-            {
-                value = 0.0;
-                return value;
-            }
-
-            if (n <= 1)
-            {
+        switch (n)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("FILON_FUN_COS - Fatal error!");
                 Console.WriteLine("  N < 2");
                 Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+                return 1;
+        }
 
-            if ((n % 2) != 1)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FILON_FUN_COS - Fatal error!");
-                Console.WriteLine("  N must be odd.");
-                Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+        if (n % 2 != 1)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FILON_FUN_COS - Fatal error!");
+            Console.WriteLine("  N must be odd.");
+            Console.WriteLine("  N = " + n + "");
+            return 1;
+        }
 
-            //
-            //  Set the X values.
-            //
-            x = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                x[i] = ((double) (n - i - 1) * a
-                        + (double) (i) * b)
-                       / (double) (n - 1);
-            }
+        //
+        //  Set the X values.
+        //
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            x[i] = ((n - i - 1) * a
+                    + i * b)
+                   / (n - 1);
+        }
 
-            h = (b - a) / (double) (n - 1);
-            theta = t * h;
-            sint = Math.Sin(theta);
-            cost = Math.Cos(theta);
+        h = (b - a) / (n - 1);
+        theta = t * h;
+        sint = Math.Sin(theta);
+        cost = Math.Cos(theta);
 
-            if (6.0 * Math.Abs(theta) <= 1.0)
-            {
+        switch (6.0 * Math.Abs(theta))
+        {
+            case <= 1.0:
                 alpha = 2.0 * Math.Pow(theta, 3) / 45.0
                         - 2.0 * Math.Pow(theta, 5) / 315.0
                         + 2.0 * Math.Pow(theta, 7) / 4725.0;
@@ -147,9 +149,8 @@ namespace Burkardt.IntegralNS
                         - 2.0 * Math.Pow(theta, 2) / 15.0
                         + Math.Pow(theta, 4) / 210.0
                         - Math.Pow(theta, 6) / 11340.0;
-            }
-            else
-            {
+                break;
+            default:
                 alpha = (Math.Pow(theta, 2) + theta * sint * cost - 2.0 * sint * sint)
                         / Math.Pow(theta, 3);
 
@@ -157,37 +158,38 @@ namespace Burkardt.IntegralNS
                         - 4.0 * sint * cost) / Math.Pow(theta, 3);
 
                 gamma = 4.0 * (sint - theta * cost) / Math.Pow(theta, 3);
-            }
-
-            //
-            //  Tabulate the function.
-            //
-            ftab = f(n, x);
-
-            c2n = 0.5 * ftab[0] * Math.Cos(t * x[0]);
-            for (i = 2; i < n - 1; i = i + 2)
-            {
-                c2n = c2n + ftab[i] * Math.Cos(t * x[i]);
-            }
-
-            c2n = c2n + 0.5 * ftab[n - 1] * Math.Cos(t * x[n - 1]);
-
-            c2nm1 = 0.0;
-            for (i = 1; i <= n - 2; i = i + 2)
-            {
-                c2nm1 = c2nm1 + ftab[i] * Math.Cos(t * x[i]);
-            }
-
-            value = h * (
-                alpha * (ftab[n - 1] * Math.Sin(t * x[n - 1])
-                         - ftab[0] * Math.Sin(t * x[0]))
-                + beta * c2n
-                + gamma * c2nm1);
-
-            return value;
+                break;
         }
 
-        public static double filon_tab_cos(int n, double[] ftab, double a, double b, double t )
+        //
+        //  Tabulate the function.
+        //
+        ftab = f(n, x);
+
+        c2n = 0.5 * ftab[0] * Math.Cos(t * x[0]);
+        for (i = 2; i < n - 1; i += 2)
+        {
+            c2n += ftab[i] * Math.Cos(t * x[i]);
+        }
+
+        c2n += 0.5 * ftab[n - 1] * Math.Cos(t * x[n - 1]);
+
+        c2nm1 = 0.0;
+        for (i = 1; i <= n - 2; i += 2)
+        {
+            c2nm1 += ftab[i] * Math.Cos(t * x[i]);
+        }
+
+        value = h * (
+            alpha * (ftab[n - 1] * Math.Sin(t * x[n - 1])
+                     - ftab[0] * Math.Sin(t * x[0]))
+            + beta * c2n
+            + gamma * c2nm1);
+
+        return value;
+    }
+
+    public static double filon_tab_cos(int n, double[] ftab, double a, double b, double t )
 
         //****************************************************************************80
         //
@@ -258,62 +260,64 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double FILON_TAB_COS, the approximate value of the integral.
         //
+    {
+        double alpha;
+        double beta;
+        double c2n;
+        double c2nm1;
+        double cost;
+        double gamma;
+        double h;
+        int i;
+        double sint;
+        double theta;
+        double value = 0;
+        double[] x;
+
+        if (a == b)
         {
-            double alpha;
-            double beta;
-            double c2n;
-            double c2nm1;
-            double cost;
-            double gamma;
-            double h;
-            int i;
-            double sint;
-            double theta;
-            double value;
-            double[] x;
+            value = 0.0;
+            return value;
+        }
 
-            if (a == b)
-            {
-                value = 0.0;
-                return value;
-            }
-
-            if (n <= 1)
-            {
+        switch (n)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("FILON_TAB_COS - Fatal error!");
                 Console.WriteLine("  N < 2");
                 Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+                return 1;
+        }
 
-            if ((n % 2) != 1)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FILON_TAB_COS - Fatal error!");
-                Console.WriteLine("  N must be odd.");
-                Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+        if (n % 2 != 1)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FILON_TAB_COS - Fatal error!");
+            Console.WriteLine("  N must be odd.");
+            Console.WriteLine("  N = " + n + "");
+            return 1;
+        }
 
-            //
-            //  Set the X values.
-            //
-            x = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                x[i] = ((double) (n - i - 1) * a
-                        + (double) (i) * b)
-                       / (double) (n - 1);
-            }
+        //
+        //  Set the X values.
+        //
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            x[i] = ((n - i - 1) * a
+                    + i * b)
+                   / (n - 1);
+        }
 
-            h = (b - a) / (double) (n - 1);
-            theta = t * h;
-            sint = Math.Sin(theta);
-            cost = Math.Cos(theta);
+        h = (b - a) / (n - 1);
+        theta = t * h;
+        sint = Math.Sin(theta);
+        cost = Math.Cos(theta);
 
-            if (6.0 * Math.Abs(theta) <= 1.0)
-            {
+        switch (6.0 * Math.Abs(theta))
+        {
+            case <= 1.0:
                 alpha = 2.0 * Math.Pow(theta, 3) / 45.0
                         - 2.0 * Math.Pow(theta, 5) / 315.0
                         + 2.0 * Math.Pow(theta, 7) / 4725.0;
@@ -328,9 +332,8 @@ namespace Burkardt.IntegralNS
                         - 2.0 * Math.Pow(theta, 2) / 15.0
                         + Math.Pow(theta, 4) / 210.0
                         - Math.Pow(theta, 6) / 11340.0;
-            }
-            else
-            {
+                break;
+            default:
                 alpha = (Math.Pow(theta, 2) + theta * sint * cost - 2.0 * sint * sint)
                         / Math.Pow(theta, 3);
 
@@ -338,33 +341,34 @@ namespace Burkardt.IntegralNS
                         - 4.0 * sint * cost) / Math.Pow(theta, 3);
 
                 gamma = 4.0 * (sint - theta * cost) / Math.Pow(theta, 3);
-            }
-
-            c2n = +0.5 * ftab[0] * Math.Cos(t * x[0]);
-            for (i = 2; i < n - 1; i = i + 2)
-            {
-                c2n = c2n + ftab[i] * Math.Cos(t * x[i]);
-            }
-
-            c2n = c2n + 0.5 * ftab[n - 1] * Math.Cos(t * x[n - 1]);
-
-            c2nm1 = 0.0;
-            for (i = 1; i <= n - 2; i = i + 2)
-            {
-                c2nm1 = c2nm1 + ftab[i] * Math.Cos(t * x[i]);
-            }
-
-            value = h * (
-                alpha * (ftab[n - 1] * Math.Sin(t * x[n - 1])
-                         - ftab[0] * Math.Sin(t * x[0]))
-                + beta * c2n
-                + gamma * c2nm1);
-            
-            return value;
+                break;
         }
 
-        public static double filon_fun_sin(int n, Func < int, double[], double[] > f, double a,
-        double b, double t )
+        c2n = +0.5 * ftab[0] * Math.Cos(t * x[0]);
+        for (i = 2; i < n - 1; i += 2)
+        {
+            c2n += ftab[i] * Math.Cos(t * x[i]);
+        }
+
+        c2n += 0.5 * ftab[n - 1] * Math.Cos(t * x[n - 1]);
+
+        c2nm1 = 0.0;
+        for (i = 1; i <= n - 2; i += 2)
+        {
+            c2nm1 += ftab[i] * Math.Cos(t * x[i]);
+        }
+
+        value = h * (
+            alpha * (ftab[n - 1] * Math.Sin(t * x[n - 1])
+                     - ftab[0] * Math.Sin(t * x[0]))
+            + beta * c2n
+            + gamma * c2nm1);
+            
+        return value;
+    }
+
+    public static double filon_fun_sin(int n, Func < int, double[], double[] > f, double a,
+            double b, double t )
 
         //****************************************************************************80
         //
@@ -435,63 +439,65 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double FILON_FUN_SIN, the approximate value of the integral.
         //
+    {
+        double alpha;
+        double beta;
+        double cost;
+        double[] ftab;
+        double gamma;
+        double h;
+        int i;
+        double s2n;
+        double s2nm1;
+        double sint;
+        double theta;
+        double value = 0;
+        double[] x;
+
+        if (a == b)
         {
-            double alpha;
-            double beta;
-            double cost;
-            double[] ftab;
-            double gamma;
-            double h;
-            int i;
-            double s2n;
-            double s2nm1;
-            double sint;
-            double theta;
-            double value;
-            double[] x;
+            value = 0.0;
+            return value;
+        }
 
-            if (a == b)
-            {
-                value = 0.0;
-                return value;
-            }
-
-            if (n <= 1)
-            {
+        switch (n)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("FILON_FUN_SIN - Fatal error!");
                 Console.WriteLine("  N < 2");
                 Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+                return 1;
+        }
 
-            if ((n % 2) != 1)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FILON_FUN_SIN - Fatal error!");
-                Console.WriteLine("  N must be odd.");
-                Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+        if (n % 2 != 1)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FILON_FUN_SIN - Fatal error!");
+            Console.WriteLine("  N must be odd.");
+            Console.WriteLine("  N = " + n + "");
+            return 1;
+        }
 
-            //
-            //  Set the X values.
-            //
-            x = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                x[i] = ((double) (n - i - 1) * a
-                        + (double) (i) * b)
-                       / (double) (n - 1);
-            }
+        //
+        //  Set the X values.
+        //
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            x[i] = ((n - i - 1) * a
+                    + i * b)
+                   / (n - 1);
+        }
 
-            h = (b - a) / (double) (n - 1);
-            theta = t * h;
-            sint = Math.Sin(theta);
-            cost = Math.Cos(theta);
+        h = (b - a) / (n - 1);
+        theta = t * h;
+        sint = Math.Sin(theta);
+        cost = Math.Cos(theta);
 
-            if (6.0 * Math.Abs(theta) <= 1.0)
-            {
+        switch (6.0 * Math.Abs(theta))
+        {
+            case <= 1.0:
                 alpha = 2.0 * Math.Pow(theta, 3) / 45.0
                         - 2.0 * Math.Pow(theta, 5) / 315.0
                         + 2.0 * Math.Pow(theta, 7) / 4725.0;
@@ -506,9 +512,8 @@ namespace Burkardt.IntegralNS
                         - 2.0 * Math.Pow(theta, 2) / 15.0
                         + Math.Pow(theta, 4) / 210.0
                         - Math.Pow(theta, 6) / 11340.0;
-            }
-            else
-            {
+                break;
+            default:
                 alpha = (Math.Pow(theta, 2) + theta * sint * cost
                          - 2.0 * sint * sint) / Math.Pow(theta, 3);
 
@@ -516,37 +521,38 @@ namespace Burkardt.IntegralNS
                         - 4.0 * sint * cost) / Math.Pow(theta, 3);
 
                 gamma = 4.0 * (sint - theta * cost) / Math.Pow(theta, 3);
-            }
-
-            //
-            //  Tabulate the function.
-            //
-            ftab = f(n, x);
-
-            s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
-            for (i = 2; i < n - 1; i = i + 2)
-            {
-                s2n = s2n + ftab[i] * Math.Sin(t * x[i]);
-            }
-
-            s2n = s2n + 0.5 * ftab[n - 1] * Math.Sin(t * x[n - 1]);
-
-            s2nm1 = 0.0;
-            for (i = 1; i <= n - 2; i = i + 2)
-            {
-                s2nm1 = s2nm1 + ftab[i] * Math.Sin(t * x[i]);
-            }
-
-            value = h * (
-                alpha * (ftab[0] * Math.Cos(t * x[0])
-                         - ftab[n - 1] * Math.Cos(t * x[n - 1]))
-                + beta * s2n
-                + gamma * s2nm1);
-
-            return value;
+                break;
         }
 
-        public static double filon_tab_sin(int n, double[] ftab, double a, double b, double t )
+        //
+        //  Tabulate the function.
+        //
+        ftab = f(n, x);
+
+        s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
+        for (i = 2; i < n - 1; i += 2)
+        {
+            s2n += ftab[i] * Math.Sin(t * x[i]);
+        }
+
+        s2n += 0.5 * ftab[n - 1] * Math.Sin(t * x[n - 1]);
+
+        s2nm1 = 0.0;
+        for (i = 1; i <= n - 2; i += 2)
+        {
+            s2nm1 += ftab[i] * Math.Sin(t * x[i]);
+        }
+
+        value = h * (
+            alpha * (ftab[0] * Math.Cos(t * x[0])
+                     - ftab[n - 1] * Math.Cos(t * x[n - 1]))
+            + beta * s2n
+            + gamma * s2nm1);
+
+        return value;
+    }
+
+    public static double filon_tab_sin(int n, double[] ftab, double a, double b, double t )
 
         //****************************************************************************80
         //
@@ -617,62 +623,64 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double FILON_TAB_SIN, the approximate value of the integral.
         //
+    {
+        double alpha;
+        double beta;
+        double cost;
+        double gamma;
+        double h;
+        int i;
+        double s2n;
+        double s2nm1;
+        double sint;
+        double theta;
+        double value = 0;
+        double[] x;
+
+        if (a == b)
         {
-            double alpha;
-            double beta;
-            double cost;
-            double gamma;
-            double h;
-            int i;
-            double s2n;
-            double s2nm1;
-            double sint;
-            double theta;
-            double value;
-            double[] x;
+            value = 0.0;
+            return value;
+        }
 
-            if (a == b)
-            {
-                value = 0.0;
-                return value;
-            }
-
-            if (n <= 1)
-            {
+        switch (n)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("FILON_TAB_SIN - Fatal error!");
                 Console.WriteLine("  N < 2");
                 Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+                return 1;
+        }
 
-            if ((n % 2) != 1)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FILON_TAB_SIN - Fatal error!");
-                Console.WriteLine("  N must be odd.");
-                Console.WriteLine("  N = " + n + "");
-                return (1);
-            }
+        if (n % 2 != 1)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FILON_TAB_SIN - Fatal error!");
+            Console.WriteLine("  N must be odd.");
+            Console.WriteLine("  N = " + n + "");
+            return 1;
+        }
 
-            //
-            //  Set the X values.
-            //
-            x = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                x[i] = ((double) (n - i - 1) * a
-                        + (double) (i) * b)
-                       / (double) (n - 1);
-            }
+        //
+        //  Set the X values.
+        //
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            x[i] = ((n - i - 1) * a
+                    + i * b)
+                   / (n - 1);
+        }
 
-            h = (b - a) / (double) (n - 1);
-            theta = t * h;
-            sint = Math.Sin(theta);
-            cost = Math.Cos(theta);
+        h = (b - a) / (n - 1);
+        theta = t * h;
+        sint = Math.Sin(theta);
+        cost = Math.Cos(theta);
 
-            if (6.0 * Math.Abs(theta) <= 1.0)
-            {
+        switch (6.0 * Math.Abs(theta))
+        {
+            case <= 1.0:
                 alpha = 2.0 * Math.Pow(theta, 3) / 45.0
                         - 2.0 * Math.Pow(theta, 5) / 315.0
                         + 2.0 * Math.Pow(theta, 7) / 4725.0;
@@ -687,9 +695,8 @@ namespace Burkardt.IntegralNS
                         - 2.0 * Math.Pow(theta, 2) / 15.0
                         + Math.Pow(theta, 4) / 210.0
                         - Math.Pow(theta, 6) / 11340.0;
-            }
-            else
-            {
+                break;
+            default:
                 alpha = (Math.Pow(theta, 2) + theta * sint * cost
                          - 2.0 * sint * sint) / Math.Pow(theta, 3);
 
@@ -697,29 +704,29 @@ namespace Burkardt.IntegralNS
                         - 4.0 * sint * cost) / Math.Pow(theta, 3);
 
                 gamma = 4.0 * (sint - theta * cost) / Math.Pow(theta, 3);
-            }
-
-            s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
-            for (i = 2; i < n - 1; i = i + 2)
-            {
-                s2n = s2n + ftab[i] * Math.Sin(t * x[i]);
-            }
-
-            s2n = s2n + 0.5 * ftab[n - 1] * Math.Sin(t * x[n - 1]);
-
-            s2nm1 = 0.0;
-            for (i = 1; i <= n - 2; i = i + 2)
-            {
-                s2nm1 = s2nm1 + ftab[i] * Math.Sin(t * x[i]);
-            }
-
-            value = h * (
-                alpha * (ftab[0] * Math.Cos(t * x[0])
-                         - ftab[n - 1] * Math.Cos(t * x[n - 1]))
-                + beta * s2n
-                + gamma * s2nm1);
-
-            return value;
+                break;
         }
+
+        s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
+        for (i = 2; i < n - 1; i += 2)
+        {
+            s2n += ftab[i] * Math.Sin(t * x[i]);
+        }
+
+        s2n += 0.5 * ftab[n - 1] * Math.Sin(t * x[n - 1]);
+
+        s2nm1 = 0.0;
+        for (i = 1; i <= n - 2; i += 2)
+        {
+            s2nm1 += ftab[i] * Math.Sin(t * x[i]);
+        }
+
+        value = h * (
+            alpha * (ftab[0] * Math.Cos(t * x[0])
+                     - ftab[n - 1] * Math.Cos(t * x[n - 1]))
+            + beta * s2n
+            + gamma * s2nm1);
+
+        return value;
     }
 }

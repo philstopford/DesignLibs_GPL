@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static partial class Matrix
 {
-    public static partial class Matrix
-    {
-        public static double[] basis_map_3d ( double[] u, double[] v )
+    public static double[] basis_map_3d ( double[] u, double[] v )
 
         //****************************************************************************80
         //
@@ -45,39 +45,39 @@ namespace Burkardt.MatrixNS
         //    Output, double BASIS_MAP_3D[3*3], a matrix with the property that A * U1 = V1,
         //    A * U2 = V2 and A * U3 = V3.
         //
+    {
+        double[] a;
+        double[] c;
+        int i;
+        int j;
+        int k;
+        //
+        //  Compute C = the inverse of U.
+        //
+        c = typeMethods.r8mat_inverse_3d ( u );
+
+        switch (c)
         {
-            double[] a;
-            double[] c;
-            int i;
-            int j;
-            int k;
-            //
-            //  Compute C = the inverse of U.
-            //
-            c = typeMethods.r8mat_inverse_3d ( u );
-
-            if ( c == null )
-            {
+            case null:
                 return null;
-            }
-            //
-            //  A = V * inverse ( U ).
-            //
-            a = new double[3*3];
+        }
+        //
+        //  A = V * inverse ( U ).
+        //
+        a = new double[3*3];
 
-            for ( j = 0; j < 3; j++ )
+        for ( j = 0; j < 3; j++ )
+        {
+            for ( i = 0; i < 3; i++ )
             {
-                for ( i = 0; i < 3; i++ )
+                a[i+j*3] = 0.0;
+                for ( k = 0; k < 3; k++ )
                 {
-                    a[i+j*3] = 0.0;
-                    for ( k = 0; k < 3; k++ )
-                    {
-                        a[i+j*3] = a[i+j*3] + v[i+k*3] * c[k+j*3];
-                    }
+                    a[i+j*3] += v[i+k*3] * c[k+j*3];
                 }
             }
-            
-            return a;
         }
+            
+        return a;
     }
 }

@@ -1,93 +1,95 @@
 ﻿using System;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static class CosPower
 {
-    public static class CosPower
+    public static double cos_power_int(double a, double b, int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    COS_POWER_INT evaluates the cosine power integral.
+        //
+        //  Discussion:
+        //
+        //    The function is defined by
+        //
+        //      COS_POWER_INT(A,B,N) = Integral ( A <= T <= B ) ( cos ( t ))^n dt
+        //
+        //    The algorithm uses the following fact:
+        //
+        //      Integral cos^n ( t ) = -(1/n) * (
+        //        cos^(n-1)(t) * sin(t) + ( n-1 ) * Integral cos^(n-2) ( t ) dt )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters
+        //
+        //    Input, double A, B, the limits of integration.
+        //
+        //    Input, integer N, the power of the sine function.
+        //
+        //    Output, double COS_POWER_INT, the value of the integral.
+        //
     {
-        public static double cos_power_int(double a, double b, int n)
+        double ca;
+        double cb;
+        int m;
+        int mlo;
+        double sa;
+        double sb;
+        double value = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    COS_POWER_INT evaluates the cosine power integral.
-            //
-            //  Discussion:
-            //
-            //    The function is defined by
-            //
-            //      COS_POWER_INT(A,B,N) = Integral ( A <= T <= B ) ( cos ( t ))^n dt
-            //
-            //    The algorithm uses the following fact:
-            //
-            //      Integral cos^n ( t ) = -(1/n) * (
-            //        cos^(n-1)(t) * sin(t) + ( n-1 ) * Integral cos^(n-2) ( t ) dt )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    31 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters
-            //
-            //    Input, double A, B, the limits of integration.
-            //
-            //    Input, integer N, the power of the sine function.
-            //
-            //    Output, double COS_POWER_INT, the value of the integral.
-            //
+        switch (n)
         {
-            double ca;
-            double cb;
-            int m;
-            int mlo;
-            double sa;
-            double sb;
-            double value;
-
-            if (n < 0)
-            {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("COS_POWER_INT - Fatal error!");
                 Console.WriteLine("  Power N < 0.");
-                return (1);
-            }
-
-            sa = Math.Sin(a);
-            sb = Math.Sin(b);
-            ca = Math.Cos(a);
-            cb = Math.Cos(b);
-
-            if ((n % 2) == 0)
-            {
-                value = b - a;
-                mlo = 2;
-            }
-            else
-            {
-                value = sb - sa;
-                mlo = 3;
-            }
-
-            for (m = mlo; m <= n; m = m + 2)
-            {
-                value = ((double)(m - 1) * value
-                            - Math.Pow(ca, (m - 1)) * sa + Math.Pow(cb, (m - 1)) * sb)
-                        / (double)(m);
-            }
-
-            return value;
+                return 1;
         }
 
-        public static void cos_power_int_values(ref int n_data, ref double a, ref double b, ref int n,
-        ref double fx )
+        sa = Math.Sin(a);
+        sb = Math.Sin(b);
+        ca = Math.Cos(a);
+        cb = Math.Cos(b);
+
+        switch (n % 2)
+        {
+            case 0:
+                value = b - a;
+                mlo = 2;
+                break;
+            default:
+                value = sb - sa;
+                mlo = 3;
+                break;
+        }
+
+        for (m = mlo; m <= n; m += 2)
+        {
+            value = ((m - 1) * value
+                        - Math.Pow(ca, m - 1) * sa + Math.Pow(cb, m - 1) * sb)
+                    / m;
+        }
+
+        return value;
+    }
+
+    public static void cos_power_int_values(ref int n_data, ref double a, ref double b, ref int n,
+            ref double fx )
 
         //****************************************************************************80
         //
@@ -139,99 +141,99 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 11;
+
+        double[] a_vec
+                =
+                {
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00,
+                    0.00E+00
+                }
+            ;
+
+        double[] b_vec
+                =
+                {
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793,
+                    3.141592653589793
+                }
+            ;
+
+        double[] fx_vec
+                =
+                {
+                    3.141592653589793,
+                    0.0,
+                    1.570796326794897,
+                    0.0,
+                    1.178097245096172,
+                    0.0,
+                    0.9817477042468104,
+                    0.0,
+                    0.8590292412159591,
+                    0.0,
+                    0.7731263170943632
+                }
+            ;
+
+        int[] n_vec
+                =
+                {
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
+                }
+            ;
+
+        n_data = n_data switch
         {
-            int N_MAX = 11;
+            < 0 => 0,
+            _ => n_data
+        };
 
-            double[] a_vec
-             =
-            {
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00,
-                0.00E+00
-            }
-            ;
+        n_data += 1;
 
-            double[] b_vec
-             =
-            {
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793,
-                3.141592653589793
-            }
-            ;
-
-            double[] fx_vec
-             =
-            {
-                3.141592653589793,
-                0.0,
-                1.570796326794897,
-                0.0,
-                1.178097245096172,
-                0.0,
-                0.9817477042468104,
-                0.0,
-                0.8590292412159591,
-                0.0,
-                0.7731263170943632
-            }
-            ;
-
-            int[] n_vec
-             =
-            {
-                0,
-                1,
-                2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10
-            }
-            ;
-
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                b = 0.0;
-                n = 0;
-                fx = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                b = b_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            b = 0.0;
+            n = 0;
+            fx = 0.0;
+        }
+        else
+        {
+            a = a_vec[n_data - 1];
+            b = b_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

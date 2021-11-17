@@ -1,59 +1,59 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class r8DawsonData
     {
-        public class r8DawsonData
-        {
-            public int ntdaw = 0;
-            public int ntdaw2 = 0;
-            public int ntdawa = 0;
-            public double xbig = 0.0;
-            public double xmax = 0.0;
-            public double xsml = 0.0;
+        public int ntdaw;
+        public int ntdaw2;
+        public int ntdawa;
+        public double xbig;
+        public double xmax;
+        public double xsml;
 
-        }
-        public static double r8_dawson(ref r8DawsonData data, double x)
+    }
+    public static double r8_dawson(ref r8DawsonData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_DAWSON evaluates Dawson's integral of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_DAWSON, the value of Dawson's integral at X.
-            //
-        {
-            double[] daw2cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_DAWSON evaluates Dawson's integral of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_DAWSON, the value of Dawson's integral at X.
+        //
+    {
+        double[] daw2cs = {
                 -0.56886544105215527114160533733674E-01,
                 -0.31811346996168131279322878048822,
                 +0.20873845413642236789741580198858,
@@ -101,7 +101,7 @@ namespace Burkardt.FullertonFnLib
                 +0.16090686015283030305450666666666E-31
             }
             ;
-            double[] dawacs = {
+        double[] dawacs = {
                 +0.1690485637765703755422637438849E-01,
                 +0.8683252278406957990536107850768E-02,
                 +0.2424864042417715453277703459889E-03,
@@ -179,7 +179,7 @@ namespace Burkardt.FullertonFnLib
                 +0.1966024640193164686956230217896E-31
             }
             ;
-            double[] dawcs = {
+        double[] dawcs = {
                 -0.6351734375145949201065127736293E-02,
                 -0.2294071479677386939899824125866,
                 +0.2213050093908476441683979161786E-01,
@@ -203,12 +203,13 @@ namespace Burkardt.FullertonFnLib
                 +0.8951937667516552533333333333333E-31
             }
             ;
-            double eps;
-            double value;
-            double y;
+        double eps;
+        double value = 0;
+        double y;
 
-            if (data.ntdaw == 0)
-            {
+        switch (data.ntdaw)
+        {
+            case 0:
                 eps = r8_mach(3);
                 data.ntdaw = r8_inits(dawcs, 21, 0.1 * eps);
                 data.ntdaw2 = r8_inits(daw2cs, 45, 0.1 * eps);
@@ -217,36 +218,45 @@ namespace Burkardt.FullertonFnLib
                 data.xbig = Math.Sqrt(0.5 / eps);
                 data.xmax = Math.Exp(r8_min(-Math.Log(2.0 * r8_mach(1)),
                     Math.Log(r8_mach(2))) - 0.01);
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xsml)
-            {
-                value = x;
-            }
-            else if (y <= 1.0)
-            {
-                value = x * (0.75 + r8_csevl(2.0 * y * y - 1.0, dawcs, data.ntdaw));
-            }
-            else if (y <= 4.0)
-            {
-                value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, daw2cs, data.ntdaw2));
-            }
-            else if (y < data.xbig)
-            {
-                value = (0.5 + r8_csevl(32.0 / y / y - 1.0, dawacs, data.ntdawa)) / x;
-            }
-            else if (y <= data.xmax)
-            {
-                value = 0.5 / x;
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
+                break;
         }
+
+        y = Math.Abs(x);
+
+        if (y <= data.xsml)
+        {
+            value = x;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 1.0:
+                    value = x * (0.75 + r8_csevl(2.0 * y * y - 1.0, dawcs, data.ntdaw));
+                    break;
+                case <= 4.0:
+                    value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, daw2cs, data.ntdaw2));
+                    break;
+                default:
+                {
+                    if (y < data.xbig)
+                    {
+                        value = (0.5 + r8_csevl(32.0 / y / y - 1.0, dawacs, data.ntdawa)) / x;
+                    }
+                    else if (y <= data.xmax)
+                    {
+                        value = 0.5 / x;
+                    }
+                    else
+                    {
+                        value = 0.0;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
     }
 }

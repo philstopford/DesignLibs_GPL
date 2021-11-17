@@ -1,10 +1,10 @@
 ﻿using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DPPSL
 {
-    public static class DPPSL
-    {
-        public static void dppsl ( double[] ap, int n, ref double[] b )
+    public static void dppsl ( double[] ap, int n, ref double[] b )
 
         //****************************************************************************80
         //
@@ -64,27 +64,26 @@ namespace Burkardt.Linpack
         //    Input/output, double B[N].  On input, the right hand side.
         //    On output, the solution.
         //
+    {
+        int k;
+        int kk;
+        double t;
+
+        kk = 0;
+
+        for ( k = 1; k <= n; k++ )
         {
-            int k;
-            int kk;
-            double t;
+            t = BLAS1D.ddot ( k-1, ap, 1, b, 1, xIndex:+kk );
+            kk += k;
+            b[k-1] = ( b[k-1] - t ) / ap[kk-1];
+        }
 
-            kk = 0;
-
-            for ( k = 1; k <= n; k++ )
-            {
-                t = BLAS1D.ddot ( k-1, ap, 1, b, 1, xIndex:+kk );
-                kk = kk + k;
-                b[k-1] = ( b[k-1] - t ) / ap[kk-1];
-            }
-
-            for ( k = n; 1 <= k; k-- )
-            {
-                b[k-1] = b[k-1] / ap[kk-1];
-                kk = kk - k;
-                t = -b[k-1];
-                BLAS1D.daxpy ( k-1, t, ap, 1, ref b, 1, xIndex:+kk );
-            }
+        for ( k = n; 1 <= k; k-- )
+        {
+            b[k-1] /= ap[kk-1];
+            kk -= k;
+            t = -b[k-1];
+            BLAS1D.daxpy ( k-1, t, ap, 1, ref b, 1, xIndex:+kk );
         }
     }
 }

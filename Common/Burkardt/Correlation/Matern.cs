@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.FullertonFnLib;
 
-namespace Burkardt.CorrelationNS
+namespace Burkardt.CorrelationNS;
+
+public static partial class Correlation
 {
-    public static partial class Correlation
-    {
-        public static CorrelationResult correlation_matern (FullertonLib.BesselData globaldata, FullertonLib.r8BESKData data, int n, double[] rho, double rho0 )
+    public static CorrelationResult correlation_matern (FullertonLib.BesselData globaldata, FullertonLib.r8BESKData data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -60,31 +60,27 @@ namespace Burkardt.CorrelationNS
         //
         //    Output, double C[N], the correlations.
         //
+    {
+        double[] c;
+        int i;
+        double nu;
+        double rho1;
+
+        nu = 2.5;
+
+        c = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double[] c;
-            int i;
-            double nu;
-            double rho1;
+            rho1 = 2.0 * Math.Sqrt ( nu ) * Math.Abs ( rho[i] ) / rho0;
 
-            nu = 2.5;
-
-            c = new double[n];
-
-            for ( i = 0; i < n; i++ )
+            c[i] = rho1 switch
             {
-                rho1 = 2.0 * Math.Sqrt ( nu ) * Math.Abs ( rho[i] ) / rho0;
-
-                if ( rho1 == 0.0 )
-                {
-                    c[i] = 1.0;
-                }
-                else
-                {
-                    c[i] = Math.Pow ( rho1, nu ) * FullertonLib.r8_besk (ref globaldata, ref data, nu, rho1 ) / r8_gamma ( nu ) 
-                                                                   / Math.Pow ( 2.0, nu - 1.0 );
-                }
-            }
-            return new CorrelationResult(){result = c, data = globaldata, kdata = data};
+                0.0 => 1.0,
+                _ => Math.Pow(rho1, nu) * FullertonLib.r8_besk(ref globaldata, ref data, nu, rho1) / r8_gamma(nu) /
+                     Math.Pow(2.0, nu - 1.0)
+            };
         }
+        return new CorrelationResult(){result = c, data = globaldata, kdata = data};
     }
 }

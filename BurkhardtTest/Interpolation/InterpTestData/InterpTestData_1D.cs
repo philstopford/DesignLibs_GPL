@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace InterpTest
+namespace InterpTest;
+
+public static class Data_1D
 {
-    public static class Data_1D
-    {
-        public static double[] p00_f(int prob, int n, double[] x)
+    public static double[] p00_f(int prob, int n, double[] x)
 
 //****************************************************************************80
 //
@@ -34,53 +34,46 @@ namespace InterpTest
 //
 //    Output, double P00_F[N], the function values.
 //
-        {
-            double[] f;
+    {
+        double[] f;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 f = p01_f(n, x);
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 f = p02_f(n, x);
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 f = p03_f(n, x);
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 f = p04_f(n, x);
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 f = p05_f(n, x);
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 f = p06_f(n, x);
-            }
-            else if (prob == 7)
-            {
+                break;
+            case 7:
                 f = p07_f(n, x);
-            }
-            else if (prob == 8)
-            {
+                break;
+            case 8:
                 f = p08_f(n, x);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine();
                 Console.WriteLine("P00_F - Fatal error!");
                 Console.WriteLine("  Illegal problem number = " + prob );
                 return new double[1];
-            }
-
-            return f;
         }
 
-        public static int p00_prob_num()
+        return f;
+    }
+
+    public static int p00_prob_num()
 //****************************************************************************80
 //
 //  Purpose:
@@ -103,13 +96,13 @@ namespace InterpTest
 //
 //    Output, int P00_PROB_NUM, the number of problems.
 //
-        {
-            int prob_num = 8;
+    {
+        int prob_num = 8;
 
-            return prob_num;
-        }
+        return prob_num;
+    }
 
-        public static string p00_title(int prob)
+    public static string p00_title(int prob)
 
 //****************************************************************************80
 //
@@ -135,53 +128,46 @@ namespace InterpTest
 //
 //    Output, string P00_TITLE, the title of the problem.
 //
-        {
-            string title;
+    {
+        string title;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 title = p01_title();
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 title = p02_title();
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 title = p03_title();
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 title = p04_title();
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 title = p05_title();
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 title = p06_title();
-            }
-            else if (prob == 7)
-            {
+                break;
+            case 7:
                 title = p07_title();
-            }
-            else if (prob == 8)
-            {
+                break;
+            case 8:
                 title = p08_title();
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine();
                 Console.WriteLine("P00_TITLE - Fatal error!");
                 Console.WriteLine("  Illegal problem number = " + prob );
                 return "";
-            }
-
-            return title;
         }
 
-        public static double[] p01_f(int n, double[] x)
+        return title;
+    }
+
+    public static double[] p01_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -212,29 +198,23 @@ namespace InterpTest
 //
 //    Output, double P01_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
+            f[i] = x[i] switch
             {
-                if (x[i] <= 1.0 / 3.0)
-                {
-                    f[i] = -1.0;
-                }
-                else if (x[i] <= 4.0 / 5.0)
-                {
-                    f[i] = 2.0;
-                }
-                else
-                {
-                    f[i] = 1.0;
-                }
-            }
-
-            return f;
+                <= 1.0 / 3.0 => -1.0,
+                <= 4.0 / 5.0 => 2.0,
+                _ => 1.0
+            };
         }
 
-        public static string p01_title()
+        return f;
+    }
+
+    public static string p01_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -257,13 +237,13 @@ namespace InterpTest
 //
 //    Output, string P01_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = steps -1/2/1 at [0,1/3], [1/3,4/5], [4/5,1].";
+    {
+        string title = "f(x) = steps -1/2/1 at [0,1/3], [1/3,4/5], [4/5,1].";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p02_f(int n, double[] x)
+    public static double[] p02_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -294,25 +274,22 @@ namespace InterpTest
 //
 //    Output, double P02_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
+            f[i] = x[i] switch
             {
-                if (x[i] <= 1.0 / 3.0)
-                {
-                    f[i] = 1.0 - 3.0 * x[i];
-                }
-                else
-                {
-                    f[i] = 6.0 * x[i] - 2.0;
-                }
-            }
-
-            return f;
+                <= 1.0 / 3.0 => 1.0 - 3.0 * x[i],
+                _ => 6.0 * x[i] - 2.0
+            };
         }
 
-        public static string p02_title()
+        return f;
+    }
+
+    public static string p02_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -335,13 +312,13 @@ namespace InterpTest
 //
 //    Output, string P02_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = (1-3x), x < 1/3 (6x-2) if 1/3 < x";
+    {
+        string title = "f(x) = (1-3x), x < 1/3 (6x-2) if 1/3 < x";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p03_f(int n, double[] x)
+    public static double[] p03_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -372,20 +349,20 @@ namespace InterpTest
 //
 //    Output, double P03_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                f[i] = x[i] * (10.0 * x[i] - 1.0)
-                            * (5.0 * x[i] - 2.0) * (5.0 * x[i] - 2.0)
-                            * (4.0 * x[i] - 3.4) * (x[i] - 1.0);
-            }
-
-            return f;
+            f[i] = x[i] * (10.0 * x[i] - 1.0)
+                        * (5.0 * x[i] - 2.0) * (5.0 * x[i] - 2.0)
+                        * (4.0 * x[i] - 3.4) * (x[i] - 1.0);
         }
 
-        public static string p03_title()
+        return f;
+    }
+
+    public static string p03_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -408,13 +385,13 @@ namespace InterpTest
 //
 //    Output, string P03_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = x (10*x-1) (5x-2) (5x-2) (4x-3.4) (x-1)";
+    {
+        string title = "f(x) = x (10*x-1) (5x-2) (5x-2) (4x-3.4) (x-1)";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p04_f(int n, double[] x)
+    public static double[] p04_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -445,18 +422,18 @@ namespace InterpTest
 //
 //    Output, double P04_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                f[i] = Math.Atan(40.0 * x[i] - 15.0);
-            }
-
-            return f;
+            f[i] = Math.Atan(40.0 * x[i] - 15.0);
         }
 
-        public static string p04_title()
+        return f;
+    }
+
+    public static string p04_title()
 
 //****************************************************************************80
 //
@@ -480,13 +457,13 @@ namespace InterpTest
 //
 //    Output, string P04_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = atan ( 40 * x - 15 )";
+    {
+        string title = "f(x) = atan ( 40 * x - 15 )";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p05_f(int n, double[] x)
+    public static double[] p05_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -517,22 +494,22 @@ namespace InterpTest
 //
 //    Output, double P05_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                f[i] = Math.Cos(7.0 * x[i])
-                       + 5.0 * Math.Cos(11.2 * x[i])
-                       - 2.0 * Math.Cos(14.0 * x[i])
-                       + 5.0 * Math.Cos(31.5 * x[i])
-                       + 7.0 * Math.Cos(63.0 * x[i]);
-            }
-
-            return f;
+            f[i] = Math.Cos(7.0 * x[i])
+                   + 5.0 * Math.Cos(11.2 * x[i])
+                   - 2.0 * Math.Cos(14.0 * x[i])
+                   + 5.0 * Math.Cos(31.5 * x[i])
+                   + 7.0 * Math.Cos(63.0 * x[i]);
         }
 
-        public static string p05_title()
+        return f;
+    }
+
+    public static string p05_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -555,13 +532,13 @@ namespace InterpTest
 //
 //    Output, string P05_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = cos(7*x)+5*cos(11.2*x)-2*cos(14*x)+5*cos(31.5*x)+7*cos(63*x).";
+    {
+        string title = "f(x) = cos(7*x)+5*cos(11.2*x)-2*cos(14*x)+5*cos(31.5*x)+7*cos(63*x).";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p06_f(int n, double[] x)
+    public static double[] p06_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -602,18 +579,18 @@ namespace InterpTest
 //
 //    Output, double P06_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                f[i] = Math.Exp(-Math.Pow(4.0 * x[i] - 1.0, 2));
-            }
-
-            return f;
+            f[i] = Math.Exp(-Math.Pow(4.0 * x[i] - 1.0, 2));
         }
 
-        public static string p06_title()
+        return f;
+    }
+
+    public static string p06_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -636,13 +613,13 @@ namespace InterpTest
 //
 //    Output, string P06_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = exp ( - ( 4*x-1 )^2 )";
+    {
+        string title = "f(x) = exp ( - ( 4*x-1 )^2 )";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p07_f(int n, double[] x)
+    public static double[] p07_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -684,25 +661,22 @@ namespace InterpTest
 //
 //    Output, double P07_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
+            f[i] = x[i] switch
             {
-                if (x[i] < 0.5)
-                {
-                    f[i] = Math.Exp(4.0 * x[i]);
-                }
-                else
-                {
-                    f[i] = 0.0;
-                }
-            }
-
-            return f;
+                < 0.5 => Math.Exp(4.0 * x[i]),
+                _ => 0.0
+            };
         }
 
-        public static string p07_title()
+        return f;
+    }
+
+    public static string p07_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -725,13 +699,13 @@ namespace InterpTest
 //
 //    Output, string P07_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = exp ( 2 x ) if x < 0.5, 0 otherwise";
+    {
+        string title = "f(x) = exp ( 2 x ) if x < 0.5, 0 otherwise";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p08_f(int n, double[] x)
+    public static double[] p08_f(int n, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -765,18 +739,18 @@ namespace InterpTest
 //
 //    Output, double P08_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] f = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                f[i] = 1.0 / (Math.Pow(10.0 * (x[i] - 0.5), 2) + 1.0);
-            }
-
-            return f;
+            f[i] = 1.0 / (Math.Pow(10.0 * (x[i] - 0.5), 2) + 1.0);
         }
 
-        public static string p08_title()
+        return f;
+    }
+
+    public static string p08_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -799,10 +773,9 @@ namespace InterpTest
 //
 //    Output, string P09_TITLE, the title of the problem.
 //
-        {
-            string title = "f(x) = 1 / ( 1 + ( 10 * (x-1/2) )^2 )";
+    {
+        string title = "f(x) = 1 / ( 1 + ( 10 * (x-1/2) )^2 )";
 
-            return title;
-        }
+        return title;
     }
 }

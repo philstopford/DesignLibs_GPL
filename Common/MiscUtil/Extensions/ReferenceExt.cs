@@ -1,36 +1,37 @@
 ﻿using System;
 
-namespace MiscUtil.Extensions
+namespace MiscUtil.Extensions;
+
+/// <summary>
+/// Extension methods on all reference types. 
+/// </summary>
+public static class ObjectExt
 {
     /// <summary>
-    /// Extension methods on all reference types. 
+    /// Throws an ArgumentNullException if the given data item is null.
     /// </summary>
-    public static class ObjectExt
+    /// <param name="data">The item to check for nullity.</param>
+    /// <param name="name">The name to use when throwing an exception, if necessary</param>
+    public static void ThrowIfNull<T>(this T data, string name) where T : class
     {
-        /// <summary>
-        /// Throws an ArgumentNullException if the given data item is null.
-        /// </summary>
-        /// <param name="data">The item to check for nullity.</param>
-        /// <param name="name">The name to use when throwing an exception, if necessary</param>
-        public static void ThrowIfNull<T>(this T data, string name) where T : class
+        switch (data)
         {
-            if (data == null)
-            {
+            case null:
                 throw new ArgumentNullException(name);
-            }
         }
+    }
 
-        /// <summary>
-        /// Throws an ArgumentNullException if the given data item is null.
-        /// No parameter name is specified.
-        /// </summary>
-        /// <param name="data">The item to check for nullity.</param>
-        public static void ThrowIfNull<T>(this T data) where T : class
+    /// <summary>
+    /// Throws an ArgumentNullException if the given data item is null.
+    /// No parameter name is specified.
+    /// </summary>
+    /// <param name="data">The item to check for nullity.</param>
+    public static void ThrowIfNull<T>(this T data) where T : class
+    {
+        switch (data)
         {
-            if (data == null)
-            {
+            case null:
                 throw new ArgumentNullException();
-            }
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Uniform
+namespace Burkardt.Uniform;
+
+public static partial class UniformRNG
 {
-    public static partial class UniformRNG
-    {
-        public static double r8_uniform_01 ( ref int seed )
+    public static double r8_uniform_01 ( ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -75,34 +75,37 @@ namespace Burkardt.Uniform
         //    Output, double R8_UNIFORM_01, a new pseudorandom variate, 
         //    strictly between 0 and 1.
         //
+    {
+        switch (seed)
         {
-            if ( seed == 0 )
-            {
+            case 0:
                 Console.WriteLine();
                 Console.WriteLine("R8_UNIFORM_01 - Fatal error!");
                 Console.WriteLine("  Input value of SEED = 0.");
                 return 1;
-            }
-
-            int k = seed / 127773;
-
-            seed = 16807 * ( seed - k * 127773 ) - k * 2836;
-
-            if ( seed < 0 )
-            {
-                seed = seed + 2147483647;
-            }
-            //
-            //  Although SEED can be represented exactly as a 32 bit integer,
-            //  it generally cannot be represented exactly as a 32 bit real number!
-            //
-            double r = seed * (double)4.656612875E-10;
-
-            return r;
         }
+
+        int k = seed / 127773;
+
+        seed = 16807 * ( seed - k * 127773 ) - k * 2836;
+
+        switch (seed)
+        {
+            case < 0:
+                seed += 2147483647;
+                break;
+        }
+        //
+        //  Although SEED can be represented exactly as a 32 bit integer,
+        //  it generally cannot be represented exactly as a 32 bit real number!
+        //
+        double r = seed * 4.656612875E-10;
+
+        return r;
+    }
         
         
-        public static long i8_uniform ( long a, long b, ref long seed )
+    public static long i8_uniform ( long a, long b, ref long seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -159,39 +162,41 @@ namespace Burkardt.Uniform
         //
         //    Output, long long int I8_UNIFORM, a number between A and B.
         //
+    {
+        switch (seed)
         {
-            if ( seed == 0 )
-            {
+            case 0:
                 Console.WriteLine();
                 Console.WriteLine("I8_UNIFORM - Fatal error!");
                 Console.WriteLine("  Input value of SEED = 0.");
                 return 1;
-            }
-
-            long k = seed / 127773;
-
-            seed = 16807 * ( seed - k * 127773 ) - k * 2836;
-
-            if ( seed < 0 )
-            {
-                seed = seed + 2147483647;
-            }
-
-            double r = seed * 4.656612875E-10;
-            //
-            //  Scale R to lie between A-0.5 and B+0.5.
-            //
-            r = ( 1.0 - r ) * ( Math.Min ( a, b ) - 0.5 ) 
-            +         r   * ( Math.Max ( a, b ) + 0.5 );
-            //
-            //  Use rounding to convert R to an integer between A and B.
-            //
-            long value = typeMethods.r8_nint( r );
-
-            value = Math.Max ( value, Math.Min ( a, b ) );
-            value = Math.Min ( value, Math.Max ( a, b ) );
-
-            return value;
         }
+
+        long k = seed / 127773;
+
+        seed = 16807 * ( seed - k * 127773 ) - k * 2836;
+
+        switch (seed)
+        {
+            case < 0:
+                seed += 2147483647;
+                break;
+        }
+
+        double r = seed * 4.656612875E-10;
+        //
+        //  Scale R to lie between A-0.5 and B+0.5.
+        //
+        r = ( 1.0 - r ) * ( Math.Min ( a, b ) - 0.5 ) 
+            +         r   * ( Math.Max ( a, b ) + 0.5 );
+        //
+        //  Use rounding to convert R to an integer between A and B.
+        //
+        long value = typeMethods.r8_nint( r );
+
+        value = Math.Max ( value, Math.Min ( a, b ) );
+        value = Math.Min ( value, Math.Max ( a, b ) );
+
+        return value;
     }
 }

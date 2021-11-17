@@ -1,11 +1,11 @@
 ﻿using Burkardt;
 using Burkardt.Types;
 
-namespace Burkardt.Error
+namespace Burkardt.Error;
+
+public static class Eigen
 {
-    public static class Eigen
-    {
-        public static double eigen_error ( int n, int k, double[] a, double[] x, double[] lambda )
+    public static double eigen_error ( int n, int k, double[] a, double[] x, double[] lambda )
 
         //****************************************************************************80
         //
@@ -58,25 +58,24 @@ namespace Burkardt.Error
         //    of the difference matrix A * X - X * LAMBDA, which would be exactly zero
         //    if X and LAMBDA were exact eigenvectors and eigenvalues of A.
         //
+    {
+        double[] c;
+        int i;
+        int j;
+        double value = 0;
+
+        c = typeMethods.r8mat_mm_new ( n, n, k, a, x );
+
+        for ( j = 0; j < k; j++ )
         {
-            double[] c;
-            int i;
-            int j;
-            double value;
-
-            c = typeMethods.r8mat_mm_new ( n, n, k, a, x );
-
-            for ( j = 0; j < k; j++ )
+            for ( i = 0; i < n; i++ )
             {
-                for ( i = 0; i < n; i++ )
-                {
-                    c[i+n*j] = c[i+n*j] - lambda[j] * x[i+n*j];
-                }
+                c[i+n*j] -= lambda[j] * x[i+n*j];
             }
-
-            value = typeMethods.r8mat_norm_fro ( n, k, c );
-
-            return value;
         }
+
+        value = typeMethods.r8mat_norm_fro ( n, k, c );
+
+        return value;
     }
 }

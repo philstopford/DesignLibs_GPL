@@ -1,79 +1,79 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class PIA
 {
-    public static class PIA
+    public static double evaluate(double n, double a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_PIA evaluates the complete elliptic integral Pi(N,A).
+        //
+        //  Discussion:
+        //
+        //    This is one form of what is sometimes called the complete elliptic
+        //    integral of the third kind.
+        //
+        //    The double is defined by the formula:
+        //
+        //      Pi(N,A) = integral ( 0 <= T <= PI/2 )
+        //        dT / (1 - N sin^2(T) ) sqrt ( 1 - sin^2(A) * sin ( T )^2 )
+        //
+        //    In MATLAB, the double can be evaluated by:
+        //
+        //      ellipticPi(n,(sin(a*pi/180)^2)
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      k = sin ( a * Math.PI / 180 )
+        //      Pi(n,k) = RF ( 0, 1 - k^2, 1 ) + 1/3 n RJ ( 0, 1 - k^2, 1, 1 - n )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double N, A, the arguments.
+        //
+        //    Output, double ELLIPTIC_PIA, the function value.
+        //
     {
-        public static double evaluate(double n, double a)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_PIA evaluates the complete elliptic integral Pi(N,A).
-            //
-            //  Discussion:
-            //
-            //    This is one form of what is sometimes called the complete elliptic
-            //    integral of the third kind.
-            //
-            //    The double is defined by the formula:
-            //
-            //      Pi(N,A) = integral ( 0 <= T <= PI/2 )
-            //        dT / (1 - N sin^2(T) ) sqrt ( 1 - sin^2(A) * sin ( T )^2 )
-            //
-            //    In MATLAB, the double can be evaluated by:
-            //
-            //      ellipticPi(n,(sin(a*pi/180)^2)
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      k = sin ( a * Math.PI / 180 )
-            //      Pi(n,k) = RF ( 0, 1 - k^2, 1 ) + 1/3 n RJ ( 0, 1 - k^2, 1, 1 - n )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double N, A, the arguments.
-            //
-            //    Output, double ELLIPTIC_PIA, the function value.
-            //
-        {
-            double errtol;
-            int ierr = 0;
-            double k;
-            double p;
+        double errtol;
+        int ierr = 0;
+        double k;
+        double p;
             
-            double value;
-            double x;
-            double y;
-            double z;
+        double value = 0;
+        double x;
+        double y;
+        double z;
 
-            k = Math.Sin(a * Math.PI / 180.0);
-            x = 0.0;
-            y = (1.0 - k) * (1.0 + k);
-            z = 1.0;
-            p = 1.0 - n;
-            errtol = 1.0E-03;
+        k = Math.Sin(a * Math.PI / 180.0);
+        x = 0.0;
+        y = (1.0 - k) * (1.0 + k);
+        z = 1.0;
+        p = 1.0 - n;
+        errtol = 1.0E-03;
 
-            value = Integral.rf(x, y, z, errtol, ref ierr)
-                    + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
+        value = Integral.rf(x, y, z, errtol, ref ierr)
+                + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
 
-            return value;
-        }
+        return value;
+    }
 
-        public static void values(ref int n_data, ref double n, ref double a, ref double pia )
+    public static void values(ref int n_data, ref double n, ref double a, ref double pia )
 
         //****************************************************************************80
         //
@@ -133,10 +133,10 @@ namespace Burkardt.Elliptic
         //
         //    Output, double &PIA, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] a_vec =
+        double[] a_vec =
             {
                 30.00000000000000,
                 45.00000000000000,
@@ -161,7 +161,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] n_vec =
+        double[] n_vec =
             {
                 -10.0,
                 -10.0,
@@ -186,7 +186,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] pia_vec =
+        double[] pia_vec =
             {
                 0.4892245275965397,
                 0.5106765677902629,
@@ -211,26 +211,26 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                n = 0.0;
-                pia = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                pia = pia_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            n = 0.0;
+            pia = 0.0;
+        }
+        else
+        {
+            a = a_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            pia = pia_vec[n_data - 1];
         }
     }
 }

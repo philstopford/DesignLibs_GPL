@@ -2,113 +2,120 @@
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static partial class Matrix
 {
-    public static partial class Matrix
+    public static double[] dgb_sl(int n, int ml, int mu, double[] a_lu, int[] pivot,
+            double[] b, int job)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DGB_SL solves a system factored by DGB_FA.
+        //
+        //  Discussion:
+        //
+        //    The DGB storage format is used for an M by N banded matrix, with lower bandwidth ML
+        //    and upper bandwidth MU.  Storage includes room for ML extra superdiagonals,
+        //    which may be required to store nonzero entries generated during Gaussian
+        //    elimination.
+        //
+        //    The original M by N matrix is "collapsed" downward, so that diagonals
+        //    become rows of the storage array, while columns are preserved.  The
+        //    collapsed array is logically 2*ML+MU+1 by N.
+        //
+        //    The two dimensional array can be further reduced to a one dimensional
+        //    array, stored by columns.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    17 September 2003
+        //
+        //  Author:
+        //
+        //    FORTRAN77 original version by Dongarra, Bunch, Moler, Stewart.
+        //    C++ version by John Burkardt.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int ML, MU, the lower and upper bandwidths.
+        //    ML and MU must be nonnegative, and no greater than N-1.
+        //
+        //    Input, double A_LU[(2*ML+MU+1)*N], the LU factors from DGB_FA.
+        //
+        //    Input, int PIVOT[N], the pivot vector from DGB_FA.
+        //
+        //    Input, double B[N], the right hand side vector.
+        //
+        //    Input, int JOB.
+        //    0, solve A * x = b.
+        //    nonzero, solve A' * x = b.
+        //
+        //    Output, double DGB_SL[N], the solution.
+        //
     {
-        public static double[] dgb_sl(int n, int ml, int mu, double[] a_lu, int[] pivot,
-                double[] b, int job)
+        int col = 2 * ml + mu + 1;
+        int i;
+        int k;
+        int l;
+        int la;
+        int lb;
+        int lm;
+        int m;
+        double t;
+        double[] x;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DGB_SL solves a system factored by DGB_FA.
-            //
-            //  Discussion:
-            //
-            //    The DGB storage format is used for an M by N banded matrix, with lower bandwidth ML
-            //    and upper bandwidth MU.  Storage includes room for ML extra superdiagonals,
-            //    which may be required to store nonzero entries generated during Gaussian
-            //    elimination.
-            //
-            //    The original M by N matrix is "collapsed" downward, so that diagonals
-            //    become rows of the storage array, while columns are preserved.  The
-            //    collapsed array is logically 2*ML+MU+1 by N.
-            //
-            //    The two dimensional array can be further reduced to a one dimensional
-            //    array, stored by columns.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    17 September 2003
-            //
-            //  Author:
-            //
-            //    FORTRAN77 original version by Dongarra, Bunch, Moler, Stewart.
-            //    C++ version by John Burkardt.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the matrix.
-            //    N must be positive.
-            //
-            //    Input, int ML, MU, the lower and upper bandwidths.
-            //    ML and MU must be nonnegative, and no greater than N-1.
-            //
-            //    Input, double A_LU[(2*ML+MU+1)*N], the LU factors from DGB_FA.
-            //
-            //    Input, int PIVOT[N], the pivot vector from DGB_FA.
-            //
-            //    Input, double B[N], the right hand side vector.
-            //
-            //    Input, int JOB.
-            //    0, solve A * x = b.
-            //    nonzero, solve A' * x = b.
-            //
-            //    Output, double DGB_SL[N], the solution.
-            //
+        x = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            int col = 2 * ml + mu + 1;
-            int i;
-            int k;
-            int l;
-            int la;
-            int lb;
-            int lm;
-            int m;
-            double t;
-            double[] x;
+            x[i] = b[i];
+        }
 
-            x = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                x[i] = b[i];
-            }
-
-            //
-            m = mu + ml + 1;
+        //
+        m = mu + ml + 1;
+        switch (job)
+        {
             //
             //  Solve A * x = b.
             //
-            if (job == 0)
+            case 0:
             {
-                //
-                //  Solve L * Y = B.
-                //
-                if (1 <= ml)
+                switch (ml)
                 {
-                    for (k = 1; k <= n - 1; k++)
+                    //
+                    //  Solve L * Y = B.
+                    //
+                    case >= 1:
                     {
-                        lm = Math.Min(ml, n - k);
-                        l = pivot[k - 1];
-
-                        if (l != k)
+                        for (k = 1; k <= n - 1; k++)
                         {
-                            t = x[l - 1];
-                            x[l - 1] = x[k - 1];
-                            x[k - 1] = t;
+                            lm = Math.Min(ml, n - k);
+                            l = pivot[k - 1];
+
+                            if (l != k)
+                            {
+                                t = x[l - 1];
+                                x[l - 1] = x[k - 1];
+                                x[k - 1] = t;
+                            }
+
+                            for (i = 1; i <= lm; i++)
+                            {
+                                x[k + i - 1] += x[k - 1] * a_lu[m + i - 1 + (k - 1) * col];
+                            }
                         }
 
-                        for (i = 1; i <= lm; i++)
-                        {
-                            x[k + i - 1] = x[k + i - 1] + x[k - 1] * a_lu[m + i - 1 + (k - 1) * col];
-                        }
+                        break;
                     }
                 }
 
@@ -117,20 +124,20 @@ namespace Burkardt.MatrixNS
                 //
                 for (k = n; 1 <= k; k--)
                 {
-                    x[k - 1] = x[k - 1] / a_lu[m - 1 + (k - 1) * col];
+                    x[k - 1] /= a_lu[m - 1 + (k - 1) * col];
                     lm = Math.Min(k, m) - 1;
                     la = m - lm;
                     lb = k - lm;
                     for (i = 0; i <= lm - 1; i++)
                     {
-                        x[lb + i - 1] = x[lb + i - 1] - x[k - 1] * a_lu[la + i - 1 + (k - 1) * col];
+                        x[lb + i - 1] -= x[k - 1] * a_lu[la + i - 1 + (k - 1) * col];
                     }
                 }
+
+                break;
             }
             //
-            //  Solve A' * X = B.
-            //
-            else
+            default:
             {
                 //
                 //  Solve U' * Y = B.
@@ -142,42 +149,50 @@ namespace Burkardt.MatrixNS
                     lb = k - lm;
                     for (i = 0; i <= lm - 1; i++)
                     {
-                        x[k - 1] = x[k - 1] - x[lb + i - 1] * a_lu[la + i - 1 + (k - 1) * col];
+                        x[k - 1] -= x[lb + i - 1] * a_lu[la + i - 1 + (k - 1) * col];
                     }
 
-                    x[k - 1] = x[k - 1] / a_lu[m - 1 + (k - 1) * col];
+                    x[k - 1] /= a_lu[m - 1 + (k - 1) * col];
                 }
 
-                //
-                //  Solve L' * X = Y.
-                //
-                if (1 <= ml)
+                switch (ml)
                 {
-                    for (k = n - 1; 1 <= k; k--)
+                    //
+                    //  Solve L' * X = Y.
+                    //
+                    case >= 1:
                     {
-                        lm = Math.Min(ml, n - k);
-                        for (i = 1; i <= lm; i++)
+                        for (k = n - 1; 1 <= k; k--)
                         {
-                            x[k - 1] = x[k - 1] + x[k + i - 1] * a_lu[m + i - 1 + (k - 1) * col];
+                            lm = Math.Min(ml, n - k);
+                            for (i = 1; i <= lm; i++)
+                            {
+                                x[k - 1] += x[k + i - 1] * a_lu[m + i - 1 + (k - 1) * col];
+                            }
+
+                            l = pivot[k - 1];
+
+                            if (l != k)
+                            {
+                                t = x[l - 1];
+                                x[l - 1] = x[k - 1];
+                                x[k - 1] = t;
+                            }
                         }
 
-                        l = pivot[k - 1];
-
-                        if (l != k)
-                        {
-                            t = x[l - 1];
-                            x[l - 1] = x[k - 1];
-                            x[k - 1] = t;
-                        }
+                        break;
                     }
                 }
-            }
 
-            return x;
+                break;
+            }
         }
 
-        public static void dgbsl(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
-        ref double[] b, int job )
+        return x;
+    }
+
+    public static void dgbsl(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
+            ref double[] b, int job )
 
         //****************************************************************************80
         //
@@ -251,37 +266,44 @@ namespace Burkardt.MatrixNS
         //    0, solve A*X=B.
         //    nonzero, solve A'*X=B.
         //
-        {
-            int k;
-            int l;
-            int la;
-            int lb;
-            int lm;
-            int m;
-            double t;
+    {
+        int k;
+        int l;
+        int la;
+        int lb;
+        int lm;
+        int m;
+        double t;
 
-            m = mu + ml + 1;
+        m = mu + ml + 1;
+        switch (job)
+        {
             //
             //  JOB = 0, Solve A * x = b.
             //
             //  First solve L * y = b.
             //
-            if (job == 0)
+            case 0:
             {
-                if (0 < ml)
+                switch (ml)
                 {
-                    for (k = 1; k <= n - 1; k++)
+                    case > 0:
                     {
-                        lm = Math.Min(ml, n - k);
-                        l = ipvt[k - 1];
-                        t = b[l - 1];
-                        if (l != k)
+                        for (k = 1; k <= n - 1; k++)
                         {
-                            b[l - 1] = b[k - 1];
-                            b[k - 1] = t;
+                            lm = Math.Min(ml, n - k);
+                            l = ipvt[k - 1];
+                            t = b[l - 1];
+                            if (l != k)
+                            {
+                                b[l - 1] = b[k - 1];
+                                b[k - 1] = t;
+                            }
+
+                            BLAS1D.daxpy(lm, t, abd, 1, ref b, 1,  + m + (k - 1) * lda, k);
                         }
 
-                        BLAS1D.daxpy(lm, t, abd, 1, ref b, 1,  + m + (k - 1) * lda, k);
+                        break;
                     }
                 }
 
@@ -290,20 +312,18 @@ namespace Burkardt.MatrixNS
                 //
                 for (k = n; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] / abd[m - 1 + (k - 1) * lda];
+                    b[k - 1] /= abd[m - 1 + (k - 1) * lda];
                     lm = Math.Min(k, m) - 1;
                     la = m - lm;
                     lb = k - lm;
                     t = -b[k - 1];
                     BLAS1D.daxpy(lm, t, abd, 1, ref b, 1,  + la - 1 + (k - 1) * lda,  + lb - 1);
                 }
+
+                break;
             }
             //
-            //  JOB nonzero, solve A' * x = b.
-            //
-            //  First solve U' * y = b.
-            //
-            else
+            default:
             {
                 for (k = 1; k <= n; k++)
                 {
@@ -314,27 +334,32 @@ namespace Burkardt.MatrixNS
                     b[k - 1] = (b[k - 1] - t) / abd[m - 1 + (k - 1) * lda];
                 }
 
-                //
-                //  Now solve L' * x = y.
-                //
-                if (0 < ml)
+                switch (ml)
                 {
-                    for (k = n - 1; 1 <= k; k--)
+                    //
+                    //  Now solve L' * x = y.
+                    //
+                    case > 0:
                     {
-                        lm = Math.Min(ml, n - k);
-                        b[k - 1] = b[k - 1] + BLAS1D.ddot(lm, abd, 1, b, 1,  + m + (k - 1) * lda, + k);
-                        l = ipvt[k - 1];
-                        if (l != k)
+                        for (k = n - 1; 1 <= k; k--)
                         {
-                            t = b[l - 1];
-                            b[l - 1] = b[k - 1];
-                            b[k - 1] = t;
+                            lm = Math.Min(ml, n - k);
+                            b[k - 1] += BLAS1D.ddot(lm, abd, 1, b, 1,  + m + (k - 1) * lda, + k);
+                            l = ipvt[k - 1];
+                            if (l != k)
+                            {
+                                t = b[l - 1];
+                                b[l - 1] = b[k - 1];
+                                b[k - 1] = t;
+                            }
                         }
+
+                        break;
                     }
                 }
-            }
 
-            return;
+                break;
+            }
         }
     }
 }

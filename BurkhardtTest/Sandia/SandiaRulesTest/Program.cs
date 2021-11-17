@@ -11,9 +11,9 @@ using Burkardt.Uniform;
 
 namespace SandiaRulesTest
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
             //****************************************************************************80
             //
             //  Purpose:
@@ -133,7 +133,7 @@ namespace SandiaRulesTest
             Console.WriteLine("");
         }
 
-        static void test01()
+        private static void test01()
 
             //****************************************************************************80
             //
@@ -192,29 +192,36 @@ namespace SandiaRulesTest
 
                 Chebyshev1.chebyshev1_compute(order, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.chebyshev1_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -228,7 +235,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test02()
+        private static void test02()
 
             //****************************************************************************80
             //
@@ -252,7 +259,6 @@ namespace SandiaRulesTest
             int i;
             int order;
             int order_max = 10;
-            int test;
             double[] w;
             double[] x;
 
@@ -272,7 +278,7 @@ namespace SandiaRulesTest
 
                 Chebyshev1.chebyshev1_compute(order, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -281,7 +287,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test03()
+        private static void test03()
 
             //****************************************************************************80
             //
@@ -340,29 +346,36 @@ namespace SandiaRulesTest
 
                 Chebyshev2.chebyshev2_compute(order, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.chebyshev2_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -376,7 +389,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test04()
+        private static void test04()
 
             //****************************************************************************80
             //
@@ -400,7 +413,6 @@ namespace SandiaRulesTest
             int i;
             int order;
             int order_max = 10;
-            int test;
             double[] w;
             double[] x;
 
@@ -420,7 +432,7 @@ namespace SandiaRulesTest
 
                 Chebyshev2.chebyshev2_compute(order, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -429,7 +441,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test05()
+        private static void test05()
 
             //****************************************************************************80
             //
@@ -490,38 +502,42 @@ namespace SandiaRulesTest
 
                 ClenshawCurtis.clenshaw_curtis_compute(order, ref x, ref w);
 
-                if ((order % 2) == 0)
+                n_hi = (order % 2) switch
                 {
-                    n_hi = order + 2;
-                }
-                else
-                {
-                    n_hi = order + 3;
-                }
+                    0 => order + 2,
+                    _ => order + 3
+                };
 
-                for (n = 0; n <= n_hi; n = n + 1)
+                for (n = 0; n <= n_hi; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -535,7 +551,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test06()
+        private static void test06()
 
             //****************************************************************************80
             //
@@ -559,7 +575,6 @@ namespace SandiaRulesTest
             int i;
             int order;
             int order_max = 10;
-            int test;
             double[] w;
             double[] x;
 
@@ -579,7 +594,7 @@ namespace SandiaRulesTest
 
                 ClenshawCurtis.clenshaw_curtis_compute(order, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft((8))
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -588,7 +603,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test07()
+        private static void test07()
 
             //****************************************************************************80
             //
@@ -649,38 +664,42 @@ namespace SandiaRulesTest
 
                 Fejer2.fejer2_compute(order, ref x, ref w);
 
-                if ((order % 2) == 0)
+                n_hi = (order % 2) switch
                 {
-                    n_hi = order + 2;
-                }
-                else
-                {
-                    n_hi = order + 3;
-                }
+                    0 => order + 2,
+                    _ => order + 3
+                };
 
-                for (n = 0; n <= n_hi; n = n + 1)
+                for (n = 0; n <= n_hi; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -694,7 +713,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test08()
+        private static void test08()
 
             //****************************************************************************80
             //
@@ -718,7 +737,6 @@ namespace SandiaRulesTest
             int i;
             int order;
             int order_max = 10;
-            int test;
             double[] w;
             double[] x;
 
@@ -738,7 +756,7 @@ namespace SandiaRulesTest
 
                 Fejer2.fejer2_compute(order, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -747,7 +765,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test09()
+        private static void test09()
 
             //****************************************************************************80
             //
@@ -815,29 +833,36 @@ namespace SandiaRulesTest
 
                     GegenbauerQuadrature.gegenbauer_compute(order, alpha, ref x, ref w);
 
-                    for (n = 0; n <= 2 * order + 2; n = n + 1)
+                    for (n = 0; n <= 2 * order + 2; n += 1)
                     {
                         exact = Integral.gegenbauer_integral(n, alpha);
 
-                        if (n == 0)
+                        switch (n)
                         {
-                            for (i = 0; i < order; i++)
+                            case 0:
                             {
-                                f[i] = 1.0;
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = 1.0;
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            for (i = 0; i < order; i++)
+                            default:
                             {
-                                f[i] = Math.Pow(x[i], n);
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = Math.Pow(x[i], n);
+                                }
+
+                                break;
                             }
                         }
 
                         estimate = 0.0;
                         for (i = 0; i < order; i++)
                         {
-                            estimate = estimate + w[i] * f[i];
+                            estimate += w[i] * f[i];
                         }
 
                         error = typeMethods.r8_abs(exact - estimate);
@@ -853,7 +878,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test10()
+        private static void test10()
 
             //****************************************************************************80
             //
@@ -906,7 +931,7 @@ namespace SandiaRulesTest
 
                     GegenbauerQuadrature.gegenbauer_compute(order, alpha, ref x, ref w);
 
-                    for (i = 0; i < order; i = i + 1)
+                    for (i = 0; i < order; i += 1)
                     {
                         Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -916,7 +941,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test11()
+        private static void test11()
 
             //****************************************************************************80
             //
@@ -984,29 +1009,36 @@ namespace SandiaRulesTest
 
                     HermiteQuadrature.gen_hermite_compute(order, alpha, ref x, ref w);
 
-                    for (n = 0; n <= 2 * order + 2; n = n + 1)
+                    for (n = 0; n <= 2 * order + 2; n += 1)
                     {
                         exact = Integral.gen_hermite_integral(n, alpha);
 
-                        if (n == 0)
+                        switch (n)
                         {
-                            for (i = 0; i < order; i++)
+                            case 0:
                             {
-                                f[i] = 1.0;
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = 1.0;
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            for (i = 0; i < order; i++)
+                            default:
                             {
-                                f[i] = Math.Pow(x[i], n);
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = Math.Pow(x[i], n);
+                                }
+
+                                break;
                             }
                         }
 
                         estimate = 0.0;
                         for (i = 0; i < order; i++)
                         {
-                            estimate = estimate + w[i] * f[i];
+                            estimate += w[i] * f[i];
                         }
 
                         error = typeMethods.r8_abs(exact - estimate);
@@ -1022,7 +1054,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test12()
+        private static void test12()
 
             //****************************************************************************80
             //
@@ -1075,7 +1107,7 @@ namespace SandiaRulesTest
 
                     HermiteQuadrature.gen_hermite_compute(order, alpha, ref x, ref w);
 
-                    for (i = 0; i < order; i = i + 1)
+                    for (i = 0; i < order; i += 1)
                     {
                         Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -1085,7 +1117,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test13()
+        private static void test13()
 
             //****************************************************************************80
             //
@@ -1153,29 +1185,36 @@ namespace SandiaRulesTest
 
                     Burkardt.Laguerre.QuadratureRule.gen_laguerre_compute(order, alpha, ref x, ref w);
 
-                    for (n = 0; n <= 2 * order + 2; n = n + 1)
+                    for (n = 0; n <= 2 * order + 2; n += 1)
                     {
                         exact = Integral.gen_laguerre_integral(n, alpha);
 
-                        if (n == 0)
+                        switch (n)
                         {
-                            for (i = 0; i < order; i++)
+                            case 0:
                             {
-                                f[i] = 1.0;
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = 1.0;
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            for (i = 0; i < order; i++)
+                            default:
                             {
-                                f[i] = Math.Pow(x[i], n);
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = Math.Pow(x[i], n);
+                                }
+
+                                break;
                             }
                         }
 
                         estimate = 0.0;
                         for (i = 0; i < order; i++)
                         {
-                            estimate = estimate + w[i] * f[i];
+                            estimate += w[i] * f[i];
                         }
 
                         error = typeMethods.r8_abs(exact - estimate);
@@ -1191,7 +1230,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test14()
+        private static void test14()
 
             //****************************************************************************80
             //
@@ -1244,7 +1283,7 @@ namespace SandiaRulesTest
 
                     Burkardt.Laguerre.QuadratureRule.gen_laguerre_compute(order, alpha, ref x, ref w);
 
-                    for (i = 0; i < order; i = i + 1)
+                    for (i = 0; i < order; i += 1)
                     {
                         Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -1254,7 +1293,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test15()
+        private static void test15()
 
             //****************************************************************************80
             //
@@ -1282,7 +1321,7 @@ namespace SandiaRulesTest
             double[] f;
             int i;
             int n;
-            int n_max = 10;
+            const int N_MAX = 10;
             double[] w;
             double[] x;
 
@@ -1313,29 +1352,36 @@ namespace SandiaRulesTest
 
                 HermiteQuadrature.hermite_compute(n, ref x, ref w);
 
-                for (d = 0; d <= 2 * n + 2; d = d + 1)
+                for (d = 0; d <= 2 * n + 2; d += 1)
                 {
                     exact = Integral.hermite_integral(d);
 
-                    if (d == 0)
+                    switch (d)
                     {
-                        for (i = 0; i < n; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < n; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < n; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], d);
+                            for (i = 0; i < n; i++)
+                            {
+                                f[i] = Math.Pow(x[i], d);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < n; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -1349,7 +1395,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test16()
+        private static void test16()
 
             //****************************************************************************80
             //
@@ -1373,7 +1419,6 @@ namespace SandiaRulesTest
             int i;
             int order;
             int order_max = 10;
-            int test;
             double[] w;
             double[] x;
 
@@ -1393,7 +1438,7 @@ namespace SandiaRulesTest
 
                 HermiteQuadrature.hermite_compute(order, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -1402,7 +1447,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test17()
+        private static void test17()
 
             //****************************************************************************80
             //
@@ -1478,29 +1523,36 @@ namespace SandiaRulesTest
 
                         JacobiQuadrature.jacobi_compute(order, alpha, beta, ref x, ref w);
 
-                        for (n = 0; n <= 2 * order + 2; n = n + 1)
+                        for (n = 0; n <= 2 * order + 2; n += 1)
                         {
                             exact = Integral.jacobi_integral(n, alpha, beta);
 
-                            if (n == 0)
+                            switch (n)
                             {
-                                for (i = 0; i < order; i++)
+                                case 0:
                                 {
-                                    f[i] = 1.0;
+                                    for (i = 0; i < order; i++)
+                                    {
+                                        f[i] = 1.0;
+                                    }
+
+                                    break;
                                 }
-                            }
-                            else
-                            {
-                                for (i = 0; i < order; i++)
+                                default:
                                 {
-                                    f[i] = Math.Pow(x[i], n);
+                                    for (i = 0; i < order; i++)
+                                    {
+                                        f[i] = Math.Pow(x[i], n);
+                                    }
+
+                                    break;
                                 }
                             }
 
                             estimate = 0.0;
                             for (i = 0; i < order; i++)
                             {
-                                estimate = estimate + w[i] * f[i];
+                                estimate += w[i] * f[i];
                             }
 
                             error = typeMethods.r8_abs(exact - estimate);
@@ -1518,7 +1570,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test18()
+        private static void test18()
 
             //****************************************************************************80
             //
@@ -1547,7 +1599,7 @@ namespace SandiaRulesTest
             double[] beta_test = {0.5, 1.0, 2.5};
             int i;
             int n;
-            int n_max = 10;
+            const int N_MAX = 10;
             int test1;
             int test2;
             double[] w;
@@ -1590,7 +1642,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test19()
+        private static void test19()
 
             //****************************************************************************80
             //
@@ -1649,29 +1701,36 @@ namespace SandiaRulesTest
 
                 Burkardt.Laguerre.QuadratureRule.laguerre_compute(order, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.laguerre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -1685,7 +1744,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test20()
+        private static void test20()
 
             //****************************************************************************80
             //
@@ -1728,7 +1787,7 @@ namespace SandiaRulesTest
 
                 Burkardt.Laguerre.QuadratureRule.laguerre_compute(order, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -1737,7 +1796,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test21()
+        private static void test21()
 
             //****************************************************************************80
             //
@@ -1796,29 +1855,36 @@ namespace SandiaRulesTest
 
                 Burkardt.Legendre.QuadratureRule.legendre_compute(order, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -1832,7 +1898,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test22()
+        private static void test22()
 
             //****************************************************************************80
             //
@@ -1856,7 +1922,6 @@ namespace SandiaRulesTest
             int i;
             int order;
             int order_max = 10;
-            int test;
             double[] w;
             double[] x;
 
@@ -1885,7 +1950,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test01_np()
+        private static void test01_np()
 
             //****************************************************************************80
             //
@@ -1948,29 +2013,36 @@ namespace SandiaRulesTest
 
                 Chebyshev1.chebyshev1_compute_np(order, np, p, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.chebyshev1_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -1984,7 +2056,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test02_np()
+        private static void test02_np()
 
             //****************************************************************************80
             //
@@ -2010,7 +2082,6 @@ namespace SandiaRulesTest
             int order;
             int order_max = 10;
             double[] p;
-            int test;
             double[] w;
             double[] x;
 
@@ -2032,7 +2103,7 @@ namespace SandiaRulesTest
 
                 Chebyshev1.chebyshev1_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -2041,7 +2112,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test03_np()
+        private static void test03_np()
 
             //****************************************************************************80
             //
@@ -2104,29 +2175,36 @@ namespace SandiaRulesTest
 
                 Chebyshev2.chebyshev2_compute_np(order, np, p, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.chebyshev2_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -2141,7 +2219,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test04_np()
+        private static void test04_np()
 
             //****************************************************************************80
             //
@@ -2167,7 +2245,6 @@ namespace SandiaRulesTest
             int order;
             int order_max = 10;
             double[] p;
-            int test;
             double[] w;
             double[] x;
 
@@ -2189,7 +2266,7 @@ namespace SandiaRulesTest
 
                 Chebyshev2.chebyshev2_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -2199,7 +2276,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test05_np()
+        private static void test05_np()
 
             //****************************************************************************80
             //
@@ -2264,38 +2341,42 @@ namespace SandiaRulesTest
 
                 ClenshawCurtis.clenshaw_curtis_compute_np(order, np, p, ref x, ref w);
 
-                if ((order % 2) == 0)
+                n_hi = (order % 2) switch
                 {
-                    n_hi = order + 2;
-                }
-                else
-                {
-                    n_hi = order + 3;
-                }
+                    0 => order + 2,
+                    _ => order + 3
+                };
 
-                for (n = 0; n <= n_hi; n = n + 1)
+                for (n = 0; n <= n_hi; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -2310,7 +2391,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test06_np()
+        private static void test06_np()
 
             //****************************************************************************80
             //
@@ -2336,7 +2417,6 @@ namespace SandiaRulesTest
             int order;
             int order_max = 10;
             double[] p;
-            int test;
             double[] w;
             double[] x;
 
@@ -2358,7 +2438,7 @@ namespace SandiaRulesTest
 
                 ClenshawCurtis.clenshaw_curtis_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -2368,7 +2448,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test07_np()
+        private static void test07_np()
 
             //****************************************************************************80
             //
@@ -2433,38 +2513,42 @@ namespace SandiaRulesTest
 
                 Fejer2.fejer2_compute_np(order, np, p, ref x, ref w);
 
-                if ((order % 2) == 0)
+                n_hi = (order % 2) switch
                 {
-                    n_hi = order + 2;
-                }
-                else
-                {
-                    n_hi = order + 3;
-                }
+                    0 => order + 2,
+                    _ => order + 3
+                };
 
-                for (n = 0; n <= n_hi; n = n + 1)
+                for (n = 0; n <= n_hi; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -2479,7 +2563,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test08_np()
+        private static void test08_np()
 
             //****************************************************************************80
             //
@@ -2505,7 +2589,6 @@ namespace SandiaRulesTest
             int order;
             int order_max = 10;
             double[] p;
-            int test;
             double[] w;
             double[] x;
 
@@ -2527,7 +2610,7 @@ namespace SandiaRulesTest
 
                 Fejer2.fejer2_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -2537,7 +2620,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test09_np()
+        private static void test09_np()
 
             //****************************************************************************80
             //
@@ -2610,29 +2693,36 @@ namespace SandiaRulesTest
 
                     GegenbauerQuadrature.gegenbauer_compute_np(order, np, p, ref x, ref w);
 
-                    for (n = 0; n <= 2 * order + 2; n = n + 1)
+                    for (n = 0; n <= 2 * order + 2; n += 1)
                     {
                         exact = Integral.gegenbauer_integral(n, alpha);
 
-                        if (n == 0)
+                        switch (n)
                         {
-                            for (i = 0; i < order; i++)
+                            case 0:
                             {
-                                f[i] = 1.0;
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = 1.0;
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            for (i = 0; i < order; i++)
+                            default:
                             {
-                                f[i] = Math.Pow(x[i], n);
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = Math.Pow(x[i], n);
+                                }
+
+                                break;
                             }
                         }
 
                         estimate = 0.0;
                         for (i = 0; i < order; i++)
                         {
-                            estimate = estimate + w[i] * f[i];
+                            estimate += w[i] * f[i];
                         }
 
                         error = typeMethods.r8_abs(exact - estimate);
@@ -2648,7 +2738,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test10_np()
+        private static void test10_np()
 
             //****************************************************************************80
             //
@@ -2706,7 +2796,7 @@ namespace SandiaRulesTest
 
                     GegenbauerQuadrature.gegenbauer_compute_np(order, np, p, ref x, ref w);
 
-                    for (i = 0; i < order; i = i + 1)
+                    for (i = 0; i < order; i += 1)
                     {
                         Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -2716,7 +2806,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test11_np()
+        private static void test11_np()
 
             //****************************************************************************80
             //
@@ -2789,29 +2879,36 @@ namespace SandiaRulesTest
 
                     HermiteQuadrature.gen_hermite_compute_np(order, np, p, ref x, ref w);
 
-                    for (n = 0; n <= 2 * order + 2; n = n + 1)
+                    for (n = 0; n <= 2 * order + 2; n += 1)
                     {
                         exact = Integral.gen_hermite_integral(n, alpha);
 
-                        if (n == 0)
+                        switch (n)
                         {
-                            for (i = 0; i < order; i++)
+                            case 0:
                             {
-                                f[i] = 1.0;
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = 1.0;
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            for (i = 0; i < order; i++)
+                            default:
                             {
-                                f[i] = Math.Pow(x[i], n);
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = Math.Pow(x[i], n);
+                                }
+
+                                break;
                             }
                         }
 
                         estimate = 0.0;
                         for (i = 0; i < order; i++)
                         {
-                            estimate = estimate + w[i] * f[i];
+                            estimate += w[i] * f[i];
                         }
 
                         error = typeMethods.r8_abs(exact - estimate);
@@ -2827,7 +2924,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test12_np()
+        private static void test12_np()
 
             //****************************************************************************80
             //
@@ -2885,7 +2982,7 @@ namespace SandiaRulesTest
 
                     HermiteQuadrature.gen_hermite_compute_np(order, np, p, ref x, ref w);
 
-                    for (i = 0; i < order; i = i + 1)
+                    for (i = 0; i < order; i += 1)
                     {
                         Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -2895,7 +2992,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test13_np()
+        private static void test13_np()
 
             //****************************************************************************80
             //
@@ -2968,29 +3065,36 @@ namespace SandiaRulesTest
 
                     Burkardt.Laguerre.QuadratureRule.gen_laguerre_compute_np(order, np, p, ref x, ref w);
 
-                    for (n = 0; n <= 2 * order + 2; n = n + 1)
+                    for (n = 0; n <= 2 * order + 2; n += 1)
                     {
                         exact = Integral.gen_laguerre_integral(n, alpha);
 
-                        if (n == 0)
+                        switch (n)
                         {
-                            for (i = 0; i < order; i++)
+                            case 0:
                             {
-                                f[i] = 1.0;
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = 1.0;
+                                }
+
+                                break;
                             }
-                        }
-                        else
-                        {
-                            for (i = 0; i < order; i++)
+                            default:
                             {
-                                f[i] = Math.Pow(x[i], n);
+                                for (i = 0; i < order; i++)
+                                {
+                                    f[i] = Math.Pow(x[i], n);
+                                }
+
+                                break;
                             }
                         }
 
                         estimate = 0.0;
                         for (i = 0; i < order; i++)
                         {
-                            estimate = estimate + w[i] * f[i];
+                            estimate += w[i] * f[i];
                         }
 
                         error = typeMethods.r8_abs(exact - estimate);
@@ -3006,7 +3110,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test14_np()
+        private static void test14_np()
 
             //****************************************************************************80
             //
@@ -3064,7 +3168,7 @@ namespace SandiaRulesTest
 
                     Burkardt.Laguerre.QuadratureRule.gen_laguerre_compute_np(order, np, p, ref x, ref w);
 
-                    for (i = 0; i < order; i = i + 1)
+                    for (i = 0; i < order; i += 1)
                     {
                         Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -3074,7 +3178,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test15_np()
+        private static void test15_np()
 
             //****************************************************************************80
             //
@@ -3137,29 +3241,36 @@ namespace SandiaRulesTest
 
                 HermiteQuadrature.hermite_compute_np(order, np, p, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.hermite_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -3174,7 +3285,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test16_np()
+        private static void test16_np()
 
             //****************************************************************************80
             //
@@ -3200,7 +3311,6 @@ namespace SandiaRulesTest
             int order;
             int order_max = 10;
             double[] p;
-            int test;
             double[] w;
             double[] x;
 
@@ -3222,7 +3332,7 @@ namespace SandiaRulesTest
 
                 HermiteQuadrature.hermite_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -3232,7 +3342,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test17_np()
+        private static void test17_np()
 
             //****************************************************************************80
             //
@@ -3314,29 +3424,36 @@ namespace SandiaRulesTest
 
                         JacobiQuadrature.jacobi_compute_np(order, np, p, ref x, ref w);
 
-                        for (n = 0; n <= 2 * order + 2; n = n + 1)
+                        for (n = 0; n <= 2 * order + 2; n += 1)
                         {
                             exact = Integral.jacobi_integral(n, alpha, beta);
 
-                            if (n == 0)
+                            switch (n)
                             {
-                                for (i = 0; i < order; i++)
+                                case 0:
                                 {
-                                    f[i] = 1.0;
+                                    for (i = 0; i < order; i++)
+                                    {
+                                        f[i] = 1.0;
+                                    }
+
+                                    break;
                                 }
-                            }
-                            else
-                            {
-                                for (i = 0; i < order; i++)
+                                default:
                                 {
-                                    f[i] = Math.Pow(x[i], n);
+                                    for (i = 0; i < order; i++)
+                                    {
+                                        f[i] = Math.Pow(x[i], n);
+                                    }
+
+                                    break;
                                 }
                             }
 
                             estimate = 0.0;
                             for (i = 0; i < order; i++)
                             {
-                                estimate = estimate + w[i] * f[i];
+                                estimate += w[i] * f[i];
                             }
 
                             error = typeMethods.r8_abs(exact - estimate);
@@ -3354,7 +3471,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test18_np()
+        private static void test18_np()
 
             //****************************************************************************80
             //
@@ -3421,7 +3538,7 @@ namespace SandiaRulesTest
 
                         JacobiQuadrature.jacobi_compute_np(order, np, p, ref x, ref w);
 
-                        for (i = 0; i < order; i = i + 1)
+                        for (i = 0; i < order; i += 1)
                         {
                             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                                    + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -3432,7 +3549,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test19_np()
+        private static void test19_np()
 
             //****************************************************************************80
             //
@@ -3495,29 +3612,36 @@ namespace SandiaRulesTest
 
                 Burkardt.Laguerre.QuadratureRule.laguerre_compute_np(order, np, p, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.laguerre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -3532,7 +3656,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test20_np()
+        private static void test20_np()
 
             //****************************************************************************80
             //
@@ -3579,7 +3703,7 @@ namespace SandiaRulesTest
 
                 Burkardt.Laguerre.QuadratureRule.laguerre_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -3589,7 +3713,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test21_np()
+        private static void test21_np()
 
             //****************************************************************************80
             //
@@ -3652,29 +3776,36 @@ namespace SandiaRulesTest
 
                 Burkardt.Legendre.QuadratureRule.legendre_compute_np(order, np, p, ref x, ref w);
 
-                for (n = 0; n <= 2 * order + 2; n = n + 1)
+                for (n = 0; n <= 2 * order + 2; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -3689,7 +3820,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test22_np()
+        private static void test22_np()
 
             //****************************************************************************80
             //
@@ -3715,7 +3846,6 @@ namespace SandiaRulesTest
             int order;
             int order_max = 10;
             double[] p;
-            int test;
             double[] w;
             double[] x;
 
@@ -3737,7 +3867,7 @@ namespace SandiaRulesTest
 
                 Burkardt.Legendre.QuadratureRule.legendre_compute_np(order, np, p, ref x, ref w);
 
-                for (i = 0; i < order; i = i + 1)
+                for (i = 0; i < order; i += 1)
                 {
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
@@ -3747,7 +3877,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test23(int r)
+        private static void test23(int r)
 
             //****************************************************************************80
             //
@@ -3802,11 +3932,20 @@ namespace SandiaRulesTest
 
             for (g = 0; g <= 6; g++)
             {
-                if (r == 3 || r == 10)
+                switch (r)
                 {
-                    if (g == 1 || g == 2 || g == 3)
+                    case 3:
+                    case 10:
                     {
-                        continue;
+                        switch (g)
+                        {
+                            case 1:
+                            case 2:
+                            case 3:
+                                continue;
+                        }
+
+                        break;
                     }
                 }
 
@@ -3834,7 +3973,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test24()
+        private static void test24()
 
             //****************************************************************************80
             //
@@ -3899,7 +4038,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test25()
+        private static void test25()
 
             //****************************************************************************80
             //
@@ -3964,7 +4103,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test26()
+        private static void test26()
 
             //****************************************************************************80
             //
@@ -4032,7 +4171,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test27()
+        private static void test27()
 
             //****************************************************************************80
             //
@@ -4097,7 +4236,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test28()
+        private static void test28()
 
             //****************************************************************************80
             //
@@ -4160,46 +4299,49 @@ namespace SandiaRulesTest
 
                 PattersonQuadrature.patterson_lookup(order, ref x, ref w);
 
-                if (order == 1)
+                p = p switch
                 {
-                    p = 1;
-                }
-                else
-                {
-                    p = (3 * order + 1) / 2;
-                }
+                    //
+                    //  Truncate at 50.
+                    //
+                    > 50 => 50,
+                    _ => order switch
+                    {
+                        1 => 1,
+                        _ => (3 * order + 1) / 2
+                    }
+                };
 
-                //
-                //  Truncate at 50.
-                //
-                if (50 < p)
-                {
-                    p = 50;
-                }
-
-                for (n = 0; n <= p + 3; n = n + 1)
+                for (n = 0; n <= p + 3; n += 1)
                 {
                     exact = Integral.legendre_integral(n);
 
-                    if (n == 0)
+                    switch (n)
                     {
-                        for (i = 0; i < order; i++)
+                        case 0:
                         {
-                            f[i] = 1.0;
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = 1.0;
+                            }
+
+                            break;
                         }
-                    }
-                    else
-                    {
-                        for (i = 0; i < order; i++)
+                        default:
                         {
-                            f[i] = Math.Pow(x[i], n);
+                            for (i = 0; i < order; i++)
+                            {
+                                f[i] = Math.Pow(x[i], n);
+                            }
+
+                            break;
                         }
                     }
 
                     estimate = 0.0;
                     for (i = 0; i < order; i++)
                     {
-                        estimate = estimate + w[i] * f[i];
+                        estimate += w[i] * f[i];
                     }
 
                     error = typeMethods.r8_abs(exact - estimate);
@@ -4213,7 +4355,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test285()
+        private static void test285()
 
             //****************************************************************************80
             //
@@ -4274,7 +4416,6 @@ namespace SandiaRulesTest
             int[] indx1;
             int[] indx2;
             int[] indx3;
-            int j;
             int n3 = 0;
             double[] r1;
             double[] r2;
@@ -4512,7 +4653,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test29()
+        private static void test29()
 
             //****************************************************************************80
             //
@@ -4564,13 +4705,11 @@ namespace SandiaRulesTest
             double[] au;
             int i;
             int j;
-            int j2;
             int m = M;
             int n = N;
             int n_unique;
             double tol;
             int[] undx;
-            int unique_num;
             int[] xdnu;
 
             Console.WriteLine("");
@@ -4630,7 +4769,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test30()
+        private static void test30()
 
             //****************************************************************************80
             //
@@ -4684,7 +4823,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test31()
+        private static void test31()
 
             //****************************************************************************80
             //
@@ -4738,7 +4877,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test32()
+        private static void test32()
 
             //****************************************************************************80
             //
@@ -4792,7 +4931,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test33()
+        private static void test33()
 
             //****************************************************************************80
             //
@@ -4873,7 +5012,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test34()
+        private static void test34()
 
             //****************************************************************************80
             //
@@ -4925,7 +5064,7 @@ namespace SandiaRulesTest
             Console.WriteLine("     N     Max | F(X) - H(F(X)) |");
             Console.WriteLine("");
 
-            for (n = 3; n <= 15; n = n + 2)
+            for (n = 3; n <= 15; n += 2)
             {
                 y = new double[n];
                 yp = new double[n];
@@ -4975,7 +5114,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test35()
+        private static void test35()
 
             //****************************************************************************80
             //
@@ -5027,7 +5166,7 @@ namespace SandiaRulesTest
             Console.WriteLine("     N     Max | F(X) - H(F(X)) |");
             Console.WriteLine("");
 
-            for (n = 3; n <= 15; n = n + 2)
+            for (n = 3; n <= 15; n += 2)
             {
                 y = new double[n];
                 yp = new double[n];
@@ -5077,7 +5216,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test36()
+        private static void test36()
 
             //****************************************************************************80
             //
@@ -5126,7 +5265,7 @@ namespace SandiaRulesTest
             Console.WriteLine("  Observe behavior of quadrature weights for increasing N");
             Console.WriteLine("  We are working in " + a + " <= X <= " + b + "");
 
-            for (n = 3; n <= 11; n = n + 2)
+            for (n = 3; n <= 11; n += 2)
             {
                 x = typeMethods.r8vec_linspace_new(n, a, b);
                 w = Hermite.hermite_interpolant_rule(n, a, b, x);
@@ -5141,7 +5280,7 @@ namespace SandiaRulesTest
                                            + "  " + x[i].ToString().PadLeft(14)
                                            + "  " + w[k].ToString().PadLeft(14)
                                            + "  " + w[k + 1].ToString().PadLeft(14) + "");
-                    k = k + 2;
+                    k += 2;
                 }
             }
 
@@ -5170,7 +5309,7 @@ namespace SandiaRulesTest
                                        + "  " + x[i].ToString().PadLeft(14)
                                        + "  " + w[k].ToString().PadLeft(14)
                                        + "  " + w[k + 1].ToString().PadLeft(14) + "");
-                k = k + 2;
+                k += 2;
             }
 
             q = 0.0;
@@ -5178,7 +5317,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * 1 + w[k + 1] * 0.0;
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("");
@@ -5189,7 +5328,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * x[i] + w[k + 1] * 1.0;
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of X = " + q + "");
@@ -5199,7 +5338,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * x[i] * x[i] + w[k + 1] * 2.0 * x[i];
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of X^2 = " + q + "");
@@ -5210,7 +5349,7 @@ namespace SandiaRulesTest
             {
                 q = q + w[k] / (1.0 + x[i] * x[i])
                     - w[k + 1] * 2.0 * x[i] / Math.Pow(1.0 + x[i] * x[i], 2);
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of 1/(1+x^2) = " + q + "");
@@ -5240,7 +5379,7 @@ namespace SandiaRulesTest
                                        + "  " + x[i].ToString().PadLeft(14)
                                        + "  " + w[k].ToString().PadLeft(14)
                                        + "  " + w[k + 1].ToString().PadLeft(14) + "");
-                k = k + 2;
+                k += 2;
             }
 
             q = 0.0;
@@ -5248,7 +5387,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * 1 + w[k + 1] * 0.0;
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("");
@@ -5259,7 +5398,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * x[i] + w[k + 1] * 1.0;
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of X = " + q + "");
@@ -5269,7 +5408,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * x[i] * x[i] + w[k + 1] * 2.0 * x[i];
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of X^2 = " + q + "");
@@ -5280,7 +5419,7 @@ namespace SandiaRulesTest
             {
                 q = q + w[k] / (1.0 + x[i] * x[i])
                     - w[k + 1] * 2.0 * x[i] / Math.Pow(1.0 + x[i] * x[i], 2);
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of 1/(1+x^2) = " + q + "");
@@ -5310,7 +5449,7 @@ namespace SandiaRulesTest
                                        + "  " + x[i].ToString().PadLeft(14)
                                        + "  " + w[k].ToString().PadLeft(14)
                                        + "  " + w[k + 1].ToString().PadLeft(14) + "");
-                k = k + 2;
+                k += 2;
             }
 
             q = 0.0;
@@ -5318,7 +5457,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * 1 + w[k + 1] * 0.0;
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("");
@@ -5329,7 +5468,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * x[i] + w[k + 1] * 1.0;
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of X = " + q + "");
@@ -5339,7 +5478,7 @@ namespace SandiaRulesTest
             for (i = 0; i < n; i++)
             {
                 q = q + w[k] * x[i] * x[i] + w[k + 1] * 2.0 * x[i];
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of X^2 = " + q + "");
@@ -5350,7 +5489,7 @@ namespace SandiaRulesTest
             {
                 q = q + w[k] / (1.0 + x[i] * x[i])
                     - w[k + 1] * 2.0 * x[i] / Math.Pow(1.0 + x[i] * x[i], 2);
-                k = k + 2;
+                k += 2;
             }
 
             Console.WriteLine("  Estimate integral of 1/(1+x^2) = " + q + "");
@@ -5380,7 +5519,7 @@ namespace SandiaRulesTest
                 {
                     q = q + w[k] / (1.0 + x[i] * x[i])
                         - w[k + 1] * 2.0 * x[i] / Math.Pow(1.0 + x[i] * x[i], 2);
-                    k = k + 2;
+                    k += 2;
                 }
 
                 exact = Math.Atan(b) - Math.Atan(a);
@@ -5403,7 +5542,7 @@ namespace SandiaRulesTest
             Console.WriteLine("  Points are Chebyshev spaced.");
             Console.WriteLine("  We are working in " + a + " <= X <= " + b + "");
 
-            for (n = 5; n <= 21; n = n + 4)
+            for (n = 5; n <= 21; n += 4)
             {
                 x = typeMethods.r8vec_chebyshev_new(n, a, b);
                 w = Hermite.hermite_interpolant_rule(n, a, b, x);
@@ -5418,16 +5557,17 @@ namespace SandiaRulesTest
                     k = 0;
                     for (i = 0; i < n; i++)
                     {
-                        if (e == 0)
+                        switch (e)
                         {
-                            q = q + w[k];
-                        }
-                        else
-                        {
-                            q = q + w[k] * Math.Pow(x[i], e) + w[k + 1] * e * Math.Pow(x[i], e - 1);
+                            case 0:
+                                q += w[k];
+                                break;
+                            default:
+                                q = q + w[k] * Math.Pow(x[i], e) + w[k + 1] * e * Math.Pow(x[i], e - 1);
+                                break;
                         }
 
-                        k = k + 2;
+                        k += 2;
                     }
 
                     exact = (Math.Pow(b, e + 1) - Math.Pow(a, e + 1)) / (double) (e + 1);
@@ -5443,7 +5583,7 @@ namespace SandiaRulesTest
                 {
                     q = q + w[k] / (1.0 + x[i] * x[i])
                         - w[k + 1] * 2.0 * x[i] / Math.Pow(1.0 + x[i] * x[i], 2);
-                    k = k + 2;
+                    k += 2;
                 }
 
                 exact = Math.Atan(b) - Math.Atan(a);
@@ -5455,7 +5595,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static void test37()
+        private static void test37()
 
             //****************************************************************************80
             //
@@ -5514,7 +5654,7 @@ namespace SandiaRulesTest
             Console.WriteLine(" Correct sum:            " + sqrtpi + "");
         }
 
-        static void test38()
+        private static void test38()
 
             //****************************************************************************80
             //
@@ -5610,7 +5750,7 @@ namespace SandiaRulesTest
 
         }
 
-        static void test39()
+        private static void test39()
 
             //****************************************************************************80
             //
@@ -5737,16 +5877,15 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
                 for (growth = 0; growth <= 2; growth++)
                 {
-                    if (growth == 2 && 5 < level)
+                    switch (growth)
                     {
-                    }
-                    else
-                    {
-                        order = LevelToOrder.level_to_order_exp_hgk(level, growth);
-                        cout += "  " + order.ToString().PadLeft(5);
+                        case 2 when 5 < level:
+                            break;
+                        default:
+                            order = LevelToOrder.level_to_order_exp_hgk(level, growth);
+                            break;
                     }
                 }
 
@@ -5796,7 +5935,7 @@ namespace SandiaRulesTest
             }
         }
 
-        static double cubic_antiderivative(double x)
+        private static double cubic_antiderivative(double x)
 
             //****************************************************************************80
             //
@@ -5823,14 +5962,14 @@ namespace SandiaRulesTest
             //    Output, double CUBIC_ANTIDERIVATIVE, the value.
             //
         {
-            double value;
+            double value = 0;
 
             value = x * x * (5.0 + x * (-7.0 / 3.0 + x * 1.0 / 4.0));
 
             return value;
         }
 
-        static double cubic_integrate(double a, double b)
+        private static double cubic_integrate(double a, double b)
 
             //****************************************************************************80
             //
@@ -5864,7 +6003,7 @@ namespace SandiaRulesTest
             return q;
         }
 
-        static void cubic_value(double x, ref double f, ref double d, ref double s, ref double t)
+        private static void cubic_value(double x, ref double f, ref double d, ref double s, ref double t)
 
             //****************************************************************************80
             //

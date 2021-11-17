@@ -1,158 +1,160 @@
 ﻿using System;
 using Burkardt.SphereNS;
 
-namespace SphereLebedevRuleTest
+namespace SphereLebedevRuleTest;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MAIN is the main program for SPHERE_LEBEDEV_RULE_TEST.
+        //
+        //  Discussion:
+        //
+        //    SPHERE_LEBEDEV_RULE_TEST tests the SPHERE_LEBEDEV_RULE library.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 September 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        static void Main(string[] args)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MAIN is the main program for SPHERE_LEBEDEV_RULE_TEST.
-            //
-            //  Discussion:
-            //
-            //    SPHERE_LEBEDEV_RULE_TEST tests the SPHERE_LEBEDEV_RULE library.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 September 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        Console.WriteLine("");
+        Console.WriteLine("SPHERE_LEBEDEV_RULE_TEST");
+
+        Console.WriteLine("  Test the SPHERE_LEBEDEV_RULE library.");
+
+        test01();
+        test02();
+
+        Console.WriteLine("");
+        Console.WriteLine("SPHERE_LEBEDEV_RULE_TEST");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
+
+    private static void test01()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TEST01 tests AVAILABLE_TABLE, ORDER_TABLE, PRECISION_TABLE.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //   12 September 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int available;
+        int order;
+        int precision;
+        int rule;
+        int rule_max = 65;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST01");
+        Console.WriteLine("  List Lebedev rule properties.");
+        Console.WriteLine("");
+        Console.WriteLine("  Rule Avail Order  Prec");
+        Console.WriteLine("");
+        for (rule = 1; rule <= rule_max; rule++)
         {
-            Console.WriteLine("");
-            Console.WriteLine("SPHERE_LEBEDEV_RULE_TEST");
-
-            Console.WriteLine("  Test the SPHERE_LEBEDEV_RULE library.");
-
-            test01();
-            test02();
-
-            Console.WriteLine("");
-            Console.WriteLine("SPHERE_LEBEDEV_RULE_TEST");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
+            available = LebedevRule.available_table(rule);
+            order = LebedevRule.order_table(rule);
+            precision = LebedevRule.precision_table(rule);
+            Console.WriteLine("  " + rule.ToString().PadLeft(4)
+                                   + "  " + available.ToString().PadLeft(4)
+                                   + "  " + order.ToString().PadLeft(4)
+                                   + "  " + precision.ToString().PadLeft(4) + "");
         }
+    }
 
-        static void test01()
+    private static void test02()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TEST01 tests AVAILABLE_TABLE, ORDER_TABLE, PRECISION_TABLE.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //   12 September 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TEST02 tests the SPHERE_LEBEDEV_RULE functions.
+        //
+        //  Modified:
+        //
+        //    13 September 2010
+        //
+        //  Author:
+        //
+        //    Dmitri Laikov
+        //
+        //  Reference:
+        //
+        //    Vyacheslav Lebedev, Dmitri Laikov,
+        //    A quadrature formula for the sphere of the 131st
+        //    algebraic order of accuracy,
+        //    Russian Academy of Sciences Doklady Mathematics,
+        //    Volume 59, Number 3, 1999, pages 477-481.
+        //
+    {
+        int nmax = 65;
+        int mmax = (nmax * 2 + 3) * (nmax * 2 + 3) / 3;
+
+        double alpha = 0;
+        int available;
+        double beta = 0;
+        double err;
+        double err_max;
+        int i;
+        double integral_exact;
+        double integral_approx;
+        int j;
+        int k;
+        int m;
+        int n;
+        int order;
+        double[] w;
+        double[] x;
+        double[] y;
+        double[] z;
+        /*
+        static double[] s = new double[nmax+2];
+        static double[] xn = new double[mmax*(nmax+1)];
+        static double[] yn = new double[mmax*(nmax+1)];
+        static double[] zn = new double[mmax*(nmax+1)];
+        */
+        double[] s = new double[nmax + 2];
+        double[] xn = new double[mmax * (nmax + 1)];
+        double[] yn = new double[mmax * (nmax + 1)];
+        double[] zn = new double[mmax * (nmax + 1)];
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST02");
+        Console.WriteLine("  Generate each available rule and test for accuracy.");
+
+        for (n = 1; n <= nmax; n++)
         {
-            int available;
-            int order;
-            int precision;
-            int rule;
-            int rule_max = 65;
+            available = LebedevRule.available_table(n);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01");
-            Console.WriteLine("  List Lebedev rule properties.");
-            Console.WriteLine("");
-            Console.WriteLine("  Rule Avail Order  Prec");
-            Console.WriteLine("");
-            for (rule = 1; rule <= rule_max; rule++)
+            switch (available)
             {
-                available = LebedevRule.available_table(rule);
-                order = LebedevRule.order_table(rule);
-                precision = LebedevRule.precision_table(rule);
-                Console.WriteLine("  " + rule.ToString().PadLeft(4)
-                                       + "  " + available.ToString().PadLeft(4)
-                                       + "  " + order.ToString().PadLeft(4)
-                                       + "  " + precision.ToString().PadLeft(4) + "");
-            }
-        }
-
-        static void test02()
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TEST02 tests the SPHERE_LEBEDEV_RULE functions.
-            //
-            //  Modified:
-            //
-            //    13 September 2010
-            //
-            //  Author:
-            //
-            //    Dmitri Laikov
-            //
-            //  Reference:
-            //
-            //    Vyacheslav Lebedev, Dmitri Laikov,
-            //    A quadrature formula for the sphere of the 131st
-            //    algebraic order of accuracy,
-            //    Russian Academy of Sciences Doklady Mathematics,
-            //    Volume 59, Number 3, 1999, pages 477-481.
-            //
-        {
-            int nmax = 65;
-            int mmax = ((nmax * 2 + 3) * (nmax * 2 + 3) / 3);
-
-            double alpha = 0;
-            int available;
-            double beta = 0;
-            double err;
-            double err_max;
-            int i;
-            double integral_exact;
-            double integral_approx;
-            int j;
-            int k;
-            int m;
-            int n;
-            int order;
-            double[] w;
-            double[] x;
-            double[] y;
-            double[] z;
-            /*
-            static double[] s = new double[nmax+2];
-            static double[] xn = new double[mmax*(nmax+1)];
-            static double[] yn = new double[mmax*(nmax+1)];
-            static double[] zn = new double[mmax*(nmax+1)];
-            */
-            double[] s = new double[nmax + 2];
-            double[] xn = new double[mmax * (nmax + 1)];
-            double[] yn = new double[mmax * (nmax + 1)];
-            double[] zn = new double[mmax * (nmax + 1)];
-
-            Console.WriteLine("");
-            Console.WriteLine("TEST02");
-            Console.WriteLine("  Generate each available rule and test for accuracy.");
-
-            for (n = 1; n <= nmax; n++)
-            {
-                available = LebedevRule.available_table(n);
-
-                if (available == 1)
+                case 1:
                 {
                     order = LebedevRule.order_table(n);
 
@@ -197,9 +199,8 @@ namespace SphereLebedevRuleTest
                             integral_approx = 0.0;
                             for (m = 0; m < order; m++)
                             {
-                                integral_approx = integral_approx
-                                                  + w[m] * xn[i + m * (n + 1)] * yn[j + m * (n + 1)] *
-                                                  zn[k + m * (n + 1)];
+                                integral_approx += w[m] * xn[i + m * (n + 1)] * yn[j + m * (n + 1)] *
+                                                   zn[k + m * (n + 1)];
                             }
 
                             //
@@ -222,19 +223,26 @@ namespace SphereLebedevRuleTest
                     Console.WriteLine("  Order = " + order.ToString().PadLeft(4)
                                                    + "  LMAXW = " + LebedevRule.precision_table(n)
                                                    + "  max error = " + err_max + "");
-                    //
-                    //  Convert (X,Y,Z) to (Theta,Phi) and print the data.
-                    //
-                    if (order <= 50)
+                    switch (order)
                     {
-                        for (m = 0; m < order; m++)
+                        //
+                        //  Convert (X,Y,Z) to (Theta,Phi) and print the data.
+                        //
+                        case <= 50:
                         {
-                            LebedevRule.xyz_to_tp(x[m], y[m], z[m], ref alpha, ref beta);
-                            Console.WriteLine("  " + alpha.ToString("0.###############").PadLeft(20)
-                                                   + "  " + beta.ToString("0.###############").PadLeft(20)
-                                                   + "  " + w[m].ToString("0.###############").PadLeft(20) + "");
+                            for (m = 0; m < order; m++)
+                            {
+                                LebedevRule.xyz_to_tp(x[m], y[m], z[m], ref alpha, ref beta);
+                                Console.WriteLine("  " + alpha.ToString("0.###############").PadLeft(20)
+                                                       + "  " + beta.ToString("0.###############").PadLeft(20)
+                                                       + "  " + w[m].ToString("0.###############").PadLeft(20) + "");
+                            }
+
+                            break;
                         }
                     }
+
+                    break;
                 }
             }
         }

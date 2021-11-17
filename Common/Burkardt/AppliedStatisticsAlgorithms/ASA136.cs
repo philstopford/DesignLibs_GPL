@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void kmns ( double[] a, int m, int n, ref double[] c, int k, ref int[] ic1, ref int[] nc,
-        int iter, ref double[] wss, ref int ifault )
+    public static void kmns ( double[] a, int m, int n, ref double[] c, int k, ref int[] ic1, ref int[] nc,
+            int iter, ref double[] wss, ref int ifault )
         //****************************************************************************80
         //
         //  Purpose:
@@ -68,256 +68,255 @@ namespace Burkardt.AppliedStatistics
         //    2, the allowed maximum number off iterations was exceeded.
         //    3, K is less than or equal to 1, or greater than or equal to M.
         //
+    {
+        double[] dt = new double[2];
+
+        ifault = 0;
+
+        if (k <= 1 || m <= k)
         {
-            double[] dt = new double[2];
+            ifault = 3;
+            return;
+        }
 
-            ifault = 0;
+        int[] ic2 = new int[m];
+        double[] an1 = new double[k];
+        double[] an2 = new double[k];
+        int[] ncp = new int[k];
+        double[] d = new double[m];
+        int[] itran = new int[k];
+        int[] live = new int[k];
+        //
+        //  For each point I, find its two closest centers, IC1(I) and
+        //  IC2(I).  Assign the point to IC1(I).
+        //
+        for (int i = 1; i <= m; i++)
+        {
+            ic1[i - 1] = 1;
+            ic2[i - 1] = 2;
 
-            if (k <= 1 || m <= k)
+            for (int il = 1; il <= 2; il++)
             {
-                ifault = 3;
-                return;
-            }
-
-            int[] ic2 = new int[m];
-            double[] an1 = new double[k];
-            double[] an2 = new double[k];
-            int[] ncp = new int[k];
-            double[] d = new double[m];
-            int[] itran = new int[k];
-            int[] live = new int[k];
-            //
-            //  For each point I, find its two closest centers, IC1(I) and
-            //  IC2(I).  Assign the point to IC1(I).
-            //
-            for (int i = 1; i <= m; i++)
-            {
-                ic1[i - 1] = 1;
-                ic2[i - 1] = 2;
-
-                for (int il = 1; il <= 2; il++)
-                {
-                    dt[il - 1] = 0.0;
-                    for (int j = 1; j <= n; j++)
-                    {
-                        double da = a[i - 1 + (j - 1) * m] - c[il - 1 + (j - 1) * k];
-                        dt[il - 1] = dt[il - 1] + da * da;
-                    }
-                }
-
-                if (dt[1] < dt[0])
-                {
-                    ic1[i - 1] = 2;
-                    ic2[i - 1] = 1;
-                    double temp = dt[0];
-                    dt[0] = dt[1];
-                    dt[1] = temp;
-                }
-
-                for (int l = 3; l <= k; l++)
-                {
-                    double db = 0.0;
-                    for (int j = 1; j <= n; j++)
-                    {
-                        double dc = a[i - 1 + (j - 1) * m] - c[l - 1 + (j - 1) * k];
-                        db = db + dc * dc;
-                    }
-
-                    if (db < dt[1])
-                    {
-                        if (dt[0] <= db)
-                        {
-                            dt[1] = db;
-                            ic2[i - 1] = l;
-                        }
-                        else
-                        {
-                            dt[1] = dt[0];
-                            ic2[i - 1] = ic1[i - 1];
-                            dt[0] = db;
-                            ic1[i - 1] = l;
-                        }
-                    }
-                }
-            }
-
-            //
-            //  Update cluster centers to be the average of points contained within them.
-            //
-            for (int l = 1; l <= k; l++)
-            {
-                nc[l - 1] = 0;
+                dt[il - 1] = 0.0;
                 for (int j = 1; j <= n; j++)
                 {
-                    c[l - 1 + (j - 1) * k] = 0.0;
+                    double da = a[i - 1 + (j - 1) * m] - c[il - 1 + (j - 1) * k];
+                    dt[il - 1] += da * da;
                 }
             }
 
-            for (int i = 1; i <= m; i++)
+            if (dt[1] < dt[0])
             {
-                int l = ic1[i - 1];
-                nc[l - 1] = nc[l - 1] + 1;
+                ic1[i - 1] = 2;
+                ic2[i - 1] = 1;
+                double temp = dt[0];
+                dt[0] = dt[1];
+                dt[1] = temp;
+            }
+
+            for (int l = 3; l <= k; l++)
+            {
+                double db = 0.0;
                 for (int j = 1; j <= n; j++)
                 {
-                    c[l - 1 + (j - 1) * k] = c[l - 1 + (j - 1) * k] + a[i - 1 + (j - 1) * m];
+                    double dc = a[i - 1 + (j - 1) * m] - c[l - 1 + (j - 1) * k];
+                    db += dc * dc;
+                }
+
+                if (db < dt[1])
+                {
+                    if (dt[0] <= db)
+                    {
+                        dt[1] = db;
+                        ic2[i - 1] = l;
+                    }
+                    else
+                    {
+                        dt[1] = dt[0];
+                        ic2[i - 1] = ic1[i - 1];
+                        dt[0] = db;
+                        ic1[i - 1] = l;
+                    }
                 }
             }
+        }
 
-            //
-            //  Check to see if there is any empty cluster at this stage.
-            //
-            ifault = 1;
-
-            for (int l = 1; l <= k; l++)
+        //
+        //  Update cluster centers to be the average of points contained within them.
+        //
+        for (int l = 1; l <= k; l++)
+        {
+            nc[l - 1] = 0;
+            for (int j = 1; j <= n; j++)
             {
-                if (nc[l - 1] == 0)
-                {
+                c[l - 1 + (j - 1) * k] = 0.0;
+            }
+        }
+
+        for (int i = 1; i <= m; i++)
+        {
+            int l = ic1[i - 1];
+            nc[l - 1] += 1;
+            for (int j = 1; j <= n; j++)
+            {
+                c[l - 1 + (j - 1) * k] += a[i - 1 + (j - 1) * m];
+            }
+        }
+
+        //
+        //  Check to see if there is any empty cluster at this stage.
+        //
+        ifault = 1;
+
+        for (int l = 1; l <= k; l++)
+        {
+            switch (nc[l - 1])
+            {
+                case 0:
                     ifault = 1;
                     return;
-                }
+            }
+        }
 
+        ifault = 0;
+
+        for (int l = 1; l <= k; l++)
+        {
+            double aa = nc[l - 1];
+
+            for (int j = 1; j <= n; j++)
+            {
+                c[l - 1 + (j - 1) * k] /= aa;
             }
 
-            ifault = 0;
+            //
+            //  Initialize AN1, AN2, ITRAN and NCP.
+            //
+            //  AN1(L) = NC(L) / (NC(L) - 1)
+            //  AN2(L) = NC(L) / (NC(L) + 1)
+            //  ITRAN(L) = 1 if cluster L is updated in the quick-transfer stage,
+            //           = 0 otherwise
+            //
+            //  In the optimal-transfer stage, NCP(L) stores the step at which
+            //  cluster L is last updated.
+            //
+            //  In the quick-transfer stage, NCP(L) stores the step at which
+            //  cluster L is last updated plus M.
+            //
+            an2[l - 1] = aa / (aa + 1.0);
 
+            an1[l - 1] = aa switch
+            {
+                > 1.0 => aa / (aa - 1.0),
+                _ => typeMethods.r8_huge()
+            };
+
+            itran[l - 1] = 1;
+            ncp[l - 1] = -1;
+        }
+
+        int indx = 0;
+        ifault = 2;
+
+        for (int ij = 1; ij <= iter; ij++)
+        {
+            //
+            //  In this stage, there is only one pass through the data.   Each
+            //  point is re-allocated, if necessary, to the cluster that will
+            //  induce the maximum reduction in within-cluster sum of squares.
+            //
+            optra(a, m, n, ref c, k, ref ic1, ref ic2, ref nc, ref an1, ref an2, ref ncp, ref d, ref itran, ref live, ref indx);
+            //
+            //  Stop if no transfer took place in the last M optimal transfer steps.
+            //
+            if (indx == m)
+            {
+                ifault = 0;
+                break;
+            }
+
+            //
+            //  Each point is tested in turn to see if it should be re-allocated
+            //  to the cluster to which it is most likely to be transferred,
+            //  IC2(I), from its present cluster, IC1(I).   Loop through the
+            //  data until no further change is to take place.
+            //
+            qtran(a, m, n, ref c, k, ref ic1, ref ic2, ref nc, ref an1, ref an2, ref ncp, ref d, ref itran, ref indx);
+            //
+            //  If there are only two clusters, there is no need to re-enter the
+            //  optimal transfer stage.
+            //
+            if (k == 2)
+            {
+                ifault = 0;
+                break;
+            }
+
+            //
+            //  NCP has to be set to 0 before entering OPTRA.
+            //
             for (int l = 1; l <= k; l++)
             {
-                double aa = (double) (nc[l - 1]);
-
-                for (int j = 1; j <= n; j++)
-                {
-                    c[l - 1 + (j - 1) * k] = c[l - 1 + (j - 1) * k] / aa;
-                }
-
-                //
-                //  Initialize AN1, AN2, ITRAN and NCP.
-                //
-                //  AN1(L) = NC(L) / (NC(L) - 1)
-                //  AN2(L) = NC(L) / (NC(L) + 1)
-                //  ITRAN(L) = 1 if cluster L is updated in the quick-transfer stage,
-                //           = 0 otherwise
-                //
-                //  In the optimal-transfer stage, NCP(L) stores the step at which
-                //  cluster L is last updated.
-                //
-                //  In the quick-transfer stage, NCP(L) stores the step at which
-                //  cluster L is last updated plus M.
-                //
-                an2[l - 1] = aa / (aa + 1.0);
-
-                if (1.0 < aa)
-                {
-                    an1[l - 1] = aa / (aa - 1.0);
-                }
-                else
-                {
-                    an1[l - 1] = typeMethods.r8_huge();
-                }
-
-                itran[l - 1] = 1;
-                ncp[l - 1] = -1;
+                ncp[l - 1] = 0;
             }
 
-            int indx = 0;
-            ifault = 2;
+        }
 
-            for (int ij = 1; ij <= iter; ij++)
-            {
-                //
-                //  In this stage, there is only one pass through the data.   Each
-                //  point is re-allocated, if necessary, to the cluster that will
-                //  induce the maximum reduction in within-cluster sum of squares.
-                //
-                optra(a, m, n, ref c, k, ref ic1, ref ic2, ref nc, ref an1, ref an2, ref ncp, ref d, ref itran, ref live, ref indx);
-                //
-                //  Stop if no transfer took place in the last M optimal transfer steps.
-                //
-                if (indx == m)
-                {
-                    ifault = 0;
-                    break;
-                }
-
-                //
-                //  Each point is tested in turn to see if it should be re-allocated
-                //  to the cluster to which it is most likely to be transferred,
-                //  IC2(I), from its present cluster, IC1(I).   Loop through the
-                //  data until no further change is to take place.
-                //
-                qtran(a, m, n, ref c, k, ref ic1, ref ic2, ref nc, ref an1, ref an2, ref ncp, ref d, ref itran, ref indx);
-                //
-                //  If there are only two clusters, there is no need to re-enter the
-                //  optimal transfer stage.
-                //
-                if (k == 2)
-                {
-                    ifault = 0;
-                    break;
-                }
-
-                //
-                //  NCP has to be set to 0 before entering OPTRA.
-                //
-                for (int l = 1; l <= k; l++)
-                {
-                    ncp[l - 1] = 0;
-                }
-
-            }
-
+        switch (ifault)
+        {
             //
             //  If the maximum number of iterations was taken without convergence,
             //  IFAULT is 2 now.  This may indicate unforeseen looping.
             //
-            if (ifault == 2)
-            {
+            case 2:
                 Console.WriteLine("");
                 Console.WriteLine("KMNS - Warning!");
                 Console.WriteLine("  Maximum number of iterations reached");
                 Console.WriteLine("  without convergence.");
-            }
+                break;
+        }
 
-            //
-            //  Compute the within-cluster sum of squares for each cluster.
-            //
+        //
+        //  Compute the within-cluster sum of squares for each cluster.
+        //
+        for (int l = 1; l <= k; l++)
+        {
+            wss[l - 1] = 0.0;
+            for (int j = 1; j <= n; j++)
+            {
+                c[l - 1 + (j - 1) * k] = 0.0;
+            }
+        }
+
+        for (int i = 1; i <= m; i++)
+        {
+            int ii = ic1[i - 1];
+            for (int j = 1; j <= n; j++)
+            {
+                c[ii - 1 + (j - 1) * k] += a[i - 1 + (j - 1) * m];
+            }
+        }
+
+        for (int j = 1; j <= n; j++)
+        {
             for (int l = 1; l <= k; l++)
             {
-                wss[l - 1] = 0.0;
-                for (int j = 1; j <= n; j++)
-                {
-                    c[l - 1 + (j - 1) * k] = 0.0;
-                }
+                c[l - 1 + (j - 1) * k] /= nc[l - 1];
             }
 
             for (int i = 1; i <= m; i++)
             {
                 int ii = ic1[i - 1];
-                for (int j = 1; j <= n; j++)
-                {
-                    c[ii - 1 + (j - 1) * k] = c[ii - 1 + (j - 1) * k] + a[i - 1 + (j - 1) * m];
-                }
+                double da = a[i - 1 + (j - 1) * m] - c[ii - 1 + (j - 1) * k];
+                wss[ii - 1] += da * da;
             }
-
-            for (int j = 1; j <= n; j++)
-            {
-                for (int l = 1; l <= k; l++)
-                {
-                    c[l - 1 + (j - 1) * k] = c[l - 1 + (j - 1) * k] / (double) (nc[l - 1]);
-                }
-
-                for (int i = 1; i <= m; i++)
-                {
-                    int ii = ic1[i - 1];
-                    double da = a[i - 1 + (j - 1) * m] - c[ii - 1 + (j - 1) * k];
-                    wss[ii - 1] = wss[ii - 1] + da * da;
-                }
-            }
-
         }
 
-        public static void optra(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
-                            ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
-                            ref int[] itran, ref int[] live, ref int indx )
+    }
+
+    public static void optra(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
+            ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
+            ref int[] itran, ref int[] live, ref int indx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -389,31 +388,34 @@ namespace Burkardt.AppliedStatistics
         //    Input/output, int *INDX, the number of steps since a 
         //    transfer took place.
         //
+    {
+        //
+        //  If cluster L is updated in the last quick-transfer stage, it
+        //  belongs to the live set throughout this stage.   Otherwise, at
+        //  each step, it is not in the live set if it has not been updated
+        //  in the last M optimal transfer steps.
+        //
+        for (int l = 1; l <= k; l++)
         {
-            //
-            //  If cluster L is updated in the last quick-transfer stage, it
-            //  belongs to the live set throughout this stage.   Otherwise, at
-            //  each step, it is not in the live set if it has not been updated
-            //  in the last M optimal transfer steps.
-            //
-            for (int l = 1; l <= k; l++)
+            live[l - 1] = itran[l - 1] switch
             {
-                if (itran[l - 1] == 1)
-                {
-                    live[l - 1] = m + 1;
-                }
-            }
+                1 => m + 1,
+                _ => live[l - 1]
+            };
+        }
 
-            for (int i = 1; i <= m; i++)
+        for (int i = 1; i <= m; i++)
+        {
+            indx += 1;
+            int l1 = ic1[i - 1];
+            int l2 = ic2[i - 1];
+            int ll = l2;
+            switch (nc[l1 - 1])
             {
-                indx = indx + 1;
-                int l1 = ic1[i - 1];
-                int l2 = ic2[i - 1];
-                int ll = l2;
                 //
                 //  If point I is the only member of cluster L1, no transfer.
                 //
-                if (1 < nc[l1 - 1])
+                case > 1:
                 {
                     //
                     //  If L1 has not yet been updated in this stage, no need to
@@ -425,7 +427,7 @@ namespace Burkardt.AppliedStatistics
                         for (int j = 1; j <= n; j++)
                         {
                             double df = a[i - 1 + (j - 1) * m] - c[l1 - 1 + (j - 1) * k];
-                            de = de + df * df;
+                            de += df * df;
                         }
 
                         d[i - 1] = de * an1[l1 - 1];
@@ -438,7 +440,7 @@ namespace Burkardt.AppliedStatistics
                     for (int j = 1; j <= n; j++)
                     {
                         double db = a[i - 1 + (j - 1) * m] - c[l2 - 1 + (j - 1) * k];
-                        da = da + db * db;
+                        da += db * db;
                     }
 
                     double r2 = da * an2[l2 - 1];
@@ -459,7 +461,7 @@ namespace Burkardt.AppliedStatistics
                             for (int j = 1; j <= n; j++)
                             {
                                 double dd = a[i - 1 + (j - 1) * m] - c[l - 1 + (j - 1) * k];
-                                dc = dc + dd * dd;
+                                dc += dd * dd;
                             }
 
                             if (dc < rr)
@@ -488,9 +490,9 @@ namespace Burkardt.AppliedStatistics
                         live[l2 - 1] = m + i;
                         ncp[l1 - 1] = i;
                         ncp[l2 - 1] = i;
-                        double al1 = (double) (nc[l1 - 1]);
+                        double al1 = nc[l1 - 1];
                         double alw = al1 - 1.0;
-                        double al2 = (double) (nc[l2 - 1]);
+                        double al2 = nc[l2 - 1];
                         double alt = al2 + 1.0;
                         for (int j = 1; j <= n; j++)
                         {
@@ -498,45 +500,45 @@ namespace Burkardt.AppliedStatistics
                             c[l2 - 1 + (j - 1) * k] = (c[l2 - 1 + (j - 1) * k] * al2 + a[i - 1 + (j - 1) * m]) / alt;
                         }
 
-                        nc[l1 - 1] = nc[l1 - 1] - 1;
-                        nc[l2 - 1] = nc[l2 - 1] + 1;
+                        nc[l1 - 1] -= 1;
+                        nc[l2 - 1] += 1;
                         an2[l1 - 1] = alw / al1;
-                        if (1.0 < alw)
+                        an1[l1 - 1] = alw switch
                         {
-                            an1[l1 - 1] = alw / (alw - 1.0);
-                        }
-                        else
-                        {
-                            an1[l1 - 1] = typeMethods.r8_huge();
-                        }
+                            > 1.0 => alw / (alw - 1.0),
+                            _ => typeMethods.r8_huge()
+                        };
 
                         an1[l2 - 1] = alt / al2;
                         an2[l2 - 1] = alt / (alt + 1.0);
                         ic1[i - 1] = l2;
                         ic2[i - 1] = l1;
                     }
-                }
 
-                if (indx == m)
-                {
-                    return;
+                    break;
                 }
             }
 
-            //
-            //  ITRAN(L) = 0 before entering QTRAN.   Also, LIVE(L) has to be
-            //  decreased by M before re-entering OPTRA.
-            //
-            for (int l = 1; l <= k; l++)
+            if (indx == m)
             {
-                itran[l - 1] = 0;
-                live[l - 1] = live[l - 1] - m;
+                return;
             }
         }
 
-        public static void qtran(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
-                            ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
-                            ref int[] itran, ref int indx )
+        //
+        //  ITRAN(L) = 0 before entering QTRAN.   Also, LIVE(L) has to be
+        //  decreased by M before re-entering OPTRA.
+        //
+        for (int l = 1; l <= k; l++)
+        {
+            itran[l - 1] = 0;
+            live[l - 1] -= m;
+        }
+    }
+
+    public static void qtran(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
+            ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
+            ref int[] itran, ref int indx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -610,42 +612,44 @@ namespace Burkardt.AppliedStatistics
         //    Input/output, int INDX, counts the number of steps 
         //    since the last transfer.
         //
-        {
-            double al1;
-            double al2;
-            double alt;
-            double alw;
-            double da;
-            double db;
-            double dd;
-            double de;
-            int i;
-            int icoun;
-            int istep;
-            int j;
-            int l1;
-            int l2;
-            double r2;
-            //
-            //  In the optimal transfer stage, NCP(L) indicates the step at which
-            //  cluster L is last updated.   In the quick transfer stage, NCP(L)
-            //  is equal to the step at which cluster L is last updated plus M.
-            //
-            icoun = 0;
-            istep = 0;
+    {
+        double al1;
+        double al2;
+        double alt;
+        double alw;
+        double da;
+        double db;
+        double dd;
+        double de;
+        int i;
+        int icoun;
+        int istep;
+        int j;
+        int l1;
+        int l2;
+        double r2;
+        //
+        //  In the optimal transfer stage, NCP(L) indicates the step at which
+        //  cluster L is last updated.   In the quick transfer stage, NCP(L)
+        //  is equal to the step at which cluster L is last updated plus M.
+        //
+        icoun = 0;
+        istep = 0;
 
-            for (;;)
+        for (;;)
+        {
+            for (i = 1; i <= m; i++)
             {
-                for (i = 1; i <= m; i++)
+                icoun += 1;
+                istep += 1;
+                l1 = ic1[i - 1];
+                l2 = ic2[i - 1];
+                switch (nc[l1 - 1])
                 {
-                    icoun = icoun + 1;
-                    istep = istep + 1;
-                    l1 = ic1[i - 1];
-                    l2 = ic2[i - 1];
                     //
                     //  If point I is the only member of cluster L1, no transfer.
                     //
-                    if (1 < nc[l1 - 1])
+                    case > 1:
                     {
                         //
                         //  If NCP(L1) < ISTEP, no need to re-compute distance from point I to
@@ -659,7 +663,7 @@ namespace Burkardt.AppliedStatistics
                             for (j = 1; j <= n; j++)
                             {
                                 db = a[i - 1 + (j - 1) * m] - c[l1 - 1 + (j - 1) * k];
-                                da = da + db * db;
+                                da += db * db;
                             }
 
                             d[i - 1] = da * an1[l1 - 1];
@@ -677,7 +681,7 @@ namespace Burkardt.AppliedStatistics
                             for (j = 1; j <= n; j++)
                             {
                                 de = a[i - 1 + (j - 1) * m] - c[l2 - 1 + (j - 1) * k];
-                                dd = dd + de * de;
+                                dd += de * de;
                             }
 
                             //
@@ -693,9 +697,9 @@ namespace Burkardt.AppliedStatistics
                                 itran[l2 - 1] = 1;
                                 ncp[l1 - 1] = istep + m;
                                 ncp[l2 - 1] = istep + m;
-                                al1 = (double) (nc[l1 - 1]);
+                                al1 = nc[l1 - 1];
                                 alw = al1 - 1.0;
-                                al2 = (double) (nc[l2 - 1]);
+                                al2 = nc[l2 - 1];
                                 alt = al2 + 1.0;
                                 for (j = 1; j <= n; j++)
                                 {
@@ -705,17 +709,14 @@ namespace Burkardt.AppliedStatistics
                                         (c[l2 - 1 + (j - 1) * k] * al2 + a[i - 1 + (j - 1) * m]) / alt;
                                 }
 
-                                nc[l1 - 1] = nc[l1 - 1] - 1;
-                                nc[l2 - 1] = nc[l2 - 1] + 1;
+                                nc[l1 - 1] -= 1;
+                                nc[l2 - 1] += 1;
                                 an2[l1 - 1] = alw / al1;
-                                if (1.0 < alw)
+                                an1[l1 - 1] = alw switch
                                 {
-                                    an1[l1 - 1] = alw / (alw - 1.0);
-                                }
-                                else
-                                {
-                                    an1[l1 - 1] = typeMethods.r8_huge();
-                                }
+                                    > 1.0 => alw / (alw - 1.0),
+                                    _ => typeMethods.r8_huge()
+                                };
 
                                 an1[l2 - 1] = alt / al2;
                                 an2[l2 - 1] = alt / (alt + 1.0);
@@ -723,15 +724,17 @@ namespace Burkardt.AppliedStatistics
                                 ic2[i - 1] = l1;
                             }
                         }
-                    }
 
-                    //
-                    //  If no re-allocation took place in the last M steps, return.
-                    //
-                    if (icoun == m)
-                    {
-                        return;
+                        break;
                     }
+                }
+
+                //
+                //  If no re-allocation took place in the last M steps, return.
+                //
+                if (icoun == m)
+                {
+                    return;
                 }
             }
         }

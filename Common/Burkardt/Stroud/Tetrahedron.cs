@@ -1,491 +1,493 @@
 ﻿using System;
 using Burkardt.Quadrature;
 
-namespace Burkardt.Stroud
+namespace Burkardt.Stroud;
+
+public static class Tetrahedron
 {
-       public static class Tetrahedron
+       public static double tetra_07(int setting, Func<int, double, double, double, double> func, double[] x,
+                     double[] y, double[] z)
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_07 approximates an integral inside a tetrahedron in 3D.
+              //
+              //  Integration region:
+              //
+              //    Points inside a tetrahedron whose four corners are given.
+              //
+              //  Discussion:
+              //
+              //    A 64 point 7-th degree conical product Gauss formula is used,
+              //    Stroud number T3:7-1.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    15 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Reference:
+              //
+              //    Arthur Stroud,
+              //    Approximate Calculation of Multiple Integrals,
+              //    Prentice Hall, 1971,
+              //    ISBN: 0130438936,
+              //    LC: QA311.S85.
+              //
+              //    Arthur Stroud, Don Secrest,
+              //    Gaussian Quadrature Formulas,
+              //    Prentice Hall, 1966, pages 42-43,
+              //    LC: QA299.4G3S7
+              //
+              //  Parameters:
+              //
+              //    Input, Func< double, double, double, double > func, the name of the 
+              //    user supplied function to be integrated.
+              //
+              //    Input, double X[4], Y[4], Z[4], the coordinates of 
+              //    the vertices.
+              //
+              //    Output, double TETRAQ_07, the approximate integral of the function.
+              //
        {
-              public static double tetra_07(int setting, Func<int, double, double, double, double> func, double[] x,
-                            double[] y, double[] z)
-
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_07 approximates an integral inside a tetrahedron in 3D.
-                     //
-                     //  Integration region:
-                     //
-                     //    Points inside a tetrahedron whose four corners are given.
-                     //
-                     //  Discussion:
-                     //
-                     //    A 64 point 7-th degree conical product Gauss formula is used,
-                     //    Stroud number T3:7-1.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    15 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Reference:
-                     //
-                     //    Arthur Stroud,
-                     //    Approximate Calculation of Multiple Integrals,
-                     //    Prentice Hall, 1971,
-                     //    ISBN: 0130438936,
-                     //    LC: QA311.S85.
-                     //
-                     //    Arthur Stroud, Don Secrest,
-                     //    Gaussian Quadrature Formulas,
-                     //    Prentice Hall, 1966, pages 42-43,
-                     //    LC: QA299.4G3S7
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, Func< double, double, double, double > func, the name of the 
-                     //    user supplied function to be integrated.
-                     //
-                     //    Input, double X[4], Y[4], Z[4], the coordinates of 
-                     //    the vertices.
-                     //
-                     //    Output, double TETRAQ_07, the approximate integral of the function.
-                     //
+              double a;
+              double b;
+              double c;
+              double d;
+              int i;
+              int j;
+              int k;
+              int order = 4;
+              double quad;
+              double result;
+              double t;
+              double u;
+              double v;
+              double volume;
+              double w;
+              double[] weight1 = new double[4];
+              double[] weight2 =
               {
-                     double a;
-                     double b;
-                     double c;
-                     double d;
-                     int i;
-                     int j;
-                     int k;
-                     int order = 4;
-                     double quad;
-                     double result;
-                     double t;
-                     double u;
-                     double v;
-                     double volume;
-                     double w;
-                     double[] weight1 = new double[4];
-                     double[] weight2 =
-                     {
-                            0.1355069134, 0.2034645680, 0.1298475476, 0.0311809709
-                     };
-                     double[] weight3 =
-                     {
-                            0.1108884156, 0.1434587898, 0.0686338872, 0.0103522407
-                     };
-                     double[] xtab1 = new double[4];
-                     double[] xtab2 =
-                     {
-                            0.0571041961, 0.2768430136, 0.5835904324, 0.8602401357
-                     };
-                     double[] xtab3 =
-                     {
-                            0.0485005495, 0.2386007376, 0.5170472951, 0.7958514179
-                     };
-                     double xval;
-                     double yval;
-                     double zval;
-                     //
-                     //  Get the Gauss-Legendre weights and abscissas for [-1,1].
-                     //
-                     LegendreQuadrature.legendre_set(order, ref xtab1, ref weight1);
-                     //
-                     //  Adjust the rule for the interval [0,1].
-                     //
-                     a = -1.0;
-                     b = +1.0;
+                     0.1355069134, 0.2034645680, 0.1298475476, 0.0311809709
+              };
+              double[] weight3 =
+              {
+                     0.1108884156, 0.1434587898, 0.0686338872, 0.0103522407
+              };
+              double[] xtab1 = new double[4];
+              double[] xtab2 =
+              {
+                     0.0571041961, 0.2768430136, 0.5835904324, 0.8602401357
+              };
+              double[] xtab3 =
+              {
+                     0.0485005495, 0.2386007376, 0.5170472951, 0.7958514179
+              };
+              double xval;
+              double yval;
+              double zval;
+              //
+              //  Get the Gauss-Legendre weights and abscissas for [-1,1].
+              //
+              LegendreQuadrature.legendre_set(order, ref xtab1, ref weight1);
+              //
+              //  Adjust the rule for the interval [0,1].
+              //
+              a = -1.0;
+              b = +1.0;
 
-                     c = 0.0;
-                     d = 1.0;
+              c = 0.0;
+              d = 1.0;
 
-                     QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab1, ref weight1);
-                     //
-                     //  Carry out the quadrature.
-                     //
-                     quad = 0.0;
+              QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab1, ref weight1);
+              //
+              //  Carry out the quadrature.
+              //
+              quad = 0.0;
 
-                     for (i = 0; i < order; i++)
+              for (i = 0; i < order; i++)
+              {
+                     for (j = 0; j < order; j++)
                      {
-                            for (j = 0; j < order; j++)
+                            for (k = 0; k < order; k++)
                             {
-                                   for (k = 0; k < order; k++)
-                                   {
-                                          //
-                                          //  Compute the barycentric coordinates of the point in the unit triangle.
-                                          //
-                                          t = xtab3[k];
-                                          u = xtab2[j] * (1.0 - xtab3[k]);
-                                          v = xtab1[i] * (1.0 - xtab2[j]) * (1.0 - xtab3[k]);
-                                          w = 1.0 - t - u - v;
-                                          //
-                                          //  Compute the corresponding point in the triangle.
-                                          //
-                                          xval = t * x[0] + u * x[1] + v * x[2] + w * x[3];
-                                          yval = t * y[0] + u * y[1] + v * y[2] + w * y[3];
-                                          zval = t * z[0] + u * z[1] + v * z[2] + w * z[3];
+                                   //
+                                   //  Compute the barycentric coordinates of the point in the unit triangle.
+                                   //
+                                   t = xtab3[k];
+                                   u = xtab2[j] * (1.0 - xtab3[k]);
+                                   v = xtab1[i] * (1.0 - xtab2[j]) * (1.0 - xtab3[k]);
+                                   w = 1.0 - t - u - v;
+                                   //
+                                   //  Compute the corresponding point in the triangle.
+                                   //
+                                   xval = t * x[0] + u * x[1] + v * x[2] + w * x[3];
+                                   yval = t * y[0] + u * y[1] + v * y[2] + w * y[3];
+                                   zval = t * z[0] + u * z[1] + v * z[2] + w * z[3];
 
-                                          quad = quad + 6.0 * weight1[i] * weight2[j] * weight3[k]
-                                                 * func(setting, xval, yval, zval);
-                                   }
+                                   quad += 6.0 * weight1[i] * weight2[j] * weight3[k]
+                                           * func(setting, xval, yval, zval);
                             }
                      }
-
-                     volume = tetra_volume(x, y, z);
-                     result = quad * volume;
-
-                     return result;
               }
 
-              public static double tetra_sum(int setting, Func<int, double, double, double, double> func, double[] x,
-                            double[] y, double[] z, int order, double[] xtab, double[] ytab,
-                            double[] ztab, double[] weight)
+              volume = tetra_volume(x, y, z);
+              result = quad * volume;
 
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_SUM carries out a quadrature rule in a tetrahedron in 3D.
-                     //
-                     //  Integration region:
-                     //
-                     //    A tetrahedron whose vertices are specified.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    16 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, Func< double, double, double, double > func, the name of the
-                     //    user supplied function which is to be integrated.
-                     //
-                     //    Input, double X[4], Y[4], Z[4], the vertices.
-                     //
-                     //    Input, int ORDER, the order of the rule.
-                     //
-                     //    Input, double XTAB[ORDER], YTAB[ORDER], ZTAB[ORDER], the
-                     //    abscissas.
-                     //
-                     //    Input, double WEIGHT[ORDER], the weights.
-                     //
-                     //    Output, double TETRA_SUM, the approximate integral of the function.
-                     //
+              return result;
+       }
+
+       public static double tetra_sum(int setting, Func<int, double, double, double, double> func, double[] x,
+                     double[] y, double[] z, int order, double[] xtab, double[] ytab,
+                     double[] ztab, double[] weight)
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_SUM carries out a quadrature rule in a tetrahedron in 3D.
+              //
+              //  Integration region:
+              //
+              //    A tetrahedron whose vertices are specified.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    16 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Parameters:
+              //
+              //    Input, Func< double, double, double, double > func, the name of the
+              //    user supplied function which is to be integrated.
+              //
+              //    Input, double X[4], Y[4], Z[4], the vertices.
+              //
+              //    Input, int ORDER, the order of the rule.
+              //
+              //    Input, double XTAB[ORDER], YTAB[ORDER], ZTAB[ORDER], the
+              //    abscissas.
+              //
+              //    Input, double WEIGHT[ORDER], the weights.
+              //
+              //    Output, double TETRA_SUM, the approximate integral of the function.
+              //
+       {
+              int i;
+              double quad;
+              double result;
+              double volume;
+              double xval;
+              double yval;
+              double zval;
+
+              quad = 0.0;
+              for (i = 0; i < order; i++)
               {
-                     int i;
-                     double quad;
-                     double result;
-                     double volume;
-                     double xval;
-                     double yval;
-                     double zval;
+                     xval = xtab[i] * x[0]
+                            + ytab[i] * x[1]
+                            + ztab[i] * x[2]
+                            + (1.0 - xtab[i] - ytab[i] - ztab[i]) * x[3];
 
-                     quad = 0.0;
-                     for (i = 0; i < order; i++)
-                     {
-                            xval = xtab[i] * x[0]
-                                   + ytab[i] * x[1]
-                                   + ztab[i] * x[2]
-                                   + (1.0 - xtab[i] - ytab[i] - ztab[i]) * x[3];
+                     yval = xtab[i] * y[0]
+                            + ytab[i] * y[1]
+                            + ztab[i] * y[2]
+                            + (1.0 - xtab[i] - ytab[i] - ztab[i]) * y[3];
 
-                            yval = xtab[i] * y[0]
-                                   + ytab[i] * y[1]
-                                   + ztab[i] * y[2]
-                                   + (1.0 - xtab[i] - ytab[i] - ztab[i]) * y[3];
+                     zval = xtab[i] * z[0]
+                            + ytab[i] * z[1]
+                            + ztab[i] * z[2]
+                            + (1.0 - xtab[i] - ytab[i] - ztab[i]) * z[3];
 
-                            zval = xtab[i] * z[0]
-                                   + ytab[i] * z[1]
-                                   + ztab[i] * z[2]
-                                   + (1.0 - xtab[i] - ytab[i] - ztab[i]) * z[3];
-
-                            quad = quad + weight[i] * func(setting, xval, yval, zval);
-                     }
-
-                     volume = tetra_volume(x, y, z);
-                     result = quad * volume;
-
-                     return result;
+                     quad += weight[i] * func(setting, xval, yval, zval);
               }
 
-              public static double tetra_tproduct(int setting, Func<int, double, double, double, double> func,
-                            int order, double[] x, double[] y, double[] z)
+              volume = tetra_volume(x, y, z);
+              result = quad * volume;
 
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_TPRODUCT approximates an integral in a tetrahedron in 3D.
-                     //
-                     //  Discussion:
-                     //
-                     //    Integration is carried out over the points inside an arbitrary
-                     //    tetrahedron whose four vertices are given.
-                     //
-                     //    An ORDER**3 point (2*ORDER-1)-th degree triangular product
-                     //    Gauss-Legendre rule is used.
-                     //
-                     //    With ORDER = 8, this routine is equivalent to the routine TETR15
-                     //    in the reference, page 367.
-                     //
-                     //    Thanks to Joerg Behrens, jbehren@gwdg.de, for numerous suggestions
-                     //    and corrections.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    20 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Reference:
-                     //
-                     //    Arthur Stroud,
-                     //    Approximate Calculation of Multiple Integrals,
-                     //    Prentice Hall, 1971,
-                     //    ISBN: 0130438936,
-                     //    LC: QA311.S85.
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, Func< double, double, double, double > func, the name of the 
-                     //    user supplied function to be integrated.
-                     //
-                     //    Input, int ORDER, the order of the basic quadrature rules.
-                     //    ORDER should be between 1 and 9.
-                     //
-                     //    Input, double X[4], Y[4], Z[4], the vertices
-                     //    of the tetrahedron.
-                     //
-                     //    Output, double TETRA_TPRODUCT, the approximate integral of the function.
-                     //
+              return result;
+       }
+
+       public static double tetra_tproduct(int setting, Func<int, double, double, double, double> func,
+                     int order, double[] x, double[] y, double[] z)
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_TPRODUCT approximates an integral in a tetrahedron in 3D.
+              //
+              //  Discussion:
+              //
+              //    Integration is carried out over the points inside an arbitrary
+              //    tetrahedron whose four vertices are given.
+              //
+              //    An ORDER**3 point (2*ORDER-1)-th degree triangular product
+              //    Gauss-Legendre rule is used.
+              //
+              //    With ORDER = 8, this routine is equivalent to the routine TETR15
+              //    in the reference, page 367.
+              //
+              //    Thanks to Joerg Behrens, jbehren@gwdg.de, for numerous suggestions
+              //    and corrections.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    20 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Reference:
+              //
+              //    Arthur Stroud,
+              //    Approximate Calculation of Multiple Integrals,
+              //    Prentice Hall, 1971,
+              //    ISBN: 0130438936,
+              //    LC: QA311.S85.
+              //
+              //  Parameters:
+              //
+              //    Input, Func< double, double, double, double > func, the name of the 
+              //    user supplied function to be integrated.
+              //
+              //    Input, int ORDER, the order of the basic quadrature rules.
+              //    ORDER should be between 1 and 9.
+              //
+              //    Input, double X[4], Y[4], Z[4], the vertices
+              //    of the tetrahedron.
+              //
+              //    Output, double TETRA_TPRODUCT, the approximate integral of the function.
+              //
+       {
+              double a;
+              double b;
+              double c;
+              double d;
+              int i;
+              int j;
+              int k;
+              double quad;
+              double result;
+              double volume;
+              double[] weight0;
+              double[] weight1;
+              double[] weight2;
+              double[] xtab0;
+              double[] xtab1;
+              double[] xtab2;
+              double xval;
+              double yval;
+              double zval;
+
+              switch (order)
               {
-                     double a;
-                     double b;
-                     double c;
-                     double d;
-                     int i;
-                     int j;
-                     int k;
-                     double quad;
-                     double result;
-                     double volume;
-                     double[] weight0;
-                     double[] weight1;
-                     double[] weight2;
-                     double[] xtab0;
-                     double[] xtab1;
-                     double[] xtab2;
-                     double xval;
-                     double yval;
-                     double zval;
-
-                     if (order < 1 || 9 < order)
-                     {
+                     case < 1:
+                     case > 9:
                             Console.WriteLine("");
                             Console.WriteLine("TETRA_TPRODUCT - Fatal error!");
                             Console.WriteLine("  The quadrature rule orders must be between 1 and 9.");
                             Console.WriteLine("  The input value was ORDER = " + order + "");
-                            return (1);
-                     }
-
-                     //
-                     //  Get the Gauss-Legendre ORDER point rules on [-1,1] for integrating
-                     //    F(X),
-                     //    X * F(X),
-                     //    X * X * F(X).
-                     //
-                     xtab0 = new double[order];
-                     xtab1 = new double[order];
-                     xtab2 = new double[order];
-                     weight0 = new double[order];
-                     weight1 = new double[order];
-                     weight2 = new double[order];
-
-                     LegendreQuadrature.legendre_set(order, ref xtab0, ref weight0);
-                     LegendreQuadrature.legendre_set_x1(order, ref xtab1, ref weight1);
-                     LegendreQuadrature.legendre_set_x2(order, ref xtab2, ref weight2);
-                     //
-                     //  Adjust the rules from [-1,1] to [0,1].
-                     //
-                     a = -1.0;
-                     b = +1.0;
-                     c = 0.0;
-                     d = 1.0;
-
-                     QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab0, ref weight0);
-
-                     QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab1, ref weight1);
-
-                     QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab2, ref weight2);
-                     //
-                     //  For rules with a weight function that is not 1, the weight vectors
-                     //  require further adjustment.
-                     //
-                     for (i = 0; i < order; i++)
-                     {
-                            weight1[i] = weight1[i] / 2.0;
-                     }
-
-                     for (i = 0; i < order; i++)
-                     {
-                            weight2[i] = weight2[i] / 4.0;
-                     }
-
-                     //
-                     //  Carry out the quadrature.
-                     //
-                     quad = 0.0;
-
-                     for (k = 0; k < order; k++)
-                     {
-                            for (j = 0; j < order; j++)
-                            {
-                                   for (i = 0; i < order; i++)
-                                   {
-                                          xval = x[0] + (((x[3] - x[2]) * xtab0[i]
-                                                          + (x[2] - x[1])) * xtab1[j]
-                                                         + (x[1] - x[0])) * xtab2[k];
-
-                                          yval = y[0] + (((y[3] - y[2]) * xtab0[i]
-                                                          + (y[2] - y[1])) * xtab1[j]
-                                                         + (y[1] - y[0])) * xtab2[k];
-
-                                          zval = z[0] + (((z[3] - z[2]) * xtab0[i]
-                                                          + (z[2] - z[1])) * xtab1[j]
-                                                         + (z[1] - z[0])) * xtab2[k];
-
-                                          quad = quad + 6.0 * weight0[i] * weight1[j] * weight2[k]
-                                                 * func(setting, xval, yval, zval);
-                                   }
-                            }
-                     }
-
-                     //
-                     //  Compute the volume of the tetrahedron.
-                     //
-                     volume = tetra_volume(x, y, z);
-                     result = quad * volume;
-
-                     return result;
+                            return 1;
               }
 
-              public static void tetra_unit_set(int rule, int order, ref double[] xtab, ref double[] ytab,
-                            ref double[] ztab, ref double[] weight)
+              //
+              //  Get the Gauss-Legendre ORDER point rules on [-1,1] for integrating
+              //    F(X),
+              //    X * F(X),
+              //    X * X * F(X).
+              //
+              xtab0 = new double[order];
+              xtab1 = new double[order];
+              xtab2 = new double[order];
+              weight0 = new double[order];
+              weight1 = new double[order];
+              weight2 = new double[order];
 
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_UNIT_SET sets quadrature weights and abscissas in the unit tetrahedron.
-                     //
-                     //  Integration region:
-                     //
-                     //      0 <= X,
-                     //    and
-                     //      0 <= Y,
-                     //    and
-                     //      0 <= Z, 
-                     //    and
-                     //      X + Y + Z <= 1.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    19 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Reference:
-                     //
-                     //    Hermann Engels,
-                     //    Numerical Quadrature and Cubature,
-                     //    Academic Press, 1980,
-                     //    ISBN: 012238850X,
-                     //    LC: QA299.3E5.
-                     //
-                     //    Patrick Keast,
-                     //    Moderate Degree Tetrahedral Quadrature Formulas,
-                     //    Computer Methods in Applied Mechanics and Engineering,
-                     //    Volume 55, Number 3, May 1986, pages 339-348.
-                     //
-                     //    Olgierd Zienkiewicz,
-                     //    The Finite Element Method,
-                     //    Sixth Edition,
-                     //    Butterworth-Heinemann, 2005,
-                     //    ISBN: 0750663200,
-                     //    LC: TA640.2.Z54
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, int RULE, the index of the rule.
-                     //     1, order 1, precision 0, Newton Cotes formula #0, Zienkiewicz #1.
-                     //     2, order 4, precision 1, Newton Cotes formula #1.
-                     //     3, order 4, precision 2, Zienkiewicz #2.
-                     //     4, order 10, precision 2, Newton Cotes formula #2
-                     //     5, order 5, precision 3, Zienkiewicz #3.
-                     //     6, order 8, precision 3, Newton Cotes formula #3.
-                     //     7, order 35, precision 4, Newton Cotes formula #4.
-                     //     8, order 11, precision 4, a Keast rule.
-                     //
-                     //    Input, int ORDER, the order of the rule.
-                     //
-                     //    Output, double XTAB[ORDER], YTAB[ORDER], ZTAB[ORDER],
-                     //    the abscissas.
-                     //
-                     //    Output, double WEIGHT[ORDER], the weights.
-                     //
+              LegendreQuadrature.legendre_set(order, ref xtab0, ref weight0);
+              LegendreQuadrature.legendre_set_x1(order, ref xtab1, ref weight1);
+              LegendreQuadrature.legendre_set_x2(order, ref xtab2, ref weight2);
+              //
+              //  Adjust the rules from [-1,1] to [0,1].
+              //
+              a = -1.0;
+              b = +1.0;
+              c = 0.0;
+              d = 1.0;
+
+              QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab0, ref weight0);
+
+              QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab1, ref weight1);
+
+              QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab2, ref weight2);
+              //
+              //  For rules with a weight function that is not 1, the weight vectors
+              //  require further adjustment.
+              //
+              for (i = 0; i < order; i++)
               {
-                     double a;
-                     double b;
-                     double c;
-                     double d;
-                     double e;
-                     double f;
-                     double g;
-                     double h;
-                     double z;
+                     weight1[i] /= 2.0;
+              }
+
+              for (i = 0; i < order; i++)
+              {
+                     weight2[i] /= 4.0;
+              }
+
+              //
+              //  Carry out the quadrature.
+              //
+              quad = 0.0;
+
+              for (k = 0; k < order; k++)
+              {
+                     for (j = 0; j < order; j++)
+                     {
+                            for (i = 0; i < order; i++)
+                            {
+                                   xval = x[0] + (((x[3] - x[2]) * xtab0[i]
+                                                   + (x[2] - x[1])) * xtab1[j]
+                                                  + (x[1] - x[0])) * xtab2[k];
+
+                                   yval = y[0] + (((y[3] - y[2]) * xtab0[i]
+                                                   + (y[2] - y[1])) * xtab1[j]
+                                                  + (y[1] - y[0])) * xtab2[k];
+
+                                   zval = z[0] + (((z[3] - z[2]) * xtab0[i]
+                                                   + (z[2] - z[1])) * xtab1[j]
+                                                  + (z[1] - z[0])) * xtab2[k];
+
+                                   quad += 6.0 * weight0[i] * weight1[j] * weight2[k]
+                                           * func(setting, xval, yval, zval);
+                            }
+                     }
+              }
+
+              //
+              //  Compute the volume of the tetrahedron.
+              //
+              volume = tetra_volume(x, y, z);
+              result = quad * volume;
+
+              return result;
+       }
+
+       public static void tetra_unit_set(int rule, int order, ref double[] xtab, ref double[] ytab,
+                     ref double[] ztab, ref double[] weight)
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_UNIT_SET sets quadrature weights and abscissas in the unit tetrahedron.
+              //
+              //  Integration region:
+              //
+              //      0 <= X,
+              //    and
+              //      0 <= Y,
+              //    and
+              //      0 <= Z, 
+              //    and
+              //      X + Y + Z <= 1.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    19 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Reference:
+              //
+              //    Hermann Engels,
+              //    Numerical Quadrature and Cubature,
+              //    Academic Press, 1980,
+              //    ISBN: 012238850X,
+              //    LC: QA299.3E5.
+              //
+              //    Patrick Keast,
+              //    Moderate Degree Tetrahedral Quadrature Formulas,
+              //    Computer Methods in Applied Mechanics and Engineering,
+              //    Volume 55, Number 3, May 1986, pages 339-348.
+              //
+              //    Olgierd Zienkiewicz,
+              //    The Finite Element Method,
+              //    Sixth Edition,
+              //    Butterworth-Heinemann, 2005,
+              //    ISBN: 0750663200,
+              //    LC: TA640.2.Z54
+              //
+              //  Parameters:
+              //
+              //    Input, int RULE, the index of the rule.
+              //     1, order 1, precision 0, Newton Cotes formula #0, Zienkiewicz #1.
+              //     2, order 4, precision 1, Newton Cotes formula #1.
+              //     3, order 4, precision 2, Zienkiewicz #2.
+              //     4, order 10, precision 2, Newton Cotes formula #2
+              //     5, order 5, precision 3, Zienkiewicz #3.
+              //     6, order 8, precision 3, Newton Cotes formula #3.
+              //     7, order 35, precision 4, Newton Cotes formula #4.
+              //     8, order 11, precision 4, a Keast rule.
+              //
+              //    Input, int ORDER, the order of the rule.
+              //
+              //    Output, double XTAB[ORDER], YTAB[ORDER], ZTAB[ORDER],
+              //    the abscissas.
+              //
+              //    Output, double WEIGHT[ORDER], the weights.
+              //
+       {
+              double a;
+              double b;
+              double c;
+              double d;
+              double e;
+              double f;
+              double g;
+              double h;
+              double z;
+              switch (rule)
+              {
                      //
                      //  Newton Cotes #0.
                      //
-                     if (rule == 1)
-                     {
+                     case 1:
                             xtab[0] = 0.25;
                             ytab[0] = 0.25;
                             ztab[0] = 0.25;
                             weight[0] = 1.0;
-                     }
+                            break;
                      //
                      //  Newton Cotes #1.
                      //
-                     else if (rule == 2)
-                     {
+                     case 2:
                             a = 1.0;
                             b = 1.0 / 4.0;
                             z = 0.0;
@@ -509,12 +511,11 @@ namespace Burkardt.Stroud
                             weight[1] = b;
                             weight[2] = b;
                             weight[3] = b;
-                     }
+                            break;
                      //
                      //  Zienkiewicz #2.
                      //
-                     else if (rule == 3)
-                     {
+                     case 3:
                             a = 0.5854101966249685;
                             b = 0.1381966011250105;
                             c = 0.25;
@@ -538,12 +539,11 @@ namespace Burkardt.Stroud
                             weight[1] = c;
                             weight[2] = c;
                             weight[3] = c;
-                     }
+                            break;
                      //
                      //  Newton Cotes #2.
                      //
-                     else if (rule == 4)
-                     {
+                     case 4:
                             a = 1.0;
                             b = 0.5;
                             c = -1.0 / 20.0;
@@ -593,12 +593,11 @@ namespace Burkardt.Stroud
                             weight[7] = d;
                             weight[8] = d;
                             weight[9] = d;
-                     }
+                            break;
                      //
                      //  Zienkiewicz #3.
                      //
-                     else if (rule == 5)
-                     {
+                     case 5:
                             a = 1.0 / 6.0;
                             b = 0.25;
                             c = 0.5;
@@ -628,13 +627,12 @@ namespace Burkardt.Stroud
                             weight[2] = e;
                             weight[3] = e;
                             weight[4] = e;
-                     }
+                            break;
                      //
                      //  Newton Cotes #3.
                      //  (This is actually formally a 20 point rule, but with 12 zero coefficients.)
                      //
-                     else if (rule == 6)
-                     {
+                     case 6:
                             a = 1.0;
                             b = 1.0 / 40.0;
                             c = 1.0 / 3.0;
@@ -676,12 +674,11 @@ namespace Burkardt.Stroud
                             weight[5] = d;
                             weight[6] = d;
                             weight[7] = d;
-                     }
+                            break;
                      //
                      //  Newton Cotes #4.
                      //
-                     else if (rule == 7)
-                     {
+                     case 7:
                             a = 0.25;
                             b = 0.50;
                             c = 0.75;
@@ -835,12 +832,11 @@ namespace Burkardt.Stroud
                             weight[32] = g;
                             weight[33] = g;
                             weight[34] = h;
-                     }
+                            break;
                      //
                      //  Keast Rule of order 11
                      //
-                     else if (rule == 8)
-                     {
+                     case 8:
                             a = 0.25;
                             b = 11.0 / 14.0;
                             c = 1.0 / 14.0;
@@ -897,293 +893,283 @@ namespace Burkardt.Stroud
                             weight[8] = h;
                             weight[9] = h;
                             weight[10] = h;
-                     }
-                     else
-                     {
+                            break;
+                     default:
                             Console.WriteLine("");
                             Console.WriteLine("TETRA_UNIT_SET - Fatal error!");
                             Console.WriteLine("  Illegal value of RULE = " + rule + "");
-                     }
+                            break;
               }
+       }
 
-              public static int tetra_unit_size(int rule)
+       public static int tetra_unit_size(int rule)
 
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_UNIT_SIZE sizes quadrature weights and abscissas in the unit tetrahedron.
-                     //
-                     //  Integration region:
-                     //
-                     //      0 <= X,
-                     //    and
-                     //      0 <= Y,
-                     //    and
-                     //      0 <= Z, 
-                     //    and
-                     //      X + Y + Z <= 1.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    19 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Reference:
-                     //
-                     //    Hermann Engels,
-                     //    Numerical Quadrature and Cubature,
-                     //    Academic Press, 1980,
-                     //    ISBN: 012238850X,
-                     //    LC: QA299.3E5.
-                     //
-                     //    Patrick Keast,
-                     //    Moderate Degree Tetrahedral Quadrature Formulas,
-                     //    Computer Methods in Applied Mechanics and Engineering,
-                     //    Volume 55, Number 3, May 1986, pages 339-348.
-                     //
-                     //    Olgierd Zienkiewicz,
-                     //    The Finite Element Method,
-                     //    Sixth Edition,
-                     //    Butterworth-Heinemann, 2005,
-                     //    ISBN: 0750663200,
-                     //    LC: TA640.2.Z54
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, int RULE, the index of the rule.
-                     //     1, order 1, precision 0, Newton Cotes formula #0, Zienkiewicz #1.
-                     //     2, order 4, precision 1, Newton Cotes formula #1.
-                     //     3, order 4, precision 2, Zienkiewicz #2.
-                     //     4, order 10, precision 2, Newton Cotes formula #2
-                     //     5, order 5, precision 3, Zienkiewicz #3.
-                     //     6, order 8, precision 3, Newton Cotes formula #3.
-                     //     7, order 35, precision 4, Newton Cotes formula #4.
-                     //     8, order 11, precision 4, a Keast rule.
-                     //
-                     //    Output, int TETRA_UNIT_SET, the order of the rule.
-                     //
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_UNIT_SIZE sizes quadrature weights and abscissas in the unit tetrahedron.
+              //
+              //  Integration region:
+              //
+              //      0 <= X,
+              //    and
+              //      0 <= Y,
+              //    and
+              //      0 <= Z, 
+              //    and
+              //      X + Y + Z <= 1.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    19 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Reference:
+              //
+              //    Hermann Engels,
+              //    Numerical Quadrature and Cubature,
+              //    Academic Press, 1980,
+              //    ISBN: 012238850X,
+              //    LC: QA299.3E5.
+              //
+              //    Patrick Keast,
+              //    Moderate Degree Tetrahedral Quadrature Formulas,
+              //    Computer Methods in Applied Mechanics and Engineering,
+              //    Volume 55, Number 3, May 1986, pages 339-348.
+              //
+              //    Olgierd Zienkiewicz,
+              //    The Finite Element Method,
+              //    Sixth Edition,
+              //    Butterworth-Heinemann, 2005,
+              //    ISBN: 0750663200,
+              //    LC: TA640.2.Z54
+              //
+              //  Parameters:
+              //
+              //    Input, int RULE, the index of the rule.
+              //     1, order 1, precision 0, Newton Cotes formula #0, Zienkiewicz #1.
+              //     2, order 4, precision 1, Newton Cotes formula #1.
+              //     3, order 4, precision 2, Zienkiewicz #2.
+              //     4, order 10, precision 2, Newton Cotes formula #2
+              //     5, order 5, precision 3, Zienkiewicz #3.
+              //     6, order 8, precision 3, Newton Cotes formula #3.
+              //     7, order 35, precision 4, Newton Cotes formula #4.
+              //     8, order 11, precision 4, a Keast rule.
+              //
+              //    Output, int TETRA_UNIT_SET, the order of the rule.
+              //
+       {
+              int order;
+              switch (rule)
               {
-                     int order;
                      //
                      //  Newton Cotes #0.
                      //
-                     if (rule == 1)
-                     {
+                     case 1:
                             order = 1;
-                     }
+                            break;
                      //
                      //  Newton Cotes #1.
                      //
-                     else if (rule == 2)
-                     {
-                            order = 4;
-                     }
+                     case 2:
                      //
                      //  Zienkiewicz #2.
                      //
-                     else if (rule == 3)
-                     {
+                     case 3:
                             order = 4;
-                     }
+                            break;
                      //
                      //  Newton Cotes #2.
                      //
-                     else if (rule == 4)
-                     {
+                     case 4:
                             order = 10;
-                     }
+                            break;
                      //
                      //  Zienkiewicz #3.
                      //
-                     else if (rule == 5)
-                     {
+                     case 5:
                             order = 5;
-                     }
+                            break;
                      //
                      //  Newton Cotes #3.
                      //  (This is actually formally a 20 point rule, but with 12 zero coefficients//)
                      //
-                     else if (rule == 6)
-                     {
+                     case 6:
                             order = 8;
-                     }
+                            break;
                      //
                      //  Newton Cotes #4.
                      //
-                     else if (rule == 7)
-                     {
+                     case 7:
                             order = 35;
-                     }
+                            break;
                      //
                      //  Keast Rule of order 11
                      //
-                     else if (rule == 8)
-                     {
+                     case 8:
                             order = 11;
-                     }
-                     else
-                     {
+                            break;
+                     default:
                             Console.WriteLine("");
                             Console.WriteLine("TETRA_UNIT_SIZE - Fatal error!");
                             Console.WriteLine("  Illegal value of RULE = " + rule + "");
-                            return (1);
-                     }
-
-                     return order;
+                            return 1;
               }
 
-              public static double tetra_unit_sum(int setting, Func<int, double, double, double, double> func,
-                            int order, double[] xtab, double[] ytab, double[] ztab, double[] weight)
-
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_UNIT_SUM carries out a quadrature rule in the unit tetrahedron in 3D.
-                     //
-                     //  Integration region:
-                     //
-                     //      0 <= X,
-                     //    and
-                     //      0 <= Y,
-                     //    and
-                     //      0 <= Z, 
-                     //    and
-                     //      X + Y + Z <= 1.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    15 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, Func< double, double, double, double > func, the name of the 
-                     //    user supplied function to be integrated.
-                     //
-                     //    Input, int ORDER, the order of the rule.
-                     //
-                     //    Input, double XTAB[ORDER], YTAB[ORDER], ZTAB[ORDER], the
-                     //    abscissas.
-                     //
-                     //    Input, double WEIGHT[ORDER], the weights.
-                     //
-                     //    Output, double RESULT, the approximate integral of the function.
-                     //
-              {
-                     int i;
-                     double quad;
-                     double result;
-                     double volume;
-
-                     quad = 0.0;
-
-                     for (i = 0; i < order; i++)
-                     {
-                            quad = quad + weight[i] * func(setting, xtab[i], ytab[i], ztab[i]);
-                     }
-
-                     volume = tetra_unit_volume();
-                     result = quad * volume;
-
-                     return result;
-              }
-
-              public static double tetra_unit_volume()
-
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_UNIT_VOLUME returns the volume of the unit tetrahedron.
-                     //
-                     //  Discussion:
-                     //
-                     //    The integration region is:
-                     //
-                     //      0 <= X,
-                     //      0 <= Y,
-                     //      0 <= Z, 
-                     //      X + Y + Z <= 1.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    12 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Parameters:
-                     //
-                     //    Output, double TETRA_UNIT_VOLUME, the volume.
-                     //
-              {
-                     double volume;
-
-                     volume = 1.0 / 6.0;
-
-                     return volume;
-              }
-
-              public static double tetra_volume(double[] x, double[] y, double[] z)
-
-                     //****************************************************************************80
-                     //
-                     //  Purpose:
-                     //
-                     //    TETRA_VOLUME computes the volume of a tetrahedron.
-                     //
-                     //  Integration region:
-                     //
-                     //    Points inside a tetrahedron whose four vertices are given.
-                     //
-                     //  Licensing:
-                     //
-                     //    This code is distributed under the GNU LGPL license. 
-                     //
-                     //  Modified:
-                     //
-                     //    16 March 2008
-                     //
-                     //  Author:
-                     //
-                     //    John Burkardt
-                     //
-                     //  Parameters:
-                     //
-                     //    Input, double X[4], Y[4], Z[4], the vertices.
-                     //
-                     //    Output, double TETRA_VOLUME, the volume of the tetrahedron.
-                     //
-              {
-                     double volume;
-
-                     volume = Parallelipiped.parallelipiped_volume_3d(x, y, z);
-
-                     volume = volume * tetra_unit_volume();
-
-                     return volume;
-              }
-
+              return order;
        }
+
+       public static double tetra_unit_sum(int setting, Func<int, double, double, double, double> func,
+                     int order, double[] xtab, double[] ytab, double[] ztab, double[] weight)
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_UNIT_SUM carries out a quadrature rule in the unit tetrahedron in 3D.
+              //
+              //  Integration region:
+              //
+              //      0 <= X,
+              //    and
+              //      0 <= Y,
+              //    and
+              //      0 <= Z, 
+              //    and
+              //      X + Y + Z <= 1.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    15 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Parameters:
+              //
+              //    Input, Func< double, double, double, double > func, the name of the 
+              //    user supplied function to be integrated.
+              //
+              //    Input, int ORDER, the order of the rule.
+              //
+              //    Input, double XTAB[ORDER], YTAB[ORDER], ZTAB[ORDER], the
+              //    abscissas.
+              //
+              //    Input, double WEIGHT[ORDER], the weights.
+              //
+              //    Output, double RESULT, the approximate integral of the function.
+              //
+       {
+              int i;
+              double quad;
+              double result;
+              double volume;
+
+              quad = 0.0;
+
+              for (i = 0; i < order; i++)
+              {
+                     quad += weight[i] * func(setting, xtab[i], ytab[i], ztab[i]);
+              }
+
+              volume = tetra_unit_volume();
+              result = quad * volume;
+
+              return result;
+       }
+
+       public static double tetra_unit_volume()
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_UNIT_VOLUME returns the volume of the unit tetrahedron.
+              //
+              //  Discussion:
+              //
+              //    The integration region is:
+              //
+              //      0 <= X,
+              //      0 <= Y,
+              //      0 <= Z, 
+              //      X + Y + Z <= 1.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    12 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Parameters:
+              //
+              //    Output, double TETRA_UNIT_VOLUME, the volume.
+              //
+       {
+              double volume;
+
+              volume = 1.0 / 6.0;
+
+              return volume;
+       }
+
+       public static double tetra_volume(double[] x, double[] y, double[] z)
+
+              //****************************************************************************80
+              //
+              //  Purpose:
+              //
+              //    TETRA_VOLUME computes the volume of a tetrahedron.
+              //
+              //  Integration region:
+              //
+              //    Points inside a tetrahedron whose four vertices are given.
+              //
+              //  Licensing:
+              //
+              //    This code is distributed under the GNU LGPL license. 
+              //
+              //  Modified:
+              //
+              //    16 March 2008
+              //
+              //  Author:
+              //
+              //    John Burkardt
+              //
+              //  Parameters:
+              //
+              //    Input, double X[4], Y[4], Z[4], the vertices.
+              //
+              //    Output, double TETRA_VOLUME, the volume of the tetrahedron.
+              //
+       {
+              double volume;
+
+              volume = Parallelipiped.parallelipiped_volume_3d(x, y, z);
+
+              volume *= tetra_unit_volume();
+
+              return volume;
+       }
+
 }

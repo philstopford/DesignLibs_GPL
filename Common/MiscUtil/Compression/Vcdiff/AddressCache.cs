@@ -1,77 +1,86 @@
 using System;
 using System.IO;
 
-namespace MiscUtil.Compression.Vcdiff
+namespace MiscUtil.Compression.Vcdiff;
+
+/// <summary>
+/// Cache used for encoding/decoding addresses.
+/// </summary>
+internal sealed class AddressCache
 {
-    /// <summary>
-    /// Cache used for encoding/decoding addresses.
-    /// </summary>
-    internal sealed class AddressCache
+    private const byte SelfMode = 0;
+    private const byte HereMode = 1;
+
+    private int nearSize;
+    private int sameSize;
+    private int[] near;
+    private int nextNearSlot;
+    private int[] same;
+
+    private Stream addressStream;
+
+    internal AddressCache(int nearSize, int sameSize)
     {
-        const byte SelfMode = 0;
-        const byte HereMode = 1;
+        this.nearSize = nearSize;
+        this.sameSize = sameSize;
+        near = new int[nearSize];
+        same = new int[sameSize * 256];
+    }
 
-        int nearSize;
-        int sameSize;
-        int[] near;
-        int nextNearSlot;
-        int[] same;
+    internal void Reset(byte[] addresses)
+    {
+        nextNearSlot = 0;
+        Array.Clear(near, 0, near.Length);
+        Array.Clear(same, 0, same.Length);
 
-        Stream addressStream;
+        addressStream = new MemoryStream(addresses, false);
+    }
 
-        internal AddressCache(int nearSize, int sameSize)
+    internal int DecodeAddress(int here, byte mode)
+    {
+        int ret;
+        switch (mode)
         {
-            this.nearSize = nearSize;
-            this.sameSize = sameSize;
-            near = new int[nearSize];
-            same = new int[sameSize * 256];
-        }
-
-        internal void Reset(byte[] addresses)
-        {
-            nextNearSlot = 0;
-            Array.Clear(near, 0, near.Length);
-            Array.Clear(same, 0, same.Length);
-
-            addressStream = new MemoryStream(addresses, false);
-        }
-
-        internal int DecodeAddress(int here, byte mode)
-        {
-            int ret;
-            if (mode == SelfMode)
-            {
+            case SelfMode:
                 ret = IOHelper.ReadBigEndian7BitEncodedInt(addressStream);
-            }
-            else if (mode == HereMode)
-            {
+                break;
+            case HereMode:
                 ret = here - IOHelper.ReadBigEndian7BitEncodedInt(addressStream);
-            }
-            else if (mode - 2 < nearSize) // Near cache
+                break;
+            default:
             {
-                ret = near[mode - 2] + IOHelper.ReadBigEndian7BitEncodedInt(addressStream);
-            }
-            else // Same cache
-            {
-                int m = mode - (2 + nearSize);
-                ret = same[(m * 256) + IOHelper.CheckedReadByte(addressStream)];
-            }
+                if (mode - 2 < nearSize) // Near cache
+                {
+                    ret = near[mode - 2] + IOHelper.ReadBigEndian7BitEncodedInt(addressStream);
+                }
+                else // Same cache
+                {
+                    int m = mode - (2 + nearSize);
+                    ret = same[m * 256 + IOHelper.CheckedReadByte(addressStream)];
+                }
 
-            Update(ret);
-            return ret;
+                break;
+            }
         }
 
-        void Update(int address)
+        Update(ret);
+        return ret;
+    }
+
+    private void Update(int address)
+    {
+        switch (nearSize)
         {
-            if (nearSize > 0)
-            {
+            case > 0:
                 near[nextNearSlot] = address;
                 nextNearSlot = (nextNearSlot + 1) % nearSize;
-            }
-            if (sameSize > 0)
-            {
-                same[address % (sameSize * 256)] = address;
-            }
+                break;
         }
+
+        same[address % (sameSize * 256)] = sameSize switch
+        {
+            > 0 => address,
+            _ => same[address % (sameSize * 256)]
+        };
     }
 }

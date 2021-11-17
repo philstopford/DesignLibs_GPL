@@ -1,11 +1,11 @@
 ﻿using Burkardt;
 using Burkardt.Types;
 
-namespace Burkardt.Error
+namespace Burkardt.Error;
+
+public static class LU
 {
-    public static class LU
-    {
-        public static double lu_error ( int n, double[] a, double[] l, double[] u )
+    public static double lu_error ( int n, double[] a, double[] l, double[] u )
 
         //****************************************************************************80
         //
@@ -36,18 +36,17 @@ namespace Burkardt.Error
         //    Output, double LU_ERROR, the Frobenius norm
         //    of the difference matrix A - L * U.
         //
-        {
-            double[] d;
-            double[] lu;
-            double value;
+    {
+        double[] d;
+        double[] lu;
+        double value = 0;
 
-            lu = typeMethods.r8mat_mm_new ( n, n, n, l, u );
+        lu = typeMethods.r8mat_mm_new ( n, n, n, l, u );
 
-            d = typeMethods.r8mat_sub_new ( n, n, a, lu );
+        d = typeMethods.r8mat_sub_new ( n, n, a, lu );
  
-            value = typeMethods.r8mat_norm_fro ( n, n, d );
+        value = typeMethods.r8mat_norm_fro ( n, n, d );
 
-            return value;
-        }
+        return value;
     }
 }

@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Hypergeometric
 {
-    public static class Hypergeometric
-    {
-        public static double hypergeometric_cdf(int x, int n, int m, int l)
+    public static double hypergeometric_cdf(int x, int n, int m, int l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -40,28 +40,28 @@ namespace Burkardt.Probability
         //
         //    Output, double HYPERGEOMETRIC_CDF, the value of the CDF.
         //
+    {
+        int x2;
+
+        double c1_log = typeMethods.i4_choose_log(l - m, n);
+        double c2_log = typeMethods.i4_choose_log(l, n);
+
+        double pdf = Math.Exp(c1_log - c2_log);
+        double cdf = pdf;
+
+        for (x2 = 0; x2 <= x - 1; x2++)
         {
-            int x2;
+            pdf = pdf * ((m - x2) * (n - x2))
+                  / ((x2 + 1) * (l - m - n + x2 + 1));
 
-            double c1_log = typeMethods.i4_choose_log(l - m, n);
-            double c2_log = typeMethods.i4_choose_log(l, n);
-
-            double pdf = Math.Exp(c1_log - c2_log);
-            double cdf = pdf;
-
-            for (x2 = 0; x2 <= x - 1; x2++)
-            {
-                pdf = pdf * (double) ((m - x2) * (n - x2))
-                      / (double) ((x2 + 1) * (l - m - n + x2 + 1));
-
-                cdf = cdf + pdf;
-            }
-
-            return cdf;
+            cdf += pdf;
         }
 
-        public static void hypergeometric_cdf_values(ref int n_data, ref int sam, ref int suc, ref int pop,
-                ref int n, ref double fx )
+        return cdf;
+    }
+
+    public static void hypergeometric_cdf_values(ref int n_data, ref int sam, ref int suc, ref int pop,
+            ref int n, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -124,54 +124,54 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 16;
+
+        double[] fx_vec =
         {
-            int N_MAX = 16;
+            0.6001858177500578E-01,
+            0.2615284665839845E+00,
+            0.6695237889132748E+00,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.5332595856827856E+00,
+            0.1819495964117640E+00,
+            0.4448047017527730E-01,
+            0.9999991751316731E+00,
+            0.9926860896560750E+00,
+            0.8410799901444538E+00,
+            0.3459800113391901E+00,
+            0.0000000000000000E+00,
+            0.2088888139634505E-02,
+            0.3876752992448843E+00,
+            0.9135215248834896E+00
+        };
 
-            double[] fx_vec =
-            {
-                0.6001858177500578E-01,
-                0.2615284665839845E+00,
-                0.6695237889132748E+00,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.5332595856827856E+00,
-                0.1819495964117640E+00,
-                0.4448047017527730E-01,
-                0.9999991751316731E+00,
-                0.9926860896560750E+00,
-                0.8410799901444538E+00,
-                0.3459800113391901E+00,
-                0.0000000000000000E+00,
-                0.2088888139634505E-02,
-                0.3876752992448843E+00,
-                0.9135215248834896E+00
-            };
+        int[] n_vec =
+        {
+            7, 8, 9, 10,
+            6, 6, 6, 6,
+            6, 6, 6, 6,
+            0, 0, 0, 0
+        };
 
-            int[] n_vec =
-            {
-                7, 8, 9, 10,
-                6, 6, 6, 6,
-                6, 6, 6, 6,
-                0, 0, 0, 0
-            };
+        int[] pop_vec =
+        {
+            100, 100, 100, 100,
+            100, 100, 100, 100,
+            100, 100, 100, 100,
+            90, 200, 1000, 10000
+        };
 
-            int[] pop_vec =
-            {
-                100, 100, 100, 100,
-                100, 100, 100, 100,
-                100, 100, 100, 100,
-                90, 200, 1000, 10000
-            };
+        int[] sam_vec =
+        {
+            10, 10, 10, 10,
+            6, 7, 8, 9,
+            10, 10, 10, 10,
+            10, 10, 10, 10
+        };
 
-            int[] sam_vec =
-            {
-                10, 10, 10, 10,
-                6, 7, 8, 9,
-                10, 10, 10, 10,
-                10, 10, 10, 10
-            };
-
-            int[] suc_vec =
+        int[] suc_vec =
             {
                 90, 90, 90, 90,
                 90, 90, 90, 90,
@@ -180,33 +180,34 @@ namespace Burkardt.Probability
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                sam = 0;
-                suc = 0;
-                pop = 0;
-                n = 0;
-                fx = 0.0;
-            }
-            else
-            {
-                sam = sam_vec[n_data - 1];
-                suc = suc_vec[n_data - 1];
-                pop = pop_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            sam = 0;
+            suc = 0;
+            pop = 0;
+            n = 0;
+            fx = 0.0;
         }
+        else
+        {
+            sam = sam_vec[n_data - 1];
+            suc = suc_vec[n_data - 1];
+            pop = pop_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool hypergeometric_check(int n, int m, int l)
+    public static bool hypergeometric_check(int n, int m, int l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -238,35 +239,36 @@ namespace Burkardt.Probability
         //
         //    Output, bool HYPERGEOMETRIC_CHECK, is true if the parameters are legal.
         //
+    {
+        if (n < 0 || l < n)
         {
-            if (n < 0 || l < n)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("HYPERGEOMETRIC_CHECK - Warning!");
-                Console.WriteLine("  Input N is out of range.");
-                return false;
-            }
+            Console.WriteLine(" ");
+            Console.WriteLine("HYPERGEOMETRIC_CHECK - Warning!");
+            Console.WriteLine("  Input N is out of range.");
+            return false;
+        }
 
-            if (m < 0 || l < m)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("HYPERGEOMETRIC_CHECK - Warning!");
-                Console.WriteLine("  Input M is out of range.");
-                return false;
-            }
+        if (m < 0 || l < m)
+        {
+            Console.WriteLine(" ");
+            Console.WriteLine("HYPERGEOMETRIC_CHECK - Warning!");
+            Console.WriteLine("  Input M is out of range.");
+            return false;
+        }
 
-            if (l < 0)
-            {
+        switch (l)
+        {
+            case < 0:
                 Console.WriteLine(" ");
                 Console.WriteLine("HYPERGEOMETRIC_CHECK - Warning!");
                 Console.WriteLine("  Input L is out of range.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double hypergeometric_mean(int n, int m, int l)
+    public static double hypergeometric_mean(int n, int m, int l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -298,13 +300,13 @@ namespace Burkardt.Probability
         //
         //    Output, double HYPERGEOMETRIC_MEAN, the mean of the PDF.
         //
-        {
-            double mean = (double) (n * m) / (double) (l);
+    {
+        double mean = n * m / (double) l;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double hypergeometric_pdf(int x, int n, int m, int l)
+    public static double hypergeometric_pdf(int x, int n, int m, int l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -347,54 +349,62 @@ namespace Burkardt.Probability
         //
         //    Output, double HYPERGEOMETRIC_PDF, the probability of exactly K white balls.
         //
+    {
+        double pdf;
+        switch (x)
         {
-            double pdf;
             //
             //  Special cases.
             //
-            if (x < 0)
-            {
+            case < 0:
                 pdf = 1.0;
-            }
-            else if (n < x)
+                break;
+            default:
             {
-                pdf = 0.0;
-            }
-            else if (m < x)
-            {
-                pdf = 0.0;
-            }
-            else if (l < x)
-            {
-                pdf = 0.0;
-            }
-            else if (n == 0)
-            {
-                if (x == 0)
-                {
-                    pdf = 1.0;
-                }
-                else
+                if (n < x)
                 {
                     pdf = 0.0;
                 }
+                else if (m < x)
+                {
+                    pdf = 0.0;
+                }
+                else if (l < x)
+                {
+                    pdf = 0.0;
+                }
+                else
+                {
+                    switch (n)
+                    {
+                        case 0 when x == 0:
+                            pdf = 1.0;
+                            break;
+                        case 0:
+                            pdf = 0.0;
+                            break;
+                        default:
+                        {
+                            double c1 = typeMethods.i4_choose_log(m, x);
+                            double c2 = typeMethods.i4_choose_log(l - m, n - x);
+                            double c3 = typeMethods.i4_choose_log(l, n);
+
+                            double pdf_log = c1 + c2 - c3;
+
+                            pdf = Math.Exp(pdf_log);
+                            break;
+                        }
+                    }
+                }
+
+                break;
             }
-            else
-            {
-                double c1 = typeMethods.i4_choose_log(m, x);
-                double c2 = typeMethods.i4_choose_log(l - m, n - x);
-                double c3 = typeMethods.i4_choose_log(l, n);
-
-                double pdf_log = c1 + c2 - c3;
-
-                pdf = Math.Exp(pdf_log);
-
-            }
-
-            return pdf;
         }
 
-        public static int hypergeometric_sample(int n, int m, int l, ref int seed)
+        return pdf;
+    }
+
+    public static int hypergeometric_sample(int n, int m, int l, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -434,32 +444,32 @@ namespace Burkardt.Probability
         //
         //    Output, int HYPERGEOMETRIC_SAMPLE, a sample of the PDF.
         //
+    {
+        double c1_log = typeMethods.i4_choose_log(l - m, n);
+        double c2_log = typeMethods.i4_choose_log(l, n);
+
+        double a = Math.Exp(c1_log - c2_log);
+        double b = a;
+
+        double u = UniformRNG.r8_uniform_01(ref seed);
+
+        int x = 0;
+
+        while (a < u)
         {
-            double c1_log = typeMethods.i4_choose_log(l - m, n);
-            double c2_log = typeMethods.i4_choose_log(l, n);
+            b = b * ((m - x) * (n - x))
+                / ((x + 1) * (l - m - n + x + 1));
 
-            double a = Math.Exp(c1_log - c2_log);
-            double b = a;
+            a += b;
 
-            double u = UniformRNG.r8_uniform_01(ref seed);
+            x += 1;
 
-            int x = 0;
-
-            while (a < u)
-            {
-                b = b * (double) ((m - x) * (n - x))
-                    / (double) ((x + 1) * (l - m - n + x + 1));
-
-                a = a + b;
-
-                x = x + 1;
-
-            }
-
-            return x;
         }
 
-        public static double hypergeometric_variance(int n, int m, int l)
+        return x;
+    }
+
+    public static double hypergeometric_variance(int n, int m, int l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -491,11 +501,10 @@ namespace Burkardt.Probability
         //
         //    Output, double HYPERGEOMETRIC_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (double) (n * m * (l - m) * (l - n))
-                              / (double) (l * l * (l - 1));
+    {
+        double variance = n * m * (l - m) * (l - n)
+                          / (double) (l * l * (l - 1));
 
-            return variance;
-        }
+        return variance;
     }
 }

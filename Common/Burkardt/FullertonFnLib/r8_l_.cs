@@ -1,99 +1,97 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class r8LBetaData
     {
-        public class r8LBetaData
+        public r8LgmcData lgmcdata = new();
+        public r8LngamData lngamdata = new();
+        public r8LnrelData lnreldata = new();
+    }
+    public static double r8_lbeta(ref r8LBetaData data, ref r8GammaData gdata, double a, double b)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LBETA evaluates the logarithm of the beta function of R8 arguments.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double A, B, the arguments.
+        //
+        //    Output, double R8_LBETA, the logarithm of the beta function of A
+        //    and B.
+        //
+    {
+        double corr;
+        double p;
+        double q;
+        const double sq2pil = 0.91893853320467274178032973640562;
+        double value = 0;
+
+        p = r8_min(a, b);
+        q = r8_max(a, b);
+
+        switch (p)
         {
-            public r8LgmcData lgmcdata = new r8LgmcData();
-            public r8LngamData lngamdata = new r8LngamData();
-            public r8LnrelData lnreldata = new r8LnrelData();
-        }
-        public static double r8_lbeta(ref r8LBetaData data, ref r8GammaData gdata, double a, double b)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LBETA evaluates the logarithm of the beta function of R8 arguments.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double A, B, the arguments.
-            //
-            //    Output, double R8_LBETA, the logarithm of the beta function of A
-            //    and B.
-            //
-        {
-            double corr;
-            double p;
-            double q;
-            const double sq2pil = 0.91893853320467274178032973640562;
-            double value;
-
-            p = r8_min(a, b);
-            q = r8_max(a, b);
-
-            if (p <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LBETA - Fatal error!");
                 Console.WriteLine("  Both arguments must be greater than 0.");
-                return (1);
-            }
-            else if (p < 10.0 && q <= 10.0)
-            {
+                return 1;
+            case < 10.0 when q <= 10.0:
                 value = Math.Log(r8_gamma(ref gdata, p) * (r8_gamma(ref gdata, q) / r8_gamma(ref gdata, p + q)));
-            }
-            else if (p < 10.0)
-            {
+                break;
+            case < 10.0:
                 corr = r8_lgmc(ref data.lgmcdata, q) - r8_lgmc(ref data.lgmcdata, p + q);
 
                 value = r8_lngam(ref data.lngamdata, ref gdata, p) + corr + p - p * Math.Log(p + q) +
                         (q - 0.5) * r8_lnrel(ref data.lnreldata, -p / (p + q));
-            }
-            else
-            {
+                break;
+            default:
                 corr = r8_lgmc(ref data.lgmcdata, p) + r8_lgmc(ref data.lgmcdata, q) - r8_lgmc(ref data.lgmcdata, p + q);
 
                 value = -0.5 * Math.Log(q) + sq2pil + corr
                         + (p - 0.5) * Math.Log(p / (p + q))
                         + q * r8_lnrel(ref data.lnreldata, -p / (p + q));
-            }
-
-            return value;
+                break;
         }
 
-        public class r8LgamsData
-        {
-            public r8LngamData lngamdata = new r8LngamData();
-        }
-        public static void r8_lgams(ref r8LgamsData data, ref r8GammaData gdata, double x, ref double algam, ref double sgngam )
+        return value;
+    }
+
+    public class r8LgamsData
+    {
+        public r8LngamData lngamdata = new();
+    }
+    public static void r8_lgams(ref r8LgamsData data, ref r8GammaData gdata, double x, ref double algam, ref double sgngam )
 
         //****************************************************************************80
         //
@@ -134,280 +132,288 @@ namespace Burkardt.FullertonFnLib
         //
         //    Output, double &SGNGAM, the sign (+1 or -1) of gamma ( X ).
         //
+    {
+        int k;
+
+        algam = r8_lngam(ref data.lngamdata, ref gdata, x);
+        sgngam = 1.0;
+
+        switch (x)
         {
-            int k;
-
-            algam = r8_lngam(ref data.lngamdata, ref gdata, x);
-            sgngam = 1.0;
-
-            if (x <= 0.0)
+            case <= 0.0:
             {
-                k = (int) ((-r8_aint(x) % 2.0) + 0.1);
+                k = (int) (-r8_aint(x) % 2.0 + 0.1);
 
-                if (k == 0)
+                sgngam = k switch
                 {
-                    sgngam = -1.0;
-                }
+                    0 => -1.0,
+                    _ => sgngam
+                };
+
+                break;
+            }
+        }
+    }
+
+    public class r8LgicData
+    {
+        public double eps;
+    }
+    public static double r8_lgic(ref r8LgicData data, double a, double x, double alx)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LGIC evaluates the log complementary incomplete gamma function for large X.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    04 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double A, the parameter.
+        //
+        //    Input, double X, the argument.
+        //
+        //    Input, double ALX, the logarithm of X.
+        //
+        //    Output, double R8_LGIC, the log complementary incomplete 
+        //    gamma function.
+        //
+    {
+        double fk;
+        int k;
+        double p;
+        double r;
+        double s;
+        double t;
+        double value = 0;
+        double xma;
+        double xpa;
+
+        data.eps = data.eps switch
+        {
+            0.0 => 0.5 * r8_mach(3),
+            _ => data.eps
+        };
+
+        xpa = x + 1.0 - a;
+        xma = x - 1.0 - a;
+
+        r = 0.0;
+        p = 1.0;
+        s = p;
+        for (k = 1; k <= 300; k++)
+        {
+            fk = k;
+            t = fk * (a - fk) * (1.0 + r);
+            r = -t / ((xma + 2.0 * fk) * (xpa + 2.0 * fk) + t);
+            p = r * p;
+            s += p;
+            if (Math.Abs(p) < data.eps * s)
+            {
+                value = a * alx - x + Math.Log(s / xpa);
+                return value;
             }
         }
 
-        public class r8LgicData
+        Console.WriteLine("");
+        Console.WriteLine("R8_LGIC - Fatal error!");
+        Console.WriteLine("  No convergence in 300 iterations.");
+
+        return 1;
+    }
+
+    public class r8LgitData
+    {
+        public double eps;
+    }
+    public static double r8_lgit(ref r8LgitData data, double a, double x, double algap1)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LGIT evaluates the log of Tricomi's incomplete gamma function.
+        //
+        //  Discussion:
+        //
+        //    Perron's continued fraction is used for large X and X <= A.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double A, the parameter.
+        //
+        //    Input, double X, the argument.
+        //
+        //    Input, double ALGAP1, the logarithm of the gamma function of A+1.
+        //
+        //    Output, double R8_LGIT, the log of Tricomi's incomplete
+        //    gamma function.
+        //
+    {
+        double a1x;
+        double ax;
+        double fk;
+        double hstar;
+        int k;
+        double p;
+        double r;
+        double s;
+        //static double sqeps = 0.0;
+        double t;
+        double value = 0;
+
+        data.eps = data.eps switch
         {
-            public double eps = 0.0;
-        }
-        public static double r8_lgic(ref r8LgicData data, double a, double x, double alx)
+            0.0 => 0.5 * r8_mach(3),
+            _ => data.eps
+        };
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LGIC evaluates the log complementary incomplete gamma function for large X.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    04 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double A, the parameter.
-            //
-            //    Input, double X, the argument.
-            //
-            //    Input, double ALX, the logarithm of X.
-            //
-            //    Output, double R8_LGIC, the log complementary incomplete 
-            //    gamma function.
-            //
+        switch (x)
         {
-            double fk;
-            int k;
-            double p;
-            double r;
-            double s;
-            double t;
-            double value;
-            double xma;
-            double xpa;
-
-            if (data.eps == 0.0)
-            {
-                data.eps = 0.5 * r8_mach(3);
-            }
-
-            xpa = x + 1.0 - a;
-            xma = x - 1.0 - a;
-
-            r = 0.0;
-            p = 1.0;
-            s = p;
-            for (k = 1; k <= 300; k++)
-            {
-                fk = (double) (k);
-                t = fk * (a - fk) * (1.0 + r);
-                r = -t / ((xma + 2.0 * fk) * (xpa + 2.0 * fk) + t);
-                p = r * p;
-                s = s + p;
-                if (Math.Abs(p) < data.eps * s)
-                {
-                    value = a * alx - x + Math.Log(s / xpa);
-                    return value;
-                }
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("R8_LGIC - Fatal error!");
-            Console.WriteLine("  No convergence in 300 iterations.");
-
-            return (1);
-        }
-
-        public class r8LgitData
-        {
-            public double eps = 0.0;
-        }
-        public static double r8_lgit(ref r8LgitData data, double a, double x, double algap1)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LGIT evaluates the log of Tricomi's incomplete gamma function.
-            //
-            //  Discussion:
-            //
-            //    Perron's continued fraction is used for large X and X <= A.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double A, the parameter.
-            //
-            //    Input, double X, the argument.
-            //
-            //    Input, double ALGAP1, the logarithm of the gamma function of A+1.
-            //
-            //    Output, double R8_LGIT, the log of Tricomi's incomplete
-            //    gamma function.
-            //
-        {
-            double a1x;
-            double ax;
-            double fk;
-            double hstar;
-            int k;
-            double p;
-            double r;
-            double s;
-            //static double sqeps = 0.0;
-            double t;
-            double value;
-
-            if (data.eps == 0.0)
-            {
-                data.eps = 0.5 * r8_mach(3);
-                //  sqeps = sqrt ( r8_mach ( 4 ) );
-            }
-
-            if (x <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LGIT - Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (a < x)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_LGIT - Fatal error!");
-                Console.WriteLine("  A < X.");
-                return (1);
-            }
-
-            ax = a + x;
-            a1x = ax + 1.0;
-            r = 0.0;
-            p = 1.0;
-            s = p;
-
-            for (k = 1; k <= 200; k++)
-            {
-                fk = (double) (k);
-                t = (a + fk) * x * (1.0 + r);
-                r = t / ((ax + fk) * (a1x + fk) - t);
-                p = r * p;
-                s = s + p;
-                if (Math.Abs(p) < data.eps * s)
-                {
-                    hstar = 1.0 - x * s / a1x;
-                    value = -x - algap1 - Math.Log(hstar);
-                    return value;
-                }
-            }
-
+        if (a < x)
+        {
             Console.WriteLine("");
             Console.WriteLine("R8_LGIT - Fatal error!");
-            Console.WriteLine("  No convergence after 200 iterations.");
-            return (1);
+            Console.WriteLine("  A < X.");
+            return 1;
         }
 
-        public class r8LgmcData
-        {
-            public int nalgm = 0;
-            public double xbig = 0.0;
-            public double xmax = 0.0;
-        }
-        public static double r8_lgmc(ref r8LgmcData data, double x)
+        ax = a + x;
+        a1x = ax + 1.0;
+        r = 0.0;
+        p = 1.0;
+        s = p;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LGMC evaluates the log gamma correction factor for an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    For 10 <= X, compute the log gamma correction factor so that
-            //
-            //      log ( gamma ( x ) ) = log ( sqrt ( 2 * Math.PI ) ) 
-            //                          + ( x - 0.5 ) * log ( x ) - x 
-            //                          + r8_lgmc ( x )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_LGMC, the correction factor.
-            //
+        for (k = 1; k <= 200; k++)
         {
-            double[] algmcs = {
+            fk = k;
+            t = (a + fk) * x * (1.0 + r);
+            r = t / ((ax + fk) * (a1x + fk) - t);
+            p = r * p;
+            s += p;
+            if (Math.Abs(p) < data.eps * s)
+            {
+                hstar = 1.0 - x * s / a1x;
+                value = -x - algap1 - Math.Log(hstar);
+                return value;
+            }
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("R8_LGIT - Fatal error!");
+        Console.WriteLine("  No convergence after 200 iterations.");
+        return 1;
+    }
+
+    public class r8LgmcData
+    {
+        public int nalgm;
+        public double xbig;
+        public double xmax;
+    }
+    public static double r8_lgmc(ref r8LgmcData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LGMC evaluates the log gamma correction factor for an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    For 10 <= X, compute the log gamma correction factor so that
+        //
+        //      log ( gamma ( x ) ) = log ( sqrt ( 2 * Math.PI ) ) 
+        //                          + ( x - 0.5 ) * log ( x ) - x 
+        //                          + r8_lgmc ( x )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_LGMC, the correction factor.
+        //
+    {
+        double[] algmcs = {
                 +0.1666389480451863247205729650822,
                 -0.1384948176067563840732986059135E-04,
                 +0.9810825646924729426157171547487E-08,
@@ -425,278 +431,283 @@ namespace Burkardt.FullertonFnLib
                 +0.1276642195630062933333333333333E-30
             }
             ;
-            double value;
+        double value = 0;
 
-            if (data.nalgm == 0)
-            {
+        switch (data.nalgm)
+        {
+            case 0:
                 data.nalgm = r8_inits(algmcs, 15, r8_mach(3));
                 data.xbig = 1.0 / Math.Sqrt(r8_mach(3));
                 data.xmax = Math.Exp(r8_min(Math.Log(r8_mach(2) / 12.0),
                     -Math.Log(12.0 * r8_mach(1))));
-            }
+                break;
+        }
 
-            if (x < 10.0)
-            {
+        switch (x)
+        {
+            case < 10.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LGMC - Fatal error!");
                 Console.WriteLine("  X must be at least 10.");
-                return (1);
-            }
-            else if (x < data.xbig)
-            {
-                value = r8_csevl(2.0 * (10.0 / x)
-                                     * (10.0 / x) - 1.0, algmcs, data.nalgm) / x;
-            }
-            else if (x < data.xmax)
-            {
-                value = 1.0 / (12.0 * x);
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8LiData
+        if (x < data.xbig)
         {
-            public double sqeps = 0.0;
-
+            value = r8_csevl(2.0 * (10.0 / x)
+                                 * (10.0 / x) - 1.0, algmcs, data.nalgm) / x;
         }
+        else if (x < data.xmax)
+        {
+            value = 1.0 / (12.0 * x);
+        }
+        else
+        {
+            value = 0.0;
+        }
+
+        return value;
+    }
+
+    public class r8LiData
+    {
+        public double sqeps;
+
+    }
         
-        public static double r8_li(ref r8LiData data, double x)
+    public static double r8_li(ref r8LiData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LI evaluates the logarithmic integral for an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_LI, the logarithmic integral evaluated at X.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LI evaluates the logarithmic integral for an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_LI, the logarithmic integral evaluated at X.
+        //
+    {
+        double value = 0;
+
+        data.sqeps = data.sqeps switch
         {
-            double value;
+            0.0 => Math.Sqrt(r8_mach(3)),
+            _ => data.sqeps
+        };
 
-            if (data.sqeps == 0.0)
-            {
-                data.sqeps = Math.Sqrt(r8_mach(3));
-            }
-
-            if (x < 0.0)
-            {
+        switch (x)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LI - Fatal error!");
                 Console.WriteLine("  Function undefined for X <= 0.");
-                return (1);
-            }
-
-            if (x == 0.0)
-            {
+                return 1;
+            case 0.0:
                 value = 0.0;
                 return value;
-            }
-
-            if (x == 1.0)
-            {
+            case 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LI - Fatal error!");
                 Console.WriteLine("  Function undefined for X = 1.");
-                return (1);
-            }
-
-            if (Math.Abs(1.0 - x) < data.sqeps)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_LI - Warning!");
-                Console.WriteLine("  Answer less than half precision.");
-                Console.WriteLine("  X is too close to 1.");
-            }
-
-            value = r8_ei(Math.Log(x));
-
-            return value;
+                return 1;
         }
 
-        public class r8LngamData
+        if (Math.Abs(1.0 - x) < data.sqeps)
         {
-            public double dxrel = 0.0;
-            public double xmax = 0.0;
-            public r8LgmcData lgmcdata = new r8LgmcData();
+            Console.WriteLine("");
+            Console.WriteLine("R8_LI - Warning!");
+            Console.WriteLine("  Answer less than half precision.");
+            Console.WriteLine("  X is too close to 1.");
         }
-        public static double r8_lngam(ref r8LngamData data, ref r8GammaData gdata, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LNGAM: log of the absolute value of gamma of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_LNGAM, the logarithm of the absolute value of
-            //    the gamma function of X.
-            //
-        {
+        value = r8_ei(Math.Log(x));
+
+        return value;
+    }
+
+    public class r8LngamData
+    {
+        public double dxrel;
+        public double xmax;
+        public r8LgmcData lgmcdata = new();
+    }
+    public static double r8_lngam(ref r8LngamData data, ref r8GammaData gdata, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LNGAM: log of the absolute value of gamma of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_LNGAM, the logarithm of the absolute value of
+        //    the gamma function of X.
+        //
+    {
             
-            double sinpiy;
-            const double sq2pil = 0.91893853320467274178032973640562;
-            const double sqpi2l = +0.225791352644727432363097614947441;
-            double value;
-            double y;
+        double sinpiy;
+        const double sq2pil = 0.91893853320467274178032973640562;
+        const double sqpi2l = +0.225791352644727432363097614947441;
+        double value = 0;
+        double y;
 
-            if (data.xmax == 0.0)
-            {
+        switch (data.xmax)
+        {
+            case 0.0:
                 data.xmax = r8_mach(2) / Math.Log(r8_mach(2));
                 data.dxrel = Math.Sqrt(r8_mach(4));
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (y <= 10.0)
-            {
+        switch (y)
+        {
+            case <= 10.0:
                 value = Math.Log(Math.Abs(r8_gamma(ref gdata, x)));
                 return value;
-            }
+        }
 
-            if (data.xmax < y)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_LNGAM - Fatal error!");
-                Console.WriteLine("  Result overflows, |X| too big.");
-                return (1);
-            }
+        if (data.xmax < y)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_LNGAM - Fatal error!");
+            Console.WriteLine("  Result overflows, |X| too big.");
+            return 1;
+        }
 
-            if (0.0 < x)
-            {
+        switch (x)
+        {
+            case > 0.0:
                 value = sq2pil + (x - 0.5) * Math.Log(x) - x + r8_lgmc(ref data.lgmcdata, y);
                 return value;
-            }
+        }
 
-            sinpiy = Math.Abs(Math.Sin(Math.PI * y));
+        sinpiy = Math.Abs(Math.Sin(Math.PI * y));
 
-            if (sinpiy == 0.0)
-            {
+        switch (sinpiy)
+        {
+            case 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LNGAM - Fatal error!");
                 Console.WriteLine("  X is a negative int.");
-                return (1);
-            }
-
-            value = sqpi2l + (x - 0.5) * Math.Log(y) - x - Math.Log(sinpiy) - r8_lgmc(ref data.lgmcdata, y);
-
-            if (Math.Abs((x - r8_aint(x - 0.5)) * value / x) < data.dxrel)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_LNGAM - Warning!");
-                Console.WriteLine("  Result is half precision because");
-                Console.WriteLine("  X is too near a negative int.");
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8LnrelData
+        value = sqpi2l + (x - 0.5) * Math.Log(y) - x - Math.Log(sinpiy) - r8_lgmc(ref data.lgmcdata, y);
+
+        if (Math.Abs((x - r8_aint(x - 0.5)) * value / x) < data.dxrel)
         {
-            public int nlnrel = 0;
-            public double xmin = 0.0;
-
+            Console.WriteLine("");
+            Console.WriteLine("R8_LNGAM - Warning!");
+            Console.WriteLine("  Result is half precision because");
+            Console.WriteLine("  X is too near a negative int.");
         }
+
+        return value;
+    }
+
+    public class r8LnrelData
+    {
+        public int nlnrel;
+        public double xmin;
+
+    }
         
-        public static double r8_lnrel(ref r8LnrelData data, double x)
+    public static double r8_lnrel(ref r8LnrelData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LNREL evaluates log ( 1 + X ) for an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_LNREL, the value of LOG ( 1 + X ).
-            //
-        {
-            double[] alnrcs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LNREL evaluates log ( 1 + X ) for an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_LNREL, the value of LOG ( 1 + X ).
+        //
+    {
+        double[] alnrcs = {
                 +0.10378693562743769800686267719098E+01,
                 -0.13364301504908918098766041553133,
                 +0.19408249135520563357926199374750E-01,
@@ -742,87 +753,88 @@ namespace Burkardt.FullertonFnLib
                 +0.63533936180236187354180266666666E-31
             }
             ;
-            double value;
+        double value = 0;
 
-            if (data.nlnrel == 0)
-            {
+        switch (data.nlnrel)
+        {
+            case 0:
                 data.nlnrel = r8_inits(alnrcs, 43, 0.1 * r8_mach(3));
                 data.xmin = -1.0 + Math.Sqrt(r8_mach(4));
-            }
+                break;
+        }
 
-            if (x <= -1.0)
-            {
+        switch (x)
+        {
+            case <= -1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LNREL - Fatal error!");
                 Console.WriteLine("  X <= -1.");
-                return (1);
-            }
-            else if (x < data.xmin)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_LNREL - Warning!");
-                Console.WriteLine("  Result is less than half precision.");
-                Console.WriteLine("  X is too close to - 1.");
-            }
-
-            if (Math.Abs(x) <= 0.375)
-            {
-                value = x * (1.0 - x * r8_csevl(x / 0.375, alnrcs, data.nlnrel));
-            }
-            else
-            {
-                value = Math.Log(1.0 + x);
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8LogData
+        if (x < data.xmin)
         {
-            public int nterms = 0;
-
+            Console.WriteLine("");
+            Console.WriteLine("R8_LNREL - Warning!");
+            Console.WriteLine("  Result is less than half precision.");
+            Console.WriteLine("  X is too close to - 1.");
         }
-        public static double r8_log(ref r8LogData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LOG evaluates the logarithm of an R8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the evaluation point.
-            //
-            //    Output, double R8_LOG, the logarithm of X.
-            //
+        value = Math.Abs(x) switch
         {
-            const double aln2 = 0.06814718055994530941723212145818;
-            double[] alncen = {
+            <= 0.375 => x * (1.0 - x * r8_csevl(x / 0.375, alnrcs, data.nlnrel)),
+            _ => Math.Log(1.0 + x)
+        };
+
+        return value;
+    }
+
+    public class r8LogData
+    {
+        public int nterms;
+
+    }
+    public static double r8_log(ref r8LogData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LOG evaluates the logarithm of an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the evaluation point.
+        //
+        //    Output, double R8_LOG, the logarithm of X.
+        //
+    {
+        const double aln2 = 0.06814718055994530941723212145818;
+        double[] alncen = {
                 0.0,
                 +0.22314355131420975576629509030983,
                 +0.40546510810816438197801311546434,
@@ -830,7 +842,7 @@ namespace Burkardt.FullertonFnLib
                 +0.69314718055994530941723212145817
             }
             ;
-            double[] alncs = {
+        double[] alncs = {
                 +0.13347199877973881561689386047187E+01,
                 +0.69375628328411286281372438354225E-03,
                 +0.42934039020450834506559210803662E-06,
@@ -844,101 +856,100 @@ namespace Burkardt.FullertonFnLib
                 +0.41530540680362666666666666666666E-31
             }
             ;
-            double[] center = {
+        double[] center = {
                 1.0,
                 1.25,
                 1.50,
                 1.75
             }
             ;
-            int n = 0;
-            int ntrval;
-            double t = 0;
-            double t2;
-            double value;
-            double xn;
-            double y = 0;
+        int n = 0;
+        int ntrval;
+        double t = 0;
+        double t2;
+        double value = 0;
+        double xn;
+        double y = 0;
 
-            if (data.nterms == 0)
-            {
-                data.nterms = r8_inits(alncs, 11, 28.9 * r8_mach(3));
-            }
+        data.nterms = data.nterms switch
+        {
+            0 => r8_inits(alncs, 11, 28.9 * r8_mach(3)),
+            _ => data.nterms
+        };
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LOG - Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-
-            r8_upak(x, ref y, ref n);
-
-            xn = (double) (n - 1);
-            y = 2.0 * y;
-            ntrval = (int) (4.0 * y - 2.5);
-
-            if (ntrval == 5)
-            {
-                t = ((y - 1.0) - 1.0) / (y + 2.0);
-            }
-            else if (ntrval < 5)
-            {
-                t = (y - center[ntrval - 1]) / (y + center[ntrval - 1]);
-            }
-
-            t2 = t * t;
-            value = 0.625 * xn + (aln2 * xn + alncen[ntrval - 1] + 2.0 * t
-                                  + t * t2 * r8_csevl(578.0 * t2 - 1.0, alncs, data.nterms));
-
-            return value;
+                return 1;
         }
 
-        public static double r8_log10(double x)
+        r8_upak(x, ref y, ref n);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LOG10 evaluates the logarithm, base 10, of an R8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the evaluation point.
-            //
-            //    Output, double R8_LOG10, the logarithm, base 10, of X.
-            //
+        xn = n - 1;
+        y = 2.0 * y;
+        ntrval = (int) (4.0 * y - 2.5);
+
+        t = ntrval switch
         {
-            const double aloge = 0.43429448190325182765112891891661;
-            double value;
+            5 => (y - 1.0 - 1.0) / (y + 2.0),
+            < 5 => (y - center[ntrval - 1]) / (y + center[ntrval - 1]),
+            _ => t
+        };
 
-            value = aloge * Math.Log(x);
+        t2 = t * t;
+        value = 0.625 * xn + (aln2 * xn + alncen[ntrval - 1] + 2.0 * t
+                              + t * t2 * r8_csevl(578.0 * t2 - 1.0, alncs, data.nterms));
 
-            return value;
-        }
+        return value;
+    }
+
+    public static double r8_log10(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LOG10 evaluates the logarithm, base 10, of an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the evaluation point.
+        //
+        //    Output, double R8_LOG10, the logarithm, base 10, of X.
+        //
+    {
+        const double aloge = 0.43429448190325182765112891891661;
+        double value = 0;
+
+        value = aloge * Math.Log(x);
+
+        return value;
     }
 }

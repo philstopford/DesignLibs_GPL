@@ -2,12 +2,12 @@
 using Burkardt.Types;
 using Burkardt.Weight;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static partial class Matrix
 {
-    public static partial class Matrix
-    {
-        public static double class_matrix(int kind, int m, double alpha, double beta, ref double[] aj,
-        ref double[] bj )
+    public static double class_matrix(int kind, int m, double alpha, double beta, ref double[] aj,
+            ref double[] bj )
 
         //****************************************************************************80
         //
@@ -72,35 +72,37 @@ namespace Burkardt.MatrixNS
         //
         //    Output, double CLASS_MATRIX, the zero-th moment.
         //
-        {
-            double a2b2;
-            double ab;
-            double aba;
-            double abi;
-            double abj;
-            double abti;
-            double apone;
-            int i;
+    {
+        double a2b2;
+        double ab;
+        double aba;
+        double abi;
+        double abj;
+        double abti;
+        double apone;
+        int i;
             
-            double temp;
-            double temp2;
-            double zemu = 0;
+        double temp;
+        double temp2;
+        double zemu = 0;
 
-            temp = typeMethods.r8_epsilon();
+        temp = typeMethods.r8_epsilon();
 
-            PARCHK.parchk(kind, 2 * m - 1, alpha, beta);
+        PARCHK.parchk(kind, 2 * m - 1, alpha, beta);
 
-            temp2 = 0.5;
+        temp2 = 0.5;
 
-            if (500.0 * temp < Math.Abs(Math.Pow(Helpers.Gamma(temp2), 2) - Math.PI))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CLASS_MATRIX - Fatal error!");
-                Console.WriteLine("  Gamma function does not match machine parameters.");
-                return (1);
-            }
+        if (500.0 * temp < Math.Abs(Math.Pow(Helpers.Gamma(temp2), 2) - Math.PI))
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CLASS_MATRIX - Fatal error!");
+            Console.WriteLine("  Gamma function does not match machine parameters.");
+            return 1;
+        }
 
-            if (kind == 1)
+        switch (kind)
+        {
+            case 1:
             {
                 ab = 0.0;
 
@@ -117,8 +119,10 @@ namespace Burkardt.MatrixNS
                     abj = 2 * i + ab;
                     bj[i - 1] = Math.Sqrt(abi * abi / (abj * abj - 1.0));
                 }
+
+                break;
             }
-            else if (kind == 2)
+            case 2:
             {
                 zemu = Math.PI;
 
@@ -132,8 +136,10 @@ namespace Burkardt.MatrixNS
                 {
                     bj[i] = 0.5;
                 }
+
+                break;
             }
-            else if (kind == 3)
+            case 3:
             {
                 ab = alpha * 2.0;
                 zemu = Math.Pow(2.0, ab + 1.0) * Math.Pow(Helpers.Gamma(alpha + 1.0), 2)
@@ -149,28 +155,32 @@ namespace Burkardt.MatrixNS
                 {
                     bj[i - 1] = Math.Sqrt(i * (i + ab) / (4.0 * Math.Pow(i + alpha, 2) - 1.0));
                 }
+
+                break;
             }
-            else if (kind == 4)
+            case 4:
             {
                 ab = alpha + beta;
                 abi = 2.0 + ab;
                 zemu = Math.Pow(2.0, ab + 1.0) * Helpers.Gamma(alpha + 1.0)
-                                          * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
+                                               * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
                 aj[0] = (beta - alpha) / abi;
                 bj[0] = Math.Sqrt(4.0 * (1.0 + alpha) * (1.0 + beta)
-                             / ((abi + 1.0) * abi * abi));
+                                  / ((abi + 1.0) * abi * abi));
                 a2b2 = beta * beta - alpha * alpha;
 
                 for (i = 2; i <= m; i++)
                 {
                     abi = 2.0 * i + ab;
                     aj[i - 1] = a2b2 / ((abi - 2.0) * abi);
-                    abi = abi * abi;
+                    abi *= abi;
                     bj[i - 1] = Math.Sqrt(4.0 * i * (i + alpha) * (i + beta) * (i + ab)
-                                     / ((abi - 1.0) * abi));
+                                          / ((abi - 1.0) * abi));
                 }
+
+                break;
             }
-            else if (kind == 5)
+            case 5:
             {
                 zemu = Helpers.Gamma(alpha + 1.0);
 
@@ -179,8 +189,10 @@ namespace Burkardt.MatrixNS
                     aj[i - 1] = 2.0 * i - 1.0 + alpha;
                     bj[i - 1] = Math.Sqrt(i * (i + alpha));
                 }
+
+                break;
             }
-            else if (kind == 6)
+            case 6:
             {
                 zemu = Helpers.Gamma((alpha + 1.0) / 2.0);
 
@@ -193,8 +205,10 @@ namespace Burkardt.MatrixNS
                 {
                     bj[i - 1] = Math.Sqrt((i + alpha * (i % 2)) / 2.0);
                 }
+
+                break;
             }
-            else if (kind == 7)
+            case 7:
             {
                 ab = alpha;
                 zemu = 2.0 / (ab + 1.0);
@@ -210,8 +224,10 @@ namespace Burkardt.MatrixNS
                     abj = 2 * i + ab;
                     bj[i - 1] = Math.Sqrt(abi * abi / (abj * abj - 1.0));
                 }
+
+                break;
             }
-            else if (kind == 8)
+            case 8:
             {
                 ab = alpha + beta;
                 zemu = Helpers.Gamma(alpha + 1.0) * Helpers.Gamma(-(ab + 1.0))
@@ -239,8 +255,10 @@ namespace Burkardt.MatrixNS
                 {
                     bj[i] = Math.Sqrt(bj[i]);
                 }
+
+                break;
             }
-            else if ( kind == 9 )
+            case 9:
             {
                 zemu = Math.PI / 2.0;
 
@@ -253,9 +271,11 @@ namespace Burkardt.MatrixNS
                 {
                     bj[i] = 0.5;
                 }
-            }
 
-            return zemu;
+                break;
+            }
         }
+
+        return zemu;
     }
 }

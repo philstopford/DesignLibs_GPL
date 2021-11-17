@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt.MeshNS;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class GMesh
 {
-    public static class GMesh
-    {
-        public static void gmsh_mesh1d_write(string gmsh_filename, int m, int node_num,
+    public static void gmsh_mesh1d_write(string gmsh_filename, int m, int node_num,
             double[] node_x, int element_order, int element_num, int[] element_node)
         //****************************************************************************80
         //
@@ -52,60 +52,61 @@ namespace Burkardt.FEM
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            //
-            //  Detect and correct 0-based node indexing.
-            //
-            Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
+    {
+        //
+        //  Detect and correct 0-based node indexing.
+        //
+        Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
 
-            List<string> lines = new List<string>();
-            
+        List<string> lines = new()
+        {
             //
             //  Write the data.
             //
-            lines.Add("$MeshFormat");
-            lines.Add("2.2 0 8");
-            lines.Add("$EndMeshFormat");
+            "$MeshFormat",
+            "2.2 0 8",
+            "$EndMeshFormat",
+            "$Nodes",
+            node_num + ""
+        };
 
-            lines.Add("$Nodes");
-            lines.Add(node_num + "");
-            for (int node = 0; node < node_num; node++)
-            {
-                lines.Add((node + 1)
-                               + "  " + node_x[0 + node * m]
-                               + "  0.0  0.0");
-            }
-
-            lines.Add("$EndNodes");
-
-            int element_type = 1;
-
-            int tag_num = 2;
-            int tag1 = 0;
-            lines.Add("$Elements");
-            lines.Add(element_num + "");
-            for (int element = 0; element < element_num; element++)
-            {
-                string line = (element + 1)
-                     + "  " + element_type
-                     + "  " + tag_num
-                     + "  " + tag1
-                     + "  " + (element + 1);
-                for (int i = 0; i < element_order; i++)
-                {
-                    line += "  " + element_node[i + element * element_order];
-                }
-
-                lines.Add(line);
-            }
-
-            lines.Add("$EndElements");
-
-            File.WriteAllLines(gmsh_filename, lines);
-            
+        for (int node = 0; node < node_num; node++)
+        {
+            lines.Add(node + 1
+                           + "  " + node_x[0 + node * m]
+                           + "  0.0  0.0");
         }
 
-        public static void gmsh_mesh2d_write(string gmsh_filename, int m, int node_num,
+        lines.Add("$EndNodes");
+
+        int element_type = 1;
+
+        int tag_num = 2;
+        int tag1 = 0;
+        lines.Add("$Elements");
+        lines.Add(element_num + "");
+        for (int element = 0; element < element_num; element++)
+        {
+            string line = element + 1
+                                  + "  " + element_type
+                                  + "  " + tag_num
+                                  + "  " + tag1
+                                  + "  " + (element + 1);
+            for (int i = 0; i < element_order; i++)
+            {
+                line += "  " + element_node[i + element * element_order];
+            }
+
+            lines.Add(line);
+        }
+
+        lines.Add("$EndElements");
+
+        File.WriteAllLines(gmsh_filename, lines);
+            
+    }
+
+    public static void gmsh_mesh2d_write(string gmsh_filename, int m, int node_num,
             double[] node_x, int element_order, int element_num, int[] element_node )
         //****************************************************************************80
         //
@@ -150,67 +151,67 @@ namespace Burkardt.FEM
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            int element_type = 0;
-            //
-            //  Detect and correct 0-based node indexing.
-            //
-            Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
+    {
+        int element_type = 0;
+        //
+        //  Detect and correct 0-based node indexing.
+        //
+        Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
 
-            List<string> lines = new List<string>();
+        List<string> lines = new()
+        {
             //
             //  Write the data.
             //
-            lines.Add("$MeshFormat");
-            lines.Add("2.2 0 8");
-            lines.Add("$EndMeshFormat");
+            "$MeshFormat",
+            "2.2 0 8",
+            "$EndMeshFormat",
+            "$Nodes",
+            node_num + ""
+        };
 
-            lines.Add("$Nodes");
-            lines.Add(node_num + "");
-            for (int node = 0; node < node_num; node++)
-            {
-                lines.Add((node + 1)
-                               + "  " + node_x[0 + node * m]
-                               + "  " + node_x[1 + node * m]
-                               + "  0.0");
-            }
-
-            lines.Add("$EndNodes");
-
-            if (element_order == 3)
-            {
-                element_type = 2;
-            }
-            else if (element_order == 6)
-            {
-                element_type = 9;
-            }
-
-            int tag_num = 2;
-            int tag1 = 0;
-            lines.Add("$Elements");
-            lines.Add(element_num + "");
-            for (int element = 0; element < element_num; element++)
-            {
-                string line = (element + 1)
-                     + "  " + element_type
-                     + "  " + tag_num
-                     + "  " + tag1
-                     + "  " + (element + 1);
-                for (int i = 0; i < element_order; i++)
-                {
-                    line += "  " + element_node[i + element * element_order];
-                }
-
-                lines.Add(line);
-            }
-
-            lines.Add("$EndElements");
-
-            File.WriteAllLines(gmsh_filename, lines);
+        for (int node = 0; node < node_num; node++)
+        {
+            lines.Add(node + 1
+                           + "  " + node_x[0 + node * m]
+                           + "  " + node_x[1 + node * m]
+                           + "  0.0");
         }
 
-        public static void gmsh_mesh3d_write(string gmsh_filename, int m, int node_num,
+        lines.Add("$EndNodes");
+
+        element_type = element_order switch
+        {
+            3 => 2,
+            6 => 9,
+            _ => element_type
+        };
+
+        int tag_num = 2;
+        int tag1 = 0;
+        lines.Add("$Elements");
+        lines.Add(element_num + "");
+        for (int element = 0; element < element_num; element++)
+        {
+            string line = element + 1
+                                  + "  " + element_type
+                                  + "  " + tag_num
+                                  + "  " + tag1
+                                  + "  " + (element + 1);
+            for (int i = 0; i < element_order; i++)
+            {
+                line += "  " + element_node[i + element * element_order];
+            }
+
+            lines.Add(line);
+        }
+
+        lines.Add("$EndElements");
+
+        File.WriteAllLines(gmsh_filename, lines);
+    }
+
+    public static void gmsh_mesh3d_write(string gmsh_filename, int m, int node_num,
             double[] node_x, int element_order, int element_num, int[] element_node )
         //****************************************************************************80
         //
@@ -309,65 +310,64 @@ namespace Burkardt.FEM
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            int element_type = 0;
-            int[] leo_to_gmsh =  {
+    {
+        int element_type = 0;
+        int[] leo_to_gmsh =  {
                 0, 1, 2, 3, 4,
                 6, 9, 10, 7, 5,
                 11, 17, 18, 12, 19,
                 13, 8, 14, 15, 16
             }
             ;
-            //
-            //  Detect and correct 0-based node indexing.
-            //
-            Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
+        //
+        //  Detect and correct 0-based node indexing.
+        //
+        Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
 
-            //
-            //  Write the data.
-            //
-            List<string> lines = new List<string>();
-            lines.Add("$MeshFormat");
-            lines.Add("2.2 0 8");
-            lines.Add("$EndMeshFormat");
+        //
+        //  Write the data.
+        //
+        List<string> lines = new()
+        {
+            "$MeshFormat",
+            "2.2 0 8",
+            "$EndMeshFormat",
+            "$Nodes",
+            node_num + ""
+        };
 
-            lines.Add("$Nodes");
-            lines.Add(node_num + "");
-            for (int node = 0; node < node_num; node++)
-            {
-                lines.Add((node + 1)
-                               + "  " + node_x[0 + node * m]
-                               + "  " + node_x[1 + node * m]
-                               + "  " + node_x[2 + node * m] + "");
-            }
+        for (int node = 0; node < node_num; node++)
+        {
+            lines.Add(node + 1
+                           + "  " + node_x[0 + node * m]
+                           + "  " + node_x[1 + node * m]
+                           + "  " + node_x[2 + node * m] + "");
+        }
 
-            lines.Add("$EndNodes");
+        lines.Add("$EndNodes");
 
-            if (element_order == 4)
-            {
-                element_type = 4;
-            }
-            else if (element_order == 10)
-            {
-                element_type = 11;
-            }
-            else if (element_order == 20)
-            {
-                element_type = 29;
-            }
+        element_type = element_order switch
+        {
+            4 => 4,
+            10 => 11,
+            20 => 29,
+            _ => element_type
+        };
 
-            int tag_num = 2;
-            int tag1 = 0;
-            lines.Add("$Elements");
-            lines.Add(element_num + "");
-            for (int element = 0; element < element_num; element++)
+        int tag_num = 2;
+        int tag1 = 0;
+        lines.Add("$Elements");
+        lines.Add(element_num + "");
+        for (int element = 0; element < element_num; element++)
+        {
+            string line =  element + 1
+                                   + "  " + element_type
+                                   + "  " + tag_num
+                                   + "  " + tag1
+                                   + "  " + (element + 1);
+            switch (element_order)
             {
-                string line =  (element + 1)
-                     + "  " + element_type
-                     + "  " + tag_num
-                     + "  " + tag1
-                     + "  " + (element + 1);
-                if (element_order == 20)
+                case 20:
                 {
                     for (int i = 0; i < element_order; i++)
                     {
@@ -375,22 +375,24 @@ namespace Burkardt.FEM
                         line += "  " + element_node[i2 + element * element_order];
                     }
 
+                    break;
                 }
-                else
+                default:
                 {
                     for (int i = 0; i < element_order; i++)
                     {
                         line += "  " + element_node[i + element * element_order];
                     }
 
+                    break;
                 }
-                lines.Add(line + "");
             }
-
-            lines.Add("$EndElements");
-
-            File.WriteAllLines(gmsh_filename, lines);
+            lines.Add(line + "");
         }
 
+        lines.Add("$EndElements");
+
+        File.WriteAllLines(gmsh_filename, lines);
     }
+
 }

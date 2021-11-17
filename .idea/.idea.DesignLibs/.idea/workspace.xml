@@ -590,6 +590,7 @@
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Solve/rootRCTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Polygon/PolygonPropertiesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sphere/LebedevRule.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Sphere/SphereTriangleMonteCarloTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -673,7 +674,6 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="XThreadsFramesViewSplitterKey" value="0.49394673" />
-    <property name="rider.run.widget.enabled.cache" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -11416,12 +11416,6 @@
           <line>185</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\BurkhardtTest\CompressedColumnStorageTest\Program.cs" initialLine="185" containingFunctionPresentation="method 'test02'" />
           <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
-          <line>195</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="194" containingFunctionPresentation="method 'r8st_header_read'" />
-          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

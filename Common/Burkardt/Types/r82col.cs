@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r82col_print_part(int n, double[] a, int max_print, string title )
+    public static void r82col_print_part(int n, double[] a, int max_print, string title )
 
         //****************************************************************************80
         //
@@ -48,61 +48,70 @@ namespace Burkardt.Types
         //
         //    Input, string TITLE, a title.
         //
+    {
+        int i;
+
+        switch (max_print)
         {
-            int i;
-
-            if (max_print <= 0)
-            {
+            case <= 0:
                 return;
-            }
+        }
 
-            if (n <= 0)
-            {
+        switch (n)
+        {
+            case <= 0:
                 return;
-            }
+        }
 
-            Console.WriteLine("");
-            Console.WriteLine(title + "");
-            Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine(title + "");
+        Console.WriteLine("");
 
-            if (n <= max_print)
+        if (n <= max_print)
+        {
+            for (i = 0; i < n; i++)
             {
-                for (i = 0; i < n; i++)
-                {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                        + "  " + a[i + 0 * n].ToString().PadLeft(14)
-                        + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
-                }
-            }
-            else if (3 <= max_print)
-            {
-                for (i = 0; i < max_print - 2; i++)
-                {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                        + ": " + a[i + 0 * n].ToString().PadLeft(14)
-                        + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
-                }
-
-                Console.WriteLine("  ........  ..............  ..............");
-                i = n - 1;
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + ": " + a[i + 0 * n].ToString().PadLeft(14)
-                    + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
+                                       + "  " + a[i + 0 * n].ToString().PadLeft(14)
+                                       + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
             }
-            else
+        }
+        else
+        {
+            switch (max_print)
             {
-                for (i = 0; i < max_print - 1; i++)
+                case >= 3:
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                        + ": " + a[i + 0 * n].ToString().PadLeft(14)
-                        + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
-                }
+                    for (i = 0; i < max_print - 2; i++)
+                    {
+                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                               + ": " + a[i + 0 * n].ToString().PadLeft(14)
+                                               + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
+                    }
 
-                i = max_print - 1;
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + ": " + a[i + 0 * n].ToString().PadLeft(14)
-                    + "  " + a[i + 1 * n].ToString().PadLeft(14)
-                    + "  " + "...more entries...");
+                    Console.WriteLine("  ........  ..............  ..............");
+                    i = n - 1;
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + ": " + a[i + 0 * n].ToString().PadLeft(14)
+                                           + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
+                    break;
+                }
+                default:
+                {
+                    for (i = 0; i < max_print - 1; i++)
+                    {
+                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                               + ": " + a[i + 0 * n].ToString().PadLeft(14)
+                                               + "  " + a[i + 1 * n].ToString().PadLeft(14) + "");
+                    }
+
+                    i = max_print - 1;
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + ": " + a[i + 0 * n].ToString().PadLeft(14)
+                                           + "  " + a[i + 1 * n].ToString().PadLeft(14)
+                                           + "  " + "...more entries...");
+                    break;
+                }
             }
         }
     }

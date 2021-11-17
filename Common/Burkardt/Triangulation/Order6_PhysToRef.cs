@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.TriangulationNS
+namespace Burkardt.TriangulationNS;
+
+public static partial class Triangulation
 {
-    public static partial class Triangulation
-    {
-        public static void triangle_order6_physical_to_reference(double[] t, int n,
-        double[] phy, ref double[] ref_ )
+    public static void triangle_order6_physical_to_reference(double[] t, int n,
+            double[] phy, ref double[] ref_ )
 
         //****************************************************************************80
         //
@@ -66,110 +66,107 @@ namespace Burkardt.TriangulationNS
         //    Output, double REF(2,N), the coordinates of the corresponding
         //    points in the reference space.
         //
+    {
+        double[] a = new double[2];
+        double[] b = new double[2];
+        double[] c = new double[2];
+        double[] d = new double[2];
+        double det;
+        double[] dx = new double[2];
+        double[] e = new double[2];
+        double[] f = new double[2];
+        double[] fun = new double[2];
+        double fun_norm;
+        int i;
+        int it;
+        int j;
+        double[] jac = new double[2 * 2];
+        int it_max = 10;
+        double it_tol = 0.000001;
+        //
+        //  Set iteration parameters.
+        //
+        for (i = 0; i < 2; i++)
         {
-            double[] a = new double[2];
-            double[] b = new double[2];
-            double[] c = new double[2];
-            double[] d = new double[2];
-            double det;
-            double[] dx = new double[2];
-            double[] e = new double[2];
-            double[] f = new double[2];
-            double[] fun = new double[2];
-            double fun_norm;
-            int i;
-            int it;
-            int j;
-            double[] jac = new double[2 * 2];
-            int it_max = 10;
-            double it_tol = 0.000001;
-            //
-            //  Set iteration parameters.
-            //
-            for (i = 0; i < 2; i++)
+            a[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 1 * 2] - 4.0 * t[i + 3 * 2];
+            b[i] = 4.0 * t[i + 0 * 2] - 4.0 * t[i + 3 * 2] + 4.0 * t[i + 4 * 2] - 4.0 * t[i + 5 * 2];
+            c[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 2 * 2] - 4.0 * t[i + 5 * 2];
+
+            d[i] = -3.0 * t[i + 0 * 2] - t[i + 1 * 2] + 4.0 * t[i + 3 * 2];
+            e[i] = -3.0 * t[i + 0 * 2] - t[i + 2 * 2] + 4.0 * t[i + 5 * 2];
+
+            f[i] = t[i + 0 * 2];
+        }
+
+        //
+        //  Initialize the points by inverting the linear map.
+        //
+        triangle_order3_physical_to_reference(t, n, phy, ref ref_);
+        //
+        //  Carry out the Newton iteration.
+        //
+        for (j = 0; j < n; j++)
+        {
+            for (it = 0; it < it_max; it++)
             {
-                a[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 1 * 2] - 4.0 * t[i + 3 * 2];
-                b[i] = 4.0 * t[i + 0 * 2] - 4.0 * t[i + 3 * 2] + 4.0 * t[i + 4 * 2] - 4.0 * t[i + 5 * 2];
-                c[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 2 * 2] - 4.0 * t[i + 5 * 2];
-
-                d[i] = -3.0 * t[i + 0 * 2] - t[i + 1 * 2] + 4.0 * t[i + 3 * 2];
-                e[i] = -3.0 * t[i + 0 * 2] - t[i + 2 * 2] + 4.0 * t[i + 5 * 2];
-
-                f[i] = t[i + 0 * 2];
-            }
-
-            //
-            //  Initialize the points by inverting the linear map.
-            //
-            triangle_order3_physical_to_reference(t, n, phy, ref ref_);
-            //
-            //  Carry out the Newton iteration.
-            //
-            for (j = 0; j < n; j++)
-            {
-                for (it = 0; it < it_max; it++)
+                for (i = 0; i < 2; i++)
                 {
-                    for (i = 0; i < 2; i++)
-                    {
-                        fun[i] = a[i] * ref_[
-                        0 + j * 2] * ref_[
-                        0 + j * 2]
-                        +b[i] * ref_[
-                        0 + j * 2] * ref_[
-                        1 + j * 2]
-                        +c[i] * ref_[
-                        1 + j * 2] * ref_[
-                        1 + j * 2]
-                        +d[i] * ref_[
-                        0 + j * 2]
-                        +e[i] * ref_[
-                        1 + j * 2]
-                        +f[i]
-                            - phy[i + j * 2];
-                    }
+                    fun[i] = a[i] * ref_[
+                                 0 + j * 2] * ref_[
+                                 0 + j * 2]
+                             +b[i] * ref_[
+                                 0 + j * 2] * ref_[
+                                 1 + j * 2]
+                             +c[i] * ref_[
+                                 1 + j * 2] * ref_[
+                                 1 + j * 2]
+                             +d[i] * ref_[
+                                 0 + j * 2]
+                             +e[i] * ref_[
+                                 1 + j * 2]
+                             +f[i]
+                             - phy[i + j * 2];
+                }
 
-                    fun_norm = Math.Sqrt(Math.Pow(fun[0], 2) + Math.Pow(fun[1], 2));
+                fun_norm = Math.Sqrt(Math.Pow(fun[0], 2) + Math.Pow(fun[1], 2));
 
-                    if (fun_norm <= it_tol)
-                    {
-                        break;
-                    }
+                if (fun_norm <= it_tol)
+                {
+                    break;
+                }
 
-                    jac[0 + 0 * 2] = 2.0 * a[0] * ref_[
+                jac[0 + 0 * 2] = 2.0 * a[0] * ref_[
                     0 + j * 2] +b[0] * ref_[
                     1 + j * 2] +d[0];
-                    jac[1 + 0 * 2] = 2.0 * a[1] * ref_[
+                jac[1 + 0 * 2] = 2.0 * a[1] * ref_[
                     0 + j * 2] +b[1] * ref_[
                     1 + j * 2] +d[1];
-                    jac[0 + 1 * 2] = b[0] * ref_[
+                jac[0 + 1 * 2] = b[0] * ref_[
                     0 + j * 2] +2.0 * c[0] * ref_[
                     1 + j * 2] +e[0];
-                    jac[1 + 1 * 2] = b[1] * ref_[
+                jac[1 + 1 * 2] = b[1] * ref_[
                     0 + j * 2] +2.0 * c[1] * ref_[
                     1 + j * 2] +e[1];
 
-                    det = jac[0 + 0 * 2] * jac[1 + 1 * 2] - jac[0 + 1 * 2] * jac[1 + 0 * 2];
+                det = jac[0 + 0 * 2] * jac[1 + 1 * 2] - jac[0 + 1 * 2] * jac[1 + 0 * 2];
 
-                    if (det == 0.0)
-                    {
+                switch (det)
+                {
+                    case 0.0:
                         Console.WriteLine("");
                         Console.WriteLine("TRIANGLE_ORDER6_PHYSICAL_TO_REFERENCE - Fatal error!");
                         Console.WriteLine("  The jacobian of the mapping is singular.");
-                    }
-
-                    dx[0] = (jac[1 + 1 * 2] * fun[0] - jac[0 + 1 * 2] * fun[1]) / det;
-                    dx[1] = (-jac[1 + 0 * 2] * fun[0] + jac[0 + 0 * 2] * fun[1]) / det;
-
-                    ref_[
-                    0 + j * 2] = ref_[
-                    0 + j * 2] -dx[0];
-                    ref_[
-                    1 + j * 2] = ref_[
-                    1 + j * 2] -dx[1];
+                        break;
                 }
-            }
 
-            return;
+                dx[0] = (jac[1 + 1 * 2] * fun[0] - jac[0 + 1 * 2] * fun[1]) / det;
+                dx[1] = (-jac[1 + 0 * 2] * fun[0] + jac[0 + 0 * 2] * fun[1]) / det;
+
+                ref_[
+                    0 + j * 2] -= dx[0];
+                ref_[
+                    1 + j * 2] -= dx[1];
+            }
         }
     }
 }

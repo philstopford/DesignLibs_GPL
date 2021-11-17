@@ -4,339 +4,353 @@ using oasis;
 using System;
 using System.Collections.Generic;
 
-namespace geoCoreLib
+namespace geoCoreLib;
+
+public class GCTxt : GCElement
 {
-    public class GCTxt : GCElement
+    private string name;
+    private GeoLibPoint point;
+    private GCStrans trans;
+    private int width;
+    private int presentation;
+
+    public GCTxt()
     {
-        string name;
-        GeoLibPoint point;
-        GCStrans trans;
-        int width;
-        int presentation;
+        pGCTxt();
+    }
 
-        public GCTxt()
+    private void pGCTxt()
+    {
+        trans = new GCStrans();
+    }
+
+    public GCTxt(int l, int d, GeoLibPoint p, string s)
+    {
+        pGCTxt(l, d, p, s);
+    }
+
+    private void pGCTxt(int l, int d, GeoLibPoint p, string s)
+    {
+        name = s;
+        point = p;
+        layer_nr = l;
+        datatype_nr = d;
+        trans = new GCStrans();
+        presentation = 0;
+        width = 10;
+    }
+
+    public override void minimum(GeoLibPoint pos)
+    {
+        pMinimum(pos);
+    }
+
+    private void pMinimum(GeoLibPoint pos)
+    {
+        if (point.X < pos.X)
         {
-            pGCTxt();
+            pos.X = point.X;
         }
-
-        void pGCTxt()
+        if (point.Y < pos.Y)
         {
-            trans = new GCStrans();
+            pos.Y = point.Y;
         }
+    }
 
-        public GCTxt(int l, int d, GeoLibPoint p, string s)
+    public override void maximum(GeoLibPoint pos)
+    {
+        pMaximum(pos);
+    }
+
+    private void pMaximum(GeoLibPoint pos)
+    {
+        if (point.X > pos.X)
         {
-            pGCTxt(l, d, p, s);
+            pos.X = point.X;
         }
-
-        void pGCTxt(int l, int d, GeoLibPoint p, string s)
+        if (point.Y > pos.Y)
         {
-            name = s;
-            point = p;
-            layer_nr = l;
-            datatype_nr = d;
-            trans = new GCStrans();
-            presentation = 0;
-            width = 10;
+            pos.Y = point.Y;
         }
+    }
 
-        public override void minimum(GeoLibPoint pos)
-        {
-            pMinimum(pos);
-        }
+    public override void moveSelect(GeoLibPoint pos)
+    {
+        pMoveSelect(pos);
+    }
 
-        void pMinimum(GeoLibPoint pos)
+    private void pMoveSelect(GeoLibPoint pos)
+    {
+        point = @select switch
         {
-            if (point.X < pos.X)
-            {
-                pos.X = point.X;
-            }
-            if (point.Y < pos.Y)
-            {
-                pos.Y = point.Y;
-            }
-        }
+            true => new GeoLibPoint(point.X + pos.X, point.Y + pos.Y),
+            _ => point
+        };
+    }
 
-        public override void maximum(GeoLibPoint pos)
-        {
-            pMaximum(pos);
-        }
+    public override void move(GeoLibPoint pos)
+    {
+        pMove(pos);
+    }
 
-        void pMaximum(GeoLibPoint pos)
-        {
-            if (point.X > pos.X)
-            {
-                pos.X = point.X;
-            }
-            if (point.Y > pos.Y)
-            {
-                pos.Y = point.Y;
-            }
-        }
+    private void pMove(GeoLibPoint pos)
+    {
+        point = new GeoLibPoint(point.X + pos.X, point.Y + pos.Y);
+    }
 
-        public override void moveSelect(GeoLibPoint pos)
-        {
-            pMoveSelect(pos);
-        }
+    public override void setMirrorx()
+    {
+        pSetMirrorx();
+    }
 
-        void pMoveSelect(GeoLibPoint pos)
-        {
-            if (select)
-            {
-                point = new GeoLibPoint(point.X + pos.X, point.Y + pos.Y);
-            }
-        }
+    private void pSetMirrorx()
+    {
+        trans.setMirror_x();
+    }
 
-        public override void move(GeoLibPoint pos)
-        {
-            pMove(pos);
-        }
+    public override void clearMirrorx()
+    {
+        pClearMirrorx();
+    }
 
-        void pMove(GeoLibPoint pos)
-        {
-            point = new GeoLibPoint(point.X + pos.X, point.Y + pos.Y);
-        }
+    private void pClearMirrorx()
+    {
+        trans.clearMirror_x();
+    }
 
-        public override void setMirrorx()
-        {
-            pSetMirrorx();
-        }
+    public override void toggleMirrorx()
+    {
+        pToggleMirrorx();
+    }
 
-        void pSetMirrorx()
-        {
-            trans.setMirror_x();
-        }
+    private void pToggleMirrorx()
+    {
+        trans.toggleMirror_x();
+    }
 
-        public override void clearMirrorx()
-        {
-            pClearMirrorx();
-        }
+    public override void rotate(double angle)
+    {
+        pRotate(angle);
+    }
 
-        void pClearMirrorx()
-        {
-            trans.clearMirror_x();
-        }
+    private void pRotate(double angle)
+    {
+        trans.rotate(-angle);
+    }
 
-        public override void toggleMirrorx()
-        {
-            pToggleMirrorx();
-        }
+    public override void resize(double factor)
+    {
+        pResize(factor);
+    }
 
-        void pToggleMirrorx()
-        {
-            trans.toggleMirror_x();
-        }
+    private void pResize(double factor)
+    {
+        point.X = (int)(point.X * factor);
+        point.Y = (int)(point.Y * factor);
+        width = (int)(width * factor);
+    }
 
-        public override void rotate(double angle)
-        {
-            pRotate(angle);
-        }
+    public override void scale(double scale)
+    {
+        pScale(scale);
+    }
 
-        void pRotate(double angle)
-        {
-            trans.rotate(-angle);
-        }
+    private void pScale(double scale)
+    {
+        trans.scale(scale);
+    }
 
-        public override void resize(double factor)
-        {
-            pResize(factor);
-        }
+    public override bool isText()
+    {
+        return pIsText();
+    }
 
-        void pResize(double factor)
-        {
-            point.X = (Int32)(point.X * factor);
-            point.Y = (Int32)(point.Y * factor);
-            width = (Int32)(width * factor);
-        }
+    private bool pIsText()
+    {
+        return true;
+    }
 
-        public override void scale(double scale)
-        {
-            pScale(scale);
-        }
+    public override string getName()
+    {
+        return pGetName();
+    }
 
-        void pScale(double scale)
-        {
-            trans.scale(scale);
-        }
+    private string pGetName()
+    {
+        return name;
+    }
 
-        public override bool isText()
-        {
-            return pIsText();
-        }
+    public override void saveGDS(gdsWriter gw)
+    {
+        pSaveGDS(gw);
+    }
 
-        bool pIsText()
+    private void pSaveGDS(gdsWriter gw)
+    {
+        //text
+        gw.bw.Write((ushort)4);
+        gw.bw.Write((byte)0x0C);
+        gw.bw.Write((byte)0);
+        //layer
+        gw.bw.Write((ushort)6);
+        gw.bw.Write((byte)0x0D);
+        gw.bw.Write((byte)2);
+        gw.bw.Write((short)layer_nr);
+        //datatype
+        gw.bw.Write((ushort)6);
+        gw.bw.Write((byte)0x16);
+        gw.bw.Write((byte)2);
+        gw.bw.Write((short)datatype_nr);
+        //presentation
+        gw.bw.Write((ushort)6);
+        gw.bw.Write((byte)0x17);
+        gw.bw.Write((byte)1);
+        gw.bw.Write((short)presentation);
+        //width
+        gw.bw.Write((ushort)8);
+        gw.bw.Write((byte)0x0F);
+        gw.bw.Write((byte)3);
+        gw.bw.Write(width);
+        int strans_ = 0;
+        switch (trans.mirror_x)
         {
-            return true;
-        }
-
-        public override string getName()
-        {
-            return pGetName();
-        }
-
-        string pGetName()
-        {
-            return name;
-        }
-
-        public override void saveGDS(gdsWriter gw)
-        {
-            pSaveGDS(gw);
-        }
-
-        void pSaveGDS(gdsWriter gw)
-        {
-            //text
-            gw.bw.Write((UInt16)4);
-            gw.bw.Write((byte)0x0C);
-            gw.bw.Write((byte)0);
-            //layer
-            gw.bw.Write((UInt16)6);
-            gw.bw.Write((byte)0x0D);
-            gw.bw.Write((byte)2);
-            gw.bw.Write((Int16)layer_nr);
-            //datatype
-            gw.bw.Write((UInt16)6);
-            gw.bw.Write((byte)0x16);
-            gw.bw.Write((byte)2);
-            gw.bw.Write((Int16)(datatype_nr));
-            //presentation
-            gw.bw.Write((UInt16)6);
-            gw.bw.Write((byte)0x17);
-            gw.bw.Write((byte)1);
-            gw.bw.Write((Int16)(presentation));
-            //width
-            gw.bw.Write((UInt16)8);
-            gw.bw.Write((byte)0x0F);
-            gw.bw.Write((byte)3);
-            gw.bw.Write(width);
-            Int32 strans_ = 0;
-            if (trans.mirror_x)
-            {
+            case true:
                 strans_ |= 0x8000;
-            }
-            //STRANS
-            gw.bw.Write((UInt16)6);
-            gw.bw.Write((byte)0x1A);
-            gw.bw.Write((byte)1);
-            gw.bw.Write((Int16)strans_);
-            //mag
-            gw.bw.Write((UInt16)12);
-            gw.bw.Write((byte)0x1B);
-            gw.bw.Write((byte)5);
-            gw.write8ByteReal(trans.mag);
-            //angle
-            gw.bw.Write((UInt16)12);
-            gw.bw.Write((byte)0x1C);
-            gw.bw.Write((byte)5);
-            if ((trans.mirror_x) && (trans.angle != 0))
-            {
+                break;
+        }
+        //STRANS
+        gw.bw.Write((ushort)6);
+        gw.bw.Write((byte)0x1A);
+        gw.bw.Write((byte)1);
+        gw.bw.Write((short)strans_);
+        //mag
+        gw.bw.Write((ushort)12);
+        gw.bw.Write((byte)0x1B);
+        gw.bw.Write((byte)5);
+        gw.write8ByteReal(trans.mag);
+        //angle
+        gw.bw.Write((ushort)12);
+        gw.bw.Write((byte)0x1C);
+        gw.bw.Write((byte)5);
+        switch (trans.mirror_x)
+        {
+            case true when trans.angle != 0:
                 gw.write8ByteReal(360 - trans.angle);
-            }
-            else
-            {
+                break;
+            default:
                 gw.write8ByteReal(trans.angle);
-            }
-            //xy
-            int val = (1 * 2 * 4) + 4;
-            gw.bw.Write((UInt16)val);
-            gw.bw.Write((byte)0x10);
-            gw.bw.Write((byte)3);
-            gw.bw.Write(point.X);
-            gw.bw.Write(point.Y);
-            gw.writeString(name, 0x19);
-            // endel
-            gw.bw.Write((UInt16)4);
-            gw.bw.Write((byte)0x11);
-            gw.bw.Write((byte)0);
+                break;
         }
+        //xy
+        int val = 1 * 2 * 4 + 4;
+        gw.bw.Write((ushort)val);
+        gw.bw.Write((byte)0x10);
+        gw.bw.Write((byte)3);
+        gw.bw.Write(point.X);
+        gw.bw.Write(point.Y);
+        gw.writeString(name, 0x19);
+        // endel
+        gw.bw.Write((ushort)4);
+        gw.bw.Write((byte)0x11);
+        gw.bw.Write((byte)0);
+    }
 
-        public override void saveOASIS(oasWriter ow)
+    public override void saveOASIS(oasWriter ow)
+    {
+        pSaveOASIS(ow);
+    }
+
+    private void pSaveOASIS(oasWriter ow)
+    {
+        ow.modal.absoluteMode = ow.modal.absoluteMode switch
         {
-            pSaveOASIS(ow);
+            false => true,
+            _ => ow.modal.absoluteMode
+        };
+
+        byte info_byte = 64;  //explicid text
+        if (layer_nr != ow.modal.textlayer)
+        {
+            info_byte += 1;
         }
-
-        void pSaveOASIS(oasWriter ow)
+        if (datatype_nr != ow.modal.texttype)
         {
-            if (!ow.modal.absoluteMode)
-            {
-                ow.modal.absoluteMode = true;
-            }
-
-            byte info_byte = 64;  //explicid text
-            if (layer_nr != ow.modal.textlayer)
-            {
-                info_byte += 1;
-            }
-            if (datatype_nr != ow.modal.texttype)
-            {
-                info_byte += 2;
-            }
-            if (point.X != ow.modal.text_x)
-            {
-                info_byte += 16;
-            }
-            if (point.Y != ow.modal.text_y)
-            {
-                info_byte += 8;
-            }
-            ow.writeUnsignedInteger(19);
-            ow.writeRaw(info_byte);
-            ow.writeString(name);
-            if ((info_byte & 1) > 0)
-            {
+            info_byte += 2;
+        }
+        if (point.X != ow.modal.text_x)
+        {
+            info_byte += 16;
+        }
+        if (point.Y != ow.modal.text_y)
+        {
+            info_byte += 8;
+        }
+        ow.writeUnsignedInteger(19);
+        ow.writeRaw(info_byte);
+        ow.writeString(name);
+        switch (info_byte & 1)
+        {
+            case > 0:
                 ow.modal.textlayer = layer_nr;
                 ow.writeUnsignedInteger((uint)ow.modal.textlayer);
-            }
-            if ((info_byte & 2) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 2)
+        {
+            case > 0:
                 ow.modal.texttype = datatype_nr;
                 ow.writeUnsignedInteger((uint)datatype_nr);
-            }
-            if ((info_byte & 16) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 16)
+        {
+            case > 0:
                 ow.modal.text_x = point.X;
                 ow.writeSignedInteger(ow.modal.text_x);
-            }
-            if ((info_byte & 8) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 8)
+        {
+            case > 0:
                 ow.modal.text_y = point.Y;
                 ow.writeSignedInteger(ow.modal.text_y);
-            }
-            if (presentation != GCSetup.defaultTextPresentation)
-            {
-                //o->error->addItem("Text presentation can not be saved in OASIS files.", 4);
-            }
-            if (Math.Abs(trans.mag - 1) > Double.Epsilon)
-            {
+                break;
+        }
+        if (presentation != GCSetup.defaultTextPresentation)
+        {
+            //o->error->addItem("Text presentation can not be saved in OASIS files.", 4);
+        }
+        switch (Math.Abs(trans.mag - 1))
+        {
+            case > double.Epsilon:
                 //o->error->addItem("Scaled text can not be saved in OASIS files.", 4);
-            }
-            if (trans.angle != 0)
-            {
-                //o->error->addItem("Rotated text can not be saved in OASIS files.", 4);
-            }
+                break;
         }
-
-        public override List<GCPolygon> convertToPolygons()
+        if (trans.angle != 0)
         {
-            return pConvertToPolygons();
+            //o->error->addItem("Rotated text can not be saved in OASIS files.", 4);
         }
+    }
 
-        List<GCPolygon> pConvertToPolygons()
-        {
-            List<GCPolygon> ret = new List<GCPolygon>();
-            GeoLibPoint[] points = new GeoLibPoint[5];
-            points[0] = new GeoLibPoint(point.X - 1, point.Y - 1);
-            points[1] = new GeoLibPoint(point.X - 1, point.Y + 1);
-            points[2] = new GeoLibPoint(point.X + 1, point.Y + 1);
-            points[3] = new GeoLibPoint(point.X + 1, point.Y - 1);
-            points[4] = new GeoLibPoint(points[0]);
-            ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
+    public override List<GCPolygon> convertToPolygons()
+    {
+        return pConvertToPolygons();
+    }
 
-            ret[0].text = true;
-            ret[0].name = name;
+    private List<GCPolygon> pConvertToPolygons()
+    {
+        List<GCPolygon> ret = new();
+        GeoLibPoint[] points = new GeoLibPoint[5];
+        points[0] = new GeoLibPoint(point.X - 1, point.Y - 1);
+        points[1] = new GeoLibPoint(point.X - 1, point.Y + 1);
+        points[2] = new GeoLibPoint(point.X + 1, point.Y + 1);
+        points[3] = new GeoLibPoint(point.X + 1, point.Y - 1);
+        points[4] = new GeoLibPoint(points[0]);
+        ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
 
-            return ret;
-        }
+        ret[0].text = true;
+        ret[0].name = name;
+
+        return ret;
     }
 }

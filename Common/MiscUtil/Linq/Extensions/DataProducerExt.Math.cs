@@ -1,10 +1,10 @@
 ﻿using MiscUtil.Extensions;
 using System;
 using System.Collections.Generic;
-namespace MiscUtil.Linq.Extensions
+namespace MiscUtil.Linq.Extensions;
+
+public static partial class DataProducerExt
 {
-    public static partial class DataProducerExt
-    {
 #if DOTNET35
         /// <summary>
         /// Returns a future to the sum of a sequence of values that are
@@ -156,118 +156,147 @@ namespace MiscUtil.Linq.Extensions
         #endregion
 
 #endif
-        /// <summary>
-        /// Returns a future to the maximum of a sequence of values that are
-        /// obtained by taking a transform of the input sequence, using the default comparer, using the default comparer
-        /// </summary>
-        /// <remarks>Null values are removed from the maximum</remarks>
-        public static IFuture<TResult> Max<TSource, TResult>
-            (this IDataProducer<TSource> source,
-             Func<TSource, TResult> selector)
-        {
-            source.ThrowIfNull("source");
-            selector.ThrowIfNull("selector");
+    /// <summary>
+    /// Returns a future to the maximum of a sequence of values that are
+    /// obtained by taking a transform of the input sequence, using the default comparer, using the default comparer
+    /// </summary>
+    /// <remarks>Null values are removed from the maximum</remarks>
+    public static IFuture<TResult> Max<TSource, TResult>
+    (this IDataProducer<TSource> source,
+        Func<TSource, TResult> selector)
+    {
+        source.ThrowIfNull("source");
+        selector.ThrowIfNull("selector");
 
-            return source.Select(selector).Max();
-        }
-        /// <summary>
-        /// Returns a future to the maximum of a sequence of values, using the default comparer
-        /// </summary>
-        /// <remarks>Null values are removed from the maximum</remarks>
-        public static IFuture<TSource> Max<TSource>(this IDataProducer<TSource> source)
-        {
-            source.ThrowIfNull("source");
-
-            Future<TSource> ret = new Future<TSource>();
-            IComparer<TSource> comparer = Comparer<TSource>.Default;
-
-            TSource current = default(TSource);
-            bool empty = true, canBeNull = !Operator.HasValue(current);
-
-            source.DataProduced += value =>
-            {
-                if (canBeNull && !Operator.HasValue(value))
-                {
-                    // NOP
-                }
-                else if (empty)
-                {
-                    current = value;
-                    empty = false;
-                }
-                else if (comparer.Compare(value, current) > 0)
-                {
-                    current = value;
-                }
-            };
-            source.EndOfData += () =>
-            {
-                // Only value types should throw an exception
-                if (empty && current != null)
-                {
-                    throw new InvalidOperationException("Empty sequence");
-                }
-                ret.Value = current;
-            };
-
-            return ret;
-        }
-        /// <summary>
-        /// Returns a future to the minumum of a sequence of values that are
-        /// obtained by taking a transform of the input sequence, using the default comparer
-        /// </summary>
-        /// <remarks>Null values are removed from the minimum</remarks>
-        public static IFuture<TResult> Min<TSource, TResult>
-           (this IDataProducer<TSource> source,
-            Func<TSource, TResult> selector)
-        {
-            source.ThrowIfNull("source");
-            selector.ThrowIfNull("selector");
-
-            return source.Select(selector).Min();
-        }
-        /// <summary>
-        /// Returns a future to the minumum of a sequence of values, using the default comparer
-        /// </summary>
-        /// <remarks>Null values are removed from the minimum</remarks>
-        public static IFuture<TSource> Min<TSource>(this IDataProducer<TSource> source)
-        {
-            source.ThrowIfNull("source");
-
-            Future<TSource> ret = new Future<TSource>();
-            IComparer<TSource> comparer = Comparer<TSource>.Default;
-
-            TSource current = default(TSource);
-            bool empty = true, canBeNull = !Operator.HasValue(current);
-
-            source.DataProduced += value =>
-            {
-                if (canBeNull && !Operator.HasValue(value))
-                {
-                    // NOP
-                }
-                else if (empty)
-                {
-                    current = value;
-                    empty = false;
-                }
-                else if (comparer.Compare(value, current) < 0)
-                {
-                    current = value;
-                }
-            };
-            source.EndOfData += () =>
-            {
-                // Only value types should throw an exception
-                if (empty && current != null)
-                {
-                    throw new InvalidOperationException("Empty sequence");
-                }
-                ret.Value = current;
-            };
-
-            return ret;
-        }
-
+        return source.Select(selector).Max();
     }
+    /// <summary>
+    /// Returns a future to the maximum of a sequence of values, using the default comparer
+    /// </summary>
+    /// <remarks>Null values are removed from the maximum</remarks>
+    public static IFuture<TSource> Max<TSource>(this IDataProducer<TSource> source)
+    {
+        source.ThrowIfNull("source");
+
+        Future<TSource> ret = new();
+        IComparer<TSource> comparer = Comparer<TSource>.Default;
+
+        TSource current = default(TSource);
+        bool empty = true, canBeNull = !Operator.HasValue(current);
+
+        source.DataProduced += value =>
+        {
+            switch (canBeNull)
+            {
+                case true when !Operator.HasValue(value):
+                    // NOP
+                    break;
+                default:
+                {
+                    switch (empty)
+                    {
+                        case true:
+                            current = value;
+                            empty = false;
+                            break;
+                        default:
+                        {
+                            current = comparer.Compare(value, current) switch
+                            {
+                                > 0 => value,
+                                _ => current
+                            };
+
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+        };
+        source.EndOfData += () =>
+        {
+            ret.Value = empty switch
+            {
+                // Only value types should throw an exception
+                true when current != null => throw new InvalidOperationException("Empty sequence"),
+                _ => current
+            };
+        };
+
+        return ret;
+    }
+    /// <summary>
+    /// Returns a future to the minumum of a sequence of values that are
+    /// obtained by taking a transform of the input sequence, using the default comparer
+    /// </summary>
+    /// <remarks>Null values are removed from the minimum</remarks>
+    public static IFuture<TResult> Min<TSource, TResult>
+    (this IDataProducer<TSource> source,
+        Func<TSource, TResult> selector)
+    {
+        source.ThrowIfNull("source");
+        selector.ThrowIfNull("selector");
+
+        return source.Select(selector).Min();
+    }
+    /// <summary>
+    /// Returns a future to the minumum of a sequence of values, using the default comparer
+    /// </summary>
+    /// <remarks>Null values are removed from the minimum</remarks>
+    public static IFuture<TSource> Min<TSource>(this IDataProducer<TSource> source)
+    {
+        source.ThrowIfNull("source");
+
+        Future<TSource> ret = new();
+        IComparer<TSource> comparer = Comparer<TSource>.Default;
+
+        TSource current = default(TSource);
+        bool empty = true, canBeNull = !Operator.HasValue(current);
+
+        source.DataProduced += value =>
+        {
+            switch (canBeNull)
+            {
+                case true when !Operator.HasValue(value):
+                    // NOP
+                    break;
+                default:
+                {
+                    switch (empty)
+                    {
+                        case true:
+                            current = value;
+                            empty = false;
+                            break;
+                        default:
+                        {
+                            current = comparer.Compare(value, current) switch
+                            {
+                                < 0 => value,
+                                _ => current
+                            };
+
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+        };
+        source.EndOfData += () =>
+        {
+            ret.Value = empty switch
+            {
+                // Only value types should throw an exception
+                true when current != null => throw new InvalidOperationException("Empty sequence"),
+                _ => current
+            };
+        };
+
+        return ret;
+    }
+
 }

@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Function
+﻿namespace Burkardt.Function;
+
+public static class Pythagorus
 {
-    public static class Pythagorus
-    {
-        public static void pythag_triple_next ( ref int i, ref int j, ref int a, ref int b, ref int c )
+    public static void pythag_triple_next ( ref int i, ref int j, ref int a, ref int b, ref int c )
 
         //****************************************************************************80
         //
@@ -47,32 +47,38 @@
         //    A, B, and C are positive integers which have no common factors,
         //    and A^2 + B^2 = C^2.
         //
-        {
-            //
-            //  I starts at 2 and increases;
-            //
-            //  J starts out at 2 if I is odd, or 1 if I is even, increases by 2,
-            //    but is always less than I.
-            //
+    {
+        //
+        //  I starts at 2 and increases;
+        //
+        //  J starts out at 2 if I is odd, or 1 if I is even, increases by 2,
+        //    but is always less than I.
+        //
   
-            if ( i == 0 && j == 0 )
-            {
+        switch (i)
+        {
+            case 0 when j == 0:
                 i = 2;
                 j = 1;
-            }
-            else if ( j + 2 < i )
+                break;
+            default:
             {
-                j = j + 2;
-            }
-            else
-            {
-                i = i + 1;
-                j = ( i % 2 ) + 1;
-            }
+                if ( j + 2 < i )
+                {
+                    j += 2;
+                }
+                else
+                {
+                    i += 1;
+                    j = i % 2 + 1;
+                }
 
-            a = i * i - j * j;
-            b = 2 * i * j;
-            c = i * i + j * j;
+                break;
+            }
         }
+
+        a = i * i - j * j;
+        b = 2 * i * j;
+        c = i * i + j * j;
     }
 }

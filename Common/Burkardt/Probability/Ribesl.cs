@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Ribesl
 {
-    public static class Ribesl
-    {
-        public static int ribesl(double x, double alpha, int nb, int ize, ref double[] b)
+    public static int ribesl(double x, double alpha, int nb, int ize, ref double[] b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -179,119 +179,119 @@ namespace Burkardt.Probability
         // VAX D-Format  (D.P.)   1.17D-38     1.0D+4      88
         // VAX G-Format  (D.P.)   2.22D-308    1.0D+4     709
         //
+    {
+        double constant = 1.585;
+        double em;
+        double empal;
+        double emp2al;
+        double en;
+        double enmten = 8.9E-308;
+        double ensig = 1.0E+16;
+        double enten = 1.0E+308;
+        double exparg = 709.0;
+        bool flag;
+        double half = 0.5;
+        double halfx;
+        int i;
+        int k;
+        int l;
+        int magx;
+        int n;
+        int nbmx;
+        int ncalc;
+        int nend;
+        int nsig = 16;
+        int nstart;
+        double one = 1.0;
+        double p;
+        double plast;
+        double pold;
+        double psave;
+        double psavel;
+        double rtnsig = 1.0E-04;
+        double tempa;
+        double tempb;
+        double tempc;
+        double test;
+        double total;
+        double tover;
+        double two = 2.0;
+        double xlarge = 1.0E+04;
+        double zero = 0.0;
+        switch (nb)
         {
-            double constant = 1.585;
-            double em;
-            double empal;
-            double emp2al;
-            double en;
-            double enmten = 8.9E-308;
-            double ensig = 1.0E+16;
-            double enten = 1.0E+308;
-            double exparg = 709.0;
-            bool flag;
-            double half = 0.5;
-            double halfx;
-            int i;
-            int k;
-            int l;
-            int magx;
-            int n;
-            int nbmx;
-            int ncalc;
-            int nend;
-            int nsig = 16;
-            int nstart;
-            double one = 1.0;
-            double p;
-            double plast;
-            double pold;
-            double psave;
-            double psavel;
-            double rtnsig = 1.0E-04;
-            double tempa;
-            double tempb;
-            double tempc;
-            double test;
-            double total;
-            double tover;
-            double two = 2.0;
-            double xlarge = 1.0E+04;
-            double zero = 0.0;
             //
             //  Check for X, NB, OR IZE out of range.
             //
-            if (nb <= 0)
-            {
+            case <= 0:
                 ncalc = Math.Min(nb, 0) - 1;
                 return ncalc;
-            }
+        }
 
-            if (x < 0.0)
-            {
+        switch (x)
+        {
+            case < 0.0:
                 ncalc = Math.Min(nb, 0) - 1;
                 return ncalc;
-            }
+        }
 
-            if (alpha < 0.0)
-            {
+        switch (alpha)
+        {
+            case < 0.0:
                 ncalc = Math.Min(nb, 0) - 1;
                 return ncalc;
-            }
+            case >= 1.0:
+                ncalc = Math.Min(nb, 0) - 1;
+                return ncalc;
+        }
 
-            if (1.0 <= alpha)
-            {
+        switch (ize)
+        {
+            case 1 when exparg < x:
                 ncalc = Math.Min(nb, 0) - 1;
                 return ncalc;
-            }
+            case 2 when xlarge < x:
+                ncalc = Math.Min(nb, 0) - 1;
+                return ncalc;
+        }
 
-            if (ize == 1 && exparg < x)
-            {
-                ncalc = Math.Min(nb, 0) - 1;
-                return ncalc;
-            }
+        //
+        //  Use 2-term ascending series for small X.
+        //
+        ncalc = nb;
+        magx = (int) x;
+        //
+        //  Initialize the forward sweep, the P-sequence of Olver.
+        //
+        if (rtnsig <= x)
+        {
+            nbmx = nb - magx;
+            n = magx + 1;
+            en = n + n + (alpha + alpha);
+            plast = one;
+            p = en / x;
+            //
+            //  Calculate general significance test.
+            //
+            test = ensig + ensig;
 
-            if (ize == 2 && xlarge < x)
+            if (5 * nsig < 2 * magx)
             {
-                ncalc = Math.Min(nb, 0) - 1;
-                return ncalc;
+                test = Math.Sqrt(test * p);
+            }
+            else
+            {
+                test /= Math.Pow(constant, magx);
             }
 
             //
-            //  Use 2-term ascending series for small X.
+            //  Calculate P-sequence until N = NB-1.  Check for possible overflow.
             //
-            ncalc = nb;
-            magx = (int) (x);
-            //
-            //  Initialize the forward sweep, the P-sequence of Olver.
-            //
-            if (rtnsig <= x)
+            flag = false;
+
+            switch (nbmx)
             {
-                nbmx = nb - magx;
-                n = magx + 1;
-                en = (double) (n + n) + (alpha + alpha);
-                plast = one;
-                p = en / x;
-                //
-                //  Calculate general significance test.
-                //
-                test = ensig + ensig;
-
-                if (5 * nsig < 2 * magx)
-                {
-                    test = Math.Sqrt(test * p);
-                }
-                else
-                {
-                    test = test / Math.Pow(constant, magx);
-                }
-
-                //
-                //  Calculate P-sequence until N = NB-1.  Check for possible overflow.
-                //
-                flag = false;
-
-                if (3 <= nbmx)
+                case >= 3:
                 {
                     tover = enten / ensig;
                     nstart = magx + 2;
@@ -300,7 +300,7 @@ namespace Burkardt.Probability
                     for (k = nstart; k <= nend; k++)
                     {
                         n = k;
-                        en = en + two;
+                        en += two;
                         pold = plast;
                         plast = p;
                         p = en * plast / x + pold;
@@ -311,16 +311,16 @@ namespace Burkardt.Probability
                         if (tover < p)
                         {
                             tover = enten;
-                            p = p / tover;
-                            plast = plast / tover;
+                            p /= tover;
+                            plast /= tover;
                             psave = p;
                             psavel = plast;
                             nstart = n + 1;
 
                             for (;;)
                             {
-                                n = n + 1;
-                                en = en + two;
+                                n += 1;
+                                en += two;
                                 pold = plast;
                                 plast = p;
                                 p = en * plast / x + pold;
@@ -337,10 +337,10 @@ namespace Burkardt.Probability
                             //  such that the test is passed.
                             //
                             test = pold * plast / ensig;
-                            test = test * (half - half / (tempb * tempb));
+                            test *= (half - half / (tempb * tempb));
                             p = plast * tover;
-                            n = n - 1;
-                            en = en - two;
+                            n -= 1;
+                            en -= two;
                             nend = Math.Min(nb, n);
 
                             ncalc = nend + 1;
@@ -358,32 +358,39 @@ namespace Burkardt.Probability
                                 }
                             }
 
-                            ncalc = ncalc - 1;
+                            ncalc -= 1;
                             flag = true;
                             break;
                         }
                     }
 
-                    if (!flag)
+                    switch (flag)
                     {
-                        n = nend;
-                        en = (double) (n + n) + (alpha + alpha);
-                        //
-                        //  Calculate special significance test for 2 < NBMX.
-                        //
-                        test = Math.Max(test, Math.Sqrt(plast * ensig) * Math.Sqrt(p + p));
+                        case false:
+                            n = nend;
+                            en = n + n + (alpha + alpha);
+                            //
+                            //  Calculate special significance test for 2 < NBMX.
+                            //
+                            test = Math.Max(test, Math.Sqrt(plast * ensig) * Math.Sqrt(p + p));
+                            break;
                     }
-                }
 
+                    break;
+                }
+            }
+
+            switch (flag)
+            {
                 //
                 //  Calculate P-sequence until significance test passed.
                 //
-                if (!flag)
+                case false:
                 {
                     for (;;)
                     {
-                        n = n + 1;
-                        en = en + two;
+                        n += 1;
+                        en += two;
                         pold = plast;
                         plast = p;
                         p = en * plast / x + pold;
@@ -393,24 +400,29 @@ namespace Burkardt.Probability
                             break;
                         }
                     }
-                }
 
-                //
-                //  Initialize the backward recursion and the normalization sum.
-                //
-                n = n + 1;
-                en = en + two;
-                tempb = zero;
-                tempa = one / p;
-                em = (double) (n) - one;
-                empal = em + alpha;
-                emp2al = (em - one) + (alpha + alpha);
-                total = tempa * empal * emp2al / em;
-                nend = n - nb;
+                    break;
+                }
+            }
+
+            //
+            //  Initialize the backward recursion and the normalization sum.
+            //
+            n += 1;
+            en += two;
+            tempb = zero;
+            tempa = one / p;
+            em = n - one;
+            empal = em + alpha;
+            emp2al = em - one + (alpha + alpha);
+            total = tempa * empal * emp2al / em;
+            nend = n - nb;
+            switch (nend)
+            {
                 //
                 //  N < NB, so store B(N) and set higher orders to zero.
                 //
-                if (nend < 0)
+                case < 0:
                 {
                     b[n - 1] = tempa;
                     nend = -nend;
@@ -421,25 +433,31 @@ namespace Burkardt.Probability
                     }
 
                     nend = n - 2;
-                    //
-                    //  Calculate via difference equation and store B(N), until N = 2.
-                    //
-                    if (0 < nend)
+                    switch (nend)
                     {
-                        for (l = 1; l <= nend; l++)
+                        //
+                        //  Calculate via difference equation and store B(N), until N = 2.
+                        //
+                        case > 0:
                         {
-                            n = n - 1;
-                            en = en - two;
-                            b[n - 1] = (en * b[n]) / x + b[n + 1];
-                            em = em - one;
-                            emp2al = emp2al - one;
-                            if (n == 2)
+                            for (l = 1; l <= nend; l++)
                             {
-                                emp2al = one;
+                                n -= 1;
+                                en -= two;
+                                b[n - 1] = en * b[n] / x + b[n + 1];
+                                em -= one;
+                                emp2al -= one;
+                                emp2al = n switch
+                                {
+                                    2 => one,
+                                    _ => emp2al
+                                };
+
+                                empal -= one;
+                                total = (total + b[n - 1] * empal) * emp2al / em;
                             }
 
-                            empal = empal - one;
-                            total = (total + b[n - 1] * empal) * emp2al / em;
+                            break;
                         }
                     }
 
@@ -448,38 +466,42 @@ namespace Burkardt.Probability
                     //
                     b[0] = two * empal * b[1] / x + b[2];
 
-                    total = (total + total) + b[0];
+                    total = total + total + b[0];
+                    break;
                 }
                 //
-                //  Recur backward via difference equation, calculating (but
-                //  not storing) B(N), until N = NB.
-                //
-                else
+                default:
                 {
-                    if (0 < nend)
+                    switch (nend)
                     {
-                        for (l = 1; l <= nend; l++)
+                        case > 0:
                         {
-                            n = n - 1;
-                            en = en - two;
-                            tempc = tempb;
-                            tempb = tempa;
-                            tempa = (en * tempb) / x + tempc;
-                            em = em - one;
-                            emp2al = emp2al - one;
-
-                            if (n == 1)
+                            for (l = 1; l <= nend; l++)
                             {
-                                break;
+                                n -= 1;
+                                en -= two;
+                                tempc = tempb;
+                                tempb = tempa;
+                                tempa = en * tempb / x + tempc;
+                                em -= one;
+                                emp2al -= one;
+
+                                if (n == 1)
+                                {
+                                    break;
+                                }
+
+                                emp2al = n switch
+                                {
+                                    2 => one,
+                                    _ => emp2al
+                                };
+
+                                empal -= one;
+                                total = (total + tempa * empal) * emp2al / em;
                             }
 
-                            if (n == 2)
-                            {
-                                emp2al = one;
-                            }
-
-                            empal = empal - one;
-                            total = (total + tempa * empal) * emp2al / em;
+                            break;
                         }
                     }
 
@@ -488,180 +510,202 @@ namespace Burkardt.Probability
                     //
                     b[n - 1] = tempa;
 
-                    if (nb <= 1)
+                    switch (nb)
                     {
-                        total = (total + total) + tempa;
-                    }
-                    //
-                    //  Calculate and Store B(NB-1).
-                    //
-                    else
-                    {
-                        n = n - 1;
-                        en = en - two;
-                        b[n - 1] = (en * tempa) / x + tempb;
-
-                        if (1 < n)
+                        case <= 1:
+                            total = total + total + tempa;
+                            break;
+                        //
+                        default:
                         {
-                            em = em - one;
-                            emp2al = emp2al - one;
+                            n -= 1;
+                            en -= two;
+                            b[n - 1] = en * tempa / x + tempb;
 
-                            if (n == 2)
+                            switch (n)
                             {
-                                emp2al = one;
-                            }
-
-                            empal = empal - one;
-                            total = (total + b[n - 1] * empal) * emp2al / em;
-
-                            nend = n - 2;
-                            //
-                            //  Calculate via difference equation and store B(N), until N = 2.
-                            //
-                            if (0 < nend)
-                            {
-                                for (l = 1; l <= nend; l++)
+                                case > 1:
                                 {
-                                    n = n - 1;
-                                    en = en - two;
-                                    b[n - 1] = (en * b[n]) / x + b[n + 1];
-                                    em = em - one;
-                                    emp2al = emp2al - one;
-                                    if (n == 2)
+                                    em -= one;
+                                    emp2al -= one;
+
+                                    emp2al = n switch
                                     {
-                                        emp2al = one;
+                                        2 => one,
+                                        _ => emp2al
+                                    };
+
+                                    empal -= one;
+                                    total = (total + b[n - 1] * empal) * emp2al / em;
+
+                                    nend = n - 2;
+                                    switch (nend)
+                                    {
+                                        //
+                                        //  Calculate via difference equation and store B(N), until N = 2.
+                                        //
+                                        case > 0:
+                                        {
+                                            for (l = 1; l <= nend; l++)
+                                            {
+                                                n -= 1;
+                                                en -= two;
+                                                b[n - 1] = en * b[n] / x + b[n + 1];
+                                                em -= one;
+                                                emp2al -= one;
+                                                emp2al = n switch
+                                                {
+                                                    2 => one,
+                                                    _ => emp2al
+                                                };
+
+                                                empal -= one;
+                                                total = (total + b[n - 1] * empal) * emp2al / em;
+                                            }
+
+                                            break;
+                                        }
                                     }
 
-                                    empal = empal - one;
-                                    total = (total + b[n - 1] * empal) * emp2al / em;
+                                    //
+                                    //  Calculate B(1).
+                                    //
+                                    b[0] = two * empal * b[1] / x + b[2];
+                                    break;
                                 }
                             }
 
-                            //
-                            //  Calculate B(1).
-                            //
-                            b[0] = two * empal * b[1] / x + b[2];
+                            total = total + total + b[0];
+                            break;
                         }
-
-                        total = (total + total) + b[0];
-                    }
-                }
-
-                //
-                //  Normalize.  Divide all B(N) by TOTAL.
-                //
-                if (alpha != zero)
-                {
-                    total = total * Helpers.Gamma(one + alpha) * Math.Pow(x * half, -alpha);
-                }
-
-                if (ize == 1)
-                {
-                    total = total * Math.Exp(-x);
-                }
-
-                tempa = enmten;
-
-                if (1.0 < total)
-                {
-                    tempa = tempa * total;
-                }
-
-                for (n = 1; n <= nb; n++)
-                {
-                    if (b[n - 1] < tempa)
-                    {
-                        b[n - 1] = zero;
                     }
 
-                    b[n - 1] = b[n - 1] / total;
+                    break;
                 }
-
-                return ncalc;
             }
+
             //
-            //  Two-term ascending series for small X.
+            //  Normalize.  Divide all B(N) by TOTAL.
             //
-            else
+            if (alpha != zero)
             {
-                tempa = one;
-                empal = one + alpha;
-                halfx = zero;
+                total = total * Helpers.Gamma(one + alpha) * Math.Pow(x * half, -alpha);
+            }
 
-                if (enmten < x)
+            switch (ize)
+            {
+                case 1:
+                    total *= Math.Exp(-x);
+                    break;
+            }
+
+            tempa = enmten;
+
+            switch (total)
+            {
+                case > 1.0:
+                    tempa *= total;
+                    break;
+            }
+
+            for (n = 1; n <= nb; n++)
+            {
+                if (b[n - 1] < tempa)
                 {
-                    halfx = half * x;
+                    b[n - 1] = zero;
                 }
 
-                if (alpha != zero)
-                {
-                    tempa = Math.Pow(halfx, alpha) / Helpers.Gamma(empal);
-                }
-
-                if (ize == 2)
-                {
-                    tempa = tempa * Math.Exp(-x);
-                }
-
-                tempb = zero;
-
-                if (one < x + one)
-                {
-                    tempb = halfx * halfx;
-                }
-
-                b[0] = tempa + tempa * tempb / empal;
-
-                if (x != zero && b[0] == zero)
-                {
-                    ncalc = 0;
-                }
-
-                if (1 < nb)
-                {
-                    if (x == zero)
-                    {
-                        for (i = 1; i < nb; i++)
-                        {
-                            b[i] = zero;
-                        }
-                    }
-                    //
-                    //  Calculate higher-order functions.
-                    //
-                    else
-                    {
-                        tempc = halfx;
-                        tover = (enmten + enmten) / x;
-
-                        if (tempb != zero)
-                        {
-                            tover = enmten / tempb;
-                        }
-
-                        for (n = 2; n <= nb; n++)
-                        {
-                            tempa = tempa / empal;
-                            empal = empal + one;
-                            tempa = tempa * tempc;
-
-                            if (tempa <= tover * empal)
-                            {
-                                tempa = zero;
-                            }
-
-                            b[n - 1] = tempa + tempa * tempb / empal;
-
-                            if (b[n - 1] == zero && n < ncalc)
-                            {
-                                ncalc = n - 1;
-                            }
-                        }
-                    }
-                }
+                b[n - 1] /= total;
             }
 
             return ncalc;
         }
+        //
+        //  Two-term ascending series for small X.
+        //
+
+        tempa = one;
+        empal = one + alpha;
+        halfx = zero;
+
+        if (enmten < x)
+        {
+            halfx = half * x;
+        }
+
+        if (alpha != zero)
+        {
+            tempa = Math.Pow(halfx, alpha) / Helpers.Gamma(empal);
+        }
+
+        switch (ize)
+        {
+            case 2:
+                tempa *= Math.Exp(-x);
+                break;
+        }
+
+        tempb = zero;
+
+        if (one < x + one)
+        {
+            tempb = halfx * halfx;
+        }
+
+        b[0] = tempa + tempa * tempb / empal;
+
+        if (x != zero && b[0] == zero)
+        {
+            ncalc = 0;
+        }
+
+        switch (nb)
+        {
+            case > 1 when x == zero:
+            {
+                for (i = 1; i < nb; i++)
+                {
+                    b[i] = zero;
+                }
+
+                break;
+            }
+            //
+            //  Calculate higher-order functions.
+            //
+            case > 1:
+            {
+                tempc = halfx;
+                tover = (enmten + enmten) / x;
+
+                if (tempb != zero)
+                {
+                    tover = enmten / tempb;
+                }
+
+                for (n = 2; n <= nb; n++)
+                {
+                    tempa /= empal;
+                    empal += one;
+                    tempa *= tempc;
+
+                    if (tempa <= tover * empal)
+                    {
+                        tempa = zero;
+                    }
+
+                    b[n - 1] = tempa + tempa * tempb / empal;
+
+                    if (b[n - 1] == zero && n < ncalc)
+                    {
+                        ncalc = n - 1;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return ncalc;
     }
 }

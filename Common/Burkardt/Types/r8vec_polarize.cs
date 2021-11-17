@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r8vec_polarize ( int n, double[] a, double[] p, ref double[] a_normal,
-        ref double[] a_parallel, int aIndex = 0, int pIndex = 0 )
+    public static void r8vec_polarize ( int n, double[] a, double[] p, ref double[] a_normal,
+            ref double[] a_parallel, int aIndex = 0, int pIndex = 0 )
 
         //****************************************************************************80
         //
@@ -47,14 +47,14 @@
         //    Output, double A_NORMAL[N], A_PARALLEL[N], the normal
         //    and parallel components of A.
         //
+    {
+        int i;
+
+        double p_norm = r8vec_norm ( n, p, pIndex );
+
+        switch (p_norm)
         {
-            double a_dot_p;
-            int i;
-            double p_norm;
-
-            p_norm = r8vec_norm ( n, p, pIndex );
-
-            if ( p_norm == 0.0 )
+            case 0.0:
             {
                 for ( i = 0; i < n; i++ )
                 {
@@ -66,18 +66,18 @@
                 }
                 return;
             }
-            a_dot_p = r8vec_dot_product ( n, a, p, aIndex, pIndex ) / p_norm;
+        }
+        double a_dot_p = r8vec_dot_product ( n, a, p, aIndex, pIndex ) / p_norm;
 
-            for ( i = 0; i < n; i++ )
-            {
-                a_parallel[i] = a_dot_p * p[pIndex + i] / p_norm;
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                a_normal[i] = a[aIndex + i] - a_parallel[i];
-            }
+        for ( i = 0; i < n; i++ )
+        {
+            a_parallel[i] = a_dot_p * p[pIndex + i] / p_norm;
         }
 
+        for ( i = 0; i < n; i++ )
+        {
+            a_normal[i] = a[aIndex + i] - a_parallel[i];
+        }
     }
+
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void cholesky ( double[] a, int n, int nn, ref double[] u, ref int nullty, 
-                                        ref int ifault )
+    public static void cholesky ( double[] a, int n, int nn, ref double[] u, ref int nullty, 
+            ref int ifault )
         //****************************************************************************80
         //
         //  Purpose:
@@ -77,101 +77,103 @@ namespace Burkardt.AppliedStatistics
         //    value such that 1.0 + ETA is calculated as being greater than 1.0 in the
         //    accuracy being used.
         //
+    {
+        double eta = 1.0E-09;
+        double w = 0;
+        double x = 0;
+
+        ifault = 0;
+        nullty = 0;
+
+        switch (n)
         {
-            double eta = 1.0E-09;
-            double w = 0;
-            double x = 0;
-
-            ifault = 0;
-            nullty = 0;
-
-            if ( n <= 0 )
-            {
+            case <= 0:
                 ifault = 1;
                 return;
-            }
+        }
 
-            if ( nn < ( n * ( n + 1 ) ) / 2 )
-            {
-                ifault = 3;
-                return;
-            }
+        if ( nn < n * ( n + 1 ) / 2 )
+        {
+            ifault = 3;
+            return;
+        }
 
-            int j = 1;
-            int k = 0;
-            int ii = 0;
+        int j = 1;
+        int k = 0;
+        int ii = 0;
+        //
+        //  Factorize column by column, ICOL = column number.
+        //
+        for (int icol = 1; icol <= n; icol++ )
+        {
+            ii += icol;
+            x = eta * eta * a[ii-1];
+            int l = 0;
             //
-            //  Factorize column by column, ICOL = column number.
+            //  IROW = row number within column ICOL.
             //
-            for (int icol = 1; icol <= n; icol++ )
+            for (int irow = 1; irow <= icol; irow++ )
             {
-                ii = ii + icol;
-                x = eta * eta * a[ii-1];
-                int l = 0;
-                int kk = 0;
-                //
-                //  IROW = row number within column ICOL.
-                //
-                for (int irow = 1; irow <= icol; irow++ )
+                k += 1;
+                w = a[k-1];
+                int m = j;
+
+                int i;
+                for ( i = 1; i < irow; i++ )
                 {
-                    kk = kk + irow;
-                    k = k + 1;
-                    w = a[k-1];
-                    int m = j;
-
-                    int i;
-                    for ( i = 1; i < irow; i++ )
-                    {
-                        l = l + 1;
-                        w = w - u[l-1] * u[m-1];
-                        m = m + 1;
-                    }
-
-                    l = l + 1;
-
-                    if ( irow == icol ) 
-                    {
-                        break;
-                    }
-
-                    if ( u[l-1] != 0.0 )
-                    {
-                        u[k-1] = w / u[l-1];
-                    }
-                    else
-                    {
-                        u[k-1] = 0.0;
-
-                        if ( Math.Abs ( x * a[k-1] ) < w * w )
-                        {
-                            ifault = 2;
-                            return;
-                        }
-                    }
+                    l += 1;
+                    w -= u[l-1] * u[m-1];
+                    m += 1;
                 }
-                //
-                //  End of row, estimate relative accuracy of diagonal element.
-                //
-                if ( Math.Abs ( w ) <= Math.Abs ( eta * a[k-1] ) )
+
+                l += 1;
+
+                if ( irow == icol ) 
                 {
-                    u[k-1] = 0.0;
-                    nullty = nullty + 1;
+                    break;
+                }
+
+                if ( u[l-1] != 0.0 )
+                {
+                    u[k-1] = w / u[l-1];
                 }
                 else
                 {
-                    if ( w < 0.0 )
+                    u[k-1] = 0.0;
+
+                    if ( Math.Abs ( x * a[k-1] ) < w * w )
                     {
                         ifault = 2;
                         return;
                     }
-                    u[k-1] = Math.Sqrt ( w );
                 }
-                j = j + icol;
             }
+            //
+            //  End of row, estimate relative accuracy of diagonal element.
+            //
+            if ( Math.Abs ( w ) <= Math.Abs ( eta * a[k-1] ) )
+            {
+                u[k-1] = 0.0;
+                nullty += 1;
+            }
+            else
+            {
+                switch (w)
+                {
+                    case < 0.0:
+                        ifault = 2;
+                        return;
+                    default:
+                        u[k-1] = Math.Sqrt ( w );
+                        break;
+                }
+            }
+            j += icol;
         }
+    }
 
-        public static void subchl(double[] a, int[] b, int n, ref double[] u, ref int nullty,
-                ref int ifault, int ndim, ref double det)
+    public static void subchl(double[] a, int[] b, int n, ref double[] u, ref int nullty,
+            ref int ifault, int ndim, ref double det)
         //****************************************************************************80
         //
         //  Purpose:
@@ -240,89 +242,91 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double *DET, the determinant of the matrix.
         //
+    {
+        double eta = 1.0E-09;
+
+        ifault = 0;
+        nullty = 0;
+        det = 1.0;
+
+        switch (n)
         {
-            double eta = 1.0E-09;
-
-            ifault = 0;
-            nullty = 0;
-            det = 1.0;
-
-            if (n <= 0)
-            {
+            case <= 0:
                 ifault = 1;
                 return;
-            }
+        }
 
-            ifault = 2;
-            int j = 1;
-            int k = 0;
+        ifault = 2;
+        int j = 1;
+        int k = 0;
 
-            for (int icol = 1; icol <= n; icol++)
+        for (int icol = 1; icol <= n; icol++)
+        {
+            int ij = b[icol - 1] * (b[icol - 1] - 1) / 2;
+            int ii = ij + b[icol - 1];
+            double x = eta * eta * a[ii - 1];
+            int l = 0;
+
+            double w = 0;
+            int kk = 0;
+            for (int irow = 1; irow <= icol; irow++)
             {
-                int ij = (b[icol - 1] * (b[icol - 1] - 1)) / 2;
-                int ii = ij + b[icol - 1];
-                double x = eta * eta * a[ii - 1];
-                int l = 0;
+                kk = b[irow - 1] * (b[irow - 1] + 1) / 2;
+                k += 1;
+                int jj = ij + b[irow - 1];
+                w = a[jj - 1];
+                int m = j;
 
-                double w = 0;
-                int kk = 0;
-                for (int irow = 1; irow <= icol; irow++)
+                for (int i = 1; i <= irow - 1; i++)
                 {
-                    kk = (b[irow - 1] * (b[irow - 1] + 1)) / 2;
-                    k = k + 1;
-                    int jj = ij + b[irow - 1];
-                    w = a[jj - 1];
-                    int m = j;
-
-                    for (int i = 1; i <= irow - 1; i++)
-                    {
-                        l = l + 1;
-                        w = w - u[l - 1] * u[m - 1];
-                        m = m + 1;
-                    }
-
-                    l = l + 1;
-
-                    if (irow == icol)
-                    {
-                        break;
-                    }
-
-                    if (u[l - 1] != 0.0)
-                    {
-                        u[k - 1] = w / u[l - 1];
-                    }
-                    else
-                    {
-                        if (Math.Abs(x * a[kk - 1]) < w * w)
-                        {
-                            ifault = 2;
-                            return;
-                        }
-
-                        u[k - 1] = 0.0;
-                    }
+                    l += 1;
+                    w -= u[l - 1] * u[m - 1];
+                    m += 1;
                 }
 
-                if (Math.Abs(eta * a[kk - 1]) <= Math.Abs(w))
+                l += 1;
+
+                if (irow == icol)
                 {
-                    if (w < 0.0)
+                    break;
+                }
+
+                if (u[l - 1] != 0.0)
+                {
+                    u[k - 1] = w / u[l - 1];
+                }
+                else
+                {
+                    if (Math.Abs(x * a[kk - 1]) < w * w)
                     {
                         ifault = 2;
                         return;
                     }
 
-                    u[k - 1] = Math.Sqrt(w);
-                }
-                else
-                {
                     u[k - 1] = 0.0;
-                    nullty = nullty + 1;
                 }
-
-                j = j + icol;
-                det = det * u[k - 1] * u[k - 1];
             }
+
+            if (Math.Abs(eta * a[kk - 1]) <= Math.Abs(w))
+            {
+                switch (w)
+                {
+                    case < 0.0:
+                        ifault = 2;
+                        return;
+                    default:
+                        u[k - 1] = Math.Sqrt(w);
+                        break;
+                }
+            }
+            else
+            {
+                u[k - 1] = 0.0;
+                nullty += 1;
+            }
+
+            j += icol;
+            det = det * u[k - 1] * u[k - 1];
         }
     }
 }

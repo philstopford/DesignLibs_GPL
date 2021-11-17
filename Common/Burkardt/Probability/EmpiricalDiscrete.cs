@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class EmpiricalDiscrete
 {
-    public static class EmpiricalDiscrete
-    {
-        public static double empirical_discrete_cdf(double x, int a, double[] b, double[] c )
+    public static double empirical_discrete_cdf(double x, int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -40,25 +40,25 @@ namespace Burkardt.Probability
         //
         //    Output, double EMPIRICAL_DISCRETE_CDF, the value of the CDF.
         //
+    {
+        double cdf = 0.0;
+
+        double bsum = typeMethods.r8vec_sum(a, b);
+
+        for (int i = 1; i <= a; i++)
         {
-            double cdf = 0.0;
-
-            double bsum = typeMethods.r8vec_sum(a, b);
-
-            for (int i = 1; i <= a; i++)
+            if (x < c[i - 1])
             {
-                if (x < c[i - 1])
-                {
-                    return cdf;
-                }
-
-                cdf = cdf + b[i - 1] / bsum;
+                return cdf;
             }
 
-            return cdf;
+            cdf += b[i - 1] / bsum;
         }
 
-        public static double empirical_discrete_cdf_inv(double cdf, int a, double[] b, double[] c )
+        return cdf;
+    }
+
+    public static double empirical_discrete_cdf_inv(double cdf, int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -94,35 +94,37 @@ namespace Burkardt.Probability
         //    Output, double EMPIRICAL_DISCRETE_CDF_INV, the smallest argument
         //    whose CDF is greater than or equal to CDF.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EMPIRICAL_DISCRETE_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            double bsum = typeMethods.r8vec_sum(a, b);
-
-            double x = c[0];
-            double cdf2 = b[0] / bsum;
-
-            for (int i = 1; i < a; i++)
-            {
-                if (cdf <= cdf2)
-                {
-                    return x;
-                }
-
-                x = c[i];
-                cdf2 = cdf2 + b[i] / bsum;
-            }
-
-            return x;
+                return 1;
         }
 
-        public static bool empirical_discrete_check(int a, double[] b, double[] c )
+        double bsum = typeMethods.r8vec_sum(a, b);
+
+        double x = c[0];
+        double cdf2 = b[0] / bsum;
+
+        for (int i = 1; i < a; i++)
+        {
+            if (cdf <= cdf2)
+            {
+                return x;
+            }
+
+            x = c[i];
+            cdf2 += b[i] / bsum;
+        }
+
+        return x;
+    }
+
+    public static bool empirical_discrete_check(int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -155,79 +157,83 @@ namespace Burkardt.Probability
         //    Output, bool EMPIRICAL_DISCRETE_CHECK, is true if the parameters
         //    are legal.
         //
-        {
+    {
 
-            if (a <= 0)
-            {
+        switch (a)
+        {
+            case <= 0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
                 Console.WriteLine("  A must be positive.");
                 Console.WriteLine("  Input A = " + a + "");
                 Console.WriteLine("  A is the number of weights.");
                 return false;
-            }
+        }
 
-            for (int i = 0; i < a; i++)
+        for (int i = 0; i < a; i++)
+        {
+            switch (b[i])
             {
-                if (b[i] < 0.0)
-                {
+                case < 0.0:
                     Console.WriteLine(" ");
                     Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
                     Console.WriteLine("  B[" + i + "] < 0.");
                     Console.WriteLine("  But all B values must be nonnegative.");
                     return false;
-                }
             }
+        }
 
-            bool positive = false;
+        bool positive = false;
 
-            for (int i = 0; i < a; i++)
+        for (int i = 0; i < a; i++)
+        {
+            positive = b[i] switch
             {
-                if (0.0 < b[i])
-                {
-                    positive = true;
-                }
-            }
+                > 0.0 => true,
+                _ => positive
+            };
+        }
 
-            if (!positive)
-            {
+        switch (positive)
+        {
+            case false:
                 Console.WriteLine(" ");
                 Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
                 Console.WriteLine("  All B(*) = 0.");
                 Console.WriteLine("  But at least one B values must be nonzero.");
                 return false;
-            }
+        }
 
-            for (int i = 0; i < a; i++)
+        for (int i = 0; i < a; i++)
+        {
+            for (int j = i + 1; j < a; j++)
             {
-                for (int j = i + 1; j < a; j++)
-                {
-                    if (c[i] == c[j])
-                    {
-                        Console.WriteLine(" ");
-                        Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
-                        Console.WriteLine("  All values C must be unique.");
-                        Console.WriteLine("  But at least two values are identical.");
-                        return false;
-                    }
-                }
-            }
-
-            for (int i = 0; i < a - 1; i++)
-            {
-                if (c[i + 1] < c[i])
+                if (c[i] == c[j])
                 {
                     Console.WriteLine(" ");
                     Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
-                    Console.WriteLine("  The values in C must be in ascending order.");
+                    Console.WriteLine("  All values C must be unique.");
+                    Console.WriteLine("  But at least two values are identical.");
                     return false;
                 }
             }
-
-            return true;
         }
 
-        public static double empirical_discrete_mean(int a, double[] b, double[] c )
+        for (int i = 0; i < a - 1; i++)
+        {
+            if (c[i + 1] < c[i])
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
+                Console.WriteLine("  The values in C must be in ascending order.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static double empirical_discrete_mean(int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -259,22 +265,22 @@ namespace Burkardt.Probability
         //
         //    Output, double EMPIRICAL_DISCRETE_MEAN, the mean of the PDF.
         //
+    {
+        int i;
+        double mean;
+
+        mean = 0.0;
+        for (i = 0; i < a; i++)
         {
-            int i;
-            double mean;
-
-            mean = 0.0;
-            for (i = 0; i < a; i++)
-            {
-                mean = mean + b[i] * c[i];
-            }
-
-            mean = mean / typeMethods.r8vec_sum(a, b);
-
-            return mean;
+            mean += b[i] * c[i];
         }
 
-        public static double empirical_discrete_pdf(double x, int a, double[] b, double[] c )
+        mean /= typeMethods.r8vec_sum(a, b);
+
+        return mean;
+    }
+
+    public static double empirical_discrete_pdf(double x, int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -316,24 +322,24 @@ namespace Burkardt.Probability
         //
         //    Output, double EMPIRICAL_DISCRETE_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        for (int i = 0; i <= a; i++)
         {
-            double pdf;
-
-            for (int i = 0; i <= a; i++)
+            if (x == c[i])
             {
-                if (x == c[i])
-                {
-                    pdf = b[i] / typeMethods.r8vec_sum(a, b);
-                    return pdf;
-                }
+                pdf = b[i] / typeMethods.r8vec_sum(a, b);
+                return pdf;
             }
-
-            pdf = 0.0;
-
-            return pdf;
         }
 
-        public static double empirical_discrete_sample(int a, double[] b, double[] c, ref int seed )
+        pdf = 0.0;
+
+        return pdf;
+    }
+
+    public static double empirical_discrete_sample(int a, double[] b, double[] c, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -367,15 +373,15 @@ namespace Burkardt.Probability
         //
         //    Output, double EMPIRICAL_DISCRETE_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = empirical_discrete_cdf_inv(cdf, a, b, c);
+        double x = empirical_discrete_cdf_inv(cdf, a, b, c);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double empirical_discrete_variance(int a, double[] b, double[] c )
+    public static double empirical_discrete_variance(int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -407,19 +413,18 @@ namespace Burkardt.Probability
         //
         //    Output, double EMPIRICAL_DISCRETE_VARIANCE, the variance of the PDF.
         //
+    {
+        double bsum = typeMethods.r8vec_sum(a, b);
+
+        double mean = empirical_discrete_mean(a, b, c);
+
+        double variance = 0.0;
+
+        for (int i = 0; i < a; i++)
         {
-            double bsum = typeMethods.r8vec_sum(a, b);
-
-            double mean = empirical_discrete_mean(a, b, c);
-
-            double variance = 0.0;
-
-            for (int i = 0; i < a; i++)
-            {
-                variance = variance + (b[i] / bsum) * Math.Pow(c[i] - mean, 2);
-            }
-
-            return variance;
+            variance += b[i] / bsum * Math.Pow(c[i] - mean, 2);
         }
+
+        return variance;
     }
 }

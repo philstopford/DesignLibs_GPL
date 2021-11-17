@@ -2,11 +2,11 @@
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class IO
 {
-    public static class IO
-    {
-        public static void fem_data_read(string node_coord_file_name, string element_file_name,
+    public static void fem_data_read(string node_coord_file_name, string element_file_name,
             string node_data_file_name, int dim_num, int node_num, int element_num,
             int element_order, int node_data_num, ref double[] node_coord, ref int[] element_node,
             ref double[] node_data)
@@ -78,34 +78,32 @@ namespace Burkardt.FEM
         //    Output, double **NODE_DATA, a pointer to a double[NODE_DATA_NUM*NODE_NUM], 
         //    the data values associated with each node.
         //
+    {
+        if (typeMethods.s_len_trim(node_coord_file_name) <= 0)
         {
-            if (typeMethods.s_len_trim(node_coord_file_name) <= 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FEM_DATA_READ:");
-                Console.WriteLine("  No node coordinate file name was supplied!");
-                Console.WriteLine("  NO DATA WILL BE READ!");
-                return;
-            }
-
-            node_coord = typeMethods.r8mat_data_read(node_coord_file_name, dim_num, node_num);
-
-            if (0 < typeMethods.s_len_trim(element_file_name))
-            {
-                element_node = typeMethods.i4mat_data_read(element_file_name, element_order,
-                    element_num);
-            }
-
-            if (0 < typeMethods.s_len_trim(node_data_file_name))
-            {
-                node_data = typeMethods.r8mat_data_read(node_data_file_name, node_data_num,
-                    node_num);
-            }
-
+            Console.WriteLine("");
+            Console.WriteLine("FEM_DATA_READ:");
+            Console.WriteLine("  No node coordinate file name was supplied!");
+            Console.WriteLine("  NO DATA WILL BE READ!");
             return;
         }
 
-        public static void fem_header_print(int dim_num, int node_num, int element_num,
+        node_coord = typeMethods.r8mat_data_read(node_coord_file_name, dim_num, node_num);
+
+        if (0 < typeMethods.s_len_trim(element_file_name))
+        {
+            element_node = typeMethods.i4mat_data_read(element_file_name, element_order,
+                element_num);
+        }
+
+        if (0 < typeMethods.s_len_trim(node_data_file_name))
+        {
+            node_data = typeMethods.r8mat_data_read(node_data_file_name, node_data_num,
+                node_num);
+        }
+    }
+
+    public static void fem_header_print(int dim_num, int node_num, int element_num,
             int element_order, int node_data_num)
         //****************************************************************************80
         //
@@ -137,18 +135,16 @@ namespace Burkardt.FEM
         //
         //    Input, int NODE_DATA_NUM, the number of data items per node.
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("  Spatial dimension         = " + dim_num + "");
-            Console.WriteLine("  Number of nodes           = " + node_num + "");
-            Console.WriteLine("  Number of elements        = " + element_num + "");
-            Console.WriteLine("  Element order             = " + element_order + "");
-            Console.WriteLine("  Number of node data items = " + node_data_num + "");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("  Spatial dimension         = " + dim_num + "");
+        Console.WriteLine("  Number of nodes           = " + node_num + "");
+        Console.WriteLine("  Number of elements        = " + element_num + "");
+        Console.WriteLine("  Element order             = " + element_order + "");
+        Console.WriteLine("  Number of node data items = " + node_data_num + "");
+    }
 
-            return;
-        }
-
-        public static void fem_header_read(string node_coord_file_name, string element_file_name,
+    public static void fem_header_read(string node_coord_file_name, string element_file_name,
             string node_data_file_name, ref int dim_num, ref int node_num, ref int element_num,
             ref int element_order, ref int node_data_num)
         //****************************************************************************80
@@ -217,76 +213,76 @@ namespace Burkardt.FEM
         //    Output, int *NODE_DATA_NUM, the number of data items per node,
         //    inferred from the number of items in the first line of the node data file.
         //
+    {
+        int node_num2 = 0;
+
+        if (typeMethods.s_len_trim(node_coord_file_name) <= 0)
         {
-            int node_num2 = 0;
+            Console.WriteLine("");
+            Console.WriteLine("FEM_HEADER_READ - Error!");
+            Console.WriteLine("  No node coordinate file name was supplied!");
+            Console.WriteLine("  NO DATA WILL BE READ!");
+            return;
+        }
 
-            if (typeMethods.s_len_trim(node_coord_file_name) <= 0)
+        if (typeMethods.s_len_trim(element_file_name) <= 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FEM_HEADER_READ:");
+            Console.WriteLine("  No element file name was supplied.");
+            Console.WriteLine("  Therefore, no element data will be returned.");
+        }
+
+        if (typeMethods.s_len_trim(node_data_file_name) <= 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FEM_HEADER_READ:");
+            Console.WriteLine("  No node data file name was supplied!");
+            Console.WriteLine("  Therefore, no node data will be returned.");
+        }
+
+        //
+        //  Read the node coordinate file.
+        //
+        TableHeader h = typeMethods.r8mat_header_read(node_coord_file_name);
+        dim_num = h.m;
+        node_num = h.n;
+
+        if (0 < typeMethods.s_len_trim(element_file_name))
+        {
+            h = typeMethods.i4mat_header_read(element_file_name);
+            element_order = h.m;
+            element_num = h.n;
+        }
+        else
+        {
+            element_order = 0;
+            element_num = 0;
+        }
+
+        if (0 < typeMethods.s_len_trim(node_data_file_name))
+        {
+            h = typeMethods.r8mat_header_read(node_data_file_name);
+            node_data_num = h.m;
+            node_num2 = h.n;
+
+            if (node_num2 != node_num)
             {
                 Console.WriteLine("");
-                Console.WriteLine("FEM_HEADER_READ - Error!");
-                Console.WriteLine("  No node coordinate file name was supplied!");
-                Console.WriteLine("  NO DATA WILL BE READ!");
-                return;
-            }
-
-            if (typeMethods.s_len_trim(element_file_name) <= 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FEM_HEADER_READ:");
-                Console.WriteLine("  No element file name was supplied.");
-                Console.WriteLine("  Therefore, no element data will be returned.");
-            }
-
-            if (typeMethods.s_len_trim(node_data_file_name) <= 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FEM_HEADER_READ:");
-                Console.WriteLine("  No node data file name was supplied!");
-                Console.WriteLine("  Therefore, no node data will be returned.");
-            }
-
-            //
-            //  Read the node coordinate file.
-            //
-            TableHeader h = typeMethods.r8mat_header_read(node_coord_file_name);
-            dim_num = h.m;
-            node_num = h.n;
-
-            if (0 < typeMethods.s_len_trim(element_file_name))
-            {
-                h = typeMethods.i4mat_header_read(element_file_name);
-                element_order = h.m;
-                element_num = h.n;
-            }
-            else
-            {
-                element_order = 0;
-                element_num = 0;
-            }
-
-            if (0 < typeMethods.s_len_trim(node_data_file_name))
-            {
-                h = typeMethods.r8mat_header_read(node_data_file_name);
-                node_data_num = h.m;
-                node_num2 = h.n;
-
-                if (node_num2 != node_num)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("  The number of nodes in the node coordinate");
-                    Console.WriteLine("  file is " + node_num + " but the number of nodes");
-                    Console.WriteLine("  in the node data file is " + node_num2 + "");
-                    Console.WriteLine("  Because of this, no node data will be stored.");
-                    node_data_num = 0;
-                }
-            }
-            else
-            {
+                Console.WriteLine("  The number of nodes in the node coordinate");
+                Console.WriteLine("  file is " + node_num + " but the number of nodes");
+                Console.WriteLine("  in the node data file is " + node_num2 + "");
+                Console.WriteLine("  Because of this, no node data will be stored.");
                 node_data_num = 0;
             }
         }
+        else
+        {
+            node_data_num = 0;
+        }
+    }
 
-        public static void fem_write(string node_coord_file_name, string element_file_name,
+    public static void fem_write(string node_coord_file_name, string element_file_name,
             string node_data_file_name, int dim_num, int node_num, int element_num,
             int element_order, int node_data_num, double[] node_coord,
             int[] element_node, double[] node_data )
@@ -347,41 +343,41 @@ namespace Burkardt.FEM
         //    Input, double NODE_DATA[NODE_DATA_NUM*NODE_NUM], the data 
         //    values associated with each node.
         //
+    {
+        //
+        //  Write the node coordinate file.
+        //
+        if (0 < typeMethods.s_len_trim(node_coord_file_name))
         {
-            //
-            //  Write the node coordinate file.
-            //
-            if (0 < typeMethods.s_len_trim(node_coord_file_name))
-            {
-                typeMethods.r8mat_write(node_coord_file_name, dim_num, node_num, node_coord);
+            typeMethods.r8mat_write(node_coord_file_name, dim_num, node_num, node_coord);
 
-                Console.WriteLine("");
-                Console.WriteLine("FEM_WRITE wrote node coordinates to \""
-                     + node_coord_file_name + "\".");
-            }
-
-            //
-            //  Write the element file.
-            //
-            if (0 < typeMethods.s_len_trim(element_file_name))
-            {
-                typeMethods.i4mat_write(element_file_name, element_order, element_num, element_node);
-            }
-
-            //
-            //  Write the node data file.
-            //
-            if (0 < typeMethods.s_len_trim(node_data_file_name))
-            {
-                typeMethods.r8mat_write(node_data_file_name, node_data_num, node_num, node_data);
-
-                Console.WriteLine("");
-                Console.WriteLine("FEM_WRITE wrote node data to \""
-                     + node_data_file_name + "\".");
-            }
+            Console.WriteLine("");
+            Console.WriteLine("FEM_WRITE wrote node coordinates to \""
+                              + node_coord_file_name + "\".");
         }
 
-        public static void mesh_base_zero(int node_num, int element_order, int element_num,
+        //
+        //  Write the element file.
+        //
+        if (0 < typeMethods.s_len_trim(element_file_name))
+        {
+            typeMethods.i4mat_write(element_file_name, element_order, element_num, element_node);
+        }
+
+        //
+        //  Write the node data file.
+        //
+        if (0 < typeMethods.s_len_trim(node_data_file_name))
+        {
+            typeMethods.r8mat_write(node_data_file_name, node_data_num, node_num, node_data);
+
+            Console.WriteLine("");
+            Console.WriteLine("FEM_WRITE wrote node data to \""
+                              + node_data_file_name + "\".");
+        }
+    }
+
+    public static void mesh_base_zero(int node_num, int element_order, int element_num,
             ref int[] element_node)
         //****************************************************************************80
         //
@@ -412,38 +408,38 @@ namespace Burkardt.FEM
         //    Input/output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the element
         //    definitions.
         //
+    {
+        const int i4_huge = 2147483647;
+
+        int node_min = +i4_huge;
+        int node_max = -i4_huge;
+
+        for (int j = 0; j < element_num; j++)
         {
-            const int i4_huge = 2147483647;
-
-            int node_min = +i4_huge;
-            int node_max = -i4_huge;
-
-            for (int j = 0; j < element_num; j++)
+            for (int i = 0; i < element_order; i++)
             {
-                for (int i = 0; i < element_order; i++)
+                int t = element_node[i + j * element_order];
+                if (t < node_min)
                 {
-                    int t = element_node[i + j * element_order];
-                    if (t < node_min)
-                    {
-                        node_min = t;
-                    }
+                    node_min = t;
+                }
 
-                    if (node_max < t)
-                    {
-                        node_max = t;
-                    }
+                if (node_max < t)
+                {
+                    node_max = t;
                 }
             }
+        }
 
-            if (node_min == 0 && node_max == node_num - 1)
-            {
+        switch (node_min)
+        {
+            case 0 when node_max == node_num - 1:
                 Console.WriteLine("");
                 Console.WriteLine("MESH_BASE_ZERO:");
                 Console.WriteLine("  The element indexing appears to be 0-based!");
                 Console.WriteLine("  No conversion is necessary.");
-
-            }
-            else if (node_min == 1 && node_max == node_num)
+                break;
+            case 1 when node_max == node_num:
             {
                 Console.WriteLine("");
                 Console.WriteLine("MESH_BASE_ZERO:");
@@ -453,19 +449,20 @@ namespace Burkardt.FEM
                 {
                     for (int i = 0; i < element_order; i++)
                     {
-                        element_node[i + j * element_order] = element_node[i + j * element_order] - 1;
+                        element_node[i + j * element_order] -= 1;
                     }
                 }
+
+                break;
             }
-            else
-            {
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("MESH_BASE_ZERO - Warning!");
                 Console.WriteLine("  The element indexing is not of a recognized type.");
                 Console.WriteLine("  NODE_MIN = " + node_min + "");
                 Console.WriteLine("  NODE_MAX = " + node_max + "");
                 Console.WriteLine("  NODE_NUM = " + node_num + "");
-            }
+                break;
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.SolveNS
+namespace Burkardt.SolveNS;
+
+public static class ConjugateGradient
 {
-    public static class ConjugateGradient
-    {
-        public static double[] solve_cg(int n, int[] diag, int nz_num, int[] ia, int[] ja,
-        double[] a, double[] b )
+    public static double[] solve_cg(int n, int[] diag, int nz_num, int[] ia, int[] ja,
+            double[] a, double[] b )
 
         //****************************************************************************80
         //
@@ -43,144 +43,143 @@ namespace Burkardt.SolveNS
         //
         //    Output, double SOLVE_CG[N], the solution of the linear system.
         //
+    {
+        double aii;
+        double bnrm2;
+        int i;
+        int it;
+        int it_max;
+        int j;
+        int job;
+        int k;
+        double[] p;
+        double[] q;
+        double[] r;
+        double rnrm2;
+        double tol;
+        double[] x;
+        double[] z;
+        ConjugateGradientData data = new();
+
+        it = 0;
+        it_max = 100;
+        tol = 1.0E-08;
+        bnrm2 = 0.0;
+        for (i = 0; i < n; i++)
         {
-            double aii;
-            double bnrm2;
-            int i;
-            int it;
-            int it_max;
-            int j;
-            int job;
-            int k;
-            double[] p;
-            double[] q;
-            double[] r;
-            double rnrm2;
-            double tol;
-            double[] x;
-            double[] z;
-            ConjugateGradientData data = new ConjugateGradientData();
+            bnrm2 += b[i] * b[i];
+        }
 
-            it = 0;
-            it_max = 100;
-            tol = 1.0E-08;
-            bnrm2 = 0.0;
-            for (i = 0; i < n; i++)
+        bnrm2 = Math.Sqrt(bnrm2);
+
+        p = new double[n];
+        q = new double[n];
+        r = new double[n];
+        x = new double[n];
+        z = new double[n];
+
+        for (i = 0; i < n; i++)
+        {
+            aii = a[diag[i]];
+            x[i] = b[i] / aii;
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("  Step        Residual");
+        Console.WriteLine("");
+
+        job = 1;
+
+        for (;;)
+        {
+            job = ConjugateGradientRC.cg_rc(ref data, n, b, ref x, ref r, ref z, ref p, ref q, ref job);
+            //
+            //  Compute q = A * p.
+            //
+            if (job == 1)
             {
-                bnrm2 = bnrm2 + b[i] * b[i];
+                for (i = 0; i < n; i++)
+                {
+                    q[i] = 0.0;
+                }
+
+                for (k = 0; k < nz_num; k++)
+                {
+                    i = ia[k] - 1;
+                    j = ja[k] - 1;
+                    q[i] += a[k] * p[j];
+                }
             }
-
-            bnrm2 = Math.Sqrt(bnrm2);
-
-            p = new double[n];
-            q = new double[n];
-            r = new double[n];
-            x = new double[n];
-            z = new double[n];
-
-            for (i = 0; i < n; i++)
+            //
+            //  Solve M * z = r.
+            //
+            else if (job == 2)
             {
-                aii = a[diag[i]];
-                x[i] = b[i] / aii;
+                for (i = 0; i < n; i++)
+                {
+                    aii = a[diag[i]];
+                    z[i] = r[i] / aii;
+                }
             }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Step        Residual");
-            Console.WriteLine("");
-
-            job = 1;
-
-            for (;;)
+            //
+            //  Compute r = r - A * x.
+            //
+            else if (job == 3)
             {
-                job = ConjugateGradientRC.cg_rc(ref data, n, b, ref x, ref r, ref z, ref p, ref q, ref job);
-                //
-                //  Compute q = A * p.
-                //
-                if (job == 1)
+                for (k = 0; k < nz_num; k++)
                 {
-                    for (i = 0; i < n; i++)
-                    {
-                        q[i] = 0.0;
-                    }
+                    i = ia[k] - 1;
+                    j = ja[k] - 1;
+                    r[i] -= a[k] * x[j];
+                }
+            }
+            //
+            //  Stopping test.
+            //
+            else if (job == 4)
+            {
+                rnrm2 = 0.0;
+                for (i = 0; i < n; i++)
+                {
+                    rnrm2 += r[i] * r[i];
+                }
 
-                    for (k = 0; k < nz_num; k++)
+                rnrm2 = Math.Sqrt(rnrm2);
+
+                if (bnrm2 == 0.0)
+                {
+                    if (rnrm2 <= tol)
                     {
-                        i = ia[k] - 1;
-                        j = ja[k] - 1;
-                        q[i] = q[i] + a[k] * p[j];
+                        break;
                     }
                 }
-                //
-                //  Solve M * z = r.
-                //
-                else if (job == 2)
+                else
                 {
-                    for (i = 0; i < n; i++)
+                    if (rnrm2 <= tol * bnrm2)
                     {
-                        aii = a[diag[i]];
-                        z[i] = r[i] / aii;
-                    }
-                }
-                //
-                //  Compute r = r - A * x.
-                //
-                else if (job == 3)
-                {
-                    for (k = 0; k < nz_num; k++)
-                    {
-                        i = ia[k] - 1;
-                        j = ja[k] - 1;
-                        r[i] = r[i] - a[k] * x[j];
-                    }
-                }
-                //
-                //  Stopping test.
-                //
-                else if (job == 4)
-                {
-                    rnrm2 = 0.0;
-                    for (i = 0; i < n; i++)
-                    {
-                        rnrm2 = rnrm2 + r[i] * r[i];
-                    }
-
-                    rnrm2 = Math.Sqrt(rnrm2);
-
-                    if (bnrm2 == 0.0)
-                    {
-                        if (rnrm2 <= tol)
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (rnrm2 <= tol * bnrm2)
-                        {
-                            break;
-                        }
-                    }
-
-                    it = it + 1;
-                    Console.WriteLine("  " + it + "  " + rnrm2);
-
-                    if (it_max <= it)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("  Iteration limit exceeded.");
-                        Console.WriteLine("  Terminating early.");
                         break;
                     }
                 }
 
-                job = 2;
+                it += 1;
+                Console.WriteLine("  " + it + "  " + rnrm2);
+
+                if (it_max <= it)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("  Iteration limit exceeded.");
+                    Console.WriteLine("  Terminating early.");
+                    break;
+                }
             }
 
-            Console.WriteLine("");
-            Console.WriteLine("  Number of iterations was " + it + "");
-            Console.WriteLine("  Estimated error is " + rnrm2 + "");
-
-            return x;
+            job = 2;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("  Number of iterations was " + it + "");
+        Console.WriteLine("  Estimated error is " + rnrm2 + "");
+
+        return x;
     }
 }

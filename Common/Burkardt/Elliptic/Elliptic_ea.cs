@@ -1,65 +1,65 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class EA
 {
-    public static class EA
+    public static double evaluate(double a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_EA evaluates the complete elliptic integral E(A).
+        //
+        //  Discussion:
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      E(a) = RF ( 0, 1-sin^2(a), 1 ) - 1/3 sin^2(a) RD ( 0, 1-sin^2(a), 1 ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A, the argument.
+        //
+        //    Output, double ELLIPTIC_EA, the function value.
+        //
     {
-        public static double evaluate(double a)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_EA evaluates the complete elliptic integral E(A).
-            //
-            //  Discussion:
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      E(a) = RF ( 0, 1-sin^2(a), 1 ) - 1/3 sin^2(a) RD ( 0, 1-sin^2(a), 1 ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double A, the argument.
-            //
-            //    Output, double ELLIPTIC_EA, the function value.
-            //
-        {
-            double errtol;
-            int ierr = 0;
-            double k;
+        double errtol;
+        int ierr = 0;
+        double k;
             
-            double value;
-            double x;
-            double y;
-            double z;
+        double value = 0;
+        double x;
+        double y;
+        double z;
 
-            k = Math.Sin(a * Math.PI / 180.0);
+        k = Math.Sin(a * Math.PI / 180.0);
 
-            x = 0.0;
-            y = (1.0 - k) * (1.0 + k);
-            z = 1.0;
-            errtol = 1.0E-03;
+        x = 0.0;
+        y = (1.0 - k) * (1.0 + k);
+        z = 1.0;
+        errtol = 1.0E-03;
 
-            value = Integral.rf(x, y, z, errtol, ref ierr)
-                    - k * k * Integral.rd(x, y, z, errtol, ref ierr) / 3.0;
+        value = Integral.rf(x, y, z, errtol, ref ierr)
+                - k * k * Integral.rd(x, y, z, errtol, ref ierr) / 3.0;
 
-            return value;
-        }
+        return value;
+    }
 
-        public static void values(ref int n_data, ref double x, ref double fx )
+    public static void values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -120,10 +120,10 @@ namespace Burkardt.Elliptic
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 18;
+    {
+        const int N_MAX = 18;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 1.570796326794897E+00,
                 1.567809073977622E+00,
@@ -146,7 +146,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.0E+00,
                 5.0E+00,
@@ -169,24 +169,24 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

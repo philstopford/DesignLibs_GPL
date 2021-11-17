@@ -2,102 +2,102 @@
 using Burkardt.ExactnessNS;
 using Burkardt.Types;
 
-namespace ExactnessTest
+namespace ExactnessTest;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MAIN is the main program for EXACTNESS_TEST.
+        //
+        //  Discussion:
+        //
+        //    EXACTNESS_TEST tests the EXACTNESS library.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        static void Main(string[] args)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MAIN is the main program for EXACTNESS_TEST.
-            //
-            //  Discussion:
-            //
-            //    EXACTNESS_TEST tests the EXACTNESS library.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    14 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        Console.WriteLine("");
+        Console.WriteLine("EXACTNESS_TEST");
+
+        Console.WriteLine("  Test the EXACTNESS library.");
+
+        chebyshev1_exactness_test();
+        chebyshev2_exactness_test();
+        chebyshev3_exactness_test();
+        clenshaw_curtis_exactness_test();
+        fejer1_exactness_test();
+        fejer2_exactness_test();
+        gegenbauer_exactness_test();
+        hermite_exactness_test();
+        hermite_1_exactness_test();
+        laguerre_exactness_test();
+        laguerre_1_exactness_test();
+        legendre_exactness_test();
+
+        Console.WriteLine("");
+        Console.WriteLine("EXACTNESS_TEST");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
+
+    private static void chebyshev1_exactness_test()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CHEBYSHEV1_EXACTNESS_TEST tests rules for the Chebyshev1 integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    27 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("CHEBYSHEV1_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Chebyshev1 rules for the Chebyshev1 integral.");
+        Console.WriteLine("  Density function rho(x) = 1/sqrt(1-x^2).");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: 2N-1.");
+
+        for (n = 1; n <= 5; n++)
         {
-            Console.WriteLine("");
-            Console.WriteLine("EXACTNESS_TEST");
-
-            Console.WriteLine("  Test the EXACTNESS library.");
-
-            chebyshev1_exactness_test();
-            chebyshev2_exactness_test();
-            chebyshev3_exactness_test();
-            clenshaw_curtis_exactness_test();
-            fejer1_exactness_test();
-            fejer2_exactness_test();
-            gegenbauer_exactness_test();
-            hermite_exactness_test();
-            hermite_1_exactness_test();
-            laguerre_exactness_test();
-            laguerre_1_exactness_test();
-            legendre_exactness_test();
-
-            Console.WriteLine("");
-            Console.WriteLine("EXACTNESS_TEST");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
+            x = new double[n];
+            w = new double[n];
+            chebyshev1_set(n, ref x, ref w);
+            p_max = 2 * n;
+            Exactness.chebyshev1_exactness(n, x, w, p_max);
         }
+    }
 
-        static void chebyshev1_exactness_test()
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CHEBYSHEV1_EXACTNESS_TEST tests rules for the Chebyshev1 integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    27 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-        {
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("CHEBYSHEV1_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Chebyshev1 rules for the Chebyshev1 integral.");
-            Console.WriteLine("  Density function rho(x) = 1/sqrt(1-x^2).");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: 2N-1.");
-
-            for (n = 1; n <= 5; n++)
-            {
-                x = new double[n];
-                w = new double[n];
-                chebyshev1_set(n, ref x, ref w);
-                p_max = 2 * n;
-                Exactness.chebyshev1_exactness(n, x, w, p_max);
-            }
-        }
-
-        static void chebyshev1_set(int n, ref double[] x, ref double[] w )
+    private static void chebyshev1_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -136,30 +136,28 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.0;
                 w[0] = 3.141592653589793;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -0.7071067811865475;
                 x[1] = 0.7071067811865476;
                 w[0] = 1.570796326794897;
                 w[1] = 1.570796326794897;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -0.8660254037844387;
                 x[1] = 0.0;
                 x[2] = 0.8660254037844387;
                 w[0] = 1.047197551196598;
                 w[1] = 1.047197551196598;
                 w[2] = 1.047197551196598;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -0.9238795325112867;
                 x[1] = -0.3826834323650897;
                 x[2] = 0.3826834323650898;
@@ -168,9 +166,8 @@ namespace ExactnessTest
                 w[1] = 0.7853981633974483;
                 w[2] = 0.7853981633974483;
                 w[3] = 0.7853981633974483;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -0.9510565162951535;
                 x[1] = -0.5877852522924730;
                 x[2] = 0.0;
@@ -181,9 +178,8 @@ namespace ExactnessTest
                 w[2] = 0.6283185307179586;
                 w[3] = 0.6283185307179586;
                 w[4] = 0.6283185307179586;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -0.9659258262890682;
                 x[1] = -0.7071067811865475;
                 x[2] = -0.2588190451025206;
@@ -196,9 +192,8 @@ namespace ExactnessTest
                 w[3] = 0.5235987755982988;
                 w[4] = 0.5235987755982988;
                 w[5] = 0.5235987755982988;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -0.9749279121818237;
                 x[1] = -0.7818314824680295;
                 x[2] = -0.4338837391175581;
@@ -213,9 +208,8 @@ namespace ExactnessTest
                 w[4] = 0.4487989505128276;
                 w[5] = 0.4487989505128276;
                 w[6] = 0.4487989505128276;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -0.9807852804032304;
                 x[1] = -0.8314696123025453;
                 x[2] = -0.5555702330196020;
@@ -232,9 +226,8 @@ namespace ExactnessTest
                 w[5] = 0.3926990816987241;
                 w[6] = 0.3926990816987241;
                 w[7] = 0.3926990816987241;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -0.9848077530122080;
                 x[1] = -0.8660254037844385;
                 x[2] = -0.6427876096865394;
@@ -253,9 +246,8 @@ namespace ExactnessTest
                 w[6] = 0.3490658503988659;
                 w[7] = 0.3490658503988659;
                 w[8] = 0.3490658503988659;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -0.9876883405951377;
                 x[1] = -0.8910065241883678;
                 x[2] = -0.7071067811865475;
@@ -276,55 +268,55 @@ namespace ExactnessTest
                 w[7] = 0.3141592653589793;
                 w[8] = 0.3141592653589793;
                 w[9] = 0.3141592653589793;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("CHEBYSHEV1_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 through 10.");
-            }
+                break;
         }
+    }
 
-        static void chebyshev2_exactness_test()
+    private static void chebyshev2_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CHEBYSHEV2_EXACTNESS_TEST tests rules for the Chebyshev2 integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CHEBYSHEV2_EXACTNESS_TEST tests rules for the Chebyshev2 integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        Console.WriteLine("");
+        Console.WriteLine("CHEBYSHEV2_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Chebyshev2 rules for the Chebyshev2 integral.");
+        Console.WriteLine("  Density function rho(x) = sqrt(1-x^2).");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: 2N-1.");
+
+        for (int n = 1; n <= 5; n++)
         {
-            Console.WriteLine("");
-            Console.WriteLine("CHEBYSHEV2_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Chebyshev2 rules for the Chebyshev2 integral.");
-            Console.WriteLine("  Density function rho(x) = sqrt(1-x^2).");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: 2N-1.");
-
-            for (int n = 1; n <= 5; n++)
-            {
-                double[] x = new double[n];
-                double[] w = new double[n];
-                chebyshev2_set(n, ref x, ref w);
-                int p_max = 2 * n;
-                Exactness.chebyshev2_exactness(n, x, w, p_max);
-            }
+            double[] x = new double[n];
+            double[] w = new double[n];
+            chebyshev2_set(n, ref x, ref w);
+            int p_max = 2 * n;
+            Exactness.chebyshev2_exactness(n, x, w, p_max);
         }
+    }
 
-        static void chebyshev2_set(int n, ref double[] x, ref double[] w )
+    private static void chebyshev2_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -363,30 +355,28 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.0;
                 w[0] = 1.570796326794897;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -0.5000000000000000;
                 x[1] = 0.5000000000000000;
                 w[0] = 0.7853981633974484;
                 w[1] = 0.7853981633974481;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -0.7071067811865475;
                 x[1] = 0.0;
                 x[2] = 0.7071067811865476;
                 w[0] = 0.3926990816987243;
                 w[1] = 0.7853981633974483;
                 w[2] = 0.3926990816987240;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -0.8090169943749473;
                 x[1] = -0.3090169943749473;
                 x[2] = 0.3090169943749475;
@@ -395,9 +385,8 @@ namespace ExactnessTest
                 w[1] = 0.5683194499747424;
                 w[2] = 0.5683194499747423;
                 w[3] = 0.2170787134227060;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -0.8660254037844387;
                 x[1] = -0.5000000000000000;
                 x[2] = 0.0;
@@ -408,9 +397,8 @@ namespace ExactnessTest
                 w[2] = 0.5235987755982988;
                 w[3] = 0.3926990816987240;
                 w[4] = 0.1308996938995747;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -0.9009688679024190;
                 x[1] = -0.6234898018587335;
                 x[2] = -0.2225209339563143;
@@ -423,9 +411,8 @@ namespace ExactnessTest
                 w[3] = 0.4265764164360819;
                 w[4] = 0.2743330560697778;
                 w[5] = 0.08448869089158857;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -0.9238795325112867;
                 x[1] = -0.7071067811865475;
                 x[2] = -0.3826834323650897;
@@ -440,9 +427,8 @@ namespace ExactnessTest
                 w[4] = 0.3351896326668110;
                 w[5] = 0.1963495408493620;
                 w[6] = 0.05750944903191313;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -0.9396926207859083;
                 x[1] = -0.7660444431189779;
                 x[2] = -0.5000000000000000;
@@ -459,9 +445,8 @@ namespace ExactnessTest
                 w[5] = 0.2617993877991494;
                 w[6] = 0.1442256007956727;
                 w[7] = 0.04083294770910708;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -0.9510565162951535;
                 x[1] = -0.8090169943749473;
                 x[2] = -0.5877852522924730;
@@ -480,9 +465,8 @@ namespace ExactnessTest
                 w[6] = 0.2056199086476263;
                 w[7] = 0.1085393567113530;
                 w[8] = 0.02999954037160816;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -0.9594929736144974;
                 x[1] = -0.8412535328311811;
                 x[2] = -0.6548607339452850;
@@ -503,68 +487,65 @@ namespace ExactnessTest
                 w[7] = 0.1631221774548166;
                 w[8] = 0.08347854093418902;
                 w[9] = 0.02266894250185884;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("CHEBYSHEV2_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 through 10.");
-            }
+                break;
         }
+    }
 
-        static void chebyshev3_exactness_test()
+    private static void chebyshev3_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CHEBYSHEV3_EXACTNESS_TEST tests rules for the Chebyshev1 integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CHEBYSHEV3_EXACTNESS_TEST tests rules for the Chebyshev1 integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("CHEBYSHEV3_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Chebyshev3 rules for the Chebyshev1 integral.");
+        Console.WriteLine("  Density function rho(x) = 1/sqrt(1-x^2).");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: 2N-3.");
+
+        for (n = 1; n <= 5; n++)
         {
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("CHEBYSHEV3_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Chebyshev3 rules for the Chebyshev1 integral.");
-            Console.WriteLine("  Density function rho(x) = 1/sqrt(1-x^2).");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: 2N-3.");
-
-            for (n = 1; n <= 5; n++)
+            x = new double[n];
+            w = new double[n];
+            chebyshev3_set(n, x, w);
+            p_max = n switch
             {
-                x = new double[n];
-                w = new double[n];
-                chebyshev3_set(n, x, w);
-                if (n == 1)
-                {
-                    p_max = 2 * n;
-                }
-                else
-                {
-                    p_max = 2 * n - 2;
-                }
+                1 => 2 * n,
+                _ => 2 * n - 2
+            };
 
-                Exactness.chebyshev1_exactness(n, x, w, p_max);
-            }
+            Exactness.chebyshev1_exactness(n, x, w, p_max);
         }
+    }
 
-        static void chebyshev3_set(int n, double[] x, double[] w )
+    private static void chebyshev3_set(int n, double[] x, double[] w )
 
         //****************************************************************************80
         //
@@ -603,30 +584,28 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.000000000000000;
                 w[0] = 3.141592653589793;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -1.000000000000000;
                 x[1] = 1.000000000000000;
                 w[0] = 1.570796326794897;
                 w[1] = 1.570796326794897;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -1.000000000000000;
                 x[1] = 0.0;
                 x[2] = 1.000000000000000;
                 w[0] = 0.7853981633974483;
                 w[1] = 1.570796326794897;
                 w[2] = 0.7853981633974483;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -1.000000000000000;
                 x[1] = -0.5000000000000000;
                 x[2] = 0.5000000000000000;
@@ -635,9 +614,8 @@ namespace ExactnessTest
                 w[1] = 1.047197551196598;
                 w[2] = 1.047197551196598;
                 w[3] = 0.5235987755982988;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -1.000000000000000;
                 x[1] = -0.7071067811865475;
                 x[2] = 0.0;
@@ -648,9 +626,8 @@ namespace ExactnessTest
                 w[2] = 0.7853981633974483;
                 w[3] = 0.7853981633974483;
                 w[4] = 0.3926990816987241;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -1.000000000000000;
                 x[1] = -0.8090169943749473;
                 x[2] = -0.3090169943749473;
@@ -663,9 +640,8 @@ namespace ExactnessTest
                 w[3] = 0.6283185307179586;
                 w[4] = 0.6283185307179586;
                 w[5] = 0.3141592653589793;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -1.000000000000000;
                 x[1] = -0.8660254037844387;
                 x[2] = -0.5000000000000000;
@@ -680,9 +656,8 @@ namespace ExactnessTest
                 w[4] = 0.5235987755982988;
                 w[5] = 0.5235987755982988;
                 w[6] = 0.2617993877991494;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -1.000000000000000;
                 x[1] = -0.9009688679024190;
                 x[2] = -0.6234898018587335;
@@ -699,9 +674,8 @@ namespace ExactnessTest
                 w[5] = 0.4487989505128276;
                 w[6] = 0.4487989505128276;
                 w[7] = 0.2243994752564138;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -1.000000000000000;
                 x[1] = -0.9238795325112867;
                 x[2] = -0.7071067811865475;
@@ -720,9 +694,8 @@ namespace ExactnessTest
                 w[6] = 0.3926990816987241;
                 w[7] = 0.3926990816987241;
                 w[8] = 0.1963495408493621;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -1.000000000000000;
                 x[1] = -0.9396926207859083;
                 x[2] = -0.7660444431189779;
@@ -743,69 +716,66 @@ namespace ExactnessTest
                 w[7] = 0.3490658503988659;
                 w[8] = 0.3490658503988659;
                 w[9] = 0.1745329251994329;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("CHEBYSHEV3_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 through 10.");
-            }
+                break;
         }
+    }
 
-        static void clenshaw_curtis_exactness_test()
+    private static void clenshaw_curtis_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CLENSHAW_CURTIS_EXACTNESS_TEST tests Clenshaw-Curtis rules for the Legendre integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CLENSHAW_CURTIS_EXACTNESS_TEST tests Clenshaw-Curtis rules for the Legendre integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("CLENSHAW_CURTIS_EXACTNESS_TEST");
+        Console.WriteLine("  Clenshaw-Curtis rules for the Legendre integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: N   for N odd,");
+        Console.WriteLine("             N-1 for N even.");
+
+        for (n = 1; n <= 5; n++)
         {
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("CLENSHAW_CURTIS_EXACTNESS_TEST");
-            Console.WriteLine("  Clenshaw-Curtis rules for the Legendre integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: N   for N odd,");
-            Console.WriteLine("             N-1 for N even.");
-
-            for (n = 1; n <= 5; n++)
+            x = new double[n];
+            w = new double[n];
+            clenshaw_curtis_set(n, x, w);
+            p_max = (n % 2) switch
             {
-                x = new double[n];
-                w = new double[n];
-                clenshaw_curtis_set(n, x, w);
-                if ((n % 2) == 1)
-                {
-                    p_max = n + 1;
-                }
-                else
-                {
-                    p_max = n;
-                }
+                1 => n + 1,
+                _ => n
+            };
 
-                Exactness.legendre_exactness(n, x, w, p_max);
-            }
+            Exactness.legendre_exactness(n, x, w, p_max);
         }
+    }
 
-        static void clenshaw_curtis_set(int n, double[] x, double[] w )
+    private static void clenshaw_curtis_set(int n, double[] x, double[] w )
 
         //****************************************************************************80
         //
@@ -871,22 +841,21 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.00000000000000000000;
                 w[0] = 2.00000000000000000000;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -1.00000000000000000000;
                 x[1] = 1.00000000000000000000;
 
                 w[0] = 1.00000000000000000000;
                 w[1] = 1.00000000000000000000;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -1.00000000000000000000;
                 x[1] = 0.00000000000000000000;
                 x[2] = 1.00000000000000000000;
@@ -894,9 +863,8 @@ namespace ExactnessTest
                 w[0] = 0.33333333333333333333;
                 w[1] = 1.33333333333333333333;
                 w[2] = 0.33333333333333333333;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.50000000000000000000;
                 x[2] = 0.50000000000000000000;
@@ -906,9 +874,8 @@ namespace ExactnessTest
                 w[1] = 0.88888888888888888889;
                 w[2] = 0.88888888888888888889;
                 w[3] = 0.11111111111111111111;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.70710678118654752440;
                 x[2] = 0.00000000000000000000;
@@ -920,9 +887,8 @@ namespace ExactnessTest
                 w[2] = 0.80000000000000000000;
                 w[3] = 0.53333333333333333333;
                 w[4] = 0.06666666666666666667;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.80901699437494742410;
                 x[2] = -0.30901699437494742410;
@@ -936,9 +902,8 @@ namespace ExactnessTest
                 w[3] = 0.59925695879998878381;
                 w[4] = 0.36074304120001121619;
                 w[5] = 0.04000000000000000000;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.86602540378443864676;
                 x[2] = -0.50000000000000000000;
@@ -954,9 +919,8 @@ namespace ExactnessTest
                 w[4] = 0.45714285714285714286;
                 w[5] = 0.25396825396825396825;
                 w[6] = 0.02857142857142857143;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.90096886790241912624;
                 x[2] = -0.62348980185873353053;
@@ -974,9 +938,8 @@ namespace ExactnessTest
                 w[5] = 0.35224242371815911533;
                 w[6] = 0.19014100721820835178;
                 w[7] = 0.02040816326530612245;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.92387953251128675613;
                 x[2] = -0.70710678118654752440;
@@ -996,9 +959,8 @@ namespace ExactnessTest
                 w[6] = 0.27936507936507936508;
                 w[7] = 0.14621864921601815501;
                 w[8] = 0.01587301587301587302;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -1.00000000000000000000;
                 x[1] = -0.93969262078590838405;
                 x[2] = -0.76604444311897903520;
@@ -1020,69 +982,66 @@ namespace ExactnessTest
                 w[7] = 0.22528432333810440813;
                 w[8] = 0.11656745657203712296;
                 w[9] = 0.01234567901234567901;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("CLENSHAW_CURTIS_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 to 10.");
-            }
+                break;
         }
+    }
 
-        static void fejer1_exactness_test()
+    private static void fejer1_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    FEJER1_EXACTNESS_TEST tests Fejer Type 1 rules for the Legendre integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    FEJER1_EXACTNESS_TEST tests Fejer Type 1 rules for the Legendre integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("FEJER1_EXACTNESS_TEST");
+        Console.WriteLine("  Fejer Type 1 rules for the Legendre integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: N   for N odd,");
+        Console.WriteLine("             N-1 for N even.");
+
+        for (n = 1; n <= 5; n++)
         {
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("FEJER1_EXACTNESS_TEST");
-            Console.WriteLine("  Fejer Type 1 rules for the Legendre integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: N   for N odd,");
-            Console.WriteLine("             N-1 for N even.");
-
-            for (n = 1; n <= 5; n++)
+            x = new double[n];
+            w = new double[n];
+            fejer1_set(n, x, w);
+            p_max = (n % 2) switch
             {
-                x = new double[n];
-                w = new double[n];
-                fejer1_set(n, x, w);
-                if ((n % 2) == 1)
-                {
-                    p_max = n + 1;
-                }
-                else
-                {
-                    p_max = n;
-                }
+                1 => n + 1,
+                _ => n
+            };
 
-                Exactness.legendre_exactness(n, x, w, p_max);
-            }
+            Exactness.legendre_exactness(n, x, w, p_max);
         }
+    }
 
-        static void fejer1_set(int n, double[] xtab, double[] weight )
+    private static void fejer1_set(int n, double[] xtab, double[] weight )
 
         //****************************************************************************80
         //
@@ -1130,22 +1089,21 @@ namespace ExactnessTest
         //
         //    Output, double WEIGHT[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 xtab[0] = 0.000000000000000;
                 weight[0] = 2.000000000000000;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 xtab[0] = -0.7071067811865475;
                 xtab[1] = 0.7071067811865475;
 
                 weight[0] = 1.000000000000000;
                 weight[1] = 1.000000000000000;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 xtab[0] = -0.8660254037844387;
                 xtab[1] = 0.0000000000000000;
                 xtab[2] = 0.8660254037844387;
@@ -1153,9 +1111,8 @@ namespace ExactnessTest
                 weight[0] = 0.4444444444444444;
                 weight[1] = 1.111111111111111;
                 weight[2] = 0.4444444444444444;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 xtab[0] = -0.9238795325112867;
                 xtab[1] = -0.3826834323650897;
                 xtab[2] = 0.3826834323650898;
@@ -1165,9 +1122,8 @@ namespace ExactnessTest
                 weight[1] = 0.7357022603955158;
                 weight[2] = 0.7357022603955158;
                 weight[3] = 0.2642977396044841;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 xtab[0] = -0.9510565162951535;
                 xtab[1] = -0.5877852522924730;
                 xtab[2] = 0.0000000000000000;
@@ -1179,9 +1135,8 @@ namespace ExactnessTest
                 weight[2] = 0.6133333333333333;
                 weight[3] = 0.5255521048666498;
                 weight[4] = 0.1677812284666835;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 xtab[0] = -0.9659258262890682;
                 xtab[1] = -0.7071067811865475;
                 xtab[2] = -0.2588190451025206;
@@ -1195,9 +1150,8 @@ namespace ExactnessTest
                 weight[3] = 0.5035612008409863;
                 weight[4] = 0.3777777777777778;
                 weight[5] = 0.1186610213812358;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 xtab[0] = -0.9749279121818237;
                 xtab[1] = -0.7818314824680295;
                 xtab[2] = -0.4338837391175581;
@@ -1213,9 +1167,8 @@ namespace ExactnessTest
                 weight[4] = 0.3982415401308441;
                 weight[5] = 0.2878313947886919;
                 weight[6] = 0.08671618072672234;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 xtab[0] = -0.9807852804032304;
                 xtab[1] = -0.8314696123025453;
                 xtab[2] = -0.5555702330196020;
@@ -1233,9 +1186,8 @@ namespace ExactnessTest
                 weight[5] = 0.3241525190645244;
                 weight[6] = 0.2229879330145788;
                 weight[7] = 0.06698294569858981;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 xtab[0] = -0.9848077530122080;
                 xtab[1] = -0.8660254037844385;
                 xtab[2] = -0.6427876096865394;
@@ -1255,9 +1207,8 @@ namespace ExactnessTest
                 weight[6] = 0.2640372225410044;
                 weight[7] = 0.1791887125220458;
                 weight[8] = 0.05273664990990676;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 xtab[0] = -0.9876883405951377;
                 xtab[1] = -0.8910065241883678;
                 xtab[2] = -0.7071067811865475;
@@ -1279,69 +1230,66 @@ namespace ExactnessTest
                 weight[7] = 0.2203174603174603;
                 weight[8] = 0.1458749193773909;
                 weight[9] = 0.04293911957413078;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("FEJER1_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 through 10.");
-            }
+                break;
         }
+    }
 
-        static void fejer2_exactness_test()
+    private static void fejer2_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    FEJER2_EXACTNESS_TEST tests Fejer Type 2 rules for the Legendre integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    FEJER2_EXACTNESS_TEST tests Fejer Type 2 rules for the Legendre integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("FEJER2_EXACTNESS_TEST");
+        Console.WriteLine("  Fejer Type 2 rules for the Legendre integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: N   for N odd,");
+        Console.WriteLine("             N-1 for N even.");
+
+        for (n = 1; n <= 5; n++)
         {
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("FEJER2_EXACTNESS_TEST");
-            Console.WriteLine("  Fejer Type 2 rules for the Legendre integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: N   for N odd,");
-            Console.WriteLine("             N-1 for N even.");
-
-            for (n = 1; n <= 5; n++)
+            x = new double[n];
+            w = new double[n];
+            fejer2_set(n, x, w);
+            p_max = (n % 2) switch
             {
-                x = new double[n];
-                w = new double[n];
-                fejer2_set(n, x, w);
-                if ((n % 2) == 1)
-                {
-                    p_max = n + 1;
-                }
-                else
-                {
-                    p_max = n;
-                }
+                1 => n + 1,
+                _ => n
+            };
 
-                Exactness.legendre_exactness(n, x, w, p_max);
-            }
+            Exactness.legendre_exactness(n, x, w, p_max);
         }
+    }
 
-        static void fejer2_set(int n, double[] xtab, double[] weight )
+    private static void fejer2_set(int n, double[] xtab, double[] weight )
 
         //****************************************************************************80
         //
@@ -1389,22 +1337,21 @@ namespace ExactnessTest
         //
         //    Output, double WEIGHT[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 xtab[0] = 0.000000000000000;
                 weight[0] = 2.000000000000000;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 xtab[0] = -0.5000000000000000;
                 xtab[1] = 0.5000000000000000;
 
                 weight[0] = 1.0000000000000000;
                 weight[1] = 1.0000000000000000;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 xtab[0] = -0.7071067811865476;
                 xtab[1] = 0.0000000000000000;
                 xtab[2] = 0.7071067811865476;
@@ -1412,9 +1359,8 @@ namespace ExactnessTest
                 weight[0] = 0.6666666666666666;
                 weight[1] = 0.6666666666666666;
                 weight[2] = 0.6666666666666666;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 xtab[0] = -0.8090169943749475;
                 xtab[1] = -0.3090169943749475;
                 xtab[2] = 0.3090169943749475;
@@ -1424,9 +1370,8 @@ namespace ExactnessTest
                 weight[1] = 0.5745355992499930;
                 weight[2] = 0.5745355992499930;
                 weight[3] = 0.4254644007500070;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 xtab[0] = -0.8660254037844387;
                 xtab[1] = -0.5000000000000000;
                 xtab[2] = 0.0000000000000000;
@@ -1438,9 +1383,8 @@ namespace ExactnessTest
                 weight[2] = 0.5777777777777777;
                 weight[3] = 0.4000000000000000;
                 weight[4] = 0.3111111111111111;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 xtab[0] = -0.9009688679024191;
                 xtab[1] = -0.6234898018587336;
                 xtab[2] = -0.2225209339563144;
@@ -1454,9 +1398,8 @@ namespace ExactnessTest
                 weight[3] = 0.4462908928985841;
                 weight[4] = 0.3267938603769863;
                 weight[5] = 0.2269152467244296;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 xtab[0] = -0.9238795325112867;
                 xtab[1] = -0.7071067811865476;
                 xtab[2] = -0.3826834323650898;
@@ -1472,9 +1415,8 @@ namespace ExactnessTest
                 weight[4] = 0.3934638904665215;
                 weight[5] = 0.2476190476190476;
                 weight[6] = 0.1779646809620499;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 xtab[0] = -0.9396926207859084;
                 xtab[1] = -0.7660444431189780;
                 xtab[2] = -0.5000000000000000;
@@ -1492,9 +1434,8 @@ namespace ExactnessTest
                 weight[5] = 0.3142857142857143;
                 weight[6] = 0.2063696457302284;
                 weight[7] = 0.1397697435050225;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 xtab[0] = -0.9510565162951535;
                 xtab[1] = -0.8090169943749475;
                 xtab[2] = -0.5877852522924731;
@@ -1514,9 +1455,8 @@ namespace ExactnessTest
                 weight[6] = 0.2737903534857068;
                 weight[7] = 0.1654331942222276;
                 weight[8] = 0.1147810750857217;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 xtab[0] = -0.9594929736144974;
                 xtab[1] = -0.8412535328311812;
                 xtab[2] = -0.6548607339452851;
@@ -1538,62 +1478,62 @@ namespace ExactnessTest
                 weight[7] = 0.2263866903636005;
                 weight[8] = 0.1411354380109716;
                 weight[9] = 0.09441954173982806;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("FEJER2_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 through 10.");
-            }
+                break;
         }
+    }
 
-        static void gegenbauer_exactness_test()
+    private static void gegenbauer_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GEGENBAUER_EXACTNESS_TEST tests rules for the Gegenbauer integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-        {
-            double lambda;
-            int p_max;
-            double[] w1 =  {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEGENBAUER_EXACTNESS_TEST tests rules for the Gegenbauer integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        double lambda;
+        int p_max;
+        double[] w1 =  {
                 1.2485988353771993
             }
             ;
-            double[] w2 =  {
+        double[] w2 =  {
                 0.6242994176885995,
                 0.6242994176885995
             }
             ;
-            double[] w3 =  {
+        double[] w3 =  {
                 0.2837724625857273,
                 0.6810539102057455,
                 0.2837724625857273
             }
             ;
-            double[] w4 =  {
+        double[] w4 =  {
                 0.1379302690657785,
                 0.4863691486228214,
                 0.4863691486228208,
                 0.1379302690657786
             }
             ;
-            double[] w5 =  {
+        double[] w5 =  {
                 0.0725955752894624,
                 0.3156051535278124,
                 0.4721973777426502,
@@ -1601,29 +1541,29 @@ namespace ExactnessTest
                 0.0725955752894624
             }
             ;
-            double[] x1 =  {
+        double[] x1 =  {
                 0.0000000000000000
             }
             ;
-            double[] x2 =  {
+        double[] x2 =  {
                 -0.4264014327112208,
                 0.4264014327112208
             }
             ;
-            double[] x3 =  {
+        double[] x3 =  {
                 -0.6324555320336757,
                 0.0000000000000000,
                 0.6324555320336757
             }
             ;
-            double[] x4 =  {
+        double[] x4 =  {
                 -0.7455376618816977,
                 -0.2752317970082527,
                 0.2752317970082527,
                 0.7455376618816980
             }
             ;
-            double[] x5 =  {
+        double[] x5 =  {
                 -0.8137803260309515,
                 -0.4553315257658559,
                 0.0000000000000001,
@@ -1632,96 +1572,93 @@ namespace ExactnessTest
             }
             ;
 
-            lambda = 1.75;
+        lambda = 1.75;
 
-            Console.WriteLine("");
-            Console.WriteLine("GEGENBAUER_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Gegenbauer rules for the Gegenbauer integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: 2*N-1.");
-            Console.WriteLine("  Lambda = " + lambda + "");
+        Console.WriteLine("");
+        Console.WriteLine("GEGENBAUER_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Gegenbauer rules for the Gegenbauer integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: 2*N-1.");
+        Console.WriteLine("  Lambda = " + lambda + "");
 
-            for (int n = 1; n <= 5; n++)
+        for (int n = 1; n <= 5; n++)
+        {
+            double[] w;
+            double[] x;
+            switch (n)
             {
-                double[] w;
-                double[] x;
-                if (n == 1)
-                {
+                case 1:
                     x = typeMethods.r8vec_copy_new(n, x1);
                     w = typeMethods.r8vec_copy_new(n, w1);
-                }
-                else if (n == 2)
-                {
+                    break;
+                case 2:
                     x = typeMethods.r8vec_copy_new(n, x2);
                     w = typeMethods.r8vec_copy_new(n, w2);
-                }
-                else if (n == 3)
-                {
+                    break;
+                case 3:
                     x = typeMethods.r8vec_copy_new(n, x3);
                     w = typeMethods.r8vec_copy_new(n, w3);
-                }
-                else if (n == 4)
-                {
+                    break;
+                case 4:
                     x = typeMethods.r8vec_copy_new(n, x4);
                     w = typeMethods.r8vec_copy_new(n, w4);
-                }
-                else if (n == 5)
-                {
+                    break;
+                case 5:
                     x = typeMethods.r8vec_copy_new(n, x5);
                     w = typeMethods.r8vec_copy_new(n, w5);
-                }
-                else
-                {
+                    break;
+                default:
                     x = new double[1];
                     w = new double[1];
-                }
-
-                legendre_set(n, ref x, ref w);
-                p_max = 2 * n;
-                Exactness.legendre_exactness(n, x, w, p_max);
+                    break;
             }
+
+            legendre_set(n, ref x, ref w);
+            p_max = 2 * n;
+            Exactness.legendre_exactness(n, x, w, p_max);
         }
+    }
 
-        static void hermite_exactness_test()
+    private static void hermite_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_EXACTNESS_TEST tests Gauss-Hermite rules for the Hermite integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_EXACTNESS_TEST tests Gauss-Hermite rules for the Hermite integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        Console.WriteLine("");
+        Console.WriteLine("HERMITE_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Hermite rules for the Hermite integral.");
+        Console.WriteLine("  Density function rho(x) = exp(-x^2).");
+        Console.WriteLine("  Region: -oo < x < +oo.");
+        Console.WriteLine("  Exactness: 2N-1.");
+
+        for (int n = 1; n <= 5; n++)
         {
-            Console.WriteLine("");
-            Console.WriteLine("HERMITE_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Hermite rules for the Hermite integral.");
-            Console.WriteLine("  Density function rho(x) = exp(-x^2).");
-            Console.WriteLine("  Region: -oo < x < +oo.");
-            Console.WriteLine("  Exactness: 2N-1.");
-
-            for (int n = 1; n <= 5; n++)
-            {
-                double[] x = new double[n];
-                double[] w = new double[n];
-                hermite_set(n, ref x, ref w);
-                int p_max = 2 * n;
-                Exactness.hermite_exactness(n, x, w, p_max);
-            }
+            double[] x = new double[n];
+            double[] w = new double[n];
+            hermite_set(n, ref x, ref w);
+            int p_max = 2 * n;
+            Exactness.hermite_exactness(n, x, w, p_max);
         }
+    }
 
-        static void hermite_set(int n, ref double[] x, ref double[] w )
+    private static void hermite_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -1802,23 +1739,22 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.0;
 
                 w[0] = 1.77245385090551602729816748334;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -0.707106781186547524400844362105;
                 x[1] = 0.707106781186547524400844362105;
 
                 w[0] = 0.886226925452758013649083741671;
                 w[1] = 0.886226925452758013649083741671;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -0.122474487139158904909864203735E+01;
                 x[1] = 0.0;
                 x[2] = 0.122474487139158904909864203735E+01;
@@ -1826,9 +1762,8 @@ namespace ExactnessTest
                 w[0] = 0.295408975150919337883027913890;
                 w[1] = 0.118163590060367735153211165556E+01;
                 w[2] = 0.295408975150919337883027913890;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -0.165068012388578455588334111112E+01;
                 x[1] = -0.524647623275290317884060253835;
                 x[2] = 0.524647623275290317884060253835;
@@ -1838,9 +1773,8 @@ namespace ExactnessTest
                 w[1] = 0.804914090005512836506049184481;
                 w[2] = 0.804914090005512836506049184481;
                 w[3] = 0.813128354472451771430345571899E-01;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -0.202018287045608563292872408814E+01;
                 x[1] = -0.958572464613818507112770593893;
                 x[2] = 0.0;
@@ -1852,9 +1786,8 @@ namespace ExactnessTest
                 w[2] = 0.945308720482941881225689324449;
                 w[3] = 0.393619323152241159828495620852;
                 w[4] = 0.199532420590459132077434585942E-01;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -0.235060497367449222283392198706E+01;
                 x[1] = -0.133584907401369694971489528297E+01;
                 x[2] = -0.436077411927616508679215948251;
@@ -1868,9 +1801,8 @@ namespace ExactnessTest
                 w[3] = 0.724629595224392524091914705598;
                 w[4] = 0.157067320322856643916311563508;
                 w[5] = 0.453000990550884564085747256463E-02;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -0.265196135683523349244708200652E+01;
                 x[1] = -0.167355162876747144503180139830E+01;
                 x[2] = -0.816287882858964663038710959027;
@@ -1886,9 +1818,8 @@ namespace ExactnessTest
                 w[4] = 0.425607252610127800520317466666;
                 w[5] = 0.545155828191270305921785688417E-01;
                 w[6] = 0.971781245099519154149424255939E-03;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -0.293063742025724401922350270524E+01;
                 x[1] = -0.198165675669584292585463063977E+01;
                 x[2] = -0.115719371244678019472076577906E+01;
@@ -1906,9 +1837,8 @@ namespace ExactnessTest
                 w[5] = 0.207802325814891879543258620286;
                 w[6] = 0.170779830074134754562030564364E-01;
                 w[7] = 0.199604072211367619206090452544E-03;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -0.319099320178152760723004779538E+01;
                 x[1] = -0.226658058453184311180209693284E+01;
                 x[2] = -0.146855328921666793166701573925E+01;
@@ -1928,9 +1858,8 @@ namespace ExactnessTest
                 w[6] = 0.884745273943765732879751147476E-01;
                 w[7] = 0.494362427553694721722456597763E-02;
                 w[8] = 0.396069772632643819045862946425E-04;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -0.343615911883773760332672549432E+01;
                 x[1] = -0.253273167423278979640896079775E+01;
                 x[2] = -0.175668364929988177345140122011E+01;
@@ -1952,73 +1881,73 @@ namespace ExactnessTest
                 w[7] = 0.338743944554810631361647312776E-01;
                 w[8] = 0.134364574678123269220156558585E-02;
                 w[9] = 0.764043285523262062915936785960E-05;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("HERMITE_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 to 10.");
-            }
+                break;
         }
+    }
 
-        static void hermite_1_exactness_test()
+    private static void hermite_1_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_1_EXACTNESS_TEST tests Gauss-Hermite rules for the Hermite integral.
-            //
-            //  Discussion:
-            //
-            //    Instead of the usual density rho(x)=exp(-x*x), these rules apply to
-            //    approximating the integral:
-            //      I(f) = integral ( -oo < x < +oo ) f(x) dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    18 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_1_EXACTNESS_TEST tests Gauss-Hermite rules for the Hermite integral.
+        //
+        //  Discussion:
+        //
+        //    Instead of the usual density rho(x)=exp(-x*x), these rules apply to
+        //    approximating the integral:
+        //      I(f) = integral ( -oo < x < +oo ) f(x) dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+
+        Console.WriteLine("");
+        Console.WriteLine("HERMITE_1_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Hermite rules for the Hermite integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: -oo < x < +oo.");
+        Console.WriteLine("  Exactness: 2N-1.");
+
+        for (int n = 1; n <= 5; n++)
         {
-
-            Console.WriteLine("");
-            Console.WriteLine("HERMITE_1_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Hermite rules for the Hermite integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: -oo < x < +oo.");
-            Console.WriteLine("  Exactness: 2N-1.");
-
-            for (int n = 1; n <= 5; n++)
+            double[] x = new double[n];
+            double[] w = new double[n];
+            hermite_1_set(n, ref x, ref w);
+            //
+            //  Standardize the rule by multiplying every weight w(i) by exp(-x(i)^2).
+            //
+            for (int i = 0; i < n; i++)
             {
-                double[] x = new double[n];
-                double[] w = new double[n];
-                hermite_1_set(n, ref x, ref w);
-                //
-                //  Standardize the rule by multiplying every weight w(i) by exp(-x(i)^2).
-                //
-                for (int i = 0; i < n; i++)
-                {
-                    w[i] = Math.Exp(-x[i] * x[i]) * w[i];
-                }
-
-                //
-                //  Now test the rule in standard form.
-                //
-                int p_max = 2 * n;
-                Exactness.hermite_exactness(n, x, w, p_max);
+                w[i] = Math.Exp(-x[i] * x[i]) * w[i];
             }
-        }
 
-        static void hermite_1_set(int n, ref double[] x, ref double[] w )
+            //
+            //  Now test the rule in standard form.
+            //
+            int p_max = 2 * n;
+            Exactness.hermite_exactness(n, x, w, p_max);
+        }
+    }
+
+    private static void hermite_1_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2052,23 +1981,22 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.0;
 
                 w[0] = 1.7724538509055161;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -0.707106781186547524400844362105;
                 x[1] = 0.707106781186547524400844362105;
 
                 w[0] = 1.4611411826611391;
                 w[1] = 1.4611411826611391;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -0.122474487139158904909864203735E+01;
                 x[1] = 0.0;
                 x[2] = 0.122474487139158904909864203735E+01;
@@ -2076,9 +2004,8 @@ namespace ExactnessTest
                 w[0] = 1.3239311752136438;
                 w[1] = 1.1816359006036774;
                 w[2] = 1.3239311752136438;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -0.165068012388578455588334111112E+01;
                 x[1] = -0.524647623275290317884060253835;
                 x[2] = 0.524647623275290317884060253835;
@@ -2088,9 +2015,8 @@ namespace ExactnessTest
                 w[1] = 1.0599644828949693;
                 w[2] = 1.0599644828949693;
                 w[3] = 1.2402258176958150;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -0.202018287045608563292872408814E+01;
                 x[1] = -0.958572464613818507112770593893;
                 x[2] = 0.0;
@@ -2102,9 +2028,8 @@ namespace ExactnessTest
                 w[2] = 0.94530872048294190;
                 w[3] = 0.98658099675142830;
                 w[4] = 1.1814886255359869;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -0.235060497367449222283392198706E+01;
                 x[1] = -0.133584907401369694971489528297E+01;
                 x[2] = -0.436077411927616508679215948251;
@@ -2118,9 +2043,8 @@ namespace ExactnessTest
                 w[3] = 0.87640133443623058;
                 w[4] = 0.93558055763118075;
                 w[5] = 1.1369083326745253;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -0.265196135683523349244708200652E+01;
                 x[1] = -0.167355162876747144503180139830E+01;
                 x[2] = -0.816287882858964663038710959027;
@@ -2136,9 +2060,8 @@ namespace ExactnessTest
                 w[4] = 0.82868730328363926;
                 w[5] = 0.89718460022518409;
                 w[6] = 1.1013307296103216;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -0.293063742025724401922350270524E+01;
                 x[1] = -0.198165675669584292585463063977E+01;
                 x[2] = -0.115719371244678019472076577906E+01;
@@ -2156,9 +2079,8 @@ namespace ExactnessTest
                 w[5] = 0.79289004838640131;
                 w[6] = 0.86675260656338138;
                 w[7] = 1.0719301442479805;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -0.319099320178152760723004779538E+01;
                 x[1] = -0.226658058453184311180209693284E+01;
                 x[2] = -0.146855328921666793166701573925E+01;
@@ -2178,9 +2100,8 @@ namespace ExactnessTest
                 w[6] = 0.76460812509455023;
                 w[7] = 0.84175270147867043;
                 w[8] = 1.0470035809766838;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -0.343615911883773760332672549432E+01;
                 x[1] = -0.253273167423278979640896079775E+01;
                 x[2] = -0.175668364929988177345140122011E+01;
@@ -2202,55 +2123,55 @@ namespace ExactnessTest
                 w[7] = 0.74144193194356511;
                 w[8] = 0.82066612640481640;
                 w[9] = 1.0254516913657352;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("HERMITE_1_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 to 10.");
-            }
+                break;
         }
+    }
 
-        static void laguerre_exactness_test()
+    private static void laguerre_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_EXACTNESS_TEST tests Gauss-Laguerre rules for the Laguerre integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    14 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_EXACTNESS_TEST tests Gauss-Laguerre rules for the Laguerre integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        Console.WriteLine("");
+        Console.WriteLine("LAGUERRE_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Laguerre rules for the Laguerre integral.");
+        Console.WriteLine("  Density function rho(x) = exp(-x).");
+        Console.WriteLine("  Region: 0 <= x < +oo.");
+        Console.WriteLine("  Exactness: 2N-1.");
+
+        for (int n = 1; n <= 5; n++)
         {
-            Console.WriteLine("");
-            Console.WriteLine("LAGUERRE_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Laguerre rules for the Laguerre integral.");
-            Console.WriteLine("  Density function rho(x) = exp(-x).");
-            Console.WriteLine("  Region: 0 <= x < +oo.");
-            Console.WriteLine("  Exactness: 2N-1.");
-
-            for (int n = 1; n <= 5; n++)
-            {
-                double[] x = new double[n];
-                double[] w = new double[n];
-                laguerre_set(n, ref x, ref w);
-                int p_max = 2 * n;
-                Exactness.laguerre_exactness(n, x, w, p_max);
-            }
+            double[] x = new double[n];
+            double[] w = new double[n];
+            laguerre_set(n, ref x, ref w);
+            int p_max = 2 * n;
+            Exactness.laguerre_exactness(n, x, w, p_max);
         }
+    }
 
-        static void laguerre_set(int n, ref double[] x, ref double[] w )
+    private static void laguerre_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2336,23 +2257,22 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 1.00000000000000000000000000000E+00;
 
                 w[0] = 1.00000000000000000000000000000E+00;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = 0.585786437626904951198311275790E+00;
                 x[1] = 3.41421356237309504880168872421E+00;
 
                 w[0] = 0.85355339059327376220042218105E+00;
                 w[1] = 0.146446609406726237799577818948E+00;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = 0.415774556783479083311533873128E+00;
                 x[1] = 2.29428036027904171982205036136E+00;
                 x[2] = 6.28994508293747919686641576551E+00;
@@ -2360,9 +2280,8 @@ namespace ExactnessTest
                 w[0] = 0.71109300992917301544959019114E+00;
                 w[1] = 0.27851773356924084880144488846E+00;
                 w[2] = 0.010389256501586135748964920401E+00;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = 0.322547689619392311800361459104E+00;
                 x[1] = 1.74576110115834657568681671252E+00;
                 x[2] = 4.53662029692112798327928538496E+00;
@@ -2372,9 +2291,8 @@ namespace ExactnessTest
                 w[1] = 0.35741869243779968664149201746E+00;
                 w[2] = 0.03888790851500538427243816816E+00;
                 w[3] = 0.0005392947055613274501037905676E+00;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = 0.263560319718140910203061943361E+00;
                 x[1] = 1.41340305910651679221840798019E+00;
                 x[2] = 3.59642577104072208122318658878E+00;
@@ -2386,9 +2304,8 @@ namespace ExactnessTest
                 w[2] = 0.0759424496817075953876533114E+00;
                 w[3] = 0.00361175867992204845446126257E+00;
                 w[4] = 0.00002336997238577622789114908455E+00;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = 0.222846604179260689464354826787E+00;
                 x[1] = 1.18893210167262303074315092194E+00;
                 x[2] = 2.99273632605931407769132528451E+00;
@@ -2402,9 +2319,8 @@ namespace ExactnessTest
                 w[3] = 0.01039919745314907489891330285E+00;
                 w[4] = 0.000261017202814932059479242860E+00;
                 w[5] = 8.98547906429621238825292053E-07;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = 0.193043676560362413838247885004E+00;
                 x[1] = 1.02666489533919195034519944317E+00;
                 x[2] = 2.56787674495074620690778622666E+00;
@@ -2420,9 +2336,8 @@ namespace ExactnessTest
                 w[4] = 0.00107401014328074552213195963E+00;
                 w[5] = 0.0000158654643485642012687326223E+00;
                 w[6] = 3.17031547899558056227132215E-08;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = 0.170279632305100999788861856608E+00;
                 x[1] = 0.903701776799379912186020223555E+00;
                 x[2] = 2.25108662986613068930711836697E+00;
@@ -2440,9 +2355,8 @@ namespace ExactnessTest
                 w[5] = 0.00009076508773358213104238501E+00;
                 w[6] = 8.4857467162725315448680183E-07;
                 w[7] = 1.04800117487151038161508854E-09;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = 0.152322227731808247428107073127E+00;
                 x[1] = 0.807220022742255847741419210952E+00;
                 x[2] = 2.00513515561934712298303324701E+00;
@@ -2462,9 +2376,8 @@ namespace ExactnessTest
                 w[6] = 6.59212302607535239225572284875E-06;
                 w[7] = 4.1107693303495484429024104033E-08;
                 w[8] = 3.29087403035070757646681380323E-11;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = 0.137793470540492430830772505653E+00;
                 x[1] = 0.729454549503170498160373121676E+00;
                 x[2] = 1.80834290174031604823292007575E+00;
@@ -2486,78 +2399,78 @@ namespace ExactnessTest
                 w[7] = 4.249313984962686372586577E-07;
                 w[8] = 1.839564823979630780921535E-09;
                 w[9] = 9.911827219609008558377547E-13;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LAGUERRE_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 to 10");
-            }
+                break;
         }
+    }
 
-        static void laguerre_1_exactness_test()
+    private static void laguerre_1_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_1_EXACTNESS_TEST tests Gauss-Laguerre rules for the Laguerre integral with rho=1.
-            //
-            //  Discussion:
-            //
-            //    Instead of the usual density rho(x)=exp(-x), these rules apply to
-            //    approximating the integral:
-            //      I(f) = integral ( 0 <= x < +oo ) f(x) dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_1_EXACTNESS_TEST tests Gauss-Laguerre rules for the Laguerre integral with rho=1.
+        //
+        //  Discussion:
+        //
+        //    Instead of the usual density rho(x)=exp(-x), these rules apply to
+        //    approximating the integral:
+        //      I(f) = integral ( 0 <= x < +oo ) f(x) dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int i;
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("LAGUERRE_1_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Laguerre rules for the Laguerre integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: 0 <= x < +oo.");
+        Console.WriteLine("  Exactness: 2N-1.");
+
+        for (n = 1; n <= 5; n++)
         {
-            int i;
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("LAGUERRE_1_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Laguerre rules for the Laguerre integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: 0 <= x < +oo.");
-            Console.WriteLine("  Exactness: 2N-1.");
-
-            for (n = 1; n <= 5; n++)
+            x = new double[n];
+            w = new double[n];
+            laguerre_1_set(n, ref x, ref w);
+            //
+            //  Standardize the rule by multiplying every weight w(i) by exp(-x(i)).
+            //
+            for (i = 0; i < n; i++)
             {
-                x = new double[n];
-                w = new double[n];
-                laguerre_1_set(n, ref x, ref w);
-                //
-                //  Standardize the rule by multiplying every weight w(i) by exp(-x(i)).
-                //
-                for (i = 0; i < n; i++)
-                {
-                    w[i] = Math.Exp(-x[i]) * w[i];
-                }
-
-                //
-                //  Now test the rule in standard form.
-                //
-                p_max = 2 * n;
-                Exactness.laguerre_exactness(n, x, w, p_max);
+                w[i] = Math.Exp(-x[i]) * w[i];
             }
-        }
 
-        static void laguerre_1_set(int n, ref double[] x, ref double[] w )
+            //
+            //  Now test the rule in standard form.
+            //
+            p_max = 2 * n;
+            Exactness.laguerre_exactness(n, x, w, p_max);
+        }
+    }
+
+    private static void laguerre_1_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2595,23 +2508,22 @@ namespace ExactnessTest
         //  
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 1.00000000000000000000000000000E+00;
 
                 w[0] = 2.7182818284590451;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = 0.585786437626904951198311275790E+00;
                 x[1] = 3.41421356237309504880168872421E+00;
 
                 w[0] = 1.5333260331194167;
                 w[1] = 4.4509573350545928;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = 0.415774556783479083311533873128E+00;
                 x[1] = 2.29428036027904171982205036136E+00;
                 x[2] = 6.28994508293747919686641576551E+00;
@@ -2619,9 +2531,8 @@ namespace ExactnessTest
                 w[0] = 1.0776928592709207;
                 w[1] = 2.7621429619015876;
                 w[2] = 5.6010946254344267;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = 0.322547689619392311800361459104E+00;
                 x[1] = 1.74576110115834657568681671252E+00;
                 x[2] = 4.53662029692112798327928538496E+00;
@@ -2631,9 +2542,8 @@ namespace ExactnessTest
                 w[1] = 2.0481024384542965;
                 w[2] = 3.6311463058215168;
                 w[3] = 6.4871450844076604;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = 0.263560319718140910203061943361E+00;
                 x[1] = 1.41340305910651679221840798019E+00;
                 x[2] = 3.59642577104072208122318658878E+00;
@@ -2645,9 +2555,8 @@ namespace ExactnessTest
                 w[2] = 2.7694432423708375;
                 w[3] = 4.3156569009208940;
                 w[4] = 7.2191863543544450;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = 0.222846604179260689464354826787E+00;
                 x[1] = 1.18893210167262303074315092194E+00;
                 x[2] = 2.99273632605931407769132528451E+00;
@@ -2661,9 +2570,8 @@ namespace ExactnessTest
                 w[3] = 3.3505245823554555;
                 w[4] = 4.8868268002108213;
                 w[5] = 7.8490159455958279;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = 0.193043676560362413838247885004E+00;
                 x[1] = 1.02666489533919195034519944317E+00;
                 x[2] = 2.56787674495074620690778622666E+00;
@@ -2679,9 +2587,8 @@ namespace ExactnessTest
                 w[4] = 3.8412491224885148;
                 w[5] = 5.3806782079215330;
                 w[6] = 8.4054324868283103;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = 0.170279632305100999788861856608E+00;
                 x[1] = 0.903701776799379912186020223555E+00;
                 x[2] = 2.25108662986613068930711836697E+00;
@@ -2699,9 +2606,8 @@ namespace ExactnessTest
                 w[5] = 4.2685755108251344;
                 w[6] = 5.8180833686719184;
                 w[7] = 8.9062262152922216;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = 0.152322227731808247428107073127E+00;
                 x[1] = 0.807220022742255847741419210952E+00;
                 x[2] = 2.00513515561934712298303324701E+00;
@@ -2721,9 +2627,8 @@ namespace ExactnessTest
                 w[6] = 4.6487660021402037;
                 w[7] = 6.2122754197471348;
                 w[8] = 9.3632182377057980;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = 0.137793470540492430830772505653E+00;
                 x[1] = 0.729454549503170498160373121676E+00;
                 x[2] = 1.80834290174031604823292007575E+00;
@@ -2745,60 +2650,60 @@ namespace ExactnessTest
                 w[7] = 4.9924148721930299;
                 w[8] = 6.5722024851307994;
                 w[9] = 9.7846958403746243;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LAGUERRE_1_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 to 10");
-            }
+                break;
         }
+    }
 
-        static void legendre_exactness_test()
+    private static void legendre_exactness_test()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LEGENDRE_EXACTNESS_TEST tests Gauss-Legendre rules for the Legendre integral.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_EXACTNESS_TEST tests Gauss-Legendre rules for the Legendre integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        int n;
+        int p_max;
+        double[] w;
+        double[] x;
+
+        Console.WriteLine("");
+        Console.WriteLine("LEGENDRE_EXACTNESS_TEST");
+        Console.WriteLine("  Gauss-Legendre rules for the Legendre integral.");
+        Console.WriteLine("  Density function rho(x) = 1.");
+        Console.WriteLine("  Region: -1 <= x <= +1.");
+        Console.WriteLine("  Exactness: 2*N-1.");
+
+        for (n = 1; n <= 5; n++)
         {
-            int n;
-            int p_max;
-            double[] w;
-            double[] x;
-
-            Console.WriteLine("");
-            Console.WriteLine("LEGENDRE_EXACTNESS_TEST");
-            Console.WriteLine("  Gauss-Legendre rules for the Legendre integral.");
-            Console.WriteLine("  Density function rho(x) = 1.");
-            Console.WriteLine("  Region: -1 <= x <= +1.");
-            Console.WriteLine("  Exactness: 2*N-1.");
-
-            for (n = 1; n <= 5; n++)
-            {
-                x = new double[n];
-                w = new double[n];
-                legendre_set(n, ref x, ref w);
-                p_max = 2 * n;
-                Exactness.legendre_exactness(n, x, w, p_max);
-            }
+            x = new double[n];
+            w = new double[n];
+            legendre_set(n, ref x, ref w);
+            p_max = 2 * n;
+            Exactness.legendre_exactness(n, x, w, p_max);
         }
+    }
 
-        static void legendre_set(int n, ref double[] x, ref double[] w )
+    private static void legendre_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2882,23 +2787,22 @@ namespace ExactnessTest
         //
         //    Output, double W[N], the weights.
         //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.000000000000000000000000000000;
 
                 w[0] = 2.000000000000000000000000000000;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -0.577350269189625764509148780502;
                 x[1] = 0.577350269189625764509148780502;
 
                 w[0] = 1.000000000000000000000000000000;
                 w[1] = 1.000000000000000000000000000000;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -0.774596669241483377035853079956;
                 x[1] = 0.000000000000000000000000000000;
                 x[2] = 0.774596669241483377035853079956;
@@ -2906,9 +2810,8 @@ namespace ExactnessTest
                 w[0] = 0.555555555555555555555555555556;
                 w[1] = 0.888888888888888888888888888889;
                 w[2] = 0.555555555555555555555555555556;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -0.861136311594052575223946488893;
                 x[1] = -0.339981043584856264802665759103;
                 x[2] = 0.339981043584856264802665759103;
@@ -2918,9 +2821,8 @@ namespace ExactnessTest
                 w[1] = 0.652145154862546142626936050778;
                 w[2] = 0.652145154862546142626936050778;
                 w[3] = 0.347854845137453857373063949222;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -0.906179845938663992797626878299;
                 x[1] = -0.538469310105683091036314420700;
                 x[2] = 0.000000000000000000000000000000;
@@ -2932,9 +2834,8 @@ namespace ExactnessTest
                 w[2] = 0.568888888888888888888888888889;
                 w[3] = 0.478628670499366468041291514836;
                 w[4] = 0.236926885056189087514264040720;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -0.932469514203152027812301554494;
                 x[1] = -0.661209386466264513661399595020;
                 x[2] = -0.238619186083196908630501721681;
@@ -2948,9 +2849,8 @@ namespace ExactnessTest
                 w[3] = 0.467913934572691047389870343990;
                 w[4] = 0.360761573048138607569833513838;
                 w[5] = 0.171324492379170345040296142173;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -0.949107912342758524526189684048;
                 x[1] = -0.741531185599394439863864773281;
                 x[2] = -0.405845151377397166906606412077;
@@ -2966,9 +2866,8 @@ namespace ExactnessTest
                 w[4] = 0.381830050505118944950369775489;
                 w[5] = 0.279705391489276667901467771424;
                 w[6] = 0.129484966168869693270611432679;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -0.960289856497536231683560868569;
                 x[1] = -0.796666477413626739591553936476;
                 x[2] = -0.525532409916328985817739049189;
@@ -2986,9 +2885,8 @@ namespace ExactnessTest
                 w[5] = 0.313706645877887287337962201987;
                 w[6] = 0.222381034453374470544355994426;
                 w[7] = 0.101228536290376259152531354310;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -0.968160239507626089835576203;
                 x[1] = -0.836031107326635794299429788;
                 x[2] = -0.613371432700590397308702039;
@@ -3008,9 +2906,8 @@ namespace ExactnessTest
                 w[6] = 0.26061069640293546231874286942;
                 w[7] = 0.18064816069485740405847203124;
                 w[8] = 0.081274388361574411971892158111;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -0.973906528517171720077964012;
                 x[1] = -0.865063366688984510732096688;
                 x[2] = -0.679409568299024406234327365;
@@ -3032,14 +2929,13 @@ namespace ExactnessTest
                 w[7] = 0.21908636251598204399553493423;
                 w[8] = 0.14945134915058059314577633966;
                 w[9] = 0.066671344308688137593568809893;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LEGENDRE_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 to 10.");
-            }
+                break;
         }
     }
 }

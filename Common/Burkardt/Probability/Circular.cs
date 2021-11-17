@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Circular
 {
-    public static class Circular
-    {
-        public static double[] circular_normal_01_mean()
+    public static double[] circular_normal_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -28,16 +28,16 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_01_MEAN[2], the mean of the PDF.
         //
-        {
-                double[] mean = new double[2];
+    {
+        double[] mean = new double[2];
 
-            mean[0] = 0.0;
-            mean[1] = 0.0;
+        mean[0] = 0.0;
+        mean[1] = 0.0;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double circular_normal_01_pdf(double[] x )
+    public static double circular_normal_01_pdf(double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -66,15 +66,15 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_NORMAL_01_PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double pdf = Math.Exp(-0.5 * (x[0] * x[0] + x[1] * x[1])) / (2.0 * Math.PI);
+        double pdf = Math.Exp(-0.5 * (x[0] * x[0] + x[1] * x[1])) / (2.0 * Math.PI);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double[] circular_normal_01_sample(ref int seed)
+    public static double[] circular_normal_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -99,21 +99,21 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_NORMAL_01_SAMPLE[2], a sample of the PDF.
         //
-        {
+    {
             
 
-            double[] x = new double[2];
+        double[] x = new double[2];
 
-            double v1 = UniformRNG.r8_uniform_01(ref seed);
-            double v2 = UniformRNG.r8_uniform_01(ref seed);
+        double v1 = UniformRNG.r8_uniform_01(ref seed);
+        double v2 = UniformRNG.r8_uniform_01(ref seed);
 
-            x[0] = Math.Sqrt(-2.0 *Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
-            x[1] = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
+        x[0] = Math.Sqrt(-2.0 *Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
+        x[1] = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] circular_normal_01_variance()
+    public static double[] circular_normal_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -136,16 +136,16 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_NORMAL_01_VARIANCE[2], the variance of the PDF.
         //
-        {
-            double[] variance = new double[2];
+    {
+        double[] variance = new double[2];
 
-            variance[0] = 1.0;
-            variance[1] = 1.0;
+        variance[0] = 1.0;
+        variance[1] = 1.0;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double[] circular_normal_mean(double[] a, double b )
+    public static double[] circular_normal_mean(double[] a, double b )
         //****************************************************************************80
         //
         //  Purpose:
@@ -172,16 +172,16 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_MEAN[2], the mean of the PDF.
         //
-        {
-            double[] mean = new double[2];
+    {
+        double[] mean = new double[2];
 
-            mean[0] = a[0];
-            mean[1] = a[1];
+        mean[0] = a[0];
+        mean[1] = a[1];
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double circular_normal_pdf(double[] x, double[] a, double b )
+    public static double circular_normal_pdf(double[] x, double[] a, double b )
         //****************************************************************************80
         //
         //  Purpose:
@@ -215,20 +215,20 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_NORMAL_PDF, the value of the PDF.
         //
-        {
-            double d;
-            double pdf;
+    {
+        double d;
+        double pdf;
             
 
-            d = (Math.Pow(x[0] - a[0], 2)
-                 + Math.Pow(x[1] - a[1], 2)) / Math.Pow(b, 2);
+        d = (Math.Pow(x[0] - a[0], 2)
+             + Math.Pow(x[1] - a[1], 2)) / Math.Pow(b, 2);
 
-            pdf = Math.Exp(-0.5 * d) / (2.0 * b * b * Math.PI);
+        pdf = Math.Exp(-0.5 * d) / (2.0 * b * b * Math.PI);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double[] circular_normal_sample(double[] a, double b, ref int seed )
+    public static double[] circular_normal_sample(double[] a, double b, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -257,23 +257,23 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_NORMAL_SAMPLE[2], a sample of the PDF.
         //
-        {
+    {
             
 
-            double[] x = new double[2];
+        double[] x = new double[2];
 
-            double v1 = UniformRNG.r8_uniform_01(ref seed);
-            double v2 = UniformRNG.r8_uniform_01(ref seed);
+        double v1 = UniformRNG.r8_uniform_01(ref seed);
+        double v2 = UniformRNG.r8_uniform_01(ref seed);
 
-            double r = Math.Sqrt(-2.0 * Math.Log(v1));
+        double r = Math.Sqrt(-2.0 * Math.Log(v1));
 
-            x[0] = a[0] + b * r * Math.Cos(2.0 * Math.PI * v2);
-            x[1] = a[1] + b * r * Math.Sin(2.0 * Math.PI * v2);
+        x[0] = a[0] + b * r * Math.Cos(2.0 * Math.PI * v2);
+        x[1] = a[1] + b * r * Math.Sin(2.0 * Math.PI * v2);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] circular_normal_variance(double[] a, double b )
+    public static double[] circular_normal_variance(double[] a, double b )
         //****************************************************************************80
         //
         //  Purpose:
@@ -300,14 +300,13 @@ namespace Burkardt.Probability
         //
         //    Output, double CIRCULAR_NORMAL_VARIANCE[2], the variance of the PDF.
         //
-        {
-            double[] variance = new double[2];
+    {
+        double[] variance = new double[2];
 
-            variance[0] = b;
-            variance[1] = b;
+        variance[0] = b;
+        variance[1] = b;
 
-            return variance;
-        }
-
+        return variance;
     }
+
 }

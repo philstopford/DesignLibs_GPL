@@ -1,91 +1,91 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class EK_inc
 {
-    public static class EK_inc
+    public static double evaluate(double phi, double k)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_INC_EK evaluates the incomplete elliptic integral E(PHI,K).
+        //
+        //  Discussion:
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      E(phi,k) = 
+        //                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ) 
+        //        - 1/3 k^2 sin^3 ( phi ) RD ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double PHI, K, the arguments.
+        //    0 <= PHI <= PI/2.
+        //    0 <= K^2 * sin^2(PHI) <= 1.
+        //
+        //    Output, double ELLIPTIC_INC_EK, the function value.
+        //
     {
-        public static double evaluate(double phi, double k)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_INC_EK evaluates the incomplete elliptic integral E(PHI,K).
-            //
-            //  Discussion:
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      E(phi,k) = 
-            //                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ) 
-            //        - 1/3 k^2 sin^3 ( phi ) RD ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    25 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double PHI, K, the arguments.
-            //    0 <= PHI <= PI/2.
-            //    0 <= K^2 * sin^2(PHI) <= 1.
-            //
-            //    Output, double ELLIPTIC_INC_EK, the function value.
-            //
-        {
-            double cp;
-            double errtol;
-            int ierr = 0;
+        double cp;
+        double errtol;
+        int ierr = 0;
             
-            double sp;
-            double value;
-            double value1;
-            double value2;
-            double x;
-            double y;
-            double z;
+        double sp;
+        double value = 0;
+        double value1;
+        double value2;
+        double x;
+        double y;
+        double z;
 
-            cp = Math.Cos(phi);
-            sp = Math.Sin(phi);
-            x = cp * cp;
-            y = (1.0 - k * sp) * (1.0 + k * sp);
-            z = 1.0;
-            errtol = 1.0E-03;
+        cp = Math.Cos(phi);
+        sp = Math.Sin(phi);
+        x = cp * cp;
+        y = (1.0 - k * sp) * (1.0 + k * sp);
+        z = 1.0;
+        errtol = 1.0E-03;
 
-            value1 = Integral.rf(x, y, z, errtol, ref ierr);
+        value1 = Integral.rf(x, y, z, errtol, ref ierr);
 
-            if (ierr != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPTIC_INC_EK - Fatal error!");
-                Console.WriteLine("  RF returned IERR = " + ierr + "");
-                return(1);
-            }
-
-            value2 = Integral.rd(x, y, z, errtol, ref ierr);
-
-            if (ierr != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPTIC_INC_EK - Fatal error!");
-                Console.WriteLine("  RD returned IERR = " + ierr + "");
-                return(1);
-            }
-
-            value = sp * value1 - k * k * sp * sp * sp * value2 / 3.0;
-
-            return value;
+        if (ierr != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPTIC_INC_EK - Fatal error!");
+            Console.WriteLine("  RF returned IERR = " + ierr + "");
+            return 1;
         }
 
-        public static void values(ref int n_data, ref double phi, ref double k, ref double ek )
+        value2 = Integral.rd(x, y, z, errtol, ref ierr);
+
+        if (ierr != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPTIC_INC_EK - Fatal error!");
+            Console.WriteLine("  RD returned IERR = " + ierr + "");
+            return 1;
+        }
+
+        value = sp * value1 - k * k * sp * sp * sp * value2 / 3.0;
+
+        return value;
+    }
+
+    public static void values(ref int n_data, ref double phi, ref double k, ref double ek )
 
         //****************************************************************************80
         //
@@ -134,10 +134,10 @@ namespace Burkardt.Elliptic
         //
         //    Output, double &EK, the function value.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] ek_vec =
+        double[] ek_vec =
             {
                 0.2852345328295404,
                 1.298690225567921,
@@ -162,7 +162,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] k_vec =
+        double[] k_vec =
             {
                 2.712952582080266,
                 0.1279518954120547,
@@ -187,7 +187,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] phi_vec =
+        double[] phi_vec =
             {
                 0.3430906586047127,
                 1.302990057703935,
@@ -212,25 +212,25 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (N_MAX <= n_data)
-            {
-                n_data = 0;
-                ek = 0.0;
-                k = 0.0;
-                phi = 0.0;
-            }
-            else
-            {
-                ek = ek_vec[n_data];
-                k = k_vec[n_data];
-                phi = phi_vec[n_data];
-                n_data = n_data + 1;
-            }
+        if (N_MAX <= n_data)
+        {
+            n_data = 0;
+            ek = 0.0;
+            k = 0.0;
+            phi = 0.0;
+        }
+        else
+        {
+            ek = ek_vec[n_data];
+            k = k_vec[n_data];
+            phi = phi_vec[n_data];
+            n_data += 1;
         }
     }
 }

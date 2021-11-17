@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Gompertz
 {
-    public static class Gompertz
-    {
-        public static double gompertz_cdf(double x, double a, double b)
+    public static double gompertz_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -39,22 +39,17 @@ namespace Burkardt.Probability
         //
         //    Output, double GOMPERTZ_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
+            <= 0.0 => 0.0,
+            _ => 1.0 - Math.Exp(-b * (Math.Pow(a, x) - 1.0) / Math.Log(a))
+        };
 
-            if (x <= 0.0)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Exp(-b * (Math.Pow(a, x) - 1.0) / Math.Log(a));
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-        public static double gompertz_cdf_inv(double cdf, double a, double b)
+    public static double gompertz_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -88,31 +83,30 @@ namespace Burkardt.Probability
         //
         //    Output, double GOMPERTZ_CDF_INV, the corresponding argument.
         //
-        {
-            const double r8_huge = 1.0E+30;
-            double x;
+    {
+        const double r8_huge = 1.0E+30;
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GOMPERTZ_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf < 1.0)
-            {
+                return 1;
+            case < 1.0:
                 x = Math.Log(1.0 - Math.Log(1.0 - cdf) * Math.Log(a) / b) / Math.Log(a);
-            }
-            else
-            {
+                break;
+            default:
                 x = r8_huge;
-            }
-
-            return x;
+                break;
         }
 
-        public static bool gompertz_check(double a, double b)
+        return x;
+    }
+
+    public static bool gompertz_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -144,27 +138,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool GOMPERTZ_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 1.0)
-            {
+            case <= 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GOMPERTZ_CHECK - Warning!");
                 Console.WriteLine("  A <= 1.0!");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GOMPERTZ_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.0!");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double gompertz_pdf(double x, double a, double b)
+    public static double gompertz_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -208,23 +204,30 @@ namespace Burkardt.Probability
         //
         //    Output, double GOMPERTZ_PDF, the value of the PDF.
         //
+    {
+        double pdf = 0;
+
+        switch (x)
         {
-            double pdf = 0;
-
-            if (x < 0.0)
-            {
+            case < 0.0:
                 pdf = 0.0;
-            }
-            else if (1.0 < a)
+                break;
+            default:
             {
-                pdf = Math.Exp(Math.Log(b) + x * Math.Log(a)
-                               - (b / Math.Log(a)) * (Math.Pow(a, x) - 1.0));
-            }
+                pdf = a switch
+                {
+                    > 1.0 => Math.Exp(Math.Log(b) + x * Math.Log(a) - b / Math.Log(a) * (Math.Pow(a, x) - 1.0)),
+                    _ => pdf
+                };
 
-            return pdf;
+                break;
+            }
         }
 
-        public static double gompertz_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static double gompertz_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -252,15 +255,14 @@ namespace Burkardt.Probability
         //
         //    Output, double GOMPERTZ_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf;
-            double x;
+    {
+        double cdf;
+        double x;
 
-            cdf = UniformRNG.r8_uniform_01(ref seed);
+        cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            x = gompertz_cdf_inv(cdf, a, b);
+        x = gompertz_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
     }
 }

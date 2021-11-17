@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Uniform
+﻿namespace Burkardt.Uniform;
+
+public static class Tetrahedron
 {
-    public static class Tetrahedron
-    {
-        public static double[] uniform_in_tetrahedron ( double[] v, int n, ref int seed )
+    public static double[] uniform_in_tetrahedron ( double[] v, int n, ref int seed )
 
         //****************************************************************************80
         //
@@ -40,51 +40,60 @@
         //
         //    Output, double UNIFORM_IN_TETRAHEDRON[3*N], the points.
         //
+    {
+        double[] c = new double[4];
+        int j;
+
+        double[] x = new double[3*n];
+
+        for ( j = 0; j < n; j++ )
         {
-            double[] c = new double[4];
-            int i;
-            int j;
-            int k;
-            double t;
-            double[] x;
+            UniformRNG.r8vec_uniform_01 ( 3, ref seed, ref c );
 
-            x = new double[3*n];
-
-            for ( j = 0; j < n; j++ )
+            switch (c[0] + c[1])
             {
-                UniformRNG.r8vec_uniform_01 ( 3, ref seed, ref c );
-
-                if ( 1.0 < c[0] + c[1] )
-                {
+                case > 1.0:
                     c[0] = 1.0 - c[0];
                     c[1] = 1.0 - c[1];
-                }
+                    break;
+            }
 
-                if ( 1.0 < c[1] + c[2] )
-                {
+            double t;
+            switch (c[1] + c[2])
+            {
+                case > 1.0:
                     t = c[2];
                     c[2] = 1.0 - c[0] - c[1];
                     c[1] = 1.0 - t;
-                }
-                else if ( 1.0 < c[0] + c[1] + c[2] )
+                    break;
+                default:
                 {
-                    t = c[2];
-                    c[2] = c[0] + c[1] + c[2] - 1.0;
-                    c[0] = 1.0 - c[1] - t;
-                }
-                c[3] = 1.0 - c[0] - c[1] - c[2];
-
-                for ( i = 0; i < 3; i++ )
-                {
-                    x[i+j*3] = 0.0;
-                    for ( k = 0; k < 4; k++ )
+                    switch (c[0] + c[1] + c[2])
                     {
-                        x[i+j*3] = x[i+j*3] + v[i+k*3] * c[k];
+                        case > 1.0:
+                            t = c[2];
+                            c[2] = c[0] + c[1] + c[2] - 1.0;
+                            c[0] = 1.0 - c[1] - t;
+                            break;
                     }
+
+                    break;
                 }
             }
+            c[3] = 1.0 - c[0] - c[1] - c[2];
 
-            return x;
+            int i;
+            for ( i = 0; i < 3; i++ )
+            {
+                x[i+j*3] = 0.0;
+                int k;
+                for ( k = 0; k < 4; k++ )
+                {
+                    x[i+j*3] += v[i+k*3] * c[k];
+                }
+            }
         }
+
+        return x;
     }
 }

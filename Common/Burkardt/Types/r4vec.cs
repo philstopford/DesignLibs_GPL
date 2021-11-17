@@ -1,88 +1,92 @@
 ﻿using System;
 using System.Linq;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
+    public static float r4vec_max(int n, float[] dvec)
     {
-        public static float r4vec_max(int n, float[] dvec)
+        switch (dvec.Length)
         {
-            if (dvec.Length <= 0)
-            {
+            case <= 0:
                 return 0;
-            }
+        }
 
-            // Limit to the number of items in the array as a maximum
-            n = Math.Min(n, dvec.Length);
+        // Limit to the number of items in the array as a maximum
+        n = Math.Min(n, dvec.Length);
 
-            if (n == dvec.Length)
-            {
-                return dvec.Max();
-            }
+        if (n == dvec.Length)
+        {
+            return dvec.Max();
+        }
             
-            return dvec.Take(n).Max();
-        }
+        return dvec.Take(n).Max();
+    }
 
-        public static float r4vec_mean ( int n, float[] x )
+    public static float r4vec_mean ( int n, float[] x )
+    {
+        switch (x.Length)
         {
-            if (x.Length <= 0)
-            {
+            case <= 0:
                 return 0;
-            }
-
-            // Limit to the number of items in the array as a maximum
-            n = Math.Min(n, x.Length);
-
-            if (n == x.Length)
-            {
-                return x.Average();
-            }
-                    
-            return x.Take(n).Average();
         }
 
-        public static float r4vec_min ( int n, float[] dvec )
+        // Limit to the number of items in the array as a maximum
+        n = Math.Min(n, x.Length);
+
+        if (n == x.Length)
         {
-            if (dvec.Length <= 0)
-            {
+            return x.Average();
+        }
+                    
+        return x.Take(n).Average();
+    }
+
+    public static float r4vec_min ( int n, float[] dvec )
+    {
+        switch (dvec.Length)
+        {
+            case <= 0:
                 return 0;
-            }
-
-            // Limit to the number of items in the array as a maximum
-            n = Math.Min(n, dvec.Length);
-
-            if (n == dvec.Length)
-            {
-                return dvec.Min();
-            }
-                    
-            return dvec.Take(n).Min();
         }
 
-        public static float r4vec_variance ( int n, float[] x )
+        // Limit to the number of items in the array as a maximum
+        n = Math.Min(n, dvec.Length);
+
+        if (n == dvec.Length)
         {
-            float mean = r4vec_mean ( n, x );
+            return dvec.Min();
+        }
+                    
+        return dvec.Take(n).Min();
+    }
 
-            float variance = 0.0f;
-            for (int i = 0; i < n; i++ )
-            {
-                variance = variance + ( x[i] - mean ) * ( x[i] - mean );
-            }
+    public static float r4vec_variance ( int n, float[] x )
+    {
+        float mean = r4vec_mean ( n, x );
 
-            if ( 1 < n )
-            {
-                variance = variance / ( float ) ( n - 1 );
-            }
-            else
-            {
+        float variance = 0.0f;
+        for (int i = 0; i < n; i++ )
+        {
+            variance += ( x[i] - mean ) * ( x[i] - mean );
+        }
+
+        switch (n)
+        {
+            case > 1:
+                variance /= n - 1;
+                break;
+            default:
                 variance = 0.0f;
-            }
-
-            return variance;
+                break;
         }
+
+        return variance;
+    }
 
         
-        public static void r4vec_print_part ( int n, float[] a, int max_print, string title )
+    public static void r4vec_print_part ( int n, float[] a, int max_print, string title )
 
         //****************************************************************************80
         //
@@ -124,58 +128,65 @@ namespace Burkardt.Types
         //
         //    Input, string TITLE, a title.
         //
+    {
+        int i;
+
+        switch (max_print)
         {
-            int i;
-
-            if ( max_print <= 0 )
-            {
+            case <= 0:
                 return;
-            }
+        }
 
-            if ( n <= 0 )
-            {
+        switch (n)
+        {
+            case <= 0:
                 return;
-            }
+        }
 
-            Console.WriteLine("");
-            Console.WriteLine(title + "");
-            Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine(title + "");
+        Console.WriteLine("");
 
-            if ( n <= max_print )
+        if ( n <= max_print )
+        {
+            for ( i = 0; i < n; i++ )
             {
-                for ( i = 0; i < n; i++ )
-                {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                        + "  " + a[i].ToString().PadLeft(14) + "");
-                }
-            }
-            else if ( 3 <= max_print )
-            {
-                for ( i = 0; i < max_print - 2; i++ )
-                {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + "  " + a[i].ToString().PadLeft(14) + "");
-                }
-                Console.WriteLine("  ........  ..............");
-                i = n - 1;
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
                                        + "  " + a[i].ToString().PadLeft(14) + "");
             }
-            else
+        }
+        else
+        {
+            switch (max_print)
             {
-                for ( i= 0; i < max_print - 1; i++ )
+                case >= 3:
                 {
+                    for ( i = 0; i < max_print - 2; i++ )
+                    {
+                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                               + "  " + a[i].ToString().PadLeft(14) + "");
+                    }
+                    Console.WriteLine("  ........  ..............");
+                    i = n - 1;
                     Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + a[i].ToString().PadLeft(14) + "");
+                    break;
                 }
-                i = max_print - 1;
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + a[i].ToString().PadLeft(14) + ""
-                    + "  " + "...more entries...");
+                default:
+                {
+                    for ( i= 0; i < max_print - 1; i++ )
+                    {
+                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                               + "  " + a[i].ToString().PadLeft(14) + "");
+                    }
+                    i = max_print - 1;
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + "  " + a[i].ToString().PadLeft(14) + ""
+                                           + "  " + "...more entries...");
+                    break;
+                }
             }
-
-            return;
         }
-        
     }
+        
 }

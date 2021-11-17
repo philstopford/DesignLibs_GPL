@@ -1,64 +1,67 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace HermiteIntegrandsTest
+namespace HermiteIntegrandsTest;
+
+public static class Problem06
 {
-    public static class Problem06
+    public class p06Data
     {
-        public class p06Data
+        public int m;
+    }
+
+    public static double p06_exact(ref p06Data data)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P06_EXACT returns the exact integral for problem 6.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 May 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double P06_EXACT, the value of the integral.
+        //
+    {
+        double exact;
+        int m = 0;
+        const double r8_pi = 3.141592653589793;
+
+        p06_param(ref data, 'G', 'M', ref m);
+
+        switch (m)
         {
-            public int m = 0;
-        }
-
-        public static double p06_exact(ref p06Data data)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P06_EXACT returns the exact integral for problem 6.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 May 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double P06_EXACT, the value of the integral.
-            //
-        {
-            double exact;
-            int m = 0;
-            const double r8_pi = 3.141592653589793;
-
-            p06_param(ref data, 'G', 'M', ref m);
-
-            if (m <= -1)
-            {
+            case <= -1:
                 exact = -typeMethods.r8_huge();
-            }
-            else if ((m % 2) == 1)
+                break;
+            default:
             {
-                exact = 0.0;
-            }
-            else
-            {
-                exact = (double) (typeMethods.i4_factorial2(m - 1)) * Math.Sqrt(r8_pi)
-                        / Math.Pow(2.0, m / 2);
-            }
+                exact = (m % 2) switch
+                {
+                    1 => 0.0,
+                    _ => typeMethods.i4_factorial2(m - 1) * Math.Sqrt(r8_pi) / Math.Pow(2.0, m / 2)
+                };
 
-            return exact;
+                break;
+            }
         }
 
-        public static void p06_fun(ref p06Data data, int option, int n, double[] x, ref double[] f )
+        return exact;
+    }
+
+    public static void p06_fun(ref p06Data data, int option, int n, double[] x, ref double[] f )
 
         //****************************************************************************80
         //
@@ -99,137 +102,144 @@ namespace HermiteIntegrandsTest
         //
         //    Output, double F[N], the function values.
         //
+    {
+        int i;
+        int m = 0;
+
+        p06_param(ref data, 'G', 'M', ref m);
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int m = 0;
-
-            p06_param(ref data, 'G', 'M', ref m);
-
-            for (i = 0; i < n; i++)
-            {
-                f[i] = Math.Pow(x[i], m);
-            }
-
-            if (option == 0)
-            {
-                for (i = 0; i < n; i++)
-                {
-                    f[i] = f[i] * Math.Exp(-x[i] * x[i]);
-                }
-            }
-            else if (option == 1)
-            {
-            }
-            else if (option == 2)
-            {
-                for (i = 0; i < n; i++)
-                {
-                    f[i] = f[i] * Math.Exp(-x[i] * x[i] / 2.0);
-                }
-            }
-
-            return;
+            f[i] = Math.Pow(x[i], m);
         }
 
-
-        public static void p06_param(ref p06Data data, char action, char name, ref int value)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P06_PARAM gets or sets parameters for problem 6.
-            //
-            //  Discussion:
-            //
-            //    The parameter is named "M", and it represents the value of the exponent
-            //    in the integrand function:
-            //
-            //    Integral ( -oo < x < +oo ) x^m exp (-x*x) dx
-            //
-            //    M must be greater than -1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 May 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char ACTION, the action.
-            //    'S' to set the value,
-            //    'G' to get the value.
-            //
-            //    Input, char NAME, the parameter name.
-            //    'M', the exponent.
-            //
-            //    Input/output, int *VALUE, the parameter value.
-            //    If ACTION = 'S', then VALUE is an input quantity, and M is set to VALUE.
-            //    If ACTION = 'G', then VALUE is an output quantity, and VALUE is set to M.
-            //
+        switch (option)
         {
-
-            if (action == 'S' || action == 's')
+            case 0:
             {
-                if (value <= -1)
+                for (i = 0; i < n; i++)
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("P06_PARAM - Fatal error!");
-                    Console.WriteLine("  Parameter M must be greater than -1.");
-                    return;
+                    f[i] *= Math.Exp(-x[i] * x[i]);
+                }
+
+                break;
+            }
+            case 1:
+                break;
+            case 2:
+            {
+                for (i = 0; i < n; i++)
+                {
+                    f[i] *= Math.Exp(-x[i] * x[i] / 2.0);
+                }
+
+                break;
+            }
+        }
+    }
+
+
+    public static void p06_param(ref p06Data data, char action, char name, ref int value)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P06_PARAM gets or sets parameters for problem 6.
+        //
+        //  Discussion:
+        //
+        //    The parameter is named "M", and it represents the value of the exponent
+        //    in the integrand function:
+        //
+        //    Integral ( -oo < x < +oo ) x^m exp (-x*x) dx
+        //
+        //    M must be greater than -1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 May 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char ACTION, the action.
+        //    'S' to set the value,
+        //    'G' to get the value.
+        //
+        //    Input, char NAME, the parameter name.
+        //    'M', the exponent.
+        //
+        //    Input/output, int *VALUE, the parameter value.
+        //    If ACTION = 'S', then VALUE is an input quantity, and M is set to VALUE.
+        //    If ACTION = 'G', then VALUE is an output quantity, and VALUE is set to M.
+        //
+    {
+        switch (action)
+        {
+            case 'S':
+            case 's':
+            {
+                switch (value)
+                {
+                    case <= -1:
+                        Console.WriteLine("");
+                        Console.WriteLine("P06_PARAM - Fatal error!");
+                        Console.WriteLine("  Parameter M must be greater than -1.");
+                        return;
                 }
 
                 data.m = value;
+                break;
             }
-            else if (action == 'G' || action == 'g')
-            {
+            case 'G':
+            case 'g':
                 value = data.m;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P06_PARAM - Fatal error!");
                 Console.WriteLine("  Unrecognized value of ACTION = \"" + action + "\".");
-            }
+                break;
         }
+    }
 
-        public static string p06_title()
+    public static string p06_title()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P06_TITLE returns the title for problem 6.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    26 May 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, string P06_TITLE, the title of the problem.
-            //
-        {
-            string title;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P06_TITLE returns the title for problem 6.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    26 May 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, string P06_TITLE, the title of the problem.
+        //
+    {
+        string title;
 
-            title = "x^m exp(-x*x)";
+        title = "x^m exp(-x*x)";
 
-            return title;
-        }
+        return title;
     }
 }

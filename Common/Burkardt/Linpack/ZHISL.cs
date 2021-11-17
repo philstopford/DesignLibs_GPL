@@ -2,77 +2,79 @@
 using System.Numerics;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZHISL
 {
-    public static class ZHISL
+    public static void zhisl(Complex[] a, int lda, int n, int[] ipvt,
+            ref Complex[] b)
+
+        //*****************************************************************************
+        //
+        //  Purpose:
+        //
+        //    ZHISL solves a complex hermitian system factored by ZHIFA.
+        //
+        //  Discussion:
+        //
+        //    A division by zero may occur if ZHICO has set RCOND == 0.0
+        //    or ZHIFA has set INFO != 0.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 May 2006
+        //
+        //  Author:
+        //
+        //    C++ version by John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, (Society for Industrial and Applied Mathematics),
+        //    3600 University City Science Center,
+        //    Philadelphia, PA, 19104-2688.
+        //
+        //  Parameters:
+        //
+        //    Input, Complex A[LDA*N], the output from ZHIFA.
+        //
+        //    Input, int LDA, the leading dimension of A.
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, int IPVT[N], the pivot vector from ZHIFA.
+        //
+        //    Input/output, Complex B[N].  On input, the right hand side.
+        //    On output, the solution.
+        //
     {
-        public static void zhisl(Complex[] a, int lda, int n, int[] ipvt,
-                ref Complex[] b)
+        Complex ak;
+        Complex akm1;
+        Complex bk;
+        Complex bkm1;
+        Complex denom;
+        int k;
+        int kp;
+        Complex t;
+        //
+        //  Loop backward applying the transformations and D inverse to B.
+        //
+        k = n;
 
-            //*****************************************************************************
-            //
-            //  Purpose:
-            //
-            //    ZHISL solves a complex hermitian system factored by ZHIFA.
-            //
-            //  Discussion:
-            //
-            //    A division by zero may occur if ZHICO has set RCOND == 0.0
-            //    or ZHIFA has set INFO != 0.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    23 May 2006
-            //
-            //  Author:
-            //
-            //    C++ version by John Burkardt
-            //
-            //  Reference:
-            //
-            //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
-            //    LINPACK User's Guide,
-            //    SIAM, (Society for Industrial and Applied Mathematics),
-            //    3600 University City Science Center,
-            //    Philadelphia, PA, 19104-2688.
-            //
-            //  Parameters:
-            //
-            //    Input, Complex A[LDA*N], the output from ZHIFA.
-            //
-            //    Input, int LDA, the leading dimension of A.
-            //
-            //    Input, int N, the order of the matrix.
-            //
-            //    Input, int IPVT[N], the pivot vector from ZHIFA.
-            //
-            //    Input/output, Complex B[N].  On input, the right hand side.
-            //    On output, the solution.
-            //
+        while (0 < k)
         {
-            Complex ak;
-            Complex akm1;
-            Complex bk;
-            Complex bkm1;
-            Complex denom;
-            int k;
-            int kp;
-            Complex t;
-            //
-            //  Loop backward applying the transformations and D inverse to B.
-            //
-            k = n;
-
-            while (0 < k)
+            switch (ipvt[k - 1])
             {
                 //
                 //  1 x 1 pivot block.
                 //
-                if (0 <= ipvt[k - 1])
+                case >= 0:
                 {
                     if (k != 1)
                     {
@@ -91,13 +93,12 @@ namespace Burkardt.Linpack
                     //
                     //  Apply D inverse.
                     //
-                    b[k - 1] = b[k - 1] / a[k - 1 + (k - 1) * lda];
-                    k = k - 1;
+                    b[k - 1] /= a[k - 1 + (k - 1) * lda];
+                    k -= 1;
+                    break;
                 }
                 //
-                //  2 x 2 pivot block.
-                //
-                else
+                default:
                 {
                     if (k != 2)
                     {
@@ -124,24 +125,28 @@ namespace Burkardt.Linpack
                     denom = ak * akm1 - new Complex(1.0, 0.0);
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
                     b[k - 2] = (ak * bkm1 - bk) / denom;
-                    k = k - 2;
+                    k -= 2;
+                    break;
                 }
             }
+        }
 
-            //
-            //  Loop forward applying the transformations.
-            //
-            k = 1;
-            while (k <= n)
+        //
+        //  Loop forward applying the transformations.
+        //
+        k = 1;
+        while (k <= n)
+        {
+            switch (ipvt[k - 1])
             {
                 //
                 //  1 x 1 pivot block.
                 //
-                if (0 <= ipvt[k - 1])
+                case >= 0:
                 {
                     if (k != 1)
                     {
-                        b[k - 1] = b[k - 1] + BLAS1Z.zdotc(k - 1, a, 1, b, 1, xIndex: +0 + (k - 1) * lda);
+                        b[k - 1] += BLAS1Z.zdotc(k - 1, a, 1, b, 1, xIndex: +0 + (k - 1) * lda);
                         kp = ipvt[k - 1];
 
                         if (kp != k)
@@ -152,17 +157,18 @@ namespace Burkardt.Linpack
                         }
                     }
 
-                    k = k + 1;
+                    k += 1;
+                    break;
                 }
-                else
+                default:
                 {
                     //
                     //  2 x 2 pivot block.
                     //
                     if (k != 1)
                     {
-                        b[k - 1] = b[k - 1] + BLAS1Z.zdotc(k - 1, a, 1, b, 1, xIndex: +0 + (k - 1) * lda);
-                        b[k] = b[k] + BLAS1Z.zdotc(k - 1, a, 1, b, 1, xIndex: +0 + k * lda);
+                        b[k - 1] += BLAS1Z.zdotc(k - 1, a, 1, b, 1, xIndex: +0 + (k - 1) * lda);
+                        b[k] += BLAS1Z.zdotc(k - 1, a, 1, b, 1, xIndex: +0 + k * lda);
                         kp = Math.Abs(ipvt[k - 1]);
 
                         if (kp != k)
@@ -173,10 +179,11 @@ namespace Burkardt.Linpack
                         }
                     }
 
-                    k = k + 2;
+                    k += 2;
+                    break;
                 }
             }
         }
-
     }
+
 }

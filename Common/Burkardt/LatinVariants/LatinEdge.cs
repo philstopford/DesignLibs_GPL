@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.Latin
+namespace Burkardt.Latin;
+
+public static partial class LatinVariants
 {
-    public static partial class LatinVariants
-    {
-        public static double[] latin_edge ( int dim_num, int point_num, ref int seed )
+    public static double[] latin_edge ( int dim_num, int point_num, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -41,29 +41,33 @@ namespace Burkardt.Latin
         //
         //    Output, double X[DIM_NUM*POINT_NUM], the points.
         //
+    {
+        int base_ = 0;
+        int i;
+        int j;
+        int k;
+        int[] perm;
+        double[] x = new double[dim_num * point_num];
+        switch (point_num)
         {
-            int base_ = 0;
-            int i;
-            int j;
-            int k;
-            int[] perm;
-            double[] x = new double[dim_num * point_num];
             //
             //  For spatial dimension I, 
             //    pick a random permutation of 1 to POINT_NUM,
             //    force the corresponding I-th components of X to lie in the
             //    interval ( PERM[J]-1, PERM[J] ) / POINT_NUM.
             //
-            if ( point_num == 1 ) 
+            case 1:
             {
                 k = 0;
                 for ( i = 0; i < dim_num; i++ )
                 {
                     x[k] = 0.5;
-                    k = k + 1;
+                    k += 1;
                 }
+
+                break;
             }
-            else
+            default:
             {
                 k = 0;
                 for ( i = 0; i < dim_num; i++ )
@@ -72,13 +76,15 @@ namespace Burkardt.Latin
 
                     for ( j = 0; j < point_num; j++ )
                     {
-                        x[k] = ( ( double ) perm[j] ) / ( ( float ) ( point_num - 1 ) );
-                        k = k + 1;
+                        x[k] = ( double ) perm[j] / ( float ) ( point_num - 1 );
+                        k += 1;
                     }
                 }
-            }
 
-            return x;
+                break;
+            }
         }
+
+        return x;
     }
 }

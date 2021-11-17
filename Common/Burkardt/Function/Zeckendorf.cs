@@ -1,10 +1,10 @@
 ﻿using Burkardt.Sequence;
 
-namespace Burkardt.Function
+namespace Burkardt.Function;
+
+public class Zeckendorf
 {
-    public class Zeckendorf
-    {
-        public static void zeckendorf(int n, int m_max, ref int m, ref int[] i_list, ref int[] f_list )
+    public static void zeckendorf(int n, int m_max, ref int m, ref int[] i_list, ref int[] f_list )
 
         //****************************************************************************80
         //
@@ -62,52 +62,51 @@ namespace Burkardt.Function
         //    Output, int F_LIST[M], the value of the Fibonacci numbers
         //    in the decomposition.
         //
+    {
+        int f = 0;
+        int i = 0;
+        int j = 0;
+
+        m = 0;
+        //
+        //  Extract a sequence of Fibonacci numbers.
+        //
+        while (0 < n && m < m_max)
         {
-            int f = 0;
-            int i = 0;
-            int j = 0;
+            Fibonacci.fibonacci_floor(n, ref f, ref i);
 
-            m = 0;
-            //
-            //  Extract a sequence of Fibonacci numbers.
-            //
-            while (0 < n && m < m_max)
+            i_list[m] = i;
+            m += 1;
+            n -= f;
+        }
+
+        //
+        //  Replace any pair of consecutive indices ( I, I-1 ) by I+1.
+        //
+        for (i = m; 2 <= i; i--)
+        {
+            if (i_list[i - 2] == i_list[i - 1] + 1)
             {
-                Burkardt.Sequence.Fibonacci.fibonacci_floor(n, ref f, ref i);
-
-                i_list[m] = i;
-                m = m + 1;
-                n = n - f;
-            }
-
-            //
-            //  Replace any pair of consecutive indices ( I, I-1 ) by I+1.
-            //
-            for (i = m; 2 <= i; i--)
-            {
-                if (i_list[i - 2] == i_list[i - 1] + 1)
+                i_list[i - 2] += 1;
+                for (j = i; j <= m - 1; j++)
                 {
-                    i_list[i - 2] = i_list[i - 2] + 1;
-                    for (j = i; j <= m - 1; j++)
-                    {
-                        i_list[j - 1] = i_list[j];
-                    }
-
-                    i_list[m - 1] = 0;
-                    m = m - 1;
+                    i_list[j - 1] = i_list[j];
                 }
 
-            }
-
-            //
-            //  Fill in the actual values of the Fibonacci numbers.
-            //
-            for (i = 0; i < m; i++)
-            {
-                f_list[i] = Fibonacci.fibonacci_direct(i_list[i]);
+                i_list[m - 1] = 0;
+                m -= 1;
             }
 
         }
 
+        //
+        //  Fill in the actual values of the Fibonacci numbers.
+        //
+        for (i = 0; i < m; i++)
+        {
+            f_list[i] = Fibonacci.fibonacci_direct(i_list[i]);
+        }
+
     }
+
 }

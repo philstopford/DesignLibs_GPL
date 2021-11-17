@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r83_gs_sl(int n, double[] a, double[] b, ref double[] x, int it_max,
-        int job )
+    public static void r83_gs_sl(int n, double[] a, double[] b, ref double[] x, int it_max,
+            int job )
 
         //****************************************************************************80
         //
@@ -63,24 +63,27 @@ namespace Burkardt.Types
         //    0, solve A * x = b.
         //    nonzero, solve A' * x = b.
         //
+    {
+        int i;
+        int it_num;
+        //
+        //  No diagonal matrix entry can be zero.
+        //
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int it_num;
-            //
-            //  No diagonal matrix entry can be zero.
-            //
-            for (i = 0; i < n; i++)
+            switch (a[1 + i * 3])
             {
-                if (a[1 + i * 3] == 0.0)
-                {
+                case 0.0:
                     Console.WriteLine("");
                     Console.WriteLine("R83_GS_SL - Fatal error!");
                     Console.WriteLine("  Zero diagonal entry, index = " + i + "");
                     return;
-                }
             }
+        }
 
-            if (job == 0)
+        switch (job)
+        {
+            case 0:
             {
                 for (it_num = 1; it_num <= it_max; it_num++)
                 {
@@ -92,8 +95,10 @@ namespace Burkardt.Types
 
                     x[n - 1] = (b[n - 1] - a[0 + (n - 1) * 3] * x[n - 2]) / a[1 + (n - 1) * 3];
                 }
+
+                break;
             }
-            else
+            default:
             {
                 for (it_num = 1; it_num <= it_max; it_num++)
                 {
@@ -108,6 +113,8 @@ namespace Burkardt.Types
                     x[n - 1] = (b[n - 1] - a[2 + (n - 2) * 3] * x[n - 2])
                                / a[1 + (n - 1) * 3];
                 }
+
+                break;
             }
         }
     }

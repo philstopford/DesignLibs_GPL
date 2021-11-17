@@ -1,146 +1,146 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace geoLib
+namespace geoLib;
+
+public class GeoLibVector3
 {
-    public class GeoLibVector3
+    public double x { get; set; }
+    public double y { get; set; }
+    public double z { get; set; }
+
+    public GeoLibVector3(GeoLibVector3 source)
     {
-        public double x { get; set; }
-        public double y { get; set; }
-        public double z { get; set; }
-
-        public GeoLibVector3(GeoLibVector3 source)
-        {
-            pGeoLibVector3(source);
-        }
-
-        void pGeoLibVector3(GeoLibVector3 source)
-        {
-            x = source.x;
-            y = source.y;
-            z = source.z;
-        }
-
-        public GeoLibVector3(Int32 X, Int32 Y, Int32 Z)
-        {
-            pGeoLibVector3(X, Y, Z);
-        }
-
-        void pGeoLibVector3(Int32 X, Int32 Y, Int32 Z)
-        {
-            x = X;
-            y = Y;
-            z = Z;
-        }
-
-        public GeoLibVector3(double X, double Y, double Z)
-        {
-            pGeoLibVector3(X, Y, Z);
-        }
-
-        void pGeoLibVector3(double X, double Y, double Z)
-        {
-            x = X;
-            y = Y;
-            z = Z;
-        }
+        pGeoLibVector3(source);
     }
 
-    public class GeoLibMatrix
+    private void pGeoLibVector3(GeoLibVector3 source)
     {
-        public double[] m { get; set; }
+        x = source.x;
+        y = source.y;
+        z = source.z;
+    }
 
-        public GeoLibMatrix()
-        {
-            pGeoLibMatrix();
-        }
+    public GeoLibVector3(int X, int Y, int Z)
+    {
+        pGeoLibVector3(X, Y, Z);
+    }
 
-        void pGeoLibMatrix()
-        {
-        }
+    private void pGeoLibVector3(int X, int Y, int Z)
+    {
+        x = X;
+        y = Y;
+        z = Z;
+    }
 
-        public GeoLibMatrix(float m11, float m12, float m21, float m22, float dx, float dy)
-        {
-            pGeoLibMatrix(m11, m12, m21, m22, dx, dy);
-        }
+    public GeoLibVector3(double X, double Y, double Z)
+    {
+        pGeoLibVector3(X, Y, Z);
+    }
 
-        void pGeoLibMatrix(float m11, float m12, float m21, float m22, float dx, float dy)
-        {
-            m = new double[6];
-            m[0] = m11;
-            m[1] = m12;
-            m[2] = m21;
-            m[3] = m22;
-            m[4] = dx;
-            m[5] = dy;
-        }
+    private void pGeoLibVector3(double X, double Y, double Z)
+    {
+        x = X;
+        y = Y;
+        z = Z;
+    }
+}
 
-        public void Rotate(double ang)
-        {
-            pRotate(ang);
-        }
+public class GeoLibMatrix
+{
+    public double[] m { get; set; }
 
-        void pRotate(double ang)
-        {
-            double m11 = m[0];
-            double m22 = m[3];
+    public GeoLibMatrix()
+    {
+        pGeoLibMatrix();
+    }
 
-            m[0] = Math.Cos(ang * Math.PI / 180) * m11;
-            m[1] = Math.Sin(ang * Math.PI / 180) * m22;
-            m[2] = -Math.Sin(ang * Math.PI / 180) * m11;
-            m[3] = Math.Cos(ang * Math.PI / 180) * m22;
-        }
+    private void pGeoLibMatrix()
+    {
+    }
 
-        public void Scale(float sx, float sy)
-        {
-            pScale(sx, sy);
-        }
+    public GeoLibMatrix(float m11, float m12, float m21, float m22, float dx, float dy)
+    {
+        pGeoLibMatrix(m11, m12, m21, m22, dx, dy);
+    }
 
-        void pScale(float sx, float sy)
-        {
-            m[0] *= sx;
-            m[3] *= sy;
-        }
+    private void pGeoLibMatrix(float m11, float m12, float m21, float m22, float dx, float dy)
+    {
+        m = new double[6];
+        m[0] = m11;
+        m[1] = m12;
+        m[2] = m21;
+        m[3] = m22;
+        m[4] = dx;
+        m[5] = dy;
+    }
 
-        public void Translate(Int32 x, Int32 y)
-        {
-            pTranslate(x, y);
-        }
+    public void Rotate(double ang)
+    {
+        pRotate(ang);
+    }
 
-        void pTranslate(Int32 x, Int32 y)
-        {
-            m[4] += x;
-            m[5] += y;
-        }
+    private void pRotate(double ang)
+    {
+        double m11 = m[0];
+        double m22 = m[3];
 
-        public void Translate(double x, double y)
-        {
-            pTranslate(x, y);
-        }
+        m[0] = Math.Cos(ang * Math.PI / 180) * m11;
+        m[1] = Math.Sin(ang * Math.PI / 180) * m22;
+        m[2] = -Math.Sin(ang * Math.PI / 180) * m11;
+        m[3] = Math.Cos(ang * Math.PI / 180) * m22;
+    }
 
-        void pTranslate(double x, double y)
-        {
-            m[4] += x;
-            m[5] += y;
-        }
+    public void Scale(float sx, float sy)
+    {
+        pScale(sx, sy);
+    }
 
-        public void TransformPoints(GeoLibPoint[] source)
-        {
-            pTransformPoints(source);
-        }
+    private void pScale(float sx, float sy)
+    {
+        m[0] *= sx;
+        m[3] *= sy;
+    }
 
-        void pTransformPoints(GeoLibPoint[] source)
-        {
-            var m11 = m[0];
-            var m12 = m[1];
-            var m21 = m[2];
-            var m22 = m[3];
-            var dx = m[4];
-            var dy = m[5];
+    public void Translate(int x, int y)
+    {
+        pTranslate(x, y);
+    }
 
-            int sLength = source.Length;
+    private void pTranslate(int x, int y)
+    {
+        m[4] += x;
+        m[5] += y;
+    }
+
+    public void Translate(double x, double y)
+    {
+        pTranslate(x, y);
+    }
+
+    private void pTranslate(double x, double y)
+    {
+        m[4] += x;
+        m[5] += y;
+    }
+
+    public void TransformPoints(GeoLibPoint[] source)
+    {
+        pTransformPoints(source);
+    }
+
+    private void pTransformPoints(GeoLibPoint[] source)
+    {
+        double m11 = m[0];
+        double m12 = m[1];
+        double m21 = m[2];
+        double m22 = m[3];
+        double dx = m[4];
+        double dy = m[5];
+
+        int sLength = source.Length;
 #if !GEOLIBSINGLETHREADED
-            Parallel.For(0, sLength, (pt) =>
+        Parallel.For(0, sLength, (pt) =>
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif
@@ -150,27 +150,27 @@ namespace geoLib
                 source[pt] = new GeoLibPoint(x1, y1);
             }
 #if !GEOLIBSINGLETHREADED
-            );
+        );
 #endif
-        }
+    }
 
-        public void TransformPoints(GeoLibPointF[] source)
-        {
-            pTransformPoints(source);
-        }
+    public void TransformPoints(GeoLibPointF[] source)
+    {
+        pTransformPoints(source);
+    }
 
-        void pTransformPoints(GeoLibPointF[] source)
-        {
-            var m11 = m[0];
-            var m12 = m[1];
-            var m21 = m[2];
-            var m22 = m[3];
-            var dx = m[4];
-            var dy = m[5];
+    private void pTransformPoints(GeoLibPointF[] source)
+    {
+        double m11 = m[0];
+        double m12 = m[1];
+        double m21 = m[2];
+        double m22 = m[3];
+        double dx = m[4];
+        double dy = m[5];
 
-            int sLength = source.Length;
+        int sLength = source.Length;
 #if !GEOLIBSINGLETHREADED
-            Parallel.For(0, sLength, (pt) => 
+        Parallel.For(0, sLength, (pt) => 
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif
@@ -180,8 +180,7 @@ namespace geoLib
                 source[pt] = new GeoLibPointF(x1, y1);
             }
 #if !GEOLIBSINGLETHREADED
-            );
+        );
 #endif
-        }
     }
 }

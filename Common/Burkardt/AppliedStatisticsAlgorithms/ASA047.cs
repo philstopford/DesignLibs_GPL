@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void nelmin(Func<double[], double> fn, int n, ref double[] start, ref double[] xmin,
-                                    ref double ynewlo, double reqmin, double[] step, int konvge, int kcount,
-                                    ref int icount, ref int numres, ref int ifault)
+    public static void nelmin(Func<double[], double> fn, int n, ref double[] start, ref double[] xmin,
+            ref double ynewlo, double reqmin, double[] step, int konvge, int kcount,
+            ref int icount, ref int numres, ref int ifault)
         //****************************************************************************80
         //
         //  Purpose:
@@ -99,195 +99,200 @@ namespace Burkardt.AppliedStatistics
         //    1, REQMIN, N, or KONVGE has an illegal value.
         //    2, iteration terminated because KCOUNT was exceeded without convergence.
         //
+    {
+        double ccoeff = 0.5;
+        double ecoeff = 2.0;
+        double eps = 0.001;
+        double rcoeff = 1.0;
+        switch (reqmin)
         {
-            double ccoeff = 0.5;
-            double ecoeff = 2.0;
-            double eps = 0.001;
-            double rcoeff = 1.0;
             //
             //  Check the input parameters.
             //
-            if (reqmin <= 0.0)
-            {
+            case <= 0.0:
                 ifault = 1;
                 return;
-            }
+        }
 
-            if (n < 1)
-            {
+        switch (n)
+        {
+            case < 1:
                 ifault = 1;
                 return;
-            }
+        }
 
-            if (konvge < 1)
-            {
+        switch (konvge)
+        {
+            case < 1:
                 ifault = 1;
                 return;
+        }
+
+        double[] p = new double[n * (n + 1)];
+        double[] pstar = new double[n];
+        double[] p2star = new double[n];
+        double[] pbar = new double[n];
+        double[] y = new double[n + 1];
+
+        icount = 0;
+        numres = 0;
+
+        int jcount = konvge;
+        double dn = n;
+        int nn = n + 1;
+        double dnn = nn;
+        double del = 1.0;
+        double rq = reqmin * dn;
+        //
+        //  Initial or restarted loop.
+        //
+        for (;;)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                p[i + n * n] = start[i];
             }
 
-            double[] p = new double[n * (n + 1)];
-            double[] pstar = new double[n];
-            double[] p2star = new double[n];
-            double[] pbar = new double[n];
-            double[] y = new double[n + 1];
+            y[n] = fn(start);
+            icount += 1;
 
-            icount = 0;
-            numres = 0;
-
-            int jcount = konvge;
-            double dn = (double) (n);
-            int nn = n + 1;
-            double dnn = (double) (nn);
-            double del = 1.0;
-            double rq = reqmin * dn;
-            //
-            //  Initial or restarted loop.
-            //
-            for (;;)
+            double x;
+            for (int j = 0; j < n; j++)
             {
+                x = start[j];
+                start[j] += step[j] * del;
                 for (int i = 0; i < n; i++)
                 {
-                    p[i + n * n] = start[i];
+                    p[i + j * n] = start[i];
                 }
 
-                y[n] = fn(start);
-                icount = icount + 1;
+                y[j] = fn(start);
+                icount += 1;
+                start[j] = x;
+            }
 
-                double x;
-                for (int j = 0; j < n; j++)
+            //                    
+            //  The simplex construction is complete.
+            //                    
+            //  Find highest and lowest Y values.  YNEWLO = Y(IHI) indicates
+            //  the vertex of the simplex to be replaced.
+            //                
+            double ylo = y[0];
+            int ilo = 0;
+
+            for (int i = 1; i < nn; i++)
+            {
+                if (y[i] < ylo)
                 {
-                    x = start[j];
-                    start[j] = start[j] + step[j] * del;
-                    for (int i = 0; i < n; i++)
-                    {
-                        p[i + j * n] = start[i];
-                    }
+                    ylo = y[i];
+                    ilo = i;
+                }
+            }
 
-                    y[j] = fn(start);
-                    icount = icount + 1;
-                    start[j] = x;
+            //
+            //  Inner loop.
+            //
+            double z;
+            for (;;)
+            {
+                if (kcount <= icount)
+                {
+                    break;
                 }
 
-                //                    
-                //  The simplex construction is complete.
-                //                    
-                //  Find highest and lowest Y values.  YNEWLO = Y(IHI) indicates
-                //  the vertex of the simplex to be replaced.
-                //                
-                double ylo = y[0];
-                int ilo = 0;
+                ynewlo = y[0];
+                int ihi = 0;
 
                 for (int i = 1; i < nn; i++)
                 {
-                    if (y[i] < ylo)
+                    if (ynewlo < y[i])
                     {
-                        ylo = y[i];
-                        ilo = i;
+                        ynewlo = y[i];
+                        ihi = i;
                     }
                 }
 
                 //
-                //  Inner loop.
+                //  Calculate PBAR, the centroid of the simplex vertices
+                //  excepting the vertex with Y value YNEWLO.
                 //
-                double z;
-                for (;;)
+                for (int i = 0; i < n; i++)
                 {
-                    if (kcount <= icount)
+                    z = 0.0;
+                    for (int j = 0; j < nn; j++)
                     {
-                        break;
+                        z += p[i + j * n];
                     }
 
-                    ynewlo = y[0];
-                    int ihi = 0;
+                    z -= p[i + ihi * n];
+                    pbar[i] = z / dn;
+                }
 
-                    for (int i = 1; i < nn; i++)
-                    {
-                        if (ynewlo < y[i])
-                        {
-                            ynewlo = y[i];
-                            ihi = i;
-                        }
-                    }
+                //
+                //  Reflection through the centroid.
+                //
+                for (int i = 0; i < n; i++)
+                {
+                    pstar[i] = pbar[i] + rcoeff * (pbar[i] - p[i + ihi * n]);
+                }
 
-                    //
-                    //  Calculate PBAR, the centroid of the simplex vertices
-                    //  excepting the vertex with Y value YNEWLO.
-                    //
+                double ystar = fn(pstar);
+                icount += 1;
+                //
+                //  Successful reflection, so extension.
+                //
+                double y2star;
+                if (ystar < ylo)
+                {
                     for (int i = 0; i < n; i++)
                     {
-                        z = 0.0;
-                        for (int j = 0; j < nn; j++)
-                        {
-                            z = z + p[i + j * n];
-                        }
-
-                        z = z - p[i + ihi * n];
-                        pbar[i] = z / dn;
+                        p2star[i] = pbar[i] + ecoeff * (pstar[i] - pbar[i]);
                     }
 
+                    y2star = fn(p2star);
+                    icount += 1;
                     //
-                    //  Reflection through the centroid.
+                    //  Check extension.
                     //
-                    for (int i = 0; i < n; i++)
-                    {
-                        pstar[i] = pbar[i] + rcoeff * (pbar[i] - p[i + ihi * n]);
-                    }
-
-                    double ystar = fn(pstar);
-                    icount = icount + 1;
-                    //
-                    //  Successful reflection, so extension.
-                    //
-                    double y2star;
-                    if (ystar < ylo)
+                    if (ystar < y2star)
                     {
                         for (int i = 0; i < n; i++)
                         {
-                            p2star[i] = pbar[i] + ecoeff * (pstar[i] - pbar[i]);
+                            p[i + ihi * n] = pstar[i];
                         }
 
-                        y2star = fn(p2star);
-                        icount = icount + 1;
-                        //
-                        //  Check extension.
-                        //
-                        if (ystar < y2star)
-                        {
-                            for (int i = 0; i < n; i++)
-                            {
-                                p[i + ihi * n] = pstar[i];
-                            }
-
-                            y[ihi] = ystar;
-                        }
-                        //
-                        //  Retain extension or contraction.
-                        //
-                        else
-                        {
-                            for (int i = 0; i < n; i++)
-                            {
-                                p[i + ihi * n] = p2star[i];
-                            }
-
-                            y[ihi] = y2star;
-                        }
+                        y[ihi] = ystar;
                     }
                     //
-                    //  No extension.
+                    //  Retain extension or contraction.
                     //
                     else
                     {
-                        int l = 0;
-                        for (int i = 0; i < nn; i++)
+                        for (int i = 0; i < n; i++)
                         {
-                            if (ystar < y[i])
-                            {
-                                l = l + 1;
-                            }
+                            p[i + ihi * n] = p2star[i];
                         }
 
-                        if (1 < l)
+                        y[ihi] = y2star;
+                    }
+                }
+                //
+                //  No extension.
+                //
+                else
+                {
+                    int l = 0;
+                    for (int i = 0; i < nn; i++)
+                    {
+                        if (ystar < y[i])
+                        {
+                            l += 1;
+                        }
+                    }
+
+                    switch (l)
+                    {
+                        case > 1:
                         {
                             for (int i = 0; i < n; i++)
                             {
@@ -295,11 +300,12 @@ namespace Burkardt.AppliedStatistics
                             }
 
                             y[ihi] = ystar;
+                            break;
                         }
                         //
                         //  Contraction on the Y(IHI) side of the centroid.
                         //
-                        else if (l == 0)
+                        case 0:
                         {
                             for (int i = 0; i < n; i++)
                             {
@@ -307,7 +313,7 @@ namespace Burkardt.AppliedStatistics
                             }
 
                             y2star = fn(p2star);
-                            icount = icount + 1;
+                            icount += 1;
                             //
                             //  Contract the whole simplex.
                             //
@@ -322,7 +328,7 @@ namespace Burkardt.AppliedStatistics
                                     }
 
                                     y[j] = fn(xmin);
-                                    icount = icount + 1;
+                                    icount += 1;
                                 }
 
                                 ylo = y[0];
@@ -342,20 +348,20 @@ namespace Burkardt.AppliedStatistics
                             //
                             //  Retain contraction.
                             //
-                            else
-                            {
-                                for (int i = 0; i < n; i++)
-                                {
-                                    p[i + ihi * n] = p2star[i];
-                                }
 
-                                y[ihi] = y2star;
+                            for (int i = 0; i < n; i++)
+                            {
+                                p[i + ihi * n] = p2star[i];
                             }
+
+                            y[ihi] = y2star;
+
+                            break;
                         }
                         //
                         //  Contraction on the reflection side of the centroid.
                         //
-                        else if (l == 1)
+                        case 1:
                         {
                             for (int i = 0; i < n; i++)
                             {
@@ -363,7 +369,7 @@ namespace Burkardt.AppliedStatistics
                             }
 
                             y2star = fn(p2star);
-                            icount = icount + 1;
+                            icount += 1;
                             //
                             //  Retain reflection?
                             //
@@ -385,111 +391,114 @@ namespace Burkardt.AppliedStatistics
 
                                 y[ihi] = ystar;
                             }
-                        }
-                    }
 
-                    //
-                    //  Check if YLO improved.
-                    //
-                    if (y[ihi] < ylo)
-                    {
-                        ylo = y[ihi];
-                        ilo = ihi;
-                    }
-
-                    jcount = jcount - 1;
-
-                    if (0 < jcount)
-                    {
-                        continue;
-                    }
-
-                    //
-                    //  Check to see if minimum reached.
-                    //
-                    if (icount <= kcount)
-                    {
-                        jcount = konvge;
-
-                        z = 0.0;
-                        for (int i = 0; i < nn; i++)
-                        {
-                            z = z + y[i];
-                        }
-
-                        x = z / dnn;
-
-                        z = 0.0;
-                        for (int i = 0; i < nn; i++)
-                        {
-                            z = z + Math.Pow(y[i] - x, 2);
-                        }
-
-                        if (z <= rq)
-                        {
                             break;
                         }
                     }
                 }
 
                 //
-                //  Factorial tests to check that YNEWLO is a local minimum.
+                //  Check if YLO improved.
                 //
-                for (int i = 0; i < n; i++)
+                if (y[ihi] < ylo)
                 {
-                    xmin[i] = p[i + ilo * n];
+                    ylo = y[ihi];
+                    ilo = ihi;
                 }
 
-                ynewlo = y[ilo];
+                jcount -= 1;
 
-                if (kcount < icount)
+                switch (jcount)
+                {
+                    case > 0:
+                        continue;
+                }
+
+                //
+                //  Check to see if minimum reached.
+                //
+                if (icount <= kcount)
+                {
+                    jcount = konvge;
+
+                    z = 0.0;
+                    for (int i = 0; i < nn; i++)
+                    {
+                        z += y[i];
+                    }
+
+                    x = z / dnn;
+
+                    z = 0.0;
+                    for (int i = 0; i < nn; i++)
+                    {
+                        z += Math.Pow(y[i] - x, 2);
+                    }
+
+                    if (z <= rq)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //
+            //  Factorial tests to check that YNEWLO is a local minimum.
+            //
+            for (int i = 0; i < n; i++)
+            {
+                xmin[i] = p[i + ilo * n];
+            }
+
+            ynewlo = y[ilo];
+
+            if (kcount < icount)
+            {
+                ifault = 2;
+                break;
+            }
+
+            ifault = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                del = step[i] * eps;
+                xmin[i] += del;
+                z = fn(xmin);
+                icount += 1;
+                if (z < ynewlo)
                 {
                     ifault = 2;
                     break;
                 }
 
-                ifault = 0;
-
-                for (int i = 0; i < n; i++)
+                xmin[i] = xmin[i] - del - del;
+                z = fn(xmin);
+                icount += 1;
+                if (z < ynewlo)
                 {
-                    del = step[i] * eps;
-                    xmin[i] = xmin[i] + del;
-                    z = fn(xmin);
-                    icount = icount + 1;
-                    if (z < ynewlo)
-                    {
-                        ifault = 2;
-                        break;
-                    }
-
-                    xmin[i] = xmin[i] - del - del;
-                    z = fn(xmin);
-                    icount = icount + 1;
-                    if (z < ynewlo)
-                    {
-                        ifault = 2;
-                        break;
-                    }
-
-                    xmin[i] = xmin[i] + del;
-                }
-
-                if (ifault == 0)
-                {
+                    ifault = 2;
                     break;
                 }
 
-                //
-                //  Restart the procedure.
-                //
-                for (int i = 0; i < n; i++)
-                {
-                    start[i] = xmin[i];
-                }
-
-                del = eps;
-                numres = numres + 1;
+                xmin[i] += del;
             }
+
+            if (ifault == 0)
+            {
+                break;
+            }
+
+            //
+            //  Restart the procedure.
+            //
+            for (int i = 0; i < n; i++)
+            {
+                start[i] = xmin[i];
+            }
+
+            del = eps;
+            numres += 1;
         }
     }
 }

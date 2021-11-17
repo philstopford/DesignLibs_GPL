@@ -1,8 +1,8 @@
-﻿namespace Burkardt.CompressedRow
+﻿namespace Burkardt.CompressedRow;
+
+public static class DiagonalPointerCR
 {
-    public static class DiagonalPointerCR
-    {
-        public static void diagonal_pointer_cr ( int n, int nz_num, int[] ia, int[] ja, ref int[] ua )
+    public static void diagonal_pointer_cr ( int n, int nz_num, int[] ia, int[] ja, ref int[] ua )
 
         //****************************************************************************80
         //
@@ -49,27 +49,26 @@
         //
         //    Output, int UA[N], the index of the diagonal element of each row.
         //
+    {
+        int i;
+        int j;
+        int j1;
+        int j2;
+
+        for ( i = 0; i < n; i++ )
         {
-            int i;
-            int j;
-            int j1;
-            int j2;
+            ua[i] = -1;
+            j1 = ia[i];
+            j2 = ia[i+1];
 
-            for ( i = 0; i < n; i++ )
+            for ( j = j1; j < j2; j++ )
             {
-                ua[i] = -1;
-                j1 = ia[i];
-                j2 = ia[i+1];
-
-                for ( j = j1; j < j2; j++ )
+                if ( ja[j] == i ) 
                 {
-                    if ( ja[j] == i ) 
-                    {
-                        ua[i] = j;
-                    }
+                    ua[i] = j;
                 }
-
             }
+
         }
     }
 }

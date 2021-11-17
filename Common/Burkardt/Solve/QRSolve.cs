@@ -2,127 +2,127 @@
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt.SolveNS
+namespace Burkardt.SolveNS;
+
+public static class QRSolve
 {
-    public static class QRSolve
+    public static void qform(int m, int n, ref double[] q, int ldq, int qIndex = 0)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    qform() constructs the standard form of Q from its factored form.
+        //
+        //  Discussion:
+        //
+        //    This function proceeds from the computed QR factorization of
+        //    an M by N matrix A to accumulate the M by M orthogonal matrix
+        //    Q from its factored form.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    02 January 2018
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Jorge More, Burt Garbow, Ken Hillstrom.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Jorge More, Burton Garbow, Kenneth Hillstrom,
+        //    User Guide for MINPACK-1,
+        //    Technical Report ANL-80-74,
+        //    Argonne National Laboratory, 1980.
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows of A, and the order of Q.
+        //
+        //    Input, int N, the number of columns of A.
+        //
+        //    Input/output, double Q[LDQ*N].  On input, the full lower trapezoid in
+        //    the first min(M,N) columns of Q contains the factored form.
+        //    On output Q has been accumulated into a square matrix.
+        //
+        //    Input, int LDQ, the leading dimension of the array Q.
+        //
     {
-        public static void qform(int m, int n, ref double[] q, int ldq, int qIndex = 0)
+        int i;
+        int j;
+        int k;
+        int minmn;
+        double sum;
+        double temp;
+        double[] wa;
+        //
+        //  Zero out the upper triangle of Q in the first min(M,N) columns.
+        //
+        minmn = Math.Min(m, n);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    qform() constructs the standard form of Q from its factored form.
-            //
-            //  Discussion:
-            //
-            //    This function proceeds from the computed QR factorization of
-            //    an M by N matrix A to accumulate the M by M orthogonal matrix
-            //    Q from its factored form.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    02 January 2018
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Jorge More, Burt Garbow, Ken Hillstrom.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Jorge More, Burton Garbow, Kenneth Hillstrom,
-            //    User Guide for MINPACK-1,
-            //    Technical Report ANL-80-74,
-            //    Argonne National Laboratory, 1980.
-            //
-            //  Parameters:
-            //
-            //    Input, int M, the number of rows of A, and the order of Q.
-            //
-            //    Input, int N, the number of columns of A.
-            //
-            //    Input/output, double Q[LDQ*N].  On input, the full lower trapezoid in
-            //    the first min(M,N) columns of Q contains the factored form.
-            //    On output Q has been accumulated into a square matrix.
-            //
-            //    Input, int LDQ, the leading dimension of the array Q.
-            //
+        for (j = 1; j < minmn; j++)
         {
-            int i;
-            int j;
-            int k;
-            int minmn;
-            double sum;
-            double temp;
-            double[] wa;
-            //
-            //  Zero out the upper triangle of Q in the first min(M,N) columns.
-            //
-            minmn = Math.Min(m, n);
-
-            for (j = 1; j < minmn; j++)
+            for (i = 0; i <= j - 1; i++)
             {
-                for (i = 0; i <= j - 1; i++)
-                {
-                    q[qIndex + (i + j * ldq)] = 0.0;
-                }
+                q[qIndex + i + j * ldq] = 0.0;
+            }
+        }
+
+        //
+        //  Initialize remaining columns to those of the identity matrix.
+        //
+        for (j = n; j < m; j++)
+        {
+            for (i = 0; i < m; i++)
+            {
+                q[qIndex + i + j * ldq] = 0.0;
             }
 
-            //
-            //  Initialize remaining columns to those of the identity matrix.
-            //
-            for (j = n; j < m; j++)
-            {
-                for (i = 0; i < m; i++)
-                {
-                    q[qIndex + (i + j * ldq)] = 0.0;
-                }
+            q[qIndex + j + j * ldq] = 1.0;
+        }
 
-                q[qIndex + (j + j * ldq)] = 1.0;
+        //
+        //  Accumulate Q from its factored form.
+        //
+        wa = new double[m];
+
+        for (k = minmn - 1; 0 <= k; k--)
+        {
+            for (i = k; i < m; i++)
+            {
+                wa[i] = q[qIndex + i + k * ldq];
+                q[qIndex + i + k * ldq] = 0.0;
             }
 
-            //
-            //  Accumulate Q from its factored form.
-            //
-            wa = new double[m];
+            q[qIndex + k + k * ldq] = 1.0;
 
-            for (k = minmn - 1; 0 <= k; k--)
+            if (wa[k] != 0.0)
             {
-                for (i = k; i < m; i++)
+                for (j = k; j < m; j++)
                 {
-                    wa[i] = q[qIndex + (i + k * ldq)];
-                    q[qIndex + (i + k * ldq)] = 0.0;
-                }
-
-                q[qIndex + (k + k * ldq)] = 1.0;
-
-                if (wa[k] != 0.0)
-                {
-                    for (j = k; j < m; j++)
+                    sum = 0.0;
+                    for (i = k; i < m; i++)
                     {
-                        sum = 0.0;
-                        for (i = k; i < m; i++)
-                        {
-                            sum = sum + q[qIndex + (i + j * ldq)] * wa[i];
-                        }
+                        sum += q[qIndex + i + j * ldq] * wa[i];
+                    }
 
-                        temp = sum / wa[k];
-                        for (i = k; i < m; i++)
-                        {
-                            q[qIndex + (i + j * ldq)] = q[qIndex + (i + j * ldq)] - temp * wa[i];
-                        }
+                    temp = sum / wa[k];
+                    for (i = k; i < m; i++)
+                    {
+                        q[qIndex + i + j * ldq] -= temp * wa[i];
                     }
                 }
             }
         }
+    }
 
-        public static void qrfac ( int m, int n, ref double[] a, int lda, bool pivot, ref int[] ipvt,
-        ref int lipvt, ref double[] rdiag, ref double[] acnorm, int aIndex = 0, int rdiagIndex = 0, int acnormIndex = 0 )
+    public static void qrfac ( int m, int n, ref double[] a, int lda, bool pivot, ref int[] ipvt,
+            ref int lipvt, ref double[] rdiag, ref double[] acnorm, int aIndex = 0, int rdiagIndex = 0, int acnormIndex = 0 )
 
         //****************************************************************************80
         //
@@ -203,46 +203,49 @@ namespace Burkardt.SolveNS
         //         if this information is not needed, then acnorm can coincide
         //         with rdiag.
         //
+    {
+        double ajnorm;
+        double epsmch;
+        int i;
+        int j;
+        int k;
+        int kmax;
+        int minmn;
+        const double p05 = 0.05;
+        double sum;
+        double temp;
+        double[] wa;
+        //
+        //  EPSMCH is the machine precision.
+        //
+        epsmch = typeMethods.r8_epsilon();
+        //
+        //  Compute the initial column norms and initialize several arrays.
+        //
+        wa = new double[n];
+
+        for (j = 0; j < n; j++)
         {
-            double ajnorm;
-            double epsmch;
-            int i;
-            int j;
-            int k;
-            int kmax;
-            int minmn;
-            const double p05 = 0.05;
-            double sum;
-            double temp;
-            double[] wa;
-            //
-            //  EPSMCH is the machine precision.
-            //
-            epsmch = typeMethods.r8_epsilon();
-            //
-            //  Compute the initial column norms and initialize several arrays.
-            //
-            wa = new double[n];
-
-            for (j = 0; j < n; j++)
+            acnorm[acnormIndex + j] = Helpers.enorm(m, a, xIndex: aIndex + j * lda);
+            rdiag[rdiagIndex + j] = acnorm[acnormIndex + j];
+            wa[j] = rdiag[rdiagIndex + j];
+            ipvt[j] = pivot switch
             {
-                acnorm[acnormIndex + (j)] = Helpers.enorm(m, a, xIndex: aIndex + (j * lda));
-                rdiag[rdiagIndex + (j)] = acnorm[acnormIndex + (j)];
-                wa[j] = rdiag[rdiagIndex + (j)];
-                if (pivot)
-                {
-                    ipvt[j] = j;
-                }
-            }
+                true => j,
+                _ => ipvt[j]
+            };
+        }
 
-            //
-            //  Reduce A to R with Householder transformations.
-            //
-            minmn = Math.Min(m, n);
+        //
+        //  Reduce A to R with Householder transformations.
+        //
+        minmn = Math.Min(m, n);
 
-            for (j = 0; j < minmn; j++)
+        for (j = 0; j < minmn; j++)
+        {
+            switch (pivot)
             {
-                if (pivot)
+                case true:
                 {
                     //
                     //  Bring the column of largest norm into the pivot position.
@@ -250,7 +253,7 @@ namespace Burkardt.SolveNS
                     kmax = j;
                     for (k = j; k < n; k++)
                     {
-                        if (rdiag[rdiagIndex + (kmax)] < rdiag[rdiagIndex + (k)])
+                        if (rdiag[rdiagIndex + kmax] < rdiag[rdiagIndex + k])
                         {
                             kmax = k;
                         }
@@ -260,73 +263,82 @@ namespace Burkardt.SolveNS
                     {
                         for (i = 0; i < m; i++)
                         {
-                            temp = a[aIndex + (i + j * lda)];
-                            a[aIndex + (i + j * lda)] = a[aIndex + (i + kmax * lda)];
-                            a[aIndex + (i + kmax * lda)] = temp;
+                            temp = a[aIndex + i + j * lda];
+                            a[aIndex + i + j * lda] = a[aIndex + i + kmax * lda];
+                            a[aIndex + i + kmax * lda] = temp;
                         }
 
-                        rdiag[rdiagIndex + (kmax)] = rdiag[rdiagIndex + (j)];
+                        rdiag[rdiagIndex + kmax] = rdiag[rdiagIndex + j];
                         wa[kmax] = wa[j];
                         k = ipvt[j];
                         ipvt[j] = ipvt[kmax];
                         ipvt[kmax] = k;
                     }
+
+                    break;
+                }
+            }
+
+            //
+            //  Compute the Householder transformation to reduce the
+            //  J-th column of A to a multiple of the J-th unit vector.
+            //
+            ajnorm = Helpers.enorm(m - j, a, xIndex: aIndex + + j + j * lda);
+
+            if (ajnorm != 0.0)
+            {
+                ajnorm = a[aIndex + j + j * lda] switch
+                {
+                    < 0.0 => -ajnorm,
+                    _ => ajnorm
+                };
+
+                for (i = j; i < m; i++)
+                {
+                    a[aIndex + i + j * lda] /= ajnorm;
                 }
 
+                a[aIndex + j + j * lda] += 1.0;
                 //
-                //  Compute the Householder transformation to reduce the
-                //  J-th column of A to a multiple of the J-th unit vector.
+                //  Apply the transformation to the remaining columns and update the norms.
                 //
-                ajnorm = Helpers.enorm(m - j, a, xIndex: aIndex + (+ j + j * lda));
-
-                if (ajnorm != 0.0)
+                for (k = j + 1; k < n; k++)
                 {
-                    if (a[aIndex + (j + j * lda)] < 0.0)
-                    {
-                        ajnorm = -ajnorm;
-                    }
-
+                    sum = 0.0;
                     for (i = j; i < m; i++)
                     {
-                        a[aIndex + (i + j * lda)] = a[aIndex + (i + j * lda)] / ajnorm;
+                        sum += a[aIndex + i + j * lda] * a[aIndex + i + k * lda];
                     }
 
-                    a[aIndex + (j + j * lda)] = a[aIndex + (j + j * lda)] + 1.0;
-                    //
-                    //  Apply the transformation to the remaining columns and update the norms.
-                    //
-                    for (k = j + 1; k < n; k++)
+                    temp = sum / a[aIndex + j + j * lda];
+                    for (i = j; i < m; i++)
                     {
-                        sum = 0.0;
-                        for (i = j; i < m; i++)
-                        {
-                            sum = sum + a[aIndex + (i + j * lda)] * a[aIndex + (i + k * lda)];
-                        }
+                        a[aIndex + i + k * lda] -= temp * a[aIndex + i + j * lda];
+                    }
 
-                        temp = sum / a[aIndex + (j + j * lda)];
-                        for (i = j; i < m; i++)
+                    switch (pivot)
+                    {
+                        case true when rdiag[rdiagIndex + k] != 0.0:
                         {
-                            a[aIndex + (i + k * lda)] = a[aIndex + (i + k * lda)] - temp * a[aIndex + (i + j * lda)];
-                        }
-
-                        if (pivot && rdiag[rdiagIndex + (k)] != 0.0)
-                        {
-                            temp = a[aIndex + (j + k * lda)] / rdiag[rdiagIndex + (k)];
-                            rdiag[rdiagIndex + (k)] = rdiag[rdiagIndex + (k)] * Math.Sqrt(Math.Max(0.0, 1.0 - temp * temp));
-                            if (p05 * (rdiag[rdiagIndex + (k)] / wa[k]) * (rdiag[rdiagIndex + (k)] / wa[k]) <= epsmch)
+                            temp = a[aIndex + j + k * lda] / rdiag[rdiagIndex + k];
+                            rdiag[rdiagIndex + k] *= Math.Sqrt(Math.Max(0.0, 1.0 - temp * temp));
+                            if (p05 * (rdiag[rdiagIndex + k] / wa[k]) * (rdiag[rdiagIndex + k] / wa[k]) <= epsmch)
                             {
-                                rdiag[rdiagIndex + (k)] = Helpers.enorm(m - 1 - j, a, xIndex: aIndex + (+ (j + 1) + k * lda));
-                                wa[k] = rdiag[rdiagIndex + (k)];
+                                rdiag[rdiagIndex + k] = Helpers.enorm(m - 1 - j, a, xIndex: aIndex + + (j + 1) + k * lda);
+                                wa[k] = rdiag[rdiagIndex + k];
                             }
+
+                            break;
                         }
                     }
                 }
-
-                rdiag[rdiagIndex + (j)] = -ajnorm;
             }
-        }
 
-        public static double[] qr_solve ( int m, int n, double[] a, double[] b )
+            rdiag[rdiagIndex + j] = -ajnorm;
+        }
+    }
+
+    public static double[] qr_solve ( int m, int n, double[] a, double[] b )
 
         //****************************************************************************80
         //
@@ -375,38 +387,38 @@ namespace Burkardt.SolveNS
         //
         //    Output, double QR_SOLVE[N], the least squares solution.
         //
+    {
+        double[] a_qr;
+        int itask;
+        int[] jpvt;
+        int kr = 0;
+        int lda;
+        double[] qraux;
+        double[] r;
+        double tol;
+        double[] x;
+
+        a_qr = typeMethods.r8mat_copy_new ( m, n, a );
+        lda = m;
+        tol = typeMethods.r8_epsilon() / typeMethods.r8mat_amax ( m, n, a_qr );
+        x = new double[n];
+        jpvt = new int[n];
+        qraux = new double[n];
+        r = new double[m];
+        itask = 1;
+
+        for (int i = 0; i < qraux.Length; i++)
         {
-            double[] a_qr;
-            int itask;
-            int[] jpvt;
-            int kr = 0;
-            int lda;
-            double[] qraux;
-            double[] r;
-            double tol;
-            double[] x;
-
-            a_qr = typeMethods.r8mat_copy_new ( m, n, a );
-            lda = m;
-            tol = typeMethods.r8_epsilon() / typeMethods.r8mat_amax ( m, n, a_qr );
-            x = new double[n];
-            jpvt = new int[n];
-            qraux = new double[n];
-            r = new double[m];
-            itask = 1;
-
-            for (int i = 0; i < qraux.Length; i++)
-            {
-                qraux[i] = -6.2774385622041925e+66;
-            }
-
-            dqrls ( ref a_qr, lda, m, n, tol, ref kr, b, ref x, ref r, jpvt, qraux, itask );
-
-            return x;
+            qraux[i] = -6.2774385622041925e+66;
         }
+
+        dqrls ( ref a_qr, lda, m, n, tol, ref kr, b, ref x, ref r, jpvt, qraux, itask );
+
+        return x;
+    }
         
-        public static void dqrank(ref double[] a, int lda, int m, int n, double tol, ref int kr,
-        ref int[] jpvt, ref double[] qraux )
+    public static void dqrank(ref double[] a, int lda, int m, int n, double tol, ref int kr,
+            ref int[] jpvt, ref double[] qraux )
 
         //****************************************************************************80
         //
@@ -479,39 +491,39 @@ namespace Burkardt.SolveNS
         //    Output, double QRAUX[N], will contain extra information defining
         //    the QR factorization.
         //
+    {
+        int i;
+        int j;
+        int job;
+        int k;
+        double[] work;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int j;
-            int job;
-            int k;
-            double[] work;
-
-            for (i = 0; i < n; i++)
-            {
-                jpvt[i] = 0;
-            }
-
-            work = new double[n];
-            job = 1;
-
-            dqrdc(ref a, lda, m, n, ref qraux, ref jpvt, work, job);
-
-            kr = 0;
-            k = Math.Min(m, n);
-
-            for (j = 0; j < k; j++)
-            {
-                if (Math.Abs(a[j + j * lda]) <= tol * Math.Abs(a[0 + 0 * lda]))
-                {
-                    return;
-                }
-
-                kr = j + 1;
-            }
+            jpvt[i] = 0;
         }
 
-        public static void dqrdc(ref double[] a, int lda, int n, int p, ref double[] qraux, ref int[] jpvt,
-        double[] work, int job )
+        work = new double[n];
+        job = 1;
+
+        dqrdc(ref a, lda, m, n, ref qraux, ref jpvt, work, job);
+
+        kr = 0;
+        k = Math.Min(m, n);
+
+        for (j = 0; j < k; j++)
+        {
+            if (Math.Abs(a[j + j * lda]) <= tol * Math.Abs(a[0 + 0 * lda]))
+            {
+                return;
+            }
+
+            kr = j + 1;
+        }
+    }
+
+    public static void dqrdc(ref double[] a, int lda, int n, int p, ref double[] qraux, ref int[] jpvt,
+            double[] work, int job )
 
         //****************************************************************************80
         //
@@ -590,44 +602,43 @@ namespace Burkardt.SolveNS
         //    0, no pivoting is done.
         //    nonzero, pivoting is done.
         //
-        {
-            int j;
-            int jp;
-            int l;
-            int lup;
-            int maxj;
-            double maxnrm;
-            double nrmxl;
-            int pl;
-            int pu;
-            bool swapj;
-            double t;
-            double tt;
-            int xIndex = 0;
-            int yIndex = 0;
-            int index = 0;
+    {
+        int j;
+        int jp;
+        int l;
+        int lup;
+        int maxj;
+        double maxnrm;
+        double nrmxl;
+        int pl;
+        int pu;
+        bool swapj;
+        double t;
+        double tt;
+        int xIndex = 0;
+        int yIndex = 0;
+        int index = 0;
             
-            pl = 1;
-            pu = 0;
-            //
-            //  If pivoting is requested, rearrange the columns.
-            //
-            if (job != 0)
+        pl = 1;
+        pu = 0;
+        //
+        //  If pivoting is requested, rearrange the columns.
+        //
+        if (job != 0)
+        {
+            for (j = 1; j <= p; j++)
             {
-                for (j = 1; j <= p; j++)
+                swapj = 0 < jpvt[j - 1];
+
+                jpvt[j - 1] = jpvt[j - 1] switch
                 {
-                    swapj = (0 < jpvt[j - 1]);
+                    < 0 => -j,
+                    _ => j
+                };
 
-                    if (jpvt[j - 1] < 0)
-                    {
-                        jpvt[j - 1] = -j;
-                    }
-                    else
-                    {
-                        jpvt[j - 1] = j;
-                    }
-
-                    if (swapj)
+                switch (swapj)
+                {
+                    case true:
                     {
                         if (j != pl)
                         {
@@ -638,15 +649,19 @@ namespace Burkardt.SolveNS
 
                         jpvt[j - 1] = jpvt[pl - 1];
                         jpvt[pl - 1] = j;
-                        pl = pl + 1;
+                        pl += 1;
+                        break;
                     }
                 }
+            }
 
-                pu = p;
+            pu = p;
 
-                for (j = p; 1 <= j; j--)
+            for (j = p; 1 <= j; j--)
+            {
+                switch (jpvt[j - 1])
                 {
-                    if (jpvt[j - 1] < 0)
+                    case < 0:
                     {
                         jpvt[j - 1] = -jpvt[j - 1];
 
@@ -660,125 +675,127 @@ namespace Burkardt.SolveNS
                             jpvt[j - 1] = jp;
                         }
 
-                        pu = pu - 1;
-                    }
-                }
-            }
-
-            //
-            //  Compute the norms of the free columns.
-            //
-            for (j = pl; j <= pu; j++)
-            {
-                index = +0 + (j - 1) * lda;
-                qraux[j - 1] = BLAS1D.dnrm2(n, a, 1, index);
-            }
-
-            for (j = pl; j <= pu; j++)
-            {
-                work[j - 1] = qraux[j - 1];
-            }
-
-            //
-            //  Perform the Householder reduction of A.
-            //
-            lup = Math.Min(n, p);
-
-            for (l = 1; l <= lup; l++)
-            {
-                //
-                //  Bring the column of largest norm into the pivot position.
-                //
-                if (pl <= l && l < pu)
-                {
-                    maxnrm = 0.0;
-                    maxj = l;
-                    for (j = l; j <= pu; j++)
-                    {
-                        if (maxnrm < qraux[j - 1])
-                        {
-                            maxnrm = qraux[j - 1];
-                            maxj = j;
-                        }
-                    }
-
-                    if (maxj != l)
-                    {
-                        xIndex = +0 + (l - 1) * lda;
-                        yIndex = +0 + (maxj - 1) * lda;
-                        BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex, yIndex);
-                        qraux[maxj - 1] = qraux[l - 1];
-                        work[maxj - 1] = work[l - 1];
-                        jp = jpvt[maxj - 1];
-                        jpvt[maxj - 1] = jpvt[l - 1];
-                        jpvt[l - 1] = jp;
-                    }
-                }
-
-                //
-                //  Compute the Householder transformation for column L.
-                //
-                qraux[l - 1] = 0.0;
-
-                if (l != n)
-                {
-                    index = +l - 1 + (l - 1) * lda;
-                    nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index);
-
-                    if (nrmxl != 0.0)
-                    {
-                        if (a[l - 1 + (l - 1) * lda] != 0.0)
-                        {
-                            nrmxl = nrmxl * typeMethods.r8_sign(a[index]);
-                        }
-
-                        BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
-                        a[index] = 1.0 + a[index];
-                        //
-                        //  Apply the transformation to the remaining columns, updating the norms.
-                        //
-                        for (j = l + 1; j <= p; j++)
-                        {
-                            yIndex = +l - 1 + (j - 1) * lda;
-                            t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
-                                / a[index];
-                            BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
-
-                            if (pl <= j && j <= pu)
-                            {
-                                if (qraux[j - 1] != 0.0)
-                                {
-                                    tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
-                                    tt = Math.Max(tt, 0.0);
-                                    t = tt;
-                                    tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
-
-                                    if (tt != 1.0)
-                                    {
-                                        qraux[j - 1] = qraux[j - 1] * Math.Sqrt(t);
-                                    }
-                                    else
-                                    {
-                                        int index2 = +l + (j - 1) * lda;
-                                        qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
-                                        work[j - 1] = qraux[j - 1];
-                                    }
-                                }
-                            }
-                        }
-
-                        //
-                        //  Save the transformation.
-                        //
-                        qraux[l - 1] = a[index];
-                        a[index] = -nrmxl;
+                        pu -= 1;
+                        break;
                     }
                 }
             }
         }
 
-        public static int dqrls(ref double[] a, int lda, int m, int n, double tol, ref int kr, double[] b,
-        ref double[] x, ref double[] rsd, int[] jpvt, double[] qraux, int itask )
+        //
+        //  Compute the norms of the free columns.
+        //
+        for (j = pl; j <= pu; j++)
+        {
+            index = +0 + (j - 1) * lda;
+            qraux[j - 1] = BLAS1D.dnrm2(n, a, 1, index);
+        }
+
+        for (j = pl; j <= pu; j++)
+        {
+            work[j - 1] = qraux[j - 1];
+        }
+
+        //
+        //  Perform the Householder reduction of A.
+        //
+        lup = Math.Min(n, p);
+
+        for (l = 1; l <= lup; l++)
+        {
+            //
+            //  Bring the column of largest norm into the pivot position.
+            //
+            if (pl <= l && l < pu)
+            {
+                maxnrm = 0.0;
+                maxj = l;
+                for (j = l; j <= pu; j++)
+                {
+                    if (maxnrm < qraux[j - 1])
+                    {
+                        maxnrm = qraux[j - 1];
+                        maxj = j;
+                    }
+                }
+
+                if (maxj != l)
+                {
+                    xIndex = +0 + (l - 1) * lda;
+                    yIndex = +0 + (maxj - 1) * lda;
+                    BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex, yIndex);
+                    qraux[maxj - 1] = qraux[l - 1];
+                    work[maxj - 1] = work[l - 1];
+                    jp = jpvt[maxj - 1];
+                    jpvt[maxj - 1] = jpvt[l - 1];
+                    jpvt[l - 1] = jp;
+                }
+            }
+
+            //
+            //  Compute the Householder transformation for column L.
+            //
+            qraux[l - 1] = 0.0;
+
+            if (l != n)
+            {
+                index = +l - 1 + (l - 1) * lda;
+                nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index);
+
+                if (nrmxl != 0.0)
+                {
+                    if (a[l - 1 + (l - 1) * lda] != 0.0)
+                    {
+                        nrmxl *= typeMethods.r8_sign(a[index]);
+                    }
+
+                    BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
+                    a[index] = 1.0 + a[index];
+                    //
+                    //  Apply the transformation to the remaining columns, updating the norms.
+                    //
+                    for (j = l + 1; j <= p; j++)
+                    {
+                        yIndex = +l - 1 + (j - 1) * lda;
+                        t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
+                            / a[index];
+                        BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
+
+                        if (pl <= j && j <= pu)
+                        {
+                            if (qraux[j - 1] != 0.0)
+                            {
+                                tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
+                                tt = Math.Max(tt, 0.0);
+                                t = tt;
+                                tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
+
+                                if (tt != 1.0)
+                                {
+                                    qraux[j - 1] *= Math.Sqrt(t);
+                                }
+                                else
+                                {
+                                    int index2 = +l + (j - 1) * lda;
+                                    qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
+                                    work[j - 1] = qraux[j - 1];
+                                }
+                            }
+                        }
+                    }
+
+                    //
+                    //  Save the transformation.
+                    //
+                    qraux[l - 1] = a[index];
+                    a[index] = -nrmxl;
+                }
+            }
+        }
+    }
+
+    public static int dqrls(ref double[] a, int lda, int m, int n, double tol, ref int kr, double[] b,
+            ref double[] x, ref double[] rsd, int[] jpvt, double[] qraux, int itask )
 
         //****************************************************************************80
         //
@@ -884,55 +901,59 @@ namespace Burkardt.SolveNS
         //    -2: N < 1     (fatal error)
         //    -3: ITASK < 1 (fatal error)
         //
+    {
+        int ind;
+
+        if (lda < m)
         {
-            int ind;
+            Console.WriteLine("");
+            Console.WriteLine("DQRLS - Fatal error!");
+            Console.WriteLine("  LDA < M.");
+            ind = -1;
+            return ind;
+        }
 
-            if (lda < m)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DQRLS - Fatal error!");
-                Console.WriteLine("  LDA < M.");
-                ind = -1;
-                return ind;
-            }
-
-            if (n <= 0)
-            {
+        switch (n)
+        {
+            case <= 0:
                 Console.WriteLine("");
                 Console.WriteLine("DQRLS - Fatal error!");
                 Console.WriteLine("  N <= 0.");
                 ind = -2;
                 return ind;
-            }
+        }
 
-            if (itask < 1)
-            {
+        switch (itask)
+        {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("DQRLS - Fatal error!");
                 Console.WriteLine("  ITASK < 1.");
                 ind = -3;
                 return ind;
-            }
+        }
 
-            ind = 0;
+        ind = 0;
+        switch (itask)
+        {
             //
             //  Factor the matrix.
             //
-            if (itask == 1)
-            {
+            case 1:
                 dqrank(ref a, lda, m, n, tol, ref kr, ref jpvt, ref qraux);
-            }
-
-            //
-            //  Solve the least-squares problem.
-            //
-            dqrlss(a, lda, m, n, kr, b, ref x, ref rsd, jpvt, qraux);
-
-            return ind;
+                break;
         }
 
-        public static void dqrlss(double[] a, int lda, int m, int n, int kr, double[] b, ref double[] x,
-        ref double[] rsd, int[] jpvt, double[] qraux )
+        //
+        //  Solve the least-squares problem.
+        //
+        dqrlss(a, lda, m, n, kr, b, ref x, ref rsd, jpvt, qraux);
+
+        return ind;
+    }
+
+    public static void dqrlss(double[] a, int lda, int m, int n, int kr, double[] b, ref double[] x,
+            ref double[] rsd, int[] jpvt, double[] qraux )
 
         //****************************************************************************80
         //
@@ -1000,32 +1021,34 @@ namespace Burkardt.SolveNS
         //    Input, double QRAUX[N], auxiliary information from DQRANK
         //    defining the QR factorization.
         //
+    {
+        int i;
+        int j;
+        int job;
+        int k;
+        double t;
+
+        if (kr != 0)
         {
-            int i;
-            int j;
-            int job;
-            int k;
-            double t;
+            job = 110;
+            dqrsl(a, lda, m, kr, qraux, b, ref rsd, ref rsd, ref x, ref rsd, ref rsd, job);
+        }
 
-            if (kr != 0)
-            {
-                job = 110;
-                dqrsl(a, lda, m, kr, qraux, b, ref rsd, ref rsd, ref x, ref rsd, ref rsd, job);
-            }
+        for (i = 0; i < n; i++)
+        {
+            jpvt[i] = -jpvt[i];
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                jpvt[i] = -jpvt[i];
-            }
+        for (i = kr; i < n; i++)
+        {
+            x[i] = 0.0;
+        }
 
-            for (i = kr; i < n; i++)
+        for (j = 1; j <= n; j++)
+        {
+            switch (jpvt[j - 1])
             {
-                x[i] = 0.0;
-            }
-
-            for (j = 1; j <= n; j++)
-            {
-                if (jpvt[j - 1] <= 0)
+                case <= 0:
                 {
                     k = -jpvt[j - 1];
                     jpvt[j - 1] = k;
@@ -1038,14 +1061,15 @@ namespace Burkardt.SolveNS
                         jpvt[k - 1] = -jpvt[k - 1];
                         k = jpvt[k - 1];
                     }
+
+                    break;
                 }
             }
-
-            return;
         }
+    }
 
-        public static int dqrsl(double[] a, int lda, int n, int k, double[] qraux, double[] y,
-        ref double[] qy, ref double[] qty, ref double[] b, ref double[] rsd, ref double[] ab, int job )
+    public static int dqrsl(double[] a, int lda, int n, int k, double[] qraux, double[] y,
+            ref double[] qy, ref double[] qty, ref double[] b, ref double[] rsd, ref double[] ab, int job )
 
         //****************************************************************************80
         //
@@ -1182,96 +1206,113 @@ namespace Burkardt.SolveNS
         //    been requested and R is exactly singular.  In this case, INFO is the
         //    index of the first zero diagonal element of R, and B is left unaltered.
         //
-        {
-            bool cab;
-            bool cb;
-            bool cqty;
-            bool cqy;
-            bool cr;
-            int i;
-            int info;
-            int j;
-            int jj;
-            int ju;
-            double t;
-            double temp;
-            //
-            //  set info flag.
-            //
-            info = 0;
-            //
-            //  Determine what is to be computed.
-            //
-            cqy = (job / 10000 != 0);
-            cqty = ((job % 10000) != 0);
-            cb = ((job % 1000) / 100 != 0);
-            cr = ((job % 100) / 10 != 0);
-            cab = ((job % 10) != 0);
+    {
+        bool cab;
+        bool cb;
+        bool cqty;
+        bool cqy;
+        bool cr;
+        int i;
+        int info;
+        int j;
+        int jj;
+        int ju;
+        double t;
+        double temp;
+        //
+        //  set info flag.
+        //
+        info = 0;
+        //
+        //  Determine what is to be computed.
+        //
+        cqy = job / 10000 != 0;
+        cqty = job % 10000 != 0;
+        cb = job % 1000 / 100 != 0;
+        cr = job % 100 / 10 != 0;
+        cab = job % 10 != 0;
 
-            ju = Math.Min(k, n - 1);
+        ju = Math.Min(k, n - 1);
+        switch (ju)
+        {
             //
             //  Special action when N = 1.
             //
-            if (ju == 0)
+            case 0:
             {
-                if (cqy)
+                qy[0] = cqy switch
                 {
-                    qy[0] = y[0];
-                }
+                    true => y[0],
+                    _ => qy[0]
+                };
 
-                if (cqty)
+                qty[0] = cqty switch
                 {
-                    qty[0] = y[0];
-                }
+                    true => y[0],
+                    _ => qty[0]
+                };
 
-                if (cab)
+                ab[0] = cab switch
                 {
-                    ab[0] = y[0];
-                }
+                    true => y[0],
+                    _ => ab[0]
+                };
 
-                if (cb)
+                switch (cb)
                 {
-                    if (a[0 + 0 * lda] == 0.0)
-                    {
+                    case true when a[0 + 0 * lda] == 0.0:
                         info = 1;
-                    }
-                    else
-                    {
+                        break;
+                    case true:
                         b[0] = y[0] / a[0 + 0 * lda];
-                    }
+                        break;
                 }
 
-                if (cr)
+                rsd[0] = cr switch
                 {
-                    rsd[0] = 0.0;
-                }
+                    true => 0.0,
+                    _ => rsd[0]
+                };
 
                 return info;
             }
+        }
 
+        switch (cqy)
+        {
             //
             //  Set up to compute QY or QTY.
             //
-            if (cqy)
+            case true:
             {
                 for (i = 1; i <= n; i++)
                 {
                     qy[i - 1] = y[i - 1];
                 }
-            }
 
-            if (cqty)
+                break;
+            }
+        }
+
+        switch (cqty)
+        {
+            case true:
             {
                 for (i = 1; i <= n; i++)
                 {
                     qty[i - 1] = y[i - 1];
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (cqy)
+        {
             //
             //  Compute QY.
             //
-            if (cqy)
+            case true:
             {
                 for (jj = 1; jj <= ju; jj++)
                 {
@@ -1286,12 +1327,17 @@ namespace Burkardt.SolveNS
                         a[j - 1 + (j - 1) * lda] = temp;
                     }
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (cqty)
+        {
             //
             //  Compute Q'*Y.
             //
-            if (cqty)
+            case true:
             {
                 for (j = 1; j <= ju; j++)
                 {
@@ -1304,55 +1350,85 @@ namespace Burkardt.SolveNS
                         a[j - 1 + (j - 1) * lda] = temp;
                     }
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (cb)
+        {
             //
             //  Set up to compute B, RSD, or AB.
             //
-            if (cb)
+            case true:
             {
                 for (i = 1; i <= k; i++)
                 {
                     b[i - 1] = qty[i - 1];
                 }
-            }
 
-            if (cab)
+                break;
+            }
+        }
+
+        switch (cab)
+        {
+            case true:
             {
                 for (i = 1; i <= k; i++)
                 {
                     ab[i - 1] = qty[i - 1];
                 }
-            }
 
-            if (cr && k < n)
+                break;
+            }
+        }
+
+        switch (cr)
+        {
+            case true when k < n:
             {
                 for (i = k + 1; i <= n; i++)
                 {
                     rsd[i - 1] = qty[i - 1];
                 }
-            }
 
-            if (cab && k + 1 <= n)
+                break;
+            }
+        }
+
+        switch (cab)
+        {
+            case true when k + 1 <= n:
             {
                 for (i = k + 1; i <= n; i++)
                 {
                     ab[i - 1] = 0.0;
                 }
-            }
 
-            if (cr)
+                break;
+            }
+        }
+
+        switch (cr)
+        {
+            case true:
             {
                 for (i = 1; i <= k; i++)
                 {
                     rsd[i - 1] = 0.0;
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (cb)
+        {
             //
             //  Compute B.
             //
-            if (cb)
+            case true:
             {
                 for (jj = 1; jj <= k; jj++)
                 {
@@ -1364,7 +1440,7 @@ namespace Burkardt.SolveNS
                         break;
                     }
 
-                    b[j - 1] = b[j - 1] / a[j - 1 + (j - 1) * lda];
+                    b[j - 1] /= a[j - 1 + (j - 1) * lda];
 
                     if (j != 1)
                     {
@@ -1372,42 +1448,48 @@ namespace Burkardt.SolveNS
                         BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, + 0 + (j - 1) * lda, 0);
                     }
                 }
+
+                break;
             }
+        }
 
-            //
-            //  Compute RSD or AB as required.
-            //
-            if (cr || cab)
+        //
+        //  Compute RSD or AB as required.
+        //
+        if (cr || cab)
+        {
+            for (jj = 1; jj <= ju; jj++)
             {
-                for (jj = 1; jj <= ju; jj++)
+                j = ju - jj + 1;
+
+                if (qraux[j - 1] != 0.0)
                 {
-                    j = ju - jj + 1;
+                    temp = a[j - 1 + (j - 1) * lda];
+                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
 
-                    if (qraux[j - 1] != 0.0)
+                    switch (cr)
                     {
-                        temp = a[j - 1 + (j - 1) * lda];
-                        a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-
-                        if (cr)
-                        {
+                        case true:
                             t = -BLAS1D.ddot(n - j + 1, a, 1, rsd, 1, + j - 1 + (j - 1) * lda, + j - 1)
                                 / a[j - 1 + (j - 1) * lda];
                             BLAS1D.daxpy(n - j + 1, t, a, 1, ref rsd, 1, + j - 1 + (j - 1) * lda, + j - 1);
-                        }
+                            break;
+                    }
 
-                        if (cab)
-                        {
+                    switch (cab)
+                    {
+                        case true:
                             t = -BLAS1D.ddot(n - j + 1, a, 1, ab, 1, + j - 1 + (j - 1) * lda, + j - 1)
                                 / a[j - 1 + (j - 1) * lda];
                             BLAS1D.daxpy(n - j + 1, t, a, 1, ref ab, 1, + j - 1 + (j - 1) * lda, + j - 1);
-                        }
-
-                        a[j - 1 + (j - 1) * lda] = temp;
+                            break;
                     }
+
+                    a[j - 1 + (j - 1) * lda] = temp;
                 }
             }
-
-            return info;
         }
+
+        return info;
     }
 }

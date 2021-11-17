@@ -1,10 +1,10 @@
 ﻿using Burkardt.BLAS;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static partial class Matrix
 {
-    public static partial class Matrix
-    {
-        public static void dge_sl ( int n, double[] a, int[] pivot, ref double[] b, int job )
+    public static void dge_sl ( int n, double[] a, int[] pivot, ref double[] b, int job )
 
         //****************************************************************************80
         //
@@ -52,15 +52,17 @@ namespace Burkardt.MatrixNS
         //    0, solve A * x = b.
         //    nonzero, solve A' * x = b.
         //
+    {
+        int i;
+        int k;
+        int l;
+        double t;
+        switch (job)
         {
-            int i;
-            int k;
-            int l;
-            double t;
             //
             //  Solve A * x = b.
             //
-            if (job == 0)
+            case 0:
             {
                 //
                 //  Solve PL * Y = B.
@@ -78,7 +80,7 @@ namespace Burkardt.MatrixNS
 
                     for (i = k + 1; i <= n; i++)
                     {
-                        b[i - 1] = b[i - 1] + a[i - 1 + (k - 1) * n] * b[k - 1];
+                        b[i - 1] += a[i - 1 + (k - 1) * n] * b[k - 1];
                     }
                 }
 
@@ -87,17 +89,18 @@ namespace Burkardt.MatrixNS
                 //
                 for (k = n; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] / a[k - 1 + (k - 1) * n];
+                    b[k - 1] /= a[k - 1 + (k - 1) * n];
                     for (i = 1; i <= k - 1; i++)
                     {
-                        b[i - 1] = b[i - 1] - a[i - 1 + (k - 1) * n] * b[k - 1];
+                        b[i - 1] -= a[i - 1 + (k - 1) * n] * b[k - 1];
                     }
                 }
                 //
                 //  Solve A' * X = B.
                 //
+                break;
             }
-            else
+            default:
             {
                 //
                 //  Solve U' * Y = B.
@@ -107,7 +110,7 @@ namespace Burkardt.MatrixNS
                     t = 0.0;
                     for (i = 1; i <= k - 1; i++)
                     {
-                        t = t + b[i - 1] * a[i - 1 + (k - 1) * n];
+                        t += b[i - 1] * a[i - 1 + (k - 1) * n];
                     }
 
                     b[k - 1] = (b[k - 1] - t) / a[k - 1 + (k - 1) * n];
@@ -121,10 +124,10 @@ namespace Burkardt.MatrixNS
                     t = 0.0;
                     for (i = k + 1; i <= n; i++)
                     {
-                        t = t + b[i - 1] * a[i - 1 + (k - 1) * n];
+                        t += b[i - 1] * a[i - 1 + (k - 1) * n];
                     }
 
-                    b[k - 1] = b[k - 1] + t;
+                    b[k - 1] += t;
 
                     l = pivot[k - 1];
 
@@ -135,10 +138,13 @@ namespace Burkardt.MatrixNS
                         b[k - 1] = t;
                     }
                 }
+
+                break;
             }
         }
+    }
 
-        public static void dgesl(double[] a, int lda, int n, int[] ipvt, ref double[] b, int job )
+    public static void dgesl(double[] a, int lda, int n, int[] ipvt, ref double[] b, int job )
 
         //****************************************************************************80
         //
@@ -200,14 +206,16 @@ namespace Burkardt.MatrixNS
         //    0, solve A * X = B;
         //    nonzero, solve A' * X = B.
         //
+    {
+        int k;
+        int l;
+        double t;
+        switch (job)
         {
-            int k;
-            int l;
-            double t;
             //
             //  Solve A * X = B.
             //
-            if (job == 0)
+            case 0:
             {
                 for (k = 1; k <= n - 1; k++)
                 {
@@ -226,15 +234,15 @@ namespace Burkardt.MatrixNS
 
                 for (k = n; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] / a[k - 1 + (k - 1) * lda];
+                    b[k - 1] /= a[k - 1 + (k - 1) * lda];
                     t = -b[k - 1];
                     BLAS1D.daxpy(k - 1, t, a, 1, ref b, 1,  + 0 + (k - 1) * lda, 0);
                 }
+
+                break;
             }
             //
-            //  Solve A' * X = B.
-            //
-            else
+            default:
             {
                 for (k = 1; k <= n; k++)
                 {
@@ -244,7 +252,7 @@ namespace Burkardt.MatrixNS
 
                 for (k = n - 1; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] + BLAS1D.ddot(n - k, a, 1, b, 1,  + k + (k - 1) * lda, + k);
+                    b[k - 1] += BLAS1D.ddot(n - k, a, 1, b, 1,  + k + (k - 1) * lda, + k);
                     l = ipvt[k - 1];
 
                     if (l != k)
@@ -254,9 +262,9 @@ namespace Burkardt.MatrixNS
                         b[k - 1] = t;
                     }
                 }
-            }
 
-            return;
+                break;
+            }
         }
     }
 }

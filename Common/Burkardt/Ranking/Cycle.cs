@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.RankingNS
+namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
-    {
-        public static bool cycle_check(int n, int ncycle, int[] t, int[] index )
+    public static bool cycle_check(int n, int ncycle, int[] t, int[] index )
 
         //****************************************************************************80
         // 
@@ -49,91 +49,93 @@ namespace Burkardt.RankingNS
         //    TRUE, the data is legal.
         //    FALSE, the data is not legal.
         //
-        {
-            bool check;
-            int i;
-            int ifind;
-            int iseek;
+    {
+        bool check;
+        int i;
+        int ifind;
+        int iseek;
 
-            check = true;
+        check = true;
+        switch (n)
+        {
             // 
             //  N must be at least 1.
             // 
-            if (n < 1)
-            {
+            case < 1:
                 check = false;
                 return check;
-            }
+        }
 
-            // 
-            //  1 <= NCYCLE <= N.
-            // 
-            if (ncycle < 1 || n < ncycle)
-            {
-                check = false;
-                return check;
-            }
-
-            // 
-            //  1 <= INDEX(I) <= N.
-            //
-            for (i = 0; i < ncycle; i++)
-            {
-                if (index[i] < 1 || n < index[i])
-                {
-                    check = false;
-                    return check;
-                }
-            }
-
-            //
-            //  The INDEX values sum to N.
-            //
-            if (typeMethods.i4vec_sum(ncycle, index) != n)
-            {
-                check = false;
-                return check;
-            }
-
-            // 
-            //  1 <= T(I) <= N.
-            // 
-            for (i = 0; i < n; i++)
-            {
-                if (t[i] < 1 || n < t[i])
-                {
-                    check = false;
-                    return check;
-                }
-            }
-
-            // 
-            //  Verify that every value from 1 to N occurs in T.
-            // 
-            for (iseek = 1; iseek <= n; iseek++)
-            {
-                ifind = -1;
-
-                for (i = 0; i < n; i++)
-                {
-                    if (t[i] == iseek)
-                    {
-                        ifind = i + 1;
-                        break;
-                    }
-                }
-
-                if (ifind == -1)
-                {
-                    check = false;
-                    return check;
-                }
-            }
-
+        // 
+        //  1 <= NCYCLE <= N.
+        // 
+        if (ncycle < 1 || n < ncycle)
+        {
+            check = false;
             return check;
         }
 
-        public static int[] cycle_to_perm(int n, int ncycle, int[] t, int[] index )
+        // 
+        //  1 <= INDEX(I) <= N.
+        //
+        for (i = 0; i < ncycle; i++)
+        {
+            if (index[i] < 1 || n < index[i])
+            {
+                check = false;
+                return check;
+            }
+        }
+
+        //
+        //  The INDEX values sum to N.
+        //
+        if (typeMethods.i4vec_sum(ncycle, index) != n)
+        {
+            check = false;
+            return check;
+        }
+
+        // 
+        //  1 <= T(I) <= N.
+        // 
+        for (i = 0; i < n; i++)
+        {
+            if (t[i] < 1 || n < t[i])
+            {
+                check = false;
+                return check;
+            }
+        }
+
+        // 
+        //  Verify that every value from 1 to N occurs in T.
+        // 
+        for (iseek = 1; iseek <= n; iseek++)
+        {
+            ifind = -1;
+
+            for (i = 0; i < n; i++)
+            {
+                if (t[i] == iseek)
+                {
+                    ifind = i + 1;
+                    break;
+                }
+            }
+
+            switch (ifind)
+            {
+                case -1:
+                    check = false;
+                    return check;
+            }
+        }
+
+        return check;
+    }
+
+    public static int[] cycle_to_perm(int n, int ncycle, int[] t, int[] index )
 
         //****************************************************************************80
         // 
@@ -176,49 +178,49 @@ namespace Burkardt.RankingNS
         //    Output, int CYCLE_TO_PERM[N], describes the permutation using a
         //    single array.  For each index I, I -> P(I).
         // 
-        {
-            bool check;
-            int i;
-            int j;
-            int jhi;
-            int jlo;
-            int[] p;
-            // 
-            //  Check.
-            // 
-            check = cycle_check(n, ncycle, t, index);
+    {
+        bool check;
+        int i;
+        int j;
+        int jhi;
+        int jlo;
+        int[] p;
+        // 
+        //  Check.
+        // 
+        check = cycle_check(n, ncycle, t, index);
 
-            if (!check)
-            {
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("CYCLE_TO_PERM - Fatal error!");
                 Console.WriteLine("  The cycle is not legal.");
                 return null;
-            }
+        }
 
-            p = new int[n];
+        p = new int[n];
 
-            jhi = 0;
+        jhi = 0;
 
-            for (i = 1; i <= ncycle; i++)
+        for (i = 1; i <= ncycle; i++)
+        {
+            jlo = jhi + 1;
+            jhi += index[i - 1];
+
+            for (j = jlo; j <= jhi; j++)
             {
-                jlo = jhi + 1;
-                jhi = jhi + index[i - 1];
-
-                for (j = jlo; j <= jhi; j++)
+                if (j < jhi)
                 {
-                    if (j < jhi)
-                    {
-                        p[t[j - 1] - 1] = t[j];
-                    }
-                    else
-                    {
-                        p[t[j - 1] - 1] = t[jlo - 1];
-                    }
+                    p[t[j - 1] - 1] = t[j];
+                }
+                else
+                {
+                    p[t[j - 1] - 1] = t[jlo - 1];
                 }
             }
-
-            return p;
         }
+
+        return p;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Coupon
 {
-    public static class Coupon
-    {
-        public static double coupon_complete_pdf(int type_num, int box_num)
+    public static double coupon_complete_pdf(int type_num, int box_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -50,63 +50,68 @@ namespace Burkardt.Probability
         //
         //    Output, double COUPON_COMPLETE_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+        switch (box_num)
         {
-            double pdf;
             //
             //  Nonsense cases.
             //
-            if (box_num < 0)
-            {
+            case < 0:
                 pdf = 0.0;
-            }
-            else if (type_num < 1)
-            {
-                pdf = 0.0;
-            }
-            //
-            //  Degenerate but meaningful case.
-            //
-            else if (type_num == 1)
-            {
-                if (box_num == 1)
+                break;
+            default:
+                switch (type_num)
                 {
-                    pdf = 1.0;
-                }
-                else
-                {
-                    pdf = 0.0;
-                }
-            }
-            //
-            //  Easy cases.
-            //
-            else if (box_num < type_num)
-            {
-                pdf = 0.0;
-            }
-            //
-            //  General case.
-            //
-            else
-            {
-                double factor = 1.0;
-                for (int i = 1; i <= type_num; i++)
-                {
-                    factor = factor * (double) (i) / (double) (type_num);
+                    case < 1:
+                        pdf = 0.0;
+                        break;
+                    //
+                    //  Degenerate but meaningful case.
+                    //
+                    case 1 when box_num == 1:
+                        pdf = 1.0;
+                        break;
+                    case 1:
+                        pdf = 0.0;
+                        break;
+                    //
+                    default:
+                    {
+                        if (box_num < type_num)
+                        {
+                            pdf = 0.0;
+                        }
+                        //
+                        //  General case.
+                        //
+                        else
+                        {
+                            double factor = 1.0;
+                            for (int i = 1; i <= type_num; i++)
+                            {
+                                factor = factor * i / type_num;
+                            }
+
+                            for (int i = type_num + 1; i <= box_num; i++)
+                            {
+                                factor /= type_num;
+                            }
+
+                            pdf = factor * Misc.stirling2_value(box_num - 1, type_num - 1);
+                        }
+
+                        break;
+                    }
                 }
 
-                for (int i = type_num + 1; i <= box_num; i++)
-                {
-                    factor = factor / (double) (type_num);
-                }
-
-                pdf = factor * (double) (Misc.stirling2_value(box_num - 1, type_num - 1));
-            }
-
-            return pdf;
+                break;
         }
 
-        public static double coupon_mean(int j, int type_num)
+        return pdf;
+    }
+
+    public static double coupon_mean(int j, int type_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -143,29 +148,29 @@ namespace Burkardt.Probability
         //    Output, double COUPON_MEAN, the mean number of boxes that
         //    must be opened in order to just get J distinct kinds.
         //
+    {
+        if (type_num < j)
         {
-            if (type_num < j)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("COUPON_MEAN - Fatal error!");
-                Console.WriteLine("  Number of distinct coupons desired must be no more");
-                Console.WriteLine("  than the total number of boxes opened.");
-                return (1);
-            }
-
-            double mean = 0.0;
-
-            for (int i = 1; i <= j; i++)
-            {
-                mean = mean + 1.0 / (double) (type_num - i + 1);
-            }
-
-            mean = mean * (double) (type_num);
-
-            return mean;
+            Console.WriteLine(" ");
+            Console.WriteLine("COUPON_MEAN - Fatal error!");
+            Console.WriteLine("  Number of distinct coupons desired must be no more");
+            Console.WriteLine("  than the total number of boxes opened.");
+            return 1;
         }
 
-        public static void coupon_sample(int type_num, ref int seed, ref int[] coupon, ref int box_num )
+        double mean = 0.0;
+
+        for (int i = 1; i <= j; i++)
+        {
+            mean += 1.0 / (type_num - i + 1);
+        }
+
+        mean *= type_num;
+
+        return mean;
+    }
+
+    public static void coupon_sample(int type_num, ref int seed, ref int[] coupon, ref int box_num )
         //****************************************************************************80
         //
         //  Purpose:
@@ -224,61 +229,61 @@ namespace Burkardt.Probability
         //
         //    Output, int *BOX_NUM, the total number of boxes opened.
         //
+    {
+        int i;
+        int box_max = 2000;
+
+        for (i = 0; i < type_num; i++)
         {
-            int i;
-            int box_max = 2000;
+            coupon[i] = 0;
+        }
 
-            for (i = 0; i < type_num; i++)
-            {
-                coupon[i] = 0;
-            }
-
-            int straight = 0;
-            box_num = 0;
+        int straight = 0;
+        box_num = 0;
+        //
+        //  Draw another coupon.
+        //
+        while (box_num < box_max)
+        {
+            i = UniformRNG.i4_uniform_ab(1, type_num, ref seed);
             //
-            //  Draw another coupon.
+            //  Increment the number of I coupons.
             //
-            while (box_num < box_max)
+            coupon[i - 1] += 1;
+            box_num += 1;
+            //
+            //  If I is the next one we needed, increase STRAIGHT by 1.
+            //
+            if (i == straight + 1)
             {
-                i = UniformRNG.i4_uniform_ab(1, type_num, ref seed);
-                //
-                //  Increment the number of I coupons.
-                //
-                coupon[i - 1] = coupon[i - 1] + 1;
-                box_num = box_num + 1;
-                //
-                //  If I is the next one we needed, increase STRAIGHT by 1.
-                //
-                if (i == straight + 1)
+                for (;;)
                 {
-                    for (;;)
+                    straight += 1;
+                    //
+                    //  If STRAIGHT = TYPE_NUM, we have all of them.
+                    //
+                    if (type_num <= straight)
                     {
-                        straight = straight + 1;
-                        //
-                        //  If STRAIGHT = TYPE_NUM, we have all of them.
-                        //
-                        if (type_num <= straight)
-                        {
-                            return;
-                        }
+                        return;
+                    }
 
-                        //
-                        //  If the next coupon has not been collected, our straight is over.
-                        //
-                        if (coupon[straight] <= 0)
-                        {
-                            break;
-                        }
+                    //
+                    //  If the next coupon has not been collected, our straight is over.
+                    //
+                    if (coupon[straight] <= 0)
+                    {
+                        break;
                     }
                 }
             }
-
-            Console.WriteLine(" ");
-            Console.WriteLine("COUPON_SAMPLE - Fatal error!");
-            Console.WriteLine("  Maximum number of coupons drawn without success.");
         }
 
-        public static double coupon_variance(int j, int type_num)
+        Console.WriteLine(" ");
+        Console.WriteLine("COUPON_SAMPLE - Fatal error!");
+        Console.WriteLine("  Maximum number of coupons drawn without success.");
+    }
+
+    public static double coupon_variance(int j, int type_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -315,27 +320,26 @@ namespace Burkardt.Probability
         //    Output, double COUPON_VARIANCE, the variance of the number of
         //    boxes that must be opened in order to just get J distinct kinds.
         //
+    {
+        if (type_num < j)
         {
-            if (type_num < j)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("COUPON_VARIANCE - Fatal error!");
-                Console.WriteLine("  Number of distinct coupons desired must be no more");
-                Console.WriteLine("  than the total number of distinct coupons.");
-                return (1);
-            }
-
-            double variance = 0.0;
-            for (int i = 1; i <= j; i++)
-            {
-                variance = variance + (double) (i - 1) /
-                    Math.Pow((double) (type_num - i + 1), 2);
-            }
-
-            variance = variance * (double) (type_num);
-
-            return variance;
+            Console.WriteLine(" ");
+            Console.WriteLine("COUPON_VARIANCE - Fatal error!");
+            Console.WriteLine("  Number of distinct coupons desired must be no more");
+            Console.WriteLine("  than the total number of distinct coupons.");
+            return 1;
         }
 
+        double variance = 0.0;
+        for (int i = 1; i <= j; i++)
+        {
+            variance += (i - 1) /
+                        Math.Pow(type_num - i + 1, 2);
+        }
+
+        variance *= type_num;
+
+        return variance;
     }
+
 }

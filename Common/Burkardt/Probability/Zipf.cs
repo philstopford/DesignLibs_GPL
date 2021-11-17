@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Zipf
 {
-    public static class Zipf
-    {
-        public static double zipf_cdf(int x, double a)
+    public static double zipf_cdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -39,17 +39,18 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
-        {
-            double c;
-            double cdf;
-            double pdf;
-            int y;
+    {
+        double c;
+        double cdf;
+        double pdf;
+        int y;
 
-            if (x < 1)
-            {
+        switch (x)
+        {
+            case < 1:
                 cdf = 0.0;
-            }
-            else
+                break;
+            default:
             {
                 c = typeMethods.r8_zeta(a);
 
@@ -57,15 +58,17 @@ namespace Burkardt.Probability
                 for (y = 1; y <= x; y++)
                 {
                     pdf = 1.0 / Math.Pow(y, a) / c;
-                    cdf = cdf + pdf;
+                    cdf += pdf;
                 }
 
+                break;
             }
-
-            return cdf;
         }
 
-        public static int zipf_cdf_inv(double a, double cdf)
+        return cdf;
+    }
+
+    public static int zipf_cdf_inv(double a, double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -99,18 +102,19 @@ namespace Burkardt.Probability
         //    CDF(X-1) < CDF <= CDF(X)
         //    1 <= X <= 1000
         //
-        {
-            double c;
-            double cdf2;
-            double pdf;
-            int x;
-            int y;
+    {
+        double c;
+        double cdf2;
+        double pdf;
+        int x;
+        int y;
 
-            if (cdf <= 0.0)
-            {
+        switch (cdf)
+        {
+            case <= 0.0:
                 x = 1;
-            }
-            else
+                break;
+            default:
             {
                 c = typeMethods.r8_zeta(a);
                 cdf2 = 0.0;
@@ -119,20 +123,23 @@ namespace Burkardt.Probability
 
                 for (y = 1; y <= 1000; y++)
                 {
-                    pdf = (1.0 / Math.Pow(y, a)) / c;
-                    cdf2 = cdf2 + pdf;
+                    pdf = 1.0 / Math.Pow(y, a) / c;
+                    cdf2 += pdf;
                     if (cdf <= cdf2)
                     {
                         x = y;
                         break;
                     }
                 }
-            }
 
-            return x;
+                break;
+            }
         }
 
-        public static bool zipf_check(double a)
+        return x;
+    }
+
+    public static bool zipf_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -158,19 +165,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool ZIPF_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 1.0)
-            {
+            case <= 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("ZIPF_CHECK - Warning!");
                 Console.WriteLine("  A <= 1.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double zipf_mean(double a)
+    public static double zipf_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -197,23 +205,24 @@ namespace Burkardt.Probability
         //    Output, double ZIPF_MEAN, the mean of the PDF.
         //    The mean is only defined for 2 < A.
         //
-        {
-            double mean;
+    {
+        double mean;
 
-            if (a <= 2.0)
-            {
+        switch (a)
+        {
+            case <= 2.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("ZIPF_MEAN - Fatal error!");
                 Console.WriteLine("  No mean defined for A <= 2.");
                 return 1.0;
-            }
+            default:
+                mean = typeMethods.r8_zeta(a - 1.0) / typeMethods.r8_zeta(a);
 
-            mean = typeMethods.r8_zeta(a - 1.0) / typeMethods.r8_zeta(a);
-
-            return mean;
+                return mean;
         }
+    }
 
-        public static double zipf_pdf(int x, double a)
+    public static double zipf_pdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -267,22 +276,17 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
+            < 1 => 0.0,
+            _ => 1.0 / Math.Pow(x, a) / typeMethods.r8_zeta(a)
+        };
 
-            if (x < 1)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = 1.0 / Math.Pow(x, a) / typeMethods.r8_zeta(a);
-            }
-
-            return pdf;
-        }
+        return pdf;
+    }
         
-        public static double[] zipf_probability ( int n, double p )
+    public static double[] zipf_probability ( int n, double p )
 
         //****************************************************************************80
         //
@@ -319,25 +323,25 @@ namespace Burkardt.Probability
         //    Output, double ZIPF_PROBABILITY[N+2], contains in X[1] through X[N] the
         //    probabilities of outcomes 1 through N.
         //
+    {
+        int i;
+        double[] x;
+
+        x = new double[n+2];
+
+        x[0] = 0.0;
+        for ( i = 1; i <= n; i++ )
         {
-            int i;
-            double[] x;
-
-            x = new double[n+2];
-
-            x[0] = 0.0;
-            for ( i = 1; i <= n; i++ )
-            {
-                x[i] = Math.Pow ( i, - p );
-            }
-            x[n+1] = 0.0;
-
-            Helpers.normalize ( n, ref x );
-
-            return x;
+            x[i] = Math.Pow ( i, - p );
         }
+        x[n+1] = 0.0;
 
-        public static int zipf_sample(double a, ref int seed)
+        Helpers.normalize ( n, ref x );
+
+        return x;
+    }
+
+    public static int zipf_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -371,37 +375,37 @@ namespace Burkardt.Probability
         //
         //    Output, int ZIPF_SAMPLE, a sample of the PDF.
         //
+    {
+        double b;
+        double t;
+        double u;
+        double v;
+        double w;
+        int x;
+
+        b = Math.Pow(2.0, a - 1.0);
+
+        for (;;)
         {
-            double b;
-            double t;
-            double u;
-            double v;
-            double w;
-            int x;
+            u = UniformRNG.r8_uniform_01(ref seed);
+            v = UniformRNG.r8_uniform_01(ref seed);
+            w = (int) (1.0 / Math.Pow(u, 1.0 / (a - 1.0)));
 
-            b = Math.Pow(2.0, (a - 1.0));
+            t = Math.Pow((w + 1.0) / w, a - 1.0);
 
-            for (;;)
+            if (v * w * (t - 1.0) * b <= t * (b - 1.0))
             {
-                u = UniformRNG.r8_uniform_01(ref seed);
-                v = UniformRNG.r8_uniform_01(ref seed);
-                w = (int) (1.0 / Math.Pow(u, 1.0 / (a - 1.0)));
-
-                t = Math.Pow((w + 1.0) / w, a - 1.0);
-
-                if (v * w * (t - 1.0) * b <= t * (b - 1.0))
-                {
-                    break;
-                }
-
+                break;
             }
 
-            x = (int) w;
-
-            return x;
         }
 
-        public static double zipf_variance(double a)
+        x = (int) w;
+
+        return x;
+    }
+
+    public static double zipf_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -428,23 +432,23 @@ namespace Burkardt.Probability
         //    Output, double ZIPF_VARIANCE, the variance of the PDF.
         //    The variance is only defined for 3 < A.
         //
-        {
-            double mean;
-            double variance;
+    {
+        double mean;
+        double variance;
 
-            if (a <= 3.0)
-            {
+        switch (a)
+        {
+            case <= 3.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("ZIPF_VARIANCE - Fatal error!");
                 Console.WriteLine("  No variance defined for A <= 3.0.");
                 return 1.0;
-            }
-
-            mean = zipf_mean(a);
-
-            variance = typeMethods.r8_zeta(a - 2.0) / typeMethods.r8_zeta(a) - mean * mean;
-
-            return variance;
         }
+
+        mean = zipf_mean(a);
+
+        variance = typeMethods.r8_zeta(a - 2.0) / typeMethods.r8_zeta(a) - mean * mean;
+
+        return variance;
     }
 }

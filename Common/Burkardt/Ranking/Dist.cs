@@ -1,45 +1,45 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.RankingNS
+namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
+    public static int dist_enum(int k, int m)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    DIST_ENUM returns the number of distributions of indistinguishable objects.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    24 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Parameters:
+        // 
+        //    Input, int K, the number of distinguishable "slots".
+        // 
+        //    Input, int M, the number of indistinguishable objects.
+        // 
+        //    Output, int DIST_ENUM, the number of distributions of M
+        //    indistinguishable objects about K distinguishable slots.
+        // 
     {
-        public static int dist_enum(int k, int m)
+        int value = typeMethods.i4_choose(m + k - 1, m);
 
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    DIST_ENUM returns the number of distributions of indistinguishable objects.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    24 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Parameters:
-            // 
-            //    Input, int K, the number of distinguishable "slots".
-            // 
-            //    Input, int M, the number of indistinguishable objects.
-            // 
-            //    Output, int DIST_ENUM, the number of distributions of M
-            //    indistinguishable objects about K distinguishable slots.
-            // 
-        {
-            int value = typeMethods.i4_choose(m + k - 1, m);
+        return value;
+    }
 
-            return value;
-        }
-
-        public static void dist_next(int k, int m, ref int[] q, ref int leftmost, ref bool more )
+    public static void dist_next(int k, int m, ref int[] q, ref int leftmost, ref bool more )
 
         //****************************************************************************80
         // 
@@ -130,12 +130,14 @@ namespace Burkardt.RankingNS
         //    Input/output, bool &MORE, used by the user to start the computation,
         //    and by the routine to stop the computation.
         // 
+    {
+        int i;
+        switch (more)
         {
-            int i;
             // 
             //  The startup call.
             // 
-            if (!more)
+            case false:
             {
                 more = true;
                 for (i = 0; i < k - 1; i++)
@@ -146,44 +148,48 @@ namespace Burkardt.RankingNS
                 q[k - 1] = m;
 
                 leftmost = k + 1;
+                break;
             }
             // 
-            //  There are no more distributions.
-            //  Reset Q to the first distribution in the sequence.
-            // 
-            else if (q[0] == m)
+            default:
             {
-                more = false;
-
-                for (i = 0; i < k - 1; i++)
+                if (q[0] == m)
                 {
-                    q[i] = 0;
-                }
+                    more = false;
 
-                q[k - 1] = m;
+                    for (i = 0; i < k - 1; i++)
+                    {
+                        q[i] = 0;
+                    }
 
-                leftmost = k + 1;
-            }
-            else if (leftmost < k + 1)
-            {
-                leftmost = leftmost - 1;
-                q[k - 1] = q[leftmost - 1] - 1;
-                q[leftmost - 1] = 0;
-                q[leftmost - 2] = q[leftmost - 2] + 1;
-                if (q[k - 1] != 0)
-                {
+                    q[k - 1] = m;
+
                     leftmost = k + 1;
                 }
-            }
-            else
-            {
-                if (q[k - 1] == 1)
+                else if (leftmost < k + 1)
                 {
-                    leftmost = k;
+                    leftmost -= 1;
+                    q[k - 1] = q[leftmost - 1] - 1;
+                    q[leftmost - 1] = 0;
+                    q[leftmost - 2] += 1;
+                    if (q[k - 1] != 0)
+                    {
+                        leftmost = k + 1;
+                    }
+                }
+                else
+                {
+                    leftmost = q[k - 1] switch
+                    {
+                        1 => k,
+                        _ => leftmost
+                    };
+
+                    q[k - 1] -= 1;
+                    q[k - 2] += 1;
                 }
 
-                q[k - 1] = q[k - 1] - 1;
-                q[k - 2] = q[k - 2] + 1;
+                break;
             }
         }
     }

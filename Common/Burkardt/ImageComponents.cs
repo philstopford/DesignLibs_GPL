@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.ImageNS
+namespace Burkardt.ImageNS;
+
+public static class ImageComponents
 {
-    public static class ImageComponents
-    {
-        public static int i4block_components(int l, int m, int n, int[] a, ref int[] c )
+    public static int i4block_components(int l, int m, int n, int[] a, ref int[] c )
 
         //****************************************************************************80
         //
@@ -54,203 +54,200 @@ namespace Burkardt.ImageNS
         //    Output, int I4BLOCK_COMPONENTS, the number of components
         //    of nonzero data.
         //
+    {
+        int component;
+        int i;
+        int j;
+        int k;
+        //
+        //  Initialization.
+        //
+        for (k = 0; k < n; k++)
         {
-            int b;
-            int c1;
-            int component;
-            int component_num;
-            int i;
-            int j;
-            int k;
-            int north;
-            int[] p;
-            int[] q;
-            int up;
-            int west;
-            //
-            //  Initialization.
-            //
-            for (k = 0; k < n; k++)
+            for (j = 0; j < m; j++)
             {
-                for (j = 0; j < m; j++)
+                for (i = 0; i < l; i++)
                 {
-                    for (i = 0; i < l; i++)
-                    {
-                        c[i + j * l + k * l * m] = 0;
-                    }
+                    c[i + j * l + k * l * m] = 0;
                 }
             }
+        }
 
-            component_num = 0;
-            //
-            //  P is simply used to store the component labels.  The dimension used
-            //  here is, of course, usually an absurd overestimate.
-            //
-            p = new int[l * m * n + 1];
-            for (i = 0; i <= l * m * n; i++)
-            {
-                p[i] = i;
-            }
+        int component_num = 0;
+        //
+        //  P is simply used to store the component labels.  The dimension used
+        //  here is, of course, usually an absurd overestimate.
+        //
+        int[] p = new int[l * m * n + 1];
+        for (i = 0; i <= l * m * n; i++)
+        {
+            p[i] = i;
+        }
 
-            //
-            //  "Read" the array one pixel at a time.  If a (nonzero) pixel has a north or
-            //  west neighbor with a label, the current pixel inherits it.
-            //  In case the labels disagree, we need to adjust the P array so we can
-            //  later deal with the fact that the two labels need to be merged.
-            //
-            for (i = 0; i < l; i++)
+        //
+        //  "Read" the array one pixel at a time.  If a (nonzero) pixel has a north or
+        //  west neighbor with a label, the current pixel inherits it.
+        //  In case the labels disagree, we need to adjust the P array so we can
+        //  later deal with the fact that the two labels need to be merged.
+        //
+        for (i = 0; i < l; i++)
+        {
+            for (j = 0; j < m; j++)
             {
-                for (j = 0; j < m; j++)
+                for (k = 0; k < n; k++)
                 {
-                    for (k = 0; k < n; k++)
+                    int north = i switch
                     {
-                        if (i == 0)
-                        {
-                            north = 0;
-                        }
-                        else
-                        {
-                            north = c[i - 1 + j * l + k * l * m];
-                        }
+                        0 => 0,
+                        _ => c[i - 1 + j * l + k * l * m]
+                    };
 
-                        if (j == 0)
-                        {
-                            west = 0;
-                        }
-                        else
-                        {
-                            west = c[i + (j - 1) * l + k * l * m];
-                        }
+                    int west = j switch
+                    {
+                        0 => 0,
+                        _ => c[i + (j - 1) * l + k * l * m]
+                    };
 
-                        if (k == 0)
-                        {
-                            up = 0;
-                        }
-                        else
-                        {
-                            up = c[i + j * l + (k - 1) * l * m];
-                        }
+                    int up = k switch
+                    {
+                        0 => 0,
+                        _ => c[i + j * l + (k - 1) * l * m]
+                    };
 
-                        if (a[i + j * l + k * l * m] != 0)
+                    if (a[i + j * l + k * l * m] != 0)
+                    {
+                        switch (north)
                         {
                             //
                             //  New component?
                             //
-                            if (north == 0 && west == 0 && up == 0)
-                            {
-                                component_num = component_num + 1;
+                            case 0 when west == 0 && up == 0:
+                                component_num += 1;
                                 c[i + j * l + k * l * m] = component_num;
-                            }
+                                break;
                             //
-                            //  One predecessor is labeled.
-                            //
-                            else if (north != 0 && west == 0 && up == 0)
+                            default:
                             {
-                                c[i + j * l + k * l * m] = north;
-                            }
-                            else if (north == 0 && west != 0 && up == 0)
-                            {
-                                c[i + j * l + k * l * m] = west;
-                            }
-                            else if (north == 0 && west == 0 && up != 0)
-                            {
-                                c[i + j * l + k * l * m] = up;
-                            }
-                            //
-                            //  Two predecessors are labeled.
-                            //
-                            else if (north == 0 && west != 0 && up != 0)
-                            {
-                                c[i + j * l + k * l * m] = Math.Min(west, up);
-                                c1 = Math.Min(p[west], p[up]);
-                                p[west] = c1;
-                                p[up] = c1;
-                            }
-                            else if (north != 0 && west == 0 && up != 0)
-                            {
-                                c[i + j * l + k * l * m] = Math.Min(north, up);
-                                c1 = Math.Min(p[north], p[up]);
-                                p[north] = c1;
-                                p[up] = c1;
-                            }
-                            else if (north != 0 && west != 0 && up == 0)
-                            {
-                                c[i + j * l + k * l * m] = Math.Min(north, west);
-                                c1 = Math.Min(p[north], p[west]);
-                                p[north] = c1;
-                                p[west] = c1;
-                            }
-                            //
-                            //  Three predecessors are labeled.
-                            //
-                            else if (north != 0 && west != 0 && up != 0)
-                            {
-                                c[i + j * l + k * l * m] = Math.Min(north, Math.Min(west, up));
-                                c1 = Math.Min(p[north], Math.Min(p[west], p[up]));
-                                p[north] = c1;
-                                p[west] = c1;
-                                p[up] = c1;
+                                if (north != 0 && west == 0 && up == 0)
+                                {
+                                    c[i + j * l + k * l * m] = north;
+                                }
+                                else
+                                {
+                                    int c1;
+                                    switch (north)
+                                    {
+                                        case 0 when west != 0 && up == 0:
+                                            c[i + j * l + k * l * m] = west;
+                                            break;
+                                        case 0 when west == 0 && up != 0:
+                                            c[i + j * l + k * l * m] = up;
+                                            break;
+                                        //
+                                        //  Two predecessors are labeled.
+                                        //
+                                        case 0 when west != 0 && up != 0:
+                                            c[i + j * l + k * l * m] = Math.Min(west, up);
+                                            c1 = Math.Min(p[west], p[up]);
+                                            p[west] = c1;
+                                            p[up] = c1;
+                                            break;
+                                        default:
+                                        {
+                                            if (north != 0 && west == 0 && up != 0)
+                                            {
+                                                c[i + j * l + k * l * m] = Math.Min(north, up);
+                                                c1 = Math.Min(p[north], p[up]);
+                                                p[north] = c1;
+                                                p[up] = c1;
+                                            }
+                                            else if (north != 0 && west != 0 && up == 0)
+                                            {
+                                                c[i + j * l + k * l * m] = Math.Min(north, west);
+                                                c1 = Math.Min(p[north], p[west]);
+                                                p[north] = c1;
+                                                p[west] = c1;
+                                            }
+                                            //
+                                            //  Three predecessors are labeled.
+                                            //
+                                            else if (north != 0 && west != 0 && up != 0)
+                                            {
+                                                c[i + j * l + k * l * m] = Math.Min(north, Math.Min(west, up));
+                                                c1 = Math.Min(p[north], Math.Min(p[west], p[up]));
+                                                p[north] = c1;
+                                                p[west] = c1;
+                                                p[up] = c1;
+                                            }
+
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                break;
                             }
                         }
                     }
                 }
             }
-
-            //
-            //  When a component has multiple labels, have the higher labels
-            //  point to the lowest one.
-            //
-            for (component = component_num; 1 <= component; component--)
-            {
-                b = component;
-                while (p[b] != b)
-                {
-                    b = p[b];
-                }
-
-                p[component] = b;
-            }
-
-            //
-            //  Locate the minimum label for each component.
-            //  Assign these mininum labels new consecutive indices.
-            //
-            q = new int[component_num + 1];
-
-            for (j = 0; j <= component_num; j++)
-            {
-                q[j] = 0;
-            }
-
-            i = 0;
-            for (component = 1; component <= component_num; component++)
-            {
-                if (p[component] == component)
-                {
-                    i = i + 1;
-                    q[component] = i;
-                }
-            }
-
-            component_num = i;
-            //
-            //  Replace the labels by consecutive labels.
-            //
-            for (i = 0; i < l; i++)
-            {
-                for (j = 0; j < m; j++)
-                {
-                    for (k = 0; k < n; k++)
-                    {
-                        c[i + j * l + k * l * m] = q[p[c[i + j * l + k * l * m]]];
-                    }
-                }
-            }
-
-            return component_num;
         }
 
-        public static int i4mat_components(int m, int n, int[] a, ref int[] c )
+        //
+        //  When a component has multiple labels, have the higher labels
+        //  point to the lowest one.
+        //
+        for (component = component_num; 1 <= component; component--)
+        {
+            int b = component;
+            while (p[b] != b)
+            {
+                b = p[b];
+            }
+
+            p[component] = b;
+        }
+
+        //
+        //  Locate the minimum label for each component.
+        //  Assign these mininum labels new consecutive indices.
+        //
+        int[] q = new int[component_num + 1];
+
+        for (j = 0; j <= component_num; j++)
+        {
+            q[j] = 0;
+        }
+
+        i = 0;
+        for (component = 1; component <= component_num; component++)
+        {
+            if (p[component] == component)
+            {
+                i += 1;
+                q[component] = i;
+            }
+        }
+
+        component_num = i;
+        //
+        //  Replace the labels by consecutive labels.
+        //
+        for (i = 0; i < l; i++)
+        {
+            for (j = 0; j < m; j++)
+            {
+                for (k = 0; k < n; k++)
+                {
+                    c[i + j * l + k * l * m] = q[p[c[i + j * l + k * l * m]]];
+                }
+            }
+        }
+
+        return component_num;
+    }
+
+    public static int i4mat_components(int m, int n, int[] a, ref int[] c )
 
         //****************************************************************************80
         //
@@ -320,82 +317,67 @@ namespace Burkardt.ImageNS
         //    Output, int I4MAT_COMPONENTS, the number of components
         //    of nonzero data.
         //
+    {
+        int component;
+        int i;
+        int j;
+        //
+        //  Initialization.
+        //
+        for (j = 0; j < n; j++)
         {
-            int b;
-            int component;
-            int component_num;
-            int i;
-            int j;
-            int north;
-            int[] p;
-            int[] q;
-            int west;
-            //
-            //  Initialization.
-            //
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i < m; i++)
-                {
-                    c[i + j * m] = 0;
-                }
-            }
-
-            component_num = 0;
-            //
-            //  P is simply used to store the component labels.  The dimension used
-            //  here is, of course, usually an absurd overestimate.
-            //
-            p = new int[m * n + 1];
-
-            for (i = 0; i <= m * n; i++)
-            {
-                p[i] = i;
-            }
-
-            //
-            //  "Read" the array one pixel at a time.  If a (nonzero) pixel has a north or
-            //  west neighbor with a label, the current pixel inherits it.
-            //  In case the labels disagree, we need to adjust the P array so we can
-            //  later deal with the fact that the two labels need to be merged.
-            //
             for (i = 0; i < m; i++)
             {
-                for (j = 0; j < n; j++)
+                c[i + j * m] = 0;
+            }
+        }
+
+        int component_num = 0;
+        //
+        //  P is simply used to store the component labels.  The dimension used
+        //  here is, of course, usually an absurd overestimate.
+        //
+        int[] p = new int[m * n + 1];
+
+        for (i = 0; i <= m * n; i++)
+        {
+            p[i] = i;
+        }
+
+        //
+        //  "Read" the array one pixel at a time.  If a (nonzero) pixel has a north or
+        //  west neighbor with a label, the current pixel inherits it.
+        //  In case the labels disagree, we need to adjust the P array so we can
+        //  later deal with the fact that the two labels need to be merged.
+        //
+        for (i = 0; i < m; i++)
+        {
+            for (j = 0; j < n; j++)
+            {
+                int north = i switch
                 {
-                    if (i == 0)
-                    {
-                        north = 0;
-                    }
-                    else
-                    {
-                        north = c[i - 1 + j * m];
-                    }
+                    0 => 0,
+                    _ => c[i - 1 + j * m]
+                };
 
-                    if (j == 0)
-                    {
-                        west = 0;
-                    }
-                    else
-                    {
-                        west = c[i + (j - 1) * m];
-                    }
+                int west = j switch
+                {
+                    0 => 0,
+                    _ => c[i + (j - 1) * m]
+                };
 
-                    if (a[i + j * m] != 0)
+                if (a[i + j * m] != 0)
+                {
+                    switch (north)
                     {
-                        if (north == 0)
-                        {
-                            if (west == 0)
-                            {
-                                component_num = component_num + 1;
-                                c[i + j * m] = component_num;
-                            }
-                            else
-                            {
-                                c[i + j * m] = west;
-                            }
-                        }
-                        else if (north != 0)
+                        case 0 when west == 0:
+                            component_num += 1;
+                            c[i + j * m] = component_num;
+                            break;
+                        case 0:
+                            c[i + j * m] = west;
+                            break;
+                        default:
                         {
                             if (west == 0 || west == north)
                             {
@@ -413,63 +395,68 @@ namespace Burkardt.ImageNS
                                     p[north] = west;
                                 }
                             }
+
+                            break;
                         }
                     }
                 }
             }
-
-            //
-            //  When a component has multiple labels, have the higher labels
-            //  point to the lowest one.
-            //
-            for (component = component_num; 1 <= component; component--)
-            {
-                b = component;
-                while (p[b] != b)
-                {
-                    b = p[b];
-                }
-
-                p[component] = b;
-            }
-
-            //
-            //  Locate the minimum label for each component.
-            //  Assign these mininum labels new consecutive indices.
-            //
-            q = new int[component_num + 1];
-
-            for (j = 0; j <= component_num; j++)
-            {
-                q[j] = 0;
-            }
-
-            i = 0;
-            for (component = 1; component <= component_num; component++)
-            {
-                if (p[component] == component)
-                {
-                    i = i + 1;
-                    q[component] = i;
-                }
-            }
-
-            component_num = i;
-            //
-            //  Replace the labels by consecutive labels.
-            //
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i < m; i++)
-                {
-                    c[i + j * m] = q[p[c[i + j * m]]];
-                }
-            }
-
-            return component_num;
         }
 
-        public static int i4vec_components(int n, int[] a, ref int[] c )
+        //
+        //  When a component has multiple labels, have the higher labels
+        //  point to the lowest one.
+        //
+        for (component = component_num; 1 <= component; component--)
+        {
+            int b = component;
+            while (p[b] != b)
+            {
+                b = p[b];
+            }
+
+            p[component] = b;
+        }
+
+        //
+        //  Locate the minimum label for each component.
+        //  Assign these mininum labels new consecutive indices.
+        //
+        int[] q = new int[component_num + 1];
+
+        for (j = 0; j <= component_num; j++)
+        {
+            q[j] = 0;
+        }
+
+        i = 0;
+        for (component = 1; component <= component_num; component++)
+        {
+            if (p[component] != component)
+            {
+                continue;
+            }
+
+            i += 1;
+            q[component] = i;
+        }
+
+        component_num = i;
+        //
+        //  Replace the labels by consecutive labels.
+        //
+        for (j = 0; j < n; j++)
+        {
+            for (i = 0; i < m; i++)
+            {
+                c[i + j * m] = q[p[c[i + j * m]]];
+            }
+        }
+
+        return component_num;
+    }
+
+    public static int i4vec_components(int n, int[] a, ref int[] c )
 
         //****************************************************************************80
         //
@@ -530,42 +517,41 @@ namespace Burkardt.ImageNS
         //    Output, int I4VEC_COMPONENTS, the number of components
         //    of nonzero data.
         //
+    {
+        int j;
+        //
+        //  Initialization.
+        //
+        for (j = 0; j < n; j++)
         {
-            int component_num;
-            int j;
-            int west;
-            //
-            //  Initialization.
-            //
-            for (j = 0; j < n; j++)
-            {
-                c[j] = 0;
-            }
+            c[j] = 0;
+        }
 
-            component_num = 0;
-            //
-            //  "Read" the array one pixel at a time.  If a (nonzero) pixel has a west
-            //  neighbor with a label, the current pixel inherits it.  Otherwise, we have
-            //  begun a new component.
-            //
-            west = 0;
+        int component_num = 0;
+        //
+        //  "Read" the array one pixel at a time.  If a (nonzero) pixel has a west
+        //  neighbor with a label, the current pixel inherits it.  Otherwise, we have
+        //  begun a new component.
+        //
+        int west = 0;
 
-            for (j = 0; j < n; j++)
+        for (j = 0; j < n; j++)
+        {
+            if (a[j] != 0)
             {
-                if (a[j] != 0)
+                switch (west)
                 {
-                    if (west == 0)
-                    {
-                        component_num = component_num + 1;
-                    }
-
-                    c[j] = component_num;
+                    case 0:
+                        component_num += 1;
+                        break;
                 }
 
-                west = c[j];
+                c[j] = component_num;
             }
 
-            return component_num;
+            west = c[j];
         }
+
+        return component_num;
     }
 }

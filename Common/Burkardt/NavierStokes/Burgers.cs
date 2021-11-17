@@ -3,12 +3,12 @@ using Burkardt.FullertonFnLib;
 using Burkardt.Quadrature;
 using Burkardt.Types;
 
-namespace Burkardt.NavierStokesNS
+namespace Burkardt.NavierStokesNS;
+
+public static class Burgers
 {
-    public static class Burgers
-    {
-        public static double[] burgers_viscous_time_exact1(double nu, int vxn, double[] vx, int vtn,
-        double[] vt )
+    public static double[] burgers_viscous_time_exact1(double nu, int vxn, double[] vx, int vtn,
+            double[] vt )
 
         //****************************************************************************80
         //
@@ -74,39 +74,43 @@ namespace Burkardt.NavierStokesNS
         //    Output, double BURGERS_VISCOUS_TIME_EXACT1[VXN*VTN], the solution of 
         //    the Burgers equation at each space and time grid point.
         //
+    {
+        double bot;
+        double c;
+        int qi;
+        int qn = 8;
+        double[] qw;
+        double[] qx;
+        int vti;
+        int vxi;
+        double[] vu;
+        double top;
+        //
+        //  Compute the rule.
+        //
+        qx = new double[qn];
+        qw = new double[qn];
+
+        HermiteQuadrature.hermite_ek_compute(qn, ref qx, ref qw);
+        //
+        //  Evaluate U(X,T) for later times.
+        //
+        vu = new double[vxn * vtn];
+
+        for (vti = 0; vti < vtn; vti++)
         {
-            double bot;
-            double c;
-            int qi;
-            int qn = 8;
-            double[] qw;
-            double[] qx;
-            int vti;
-            int vxi;
-            double[] vu;
-            double top;
-            //
-            //  Compute the rule.
-            //
-            qx = new double[qn];
-            qw = new double[qn];
-
-            HermiteQuadrature.hermite_ek_compute(qn, ref qx, ref qw);
-            //
-            //  Evaluate U(X,T) for later times.
-            //
-            vu = new double[vxn * vtn];
-
-            for (vti = 0; vti < vtn; vti++)
+            switch (vt[vti])
             {
-                if (vt[vti] == 0.0)
+                case 0.0:
                 {
                     for (vxi = 0; vxi < vxn; vxi++)
                     {
                         vu[vxi + vti * vxn] = -Math.Sin(Math.PI * vx[vxi]);
                     }
+
+                    break;
                 }
-                else
+                default:
                 {
                     for (vxi = 0; vxi < vxn; vxi++)
                     {
@@ -116,25 +120,28 @@ namespace Burkardt.NavierStokesNS
                         {
                             c = 2.0 * Math.Sqrt(nu * vt[vti]);
 
-                            top = top - qw[qi] * c * Math.Sin(Math.PI * (vx[vxi] - c * qx[qi]))
-                                * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
-                                      / (2.0 * Math.PI * nu));
+                            top -= qw[qi] * c * Math.Sin(Math.PI * (vx[vxi] - c * qx[qi]))
+                                   * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
+                                              / (2.0 * Math.PI * nu));
 
-                            bot = bot + qw[qi] * c
-                                               * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
+                            bot += qw[qi] * c
+                                          * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
                                                      / (2.0 * Math.PI * nu));
 
                             vu[vxi + vti * vxn] = top / bot;
                         }
                     }
+
+                    break;
                 }
             }
-
-            return vu;
         }
 
-        public static double[] burgers_viscous_time_exact2(double nu, int xn, double[] x, int tn,
-        double[] t )
+        return vu;
+    }
+
+    public static double[] burgers_viscous_time_exact2(double nu, int xn, double[] x, int tn,
+            double[] t )
 
         //****************************************************************************80
         //
@@ -203,37 +210,37 @@ namespace Burkardt.NavierStokesNS
         //    Output, double BURGERS_VISCOUS_TIME_EXACT2[XN*TN], the solution of the 
         //    Burgers equation at each space and time grid point.
         //
+    {
+        double a;
+        double b;
+        double c;
+        double dphi;
+        int i;
+        int j;
+        double phi;
+        double[] u;
+
+        u = new double[xn * tn];
+
+        for (j = 0; j < tn; j++)
         {
-            double a;
-            double b;
-            double c;
-            double dphi;
-            int i;
-            int j;
-            double phi;
-            double[] u;
-
-            u = new double[xn * tn];
-
-            for (j = 0; j < tn; j++)
+            for (i = 0; i < xn; i++)
             {
-                for (i = 0; i < xn; i++)
-                {
-                    a = (x[i] - 4.0 * t[j]);
-                    b = (x[i] - 4.0 * t[j] - 2.0 * Math.PI);
-                    c = 4.0 * nu * (t[j] + 1.0);
-                    phi = Math.Exp(-a * a / c) + Math.Exp(-b * b / c);
-                    dphi = -2.0 * a * Math.Exp(-a * a / c) / c
-                           - 2.0 * b * Math.Exp(-b * b / c) / c;
-                    u[i + j * xn] = 4.0 - 2.0 * nu * dphi / phi;
-                }
+                a = x[i] - 4.0 * t[j];
+                b = x[i] - 4.0 * t[j] - 2.0 * Math.PI;
+                c = 4.0 * nu * (t[j] + 1.0);
+                phi = Math.Exp(-a * a / c) + Math.Exp(-b * b / c);
+                dphi = -2.0 * a * Math.Exp(-a * a / c) / c
+                       - 2.0 * b * Math.Exp(-b * b / c) / c;
+                u[i + j * xn] = 4.0 - 2.0 * nu * dphi / phi;
             }
-
-            return u;
         }
 
-        public static void uvwp_burgers ( double nu, int n, double[] x, double[] y, 
-        double[] z, double[] t, ref double[] u, ref double[] v, ref double[] w, ref double[] p )
+        return u;
+    }
+
+    public static void uvwp_burgers ( double nu, int n, double[] x, double[] y, 
+            double[] z, double[] t, ref double[] u, ref double[] v, ref double[] w, ref double[] p )
 
         //****************************************************************************80
         //
@@ -279,23 +286,23 @@ namespace Burkardt.NavierStokesNS
         //
         //    Output, double U[N], V[N], W[N], P[N], the solution values.
         //
-        {
-            int i;
+    {
+        int i;
 
-            for ( i = 0; i < n; i++ )
-            {
-                //
-                //  Form the functions and derivatives.
-                //
-                u[i] =   2.0 * x[i];
-                v[i] =   - 2.0 * y[i];
-                w[i] =   Helpers.Erf( y[i] / Math.Sqrt ( nu ) );
-                p[i] = - 2.0 * ( x[i] * x[i] + y[i] * y[i] );
-            }
+        for ( i = 0; i < n; i++ )
+        {
+            //
+            //  Form the functions and derivatives.
+            //
+            u[i] =   2.0 * x[i];
+            v[i] =   - 2.0 * y[i];
+            w[i] =   Helpers.Erf( y[i] / Math.Sqrt ( nu ) );
+            p[i] = - 2.0 * ( x[i] * x[i] + y[i] * y[i] );
         }
+    }
         
-        public static void resid_burgers(double nu, int n, double[] x, double[] y,
-        double[] z, double[] t, ref double[] ur, ref double[] vr, ref double[] wr, ref double[] pr )
+    public static void resid_burgers(double nu, int n, double[] x, double[] y,
+            double[] z, double[] t, ref double[] ur, ref double[] vr, ref double[] wr, ref double[] pr )
 
         //****************************************************************************80
         //
@@ -341,92 +348,89 @@ namespace Burkardt.NavierStokesNS
         //
         //    Output, double UR[N], VR[N], WR[N], PR[N], the residuals.
         //
-        {
-            int i;
-            double px;
-            double py;
-            double pz;
+    {
+        int i;
+        double px;
+        double py;
+        double pz;
             
-            double u;
-            double ut;
-            double ux;
-            double uxx;
-            double uy;
-            double uyy;
-            double uz;
-            double uzz;
-            double v;
-            double vt;
-            double vx;
-            double vxx;
-            double vy;
-            double vyy;
-            double vz;
-            double vzz;
-            double w;
-            double wt;
-            double wx;
-            double wxx;
-            double wy;
-            double wyy;
-            double wz;
-            double wzz;
+        double u;
+        double ut;
+        double ux;
+        double uxx;
+        double uy;
+        double uyy;
+        double uz;
+        double uzz;
+        double v;
+        double vt;
+        double vx;
+        double vxx;
+        double vy;
+        double vyy;
+        double vz;
+        double vzz;
+        double w;
+        double wt;
+        double wx;
+        double wxx;
+        double wy;
+        double wyy;
+        double wz;
+        double wzz;
 
-            for (i = 0; i < n; i++)
-            {
-                //
-                //  Form the functions and derivatives.
-                //
-                u = 2.0 * x[i];
-                ux = 2.0;
-                uxx = 0.0;
-                uy = 0.0;
-                uyy = 0.0;
-                uz = 0.0;
-                uzz = 0.0;
-                ut = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            //
+            //  Form the functions and derivatives.
+            //
+            u = 2.0 * x[i];
+            ux = 2.0;
+            uxx = 0.0;
+            uy = 0.0;
+            uyy = 0.0;
+            uz = 0.0;
+            uzz = 0.0;
+            ut = 0.0;
 
-                v = -2.0 * y[i];
-                vx = 0.0;
-                vxx = 0.0;
-                vy = -2.0;
-                vyy = 0.0;
-                vz = 0.0;
-                vzz = 0.0;
-                vt = 0.0;
+            v = -2.0 * y[i];
+            vx = 0.0;
+            vxx = 0.0;
+            vy = -2.0;
+            vyy = 0.0;
+            vz = 0.0;
+            vzz = 0.0;
+            vt = 0.0;
 
-                w = Helpers.Erf(y[i] / Math.Sqrt(nu));
-                wx = 0.0;
-                wxx = 0.0;
-                wy = 2.0 * Math.Sqrt(1.0 / nu / Math.PI) * Math.Exp(-y[i] * y[i] / nu);
-                wyy = -4.0 * Math.Sqrt(1.0 / nu / Math.PI) * y[i] * Math.Exp(-y[i] * y[i] / nu) / nu;
-                wz = 0.0;
-                wzz = 0.0;
-                wt = 0.0;
+            w = Helpers.Erf(y[i] / Math.Sqrt(nu));
+            wx = 0.0;
+            wxx = 0.0;
+            wy = 2.0 * Math.Sqrt(1.0 / nu / Math.PI) * Math.Exp(-y[i] * y[i] / nu);
+            wyy = -4.0 * Math.Sqrt(1.0 / nu / Math.PI) * y[i] * Math.Exp(-y[i] * y[i] / nu) / nu;
+            wz = 0.0;
+            wzz = 0.0;
+            wt = 0.0;
 
-                //  p = - 2.0 * ( x[i] * x[i] + y[i] * y[i] );
-                px = -4.0 * x[i];
-                py = -4.0 * y[i];
-                pz = 0.0;
-                //
-                //  Evaluate the residuals.
-                //
-                ur[i] = ut
-                        + u * ux + v * uy + w * uz + px
-                        - nu * (uxx + uyy + uzz);
+            //  p = - 2.0 * ( x[i] * x[i] + y[i] * y[i] );
+            px = -4.0 * x[i];
+            py = -4.0 * y[i];
+            pz = 0.0;
+            //
+            //  Evaluate the residuals.
+            //
+            ur[i] = ut
+                    + u * ux + v * uy + w * uz + px
+                    - nu * (uxx + uyy + uzz);
 
-                vr[i] = vt
-                        + u * vx + v * vy + w * vz + py
-                        - nu * (vxx + vyy + vzz);
+            vr[i] = vt
+                    + u * vx + v * vy + w * vz + py
+                    - nu * (vxx + vyy + vzz);
 
-                wr[i] = wt
-                        + u * wx + v * wy + w * wz + pz
-                        - nu * (wxx + wyy + wzz);
+            wr[i] = wt
+                    + u * wx + v * wy + w * wz + pz
+                    - nu * (wxx + wyy + wzz);
 
-                pr[i] = ux + vy + wz;
-            }
-
-            return;
+            pr[i] = ux + vy + wz;
         }
     }
 }

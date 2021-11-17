@@ -2,11 +2,11 @@
 using Burkardt;
 using Burkardt.AppliedStatistics;
 
-namespace ASA245Test
+namespace ASA245Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -29,23 +29,23 @@ namespace ASA245Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ASA245_TEST:");
-            Console.WriteLine("  Test the ASA245 library.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("ASA245_TEST:");
+        Console.WriteLine("  Test the ASA245 library.");
 
-            test01();
-            test02();
-            test03();
+        test01();
+        test02();
+        test03();
 
-            Console.WriteLine("");
-            Console.WriteLine("ASA245_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine("ASA245_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
 
-        }
+    }
 
-        static void test01()
+    private static void test01()
         //****************************************************************************80
         //
         //  Purpose:
@@ -64,44 +64,44 @@ namespace ASA245Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        int ifault = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST01:");
+        Console.WriteLine("  ALNGAM computes the logarithm of the ");
+        Console.WriteLine("  Gamma function.  We compare the result");
+        Console.WriteLine("  to tabulated values.");
+        Console.WriteLine("");
+        Console.WriteLine("          X                     "
+                          + "FX                        FX2");
+        Console.WriteLine("                                "
+                          + "(Tabulated)               (ALNGAM)                DIFF");
+        Console.WriteLine("");
+
+        int n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            int ifault = 0;
-            double x = 0;
+            Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01:");
-            Console.WriteLine("  ALNGAM computes the logarithm of the ");
-            Console.WriteLine("  Gamma function.  We compare the result");
-            Console.WriteLine("  to tabulated values.");
-            Console.WriteLine("");
-            Console.WriteLine("          X                     "
-                + "FX                        FX2");
-            Console.WriteLine("                                "
-                + "(Tabulated)               (ALNGAM)                DIFF");
-            Console.WriteLine("");
-
-            int n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                double fx2 = Algorithms.alngam(x, ref ifault);
-
-                Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + fx.ToString("0.################").PadLeft(24)
-                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
+                break;
             }
-        }
 
-        static void test02()
+            double fx2 = Algorithms.alngam(x, ref ifault);
+
+            Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
+                                   + "  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + fx2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
+        }
+    }
+
+    private static void test02()
         //****************************************************************************80
         //
         //  Purpose:
@@ -120,44 +120,44 @@ namespace ASA245Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        int ier = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST02:");
+        Console.WriteLine("  LNGAMMA computes the logarithm of the ");
+        Console.WriteLine("  Gamma function.  We compare the result");
+        Console.WriteLine("  to tabulated values.");
+        Console.WriteLine("");
+        Console.WriteLine("          X                     "
+                          + "FX                        FX2");
+        Console.WriteLine("                                "
+                          + "(Tabulated)               (LNGAMMA)                DIFF");
+        Console.WriteLine("");
+
+        int n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            int ier = 0;
-            double x = 0;
+            Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST02:");
-            Console.WriteLine("  LNGAMMA computes the logarithm of the ");
-            Console.WriteLine("  Gamma function.  We compare the result");
-            Console.WriteLine("  to tabulated values.");
-            Console.WriteLine("");
-            Console.WriteLine("          X                     "
-                + "FX                        FX2");
-            Console.WriteLine("                                "
-                + "(Tabulated)               (LNGAMMA)                DIFF");
-            Console.WriteLine("");
-
-            int n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                double fx2 = Algorithms.lngamma(x, ref ier);
-
-                Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + fx.ToString("0.################").PadLeft(24)
-                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
+                break;
             }
-        }
 
-        static void test03()
+            double fx2 = Algorithms.lngamma(x, ref ier);
+
+            Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
+                                   + "  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + fx2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
+        }
+    }
+
+    private static void test03()
         //****************************************************************************80
         //
         //  Purpose:
@@ -176,41 +176,40 @@ namespace ASA245Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST03");
+        Console.WriteLine("  LGAMMA computes the logarithm of the ");
+        Console.WriteLine("  Gamma function.");
+        Console.WriteLine("  LGAMMA is available with the G++ compiler.");
+        Console.WriteLine("  Compare the result to tabulated values.");
+        Console.WriteLine("");
+        Console.WriteLine("          X                     "
+                          + "FX                        FX2");
+        Console.WriteLine("                                "
+                          + "(Tabulated)               (LNGAMMA)                DIFF");
+        Console.WriteLine("");
+
+        int n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            double x = 0;
+            Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST03");
-            Console.WriteLine("  LGAMMA computes the logarithm of the ");
-            Console.WriteLine("  Gamma function.");
-            Console.WriteLine("  LGAMMA is available with the G++ compiler.");
-            Console.WriteLine("  Compare the result to tabulated values.");
-            Console.WriteLine("");
-            Console.WriteLine("          X                     "
-                + "FX                        FX2");
-            Console.WriteLine("                                "
-                + "(Tabulated)               (LNGAMMA)                DIFF");
-            Console.WriteLine("");
-
-            int n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                double fx2 = Helpers.LogGamma(x);
-
-                Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + fx.ToString("0.################").PadLeft(24)
-                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
+                break;
             }
+
+            double fx2 = Helpers.LogGamma(x);
+
+            Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
+                                   + "  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + fx2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
         }
     }
 }

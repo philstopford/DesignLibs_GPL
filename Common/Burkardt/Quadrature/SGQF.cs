@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.MatrixNS;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class SGQF
 {
-    public static class SGQF
-    {
-        public static void sgqf(int nt, double[] aj, ref double[] bj, double zemu, ref double[] t,
-        ref double[] wts )
+    public static void sgqf(int nt, double[] aj, ref double[] bj, double zemu, ref double[] t,
+            ref double[] wts )
 
         //****************************************************************************80
         //
@@ -56,42 +56,42 @@ namespace Burkardt.Quadrature
         //
         //    Output, double WTS[NT], the weights.
         //
+    {
+        int i;
+        switch (zemu)
         {
-            int i;
             //
             //  Exit if the zero-th moment is not positive.
             //
-            if (zemu <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("SGQF - Fatal error!");
                 Console.WriteLine("  ZEMU <= 0.");
                 return;
-            }
+        }
 
-            //
-            //  Set up vectors for IMTQLX.
-            //
-            for (i = 0; i < nt; i++)
-            {
-                t[i] = aj[i];
-            }
+        //
+        //  Set up vectors for IMTQLX.
+        //
+        for (i = 0; i < nt; i++)
+        {
+            t[i] = aj[i];
+        }
 
-            wts[0] = Math.Sqrt(zemu);
-            for (i = 1; i < nt; i++)
-            {
-                wts[i] = 0.0;
-            }
+        wts[0] = Math.Sqrt(zemu);
+        for (i = 1; i < nt; i++)
+        {
+            wts[i] = 0.0;
+        }
 
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
 
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = wts[i] * wts[i];
-            }
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] *= wts[i];
         }
     }
 }

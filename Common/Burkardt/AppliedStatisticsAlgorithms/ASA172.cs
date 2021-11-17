@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void revers(ref int[] ivec, int kdim )
+    public static void revers(ref int[] ivec, int kdim )
         //****************************************************************************80
         //
         //  Purpose:
@@ -38,16 +38,16 @@ namespace Burkardt.AppliedStatistics
         //
         //    Input, int KDIM, the dimension of the subscript vector.
         //
+    {
+        for (int i = 0; i < kdim / 2; i++)
         {
-            for (int i = 0; i < kdim / 2; i++)
-            {
-                int itemp = ivec[i];
-                ivec[i] = ivec[kdim - 1 - i];
-                ivec[kdim - 1 - i] = itemp;
-            }
+            int itemp = ivec[i];
+            ivec[i] = ivec[kdim - 1 - i];
+            ivec[kdim - 1 - i] = itemp;
         }
+    }
 
-        public static int simdo(bool qind, bool qfor, int[] iprod, int kdim, ref int jsub, ref int[] ivec )
+    public static int simdo(bool qind, bool qfor, int[] iprod, int kdim, ref int jsub, ref int[] ivec )
         //****************************************************************************80
         //
         //  Purpose:
@@ -129,51 +129,54 @@ namespace Burkardt.AppliedStatistics
         //    1, if QIND is TRUE, and the input value of JSUB exceeds IPROD(KDIM).
         //    2, if QIND is FALSE, and IVEC contains an illegal component.
         //
-        {
-            int i;
-            int ifault;
-            int ik;
-            int itempv;
+    {
+        int i;
+        int ifault;
+        int ik;
+        int itempv;
 
-            ifault = 0;
+        ifault = 0;
+        switch (qind)
+        {
             //
             //  Index subscript to subscript vector conversion.
             //
-            if (qind)
+            case true when iprod[kdim - 1] < jsub:
+                ifault = 1;
+                Console.WriteLine("");
+                Console.WriteLine("SIMDO - Fatal error!");
+                Console.WriteLine("  JSUB is out of bounds.");
+                return ifault;
+            case true:
             {
-                if (iprod[kdim - 1] < jsub)
-                {
-                    ifault = 1;
-                    Console.WriteLine("");
-                    Console.WriteLine("SIMDO - Fatal error!");
-                    Console.WriteLine("  JSUB is out of bounds.");
-                    return ifault;
-                }
-
                 itempv = jsub - 1;
 
                 for (i = 0; i < kdim - 1; i++)
                 {
                     ik = kdim - 2 - i;
                     ivec[i] = itempv / iprod[ik];
-                    itempv = itempv - iprod[ik] * ivec[i];
-                    ivec[i] = ivec[i] + 1;
+                    itempv -= iprod[ik] * ivec[i];
+                    ivec[i] += 1;
                 }
 
                 ivec[kdim - 1] = itempv + 1;
-                if (qfor)
+                switch (qfor)
                 {
-                    revers(ref ivec, kdim);
+                    case true:
+                        revers(ref ivec, kdim);
+                        break;
                 }
+
+                break;
             }
             //
-            //  Subscript vector to index subscript conversion.
-            //
-            else
+            default:
             {
-                if (!qfor)
+                switch (qfor)
                 {
-                    revers(ref ivec, kdim);
+                    case false:
+                        revers(ref ivec, kdim);
+                        break;
                 }
 
                 if (iprod[0] < ivec[0])
@@ -200,20 +203,24 @@ namespace Burkardt.AppliedStatistics
                 jsub = ivec[0];
                 for (i = 1; i < kdim; i++)
                 {
-                    jsub = jsub + (ivec[i] - 1) * iprod[i - 1];
+                    jsub += (ivec[i] - 1) * iprod[i - 1];
                 }
 
-                //
-                //  As a courtesy to the caller, UNREVERSE the IVEC vector
-                //  if you reversed it.
-                //
-                if (!qfor)
+                switch (qfor)
                 {
-                    revers(ref ivec, kdim);
+                    //
+                    //  As a courtesy to the caller, UNREVERSE the IVEC vector
+                    //  if you reversed it.
+                    //
+                    case false:
+                        revers(ref ivec, kdim);
+                        break;
                 }
-            }
 
-            return ifault;
+                break;
+            }
         }
+
+        return ifault;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DPOFA
 {
-    public static class DPOFA
-    {
-        public static int dpofa(ref double[] a, int lda, int n )
+    public static int dpofa(ref double[] a, int lda, int n )
 
         //****************************************************************************80
         //
@@ -58,39 +58,40 @@ namespace Burkardt.Linpack
         //    K, signals an error condition.  The leading minor of order K is not
         //    positive definite.
         //
+    {
+        int info;
+        int j;
+        int k;
+        double s;
+        double t;
+
+        for (j = 1; j <= n; j++)
         {
-            int info;
-            int j;
-            int k;
-            double s;
-            double t;
+            s = 0.0;
 
-            for (j = 1; j <= n; j++)
+            for (k = 1; k <= j - 1; k++)
             {
-                s = 0.0;
-
-                for (k = 1; k <= j - 1; k++)
-                {
-                    t = a[k - 1 + (j - 1) * lda] - BLAS1D.ddot(k - 1, a, 1, a, 1, xIndex: + 0 + (k - 1) * lda, yIndex: + 0 + (j - 1) * lda);
-                    t = t / a[k - 1 + (k - 1) * lda];
-                    a[k - 1 + (j - 1) * lda] = t;
-                    s = s + t * t;
-                }
-
-                s = a[j - 1 + (j - 1) * lda] - s;
-
-                if (s <= 0.0)
-                {
-                    info = j;
-                    return info;
-                }
-
-                a[j - 1 + (j - 1) * lda] = Math.Sqrt(s);
+                t = a[k - 1 + (j - 1) * lda] - BLAS1D.ddot(k - 1, a, 1, a, 1, xIndex: + 0 + (k - 1) * lda, yIndex: + 0 + (j - 1) * lda);
+                t /= a[k - 1 + (k - 1) * lda];
+                a[k - 1 + (j - 1) * lda] = t;
+                s += t * t;
             }
 
-            info = 0;
+            s = a[j - 1 + (j - 1) * lda] - s;
 
-            return info;
+            switch (s)
+            {
+                case <= 0.0:
+                    info = j;
+                    return info;
+                default:
+                    a[j - 1 + (j - 1) * lda] = Math.Sqrt(s);
+                    break;
+            }
         }
+
+        info = 0;
+
+        return info;
     }
 }

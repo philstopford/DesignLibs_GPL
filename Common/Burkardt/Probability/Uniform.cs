@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Uniform
 {
-    public static class Uniform
-    {
-        public static double uniform_01_cdf(double x)
+    public static double uniform_01_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -31,26 +31,18 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_01_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
+            < 0.0 => 0.0,
+            > 1.0 => 1.0,
+            _ => x
+        };
 
-            if (x < 0.0)
-            {
-                cdf = 0.0;
-            }
-            else if (1.0 < x)
-            {
-                cdf = 1.0;
-            }
-            else
-            {
-                cdf = x;
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-       public static double uniform_01_cdf_inv(double cdf)
+    public static double uniform_01_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -76,21 +68,25 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_01_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("UNIFORM_01_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = cdf;
+
+                return x;
             }
-
-            double x = cdf;
-
-            return x;
         }
+    }
 
-        public static double uniform_01_mean()
+    public static double uniform_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -113,13 +109,13 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_01_MEAN, the mean of the discrete uniform PDF.
         //
-        {
-            double mean = 0.5;
+    {
+        double mean = 0.5;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double uniform_01_pdf(double x)
+    public static double uniform_01_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -150,22 +146,24 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        switch (x)
         {
-            double pdf;
-
-            if (x < 0.0 || 1.0 < x)
-            {
+            case < 0.0:
+            case > 1.0:
                 pdf = 0.0;
-            }
-            else
-            {
+                break;
+            default:
                 pdf = 1.0;
-            }
-
-            return pdf;
+                break;
         }
 
-        public static double uniform_01_sample(ref int seed)
+        return pdf;
+    }
+
+    public static double uniform_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -207,67 +205,70 @@ namespace Burkardt.Probability
         //
         //    Local, int IP = 2^31 - 1.
         //
+    {
+        int ia = 16807;
+        int ib15 = 32768;
+        int ib16 = 65536;
+        int ip = 2147483647;
+        int iprhi;
+        int ixhi;
+        int k;
+        int leftlo;
+        int loxa;
+        double temp;
+        seed = seed switch
         {
-            int ia = 16807;
-            int ib15 = 32768;
-            int ib16 = 65536;
-            int ip = 2147483647;
-            int iprhi;
-            int ixhi;
-            int k;
-            int leftlo;
-            int loxa;
-            double temp;
             //
             //  Don't let SEED be 0.
             //
-            if (seed == 0)
-            {
-                seed = ip;
-            }
+            0 => ip,
+            _ => seed
+        };
 
-            //
-            //  Get the 15 high order bits of SEED.
-            //
-            ixhi = seed / ib16;
-            //
-            //  Get the 16 low bits of SEED and form the low product.
-            //
-            loxa = (seed - ixhi * ib16) * ia;
-            //
-            //  Get the 15 high order bits of the low product.
-            //
-            leftlo = loxa / ib16;
-            //
-            //  Form the 31 highest bits of the full product.
-            //
-            iprhi = ixhi * ia + leftlo;
-            //
-            //  Get overflow past the 31st bit of full product.
-            //
-            k = iprhi / ib15;
-            //
-            //  Assemble all the parts and presubtract IP.  The parentheses are essential.
-            //
-            seed = (((loxa - leftlo * ib16) - ip) +
-                    (iprhi - k * ib15) * ib16) + k;
+        //
+        //  Get the 15 high order bits of SEED.
+        //
+        ixhi = seed / ib16;
+        //
+        //  Get the 16 low bits of SEED and form the low product.
+        //
+        loxa = (seed - ixhi * ib16) * ia;
+        //
+        //  Get the 15 high order bits of the low product.
+        //
+        leftlo = loxa / ib16;
+        //
+        //  Form the 31 highest bits of the full product.
+        //
+        iprhi = ixhi * ia + leftlo;
+        //
+        //  Get overflow past the 31st bit of full product.
+        //
+        k = iprhi / ib15;
+        //
+        //  Assemble all the parts and presubtract IP.  The parentheses are essential.
+        //
+        seed = loxa - leftlo * ib16 - ip +
+               (iprhi - k * ib15) * ib16 + k;
+        switch (seed)
+        {
             //
             //  Add IP back in if necessary.
             //
-            if (seed < 0)
-            {
-                seed = seed + ip;
-            }
-
-            //
-            //  Multiply by 1 / (2^31-1).
-            //
-            temp = ((double) seed) * 4.656612875E-10;
-
-            return temp;
+            case < 0:
+                seed += ip;
+                break;
         }
 
-        public static double uniform_01_variance()
+        //
+        //  Multiply by 1 / (2^31-1).
+        //
+        temp = seed * 4.656612875E-10;
+
+        return temp;
+    }
+
+    public static double uniform_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -290,13 +291,13 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_01_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 1.0 / 12.0;
+    {
+        double variance = 1.0 / 12.0;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double[] uniform_01_order_sample(int n, ref int seed)
+    public static double[] uniform_01_order_sample(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -342,22 +343,22 @@ namespace Burkardt.Probability
         //    Output, double UNIFORM_01_ORDER_SAMPLE[N], N samples of the Uniform 01 PDF, in
         //    ascending order.
         //
+    {
+        double[] x = new double[n];
+
+        double v = 1.0;
+
+        for (int i = n - 1; 0 <= i; i--)
         {
-            double[] x = new double[n];
-
-            double v = 1.0;
-
-            for (int i = n - 1; 0 <= i; i--)
-            {
-                double u = UniformRNG.r8_uniform_01(ref seed);
-                v = v * Math.Pow(u, 1.0 / (double) (i + 1));
-                x[i] = v;
-            }
-
-            return x;
+            double u = UniformRNG.r8_uniform_01(ref seed);
+            v *= Math.Pow(u, 1.0 / (i + 1));
+            x[i] = v;
         }
 
-        public static double uniform_cdf(double x, double a, double b)
+        return x;
+    }
+
+    public static double uniform_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -385,26 +386,26 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x < a)
         {
-            double cdf;
-
-            if (x < a)
-            {
-                cdf = 0.0;
-            }
-            else if (b < x)
-            {
-                cdf = 1.0;
-            }
-            else
-            {
-                cdf = (x - a) / (b - a);
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else if (b < x)
+        {
+            cdf = 1.0;
+        }
+        else
+        {
+            cdf = (x - a) / (b - a);
         }
 
-        public static double uniform_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double uniform_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -433,21 +434,25 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("UNIFORM_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = a + (b - a) * cdf;
+
+                return x;
             }
-
-            double x = a + (b - a) * cdf;
-
-            return x;
         }
+    }
 
-        public static bool uniform_check(double a, double b)
+    public static bool uniform_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -473,19 +478,19 @@ namespace Burkardt.Probability
         //
         //    Output, bool UNIFORM_CHECK, is true if the parameters are legal.
         //
+    {
+        if (b <= a)
         {
-            if (b <= a)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("UNIFORM_CHECK - Warning!");
-                Console.WriteLine("  B <= A.");
-                return false;
-            }
-
-            return true;
+            Console.WriteLine(" ");
+            Console.WriteLine("UNIFORM_CHECK - Warning!");
+            Console.WriteLine("  B <= A.");
+            return false;
         }
 
-        public static double uniform_mean(double a, double b)
+        return true;
+    }
+
+    public static double uniform_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -511,13 +516,13 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_MEAN, the mean of the discrete uniform PDF.
         //
-        {
-            double mean = 0.5 * (a + b);
+    {
+        double mean = 0.5 * (a + b);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double uniform_pdf(double x, double a, double b)
+    public static double uniform_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -552,22 +557,22 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < a || b < x)
         {
-            double pdf;
-
-            if (x < a || b < x)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = 1.0 / (b - a);
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = 1.0 / (b - a);
         }
 
-        public static double uniform_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static double uniform_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -595,15 +600,15 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = uniform_cdf_inv(cdf, a, b);
+        double x = uniform_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double uniform_variance(double a, double b)
+    public static double uniform_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -629,13 +634,13 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (b - a) * (b - a) / 12.0;
+    {
+        double variance = (b - a) * (b - a) / 12.0;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double uniform_discrete_cdf(int x, int a, int b)
+    public static double uniform_discrete_cdf(int x, int a, int b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -663,26 +668,26 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_DISCRETE_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x < a)
         {
-            double cdf;
-
-            if (x < a)
-            {
-                cdf = 0.0;
-            }
-            else if (b < x)
-            {
-                cdf = 1.0;
-            }
-            else
-            {
-                cdf = (double) (x + 1 - a) / (double) (b + 1 - a);
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else if (b < x)
+        {
+            cdf = 1.0;
+        }
+        else
+        {
+            cdf = (x + 1 - a) / (double) (b + 1 - a);
         }
 
-        public static int uniform_discrete_cdf_inv(double cdf, int a, int b)
+        return cdf;
+    }
+
+    public static int uniform_discrete_cdf_inv(double cdf, int a, int b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -712,28 +717,30 @@ namespace Burkardt.Probability
         //    Output, int UNIFORM_DISCRETE_CDF_INV, the smallest argument whose
         //    CDF is greater than or equal to CDF.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("UNIFORM_DISCRETE_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            double a2 = (double) (a) - 0.5;
-            double b2 = (double) (b) + 0.5;
-            double x2 = a + cdf * (b2 - a2);
-
-            int x = (int)typeMethods.r8_nint(x2);
-
-            x = Math.Max(x, a);
-            x = Math.Min(x, b);
-
-            return x;
+                return 1;
         }
 
-        public static bool uniform_discrete_check(int a, int b)
+        double a2 = a - 0.5;
+        double b2 = b + 0.5;
+        double x2 = a + cdf * (b2 - a2);
+
+        int x = (int)typeMethods.r8_nint(x2);
+
+        x = Math.Max(x, a);
+        x = Math.Min(x, b);
+
+        return x;
+    }
+
+    public static bool uniform_discrete_check(int a, int b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -760,19 +767,19 @@ namespace Burkardt.Probability
         //    Output, bool UNIFORM_DISCRETE_CHECK, is true if the parameters
         //    are legal.
         //
+    {
+        if (b < a)
         {
-            if (b < a)
-            {
-                Console.WriteLine(" ");
-                Console.WriteLine("UNIFORM_DISCRETE_CHECK - Warning!");
-                Console.WriteLine("  B < A.");
-                return false;
-            }
-
-            return true;
+            Console.WriteLine(" ");
+            Console.WriteLine("UNIFORM_DISCRETE_CHECK - Warning!");
+            Console.WriteLine("  B < A.");
+            return false;
         }
 
-        public static double uniform_discrete_mean(int a, int b)
+        return true;
+    }
+
+    public static double uniform_discrete_mean(int a, int b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -798,13 +805,13 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_DISCRETE_MEAN, the mean of the PDF.
         //
-        {
-            double mean = 0.5 * (double) (a + b);
+    {
+        double mean = 0.5 * (a + b);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double uniform_discrete_pdf(int x, int a, int b)
+    public static double uniform_discrete_pdf(int x, int a, int b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -842,22 +849,22 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_DISCRETE_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < a || b < x)
         {
-            double pdf;
-
-            if (x < a || b < x)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = 1.0 / (double) (b + 1 - a);
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = 1.0 / (b + 1 - a);
         }
 
-        public static int uniform_discrete_sample(int a, int b, ref int seed)
+        return pdf;
+    }
+
+    public static int uniform_discrete_sample(int a, int b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -885,15 +892,15 @@ namespace Burkardt.Probability
         //
         //    Output, int UNIFORM_DISCRETE_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            int x = uniform_discrete_cdf_inv(cdf, a, b);
+        int x = uniform_discrete_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double uniform_discrete_variance(int a, int b)
+    public static double uniform_discrete_variance(int a, int b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -919,13 +926,13 @@ namespace Burkardt.Probability
         //
         //    Output, double UNIFORM_DISCRETE_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (double) ((b + 1 - a) * (b + 1 - a) - 1) / 12.0;
+    {
+        double variance = ((b + 1 - a) * (b + 1 - a) - 1) / 12.0;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double[] uniform_nsphere_sample(int n, ref int seed)
+    public static double[] uniform_nsphere_sample(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -959,29 +966,28 @@ namespace Burkardt.Probability
         //    Output, double UNIFORM_NSPHERE_SAMPLE[N], a point on the unit N
         //    sphere, chosen with a uniform probability.
         //
+    {
+        double[] x = new double[n];
+
+        for (int i = 0; i < n; i++)
         {
-            double[] x = new double[n];
-
-            for (int i = 0; i < n; i++)
-            {
-                x[i] = Normal.normal_01_sample(ref seed);
-            }
-
-            double sum = 0.0;
-            for (int i = 0; i < n; i++)
-            {
-                sum = sum + x[i] * x[i];
-            }
-
-            sum = Math.Sqrt(sum);
-
-            for (int i = 0; i < n; i++)
-            {
-                x[i] = x[i] / sum;
-            }
-
-            return x;
+            x[i] = Normal.normal_01_sample(ref seed);
         }
 
+        double sum = 0.0;
+        for (int i = 0; i < n; i++)
+        {
+            sum += x[i] * x[i];
+        }
+
+        sum = Math.Sqrt(sum);
+
+        for (int i = 0; i < n; i++)
+        {
+            x[i] /= sum;
+        }
+
+        return x;
     }
+
 }

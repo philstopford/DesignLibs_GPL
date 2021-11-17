@@ -4441,132 +4441,103 @@ namespace Burkardt.Square
             int i;
             double w_sum;
 
-            if (degree == 1)
+            switch (degree)
             {
-                rule01(n, ref x, ref w);
-            }
-            else if (degree == 2)
-            {
-                rule02(n, ref x, ref w);
-            }
-            else if (degree == 3)
-            {
-                rule03(n, ref x, ref w);
-            }
-            else if (degree == 4)
-            {
-                rule04(n, ref x, ref w);
-            }
-            else if (degree == 5)
-            {
-                rule05(n, ref x, ref w);
-            }
-            else if (degree == 6)
-            {
-                rule06(n, ref x, ref w);
-            }
-            else if (degree == 7)
-            {
-                rule07(n, ref x, ref w);
-            }
-            else if (degree == 8)
-            {
-                rule08(n, ref x, ref w);
-            }
-            else if (degree == 9)
-            {
-                rule09(n, ref x, ref w);
-            }
-            else if (degree == 10)
-            {
-                rule10(n, ref x, ref w);
-            }
-            else if (degree == 11)
-            {
-                rule11(n, ref x, ref w);
-            }
-            else if (degree == 12)
-            {
-                rule12(n, ref x, ref w);
-            }
-            else if (degree == 13)
-            {
-                rule13(n, ref x, ref w);
-            }
-            else if (degree == 14)
-            {
-                rule14(n, ref x, ref w);
-            }
-            else if (degree == 15)
-            {
-                rule15(n, ref x, ref w);
-            }
-            else if (degree == 16)
-            {
-                rule16(n, ref x, ref w);
-            }
-            else if (degree == 17)
-            {
-                rule17(n, ref x, ref w);
-            }
-            else if (degree == 18)
-            {
-                rule18(n, ref x, ref w);
-            }
-            else if (degree == 19)
-            {
-                rule19(n, ref x, ref w);
-            }
-            else if (degree == 20)
-            {
-                rule20(n, ref x, ref w);
-            }
-            else if (degree == 21)
-            {
-                rule21(n, ref x, ref w);
-            }
-            else if (degree == 22)
-            {
-                rule22(n, ref x, ref w);
-            }
-            else if (degree == 23)
-            {
-                rule23(n, ref x, ref w);
-            }
-            else if (degree == 24)
-            {
-                rule24(n, ref x, ref w);
-            }
-            else if (degree == 25)
-            {
-                rule25(n, ref x, ref w);
-            }
-            else if (degree == 26)
-            {
-                rule26(n, ref x, ref w);
-            }
-            else if (degree == 27)
-            {
-                rule27(n, ref x, ref w);
-            }
-            else if (degree == 28)
-            {
-                rule28(n, ref x, ref w);
-            }
-            else if (degree == 29)
-            {
-                rule29(n, ref x, ref w);
-            }
-            else if (degree == 30)
-            {
-                rule30(n, ref x, ref w);
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("SQUARE_ARBQ - Fatal error");
-                Console.WriteLine("  Illegal value of DEGREE.");
-                return;
+                case 1:
+                    rule01(n, ref x, ref w);
+                    break;
+                case 2:
+                    rule02(n, ref x, ref w);
+                    break;
+                case 3:
+                    rule03(n, ref x, ref w);
+                    break;
+                case 4:
+                    rule04(n, ref x, ref w);
+                    break;
+                case 5:
+                    rule05(n, ref x, ref w);
+                    break;
+                case 6:
+                    rule06(n, ref x, ref w);
+                    break;
+                case 7:
+                    rule07(n, ref x, ref w);
+                    break;
+                case 8:
+                    rule08(n, ref x, ref w);
+                    break;
+                case 9:
+                    rule09(n, ref x, ref w);
+                    break;
+                case 10:
+                    rule10(n, ref x, ref w);
+                    break;
+                case 11:
+                    rule11(n, ref x, ref w);
+                    break;
+                case 12:
+                    rule12(n, ref x, ref w);
+                    break;
+                case 13:
+                    rule13(n, ref x, ref w);
+                    break;
+                case 14:
+                    rule14(n, ref x, ref w);
+                    break;
+                case 15:
+                    rule15(n, ref x, ref w);
+                    break;
+                case 16:
+                    rule16(n, ref x, ref w);
+                    break;
+                case 17:
+                    rule17(n, ref x, ref w);
+                    break;
+                case 18:
+                    rule18(n, ref x, ref w);
+                    break;
+                case 19:
+                    rule19(n, ref x, ref w);
+                    break;
+                case 20:
+                    rule20(n, ref x, ref w);
+                    break;
+                case 21:
+                    rule21(n, ref x, ref w);
+                    break;
+                case 22:
+                    rule22(n, ref x, ref w);
+                    break;
+                case 23:
+                    rule23(n, ref x, ref w);
+                    break;
+                case 24:
+                    rule24(n, ref x, ref w);
+                    break;
+                case 25:
+                    rule25(n, ref x, ref w);
+                    break;
+                case 26:
+                    rule26(n, ref x, ref w);
+                    break;
+                case 27:
+                    rule27(n, ref x, ref w);
+                    break;
+                case 28:
+                    rule28(n, ref x, ref w);
+                    break;
+                case 29:
+                    rule29(n, ref x, ref w);
+                    break;
+                case 30:
+                    rule30(n, ref x, ref w);
+                    break;
+                default:
+                    Console.WriteLine("");
+                    Console.WriteLine("SQUARE_ARBQ - Fatal error");
+                    Console.WriteLine("  Illegal value of DEGREE.");
+                    return;
             }
 
             w_sum = typeMethods.r8vec_sum(n, w);
@@ -4617,13 +4588,13 @@ namespace Burkardt.Square
             //
         {
             string command_filename;
-            List<string> command_unit = new List<string>();
+            List<string> command_unit = new();
             int j;
             string node_filename;
-            List<string> node_unit = new List<string>();
+            List<string> node_unit = new();
             string plot_filename;
             string vertex_filename;
-            List<string> vertex_unit = new List<string>();
+            List<string> vertex_unit = new();
             //
             //  Create the vertex file.
             //
@@ -4731,17 +4702,19 @@ namespace Burkardt.Square
                 127, 132, 147, 152, 167
             };
 
-            if (degree < 1 || 30 < degree)
+            switch (degree)
             {
-                Console.WriteLine("");
-                Console.WriteLine("SQUARE_ARBQ_SIZE - Fatal error!");
-                Console.WriteLine("  Illegal value of DEGREE.");
-                return 1;
+                case < 1:
+                case > 30:
+                    Console.WriteLine("");
+                    Console.WriteLine("SQUARE_ARBQ_SIZE - Fatal error!");
+                    Console.WriteLine("  Illegal value of DEGREE.");
+                    return 1;
+                default:
+                    n = n_save[degree - 1];
+
+                    return n;
             }
-
-            n = n_save[degree - 1];
-
-            return n;
         }
     }
 }

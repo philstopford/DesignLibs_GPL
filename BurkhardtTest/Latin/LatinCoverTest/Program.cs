@@ -3,28 +3,28 @@ using Burkardt.Latin;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace LatinCoverTest
+namespace LatinCoverTest;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine();
-            ;
-            Console.WriteLine("LATIN_COVER_TEST:");
-            Console.WriteLine("  Test the LATIN_COVER library.");
+        Console.WriteLine();
+        ;
+        Console.WriteLine("LATIN_COVER_TEST:");
+        Console.WriteLine("  Test the LATIN_COVER library.");
 
-            test01();
-            test02();
-            test03();
+        test01();
+        test02();
+        test03();
 
-            Console.WriteLine();
-            Console.WriteLine("LATIN_COVER_TEST");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine();
-        }
-        
-        static void test01 ( )
+        Console.WriteLine();
+        Console.WriteLine("LATIN_COVER_TEST");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine();
+    }
+
+    private static void test01 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -43,29 +43,29 @@ namespace LatinCoverTest
         //
         //    John Burkardt
         //
+    {
+        Console.WriteLine();
+        Console.WriteLine("TEST01");
+        Console.WriteLine("  LATIN_COVER:");
+
+        for (int n = 3; n <= 9; n += 2 )
         {
-            Console.WriteLine();
-            Console.WriteLine("TEST01");
-            Console.WriteLine("  LATIN_COVER:");
+            int seed = 123456789;
 
-            for (int n = 3; n <= 9; n = n + 2 )
+            for (int test = 1; test <= 3; test++ )
             {
-                int seed = 123456789;
-
-                for (int test = 1; test <= 3; test++ )
-                {
-                    int[] p = typeMethods.perm_uniform_new ( n, ref seed );
+                int[] p = typeMethods.perm_uniform_new ( n, ref seed );
  
-                    typeMethods.perm_print ( n, p, "  Permutation" );
+                typeMethods.perm_print ( n, p, "  Permutation" );
 
-                    int[] a = LatinVariants.latin_cover ( n, p );
+                int[] a = LatinVariants.latin_cover ( n, p );
 
-                    typeMethods.i4mat_print ( n, n, a, "  Latin cover" );
-                }
+                typeMethods.i4mat_print ( n, n, a, "  Latin cover" );
             }
         }
+    }
 
-        static void test02 ( )
+    private static void test02 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -84,29 +84,29 @@ namespace LatinCoverTest
         //
         //    John Burkardt
         //
+    {
+        Console.WriteLine();
+        Console.WriteLine("TEST02");
+        Console.WriteLine("  LATIN_COVER_2D:");
+
+        for ( int n = 3; n <= 9; n += 2 )
         {
-            Console.WriteLine();
-            Console.WriteLine("TEST02");
-            Console.WriteLine("  LATIN_COVER_2D:");
-
-            for ( int n = 3; n <= 9; n = n + 2 )
+            int seed = 123456789;
+            for ( int test = 1; test <= 3; test++ )
             {
-                int seed = 123456789;
-                for ( int test = 1; test <= 3; test++ )
-                {
-                    int[] p1 = typeMethods.perm_uniform_new ( n, ref seed );
-                    typeMethods.perm_print ( n, p1, "  Permutation 1" );
+                int[] p1 = typeMethods.perm_uniform_new ( n, ref seed );
+                typeMethods.perm_print ( n, p1, "  Permutation 1" );
 
-                    int[] p2 = typeMethods.perm_uniform_new ( n, ref seed ); 
-                    typeMethods.perm_print ( n, p2, "  Permutation 2" );
+                int[] p2 = typeMethods.perm_uniform_new ( n, ref seed ); 
+                typeMethods.perm_print ( n, p2, "  Permutation 2" );
 
-                    int[] a = LatinVariants.latin_cover_2d ( n, p1, p2 );
-                    typeMethods.i4mat_print ( n, n, a, "  Latin cover" );
-                }
+                int[] a = LatinVariants.latin_cover_2d ( n, p1, p2 );
+                typeMethods.i4mat_print ( n, n, a, "  Latin cover" );
             }
         }
-        
-        static void test03 ( )
+    }
+
+    private static void test03 ( )
 
 //****************************************************************************80
 //
@@ -126,31 +126,29 @@ namespace LatinCoverTest
 //
 //    John Burkardt
 //
+    {
+        Console.WriteLine();
+        Console.WriteLine("TEST03");
+        Console.WriteLine("  LATIN_COVER_3D");
+
+        for ( int n = 3; n <= 9; n += 2 )
         {
-            Console.WriteLine();
-            Console.WriteLine("TEST03");
-            Console.WriteLine("  LATIN_COVER_3D");
-
-            for ( int n = 3; n <= 9; n = n + 2 )
+            int seed = 123456789;
+            for ( int test = 1; test <= 3; test++ )
             {
-                int seed = 123456789;
-                for ( int test = 1; test <= 3; test++ )
-                {
-                    int[] p1 = typeMethods.perm_uniform_new ( n, ref seed );
-                    typeMethods.perm_print ( n, p1, "  Permutation 1" );
+                int[] p1 = typeMethods.perm_uniform_new ( n, ref seed );
+                typeMethods.perm_print ( n, p1, "  Permutation 1" );
 
-                    int[] p2 = typeMethods.perm_uniform_new ( n, ref seed );
-                    typeMethods.perm_print ( n, p2, "  Permutation 2" );
+                int[] p2 = typeMethods.perm_uniform_new ( n, ref seed );
+                typeMethods.perm_print ( n, p2, "  Permutation 2" );
 
-                    int[] p3 = typeMethods.perm_uniform_new ( n, ref seed );
-                    typeMethods.perm_print ( n, p3, "  Permutation 1" );
+                int[] p3 = typeMethods.perm_uniform_new ( n, ref seed );
+                typeMethods.perm_print ( n, p3, "  Permutation 1" );
 
-                    int[] a = LatinVariants.latin_cover_3d ( n, p1, p2, p3 );
+                int[] a = LatinVariants.latin_cover_3d ( n, p1, p2, p3 );
 
-                    typeMethods.i4block_print ( n, n, n, a, "  Latin cover" );
-                }
+                typeMethods.i4block_print ( n, n, n, a, "  Latin cover" );
             }
         }
     }
 }
-

@@ -1,59 +1,58 @@
 ﻿using System;
 using Burkardt.Function;
 
-namespace PolPakTest
+namespace PolPakTest;
+
+public static class mertensTest
 {
-    public static class mertensTest
+    public static void mertens_test()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MERTENS_TEST tests MERTENS.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    17 October 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        public static void mertens_test()
+        int c = 0;
+        int n = 0;
+        int n_data = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MERTENS_TEST tests MERTENS.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    17 October 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        Console.WriteLine("");
+        Console.WriteLine("MERTENS_TEST");
+        Console.WriteLine("  MERTENS computes the Mertens function.");
+        Console.WriteLine("");
+        Console.WriteLine("      N   Exact   MERTENS(N)");
+        Console.WriteLine("");
+
+        n_data = 0;
+
+        for (;;)
         {
-            int c = 0;
-            int n = 0;
-            int n_data = 0;
+            Burkardt.Values.Mertens.mertens_values(ref n_data, ref n, ref c);
 
-            Console.WriteLine("");
-            Console.WriteLine("MERTENS_TEST");
-            Console.WriteLine("  MERTENS computes the Mertens function.");
-            Console.WriteLine("");
-            Console.WriteLine("      N   Exact   MERTENS(N)");
-            Console.WriteLine("");
-
-            n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Burkardt.Values.Mertens.mertens_values(ref n_data, ref n, ref c);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                Console.WriteLine("  "
-                                  + n.ToString().PadLeft(8) + "  "
-                                  + c.ToString().PadLeft(10) + "  "
-                                  + Mertens.mertens(n).ToString().PadLeft(10) + "");
+                break;
             }
 
+            Console.WriteLine("  "
+                              + n.ToString().PadLeft(8) + "  "
+                              + c.ToString().PadLeft(10) + "  "
+                              + Mertens.mertens(n).ToString().PadLeft(10) + "");
         }
+
     }
 }

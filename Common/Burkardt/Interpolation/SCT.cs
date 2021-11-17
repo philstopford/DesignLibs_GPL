@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Interpolation
+namespace Burkardt.Interpolation;
+
+public static class SCT
 {
-    public static class SCT
-    {
-        public static double[] sct(int nt, double[] t, int kind, double a, double b )
+    public static double[] sct(int nt, double[] t, int kind, double a, double b )
 
         //****************************************************************************80
         //
@@ -56,23 +56,28 @@ namespace Burkardt.Interpolation
         //
         //    Output, double SCT[NT], the scaled knots.
         //
-        {
-            double bma;
-            int i;
-            double shft = 0;
-            double slp = 0;
-            double[] st;
-            double tmp;
+    {
+        double bma;
+        int i;
+        double shft = 0;
+        double slp = 0;
+        double[] st;
+        double tmp;
 
-            if (kind < 1 || 9 < kind)
-            {
+        switch (kind)
+        {
+            case < 1:
+            case > 9:
                 Console.WriteLine("");
                 Console.WriteLine("SCT - Fatal error!");
                 Console.WriteLine("  KIND falls outside range of 1 to 8.");
                 return null;
-            }
-
-            if (kind == 1 || kind == 2 || kind == 3 || kind == 4 || kind == 7 || kind == 9)
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 7:
+            case 9:
             {
                 tmp = typeMethods.r8_epsilon();
                 bma = b - a;
@@ -87,56 +92,51 @@ namespace Burkardt.Interpolation
 
                 slp = 2.0 / bma;
                 shft = -(a + b) / bma;
+                break;
             }
-            else if (kind == 5)
-            {
-                if (b < 0.0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SCT - Fatal error!");
-                    Console.WriteLine("  B < 0.");
-                    return null;
-                }
-
+            case 5 when b < 0.0:
+                Console.WriteLine("");
+                Console.WriteLine("SCT - Fatal error!");
+                Console.WriteLine("  B < 0.");
+                return null;
+            case 5:
                 slp = b;
                 shft = -a * b;
-            }
-            else if (kind == 6)
-            {
-                if (b < 0.0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SCT - Fatal error!");
-                    Console.WriteLine("  B < 0.");
-                    return null;
-                }
-
+                break;
+            case 6 when b < 0.0:
+                Console.WriteLine("");
+                Console.WriteLine("SCT - Fatal error!");
+                Console.WriteLine("  B < 0.");
+                return null;
+            case 6:
                 slp = Math.Sqrt(b);
                 shft = -a * slp;
-            }
-            else if (kind == 8)
+                break;
+            case 8:
             {
                 slp = 1.0 / (a + b);
 
-                if (slp <= 0.0)
+                switch (slp)
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("SCT - Fatal error.");
-                    Console.WriteLine("  1 / ( A + B ) <= 0.");
-                    return null;
+                    case <= 0.0:
+                        Console.WriteLine("");
+                        Console.WriteLine("SCT - Fatal error.");
+                        Console.WriteLine("  1 / ( A + B ) <= 0.");
+                        return null;
                 }
 
                 shft = -a * slp;
+                break;
             }
-
-            st = new double[nt];
-
-            for (i = 0; i < nt; i++)
-            {
-                st[i] = shft + slp * t[i];
-            }
-
-            return st;
         }
+
+        st = new double[nt];
+
+        for (i = 0; i < nt; i++)
+        {
+            st[i] = shft + slp * t[i];
+        }
+
+        return st;
     }
 }

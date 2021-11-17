@@ -3,54 +3,54 @@ using Burkardt.Chebyshev;
 using Burkardt.CorrelationNS;
 using Burkardt.Types;
 
-namespace Burkardt.IntegralNS
-{
-    public static class Clausen
-    {
-        public static double clausen(double x)
+namespace Burkardt.IntegralNS;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CLAUSEN evaluates the Clausen function Cl2(x).
-            //
-            //  Discussion:
-            //
-            //    Note that the first coefficient, a0 in Koelbig's paper, 
-            //    is doubled here, to account for a different convention in
-            //    Chebyshev coefficients.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 December 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Kurt Koelbig,
-            //    Chebyshev coefficients for the Clausen function Cl2(x),
-            //    Journal of Computational and Applied Mathematics,
-            //    Volume 64, Number 3, 1995, pages 295-297.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the evaluation point.
-            //
-            //    Output, double CLAUSEN, the value of the function.
-            //
-        {
-            //
-            //  Chebyshev expansion for -pi/2 < x < +pi/2.
-            //
-            double[] c1 = {
+public static class Clausen
+{
+    public static double clausen(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CLAUSEN evaluates the Clausen function Cl2(x).
+        //
+        //  Discussion:
+        //
+        //    Note that the first coefficient, a0 in Koelbig's paper, 
+        //    is doubled here, to account for a different convention in
+        //    Chebyshev coefficients.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 December 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Kurt Koelbig,
+        //    Chebyshev coefficients for the Clausen function Cl2(x),
+        //    Journal of Computational and Applied Mathematics,
+        //    Volume 64, Number 3, 1995, pages 295-297.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the evaluation point.
+        //
+        //    Output, double CLAUSEN, the value of the function.
+        //
+    {
+        //
+        //  Chebyshev expansion for -pi/2 < x < +pi/2.
+        //
+        double[] c1 = {
                 0.05590566394715132269,
                 0.00000000000000000000,
                 0.00017630887438981157,
@@ -73,10 +73,10 @@ namespace Burkardt.IntegralNS
             }
             ;
 
-            //
-            //  Chebyshev expansion for pi/2 < x < 3pi/2.
-            //
-            double[] c2 = {
+        //
+        //  Chebyshev expansion for pi/2 < x < 3pi/2.
+        //
+        double[] c2 = {
                 0.00000000000000000000,
                 -0.96070972149008358753,
                 0.00000000000000000000,
@@ -111,40 +111,40 @@ namespace Burkardt.IntegralNS
                 0.00000000000000000002
             }
             ;
-            int n1 = 19;
-            int n2 = 30;
-            double value;
-            double x2;
-            double x3;
-            double xa;
-            double xb;
-            double xc;
-            //
-            //  The function is periodic.  Wrap X into [-pi/2, 3pi/2].
-            //
-            xa = -0.5 * Math.PI;
-            xb = 0.5 * Math.PI;
-            xc = 1.5 * Math.PI;
-            x2 = typeMethods.r8_wrap(x, xa, xc);
-            //
-            //  Choose the appropriate expansion.
-            //
-            if (x2 < xb)
-            {
-                x3 = 2.0 * x2 / Math.PI;
-                value = x2 - x2 * Math.Log(Math.Abs(x2))
-                        + 0.5 * Math.Pow(x2, 3) * Correlation.r8_csevl(x3, c1, n1);
-            }
-            else
-            {
-                x3 = 2.0 * x2 / Math.PI - 2.0;
-                value = Correlation.r8_csevl(x3, c2, n2);
-            }
-
-            return value;
+        int n1 = 19;
+        int n2 = 30;
+        double value = 0;
+        double x2;
+        double x3;
+        double xa;
+        double xb;
+        double xc;
+        //
+        //  The function is periodic.  Wrap X into [-pi/2, 3pi/2].
+        //
+        xa = -0.5 * Math.PI;
+        xb = 0.5 * Math.PI;
+        xc = 1.5 * Math.PI;
+        x2 = typeMethods.r8_wrap(x, xa, xc);
+        //
+        //  Choose the appropriate expansion.
+        //
+        if (x2 < xb)
+        {
+            x3 = 2.0 * x2 / Math.PI;
+            value = x2 - x2 * Math.Log(Math.Abs(x2))
+                    + 0.5 * Math.Pow(x2, 3) * Correlation.r8_csevl(x3, c1, n1);
+        }
+        else
+        {
+            x3 = 2.0 * x2 / Math.PI - 2.0;
+            value = Correlation.r8_csevl(x3, c2, n2);
         }
 
-        public static void clausen_values(ref int n_data, ref double x, ref double fx )
+        return value;
+    }
+
+    public static void clausen_values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -197,10 +197,10 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.14137352886760576684E-01,
                 0.13955467081981281934E+00,
@@ -225,7 +225,7 @@ namespace Burkardt.IntegralNS
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.0019531250E+00,
                 0.0312500000E+00,
@@ -250,24 +250,24 @@ namespace Burkardt.IntegralNS
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.MinpackNS
+namespace Burkardt.MinpackNS;
+
+public static partial class Minpack
 {
-    public static partial class Minpack
-    {
-        public static void chkder(int m, int n, double[] x, double[] fvec, double[] fjac,
-        int ldfjac, double[] xp, double[] fvecp, int mode, ref double[] err )
+    public static void chkder(int m, int n, double[] x, double[] fvec, double[] fjac,
+            int ldfjac, double[] xp, double[] fvecp, int mode, ref double[] err )
 
         //****************************************************************************80
         //
@@ -96,44 +96,43 @@ namespace Burkardt.MinpackNS
         //    correct, while a value of err(i) less than 0.5 indicates
         //    that the i-th gradient is probably incorrect.
         //
+    {
+        double eps;
+        double epsf;
+        double epslog;
+        double epsmch;
+        const double factor = 100.0;
+        int i;
+        int j;
+        double temp;
+        //
+        //  EPSMCH is the machine precision.
+        //
+        epsmch = typeMethods.r8_epsilon();
+        //
+        eps = Math.Sqrt(epsmch);
+        switch (mode)
         {
-            double eps;
-            double epsf;
-            double epslog;
-            double epsmch;
-            const double factor = 100.0;
-            int i;
-            int j;
-            double temp;
-            //
-            //  EPSMCH is the machine precision.
-            //
-            epsmch = typeMethods.r8_epsilon();
-            //
-            eps = Math.Sqrt(epsmch);
             //
             //  MODE = 1.
             //
-            if (mode == 1)
+            case 1:
             {
                 for (j = 0; j < n; j++)
                 {
-                    if (x[j] == 0.0)
+                    temp = x[j] switch
                     {
-                        temp = eps;
-                    }
-                    else
-                    {
-                        temp = eps * Math.Abs(x[j]);
-                    }
+                        0.0 => eps,
+                        _ => eps * Math.Abs(x[j])
+                    };
 
                     xp[j] = x[j] + temp;
                 }
+
+                break;
             }
             //
-            //  MODE = 2.
-            //
-            else
+            default:
             {
                 epsf = factor * epsmch;
                 epslog = Math.Log10(eps);
@@ -144,18 +143,15 @@ namespace Burkardt.MinpackNS
 
                 for (j = 0; j < n; j++)
                 {
-                    if (x[j] == 0.0)
+                    temp = x[j] switch
                     {
-                        temp = 1.0;
-                    }
-                    else
-                    {
-                        temp = Math.Abs(x[j]);
-                    }
+                        0.0 => 1.0,
+                        _ => Math.Abs(x[j])
+                    };
 
                     for (i = 0; i < m; i++)
                     {
-                        err[i] = err[i] + temp * fjac[i + j * ldfjac];
+                        err[i] += temp * fjac[i + j * ldfjac];
                     }
                 }
 
@@ -183,6 +179,8 @@ namespace Burkardt.MinpackNS
                         }
                     }
                 }
+
+                break;
             }
         }
     }

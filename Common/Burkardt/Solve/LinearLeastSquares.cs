@@ -1,8 +1,8 @@
-﻿namespace Burkardt.SolveNS
+﻿namespace Burkardt.SolveNS;
+
+public static class LinearLeastSquares
 {
-    public static class LinearLeastSquares
-    {
-        public static void llsq0(int n, double[] x, double[] y, ref double a )
+    public static void llsq0(int n, double[] x, double[] y, ref double a )
 
         //****************************************************************************80
         //
@@ -35,44 +35,42 @@
         //
         //    Output, double %A, the slope of the least-squares approximant to the data.
         //
+    {
+        double bot;
+        int i;
+        double top;
+        switch (n)
         {
-            double bot;
-            int i;
-            double top;
             //
             //  Special case.
             //
-            if (n == 1)
+            case 1:
             {
-                if (x[0] == 0.0)
+                a = x[0] switch
                 {
-                    a = 1.0;
-                }
-                else
-                {
-                    a = y[0] / x[0];
-                }
+                    0.0 => 1.0,
+                    _ => y[0] / x[0]
+                };
 
                 return;
             }
-
-            //
-            //  Compute (x'y)/(x'x).
-            //
-            top = 0.0;
-            bot = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                top = top + x[i] * y[i];
-                bot = bot + x[i] * x[i];
-            }
-
-            a = top / bot;
-
-            return;
         }
 
-        public static void llsq(int n, double[] x, double[] y, ref double a, ref double b )
+        //
+        //  Compute (x'y)/(x'x).
+        //
+        top = 0.0;
+        bot = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            top += x[i] * y[i];
+            bot += x[i] * x[i];
+        }
+
+        a = top / bot;
+    }
+
+    public static void llsq(int n, double[] x, double[] y, ref double a, ref double b )
 
         //****************************************************************************80
         //
@@ -106,49 +104,49 @@
         //    Output, double &A, &B, the slope and Y-intercept of the least-squares
         //    approximant to the data.
         //
+    {
+        double bot;
+        int i;
+        double top;
+        double xbar;
+        double ybar;
+        switch (n)
         {
-            double bot;
-            int i;
-            double top;
-            double xbar;
-            double ybar;
             //
             //  Special case.
             //
-            if (n == 1)
-            {
+            case 1:
                 a = 0.0;
                 b = y[0];
                 return;
-            }
-
-            //
-            //  Average X and Y.
-            //
-            xbar = 0.0;
-            ybar = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                xbar = xbar + x[i];
-                ybar = ybar + y[i];
-            }
-
-            xbar = xbar / (double) n;
-            ybar = ybar / (double) n;
-            //
-            //  Compute Beta.
-            //
-            top = 0.0;
-            bot = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                top = top + (x[i] - xbar) * (y[i] - ybar);
-                bot = bot + (x[i] - xbar) * (x[i] - xbar);
-            }
-
-            a = top / bot;
-
-            b = ybar - a * xbar;
         }
+
+        //
+        //  Average X and Y.
+        //
+        xbar = 0.0;
+        ybar = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            xbar += x[i];
+            ybar += y[i];
+        }
+
+        xbar /= n;
+        ybar /= n;
+        //
+        //  Compute Beta.
+        //
+        top = 0.0;
+        bot = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            top += (x[i] - xbar) * (y[i] - ybar);
+            bot += (x[i] - xbar) * (x[i] - xbar);
+        }
+
+        a = top / bot;
+
+        b = ybar - a * xbar;
     }
 }

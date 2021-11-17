@@ -1,8 +1,8 @@
-﻿namespace TriangulationTest
+﻿namespace TriangulationTest;
+
+public static partial class TriangulationSampleData
 {
-    public static partial class TriangulationSampleData
-    {
-        public static void triangulation_order3_example1(int node_num, int triangle_num,
+    public static void triangulation_order3_example1(int node_num, int triangle_num,
             ref double[] node_xy, ref int[] triangle_node, ref int[] triangle_neighbor )
 
         //****************************************************************************80
@@ -44,14 +44,14 @@
         //    Output, int TRIANGLE_NEIGHBOR[3*TRIANGLE_NUM], the triangle neighbors
         //    on each side.  Negative values indicate edges that lie on the exterior.
         //
-        {
-            int DIM_NUM = 2;
-            int NODE_NUM = 13;
-            int TRIANGLE_NUM = 16;
-            int TRIANGLE_ORDER = 3;
+    {
+        int DIM_NUM = 2;
+        int NODE_NUM = 13;
+        int TRIANGLE_NUM = 16;
+        int TRIANGLE_ORDER = 3;
 
-            int i;
-            int[] triangle_neighbor_save = {
+        int i;
+        int[] triangle_neighbor_save = {
                 -4, -13, 2,
                 1, 4, 3,
                 2, 5, 7,
@@ -70,7 +70,7 @@
                 13, 15, -39
             }
             ;
-            int[] triangle_node_save = {
+        int[] triangle_node_save = {
                 3, 4, 1,
                 3, 1, 2,
                 3, 2, 8,
@@ -89,7 +89,7 @@
                 10, 6, 11
             }
             ;
-            double[] node_xy_save = {
+        double[] node_xy_save = {
                 0.0, 0.0,
                 2.0, 2.0,
                 -1.0, 3.0,
@@ -106,55 +106,54 @@
             }
             ;
 
-            for (i = 0; i < 3 * TRIANGLE_NUM; i++)
-            {
-                triangle_neighbor[i] = triangle_neighbor_save[i];
-            }
-
-            for (i = 0; i < TRIANGLE_ORDER * TRIANGLE_NUM; i++)
-            {
-                triangle_node[i] = triangle_node_save[i];
-            }
-
-            for (i = 0; i < DIM_NUM * NODE_NUM; i++)
-            {
-                node_xy[i] = node_xy_save[i];
-            }
-        }
-
-        public static void triangulation_order3_example1_size(ref int node_num, ref int triangle_num,
-                ref int hole_num)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGULATION_ORDER3_EXAMPLE1_SIZE sets sizes for a sample triangulation.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, int *NODE_NUM, the number of nodes.
-            //
-            //    Output, int *TRIANGLE_NUM, the number of triangles.
-            //
-            //    Output, int *HOLE_NUM, the number of holes.
-            //
+        for (i = 0; i < 3 * TRIANGLE_NUM; i++)
         {
-            node_num = 13;
-            triangle_num = 16;
-            hole_num = 0;
+            triangle_neighbor[i] = triangle_neighbor_save[i];
         }
+
+        for (i = 0; i < TRIANGLE_ORDER * TRIANGLE_NUM; i++)
+        {
+            triangle_node[i] = triangle_node_save[i];
+        }
+
+        for (i = 0; i < DIM_NUM * NODE_NUM; i++)
+        {
+            node_xy[i] = node_xy_save[i];
+        }
+    }
+
+    public static void triangulation_order3_example1_size(ref int node_num, ref int triangle_num,
+            ref int hole_num)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGULATION_ORDER3_EXAMPLE1_SIZE sets sizes for a sample triangulation.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, int *NODE_NUM, the number of nodes.
+        //
+        //    Output, int *TRIANGLE_NUM, the number of triangles.
+        //
+        //    Output, int *HOLE_NUM, the number of holes.
+        //
+    {
+        node_num = 13;
+        triangle_num = 16;
+        hole_num = 0;
     }
 }

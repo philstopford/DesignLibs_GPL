@@ -1,21 +1,21 @@
 ﻿using Eto.OpenTK;
 using Eto.Forms;
 using System;
+using Eto.WinForms;
 
-namespace TestEtoGl.WPF_Framebuffer
+namespace TestEtoGl.WPF_Framebuffer;
+
+internal static class Program
 {
-    static class Program
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    private static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            var platform = new Eto.WinForms.Platform();
-            platform.Add<GLSurface.IHandler>(() => new Eto.OpenTK.WinForms.WinGLSurfaceHandler());
+        Platform platform = new();
+        platform.Add<GLSurface.IHandler>(() => new Eto.OpenTK.WinForms.WinGLSurfaceHandler());
 
-            new Application(platform).Run(new MainForm());
-        }
+        new Application(platform).Run(new MainForm());
     }
 }

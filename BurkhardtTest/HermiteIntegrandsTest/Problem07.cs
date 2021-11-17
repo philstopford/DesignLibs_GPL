@@ -1,44 +1,44 @@
 ﻿using System;
 
-namespace HermiteIntegrandsTest
+namespace HermiteIntegrandsTest;
+
+public static class Problem07
 {
-    public static class Problem07
+    public static double p07_exact()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P07_EXACT returns the exact integral for problem 7.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    02 February 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double P07_EXACT, the value of the integral.
+        //
     {
-        public static double p07_exact()
+        double e_sqrt_sqrt = 1.2840254166877414841;
+        double exact;
+        const double r8_pi = 3.141592653589793;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P07_EXACT returns the exact integral for problem 7.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    02 February 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double P07_EXACT, the value of the integral.
-            //
-        {
-            double e_sqrt_sqrt = 1.2840254166877414841;
-            double exact;
-            const double r8_pi = 3.141592653589793;
+        exact = 0.25 * Math.Sqrt(r8_pi) / e_sqrt_sqrt;
 
-            exact = 0.25 * Math.Sqrt(r8_pi) / e_sqrt_sqrt;
+        return exact;
+    }
 
-            return exact;
-        }
-
-        public static void p07_fun(int option, int n, double[] x, ref double[] f )
+    public static void p07_fun(int option, int n, double[] x, ref double[] f )
 
         //****************************************************************************80
         //
@@ -77,64 +77,70 @@ namespace HermiteIntegrandsTest
         //
         //    Output, double F[N], the function values.
         //
-        {
-            int i;
+    {
+        int i;
 
-            if (option == 0)
+        switch (option)
+        {
+            case 0:
             {
                 for (i = 0; i < n; i++)
                 {
                     f[i] = Math.Pow(x[i], 2) * Math.Cos(x[i]) * Math.Exp(-x[i] * x[i]);
                 }
+
+                break;
             }
-            else if (option == 1)
+            case 1:
             {
                 for (i = 0; i < n; i++)
                 {
                     f[i] = Math.Pow(x[i], 2) * Math.Cos(x[i]);
                 }
+
+                break;
             }
-            else if (option == 2)
+            case 2:
             {
                 for (i = 0; i < n; i++)
                 {
                     f[i] = Math.Pow(x[i], 2) * Math.Cos(x[i]) * Math.Exp(-x[i] * x[i] / 2.0);
                 }
+
+                break;
             }
-
-            return;
         }
+    }
 
-        public static string p07_title()
+    public static string p07_title()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P07_TITLE returns the title for problem 7.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    02 February 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, string P07_TITLE, the title of the problem.
-            //
-        {
-            string title;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P07_TITLE returns the title for problem 7.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 February 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, string P07_TITLE, the title of the problem.
+        //
+    {
+        string title;
 
-            title = "x^2 cos ( x ) exp(-x*x)";
+        title = "x^2 cos ( x ) exp(-x*x)";
 
-            return title;
-        }
+        return title;
     }
 }

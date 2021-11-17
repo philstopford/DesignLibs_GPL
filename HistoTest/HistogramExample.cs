@@ -12,47 +12,47 @@
 using System;
 using utility;
 
-namespace CenterSpace.Free
+namespace CenterSpace.Free;
+
+/// <summary>
+/// Summary description for Class1.
+/// </summary>
+internal class HistogramExample
 {
     /// <summary>
-    /// Summary description for Class1.
+    /// The main entry point for the application.
     /// </summary>
-    class HistogramExample
+    [STAThread]
+    private static void Main(string[] args)
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        int length = 500;
+        double[] data = new double[length];
+        Random randGen = new();
+        for (int i = 0; i < length; ++i)
         {
-            int length = 500;
-            double[] data = new double[length];
-            Random randGen = new Random();
-            for (int i = 0; i < length; ++i)
-            {
-                data[i] = randGen.NextDouble();
-            }
-
-            Histo h = new Histo(20, 0, 1);
-            h.AddData(data);
-
-            double numLessThanOneHalf = 0, numGreaterThanOneHalf = 0;
-            for (int i = 0; i < h.NumBins; ++i)
-            {
-                if (h.BinBoundaries[i + 1] <= 0.5)
-                {
-                    numLessThanOneHalf += h.Counts[i];
-                }
-                else
-                {
-                    numGreaterThanOneHalf += h.Counts[i];
-                }
-            }
-
-            Histo.FloatFormat = "F4";
-            Console.WriteLine("{0} uniform random numbers in [0,1]", length);
-            Console.WriteLine("  {0} <= 1/2, and {1} > 1/2", numLessThanOneHalf, numGreaterThanOneHalf);
-            Console.WriteLine(h.StemLeaf());
+            data[i] = randGen.NextDouble();
         }
+
+        Histo h = new(20, 0, 1);
+        h.AddData(data);
+
+        double numLessThanOneHalf = 0, numGreaterThanOneHalf = 0;
+        for (int i = 0; i < h.NumBins; ++i)
+        {
+            switch (h.BinBoundaries[i + 1])
+            {
+                case <= 0.5:
+                    numLessThanOneHalf += h.Counts[i];
+                    break;
+                default:
+                    numGreaterThanOneHalf += h.Counts[i];
+                    break;
+            }
+        }
+
+        Histo.FloatFormat = "F4";
+        Console.WriteLine("{0} uniform random numbers in [0,1]", length);
+        Console.WriteLine("  {0} <= 1/2, and {1} > 1/2", numLessThanOneHalf, numGreaterThanOneHalf);
+        Console.WriteLine(h.StemLeaf());
     }
 }

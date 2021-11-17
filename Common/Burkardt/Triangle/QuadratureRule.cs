@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.TriangleNS
+namespace Burkardt.TriangleNS;
+
+public static class QuadratureRule
 {
-    public static class QuadratureRule
-    {
-        public static double triangle_unit_monomial(int[] expon )
+    public static double triangle_unit_monomial(int[] expon )
 
         //****************************************************************************80
         //
@@ -48,43 +48,43 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double TRIANGLE_UNIT_MONOMIAL, the integral of the monomial.
         //
+    {
+        int i;
+        int k;
+        double value = 0;
+        //
+        //  The first computation ends with VALUE = 1.0;
+        //
+        value = 1.0;
+
+        // k = 0;
+        //
+        //  The first loop simply computes 1 so we short circuit it!
+        //
+        // for ( i = 1; i <= expon[0]; i++ )
+        // {
+        //   k = k + 1;
+        //   value = value * ( double ) ( i ) / ( double ) ( k );
+        // }
+
+        k = expon[0];
+
+        for (i = 1; i <= expon[1]; i++)
         {
-            int i;
-            int k;
-            double value;
-            //
-            //  The first computation ends with VALUE = 1.0;
-            //
-            value = 1.0;
-
-            // k = 0;
-            //
-            //  The first loop simply computes 1 so we short circuit it!
-            //
-            // for ( i = 1; i <= expon[0]; i++ )
-            // {
-            //   k = k + 1;
-            //   value = value * ( double ) ( i ) / ( double ) ( k );
-            // }
-
-            k = expon[0];
-
-            for (i = 1; i <= expon[1]; i++)
-            {
-                k = k + 1;
-                value = value * (double) (i) / (double) (k);
-            }
-
-            k = k + 1;
-            value = value / (double) (k);
-
-            k = k + 1;
-            value = value / (double) (k);
-
-            return value;
+            k += 1;
+            value = value * i / k;
         }
 
-        public static void triangle_unit_o01(ref double[] w, ref double[] xy )
+        k += 1;
+        value /= k;
+
+        k += 1;
+        value /= k;
+
+        return value;
+    }
+
+    public static void triangle_unit_o01(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -127,23 +127,23 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*1], the abscissas.
         //
-        {
-            int order = 1;
+    {
+        int order = 1;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 1.0
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.33333333333333333333, 0.33333333333333333333
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static void triangle_unit_o03(ref double[] w, ref double[] xy )
+    public static void triangle_unit_o03(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -186,27 +186,27 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*3], the abscissas.
         //
-        {
-            int order = 3;
+    {
+        int order = 3;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 0.33333333333333333333,
                 0.33333333333333333333,
                 0.33333333333333333333
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.66666666666666666667, 0.16666666666666666667,
                 0.16666666666666666667, 0.66666666666666666667,
                 0.16666666666666666667, 0.16666666666666666667
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static void triangle_unit_o03b(ref double[] w, ref double[] xy )
+    public static void triangle_unit_o03b(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -249,27 +249,27 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*3], the abscissas.
         //
-        {
-            int order = 3;
+    {
+        int order = 3;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 0.33333333333333333333,
                 0.33333333333333333333,
                 0.33333333333333333333
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.0, 0.5,
                 0.5, 0.0,
                 0.5, 0.5
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static void triangle_unit_o06(ref double[] w, ref double[] xy )
+    public static void triangle_unit_o06(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -312,10 +312,10 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*6], the abscissas.
         //
-        {
-            int order = 6;
+    {
+        int order = 6;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 0.22338158967801146570,
                 0.22338158967801146570,
                 0.22338158967801146570,
@@ -324,7 +324,7 @@ namespace Burkardt.TriangleNS
                 0.10995174365532186764
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.10810301816807022736, 0.44594849091596488632,
                 0.44594849091596488632, 0.10810301816807022736,
                 0.44594849091596488632, 0.44594849091596488632,
@@ -334,11 +334,11 @@ namespace Burkardt.TriangleNS
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static void triangle_unit_o06b(ref double[] w, ref double[] xy )
+    public static void triangle_unit_o06b(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -381,10 +381,10 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*6], the abscissas.
         //
-        {
-            int order = 6;
+    {
+        int order = 6;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 0.30000000000000000000,
                 0.30000000000000000000,
                 0.30000000000000000000,
@@ -393,7 +393,7 @@ namespace Burkardt.TriangleNS
                 0.033333333333333333333
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.66666666666666666667, 0.16666666666666666667,
                 0.16666666666666666667, 0.66666666666666666667,
                 0.16666666666666666667, 0.16666666666666666667,
@@ -403,11 +403,11 @@ namespace Burkardt.TriangleNS
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static void triangle_unit_o07(ref double[] w, ref double[] xy )
+    public static void triangle_unit_o07(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -450,10 +450,10 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*7], the abscissas.
         //
-        {
-            int order = 7;
+    {
+        int order = 7;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 0.12593918054482715260,
                 0.12593918054482715260,
                 0.12593918054482715260,
@@ -463,7 +463,7 @@ namespace Burkardt.TriangleNS
                 0.22500000000000000000
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.79742698535308732240, 0.10128650732345633880,
                 0.10128650732345633880, 0.79742698535308732240,
                 0.10128650732345633880, 0.10128650732345633880,
@@ -474,11 +474,11 @@ namespace Burkardt.TriangleNS
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static void triangle_unit_o12(ref double[] w, ref double[] xy )
+    public static void triangle_unit_o12(ref double[] w, ref double[] xy )
 
         //****************************************************************************80
         //
@@ -521,10 +521,10 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double XY[2*12], the abscissas.
         //
-        {
-            int order = 12;
+    {
+        int order = 12;
 
-            double[] w_save =  {
+        double[] w_save =  {
                 0.050844906370206816921,
                 0.050844906370206816921,
                 0.050844906370206816921,
@@ -539,7 +539,7 @@ namespace Burkardt.TriangleNS
                 0.082851075618373575194
             }
             ;
-            double[] xy_save =  {
+        double[] xy_save =  {
                 0.87382197101699554332, 0.063089014491502228340,
                 0.063089014491502228340, 0.87382197101699554332,
                 0.063089014491502228340, 0.063089014491502228340,
@@ -555,48 +555,47 @@ namespace Burkardt.TriangleNS
             }
             ;
 
-            typeMethods.r8vec_copy(order, w_save, ref w);
-            typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
-        }
+        typeMethods.r8vec_copy(order, w_save, ref w);
+        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+    }
 
-        public static double triangle_unit_volume()
+    public static double triangle_unit_volume()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_VOLUME returns the "volume" of the unit triangle in 2D.
-            //
-            //  Discussion:
-            //
-            //    The "volume" of a triangle is usually called its area.
-            //
-            //    The integration region is:
-            //
-            //      0 <= X,
-            //      0 <= Y, 
-            //      X + Y <= 1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double TRIANGLE_UNIT_VOLUME, the volume.
-            //
-        {
-            double volume = 1.0 / 2.0;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_VOLUME returns the "volume" of the unit triangle in 2D.
+        //
+        //  Discussion:
+        //
+        //    The "volume" of a triangle is usually called its area.
+        //
+        //    The integration region is:
+        //
+        //      0 <= X,
+        //      0 <= Y, 
+        //      X + Y <= 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double TRIANGLE_UNIT_VOLUME, the volume.
+        //
+    {
+        double volume = 1.0 / 2.0;
 
-            return volume;
-        }
+        return volume;
     }
 }

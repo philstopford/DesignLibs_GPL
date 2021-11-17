@@ -1,10 +1,10 @@
 ﻿using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DPOSL
 {
-    public static class DPOSL
-    {
-        public static void dposl(double[] a, int lda, int n, ref double[] b )
+    public static void dposl(double[] a, int lda, int n, ref double[] b )
 
         //****************************************************************************80
         //
@@ -64,27 +64,26 @@ namespace Burkardt.Linpack
         //    Input/output, double B[N].  On input, the right hand side.
         //    On output, the solution.
         //
+    {
+        int k;
+        double t;
+        //
+        //  Solve R' * Y = B.
+        //
+        for (k = 1; k <= n; k++)
         {
-            int k;
-            double t;
-            //
-            //  Solve R' * Y = B.
-            //
-            for (k = 1; k <= n; k++)
-            {
-                t = BLAS1D.ddot(k - 1, a, 1, b, 1, xIndex: + 0 + (k - 1) * lda);
-                b[k - 1] = (b[k - 1] - t) / a[k - 1 + (k - 1) * lda];
-            }
+            t = BLAS1D.ddot(k - 1, a, 1, b, 1, xIndex: + 0 + (k - 1) * lda);
+            b[k - 1] = (b[k - 1] - t) / a[k - 1 + (k - 1) * lda];
+        }
 
-            //
-            //  Solve R * X = Y.
-            //
-            for (k = n; 1 <= k; k--)
-            {
-                b[k - 1] = b[k - 1] / a[k - 1 + (k - 1) * lda];
-                t = -b[k - 1];
-                BLAS1D.daxpy(k - 1, t, a, 1, ref b, 1, xIndex: + 0 + (k - 1) * lda);
-            }
+        //
+        //  Solve R * X = Y.
+        //
+        for (k = n; 1 <= k; k--)
+        {
+            b[k - 1] /= a[k - 1 + (k - 1) * lda];
+            t = -b[k - 1];
+            BLAS1D.daxpy(k - 1, t, a, 1, ref b, 1, xIndex: + 0 + (k - 1) * lda);
         }
     }
 }

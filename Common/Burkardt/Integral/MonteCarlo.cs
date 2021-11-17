@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static class MonteCarlo
 {
-    public static class MonteCarlo
-    {
-        public static double monte_carlo_nd ( Func<int, double[], double> func, int dim_num, 
-        double[] a, double[] b, int eval_num, ref int seed )
+    public static double monte_carlo_nd ( Func<int, double[], double> func, int dim_num, 
+            double[] a, double[] b, int eval_num, ref int seed )
 
         //****************************************************************************80
         //
@@ -56,35 +56,35 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double MONTE_CARLO_ND, the approximate value of the integral.
         //
+    {
+        int dim;
+        int i;
+        double result;
+        double volume;
+        double[] x;
+
+        result = 0.0;
+
+        for ( i = 0; i < eval_num; i++ )
         {
-            int dim;
-            int i;
-            double result;
-            double volume;
-            double[] x;
+            x = UniformRNG.r8vec_uniform_01_new ( dim_num, ref seed );
 
-            result = 0.0;
-
-            for ( i = 0; i < eval_num; i++ )
-            {
-                x = UniformRNG.r8vec_uniform_01_new ( dim_num, ref seed );
-
-                result = result + func ( dim_num, x );
-            }
-
-            volume = 1.0;
-            for ( dim = 0; dim < dim_num; dim++ )
-            {
-                volume = volume * ( b[dim] - a[dim] );
-            }
-
-            result = result * volume / ( double ) ( eval_num );
-
-            return result;
+            result += func ( dim_num, x );
         }
+
+        volume = 1.0;
+        for ( dim = 0; dim < dim_num; dim++ )
+        {
+            volume *= ( b[dim] - a[dim] );
+        }
+
+        result = result * volume / eval_num;
+
+        return result;
+    }
         
-        public static double monte_carlo ( int dim_num, int m, Func< int, double[], double > f,
-        ref int seed )
+    public static double monte_carlo ( int dim_num, int m, Func< int, double[], double > f,
+            ref int seed )
 
         //****************************************************************************80
         //
@@ -125,22 +125,21 @@ namespace Burkardt.IntegralNS
         //
         //    Output, double MONTE_CARLO, the estimated integral.
         //
+    {
+        int j;
+        double quad;
+        double[] x = null;
+
+        quad = 0.0;
+
+        for ( j = 1; j <= m; j++ )
         {
-            int j;
-            double quad;
-            double[] x = null;
-
-            quad = 0.0;
-
-            for ( j = 1; j <= m; j++ )
-            {
-                UniformRNG.r8vec_uniform_01 ( dim_num, ref seed, ref x );
-                quad = quad + f ( dim_num, x );
-            }
-
-            quad = quad / ( double ) m;
-
-            return quad;
+            UniformRNG.r8vec_uniform_01 ( dim_num, ref seed, ref x );
+            quad += f ( dim_num, x );
         }
+
+        quad /= m;
+
+        return quad;
     }
 }

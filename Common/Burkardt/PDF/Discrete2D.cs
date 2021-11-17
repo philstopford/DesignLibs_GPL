@@ -2,12 +2,12 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.PDFLib
+namespace Burkardt.PDFLib;
+
+public static class Discrete2D
 {
-    public static class Discrete2D
-    {
-        public static double[] discrete_cdf_to_xy(int n1, int n2, double[] cdf, int n, double[] u,
-        ref int seed )
+    public static double[] discrete_cdf_to_xy(int n1, int n2, double[] cdf, int n, double[] u,
+            ref int seed )
 
         //****************************************************************************80
         //
@@ -57,87 +57,87 @@ namespace Burkardt.PDFLib
         //
         //    Output, double DISCRETE_CDF_TO_XY[2*N], the sample points.
         //
+    {
+        double high;
+        int i;
+        int j;
+        int k;
+        double low;
+        double[] r;
+        double[] xy;
+
+        xy = new double[2 * n];
+
+        low = 0.0;
+        for (j = 0; j < n2; j++)
         {
-            double high;
-            int i;
-            int j;
-            int k;
-            double low;
-            double[] r;
-            double[] xy;
-
-            xy = new double[2 * n];
-
-            low = 0.0;
-            for (j = 0; j < n2; j++)
+            for (i = 0; i < n1; i++)
             {
-                for (i = 0; i < n1; i++)
+                high = cdf[i + j * n1];
+                for (k = 0; k < n; k++)
                 {
-                    high = cdf[i + j * n1];
-                    for (k = 0; k < n; k++)
+                    if (low <= u[k] && u[k] <= high)
                     {
-                        if (low <= u[k] && u[k] <= high)
-                        {
-                            r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
-                            xy[0 + k * 2] = ((double) (i) + r[0]) / (double) n1;
-                            xy[1 + k * 2] = ((double) (j) + r[1]) / (double) n2;
-                        }
+                        r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+                        xy[0 + k * 2] = (i + r[0]) / n1;
+                        xy[1 + k * 2] = (j + r[1]) / n2;
                     }
-
-                    low = high;
                 }
-            }
 
-            return xy;
+                low = high;
+            }
         }
 
-        public static double[] get_discrete_pdf_data1(int n1, int n2)
+        return xy;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GET_DISCRETE_PDF_DATA1 returns the value of the discrete PDF function in each cell.
-            //
-            //  Discussion:
-            //
-            //    Cell (I,J) extends from 
-            //
-            //      (I-1) * H < Y < I * H
-            //      (J-1) * H < X < J * H
-            //
-            //    We have data for each cell, representing the integral of some PDF
-            //    over that cell.  The function pdf(x,y) must be nonnegative.  However,
-            //    we don't impose any other conditions on it.
-            //
-            //    The array PDF(:,:) contains the integral of pdf(x,y) over each cell,
-            //    or, almost as good, simply a sample or average value.
-            //
-            //    We load the array PDF, and then we normalize it so that the sum of
-            //    all the entries is 1.  
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 December 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N1, N2, the number of rows and columns of data.
-            //
-            //    Output, double GET_DISCRETE_PDF[N1*N2].  PDF(I,J) is the discrete PDF 
-            //    for the cell (I,J), normalized so that the sum over all cells is 1.
-            //
-        {
-            double[] pdf;
-            double[] pdf_save =  {
+    public static double[] get_discrete_pdf_data1(int n1, int n2)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GET_DISCRETE_PDF_DATA1 returns the value of the discrete PDF function in each cell.
+        //
+        //  Discussion:
+        //
+        //    Cell (I,J) extends from 
+        //
+        //      (I-1) * H < Y < I * H
+        //      (J-1) * H < X < J * H
+        //
+        //    We have data for each cell, representing the integral of some PDF
+        //    over that cell.  The function pdf(x,y) must be nonnegative.  However,
+        //    we don't impose any other conditions on it.
+        //
+        //    The array PDF(:,:) contains the integral of pdf(x,y) over each cell,
+        //    or, almost as good, simply a sample or average value.
+        //
+        //    We load the array PDF, and then we normalize it so that the sum of
+        //    all the entries is 1.  
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 December 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N1, N2, the number of rows and columns of data.
+        //
+        //    Output, double GET_DISCRETE_PDF[N1*N2].  PDF(I,J) is the discrete PDF 
+        //    for the cell (I,J), normalized so that the sum over all cells is 1.
+        //
+    {
+        double[] pdf;
+        double[] pdf_save =  {
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
@@ -220,73 +220,73 @@ namespace Burkardt.PDFLib
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000
             }
             ;
-            double scale;
-            double total;
+        double scale;
+        double total;
 
-            pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
-            //
-            //  Normalize to get an integral of 1.
-            //
-            total = typeMethods.r8mat_sum(n1, n2, pdf);
+        pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
+        //
+        //  Normalize to get an integral of 1.
+        //
+        total = typeMethods.r8mat_sum(n1, n2, pdf);
 
-            Console.WriteLine("");
-            Console.WriteLine("  PDF data sums to " + total + "");
+        Console.WriteLine("");
+        Console.WriteLine("  PDF data sums to " + total + "");
 
-            scale = 1.0 / total;
+        scale = 1.0 / total;
 
-            typeMethods.r8mat_scale(n1, n2, scale, ref pdf);
+        typeMethods.r8mat_scale(n1, n2, scale, ref pdf);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double[] get_discrete_pdf_data2(int n1, int n2)
+    public static double[] get_discrete_pdf_data2(int n1, int n2)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GET_DISCRETE_PDF_DATA2 returns the discrete PDF data array.
-            //
-            //  Discussion:
-            //
-            //    Cell (I,J) extends from 
-            //
-            //      (I-1) * H < Y < I * H
-            //      (J-1) * H < X < J * H
-            //
-            //    We have data for each cell, representing the integral of some PDF
-            //    over that cell.  The function pdf(x,y) must be nonnegative.  However,
-            //    we don't impose any other conditions on it.
-            //
-            //    The array PDF(:,:) contains the integral of pdf(x,y) over each cell,
-            //    or, almost as good, simply a sample or average value.
-            //
-            //    We load the array PDF, and then we normalize it so that the sum of
-            //    all the entries is 1.  
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 December 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, integer ( kind = 4 ) N1, N2, the number of rows and columns
-            //    of PDF data.
-            //
-            //    Output, real ( kind = 8 ) PDF(N1,N2).  PDF(I,J) is the discrete PDF 
-            //    for the cell (I,J), normalized so that the sum over all cells is 1.
-            //
-        {
-            double[] pdf;
-            double[] pdf_save = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GET_DISCRETE_PDF_DATA2 returns the discrete PDF data array.
+        //
+        //  Discussion:
+        //
+        //    Cell (I,J) extends from 
+        //
+        //      (I-1) * H < Y < I * H
+        //      (J-1) * H < X < J * H
+        //
+        //    We have data for each cell, representing the integral of some PDF
+        //    over that cell.  The function pdf(x,y) must be nonnegative.  However,
+        //    we don't impose any other conditions on it.
+        //
+        //    The array PDF(:,:) contains the integral of pdf(x,y) over each cell,
+        //    or, almost as good, simply a sample or average value.
+        //
+        //    We load the array PDF, and then we normalize it so that the sum of
+        //    all the entries is 1.  
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 December 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, integer ( kind = 4 ) N1, N2, the number of rows and columns
+        //    of PDF data.
+        //
+        //    Output, real ( kind = 8 ) PDF(N1,N2).  PDF(I,J) is the discrete PDF 
+        //    for the cell (I,J), normalized so that the sum over all cells is 1.
+        //
+    {
+        double[] pdf;
+        double[] pdf_save = {
                 10.0, 20.0, 10.0, 10.0, 20.0, 10.0, 30.0, 10.0, 10.0, 10.0, 10.0, 50.0,
                 25.0, 30.0, 10.0, 25.0, 30.0, 40.0, 30.0, 20.0, 10.0, 20.0, 30.0, 40.0,
                 25.0, 30.0, 20.0, 10.0, 40.0, 200.0, 50.0, 40.0, 10.0, 30.0, 60.0, 40.0,
@@ -297,26 +297,26 @@ namespace Burkardt.PDFLib
                 10.0, 10.0, 25.0, 50.0, 10.0, 50.0, 10.0, 50.0, 25.0, 25.0, 25.0, 10.0
             }
             ;
-            double scale;
-            double total;
+        double scale;
+        double total;
 
-            pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
-            //
-            //  Normalize to get an integral of 1.
-            //
-            total = typeMethods.r8mat_sum(n1, n2, pdf);
+        pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
+        //
+        //  Normalize to get an integral of 1.
+        //
+        total = typeMethods.r8mat_sum(n1, n2, pdf);
 
-            Console.WriteLine("");
-            Console.WriteLine("  PDF data sums to " + total + "");
+        Console.WriteLine("");
+        Console.WriteLine("  PDF data sums to " + total + "");
 
-            scale = 1.0 / total;
+        scale = 1.0 / total;
 
-            typeMethods.r8mat_scale(n1, n2, scale, ref pdf);
+        typeMethods.r8mat_scale(n1, n2, scale, ref pdf);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static void get_discrete_pdf_size1(ref int n1, ref int n2 )
+    public static void get_discrete_pdf_size1(ref int n1, ref int n2 )
 
         //****************************************************************************80
         //
@@ -341,12 +341,12 @@ namespace Burkardt.PDFLib
         //    Output, int &N1, &N2, the number of rows and columns
         //    of data.
         //
-        {
-            n1 = 20;
-            n2 = 20;
-        }
+    {
+        n1 = 20;
+        n2 = 20;
+    }
 
-        public static void get_discrete_pdf_size2(ref int n1, ref int n2 )
+    public static void get_discrete_pdf_size2(ref int n1, ref int n2 )
 
         //****************************************************************************80
         //
@@ -371,64 +371,63 @@ namespace Burkardt.PDFLib
         //    Output, int &N1, &N2, the number of rows and columns
         //    of data.
         //
-        {
-            n1 = 12;
-            n2 = 8;
-        }
-        
-        public static double[] set_discrete_cdf ( int n1, int n2, double[] pdf )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SET_DISCRETE_CDF sets a CDF from a discrete PDF.
-            //
-            //  Discussion:
-            //
-            //    Here, we proceed from cell (1,1) to (2,1) to (20,1), (1,2), (2,2)...(20,20).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 December 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N1, N2, the number of rows and columns of data.
-            //
-            //    Input, double PDF[N1,N2], the discrete PDF for the cell (I,J),
-            //    normalized so that the sum over all cells is 1.
-            //
-            //    Output, double CDF[N1,N2], the discrete CDF for the cell (I,J).
-            //    The last entry of CDF should be 1.
-            //
-        {
-            double[] cdf;
-            int i;
-            int j;
-            double total;
-
-            cdf = new double[n1*n2];
-
-            total = 0.0;
-            for ( j = 0; j < n2; j++ )
-            {
-                for ( i = 0; i < n1; i++ )
-                {
-                    total = total + pdf[i+j*n1];
-                    cdf[i+j*n1] = total;
-                }
-            }
-            return cdf;
-        }
-        
+    {
+        n1 = 12;
+        n2 = 8;
     }
+        
+    public static double[] set_discrete_cdf ( int n1, int n2, double[] pdf )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SET_DISCRETE_CDF sets a CDF from a discrete PDF.
+        //
+        //  Discussion:
+        //
+        //    Here, we proceed from cell (1,1) to (2,1) to (20,1), (1,2), (2,2)...(20,20).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 December 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N1, N2, the number of rows and columns of data.
+        //
+        //    Input, double PDF[N1,N2], the discrete PDF for the cell (I,J),
+        //    normalized so that the sum over all cells is 1.
+        //
+        //    Output, double CDF[N1,N2], the discrete CDF for the cell (I,J).
+        //    The last entry of CDF should be 1.
+        //
+    {
+        double[] cdf;
+        int i;
+        int j;
+        double total;
+
+        cdf = new double[n1*n2];
+
+        total = 0.0;
+        for ( j = 0; j < n2; j++ )
+        {
+            for ( i = 0; i < n1; i++ )
+            {
+                total += pdf[i+j*n1];
+                cdf[i+j*n1] = total;
+            }
+        }
+        return cdf;
+    }
+        
 }

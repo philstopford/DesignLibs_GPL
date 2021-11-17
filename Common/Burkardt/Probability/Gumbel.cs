@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Gumbel
 {
-    public static class Gumbel
-    {
-        public static double gumbel_cdf(double x)
+    public static double gumbel_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -30,13 +30,13 @@ namespace Burkardt.Probability
         //
         //    Output, double GUMBEL_CDF, the value of the CDF.
         //
-        {
-            double cdf = Math.Exp(-Math.Exp(-x));
+    {
+        double cdf = Math.Exp(-Math.Exp(-x));
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double gumbel_cdf_inv(double cdf)
+    public static double gumbel_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,21 +62,25 @@ namespace Burkardt.Probability
         //
         //    Output, double GUMBEL_CDF_INV, the corresponding argument of the CDF.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GUMBEL_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = -Math.Log(-Math.Log(cdf));
+
+                return x;
             }
-
-            double x = -Math.Log(-Math.Log(cdf));
-
-            return x;
         }
+    }
 
-        public static double gumbel_mean()
+    public static double gumbel_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -99,13 +103,13 @@ namespace Burkardt.Probability
         //
         //    Output, double GUMBEL_MEAN, the mean of the PDF.
         //
-        {
-            double mean = Misc.euler_constant();
+    {
+        double mean = Misc.euler_constant();
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double gumbel_pdf(double x)
+    public static double gumbel_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -142,13 +146,13 @@ namespace Burkardt.Probability
         //
         //    Output, double GUMBEL_PDF, the value of the PDF.
         //
-        {
-            double pdf = Math.Exp(-x - Math.Exp(-x));
+    {
+        double pdf = Math.Exp(-x - Math.Exp(-x));
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double gumbel_sample(ref int seed)
+    public static double gumbel_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -173,15 +177,15 @@ namespace Burkardt.Probability
         //
         //    Output, double GUMBEL_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = gumbel_cdf_inv(cdf);
+        double x = gumbel_cdf_inv(cdf);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double gumbel_variance()
+    public static double gumbel_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -204,12 +208,11 @@ namespace Burkardt.Probability
         //
         //    Output, double GUMBEL_VARIANCE, the variance of the PDF.
         //
-        {
+    {
             
 
-            double variance = Math.PI * Math.PI / 6.0;
+        double variance = Math.PI * Math.PI / 6.0;
 
-            return variance;
-        }
+        return variance;
     }
 }

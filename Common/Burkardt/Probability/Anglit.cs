@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Anglit
 {
-    public static class Anglit
-    {
-        public static double anglit_cdf(double x)
+    public static double anglit_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -26,27 +26,18 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLIT_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
-            
+            < -0.25 * Math.PI => 0.0,
+            < 0.25 * Math.PI => 0.5 - 0.5 * Math.Cos(2.0 * x + Math.PI / 2.0),
+            _ => 1.0
+        };
 
-            if (x < -0.25 * Math.PI)
-            {
-                cdf = 0.0;
-            }
-            else if (x < 0.25 * Math.PI)
-            {
-                cdf = 0.5 - 0.5 * Math.Cos(2.0 * x + Math.PI / 2.0);
-            }
-            else
-            {
-                cdf = 1.0;
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-        public static double anglit_cdf_inv(double cdf)
+    public static double anglit_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -68,21 +59,25 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLIT_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("ANGLIT_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1.0;
+            default:
+            {
+                double x = 0.5 * (Math.Acos(1.0 - 2.0 * cdf) - Math.PI / 2.0);
+
+                return x;
             }
-
-            double x = 0.5 * (Math.Acos(1.0 - 2.0 * cdf) - Math.PI / 2.0);
-
-            return x;
         }
+    }
 
-        public static double anglit_mean()
+    public static double anglit_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -101,11 +96,11 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLIT_MEAN, the mean of the PDF.
         //
-        {
-            return 0.0;
-        }
+    {
+        return 0.0;
+    }
 
-        public static double anglit_pdf(double x)
+    public static double anglit_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -130,23 +125,25 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLIT_PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
             
 
-            if (x <= -0.25 * Math.PI || 0.25 * Math.PI <= x)
-            {
+        switch (x)
+        {
+            case <= -0.25 * Math.PI:
+            case >= 0.25 * Math.PI:
                 pdf = 0.0;
-            }
-            else
-            {
+                break;
+            default:
                 pdf = Math.Sin(2.0 * x + 0.25 * Math.PI);
-            }
-
-            return pdf;
+                break;
         }
 
-        public static double anglit_sample(ref int seed)
+        return pdf;
+    }
+
+    public static double anglit_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -167,15 +164,15 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLIT_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = anglit_cdf_inv(cdf);
+        double x = anglit_cdf_inv(cdf);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double anglit_variance()
+    public static double anglit_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -203,11 +200,10 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLIT_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 0.0625 * Math.PI * Math.PI - 0.5;
+    {
+        double variance = 0.0625 * Math.PI * Math.PI - 0.5;
 
-            return variance;
-        }
-
+        return variance;
     }
+
 }

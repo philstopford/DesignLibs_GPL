@@ -1,9 +1,9 @@
-﻿namespace Burkardt.RankingNS
+﻿namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
-    {
-        public static void queens(int n, int[] iarray, int k, ref int nstack, ref int[] istack,
-        int maxstack )
+    public static void queens(int n, int[] iarray, int k, ref int nstack, ref int[] istack,
+            int maxstack )
 
         //****************************************************************************80
         // 
@@ -50,31 +50,33 @@
         // 
         //    Input, int MAXSTACK, maximum dimension of ISTACK.
         // 
+    {
+        bool diag;
+        int irow;
+        int jcol;
+        int ncan;
+        bool row;
+
+        ncan = 0;
+
+        for (irow = 1; irow <= n; irow++)
         {
-            bool diag;
-            int irow;
-            int jcol;
-            int ncan;
-            bool row;
+            // 
+            //  If row IROW has already been used, that is it.
+            // 
+            row = false;
 
-            ncan = 0;
-
-            for (irow = 1; irow <= n; irow++)
+            for (jcol = 1; jcol <= k - 1; jcol++)
             {
-                // 
-                //  If row IROW has already been used, that is it.
-                // 
-                row = false;
-
-                for (jcol = 1; jcol <= k - 1; jcol++)
+                if (iarray[jcol - 1] == irow)
                 {
-                    if (iarray[jcol - 1] == irow)
-                    {
-                        row = true;
-                    }
+                    row = true;
                 }
+            }
 
-                if (!row)
+            switch (row)
+            {
+                case false:
                 {
                     diag = false;
 
@@ -87,17 +89,21 @@
                         }
                     }
 
-                    if (!diag)
+                    switch (diag)
                     {
-                        ncan = ncan + 1;
-                        istack[nstack] = irow;
-                        nstack = nstack + 1;
+                        case false:
+                            ncan += 1;
+                            istack[nstack] = irow;
+                            nstack += 1;
+                            break;
                     }
+
+                    break;
                 }
             }
-
-            istack[nstack] = ncan;
-            nstack = nstack + 1;
         }
+
+        istack[nstack] = ncan;
+        nstack += 1;
     }
 }

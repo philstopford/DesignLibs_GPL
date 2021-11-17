@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Burr
 {
-    public static class Burr
-    {
-        public static double burr_cdf(double x, double a, double b, double c, double d)
+    public static double burr_cdf(double x, double a, double b, double c, double d)
         //****************************************************************************80
         //
         //  Purpose:
@@ -35,24 +35,24 @@ namespace Burkardt.Probability
         //
         //    Output, double BURR_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x <= a)
         {
-            double cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            double y = (x - a) / b;
 
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                double y = (x - a) / b;
-
-                cdf = 1.0 - 1.0 / Math.Pow(1.0 + Math.Pow(y, c), d);
-            }
-
-            return cdf;
+            cdf = 1.0 - 1.0 / Math.Pow(1.0 + Math.Pow(y, c), d);
         }
 
-        public static double burr_cdf_inv(double cdf, double a, double b, double c, double d)
+        return cdf;
+    }
+
+    public static double burr_cdf_inv(double cdf, double a, double b, double c, double d)
         //****************************************************************************80
         //
         //  Purpose:
@@ -82,23 +82,25 @@ namespace Burkardt.Probability
         //
         //    Output, double BURR_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("BURR_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
-            }
-
-            double y = Math.Pow(Math.Pow(1.0 / (1.0 - cdf), 1.0 / d) - 1.0, 1.0 / c);
-
-            double x = a + b * y;
-
-            return x;
         }
 
-        public static bool burr_check(double a, double b, double c, double d)
+        double y = Math.Pow(Math.Pow(1.0 / (1.0 - cdf), 1.0 / d) - 1.0, 1.0 / c);
+
+        double x = a + b * y;
+
+        return x;
+    }
+
+    public static bool burr_check(double a, double b, double c, double d)
         //****************************************************************************80
         //
         //  Purpose:
@@ -125,27 +127,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool BURR_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("BURR_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
+        }
 
-            if (c <= 0)
-            {
+        switch (c)
+        {
+            case <= 0:
                 Console.WriteLine(" ");
                 Console.WriteLine("BURR_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double burr_mean(double a, double b, double c, double d)
+    public static double burr_mean(double a, double b, double c, double d)
         //****************************************************************************80
         //
         //  Purpose:
@@ -172,15 +176,15 @@ namespace Burkardt.Probability
         //
         //    Output, double BURR_MEAN, the mean of the PDF.
         //
-        {
-            double ymean = d * typeMethods.r8_beta(d - 1.0 / c, 1.0 + 1.0 / c);
+    {
+        double ymean = d * typeMethods.r8_beta(d - 1.0 / c, 1.0 + 1.0 / c);
 
-            double mean = a + b * ymean;
+        double mean = a + b * ymean;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double burr_pdf(double x, double a, double b, double c, double d)
+    public static double burr_pdf(double x, double a, double b, double c, double d)
         //****************************************************************************80
         //
         //  Purpose:
@@ -222,25 +226,25 @@ namespace Burkardt.Probability
         //
         //    Output, double BURR_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x <= a)
         {
-            double pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            double y = (x - a) / b;
 
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                double y = (x - a) / b;
-
-                pdf = (c * d / b) * Math.Pow(y, c - 1.0)
-                      / Math.Pow(1.0 + Math.Pow(y, c), d + 1.0);
-            }
-
-            return pdf;
+            pdf = c * d / b * Math.Pow(y, c - 1.0)
+                  / Math.Pow(1.0 + Math.Pow(y, c), d + 1.0);
         }
 
-        public static double burr_sample(double a, double b, double c, double d, ref int seed)
+        return pdf;
+    }
+
+    public static double burr_sample(double a, double b, double c, double d, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -269,15 +273,15 @@ namespace Burkardt.Probability
         //
         //    Output, double BURR_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = burr_cdf_inv(cdf, a, b, c, d);
+        double x = burr_cdf_inv(cdf, a, b, c, d);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double burr_variance(double a, double b, double c, double d)
+    public static double burr_variance(double a, double b, double c, double d)
         //****************************************************************************80
         //
         //  Purpose:
@@ -304,25 +308,27 @@ namespace Burkardt.Probability
         //
         //    Output, double BURR_VARIANCE, the variance of the PDF.
         //
-        {
-            const double r8_huge = 1.0E+30;
-            double variance;
+    {
+        const double r8_huge = 1.0E+30;
+        double variance;
 
-            if (c <= 2.0)
-            {
+        switch (c)
+        {
+            case <= 2.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("BURR_VARIANCE - Warning!");
                 Console.WriteLine("  Variance undefined for C <= 2.");
                 variance = r8_huge;
-            }
-            else
+                break;
+            default:
             {
                 double mu1 = b * d * typeMethods.r8_beta((c * d - 1.0) / c, (c + 1.0) / c);
                 double mu2 = b * b * d * typeMethods.r8_beta((c * d - 2.0) / c, (c + 2.0) / c);
                 variance = -mu1 * mu1 + mu2;
+                break;
             }
-
-            return variance;
         }
+
+        return variance;
     }
 }

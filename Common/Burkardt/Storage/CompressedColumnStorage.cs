@@ -4,12 +4,12 @@ using System.Linq;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.Storage
+namespace Burkardt.Storage;
+
+public static class CompressedColumnStorage
 {
-    public static class CompressedColumnStorage
-    {
-        public static void ccs_data_read(string prefix, int ncc, int n, ref int[] icc, ref int[] ccc,
-        ref double[] acc )
+    public static void ccs_data_read(string prefix, int ncc, int n, ref int[] icc, ref int[] ccc,
+            ref double[] acc )
 
         //****************************************************************************80
         //
@@ -50,18 +50,18 @@ namespace Burkardt.Storage
         //
         //    Output, double ACC[NCC], the CCS values.
         //
-        {
-            string filename_icc = prefix + "_icc.txt";
-            typeMethods.i4vec_data_read(filename_icc, ncc, ref icc);
+    {
+        string filename_icc = prefix + "_icc.txt";
+        typeMethods.i4vec_data_read(filename_icc, ncc, ref icc);
 
-            string filename_ccc = prefix + "_ccc.txt";
-            typeMethods.i4vec_data_read(filename_ccc, n + 1, ref ccc);
+        string filename_ccc = prefix + "_ccc.txt";
+        typeMethods.i4vec_data_read(filename_ccc, n + 1, ref ccc);
 
-            string filename_acc = prefix + "_acc.txt";
-            typeMethods.r8vec_data_read(filename_acc, ncc, ref acc);
-        }
+        string filename_acc = prefix + "_acc.txt";
+        typeMethods.r8vec_data_read(filename_acc, ncc, ref acc);
+    }
 
-        public static void ccs_header_read(string prefix, ref int ncc, ref int n )
+    public static void ccs_header_read(string prefix, ref int ncc, ref int n )
 
         //****************************************************************************80
         //
@@ -96,16 +96,16 @@ namespace Burkardt.Storage
         //
         //    Output, int &N, the number of columns in the matrix.
         //
-        {
-            string filename_icc = prefix + "_icc.txt";
-            ncc = TableMisc.file_row_count(filename_icc);
+    {
+        string filename_icc = prefix + "_icc.txt";
+        ncc = TableMisc.file_row_count(filename_icc);
 
-            string filename_ccc = prefix + "_ccc.txt";
-            n = TableMisc.file_row_count(filename_ccc) - 1;
-        }
+        string filename_ccc = prefix + "_ccc.txt";
+        n = TableMisc.file_row_count(filename_ccc) - 1;
+    }
 
-        public static void ccs_print(int m, int n, int ncc, int[] icc, int[] ccc, double[] acc,
-        string title )
+    public static void ccs_print(int m, int n, int ncc, int[] icc, int[] ccc, double[] acc,
+            string title )
 
         //****************************************************************************80
         //
@@ -141,18 +141,20 @@ namespace Burkardt.Storage
         //
         //    Input, string TITLE, a title.
         //
+    {
+        int i;
+        int j;
+        int k;
+
+        Console.WriteLine("");
+        Console.WriteLine(title + "");
+        Console.WriteLine("     #     I     J         A");
+        Console.WriteLine("  ----  ----  ----  ----------------");
+        Console.WriteLine("");
+
+        switch (ccc[0])
         {
-            int i;
-            int j;
-            int k;
-
-            Console.WriteLine("");
-            Console.WriteLine(title + "");
-            Console.WriteLine("     #     I     J         A");
-            Console.WriteLine("  ----  ----  ----  ----------------");
-            Console.WriteLine("");
-
-            if (ccc[0] == 0)
+            case 0:
             {
                 j = 0;
                 for (k = 0; k < ncc; k++)
@@ -160,16 +162,18 @@ namespace Burkardt.Storage
                     i = icc[k];
                     while (ccc[j + 1] <= k)
                     {
-                        j = j + 1;
+                        j += 1;
                     }
 
                     Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                        + i.ToString().PadLeft(4) + "  "
-                        + j.ToString().PadLeft(4) + "  "
-                        + acc[k].ToString().PadLeft(16) + "");
+                                                              + i.ToString().PadLeft(4) + "  "
+                                                              + j.ToString().PadLeft(4) + "  "
+                                                              + acc[k].ToString().PadLeft(16) + "");
                 }
+
+                break;
             }
-            else
+            default:
             {
                 j = 1;
                 for (k = 0; k < ncc; k++)
@@ -177,20 +181,21 @@ namespace Burkardt.Storage
                     i = icc[k];
                     while (ccc[j] <= k + 1)
                     {
-                        j = j + 1;
+                        j += 1;
                     }
 
                     Console.WriteLine((k + 1).ToString().PadLeft(4) + "  "
-                        + i.ToString().PadLeft(4) + "  "
-                        + j.ToString().PadLeft(4) + "  "
-                        + acc[k].ToString().PadLeft(16) + "");
+                                                                    + i.ToString().PadLeft(4) + "  "
+                                                                    + j.ToString().PadLeft(4) + "  "
+                                                                    + acc[k].ToString().PadLeft(16) + "");
                 }
+
+                break;
             }
-
-            return;
         }
+    }
 
-        public static void ccs_print_some(int i_min, int i_max, int j_min, int j_max, int ncc,
+    public static void ccs_print_some(int i_min, int i_max, int j_min, int j_max, int ncc,
             int n, int[] icc, int[] ccc, double[] acc, string title )
 
         //****************************************************************************80
@@ -230,18 +235,20 @@ namespace Burkardt.Storage
         //
         //    Input, string TITLE, a title.
         //
+    {
+        int i;
+        int j;
+        int k;
+
+        Console.WriteLine("");
+        Console.WriteLine(title + "");
+        Console.WriteLine("     #     I     J         A");
+        Console.WriteLine("  ----  ----  ----  ----------------");
+        Console.WriteLine("");
+
+        switch (ccc[0])
         {
-            int i;
-            int j;
-            int k;
-
-            Console.WriteLine("");
-            Console.WriteLine(title + "");
-            Console.WriteLine("     #     I     J         A");
-            Console.WriteLine("  ----  ----  ----  ----------------");
-            Console.WriteLine("");
-
-            if (ccc[0] == 0)
+            case 0:
             {
                 j = 0;
                 for (k = 0; k < ncc; k++)
@@ -249,20 +256,22 @@ namespace Burkardt.Storage
                     i = icc[k];
                     while (ccc[j + 2] <= k)
                     {
-                        j = j + 1;
+                        j += 1;
                     }
 
                     if (i_min <= i && i <= i_max &&
                         j_min <= j && j <= j_max)
                     {
                         Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                            + i.ToString().PadLeft(4) + "  "
-                            + j.ToString().PadLeft(4) + "  "
-                            + acc[k].ToString().PadLeft(16) + "");
+                                                                  + i.ToString().PadLeft(4) + "  "
+                                                                  + j.ToString().PadLeft(4) + "  "
+                                                                  + acc[k].ToString().PadLeft(16) + "");
                     }
                 }
+
+                break;
             }
-            else
+            default:
             {
                 j = 1;
                 for (k = 0; k < ncc; k++)
@@ -270,23 +279,26 @@ namespace Burkardt.Storage
                     i = icc[k];
                     while (ccc[j + 1] <= k + 1)
                     {
-                        j = j + 1;
+                        j += 1;
                     }
 
                     if (i_min <= i && i <= i_max &&
                         j_min <= j && j <= j_max)
                     {
                         Console.WriteLine((k + 1).ToString().PadLeft(4) + "  "
-                            + i.ToString().PadLeft(4) + "  "
-                            + j.ToString().PadLeft(4) + "  "
-                            + acc[k].ToString().PadLeft(16) + "");
+                                                                        + i.ToString().PadLeft(4) + "  "
+                                                                        + j.ToString().PadLeft(4) + "  "
+                                                                        + acc[k].ToString().PadLeft(16) + "");
                     }
                 }
+
+                break;
             }
         }
+    }
 
-        public static void ccs_write(string prefix, int ncc, int n, int[] icc, int[] ccc,
-        double[] acc )
+    public static void ccs_write(string prefix, int ncc, int n, int[] icc, int[] ccc,
+            double[] acc )
 
         //****************************************************************************80
         //
@@ -327,19 +339,19 @@ namespace Burkardt.Storage
         //
         //    Input, double ACC[NCC], the CCS values.
         //
-        {
-            string filename_icc = prefix + "_icc.txt";
-            typeMethods.i4vec_write(filename_icc, ncc, icc);
+    {
+        string filename_icc = prefix + "_icc.txt";
+        typeMethods.i4vec_write(filename_icc, ncc, icc);
 
-            string filename_ccc = prefix + "_ccc.txt";
-            typeMethods.i4vec_write(filename_ccc, n + 1, ccc);
+        string filename_ccc = prefix + "_ccc.txt";
+        typeMethods.i4vec_write(filename_ccc, n + 1, ccc);
 
-            string filename_acc = prefix + "_acc.txt";
-            typeMethods.r8vec_write(filename_acc, ncc, acc);
-        }
+        string filename_acc = prefix + "_acc.txt";
+        typeMethods.r8vec_write(filename_acc, ncc, acc);
+    }
         
-        public static void ccs_to_st ( int m, int n, int ncc, int[] icc, int[] ccc, double[] acc, 
-        ref int nst, ref int[] ist, ref int[] jst, ref double[] ast )
+    public static void ccs_to_st ( int m, int n, int ncc, int[] icc, int[] ccc, double[] acc, 
+            ref int nst, ref int[] ist, ref int[] jst, ref double[] ast )
 
         //****************************************************************************80
         //
@@ -384,17 +396,19 @@ namespace Burkardt.Storage
         //
         //    Output, double AST[NST], the ST values.
         //
+    {
+        int j;
+        int jhi;
+        int jlo;
+        int k;
+        int khi;
+        int klo;
+
+        nst = 0;
+
+        switch (ccc[0])
         {
-            int j;
-            int jhi;
-            int jlo;
-            int k;
-            int khi;
-            int klo;
-
-            nst = 0;
-
-            if ( ccc[0] == 0 )
+            case 0:
             {
                 jlo = 0;
                 jhi = n - 1;
@@ -409,11 +423,13 @@ namespace Burkardt.Storage
                         ist[nst] = icc[k];
                         jst[nst] = j;
                         ast[nst] = acc[k];
-                        nst = nst + 1;
+                        nst += 1;
                     }
                 }
+
+                break;
             }
-            else
+            default:
             {
                 jlo = 1;
                 jhi = n;
@@ -428,14 +444,17 @@ namespace Burkardt.Storage
                         ist[nst] = icc[k-1];
                         jst[nst] = j;
                         ast[nst] = acc[k-1];
-                        nst = nst + 1;
+                        nst += 1;
                     }
                 }
+
+                break;
             }
         }
+    }
         
-        public static double[] ccs_mv ( int m, int n, int ncc, int[] icc, int[] ccc, double[] acc, 
-        double[] x )
+    public static double[] ccs_mv ( int m, int n, int ncc, int[] icc, int[] ccc, double[] acc, 
+            double[] x )
 
         //****************************************************************************80
         //
@@ -479,30 +498,29 @@ namespace Burkardt.Storage
         //
         //    Output, double ccs_MV[M], the product A*X.
         //
+    {
+        double[] b;
+        int i;
+        int j;
+        int k;
+
+        b = new double[m];
+
+        for ( i = 0; i < m; i++ )
         {
-            double[] b;
-            int i;
-            int j;
-            int k;
-
-            b = new double[m];
-
-            for ( i = 0; i < m; i++ )
-            {
-                b[i] = 0.0;
-            }
-
-            for ( j = 0; j < n; j++ )
-            {
-                for ( k = ccc[j]; k < ccc[j+1]; k++ )
-                {
-                    i = icc[k];
-                    b[i] = b[i] + acc[k] * x[j];
-                }
-            }
-
-            return b;
+            b[i] = 0.0;
         }
-        
+
+        for ( j = 0; j < n; j++ )
+        {
+            for ( k = ccc[j]; k < ccc[j+1]; k++ )
+            {
+                i = icc[k];
+                b[i] += acc[k] * x[j];
+            }
+        }
+
+        return b;
     }
+        
 }

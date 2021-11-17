@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void beta_inc_values(ref int n_data, ref double a, ref double b, ref double x,
-        ref double fx )
+    public static void beta_inc_values(ref int n_data, ref double a, ref double b, ref double x,
+            ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -82,10 +82,10 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 45;
+    {
+        const int N_MAX = 45;
 
-            double[] a_vec =
+        double[] a_vec =
             {
                 0.5E+00,
                 0.5E+00,
@@ -135,7 +135,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] b_vec =
+        double[] b_vec =
             {
                 0.5E+00,
                 0.5E+00,
@@ -185,7 +185,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.6376856085851985E-01,
                 0.2048327646991335E+00,
@@ -235,7 +235,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.01E+00,
                 0.10E+00,
@@ -285,28 +285,28 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                b = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                b = b_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            b = 0.0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            a = a_vec[n_data - 1];
+            b = b_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

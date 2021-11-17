@@ -1,9 +1,9 @@
-﻿namespace TriangulationMaskTest
+﻿namespace TriangulationMaskTest;
+
+public static class P15
 {
-    public static class P15
-    {
-        public static bool triangle_mask ( int dim_num, int triangle_order, int[] nodes, 
-        double[] coord )
+    public static bool triangle_mask ( int dim_num, int triangle_order, int[] nodes, 
+            double[] coord )
 
         //****************************************************************************80
         //
@@ -43,46 +43,38 @@
         //    Output, bool TRIANGLE_MASK, is TRUE if the triangle should be discarded,
         //    and FALSE if the triangle should be retained.
         //
+    {
+        double[] centroid = new double[2];
+        int dim;
+        bool mask;
+        int order;
+        //
+        //  Compute the centroid.
+        //
+        for ( dim = 0; dim < 2; dim++ )
         {
-            double[] centroid = new double[2];
-            int dim;
-            bool mask;
-            int order;
-            //
-            //  Compute the centroid.
-            //
-            for ( dim = 0; dim < 2; dim++ )
+            centroid[dim] = 0.0;
+            for ( order = 0; order < triangle_order; order++ )
             {
-                centroid[dim] = 0.0;
-                for ( order = 0; order < triangle_order; order++ )
-                {
-                    centroid[dim] = centroid[dim] + coord[dim+order*dim_num];
-                }
-                centroid[dim] = centroid[dim] / ( double ) ( triangle_order );
+                centroid[dim] += coord[dim+order*dim_num];
             }
+            centroid[dim] /= triangle_order;
+        }
+
+        switch (centroid[0])
+        {
             //
             //  MASK = The centroid is outside the region.
             //
-            if (      -8.0 <= centroid[0]        &&
-                      centroid[0] <= 2.0 &&
-                      -1.0 <= centroid[1]        &&
-                      centroid[1] <= 0.0 )
-            {
+            case >= -8.0 and <= 2.0 when -1.0 <= centroid[1] && centroid[1] <= 0.0:
+            case >= -2.0 and <= 8.0 when 0.0 <= centroid[1] && centroid[1] <= 1.0:
                 mask = false;
-            }
-            else if ( -2.0 <= centroid[0]        &&
-                      centroid[0] <= 8.0 &&
-                      0.0 <= centroid[1]        &&
-                      centroid[1] <= 1.0 )
-            {
-                mask = false;
-            }
-            else
-            {
+                break;
+            default:
                 mask = true;
-            }
-
-            return mask;
+                break;
         }
+
+        return mask;
     }
 }

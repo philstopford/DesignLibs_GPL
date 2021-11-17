@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 using Burkardt.Types;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZGBDI
 {
-    public static class ZGBDI
-    {
-        public static void zgbdi(Complex[] abd, int lda, int n, int ml, int mu, int[] ipvt,
+    public static void zgbdi(Complex[] abd, int lda, int n, int ml, int mu, int[] ipvt,
             ref Complex[] det )
 
         //****************************************************************************80
@@ -56,42 +56,41 @@ namespace Burkardt.Linpack
         //    Determinant = DET(1) * 10.0**DET(2) with 1.0 <= zabs1 ( DET(1) ) < 10.0
         //    or DET(1) = 0.0.  Also, DET(2) is strictly real.
         //
+    {
+        int i;
+        int m;
+
+        m = ml + mu + 1;
+        det[0] = new Complex(1.0, 0.0);
+        det[1] = new Complex(0.0, 0.0);
+
+        for (i = 1; i <= n; i++)
         {
-            int i;
-            int m;
-
-            m = ml + mu + 1;
-            det[0] = new Complex(1.0, 0.0);
-            det[1] = new Complex(0.0, 0.0);
-
-            for (i = 1; i <= n; i++)
+            if (ipvt[i - 1] != i)
             {
-                if (ipvt[i - 1] != i)
-                {
-                    det[0] = -det[0];
-                }
-
-                det[0] = det[0] * abd[m - 1 + (i - 1) * lda];
-
-                if (typeMethods.zabs1(det[0]) == 0.0)
-                {
-                    break;
-                }
-
-                while (typeMethods.zabs1(det[0]) < 1.0)
-                {
-                    det[0] = det[0] * new Complex(10.0, 0.0);
-                    det[1] = det[1] - new Complex(1.0, 0.0);
-                }
-
-                while (10.0 <= typeMethods.zabs1(det[0]))
-                {
-                    det[0] = det[0] / new Complex(10.0, 0.0);
-                    det[1] = det[1] + new Complex(1.0, 0.0);
-                }
-
+                det[0] = -det[0];
             }
-        }
 
+            det[0] *= abd[m - 1 + (i - 1) * lda];
+
+            if (typeMethods.zabs1(det[0]) == 0.0)
+            {
+                break;
+            }
+
+            while (typeMethods.zabs1(det[0]) < 1.0)
+            {
+                det[0] *= new Complex(10.0, 0.0);
+                det[1] -= new Complex(1.0, 0.0);
+            }
+
+            while (10.0 <= typeMethods.zabs1(det[0]))
+            {
+                det[0] /= new Complex(10.0, 0.0);
+                det[1] += new Complex(1.0, 0.0);
+            }
+
+        }
     }
+
 }

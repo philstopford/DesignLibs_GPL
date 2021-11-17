@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Cauchy
 {
-    public static class Cauchy
-    {
-        public static double cauchy_cdf(double x, double a, double b)
+    public static double cauchy_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,17 +33,17 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
-        {
+    {
             
 
-            double y = (x - a) / b;
+        double y = (x - a) / b;
 
-            double cdf = 0.5 + Math.Atan(y) / Math.PI;
+        double cdf = 0.5 + Math.Atan(y) / Math.PI;
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double cauchy_cdf_inv(double cdf, double a, double b)
+    public static double cauchy_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -72,24 +72,28 @@ namespace Burkardt.Probability
         //
         //    Output, double CAUCHY_CDF_INV, the corresponding argument.
         //
-        {
+    {
             
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CAUCHY_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
+            default:
+            {
+                double x = a + b * Math.Tan(Math.PI * (cdf - 0.5));
+
+                return x;
             }
-
-            double x = a + b * Math.Tan(Math.PI * (cdf - 0.5));
-
-            return x;
         }
+    }
 
-        public static void cauchy_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
-                                        ref double fx )
+    public static void cauchy_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
+            ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -146,100 +150,99 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 12;
+
+        double[] fx_vec =
         {
-            int N_MAX = 12;
+            0.5000000000000000E+00,
+            0.8524163823495667E+00,
+            0.9220208696226307E+00,
+            0.9474315432887466E+00,
+            0.6475836176504333E+00,
+            0.6024163823495667E+00,
+            0.5779791303773693E+00,
+            0.5628329581890012E+00,
+            0.6475836176504333E+00,
+            0.5000000000000000E+00,
+            0.3524163823495667E+00,
+            0.2500000000000000E+00
+        };
 
-            double[] fx_vec =
-            {
-                0.5000000000000000E+00,
-                0.8524163823495667E+00,
-                0.9220208696226307E+00,
-                0.9474315432887466E+00,
-                0.6475836176504333E+00,
-                0.6024163823495667E+00,
-                0.5779791303773693E+00,
-                0.5628329581890012E+00,
-                0.6475836176504333E+00,
-                0.5000000000000000E+00,
-                0.3524163823495667E+00,
-                0.2500000000000000E+00
-            };
+        double[] mu_vec =
+        {
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01
+        };
 
-            double[] mu_vec =
-            {
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01
-            };
+        double[] sigma_vec =
+        {
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01
+        };
 
-            double[] sigma_vec =
-            {
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01
-            };
+        double[] x_vec =
+        {
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01
+        };
 
-            double[] x_vec =
-            {
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                mu = 0.0;
-                sigma = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                mu = mu_vec[n_data - 1];
-                sigma = sigma_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-
-            return;
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            mu = 0.0;
+            sigma = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            mu = mu_vec[n_data - 1];
+            sigma = sigma_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool cauchy_check(double a, double b)
+    public static bool cauchy_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -265,19 +268,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool CAUCHY_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CAUCHY_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double cauchy_mean(double a, double b)
+    public static double cauchy_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -303,13 +307,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double cauchy_pdf(double x, double a, double b)
+    public static double cauchy_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -349,17 +353,17 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double y = (x - a) / b;
+        double y = (x - a) / b;
 
-            double pdf = 1.0 / (Math.PI * b * (1.0 + y * y));
+        double pdf = 1.0 / (Math.PI * b * (1.0 + y * y));
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double cauchy_sample(double a, double b, ref int seed)
+    public static double cauchy_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -387,15 +391,15 @@ namespace Burkardt.Probability
         //
         //    Output, double CAUCHY_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = cauchy_cdf_inv(cdf, a, b);
+        double x = cauchy_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double cauchy_variance(double a, double b)
+    public static double cauchy_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -427,12 +431,11 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the mean of the PDF.
         //
-        {
-            const double r8_huge = 1.0E+30;
+    {
+        const double r8_huge = 1.0E+30;
 
-            double variance = r8_huge;
+        double variance = r8_huge;
 
-            return variance;
-        }
+        return variance;
     }
 }

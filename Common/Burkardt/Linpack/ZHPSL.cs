@@ -2,96 +2,98 @@
 using System.Numerics;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZHPSL
 {
-    public static class ZHPSL
+    public static void zhpsl(Complex[] ap, int n, int[] ipvt, ref Complex[] b)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ZHPSL solves a complex hermitian system factored by ZHPFA.
+        //
+        //  Discussion:
+        //
+        //    A division by zero may occur if ZHPCO set RCOND to 0.0
+        //    or ZHPFA set INFO nonzero.
+        //
+        //    To compute
+        //
+        //      inverse ( A ) * C
+        //
+        //    where C is a matrix with P columns
+        //
+        //      call zhpfa(ap,n,ipvt,info)
+        //
+        //      if ( info == 0 )
+        //        do j = 1, p
+        //          call zhpsl(ap,n,ipvt,c(1,j))
+        //        end do
+        //      }
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    21 May 2006
+        //
+        //  Author:
+        //
+        //    C++ version by John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, (Society for Industrial and Applied Mathematics),
+        //    3600 University City Science Center,
+        //    Philadelphia, PA, 19104-2688.
+        //
+        //  Parameters:
+        //
+        //    Input, Complex AP[N*(N+1)/2], the output from ZHPFA.
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, int IPVT[N], the pivot vector from ZHPFA.
+        //
+        //    Input/output, Complex B[N].  On input, the right hand side.
+        //    On output, the solution.
+        //
     {
-        public static void zhpsl(Complex[] ap, int n, int[] ipvt, ref Complex[] b)
+        Complex ak;
+        Complex akm1;
+        Complex bk;
+        Complex bkm1;
+        Complex denom;
+        int ik;
+        int ikm1;
+        int ikp1;
+        int k;
+        int kk;
+        int km1k;
+        int km1km1;
+        int kp;
+        Complex t;
+        //
+        //  Loop backward applying the transformations and inverse ( D ) to B.
+        //
+        k = n;
+        ik = n * (n - 1) / 2;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ZHPSL solves a complex hermitian system factored by ZHPFA.
-            //
-            //  Discussion:
-            //
-            //    A division by zero may occur if ZHPCO set RCOND to 0.0
-            //    or ZHPFA set INFO nonzero.
-            //
-            //    To compute
-            //
-            //      inverse ( A ) * C
-            //
-            //    where C is a matrix with P columns
-            //
-            //      call zhpfa(ap,n,ipvt,info)
-            //
-            //      if ( info == 0 )
-            //        do j = 1, p
-            //          call zhpsl(ap,n,ipvt,c(1,j))
-            //        end do
-            //      }
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    21 May 2006
-            //
-            //  Author:
-            //
-            //    C++ version by John Burkardt
-            //
-            //  Reference:
-            //
-            //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
-            //    LINPACK User's Guide,
-            //    SIAM, (Society for Industrial and Applied Mathematics),
-            //    3600 University City Science Center,
-            //    Philadelphia, PA, 19104-2688.
-            //
-            //  Parameters:
-            //
-            //    Input, Complex AP[N*(N+1)/2], the output from ZHPFA.
-            //
-            //    Input, int N, the order of the matrix.
-            //
-            //    Input, int IPVT[N], the pivot vector from ZHPFA.
-            //
-            //    Input/output, Complex B[N].  On input, the right hand side.
-            //    On output, the solution.
-            //
+        while (0 < k)
         {
-            Complex ak;
-            Complex akm1;
-            Complex bk;
-            Complex bkm1;
-            Complex denom;
-            int ik;
-            int ikm1;
-            int ikp1;
-            int k;
-            int kk;
-            int km1k;
-            int km1km1;
-            int kp;
-            Complex t;
-            //
-            //  Loop backward applying the transformations and inverse ( D ) to B.
-            //
-            k = n;
-            ik = (n * (n - 1)) / 2;
-
-            while (0 < k)
+            kk = ik + k;
+            switch (ipvt[k - 1])
             {
-                kk = ik + k;
                 //
                 //  1 x 1 pivot block.
                 //
-                if (0 <= ipvt[k - 1])
+                case >= 0:
                 {
                     if (k != 1)
                     {
@@ -110,11 +112,12 @@ namespace Burkardt.Linpack
                     //
                     //  Apply D inverse.
                     //
-                    b[k - 1] = b[k - 1] / ap[kk - 1];
-                    k = k - 1;
-                    ik = ik - k;
+                    b[k - 1] /= ap[kk - 1];
+                    k -= 1;
+                    ik -= k;
+                    break;
                 }
-                else
+                default:
                 {
                     //
                     //  2 x 2 pivot block.
@@ -149,27 +152,31 @@ namespace Burkardt.Linpack
                     denom = ak * akm1 - new Complex(1.0, 0.0);
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
                     b[k - 2] = (ak * bkm1 - bk) / denom;
-                    k = k - 2;
+                    k -= 2;
                     ik = ik - (k + 1) - k;
+                    break;
                 }
             }
+        }
 
-            //
-            //  Loop forward applying the transformations.
-            //
-            k = 1;
-            ik = 0;
+        //
+        //  Loop forward applying the transformations.
+        //
+        k = 1;
+        ik = 0;
 
-            while (k <= n)
+        while (k <= n)
+        {
+            switch (ipvt[k - 1])
             {
                 //
                 //  1 x 1 pivot block.
                 //
-                if (0 <= ipvt[k - 1])
+                case >= 0:
                 {
                     if (k != 1)
                     {
-                        b[k - 1] = b[k - 1] + BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ik);
+                        b[k - 1] += BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ik);
                         kp = ipvt[k - 1];
 
                         if (kp != k)
@@ -180,19 +187,18 @@ namespace Burkardt.Linpack
                         }
                     }
 
-                    ik = ik + k;
-                    k = k + 1;
+                    ik += k;
+                    k += 1;
+                    break;
                 }
                 //
-                //  2 x 2 pivot block.
-                //
-                else
+                default:
                 {
                     if (k != 1)
                     {
-                        b[k - 1] = b[k - 1] + BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ik);
+                        b[k - 1] += BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ik);
                         ikp1 = ik + k;
-                        b[k] = b[k] + BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ikp1);
+                        b[k] += BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ikp1);
                         kp = Math.Abs(ipvt[k - 1]);
 
                         if (kp != k)
@@ -204,10 +210,11 @@ namespace Burkardt.Linpack
                     }
 
                     ik = ik + k + k + 1;
-                    k = k + 2;
+                    k += 2;
+                    break;
                 }
             }
         }
-
     }
+
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Chebyshev
+namespace Burkardt.Chebyshev;
+
+public static class Chebyshev1
 {
-    public static class Chebyshev1
-    {
-        public static void chebyshev1_compute_np ( int n, int np, double[] p, ref double[] x,
-        ref double[] w )
+    public static void chebyshev1_compute_np ( int n, int np, double[] p, ref double[] x,
+            ref double[] w )
 
         //****************************************************************************80
         //
@@ -57,10 +57,10 @@ namespace Burkardt.Chebyshev
         //
         //    Output, double W[N], the weights.
         //
-        {
-            chebyshev1_compute ( n, ref x, ref w );
-        }
-        public static void chebyshev1_compute ( int n, ref double[] x, ref double[] w )
+    {
+        chebyshev1_compute ( n, ref x, ref w );
+    }
+    public static void chebyshev1_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -108,32 +108,33 @@ namespace Burkardt.Chebyshev
         //
         //    Output, double W[N], the weights.
         //
-        {
-            int i;
+    {
+        int i;
             
 
-            if ( n < 1 )
-            {
+        switch (n)
+        {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("CHEBYSHEV1_COMPUTE - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 return;
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                w[i] = Math.PI / ( double ) ( n );
-            }
-            for ( i = 0; i < n; i++ )
-            {
-                x[i] = Math.Cos ( Math.PI * ( double ) ( 2 * n - 1 - 2 * i )
-                                  / ( double ) ( 2 * n ) );
-            }
-            if ( ( n % 2 ) == 1 )
-            {
-                x[(n-1)/2] = 0.0;
-            }
-
         }
+
+        for ( i = 0; i < n; i++ )
+        {
+            w[i] = Math.PI / n;
+        }
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = Math.Cos ( Math.PI * (2 * n - 1 - 2 * i)
+                              / (2 * n) );
+        }
+
+        x[(n - 1) / 2] = (n % 2) switch
+        {
+            1 => 0.0,
+            _ => x[(n - 1) / 2]
+        };
     }
 }

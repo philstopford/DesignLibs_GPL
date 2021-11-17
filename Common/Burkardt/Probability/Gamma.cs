@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Gamma
 {
-    public static class Gamma
-    {
-        public static double gamma_cdf(double x, double a, double b, double c)
+    public static double gamma_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -36,16 +36,16 @@ namespace Burkardt.Probability
         //
         //    Output, double GAMMA_CDF, the value of the CDF.
         //
-        {
-            double x2 = (x - a) / b;
-            double p2 = c;
+    {
+        double x2 = (x - a) / b;
+        double p2 = c;
 
-            double cdf = typeMethods.r8_gamma_inc(p2, x2);
+        double cdf = typeMethods.r8_gamma_inc(p2, x2);
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static void gamma_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
+    public static void gamma_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
             ref double fx )
         //****************************************************************************80
         //
@@ -103,98 +103,99 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 12;
+
+        double[] fx_vec =
         {
-            int N_MAX = 12;
+            0.8646647167633873E+00,
+            0.9816843611112658E+00,
+            0.9975212478233336E+00,
+            0.9996645373720975E+00,
+            0.6321205588285577E+00,
+            0.4865828809674080E+00,
+            0.3934693402873666E+00,
+            0.3296799539643607E+00,
+            0.4421745996289254E+00,
+            0.1911531694619419E+00,
+            0.6564245437845009E-01,
+            0.1857593622214067E-01
+        };
 
-            double[] fx_vec =
-            {
-                0.8646647167633873E+00,
-                0.9816843611112658E+00,
-                0.9975212478233336E+00,
-                0.9996645373720975E+00,
-                0.6321205588285577E+00,
-                0.4865828809674080E+00,
-                0.3934693402873666E+00,
-                0.3296799539643607E+00,
-                0.4421745996289254E+00,
-                0.1911531694619419E+00,
-                0.6564245437845009E-01,
-                0.1857593622214067E-01
-            };
+        double[] mu_vec =
+        {
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01
+        };
 
-            double[] mu_vec =
-            {
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01
-            };
+        double[] sigma_vec =
+        {
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01
+        };
 
-            double[] sigma_vec =
-            {
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01
-            };
+        double[] x_vec =
+        {
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01
+        };
 
-            double[] x_vec =
-            {
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                mu = 0.0;
-                sigma = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                mu = mu_vec[n_data - 1];
-                sigma = sigma_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            mu = 0.0;
+            sigma = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            mu = mu_vec[n_data - 1];
+            sigma = sigma_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool gamma_check(double a, double b, double c)
+    public static bool gamma_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -221,29 +222,31 @@ namespace Burkardt.Probability
         //
         //    Output, bool GAMMA_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GAMMA_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 Console.WriteLine("  B = " + b + "");
                 return false;
-            }
+        }
 
-            if (c <= 0.0)
-            {
+        switch (c)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GAMMA_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 Console.WriteLine("  C = " + c + "");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double gamma_mean(double a, double b, double c)
+    public static double gamma_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -270,13 +273,13 @@ namespace Burkardt.Probability
         //
         //    Output, double GAMMA_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a + b * c;
+    {
+        double mean = a + b * c;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double gamma_pdf(double x, double a, double b, double c)
+    public static double gamma_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -316,25 +319,25 @@ namespace Burkardt.Probability
         //
         //    Output, double GAMMA_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+        double y;
+
+        if (x <= a)
         {
-            double pdf;
-            double y;
+            pdf = 0.0;
+        }
+        else
+        {
+            y = (x - a) / b;
 
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                y = (x - a) / b;
-
-                pdf = Math.Pow(y, c - 1.0) / (b * Helpers.Gamma(c) * Math.Exp(y));
-            }
-
-            return pdf;
+            pdf = Math.Pow(y, c - 1.0) / (b * Helpers.Gamma(c) * Math.Exp(y));
         }
 
-        public static double gamma_sample(double a, double b, double c, ref int seed)
+        return pdf;
+    }
+
+    public static double gamma_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -383,44 +386,43 @@ namespace Burkardt.Probability
         //
         //    Output, double GAMMA_SAMPLE, a sample of the PDF.
         //
+    {
+        double a1 = 0.3333333;
+        double a2 = -0.2500030;
+        double a3 = 0.2000062;
+        double a4 = -0.1662921;
+        double a5 = 0.1423657;
+        double a6 = -0.1367177;
+        double a7 = 0.1233795;
+        double e1 = 1.0;
+        double e2 = 0.4999897;
+        double e3 = 0.1668290;
+        double e4 = 0.0407753;
+        double e5 = 0.0102930;
+        double euler = 2.71828182845904;
+        double q1 = 0.04166669;
+        double q2 = 0.02083148;
+        double q3 = 0.00801191;
+        double q4 = 0.00144121;
+        double q5 = -0.00007388;
+        double q6 = 0.00024511;
+        double q7 = 0.00024240;
+        double s;
+        double t;
+        double u;
+        double x;
+        switch (c)
         {
-            double a1 = 0.3333333;
-            double a2 = -0.2500030;
-            double a3 = 0.2000062;
-            double a4 = -0.1662921;
-            double a5 = 0.1423657;
-            double a6 = -0.1367177;
-            double a7 = 0.1233795;
-            double e1 = 1.0;
-            double e2 = 0.4999897;
-            double e3 = 0.1668290;
-            double e4 = 0.0407753;
-            double e5 = 0.0102930;
-            double euler = 2.71828182845904;
-            double q1 = 0.04166669;
-            double q2 = 0.02083148;
-            double q3 = 0.00801191;
-            double q4 = 0.00144121;
-            double q5 = -0.00007388;
-            double q6 = 0.00024511;
-            double q7 = 0.00024240;
-            double s;
-            double t;
-            double u;
-            double x;
             //
             //  Allow C = 0.
             //
-            if (c == 0.0)
-            {
+            case 0.0:
                 x = a;
                 return x;
-            }
-
             //
             //  C < 1.
             //
-            if (c < 1.0)
+            case < 1.0:
             {
                 for (;;)
                 {
@@ -452,21 +454,20 @@ namespace Burkardt.Probability
                 return x;
             }
             //
-            //  1 <= C.
-            //
-            else
+            default:
             {
                 double s2 = c - 0.5;
                 s = Math.Sqrt(c - 0.5);
                 double d = Math.Sqrt(32.0) - 12.0 * Math.Sqrt(c - 0.5);
 
                 t = Normal.normal_01_sample(ref seed);
-                x = Math.Pow((Math.Sqrt(c - 0.5) + 0.5 * t), 2);
+                x = Math.Pow(Math.Sqrt(c - 0.5) + 0.5 * t, 2);
 
-                if (0.0 <= t)
+                switch (t)
                 {
-                    x = a + b * x;
-                    return x;
+                    case >= 0.0:
+                        x = a + b * x;
+                        return x;
                 }
 
                 u = UniformRNG.r8_uniform_01(ref seed);
@@ -491,51 +492,47 @@ namespace Burkardt.Probability
                 double bcoef;
                 double si;
                 double co;
-                if (c <= 3.686)
+                switch (c)
                 {
-                    bcoef = 0.463 + s - 0.178 * s2;
-                    si = 1.235;
-                    co = 0.195 / s - 0.079 + 0.016 * s;
-                }
-                else if (c <= 13.022)
-                {
-                    bcoef = 1.654 + 0.0076 * s2;
-                    si = 1.68 / s + 0.275;
-                    co = 0.062 / s + 0.024;
-                }
-                else
-                {
-                    bcoef = 1.77;
-                    si = 0.75;
-                    co = 0.1515 / s;
+                    case <= 3.686:
+                        bcoef = 0.463 + s - 0.178 * s2;
+                        si = 1.235;
+                        co = 0.195 / s - 0.079 + 0.016 * s;
+                        break;
+                    case <= 13.022:
+                        bcoef = 1.654 + 0.0076 * s2;
+                        si = 1.68 / s + 0.275;
+                        co = 0.062 / s + 0.024;
+                        break;
+                    default:
+                        bcoef = 1.77;
+                        si = 0.75;
+                        co = 0.1515 / s;
+                        break;
                 }
 
                 double v;
                 double q;
-                if (0.0 < Math.Sqrt(c - 0.5) + 0.5 * t)
+                switch (Math.Sqrt(c - 0.5) + 0.5 * t)
                 {
-                    v = 0.5 * t / s;
+                    case > 0.0:
+                    {
+                        v = 0.5 * t / s;
 
-                    if (0.25 < Math.Abs(v))
-                    {
-                        q = q0 - s * t + 0.25 * t * t + 2.0 * s2 * Math.Log(1.0 + v);
-                    }
-                    else
-                    {
-                        q = q0 + 0.5 * t * t * ((((((
-                                                        a7 * v
-                                                        + a6) * v
-                                                    + a5) * v
-                                                   + a4) * v
-                                                  + a3) * v
-                                                 + a2) * v
-                                                + a1) * v;
-                    }
+                        q = Math.Abs(v) switch
+                        {
+                            > 0.25 => q0 - s * t + 0.25 * t * t + 2.0 * s2 * Math.Log(1.0 + v),
+                            _ => q0 + 0.5 * t * t *
+                                ((((((a7 * v + a6) * v + a5) * v + a4) * v + a3) * v + a2) * v + a1) * v
+                        };
 
-                    if (Math.Log(1.0 - u) <= q)
-                    {
-                        x = a + b * x;
-                        return x;
+                        if (Math.Log(1.0 - u) <= q)
+                        {
+                            x = a + b * x;
+                            return x;
+                        }
+
+                        break;
                     }
                 }
 
@@ -548,55 +545,50 @@ namespace Burkardt.Probability
                     u = 2.0 * u - 1.0;
                     t = bcoef + Math.Abs(si * e) * typeMethods.r8_sign(u);
 
-                    if (-0.7187449 <= t)
+                    switch (t)
                     {
-                        v = 0.5 * t / s;
+                        case >= -0.7187449:
+                        {
+                            v = 0.5 * t / s;
 
-                        if (0.25 < Math.Abs(v))
-                        {
-                            q = q0 - s * t + 0.25 * t * t + 2.0 * s2 * Math.Log(1.0 + v);
-                        }
-                        else
-                        {
-                            q = q0 + 0.5 * t * t * ((((((
-                                                            a7 * v
-                                                            + a6) * v
-                                                        + a5) * v
-                                                       + a4) * v
-                                                      + a3) * v
-                                                     + a2) * v
-                                                    + a1) * v;
-                        }
+                            q = Math.Abs(v) switch
+                            {
+                                > 0.25 => q0 - s * t + 0.25 * t * t + 2.0 * s2 * Math.Log(1.0 + v),
+                                _ => q0 + 0.5 * t * t *
+                                    ((((((a7 * v + a6) * v + a5) * v + a4) * v + a3) * v + a2) * v + a1) * v
+                            };
 
-                        if (0.0 < q)
-                        {
-                            double w;
-                            if (0.5 < q)
+                            switch (q)
                             {
-                                w = Math.Exp(q) - 1.0;
-                            }
-                            else
-                            {
-                                w = ((((
-                                           e5 * q
-                                           + e4) * q
-                                       + e3) * q
-                                      + e2) * q
-                                     + e1) * q;
+                                case > 0.0:
+                                {
+                                    double w = q switch
+                                    {
+                                        > 0.5 => Math.Exp(q) - 1.0,
+                                        _ => ((((e5 * q + e4) * q + e3) * q + e2) * q + e1) * q
+                                    };
+
+                                    if (co * Math.Abs(u) <= w * Math.Exp(e - 0.5 * t * t))
+                                    {
+                                        x = a + b * Math.Pow(s + 0.5 * t, 2);
+                                        return x;
+                                    }
+
+                                    break;
+                                }
                             }
 
-                            if (co * Math.Abs(u) <= w * Math.Exp(e - 0.5 * t * t))
-                            {
-                                x = a + b * Math.Pow(s + 0.5 * t, 2);
-                                return x;
-                            }
+                            break;
                         }
                     }
                 }
+
+                break;
             }
         }
+    }
 
-        public static double gamma_variance(double a, double b, double c)
+    public static double gamma_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -623,13 +615,13 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = b * b * c;
+    {
+        double variance = b * b * c;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static void gamma_inc_values(ref int n_data, ref double a, ref double x, ref double fx )
+    public static void gamma_inc_values(ref int n_data, ref double a, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -686,101 +678,101 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 20;
+
+        double[] a_vec =
         {
-            int N_MAX = 20;
+            0.10E+00,
+            0.10E+00,
+            0.10E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.10E+01,
+            0.10E+01,
+            0.10E+01,
+            0.11E+01,
+            0.11E+01,
+            0.11E+01,
+            0.20E+01,
+            0.20E+01,
+            0.20E+01,
+            0.60E+01,
+            0.60E+01,
+            0.11E+02,
+            0.26E+02,
+            0.41E+02
+        };
 
-            double[] a_vec =
-            {
-                0.10E+00,
-                0.10E+00,
-                0.10E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.10E+01,
-                0.10E+01,
-                0.10E+01,
-                0.11E+01,
-                0.11E+01,
-                0.11E+01,
-                0.20E+01,
-                0.20E+01,
-                0.20E+01,
-                0.60E+01,
-                0.60E+01,
-                0.11E+02,
-                0.26E+02,
-                0.41E+02
-            };
+        double[] fx_vec =
+        {
+            2.490302836300570E+00,
+            0.8718369702247978E+00,
+            0.1079213896175866E+00,
+            1.238121685818417E+00,
+            0.3911298052193973E+00,
+            0.01444722098952533E+00,
+            0.9048374180359596E+00,
+            0.3678794411714423E+00,
+            0.006737946999085467E+00,
+            0.8827966752611692E+00,
+            0.3908330082003269E+00,
+            0.008051456628620993E+00,
+            0.9898141728888165E+00,
+            0.5578254003710746E+00,
+            0.007295055724436130E+00,
+            114.9574754165633E+00,
+            2.440923530031405E+00,
+            280854.6620274718E+00,
+            8.576480283455533E+24,
+            2.085031346403364E+47
+        };
 
-            double[] fx_vec =
-            {
-                2.490302836300570E+00,
-                0.8718369702247978E+00,
-                0.1079213896175866E+00,
-                1.238121685818417E+00,
-                0.3911298052193973E+00,
-                0.01444722098952533E+00,
-                0.9048374180359596E+00,
-                0.3678794411714423E+00,
-                0.006737946999085467E+00,
-                0.8827966752611692E+00,
-                0.3908330082003269E+00,
-                0.008051456628620993E+00,
-                0.9898141728888165E+00,
-                0.5578254003710746E+00,
-                0.007295055724436130E+00,
-                114.9574754165633E+00,
-                2.440923530031405E+00,
-                280854.6620274718E+00,
-                8.576480283455533E+24,
-                2.085031346403364E+47
-            };
+        double[] x_vec =
+        {
+            0.30E-01,
+            0.30E+00,
+            0.15E+01,
+            0.75E-01,
+            0.75E+00,
+            0.35E+01,
+            0.10E+00,
+            0.10E+01,
+            0.50E+01,
+            0.10E+00,
+            0.10E+01,
+            0.50E+01,
+            0.15E+00,
+            0.15E+01,
+            0.70E+01,
+            0.25E+01,
+            0.12E+02,
+            0.16E+02,
+            0.25E+02,
+            0.45E+02
+        };
 
-            double[] x_vec =
-            {
-                0.30E-01,
-                0.30E+00,
-                0.15E+01,
-                0.75E-01,
-                0.75E+00,
-                0.35E+01,
-                0.10E+00,
-                0.10E+01,
-                0.50E+01,
-                0.10E+00,
-                0.10E+01,
-                0.50E+01,
-                0.15E+00,
-                0.15E+01,
-                0.70E+01,
-                0.25E+01,
-                0.12E+02,
-                0.16E+02,
-                0.25E+02,
-                0.45E+02
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            a = a_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

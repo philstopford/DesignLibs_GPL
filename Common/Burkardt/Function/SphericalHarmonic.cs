@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Function
+namespace Burkardt.Function;
+
+public static class SphericalHarmonic
 {
-    public static class SphericalHarmonic
-    {
-        public static void spherical_harmonic(int l, int m, double theta, double phi,
+    public static void spherical_harmonic(int l, int m, double theta, double phi,
             ref double[] c, ref double[] s )
 
         //****************************************************************************80
@@ -88,37 +88,43 @@ namespace Burkardt.Function
         //    Output, double C[L+1], S[L+1], the real and imaginary
         //    parts of the functions Y(L,0:L,THETA,PHI).
         //
+    {
+        double angle;
+        int i;
+        int m_abs;
+        double[] plm;
+
+        m_abs = Math.Abs(m);
+
+        plm = new double[l + 1];
+
+        PolynomialNS.Legendre.legendre_associated_normalized(l, m_abs, Math.Cos(theta), ref plm);
+
+        angle = m * phi;
+
+        switch (m)
         {
-            double angle;
-            int i;
-            int m_abs;
-            double[] plm;
-
-            m_abs = Math.Abs(m);
-
-            plm = new double[l + 1];
-
-            Burkardt.PolynomialNS.Legendre.legendre_associated_normalized(l, m_abs, Math.Cos(theta), ref plm);
-
-            angle = (double)(m) * phi;
-
-            if (0 <= m)
+            case >= 0:
             {
                 for (i = 0; i <= l; i++)
                 {
                     c[i] = plm[i] * Math.Cos(angle);
                     s[i] = plm[i] * Math.Sin(angle);
                 }
+
+                break;
             }
-            else
+            default:
             {
                 for (i = 0; i <= l; i++)
                 {
                     c[i] = -plm[i] * Math.Cos(angle);
                     s[i] = -plm[i] * Math.Sin(angle);
                 }
+
+                break;
             }
         }
-
     }
+
 }

@@ -5,398 +5,433 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace geoCoreLib
+namespace geoCoreLib;
+
+public class GCCellref : GCElement
 {
-    public class GCCellref : GCElement
+    public GeoLibPoint point { get; set; }
+    private string name;
+    public GCCell cell_ref { get; set; }
+    public GCStrans trans { get; set; }
+
+    public override void setName(string s)
     {
-        public GeoLibPoint point { get; set; }
-        string name;
-        public GCCell cell_ref { get; set; }
-        public GCStrans trans { get; set; }
+        pSetName(s);
+    }
 
-        public override void setName(string s)
-        {
-            pSetName(s);
-        }
+    private void pSetName(string s)
+    {
+        name = s;
+    }
 
-        void pSetName(string s)
-        {
-            name = s;
-        }
+    public GCCellref(GCCell c, GeoLibPoint pos)
+    {
+        pGCCellref(c, pos);
+    }
 
-        public GCCellref(GCCell c, GeoLibPoint pos)
-        {
-            pGCCellref(c, pos);
-        }
+    private void pGCCellref(GCCell c, GeoLibPoint pos)
+    {
+        cell_ref = c;
+        // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
+        layer_nr = -1;
+        datatype_nr = -1;
+        point = pos;
+        trans = new GCStrans();
+        trans.reset();
+    }
 
-        void pGCCellref(GCCell c, GeoLibPoint pos)
-        {
-            cell_ref = c;
-            // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
-            layer_nr = -1;
-            datatype_nr = -1;
-            point = pos;
-            trans = new GCStrans();
-            trans.reset();
-        }
+    public GCCellref()
+    {
+        pGCCellref();
+    }
 
-        public GCCellref()
-        {
-            pGCCellref();
-        }
+    private void pGCCellref()
+    {
+        cell_ref = null;
+        // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
+        layer_nr = -1;
+        datatype_nr = -1;
+        point = new GeoLibPoint(0, 0);
+        trans = new GCStrans();
+        trans.reset();
+    }
 
-        void pGCCellref()
-        {
-            cell_ref = null;
-            // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
-            layer_nr = -1;
-            datatype_nr = -1;
-            point = new GeoLibPoint(0, 0);
-            trans = new GCStrans();
-            trans.reset();
-        }
+    public override void setPos(GeoLibPoint p)
+    {
+        pSetPos(p);
+    }
 
-        public override void setPos(GeoLibPoint p)
-        {
-            pSetPos(p);
-        }
+    private void pSetPos(GeoLibPoint p)
+    {
+        point = new GeoLibPoint(p.X, p.Y);
+    }
 
-        void pSetPos(GeoLibPoint p)
-        {
-            point = new GeoLibPoint(p.X, p.Y);
-        }
+    public override GeoLibPoint getPos()
+    {
+        return pGetPos();
+    }
 
-        public override GeoLibPoint getPos()
-        {
-            return pGetPos();
-        }
+    private GeoLibPoint pGetPos()
+    {
+        return point;
+    }
 
-        GeoLibPoint pGetPos()
-        {
-            return point;
-        }
+    public override void minimum(GeoLibPoint p)
+    {
+        pMinimum(p);
+    }
 
-        public override void minimum(GeoLibPoint p)
+    private void pMinimum(GeoLibPoint p)
+    {
+        GeoLibPoint pos1, pos2;
+        pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
+        pos1.Y = trans.mirror_x switch
         {
-            pMinimum(p);
-        }
-
-        void pMinimum(GeoLibPoint p)
+            true => -pos1.Y,
+            _ => pos1.Y
+        };
+        switch (Math.Abs(trans.angle - 180))
         {
-            GeoLibPoint pos1, pos2;
-            pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
-            if (trans.mirror_x)
-            {
-                pos1.Y = -pos1.Y;
-            }
-            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
-            {
+            case <= double.Epsilon:
                 pos1.Y = -pos1.Y;
                 pos1.X = -pos1.X;
-            }
-            pos2 = pos1;
-            cell_ref.maximum(pos1);
-            cell_ref.minimum(pos2);
-            if (trans.mirror_x)
-            {
+                break;
+        }
+        pos2 = pos1;
+        cell_ref.maximum(pos1);
+        cell_ref.minimum(pos2);
+        switch (trans.mirror_x)
+        {
+            case true:
                 pos1.Y = -pos1.Y;
                 pos2.Y = -pos2.Y;
-            }
-            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
-            {
+                break;
+        }
+        switch (Math.Abs(trans.angle - 180))
+        {
+            case <= double.Epsilon:
                 pos1.Y = -pos1.Y;
                 pos1.X = -pos1.X;
-            }
-            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
-            {
-                pos2.Y = -pos2.Y;
-                pos2.X = -pos2.X;
-            }
-            pos1.Offset(point);
-            pos2.Offset(point);
-            p.X = Math.Min(p.X, pos2.X);
-            p.X = Math.Min(p.X, pos1.X);
-            p.Y = Math.Min(p.Y, pos2.Y);
-            p.Y = Math.Min(p.Y, pos1.Y);
+                break;
         }
-
-        public override void scale(double factor)
+        switch (Math.Abs(trans.angle - 180))
         {
-            pScale(factor);
-        }
-
-        void pScale(double factor)
-        {
-            trans.mag = factor;
-        }
-
-        public override void rotate(double angle)
-        {
-            pRotate(angle);
-        }
-
-        void pRotate(double angle)
-        {
-            trans.angle = angle;
-        }
-
-        public override void maximum(GeoLibPoint p)
-        {
-            pMaximum(p);
-        }
-
-        void pMaximum(GeoLibPoint p)
-        {
-            GeoLibPoint pos1, pos2;
-            pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
-            if (trans.mirror_x)
-            {
-                pos1.Y = -pos1.Y;
-            }
-            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
-            {
-                pos1.Y = -pos1.Y;
-                pos1.X = -pos1.X;
-            }
-            pos2 = pos1;
-            cell_ref.maximum(pos1);
-            cell_ref.minimum(pos2);
-            if (trans.mirror_x)
-            {
-                pos1.Y = -pos1.Y;
-                pos2.Y = -pos2.Y;
-            }
-            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
-            {
-                pos1.Y = -pos1.Y;
-                pos1.X = -pos1.X;
-            }
-            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
-            {
+            case <= double.Epsilon:
                 pos2.Y = -pos2.Y;
                 pos2.X = -pos2.X;
-            }
-            pos1.Offset(point);
-            pos2.Offset(point);
-            p.X = Math.Max(p.X, pos2.X);
-            p.X = Math.Max(p.X, pos1.X);
-            p.Y = Math.Max(p.Y, pos2.Y);
-            p.Y = Math.Max(p.Y, pos1.Y);
+                break;
         }
+        pos1.Offset(point);
+        pos2.Offset(point);
+        p.X = Math.Min(p.X, pos2.X);
+        p.X = Math.Min(p.X, pos1.X);
+        p.Y = Math.Min(p.Y, pos2.Y);
+        p.Y = Math.Min(p.Y, pos1.Y);
+    }
 
-        public override GCCell depend()
+    public override void scale(double factor)
+    {
+        pScale(factor);
+    }
+
+    private void pScale(double factor)
+    {
+        trans.mag = factor;
+    }
+
+    public override void rotate(double angle)
+    {
+        pRotate(angle);
+    }
+
+    private void pRotate(double angle)
+    {
+        trans.angle = angle;
+    }
+
+    public override void maximum(GeoLibPoint p)
+    {
+        pMaximum(p);
+    }
+
+    private void pMaximum(GeoLibPoint p)
+    {
+        GeoLibPoint pos1, pos2;
+        pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
+        pos1.Y = trans.mirror_x switch
         {
-            return pDepend();
-        }
-
-        GCCell pDepend()
+            true => -pos1.Y,
+            _ => pos1.Y
+        };
+        switch (Math.Abs(trans.angle - 180))
         {
-            return cell_ref;
+            case <= double.Epsilon:
+                pos1.Y = -pos1.Y;
+                pos1.X = -pos1.X;
+                break;
         }
-
-        public override void move(GeoLibPoint p)
+        pos2 = pos1;
+        cell_ref.maximum(pos1);
+        cell_ref.minimum(pos2);
+        switch (trans.mirror_x)
         {
-            pMove(p);
+            case true:
+                pos1.Y = -pos1.Y;
+                pos2.Y = -pos2.Y;
+                break;
         }
-
-        void pMove(GeoLibPoint p)
+        switch (Math.Abs(trans.angle - 180))
         {
-            point.Offset(p);
+            case <= double.Epsilon:
+                pos1.Y = -pos1.Y;
+                pos1.X = -pos1.X;
+                break;
         }
-
-        public override void moveSelect(GeoLibPoint p)
+        switch (Math.Abs(trans.angle - 180))
         {
-            pMoveSelect(p);
+            case <= double.Epsilon:
+                pos2.Y = -pos2.Y;
+                pos2.X = -pos2.X;
+                break;
         }
+        pos1.Offset(point);
+        pos2.Offset(point);
+        p.X = Math.Max(p.X, pos2.X);
+        p.X = Math.Max(p.X, pos1.X);
+        p.Y = Math.Max(p.Y, pos2.Y);
+        p.Y = Math.Max(p.Y, pos1.Y);
+    }
 
-        void pMoveSelect(GeoLibPoint p)
-        {
-            point.Offset(p);
-        }
+    public override GCCell depend()
+    {
+        return pDepend();
+    }
 
-        public override void setMirrorx()
-        {
-            pSetMirrors();
-        }
+    private GCCell pDepend()
+    {
+        return cell_ref;
+    }
 
-        void pSetMirrors()
-        {
-            trans.setMirror_x();
-        }
+    public override void move(GeoLibPoint p)
+    {
+        pMove(p);
+    }
 
-        public override void resize(double factor)
-        {
-            pResize(factor);
-        }
+    private void pMove(GeoLibPoint p)
+    {
+        point.Offset(p);
+    }
 
-        void pResize(double factor)
-        {
-            point.X = (Int32)(point.X * factor);
-            point.Y = (Int32)(point.Y * factor);
-        }
+    public override void moveSelect(GeoLibPoint p)
+    {
+        pMoveSelect(p);
+    }
 
-        public override bool isCellref()
-        {
-            return pIsCellref();
-        }
+    private void pMoveSelect(GeoLibPoint p)
+    {
+        point.Offset(p);
+    }
 
-        bool pIsCellref()
-        {
-            return true;
-        }
+    public override void setMirrorx()
+    {
+        pSetMirrors();
+    }
 
-        public override void setCellRef(GCCell cellRef)
-        {
-            pSetCellRef(cellRef);
-        }
+    private void pSetMirrors()
+    {
+        trans.setMirror_x();
+    }
 
-        void pSetCellRef(GCCell cellRef)
-        {
-            cell_ref = cellRef;
-        }
+    public override void resize(double factor)
+    {
+        pResize(factor);
+    }
 
-        public override GCCell getCellref()
-        {
-            return pGetCellRef();
-        }
+    private void pResize(double factor)
+    {
+        point.X = (int)(point.X * factor);
+        point.Y = (int)(point.Y * factor);
+    }
 
-        GCCell pGetCellRef()
-        {
-            return cell_ref;
-        }
+    public override bool isCellref()
+    {
+        return pIsCellref();
+    }
 
-        public override void saveGDS(gdsWriter bw)
-        {
-            pSaveGDS(bw);
-        }
+    private bool pIsCellref()
+    {
+        return true;
+    }
 
-        void pSaveGDS(gdsWriter gw)
+    public override void setCellRef(GCCell cellRef)
+    {
+        pSetCellRef(cellRef);
+    }
+
+    private void pSetCellRef(GCCell cellRef)
+    {
+        cell_ref = cellRef;
+    }
+
+    public override GCCell getCellref()
+    {
+        return pGetCellRef();
+    }
+
+    private GCCell pGetCellRef()
+    {
+        return cell_ref;
+    }
+
+    public override void saveGDS(gdsWriter bw)
+    {
+        pSaveGDS(bw);
+    }
+
+    private void pSaveGDS(gdsWriter gw)
+    {
+        switch (cell_ref)
         {
             // Guard against incoming broken cellref information
-            if (cell_ref == null)
-            {
+            case null:
                 return;
-            }
-            //SRef
-            gw.bw.Write((UInt16)4);
-            gw.bw.Write((byte)0x0A);
-            gw.bw.Write((byte)0);
-            gw.writeString(cell_ref.cellName, 0x12);
-            int strans_ = 0;
-            if (trans.mirror_x)
-            {
+        }
+        //SRef
+        gw.bw.Write((ushort)4);
+        gw.bw.Write((byte)0x0A);
+        gw.bw.Write((byte)0);
+        gw.writeString(cell_ref.cellName, 0x12);
+        int strans_ = 0;
+        switch (trans.mirror_x)
+        {
+            case true:
                 strans_ |= 32768;
-            }
-            //STRANS
-            gw.bw.Write((UInt16)6);
-            gw.bw.Write((byte)0x1A);
-            gw.bw.Write((byte)1);
-            gw.bw.Write((Int16)strans_);
-            //mag
-            gw.bw.Write((UInt16)12);
-            gw.bw.Write((byte)0x1B);
-            gw.bw.Write((byte)5);
-            gw.write8ByteReal(trans.mag);
-            //angle
-            gw.bw.Write((UInt16)12);
-            gw.bw.Write((byte)0x1C);
-            gw.bw.Write((byte)5);
-            if ((trans.mirror_x) && (trans.angle != 0))
-            {
+                break;
+        }
+        //STRANS
+        gw.bw.Write((ushort)6);
+        gw.bw.Write((byte)0x1A);
+        gw.bw.Write((byte)1);
+        gw.bw.Write((short)strans_);
+        //mag
+        gw.bw.Write((ushort)12);
+        gw.bw.Write((byte)0x1B);
+        gw.bw.Write((byte)5);
+        gw.write8ByteReal(trans.mag);
+        //angle
+        gw.bw.Write((ushort)12);
+        gw.bw.Write((byte)0x1C);
+        gw.bw.Write((byte)5);
+        switch (trans.mirror_x)
+        {
+            case true when trans.angle != 0:
                 gw.write8ByteReal(360 - trans.angle);
-            }
-            else
-            {
+                break;
+            default:
                 gw.write8ByteReal(trans.angle);
-            }
-            //xy
-            gw.bw.Write((UInt16)((2 * 4) + 4));
-            gw.bw.Write((byte)0x10);
-            gw.bw.Write((byte)3);
-            gw.bw.Write(point.X);
-            gw.bw.Write(point.Y);
-            // endel
-            gw.bw.Write((UInt16)4);
-            gw.bw.Write((byte)0x11);
-            gw.bw.Write((byte)0);
+                break;
         }
+        //xy
+        gw.bw.Write((ushort)(2 * 4 + 4));
+        gw.bw.Write((byte)0x10);
+        gw.bw.Write((byte)3);
+        gw.bw.Write(point.X);
+        gw.bw.Write(point.Y);
+        // endel
+        gw.bw.Write((ushort)4);
+        gw.bw.Write((byte)0x11);
+        gw.bw.Write((byte)0);
+    }
 
-        public override void saveOASIS(oasWriter ow)
-        {
-            pSaveOASIS(ow);
-        }
+    public override void saveOASIS(oasWriter ow)
+    {
+        pSaveOASIS(ow);
+    }
 
-        void pSaveOASIS(oasWriter ow)
+    private void pSaveOASIS(oasWriter ow)
+    {
+        ow.modal.absoluteMode = ow.modal.absoluteMode switch
         {
-            if (!ow.modal.absoluteMode)
-            {
-                ow.modal.absoluteMode = true;
-            }
-            byte info_byte = 128;  //explicid cellname;
-            if (trans.mirror_x)
-            {
+            false => true,
+            _ => ow.modal.absoluteMode
+        };
+        byte info_byte = 128;  //explicid cellname;
+        switch (trans.mirror_x)
+        {
+            case true:
                 info_byte += 1;
-            }
-            if (Math.Abs(trans.mag - 1) > Double.Epsilon)
-            {
+                break;
+        }
+        switch (Math.Abs(trans.mag - 1))
+        {
+            case > double.Epsilon:
                 info_byte += 4;
-            }
-            if (trans.angle != 0)
-            {
-                info_byte += 2;
-            }
-            if (point.X != ow.modal.placement_x)
-            {
-                info_byte += 32;
-            }
-            if (point.Y != ow.modal.placement_y)
-            {
-                info_byte += 16;
-            }
-            ow.writeUnsignedInteger(18);
-            ow.writeRaw(info_byte);
-            ow.writeString(cell_ref.cellName);
-            if ((info_byte & 4) > 0)
-            {
+                break;
+        }
+        if (trans.angle != 0)
+        {
+            info_byte += 2;
+        }
+        if (point.X != ow.modal.placement_x)
+        {
+            info_byte += 32;
+        }
+        if (point.Y != ow.modal.placement_y)
+        {
+            info_byte += 16;
+        }
+        ow.writeUnsignedInteger(18);
+        ow.writeRaw(info_byte);
+        ow.writeString(cell_ref.cellName);
+        switch (info_byte & 4)
+        {
+            case > 0:
                 ow.writeReal(trans.mag);
-            }
-            if ((info_byte & 2) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 2)
+        {
+            case > 0:
                 ow.writeReal(trans.angle);
-            }
-            if ((info_byte & 32) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 32)
+        {
+            case > 0:
                 ow.modal.placement_x = point.X;
                 ow.writeSignedInteger(ow.modal.placement_x);
-            }
-            if ((info_byte & 16) > 0)
-            {
+                break;
+        }
+        switch (info_byte & 16)
+        {
+            case > 0:
                 ow.modal.placement_y = point.Y;
                 ow.writeSignedInteger(ow.modal.placement_y);
-            }
+                break;
         }
+    }
 
-        public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons()
+    {
+        return pConvertToPolygons();
+    }
+
+    private List<GCPolygon> pConvertToPolygons()
+    {
+        /*
+        List<GCPolygon> ret = new List<GCPolygon>();
+
+        for (int element = 0; element < cell_ref.elementList.Count; element++)
         {
-            return pConvertToPolygons();
+            List<GCPolygon> tmp = cell_ref.elementList[element].convertToPolygons();
+            ret.AddRange(tmp);
         }
-
-        List<GCPolygon> pConvertToPolygons()
-        {
-            /*
-            List<GCPolygon> ret = new List<GCPolygon>();
-
-            for (int element = 0; element < cell_ref.elementList.Count; element++)
-            {
-                List<GCPolygon> tmp = cell_ref.elementList[element].convertToPolygons();
-                ret.AddRange(tmp);
-            }
-            */
-            List<GCPolygon> ret = cell_ref.convertToPolygons();
+        */
+        List<GCPolygon> ret = cell_ref.convertToPolygons();
 
 
 #if !GCSINGLETHREADED
-            Parallel.For(0, ret.Count, (poly, loopstate) =>
+        Parallel.For(0, ret.Count, (poly, loopstate) =>
 #else
             for (int poly = 0; poly < ret.Count; poly++)
 #endif
@@ -405,9 +440,8 @@ namespace geoCoreLib
                 ret[poly].scale(trans.mag);
             }
 #if !GCSINGLETHREADED
-            );
+        );
 #endif
-            return ret;
-        }
+        return ret;
     }
 }

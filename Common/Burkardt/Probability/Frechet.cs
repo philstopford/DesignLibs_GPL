@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Frechet
 {
-    public static class Frechet
-    {
-        public static double frechet_cdf(double x, double alpha)
+    public static double frechet_cdf(double x, double alpha)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,30 +33,28 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
 
-            if (alpha <= 0.0)
-            {
+        switch (alpha)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_CDF - Fatal error!");
                 Console.WriteLine("  ALPHA <= 0.0.");
-                return (1);
-            }
-
-            if (x <= 0.0)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = Math.Exp(-1.0 / Math.Pow(x, alpha));
-            }
-
-            return cdf;
+                return 1;
         }
 
-        public static double frechet_cdf_inv(double cdf, double alpha)
+        cdf = x switch
+        {
+            <= 0.0 => 0.0,
+            _ => Math.Exp(-1.0 / Math.Pow(x, alpha))
+        };
+
+        return cdf;
+    }
+
+    public static double frechet_cdf_inv(double cdf, double alpha)
         //****************************************************************************80
         //
         //  Purpose:
@@ -85,38 +83,38 @@ namespace Burkardt.Probability
         //
         //    Output, double FRECHET_CDF_INV, the corresponding argument of the CDF.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (alpha <= 0.0)
-            {
+        switch (alpha)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_CDF_INV - Fatal error!");
                 Console.WriteLine("  ALPHA <= 0.0.");
-                return (1);
-            }
-
-            if (cdf == 0.0)
-            {
-                x = 0.0;
-            }
-            else
-            {
-                x = Math.Pow(-1.0 / Math.Log(cdf), 1.0 / alpha);
-            }
-
-            return x;
+                return 1;
         }
 
-        public static double frechet_mean(double alpha)
+        x = cdf switch
+        {
+            0.0 => 0.0,
+            _ => Math.Pow(-1.0 / Math.Log(cdf), 1.0 / alpha)
+        };
+
+        return x;
+    }
+
+    public static double frechet_mean(double alpha)
         //****************************************************************************80
         //
         //  Purpose:
@@ -146,21 +144,24 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
+    {
+        switch (alpha)
         {
-            if (alpha <= 1.0)
-            {
+            case <= 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_MEAN - Fatal error!");
                 Console.WriteLine("  Mean does not exist if ALPHA <= 1.");
-                return (1);
+                return 1;
+            default:
+            {
+                double mean = Helpers.Gamma((alpha - 1.0) / alpha);
+
+                return mean;
             }
-
-            double mean = Helpers.Gamma((alpha - 1.0) / alpha);
-
-            return mean;
         }
+    }
 
-        public static double frechet_pdf(double x, double alpha)
+    public static double frechet_pdf(double x, double alpha)
         //****************************************************************************80
         //
         //  Purpose:
@@ -192,21 +193,24 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        switch (alpha)
         {
-            if (alpha <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_PDF - Fatal error!");
                 Console.WriteLine("  ALPHA <= 0.0.");
-                return (1);
+                return 1;
+            default:
+            {
+                double pdf = alpha * Math.Exp(-1.0 / Math.Pow(x, alpha)) / Math.Pow(x, alpha + 1.0);
+
+                return pdf;
             }
-
-            double pdf = alpha * Math.Exp(-1.0 / Math.Pow(x, alpha)) / Math.Pow(x, alpha + 1.0);
-
-            return pdf;
         }
+    }
 
-        public static double frechet_sample(double alpha, ref int seed)
+    public static double frechet_sample(double alpha, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -234,23 +238,24 @@ namespace Burkardt.Probability
         //
         //    Output, double FRECHET_SAMPLE, a sample of the PDF.
         //
+    {
+        switch (alpha)
         {
-            if (alpha <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_SAMPLE - Fatal error!");
                 Console.WriteLine("  ALPHA <= 0.0.");
-                return (1);
-            }
-
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
-
-            double x = frechet_cdf_inv(cdf, alpha);
-
-            return x;
+                return 1;
         }
 
-        public static double frechet_variance(double alpha)
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
+
+        double x = frechet_cdf_inv(cdf, alpha);
+
+        return x;
+    }
+
+    public static double frechet_variance(double alpha)
         //****************************************************************************80
         //
         //  Purpose:
@@ -280,20 +285,20 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
+    {
+        switch (alpha)
         {
-            if (alpha <= 2.0)
-            {
+            case <= 2.0:
                 Console.WriteLine("");
                 Console.WriteLine("FRECHET_VARIANCE - Fatal error!");
                 Console.WriteLine("  Variance does not exist if ALPHA <= 2.");
-                return (1);
-            }
-
-            double mean = Helpers.Gamma((alpha - 1.0) / alpha);
-
-            double variance = Helpers.Gamma((alpha - 2.0) / alpha) - mean * mean;
-
-            return variance;
+                return 1;
         }
+
+        double mean = Helpers.Gamma((alpha - 1.0) / alpha);
+
+        double variance = Helpers.Gamma((alpha - 2.0) / alpha) - mean * mean;
+
+        return variance;
     }
 }

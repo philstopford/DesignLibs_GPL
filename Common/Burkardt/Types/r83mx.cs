@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static double[] r83_mxv_new(int n, double[] a, double[] x )
+    public static double[] r83_mxv_new(int n, double[] a, double[] x )
 
         //****************************************************************************80
         //
@@ -47,28 +47,27 @@
         //
         //    Output, double R83_MXV_NEW[N], the product A * x.
         //
+    {
+        double[] b;
+        int i;
+
+        b = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double[] b;
-            int i;
-
-            b = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                b[i] = a[1 + i * 3] * x[i];
-            }
-
-            for (i = 0; i < n - 1; i++)
-            {
-                b[i] = b[i] + a[0 + (i + 1) * 3] * x[i + 1];
-            }
-
-            for (i = 1; i < n; i++)
-            {
-                b[i] = b[i] + a[2 + (i - 1) * 3] * x[i - 1];
-            }
-
-            return b;
+            b[i] = a[1 + i * 3] * x[i];
         }
+
+        for (i = 0; i < n - 1; i++)
+        {
+            b[i] += a[0 + (i + 1) * 3] * x[i + 1];
+        }
+
+        for (i = 1; i < n; i++)
+        {
+            b[i] += a[2 + (i - 1) * 3] * x[i - 1];
+        }
+
+        return b;
     }
 }

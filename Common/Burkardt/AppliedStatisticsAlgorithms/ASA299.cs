@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void simplex_lattice_point_next(int n, int t, ref bool more, ref int[] x)
+    public static void simplex_lattice_point_next(int n, int t, ref bool more, ref int[] x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -106,27 +106,22 @@ namespace Burkardt.AppliedStatistics
         //    a new point on each call, and on subsequent calls uses the input
         //    value (old point) to compute the output value (next point).
         //
+    {
+        switch (more)
         {
-            if (!(more))
+            case false when n < 1:
+                Console.WriteLine("");
+                Console.WriteLine("SIMPLEX_LATTICE_POINT_NEXT - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            case false when t < 0:
+                Console.WriteLine("");
+                Console.WriteLine("SIMPLEX_LATTICE_POINT_NEXT - Fatal error!");
+                Console.WriteLine("  T < 0.");
+                return;
+            case false:
             {
-                if (n < 1)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SIMPLEX_LATTICE_POINT_NEXT - Fatal error!");
-                    Console.WriteLine("  N < 1.");
-                    return;
-                }
-
-                if (t < 0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("SIMPLEX_LATTICE_POINT_NEXT - Fatal error!");
-                    Console.WriteLine("  T < 0.");
-                    return;
-                }
-
                 more = true;
-                int j = 1;
 
                 x[0] = t;
                 for (int i = 1; i < n; i++)
@@ -134,15 +129,18 @@ namespace Burkardt.AppliedStatistics
                     x[i] = 0;
                 }
 
-                //
-                //  The first point can actually also be the last!
-                //
-                if (n == 1)
+                more = n switch
                 {
-                    more = false;
-                }
+                    //
+                    //  The first point can actually also be the last!
+                    //
+                    1 => false,
+                    _ => more
+                };
+
+                break;
             }
-            else
+            default:
             {
                 //
                 //  Search X(N-1 down to 1) for the first nonzero element.
@@ -176,11 +174,11 @@ namespace Burkardt.AppliedStatistics
                     return;
                 }
 
-                x[j] = x[j] - 1;
+                x[j] -= 1;
                 x[j + 1] = t;
                 for (int i = 0; i <= j; i++)
                 {
-                    x[j + 1] = x[j + 1] - x[i];
+                    x[j + 1] -= x[i];
                 }
 
                 for (int i = j + 2; i < n; i++)
@@ -195,6 +193,8 @@ namespace Burkardt.AppliedStatistics
                 {
                     more = false;
                 }
+
+                break;
             }
         }
     }

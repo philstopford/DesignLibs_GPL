@@ -1,7 +1,6 @@
-﻿namespace Burkardt.TetrahedronNS
+﻿namespace Burkardt.TetrahedronNS;
+
+public static class TetMesh_RCM_Node_Reordering
 {
-    public static class TetMesh_RCM_Node_Reordering
-    {
         
-    }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void student_noncentral_cdf_values(ref int n_data, ref int df, ref double lambda,
+    public static void student_noncentral_cdf_values(ref int n_data, ref int df, ref double lambda,
             ref double x, ref double fx)
         //****************************************************************************80
         //
@@ -64,10 +64,10 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double *FX, the value of the function.
         //
-        {
-            int N_MAX = 30;
+    {
+        const int N_MAX = 30;
 
-            int[] df_vec =  {
+        int[] df_vec =  {
                 1, 2, 3,
                 1, 2, 3,
                 1, 2, 3,
@@ -81,7 +81,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] fx_vec =  {
+        double[] fx_vec =  {
                 0.8975836176504333E+00,
                 0.9522670169E+00,
                 0.9711655571887813E+00,
@@ -115,7 +115,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] lambda_vec =  {
+        double[] lambda_vec =  {
                 0.0E+00,
                 0.0E+00,
                 0.0E+00,
@@ -149,7 +149,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] x_vec =  {
+        double[] x_vec =  {
                 3.00E+00,
                 3.00E+00,
                 3.00E+00,
@@ -183,32 +183,33 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                df = 0;
-                lambda = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                df = df_vec[n_data - 1];
-                lambda = lambda_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            df = 0;
+            lambda = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            df = df_vec[n_data - 1];
+            lambda = lambda_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
 
-        public static double tnc(double t, double df, double delta, ref int ifault)
+    public static double tnc(double t, double df, double delta, ref int ifault)
         //****************************************************************************80
         //
         //  Purpose:
@@ -264,124 +265,131 @@ namespace Burkardt.AppliedStatistics
         //    Output, double TNC, the tail of the noncentral
         //    T distribution.
         //
+    {
+        double a;
+        double albeta;
+        double alnrpi = 0.57236494292470008707;
+        double b;
+        double del;
+        double en;
+        double errbd;
+        double errmax = 1.0E-10;
+        double geven;
+        double godd;
+        int itrmax = 100;
+        double lambda;
+        bool negdel;
+        double p;
+        double q;
+        double r2pi = 0.79788456080286535588;
+        double rxb;
+        double s;
+        double tt;
+        double value = 0;
+        ;
+        double x;
+        double xeven;
+        double xodd;
+
+        value = 0.0;
+
+        switch (df)
         {
-            double a;
-            double albeta;
-            double alnrpi = 0.57236494292470008707;
-            double b;
-            double del;
-            double en;
-            double errbd;
-            double errmax = 1.0E-10;
-            double geven;
-            double godd;
-            int itrmax = 100;
-            double lambda;
-            bool negdel;
-            double p;
-            double q;
-            double r2pi = 0.79788456080286535588;
-            double rxb;
-            double s;
-            double tt;
-            double value;
-            ;
-            double x;
-            double xeven;
-            double xodd;
-
-            value = 0.0;
-
-            if (df <= 0.0)
-            {
+            case <= 0.0:
                 ifault = 2;
                 return value;
-            }
+        }
 
-            ifault = 0;
+        ifault = 0;
 
-            tt = t;
-            del = delta;
-            negdel = false;
+        tt = t;
+        del = delta;
+        negdel = false;
 
-            if (t < 0.0)
-            {
+        switch (t)
+        {
+            case < 0.0:
                 negdel = true;
                 tt = -tt;
                 del = -del;
-            }
+                break;
+        }
 
-            //
-            //  Initialize twin series.
-            //
-            en = 1.0;
-            x = t * t / (t * t + df);
+        //
+        //  Initialize twin series.
+        //
+        en = 1.0;
+        x = t * t / (t * t + df);
 
-            if (x <= 0.0)
+        switch (x)
+        {
+            case <= 0.0:
             {
                 ifault = 0;
-                value = value + alnorm(del, true);
+                value += alnorm(del, true);
 
-                if (negdel)
+                value = negdel switch
                 {
-                    value = 1.0 - value;
-                }
+                    true => 1.0 - value,
+                    _ => value
+                };
 
                 return value;
             }
-
-            lambda = del * del;
-            p = 0.5 * Math.Exp(-0.5 * lambda);
-            q = r2pi * p * del;
-            s = 0.5 - p;
-            a = 0.5;
-            b = 0.5 * df;
-            rxb = Math.Pow(1.0 - x, b);
-            albeta = alnrpi + Helpers.LogGamma(b) - Helpers.LogGamma(a + b);
-            xodd = betain(x, a, b, albeta, ref ifault);
-            godd = 2.0 * rxb * Math.Exp(a * Math.Log(x) - albeta);
-            xeven = 1.0 - rxb;
-            geven = b * x * rxb;
-            value = p * xodd + q * xeven;
-            //
-            //  Repeat until convergence.
-            //
-            for (;;)
-            {
-                a = a + 1.0;
-                xodd = xodd - godd;
-                xeven = xeven - geven;
-                godd = godd * x * (a + b - 1.0) / a;
-                geven = geven * x * (a + b - 0.5) / (a + 0.5);
-                p = p * lambda / (2.0 * en);
-                q = q * lambda / (2.0 * en + 1.0);
-                s = s - p;
-                en = en + 1.0;
-                value = value + p * xodd + q * xeven;
-                errbd = 2.0 * s * (xodd - godd);
-
-                if (errbd <= errmax)
-                {
-                    ifault = 0;
-                    break;
-                }
-
-                if (itrmax < en)
-                {
-                    ifault = 1;
-                    break;
-                }
-            }
-
-            value = value + alnorm(del, true);
-
-            if (negdel)
-            {
-                value = 1.0 - value;
-            }
-
-            return value;
         }
 
+        lambda = del * del;
+        p = 0.5 * Math.Exp(-0.5 * lambda);
+        q = r2pi * p * del;
+        s = 0.5 - p;
+        a = 0.5;
+        b = 0.5 * df;
+        rxb = Math.Pow(1.0 - x, b);
+        albeta = alnrpi + Helpers.LogGamma(b) - Helpers.LogGamma(a + b);
+        xodd = betain(x, a, b, albeta, ref ifault);
+        godd = 2.0 * rxb * Math.Exp(a * Math.Log(x) - albeta);
+        xeven = 1.0 - rxb;
+        geven = b * x * rxb;
+        value = p * xodd + q * xeven;
+        //
+        //  Repeat until convergence.
+        //
+        for (;;)
+        {
+            a += 1.0;
+            xodd -= godd;
+            xeven -= geven;
+            godd = godd * x * (a + b - 1.0) / a;
+            geven = geven * x * (a + b - 0.5) / (a + 0.5);
+            p = p * lambda / (2.0 * en);
+            q = q * lambda / (2.0 * en + 1.0);
+            s -= p;
+            en += 1.0;
+            value = value + p * xodd + q * xeven;
+            errbd = 2.0 * s * (xodd - godd);
+
+            if (errbd <= errmax)
+            {
+                ifault = 0;
+                break;
+            }
+
+            if (itrmax < en)
+            {
+                ifault = 1;
+                break;
+            }
+        }
+
+        value += alnorm(del, true);
+
+        value = negdel switch
+        {
+            true => 1.0 - value,
+            _ => value
+        };
+
+        return value;
     }
+
 }

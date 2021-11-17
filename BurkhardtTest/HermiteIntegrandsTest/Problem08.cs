@@ -1,46 +1,46 @@
 ﻿using System;
 
-namespace HermiteIntegrandsTest
+namespace HermiteIntegrandsTest;
+
+public static class Problem08
 {
-    public static class Problem08
+    public static double p08_exact()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P08_EXACT returns the exact integral for problem 8.
+        //
+        //  Discussion:
+        //
+        //    The 20 digit value of the answer was computed by Mathematica.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 July 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double P08_EXACT, the value of the integral.
+        //
     {
-        public static double p08_exact()
+        double exact;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P08_EXACT returns the exact integral for problem 8.
-            //
-            //  Discussion:
-            //
-            //    The 20 digit value of the answer was computed by Mathematica.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 July 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double P08_EXACT, the value of the integral.
-            //
-        {
-            double exact;
+        exact = 3.0088235661136433510;
 
-            exact = 3.0088235661136433510;
+        return exact;
+    }
 
-            return exact;
-        }
-
-        public static void p08_fun(int option, int n, double[] x, ref double[] f )
+    public static void p08_fun(int option, int n, double[] x, ref double[] f )
 
         //****************************************************************************80
         //
@@ -79,64 +79,68 @@ namespace HermiteIntegrandsTest
         //
         //    Output, double F[N], the function values.
         //
+    {
+        int i;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
+            f[i] = Math.Sqrt(1.0 + 0.5 * x[i] * x[i]);
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                f[i] = Math.Sqrt(1.0 + 0.5 * x[i] * x[i]);
-            }
-
-            if (option == 0)
+        switch (option)
+        {
+            case 0:
             {
                 for (i = 0; i < n; i++)
                 {
-                    f[i] = f[i] * Math.Exp(-0.5 * x[i] * x[i]);
+                    f[i] *= Math.Exp(-0.5 * x[i] * x[i]);
                 }
+
+                break;
             }
-            else if (option == 1)
+            case 1:
             {
                 for (i = 0; i < n; i++)
                 {
-                    f[i] = f[i] * Math.Exp(+0.5 * x[i] * x[i]);
+                    f[i] *= Math.Exp(+0.5 * x[i] * x[i]);
                 }
+
+                break;
             }
-            else if (option == 2)
-            {
-
-            }
+            case 2:
+                break;
         }
+    }
 
-        public static string p08_title()
+    public static string p08_title()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    P08_TITLE returns the title for problem 8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    31 July 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, string P08_TITLE, the title of the problem.
-            //
-        {
-            string title;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P08_TITLE returns the title for problem 8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 July 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, string P08_TITLE, the title of the problem.
+        //
+    {
+        string title;
 
-            title = "sqrt(1+x*x/2) * exp(-x*x/2)";
+        title = "sqrt(1+x*x/2) * exp(-x*x/2)";
 
-            return title;
-        }
+        return title;
     }
 }

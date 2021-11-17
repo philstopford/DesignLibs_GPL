@@ -1,59 +1,59 @@
 ﻿using System;
 using System.Linq;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public class r4
 {
-    public class r4
+    public bool error { get; set; }
+    public float val { get; set; }
+    public int lchar { get; set; }
+}
+
+public class r4vec
+{
+    public bool error { get; set; }
+    public float[] rvec { get; set; }
+}
+
+public static partial class typeMethods
+{
+    public static float r4_epsilon ( )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R4_EPSILON returns the R4 roundoff unit.
+        //
+        //  Discussion:
+        //
+        //    The roundoff unit is a number R which is a power of 2 with the
+        //    property that, to the precision of the computer's arithmetic,
+        //      1 < 1 + R
+        //    but
+        //      1 = ( 1 + R / 2 )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 September 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double R4_EPSILON, the R4 round-off unit.
+        //
     {
-        public bool error { get; set; }
-        public float val { get; set; }
-        public int lchar { get; set; }
+        return 1.19209290E-07f;
     }
-
-    public class r4vec
-    {
-        public bool error { get; set; }
-        public float[] rvec { get; set; }
-    }
-
-    public static partial class typeMethods
-    {
-        public static float r4_epsilon ( )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R4_EPSILON returns the R4 roundoff unit.
-            //
-            //  Discussion:
-            //
-            //    The roundoff unit is a number R which is a power of 2 with the
-            //    property that, to the precision of the computer's arithmetic,
-            //      1 < 1 + R
-            //    but
-            //      1 = ( 1 + R / 2 )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    01 September 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double R4_EPSILON, the R4 round-off unit.
-            //
-        {
-            return 1.19209290E-07f;
-        }
-        public static r4 s_to_r4 ( string s )
+    public static r4 s_to_r4 ( string s )
         //****************************************************************************80
         //
         //  Purpose:
@@ -132,229 +132,247 @@ namespace Burkardt.Types
         //
         //    Output, double S_TO_R8, the real value that was read from the string.
         //
+    {
+        r4 ret = new() {lchar = -1};
+        float rexp;
+        char TAB = (char) 9;
+
+        int nchar = s_len_trim ( s );
+        int isgn = 1;
+        float rtop = 0.0f;
+        float rbot = 1.0f;
+        int jsgn = 1;
+        int jtop = 0;
+        int jbot = 1;
+        int ihave = 1;
+        int iterm = 0;
+
+        for ( ; ; )
         {
-            r4 ret = new r4 {lchar = -1};
-            float rexp;
-            char TAB = (char) 9;
-
-            int nchar = typeMethods.s_len_trim ( s );
-            int isgn = 1;
-            float rtop = 0.0f;
-            float rbot = 1.0f;
-            int jsgn = 1;
-            int jtop = 0;
-            int jbot = 1;
-            int ihave = 1;
-            int iterm = 0;
-
-            for ( ; ; )
+            char c = s[ret.lchar+1];
+            ret.lchar += 1;
+            //
+            //  Blank or TAB character.
+            //
+            if ( c == ' ' || c == TAB )
             {
-                char c = s[ret.lchar+1];
-                ret.lchar = ret.lchar + 1;
-                //
-                //  Blank or TAB character.
-                //
-                if ( c == ' ' || c == TAB )
+                switch (ihave)
                 {
-                    if ( ihave == 2 )
-                    {
-                    }
-                    else if ( ihave == 6 || ihave == 7 )
-                    {
+                    case 2:
+                        break;
+                    case 6:
+                    case 7:
                         iterm = 1;
-                    }
-                    else if ( 1 < ihave )
-                    {
+                        break;
+                    case > 1:
                         ihave = 11;
-                    }
+                        break;
                 }
-                //
-                //  Comma.
-                //
-                else if ( c == ',' || c == ';' )
+            }
+            else
+            {
+                switch (c)
                 {
-                    if ( ihave != 1 )
+                    //
+                    //  Comma.
+                    //
+                    case ',':
+                    case ';':
                     {
-                        iterm = 1;
-                        ihave = 12;
-                        ret.lchar = ret.lchar + 1;
+                        if ( ihave != 1 )
+                        {
+                            iterm = 1;
+                            ihave = 12;
+                            ret.lchar += 1;
+                        }
+
+                        break;
                     }
-                }
-                //
-                //  Minus sign.
-                //
-                else if ( c == '-' )
-                {
-                    if ( ihave == 1 )
-                    {
+                    //
+                    //  Minus sign.
+                    //
+                    case '-' when ihave == 1:
                         ihave = 2;
                         isgn = -1;
-                    }
-                    else if ( ihave == 6 )
-                    {
+                        break;
+                    case '-' when ihave == 6:
                         ihave = 7;
                         jsgn = -1;
-                    }
-                    else
-                    {
+                        break;
+                    case '-':
                         iterm = 1;
-                    }
-                }
-                //
-                //  Plus sign.
-                //
-                else if ( c == '+' )
-                {
-                    if ( ihave == 1 )
-                    {
+                        break;
+                    //
+                    //  Plus sign.
+                    //
+                    case '+' when ihave == 1:
                         ihave = 2;
-                    }
-                    else if ( ihave == 6 )
-                    {
+                        break;
+                    case '+' when ihave == 6:
                         ihave = 7;
-                    }
-                    else
-                    {
+                        break;
+                    case '+':
                         iterm = 1;
-                    }
-                }
-                //
-                //  Decimal point.
-                //
-                else if ( c == '.' )
-                {
-                    if ( ihave < 4 )
-                    {
+                        break;
+                    //
+                    //  Decimal point.
+                    //
+                    case '.' when ihave < 4:
                         ihave = 4;
-                    }
-                    else if ( 6 <= ihave && ihave <= 8 )
-                    {
+                        break;
+                    case '.' when 6 <= ihave && ihave <= 8:
                         ihave = 9;
-                    }
-                    else
-                    {
+                        break;
+                    case '.':
                         iterm = 1;
-                    }
-                }
-                //
-                //  Exponent marker.
-                //
-                else if ( ( Char.ToUpper(c) == 'E' ) || ( Char.ToUpper(c) == 'D' ) )
-                {
-                    if ( ihave < 6 )
+                        break;
+                    //
+                    default:
                     {
-                        ihave = 6;
-                    }
-                    else
-                    {
-                        iterm = 1;
-                    }
-                }
-                //
-                //  Digit.
-                //
-                else if ( ihave < 11 && '0' <= c && c <= '9' )
-                {
-                    if ( ihave <= 2 )
-                    {
-                        ihave = 3;
-                    }
-                    else if ( ihave == 4 )
-                    {
-                        ihave = 5;
-                    }
-                    else if ( ihave == 6 || ihave == 7 )
-                    {
-                        ihave = 8;
-                    }
-                    else if ( ihave == 9 )
-                    {
-                        ihave = 10;
-                    }
+                        switch (char.ToUpper(c))
+                        {
+                            case 'E':
+                            case 'D':
+                            {
+                                switch (ihave)
+                                {
+                                    case < 6:
+                                        ihave = 6;
+                                        break;
+                                    default:
+                                        iterm = 1;
+                                        break;
+                                }
 
-                    int ndig = typeMethods.ch_to_digit ( c );
+                                break;
+                            }
+                            //
+                            default:
+                            {
+                                switch (ihave)
+                                {
+                                    case < 11 when '0' <= c && c <= '9':
+                                    {
+                                        switch (ihave)
+                                        {
+                                            case <= 2:
+                                                ihave = 3;
+                                                break;
+                                            case 4:
+                                                ihave = 5;
+                                                break;
+                                            case 6:
+                                            case 7:
+                                                ihave = 8;
+                                                break;
+                                            case 9:
+                                                ihave = 10;
+                                                break;
+                                        }
 
-                    if ( ihave == 3 )
-                    {
-                        rtop = (float) 10.0 * rtop + ndig;
-                    }
-                    else if ( ihave == 5 )
-                    {
-                        rtop = (float) 10.0 * rtop + ndig;
-                        rbot = (float) 10.0 * rbot;
-                    }
-                    else if ( ihave == 8 )
-                    {
-                        jtop = 10 * jtop + ndig;
-                    }
-                    else if ( ihave == 10 )
-                    {
-                        jtop = 10 * jtop + ndig;
-                        jbot = 10 * jbot;
-                    }
-                }
-                //
-                //  Anything else is regarded as a terminator.
-                //
-                else
-                {
-                    iterm = 1;
-                }
-                //
-                //  If we haven't seen a terminator, and we haven't examined the
-                //  entire string, go get the next character.
-                //
-                if ( iterm == 1 || nchar <= ret.lchar + 1 )
-                {
-                    break;
-                }
+                                        int ndig = ch_to_digit ( c );
 
+                                        switch (ihave)
+                                        {
+                                            case 3:
+                                                rtop = (float) 10.0 * rtop + ndig;
+                                                break;
+                                            case 5:
+                                                rtop = (float) 10.0 * rtop + ndig;
+                                                rbot = (float) 10.0 * rbot;
+                                                break;
+                                            case 8:
+                                                jtop = 10 * jtop + ndig;
+                                                break;
+                                            case 10:
+                                                jtop = 10 * jtop + ndig;
+                                                jbot = 10 * jbot;
+                                                break;
+                                        }
+
+                                        break;
+                                    }
+                                    //
+                                    default:
+                                        iterm = 1;
+                                        break;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                }
             }
+
             //
-            //  If we haven't seen a terminator, and we have examined the
-            //  entire string, then we're done, and LCHAR is equal to NCHAR.
+            //  If we haven't seen a terminator, and we haven't examined the
+            //  entire string, go get the next character.
             //
-            if ( iterm != 1 && (ret.lchar) + 1 == nchar )
+            if ( iterm == 1 || nchar <= ret.lchar + 1 )
             {
-                ret.lchar = nchar;
+                break;
             }
+
+        }
+        //
+        //  If we haven't seen a terminator, and we have examined the
+        //  entire string, then we're done, and LCHAR is equal to NCHAR.
+        //
+        if ( iterm != 1 && ret.lchar + 1 == nchar )
+        {
+            ret.lchar = nchar;
+        }
+
+        switch (ihave)
+        {
             //
             //  Number seems to have terminated.  Have we got a legal number?
             //  Not if we terminated in states 1, 2, 6 or 7!
             //
-            if ( ihave == 1 || ihave == 2 || ihave == 6 || ihave == 7 )
-            {
+            case 1:
+            case 2:
+            case 6:
+            case 7:
                 ret.error = true;
                 return ret;
-            }
+        }
+
+        switch (jtop)
+        {
             //
             //  Number seems OK.  Form it.
             //
-            if ( jtop == 0 )
-            {
+            case 0:
                 rexp = 1.0f;
-            }
-            else
+                break;
+            default:
             {
-                if ( jbot == 1 )
+                switch (jbot)
                 {
-                    rexp = (float) Math.Pow ( 10.0, jsgn * jtop );
+                    case 1:
+                        rexp = (float) Math.Pow ( 10.0, jsgn * jtop );
+                        break;
+                    default:
+                        rexp = jsgn * jtop;
+                        rexp /= jbot;
+                        rexp = (float) Math.Pow ( 10.0, rexp );
+                        break;
                 }
-                else
-                {
-                    rexp = jsgn * jtop;
-                    rexp = rexp / jbot;
-                    rexp = (float) Math.Pow ( 10.0, rexp );
-                }
+
+                break;
             }
-
-            ret.val = isgn * rexp * rtop / rbot;
-
-            return ret;
         }
 
+        ret.val = isgn * rexp * rtop / rbot;
+
+        return ret;
+    }
+
         
-        public static r4vec s_to_r4vec ( string s, int n )
+    public static r4vec s_to_r4vec ( string s, int n )
         //****************************************************************************80
         //
         //  Purpose:
@@ -383,69 +401,69 @@ namespace Burkardt.Types
         //
         //    Output, bool S_TO_R4VEC, is true if an error occurred.
         //
+    {
+        r4vec ret = new() {rvec = new float[n]} ;
+
+        string[] tokens = Helpers.splitStringByWhitespace(s);
+
+        for (int i = 0; i < n; i++)
         {
-            r4vec ret = new r4vec() {rvec = new float[n]} ;
-
-            string[] tokens = Helpers.splitStringByWhitespace(s);
-
-            for (int i = 0; i < n; i++)
-            {
-                ret.rvec[i] = s_to_r4(tokens[i]).val;
-            }
-
-            return ret;
+            ret.rvec[i] = s_to_r4(tokens[i]).val;
         }
+
+        return ret;
+    }
         
-        public static int r4_nint ( float x )
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R4_NINT returns the nearest integer to an R4.
-            //
-            //  Example:
-            //
-            //        X         R4_NINT
-            //
-            //      1.3         1
-            //      1.4         1
-            //      1.5         1 or 2
-            //      1.6         2
-            //      0.0         0
-            //     -0.7        -1
-            //     -1.1        -1
-            //     -1.6        -2
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 November 2006
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, float X, the value.
-            //
-            //    Output, int R4_NINT, the nearest integer to X.
-            //
+    public static int r4_nint ( float x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R4_NINT returns the nearest integer to an R4.
+        //
+        //  Example:
+        //
+        //        X         R4_NINT
+        //
+        //      1.3         1
+        //      1.4         1
+        //      1.5         1 or 2
+        //      1.6         2
+        //      0.0         0
+        //     -0.7        -1
+        //     -1.1        -1
+        //     -1.6        -2
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 November 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, float X, the value.
+        //
+        //    Output, int R4_NINT, the nearest integer to X.
+        //
+    {
+        int value = ( int ) ( Math.Abs( x ) + 0.5 );
+
+        if ( x < 0.0 )
         {
-            int value = ( int ) ( Math.Abs( x ) + 0.5 );
-
-            if ( x < 0.0 )
-            {
-                value = -value;
-            }
-
-            return value;
+            value = -value;
         }
+
+        return value;
+    }
  
-        public static float r4_huge ( )
+    public static float r4_huge ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -475,11 +493,11 @@ namespace Burkardt.Types
         //
         //    Output, float R4_HUGE, a "huge" R4 value.
         //
-        {
-            return 1.0E+30f;
-        }
+    {
+        return 1.0E+30f;
+    }
         
-        public static float r4poly_value(int n, float[] a, float x )
+    public static float r4poly_value(int n, float[] a, float x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -520,18 +538,18 @@ namespace Burkardt.Types
         //
         //    Output, float R4POLY_VALUE, the value of the polynomial at X.
         //
+    {
+        float value = 0.0f;
+
+        for (int i = n - 1; 0 <= i; i--)
         {
-            float value = 0.0f;
-
-            for (int i = n - 1; 0 <= i; i--)
-            {
-                value = value * x + a[i];
-            }
-
-            return value;
+            value = value * x + a[i];
         }
+
+        return value;
+    }
         
-        public static float r4_sign ( float x )
+    public static float r4_sign ( float x )
 
 //****************************************************************************80
 //
@@ -557,19 +575,18 @@ namespace Burkardt.Types
 //
 //    Output, float R4_SIGN, the sign of X.
 //
+    {
+        float value;
+
+        if ( x < 0.0 )
         {
-            float value;
-
-            if ( x < 0.0 )
-            {
-                value = -1.0f;
-            }
-            else
-            {
-                value = 1.0f;
-            }
-            return value;
+            value = -1.0f;
         }
-
+        else
+        {
+            value = 1.0f;
+        }
+        return value;
     }
+
 }

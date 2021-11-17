@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.CholeskyNS
+namespace Burkardt.CholeskyNS;
+
+public static class Cholesky
 {
-    public static class Cholesky
-    {
-        public static double cholesky_upper_error ( int n, double[] a, double[] c )
+    public static double cholesky_upper_error ( int n, double[] a, double[] c )
 
         //****************************************************************************80
         //
@@ -35,18 +35,17 @@ namespace Burkardt.CholeskyNS
         //    Output, double CHOLESKY_UPPER_ERROR, the Frobenius norm
         //    of the difference matrix A - C' * C.
         //
-        {
-            double[] ctc;
-            double[] d;
-            double value;
+    {
+        double[] ctc;
+        double[] d;
+        double value = 0;
 
-            ctc = typeMethods.r8mat_mtm_new ( n, n, n, c, c );
+        ctc = typeMethods.r8mat_mtm_new ( n, n, n, c, c );
 
-            d = typeMethods.r8mat_sub_new ( n, n, a, ctc );
+        d = typeMethods.r8mat_sub_new ( n, n, a, ctc );
  
-            value = typeMethods.r8mat_norm_fro ( n, n, d );
+        value = typeMethods.r8mat_norm_fro ( n, n, d );
 
-            return value;
-        }
+        return value;
     }
 }

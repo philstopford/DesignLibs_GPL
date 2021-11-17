@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void beta_noncentral_cdf_values(ref int n_data, ref double a, ref double b,
-                                                ref double lambda, ref double x, ref double fx)
+    public static void beta_noncentral_cdf_values(ref int n_data, ref double a, ref double b,
+            ref double lambda, ref double x, ref double fx)
         //****************************************************************************80
         //
         //  Purpose:
@@ -52,177 +52,178 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double *FX, the value of the function.
         //
+    {
+        const int N_MAX = 25;
+
+        double[] a_vec =  {
+            5.0,
+            5.0,
+            5.0,
+            10.0,
+            10.0,
+            10.0,
+            20.0,
+            20.0,
+            20.0,
+            10.0,
+            10.0,
+            15.0,
+            20.0,
+            20.0,
+            20.0,
+            30.0,
+            30.0,
+            10.0,
+            10.0,
+            10.0,
+            15.0,
+            10.0,
+            12.0,
+            30.0,
+            35.0
+        };
+            
+        double[] b_vec =  {
+            5.0,
+            5.0,
+            5.0,
+            10.0,
+            10.0,
+            10.0,
+            20.0,
+            20.0,
+            20.0,
+            20.0,
+            10.0,
+            5.0,
+            10.0,
+            30.0,
+            50.0,
+            20.0,
+            40.0,
+            5.0,
+            10.0,
+            30.0,
+            20.0,
+            5.0,
+            17.0,
+            30.0,
+            30.0
+        };
+            
+        double[] fx_vec =  {
+            0.4563021,
+            0.1041337,
+            0.6022353,
+            0.9187770,
+            0.6008106,
+            0.0902850,
+            0.9998655,
+            0.9925997,
+            0.9641112,
+            0.9376626573,
+            0.7306817858,
+            0.1604256918,
+            0.1867485313,
+            0.6559386874,
+            0.9796881486,
+            0.1162386423,
+            0.9930430054,
+            0.0506899273,
+            0.1030959706,
+            0.9978417832,
+            0.2555552369,
+            0.0668307064,
+            0.0113601067,
+            0.7813366615,
+            0.8867126477
+        };
+            
+        double[] lambda_vec =  {
+            54.0,
+            140.0,
+            170.0,
+            54.0,
+            140.0,
+            250.0,
+            54.0,
+            140.0,
+            250.0,
+            150.0,
+            120.0,
+            80.0,
+            110.0,
+            65.0,
+            130.0,
+            80.0,
+            130.0,
+            20.0,
+            54.0,
+            80.0,
+            120.0,
+            55.0,
+            64.0,
+            140.0,
+            20.0
+        };
+            
+        double[] x_vec =  {
+            0.8640,
+            0.9000,
+            0.9560,
+            0.8686,
+            0.9000,
+            0.9000,
+            0.8787,
+            0.9000,
+            0.9220,
+            0.868,
+            0.900,
+            0.880,
+            0.850,
+            0.660,
+            0.720,
+            0.720,
+            0.800,
+            0.644,
+            0.700,
+            0.780,
+            0.760,
+            0.795,
+            0.560,
+            0.800,
+            0.670
+        };
+
+        n_data = n_data switch
         {
-            int N_MAX = 25;
+            < 0 => 0,
+            _ => n_data
+        };
 
-            double[] a_vec =  {
-                5.0,
-                5.0,
-                5.0,
-                10.0,
-                10.0,
-                10.0,
-                20.0,
-                20.0,
-                20.0,
-                10.0,
-                10.0,
-                15.0,
-                20.0,
-                20.0,
-                20.0,
-                30.0,
-                30.0,
-                10.0,
-                10.0,
-                10.0,
-                15.0,
-                10.0,
-                12.0,
-                30.0,
-                35.0
-            };
-            
-            double[] b_vec =  {
-                5.0,
-                5.0,
-                5.0,
-                10.0,
-                10.0,
-                10.0,
-                20.0,
-                20.0,
-                20.0,
-                20.0,
-                10.0,
-                5.0,
-                10.0,
-                30.0,
-                50.0,
-                20.0,
-                40.0,
-                5.0,
-                10.0,
-                30.0,
-                20.0,
-                5.0,
-                17.0,
-                30.0,
-                30.0
-            };
-            
-            double[] fx_vec =  {
-                0.4563021,
-                0.1041337,
-                0.6022353,
-                0.9187770,
-                0.6008106,
-                0.0902850,
-                0.9998655,
-                0.9925997,
-                0.9641112,
-                0.9376626573,
-                0.7306817858,
-                0.1604256918,
-                0.1867485313,
-                0.6559386874,
-                0.9796881486,
-                0.1162386423,
-                0.9930430054,
-                0.0506899273,
-                0.1030959706,
-                0.9978417832,
-                0.2555552369,
-                0.0668307064,
-                0.0113601067,
-                0.7813366615,
-                0.8867126477
-            };
-            
-            double[] lambda_vec =  {
-                54.0,
-                140.0,
-                170.0,
-                54.0,
-                140.0,
-                250.0,
-                54.0,
-                140.0,
-                250.0,
-                150.0,
-                120.0,
-                80.0,
-                110.0,
-                65.0,
-                130.0,
-                80.0,
-                130.0,
-                20.0,
-                54.0,
-                80.0,
-                120.0,
-                55.0,
-                64.0,
-                140.0,
-                20.0
-            };
-            
-            double[] x_vec =  {
-                0.8640,
-                0.9000,
-                0.9560,
-                0.8686,
-                0.9000,
-                0.9000,
-                0.8787,
-                0.9000,
-                0.9220,
-                0.868,
-                0.900,
-                0.880,
-                0.850,
-                0.660,
-                0.720,
-                0.720,
-                0.800,
-                0.644,
-                0.700,
-                0.780,
-                0.760,
-                0.795,
-                0.560,
-                0.800,
-                0.670
-            };
+        n_data += 1;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                b = 0.0;
-                lambda = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                b = b_vec[n_data - 1];
-                lambda = lambda_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            b = 0.0;
+            lambda = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            a = a_vec[n_data - 1];
+            b = b_vec[n_data - 1];
+            lambda = lambda_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
 
-        public static double betanc(double x, double a, double b, double lambda, ref int ifault)
+    public static double betanc(double x, double a, double b, double lambda, ref int ifault)
         //****************************************************************************80
         //
         //  Purpose:
@@ -284,93 +285,90 @@ namespace Burkardt.AppliedStatistics
         //    Output, double BETANC, the cumulative probability
         //    of X.
         //
+    {
+        double ax;
+        double beta;
+        double c;
+        double errbd;
+        double errmax = 1.0E-07;
+        double gx;
+        int itrmax = 150;
+        double q;
+        double sumq;
+        double temp;
+        double value = 0;
+        double xj;
+
+        ifault = 0;
+
+        if (lambda < 0.0 ||
+            a <= 0.0 ||
+            b <= 0.0)
         {
-            double ax;
-            double beta;
-            double c;
-            double errbd;
-            double errmax = 1.0E-07;
-            double gx;
-            int itrmax = 150;
-            double q;
-            double sumq;
-            double temp;
-            double value;
-            double xj;
-
-            ifault = 0;
-
-            if (lambda < 0.0 ||
-                a <= 0.0 ||
-                b <= 0.0)
-            {
-                ifault = 2;
-                value = -1.0;
-                return value;
-            }
-
-            if (x <= 0.0)
-            {
-                value = 0.0;
-                return value;
-            }
-
-            if (1.0 <= x)
-            {
-                value = 1.0;
-                return value;
-            }
-
-            c = 0.5 * lambda;
-            //
-            //  Initialize the series.
-            //
-            beta = Helpers.LogGamma(a)
-                   + Helpers.LogGamma(b)
-                   - Helpers.LogGamma(a + b);
-
-            temp = betain(x, a, b, beta, ref ifault);
-
-            gx = Math.Exp(a * Math.Log(x) + b * Math.Log(1.0 - x) - beta - Math.Log(a));
-
-            q = Math.Exp(-c);
-
-            xj = 0.0;
-            ax = q * temp;
-            sumq = 1.0 - q;
-            value = ax;
-            //
-            //  Recur over subsequent terms until convergence is achieved.
-            //
-            ifault = 1;
-
-            for (;;)
-            {
-                xj = xj + 1.0;
-                temp = temp - gx;
-                gx = x * (a + b + xj - 1.0) * gx / (a + xj);
-                q = q * c / xj;
-                sumq = sumq - q;
-                ax = temp * q;
-                value = value + ax;
-                //
-                //  Check for convergence and act accordingly.
-                //
-                errbd = Math.Abs((temp - gx) * sumq);
-
-                if (errbd <= errmax)
-                {
-                    ifault = 0;
-                    break;
-                }
-
-                if (itrmax < (int) xj)
-                {
-                    break;
-                }
-            }
-
+            ifault = 2;
+            value = -1.0;
             return value;
         }
+
+        switch (x)
+        {
+            case <= 0.0:
+                value = 0.0;
+                return value;
+            case >= 1.0:
+                value = 1.0;
+                return value;
+        }
+
+        c = 0.5 * lambda;
+        //
+        //  Initialize the series.
+        //
+        beta = Helpers.LogGamma(a)
+               + Helpers.LogGamma(b)
+               - Helpers.LogGamma(a + b);
+
+        temp = betain(x, a, b, beta, ref ifault);
+
+        gx = Math.Exp(a * Math.Log(x) + b * Math.Log(1.0 - x) - beta - Math.Log(a));
+
+        q = Math.Exp(-c);
+
+        xj = 0.0;
+        ax = q * temp;
+        sumq = 1.0 - q;
+        value = ax;
+        //
+        //  Recur over subsequent terms until convergence is achieved.
+        //
+        ifault = 1;
+
+        for (;;)
+        {
+            xj += 1.0;
+            temp -= gx;
+            gx = x * (a + b + xj - 1.0) * gx / (a + xj);
+            q = q * c / xj;
+            sumq -= q;
+            ax = temp * q;
+            value += ax;
+            //
+            //  Check for convergence and act accordingly.
+            //
+            errbd = Math.Abs((temp - gx) * sumq);
+
+            if (errbd <= errmax)
+            {
+                ifault = 0;
+                break;
+            }
+
+            if (itrmax < (int) xj)
+            {
+                break;
+            }
+        }
+
+        return value;
     }
 }

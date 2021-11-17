@@ -1,190 +1,192 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.TriangleNS
+namespace Burkardt.TriangleNS;
+
+public class Triangle
 {
-    public class Triangle
+
+    public static int tri_augment(int v_num, ref int[] nodtri)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRI_AUGMENT augments the triangle data using vertices at infinity.
+        //
+        //  Discussion:
+        //
+        //    The algorithm simply looks at the list of triangle edges stored
+        //    in NODTRI, and determines which edges, of the form (P1,P2), do
+        //    not have a matching (P2,P1) occurrence.  These correspond to
+        //    boundary edges of the convex hull.  To simplify our computations,
+        //    we adjust the NODTRI array to accommodate an extra triangle with 
+        //    one vertex at infinity for each such unmatched edge.
+        //
+        //    The algorithm used here is ruinously inefficient for large V_NUM.
+        //    Assuming that this data structure modification is the way to go,
+        //    the routine should be rewritten to determine the boundary edges
+        //    more efficiently.
+        //
+        //    The fictitious vertices at infinity show up in the augmenting
+        //    rows of the NODTRI array with negative indices.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    08 February 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int V_NUM, the number of Voronoi vertices.
+        //
+        //    Input/output, int NODTRI[3*(V_NUM+V_INF)], the list of nodes that
+        //    comprise each Delaunay triangle.  On input, there are V_NUM
+        //    sets of this data.  On output, for every pair of nodes (P1,P2) 
+        //    for which the pair (P2,P1) does not occur, an augmenting triangle 
+        //    has been created with exactly this edge (plus a vertex at infinity).
+        //    On output, there are V_NUM + V_INF sets of data.
+        //
+        //    Output, int TRI_AUGMENT, the value of V_INF, the number of 
+        //    augmenting triangles and vertices at infinity that were created.
+        //
     {
+        bool found;
+        int i;
+        int i2;
+        int ip1;
+        int s;
+        int s2;
+        int t;
+        int t2;
+        int v;
+        int v_inf;
+        int v2;
 
-        public static int tri_augment(int v_num, ref int[] nodtri)
+        v_inf = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRI_AUGMENT augments the triangle data using vertices at infinity.
-            //
-            //  Discussion:
-            //
-            //    The algorithm simply looks at the list of triangle edges stored
-            //    in NODTRI, and determines which edges, of the form (P1,P2), do
-            //    not have a matching (P2,P1) occurrence.  These correspond to
-            //    boundary edges of the convex hull.  To simplify our computations,
-            //    we adjust the NODTRI array to accommodate an extra triangle with 
-            //    one vertex at infinity for each such unmatched edge.
-            //
-            //    The algorithm used here is ruinously inefficient for large V_NUM.
-            //    Assuming that this data structure modification is the way to go,
-            //    the routine should be rewritten to determine the boundary edges
-            //    more efficiently.
-            //
-            //    The fictitious vertices at infinity show up in the augmenting
-            //    rows of the NODTRI array with negative indices.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    08 February 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int V_NUM, the number of Voronoi vertices.
-            //
-            //    Input/output, int NODTRI[3*(V_NUM+V_INF)], the list of nodes that
-            //    comprise each Delaunay triangle.  On input, there are V_NUM
-            //    sets of this data.  On output, for every pair of nodes (P1,P2) 
-            //    for which the pair (P2,P1) does not occur, an augmenting triangle 
-            //    has been created with exactly this edge (plus a vertex at infinity).
-            //    On output, there are V_NUM + V_INF sets of data.
-            //
-            //    Output, int TRI_AUGMENT, the value of V_INF, the number of 
-            //    augmenting triangles and vertices at infinity that were created.
-            //
+        for (v = 0; v < v_num; v++)
         {
-            bool found;
-            int i;
-            int i2;
-            int ip1;
-            int s;
-            int s2;
-            int t;
-            int t2;
-            int v;
-            int v_inf;
-            int v2;
-
-            v_inf = 0;
-
-            for (v = 0; v < v_num; v++)
+            for (i = 0; i < 3; i++)
             {
-                for (i = 0; i < 3; i++)
+                s = nodtri[i + v * 3];
+                ip1 = typeMethods.i4_wrap(i + 1, 0, 2);
+                t = nodtri[ip1 + v * 3];
+
+                found = false;
+
+                for (v2 = 0; v2 < v_num; v2++)
                 {
-                    s = nodtri[i + v * 3];
-                    ip1 = typeMethods.i4_wrap(i + 1, 0, 2);
-                    t = nodtri[ip1 + v * 3];
-
-                    found = false;
-
-                    for (v2 = 0; v2 < v_num; v2++)
+                    for (i2 = 0; i2 < 3; i2++)
                     {
-                        for (i2 = 0; i2 < 3; i2++)
+                        s2 = nodtri[i2 + v2 * 3];
+                        ip1 = typeMethods.i4_wrap(i2 + 1, 0, 2);
+                        t2 = nodtri[ip1 + v2 * 3];
+                        if (s == t2 && t == s2)
                         {
-                            s2 = nodtri[i2 + v2 * 3];
-                            ip1 = typeMethods.i4_wrap(i2 + 1, 0, 2);
-                            t2 = nodtri[ip1 + v2 * 3];
-                            if (s == t2 && t == s2)
-                            {
-                                found = true;
-                                break;
-                            }
-                        }
-
-                        if (found)
-                        {
+                            found = true;
                             break;
                         }
-
                     }
 
-                    if (!found)
+                    if (found)
                     {
+                        break;
+                    }
+
+                }
+
+                switch (found)
+                {
+                    case false:
                         nodtri[0 + (v_num + v_inf) * 3] = -(v_inf + 1);
                         nodtri[1 + (v_num + v_inf) * 3] = t;
                         nodtri[2 + (v_num + v_inf) * 3] = s;
-                        v_inf = v_inf + 1;
-                    }
+                        v_inf += 1;
+                        break;
                 }
             }
-
-            Console.WriteLine("");
-            Console.WriteLine("TRI_AUGMENT:");
-            Console.WriteLine("  Number of boundary triangles = " + v_inf + "");
-
-            return v_inf;
         }
 
-        public static int triangle_num ( int n )
+        Console.WriteLine("");
+        Console.WriteLine("TRI_AUGMENT:");
+        Console.WriteLine("  Number of boundary triangles = " + v_inf + "");
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_NUM returns the N-th triangular number.
-            //
-            //  Discussion:
-            //
-            //    The N-th triangular number T(N) is formed by the sum of the first
-            //    N integers:
-            //
-            //      T(N) = sum ( 1 <= I <= N ) I
-            //
-            //    By convention, T(0) = 0.
-            //
-            //    The formula is:
-            //
-            //      T(N) = ( N * ( N + 1 ) ) / 2
-            //
-            //  First Values:
-            //
-            //     0
-            //     1
-            //     3
-            //     6
-            //    10
-            //    15
-            //    21
-            //    28
-            //    36
-            //    45
-            //    55
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 May 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the index of the desired number, which must be
-            //    at least 0.
-            //
-            //    Output, int TRIANGLE_NUM, the N-th triangular number.
-            //
-        {
-            int value;
+        return v_inf;
+    }
 
-            value = ( n * ( n + 1 ) ) / 2;
+    public static int triangle_num ( int n )
 
-            return value;
-        }
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_NUM returns the N-th triangular number.
+        //
+        //  Discussion:
+        //
+        //    The N-th triangular number T(N) is formed by the sum of the first
+        //    N integers:
+        //
+        //      T(N) = sum ( 1 <= I <= N ) I
+        //
+        //    By convention, T(0) = 0.
+        //
+        //    The formula is:
+        //
+        //      T(N) = ( N * ( N + 1 ) ) / 2
+        //
+        //  First Values:
+        //
+        //     0
+        //     1
+        //     3
+        //     6
+        //    10
+        //    15
+        //    21
+        //    28
+        //    36
+        //    45
+        //    55
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the index of the desired number, which must be
+        //    at least 0.
+        //
+        //    Output, int TRIANGLE_NUM, the N-th triangular number.
+        //
+    {
+        int value;
+
+        value = n * ( n + 1 ) / 2;
+
+        return value;
+    }
 
         
-        public static void triangle_unit_set(int rule, double[] xtab, double[] ytab,
-        double[] weight )
+    public static void triangle_unit_set(int rule, double[] xtab, double[] ytab,
+            double[] weight )
 
         //****************************************************************************80
         //
@@ -274,57 +276,57 @@ namespace Burkardt.TriangleNS
         //
         //    Output, double WEIGHT[NORDER], the weights of the rule.
         //
+    {
+        double a;
+        double b;
+        double c;
+        double d;
+        double e;
+        double f;
+        double g;
+        int i;
+        int j;
+        int k;
+        int order2;
+        double p;
+        double q;
+        double r;
+        double s;
+        double t;
+        double u;
+        double v;
+        double w;
+        double w1;
+        double w2;
+        double w3;
+        double w4;
+        double w5;
+        double w6;
+        double w7;
+        double w8;
+        double w9;
+        double[] weight1 = new double[8];
+        double[] weight2 = new double[8];
+        double wx;
+        double x;
+        double[] xtab1 = new double[8];
+        double[] xtab2 = new double[8];
+        double y;
+        double z;
+        switch (rule)
         {
-            double a;
-            double b;
-            double c;
-            double d;
-            double e;
-            double f;
-            double g;
-            int i;
-            int j;
-            int k;
-            int order2;
-            double p;
-            double q;
-            double r;
-            double s;
-            double t;
-            double u;
-            double v;
-            double w;
-            double w1;
-            double w2;
-            double w3;
-            double w4;
-            double w5;
-            double w6;
-            double w7;
-            double w8;
-            double w9;
-            double[] weight1 = new double[8];
-            double[] weight2 = new double[8];
-            double wx;
-            double x;
-            double[] xtab1 = new double[8];
-            double[] xtab2 = new double[8];
-            double y;
-            double z;
             //
             //  1 point, precision 1.
             //
-            if (rule == 1)
-            {
+            case 1:
                 xtab[0] = 1.0 / 3.0;
                 ytab[0] = 1.0 / 3.0;
                 weight[0] = 1.0;
-            }
+                break;
             //
             //  3 points, precision 1, the "vertex rule".
             //
-            else if (rule == 2)
-            {
+            case 2:
                 xtab[0] = 1.0;
                 xtab[1] = 0.0;
                 xtab[2] = 0.0;
@@ -336,12 +338,11 @@ namespace Burkardt.TriangleNS
                 weight[0] = 1.0 / 3.0;
                 weight[1] = 1.0 / 3.0;
                 weight[2] = 1.0 / 3.0;
-            }
+                break;
             //
             //  3 points, precision 2, Strang and Fix formula #1.
             //
-            else if (rule == 3)
-            {
+            case 3:
                 xtab[0] = 4.0 / 6.0;
                 xtab[1] = 1.0 / 6.0;
                 xtab[2] = 1.0 / 6.0;
@@ -353,12 +354,11 @@ namespace Burkardt.TriangleNS
                 weight[0] = 1.0 / 3.0;
                 weight[1] = 1.0 / 3.0;
                 weight[2] = 1.0 / 3.0;
-            }
+                break;
             //
             //  3 points, precision 2, Strang and Fix formula #2.
             //
-            else if (rule == 4)
-            {
+            case 4:
                 xtab[0] = 0.0;
                 xtab[1] = 1.0 / 2.0;
                 xtab[2] = 1.0 / 2.0;
@@ -370,12 +370,11 @@ namespace Burkardt.TriangleNS
                 weight[0] = 1.0 / 3.0;
                 weight[1] = 1.0 / 3.0;
                 weight[2] = 1.0 / 3.0;
-            }
+                break;
             //
             //  4 points, precision 3, Strang and Fix formula #3.
             //
-            else if (rule == 5)
-            {
+            case 5:
                 xtab[0] = 10.0 / 30.0;
                 xtab[1] = 18.0 / 30.0;
                 xtab[2] = 6.0 / 30.0;
@@ -390,12 +389,11 @@ namespace Burkardt.TriangleNS
                 weight[1] = 25.0 / 48.0;
                 weight[2] = 25.0 / 48.0;
                 weight[3] = 25.0 / 48.0;
-            }
+                break;
             //
             //  6 points, precision 3, Strang and Fix formula #4.
             //
-            else if (rule == 6)
-            {
+            case 6:
                 xtab[0] = 0.659027622374092;
                 xtab[1] = 0.659027622374092;
                 xtab[2] = 0.231933368553031;
@@ -416,12 +414,11 @@ namespace Burkardt.TriangleNS
                 weight[3] = 1.0 / 6.0;
                 weight[4] = 1.0 / 6.0;
                 weight[5] = 1.0 / 6.0;
-            }
+                break;
             //
             //  6 points, precision 3, Stroud T2:3-1.
             //
-            else if (rule == 7)
-            {
+            case 7:
                 xtab[0] = 0.0;
                 xtab[1] = 0.5;
                 xtab[2] = 0.5;
@@ -442,12 +439,11 @@ namespace Burkardt.TriangleNS
                 weight[3] = 3.0 / 10.0;
                 weight[4] = 3.0 / 10.0;
                 weight[5] = 3.0 / 10.0;
-            }
+                break;
             //
             //  6 points, precision 4, Strang and Fix, formula #5.
             //
-            else if (rule == 8)
-            {
+            case 8:
                 xtab[0] = 0.816847572980459;
                 xtab[1] = 0.091576213509771;
                 xtab[2] = 0.091576213509771;
@@ -468,12 +464,11 @@ namespace Burkardt.TriangleNS
                 weight[3] = 0.223381589678011;
                 weight[4] = 0.223381589678011;
                 weight[5] = 0.223381589678011;
-            }
+                break;
             //
             //  7 points, precision 4, Strang and Fix formula #6.
             //
-            else if (rule == 9)
-            {
+            case 9:
                 xtab[0] = 1.0 / 3.0;
                 xtab[1] = 0.736712498968435;
                 xtab[2] = 0.736712498968435;
@@ -497,12 +492,11 @@ namespace Burkardt.TriangleNS
                 weight[4] = 0.1041666666666667;
                 weight[5] = 0.1041666666666667;
                 weight[6] = 0.1041666666666667;
-            }
+                break;
             //
             //  7 points, precision 5, Strang and Fix formula #7, Stroud T2:5-1
             //
-            else if (rule == 10)
-            {
+            case 10:
                 xtab[0] = 1.0 / 3.0;
                 xtab[1] = (9.0 + 2.0 * Math.Sqrt(15.0)) / 21.0;
                 xtab[2] = (6.0 - Math.Sqrt(15.0)) / 21.0;
@@ -526,12 +520,11 @@ namespace Burkardt.TriangleNS
                 weight[4] = (155.0 + Math.Sqrt(15.0)) / 1200.0;
                 weight[5] = (155.0 + Math.Sqrt(15.0)) / 1200.0;
                 weight[6] = (155.0 + Math.Sqrt(15.0)) / 1200.0;
-            }
+                break;
             //
             //  9 points, precision 6, Strang and Fix formula #8.
             //
-            else if (rule == 11)
-            {
+            case 11:
                 xtab[0] = 0.124949503233232;
                 xtab[1] = 0.437525248383384;
                 xtab[2] = 0.437525248383384;
@@ -561,12 +554,11 @@ namespace Burkardt.TriangleNS
                 weight[6] = 0.063691414286223;
                 weight[7] = 0.063691414286223;
                 weight[8] = 0.063691414286223;
-            }
+                break;
             //
             //  12 points, precision 6, Strang and Fix, formula #9.
             //
-            else if (rule == 12)
-            {
+            case 12:
                 xtab[0] = 0.873821971016996;
                 xtab[1] = 0.063089014491502;
                 xtab[2] = 0.063089014491502;
@@ -605,12 +597,11 @@ namespace Burkardt.TriangleNS
                 weight[9] = 0.082851075618374;
                 weight[10] = 0.082851075618374;
                 weight[11] = 0.082851075618374;
-            }
+                break;
             //
             //  13 points, precision 7, Strang and Fix, formula #10.
             //
-            else if (rule == 13)
-            {
+            case 13:
                 xtab[0] = 0.479308067841923;
                 xtab[1] = 0.260345966079038;
                 xtab[2] = 0.260345966079038;
@@ -652,12 +643,11 @@ namespace Burkardt.TriangleNS
                 weight[10] = 0.077113760890257;
                 weight[11] = 0.077113760890257;
                 weight[12] = -0.149570044467670;
-            }
+                break;
             //
             //  7 points, precision ?.
             //
-            else if (rule == 14)
-            {
+            case 14:
                 a = 1.0 / 3.0;
                 b = 1.0;
                 c = 0.5;
@@ -691,11 +681,11 @@ namespace Burkardt.TriangleNS
                 weight[5] = w;
                 weight[6] = w;
                 weight[7] = w;
-            }
+                break;
             //
             //  16 points.
             //
-            else if (rule == 15)
+            case 15:
             {
                 //
                 //  Legendre rule of order 4.
@@ -735,14 +725,16 @@ namespace Burkardt.TriangleNS
                         xtab[k] = xtab2[j];
                         ytab[k] = xtab1[i] * (1.0 - xtab2[j]);
                         weight[k] = weight1[i] * weight2[j];
-                        k = k + 1;
+                        k += 1;
                     }
                 }
+
+                break;
             }
             //
             //  64 points, precision 15.
             //
-            else if (rule == 16)
+            case 16:
             {
                 //
                 //  Legendre rule of order 8.
@@ -793,15 +785,16 @@ namespace Burkardt.TriangleNS
                         xtab[k] = 1.0 - xtab2[j];
                         ytab[k] = 0.5 * (1.0 + xtab1[i]) * xtab2[j];
                         weight[k] = weight1[i] * weight2[j];
-                        k = k + 1;
+                        k += 1;
                     }
                 }
+
+                break;
             }
             //
             //  19 points, precision 8.
             //
-            else if (rule == 17)
-            {
+            case 17:
                 a = 1.0 / 3.0;
                 b = (9.0 + 2.0 * Math.Sqrt(15.0)) / 21.0;
                 c = (6.0 - Math.Sqrt(15.0)) / 21.0;
@@ -817,7 +810,7 @@ namespace Burkardt.TriangleNS
                           - 5.0 * Math.Sqrt(7.0) + Math.Sqrt(105.0)) / 90.0;
                 r = (40.0 + 10.0 * Math.Sqrt(7.0)) / 90.0;
                 s = (25.0 + 5.0 * Math.Sqrt(15.0) - 5.0 * Math.Sqrt(7.0)
-                                             - Math.Sqrt(105.0)) / 90.0;
+                                                  - Math.Sqrt(105.0)) / 90.0;
                 t = (25.0 - 5.0 * Math.Sqrt(15.0) - 5.0 * Math.Sqrt(7.0)
                      + Math.Sqrt(105.0)) / 90.0;
 
@@ -825,22 +818,22 @@ namespace Burkardt.TriangleNS
                 w2 = -9301697.0 / 4695040.0 - 13517313.0 * Math.Sqrt(15.0)
                     / 23475200.0 + 764885.0 * Math.Sqrt(7.0) / 939008.0
                                  + 198763.0 * Math.Sqrt(105.0) / 939008.0;
-                w2 = w2 / 3.0;
+                w2 /= 3.0;
                 w3 = -9301697.0 / 4695040.0 + 13517313.0 * Math.Sqrt(15.0)
                                             / 23475200.0
                                             + 764885.0 * Math.Sqrt(7.0) / 939008.0
                      - 198763.0 * Math.Sqrt(105.0) / 939008.0;
-                w3 = w3 / 3.0;
+                w3 /= 3.0;
                 w4 = (102791225.0 - 23876225.0 * Math.Sqrt(15.0)
                                   - 34500875.0 * Math.Sqrt(7.0)
                       + 9914825.0 * Math.Sqrt(105.0)) / 59157504.0;
-                w4 = w4 / 3.0;
+                w4 /= 3.0;
                 w5 = (102791225.0 + 23876225.0 * Math.Sqrt(15.0)
                       - 34500875.0 * Math.Sqrt(7.0)
                       - 9914825 * Math.Sqrt(105.0)) / 59157504.0;
-                w5 = w5 / 3.0;
+                w5 /= 3.0;
                 w6 = (11075.0 - 3500.0 * Math.Sqrt(7.0)) / 8064.0;
-                w6 = w6 / 6.0;
+                w6 /= 6.0;
 
                 xtab[0] = a;
                 xtab[1] = b;
@@ -901,12 +894,11 @@ namespace Burkardt.TriangleNS
                 weight[16] = w6;
                 weight[17] = w6;
                 weight[18] = w6;
-            }
+                break;
             //
             //  19 points, precision 9.
             //
-            else if (rule == 18)
-            {
+            case 18:
                 a = 1.0 / 3.0;
                 b = 0.02063496160252593;
                 c = 0.4896825191987370;
@@ -986,12 +978,11 @@ namespace Burkardt.TriangleNS
                 weight[16] = w6;
                 weight[17] = w6;
                 weight[18] = w6;
-            }
+                break;
             //
             //  28 points, precision 11.
             //
-            else if (rule == 19)
-            {
+            case 19:
                 a = 1.0 / 3.0;
                 b = 0.9480217181434233;
                 c = 0.02598914092828833;
@@ -1105,12 +1096,11 @@ namespace Burkardt.TriangleNS
                 weight[25] = w8;
                 weight[26] = w8;
                 weight[27] = w8;
-            }
+                break;
             //
             //  37 points, precision 13.
             //
-            else if (rule == 20)
-            {
+            case 20:
                 a = 1.0 / 3.0;
                 b = 0.950275662924105565450352089520;
                 c = 0.024862168537947217274823955239;
@@ -1291,164 +1281,133 @@ namespace Burkardt.TriangleNS
 
                 xtab[36] = c;
                 ytab[36] = b;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("TRIANGLE_UNIT_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of RULE = " + rule + "");
-            }
+                break;
         }
-
-        public static int triangle_unit_size(int rule)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_SIZE returns the "size" of a unit triangle quadrature rule.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    06 September 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Gilbert Strang, George Fix,
-            //    An Analysis of the Finite Element Method,
-            //    Prentice Hall, 1973,
-            //    TA335.S77.
-            //
-            //    Olgierd Zienkiewicz,
-            //    The Finite Element Method,
-            //    McGraw Hill, Third Edition, 1977, page 202.
-            //
-            //  Parameters:
-            //
-            //    Input, int RULE, the index of the rule.
-            //
-            //     1, ORDER =  1, precision 1, Zienkiewicz #1.
-            //     2, ORDER =  3, precision 1, the "vertex rule".
-            //     3, ORDER =  3, precision 2, Strang and Fix formula #1.
-            //     4, ORDER =  3, precision 2, Strang and Fix formula #2, Zienkiewicz #2.
-            //     5, ORDER =  4, precision 3, Strang and Fix formula #3, Zienkiewicz #3.
-            //     6, ORDER =  6, precision 3, Strang and Fix formula #4.
-            //     7, ORDER =  6, precision 3, Stroud formula T2:3-1.
-            //     8, ORDER =  6, precision 4, Strang and Fix formula #5.
-            //     9, ORDER =  7, precision 4, Strang and Fix formula #6.
-            //    10, ORDER =  7, precision 5, Strang and Fix formula #7,
-            //        Stroud formula T2:5-1, Zienkiewicz #4, Schwarz Table 2.2.
-            //    11, ORDER =  9, precision 6, Strang and Fix formula #8.
-            //    12, ORDER = 12, precision 6, Strang and Fix formula #9.
-            //    13, ORDER = 13, precision 7, Strang and Fix formula #10.
-            //    14, ORDER =  7, precision ?.
-            //    15, ORDER = 16, precision 7, conical product Gauss, Stroud formula T2:7-1.
-            //    16, ORDER = 64, precision 15, triangular product Gauss rule.
-            //    17, ORDER = 19, precision 8, from CUBTRI, ACM TOMS #584.
-            //    18, ORDER = 19, precision 9, from TRIEX, Lyness and Jespersen.
-            //    19, ORDER = 28, precision 11, from TRIEX, Lyness and Jespersen.
-            //    20, ORDER = 37, precision 13, from ACM TOMS #706.
-            //
-            //    Output, int TRIANGLE_UNIT_SIZE, the order of the rule.
-            //
-        {
-            int value;
-
-            if (rule == 1)
-            {
-                value = 1;
-            }
-            else if (rule == 2)
-            {
-                value = 3;
-            }
-            else if (rule == 3)
-            {
-                value = 3;
-            }
-            else if (rule == 4)
-            {
-                value = 3;
-            }
-            else if (rule == 5)
-            {
-                value = 4;
-            }
-            else if (rule == 6)
-            {
-                value = 6;
-            }
-            else if (rule == 7)
-            {
-                value = 6;
-            }
-            else if (rule == 8)
-            {
-                value = 6;
-            }
-            else if (rule == 9)
-            {
-                value = 7;
-            }
-            else if (rule == 10)
-            {
-                value = 7;
-            }
-            else if (rule == 11)
-            {
-                value = 9;
-            }
-            else if (rule == 12)
-            {
-                value = 12;
-            }
-            else if (rule == 13)
-            {
-                value = 13;
-            }
-            else if (rule == 14)
-            {
-                value = 7;
-            }
-            else if (rule == 15)
-            {
-                value = 16;
-            }
-            else if (rule == 16)
-            {
-                value = 64;
-            }
-            else if (rule == 17)
-            {
-                value = 19;
-            }
-            else if (rule == 18)
-            {
-                value = 19;
-            }
-            else if (rule == 19)
-            {
-                value = 28;
-            }
-            else if (rule == 20)
-            {
-                value = 37;
-            }
-            else
-            {
-                value = -1;
-            }
-
-            return value;
-        }
-
     }
+
+    public static int triangle_unit_size(int rule)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_SIZE returns the "size" of a unit triangle quadrature rule.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 September 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Gilbert Strang, George Fix,
+        //    An Analysis of the Finite Element Method,
+        //    Prentice Hall, 1973,
+        //    TA335.S77.
+        //
+        //    Olgierd Zienkiewicz,
+        //    The Finite Element Method,
+        //    McGraw Hill, Third Edition, 1977, page 202.
+        //
+        //  Parameters:
+        //
+        //    Input, int RULE, the index of the rule.
+        //
+        //     1, ORDER =  1, precision 1, Zienkiewicz #1.
+        //     2, ORDER =  3, precision 1, the "vertex rule".
+        //     3, ORDER =  3, precision 2, Strang and Fix formula #1.
+        //     4, ORDER =  3, precision 2, Strang and Fix formula #2, Zienkiewicz #2.
+        //     5, ORDER =  4, precision 3, Strang and Fix formula #3, Zienkiewicz #3.
+        //     6, ORDER =  6, precision 3, Strang and Fix formula #4.
+        //     7, ORDER =  6, precision 3, Stroud formula T2:3-1.
+        //     8, ORDER =  6, precision 4, Strang and Fix formula #5.
+        //     9, ORDER =  7, precision 4, Strang and Fix formula #6.
+        //    10, ORDER =  7, precision 5, Strang and Fix formula #7,
+        //        Stroud formula T2:5-1, Zienkiewicz #4, Schwarz Table 2.2.
+        //    11, ORDER =  9, precision 6, Strang and Fix formula #8.
+        //    12, ORDER = 12, precision 6, Strang and Fix formula #9.
+        //    13, ORDER = 13, precision 7, Strang and Fix formula #10.
+        //    14, ORDER =  7, precision ?.
+        //    15, ORDER = 16, precision 7, conical product Gauss, Stroud formula T2:7-1.
+        //    16, ORDER = 64, precision 15, triangular product Gauss rule.
+        //    17, ORDER = 19, precision 8, from CUBTRI, ACM TOMS #584.
+        //    18, ORDER = 19, precision 9, from TRIEX, Lyness and Jespersen.
+        //    19, ORDER = 28, precision 11, from TRIEX, Lyness and Jespersen.
+        //    20, ORDER = 37, precision 13, from ACM TOMS #706.
+        //
+        //    Output, int TRIANGLE_UNIT_SIZE, the order of the rule.
+        //
+    {
+        int value;
+
+        switch (rule)
+        {
+            case 1:
+                value = 1;
+                break;
+            case 2:
+            case 3:
+            case 4:
+                value = 3;
+                break;
+            case 5:
+                value = 4;
+                break;
+            case 6:
+            case 7:
+            case 8:
+                value = 6;
+                break;
+            case 9:
+            case 10:
+                value = 7;
+                break;
+            case 11:
+                value = 9;
+                break;
+            case 12:
+                value = 12;
+                break;
+            case 13:
+                value = 13;
+                break;
+            case 14:
+                value = 7;
+                break;
+            case 15:
+                value = 16;
+                break;
+            case 16:
+                value = 64;
+                break;
+            case 17:
+            case 18:
+                value = 19;
+                break;
+            case 19:
+                value = 28;
+                break;
+            case 20:
+                value = 37;
+                break;
+            default:
+                value = -1;
+                break;
+        }
+
+        return value;
+    }
+
 }

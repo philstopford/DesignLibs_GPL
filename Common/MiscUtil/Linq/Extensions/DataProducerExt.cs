@@ -1,12 +1,11 @@
 ﻿
-namespace MiscUtil.Linq.Extensions
+namespace MiscUtil.Linq.Extensions;
+
+/// <summary>
+/// Extensions on IDataProducer
+/// </summary>
+public static partial class DataProducerExt
 {
-    /// <summary>
-    /// Extensions on IDataProducer
-    /// </summary>
-    public static partial class DataProducerExt
-    {
-        // note: contents are in partial classes broken
-        // down by function - i.e. DataProducerExt.Grouping.cs
-    }
+    // note: contents are in partial classes broken
+    // down by function - i.e. DataProducerExt.Grouping.cs
 }

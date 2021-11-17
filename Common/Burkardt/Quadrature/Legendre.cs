@@ -1,370 +1,371 @@
 ﻿using System;
 using Burkardt.MatrixNS;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public class LegendreQuadrature
 {
-    public class LegendreQuadrature
+    public static void legendre_com(int norder, ref double[] xtab, ref double[] weight)
+
+        //****************************************************************************80
+        //
+        //  Purpose: 
+        //
+        //    LEGENDRE_COM computes abscissas and weights for Gauss-Legendre quadrature.
+        //
+        //  Integration interval:
+        //
+        //    [ -1, 1 ]
+        //
+        //  Weight function:
+        //
+        //    1.
+        //
+        //  Integral to approximate:
+        //
+        //    Integral ( -1 <= X <= 1 ) F(X) dX.
+        //
+        //  Approximate integral:
+        //
+        //    sum ( 1 <= I <= NORDER ) WEIGHT(I) * F ( XTAB(I) ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 March 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NORDER, the order of the rule.
+        //    NORDER must be greater than 0.
+        //
+        //    Output, double XTAB[NORDER], the abscissas of the rule.
+        //
+        //    Output, double WEIGHT[NORDER], the weights of the rule.
+        //    The weights are positive, symmetric, and should sum to 2.
+        //
     {
-        public static void legendre_com(int norder, ref double[] xtab, ref double[] weight)
+        double d1;
+        double d2pn;
+        double d3pn;
+        double d4pn;
+        double dp;
+        double dpn;
+        double e1;
+        double fx;
+        double h;
+        int i;
+        int iback;
+        int k;
+        int m;
+        int mp1mi;
+        int ncopy;
+        int nmove;
+        double p;
+        double pk;
+        double pkm1;
+        double pkp1;
+        double t;
+        double u;
+        double v;
+        double x0;
+        double xtemp;
 
-            //****************************************************************************80
-            //
-            //  Purpose: 
-            //
-            //    LEGENDRE_COM computes abscissas and weights for Gauss-Legendre quadrature.
-            //
-            //  Integration interval:
-            //
-            //    [ -1, 1 ]
-            //
-            //  Weight function:
-            //
-            //    1.
-            //
-            //  Integral to approximate:
-            //
-            //    Integral ( -1 <= X <= 1 ) F(X) dX.
-            //
-            //  Approximate integral:
-            //
-            //    sum ( 1 <= I <= NORDER ) WEIGHT(I) * F ( XTAB(I) ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    31 March 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int NORDER, the order of the rule.
-            //    NORDER must be greater than 0.
-            //
-            //    Output, double XTAB[NORDER], the abscissas of the rule.
-            //
-            //    Output, double WEIGHT[NORDER], the weights of the rule.
-            //    The weights are positive, symmetric, and should sum to 2.
-            //
+        switch (norder)
         {
-            double d1;
-            double d2pn;
-            double d3pn;
-            double d4pn;
-            double dp;
-            double dpn;
-            double e1;
-            double fx;
-            double h;
-            int i;
-            int iback;
-            int k;
-            int m;
-            int mp1mi;
-            int ncopy;
-            int nmove;
-            double p;
-            double pk;
-            double pkm1;
-            double pkp1;
-            double t;
-            double u;
-            double v;
-            double x0;
-            double xtemp;
-
-            if (norder < 1)
-            {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("LEGENDRE_COM - Fatal error!");
                 Console.WriteLine("  Illegal value of NORDER = " + norder + "");
                 return;
-            }
-
-            e1 = (double) (norder * (norder + 1));
-
-            m = (norder + 1) / 2;
-
-            for (i = 1; i <= (norder + 1) / 2; i++)
-            {
-                mp1mi = m + 1 - i;
-                t = Math.PI * (double) (4 * i - 1) / (double) (4 * norder + 2);
-                x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 /
-                    (double) (norder)) / (double) (8 * norder * norder));
-
-                pkm1 = 1.0;
-                pk = x0;
-
-                for (k = 2; k <= norder; k++)
-                {
-                    pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / (double) (k);
-                    pkm1 = pk;
-                    pk = pkp1;
-                }
-
-                d1 = (double) (norder) * (pkm1 - x0 * pk);
-
-                dpn = d1 / (1.0 - x0 * x0);
-
-                d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
-
-                d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
-
-                d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
-
-                u = pk / dpn;
-                v = d2pn / dpn;
-                //
-                //  Initial approximation H:
-                //
-                h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn
-                    / (3.0 * dpn))));
-                //
-                //  Refine H using one step of Newton's method:
-                //
-                p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
-                    * (d3pn + 0.25 * h * d4pn)));
-
-                dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
-
-                h = h - p / dp;
-
-                xtemp = x0 + h;
-
-                xtab[mp1mi - 1] = xtemp;
-
-                fx = d1 - h * e1 * (pk + 0.5 * h * (dpn + h / 3.0
-                    * (d2pn + 0.25 * h * (d3pn + 0.2 * h * d4pn))));
-
-                weight[mp1mi - 1] = 2.0 * (1.0 - xtemp * xtemp) / (fx * fx);
-            }
-
-            if ((norder % 2) == 1)
-            {
-                xtab[0] = 0.0;
-            }
-
-            //
-            //  Shift the data up.
-            //
-            nmove = (norder + 1) / 2;
-            ncopy = norder - nmove;
-
-            for (i = 1; i <= nmove; i++)
-            {
-                iback = norder + 1 - i;
-                xtab[iback - 1] = xtab[iback - ncopy - 1];
-                weight[iback - 1] = weight[iback - ncopy - 1];
-            }
-
-            //
-            //  Reflect values for the negative abscissas.
-            //
-            for (i = 0; i < norder - nmove; i++)
-            {
-                xtab[i] = -xtab[norder - 1 - i];
-                weight[i] = weight[norder - 1 - i];
-            }
         }
 
-        public static void legendre_2d_set(double[] a, double[] b, int nx, int ny, ref double[] x,
-                ref double[] y, ref double[] w)
+        e1 = norder * (norder + 1);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LEGENDRE_2D_SET: set a 2D Gauss-Legendre quadrature rule.
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( a(2) <= y <= b(2) ) ( a(1) <= x <= b(1) ) f(x,y) dx dy
-            //
-            //    The quadrature rule:
-            //
-            //      sum ( 1 <= i <= n ) w(i) * f ( x(i),y(i) )
-            //
-            //    where n = nx * ny, the orders of the rule in the X and Y directions.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double A[2], B[2], the lower and upper integration
-            //    limits.
-            //
-            //    Input, int NX, NY, the orders in the X and Y directions.
-            //    NX and NY must be between 1 and 10.
-            //
-            //    Output, double X[N], Y[N], the abscissas.
-            //
-            //    Output, double W[N], the weights.
-            //
+        m = (norder + 1) / 2;
+
+        for (i = 1; i <= (norder + 1) / 2; i++)
         {
-            int i;
-            int j;
-            int k;
-            double[] wx;
-            double[] wy;
-            double[] xx;
-            double[] yy;
-            //
-            //  Get the rules for [-1,+1].
-            //
-            xx = new double[nx];
-            wx = new double [nx];
-            legendre_set(nx, ref xx, ref wx);
+            mp1mi = m + 1 - i;
+            t = Math.PI * (4 * i - 1) / (4 * norder + 2);
+            x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 /
+                norder) / (8 * norder * norder));
 
-            yy = new double [ny];
-            wy = new double [ny];
-            legendre_set(ny, ref yy, ref wy);
+            pkm1 = 1.0;
+            pk = x0;
+
+            for (k = 2; k <= norder; k++)
+            {
+                pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
+                pkm1 = pk;
+                pk = pkp1;
+            }
+
+            d1 = norder * (pkm1 - x0 * pk);
+
+            dpn = d1 / (1.0 - x0 * x0);
+
+            d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
+
+            d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
+
+            d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
+
+            u = pk / dpn;
+            v = d2pn / dpn;
             //
-            //  Adjust from [-1,+1] to [A,B].
+            //  Initial approximation H:
             //
+            h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn
+                / (3.0 * dpn))));
+            //
+            //  Refine H using one step of Newton's method:
+            //
+            p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
+                * (d3pn + 0.25 * h * d4pn)));
+
+            dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
+
+            h -= p / dp;
+
+            xtemp = x0 + h;
+
+            xtab[mp1mi - 1] = xtemp;
+
+            fx = d1 - h * e1 * (pk + 0.5 * h * (dpn + h / 3.0
+                * (d2pn + 0.25 * h * (d3pn + 0.2 * h * d4pn))));
+
+            weight[mp1mi - 1] = 2.0 * (1.0 - xtemp * xtemp) / (fx * fx);
+        }
+
+        xtab[0] = (norder % 2) switch
+        {
+            1 => 0.0,
+            _ => xtab[0]
+        };
+
+        //
+        //  Shift the data up.
+        //
+        nmove = (norder + 1) / 2;
+        ncopy = norder - nmove;
+
+        for (i = 1; i <= nmove; i++)
+        {
+            iback = norder + 1 - i;
+            xtab[iback - 1] = xtab[iback - ncopy - 1];
+            weight[iback - 1] = weight[iback - ncopy - 1];
+        }
+
+        //
+        //  Reflect values for the negative abscissas.
+        //
+        for (i = 0; i < norder - nmove; i++)
+        {
+            xtab[i] = -xtab[norder - 1 - i];
+            weight[i] = weight[norder - 1 - i];
+        }
+    }
+
+    public static void legendre_2d_set(double[] a, double[] b, int nx, int ny, ref double[] x,
+            ref double[] y, ref double[] w)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_2D_SET: set a 2D Gauss-Legendre quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( a(2) <= y <= b(2) ) ( a(1) <= x <= b(1) ) f(x,y) dx dy
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i),y(i) )
+        //
+        //    where n = nx * ny, the orders of the rule in the X and Y directions.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A[2], B[2], the lower and upper integration
+        //    limits.
+        //
+        //    Input, int NX, NY, the orders in the X and Y directions.
+        //    NX and NY must be between 1 and 10.
+        //
+        //    Output, double X[N], Y[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+    {
+        int i;
+        int j;
+        int k;
+        double[] wx;
+        double[] wy;
+        double[] xx;
+        double[] yy;
+        //
+        //  Get the rules for [-1,+1].
+        //
+        xx = new double[nx];
+        wx = new double [nx];
+        legendre_set(nx, ref xx, ref wx);
+
+        yy = new double [ny];
+        wy = new double [ny];
+        legendre_set(ny, ref yy, ref wy);
+        //
+        //  Adjust from [-1,+1] to [A,B].
+        //
+        for (i = 0; i < nx; i++)
+        {
+            xx[i] = ((1.0 - xx[i]) * a[0]
+                     + (1.0 + xx[i]) * b[0])
+                    / 2.0;
+            wx[i] = wx[i] * (b[0] - a[0]) / 2.0;
+        }
+
+        for (j = 0; j < ny; j++)
+        {
+            yy[j] = ((1.0 - yy[j]) * a[1]
+                     + (1.0 + yy[j]) * b[1])
+                    / 2.0;
+            wy[j] = wy[j] * (b[1] - a[1]) / 2.0;
+        }
+
+        //
+        //  Compute the product rule.
+        //
+        k = 0;
+        for (j = 0; j < ny; j++)
+        {
             for (i = 0; i < nx; i++)
             {
-                xx[i] = ((1.0 - xx[i]) * a[0]
-                         + (1.0 + xx[i]) * b[0])
-                        / 2.0;
-                wx[i] = wx[i] * (b[0] - a[0]) / 2.0;
-            }
-
-            for (j = 0; j < ny; j++)
-            {
-                yy[j] = ((1.0 - yy[j]) * a[1]
-                         + (1.0 + yy[j]) * b[1])
-                        / 2.0;
-                wy[j] = wy[j] * (b[1] - a[1]) / 2.0;
-            }
-
-            //
-            //  Compute the product rule.
-            //
-            k = 0;
-            for (j = 0; j < ny; j++)
-            {
-                for (i = 0; i < nx; i++)
-                {
-                    x[k] = xx[i];
-                    y[k] = yy[j];
-                    w[k] = wx[i] * wy[j];
-                    k = k + 1;
-                }
+                x[k] = xx[i];
+                y[k] = yy[j];
+                w[k] = wx[i] * wy[j];
+                k += 1;
             }
         }
+    }
 
-        public static void legendre_set(int n, ref double[] x, ref double[] w)
+    public static void legendre_set(int n, ref double[] x, ref double[] w)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LEGENDRE_SET sets abscissas and weights for Gauss-Legendre quadrature.
-            //
-            //  Discussion:
-            //
-            //    The integration interval is [ -1, 1 ].
-            //
-            //    The weight function w(x-1] = 1.0;
-            //
-            //    The integral to approximate:
-            //
-            //      Integral ( -1 <= X <= 1 ) F(X) dX
-            //
-            //    Quadrature rule:
-            //
-            //      Sum ( 1 <= I <= N ) W(I) * F ( X(I) )
-            //
-            //    The quadrature rule will integrate exactly all polynomials up to
-            //    X**(2*N-1).
-            //
-            //    The abscissas of the rule are the zeroes of the Legendre polynomial
-            //    P(N)(X).
-            //
-            //    The integral produced by a Gauss-Legendre rule is equal to the
-            //    integral of the unique polynomial of degree N-1 which
-            //    agrees with the function at the N abscissas of the rule.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    19 October 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //    Vladimir Krylov,
-            //    Approximate Calculation of Integrals,
-            //    Dover, 2006,
-            //    ISBN: 0486445798.
-            //
-            //    Arthur Stroud, Don Secrest,
-            //    Gaussian Quadrature Formulas,
-            //    Prentice Hall, 1966,
-            //    LC: QA299.4G3S7.
-            //
-            //    Daniel Zwillinger, editor,
-            //    CRC Standard Mathematical Tables and Formulae,
-            //    30th Edition,
-            //    CRC Press, 1996,
-            //    ISBN: 0-8493-2479-3.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the rule.
-            //    N must be between 1 and 33, 63, 64, 65, 127 or 255.
-            //
-            //    Output, double X[N], the abscissas of the rule.
-            //
-            //    Output, double W[N], the weights of the rule.
-            //    The weights are positive, symmetric and should sum to 2.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_SET sets abscissas and weights for Gauss-Legendre quadrature.
+        //
+        //  Discussion:
+        //
+        //    The integration interval is [ -1, 1 ].
+        //
+        //    The weight function w(x-1] = 1.0;
+        //
+        //    The integral to approximate:
+        //
+        //      Integral ( -1 <= X <= 1 ) F(X) dX
+        //
+        //    Quadrature rule:
+        //
+        //      Sum ( 1 <= I <= N ) W(I) * F ( X(I) )
+        //
+        //    The quadrature rule will integrate exactly all polynomials up to
+        //    X**(2*N-1).
+        //
+        //    The abscissas of the rule are the zeroes of the Legendre polynomial
+        //    P(N)(X).
+        //
+        //    The integral produced by a Gauss-Legendre rule is equal to the
+        //    integral of the unique polynomial of degree N-1 which
+        //    agrees with the function at the N abscissas of the rule.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    19 October 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Vladimir Krylov,
+        //    Approximate Calculation of Integrals,
+        //    Dover, 2006,
+        //    ISBN: 0486445798.
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //    Daniel Zwillinger, editor,
+        //    CRC Standard Mathematical Tables and Formulae,
+        //    30th Edition,
+        //    CRC Press, 1996,
+        //    ISBN: 0-8493-2479-3.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the rule.
+        //    N must be between 1 and 33, 63, 64, 65, 127 or 255.
+        //
+        //    Output, double X[N], the abscissas of the rule.
+        //
+        //    Output, double W[N], the weights of the rule.
+        //    The weights are positive, symmetric and should sum to 2.
+        //
+    {
+        switch (n)
         {
-            if (n == 1)
-            {
+            case 1:
                 x[0] = 0.0;
 
                 w[0] = 2.0;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 x[0] = -0.577350269189625764509148780502;
                 x[1] = 0.577350269189625764509148780502;
 
                 w[0] = 1.0;
                 w[1] = 1.0;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 x[0] = -0.774596669241483377035853079956;
                 x[1] = 0.0;
                 x[2] = 0.774596669241483377035853079956;
@@ -372,9 +373,8 @@ namespace Burkardt.Quadrature
                 w[0] = 5.0 / 9.0;
                 w[1] = 8.0 / 9.0;
                 w[2] = 5.0 / 9.0;
-            }
-            else if (n == 4)
-            {
+                break;
+            case 4:
                 x[0] = -0.861136311594052575223946488893;
                 x[1] = -0.339981043584856264802665759103;
                 x[2] = 0.339981043584856264802665759103;
@@ -384,9 +384,8 @@ namespace Burkardt.Quadrature
                 w[1] = 0.652145154862546142626936050778;
                 w[2] = 0.652145154862546142626936050778;
                 w[3] = 0.347854845137453857373063949222;
-            }
-            else if (n == 5)
-            {
+                break;
+            case 5:
                 x[0] = -0.906179845938663992797626878299;
                 x[1] = -0.538469310105683091036314420700;
                 x[2] = 0.0;
@@ -398,9 +397,8 @@ namespace Burkardt.Quadrature
                 w[2] = 0.568888888888888888888888888889;
                 w[3] = 0.478628670499366468041291514836;
                 w[4] = 0.236926885056189087514264040720;
-            }
-            else if (n == 6)
-            {
+                break;
+            case 6:
                 x[0] = -0.932469514203152027812301554494;
                 x[1] = -0.661209386466264513661399595020;
                 x[2] = -0.238619186083196908630501721681;
@@ -414,9 +412,8 @@ namespace Burkardt.Quadrature
                 w[3] = 0.467913934572691047389870343990;
                 w[4] = 0.360761573048138607569833513838;
                 w[5] = 0.171324492379170345040296142173;
-            }
-            else if (n == 7)
-            {
+                break;
+            case 7:
                 x[0] = -0.949107912342758524526189684048;
                 x[1] = -0.741531185599394439863864773281;
                 x[2] = -0.405845151377397166906606412077;
@@ -432,9 +429,8 @@ namespace Burkardt.Quadrature
                 w[4] = 0.381830050505118944950369775489;
                 w[5] = 0.279705391489276667901467771424;
                 w[6] = 0.129484966168869693270611432679;
-            }
-            else if (n == 8)
-            {
+                break;
+            case 8:
                 x[0] = -0.960289856497536231683560868569;
                 x[1] = -0.796666477413626739591553936476;
                 x[2] = -0.525532409916328985817739049189;
@@ -452,9 +448,8 @@ namespace Burkardt.Quadrature
                 w[5] = 0.313706645877887287337962201987;
                 w[6] = 0.222381034453374470544355994426;
                 w[7] = 0.101228536290376259152531354310;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -0.968160239507626089835576202904;
                 x[1] = -0.836031107326635794299429788070;
                 x[2] = -0.613371432700590397308702039341;
@@ -474,9 +469,8 @@ namespace Burkardt.Quadrature
                 w[6] = 0.260610696402935462318742869419;
                 w[7] = 0.180648160694857404058472031243;
                 w[8] = 0.812743883615744119718921581105E-01;
-            }
-            else if (n == 10)
-            {
+                break;
+            case 10:
                 x[0] = -0.973906528517171720077964012084;
                 x[1] = -0.865063366688984510732096688423;
                 x[2] = -0.679409568299024406234327365115;
@@ -498,9 +492,8 @@ namespace Burkardt.Quadrature
                 w[7] = 0.219086362515982043995534934228;
                 w[8] = 0.149451349150580593145776339658;
                 w[9] = 0.666713443086881375935688098933E-01;
-            }
-            else if (n == 11)
-            {
+                break;
+            case 11:
                 x[0] = -0.978228658146056992803938001123;
                 x[1] = -0.887062599768095299075157769304;
                 x[2] = -0.730152005574049324093416252031;
@@ -524,9 +517,8 @@ namespace Burkardt.Quadrature
                 w[8] = 0.186290210927734251426097641432;
                 w[9] = 0.125580369464904624634694299224;
                 w[10] = 0.556685671161736664827537204425E-01;
-            }
-            else if (n == 12)
-            {
+                break;
+            case 12:
                 x[0] = -0.981560634246719250690549090149;
                 x[1] = -0.904117256370474856678465866119;
                 x[2] = -0.769902674194304687036893833213;
@@ -552,9 +544,8 @@ namespace Burkardt.Quadrature
                 w[9] = 0.160078328543346226334652529543;
                 w[10] = 0.106939325995318430960254718194;
                 w[11] = 0.471753363865118271946159614850E-01;
-            }
-            else if (n == 13)
-            {
+                break;
+            case 13:
                 x[0] = -0.984183054718588149472829448807;
                 x[1] = -0.917598399222977965206547836501;
                 x[2] = -0.801578090733309912794206489583;
@@ -582,9 +573,8 @@ namespace Burkardt.Quadrature
                 w[10] = 0.138873510219787238463601776869;
                 w[11] = 0.921214998377284479144217759538E-01;
                 w[12] = 0.404840047653158795200215922010E-01;
-            }
-            else if (n == 14)
-            {
+                break;
+            case 14:
                 x[0] = -0.986283808696812338841597266704;
                 x[1] = -0.928434883663573517336391139378;
                 x[2] = -0.827201315069764993189794742650;
@@ -614,9 +604,8 @@ namespace Burkardt.Quadrature
                 w[11] = 0.121518570687903184689414809072;
                 w[12] = 0.801580871597602098056332770629E-01;
                 w[13] = 0.351194603317518630318328761382E-01;
-            }
-            else if (n == 15)
-            {
+                break;
+            case 15:
                 x[0] = -0.987992518020485428489565718587;
                 x[1] = -0.937273392400705904307758947710;
                 x[2] = -0.848206583410427216200648320774;
@@ -648,9 +637,8 @@ namespace Burkardt.Quadrature
                 w[12] = 0.107159220467171935011869546686;
                 w[13] = 0.703660474881081247092674164507E-01;
                 w[14] = 0.307532419961172683546283935772E-01;
-            }
-            else if (n == 16)
-            {
+                break;
+            case 16:
                 x[0] = -0.989400934991649932596154173450;
                 x[1] = -0.944575023073232576077988415535;
                 x[2] = -0.865631202387831743880467897712;
@@ -684,9 +672,8 @@ namespace Burkardt.Quadrature
                 w[13] = 0.951585116824927848099251076022E-01;
                 w[14] = 0.622535239386478928628438369944E-01;
                 w[15] = 0.271524594117540948517805724560E-01;
-            }
-            else if (n == 17)
-            {
+                break;
+            case 17:
                 x[0] = -0.990575475314417335675434019941;
                 x[1] = -0.950675521768767761222716957896;
                 x[2] = -0.880239153726985902122955694488;
@@ -722,9 +709,8 @@ namespace Burkardt.Quadrature
                 w[14] = 0.850361483171791808835353701911E-01;
                 w[15] = 0.554595293739872011294401653582E-01;
                 w[16] = 0.241483028685479319601100262876E-01;
-            }
-            else if (n == 18)
-            {
+                break;
+            case 18:
                 x[0] = -0.991565168420930946730016004706;
                 x[1] = -0.955823949571397755181195892930;
                 x[2] = -0.892602466497555739206060591127;
@@ -762,9 +748,8 @@ namespace Burkardt.Quadrature
                 w[15] = 0.764257302548890565291296776166E-01;
                 w[16] = 0.497145488949697964533349462026E-01;
                 w[17] = 0.216160135264833103133427102665E-01;
-            }
-            else if (n == 19)
-            {
+                break;
+            case 19:
                 x[0] = -0.992406843843584403189017670253;
                 x[1] = -0.960208152134830030852778840688;
                 x[2] = -0.903155903614817901642660928532;
@@ -804,9 +789,8 @@ namespace Burkardt.Quadrature
                 w[16] = 0.690445427376412265807082580060E-01;
                 w[17] = 0.448142267656996003328381574020E-01;
                 w[18] = 0.194617882297264770363120414644E-01;
-            }
-            else if (n == 20)
-            {
+                break;
+            case 20:
                 x[0] = -0.993128599185094924786122388471;
                 x[1] = -0.963971927277913791267666131197;
                 x[2] = -0.912234428251325905867752441203;
@@ -848,9 +832,8 @@ namespace Burkardt.Quadrature
                 w[17] = 0.626720483341090635695065351870E-01;
                 w[18] = 0.406014298003869413310399522749E-01;
                 w[19] = 0.176140071391521183118619623519E-01;
-            }
-            else if (n == 21)
-            {
+                break;
+            case 21:
                 x[0] = -0.9937521706203896E+00;
                 x[1] = -0.9672268385663063E+00;
                 x[2] = -0.9200993341504008E+00;
@@ -894,9 +877,8 @@ namespace Burkardt.Quadrature
                 w[18] = 0.5713442542685715E-01;
                 w[19] = 0.3695378977085242E-01;
                 w[20] = 0.1601722825777420E-01;
-            }
-            else if (n == 22)
-            {
+                break;
+            case 22:
                 x[0] = -0.9942945854823994E+00;
                 x[1] = -0.9700604978354287E+00;
                 x[2] = -0.9269567721871740E+00;
@@ -942,9 +924,8 @@ namespace Burkardt.Quadrature
                 w[19] = 0.5229333515268327E-01;
                 w[20] = 0.3377490158481413E-01;
                 w[21] = 0.1462799529827203E-01;
-            }
-            else if (n == 23)
-            {
+                break;
+            case 23:
                 x[0] = -0.9947693349975522E+00;
                 x[1] = -0.9725424712181152E+00;
                 x[2] = -0.9329710868260161E+00;
@@ -992,9 +973,8 @@ namespace Burkardt.Quadrature
                 w[20] = 0.4803767173108464E-01;
                 w[21] = 0.3098800585697944E-01;
                 w[22] = 0.1341185948714167E-01;
-            }
-            else if (n == 24)
-            {
+                break;
+            case 24:
                 x[0] = -0.9951872199970213E+00;
                 x[1] = -0.9747285559713095E+00;
                 x[2] = -0.9382745520027327E+00;
@@ -1044,9 +1024,8 @@ namespace Burkardt.Quadrature
                 w[21] = 0.4427743881741982E-01;
                 w[22] = 0.2853138862893375E-01;
                 w[23] = 0.1234122979998730E-01;
-            }
-            else if (n == 25)
-            {
+                break;
+            case 25:
                 x[0] = -0.9955569697904981E+00;
                 x[1] = -0.9766639214595175E+00;
                 x[2] = -0.9429745712289743E+00;
@@ -1098,9 +1077,8 @@ namespace Burkardt.Quadrature
                 w[22] = 0.4093915670130639E-01;
                 w[23] = 0.2635498661503214E-01;
                 w[24] = 0.1139379850102617E-01;
-            }
-            else if (n == 26)
-            {
+                break;
+            case 26:
                 x[0] = -0.9958857011456169E+00;
                 x[1] = -0.9783854459564710E+00;
                 x[2] = -0.9471590666617142E+00;
@@ -1154,9 +1132,8 @@ namespace Burkardt.Quadrature
                 w[23] = 0.3796238329436282E-01;
                 w[24] = 0.2441785109263173E-01;
                 w[25] = 0.1055137261734304E-01;
-            }
-            else if (n == 27)
-            {
+                break;
+            case 27:
                 x[0] = -0.9961792628889886E+00;
                 x[1] = -0.9799234759615012E+00;
                 x[2] = -0.9509005578147051E+00;
@@ -1212,9 +1189,8 @@ namespace Burkardt.Quadrature
                 w[24] = 0.3529705375741969E-01;
                 w[25] = 0.2268623159618062E-01;
                 w[26] = 0.9798996051294232E-02;
-            }
-            else if (n == 28)
-            {
+                break;
+            case 28:
                 x[0] = -0.9964424975739544E+00;
                 x[1] = -0.9813031653708728E+00;
                 x[2] = -0.9542592806289382E+00;
@@ -1272,9 +1248,8 @@ namespace Burkardt.Quadrature
                 w[25] = 0.3290142778230441E-01;
                 w[26] = 0.2113211259277118E-01;
                 w[27] = 0.9124282593094672E-02;
-            }
-            else if (n == 29)
-            {
+                break;
+            case 29:
                 x[0] = -0.9966794422605966E+00;
                 x[1] = -0.9825455052614132E+00;
                 x[2] = -0.9572855957780877E+00;
@@ -1334,9 +1309,8 @@ namespace Burkardt.Quadrature
                 w[26] = 0.3074049220209360E-01;
                 w[27] = 0.1973208505612276E-01;
                 w[28] = 0.8516903878746365E-02;
-            }
-            else if (n == 30)
-            {
+                break;
+            case 30:
                 x[0] = -0.9968934840746495E+00;
                 x[1] = -0.9836681232797472E+00;
                 x[2] = -0.9600218649683075E+00;
@@ -1398,9 +1372,8 @@ namespace Burkardt.Quadrature
                 w[27] = 0.2878470788332330E-01;
                 w[28] = 0.1846646831109099E-01;
                 w[29] = 0.7968192496166648E-02;
-            }
-            else if (n == 31)
-            {
+                break;
+            case 31:
                 x[0] = -0.99708748181947707454263838179654;
                 x[1] = -0.98468590966515248400211329970113;
                 x[2] = -0.96250392509294966178905249675943;
@@ -1464,9 +1437,8 @@ namespace Burkardt.Quadrature
                 w[28] = 0.27009019184979421800608642617676E-01;
                 w[29] = 0.17318620790310582463552990782414E-01;
                 w[30] = 0.74708315792487746093913218970494E-02;
-            }
-            else if (n == 32)
-            {
+                break;
+            case 32:
                 x[0] = -0.997263861849481563544981128665;
                 x[1] = -0.985611511545268335400175044631;
                 x[2] = -0.964762255587506430773811928118;
@@ -1532,9 +1504,8 @@ namespace Burkardt.Quadrature
                 w[29] = 0.253920653092620594557525897892E-01;
                 w[30] = 0.162743947309056706051705622064E-01;
                 w[31] = 0.701861000947009660040706373885E-02;
-            }
-            else if (n == 33)
-            {
+                break;
+            case 33:
                 x[0] = -0.9974246942464552;
                 x[1] = -0.9864557262306425;
                 x[2] = -0.9668229096899927;
@@ -1602,9 +1573,8 @@ namespace Burkardt.Quadrature
                 w[30] = 0.2391554810174960E-01;
                 w[31] = 0.1532170151293465E-01;
                 w[32] = 0.6606227847587558E-02;
-            }
-            else if (n == 64)
-            {
+                break;
+            case 64:
                 x[0] = -0.999305041735772139456905624346;
                 x[1] = -0.996340116771955279346924500676;
                 x[2] = -0.991013371476744320739382383443;
@@ -1734,9 +1704,8 @@ namespace Burkardt.Quadrature
                 w[61] = 0.650445796897836285611736039998E-02;
                 w[62] = 0.414703326056246763528753572855E-02;
                 w[63] = 0.178328072169643294729607914497E-02;
-            }
-            else if (n == 65)
-            {
+                break;
+            case 65:
                 x[0] = -0.9993260970754129;
                 x[1] = -0.9964509480618492;
                 x[2] = -0.9912852761768016;
@@ -1868,9 +1837,8 @@ namespace Burkardt.Quadrature
                 w[62] = 0.6307942578971821E-02;
                 w[63] = 0.4021524172003703E-02;
                 w[64] = 0.1729258251300218E-02;
-            }
-            else if (n == 127)
-            {
+                break;
+            case 127:
                 x[0] = -0.99982213041530614629963254927125E+00;
                 x[1] = -0.99906293435531189513828920479421E+00;
                 x[2] = -0.99769756618980462107441703193392E+00;
@@ -2126,9 +2094,8 @@ namespace Burkardt.Quadrature
                 w[124] = 0.16683488125171936761028811985672E-02;
                 w[125] = 0.10622766869538486959954760554099E-02;
                 w[126] = 0.45645726109586654495731936146574E-03;
-            }
-            else if (n == 255)
-            {
+                break;
+            case 255:
                 x[0] = -0.9999557053175637;
                 x[1] = -0.9997666213120006;
                 x[2] = -0.99942647468017;
@@ -2640,83 +2607,82 @@ namespace Burkardt.Quadrature
                 w[252] = 0.0004156976252681932;
                 w[253] = 0.0002645938711908564;
                 w[254] = 0.0001136736199914808;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LEGENDRE_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 Console.WriteLine("  Legal values are 1 through 33, 63, 64, 65, 127 or 255.");
-            }
+                break;
         }
+    }
 
-        public static void legendre_set_x1(int order, ref double[] xtab, ref double[] weight)
+    public static void legendre_set_x1(int order, ref double[] xtab, ref double[] weight)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LEGENDRE_SET_X1 sets a Gauss-Legendre rule for ( 1 + X ) * F(X) on [-1,1].
-            //
-            //  Discussion:
-            //
-            //    The integration interval is [ -1, 1 ].
-            //
-            //    The weight function is w(x-1] = 1 + x.
-            //
-            //    The integral to approximate:
-            //
-            //      Integral ( -1 <= X <= 1 ) ( 1 + X ) * F(X) dX
-            //
-            //    The quadrature rule:
-            //
-            //      Sum ( 1 <= I <= ORDER ) WEIGHT(I) * F ( XTAB(I) )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    03 May 2006
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Arthur Stroud, Don Secrest,
-            //    Gaussian Quadrature Formulas,
-            //    Prentice Hall, 1966,
-            //    LC: QA299.4G3S7.
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the rule.
-            //    ORDER must be between 1 and 9.
-            //
-            //    Output, double XTAB[ORDER], the abscissas of the rule.
-            //
-            //    Output, double WEIGHT[ORDER], the weights of the rule.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_SET_X1 sets a Gauss-Legendre rule for ( 1 + X ) * F(X) on [-1,1].
+        //
+        //  Discussion:
+        //
+        //    The integration interval is [ -1, 1 ].
+        //
+        //    The weight function is w(x-1] = 1 + x.
+        //
+        //    The integral to approximate:
+        //
+        //      Integral ( -1 <= X <= 1 ) ( 1 + X ) * F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) WEIGHT(I) * F ( XTAB(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    03 May 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //    ORDER must be between 1 and 9.
+        //
+        //    Output, double XTAB[ORDER], the abscissas of the rule.
+        //
+        //    Output, double WEIGHT[ORDER], the weights of the rule.
+        //
+    {
+        switch (order)
         {
-            if (order == 1)
-            {
+            case 1:
                 xtab[1 - 1] = 0.333333333333333333333333333333E+00;
 
                 weight[1 - 1] = 2.0E+00;
-            }
-            else if (order == 2)
-            {
+                break;
+            case 2:
                 xtab[1 - 1] = -0.289897948556635619639456814941E+00;
                 xtab[2 - 1] = 0.689897948556635619639456814941E+00;
 
                 weight[1 - 1] = 0.727834473024091322422523991699E+00;
                 weight[2 - 1] = 1.27216552697590867757747600830E+00;
-            }
-            else if (order == 3)
-            {
+                break;
+            case 3:
                 xtab[1 - 1] = -0.575318923521694112050483779752E+00;
                 xtab[2 - 1] = 0.181066271118530578270147495862E+00;
                 xtab[3 - 1] = 0.822824080974592105208907712461E+00;
@@ -2724,9 +2690,8 @@ namespace Burkardt.Quadrature
                 weight[1 - 1] = 0.279307919605816490135525088716E+00;
                 weight[2 - 1] = 0.916964425438344986775682378225E+00;
                 weight[3 - 1] = 0.803727654955838523088792533058E+00;
-            }
-            else if (order == 4)
-            {
+                break;
+            case 4:
                 xtab[1 - 1] = -0.720480271312438895695825837750E+00;
                 xtab[2 - 1] = -0.167180864737833640113395337326E+00;
                 xtab[3 - 1] = 0.446313972723752344639908004629E+00;
@@ -2736,9 +2701,8 @@ namespace Burkardt.Quadrature
                 weight[2 - 1] = 0.519390190432929763305824811559E+00;
                 weight[3 - 1] = 0.813858272041085443165617903743E+00;
                 weight[4 - 1] = 0.542027653725952464833056696312E+00;
-            }
-            else if (order == 5)
-            {
+                break;
+            case 5:
                 xtab[1 - 1] = -0.802929828402347147753002204224E+00;
                 xtab[2 - 1] = -0.390928546707272189029229647442E+00;
                 xtab[3 - 1] = 0.124050379505227711989974959990E+00;
@@ -2750,9 +2714,8 @@ namespace Burkardt.Quadrature
                 weight[3 - 1] = 0.585547948338679234792151477424E+00;
                 weight[4 - 1] = 0.668698552377478261966702492391E+00;
                 weight[5 - 1] = 0.387126360906606717097443886545E+00;
-            }
-            else if (order == 6)
-            {
+                break;
+            case 6:
                 xtab[1 - 1] = -0.853891342639482229703747931639E+00;
                 xtab[2 - 1] = -0.538467724060109001833766720231E+00;
                 xtab[3 - 1] = -0.117343037543100264162786683611E+00;
@@ -2766,9 +2729,8 @@ namespace Burkardt.Quadrature
                 weight[4 - 1] = 0.563170215152795712476307356284E+00;
                 weight[5 - 1] = 0.542169988926074467362761586552E+00;
                 weight[6 - 1] = 0.289241322902034734621817304499E+00;
-            }
-            else if (order == 7)
-            {
+                break;
+            case 7:
                 xtab[1 - 1] = -0.887474878926155707068695617935E+00;
                 xtab[2 - 1] = -0.639518616526215270024840114382E+00;
                 xtab[3 - 1] = -0.294750565773660725252184459658E+00;
@@ -2784,9 +2746,8 @@ namespace Burkardt.Quadrature
                 weight[5 - 1] = 0.509563589198353307674937943100E+00;
                 weight[6 - 1] = 0.442037032763498409684482945478E+00;
                 weight[7 - 1] = 0.223869453693964204606248453720E+00;
-            }
-            else if (order == 8)
-            {
+                break;
+            case 8:
                 xtab[1 - 1] = -0.910732089420060298533757956283E+00;
                 xtab[2 - 1] = -0.711267485915708857029562959544E+00;
                 xtab[3 - 1] = -0.426350485711138962102627520502E+00;
@@ -2804,9 +2765,8 @@ namespace Burkardt.Quadrature
                 weight[6 - 1] = 0.450023197883549464687088394417E+00;
                 weight[7 - 1] = 0.364476094545494505382889847132E+00;
                 weight[8 - 1] = 0.178203217446223725304862478136E+00;
-            }
-            else if (order == 9)
-            {
+                break;
+            case 9:
                 xtab[1 - 1] = -0.927484374233581078117671398464E+00;
                 xtab[2 - 1] = -0.763842042420002599615429776011E+00;
                 xtab[3 - 1] = -0.525646030370079229365386614293E+00;
@@ -2826,82 +2786,81 @@ namespace Burkardt.Quadrature
                 weight[7 - 1] = 0.394134968689382820640692081477E+00;
                 weight[8 - 1] = 0.304297020437232650320317215016E+00;
                 weight[9 - 1] = 0.145112014093119485838598391765E+00;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LEGENDRE_SET_X1 - Fatal error!");
                 Console.WriteLine("  Illegal input value of ORDER = " + order + "");
-            }
+                break;
         }
+    }
 
-        public static void legendre_set_x2(int order, ref double[] xtab, ref double[] weight)
+    public static void legendre_set_x2(int order, ref double[] xtab, ref double[] weight)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LEGENDRE_SET_X2 sets Gauss-Legendre rules for ( 1 + X )^2*F(X) on [-1,1].
-            //
-            //  Discussion:
-            //
-            //    The integration interval is [ -1, 1 ].
-            //
-            //    The weight function is w(x-1] = ( 1 + x )^2.
-            //
-            //    The integral to approximate:
-            //
-            //      Integral ( -1 <= X <= 1 ) ( 1 + X )^2 * F(X) dX
-            //
-            //    The quadrature rule:
-            //
-            //      Sum ( 1 <= I <= ORDER ) WEIGHt[I) * F ( XTAb[I) )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    02 May 2006
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Arthur Stroud, Don Secrest,
-            //    Gaussian Quadrature Formulas,
-            //    Prentice Hall, 1966,
-            //    LC: QA299.4G3S7.
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the rule.
-            //    ORDER must be between 1 and 9.
-            //
-            //    Output, double XTAB[ORDER], the abscissas of the rule.
-            //
-            //    Output, double WEIGHT[ORDER], the weights of the rule.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_SET_X2 sets Gauss-Legendre rules for ( 1 + X )^2*F(X) on [-1,1].
+        //
+        //  Discussion:
+        //
+        //    The integration interval is [ -1, 1 ].
+        //
+        //    The weight function is w(x-1] = ( 1 + x )^2.
+        //
+        //    The integral to approximate:
+        //
+        //      Integral ( -1 <= X <= 1 ) ( 1 + X )^2 * F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) WEIGHt[I) * F ( XTAb[I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 May 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //    ORDER must be between 1 and 9.
+        //
+        //    Output, double XTAB[ORDER], the abscissas of the rule.
+        //
+        //    Output, double WEIGHT[ORDER], the weights of the rule.
+        //
+    {
+        switch (order)
         {
-            if (order == 1)
-            {
+            case 1:
                 xtab[1 - 1] = 0.5E+00;
 
                 weight[1 - 1] = 2.66666666666666666666666666666E+00;
-            }
-            else if (order == 2)
-            {
+                break;
+            case 2:
                 xtab[1 - 1] = -0.0883036880224505775998524725910E+00;
                 xtab[2 - 1] = 0.754970354689117244266519139258E+00;
 
                 weight[1 - 1] = 0.806287056638603444666851075928E+00;
                 weight[2 - 1] = 1.86037961002806322199981559074E+00;
-            }
-            else if (order == 3)
-            {
+                break;
+            case 3:
                 xtab[1 - 1] = -0.410004419776996766244796955168E+00;
                 xtab[2 - 1] = 0.305992467923296230556472913192E+00;
                 xtab[3 - 1] = 0.854011951853700535688324041976E+00;
@@ -2909,9 +2868,8 @@ namespace Burkardt.Quadrature
                 weight[1 - 1] = 0.239605624068645584091811926047E+00;
                 weight[2 - 1] = 1.16997015407892817602809616291E+00;
                 weight[3 - 1] = 1.25709088851909290654675857771E+00;
-            }
-            else if (order == 4)
-            {
+                break;
+            case 4:
                 xtab[1 - 1] = -0.591702835793545726606755921586E+00;
                 xtab[2 - 1] = -0.0340945902087350046811467387661E+00;
                 xtab[3 - 1] = 0.522798524896275389882037174551E+00;
@@ -2921,9 +2879,8 @@ namespace Burkardt.Quadrature
                 weight[2 - 1] = 0.549071097383384602539010760334E+00;
                 weight[3 - 1] = 1.14767031839371367238662411421E+00;
                 weight[4 - 1] = 0.887107324890223869465850539752E+00;
-            }
-            else if (order == 5)
-            {
+                break;
+            case 5:
                 xtab[1 - 1] = -0.702108425894032836232448374820E+00;
                 xtab[2 - 1] = -0.268666945261773544694327777841E+00;
                 xtab[3 - 1] = 0.220227225868961343518209179230E+00;
@@ -2935,9 +2892,8 @@ namespace Burkardt.Quadrature
                 weight[3 - 1] = 0.713601289772720001490035944563E+00;
                 weight[4 - 1] = 1.00959169519929190423066348132E+00;
                 weight[5 - 1] = 0.654118274286167343239045863379E+00;
-            }
-            else if (order == 6)
-            {
+                break;
+            case 6:
                 xtab[1 - 1] = -0.773611232355123732602532012021E+00;
                 xtab[2 - 1] = -0.431362254623427837535325249187E+00;
                 xtab[3 - 1] = -0.0180728263295041680220798103354E+00;
@@ -2951,9 +2907,8 @@ namespace Burkardt.Quadrature
                 weight[4 - 1] = 0.756617493988329628546336413760E+00;
                 weight[5 - 1] = 0.859011997894245060846045458784E+00;
                 weight[6 - 1] = 0.500309621812647503028212451747E+00;
-            }
-            else if (order == 7)
-            {
+                break;
+            case 7:
                 xtab[1 - 1] = -0.822366333126005527278634734418E+00;
                 xtab[2 - 1] = -0.547034493182875002223997992852E+00;
                 xtab[3 - 1] = -0.200043026557985860387937545780E+00;
@@ -2969,9 +2924,8 @@ namespace Burkardt.Quadrature
                 weight[5 - 1] = 0.733870426238362032891332767175E+00;
                 weight[6 - 1] = 0.725590596901489156295739839779E+00;
                 weight[7 - 1] = 0.394212014211504966587433032679E+00;
-            }
-            else if (order == 8)
-            {
+                break;
+            case 8:
                 xtab[1 - 1] = -0.857017929919813794402037235698E+00;
                 xtab[2 - 1] = -0.631543407166567521509503573952E+00;
                 xtab[3 - 1] = -0.339104543648722903660229021109E+00;
@@ -2989,9 +2943,8 @@ namespace Burkardt.Quadrature
                 weight[6 - 1] = 0.682278153375510121675529810121E+00;
                 weight[7 - 1] = 0.614544746137780998436053880546E+00;
                 weight[8 - 1] = 0.318231662453524478640851647411E+00;
-            }
-            else if (order == 9)
-            {
+                break;
+            case 9:
                 xtab[1 - 1] = -0.882491728426548422828684254270E+00;
                 xtab[2 - 1] = -0.694873684026474640346360850039E+00;
                 xtab[3 - 1] = -0.446537143480670863635920316400E+00;
@@ -3011,20 +2964,17 @@ namespace Burkardt.Quadrature
                 weight[7 - 1] = 0.621388553284444032628761363828E+00;
                 weight[8 - 1] = 0.523916296267173054255512857631E+00;
                 weight[9 - 1] = 0.262081160888317771694556320674E+00;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LEGENDRE_SET_X2 - Fatal error!");
                 Console.WriteLine("  Illegal input value of ORDER = " + order + "");
                 return;
-            }
-
-            return;
         }
+    }
 
 
-        public static void p_quadrature_rule ( int nt, ref double[] t, ref double[] wts )
+    public static void p_quadrature_rule ( int nt, ref double[] t, ref double[] wts )
 
         //****************************************************************************80
         //
@@ -3051,35 +3001,34 @@ namespace Burkardt.Quadrature
         //    Output, double T[NT], WTS[NT], the points and weights
         //    of the rule.
         //
-        {
-            double[] bj;
-            int i;
+    {
+        double[] bj;
+        int i;
   
-            for ( i = 0; i < nt; i++ )
-            {
-                t[i] = 0.0;
-            }
+        for ( i = 0; i < nt; i++ )
+        {
+            t[i] = 0.0;
+        }
 
-            bj = new double[nt];
-            for ( i = 0; i < nt; i++ )
-            {
-                bj[i] = ( double ) ( ( i + 1 ) * ( i + 1 ) ) 
-                        / ( double ) ( 4 *  ( i + 1 ) * ( i + 1 ) - 1 );
-                bj[i] = Math.Sqrt ( bj[i] );
-            }
+        bj = new double[nt];
+        for ( i = 0; i < nt; i++ )
+        {
+            bj[i] = ( i + 1 ) * ( i + 1 ) 
+                    / ( double ) ( 4 *  ( i + 1 ) * ( i + 1 ) - 1 );
+            bj[i] = Math.Sqrt ( bj[i] );
+        }
 
-            wts[0] = Math.Sqrt ( 2.0 );
-            for ( i = 1; i < nt; i++ )
-            {
-                wts[i] = 0.0;
-            }
+        wts[0] = Math.Sqrt ( 2.0 );
+        for ( i = 1; i < nt; i++ )
+        {
+            wts[i] = 0.0;
+        }
 
-            IMTQLX.imtqlx ( nt, ref t, ref bj, ref wts );
+        IMTQLX.imtqlx ( nt, ref t, ref bj, ref wts );
 
-            for ( i = 0; i < nt; i++ )
-            {
-                wts[i] = Math.Pow ( wts[i], 2 );
-            }
+        for ( i = 0; i < nt; i++ )
+        {
+            wts[i] = Math.Pow ( wts[i], 2 );
         }
     }
 }

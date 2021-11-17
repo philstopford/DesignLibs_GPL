@@ -2,114 +2,116 @@
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt.Laguerre
+namespace Burkardt.Laguerre;
+
+public static partial class Functions
 {
-    public static partial class Functions
+    public static double[] lf_function(int mm, int n, double alpha, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LF_FUNCTION evaluates the Laguerre function Lf(n,alpha,x).
+        //
+        //  Recursion:
+        //
+        //    Lf(0,ALPHA,X) = 1
+        //    Lf(1,ALPHA,X) = 1+ALPHA-X
+        //
+        //    Lf(N,ALPHA,X) = (2*N-1+ALPHA-X)/N * Lf(N-1,ALPHA,X) 
+        //                      - (N-1+ALPHA)/N * Lf(N-2,ALPHA,X)
+        //
+        //  Restrictions:
+        //
+        //    -1 < ALPHA
+        //
+        //  Special values:
+        //
+        //    Lf(N,0,X) = L(N,X).
+        //    Lf(N,ALPHA,X) = LM(N,ALPHA,X) for ALPHA integral.
+        //
+        //  Norm:
+        //
+        //    Integral ( 0 <= X < +oo ) exp ( - X ) * Lf(N,ALPHA,X)^2 dX
+        //    = Gamma ( N + ALPHA + 1 ) / N!
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //  Parameters:
+        //
+        //    Input, int MM, the number of evaluation points.
+        //
+        //    Input, int N, the highest order polynomial to compute.
+        //
+        //    Input, double ALPHA, the parameter.  -1.0 < ALPHA.
+        //
+        //    Input, double X[MM], the evaluation points.
+        //
+        //    Output, double LM_POLYNOMIAL[MM*(N+1)], the function values.
+        //
     {
-        public static double[] lf_function(int mm, int n, double alpha, double[] x)
+        int i;
+        int j;
+        double[] v;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LF_FUNCTION evaluates the Laguerre function Lf(n,alpha,x).
-            //
-            //  Recursion:
-            //
-            //    Lf(0,ALPHA,X) = 1
-            //    Lf(1,ALPHA,X) = 1+ALPHA-X
-            //
-            //    Lf(N,ALPHA,X) = (2*N-1+ALPHA-X)/N * Lf(N-1,ALPHA,X) 
-            //                      - (N-1+ALPHA)/N * Lf(N-2,ALPHA,X)
-            //
-            //  Restrictions:
-            //
-            //    -1 < ALPHA
-            //
-            //  Special values:
-            //
-            //    Lf(N,0,X) = L(N,X).
-            //    Lf(N,ALPHA,X) = LM(N,ALPHA,X) for ALPHA integral.
-            //
-            //  Norm:
-            //
-            //    Integral ( 0 <= X < +oo ) exp ( - X ) * Lf(N,ALPHA,X)^2 dX
-            //    = Gamma ( N + ALPHA + 1 ) / N!
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //  Parameters:
-            //
-            //    Input, int MM, the number of evaluation points.
-            //
-            //    Input, int N, the highest order polynomial to compute.
-            //
-            //    Input, double ALPHA, the parameter.  -1.0 < ALPHA.
-            //
-            //    Input, double X[MM], the evaluation points.
-            //
-            //    Output, double LM_POLYNOMIAL[MM*(N+1)], the function values.
-            //
+        switch (n)
         {
-            int i;
-            int j;
-            double[] v;
-
-            if (n < 0)
-            {
+            case < 0:
                 return null;
-            }
-
-            v = new double[mm * (n + 1)];
-
-            for (i = 0; i < mm; i++)
-            {
-                v[i + 0 * mm] = 1.0;
-            }
-
-            if (n == 0)
-            {
-                return v;
-            }
-
-            for (i = 0; i < mm; i++)
-            {
-                v[i + 1 * mm] = alpha + 1.0 - x[i];
-            }
-
-            for (j = 2; j <= n; j++)
-            {
-                for (i = 0; i < mm; i++)
-                {
-                    v[i + j * mm] = ((alpha + (double) (2 * i - 1) - x[i]) * v[i + (j - 1) * mm]
-                                     + (-alpha + (double) (-i + 1)) * v[i + (j - 2) * mm])
-                                    / (double) (i);
-                }
-            }
-
-            return v;
         }
 
-        public static void lf_function_values(ref int n_data, ref int n, ref double a, ref double x,
-        ref double fx )
+        v = new double[mm * (n + 1)];
+
+        for (i = 0; i < mm; i++)
+        {
+            v[i + 0 * mm] = 1.0;
+        }
+
+        switch (n)
+        {
+            case 0:
+                return v;
+        }
+
+        for (i = 0; i < mm; i++)
+        {
+            v[i + 1 * mm] = alpha + 1.0 - x[i];
+        }
+
+        for (j = 2; j <= n; j++)
+        {
+            for (i = 0; i < mm; i++)
+            {
+                v[i + j * mm] = ((alpha + (2 * i - 1) - x[i]) * v[i + (j - 1) * mm]
+                                 + (-alpha + (-i + 1)) * v[i + (j - 2) * mm])
+                                / i;
+            }
+        }
+
+        return v;
+    }
+
+    public static void lf_function_values(ref int n_data, ref int n, ref double a, ref double x,
+            ref double fx )
 
         //****************************************************************************80
         //
@@ -179,10 +181,10 @@ namespace Burkardt.Laguerre
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] a_vec =
+        double[] a_vec =
             {
                 0.00E+00,
                 0.25E+00,
@@ -207,7 +209,7 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.3726399739583333E-01,
                 0.3494791666666667E+00,
@@ -232,7 +234,7 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            int[] n_vec =
+        int[] n_vec =
             {
                 5,
                 5,
@@ -257,7 +259,7 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.25E+00,
                 0.25E+00,
@@ -282,162 +284,163 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                n = 0;
-                a = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                n = n_vec[n_data - 1];
-                a = a_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-        }
-
-        public static double[] lf_function_zeros(int n, double alpha)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LF_FUNCTION_ZEROS returns the zeros of Lf(n,alpha,x).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Sylvan Elhay, Jaroslav Kautsky,
-            //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
-            //    Interpolatory Quadrature,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 13, Number 4, December 1987, pages 399-415.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    ALPHA must be nonnegative.
-            //
-            //    Output, double LF_FUNCTION_ZEROS[N], the zeros.
-            //
+        n_data = n_data switch
         {
-            double[] bj;
-            int i;
-            double i_r8;
-            double[] w;
-            double[] x;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = typeMethods.r8_gamma(alpha + 1.0);
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                i_r8 = (double) (i);
-                bj[i] = (i_r8 + 1.0) * (i_r8 + 1.0 + alpha);
-            }
+            < 0 => 0,
+            _ => n_data
+        };
 
-            x = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                i_r8 = (double) (i);
-                x[i] = (double) (2.0 * i_r8 + 1.0 + alpha);
-            }
+        n_data += 1;
 
-            w = new double[n];
-            w[0] = Math.Sqrt(zemu);
-            for (i = 1; i < n; i++)
-            {
-                w[i] = 0.0;
-            }
-
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
-
-            for (i = 0; i < n; i++)
-            {
-                w[i] = w[i] * w[i];
-            }
-
-            return x;
-        }
-
-        public static double lf_integral(int n, double alpha)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LF_INTEGRAL evaluates a monomial integral associated with Lf(n,alpha,x).
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( 0 <= x < +oo ) x^n * x^alpha * exp ( -x ) dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the exponent.
-            //    0 <= N.
-            //
-            //    Input, double ALPHA, the exponent of X in the weight function.
-            //
-            //    Output, double LF_INTEGRAL, the value of the integral.
-            //
+        if (N_MAX < n_data)
         {
-            double arg;
-            double value;
+            n_data = 0;
+            n = 0;
+            a = 0.0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            n = n_vec[n_data - 1];
+            a = a_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-            arg = alpha + (double) (n + 1);
+    public static double[] lf_function_zeros(int n, double alpha)
 
-            value = typeMethods.r8_gamma(arg);
-
-            return value;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LF_FUNCTION_ZEROS returns the zeros of Lf(n,alpha,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double LF_FUNCTION_ZEROS[N], the zeros.
+        //
+    {
+        double[] bj;
+        int i;
+        double i_r8;
+        double[] w;
+        double[] x;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = typeMethods.r8_gamma(alpha + 1.0);
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            i_r8 = i;
+            bj[i] = (i_r8 + 1.0) * (i_r8 + 1.0 + alpha);
         }
 
-        public static void lf_quadrature_rule(int n, double alpha, ref double[] x, ref double[] w )
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            i_r8 = i;
+            x[i] = 2.0 * i_r8 + 1.0 + alpha;
+        }
+
+        w = new double[n];
+        w[0] = Math.Sqrt(zemu);
+        for (i = 1; i < n; i++)
+        {
+            w[i] = 0.0;
+        }
+
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+
+        for (i = 0; i < n; i++)
+        {
+            w[i] *= w[i];
+        }
+
+        return x;
+    }
+
+    public static double lf_integral(int n, double alpha)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LF_INTEGRAL evaluates a monomial integral associated with Lf(n,alpha,x).
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( 0 <= x < +oo ) x^n * x^alpha * exp ( -x ) dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the exponent.
+        //    0 <= N.
+        //
+        //    Input, double ALPHA, the exponent of X in the weight function.
+        //
+        //    Output, double LF_INTEGRAL, the value of the integral.
+        //
+    {
+        double arg;
+        double value = 0;
+
+        arg = alpha + (n + 1);
+
+        value = typeMethods.r8_gamma(arg);
+
+        return value;
+    }
+
+    public static void lf_quadrature_rule(int n, double alpha, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -476,47 +479,46 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double[] bj;
+        int i;
+        double i_r8;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = typeMethods.r8_gamma(alpha + 1.0);
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double[] bj;
-            int i;
-            double i_r8;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = typeMethods.r8_gamma(alpha + 1.0);
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                i_r8 = (double) (i);
-                bj[i] = (i_r8 + 1.0) * (i_r8 + 1.0 + alpha);
-            }
-
-            for (i = 0; i < n; i++)
-            {
-                i_r8 = (double) (i);
-                x[i] = (double) (2.0 * i_r8 + 1.0 + alpha);
-            }
-
-            w[0] = Math.Sqrt(zemu);
-            for (i = 1; i < n; i++)
-            {
-                w[i] = 0.0;
-            }
-
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
-
-            for (i = 0; i < n; i++)
-            {
-                w[i] = w[i] * w[i];
-            }
+            i_r8 = i;
+            bj[i] = (i_r8 + 1.0) * (i_r8 + 1.0 + alpha);
         }
 
+        for (i = 0; i < n; i++)
+        {
+            i_r8 = i;
+            x[i] = 2.0 * i_r8 + 1.0 + alpha;
+        }
+
+        w[0] = Math.Sqrt(zemu);
+        for (i = 1; i < n; i++)
+        {
+            w[i] = 0.0;
+        }
+
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+
+        for (i = 0; i < n; i++)
+        {
+            w[i] *= w[i];
+        }
     }
+
 }

@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Values
+﻿namespace Burkardt.Values;
+
+public class Abrams
 {
-    public class Abrams
-    {
-        public static void abram0_values(ref int n_data, ref double x, ref double fx )
+    public static void abram0_values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -55,10 +55,10 @@
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.87377726306985360531E+00,
                 0.84721859650456925922E+00,
@@ -82,7 +82,7 @@
                 0.25628287737952698742E-09
             }
             ;
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.0019531250E+00,
                 0.0078125000E+00,
@@ -107,27 +107,28 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static void abram1_values(ref int n_data, ref double x, ref double fx )
+    public static void abram1_values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -180,10 +181,10 @@
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.49828219848799921792E+00,
                 0.49324391773047288556E+00,
@@ -208,7 +209,7 @@
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.0019531250E+00,
                 0.0078125000E+00,
@@ -233,27 +234,28 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static void abram2_values(ref int n_data, ref double x, ref double fx )
+    public static void abram2_values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -306,10 +308,10 @@
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.44213858162107913430E+00,
                 0.43923379545684026308E+00,
@@ -334,7 +336,7 @@
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.0019531250E+00,
                 0.0078125000E+00,
@@ -359,24 +361,24 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

@@ -2,74 +2,75 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.SubsetNS
+namespace Burkardt.SubsetNS;
+
+public static class Subset
 {
-    public static class Subset
+    public static bool subset_check(int n, int[] t)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    SUBSET_CHECK checks a subset.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    28 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Reference:
+        // 
+        //    Donald Kreher, Douglas Simpson,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998,
+        //    ISBN: 0-8493-3988-X,
+        //    LC: QA164.K73.
+        // 
+        //  Parameters:
+        // 
+        //    Input, int N, the number of elements in the master set.
+        //    N must be positive.
+        // 
+        //    Input, int T[N], the subset.  If T(I) = 0, item I is
+        //    not in the subset; if T(I) = 1, item I is in the subset.
+        // 
+        //    Output, bool SUBSET_CHECK.
+        //    TRUE, the data is legal.
+        //    FALSE, the data is not legal.
     {
-        public static bool subset_check(int n, int[] t)
+        bool check;
+        int i;
 
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    SUBSET_CHECK checks a subset.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    28 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Reference:
-            // 
-            //    Donald Kreher, Douglas Simpson,
-            //    Combinatorial Algorithms,
-            //    CRC Press, 1998,
-            //    ISBN: 0-8493-3988-X,
-            //    LC: QA164.K73.
-            // 
-            //  Parameters:
-            // 
-            //    Input, int N, the number of elements in the master set.
-            //    N must be positive.
-            // 
-            //    Input, int T[N], the subset.  If T(I) = 0, item I is
-            //    not in the subset; if T(I) = 1, item I is in the subset.
-            // 
-            //    Output, bool SUBSET_CHECK.
-            //    TRUE, the data is legal.
-            //    FALSE, the data is not legal.
+        check = true;
+
+        switch (n)
         {
-            bool check;
-            int i;
+            case < 1:
+                check = false;
+                return check;
+        }
 
-            check = true;
-
-            if (n < 1)
+        for (i = 0; i < n; i++)
+        {
+            if (t[i] != 0 && t[i] != 1)
             {
                 check = false;
                 return check;
             }
-
-            for (i = 0; i < n; i++)
-            {
-                if (t[i] != 0 && t[i] != 1)
-                {
-                    check = false;
-                    return check;
-                }
-            }
-
-            return check;
         }
+
+        return check;
+    }
         
-                public static void subset_colex_successor(int n, ref int[] t, ref int rank )
+    public static void subset_colex_successor(int n, ref int[] t, ref int rank )
 
         //****************************************************************************80
         // 
@@ -122,13 +123,15 @@ namespace Burkardt.SubsetNS
         //    unless the very last element of the ordering was input, in which
         //    case the output value of RANK is 0.
         // 
+    {
+        bool check;
+        int i;
+        switch (rank)
         {
-            bool check;
-            int i;
             // 
             //  Return the first element.
             // 
-            if (rank == -1)
+            case -1:
             {
                 for (i = 0; i < n; i++)
                 {
@@ -138,104 +141,107 @@ namespace Burkardt.SubsetNS
                 rank = 0;
                 return;
             }
+        }
 
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, t);
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, t);
 
-            if (!check)
-            {
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_COLEX_SUCCESSOR - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
                 return;
-            }
-
-            for (i = 0; i < n; i++)
-            {
-                if (t[i] == 0)
-                {
-                    t[i] = 1;
-                    rank = rank + 1;
-                    return;
-                }
-                else
-                {
-                    t[i] = 0;
-                }
-            }
-
-            rank = 0;
         }
-                
-                        public static int[] subset_complement(int n, int[] a)
 
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    SUBSET_COMPLEMENT computes the complement of a set.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    25 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Reference:
-            // 
-            //    Donald Kreher, Douglas Simpson,
-            //    Combinatorial Algorithms,
-            //    CRC Press, 1998,
-            //    ISBN: 0-8493-3988-X,
-            //    LC: QA164.K73.
-            // 
-            //  Parameters:
-            // 
-            //    Input, int N, the order of the master set, of which A is
-            //    a subset.  N must be positive.
-            // 
-            //    Input, int A[N], a subset of the master set.
-            //    A(I) = 0 if the I-th element is in the subset A, and is
-            //    1 otherwise.
-            // 
-            //    Output, int SUBSET_COMPLEMENT[N], the complement of A.
-            // 
+        for (i = 0; i < n; i++)
         {
-            int[] b;
-            bool check;
-            int i;
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, a);
-
-            if (!check)
+            switch (t[i])
             {
+                case 0:
+                    t[i] = 1;
+                    rank += 1;
+                    return;
+                default:
+                    t[i] = 0;
+                    break;
+            }
+        }
+
+        rank = 0;
+    }
+                
+    public static int[] subset_complement(int n, int[] a)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    SUBSET_COMPLEMENT computes the complement of a set.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    25 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Reference:
+        // 
+        //    Donald Kreher, Douglas Simpson,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998,
+        //    ISBN: 0-8493-3988-X,
+        //    LC: QA164.K73.
+        // 
+        //  Parameters:
+        // 
+        //    Input, int N, the order of the master set, of which A is
+        //    a subset.  N must be positive.
+        // 
+        //    Input, int A[N], a subset of the master set.
+        //    A(I) = 0 if the I-th element is in the subset A, and is
+        //    1 otherwise.
+        // 
+        //    Output, int SUBSET_COMPLEMENT[N], the complement of A.
+        // 
+    {
+        int[] b;
+        bool check;
+        int i;
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, a);
+
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_COMPLEMENT - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
                 return null;
-            }
-
-            b = new int[n];
-
-            for (i = 0; i < n; i++)
-            {
-                b[i] = 1 - a[i];
-            }
-
-            return b;
         }
 
-        public static int subset_distance(int n, int[] t1, int[] t2 )
+        b = new int[n];
+
+        for (i = 0; i < n; i++)
+        {
+            b[i] = 1 - a[i];
+        }
+
+        return b;
+    }
+
+    public static int subset_distance(int n, int[] t1, int[] t2 )
 
         //****************************************************************************80
         // 
@@ -280,80 +286,82 @@ namespace Burkardt.SubsetNS
         //    defined as the number of elements of the master set which are
         //    in either T1 or T2 but not both.
         // 
-        {
-            bool check;
-            int dist;
-            int i;
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, t1);
+    {
+        bool check;
+        int dist;
+        int i;
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, t1);
 
-            if (!check)
-            {
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_DISTANCE - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
-                return (1);
-            }
+                return 1;
+        }
 
-            check = subset_check(n, t2);
+        check = subset_check(n, t2);
 
-            if (!check)
-            {
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_DISTANCE - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
-                return (1);
-            }
-
-            dist = 0;
-
-            for (i = 0; i < n; i++)
-            {
-                if ((t1[i] == 0 && t2[i] != 0) || (t1[i] != 0 && t2[i] == 0))
-                {
-                    dist = dist + 1;
-                }
-            }
-
-            return dist;
+                return 1;
         }
 
-        public static int subset_enum(int n)
+        dist = 0;
 
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    SUBSET_ENUM enumerates the subsets of a set with N elements.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    24 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Parameters:
-            // 
-            //    Input, int N, the number of elements in the set.
-            //    N must be at least 0.
-            // 
-            //    Output, int SUBSET_ENUM, the number of distinct elements.
-            // 
+        for (i = 0; i < n; i++)
         {
-            int value = (int)Math.Pow(2, n);
-
-            return value;
+            if (t1[i] == 0 && t2[i] != 0 || t1[i] != 0 && t2[i] == 0)
+            {
+                dist += 1;
+            }
         }
 
-        public static int[] subset_intersect(int n, int[] a, int[] b )
+        return dist;
+    }
+
+    public static int subset_enum(int n)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    SUBSET_ENUM enumerates the subsets of a set with N elements.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    24 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Parameters:
+        // 
+        //    Input, int N, the number of elements in the set.
+        //    N must be at least 0.
+        // 
+        //    Output, int SUBSET_ENUM, the number of distinct elements.
+        // 
+    {
+        int value = (int)Math.Pow(2, n);
+
+        return value;
+    }
+
+    public static int[] subset_intersect(int n, int[] a, int[] b )
 
         //****************************************************************************80
         // 
@@ -392,44 +400,46 @@ namespace Burkardt.SubsetNS
         // 
         //    Output, int SUBSET_INTERSECT[N], the intersection of A and B.
         // 
+    {
+        int[] c;
+        bool check;
+        int i;
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, a);
+
+        switch (check)
         {
-            int[] c;
-            bool check;
-            int i;
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, a);
-
-            if (!check)
-            {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_INTERSECTION - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
                 return null;
-            }
-
-            check = subset_check(n, b);
-
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("SUBSET_INTERSECTION - Fatal error!");
-                Console.WriteLine("  The subset is illegal.");
-                return null;
-            }
-
-            c = new int[n];
-
-            for (i = 0; i < n; i++)
-            {
-                c[i] = Math.Min(a[i], b[i]);
-            }
-
-            return c;
         }
 
-                public static void subset_lex_successor(int n, ref int[] t, ref int rank )
+        check = subset_check(n, b);
+
+        switch (check)
+        {
+            case false:
+                Console.WriteLine("");
+                Console.WriteLine("SUBSET_INTERSECTION - Fatal error!");
+                Console.WriteLine("  The subset is illegal.");
+                return null;
+        }
+
+        c = new int[n];
+
+        for (i = 0; i < n; i++)
+        {
+            c[i] = Math.Min(a[i], b[i]);
+        }
+
+        return c;
+    }
+
+    public static void subset_lex_successor(int n, ref int[] t, ref int rank )
 
         //****************************************************************************80
         // 
@@ -482,13 +492,15 @@ namespace Burkardt.SubsetNS
         //    unless the very last element of the ordering was input, in which
         //    case the output value of RANK is 0.
         // 
+    {
+        bool check;
+        int i;
+        switch (rank)
         {
-            bool check;
-            int i;
             // 
             //  Return the first element.
             // 
-            if (rank == -1)
+            case -1:
             {
                 for (i = 0; i < n; i++)
                 {
@@ -498,38 +510,40 @@ namespace Burkardt.SubsetNS
                 rank = 0;
                 return;
             }
+        }
 
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, t);
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, t);
 
-            if (!check)
-            {
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_LEX_SUCCESSOR - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
                 return;
-            }
-
-            for (i = n - 1; 0 <= i; i--)
-            {
-                if (t[i] == 0)
-                {
-                    t[i] = 1;
-                    rank = rank + 1;
-                    return;
-                }
-                else
-                {
-                    t[i] = 0;
-                }
-            }
-
-            rank = 0;
         }
 
-        public static void subset_next ( int n, ref int[] t, ref int rank )
+        for (i = n - 1; 0 <= i; i--)
+        {
+            switch (t[i])
+            {
+                case 0:
+                    t[i] = 1;
+                    rank += 1;
+                    return;
+                default:
+                    t[i] = 0;
+                    break;
+            }
+        }
+
+        rank = 0;
+    }
+
+    public static void subset_next ( int n, ref int[] t, ref int rank )
 
         //****************************************************************************80
         //
@@ -596,12 +610,14 @@ namespace Burkardt.SubsetNS
         //    unless the very last element of the ordering was input, in which
         //    case the output value of RANK is -1.
         //
+    {
+        int i;
+        switch (rank)
         {
-            int i;
             //
             //  Return the first element.
             //
-            if (rank == -1)
+            case -1:
             {
                 for (i = 0; i < n; i++)
                 {
@@ -611,315 +627,335 @@ namespace Burkardt.SubsetNS
                 rank = 0;
                 return;
             }
-
-            for (i = n - 1; 0 <= i; i--)
-            {
-                if (t[i] == 0)
-                {
-                    t[i] = 1;
-                    rank = rank + 1;
-                    return;
-                }
-                else
-                {
-                    t[i] = 0;
-                }
-            }
-
-            rank = -1;
         }
 
-        public static void subset_by_size_next(int n, ref int[] a, ref int subsize, ref bool more,
-                ref bool more2, ref int m, ref int m2)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SUBSET_BY_SIZE_NEXT returns all subsets of an N set, in order of size.
-            //
-            //  Example:
-            //
-            //    N = 4:
-            //
-            //    1 2 3 4
-            //    1 2 3
-            //    1 2 4
-            //    1 3 4
-            //    1 3
-            //    1 4
-            //    2 3
-            //    1
-            //    2
-            //    3
-            //    (the empty set)
-            //
-            //  Discussion:
-            //
-            //    The subsets are returned in decreasing order of size, with the
-            //    empty set last.
-            //
-            //    For a given size K, the K subsets are returned in lexicographic order.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    09 June 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the size of the set.
-            //
-            //    Input/output, int A[N].  The entries A(1:SUBSIZE) contain
-            //    the elements of the subset.  The elements are given in ascending
-            //    order.
-            //
-            //    Output, int &SUBSIZE, the number of elements in the subset.
-            //
-            //    Input/output, bool &MORE.  Set MORE = FALSE before first call
-            //    for a new sequence of subsets.  It then is set and remains
-            //    TRUE as long as the subset computed on this call is not the
-            //    final one.  When the final subset is computed, MORE is set to
-            //    FALSE as a signal that the computation is done.
-            //
-            //    Input/output, bool &MORE2, a variable for bookkeeping.
-            //    The user should declare this variable, but need not initialize it.
-            //    The output value from one call must be the input value for the next.
-            //
-            //    Input/output, int &M, &M2, variables for bookkeeping.
-            //    The user should declare this variable, but need not initialize it.
-            //    The output value from one call must be the input value for the next.
-            //
+        for (i = n - 1; 0 <= i; i--)
         {
-            if (!more)
+            switch (t[i])
             {
+                case 0:
+                    t[i] = 1;
+                    rank += 1;
+                    return;
+                default:
+                    t[i] = 0;
+                    break;
+            }
+        }
+
+        rank = -1;
+    }
+
+    public static void subset_by_size_next(int n, ref int[] a, ref int subsize, ref bool more,
+            ref bool more2, ref int m, ref int m2)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SUBSET_BY_SIZE_NEXT returns all subsets of an N set, in order of size.
+        //
+        //  Example:
+        //
+        //    N = 4:
+        //
+        //    1 2 3 4
+        //    1 2 3
+        //    1 2 4
+        //    1 3 4
+        //    1 3
+        //    1 4
+        //    2 3
+        //    1
+        //    2
+        //    3
+        //    (the empty set)
+        //
+        //  Discussion:
+        //
+        //    The subsets are returned in decreasing order of size, with the
+        //    empty set last.
+        //
+        //    For a given size K, the K subsets are returned in lexicographic order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 June 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the size of the set.
+        //
+        //    Input/output, int A[N].  The entries A(1:SUBSIZE) contain
+        //    the elements of the subset.  The elements are given in ascending
+        //    order.
+        //
+        //    Output, int &SUBSIZE, the number of elements in the subset.
+        //
+        //    Input/output, bool &MORE.  Set MORE = FALSE before first call
+        //    for a new sequence of subsets.  It then is set and remains
+        //    TRUE as long as the subset computed on this call is not the
+        //    final one.  When the final subset is computed, MORE is set to
+        //    FALSE as a signal that the computation is done.
+        //
+        //    Input/output, bool &MORE2, a variable for bookkeeping.
+        //    The user should declare this variable, but need not initialize it.
+        //    The output value from one call must be the input value for the next.
+        //
+        //    Input/output, int &M, &M2, variables for bookkeeping.
+        //    The user should declare this variable, but need not initialize it.
+        //    The output value from one call must be the input value for the next.
+        //
+    {
+        switch (more)
+        {
+            case false:
                 subsize = n;
                 more = true;
                 more2 = false;
                 m = 0;
                 m2 = 0;
-            }
-            else if (!more2)
+                break;
+            default:
             {
-                subsize = subsize - 1;
-            }
+                switch (more2)
+                {
+                    case false:
+                        subsize -= 1;
+                        break;
+                }
 
+                break;
+            }
+        }
+
+        switch (subsize)
+        {
             //
             //  Compute the next subset of size SUBSIZE.
             //
-            if (0 < subsize)
-            {
+            case > 0:
                 Ksub.ksub_next(n, subsize, ref a, ref more2, ref m, ref m2);
-            }
-            else if (subsize == 0)
-            {
+                break;
+            case 0:
                 more = false;
-            }
+                break;
         }
+    }
 
-        public static void subset_lex_next(int n, bool jmp, int ndim, ref int k, ref int[] a)
+    public static void subset_lex_next(int n, bool jmp, int ndim, ref int k, ref int[] a)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SUBSET_LEX_NEXT generates the subsets of a set of N elements, one at a time.
-            //
-            //  Discussion:
-            //
-            //    The subsets are generated in lexicographical order.  
-            //
-            //    The routine can also be forced to generate only those subsets whose 
-            //    size is no greater than some user-specified maximum.
-            //
-            //  Example:
-            //
-            //    N = 5, JMP = ( K == 3 )
-            //
-            //    1
-            //    1 2
-            //    1 2 3
-            //    1 2 4
-            //    1 2 5
-            //    1 3
-            //    1 3 4
-            //    1 3 5
-            //    1 4
-            //    1 4 5
-            //    1 5
-            //    2
-            //    2 3
-            //    2 3 4
-            //    2 3 5
-            //    2 4
-            //    2 4 5
-            //    2 5
-            //    3
-            //    3 4
-            //    3 4 5
-            //    3 5
-            //    4
-            //    4 5
-            //    5
-            //    empty set.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 November 2004
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms for Computers and Calculators,
-            //    Second Edition,
-            //    Academic Press, 1978,
-            //    ISBN: 0-12-519260-6,
-            //    LC: QA164.N54.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the main set from which subsets
-            //    are chosen.
-            //
-            //    Input, bool JMP.  In the simplest case, set JMP = .FALSE. for
-            //    a normal computation.  But to jump over supersets of the input set,
-            //    set JMP = TRUE.  Setting JMP = ( K == 3 ) before every new call
-            //    will, for example, force all the subsets returned
-            //    to have cardinality 3 or less.
-            //
-            //    Input, int NDIM, the allowed storage for A.  If NDIM < N,
-            //    JMP must be used to avoid creation of a subset too large to store in A.
-            //
-            //    Input/output, int &K.  On first call, the user must set K = 0 as
-            //    a startup signal to the program.  Thereafter, the routine returns
-            //    the size of the computed subset in K.  On the last return,
-            //    the empty set is returned and K is 0, which is a signal to
-            //    the user that the computation is complete.
-            //
-            //    Input/output, int A[NDIM].  A(I) is the I-th element of the
-            //    subset, listed in increasing order, with 0's in entries
-            //    beyond entry K.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SUBSET_LEX_NEXT generates the subsets of a set of N elements, one at a time.
+        //
+        //  Discussion:
+        //
+        //    The subsets are generated in lexicographical order.  
+        //
+        //    The routine can also be forced to generate only those subsets whose 
+        //    size is no greater than some user-specified maximum.
+        //
+        //  Example:
+        //
+        //    N = 5, JMP = ( K == 3 )
+        //
+        //    1
+        //    1 2
+        //    1 2 3
+        //    1 2 4
+        //    1 2 5
+        //    1 3
+        //    1 3 4
+        //    1 3 5
+        //    1 4
+        //    1 4 5
+        //    1 5
+        //    2
+        //    2 3
+        //    2 3 4
+        //    2 3 5
+        //    2 4
+        //    2 4 5
+        //    2 5
+        //    3
+        //    3 4
+        //    3 4 5
+        //    3 5
+        //    4
+        //    4 5
+        //    5
+        //    empty set.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 November 2004
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the main set from which subsets
+        //    are chosen.
+        //
+        //    Input, bool JMP.  In the simplest case, set JMP = .FALSE. for
+        //    a normal computation.  But to jump over supersets of the input set,
+        //    set JMP = TRUE.  Setting JMP = ( K == 3 ) before every new call
+        //    will, for example, force all the subsets returned
+        //    to have cardinality 3 or less.
+        //
+        //    Input, int NDIM, the allowed storage for A.  If NDIM < N,
+        //    JMP must be used to avoid creation of a subset too large to store in A.
+        //
+        //    Input/output, int &K.  On first call, the user must set K = 0 as
+        //    a startup signal to the program.  Thereafter, the routine returns
+        //    the size of the computed subset in K.  On the last return,
+        //    the empty set is returned and K is 0, which is a signal to
+        //    the user that the computation is complete.
+        //
+        //    Input/output, int A[NDIM].  A(I) is the I-th element of the
+        //    subset, listed in increasing order, with 0's in entries
+        //    beyond entry K.
+        //
+    {
+        int is_;
+
+        switch (k)
         {
-            int is_;
-
-            if (k <= 0)
-            {
-                if (jmp)
-                {
-                    return;
-                }
+            case <= 0 when jmp:
+                return;
+            case <= 0:
                 is_ = 0;
                 k = 1;
                 a[0] = 1;
-            }
-            else if (a[k - 1] != n)
+                break;
+            default:
             {
-                is_ = a[k - 1];
-
-                if (!jmp)
+                if (a[k - 1] != n)
                 {
-                    k = k + 1;
+                    is_ = a[k - 1];
+
+                    switch (jmp)
+                    {
+                        case false:
+                            k += 1;
+                            break;
+                    }
+
+                    a[k - 1] =  is_ +1;
+                }
+                else
+                {
+                    k -= 1;
+
+                    if (k != 0)
+                    {
+                        a[k - 1] += 1;
+                    }
                 }
 
-                a[k - 1] =  is_ +1;
-            }
-            else
-            {
-                k = k - 1;
-
-                if (k != 0)
-                {
-                    a[k - 1] = a[k - 1] + 1;
-                }
+                break;
             }
         }
+    }
 
-        public static void subset_gray_next(int n, ref int[] a, ref bool more, ref int ncard, ref int iadd)
+    public static void subset_gray_next(int n, ref int[] a, ref bool more, ref int ncard, ref int iadd)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SUBSET_GRAY_NEXT generates all subsets of a set of order N, one at a time.
-            //
-            //  Discussion:
-            //
-            //    It generates the subsets one at a time, by adding or subtracting
-            //    exactly one element on each step.
-            //
-            //    The user should set MORE = .FALSE. and the value of N before
-            //    the first call.  On return, the user may examine A which contains
-            //    the definition of the new subset, and must check .MORE., because
-            //    as soon as it is .FALSE. on return, all the subsets have been
-            //    generated and the user probably should cease calling.
-            //
-            //    The first set returned is the empty set.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    02 May 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms for Computers and Calculators,
-            //    Second Edition,
-            //    Academic Press, 1978,
-            //    ISBN: 0-12-519260-6,
-            //    LC: QA164.N54.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the total set from which
-            //    subsets will be drawn.
-            //
-            //    Input/output, int A[N].  On each return, the Gray code for the newly
-            //    generated subset.  A[I] = 0 if element I is in the subset, 1 otherwise.
-            //
-            //    Input/output, bool &MORE.  Set this variable FALSE before
-            //    the first call.  Normally, MORE will be returned TRUE but once
-            //    all the subsets have been generated, MORE will be
-            //    reset FALSE on return and you should stop calling the program.
-            //
-            //    Input/output, int &NCARD, the cardinality of the set returned,
-            //    which may be any value between 0 (the empty set) and N (the
-            //    whole set).
-            //
-            //    Output, int &IADD, the element which was added or removed to the
-            //    previous subset to generate the current one.  Exception:
-            //    the empty set is returned on the first call, and IADD is set to -1.
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SUBSET_GRAY_NEXT generates all subsets of a set of order N, one at a time.
+        //
+        //  Discussion:
+        //
+        //    It generates the subsets one at a time, by adding or subtracting
+        //    exactly one element on each step.
+        //
+        //    The user should set MORE = .FALSE. and the value of N before
+        //    the first call.  On return, the user may examine A which contains
+        //    the definition of the new subset, and must check .MORE., because
+        //    as soon as it is .FALSE. on return, all the subsets have been
+        //    generated and the user probably should cease calling.
+        //
+        //    The first set returned is the empty set.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 May 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the total set from which
+        //    subsets will be drawn.
+        //
+        //    Input/output, int A[N].  On each return, the Gray code for the newly
+        //    generated subset.  A[I] = 0 if element I is in the subset, 1 otherwise.
+        //
+        //    Input/output, bool &MORE.  Set this variable FALSE before
+        //    the first call.  Normally, MORE will be returned TRUE but once
+        //    all the subsets have been generated, MORE will be
+        //    reset FALSE on return and you should stop calling the program.
+        //
+        //    Input/output, int &NCARD, the cardinality of the set returned,
+        //    which may be any value between 0 (the empty set) and N (the
+        //    whole set).
+        //
+        //    Output, int &IADD, the element which was added or removed to the
+        //    previous subset to generate the current one.  Exception:
+        //    the empty set is returned on the first call, and IADD is set to -1.
+    {
+        int i;
+        switch (more)
         {
-            int i;
             //
             //  First set returned is the empty set.
             //
-            if (!more)
+            case false:
             {
                 for (i = 0; i < n; i++)
                 {
@@ -929,16 +965,17 @@ namespace Burkardt.SubsetNS
                 iadd = 0;
                 ncard = 0;
                 more = true;
+                break;
             }
-            else
+            default:
             {
                 iadd = 1;
 
-                if ((ncard % 2) != 0)
+                if (ncard % 2 != 0)
                 {
                     for (;;)
                     {
-                        iadd = iadd + 1;
+                        iadd += 1;
                         if (a[iadd - 2] != 0)
                         {
                             break;
@@ -955,45 +992,48 @@ namespace Burkardt.SubsetNS
                 {
                     more = false;
                 }
+
+                break;
             }
         }
+    }
         
-                public static int[] subset_random(int n, ref int seed)
+    public static int[] subset_random(int n, ref int seed)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SUBSET_RANDOM returns a random subset.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    24 December 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the size of the set.
-            //
-            //    Input/output, int &SEED, a seed for the random number
-            //    generator.
-            //
-            //    Output, int SUBSET_RANDOM[N], defines the subset using 0 and 1 values.
-            //
-        {
-            int[] s = UniformRNG.i4vec_uniform_ab_new(n, 0, 1, ref seed);
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SUBSET_RANDOM returns a random subset.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 December 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the size of the set.
+        //
+        //    Input/output, int &SEED, a seed for the random number
+        //    generator.
+        //
+        //    Output, int SUBSET_RANDOM[N], defines the subset using 0 and 1 values.
+        //
+    {
+        int[] s = UniformRNG.i4vec_uniform_ab_new(n, 0, 1, ref seed);
 
-            return s;
-        }
+        return s;
+    }
 
-        public static int[] subset_union(int n, int[] a, int[] b )
+    public static int[] subset_union(int n, int[] a, int[] b )
 
         //****************************************************************************80
         // 
@@ -1032,107 +1072,110 @@ namespace Burkardt.SubsetNS
         // 
         //    Output, int SUBSET_UNION[N], the union of A and B.
         // 
+    {
+        int[] c;
+        bool check;
+        int i;
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, a);
+
+        switch (check)
         {
-            int[] c;
-            bool check;
-            int i;
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, a);
-
-            if (!check)
-            {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_UNION - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
                 return null;
-            }
-
-            check = subset_check(n, b);
-
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("SUBSET_UNION - Fatal error!");
-                Console.WriteLine("  The subset is illegal.");
-                return null;
-            }
-
-            c = new int[n];
-
-            for (i = 0; i < n; i++)
-            {
-                c[i] = Math.Max(a[i], b[i]);
-            }
-
-            return c;
         }
 
-        public static int subset_weight(int n, int[] t)
+        check = subset_check(n, b);
 
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    SUBSET_WEIGHT computes the Hamming weight of a set.
-            // 
-            //  Discussion:
-            // 
-            //    The Hamming weight is simply the number of elements in the set.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    24 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Reference:
-            // 
-            //    Donald Kreher, Douglas Simpson,
-            //    Combinatorial Algorithms,
-            //    CRC Press, 1998,
-            //    ISBN: 0-8493-3988-X,
-            //    LC: QA164.K73.
-            // 
-            //  Parameters:
-            // 
-            //    Input, int N, the order of the master set, of which T
-            //    is a subset.  N must be positive.
-            // 
-            //    Input, int T[N], defines the subset T.
-            //    T(I) is 1 if I is an element of T, and 0 otherwise.
-            // 
-            //    Output, int SUBSET_WEIGHT, the Hamming weight of the subset T.
-            // 
+        switch (check)
         {
-            bool check;
-            int weight;
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, t);
+            case false:
+                Console.WriteLine("");
+                Console.WriteLine("SUBSET_UNION - Fatal error!");
+                Console.WriteLine("  The subset is illegal.");
+                return null;
+        }
 
-            if (!check)
-            {
+        c = new int[n];
+
+        for (i = 0; i < n; i++)
+        {
+            c[i] = Math.Max(a[i], b[i]);
+        }
+
+        return c;
+    }
+
+    public static int subset_weight(int n, int[] t)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    SUBSET_WEIGHT computes the Hamming weight of a set.
+        // 
+        //  Discussion:
+        // 
+        //    The Hamming weight is simply the number of elements in the set.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    24 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Reference:
+        // 
+        //    Donald Kreher, Douglas Simpson,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998,
+        //    ISBN: 0-8493-3988-X,
+        //    LC: QA164.K73.
+        // 
+        //  Parameters:
+        // 
+        //    Input, int N, the order of the master set, of which T
+        //    is a subset.  N must be positive.
+        // 
+        //    Input, int T[N], defines the subset T.
+        //    T(I) is 1 if I is an element of T, and 0 otherwise.
+        // 
+        //    Output, int SUBSET_WEIGHT, the Hamming weight of the subset T.
+        // 
+    {
+        bool check;
+        int weight;
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, t);
+
+        switch (check)
+        {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_WEIGHT - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
-                return (1);
-            }
+                return 1;
+            default:
+                weight = typeMethods.i4vec_sum(n, t);
 
-            weight = typeMethods.i4vec_sum(n, t);
-
-            return weight;
+                return weight;
         }
+    }
 
-        public static int[] subset_xor(int n, int[] a, int[] b )
+    public static int[] subset_xor(int n, int[] a, int[] b )
 
         //****************************************************************************80
         // 
@@ -1171,44 +1214,46 @@ namespace Burkardt.SubsetNS
         // 
         //    Output, int SUBSET_XOR[N], the symmetric difference of A and B.
         // 
+    {
+        int[] c;
+        bool check;
+        int i;
+        // 
+        //  Check.
+        // 
+        check = subset_check(n, a);
+
+        switch (check)
         {
-            int[] c;
-            bool check;
-            int i;
-            // 
-            //  Check.
-            // 
-            check = subset_check(n, a);
-
-            if (!check)
-            {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("SUBSET_XOR - Fatal error!");
                 Console.WriteLine("  The subset is illegal.");
                 return null;
-            }
-
-            check = subset_check(n, b);
-
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("SUBSET_XOR - Fatal error!");
-                Console.WriteLine("  The subset is illegal.");
-                return null;
-            }
-
-            c = new int[n];
-
-            for (i = 0; i < n; i++)
-            {
-                c[i] = Math.Max(a[i], b[i]) - Math.Min(a[i], b[i]);
-            }
-
-            return c;
         }
 
-        public static int subsetsum_swap(int n, ref int[] a, int sum_desired, ref int[] index )
+        check = subset_check(n, b);
+
+        switch (check)
+        {
+            case false:
+                Console.WriteLine("");
+                Console.WriteLine("SUBSET_XOR - Fatal error!");
+                Console.WriteLine("  The subset is illegal.");
+                return null;
+        }
+
+        c = new int[n];
+
+        for (i = 0; i < n; i++)
+        {
+            c[i] = Math.Max(a[i], b[i]) - Math.Min(a[i], b[i]);
+        }
+
+        return c;
+    }
+
+    public static int subsetsum_swap(int n, ref int[] a, int sum_desired, ref int[] index )
 
         //****************************************************************************80
         // 
@@ -1275,44 +1320,44 @@ namespace Burkardt.SubsetNS
         //    Output, int SUBSETSUM_SWAP, the sum of the selected
         //    elements.
         // 
+    {
+        int i;
+        int j;
+        int nmove;
+        int sum_achieved;
+        // 
+        //  Initialize.
+        // 
+        sum_achieved = 0;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int j;
-            int nmove;
-            int sum_achieved;
-            // 
-            //  Initialize.
-            // 
-            sum_achieved = 0;
+            index[i] = 0;
+        }
+
+        // 
+        //  Sort into descending order.
+        // 
+        typeMethods.i4vec_sort_insert_d(n, ref a);
+
+        for (;;)
+        {
+            nmove = 0;
 
             for (i = 0; i < n; i++)
             {
-                index[i] = 0;
-            }
-
-            // 
-            //  Sort into descending order.
-            // 
-            typeMethods.i4vec_sort_insert_d(n, ref a);
-
-            for (;;)
-            {
-                nmove = 0;
-
-                for (i = 0; i < n; i++)
+                switch (index[i])
                 {
-                    if (index[i] == 0)
-                    {
-                        if (sum_achieved + a[i] <= sum_desired)
-                        {
-                            index[i] = 1;
-                            sum_achieved = sum_achieved + a[i];
-                            nmove = nmove + 1;
-                            continue;
-                        }
-                    }
+                    case 0 when sum_achieved + a[i] <= sum_desired:
+                        index[i] = 1;
+                        sum_achieved += a[i];
+                        nmove += 1;
+                        continue;
+                }
 
-                    if (index[i] == 0)
+                switch (index[i])
+                {
+                    case 0:
                     {
                         for (j = 0; j < n; j++)
                         {
@@ -1323,23 +1368,25 @@ namespace Burkardt.SubsetNS
                                 {
                                     index[j] = 0;
                                     index[i] = 1;
-                                    nmove = nmove + 2;
+                                    nmove += 2;
                                     sum_achieved = sum_achieved + a[i] - a[j];
                                     break;
                                 }
                             }
                         }
-                    }
-                }
 
-                if (nmove <= 0)
-                {
-                    break;
+                        break;
+                    }
                 }
             }
 
-            return sum_achieved;
+            if (nmove <= 0)
+            {
+                break;
+            }
         }
 
+        return sum_achieved;
     }
+
 }

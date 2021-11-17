@@ -2,139 +2,141 @@
 using System.Numerics;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZCHEX
 {
-    public static class ZCHEX
+    public static void zchex(ref Complex[] r, int ldr, int p, int k, int l,
+            ref Complex[] z, int ldz, int nz, ref double[] c, ref Complex[] s,
+            int job)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ZCHEX updates a Cholesky factorization.
+        //
+        //  Discussion:
+        //
+        //    ZCHEX updates a Cholesky factorization
+        //
+        //      A = hermitian(R) * R
+        //
+        //    of a positive definite matrix A of order P under diagonal
+        //    permutations of the form
+        //
+        //      E' * A * E
+        //
+        //    where E is a permutation matrix.  Specifically, given
+        //    an upper triangular matrix R and a permutation matrix
+        //    E (which is specified by K, L, and JOB), ZCHEX determines
+        //    a unitary matrix U such that
+        //
+        //      U * R * E = RR,
+        //
+        //    where RR is upper triangular.  At the user's option, the
+        //    transformation U will be multiplied into the array Z.
+        //
+        //    If A = hermitian(X)*X, so that R is the triangular part of the
+        //    QR factorization of X, then RR is the triangular part of the
+        //    QR factorization of X * E, that is, X with its columns permuted.
+        //
+        //    For a less terse description of what ZCHEX does and how
+        //    it may be applied, see the LINPACK guide.
+        //
+        //    The matrix Q is determined as the product U(L-K)*...*U(1)
+        //    of plane rotations of the form
+        //
+        //      (    C(I)       S(I) )
+        //      (                    ) ,
+        //      ( -Complex.Conjugate(S(i))  C(I) )
+        //
+        //    where C(I) is real, the rows these rotations operate on
+        //    are described below.
+        //
+        //    There are two types of permutations, which are determined
+        //    by the value of job.
+        //
+        //    JOB = 1, right circular shift:
+        //    The columns are rearranged in the following order.
+        //
+        //      1, ..., K-1, L, K, K+1, ..., L-1, L+1, ..., P.
+        //
+        //    U is the product of L-K rotations U(I), where U(I)
+        //    acts in the (L-I,L-I+1)-plane.
+        //
+        //    JOB = 2, left circular shift:
+        //    The columns are rearranged in the following order
+        //
+        //      1, ..., K-1, K+1, K+2, ..., L, L, L+1, ..., P.
+        //
+        //    U is the product of L-K rotations U(I), where U(I)
+        //    acts in the (K+I-1,K+I)-plane.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 May 2006
+        //
+        //  Author:
+        //
+        //    C++ version by John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, (Society for Industrial and Applied Mathematics),
+        //    3600 University City Science Center,
+        //    Philadelphia, PA, 19104-2688.
+        //
+        //  Parameters:
+        //
+        //    Input/output, Complex R[LDR*P]; On input, the upper triangular factor
+        //    that is to be updated.  On output, the updated factor.  Elements
+        //    below the diagonal are not referenced.
+        //
+        //    Input, int LDR, the leading dimension of R, which is at least P.
+        //
+        //    Input, int P, the order of the matrix.
+        //
+        //    Input, int K, the first column to be permuted.
+        //
+        //    Input, int L, the last column to be permuted.
+        //    L must be strictly greater than K.
+        //
+        //    Input/output, Complex Z[LDZ*NZ]; on input, an array of NZ P-vectors into
+        //    which the transformation U is multiplied.  On output, the updated
+        //    matrix.  Z is not referenced if NZ = 0.
+        //
+        //    Input, int LDZ, the leading dimension of Z, which must
+        //    be at least P.
+        //
+        //    Input, int NZ, the number of columns of the matrix Z.
+        //
+        //    Output, double C[P], the cosines of the transforming rotations.
+        //
+        //    Output, Complex S[P], the sines of the transforming rotations.
+        //
+        //    Input, int JOB, determines the type of permutation.
+        //    1, right circular shift.
+        //    2, left circular shift.
+        //
     {
-        public static void zchex(ref Complex[] r, int ldr, int p, int k, int l,
-                ref Complex[] z, int ldz, int nz, ref double[] c, ref Complex[] s,
-                int job)
+        int i;
+        int ii;
+        int il;
+        int iu;
+        int j;
+        int jj;
+        Complex t;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ZCHEX updates a Cholesky factorization.
-            //
-            //  Discussion:
-            //
-            //    ZCHEX updates a Cholesky factorization
-            //
-            //      A = hermitian(R) * R
-            //
-            //    of a positive definite matrix A of order P under diagonal
-            //    permutations of the form
-            //
-            //      E' * A * E
-            //
-            //    where E is a permutation matrix.  Specifically, given
-            //    an upper triangular matrix R and a permutation matrix
-            //    E (which is specified by K, L, and JOB), ZCHEX determines
-            //    a unitary matrix U such that
-            //
-            //      U * R * E = RR,
-            //
-            //    where RR is upper triangular.  At the user's option, the
-            //    transformation U will be multiplied into the array Z.
-            //
-            //    If A = hermitian(X)*X, so that R is the triangular part of the
-            //    QR factorization of X, then RR is the triangular part of the
-            //    QR factorization of X * E, that is, X with its columns permuted.
-            //
-            //    For a less terse description of what ZCHEX does and how
-            //    it may be applied, see the LINPACK guide.
-            //
-            //    The matrix Q is determined as the product U(L-K)*...*U(1)
-            //    of plane rotations of the form
-            //
-            //      (    C(I)       S(I) )
-            //      (                    ) ,
-            //      ( -Complex.Conjugate(S(i))  C(I) )
-            //
-            //    where C(I) is real, the rows these rotations operate on
-            //    are described below.
-            //
-            //    There are two types of permutations, which are determined
-            //    by the value of job.
-            //
-            //    JOB = 1, right circular shift:
-            //    The columns are rearranged in the following order.
-            //
-            //      1, ..., K-1, L, K, K+1, ..., L-1, L+1, ..., P.
-            //
-            //    U is the product of L-K rotations U(I), where U(I)
-            //    acts in the (L-I,L-I+1)-plane.
-            //
-            //    JOB = 2, left circular shift:
-            //    The columns are rearranged in the following order
-            //
-            //      1, ..., K-1, K+1, K+2, ..., L, L, L+1, ..., P.
-            //
-            //    U is the product of L-K rotations U(I), where U(I)
-            //    acts in the (K+I-1,K+I)-plane.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    22 May 2006
-            //
-            //  Author:
-            //
-            //    C++ version by John Burkardt
-            //
-            //  Reference:
-            //
-            //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
-            //    LINPACK User's Guide,
-            //    SIAM, (Society for Industrial and Applied Mathematics),
-            //    3600 University City Science Center,
-            //    Philadelphia, PA, 19104-2688.
-            //
-            //  Parameters:
-            //
-            //    Input/output, Complex R[LDR*P]; On input, the upper triangular factor
-            //    that is to be updated.  On output, the updated factor.  Elements
-            //    below the diagonal are not referenced.
-            //
-            //    Input, int LDR, the leading dimension of R, which is at least P.
-            //
-            //    Input, int P, the order of the matrix.
-            //
-            //    Input, int K, the first column to be permuted.
-            //
-            //    Input, int L, the last column to be permuted.
-            //    L must be strictly greater than K.
-            //
-            //    Input/output, Complex Z[LDZ*NZ]; on input, an array of NZ P-vectors into
-            //    which the transformation U is multiplied.  On output, the updated
-            //    matrix.  Z is not referenced if NZ = 0.
-            //
-            //    Input, int LDZ, the leading dimension of Z, which must
-            //    be at least P.
-            //
-            //    Input, int NZ, the number of columns of the matrix Z.
-            //
-            //    Output, double C[P], the cosines of the transforming rotations.
-            //
-            //    Output, Complex S[P], the sines of the transforming rotations.
-            //
-            //    Input, int JOB, determines the type of permutation.
-            //    1, right circular shift.
-            //    2, left circular shift.
-            //
+        switch (job)
         {
-            int i;
-            int ii;
-            int il;
-            int iu;
-            int j;
-            int jj;
-            Complex t;
-
-            if (job == 1)
+            case 1:
             {
                 //
                 //  Right circular shift.
@@ -202,8 +204,10 @@ namespace Burkardt.Linpack
                         z[i - 1 + (j - 1) * ldz] = t;
                     }
                 }
+
+                break;
             }
-            else
+            default:
             {
                 //
                 //  Left circular shift.
@@ -281,6 +285,8 @@ namespace Burkardt.Linpack
                         z[i - 1 + (j - 1) * ldz] = t;
                     }
                 }
+
+                break;
             }
         }
     }

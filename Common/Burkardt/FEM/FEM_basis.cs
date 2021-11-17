@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class FEM_basis
 {
-    public static class FEM_basis
-    {
-        public static double fem_basis_1d(int i, int j, double x)
+    public static double fem_basis_1d(int i, int j, double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -70,35 +70,35 @@ namespace Burkardt.FEM
         //
         //    Output, double FEM_BASIS_1D, the value of the basis function at X.
         //
+    {
+        double c;
+        int d;
+        double lij;
+        int p;
+        double w;
+
+        d = i + j;
+        lij = 1.0;
+        c = 1.0;
+        for (p = 0; p <= i - 1; p++)
         {
-            double c;
-            int d;
-            double lij;
-            int p;
-            double w;
-
-            d = i + j;
-            lij = 1.0;
-            c = 1.0;
-            for (p = 0; p <= i - 1; p++)
-            {
-                lij = lij * (d * x - p);
-                c = c * (i - p);
-            }
-
-            w = 1.0 - x;
-            for (p = 0; p <= j - 1; p++)
-            {
-                lij = lij * (d * w - p);
-                c = c * (j - p);
-            }
-
-            lij = lij / c;
-
-            return lij;
+            lij *= (d * x - p);
+            c *= (i - p);
         }
 
-        public static double fem_basis_2d(int i, int j, int k, double x, double y)
+        w = 1.0 - x;
+        for (p = 0; p <= j - 1; p++)
+        {
+            lij *= (d * w - p);
+            c *= (j - p);
+        }
+
+        lij /= c;
+
+        return lij;
+    }
+
+    public static double fem_basis_2d(int i, int j, int k, double x, double y)
         //****************************************************************************80
         //
         //  Purpose:
@@ -173,41 +173,41 @@ namespace Burkardt.FEM
         //
         //    Output, double FEM_BASIS_2D, the value of the basis function at (X,Y).
         //
+    {
+        double c;
+        int d;
+        double lijk;
+        int p;
+        double w;
+
+        d = i + j + k;
+        lijk = 1.0;
+        c = 1.0;
+        for (p = 0; p <= i - 1; p++)
         {
-            double c;
-            int d;
-            double lijk;
-            int p;
-            double w;
-
-            d = i + j + k;
-            lijk = 1.0;
-            c = 1.0;
-            for (p = 0; p <= i - 1; p++)
-            {
-                lijk = lijk * (d * x - p);
-                c = c * (i - p);
-            }
-
-            for (p = 0; p <= j - 1; p++)
-            {
-                lijk = lijk * (d * y - p);
-                c = c * (j - p);
-            }
-
-            w = 1.0 - x - y;
-            for (p = 0; p <= k - 1; p++)
-            {
-                lijk = lijk * (d * w - p);
-                c = c * (k - p);
-            }
-
-            lijk = lijk / c;
-
-            return lijk;
+            lijk *= (d * x - p);
+            c *= (i - p);
         }
 
-        public static double fem_basis_3d(int i, int j, int k, int l, double x, double y, double z)
+        for (p = 0; p <= j - 1; p++)
+        {
+            lijk *= (d * y - p);
+            c *= (j - p);
+        }
+
+        w = 1.0 - x - y;
+        for (p = 0; p <= k - 1; p++)
+        {
+            lijk *= (d * w - p);
+            c *= (k - p);
+        }
+
+        lijk /= c;
+
+        return lijk;
+    }
+
+    public static double fem_basis_3d(int i, int j, int k, int l, double x, double y, double z)
         //****************************************************************************80
         //
         //  Purpose:
@@ -247,47 +247,47 @@ namespace Burkardt.FEM
         //
         //    Output, double FEM_BASIS_3D, the value of the basis function at (X,Y,Z).
         //
+    {
+        double c;
+        int d;
+        double lijkl;
+        int p;
+        double w;
+
+        d = i + j + k + l;
+        lijkl = 1.0;
+        c = 1.0;
+        for (p = 0; p <= i - 1; p++)
         {
-            double c;
-            int d;
-            double lijkl;
-            int p;
-            double w;
-
-            d = i + j + k + l;
-            lijkl = 1.0;
-            c = 1.0;
-            for (p = 0; p <= i - 1; p++)
-            {
-                lijkl = lijkl * (d * x - p);
-                c = c * (i - p);
-            }
-
-            for (p = 0; p <= j - 1; p++)
-            {
-                lijkl = lijkl * (d * y - p);
-                c = c * (j - p);
-            }
-
-            for (p = 0; p <= k - 1; p++)
-            {
-                lijkl = lijkl * (d * z - p);
-                c = c * (k - p);
-            }
-
-            w = 1.0 - x - y - z;
-            for (p = 0; p <= l - 1; p++)
-            {
-                lijkl = lijkl * (d * w - p);
-                c = c * (l - p);
-            }
-
-            lijkl = lijkl / c;
-
-            return lijkl;
+            lijkl *= (d * x - p);
+            c *= (i - p);
         }
 
-        public static double fem_basis_md(int m, int[] i, double[] x )
+        for (p = 0; p <= j - 1; p++)
+        {
+            lijkl *= (d * y - p);
+            c *= (j - p);
+        }
+
+        for (p = 0; p <= k - 1; p++)
+        {
+            lijkl *= (d * z - p);
+            c *= (k - p);
+        }
+
+        w = 1.0 - x - y - z;
+        for (p = 0; p <= l - 1; p++)
+        {
+            lijkl *= (d * w - p);
+            c *= (l - p);
+        }
+
+        lijkl /= c;
+
+        return lijkl;
+    }
+
+    public static double fem_basis_md(int m, int[] i, double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -328,42 +328,42 @@ namespace Burkardt.FEM
         //
         //    Output, double FEM_BASIS_MD, the value of the basis function at (X,Y,Z).
         //
+    {
+        double c;
+        int d;
+        double l;
+        int p;
+        int q;
+        double w;
+
+        d = typeMethods.i4vec_sum(m + 1, i);
+
+        l = 1.0;
+        c = 1.0;
+
+        for (q = 0; q < m; q++)
         {
-            double c;
-            int d;
-            double l;
-            int p;
-            int q;
-            double w;
-
-            d = typeMethods.i4vec_sum(m + 1, i);
-
-            l = 1.0;
-            c = 1.0;
-
-            for (q = 0; q < m; q++)
+            for (p = 0; p < i[q]; p++)
             {
-                for (p = 0; p < i[q]; p++)
-                {
-                    l = l * (d * x[q] - p);
-                    c = c * (i[q] - p);
-                }
+                l *= (d * x[q] - p);
+                c *= (i[q] - p);
             }
-
-            w = 1.0 - typeMethods.r8vec_sum(m, x);
-
-            for (p = 0; p < i[m]; p++)
-            {
-                l = l * (d * w - p);
-                c = c * (i[m] - p);
-            }
-
-            l = l / c;
-
-            return l;
         }
 
-        public static double fem_basis_prism_triangle(int[] i, int[] j, double[] xyz )
+        w = 1.0 - typeMethods.r8vec_sum(m, x);
+
+        for (p = 0; p < i[m]; p++)
+        {
+            l *= (d * w - p);
+            c *= (i[m] - p);
+        }
+
+        l /= c;
+
+        return l;
+    }
+
+    public static double fem_basis_prism_triangle(int[] i, int[] j, double[] xyz )
         //****************************************************************************80
         //
         //  Purpose:
@@ -414,18 +414,17 @@ namespace Burkardt.FEM
         //
         //    Output, double B, the value of the basis function at XYZ.
         //
-        {
-            double b;
-            double bi;
-            double bj;
+    {
+        double b;
+        double bi;
+        double bj;
 
-            bi = fem_basis_2d(i[0], i[1], i[2], xyz[0], xyz[1]);
+        bi = fem_basis_2d(i[0], i[1], i[2], xyz[0], xyz[1]);
 
-            bj = fem_basis_1d(j[0], j[1], xyz[2]);
+        bj = fem_basis_1d(j[0], j[1], xyz[2]);
 
-            b = bi * bj;
+        b = bi * bj;
 
-            return b;
-        }
+        return b;
     }
 }

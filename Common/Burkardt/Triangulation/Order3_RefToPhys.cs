@@ -1,9 +1,9 @@
-﻿namespace Burkardt.TriangulationNS
+﻿namespace Burkardt.TriangulationNS;
+
+public static partial class Triangulation
 {
-    public static partial class Triangulation
-    {
-        public static void triangle_order3_reference_to_physical ( double[] t, int n,
-        double[] ref_, ref double[] phy )
+    public static void triangle_order3_reference_to_physical ( double[] t, int n,
+            double[] ref_, ref double[] phy )
 
         //****************************************************************************80
         //
@@ -62,20 +62,19 @@
         //    Output, double PHY[2*N], corresponding points in the
         //    physical triangle.
         //
-        {
-            int i;
-            int j;
+    {
+        int i;
+        int j;
 
-            for ( i = 0; i < 2; i++ )
+        for ( i = 0; i < 2; i++ )
+        {
+            for ( j = 0; j < n; j++ )
             {
-                for ( j = 0; j < n; j++ )
-                {
-                    phy[i+j*2] = t[i+0*2] * ( 1.0 - ref_[0+j*2] - ref_[1+j*2] )
-                    + t[i+1*2] *       + ref_[0+j*2]
-                    + t[i+2*2] *                    + ref_[1+j*2];
-                }
+                phy[i+j*2] = t[i+0*2] * ( 1.0 - ref_[0+j*2] - ref_[1+j*2] )
+                             + t[i+1*2] *       + ref_[0+j*2]
+                             + t[i+2*2] *                    + ref_[1+j*2];
             }
         }
-
     }
+
 }

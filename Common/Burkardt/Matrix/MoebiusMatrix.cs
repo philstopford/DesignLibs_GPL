@@ -1,8 +1,8 @@
 ﻿using Burkardt.SubsetNS;
 using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
-{
+namespace Burkardt.MatrixNS;
+
 public static class MoebiusMatrix
 {
     public static void moebius_matrix ( int n, int[] a, ref int[] mu )
@@ -50,71 +50,71 @@ public static class MoebiusMatrix
 //
 //    Output, int MU[N*N], the Moebius matrix as computed by the routine.
 //
-{
-int i;
-int j;
-int[] p1;
-int[] p2;
+    {
+        int i;
+        int j;
+        int[] p1;
+        int[] p2;
 
-p1 = new int[n];
+        p1 = new int[n];
 //
 //  Compute a reordering of the elements of the partially ordered matrix.
 //
-Triang.triang ( n, a, ref p1 );
+        Triang.triang ( n, a, ref p1 );
 //
 //  Copy the matrix.
 //
-for ( i = 0; i < n; i++ )
-{
-for ( j = 0; j < n; j++ )
-{
-mu[i+j*n] = a[i+j*n];
-}
-}
+        for ( i = 0; i < n; i++ )
+        {
+            for ( j = 0; j < n; j++ )
+            {
+                mu[i+j*n] = a[i+j*n];
+            }
+        }
 //
 //  Apply the reordering to MU.
 //
-typeMethods.i4mat_2perm0 ( n, n, mu, p1, p1 );
+        typeMethods.i4mat_2perm0 ( n, n, mu, p1, p1 );
 //
 //  Negate the (strict) upper triangular elements of MU.
 //
-for ( i = 0; i < n-1; i++ )
-{
-for ( j = i+1; j < n; j++ )
-{
-mu[i+j*n] = - mu[i+j*n];
-}
-}
+        for ( i = 0; i < n-1; i++ )
+        {
+            for ( j = i+1; j < n; j++ )
+            {
+                mu[i+j*n] = - mu[i+j*n];
+            }
+        }
 //
 //  Compute the inverse of MU.
 //
-typeMethods.i4mat_u1_inverse ( n, mu, ref mu );
+        typeMethods.i4mat_u1_inverse ( n, mu, ref mu );
 //
 //  All nonzero elements are reset to 1.
 //
-for ( i = 0; i < n; i++ )
-{
-for ( j = i; j < n; j++ )
-{
-if ( mu[i+j*n] != 0 )
-{
-mu[i+j*n] = 1;
-}
-}
-}
+        for ( i = 0; i < n; i++ )
+        {
+            for ( j = i; j < n; j++ )
+            {
+                if ( mu[i+j*n] != 0 )
+                {
+                    mu[i+j*n] = 1;
+                }
+            }
+        }
 //
 //  Invert the matrix again.
 //
-typeMethods.i4mat_u1_inverse ( n, mu, ref mu );
+        typeMethods.i4mat_u1_inverse ( n, mu, ref mu );
 //
 //  Compute the inverse permutation.
 //
-p2 = Permutation.perm0_inverse ( n, p1 );
+        p2 = Permutation.perm0_inverse ( n, p1 );
 //
 //  Unpermute the rows and columns of MU.
 //
-typeMethods.i4mat_2perm0 ( n, n, mu, p2, p2 );
-}
+        typeMethods.i4mat_2perm0 ( n, n, mu, p2, p2 );
+    }
 
     public static void moebius_values ( ref int n_data, ref int n, ref int c )
 
@@ -210,35 +210,35 @@ typeMethods.i4mat_2perm0 ( n, n, mu, p2, p2 );
 //
 //    Output, int &C, the value of the Moebius function.
 //
-{
-int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-int[] c_vec = {
-1,  -1,  -1,   0,  -1,   1,  -1,   0,   0,   1,
--1,   0,  -1,   1,   1,   0,  -1,   0,  -1,   0 };
+        int[] c_vec = {
+            1,  -1,  -1,   0,  -1,   1,  -1,   0,   0,   1,
+            -1,   0,  -1,   1,   1,   0,  -1,   0,  -1,   0 };
 
-int[] n_vec = {
-1,   2,   3,   4,   5,   6,   7,   8,   9,  10,
-11,  12,  13,  14,  15,  16,  17,  18,  19,  20 };
+        int[] n_vec = {
+            1,   2,   3,   4,   5,   6,   7,   8,   9,  10,
+            11,  12,  13,  14,  15,  16,  17,  18,  19,  20 };
 
-if ( n_data < 0 )
-{
-n_data = 0;
-}
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-n_data = n_data + 1;
+        n_data += 1;
 
-if ( N_MAX < n_data )
-{
-n_data = 0;
-n = 0;
-c = 0;
-}
-else
-{
-n = n_vec[n_data-1];
-c = c_vec[n_data-1];
-}
-}
-}
+        if ( N_MAX < n_data )
+        {
+            n_data = 0;
+            n = 0;
+            c = 0;
+        }
+        else
+        {
+            n = n_vec[n_data-1];
+            c = c_vec[n_data-1];
+        }
+    }
 }

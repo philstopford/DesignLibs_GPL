@@ -3,11 +3,11 @@ using Burkardt.FullertonFnLib;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace InterpTest
+namespace InterpTest;
+
+public static class Data_nD
 {
-    public static class Data_nD
-    {
-        public static double csevl(double x, double[] a, int n )
+    public static double csevl(double x, double[] a, int n )
 //****************************************************************************80
 //
 //  Purpose:
@@ -44,50 +44,50 @@ namespace InterpTest
 //
 //    Output, double CSEVL, the Chebyshev series evaluated at X.
 //
-        {
-            double b2 = 0;
+    {
+        double b2 = 0;
 
-            if (n < 1)
-            {
+        switch (n)
+        {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("CSEVL - Fatal error!");
                 Console.WriteLine("  Number of terms <= 0.");
-                return (1);
-            }
-
-            if (1000 < n)
-            {
+                return 1;
+            case > 1000:
                 Console.WriteLine("");
                 Console.WriteLine("CSEVL - Fatal error!");
                 Console.WriteLine("  Number of terms greater than 1000.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (x < -1.1 || 1.1 < x)
-            {
+        switch (x)
+        {
+            case < -1.1:
+            case > 1.1:
                 Console.WriteLine("");
                 Console.WriteLine("CSEVL - Fatal error!");
                 Console.WriteLine("  X outside (-1,+1).");
-                return (1);
-            }
-
-            double twox = 2.0 * x;
-            double b1 = 0.0;
-            double b0 = 0.0;
-
-            for (int i = n - 1; 0 <= i; i--)
-            {
-                b2 = b1;
-                b1 = b0;
-                b0 = twox * b1 - b2 + a[i];
-            }
-
-            double value = 0.5 * (b0 - b2);
-
-            return value;
+                return 1;
         }
+
+        double twox = 2.0 * x;
+        double b1 = 0.0;
+        double b0 = 0.0;
+
+        for (int i = n - 1; 0 <= i; i--)
+        {
+            b2 = b1;
+            b1 = b0;
+            b0 = twox * b1 - b2 + a[i];
+        }
+
+        double value = 0.5 * (b0 - b2);
+
+        return value;
+    }
         
-        public static int inits(double[] dos, int nos, double eta )
+    public static int inits(double[] dos, int nos, double eta )
 //****************************************************************************80
 //
 //  Purpose:
@@ -125,39 +125,40 @@ namespace InterpTest
 //    Output, int INITS, the number of terms of the series needed
 //    to ensure the requested accuracy.
 //
-        {
-            int i;
-            int value;
+    {
+        int i;
+        int value;
 
-            if (nos < 1)
-            {
+        switch (nos)
+        {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("INITS - Fatal error!");
                 Console.WriteLine("  Number of coefficients < 1.");
-                return (1);
-            }
-
-            double err = 0.0;
-
-            for (i = nos - 1; 0 <= i; i--)
-            {
-                err = err + Math.Abs(dos[i]);
-                if (eta < err)
-                {
-                    value = i + 1;
-                    return value;
-                }
-            }
-
-            value = i;
-            Console.WriteLine("");
-            Console.WriteLine("INITS - Warning!");
-            Console.WriteLine("  ETA may be too small.");
-
-            return value;
+                return 1;
         }
 
-        public static double[] p00_c(int prob, int m, ref int seed)
+        double err = 0.0;
+
+        for (i = nos - 1; 0 <= i; i--)
+        {
+            err += Math.Abs(dos[i]);
+            if (eta < err)
+            {
+                value = i + 1;
+                return value;
+            }
+        }
+
+        value = i;
+        Console.WriteLine("");
+        Console.WriteLine("INITS - Warning!");
+        Console.WriteLine("  ETA may be too small.");
+
+        return value;
+    }
+
+    public static double[] p00_c(int prob, int m, ref int seed)
 //****************************************************************************80
 //
 //  Purpose:
@@ -187,26 +188,26 @@ namespace InterpTest
 //
 //    Output, double P00_C[M], the parameter vector.
 //
-        {
-            double[] b =  {
+    {
+        double[] b =  {
                 1.5, 0.0, 1.85, 7.03, 20.4, 4.3
             }
             ;
 
-            b[2 - 1] = (double) (m);
+        b[2 - 1] = m;
 
-            double[] c = UniformRNG.r8vec_uniform_01_new(m, ref seed);
-            double c_sum = typeMethods.r8vec_sum(m, c);
+        double[] c = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+        double c_sum = typeMethods.r8vec_sum(m, c);
 
-            for (int i = 0; i < m; i++)
-            {
-                c[i] = b[prob - 1] * c[i] / c_sum;
-            }
-
-            return c;
+        for (int i = 0; i < m; i++)
+        {
+            c[i] = b[prob - 1] * c[i] / c_sum;
         }
 
-        public static double[] p00_d(int prob, int m, int id, double[] c, double[] w, int n,
+        return c;
+    }
+
+    public static double[] p00_d(int prob, int m, int id, double[] c, double[] w, int n,
         double[] x )
 //****************************************************************************80
 //
@@ -242,53 +243,48 @@ namespace InterpTest
 //
 //    Output, double P00_D[N], the ID-th derivative component.
 //
+    {
+        double[] d;
+
+        if (id < 0 || m < id)
         {
-            double[] d;
+            Console.WriteLine("");
+            Console.WriteLine("P00_D - Fatal error!");
+            Console.WriteLine("  Illegal spatial coordinate ID = " + id + "");
+            return new double[1];
+        }
 
-            if (id < 0 || m < id)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("P00_D - Fatal error!");
-                Console.WriteLine("  Illegal spatial coordinate ID = " + id + "");
-                return new double[1];
-            }
-
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 d = p01_d(m, id, c, w, n, x);
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 d = p02_d(m, id, c, w, n, x);
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 d = p03_d(m, id, c, w, n, x);
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 d = p04_d(m, id, c, w, n, x);
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 d = p05_d(m, id, c, w, n, x);
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 d = p06_d(m, id, c, w, n, x);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_D - Fatal error!");
                 Console.WriteLine("  Illegal function index PROB = " + prob + "");
                 return new double[1];
-            }
-
-            return d;
         }
 
-        public static double[] p00_f(int prob, int m, double[] c, double[] w, int n, double[] x )
+        return d;
+    }
+
+    public static double[] p00_f(int prob, int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -321,45 +317,40 @@ namespace InterpTest
 //
 //    Output, double P00_F[N], the function values.
 //
-        {
-            double[] f;
+    {
+        double[] f;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 f = p01_f(m, c, w, n, x);
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 f = p02_f(m, c, w, n, x);
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 f = p03_f(m, c, w, n, x);
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 f = p04_f(m, c, w, n, x);
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 f = p05_f(m, c, w, n, x);
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 f = p06_f(m, c, w, n, x);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_F - Fatal error!");
                 Console.WriteLine("  Illegal function index PROB = " + prob + "");
                 return new double[1];
-            }
-
-            return f;
         }
 
-        public static int p00_prob_num()
+        return f;
+    }
+
+    public static int p00_prob_num()
 //****************************************************************************80
 //
 //  Purpose:
@@ -382,13 +373,13 @@ namespace InterpTest
 //
 //   Output, int P00_PROB_NUM, the number of test functions.
 //
-        {
-            int prob_num = 6;
+    {
+        int prob_num = 6;
 
-            return prob_num;
-        }
+        return prob_num;
+    }
 
-        public static double p00_q(ref typeMethods.r8ErrorData data, ref typeMethods.r8ErrorcData cdata, int prob, int m, double[] c, double[] w )
+    public static double p00_q(ref typeMethods.r8ErrorData data, ref typeMethods.r8ErrorcData cdata, int prob, int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -417,45 +408,40 @@ namespace InterpTest
 //
 //    Output, double P00_Q, the integral.
 //
-        {
-            double q;
+    {
+        double q;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 q = p01_q(m, c, w);
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 q = p02_q(m, c, w);
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 q = p03_q(m, c, w);
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 q = p04_q(ref data, ref cdata, m, c, w);
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 q = p05_q(m, c, w);
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 q = p06_q(m, c, w);
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_Q - Fatal error!");
                 Console.WriteLine("  Illegal function index PROB = " + prob + "");
-                return (1);
-            }
-
-            return q;
+                return 1;
         }
 
-        public static string p00_title(int prob)
+        return q;
+    }
+
+    public static string p00_title(int prob)
 //****************************************************************************80
 //
 //  Purpose:
@@ -480,45 +466,40 @@ namespace InterpTest
 //
 //    Output, string P00_TITLE, the function title.
 //
-        {
-            string title;
+    {
+        string title;
 
-            if (prob == 1)
-            {
+        switch (prob)
+        {
+            case 1:
                 title = p01_title();
-            }
-            else if (prob == 2)
-            {
+                break;
+            case 2:
                 title = p02_title();
-            }
-            else if (prob == 3)
-            {
+                break;
+            case 3:
                 title = p03_title();
-            }
-            else if (prob == 4)
-            {
+                break;
+            case 4:
                 title = p04_title();
-            }
-            else if (prob == 5)
-            {
+                break;
+            case 5:
                 title = p05_title();
-            }
-            else if (prob == 6)
-            {
+                break;
+            case 6:
                 title = p06_title();
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("P00_TITLE - Fatal error!");
                 Console.WriteLine("  Illegal function index PROB = " + prob + "");
                 return "";
-            }
-
-            return title;
         }
 
-        public static double[] p00_w(int prob, int m, ref int seed)
+        return title;
+    }
+
+    public static double[] p00_w(int prob, int m, ref int seed)
 //****************************************************************************80
 //
 //  Purpose:
@@ -548,13 +529,13 @@ namespace InterpTest
 //
 //    Output, double P00_W[M], the parameter vector.
 //
-        {
-            double[] w = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+    {
+        double[] w = UniformRNG.r8vec_uniform_01_new(m, ref seed);
 
-            return w;
-        }
+        return w;
+    }
 
-        public static double[] p01_d(int m, int id, double[] c, double[] w, int n, double[] x )
+    public static double[] p01_d(int m, int id, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -607,31 +588,31 @@ namespace InterpTest
 //
 //    Output, double P01_D[N], the ID-th derivative component.
 //
+    {
+        double[] d = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] d = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = 2.0 * Math.PI * w[0];
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    d[j] = d[j] + c[i] * x[i + j * m];
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = -c[id] * Math.Sin(d[j]);
-            }
-
-            return d;
+            d[j] = 2.0 * Math.PI * w[0];
         }
 
-        public static double[] p01_f(int m, double[] c, double[] w, int n, double[] x )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                d[j] += c[i] * x[i + j * m];
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            d[j] = -c[id] * Math.Sin(d[j]);
+        }
+
+        return d;
+    }
+
+    public static double[] p01_f(int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -682,31 +663,31 @@ namespace InterpTest
 //
 //    Output, double P01_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] f = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 2.0 * Math.PI * w[0];
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    f[j] = f[j] + c[i] * x[i + j * m];
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = Math.Cos(f[j]);
-            }
-
-            return f;
+            f[j] = 2.0 * Math.PI * w[0];
         }
 
-        public static double p01_q(int m, double[] c, double[] w )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                f[j] += c[i] * x[i + j * m];
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            f[j] = Math.Cos(f[j]);
+        }
+
+        return f;
+    }
+
+    public static double p01_q(int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -744,21 +725,21 @@ namespace InterpTest
 //
 //    Output, double P01_Q, the integral.
 //
+    {
+        double c_sum = typeMethods.r8vec_sum(m, c);
+
+        double c_prod = 1.0;
+        for (int i = 0; i < m; i++)
         {
-            double c_sum = typeMethods.r8vec_sum(m, c);
-
-            double c_prod = 1.0;
-            for (int i = 0; i < m; i++)
-            {
-                c_prod = c_prod * Math.Sin(0.5 * c[i]) / c[i];
-            }
-
-            double q = Math.Pow(2.0, m) * Math.Cos(2.0 * Math.PI * w[0] + 0.5 * c_sum) * c_prod;
-
-            return q;
+            c_prod = c_prod * Math.Sin(0.5 * c[i]) / c[i];
         }
 
-        public static string p01_title()
+        double q = Math.Pow(2.0, m) * Math.Cos(2.0 * Math.PI * w[0] + 0.5 * c_sum) * c_prod;
+
+        return q;
+    }
+
+    public static string p01_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -781,13 +762,13 @@ namespace InterpTest
 //
 //    Output, string P01_TITLE, the title of the problem.
 //
-        {
-            string title = "Oscillatory";
+    {
+        string title = "Oscillatory";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p02_d(int m, int id, double[] c, double[] w, int n, double[] x )
+    public static double[] p02_d(int m, int id, double[] c, double[] w, int n, double[] x )
 
 //****************************************************************************80
 //
@@ -841,32 +822,32 @@ namespace InterpTest
 //
 //    Output, double P02_D[N], the ID-th derivative component.
 //
+    {
+        double[] d = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] d = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = 1.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    d[j] = d[j] * (Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2));
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = -2.0 / d[j] * (x[id + j * m] - w[id]) /
-                       (Math.Pow(c[id], -2) + Math.Pow(x[id + j * m] - w[id], 2));
-            }
-
-            return d;
+            d[j] = 1.0;
         }
 
-        public static double[] p02_f(int m, double[] c, double[] w, int n, double[] x )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                d[j] *= (Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2));
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            d[j] = -2.0 / d[j] * (x[id + j * m] - w[id]) /
+                   (Math.Pow(c[id], -2) + Math.Pow(x[id + j * m] - w[id], 2));
+        }
+
+        return d;
+    }
+
+    public static double[] p02_f(int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -917,31 +898,31 @@ namespace InterpTest
 //
 //    Output, double P02_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] f = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 1.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    f[j] = f[j] * (Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2));
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 1.0 / f[j];
-            }
-
-            return f;
+            f[j] = 1.0;
         }
 
-        public static double p02_q(int m, double[] c, double[] w )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                f[j] *= (Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2));
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            f[j] = 1.0 / f[j];
+        }
+
+        return f;
+    }
+
+    public static double p02_q(int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -979,21 +960,21 @@ namespace InterpTest
 //
 //    Output, double P02_Q, the integral.
 //
+    {
+        double q = 1.0;
+
+        for (int i = 0; i < m; i++)
         {
-            double q = 1.0;
-
-            for (int i = 0; i < m; i++)
-            {
-                q = q *
-                    (Math.Atan((1.0 - w[i]) * c[i])
-                     + Math.Atan(w[i] * c[i])
-                    ) * c[i];
-            }
-
-            return q;
+            q = q *
+                (Math.Atan((1.0 - w[i]) * c[i])
+                 + Math.Atan(w[i] * c[i])
+                ) * c[i];
         }
 
-        public static string p02_title()
+        return q;
+    }
+
+    public static string p02_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -1016,13 +997,13 @@ namespace InterpTest
 //
 //    Output, string P02_TITLE, the title of the problem.
 //
-        {
-            string title = "Product Peak";
+    {
+        string title = "Product Peak";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p03_d(int m, int id, double[] c, double[] w, int n, double[] x )
+    public static double[] p03_d(int m, int id, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1074,31 +1055,31 @@ namespace InterpTest
 //
 //    Output, double P03_D[N], the ID-th derivative component.
 //
+    {
+        double[] d = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] d = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = 1.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    d[j] = d[j] + c[i] * x[i + j * m];
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = -c[id] * (double) (m + 1) / Math.Pow(d[j], m + 2);
-            }
-
-            return d;
+            d[j] = 1.0;
         }
 
-        public static double[] p03_f(int m, double[] c, double[] w, int n, double[] x )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                d[j] += c[i] * x[i + j * m];
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            d[j] = -c[id] * (m + 1) / Math.Pow(d[j], m + 2);
+        }
+
+        return d;
+    }
+
+    public static double[] p03_f(int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1148,31 +1129,31 @@ namespace InterpTest
 //
 //    Output, double P03_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] f = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 1.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    f[j] = f[j] + c[i] * x[i + j * m];
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 1.0 / Math.Pow(f[j], m + 1);
-            }
-
-            return f;
+            f[j] = 1.0;
         }
 
-        public static double p03_q(int m, double[] c, double[] w )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                f[j] += c[i] * x[i + j * m];
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            f[j] = 1.0 / Math.Pow(f[j], m + 1);
+        }
+
+        return f;
+    }
+
+    public static double p03_q(int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1210,36 +1191,36 @@ namespace InterpTest
 //
 //    Output, double P03_Q, the integral.
 //
-        {
-            //
+    {
+        //
 //  Here, we need to generate all possible DIM_NUM tuples with
 //  values of 0 or 1.
 //
-            int[] ivec = new int[m];
+        int[] ivec = new int[m];
 
-            double q = 0.0;
-            int rank = 0;
+        double q = 0.0;
+        int rank = 0;
 
-            while (true)
+        while (true)
+        {
+            tuple_next(0, 1, m, ref rank, ivec);
+
+            if (rank == 0)
             {
-                tuple_next(0, 1, m, ref rank, ivec);
-
-                if (rank == 0)
-                {
-                    break;
-                }
-
-                int s = typeMethods.i4vec_sum(m, ivec);
-
-                q = q + typeMethods.r8_mop(s) / (1.0 + typeMethods.r8vec_i4vec_dot_product(m, c, ivec));
+                break;
             }
 
-            q = q / (typeMethods.r8_factorial(m) * typeMethods.r8vec_product(m, c));
+            int s = typeMethods.i4vec_sum(m, ivec);
 
-            return q;
+            q += typeMethods.r8_mop(s) / (1.0 + typeMethods.r8vec_i4vec_dot_product(m, c, ivec));
         }
 
-        public static string p03_title()
+        q /= (typeMethods.r8_factorial(m) * typeMethods.r8vec_product(m, c));
+
+        return q;
+    }
+
+    public static string p03_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -1262,13 +1243,13 @@ namespace InterpTest
 //
 //    Output, string P03_TITLE, the title of the problem.
 //
-        {
-            string title = "Corner Peak";
+    {
+        string title = "Corner Peak";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p04_d(int m, int id, double[] c, double[] w, int n, double[] x )
+    public static double[] p04_d(int m, int id, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1321,31 +1302,31 @@ namespace InterpTest
 //
 //    Output, double P04_D[N], the ID-th derivative component.
 //
+    {
+        double[] d = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] d = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = 0.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    d[j] = d[j] + Math.Pow(c[i] * (x[i + j * m] - w[i]), 2);
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = Math.Exp(-d[j]) * Math.Pow(c[id], 2) * (-2.0) * (x[id + j * m] - w[id]);
-            }
-
-            return d;
+            d[j] = 0.0;
         }
 
-        public static double[] p04_f(int m, double[] c, double[] w, int n, double[] x )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                d[j] += Math.Pow(c[i] * (x[i + j * m] - w[i]), 2);
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            d[j] = Math.Exp(-d[j]) * Math.Pow(c[id], 2) * -2.0 * (x[id + j * m] - w[id]);
+        }
+
+        return d;
+    }
+
+    public static double[] p04_f(int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1396,31 +1377,31 @@ namespace InterpTest
 //
 //    Output, double P04_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] f = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 0.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    f[j] = f[j] + Math.Pow(c[i] * (x[i + j * m] - w[i]), 2);
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = Math.Exp(-f[j]);
-            }
-
-            return f;
+            f[j] = 0.0;
         }
 
-        public static double p04_q(ref typeMethods.r8ErrorData data, ref typeMethods.r8ErrorcData cdata, int m, double[] c, double[] w )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                f[j] += Math.Pow(c[i] * (x[i + j * m] - w[i]), 2);
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            f[j] = Math.Exp(-f[j]);
+        }
+
+        return f;
+    }
+
+    public static double p04_q(ref typeMethods.r8ErrorData data, ref typeMethods.r8ErrorcData cdata, int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1458,21 +1439,21 @@ namespace InterpTest
 //
 //    Output, double P04_Q, the integral.
 //
+    {
+        double q = 1.0;
+
+        for (int i = 0; i < m; i++)
         {
-            double q = 1.0;
-
-            for (int i = 0; i < m; i++)
-            {
-                q = q * Math.Sqrt(Math.PI)
-                      * (typeMethods.r8_error(ref data, ref cdata, c[i] * (1.0 - w[i]))
-                         + typeMethods.r8_error( ref data, ref cdata,c[i] * w[i]))
-                    / (2.0 * c[i]);
-            }
-
-            return q;
+            q = q * Math.Sqrt(Math.PI)
+                  * (typeMethods.r8_error(ref data, ref cdata, c[i] * (1.0 - w[i]))
+                     + typeMethods.r8_error( ref data, ref cdata,c[i] * w[i]))
+                / (2.0 * c[i]);
         }
 
-        public static string p04_title()
+        return q;
+    }
+
+    public static string p04_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -1495,13 +1476,13 @@ namespace InterpTest
 //
 //    Output, string P04_TITLE, the title of the problem.
 //
-        {
-            string title = "Gaussian";
+    {
+        string title = "Gaussian";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p05_d(int m, int id, double[] c, double[] w, int n, double[] x )
+    public static double[] p05_d(int m, int id, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1554,43 +1535,44 @@ namespace InterpTest
 //
 //    Output, double P05_D[N], the ID-th derivative component.
 //
+    {
+        double[] d = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] d = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = 0.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    d[j] = d[j] + c[i] * Math.Abs(x[i + j * m] - w[i]);
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                d[j] = Math.Exp(-d[j]);
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                if (x[id + j * m] - w[id] <= 0.0)
-                {
-                    d[j] = d[j] * c[id];
-                }
-                else
-                {
-                    d[j] = -d[j] * c[id];
-                }
-            }
-
-            return d;
+            d[j] = 0.0;
         }
 
-        public static double[] p05_f(int m, double[] c, double[] w, int n, double[] x )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                d[j] += c[i] * Math.Abs(x[i + j * m] - w[i]);
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            d[j] = Math.Exp(-d[j]);
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            switch (x[id + j * m] - w[id])
+            {
+                case <= 0.0:
+                    d[j] *= c[id];
+                    break;
+                default:
+                    d[j] = -d[j] * c[id];
+                    break;
+            }
+        }
+
+        return d;
+    }
+
+    public static double[] p05_f(int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1641,31 +1623,31 @@ namespace InterpTest
 //
 //    Output, double P05_F[N], the function values.
 //
+    {
+        double[] f = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] f = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = 0.0;
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    f[j] = f[j] + c[i] * Math.Abs(x[i + j * m] - w[i]);
-                }
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                f[j] = Math.Exp(-f[j]);
-            }
-
-            return f;
+            f[j] = 0.0;
         }
 
-        public static double p05_q(int m, double[] c, double[] w )
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                f[j] += c[i] * Math.Abs(x[i + j * m] - w[i]);
+            }
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            f[j] = Math.Exp(-f[j]);
+        }
+
+        return f;
+    }
+
+    public static double p05_q(int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1703,52 +1685,34 @@ namespace InterpTest
 //
 //    Output, double P05_Q, the integral.
 //
+    {
+        double q = 1.0;
+
+        for (int i = 0; i < m; i++)
         {
-            double q = 1.0;
-
-            for (int i = 0; i < m; i++)
+            q = w[i] switch
             {
-//
-//  W < 0 < 1
-//
-//  | X - W | = X - W from 0 to 1.
-//
-                if (w[i] < 0.0)
-                {
-                    q = q *
-                        (Math.Exp(-c[i] * (-w[i]))
-                         - Math.Exp(-c[i] * (1.0 - w[i]))) / c[i];
-                }
-//
-//  0 < W < 1
-//
-//  | X - W | = W - X from 0 to Z, 
-//            = X - W from      Z to 1.
-//
-                else if (w[i] < 1.0)
-                {
-                    q = q * (2.0
-                             - Math.Exp(-c[i] * (w[i]))
-                             - Math.Exp(-c[i] * (1.0 - w[i]))) / c[i];
-                }
-//
-//  0 < 1 < W
-//
-//  | X - W | = W - X from 0 to 1.
-//
-                else
-                {
-                    q = q *
-                        (Math.Exp(-c[i] * (w[i] - 1.0))
-                         - Math.Exp(-c[i] * (w[i]))) / c[i];
-
-                }
-            }
-
-            return q;
+                //
+                //  W < 0 < 1
+                //
+                //  | X - W | = X - W from 0 to 1.
+                //
+                < 0.0 => q * (Math.Exp(-c[i] * -w[i]) - Math.Exp(-c[i] * (1.0 - w[i]))) / c[i],
+                //
+                //  0 < W < 1
+                //
+                //  | X - W | = W - X from 0 to Z, 
+                //            = X - W from      Z to 1.
+                //
+                < 1.0 => q * (2.0 - Math.Exp(-c[i] * w[i]) - Math.Exp(-c[i] * (1.0 - w[i]))) / c[i],
+                _ => q * (Math.Exp(-c[i] * (w[i] - 1.0)) - Math.Exp(-c[i] * w[i])) / c[i]
+            };
         }
 
-        public static string p05_title()
+        return q;
+    }
+
+    public static string p05_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -1771,13 +1735,13 @@ namespace InterpTest
 //
 //    Output, string P05_TITLE, the title of the problem.
 //
-        {
-            string title = "Continuous";
+    {
+        string title = "Continuous";
 
-            return title;
-        }
+        return title;
+    }
 
-        public static double[] p06_d(int m, int id, double[] c, double[] w, int n, double[] x )
+    public static double[] p06_d(int m, int id, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1831,10 +1795,12 @@ namespace InterpTest
 //
 //    Output, double P06_D[N], the ID-th derivative component.
 //
-        {
-            double[] d = new double[n];
+    {
+        double[] d = new double[n];
 
-            if (m == 1)
+        switch (m)
+        {
+            case 1:
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1848,8 +1814,10 @@ namespace InterpTest
                         d[j] = 0.0;
                     }
                 }
+
+                break;
             }
-            else
+            default:
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1860,7 +1828,7 @@ namespace InterpTest
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        d[j] = d[j] + c[i] * x[i + j * m];
+                        d[j] += c[i] * x[i + j * m];
                     }
                 }
 
@@ -1876,12 +1844,15 @@ namespace InterpTest
                         d[j] = 0.0;
                     }
                 }
-            }
 
-            return d;
+                break;
+            }
         }
 
-        public static double[] p06_f(int m, double[] c, double[] w, int n, double[] x )
+        return d;
+    }
+
+    public static double[] p06_f(int m, double[] c, double[] w, int n, double[] x )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1933,10 +1904,12 @@ namespace InterpTest
 //
 //    Output, double P06_F[N], the function values.
 //
-        {
-            double[] f = new double[n];
+    {
+        double[] f = new double[n];
 
-            if (m == 1)
+        switch (m)
+        {
+            case 1:
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1950,8 +1923,10 @@ namespace InterpTest
                         f[j] = 0.0;
                     }
                 }
+
+                break;
             }
-            else
+            default:
             {
                 for (int j = 0; j < n; j++)
                 {
@@ -1962,7 +1937,7 @@ namespace InterpTest
                 {
                     for (int j = 0; j < n; j++)
                     {
-                        f[j] = f[j] + c[i] * x[i + j * m];
+                        f[j] += c[i] * x[i + j * m];
                     }
                 }
 
@@ -1978,12 +1953,15 @@ namespace InterpTest
                         f[j] = 0.0;
                     }
                 }
-            }
 
-            return f;
+                break;
+            }
         }
 
-        public static double p06_q(int m, double[] c, double[] w )
+        return f;
+    }
+
+    public static double p06_q(int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -2021,47 +1999,46 @@ namespace InterpTest
 //
 //    Output, double P06_Q, the integral.
 //
-        {
-            //
+    {
+        //
 //  To simplify the calculation, force W(3:M) to be at least 1.0.
 //
-            for (int i = 2; i < m; i++)
-            {
-                w[i] = 1.0;
-            }
+        for (int i = 2; i < m; i++)
+        {
+            w[i] = 1.0;
+        }
 
-            double q = 1.0;
+        double q = 1.0;
 
-            for (int i = 0; i < m; i++)
+        for (int i = 0; i < m; i++)
+        {
+            switch (w[i])
             {
-                if (w[i] <= 0.0)
-                {
-                    q = q * 0.0;
-                }
-                else if (w[i] <= 1.0)
-                {
-                    if (c[i] == 0.0)
-                    {
-                        q = q * w[i];
-                    }
-                    else
-                    {
-                        q = q * (Math.Exp(c[i] * w[i]) - 1.0) / c[i];
-                    }
-                }
-                else
+                case <= 0.0:
+                    q *= 0.0;
+                    break;
+                case <= 1.0 when c[i] == 0.0:
+                    q *= w[i];
+                    break;
+                case <= 1.0:
+                    q = q * (Math.Exp(c[i] * w[i]) - 1.0) / c[i];
+                    break;
+                default:
                 {
                     if (c[i] != 0.0)
                     {
                         q = q * (Math.Exp(c[i] * w[i]) - 1.0) / c[i];
                     }
+
+                    break;
                 }
             }
-
-            return q;
         }
 
-        public static string p06_title()
+        return q;
+    }
+
+    public static string p06_title()
 //****************************************************************************80
 //
 //  Purpose:
@@ -2084,13 +2061,13 @@ namespace InterpTest
 //
 //    Output, string P06_TITLE, the title of the problem.
 //
-        {
-            string title = "Discontinuous";
+    {
+        string title = "Discontinuous";
 
-            return title;
-        }
+        return title;
+    }
         
-        public static void tuple_next(int m1, int m2, int n, ref int rank, int[] x )
+    public static void tuple_next(int m1, int m2, int n, ref int rank, int[] x )
 
 //****************************************************************************80
 //
@@ -2155,17 +2132,19 @@ namespace InterpTest
 //    Input/output, int X[N], on input the previous tuple.
 //    On output, the next tuple.
 //
+    {
+        int i;
+        int j;
+
+        if (m2 < m1)
         {
-            int i;
-            int j;
+            rank = 0;
+            return;
+        }
 
-            if (m2 < m1)
-            {
-                rank = 0;
-                return;
-            }
-
-            if (rank <= 0)
+        switch (rank)
+        {
+            case <= 0:
             {
                 for (i = 0; i < n; i++)
                 {
@@ -2173,10 +2152,11 @@ namespace InterpTest
                 }
 
                 rank = 1;
+                break;
             }
-            else
+            default:
             {
-                rank = rank + 1;
+                rank += 1;
                 i = n - 1;
 
                 for (;;)
@@ -2184,7 +2164,7 @@ namespace InterpTest
 
                     if (x[i] < m2)
                     {
-                        x[i] = x[i] + 1;
+                        x[i] += 1;
                         break;
                     }
 
@@ -2201,8 +2181,10 @@ namespace InterpTest
                         break;
                     }
 
-                    i = i - 1;
+                    i -= 1;
                 }
+
+                break;
             }
         }
     }

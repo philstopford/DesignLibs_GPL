@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void tensor_product(int d, int[] order1d, int n1d, double[] x1d,
-        double[] w1d, int n, ref double[] xnd, ref double[] wnd )
+    public static void tensor_product(int d, int[] order1d, int n1d, double[] x1d,
+            double[] w1d, int n, ref double[] xnd, ref double[] wnd )
 
         //****************************************************************************80
         //
@@ -59,38 +59,37 @@
         //
         //    Output, double WND[N], the weights.
         //
-        {
-            int i;
-            int i1;
-            int i2;
-            r8vecDPData data1 = new r8vecDPData();
-            r8vecDPData data2 = new r8vecDPData();
+    {
+        int i;
+        int i1;
+        r8vecDPData data1 = new();
+        r8vecDPData data2 = new();
             
-            //
-            //  Compute the weights.
-            //
-            i2 = -1;
-            for (i = 0; i < d; i++)
-            {
-                i1 = i2 + 1;
-                i2 = i2 + order1d[i];
-                r8vec_direct_product2(ref data2, i, order1d[i], w1d, d, n, ref wnd, factorValueIndex: + i1);
-            }
-
-            //
-            //  Compute the points.
-            //
-            i2 = -1;
-            for (i = 0; i < d; i++)
-            {
-                i1 = i2 + 1;
-                i2 = i2 + order1d[i];
-                r8vec_direct_product(ref data1, i, order1d[i], x1d, d, n, ref xnd, factorValueIndex: + i1);
-            }
+        //
+        //  Compute the weights.
+        //
+        int i2 = -1;
+        for (i = 0; i < d; i++)
+        {
+            i1 = i2 + 1;
+            i2 += order1d[i];
+            r8vec_direct_product2(ref data2, i, order1d[i], w1d, d, n, ref wnd, factorValueIndex: + i1);
         }
 
-        public static void tensor_product_cell(int nc, double[] xc, double[] wc, int dim, int[] nr,
-        int[] roff, int np, ref double[] xp, ref double[] wp )
+        //
+        //  Compute the points.
+        //
+        i2 = -1;
+        for (i = 0; i < d; i++)
+        {
+            i1 = i2 + 1;
+            i2 += order1d[i];
+            r8vec_direct_product(ref data1, i, order1d[i], x1d, d, n, ref xnd, factorValueIndex: + i1);
+        }
+    }
+
+    public static void tensor_product_cell(int nc, double[] xc, double[] wc, int dim, int[] nr,
+            int[] roff, int np, ref double[] xp, ref double[] wp )
 
         //****************************************************************************80
         //
@@ -145,32 +144,29 @@
         //
         //    Output, double WP[NP], the weights.
         //
+    {
+        int i;
+        int n1d;
+        r8vecDPData data1 = new();
+        r8vecDPData data2 = new();
+        //
+        //  Compute the weights.
+        //
+        for (i = 0; i < dim; i++)
         {
-            int i;
-            int n1d;
-            double[] w1d;
-            double[] x1d;
-            r8vecDPData data1 = new r8vecDPData();
-            r8vecDPData data2 = new r8vecDPData();
-            //
-            //  Compute the weights.
-            //
-            for (i = 0; i < dim; i++)
-            {
-                n1d = nr[i];
-                w1d = r8cvv_rget_new(nc, wc, dim, roff, i);
-                r8vec_direct_product2(ref data2, i, n1d, w1d, dim, np, ref wp);
-            }
+            n1d = nr[i];
+            double[] w1d = r8cvv_rget_new(nc, wc, dim, roff, i);
+            r8vec_direct_product2(ref data2, i, n1d, w1d, dim, np, ref wp);
+        }
 
-            //
-            //  Compute the points.
-            //
-            for (i = 0; i < dim; i++)
-            {
-                n1d = nr[i];
-                x1d = r8cvv_rget_new(nc, xc, dim, roff, i);
-                r8vec_direct_product(ref data1, i, n1d, x1d, dim, np, ref xp);
-            }
+        //
+        //  Compute the points.
+        //
+        for (i = 0; i < dim; i++)
+        {
+            n1d = nr[i];
+            double[] x1d = r8cvv_rget_new(nc, xc, dim, roff, i);
+            r8vec_direct_product(ref data1, i, n1d, x1d, dim, np, ref xp);
         }
     }
 }

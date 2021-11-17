@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public class PhysicalToRef
 {
-    public class PhysicalToRef
-    {
-        public static void physical_to_reference_t3(double[] t, int n, double[] phy, ref double[] ref_ )
+    public static void physical_to_reference_t3(double[] t, int n, double[] phy, ref double[] ref_ )
 
         //****************************************************************************80
         //
@@ -64,27 +64,27 @@ namespace Burkardt.FEM
         //    Output, double REF[2*N], the coordinates of the corresponding
         //    points in the reference space.
         //
+    {
+        int j;
+
+        for (j = 0; j < n; j++)
         {
-            int j;
 
-            for (j = 0; j < n; j++)
-            {
+            ref_[
+                    0 + j * 2] = ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2])
+                                  - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2]))
+                                 / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
+                                    - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
 
-                ref_[
-                0 + j * 2] = ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2])
-                              - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2]))
-                    / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
-                       - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
-
-                ref_[
-                1 + j * 2] = ((t[0 + 1 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2])
-                              - (t[1 + 1 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2]))
-                    / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
-                       - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
-            }
+            ref_[
+                    1 + j * 2] = ((t[0 + 1 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2])
+                                  - (t[1 + 1 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2]))
+                                 / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
+                                    - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
         }
+    }
         
-        public static double[] physical_to_reference_tet4 ( double[] t, int n, double[] phy )
+    public static double[] physical_to_reference_tet4 ( double[] t, int n, double[] phy )
 
         //****************************************************************************80
         //
@@ -124,33 +124,32 @@ namespace Burkardt.FEM
         //    Output, double PHYSICAL_TO_REFERENCE[3*N], the coordinates of the 
         //    corresponding points in the reference tetrahedron.
         //
+    {
+        double[] a = new double[3*3];
+        int i;
+        int j;
+        double[] ref_;
+
+        for ( j = 0; j < 3; j++ )
         {
-            double[] a = new double[3*3];
-            int i;
-            int j;
-            double[] ref_;
-
-            for ( j = 0; j < 3; j++ )
+            for ( i = 0; i < 3; i++ )
             {
-                for ( i = 0; i < 3; i++ )
-                {
-                    a[i+j*3] = t[i+j*3] - t[i+3*3];
-                }
+                a[i+j*3] = t[i+j*3] - t[i+3*3];
             }
-
-            ref_ = new double[3*n];
-
-            for ( j = 0; j < n; j++ )
-            {
-                for ( i = 0; i < 3; i++ )
-                {
-                    ref_[i+j*3] = phy[i+j*3] - t[i+3*3];
-                }
-            }
-
-            typeMethods.r8ge_fss ( 3, ref a, n, ref ref_ );
-
-            return ref_;
         }
+
+        ref_ = new double[3*n];
+
+        for ( j = 0; j < n; j++ )
+        {
+            for ( i = 0; i < 3; i++ )
+            {
+                ref_[i+j*3] = phy[i+j*3] - t[i+3*3];
+            }
+        }
+
+        typeMethods.r8ge_fss ( 3, ref a, n, ref ref_ );
+
+        return ref_;
     }
 }

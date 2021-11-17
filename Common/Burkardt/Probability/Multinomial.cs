@@ -1,13 +1,13 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Multinomial
 {
-    public static class Multinomial
-    {
 
 
-        public static bool multinomial_check(int a, int b, double[] c)
+    public static bool multinomial_check(int a, int b, double[] c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -40,40 +40,44 @@ namespace Burkardt.Probability
         //
         //    Output, bool MULTINOMIAL_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b < 1)
-            {
+            case < 1:
                 Console.WriteLine(" ");
                 Console.WriteLine("MULTINOMIAL_CHECK - Warning!");
                 Console.WriteLine("  B < 1.");
                 return false;
-            }
+        }
 
-            for (int i = 0; i < b; i++)
+        for (int i = 0; i < b; i++)
+        {
+            switch (c[i])
             {
-                if (c[i] < 0.0 || 1.0 < c[i])
-                {
+                case < 0.0:
+                case > 1.0:
                     Console.WriteLine(" ");
                     Console.WriteLine("MULTINOMIAL_CHECK - Warning!");
                     Console.WriteLine("  Input C(I) is out of range.");
                     return false;
-                }
             }
+        }
 
-            double c_sum = typeMethods.r8vec_sum(b, c);
+        double c_sum = typeMethods.r8vec_sum(b, c);
 
-            if (0.0001 < Math.Abs(1.0 - c_sum))
-            {
+        switch (Math.Abs(1.0 - c_sum))
+        {
+            case > 0.0001:
                 Console.WriteLine(" ");
                 Console.WriteLine("MULTINOMIAL_CHECK - Warning!");
                 Console.WriteLine("  The probabilities do not sum to 1.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double[] multinomial_covariance(int a, int b, double[] c)
+    public static double[] multinomial_covariance(int a, int b, double[] c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -106,28 +110,28 @@ namespace Burkardt.Probability
         //
         //    Output, double MULTINOMIAL_COVARIANCE[B*B], the covariance matrix.
         //
-        {
-            double[] covariance = new double[b * b];
+    {
+        double[] covariance = new double[b * b];
 
-            for (int i = 0; i < b; i++)
+        for (int i = 0; i < b; i++)
+        {
+            for (int j = 0; j < b; j++)
             {
-                for (int j = 0; j < b; j++)
+                if (i == j)
                 {
-                    if (i == j)
-                    {
-                        covariance[i + j * b] = (double) (a) * c[i] * (1.0 - c[i]);
-                    }
-                    else
-                    {
-                        covariance[i + j * b] = -(double) (a) * c[i] * c[j];
-                    }
+                    covariance[i + j * b] = a * c[i] * (1.0 - c[i]);
+                }
+                else
+                {
+                    covariance[i + j * b] = -(double) a * c[i] * c[j];
                 }
             }
-
-            return covariance;
         }
 
-        public static double[] multinomial_mean(int a, int b, double[] c)
+        return covariance;
+    }
+
+    public static double[] multinomial_mean(int a, int b, double[] c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -161,18 +165,18 @@ namespace Burkardt.Probability
         //    Output, double MEAN(B), MEAN(I) is the expected value of the
         //    number of outcome I in N trials.
         //
+    {
+        double[] mean = new double[b];
+
+        for (int i = 0; i < b; i++)
         {
-            double[] mean = new double[b];
-
-            for (int i = 0; i < b; i++)
-            {
-                mean[i] = (double) (a) * c[i];
-            }
-
-            return mean;
+            mean[i] = a * c[i];
         }
 
-        public static double multinomial_pdf(int[] x, int a, int b, double[] c )
+        return mean;
+    }
+
+    public static double multinomial_pdf(int[] x, int a, int b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -220,25 +224,25 @@ namespace Burkardt.Probability
         //
         //    Output, double MULTINOMIAL_PDF, the value of the multinomial PDF.
         //
+    {
+        //
+        //  To try to avoid overflow, do the calculation in terms of logarithms.
+        //  Note that Gamma(A+1) = A factorial.
+        //
+        double pdf_log = Helpers.LogGamma(a + 1);
+
+        for (int i = 0; i < b; i++)
         {
-            //
-            //  To try to avoid overflow, do the calculation in terms of logarithms.
-            //  Note that Gamma(A+1) = A factorial.
-            //
-            double pdf_log = Helpers.LogGamma((double) (a + 1));
-
-            for (int i = 0; i < b; i++)
-            {
-                pdf_log = pdf_log + x[i] * Math.Log(c[i])
-                          - Helpers.LogGamma((double) (x[i] + 1));
-            }
-
-            double pdf = Math.Exp(pdf_log);
-
-            return pdf;
+            pdf_log = pdf_log + x[i] * Math.Log(c[i])
+                      - Helpers.LogGamma(x[i] + 1);
         }
 
-        public static int[] multinomial_sample(int a, int b, double[] c, ref int seed )
+        double pdf = Math.Exp(pdf_log);
+
+        return pdf;
+    }
+
+    public static int[] multinomial_sample(int a, int b, double[] c, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -281,44 +285,46 @@ namespace Burkardt.Probability
         //    Output, int MULTINOMIAL_SAMPLE[B]; The Ith entry is the number of
         //    occurrences of event I during the N trials.
         //
+    {
+        int[] x = new int[b];
+        int ntot = a;
+
+        double sum2 = 1.0;
+
+        for (int i = 0; i < b; i++)
         {
-            int[] x = new int[b];
-            int ntot = a;
-
-            double sum2 = 1.0;
-
-            for (int i = 0; i < b; i++)
-            {
-                x[i] = 0;
-            }
-
-            for (int ifactor = 0; ifactor < b - 1; ifactor++)
-            {
-                double prob = c[ifactor] / sum2;
-                //
-                //  Generate a binomial random deviate for NTOT trials with
-                //  single trial success probability PROB.
-                //
-                x[ifactor] = Binomial.binomial_sample(ntot, prob, ref seed);
-
-                ntot = ntot - x[ifactor];
-                if (ntot <= 0)
-                {
-                    return x;
-                }
-
-                sum2 = sum2 - c[ifactor];
-            }
-
-            //
-            //  The last factor gets what's left.
-            //
-            x[b - 1] = ntot;
-
-            return x;
+            x[i] = 0;
         }
 
-        public static double[] multinomial_variance(int a, int b, double[] c)
+        for (int ifactor = 0; ifactor < b - 1; ifactor++)
+        {
+            double prob = c[ifactor] / sum2;
+            //
+            //  Generate a binomial random deviate for NTOT trials with
+            //  single trial success probability PROB.
+            //
+            x[ifactor] = Binomial.binomial_sample(ntot, prob, ref seed);
+
+            ntot -= x[ifactor];
+            switch (ntot)
+            {
+                case <= 0:
+                    return x;
+                default:
+                    sum2 -= c[ifactor];
+                    break;
+            }
+        }
+
+        //
+        //  The last factor gets what's left.
+        //
+        x[b - 1] = ntot;
+
+        return x;
+    }
+
+    public static double[] multinomial_variance(int a, int b, double[] c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -352,15 +358,14 @@ namespace Burkardt.Probability
         //    Output, double VARIANCE(B), VARIANCE(I) is the variance of the
         //    total number of events of type I.
         //
+    {
+        double[] variance = new double[b];
+
+        for (int i = 0; i < b; i++)
         {
-            double[] variance = new double[b];
-
-            for (int i = 0; i < b; i++)
-            {
-                variance[i] = (double) (a) * c[i] * (1.0 - c[i]);
-            }
-
-            return variance;
+            variance[i] = a * c[i] * (1.0 - c[i]);
         }
+
+        return variance;
     }
 }

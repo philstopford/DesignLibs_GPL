@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static class C1
 {
-    public static class C1
-    {
-        public static double c1_geg_monomial_integral ( double alpha, int expon )
+    public static double c1_geg_monomial_integral ( double alpha, int expon )
 
 //****************************************************************************80
 //
@@ -45,45 +45,47 @@ namespace Burkardt.IntegralNS
 //
 //    Output, double C1_GEG_MONOMIAL_INTEGRAL, the value of the integral.
 //
-{
-double arg1;
-double arg2;
-double arg3;
-double arg4;
-double c;
-double value;
-double value1;
+    {
+        double arg1;
+        double arg2;
+        double arg3;
+        double arg4;
+        double c;
+        double value = 0;
+        double value1;
 
-if ( alpha <= -1.0 )
-{
-Console.WriteLine("");
-Console.WriteLine("C1_GEG_MONOMIAL_INTEGRAL - Fatal error!");
-Console.WriteLine("  ALPHA <= -1.0");
-return ( 1 );
-}
+        switch (alpha)
+        {
+            case <= -1.0:
+                Console.WriteLine("");
+                Console.WriteLine("C1_GEG_MONOMIAL_INTEGRAL - Fatal error!");
+                Console.WriteLine("  ALPHA <= -1.0");
+                return 1;
+        }
 
-if ( ( expon % 2 ) == 1 )
-{
-value = 0.0;
-return value;
-}
+        switch (expon % 2)
+        {
+            case 1:
+                value = 0.0;
+                return value;
+        }
 
-c = ( double ) ( expon );
+        c = expon;
 
-arg1 = - alpha;
-arg2 =   1.0 + c;
-arg3 =   2.0 + alpha + c;
-arg4 = - 1.0;
+        arg1 = - alpha;
+        arg2 =   1.0 + c;
+        arg3 =   2.0 + alpha + c;
+        arg4 = - 1.0;
 
-value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
-value = 2.0 * typeMethods.r8_gamma ( 1.0 + c ) * typeMethods.r8_gamma ( 1.0 + alpha ) 
-* value1 / typeMethods.r8_gamma ( 2.0 + alpha + c );
+        value = 2.0 * typeMethods.r8_gamma ( 1.0 + c ) * typeMethods.r8_gamma ( 1.0 + alpha ) 
+            * value1 / typeMethods.r8_gamma ( 2.0 + alpha + c );
 
-return value;
-}
+        return value;
+    }
 
-public static double c1_jac_monomial_integral ( double alpha, double beta, int expon )
+    public static double c1_jac_monomial_integral ( double alpha, double beta, int expon )
 
 //****************************************************************************80
 //
@@ -117,52 +119,49 @@ public static double c1_jac_monomial_integral ( double alpha, double beta, int e
 //
 //    Output, double C1_JAC_MONOMIAL_INTEGRAL, the value of the integral.
 //
-{
-double arg1;
-double arg2;
-double arg3;
-double arg4;
-double c;
-double s;
-double value;
-double value1;
-double value2;
+    {
+        double arg1;
+        double arg2;
+        double arg3;
+        double arg4;
+        double c;
+        double s;
+        double value = 0;
+        double value1;
+        double value2;
 
-c = ( double ) ( expon );
+        c = expon;
 
-if ( ( expon % 2 ) == 0 )
-{
-s = +1.0;
-}
-else
-{
-s = -1.0;
-}
+        s = (expon % 2) switch
+        {
+            0 => +1.0,
+            _ => -1.0
+        };
 
-arg1 = - alpha;
-arg2 =   1.0 + c;
-arg3 =   2.0 + beta + c;
-arg4 = - 1.0;
+        arg1 = - alpha;
+        arg2 =   1.0 + c;
+        arg3 =   2.0 + beta + c;
+        arg4 = - 1.0;
 
-value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
-arg1 = - beta;
-arg2 =   1.0 + c;
-arg3 =   2.0 + alpha + c;
-arg4 = - 1.0;
+        arg1 = - beta;
+        arg2 =   1.0 + c;
+        arg3 =   2.0 + alpha + c;
+        arg4 = - 1.0;
 
-value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
-value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
-s * typeMethods.r8_gamma ( 1.0 + beta  ) * value1 
-/ typeMethods.r8_gamma ( 2.0 + beta  + c ) 
-+     typeMethods.r8_gamma ( 1.0 + alpha ) * value2 
-/ typeMethods.r8_gamma ( 2.0 + alpha + c ) );
+        value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
+            s * typeMethods.r8_gamma ( 1.0 + beta  ) * value1 
+            / typeMethods.r8_gamma ( 2.0 + beta  + c ) 
+            +     typeMethods.r8_gamma ( 1.0 + alpha ) * value2 
+            / typeMethods.r8_gamma ( 2.0 + alpha + c ) );
 
-return value;
-}
+        return value;
+    }
 
-public static double c1_leg_monomial_integral ( int expon )
+    public static double c1_leg_monomial_integral ( int expon )
 
 //****************************************************************************80
 //
@@ -197,27 +196,28 @@ public static double c1_leg_monomial_integral ( int expon )
 //
 //    Output, double C1_LEG_MONOMIAL_INTEGRAL, the value of the integral.
 //
-{
-double value;
+    {
+        double value = 0;
 
-if ( expon < 0 )
-{
-Console.WriteLine("");
-Console.WriteLine("C1_LEG_MONOMIAL_INTEGRAL - Fatal error!");
-Console.WriteLine("  EXPON < 0.");
-return 1;
-}
+        switch (expon)
+        {
+            case < 0:
+                Console.WriteLine("");
+                Console.WriteLine("C1_LEG_MONOMIAL_INTEGRAL - Fatal error!");
+                Console.WriteLine("  EXPON < 0.");
+                return 1;
+        }
 
-if ( ( expon % 2 ) == 1 )
-{
-value = 0.0;
-return value;
-}
+        switch (expon % 2)
+        {
+            case 1:
+                value = 0.0;
+                return value;
+            default:
+                value = 2.0 / (expon + 1);
 
-value = 2.0 / ( double) ( expon + 1 );
-
-return value;
-}
-
+                return value;
+        }
     }
+
 }

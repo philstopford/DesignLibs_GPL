@@ -1,13 +1,13 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.ODENS
+namespace Burkardt.ODENS;
+
+public static partial class RungeKutta
 {
-    public static partial class RungeKutta
-    {
-        public static double rk1_tv_step ( double x, double t, double h, double q, 
-        Func < double, double, double > fv, Func < double, double, double > gv, 
-        ref int seed )
+    public static double rk1_tv_step ( double x, double t, double h, double q, 
+            Func < double, double, double > fv, Func < double, double, double > gv, 
+            ref int seed )
 
         //****************************************************************************80
         //
@@ -69,31 +69,31 @@ namespace Burkardt.ODENS
         //
         //    Output, double RK1_TV_STEP the value at time T+H.
         //
-        {
-            double a21;
-            double k1;
-            double q1;
-            double t1;
-            double w1;
-            double x1;
-            double xstar;
-            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
+    {
+        double a21;
+        double k1;
+        double q1;
+        double t1;
+        double w1;
+        double x1;
+        double xstar;
+        typeMethods.r8NormalData data = new();
 
-            a21 = 1.0;
+        a21 = 1.0;
 
-            q1 = 1.0;
+        q1 = 1.0;
 
-            t1 = t;
-            x1 = x;
-            w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-            k1 = h * fv(t1, x1) + h * gv(t1, x1) * w1;
+        t1 = t;
+        x1 = x;
+        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        k1 = h * fv(t1, x1) + h * gv(t1, x1) * w1;
 
-            xstar = x1 + a21 * k1;
+        xstar = x1 + a21 * k1;
 
-            return xstar;
-        }
+        return xstar;
+    }
 
-        public static double rk1_ti_step ( double x, double t, double h, double q, 
+    public static double rk1_ti_step ( double x, double t, double h, double q, 
             Func< double, double > fi, Func< double, double > gi, ref int seed )
 
         //****************************************************************************80
@@ -156,26 +156,25 @@ namespace Burkardt.ODENS
         //
         //    Output, double RK1_TI_STEP, the value at time T+H.
         //
-        {
-            double a21;
-            double k1;
-            double q1;
-            double w1;
-            double x1;
-            double xstar;
-            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
+    {
+        double a21;
+        double k1;
+        double q1;
+        double w1;
+        double x1;
+        double xstar;
+        typeMethods.r8NormalData data = new();
 
-            a21 = 1.0;
+        a21 = 1.0;
 
-            q1 = 1.0;
+        q1 = 1.0;
 
-            x1 = x;
-            w1 = typeMethods.r8_normal_01 (ref data, ref seed ) * Math.Sqrt ( q1 * q / h );
-            k1 = h * fi ( x1 ) + h * gi ( x1 ) * w1;
+        x1 = x;
+        w1 = typeMethods.r8_normal_01 (ref data, ref seed ) * Math.Sqrt ( q1 * q / h );
+        k1 = h * fi ( x1 ) + h * gi ( x1 ) * w1;
 
-            xstar = x1 + a21 * k1;
+        xstar = x1 + a21 * k1;
 
-            return xstar;
-        }
+        return xstar;
     }
 }

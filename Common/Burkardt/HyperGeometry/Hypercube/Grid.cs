@@ -1,11 +1,11 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.HyperGeometry.Hypercube
+namespace Burkardt.HyperGeometry.Hypercube;
+
+public static class Grid
 {
-    public static class Grid
-    {
-        public static double[] hypercube_grid(int m, int n, int[] ns, double[] a, double[] b,
-        int[] c )
+    public static double[] hypercube_grid(int m, int n, int[] ns, double[] a, double[] b,
+            int[] c )
 
         //****************************************************************************80
         //
@@ -56,71 +56,43 @@ namespace Burkardt.HyperGeometry.Hypercube
         //
         //    Output, double HYPERCUBE_GRID[M*N] = X(M*S(1),S(2),...,S(M)), the points.
         //
+    {
+        int i;
+        int j;
+        int s;
+        double[] x;
+        double[] xs;
+
+        typeMethods.r8vecDPData data = new();
+
+        x = new double[m * n];
+        //
+        //  Create the 1D grids in each dimension.
+        //
+        for (i = 0; i < m; i++)
         {
-            int i;
-            int j;
-            int s;
-            double[] x;
-            double[] xs;
+            s = ns[i];
 
-            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
+            xs = new double[s];
 
-            x = new double[m * n];
-            //
-            //  Create the 1D grids in each dimension.
-            //
-            for (i = 0; i < m; i++)
+            for (j = 0; j < s; j++)
             {
-                s = ns[i];
-
-                xs = new double[s];
-
-                for (j = 0; j < s; j++)
+                xs[j] = c[i] switch
                 {
-                    if (c[i] == 1)
-                    {
-                        if (s == 1)
-                        {
-                            xs[j] = 0.5 * (a[i] + b[i]);
-                        }
-                        else
-                        {
-                            xs[j] = ((double) (s - j - 1) * a[i]
-                                     + (double) (j) * b[i])
-                                    / (double) (s - 1);
-                        }
-                    }
-                    else if (c[i] == 2)
-                    {
-                        xs[j] = ((double) (s - j) * a[i]
-                                 + (double) (j + 1) * b[i])
-                                / (double) (s + 1);
-                    }
-                    else if (c[i] == 3)
-                    {
-                        xs[j] = ((double) (s - j) * a[i]
-                                 + (double) (j - 2) * b[i])
-                                / (double) (s);
-                    }
-                    else if (c[i] == 4)
-                    {
-                        xs[j] = ((double) (s - j - 1) * a[i]
-                                 + (double) (j + 1) * b[i])
-                                / (double) (s);
-                    }
-                    else if (c[i] == 5)
-                    {
-                        xs[j] = ((double) (2 * s - 2 * j - 1) * a[i]
-                                 + (double) (2 * j + 1) * b[i])
-                                / (double) (2 * s);
-                    }
-                }
-
-                typeMethods.r8vec_direct_product(ref data, i, s, xs, m, n, ref x);
-
+                    1 when s == 1 => 0.5 * (a[i] + b[i]),
+                    1 => ((s - j - 1) * a[i] + j * b[i]) / (s - 1),
+                    2 => ((s - j) * a[i] + (j + 1) * b[i]) / (s + 1),
+                    3 => ((s - j) * a[i] + (j - 2) * b[i]) / s,
+                    4 => ((s - j - 1) * a[i] + (j + 1) * b[i]) / s,
+                    5 => ((2 * s - 2 * j - 1) * a[i] + (2 * j + 1) * b[i]) / (2 * s),
+                    _ => xs[j]
+                };
             }
 
-            return x;
+            typeMethods.r8vec_direct_product(ref data, i, s, xs, m, n, ref x);
+
         }
+
+        return x;
     }
 }

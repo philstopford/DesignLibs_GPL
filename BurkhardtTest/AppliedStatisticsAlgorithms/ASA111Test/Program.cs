@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
 
-namespace ASA111Test
+namespace ASA111Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -28,20 +28,20 @@ namespace ASA111Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ASA111_TEST:");
-            Console.WriteLine("  Test the ASA111 library.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("ASA111_TEST:");
+        Console.WriteLine("  Test the ASA111 library.");
 
-            test01 ( );
+        test01 ( );
 
-            Console.WriteLine("");
-            Console.WriteLine("ASA111_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
-        
-        static void test01 ( )
+        Console.WriteLine("");
+        Console.WriteLine("ASA111_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
+
+    private static void test01 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -60,39 +60,38 @@ namespace ASA111Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        int ifault = 0;
+        int n_data = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST01:");
+        Console.WriteLine("  PPND computes percentage points of the normal distribution.");
+        Console.WriteLine("  Compare against tabulated values.");
+        Console.WriteLine("");
+        Console.WriteLine("         CDF        X                           X  "
+                          + "                  DIFF");
+        Console.WriteLine("                 (tabulated)                   (PPND)");
+        Console.WriteLine("");
+
+
+        for ( ; ; )
         {
-            double fx = 0;
-            int ifault = 0;
-            int n_data = 0;
-            double x = 0;
+            Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01:");
-            Console.WriteLine("  PPND computes percentage points of the normal distribution.");
-            Console.WriteLine("  Compare against tabulated values.");
-            Console.WriteLine("");
-            Console.WriteLine("         CDF        X                           X  "
-                + "                  DIFF");
-            Console.WriteLine("                 (tabulated)                   (PPND)");
-            Console.WriteLine("");
-
-
-            for ( ; ; )
+            if ( n_data == 0 )
             {
-                Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
-
-                if ( n_data == 0 )
-                {
-                    break;
-                }
-
-                double x2 = Algorithms.ppnd ( fx, ref ifault );
-
-                Console.WriteLine("  "  + fx.ToString("0.####").PadLeft(10)
-                    + "  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + x2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs (( x - x2 )).ToString("0.####").PadLeft(10) + "");
+                break;
             }
+
+            double x2 = Algorithms.ppnd ( fx, ref ifault );
+
+            Console.WriteLine("  "  + fx.ToString("0.####").PadLeft(10)
+                                    + "  " + x.ToString("0.################").PadLeft(24)
+                                    + "  " + x2.ToString("0.################").PadLeft(24)
+                                    + "  " + Math.Abs (x - x2).ToString("0.####").PadLeft(10) + "");
         }
     }
 }

@@ -1,61 +1,61 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class r8E1Data
     {
-        public class r8E1Data
-        {
-            public int ntae10 = 0;
-            public int ntae11 = 0;
-            public int ntae12 = 0;
-            public int ntae13 = 0;
-            public int ntae14 = 0;
-            public int nte11 = 0;
-            public int nte12 = 0;
-            public double xmax = 0.0;
+        public int ntae10;
+        public int ntae11;
+        public int ntae12;
+        public int ntae13;
+        public int ntae14;
+        public int nte11;
+        public int nte12;
+        public double xmax;
 
-        }
-        public static double r8_e1( ref r8E1Data data, double x)
+    }
+    public static double r8_e1( ref r8E1Data data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_E1 evaluates the exponential integral E1 for an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_E1, the exponential integral E1 evaluated at X.
-            //
-        {
-            double[] ae10cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_E1 evaluates the exponential integral E1 for an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_E1, the exponential integral E1 evaluated at X.
+        //
+    {
+        double[] ae10cs = {
                 +0.3284394579616699087873844201881E-01,
                 -0.1669920452031362851476184343387E-01,
                 +0.2845284724361346807424899853252E-03,
@@ -108,7 +108,7 @@ namespace Burkardt.FullertonFnLib
                 +0.4623685555014869015664341461674E-31
             }
             ;
-            double[] ae11cs = {
+        double[] ae11cs = {
                 +0.20263150647078889499401236517381,
                 -0.73655140991203130439536898728034E-01,
                 +0.63909349118361915862753283840020E-02,
@@ -171,7 +171,7 @@ namespace Burkardt.FullertonFnLib
                 +0.22220174457553175317538581162666E-31
             }
             ;
-            double[] ae12cs = {
+        double[] ae12cs = {
                 +0.63629589796747038767129887806803,
                 -0.13081168675067634385812671121135,
                 -0.84367410213053930014487662129752E-02,
@@ -215,7 +215,7 @@ namespace Burkardt.FullertonFnLib
                 -0.51890378563534371596970666666666E-31
             }
             ;
-            double[] ae13cs = {
+        double[] ae13cs = {
                 -0.60577324664060345999319382737747,
                 -0.11253524348366090030649768852718,
                 +0.13432266247902779492487859329414E-01,
@@ -268,7 +268,7 @@ namespace Burkardt.FullertonFnLib
                 -0.66528178733552062817107967999999E-31
             }
             ;
-            double[] ae14cs = {
+        double[] ae14cs = {
                 -0.1892918000753016825495679942820,
                 -0.8648117855259871489968817056824E-01,
                 +0.7224101543746594747021514839184E-02,
@@ -335,7 +335,7 @@ namespace Burkardt.FullertonFnLib
                 -0.5069814875800460855562584719360E-31
             }
             ;
-            double[] e11cs = {
+        double[] e11cs = {
                 -0.16113461655571494025720663927566180E+02,
                 +0.77940727787426802769272245891741497E+01,
                 -0.19554058188631419507127283812814491E+01,
@@ -367,7 +367,7 @@ namespace Burkardt.FullertonFnLib
                 -0.84933452268306432000000000000000000E-33
             }
             ;
-            double[] e12cs = {
+        double[] e12cs = {
                 -0.3739021479220279511668698204827E-01,
                 +0.4272398606220957726049179176528E-01,
                 -0.130318207984970054415392055219726,
@@ -395,11 +395,12 @@ namespace Burkardt.FullertonFnLib
                 -0.807981567699845120000000000000000E-32
             }
             ;
-            double eta;
-            double value;
+        double eta;
+        double value = 0;
 
-            if (data.ntae10 == 0)
-            {
+        switch (data.ntae10)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.ntae10 = r8_inits(ae10cs, 50, eta);
                 data.ntae11 = r8_inits(ae11cs, 60, eta);
@@ -409,154 +410,155 @@ namespace Burkardt.FullertonFnLib
                 data.ntae13 = r8_inits(ae13cs, 50, eta);
                 data.ntae14 = r8_inits(ae14cs, 64, eta);
                 data.xmax = -Math.Log(r8_mach(1));
-                data.xmax = data.xmax - Math.Log(data.xmax);
-            }
+                data.xmax -= Math.Log(data.xmax);
+                break;
+        }
 
-            if (x <= -32.0)
-            {
+        switch (x)
+        {
+            case <= -32.0:
                 value = Math.Exp(-x) / x * (1.0
                                             + r8_csevl(64.0 / x + 1.0, ae10cs, data.ntae10));
-            }
-            else if (x <= -8.0)
-            {
+                break;
+            case <= -8.0:
                 value = Math.Exp(-x) / x * (1.0
                                             + r8_csevl((64.0 / x + 5.0) / 3.0, ae11cs, data.ntae11));
-            }
-            else if (x <= -4.0)
-            {
+                break;
+            case <= -4.0:
                 value = Math.Exp(-x) / x * (1.0
                                             + r8_csevl(16.0 / x + 3.0, ae12cs, data.ntae12));
-            }
-            else if (x <= -1.0)
-            {
+                break;
+            case <= -1.0:
                 value = -Math.Log(-x)
                         + r8_csevl((2.0 * x + 5.0) / 3.0, e11cs, data.nte11);
-            }
-            else if (x == 0.0)
-            {
+                break;
+            case 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_E1 - Fatal error!");
                 Console.WriteLine("  X is zero.");
-                return (1);
-            }
-            else if (x <= 1.0)
-            {
-                value = (-Math.Log(Math.Abs(x)) - 0.6875 + x)
-                        + r8_csevl(x, e12cs, data.nte12);
-            }
-            else if (x <= 4.0)
-            {
+                return 1;
+            case <= 1.0:
+                value = -Math.Log(Math.Abs(x)) - 0.6875 + x
+                                                        + r8_csevl(x, e12cs, data.nte12);
+                break;
+            case <= 4.0:
                 value = Math.Exp(-x) / x * (1.0
                                             + r8_csevl((8.0 / x - 5.0) / 3.0, ae13cs, data.ntae13));
-            }
-            else if (x <= data.xmax)
+                break;
+            default:
             {
-                value = Math.Exp(-x) / x * (1.0
-                                            + r8_csevl(8.0 / x - 1.0, ae14cs, data.ntae14));
-            }
-            else
-            {
-                value = 0.0;
-            }
+                if (x <= data.xmax)
+                {
+                    value = Math.Exp(-x) / x * (1.0
+                                                + r8_csevl(8.0 / x - 1.0, ae14cs, data.ntae14));
+                }
+                else
+                {
+                    value = 0.0;
+                }
 
-            return value;
+                break;
+            }
         }
 
-        public static double r8_ei(double x)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_EI evaluates the exponential integral Ei for an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_EI, the exponential integral Ei evaluated at X.
-            //
-        {
-            double value;
+    public static double r8_ei(double x)
 
-            r8E1Data data = new r8E1Data();
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_EI evaluates the exponential integral Ei for an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_EI, the exponential integral Ei evaluated at X.
+        //
+    {
+        double value = 0;
+
+        r8E1Data data = new();
             
-            value = -r8_e1(ref data, -x);
+        value = -r8_e1(ref data, -x);
 
-            return value;
-        }
+        return value;
+    }
 
-        public class r8ErfData
-        {
-            public int nterf = 0;
-            public double sqeps = 0.0;
-            public double xbig = 0.0;
-            public r8ErfCData erfcdata = new r8ErfCData();
-        }
-        public static double r8_erf( ref r8ErfData data, double x)
+    public class r8ErfData
+    {
+        public int nterf;
+        public double sqeps;
+        public double xbig;
+        public r8ErfCData erfcdata = new();
+    }
+    public static double r8_erf( ref r8ErfData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ERF evaluates the error function of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ERF, the error function of X.
-            //
-        {
-            double[] erfcs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ERF evaluates the error function of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ERF, the error function of X.
+        //
+    {
+        double[] erfcs = {
                 -0.49046121234691808039984544033376E-01,
                 -0.14226120510371364237824741899631,
                 +0.10035582187599795575754676712933E-01,
@@ -580,96 +582,110 @@ namespace Burkardt.FullertonFnLib
                 +0.12811883993017002666666666666666E-31
             }
             ;
-            const double sqrtpi = 1.77245385090551602729816748334115;
-            double value;
-            double y;
+        const double sqrtpi = 1.77245385090551602729816748334115;
+        double value = 0;
+        double y;
 
-            if (data.nterf == 0)
-            {
+        switch (data.nterf)
+        {
+            case 0:
                 data.nterf = r8_inits(erfcs, 21, 0.1 * r8_mach(3));
                 data.xbig = Math.Sqrt(-Math.Log(sqrtpi * r8_mach(3)));
                 data.sqeps = Math.Sqrt(2.0 * r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.sqeps)
-            {
-                value = 2.0 * x / sqrtpi;
-            }
-            else if (y <= 1.0)
-            {
-                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, erfcs, data.nterf));
-            }
-            else if (y <= data.xbig)
-            {
-                value = 1.0 - r8_erfc(ref data.erfcdata, y);
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-            else
-            {
-                value = 1.0;
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-
-            return value;
+                break;
         }
 
-        public class r8ErfCData
-        {
-            public int nterc2 = 0;
-            public int nterf = 0;
-            public int nterfc = 0;
-            public double sqeps = 0.0;
-            public double xmax = 0.0;
-            public double xsml = 0.0;
-        }
-        public static double r8_erfc(ref r8ErfCData data, double x)
+        y = Math.Abs(x);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ERFC evaluates the co-error function of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ERFC, the co-error function of X.
-            //
+        if (y <= data.sqeps)
         {
-            double[] erc2cs = {
+            value = 2.0 * x / sqrtpi;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 1.0:
+                    value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, erfcs, data.nterf));
+                    break;
+                default:
+                {
+                    if (y <= data.xbig)
+                    {
+                        value = 1.0 - r8_erfc(ref data.erfcdata, y);
+                        switch (x)
+                        {
+                            case < 0.0:
+                                value = -value;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        value = x switch
+                        {
+                            < 0.0 => -value,
+                            _ => 1.0
+                        };
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8ErfCData
+    {
+        public int nterc2;
+        public int nterf;
+        public int nterfc;
+        public double sqeps;
+        public double xmax;
+        public double xsml;
+    }
+    public static double r8_erfc(ref r8ErfCData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ERFC evaluates the co-error function of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ERFC, the co-error function of X.
+        //
+    {
+        double[] erc2cs = {
                 -0.6960134660230950112739150826197E-01,
                 -0.4110133936262089348982212084666E-01,
                 +0.3914495866689626881561143705244E-02,
@@ -721,7 +737,7 @@ namespace Burkardt.FullertonFnLib
                 +0.2666491705195388413323946666666E-31
             }
             ;
-            double[] erfccs = {
+        double[] erfccs = {
                 +0.715179310202924774503697709496E-01,
                 -0.265324343376067157558893386681E-01,
                 +0.171115397792085588332699194606E-02,
@@ -783,7 +799,7 @@ namespace Burkardt.FullertonFnLib
                 +0.152587726411035756763200828211E-30
             }
             ;
-            double[] erfcs = {
+        double[] erfcs = {
                 -0.49046121234691808039984544033376E-01,
                 -0.14226120510371364237824741899631,
                 +0.10035582187599795575754676712933E-01,
@@ -807,13 +823,14 @@ namespace Burkardt.FullertonFnLib
                 +0.12811883993017002666666666666666E-31
             }
             ;
-            double eta;
-            const double sqrtpi = 1.77245385090551602729816748334115;
-            double value;
-            double y;
+        double eta;
+        const double sqrtpi = 1.77245385090551602729816748334115;
+        double value = 0;
+        double y;
 
-            if (data.nterf == 0)
-            {
+        switch (data.nterf)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nterf = r8_inits(erfcs, 21, eta);
                 data.nterfc = r8_inits(erfccs, 59, eta);
@@ -823,107 +840,107 @@ namespace Burkardt.FullertonFnLib
                 data.xmax = Math.Sqrt(-Math.Log(sqrtpi * r8_mach(1)));
                 data.xmax = data.xmax - 0.5 * Math.Log(data.xmax) / data.xmax - 0.01;
                 data.sqeps = Math.Sqrt(2.0 * r8_mach(3));
-            }
+                break;
+        }
 
-            if (x <= data.xsml)
-            {
-                value = 2.0;
-                return value;
-            }
-
-            if (data.xmax < x)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_ERFC - Warning!");
-                Console.WriteLine("  X so big that ERFC underflows.");
-                value = 0.0;
-                return value;
-            }
-
-            y = Math.Abs(x);
-
-            if (y < data.sqeps)
-            {
-                value = 1.0 - 2.0 * x / sqrtpi;
-                return value;
-            }
-            else if (y <= 1.0)
-            {
-                value = 1.0 - x * (1.0
-                                   + r8_csevl(2.0 * x * x - 1.0, erfcs, data.nterf));
-                return value;
-            }
-
-            y = y * y;
-
-            if (y <= 4.0)
-            {
-                value = Math.Exp(-y) / Math.Abs(x) * (0.5
-                                             + r8_csevl((8.0 / y - 5.0) / 3.0, erc2cs, data.nterc2));
-            }
-            else
-            {
-                value = Math.Exp(-y) / Math.Abs(x) * (0.5
-                                                  + r8_csevl(8.0 / y - 1.0, erfccs, data.nterfc));
-            }
-
-            if (x < 0.0)
-            {
-                value = 2.0 - value;
-            }
-
+        if (x <= data.xsml)
+        {
+            value = 2.0;
             return value;
         }
 
-        public class r8ExpData
+        if (data.xmax < x)
         {
-            public int nterms = 0;
-            public double xmax = 0;
-            public double xmin = 0;
-            public r8PakData pakdata = new r8PakData();
-
+            Console.WriteLine("");
+            Console.WriteLine("R8_ERFC - Warning!");
+            Console.WriteLine("  X so big that ERFC underflows.");
+            value = 0.0;
+            return value;
         }
-        public static double r8_exp( ref r8ExpData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_EXP evaluates the exponential of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_EXP, the exponential of X.
-            //
+        y = Math.Abs(x);
+
+        if (y < data.sqeps)
         {
-            const double aln216 = +0.83120654223414517758794896030274E-01;
-            double[] expcs = {
+            value = 1.0 - 2.0 * x / sqrtpi;
+            return value;
+        }
+
+        switch (y)
+        {
+            case <= 1.0:
+                value = 1.0 - x * (1.0
+                                   + r8_csevl(2.0 * x * x - 1.0, erfcs, data.nterf));
+                return value;
+        }
+
+        y *= y;
+
+        value = y switch
+        {
+            <= 4.0 => Math.Exp(-y) / Math.Abs(x) * (0.5 + r8_csevl((8.0 / y - 5.0) / 3.0, erc2cs, data.nterc2)),
+            _ => Math.Exp(-y) / Math.Abs(x) * (0.5 + r8_csevl(8.0 / y - 1.0, erfccs, data.nterfc))
+        };
+
+        switch (x)
+        {
+            case < 0.0:
+                value = 2.0 - value;
+                break;
+        }
+
+        return value;
+    }
+
+    public class r8ExpData
+    {
+        public int nterms;
+        public double xmax;
+        public double xmin;
+        public r8PakData pakdata = new();
+
+    }
+    public static double r8_exp( ref r8ExpData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_EXP evaluates the exponential of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_EXP, the exponential of X.
+        //
+    {
+        const double aln216 = +0.83120654223414517758794896030274E-01;
+        double[] expcs = {
                 +0.866569493314985712733404647266231E-01,
                 +0.938494869299839561896336579701203E-03,
                 +0.677603970998168264074353014653601E-05,
@@ -940,11 +957,11 @@ namespace Burkardt.FullertonFnLib
                 +0.229678916630186666666666666666666E-33
             }
             ;
-            double f;
-            int n;
-            int n16;
-            int ndx;
-            double[] twon16 = {
+        double f;
+        int n;
+        int n16;
+        int ndx;
+        double[] twon16 = {
                 +0.0,
                 +0.44273782427413840321966478739929E-01,
                 +0.90507732665257659207010655760707E-01,
@@ -964,143 +981,155 @@ namespace Burkardt.FullertonFnLib
                 +1.0
             }
             ;
-            double value;
-            double xint;
-            double y;
+        double value = 0;
+        double xint;
+        double y;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(expcs, 14, 0.1 * r8_mach(3));
                 data.xmin = Math.Log(r8_mach(1)) + 0.01;
                 data.xmax = Math.Log(r8_mach(2)) - 0.001;
-            }
-
-            if (x < data.xmin)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_EXP - Warning!");
-                Console.WriteLine("  X so small that exp(X) underflows.");
-                value = 0.0;
-            }
-            else if (x <= data.xmax)
-            {
-                xint = r8_aint(x);
-                y = x - xint;
-
-                y = 23.0 * y + x * aln216;
-                n = (int) (y);
-                f = y - (double) (n);
-                n = (int)(23.0 * xint + (double) (n));
-                n16 = n / 16;
-                if (n < 0)
-                {
-                    n16 = n16 - 1;
-                }
-
-                ndx = n - 16 * n16 + 1;
-
-                value = 1.0 + (twon16[ndx - 1] + f * (1.0 + twon16[ndx - 1])
-                                                   * r8_csevl(f, expcs, data.nterms));
-
-                value = r8_pak(ref data.pakdata, value, n16);
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_EXP - Fatal error!");
-                Console.WriteLine("  X so large that exp(X) overflows.");
-                return (1);
-            }
-
-            return value;
+                break;
         }
 
-        public class r8ExprelData
+        if (x < data.xmin)
         {
-            public int nterms = 0;
-            public double xbnd = 0.0;
-
+            Console.WriteLine("");
+            Console.WriteLine("R8_EXP - Warning!");
+            Console.WriteLine("  X so small that exp(X) underflows.");
+            value = 0.0;
         }
-        public static double r8_exprel( ref r8ExprelData data, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_EXPREL evaluates the exponential relative error term of an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    The relative error term is ( exp ( x ) - 1 ) / x.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_EXPREL, the exponential relative error term
-            //    at X.
-            //
+        else if (x <= data.xmax)
         {
-            double absx;
-            double alneps;
-            int i;
-            double value;
-            double xln;
-            double xn;
+            xint = r8_aint(x);
+            y = x - xint;
 
-            if (data.nterms == 0)
+            y = 23.0 * y + x * aln216;
+            n = (int) y;
+            f = y - n;
+            n = (int)(23.0 * xint + n);
+            n16 = n / 16;
+            switch (n)
             {
+                case < 0:
+                    n16 -= 1;
+                    break;
+            }
+
+            ndx = n - 16 * n16 + 1;
+
+            value = 1.0 + (twon16[ndx - 1] + f * (1.0 + twon16[ndx - 1])
+                                               * r8_csevl(f, expcs, data.nterms));
+
+            value = r8_pak(ref data.pakdata, value, n16);
+        }
+        else
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_EXP - Fatal error!");
+            Console.WriteLine("  X so large that exp(X) overflows.");
+            return 1;
+        }
+
+        return value;
+    }
+
+    public class r8ExprelData
+    {
+        public int nterms;
+        public double xbnd;
+
+    }
+    public static double r8_exprel( ref r8ExprelData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_EXPREL evaluates the exponential relative error term of an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    The relative error term is ( exp ( x ) - 1 ) / x.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_EXPREL, the exponential relative error term
+        //    at X.
+        //
+    {
+        double absx;
+        double alneps;
+        int i;
+        double value = 0;
+        double xln;
+        double xn;
+
+        switch (data.nterms)
+        {
+            case 0:
                 alneps = Math.Log(r8_mach(3));
                 xn = 3.72 - 0.3 * alneps;
                 xln = Math.Log((xn + 1.0) / 1.36);
                 data.nterms = (int) (xn - (xn * xln + alneps) / (xln + 1.36) + 1.5);
                 data.xbnd = r8_mach(3);
-            }
-
-            absx = Math.Abs(x);
-
-            if (absx < data.xbnd)
-            {
-                value = 1.0;
-            }
-            else if (absx <= 0.5)
-            {
-                value = 0.0;
-                for (i = 1; i <= data.nterms; i++)
-                {
-                    value = 1.0 + value * x / (double) (data.nterms + 2 - i);
-                }
-            }
-            else
-            {
-                value = (Math.Exp(x) - 1.0) / x;
-            }
-
-            return value;
+                break;
         }
+
+        absx = Math.Abs(x);
+
+        if (absx < data.xbnd)
+        {
+            value = 1.0;
+        }
+        else
+        {
+            switch (absx)
+            {
+                case <= 0.5:
+                {
+                    value = 0.0;
+                    for (i = 1; i <= data.nterms; i++)
+                    {
+                        value = 1.0 + value * x / (data.nterms + 2 - i);
+                    }
+
+                    break;
+                }
+                default:
+                    value = (Math.Exp(x) - 1.0) / x;
+                    break;
+            }
+        }
+
+        return value;
     }
 }

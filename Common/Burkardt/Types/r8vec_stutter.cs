@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r8vec_stutter ( int n, double[] a, int m, ref double[] am )
+    public static void r8vec_stutter ( int n, double[] a, int m, ref double[] am )
 
         //****************************************************************************80
         //
@@ -39,25 +39,23 @@
         //
         //    Output, double AM[M*N], the stuttering vector.
         //
+    {
+        int i;
+
+        int k = 0;
+
+        for ( i = 0; i < n; i++ )
         {
-            int i;
             int j;
-            int k;
-
-            k = 0;
-
-            for ( i = 0; i < n; i++ )
+            for ( j = 0; j < m; j++ )
             {
-                for ( j = 0; j < m; j++ )
-                {
-                    am[k] = a[i];
-                    k = k + 1;
-                }
+                am[k] = a[i];
+                k += 1;
             }
-            return;
         }
+    }
 
-        public static double[] r8vec_stutter_new ( int n, double[] a, int m )
+    public static double[] r8vec_stutter_new ( int n, double[] a, int m )
 
         //****************************************************************************80
         //
@@ -94,26 +92,23 @@
         //
         //    Output, double R8VEC_STUTTER_NEW[M*N], the stuttering vector.
         //
+    {
+        int i;
+
+        double[] am = new double[m*n];
+
+        int k = 0;
+
+        for ( i = 0; i < n; i++ )
         {
-            double[] am;
-            int i;
             int j;
-            int k;
-
-            am = new double[m*n];
-
-            k = 0;
-
-            for ( i = 0; i < n; i++ )
+            for ( j = 0; j < m; j++ )
             {
-                for ( j = 0; j < m; j++ )
-                {
-                    am[k] = a[i];
-                    k = k + 1;
-                }
+                am[k] = a[i];
+                k += 1;
             }
-            return am;
         }
-
+        return am;
     }
+
 }

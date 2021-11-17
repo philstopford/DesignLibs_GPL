@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using Burkardt.Table;
+﻿using System.Linq;
 using Burkardt.Types;
 
-namespace Burkardt.Latinizer
+namespace Burkardt.Latinizer;
+
+public static class Latinize
 {
-	public static class Latinize
-	{
-		//****************************************************************************80
-		public static double[] r8mat_latinize ( int m, int n, double[] table )
+	//****************************************************************************80
+	public static double[] r8mat_latinize ( int m, int n, double[] table )
 		//****************************************************************************80
 		//
 		//  Purpose:
@@ -44,30 +42,29 @@ namespace Burkardt.Latinizer
 		//    Input/output, double TABLE[M*N].  On input, the dataset to
 		//    be "latinized".  On output, the latinized dataset.
 		//
+	{
+		double[] v = new double[n];
+
+		for (int i = 0; i < m; i++ )
 		{
-			double[] v = new double[n];
-
-			for (int i = 0; i < m; i++ )
+			for (int j = 0; j < n; j++ )
 			{
-				for (int j = 0; j < n; j++ )
-				{
-					v[j] = table[i+j*m];
-				}
-				double v_min = v.Min();
-				double v_max = v.Max();
-				int[] indx = typeMethods.r8vec_sort_heap_index_a_new ( n, v );
-
-				for (int j = 0; j < n; j++ )
-				{
-					table[i+indx[j]*m] =  ( ( double ) ( n - j - 1 ) * v_min   
-											+ ( double ) (     j     ) * v_max ) 
-										  / ( double ) ( n     - 1 );
-
-				}
+				v[j] = table[i+j*m];
 			}
+			double v_min = v.Min();
+			double v_max = v.Max();
+			int[] indx = typeMethods.r8vec_sort_heap_index_a_new ( n, v );
 
-			return table;
-		}        
+			for (int j = 0; j < n; j++ )
+			{
+				table[i+indx[j]*m] =  ( (n - j - 1) * v_min   
+				                        + j * v_max ) 
+				                      / (n     - 1);
+
+			}
+		}
+
+		return table;
+	}        
 		
-	}
 }

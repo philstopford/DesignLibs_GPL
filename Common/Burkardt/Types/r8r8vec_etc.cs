@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r8r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,
-        ref double[] z, ref int[] indx, double xval, double yval, double zval, ref int ival,
-        ref int ierror )
+    public static void r8r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,
+            ref double[] z, ref int[] indx, double xval, double yval, double zval, ref int ival,
+            ref int ierror )
 
         //****************************************************************************80
         //
@@ -49,24 +49,22 @@ namespace Burkardt.Types
         //
         //    Output, int &IERROR, 0 for no error, 1 if an error occurred.
         //
+    {
+        int equal = 0;
+        int less = 0;
+        int more = 0;
+
+        ierror = 0;
+
+        switch (n)
         {
-            int equal = 0;
-            int less = 0;
-            int more = 0;
-
-            ierror = 0;
-
-            if (n <= 0)
-            {
-                if (maxn <= 0)
-                {
-                    ierror = 1;
-                    Console.WriteLine("");
-                    Console.WriteLine("R8R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
-                    Console.WriteLine("  Not enough space to store new data.");
-                    return;
-                }
-
+            case <= 0 when maxn <= 0:
+                ierror = 1;
+                Console.WriteLine("");
+                Console.WriteLine("R8R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
+                Console.WriteLine("  Not enough space to store new data.");
+                return;
+            case <= 0:
                 n = 1;
                 x[0] = xval;
                 y[0] = yval;
@@ -74,25 +72,24 @@ namespace Burkardt.Types
                 indx[0] = 1;
                 ival = 1;
                 return;
-            }
+        }
 
-            //
-            //  Does ( XVAL, YVAL, ZVAL ) already occur in ( X, Y, Z)?
-            //
-            r8r8r8vec_index_search(n, x, y, z, indx, xval, yval, zval,
-                ref less, ref equal, ref more);
+        //
+        //  Does ( XVAL, YVAL, ZVAL ) already occur in ( X, Y, Z)?
+        //
+        r8r8r8vec_index_search(n, x, y, z, indx, xval, yval, zval,
+            ref less, ref equal, ref more);
 
-            if (equal == 0)
+        switch (equal)
+        {
+            case 0 when maxn <= n:
+                ierror = 1;
+                Console.WriteLine("");
+                Console.WriteLine("R8R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
+                Console.WriteLine("  Not enough space to store new data.");
+                return;
+            case 0:
             {
-                if (maxn <= n)
-                {
-                    ierror = 1;
-                    Console.WriteLine("");
-                    Console.WriteLine("R8R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
-                    Console.WriteLine("  Not enough space to store new data.");
-                    return;
-                }
-
                 x[n] = xval;
                 y[n] = yval;
                 z[n] = zval;
@@ -103,19 +100,18 @@ namespace Burkardt.Types
                 }
 
                 indx[more - 1] = n + 1;
-                n = n + 1;
+                n += 1;
+                break;
             }
-            else
-            {
+            default:
                 ival = indx[equal - 1];
-            }
-
-            return;
+                break;
         }
+    }
 
-        public static void r8r8r8vec_index_search(int n, double[] x, double[] y, double[] z,
-        int[] indx, double xval, double yval, double zval, ref int less, ref int equal,
-        ref int more )
+    public static void r8r8r8vec_index_search(int n, double[] x, double[] y, double[] z,
+            int[] indx, double xval, double yval, double zval, ref int less, ref int equal,
+            ref int more )
 
         //****************************************************************************80
         //
@@ -151,113 +147,111 @@ namespace Burkardt.Types
         //    If XVAL is the minimum entry of X, then LESS is 0.  If XVAL
         //    is the greatest entry of X, then MORE is N+1.
         //
-        {
-            int compare;
-            int hi;
-            int lo;
-            int mid;
-            double xhi;
-            double xlo;
-            double xmid;
-            double yhi;
-            double ylo;
-            double ymid;
-            double zhi;
-            double zlo;
-            double zmid;
+    {
+        int compare;
+        int hi;
+        int lo;
+        int mid;
+        double xhi;
+        double xlo;
+        double xmid;
+        double yhi;
+        double ylo;
+        double ymid;
+        double zhi;
+        double zlo;
+        double zmid;
 
-            if (n <= 0)
-            {
+        switch (n)
+        {
+            case <= 0:
                 less = 0;
                 equal = 0;
                 more = 0;
                 return;
-            }
+        }
 
-            lo = 1;
-            hi = n;
+        lo = 1;
+        hi = n;
 
-            xlo = x[indx[lo - 1] - 1];
-            ylo = y[indx[lo - 1] - 1];
-            zlo = z[indx[lo - 1] - 1];
+        xlo = x[indx[lo - 1] - 1];
+        ylo = y[indx[lo - 1] - 1];
+        zlo = z[indx[lo - 1] - 1];
 
-            xhi = x[indx[hi - 1] - 1];
-            yhi = y[indx[hi - 1] - 1];
-            zhi = z[indx[hi - 1] - 1];
+        xhi = x[indx[hi - 1] - 1];
+        yhi = y[indx[hi - 1] - 1];
+        zhi = z[indx[hi - 1] - 1];
 
-            compare = r8r8r8_compare(xval, yval, zval, xlo, ylo, zlo);
+        compare = r8r8r8_compare(xval, yval, zval, xlo, ylo, zlo);
 
-            if (compare == -1)
-            {
+        switch (compare)
+        {
+            case -1:
                 less = 0;
                 equal = 0;
                 more = 1;
                 return;
-            }
-            else if (compare == 0)
-            {
+            case 0:
                 less = 0;
                 equal = 1;
                 more = 2;
                 return;
-            }
+        }
 
-            compare = r8r8r8_compare(xval, yval, zval, xhi, yhi, zhi);
+        compare = r8r8r8_compare(xval, yval, zval, xhi, yhi, zhi);
 
-            if (compare == 1)
-            {
+        switch (compare)
+        {
+            case 1:
                 less = n;
                 equal = 0;
                 more = n + 1;
                 return;
-            }
-            else if (compare == 0)
-            {
+            case 0:
                 less = n - 1;
                 equal = n;
                 more = n + 1;
                 return;
+        }
+
+        for (;;)
+        {
+            if (lo + 1 == hi)
+            {
+                less = lo;
+                equal = 0;
+                more = hi;
+                return;
             }
 
-            for (;;)
+            mid = (lo + hi) / 2;
+            xmid = x[indx[mid - 1] - 1];
+            ymid = y[indx[mid - 1] - 1];
+            zmid = z[indx[mid - 1] - 1];
+
+            compare = r8r8r8_compare(xval, yval, zval, xmid, ymid, zmid);
+
+            switch (compare)
             {
-                if (lo + 1 == hi)
-                {
-                    less = lo;
-                    equal = 0;
-                    more = hi;
-                    return;
-                }
-
-                mid = (lo + hi) / 2;
-                xmid = x[indx[mid - 1] - 1];
-                ymid = y[indx[mid - 1] - 1];
-                zmid = z[indx[mid - 1] - 1];
-
-                compare = r8r8r8_compare(xval, yval, zval, xmid, ymid, zmid);
-
-                if (compare == 0)
-                {
+                case 0:
                     equal = mid;
                     less = mid - 1;
                     more = mid + 1;
                     return;
-                }
-                else if (compare == -1)
-                {
+                case -1:
                     hi = mid;
-                }
-                else if (compare == +1)
-                {
+                    break;
+                case +1:
                     lo = mid;
-                }
+                    break;
             }
-
-            return;
         }
 
-        public static void r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,
-        ref int[] indx, double xval, double yval, ref int ival, ref int ierror )
+        return;
+    }
+
+    public static void r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,
+            ref int[] indx, double xval, double yval, ref int ival, ref int ierror )
 
         //****************************************************************************80
         //
@@ -300,46 +294,43 @@ namespace Burkardt.Types
         //
         //    Output, int &IERROR, 0 for no error, 1 if an error occurred.
         //
+    {
+        int equal = 0;
+        int less = 0;
+        int more = 0;
+
+        ierror = 0;
+
+        switch (n)
         {
-            int equal = 0;
-            int less = 0;
-            int more = 0;
-
-            ierror = 0;
-
-            if (n <= 0)
-            {
-                if (maxn <= 0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
-                    Console.WriteLine("  Not enough space to store new data.");
-                    return;
-                }
-
+            case <= 0 when maxn <= 0:
+                Console.WriteLine("");
+                Console.WriteLine("R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
+                Console.WriteLine("  Not enough space to store new data.");
+                return;
+            case <= 0:
                 n = 1;
                 x[0] = xval;
                 y[0] = yval;
                 indx[0] = 1;
                 ival = 1;
                 return;
-            }
+        }
 
-            //
-            //  Does ( XVAL, YVAL ) already occur in ( X, Y )?
-            //
-            r8r8vec_index_search(n, x, y, indx, xval, yval, ref less, ref equal, ref more);
+        //
+        //  Does ( XVAL, YVAL ) already occur in ( X, Y )?
+        //
+        r8r8vec_index_search(n, x, y, indx, xval, yval, ref less, ref equal, ref more);
 
-            if (equal == 0)
+        switch (equal)
+        {
+            case 0 when maxn <= n:
+                Console.WriteLine("");
+                Console.WriteLine("R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
+                Console.WriteLine("  Not enough space to store new data.");
+                return;
+            case 0:
             {
-                if (maxn <= n)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8R8VEC_INDEX_INSERT_UNIQUE - Fatal error!");
-                    Console.WriteLine("  Not enough space to store new data.");
-                    return;
-                }
-
                 x[n] = xval;
                 y[n] = yval;
                 ival = n + 1;
@@ -349,18 +340,17 @@ namespace Burkardt.Types
                 }
 
                 indx[more - 1] = n + 1;
-                n = n + 1;
+                n += 1;
+                break;
             }
-            else
-            {
+            default:
                 ival = indx[equal - 1];
-            }
-
-            return;
+                break;
         }
+    }
 
-        public static void r8r8vec_index_search(int n, double[] x, double[] y, int[] indx,
-        double xval, double yval, ref int less, ref int equal, ref int more )
+    public static void r8r8vec_index_search(int n, double[] x, double[] y, int[] indx,
+            double xval, double yval, ref int less, ref int equal, ref int more )
 
         //****************************************************************************80
         //
@@ -396,104 +386,101 @@ namespace Burkardt.Types
         //    If XVAL is the minimum entry of X, then LESS is 0.  If XVAL
         //    is the greatest entry of X, then MORE is N+1.
         //
-        {
-            int compare;
-            int hi;
-            int lo;
-            int mid;
-            double xhi;
-            double xlo;
-            double xmid;
-            double yhi;
-            double ylo;
-            double ymid;
+    {
+        int compare;
+        int hi;
+        int lo;
+        int mid;
+        double xhi;
+        double xlo;
+        double xmid;
+        double yhi;
+        double ylo;
+        double ymid;
 
-            if (n <= 0)
-            {
+        switch (n)
+        {
+            case <= 0:
                 less = 0;
                 equal = 0;
                 more = 0;
                 return;
-            }
+        }
 
-            lo = 1;
-            hi = n;
+        lo = 1;
+        hi = n;
 
-            xlo = x[indx[lo - 1] - 1];
-            ylo = y[indx[lo - 1] - 1];
+        xlo = x[indx[lo - 1] - 1];
+        ylo = y[indx[lo - 1] - 1];
 
-            xhi = x[indx[hi - 1] - 1];
-            yhi = y[indx[hi - 1] - 1];
+        xhi = x[indx[hi - 1] - 1];
+        yhi = y[indx[hi - 1] - 1];
 
-            compare = r8r8_compare(xval, yval, xlo, ylo);
+        compare = r8r8_compare(xval, yval, xlo, ylo);
 
-            if (compare == -1)
-            {
+        switch (compare)
+        {
+            case -1:
                 less = 0;
                 equal = 0;
                 more = 1;
                 return;
-            }
-            else if (compare == 0)
-            {
+            case 0:
                 less = 0;
                 equal = 1;
                 more = 2;
                 return;
-            }
+        }
 
-            compare = r8r8_compare(xval, yval, xhi, yhi);
+        compare = r8r8_compare(xval, yval, xhi, yhi);
 
-            if (compare == 1)
-            {
+        switch (compare)
+        {
+            case 1:
                 less = n;
                 equal = 0;
                 more = n + 1;
                 return;
-            }
-            else if (compare == 0)
-            {
+            case 0:
                 less = n - 1;
                 equal = n;
                 more = n + 1;
                 return;
+        }
+
+        for (;;)
+        {
+            if (lo + 1 == hi)
+            {
+                less = lo;
+                equal = 0;
+                more = hi;
+                return;
             }
 
-            for (;;)
+            mid = (lo + hi) / 2;
+            xmid = x[indx[mid - 1] - 1];
+            ymid = y[indx[mid - 1] - 1];
+
+            compare = r8r8_compare(xval, yval, xmid, ymid);
+
+            switch (compare)
             {
-                if (lo + 1 == hi)
-                {
-                    less = lo;
-                    equal = 0;
-                    more = hi;
-                    return;
-                }
-
-                mid = (lo + hi) / 2;
-                xmid = x[indx[mid - 1] - 1];
-                ymid = y[indx[mid - 1] - 1];
-
-                compare = r8r8_compare(xval, yval, xmid, ymid);
-
-                if (compare == 0)
-                {
+                case 0:
                     equal = mid;
                     less = mid - 1;
                     more = mid + 1;
                     return;
-                }
-                else if (compare == -1)
-                {
+                case -1:
                     hi = mid;
-                }
-                else if (compare == +1)
-                {
+                    break;
+                case +1:
                     lo = mid;
-                }
+                    break;
             }
-
-            return;
         }
 
+        return;
     }
+
 }

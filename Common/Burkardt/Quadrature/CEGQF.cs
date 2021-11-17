@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CEGQF
 {
-    public static class CEGQF
-    {
-        public static double cegqf(int nt, int kind, double alpha, double beta, double a, double b,
+    public static double cegqf(int nt, int kind, double alpha, double beta, double a, double b,
             Func < double, int, double > f )
 
         //****************************************************************************80
@@ -71,23 +71,22 @@ namespace Burkardt.Quadrature
         //    Output, double CEGQF, the value of the quadrature formula 
         //    applied to F.
         //
-        {
-            int lo;
-            double qfsum;
-            double[] t;
-            double[] wts;
+    {
+        int lo;
+        double qfsum;
+        double[] t;
+        double[] wts;
 
-            lo = 0;
-            t = new double[nt];
-            wts = new double[nt];
+        lo = 0;
+        t = new double[nt];
+        wts = new double[nt];
 
-            CGQF.cgqf(nt, kind, alpha, beta, a, b, lo, ref t, ref wts);
-            //
-            //  Evaluate the quadrature sum.
-            //
-            qfsum = EIQFS.eiqfs(nt, t, wts, f);
+        CGQF.cgqf(nt, kind, alpha, beta, a, b, lo, ref t, ref wts);
+        //
+        //  Evaluate the quadrature sum.
+        //
+        qfsum = EIQFS.eiqfs(nt, t, wts, f);
 
-            return qfsum;
-        }
+        return qfsum;
     }
 }

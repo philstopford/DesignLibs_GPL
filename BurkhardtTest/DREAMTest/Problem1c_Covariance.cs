@@ -1,115 +1,114 @@
 ﻿using Burkardt.Types;
 
-namespace DREAMTest
+namespace DREAMTest;
+
+public static partial class Problem1c
 {
-    public static partial class Problem1c
+    private class Covariance
     {
-        class Covariance
+        private int order;
+        private double[] array { get; set; }
+        private double det { get; set; }
+        private double[] factor { get; set; }
+        private double[] inv { get; set; }
+        private double[] mean { get; set; }
+
+        public Covariance(int par_num)
         {
-            int order;
-            double[] array { get; set; }
-            double det { get; set; }
-            double[] factor { get; set; }
-            double[] inv { get; set; }
-            double[] mean { get; set; }
-
-            public Covariance(int par_num)
-            {
-                order = par_num;
-                array_set();
-                factor_set();
-                det_set();
-                inv_set();
-                mean_set();
-            }
+            order = par_num;
+            array_set();
+            factor_set();
+            det_set();
+            inv_set();
+            mean_set();
+        }
             
-            public double[] array_get()
+        public double[] array_get()
+        {
+            double[] array2 = typeMethods.r8mat_copy_new ( order, order, array );
+
+            return array2;
+        }
+
+        public void array_set()
+        {
+            int i;
+            int j;
+
+            array = new double[order*order];
+
+            for ( j = 0; j < order; j++ )
             {
-                double[] array2 = typeMethods.r8mat_copy_new ( order, order, array );
-
-                return array2;
-            }
-
-            public void array_set()
-            {
-                int i;
-                int j;
-
-                array = new double[order*order];
-
-                for ( j = 0; j < order; j++ )
-                {
-                    for ( i = 0; i < order; i++ )
-                    {
-                        array[i+j*order] = 0.5;
-                    }
-                }
-
                 for ( i = 0; i < order; i++ )
                 {
-                    array[i+i*order] = ( double ) ( i + 1 );
+                    array[i+j*order] = 0.5;
                 }
             }
 
-            public double det_get ( )
+            for ( i = 0; i < order; i++ )
             {
-                double det2 = det;
-
-                return det2;
+                array[i+i*order] = i + 1;
             }
+        }
 
-            public void det_set()
+        public double det_get ( )
+        {
+            double det2 = det;
+
+            return det2;
+        }
+
+        public void det_set()
+        {
+            det = typeMethods.r8mat_podet(order, factor);
+        }
+
+        public double[] factor_get ( )
+        {
+            double[] factor2 = typeMethods.r8mat_copy_new ( order, order, factor );
+
+            return factor2;
+        }
+
+        public void factor_set ( )
+        {
+            factor = typeMethods.r8mat_pofac ( order, array );
+        }
+
+        public double[] inv_get ( )
+        {
+            double[] inv2 = typeMethods.r8mat_copy_new ( order, order, inv );
+
+            return inv2;
+        }
+
+        public void inv_set()
+        {
+            inv = typeMethods.r8mat_poinv(order, factor);
+        }
+
+        public double[] mean_get ( )
+        {
+            double[] mean2 = typeMethods.r8vec_copy_new ( order, mean );
+
+            return mean2;
+        }
+
+        public void mean_set()
+        {
+            int i;
+
+            mean = new double[order];
+
+            for (i = 0; i < order; i++)
             {
-                det = typeMethods.r8mat_podet(order, factor);
+                mean[i] = 0.0;
             }
+        }
 
-            public double[] factor_get ( )
-            {
-                double[] factor2 = typeMethods.r8mat_copy_new ( order, order, factor );
-
-                return factor2;
-            }
-
-            public void factor_set ( )
-            {
-                factor = typeMethods.r8mat_pofac ( order, array );
-            }
-
-            public double[] inv_get ( )
-            {
-                double[] inv2 = typeMethods.r8mat_copy_new ( order, order, inv );
-
-                return inv2;
-            }
-
-            public void inv_set()
-            {
-                inv = typeMethods.r8mat_poinv(order, factor);
-            }
-
-            public double[] mean_get ( )
-            {
-                double[] mean2 = typeMethods.r8vec_copy_new ( order, mean );
-
-                return mean2;
-            }
-
-            public void mean_set()
-            {
-                int i;
-
-                mean = new double[order];
-
-                for (i = 0; i < order; i++)
-                {
-                    mean[i] = 0.0;
-                }
-            }
-
-            public void print(string title)
-            {
-                typeMethods.r8mat_print ( order, order, array, title );
-            }
+        public void print(string title)
+        {
+            typeMethods.r8mat_print ( order, order, array, title );
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace Burkardt.TriangulationNS
+﻿namespace Burkardt.TriangulationNS;
+
+public static partial class Triangulation
 {
-    public static partial class Triangulation
-    {
-        public static void triangle_order6_reference_to_physical(double[] t, int n,
-        double[] ref_, ref double[] phy )
+    public static void triangle_order6_reference_to_physical(double[] t, int n,
+            double[] ref_, ref double[] phy )
 
         //****************************************************************************80
         //
@@ -63,55 +63,54 @@
         //    Output, double PHY[2*N], corresponding points in the
         //    physical triangle.
         //
+    {
+        double[] a = new double[2];
+        double[] b = new double[2];
+        double[] c = new double[2];
+        double[] d = new double[2];
+        double[] e = new double[2];
+        double[] f = new double[2];
+        int i;
+        int j;
+
+        for (i = 0; i < 2; i++)
         {
-            double[] a = new double[2];
-            double[] b = new double[2];
-            double[] c = new double[2];
-            double[] d = new double[2];
-            double[] e = new double[2];
-            double[] f = new double[2];
-            int i;
-            int j;
+            a[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 1 * 2]
+                   - 4.0 * t[i + 3 * 2];
 
-            for (i = 0; i < 2; i++)
+            b[i] = 4.0 * t[i + 0 * 2]
+                - 4.0 * t[i + 3 * 2] + 4.0 * t[i + 4 * 2] - 4.0 * t[i + 5 * 2];
+
+            c[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 2 * 2]
+                   - 4.0 * t[i + 5 * 2];
+
+            d[i] = -3.0 * t[i + 0 * 2] - t[i + 1 * 2]
+                   + 4.0 * t[i + 3 * 2];
+
+            e[i] = -3.0 * t[i + 0 * 2] - t[i + 2 * 2]
+                   + 4.0 * t[i + 5 * 2];
+            f[i] = t[i + 0 * 2];
+
+        }
+
+        for (i = 0; i < 2; i++)
+        {
+            for (j = 0; j < n; j++)
             {
-                a[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 1 * 2]
-                       - 4.0 * t[i + 3 * 2];
-
-                b[i] = 4.0 * t[i + 0 * 2]
-                    - 4.0 * t[i + 3 * 2] + 4.0 * t[i + 4 * 2] - 4.0 * t[i + 5 * 2];
-
-                c[i] = 2.0 * t[i + 0 * 2] + 2.0 * t[i + 2 * 2]
-                       - 4.0 * t[i + 5 * 2];
-
-                d[i] = -3.0 * t[i + 0 * 2] - t[i + 1 * 2]
-                       + 4.0 * t[i + 3 * 2];
-
-                e[i] = -3.0 * t[i + 0 * 2] - t[i + 2 * 2]
-                       + 4.0 * t[i + 5 * 2];
-                f[i] = t[i + 0 * 2];
-
-            }
-
-            for (i = 0; i < 2; i++)
-            {
-                for (j = 0; j < n; j++)
-                {
-                    phy[i + j * 2] = a[i] * ref_[
-                    0 + j * 2] * ref_[
-                    0 + j * 2]
-                    +b[i] * ref_[
-                    0 + j * 2] * ref_[
-                    1 + j * 2]
-                    +c[i] * ref_[
-                    1 + j * 2] * ref_[
-                    1 + j * 2]
-                    +d[i] * ref_[
-                    0 + j * 2]
-                    +e[i] * ref_[
-                    1 + j * 2]
-                    +f[i];
-                }
+                phy[i + j * 2] = a[i] * ref_[
+                                     0 + j * 2] * ref_[
+                                     0 + j * 2]
+                                 +b[i] * ref_[
+                                     0 + j * 2] * ref_[
+                                     1 + j * 2]
+                                 +c[i] * ref_[
+                                     1 + j * 2] * ref_[
+                                     1 + j * 2]
+                                 +d[i] * ref_[
+                                     0 + j * 2]
+                                 +e[i] * ref_[
+                                     1 + j * 2]
+                                 +f[i];
             }
         }
     }

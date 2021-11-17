@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.MatrixNS;
 
-namespace Burkardt.SubsetNS
+namespace Burkardt.SubsetNS;
+
+public static class Triang
 {
-    public static class Triang
-    {
-        public static void triang(int n, int[] zeta, ref int[] p )
+    public static void triang(int n, int[] zeta, ref int[] p )
 
         //****************************************************************************80
         //
@@ -70,105 +70,106 @@ namespace Burkardt.SubsetNS
         //    the property that if ZETA[I,J] = 1, that is, I << J,
         //    then P[I] < P[J] (in the usual ordering).
         //
-        {
-            int i;
-            bool error;
-            int iq;
-            int ir;
-            int it;
-            int l;
-            int m;
-            //
-            //  Make sure ZETA represents a partially ordered set.  In other words,
-            //  if ZETA(I,J) = 1, then ZETA(J,I) must NOT be 1.
-            //
-            error = PartialOrdering.pord_check(n, zeta);
+    {
+        int i;
+        bool error;
+        int iq;
+        int ir;
+        int it;
+        int l;
+        int m;
+        //
+        //  Make sure ZETA represents a partially ordered set.  In other words,
+        //  if ZETA(I,J) = 1, then ZETA(J,I) must NOT be 1.
+        //
+        error = PartialOrdering.pord_check(n, zeta);
 
-            if (error)
-            {
+        switch (error)
+        {
+            case true:
                 Console.WriteLine("");
                 Console.WriteLine("TRIANG - Fatal error!");
                 Console.WriteLine("  The matrix ZETA does not represent a");
                 Console.WriteLine("  partial ordering.");
                 return;
-            }
+        }
 
-            m = 1;
-            l = 0;
-            for (i = 0; i < n; i++)
+        m = 1;
+        l = 0;
+        for (i = 0; i < n; i++)
+        {
+            p[i] = 0;
+        }
+
+        it = m + 1;
+        ir = m + 1;
+
+        for (;;)
+        {
+            if (ir <= n)
             {
-                p[i] = 0;
-            }
-
-            it = m + 1;
-            ir = m + 1;
-
-            for (;;)
-            {
-                if (ir <= n)
+                switch (p[ir - 1])
                 {
-                    if (p[ir - 1] == 0 && zeta[(ir - 1) + (m - 1) * n] != 0)
-                    {
+                    case 0 when zeta[ir - 1 + (m - 1) * n] != 0:
                         p[ir - 1] = m;
                         m = ir;
                         ir = it;
-                    }
-                    else
-                    {
-                        ir = ir + 1;
-                    }
+                        break;
+                    default:
+                        ir += 1;
+                        break;
+                }
+            }
+            else
+            {
+                l += 1;
+                iq = p[m - 1];
+                p[m - 1] = l;
+
+                if (iq != 0)
+                {
+
+                    ir = m + 1;
+                    m = iq;
+                }
+                else if (m == n)
+                {
+                    break;
                 }
                 else
                 {
-                    l = l + 1;
-                    iq = p[m - 1];
-                    p[m - 1] = l;
+                    for (;;)
+                    {
+                        m += 1;
 
-                    if (iq != 0)
-                    {
-
-                        ir = m + 1;
-                        m = iq;
-                    }
-                    else if (m == n)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        for (;;)
+                        if (p[m - 1] == 0)
                         {
-                            m = m + 1;
-
-                            if (p[m - 1] == 0)
-                            {
-                                break;
-                            }
-
-                            if (m == n)
-                            {
-                                for (i = 0; i < n; i++)
-                                {
-                                    p[i] = p[i] - 1;
-                                }
-
-                                return;
-                            }
+                            break;
                         }
 
-                        it = m + 1;
-                        ir = m + 1;
+                        if (m == n)
+                        {
+                            for (i = 0; i < n; i++)
+                            {
+                                p[i] -= 1;
+                            }
+
+                            return;
+                        }
                     }
+
+                    it = m + 1;
+                    ir = m + 1;
                 }
             }
+        }
 
-            //
-            //  Decrement the elements of the permutation.
-            //
-            for (i = 0; i < n; i++)
-            {
-                p[i] = p[i] - 1;
-            }
+        //
+        //  Decrement the elements of the permutation.
+        //
+        for (i = 0; i < n; i++)
+        {
+            p[i] -= 1;
         }
     }
 }

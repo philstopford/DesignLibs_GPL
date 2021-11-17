@@ -1,10 +1,10 @@
 ﻿using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGEFA
 {
-    public static class DGEFA
-    {
-        public static int dgefa(ref double[] a, int lda, int n, ref int[] ipvt )
+    public static int dgefa(ref double[] a, int lda, int n, ref int[] ipvt )
 
         //****************************************************************************80
         //
@@ -55,74 +55,75 @@ namespace Burkardt.Linpack
         //    but it does indicate that DGESL or DGEDI will divide by zero if called.
         //    Use RCOND in DGECO for a reliable indication of singularity.
         //
-        {
-            int info;
-            int j;
-            int k;
-            int l;
-            double t;
-            //
-            //  Gaussian elimination with partial pivoting.
-            //
-            info = 0;
+    {
+        int info;
+        int j;
+        int k;
+        int l;
+        double t;
+        //
+        //  Gaussian elimination with partial pivoting.
+        //
+        info = 0;
 
-            for (k = 1; k <= n - 1; k++)
+        for (k = 1; k <= n - 1; k++)
+        {
+            //
+            //  Find L = pivot index.
+            //
+            l = BLAS1D.idamax(n - k + 1, a, 1, index:  + (k - 1) + (k - 1) * lda) + k - 1;
+            ipvt[k - 1] = l;
+            switch (a[l - 1 + (k - 1) * lda])
             {
-                //
-                //  Find L = pivot index.
-                //
-                l = BLAS1D.idamax(n - k + 1, a, 1, index:  + (k - 1) + (k - 1) * lda) + k - 1;
-                ipvt[k - 1] = l;
                 //
                 //  Zero pivot implies this column already triangularized.
                 //
-                if (a[l - 1 + (k - 1) * lda] == 0.0)
-                {
+                case 0.0:
                     info = k;
                     continue;
-                }
+            }
 
-                //
-                //  Interchange if necessary.
-                //
+            //
+            //  Interchange if necessary.
+            //
+            if (l != k)
+            {
+                t = a[l - 1 + (k - 1) * lda];
+                a[l - 1 + (k - 1) * lda] = a[k - 1 + (k - 1) * lda];
+                a[k - 1 + (k - 1) * lda] = t;
+            }
+
+            //
+            //  Compute multipliers.
+            //
+            t = -1.0 / a[k - 1 + (k - 1) * lda];
+
+            BLAS1D.dscal(n - k, t, ref a, 1, index: + k + (k - 1) * lda);
+            //
+            //  Row elimination with column indexing.
+            //
+            for (j = k + 1; j <= n; j++)
+            {
+                t = a[l - 1 + (j - 1) * lda];
                 if (l != k)
                 {
-                    t = a[l - 1 + (k - 1) * lda];
-                    a[l - 1 + (k - 1) * lda] = a[k - 1 + (k - 1) * lda];
-                    a[k - 1 + (k - 1) * lda] = t;
+                    a[l - 1 + (j - 1) * lda] = a[k - 1 + (j - 1) * lda];
+                    a[k - 1 + (j - 1) * lda] = t;
                 }
 
-                //
-                //  Compute multipliers.
-                //
-                t = -1.0 / a[k - 1 + (k - 1) * lda];
-
-                BLAS1D.dscal(n - k, t, ref a, 1, index: + k + (k - 1) * lda);
-                //
-                //  Row elimination with column indexing.
-                //
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = a[l - 1 + (j - 1) * lda];
-                    if (l != k)
-                    {
-                        a[l - 1 + (j - 1) * lda] = a[k - 1 + (j - 1) * lda];
-                        a[k - 1 + (j - 1) * lda] = t;
-                    }
-
-                    BLAS1D.daxpy(n - k, t, a, 1, ref a, 1, xIndex:  + k + (k - 1) * lda, yIndex:  + k + (j - 1) * lda);
-                }
-
+                BLAS1D.daxpy(n - k, t, a, 1, ref a, 1, xIndex:  + k + (k - 1) * lda, yIndex:  + k + (j - 1) * lda);
             }
 
-            ipvt[n - 1] = n;
-
-            if (a[n - 1 + (n - 1) * lda] == 0.0)
-            {
-                info = n;
-            }
-
-            return info;
         }
+
+        ipvt[n - 1] = n;
+
+        info = a[n - 1 + (n - 1) * lda] switch
+        {
+            0.0 => n,
+            _ => info
+        };
+
+        return info;
     }
 }

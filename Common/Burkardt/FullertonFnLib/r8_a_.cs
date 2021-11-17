@@ -1,177 +1,175 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public static double r8_abs(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ABS returns the absolute value of an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 November 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the quantity whose absolute value is desired.
+        //
+        //    Output, double R8_ABS, the absolute value of X.
+        //
     {
-        public static double r8_abs(double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ABS returns the absolute value of an R8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 November 2006
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the quantity whose absolute value is desired.
-            //
-            //    Output, double R8_ABS, the absolute value of X.
-            //
+        double value = x switch
         {
-            double value;
+            >= 0.0 => x,
+            _ => -x
+        };
 
-            if (0.0 <= x)
-            {
-                value = x;
-            }
-            else
-            {
-                value = -x;
-            }
+        return value;
+    }
 
-            return value;
-        }
+    public static double r8_acos(double x)
 
-        public static double r8_acos(double x)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ACOS evaluates the arc-cosine of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ACOS, the arc-cosine of X.
+        //
+    {
+        const double pi2 = 1.57079632679489661923132169163975;
+        double value = 0;
+        r8ASINData data = new();
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ACOS evaluates the arc-cosine of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ACOS, the arc-cosine of X.
-            //
+        value = pi2 - r8_asin(ref data, x);
+
+        return value;
+    }
+
+    public static double r8_acosh(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ACOSH evaluates the arc-hyperbolic cosine of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    04 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ACOSH, the arc-hyperbolic cosine of X.
+        //
+    {
+        const double dln2 = 0.69314718055994530941723212145818;
+        double value = 0;
+        double xmax = 0.0;
+
+        xmax = xmax switch
         {
-            const double pi2 = 1.57079632679489661923132169163975;
-            double value;
-            r8ASINData data = new r8ASINData();
+            0.0 => 1.0 / Math.Sqrt(r8_mach(3)),
+            _ => xmax
+        };
 
-            value = pi2 - r8_asin(ref data, x);
-
-            return value;
-        }
-
-        public static double r8_acosh(double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ACOSH evaluates the arc-hyperbolic cosine of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    04 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ACOSH, the arc-hyperbolic cosine of X.
-            //
+        switch (x)
         {
-            const double dln2 = 0.69314718055994530941723212145818;
-            double value;
-            double xmax = 0.0;
-
-            if (xmax == 0.0)
-            {
-                xmax = 1.0 / Math.Sqrt(r8_mach(3));
-            }
-
-            if (x < 1.0)
-            {
+            case < 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_ACOSH - Fatal error!");
                 Console.WriteLine("  X < 1.0");
-                return (1);
-            }
-            else if (x < xmax)
-            {
-                value = Math.Log(x + Math.Sqrt(x * x - 1.0));
-            }
-            else
-            {
-                value = dln2 + Math.Log(x);
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8ADMPData
+        if (x < xmax)
         {
-            public int nan20 = 0;
-            public int nan21 = 0;
-            public int nan22 = 0;
-            public int naph0 = 0;
-            public int naph1 = 0;
-            public int naph2 = 0;
-            public double xsml = 0.0;
+            value = Math.Log(x + Math.Sqrt(x * x - 1.0));
         }
+        else
+        {
+            value = dln2 + Math.Log(x);
+        }
+
+        return value;
+    }
+
+    public class r8ADMPData
+    {
+        public int nan20;
+        public int nan21;
+        public int nan22;
+        public int naph0;
+        public int naph1;
+        public int naph2;
+        public double xsml;
+    }
         
-        public static void r8_admp(ref r8ADMPData data, double x, ref double ampl, ref double phi )
+    public static void r8_admp(ref r8ADMPData data, double x, ref double ampl, ref double phi )
 
         //****************************************************************************80
         //
@@ -214,8 +212,8 @@ namespace Burkardt.FullertonFnLib
         //    Output, double &AMPL, &PHI, the modulus and phase of the 
         //    derivative of the Airy function.
         //
-        {
-            double[] an20cs = {
+    {
+        double[] an20cs = {
                 0.0126732217145738027154610751034240,
                 -0.0005212847072615621184780942309478,
                 -0.0000052672111140370429809074052969,
@@ -275,7 +273,7 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000318
             }
             ;
-            double[] an21cs = {
+        double[] an21cs = {
                 0.0198313155263169394420342483165643,
                 -0.0029376249067087533460593745594484,
                 -0.0001136260695958195549872611137182,
@@ -338,7 +336,7 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000355
             }
             ;
-            double[] an22cs = {
+        double[] an22cs = {
                 0.0537418629629794329091103360917783,
                 -0.0126661435859883193466312085036450,
                 -0.0011924334106593006840848916913681,
@@ -415,7 +413,7 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000405
             }
             ;
-            double[] aph0cs = {
+        double[] aph0cs = {
                 -0.0855849241130933256920124260179491,
                 0.0011214378867065260735786722471124,
                 0.0000042721029353664113951573742015,
@@ -471,7 +469,7 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000281
             }
             ;
-            double[] aph1cs = {
+        double[] aph1cs = {
                 -0.1024172908077571694021123321813917,
                 0.0071697275146591248047211649144704,
                 0.0001209959363122328589813856491397,
@@ -532,7 +530,7 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000308
             }
             ;
-            double[] aph2cs = {
+        double[] aph2cs = {
                 -0.2057088719781465106973648665602125,
                 0.0422196961357771921673114980369460,
                 0.0020482560511207275042660577813334,
@@ -607,13 +605,14 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000544
             }
             ;
-            double eta;
-            double pi34 = 2.35619449019234492884698253745962716313;
-            double sqrtx;
-            double z;
+        double eta;
+        double pi34 = 2.35619449019234492884698253745962716313;
+        double sqrtx;
+        double z;
 
-            if (data.nan20 == 0)
-            {
+        switch (data.nan20)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nan20 = r8_inits(an20cs, 57, eta);
                 data.nan21 = r8_inits(an21cs, 60, eta);
@@ -622,93 +621,95 @@ namespace Burkardt.FullertonFnLib
                 data.naph1 = r8_inits(aph1cs, 58, eta);
                 data.naph2 = r8_inits(aph2cs, 72, eta);
                 data.xsml = -r8_power(128.0 / r8_mach(3), 0.3333);
-            }
-
-            if (x < data.xsml)
-            {
-                z = 1.0;
-                ampl = 0.3125 + r8_csevl(z, an20cs, data.nan20);
-                phi = -0.625 + r8_csevl(z, aph0cs, data.naph0);
-            }
-            else if (x < -4.0)
-            {
-                z = 128.0 / x / x / x + 1.0;
-                ampl = 0.3125 + r8_csevl(z, an20cs, data.nan20);
-                phi = -0.625 + r8_csevl(z, aph0cs, data.naph0);
-            }
-            else if (x < -2.0)
-            {
-                z = (128.0 / x / x / x + 9.0 ) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, an21cs, data.nan21);
-                phi = -0.625 + r8_csevl(z, aph1cs, data.naph1);
-            }
-            else if (x <= -1.0)
-            {
-                z = (16.0 / x / x / x + 9.0) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, an22cs, data.nan22);
-                phi = -0.625 + r8_csevl(z, aph2cs, data.naph2);
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_ADMP - Fatal error!");
-                Console.WriteLine("  - 1.0 < X.");
-                return;
-            }
-
-            sqrtx = Math.Sqrt(-x);
-            ampl = Math.Sqrt(ampl * sqrtx);
-            phi = pi34 - x * sqrtx * phi;
+                break;
         }
 
-        public class r8AIData
+        if (x < data.xsml)
         {
-            public int naif = 0;
-            public int naig = 0;
-            public double x3sml = 0.0;
-            public double xmax = 0.0;
-
+            z = 1.0;
+            ampl = 0.3125 + r8_csevl(z, an20cs, data.nan20);
+            phi = -0.625 + r8_csevl(z, aph0cs, data.naph0);
         }
-        public static double r8_ai(ref r8AIData data, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_AI evaluates the Airy function Ai of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_AI, the Airy function Ai of X.
-            //
+        else
         {
-            double[] aifcs = {
+            switch (x)
+            {
+                case < -4.0:
+                    z = 128.0 / x / x / x + 1.0;
+                    ampl = 0.3125 + r8_csevl(z, an20cs, data.nan20);
+                    phi = -0.625 + r8_csevl(z, aph0cs, data.naph0);
+                    break;
+                case < -2.0:
+                    z = (128.0 / x / x / x + 9.0 ) / 7.0;
+                    ampl = 0.3125 + r8_csevl(z, an21cs, data.nan21);
+                    phi = -0.625 + r8_csevl(z, aph1cs, data.naph1);
+                    break;
+                case <= -1.0:
+                    z = (16.0 / x / x / x + 9.0) / 7.0;
+                    ampl = 0.3125 + r8_csevl(z, an22cs, data.nan22);
+                    phi = -0.625 + r8_csevl(z, aph2cs, data.naph2);
+                    break;
+                default:
+                    Console.WriteLine("");
+                    Console.WriteLine("R8_ADMP - Fatal error!");
+                    Console.WriteLine("  - 1.0 < X.");
+                    return;
+            }
+        }
+
+        sqrtx = Math.Sqrt(-x);
+        ampl = Math.Sqrt(ampl * sqrtx);
+        phi = pi34 - x * sqrtx * phi;
+    }
+
+    public class r8AIData
+    {
+        public int naif;
+        public int naig;
+        public double x3sml;
+        public double xmax;
+
+    }
+    public static double r8_ai(ref r8AIData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_AI evaluates the Airy function Ai of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_AI, the Airy function Ai of X.
+        //
+    {
+        double[] aifcs = {
                 -0.37971358496669997496197089469414E-01,
                 +0.59191888537263638574319728013777E-01,
                 +0.98629280577279975365603891044060E-03,
@@ -724,7 +725,7 @@ namespace Burkardt.FullertonFnLib
                 +0.83701735910741333333333333333333E-32
             }
             ;
-            double[] aigcs = {
+        double[] aigcs = {
                 +0.18152365581161273011556209957864E-01,
                 +0.21572563166010755534030638819968E-01,
                 +0.25678356987483249659052428090133E-03,
@@ -740,102 +741,121 @@ namespace Burkardt.FullertonFnLib
                 +0.74702885256533333333333333333333E-33
             }
             ;
-            double theta = 0;
-            double value;
-            double xm = 0;
-            double z;
+        double theta = 0;
+        double value = 0;
+        double xm = 0;
+        double z;
 
-            r8AIEData aiedata = new r8AIEData();
-            r8AIMPData aimpdata = new r8AIMPData();
+        r8AIEData aiedata = new();
+        r8AIMPData aimpdata = new();
             
-            if (data.naif == 0)
-            {
+        switch (data.naif)
+        {
+            case 0:
                 data.naif = r8_inits(aifcs, 13, 0.1 * r8_mach(3));
                 data.naig = r8_inits(aigcs, 13, 0.1 * r8_mach(3));
                 data.x3sml = r8_power(r8_mach(3), 0.3334);
                 data.xmax = r8_power(-1.5 * Math.Log(r8_mach(1)), 0.6667);
                 data.xmax = data.xmax - data.xmax * Math.Log(data.xmax) /
                     (4.0 * data.xmax * Math.Sqrt(data.xmax) + 1.0) - 0.01;
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_aimp(ref aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Cos(theta);
-            }
-            else if (Math.Abs(x) <= data.x3sml)
+                break;
+            default:
             {
-                z = 0.0;
-                value = 0.375 + (r8_csevl(z, aifcs, data.naif)
-                                 - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
-            }
-            else if (x <= 1.0)
-            {
-                z = x * x * x;
-                value = 0.375 + (r8_csevl(z, aifcs, data.naif)
-                                 - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
-            }
-            else if (x <= data.xmax)
-            {
-                value = r8_aie(ref aiedata, x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
-            }
-            else
-            {
-                value = 0.0;
-            }
+                if (Math.Abs(x) <= data.x3sml)
+                {
+                    z = 0.0;
+                    value = 0.375 + (r8_csevl(z, aifcs, data.naif)
+                                     - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
+                }
+                else
+                {
+                    switch (x)
+                    {
+                        case <= 1.0:
+                            z = x * x * x;
+                            value = 0.375 + (r8_csevl(z, aifcs, data.naif)
+                                             - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
+                            break;
+                        default:
+                        {
+                            if (x <= data.xmax)
+                            {
+                                value = r8_aie(ref aiedata, x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                            }
+                            else
+                            {
+                                value = 0.0;
+                            }
 
-            return value;
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
         }
 
-        public class r8AIDData
-        {
-            public int naif = 0;
-            public int naig = 0;
-            public double x2sml = 0.0;
-            public double x3sml = 0.0;
+        return value;
+    }
 
-        }
-        public static double r8_aid(ref r8AIDData data, double x)
+    public class r8AIDData
+    {
+        public int naif;
+        public int naig;
+        public double x2sml;
+        public double x3sml;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_AID evaluates the derivative of the Airy function Ai of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_AID, the derivative of the Airy function 
-            //    Ai of X.
-            //
-        {
-            double[] aifcs = {
+    }
+    public static double r8_aid(ref r8AIDData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_AID evaluates the derivative of the Airy function Ai of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_AID, the derivative of the Airy function 
+        //    Ai of X.
+        //
+    {
+        double[] aifcs = {
                 0.105274612265314088088970057325134114,
                 0.011836136281529978442889292583980840,
                 0.000123281041732256643051689242469164,
@@ -851,7 +871,7 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000220
             }
             ;
-            double[] aigcs = {
+        double[] aigcs = {
                 0.0212338781509186668523122276848937,
                 0.0863159303352144067524942809461604,
                 0.0017975947203832313578033963225230,
@@ -867,123 +887,136 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000276
             }
             ;
-            double eta;
-            double phi = 0;
-            double value;
-            double x2;
-            double x3;
-            double xn = 0;
+        double eta;
+        double phi = 0;
+        double value = 0;
+        double x2;
+        double x3;
+        double xn = 0;
 
-            r8ADMPData admpdata = new r8ADMPData();
-            r8AIDEData aidedata = new r8AIDEData();
+        r8ADMPData admpdata = new();
+        r8AIDEData aidedata = new();
 
-            if (data.naif == 0)
-            {
+        switch (data.naif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.naif = r8_inits(aifcs, 13, eta);
                 data.naig = r8_inits(aigcs, 13, eta);
                 data.x3sml = r8_power(r8_mach(3), 0.3334);
                 data.x2sml = Math.Sqrt(r8_mach(3));
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_admp(ref admpdata, x, ref xn, ref phi);
                 value = xn * Math.Cos(phi);
-            }
-            else if (Math.Abs(x) <= data.x2sml)
+                break;
+            default:
             {
-                x2 = 0.0;
-                x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
-                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
-            }
-            else if (Math.Abs(x) <= data.x3sml)
-            {
-                x2 = x * x;
-                x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
-                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
-            }
-            else if (x <= 1.0)
-            {
-                x2 = x * x;
-                x3 = x * x * x;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
-                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
-            }
-            else
-            {
-                value = r8_aide(ref aidedata, x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
-            }
+                if (Math.Abs(x) <= data.x2sml)
+                {
+                    x2 = 0.0;
+                    x3 = 0.0;
+                    value = x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                            - r8_csevl(x3, aigcs, data.naig) - 0.25;
+                }
+                else if (Math.Abs(x) <= data.x3sml)
+                {
+                    x2 = x * x;
+                    x3 = 0.0;
+                    value = x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                            - r8_csevl(x3, aigcs, data.naig) - 0.25;
+                }
+                else
+                {
+                    switch (x)
+                    {
+                        case <= 1.0:
+                            x2 = x * x;
+                            x3 = x * x * x;
+                            value = x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                                    - r8_csevl(x3, aigcs, data.naig) - 0.25;
+                            break;
+                        default:
+                            value = r8_aide(ref aidedata, x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                            break;
+                    }
+                }
 
-            return value;
+                break;
+            }
         }
 
-        public class r8AIDEData
-        {
-            public int naif = 0;
-            public int naig = 0;
-            public int naip1 = 0;
-            public int naip2 = 0;
-            public double x2sml = 0.0;
-            public double x32sml = 0.0;
-            public double x3sml = 0.0;
-            public double xbig = 0.0;
+        return value;
+    }
 
-        }
+    public class r8AIDEData
+    {
+        public int naif;
+        public int naig;
+        public int naip1;
+        public int naip2;
+        public double x2sml;
+        public double x32sml;
+        public double x3sml;
+        public double xbig;
 
-        public static double r8_aide( ref r8AIDEData data, double x)
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_AIDE: exponentially scaled derivative, Airy function Ai of an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    if X <= 0,
-            //      R8_AIDE ( X ) = R8_AID ( X )
-            //    else
-            //      R8_AIDE ( X ) = R8_AID ( X ) * exp ( 2/3 * X^(3/2) )
-            //
-            //    Thanks to Aleksandra Piper for pointing out a correction involving 
-            //    the computation of Z in the last two cases, 02 February 2012.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    02 February 2012
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_AIDE, the exponentially scaled derivative of 
-            //    the Airy function Ai of X.
-            //
-        {
-            double[] aifcs =  {
+    public static double r8_aide( ref r8AIDEData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_AIDE: exponentially scaled derivative, Airy function Ai of an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    if X <= 0,
+        //      R8_AIDE ( X ) = R8_AID ( X )
+        //    else
+        //      R8_AIDE ( X ) = R8_AID ( X ) * exp ( 2/3 * X^(3/2) )
+        //
+        //    Thanks to Aleksandra Piper for pointing out a correction involving 
+        //    the computation of Z in the last two cases, 02 February 2012.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 February 2012
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_AIDE, the exponentially scaled derivative of 
+        //    the Airy function Ai of X.
+        //
+    {
+        double[] aifcs =  {
                 0.105274612265314088088970057325134114,
                 0.011836136281529978442889292583980840,
                 0.000123281041732256643051689242469164,
@@ -999,7 +1032,7 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000220
             }
             ;
-            double[] aigcs =  {
+        double[] aigcs =  {
                 0.0212338781509186668523122276848937,
                 0.0863159303352144067524942809461604,
                 0.0017975947203832313578033963225230,
@@ -1015,7 +1048,7 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000276
             }
             ;
-            double[] aip1cs =  {
+        double[] aip1cs =  {
                 0.0358865097808301537956710489261688,
                 0.0114668575627764898572700883121766,
                 -0.0007592073583861400301335647601603,
@@ -1075,7 +1108,7 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000379
             }
             ;
-            double[] aip2cs =  {
+        double[] aip2cs =  {
                 0.0065457691989713756794276979067064,
                 0.0023833724120774591992772552886923,
                 -0.0000430700770220585862775012110584,
@@ -1115,18 +1148,19 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000353
             }
             ;
-            double eta;
-            double phi = 0;
-            double sqrtx;
-            double value;
-            double x2;
-            double x3;
-            double xn = 0;
-            double z;
-            r8ADMPData admpdata = new r8ADMPData();
+        double eta;
+        double phi = 0;
+        double sqrtx;
+        double value = 0;
+        double x2;
+        double x3;
+        double xn = 0;
+        double z;
+        r8ADMPData admpdata = new();
 
-            if (data.naif == 0)
-            {
+        switch (data.naif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.naif = r8_inits(aifcs, 13, eta);
                 data.naig = r8_inits(aigcs, 13, eta);
@@ -1136,129 +1170,149 @@ namespace Burkardt.FullertonFnLib
                 data.x3sml = r8_power(eta, 0.3333);
                 data.x32sml = 1.3104 * data.x3sml * data.x3sml;
                 data.xbig = r8_power(r8_mach(2), 0.6666);
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_admp(ref admpdata, x, ref xn, ref phi);
                 value = xn * Math.Cos(phi);
-            }
-            else if (Math.Abs(x) < data.x2sml)
+                break;
+            default:
             {
-                x2 = 0.0;
-                x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
-                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
-                if (data.x32sml < x)
+                if (Math.Abs(x) < data.x2sml)
                 {
-                    value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                    x2 = 0.0;
+                    x3 = 0.0;
+                    value = x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                            - r8_csevl(x3, aigcs, data.naig) - 0.25;
+                    if (data.x32sml < x)
+                    {
+                        value *= Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                    }
                 }
-            }
-            else if (Math.Abs(x) < data.x3sml)
-            {
-                x2 = x * x;
-                x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
-                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
-                if (data.x32sml < x)
+                else if (Math.Abs(x) < data.x3sml)
                 {
-                    value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                    x2 = x * x;
+                    x3 = 0.0;
+                    value = x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                            - r8_csevl(x3, aigcs, data.naig) - 0.25;
+                    if (data.x32sml < x)
+                    {
+                        value *= Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                    }
                 }
-            }
-            else if (x <= 1.0)
-            {
-                x2 = x * x;
-                x3 = x * x;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
-                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
-                if (data.x32sml < x)
+                else
                 {
-                    value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
-                }
-            }
-            else if (x <= 4.0)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = (16.0 / (x * sqrtx) - 9.0) / 7.0;
-                value = (-0.28125 - r8_csevl(z, aip1cs, data.naip1)) * Math.Sqrt(sqrtx);
-            }
-            else if (x < data.xbig)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = 16.0 / (x * sqrtx) - 1.0;
-                value = (-0.28125 - r8_csevl(z, aip2cs, data.naip2)) * Math.Sqrt(sqrtx);
-            }
-            else
-            {
-                sqrtx = Math.Sqrt(x);
-                z = -1.0;
-                value = (-0.28125 - r8_csevl(z, aip2cs, data.naip2)) * Math.Sqrt(sqrtx);
-            }
+                    switch (x)
+                    {
+                        case <= 1.0:
+                        {
+                            x2 = x * x;
+                            x3 = x * x;
+                            value = x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                                    - r8_csevl(x3, aigcs, data.naig) - 0.25;
+                            if (data.x32sml < x)
+                            {
+                                value *= Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                            }
 
-            return value;
+                            break;
+                        }
+                        case <= 4.0:
+                            sqrtx = Math.Sqrt(x);
+                            z = (16.0 / (x * sqrtx) - 9.0) / 7.0;
+                            value = (-0.28125 - r8_csevl(z, aip1cs, data.naip1)) * Math.Sqrt(sqrtx);
+                            break;
+                        default:
+                        {
+                            if (x < data.xbig)
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = 16.0 / (x * sqrtx) - 1.0;
+                                value = (-0.28125 - r8_csevl(z, aip2cs, data.naip2)) * Math.Sqrt(sqrtx);
+                            }
+                            else
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = -1.0;
+                                value = (-0.28125 - r8_csevl(z, aip2cs, data.naip2)) * Math.Sqrt(sqrtx);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
         }
 
-        public class r8AIEData
-        {
-            public int naif = 0;
-            public int naig = 0;
-            public int naip1 = 0;
-            public int naip2 = 0;
-            public double x32sml = 0.0;
-            public double x3sml = 0.0;
-            public double xbig = 0.0;
+        return value;
+    }
 
-        }
-        public static double r8_aie( ref r8AIEData data, double x)
+    public class r8AIEData
+    {
+        public int naif;
+        public int naig;
+        public int naip1;
+        public int naip2;
+        public double x32sml;
+        public double x3sml;
+        public double xbig;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_AIE evaluates the exponentially scaled Airy function Ai of an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    if X <= 0,
-            //      R8_AIE ( X ) = R8_AI ( X )
-            //    else
-            //      R8_AIE ( X ) = R8_AI ( X ) * exp ( 2/3 * X^(3/2) )
-            //
-            //    Thanks to Aleksandra Piper for pointing out a correction involving a
-            //    missing assignment to SQRTX, 27 January 2012.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    27 January 2012
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_AIE, the exponentially scaled Airy function Ai of X.
-            //
-        {
-            double[] aifcs = {
+    }
+    public static double r8_aie( ref r8AIEData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_AIE evaluates the exponentially scaled Airy function Ai of an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    if X <= 0,
+        //      R8_AIE ( X ) = R8_AI ( X )
+        //    else
+        //      R8_AIE ( X ) = R8_AI ( X ) * exp ( 2/3 * X^(3/2) )
+        //
+        //    Thanks to Aleksandra Piper for pointing out a correction involving a
+        //    missing assignment to SQRTX, 27 January 2012.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    27 January 2012
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_AIE, the exponentially scaled Airy function Ai of X.
+        //
+    {
+        double[] aifcs = {
                 -0.37971358496669997496197089469414E-01,
                 +0.59191888537263638574319728013777E-01,
                 +0.98629280577279975365603891044060E-03,
@@ -1274,7 +1328,7 @@ namespace Burkardt.FullertonFnLib
                 +0.83701735910741333333333333333333E-32
             }
             ;
-            double[] aigcs = {
+        double[] aigcs = {
                 +0.18152365581161273011556209957864E-01,
                 +0.21572563166010755534030638819968E-01,
                 +0.25678356987483249659052428090133E-03,
@@ -1290,7 +1344,7 @@ namespace Burkardt.FullertonFnLib
                 +0.74702885256533333333333333333333E-33
             }
             ;
-            double[] aip1cs = {
+        double[] aip1cs = {
                 -0.2146951858910538455460863467778E-01,
                 -0.7535382535043301166219720865565E-02,
                 +0.5971527949026380852035388881994E-03,
@@ -1350,7 +1404,7 @@ namespace Burkardt.FullertonFnLib
                 +0.3692580158719624093658286216533E-31
             }
             ;
-            double[] aip2cs = {
+        double[] aip2cs = {
                 -0.174314496929375513390355844011E-02,
                 -0.167893854325541671632190613480E-02,
                 +0.359653403352166035885983858114E-04,
@@ -1390,17 +1444,18 @@ namespace Burkardt.FullertonFnLib
                 +0.347570964526601147340117333333E-31
             }
             ;
-            double eta;
-            double sqrtx;
-            double theta = 0;
-            double value;
-            double xm = 0;
-            double z;
+        double eta;
+        double sqrtx;
+        double theta = 0;
+        double value = 0;
+        double xm = 0;
+        double z;
 
-            r8AIMPData aimpdata = new r8AIMPData();
+        r8AIMPData aimpdata = new();
 
-            if (data.naif == 0)
-            {
+        switch (data.naif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.naif = r8_inits(aifcs, 13, eta);
                 data.naig = r8_inits(aigcs, 13, eta);
@@ -1409,68 +1464,84 @@ namespace Burkardt.FullertonFnLib
                 data.x3sml = r8_power(eta, 0.3333);
                 data.x32sml = 1.3104 * data.x3sml * data.x3sml;
                 data.xbig = r8_power(r8_mach(2), 0.6666);
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_aimp(ref aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Cos(theta);
-            }
-            else if (0.0 <= x && x <= data.x32sml)
-            {
+                break;
+            case >= 0.0 when x <= data.x32sml:
                 z = 0.0;
                 value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
                                   - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
-            }
-            else if (Math.Abs(x) <= data.x3sml)
+                break;
+            default:
             {
-                z = 0.0;
-                value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
-                                  - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
-                value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
-            }
-            else if (x <= 1.0)
-            {
-                z = x * x * x;
-                value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
-                                  - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
-                value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
-            }
-            else if (x <= 4.0)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = (16.0 / (x * sqrtx) - 9.0) / 7.0;
-                value = (0.28125 + r8_csevl(z, aip1cs, data.naip1)) / Math.Sqrt(sqrtx);
-            }
-            else if (x < data.xbig)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = 16.0 / (x * sqrtx) - 1.0;
-                value = (0.28125 + r8_csevl(z, aip2cs, data.naip2)) / Math.Sqrt(sqrtx);
-            }
-            else
-            {
-                sqrtx = Math.Sqrt(x);
-                z = -1.0;
-                value = (0.28125 + r8_csevl(z, aip2cs, data.naip2)) / Math.Sqrt(sqrtx);
-            }
+                if (Math.Abs(x) <= data.x3sml)
+                {
+                    z = 0.0;
+                    value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
+                                      - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
+                    value *= Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                }
+                else
+                {
+                    switch (x)
+                    {
+                        case <= 1.0:
+                            z = x * x * x;
+                            value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
+                                              - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
+                            value *= Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                            break;
+                        case <= 4.0:
+                            sqrtx = Math.Sqrt(x);
+                            z = (16.0 / (x * sqrtx) - 9.0) / 7.0;
+                            value = (0.28125 + r8_csevl(z, aip1cs, data.naip1)) / Math.Sqrt(sqrtx);
+                            break;
+                        default:
+                        {
+                            if (x < data.xbig)
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = 16.0 / (x * sqrtx) - 1.0;
+                                value = (0.28125 + r8_csevl(z, aip2cs, data.naip2)) / Math.Sqrt(sqrtx);
+                            }
+                            else
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = -1.0;
+                                value = (0.28125 + r8_csevl(z, aip2cs, data.naip2)) / Math.Sqrt(sqrtx);
+                            }
 
-            return value;
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
         }
 
-        public class r8AIMPData
-        {
-            public int nam20 = 0;
-            public int nam21 = 0;
-            public int nam22 = 0;
-            public int nath0 = 0;
-            public int nath1 = 0;
-            public int nath2 = 0;
-            public double xsml = 0.0;
+        return value;
+    }
 
-        }
+    public class r8AIMPData
+    {
+        public int nam20;
+        public int nam21;
+        public int nam22;
+        public int nath0;
+        public int nath1;
+        public int nath2;
+        public double xsml;
+
+    }
         
-        public static void r8_aimp(ref r8AIMPData data, double x, ref double ampl, ref double theta )
+    public static void r8_aimp(ref r8AIMPData data, double x, ref double ampl, ref double theta )
 
         //****************************************************************************80
         //
@@ -1513,8 +1584,8 @@ namespace Burkardt.FullertonFnLib
         //    Output, double &AMPL, &PHI, the modulus and phase of the 
         //    Airy function.
         //
-        {
-            double[] am20cs = {
+    {
+        double[] am20cs = {
                 +0.108716749086561856615730588125E-01,
                 +0.369489228982663555091728665146E-03,
                 +0.440680100484689563667507001327E-05,
@@ -1574,7 +1645,7 @@ namespace Burkardt.FullertonFnLib
                 +0.311735667692928562046280505333E-31
             }
             ;
-            double[] am21cs = {
+        double[] am21cs = {
                 +0.592790266721309588375717482814E-02,
                 +0.200569405393165186428695217690E-02,
                 +0.911081850262275893553072526291E-04,
@@ -1637,7 +1708,7 @@ namespace Burkardt.FullertonFnLib
                 +0.340168991971489802052339079577E-31
             }
             ;
-            double[] am22cs = {
+        double[] am22cs = {
                 -0.156284448062534112753545828583E-01,
                 +0.778336445239681307018943100334E-02,
                 +0.867057770477189528406072812110E-03,
@@ -1714,7 +1785,7 @@ namespace Burkardt.FullertonFnLib
                 +0.375947065173955919947455052934E-31
             }
             ;
-            double[] ath0cs = {
+        double[] ath0cs = {
                 -0.8172601764161634499840208700543E-01,
                 -0.8004012824788273287596481113068E-03,
                 -0.3186525268782113203795553628242E-05,
@@ -1770,7 +1841,7 @@ namespace Burkardt.FullertonFnLib
                 -0.2748174851043954822278496517870E-31
             }
             ;
-            double[] ath1cs = {
+        double[] ath1cs = {
                 -0.6972849916208883845888148415037E-01,
                 -0.5108722790650044987073448077961E-02,
                 -0.8644335996989755094525334749512E-04,
@@ -1831,7 +1902,7 @@ namespace Burkardt.FullertonFnLib
                 -0.2936925599971429781637815773866E-31
             }
             ;
-            double[] ath2cs = {
+        double[] ath2cs = {
                 +0.4405273458718778997061127057775E-02,
                 -0.3042919452318454608483844239873E-01,
                 -0.1385653283771793791602692842653E-02,
@@ -1906,13 +1977,14 @@ namespace Burkardt.FullertonFnLib
                 -0.4970947029753336916550570105023E-31
             }
             ;
-            double eta;
-            const double pi4 = 0.78539816339744830961566084581988;
-            double sqrtx;
-            double z;
+        double eta;
+        const double pi4 = 0.78539816339744830961566084581988;
+        double sqrtx;
+        double z;
 
-            if (data.nam20 == 0)
-            {
+        switch (data.nam20)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nam20 = r8_inits(am20cs, 57, eta);
                 data.nath0 = r8_inits(ath0cs, 53, eta);
@@ -1921,133 +1993,130 @@ namespace Burkardt.FullertonFnLib
                 data.nam22 = r8_inits(am22cs, 74, eta);
                 data.nath2 = r8_inits(ath2cs, 72, eta);
                 data.xsml = -r8_power(128.0 / r8_mach(3), 0.3333);
-            }
-
-            if (x <= data.xsml)
-            {
-                z = 1.0;
-                ampl = 0.3125 + r8_csevl(z, am20cs, data.nam20);
-                theta = -0.625 + r8_csevl(z, ath0cs, data.nath0);
-            }
-            else if (x < -4.0)
-            {
-                z = 128.0 / x / x / x + 1.0;
-                ampl = 0.3125 + r8_csevl(z, am20cs, data.nam20);
-                theta = -0.625 + r8_csevl(z, ath0cs, data.nath0);
-            }
-            else if (x < -2.0)
-            {
-                z = (128.0 / x / x / x + 9.0) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, am21cs, data.nam21);
-                theta = -0.625 + r8_csevl(z, ath1cs, data.nath1);
-            }
-            else if (x <= -1.0)
-            {
-                z = (16.0 / x / x / x + 9.0) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, am22cs, data.nam22);
-                theta = -0.625 + r8_csevl(z, ath2cs, data.nath2);
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_AIMP - Fatal error!");
-                Console.WriteLine("  -1.0 < X.");
-                return;
-            }
-
-            sqrtx = Math.Sqrt(-x);
-            ampl = Math.Sqrt(ampl / sqrtx);
-            theta = pi4 - x * sqrtx * theta;
+                break;
         }
 
-        public static double r8_aint(double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_AINT truncates an R8 argument to an integer.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    1 September 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_AINT, the truncated version of X.
-            //
+        if (x <= data.xsml)
         {
-            double value;
-
-            if (x < 0.0E+00)
-            {
-                value = -(double) ((int) (Math.Abs(x)));
-            }
-            else
-            {
-                value = (double) ((int) (Math.Abs(x)));
-            }
-
-            return value;
+            z = 1.0;
+            ampl = 0.3125 + r8_csevl(z, am20cs, data.nam20);
+            theta = -0.625 + r8_csevl(z, ath0cs, data.nath0);
         }
-
-        public class r8ASINData
+        else
         {
-            public int nterms = 0;
-            public double sqeps = 0.0;
-
+            switch (x)
+            {
+                case < -4.0:
+                    z = 128.0 / x / x / x + 1.0;
+                    ampl = 0.3125 + r8_csevl(z, am20cs, data.nam20);
+                    theta = -0.625 + r8_csevl(z, ath0cs, data.nath0);
+                    break;
+                case < -2.0:
+                    z = (128.0 / x / x / x + 9.0) / 7.0;
+                    ampl = 0.3125 + r8_csevl(z, am21cs, data.nam21);
+                    theta = -0.625 + r8_csevl(z, ath1cs, data.nath1);
+                    break;
+                case <= -1.0:
+                    z = (16.0 / x / x / x + 9.0) / 7.0;
+                    ampl = 0.3125 + r8_csevl(z, am22cs, data.nam22);
+                    theta = -0.625 + r8_csevl(z, ath2cs, data.nath2);
+                    break;
+                default:
+                    Console.WriteLine("");
+                    Console.WriteLine("R8_AIMP - Fatal error!");
+                    Console.WriteLine("  -1.0 < X.");
+                    return;
+            }
         }
+
+        sqrtx = Math.Sqrt(-x);
+        ampl = Math.Sqrt(ampl / sqrtx);
+        theta = pi4 - x * sqrtx * theta;
+    }
+
+    public static double r8_aint(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_AINT truncates an R8 argument to an integer.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    1 September 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_AINT, the truncated version of X.
+        //
+    {
+        double value = x switch
+        {
+            < 0.0E+00 => -(double) (int) Math.Abs(x),
+            _ => Math.Abs(x)
+        };
+
+        return value;
+    }
+
+    public class r8ASINData
+    {
+        public int nterms;
+        public double sqeps;
+
+    }
         
-        public static double r8_asin(ref r8ASINData data, double x)
+    public static double r8_asin(ref r8ASINData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ASIN evaluates the arc-sine of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ASIN, the arc-sine of X.
-            //
-        {
-            double[] asincs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ASIN evaluates the arc-sine of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ASIN, the arc-sine of X.
+        //
+    {
+        double[] asincs = {
                 +0.10246391753227159336573148305785E+00,
                 +0.54946487221245833306011195902924E-01,
                 +0.40806303925449692851307056149246E-02,
@@ -2089,31 +2158,35 @@ namespace Burkardt.FullertonFnLib
                 +0.16222501166399014393173333333333E-31
             }
             ;
-            const double pi2 = 1.57079632679489661923132169163975;
-            double value;
-            double y;
-            double z;
+        const double pi2 = 1.57079632679489661923132169163975;
+        double value = 0;
+        double y;
+        double z;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(asincs, 39, 0.1 * r8_mach(3));
                 data.sqeps = Math.Sqrt(6.0 * r8_mach(3));
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (x < -1.0 - data.sqeps)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_ASIN - Fatal error!");
-                Console.WriteLine("  X < - 1.0");
-                return (1);
-            }
-            else if (x < -1.0)
-            {
+        if (x < -1.0 - data.sqeps)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_ASIN - Fatal error!");
+            Console.WriteLine("  X < - 1.0");
+            return 1;
+        }
+
+        switch (x)
+        {
+            case < -1.0:
                 value = -pi2;
-            }
-            else if (x < 1.0)
+                break;
+            case < 1.0:
             {
                 z = 0.0;
                 if (data.sqeps < y)
@@ -2121,89 +2194,94 @@ namespace Burkardt.FullertonFnLib
                     z = y * y;
                 }
 
-                if (z <= 0.5)
+                value = z switch
                 {
-                    value = x * (1.0 + r8_csevl(4.0 * z - 1.0, asincs, data.nterms));
+                    <= 0.5 => x * (1.0 + r8_csevl(4.0 * z - 1.0, asincs, data.nterms)),
+                    _ => pi2 - Math.Sqrt(1.0 - z) * (1.0 + r8_csevl(3.0 - 4.0 * z, asincs, data.nterms))
+                };
+
+                switch (x)
+                {
+                    case < 0.0:
+                        value = -Math.Abs(value);
+                        break;
+                    case > 0.0:
+                        value = +Math.Abs(value);
+                        break;
+                }
+
+                break;
+            }
+            default:
+            {
+                if (x < 1.0 + data.sqeps)
+                {
+                    value = pi2;
                 }
                 else
                 {
-                    value = pi2 - Math.Sqrt(1.0 - z) * (1.0 +
-                                                   r8_csevl(3.0 - 4.0 * z, asincs, data.nterms));
+                    Console.WriteLine("");
+                    Console.WriteLine("R8_ASIN - Fatal error!");
+                    Console.WriteLine("  1.0 < X");
+                    return 1;
                 }
 
-                if (x < 0.0)
-                {
-                    value = -Math.Abs(value);
-                }
-                else if (0.0 < x)
-                {
-                    value = +Math.Abs(value);
-                }
+                break;
             }
-            else if (x < 1.0 + data.sqeps)
-            {
-                value = pi2;
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_ASIN - Fatal error!");
-                Console.WriteLine("  1.0 < X");
-                return (1);
-            }
-
-            return value;
         }
 
-        public class r8ASINHData
-        {
-            public int nterms = 0;
-            public double sqeps = 0.0;
-            public double xmax = 0.0;
+        return value;
+    }
 
-        }
+    public class r8ASINHData
+    {
+        public int nterms;
+        public double sqeps;
+        public double xmax;
+
+    }
         
-        public static double r8_asinh(ref r8ASINHData data, double x)
+    public static double r8_asinh(ref r8ASINHData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ASINH evaluates the arc-sine of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ASINH, the arc-hyperbolic sine of X.
-            //
-        {
-            const double aln2 = 0.69314718055994530941723212145818;
-            double[] asnhcs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ASINH evaluates the arc-sine of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ASINH, the arc-hyperbolic sine of X.
+        //
+    {
+        const double aln2 = 0.69314718055994530941723212145818;
+        double[] asnhcs = {
                 -0.12820039911738186343372127359268E+00,
                 -0.58811761189951767565211757138362E-01,
                 +0.47274654322124815640725249756029E-02,
@@ -2245,93 +2323,105 @@ namespace Burkardt.FullertonFnLib
                 +0.22629868426552784104106666666666E-31
             }
             ;
-            double value;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(asnhcs, 39, 0.1 * r8_mach(3));
                 data.sqeps = Math.Sqrt(r8_mach(3));
                 data.xmax = 1.0 / data.sqeps;
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.sqeps)
-            {
-                value = x;
-            }
-            else if (y <= 1.0)
-            {
-                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, asnhcs, data.nterms));
-            }
-            else if (y < data.xmax)
-            {
-                value = Math.Log(y + Math.Sqrt(y * y + 1.0));
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-            else
-            {
-                value = aln2 + Math.Log(y);
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-
-            return value;
+                break;
         }
 
-        public class r8ATANData
-        {
-            public int nterms = 0;
-            public double sqeps = 0.0;
-            public double xbig = 0.0;
+        y = Math.Abs(x);
 
+        if (y <= data.sqeps)
+        {
+            value = x;
         }
-        public static double r8_atan(ref r8ATANData data, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ATAN evaluates the arc-tangent of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ATAN, the arc-tangent of X.
-            //
+        else
         {
-            double[] atancs = {
+            switch (y)
+            {
+                case <= 1.0:
+                    value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, asnhcs, data.nterms));
+                    break;
+                default:
+                {
+                    if (y < data.xmax)
+                    {
+                        value = x switch
+                        {
+                            < 0.0 => -value,
+                            _ => Math.Log(y + Math.Sqrt(y * y + 1.0))
+                        };
+                    }
+                    else
+                    {
+                        value = x switch
+                        {
+                            < 0.0 => -value,
+                            _ => aln2 + Math.Log(y)
+                        };
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8ATANData
+    {
+        public int nterms;
+        public double sqeps;
+        public double xbig;
+
+    }
+    public static double r8_atan(ref r8ATANData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ATAN evaluates the arc-tangent of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ATAN, the arc-tangent of X.
+        //
+    {
+        double[] atancs = {
                 +0.48690110349241406474636915902891E+00,
                 -0.65108316367174641818869794945974E-02,
                 +0.38345828265245177653569992430456E-04,
@@ -2350,73 +2440,74 @@ namespace Burkardt.FullertonFnLib
                 -0.48327903911608320000000000000000E-31
             }
             ;
-            double[] conpi8 = {
+        double[] conpi8 = {
                 0.375,
                 0.75,
                 1.125,
                 1.5
             }
             ;
-            int n;
-             double[] pi8 = {
+        int n;
+        double[] pi8 = {
                 +0.17699081698724154807830422909937E-01,
                 +0.35398163397448309615660845819875E-01,
                 +0.53097245096172464423491268729813E-01,
                 +0.70796326794896619231321691639751E-01
             }
             ;
-            double t;
-            double[] tanp8 = {
+        double t;
+        double[] tanp8 = {
                 +0.41421356237309504880168872420969,
                 +1.0,
                 +2.4142135623730950488016887242096
             }
             ;
-            double value;
-            const double xbnd1 = +0.19891236737965800691159762264467;
-            const double xbnd2 = +0.66817863791929891999775768652308;
-            const double xbnd3 = +1.4966057626654890176011351349424;
-            const double xbnd4 = +5.0273394921258481045149750710640;
-            double y;
+        double value = 0;
+        const double xbnd1 = +0.19891236737965800691159762264467;
+        const double xbnd2 = +0.66817863791929891999775768652308;
+        const double xbnd3 = +1.4966057626654890176011351349424;
+        const double xbnd4 = +5.0273394921258481045149750710640;
+        double y;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(atancs, 16, 0.1 * r8_mach(3));
                 data.sqeps = Math.Sqrt(6.0 * r8_mach(3));
                 data.xbig = 1.0 / r8_mach(3);
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (y <= xbnd1)
+        switch (y)
+        {
+            case <= xbnd1:
             {
                 value = x;
                 if (data.sqeps < y)
                 {
                     value = x * (0.75 + r8_csevl(50.0 * y * y - 1.0, atancs, data.nterms));
                 }
+
+                break;
             }
-            else if (y <= xbnd4)
+            case <= xbnd4:
             {
-                if (xbnd3 < y)
+                n = y switch
                 {
-                    n = 3;
-                }
-                else if (xbnd2 < y)
-                {
-                    n = 2;
-                }
-                else
-                {
-                    n = 1;
-                }
+                    > xbnd3 => 3,
+                    > xbnd2 => 2,
+                    _ => 1
+                };
 
                 t = (y - tanp8[n - 1]) / (1.0 + y * tanp8[n - 1]);
 
                 value = conpi8[n - 1] + (pi8[n - 1] + t * (0.75 +
                                                            r8_csevl(50.0 * t * t - 1.0, atancs, data.nterms)));
+                break;
             }
-            else
+            default:
             {
                 value = conpi8[3] + pi8[3];
 
@@ -2425,185 +2516,191 @@ namespace Burkardt.FullertonFnLib
                     value = conpi8[3] + (pi8[3] - (0.75 +
                                                    r8_csevl(50.0 / y / y - 1.0, atancs, data.nterms)) / y);
                 }
-            }
 
-            if (x < 0.0)
-            {
-                value = -Math.Abs(value);
+                break;
             }
-            else
-            {
-                value = +Math.Abs(value);
-            }
-
-            return value;
         }
 
-        public class r8ATAN2Data
+        value = x switch
         {
-            public double big = 0.0;
-            public double sml = 0.0;
+            < 0.0 => -Math.Abs(value),
+            _ => +Math.Abs(value)
+        };
 
-        }
-        public static double r8_atan2(ref r8ATAN2Data data, double sn, double cs)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ATAN2 evaluates the arc-tangent of two R8 arguments.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double SN, CS, the Y and X coordinates of a 
-            //    point on the angle.
-            //
-            //    Output, double R8_ATAN2, the arc-tangent of the angle.
-            //
-        {
-            double abscs;
-            double abssn;
+    public class r8ATAN2Data
+    {
+        public double big;
+        public double sml;
+
+    }
+    public static double r8_atan2(ref r8ATAN2Data data, double sn, double cs)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ATAN2 evaluates the arc-tangent of two R8 arguments.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double SN, CS, the Y and X coordinates of a 
+        //    point on the angle.
+        //
+        //    Output, double R8_ATAN2, the arc-tangent of the angle.
+        //
+    {
+        double abscs;
+        double abssn;
             
-            double value;
+        double value = 0;
 
-            if (data.sml == 0.0)
-            {
+        switch (data.sml)
+        {
+            case 0.0:
                 data.sml = r8_mach(1);
                 data.big = r8_mach(2);
-            }
-
-            //
-            //  We now make sure SN can be divided by CS.  It is painful.
-            //
-            abssn = Math.Abs(sn);
-            abscs = Math.Abs(cs);
-
-            if (abscs <= abssn)
-            {
-                if (abscs < 1.0 && abscs * data.big <= abssn)
-                {
-                    if (sn < 0.0)
-                    {
-                        value = -0.5 * Math.PI;
-                    }
-                    else if (sn == 0.0)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_ATAN2 - Fatal error!");
-                        Console.WriteLine("  Both arguments are 0.");
-                        return (1);
-                    }
-                    else
-                    {
-                        value = 0.5 * Math.PI;
-                    }
-
-                    return value;
-                }
-            }
-            else
-            {
-                if (1.0 < abscs && abssn <= abscs * data.sml)
-                {
-                    if (0.0 <= cs)
-                    {
-                        value = 0.0;
-                    }
-                    else
-                    {
-                        value = Math.PI;
-                    }
-
-                    return value;
-                }
-            }
-
-            value = Math.Atan(sn / cs);
-
-            if (cs < 0.0)
-            {
-                value = value + Math.PI;
-            }
-
-            if (Math.PI < value)
-            {
-                value = value - 2.0 * Math.PI;
-            }
-
-            return value;
+                break;
         }
 
-        public class r8ATANHData
+        //
+        //  We now make sure SN can be divided by CS.  It is painful.
+        //
+        abssn = Math.Abs(sn);
+        abscs = Math.Abs(cs);
+
+        if (abscs <= abssn)
         {
-            public int nterms = 0;
-            public double dxrel = 0.0;
-            public double sqeps = 0.0;
+            switch (abscs)
+            {
+                case < 1.0 when abscs * data.big <= abssn:
+                    switch (sn)
+                    {
+                        case < 0.0:
+                            value = -0.5 * Math.PI;
+                            break;
+                        case 0.0:
+                            Console.WriteLine("");
+                            Console.WriteLine("R8_ATAN2 - Fatal error!");
+                            Console.WriteLine("  Both arguments are 0.");
+                            return 1;
+                        default:
+                            value = 0.5 * Math.PI;
+                            break;
+                    }
+
+                    return value;
+            }
+        }
+        else
+        {
+            switch (abscs)
+            {
+                case > 1.0 when abssn <= abscs * data.sml:
+                {
+                    value = cs switch
+                    {
+                        >= 0.0 => 0.0,
+                        _ => Math.PI
+                    };
+
+                    return value;
+                }
+            }
+        }
+
+        value = Math.Atan(sn / cs);
+
+        switch (cs)
+        {
+            case < 0.0:
+                value += Math.PI;
+                break;
+        }
+
+        switch (value)
+        {
+            case > Math.PI:
+                value -= 2.0 * Math.PI;
+                break;
+        }
+
+        return value;
+    }
+
+    public class r8ATANHData
+    {
+        public int nterms;
+        public double dxrel;
+        public double sqeps;
             
-        }
-        public static double r8_atanh(ref r8ATANHData data, double x)
+    }
+    public static double r8_atanh(ref r8ATANHData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_ATANH evaluates the arc-hyperbolic tangent of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_ATANH, the arc-hyperbolic tangent of X.
-            //
-        {
-            double[] atnhcs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ATANH evaluates the arc-hyperbolic tangent of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_ATANH, the arc-hyperbolic tangent of X.
+        //
+    {
+        double[] atnhcs = {
                 +0.9439510239319549230842892218633E-01,
                 +0.4919843705578615947200034576668E-01,
                 +0.2102593522455432763479327331752E-02,
@@ -2633,45 +2730,51 @@ namespace Burkardt.FullertonFnLib
                 +0.6863462444358260053333333333333E-31
             }
             ;
-            double value;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(atnhcs, 27, 0.1 * r8_mach(3));
                 data.dxrel = Math.Sqrt(r8_mach(4));
                 data.sqeps = Math.Sqrt(3.0 * r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.sqeps)
-            {
-                value = x;
-            }
-            else if (y <= 0.5)
-            {
-                value = x * (1.0 + r8_csevl(8.0 * x * x - 1.0, atnhcs, data.nterms));
-            }
-            else if (y < 1.0)
-            {
-                value = 0.5 * Math.Log((1.0 + x) / (1.0 - x));
-                if (1.0 - y < data.dxrel)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8_ATANH - Warning:");
-                    Console.WriteLine("  Answer lt half precision because |X| too near 1.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_ATANH - Fatal error!");
-                Console.WriteLine("  1 <= |X|.");
-                return (1);
-            }
-
-            return value;
+                break;
         }
+
+        y = Math.Abs(x);
+
+        if (y <= data.sqeps)
+        {
+            value = x;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 0.5:
+                    value = x * (1.0 + r8_csevl(8.0 * x * x - 1.0, atnhcs, data.nterms));
+                    break;
+                case < 1.0:
+                {
+                    value = 0.5 * Math.Log((1.0 + x) / (1.0 - x));
+                    if (1.0 - y < data.dxrel)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("R8_ATANH - Warning:");
+                        Console.WriteLine("  Answer lt half precision because |X| too near 1.");
+                    }
+
+                    break;
+                }
+                default:
+                    Console.WriteLine("");
+                    Console.WriteLine("R8_ATANH - Fatal error!");
+                    Console.WriteLine("  1 <= |X|.");
+                    return 1;
+            }
+        }
+
+        return value;
     }
 }

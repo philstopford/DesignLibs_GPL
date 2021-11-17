@@ -4,21 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Eto.Wpf;
 
-namespace TestEtoGl.WPF_WinformsHost
+namespace TestEtoGl.WPF_WinformsHost;
+
+internal static class Program
 {
-    static class Program
+    /// <summary>
+    /// The main entry point for the application.
+    /// </summary>
+    [STAThread]
+    private static void Main()
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            var platform = new Eto.Wpf.Platform();
-            platform.Add<GLSurface.IHandler>(() => new Eto.OpenTK.Wpf.WpfWinGLSurfaceHandler());
+        Platform platform = new();
+        platform.Add<GLSurface.IHandler>(() => new Eto.OpenTK.Wpf.WpfWinGLSurfaceHandler());
 
-            new Application(platform).Run(new MainForm());
-        }
+        new Application(platform).Run(new MainForm());
     }
 }

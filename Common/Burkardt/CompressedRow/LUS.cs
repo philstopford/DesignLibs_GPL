@@ -1,9 +1,9 @@
-﻿namespace Burkardt.CompressedRow
+﻿namespace Burkardt.CompressedRow;
+
+public static class LUSCR
 {
-    public static class LUSCR
-    {
-        public static void lus_cr(int n, int nz_num, int[] ia, int[] ja, double[] l, int[] ua,
-        double[] r, ref double[] z, int rIndex = 0, int zIndex = 0 )
+    public static void lus_cr(int n, int nz_num, int[] ia, int[] ja, double[] l, int[] ua,
+            double[] r, ref double[] z, int rIndex = 0, int zIndex = 0 )
 
         //****************************************************************************80
         //
@@ -54,51 +54,50 @@
         //
         //    Output, double Z[N], the solution of the system M * Z = R.
         //
+    {
+        int i;
+        int j;
+        double[] w;
+
+        w = new double[n];
+        //
+        //  Copy R in.
+        //
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int j;
-            double[] w;
+            w[i] = r[rIndex + i];
+        }
 
-            w = new double[n];
-            //
-            //  Copy R in.
-            //
-            for (i = 0; i < n; i++)
+        //
+        //  Solve L * w = w where L is unit lower triangular.
+        //
+        for (i = 1; i < n; i++)
+        {
+            for (j = ia[i]; j < ua[i]; j++)
             {
-                w[i] = r[rIndex + i];
+                w[i] -= l[j] * w[ja[j]];
+            }
+        }
+
+        //
+        //  Solve U * w = w, where U is upper triangular.
+        //
+        for (i = n - 1; 0 <= i; i--)
+        {
+            for (j = ua[i] + 1; j < ia[i + 1]; j++)
+            {
+                w[i] -= l[j] * w[ja[j]];
             }
 
-            //
-            //  Solve L * w = w where L is unit lower triangular.
-            //
-            for (i = 1; i < n; i++)
-            {
-                for (j = ia[i]; j < ua[i]; j++)
-                {
-                    w[i] = w[i] - l[j] * w[ja[j]];
-                }
-            }
+            w[i] /= l[ua[i]];
+        }
 
-            //
-            //  Solve U * w = w, where U is upper triangular.
-            //
-            for (i = n - 1; 0 <= i; i--)
-            {
-                for (j = ua[i] + 1; j < ia[i + 1]; j++)
-                {
-                    w[i] = w[i] - l[j] * w[ja[j]];
-                }
-
-                w[i] = w[i] / l[ua[i]];
-            }
-
-            //
-            //  Copy Z out.
-            //
-            for (i = 0; i < n; i++)
-            {
-                z[zIndex + i] = w[i];
-            }
+        //
+        //  Copy Z out.
+        //
+        for (i = 0; i < n; i++)
+        {
+            z[zIndex + i] = w[i];
         }
     }
 }

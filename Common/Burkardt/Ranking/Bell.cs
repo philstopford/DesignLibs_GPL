@@ -1,74 +1,74 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.RankingNS
+namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
+    public static int[] bell_numbers(int m)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    BELL_NUMBERS computes the Bell numbers.
+        // 
+        //  Discussion:
+        // 
+        //    There are B(M) restricted growth functions of length M.
+        // 
+        //    There are B(M) partitions of a set of M objects.
+        // 
+        //    B(M) is the sum of the Stirling numbers of the second kind,
+        //    S(M,N), for N = 0 to M.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    24 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Reference:
+        // 
+        //    Donald Kreher, Douglas Simpson,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998,
+        //    ISBN: 0-8493-3988-X,
+        //    LC: QA164.K73.
+        // 
+        //  Parameters:
+        // 
+        //    Input, int M, indicates how many Bell numbers are to
+        //    compute.  M must be nonnegative.
+        // 
+        //    Output, int BELL_NUMBERS[M+1], the first M+1 Bell numbers.
+        // 
     {
-        public static int[] bell_numbers(int m)
+        int[] b;
+        int i;
+        int j;
 
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    BELL_NUMBERS computes the Bell numbers.
-            // 
-            //  Discussion:
-            // 
-            //    There are B(M) restricted growth functions of length M.
-            // 
-            //    There are B(M) partitions of a set of M objects.
-            // 
-            //    B(M) is the sum of the Stirling numbers of the second kind,
-            //    S(M,N), for N = 0 to M.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    24 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Reference:
-            // 
-            //    Donald Kreher, Douglas Simpson,
-            //    Combinatorial Algorithms,
-            //    CRC Press, 1998,
-            //    ISBN: 0-8493-3988-X,
-            //    LC: QA164.K73.
-            // 
-            //  Parameters:
-            // 
-            //    Input, int M, indicates how many Bell numbers are to
-            //    compute.  M must be nonnegative.
-            // 
-            //    Output, int BELL_NUMBERS[M+1], the first M+1 Bell numbers.
-            // 
+        b = new int[m + 1];
+
+        b[0] = 1;
+        for (j = 1; j <= m; j++)
         {
-            int[] b;
-            int i;
-            int j;
-
-            b = new int[m + 1];
-
-            b[0] = 1;
-            for (j = 1; j <= m; j++)
+            b[j] = 0;
+            for (i = 0; i < j; i++)
             {
-                b[j] = 0;
-                for (i = 0; i < j; i++)
-                {
-                    b[j] = b[j] + typeMethods.i4_choose(j - 1, i) * b[i];
-                }
+                b[j] += typeMethods.i4_choose(j - 1, i) * b[i];
             }
-
-            return b;
         }
 
-        public static void bell_values(ref int n_data, ref int n, ref int c )
+        return b;
+    }
+
+    public static void bell_values(ref int n_data, ref int n, ref int c )
 
         //****************************************************************************80
         //
@@ -179,39 +179,39 @@ namespace Burkardt.RankingNS
         //
         //    Output, int &C, the value of the Bell number.
         //
-        {
-            int N_MAX = 11;
+    {
+        const int N_MAX = 11;
 
-            int[] c_vec =
+        int[] c_vec =
             {
                 1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975
             }
             ;
 
-            int[] n_vec =
+        int[] n_vec =
             {
                 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                n = 0;
-                c = 0;
-            }
-            else
-            {
-                n = n_vec[n_data - 1];
-                c = c_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            n = 0;
+            c = 0;
+        }
+        else
+        {
+            n = n_vec[n_data - 1];
+            c = c_vec[n_data - 1];
         }
     }
 }

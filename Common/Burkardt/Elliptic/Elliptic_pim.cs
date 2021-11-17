@@ -1,73 +1,73 @@
-﻿namespace Burkardt.Elliptic
+﻿namespace Burkardt.Elliptic;
+
+public static class PIM
 {
-    public static class PIM
+    public static double evaluate(double n, double m)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_PIM evaluates the complete elliptic integral Pi(N,M).
+        //
+        //  Discussion:
+        //
+        //    This is one form of what is sometimes called the complete elliptic
+        //    integral of the third kind.
+        //
+        //    The double is defined by the formula:
+        //
+        //      Pi(N,M) = integral ( 0 <= T <= PI/2 )
+        //        dT / (1 - N sin^2(T) ) sqrt ( 1 - M * sin ( T )^2 )
+        //
+        //    In MATLAB, the double can be evaluated by:
+        //
+        //      ellipticPi(n,m)
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      Pi(n,m) = RF ( 0, 1 - m, 1 ) + 1/3 n RJ ( 0, 1 - m, 1, 1 - n )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double N, M, the arguments.
+        //
+        //    Output, double ELLIPTIC_PIM, the function value.
+        //
     {
-        public static double evaluate(double n, double m)
+        double errtol;
+        int ierr = 0;
+        double p;
+        double value = 0;
+        double x;
+        double y;
+        double z;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_PIM evaluates the complete elliptic integral Pi(N,M).
-            //
-            //  Discussion:
-            //
-            //    This is one form of what is sometimes called the complete elliptic
-            //    integral of the third kind.
-            //
-            //    The double is defined by the formula:
-            //
-            //      Pi(N,M) = integral ( 0 <= T <= PI/2 )
-            //        dT / (1 - N sin^2(T) ) sqrt ( 1 - M * sin ( T )^2 )
-            //
-            //    In MATLAB, the double can be evaluated by:
-            //
-            //      ellipticPi(n,m)
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      Pi(n,m) = RF ( 0, 1 - m, 1 ) + 1/3 n RJ ( 0, 1 - m, 1, 1 - n )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double N, M, the arguments.
-            //
-            //    Output, double ELLIPTIC_PIM, the function value.
-            //
-        {
-            double errtol;
-            int ierr = 0;
-            double p;
-            double value;
-            double x;
-            double y;
-            double z;
+        x = 0.0;
+        y = 1.0 - m;
+        z = 1.0;
+        p = 1.0 - n;
+        errtol = 1.0E-03;
 
-            x = 0.0;
-            y = 1.0 - m;
-            z = 1.0;
-            p = 1.0 - n;
-            errtol = 1.0E-03;
+        value = Integral.rf(x, y, z, errtol, ref ierr)
+                + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
 
-            value = Integral.rf(x, y, z, errtol, ref ierr)
-                    + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
+        return value;
+    }
 
-            return value;
-        }
-
-        public static void values(ref int n_data, ref double n, ref double m, ref double pim )
+    public static void values(ref int n_data, ref double n, ref double m, ref double pim )
 
         //****************************************************************************80
         //
@@ -127,10 +127,10 @@
         //
         //    Output, double &PIM, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] m_vec =
+        double[] m_vec =
             {
                 0.25,
                 0.50,
@@ -155,7 +155,7 @@
             }
             ;
 
-            double[] n_vec =
+        double[] n_vec =
             {
                 -10.0,
                 -10.0,
@@ -180,7 +180,7 @@
             }
             ;
 
-            double[] pim_vec =
+        double[] pim_vec =
             {
                 0.4892245275965397,
                 0.5106765677902629,
@@ -205,26 +205,26 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                m = 0.0;
-                n = 0.0;
-                pim = 0.0;
-            }
-            else
-            {
-                m = m_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                pim = pim_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            m = 0.0;
+            n = 0.0;
+            pim = 0.0;
+        }
+        else
+        {
+            m = m_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            pim = pim_vec[n_data - 1];
         }
     }
 }

@@ -1,612 +1,619 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.RankingNS
+namespace Burkardt.RankingNS;
+
+public static partial class Ranking
 {
-    public static partial class Ranking
+
+
+    public static int gray_code_rank(int n, int[] t)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    GRAY_CODE_RANK computes the rank of a Gray code element.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    24 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Reference:
+        // 
+        //    Donald Kreher, Douglas Simpson,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998,
+        //    ISBN: 0-8493-3988-X,
+        //    LC: QA164.K73.
+        // 
+        //  Parameters:
+        // 
+        //    Input, int N, the number of digits in each element.
+        //    N must be positive.
+        // 
+        //    Input, int T[N], an element of the Gray code.
+        //    Each entry is either 0 or 1.
+        // 
+        //    Output, int GRAY_CODE_RANK, the rank of the element.
+        // 
     {
+        int b;
+        bool check;
+        int i;
+        int rank;
+        // 
+        //  Check.
+        // 
+        check = typeMethods.gray_code_check(n, t);
 
-
-        public static int gray_code_rank(int n, int[] t)
-
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    GRAY_CODE_RANK computes the rank of a Gray code element.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    24 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Reference:
-            // 
-            //    Donald Kreher, Douglas Simpson,
-            //    Combinatorial Algorithms,
-            //    CRC Press, 1998,
-            //    ISBN: 0-8493-3988-X,
-            //    LC: QA164.K73.
-            // 
-            //  Parameters:
-            // 
-            //    Input, int N, the number of digits in each element.
-            //    N must be positive.
-            // 
-            //    Input, int T[N], an element of the Gray code.
-            //    Each entry is either 0 or 1.
-            // 
-            //    Output, int GRAY_CODE_RANK, the rank of the element.
-            // 
+        switch (check)
         {
-            int b;
-            bool check;
-            int i;
-            int rank;
-            // 
-            //  Check.
-            // 
-            check = typeMethods.gray_code_check(n, t);
-
-            if (!check)
-            {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("GRAY_CODE_RANK - Fatal error!");
                 Console.WriteLine("  The input array is illegal.");
-                return (1);
-            }
-
-            rank = 0;
-            b = 0;
-
-            for (i = n - 1; 0 <= i; i--)
-            {
-                if (t[n - i - 1] != 0)
-                {
-                    b = 1 - b;
-                }
-
-                if (b == 1)
-                {
-                    rank = rank + (int)Math.Pow(2, i);
-                }
-            }
-
-            return rank;
+                return 1;
         }
 
+        rank = 0;
+        b = 0;
 
-        public static int[] gray_code_unrank(int rank, int n)
-
-            //****************************************************************************80
-            // 
-            //  Purpose:
-            //
-            //    GRAY_CODE_UNRANK computes the Gray code element of given rank.
-            // 
-            //  Licensing:
-            // 
-            //    This code is distributed under the GNU LGPL license.
-            // 
-            //  Modified:
-            // 
-            //    25 July 2011
-            // 
-            //  Author:
-            // 
-            //    John Burkardt
-            // 
-            //  Reference:
-            // 
-            //    Donald Kreher, Douglas Simpson,
-            //    Combinatorial Algorithms,
-            //    CRC Press, 1998,
-            //    ISBN: 0-8493-3988-X,
-            //    LC: QA164.K73.
-            // 
-            //  Parameters:
-            // 
-            //    Input, int RANK, the rank of the element.
-            //    0 <= RANK <= 2^N.
-            // 
-            //    Input, int N, the number of digits in each element.
-            //    N must be positive.
-            // 
-            //    Output, int GRAY_CODE_UNRANK[N], the element of the Gray code which has
-            //    the given rank.
-            // 
+        for (i = n - 1; 0 <= i; i--)
         {
-            int b;
-            int bprime;
-            int i;
-            int ngray;
-            int rank_copy;
-            int[] t;
+            if (t[n - i - 1] != 0)
+            {
+                b = 1 - b;
+            }
+
+            switch (b)
+            {
+                case 1:
+                    rank += (int)Math.Pow(2, i);
+                    break;
+            }
+        }
+
+        return rank;
+    }
+
+
+    public static int[] gray_code_unrank(int rank, int n)
+
+        //****************************************************************************80
+        // 
+        //  Purpose:
+        //
+        //    GRAY_CODE_UNRANK computes the Gray code element of given rank.
+        // 
+        //  Licensing:
+        // 
+        //    This code is distributed under the GNU LGPL license.
+        // 
+        //  Modified:
+        // 
+        //    25 July 2011
+        // 
+        //  Author:
+        // 
+        //    John Burkardt
+        // 
+        //  Reference:
+        // 
+        //    Donald Kreher, Douglas Simpson,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998,
+        //    ISBN: 0-8493-3988-X,
+        //    LC: QA164.K73.
+        // 
+        //  Parameters:
+        // 
+        //    Input, int RANK, the rank of the element.
+        //    0 <= RANK <= 2^N.
+        // 
+        //    Input, int N, the number of digits in each element.
+        //    N must be positive.
+        // 
+        //    Output, int GRAY_CODE_UNRANK[N], the element of the Gray code which has
+        //    the given rank.
+        // 
+    {
+        int b;
+        int bprime;
+        int i;
+        int ngray;
+        int rank_copy;
+        int[] t;
+        switch (n)
+        {
             // 
             //  Check.
             // 
-            if (n < 1)
-            {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("GRAY_CODE_UNRANK - Fatal error!");
                 Console.WriteLine("  Input N is illegal.");
                 return null;
-            }
-
-            ngray = typeMethods.gray_code_enum(n);
-
-            if (rank < 0 || ngray < rank)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("GRAY_CODE_UNRANK - Fatal error!");
-                Console.WriteLine("  The input rank is illegal.");
-                return null;
-            }
-
-            t = new int[n];
-
-            rank_copy = rank;
-            for (i = 0; i < n; i++)
-            {
-                t[i] = 0;
-            }
-
-            bprime = 0;
-
-            for (i = n - 1; 0 <= i; i--)
-            {
-                b = rank_copy / (int)Math.Pow(2, i);
-
-                if (b != bprime)
-                {
-                    t[n - i - 1] = 1;
-                }
-
-                bprime = b;
-                rank_copy = rank_copy - b * (int)Math.Pow(2, i);
-            }
-
-            return t;
         }
 
-        public static int gray_rank(int gray)
+        ngray = typeMethods.gray_code_enum(n);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GRAY_RANK ranks a Gray code.
-            //
-            //  Discussion:
-            //
-            //    Given the number GRAY, its ranking is the order in which it would be
-            //    visited in the Gray code ordering.  The Gray code ordering begins
-            //
-            //    Rank  Gray  Gray
-            //          (Dec) (Bin)
-            //
-            //       0     0  0000
-            //       1     1  0001
-            //       2     3  0011
-            //       3     2  0010
-            //       4     6  0110
-            //       5     7  0111
-            //       6     5  0101
-            //       7     4  0100
-            //       8    12  0110
-            //       etc
-            //
-            //   This routine is given a Gray code, and has to return the rank.
-            //
-            //  Example:
-            //
-            //    Gray  Gray  Rank
-            //    (Dec) (Bin)
-            //
-            //     0       0     0
-            //     1       1     1
-            //     2      10     3
-            //     3      11     2
-            //     4     100     7
-            //     5     101     6
-            //     6     110     4
-            //     7     111     5
-            //     8    1000    15
-            //     9    1001    14
-            //    10    1010    12
-            //    11    1011    13
-            //    12    1100     8
-            //    13    1101     9
-            //    14    1110    11
-            //    15    1111    10
-            //    16   10000    31
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 May 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms for Computers and Calculators,
-            //    Second Edition,
-            //    Academic Press, 1978,
-            //    ISBN: 0-12-519260-6,
-            //    LC: QA164.N54.
-            //
-            //  Parameters:
-            //
-            //    Input, int GRAY, the Gray code to be ranked.
-            //
-            //    Output, int GRAY_RANK, the rank of GRAY, and the integer whose Gray
-            //    code is GRAY.
-            //
+        if (rank < 0 || ngray < rank)
         {
-            int i;
-            int nbits = 32;
-            int rank;
-
-            rank = 0;
-
-            if (typeMethods.i4_btest(gray, nbits - 1))
-            {
-                rank = typeMethods.i4_bset(rank, nbits - 1);
-            }
-
-            for (i = nbits - 2; 0 <= i; i--)
-            {
-                if (typeMethods.i4_btest(rank, i + 1) != typeMethods.i4_btest(gray, i))
-                {
-                    rank = typeMethods.i4_bset(rank, i);
-                }
-            }
-
-            return rank;
+            Console.WriteLine("");
+            Console.WriteLine("GRAY_CODE_UNRANK - Fatal error!");
+            Console.WriteLine("  The input rank is illegal.");
+            return null;
         }
 
-        public static int gray_rank2(int gray)
+        t = new int[n];
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GRAY_RANK2 ranks a Gray code.
-            //
-            //  Discussion:
-            //
-            //    In contrast to GRAY_RANK, this routine is entirely arithmetical,
-            //    and does not require access to bit testing and setting routines.
-            //
-            //
-            //    Given the number GRAY, its ranking is the order in which it would be
-            //    visited in the Gray code ordering.  The Gray code ordering begins
-            //
-            //    Rank  Gray  Gray
-            //          (Dec) (Bin)
-            //
-            //       0     0  0000
-            //       1     1  0001
-            //       2     3  0011
-            //       3     2  0010
-            //       4     6  0110
-            //       5     7  0111
-            //       6     5  0101
-            //       7     4  0100
-            //       8    12  0110
-            //       etc
-            //
-            //   This routine is given a Gray code, and has to return the rank.
-            //
-            //  Example:
-            //
-            //    Gray  Gray  Rank
-            //    (Dec) (Bin)
-            //
-            //     0       0     0
-            //     1       1     1
-            //     2      10     3
-            //     3      11     2
-            //     4     100     7
-            //     5     101     6
-            //     6     110     4
-            //     7     111     5
-            //     8    1000    15
-            //     9    1001    14
-            //    10    1010    12
-            //    11    1011    13
-            //    12    1100     8
-            //    13    1101     9
-            //    14    1110    11
-            //    15    1111    10
-            //    16   10000    31
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    17 July 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int GRAY, the Gray code to be ranked.
-            //
-            //    Output, int GRAY_RANK, the rank of GRAY, and the integer whose Gray
-            //    code is GRAY.
-            //
+        rank_copy = rank;
+        for (i = 0; i < n; i++)
         {
-            int k;
-            bool last;
-            bool next;
-            int rank;
-            int two_k;
+            t[i] = 0;
+        }
 
-            if (gray < 0)
+        bprime = 0;
+
+        for (i = n - 1; 0 <= i; i--)
+        {
+            b = rank_copy / (int)Math.Pow(2, i);
+
+            if (b != bprime)
             {
+                t[n - i - 1] = 1;
+            }
+
+            bprime = b;
+            rank_copy -= b * (int)Math.Pow(2, i);
+        }
+
+        return t;
+    }
+
+    public static int gray_rank(int gray)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GRAY_RANK ranks a Gray code.
+        //
+        //  Discussion:
+        //
+        //    Given the number GRAY, its ranking is the order in which it would be
+        //    visited in the Gray code ordering.  The Gray code ordering begins
+        //
+        //    Rank  Gray  Gray
+        //          (Dec) (Bin)
+        //
+        //       0     0  0000
+        //       1     1  0001
+        //       2     3  0011
+        //       3     2  0010
+        //       4     6  0110
+        //       5     7  0111
+        //       6     5  0101
+        //       7     4  0100
+        //       8    12  0110
+        //       etc
+        //
+        //   This routine is given a Gray code, and has to return the rank.
+        //
+        //  Example:
+        //
+        //    Gray  Gray  Rank
+        //    (Dec) (Bin)
+        //
+        //     0       0     0
+        //     1       1     1
+        //     2      10     3
+        //     3      11     2
+        //     4     100     7
+        //     5     101     6
+        //     6     110     4
+        //     7     111     5
+        //     8    1000    15
+        //     9    1001    14
+        //    10    1010    12
+        //    11    1011    13
+        //    12    1100     8
+        //    13    1101     9
+        //    14    1110    11
+        //    15    1111    10
+        //    16   10000    31
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 May 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int GRAY, the Gray code to be ranked.
+        //
+        //    Output, int GRAY_RANK, the rank of GRAY, and the integer whose Gray
+        //    code is GRAY.
+        //
+    {
+        int i;
+        int nbits = 32;
+        int rank;
+
+        rank = 0;
+
+        if (typeMethods.i4_btest(gray, nbits - 1))
+        {
+            rank = typeMethods.i4_bset(rank, nbits - 1);
+        }
+
+        for (i = nbits - 2; 0 <= i; i--)
+        {
+            if (typeMethods.i4_btest(rank, i + 1) != typeMethods.i4_btest(gray, i))
+            {
+                rank = typeMethods.i4_bset(rank, i);
+            }
+        }
+
+        return rank;
+    }
+
+    public static int gray_rank2(int gray)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GRAY_RANK2 ranks a Gray code.
+        //
+        //  Discussion:
+        //
+        //    In contrast to GRAY_RANK, this routine is entirely arithmetical,
+        //    and does not require access to bit testing and setting routines.
+        //
+        //
+        //    Given the number GRAY, its ranking is the order in which it would be
+        //    visited in the Gray code ordering.  The Gray code ordering begins
+        //
+        //    Rank  Gray  Gray
+        //          (Dec) (Bin)
+        //
+        //       0     0  0000
+        //       1     1  0001
+        //       2     3  0011
+        //       3     2  0010
+        //       4     6  0110
+        //       5     7  0111
+        //       6     5  0101
+        //       7     4  0100
+        //       8    12  0110
+        //       etc
+        //
+        //   This routine is given a Gray code, and has to return the rank.
+        //
+        //  Example:
+        //
+        //    Gray  Gray  Rank
+        //    (Dec) (Bin)
+        //
+        //     0       0     0
+        //     1       1     1
+        //     2      10     3
+        //     3      11     2
+        //     4     100     7
+        //     5     101     6
+        //     6     110     4
+        //     7     111     5
+        //     8    1000    15
+        //     9    1001    14
+        //    10    1010    12
+        //    11    1011    13
+        //    12    1100     8
+        //    13    1101     9
+        //    14    1110    11
+        //    15    1111    10
+        //    16   10000    31
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    17 July 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int GRAY, the Gray code to be ranked.
+        //
+        //    Output, int GRAY_RANK, the rank of GRAY, and the integer whose Gray
+        //    code is GRAY.
+        //
+    {
+        int k;
+        bool last;
+        bool next;
+        int rank;
+        int two_k;
+
+        switch (gray)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("GRAY_RANK2 - Fatal error!");
                 Console.WriteLine("  Input value of GRAY < 0.");
-                return (1);
-            }
-
-            if (gray == 0)
-            {
+                return 1;
+            case 0:
                 rank = 0;
                 return rank;
-            }
-
-            //
-            //  Find TWO_K, the largest power of 2 less than or equal to GRAY.
-            //
-            k = 0;
-            two_k = 1;
-            while (2 * two_k <= gray)
-            {
-                two_k = two_k * 2;
-                k = k + 1;
-            }
-
-            rank = two_k;
-            last = true;
-            gray = gray - two_k;
-
-            while (0 < k)
-            {
-                two_k = two_k / 2;
-                k = k - 1;
-
-                next = (two_k <= gray && gray < two_k * 2);
-
-                if (next)
-                {
-                    gray = gray - two_k;
-                }
-
-                if (next != last)
-                {
-                    rank = rank + two_k;
-                    last = true;
-                }
-                else
-                {
-                    last = false;
-                }
-            }
-
-            return rank;
         }
 
-        public static int gray_unrank(int rank)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GRAY_UNRANK unranks a Gray code.
-            //
-            //  Discussion:
-            //
-            //    The binary values of the Gray codes of successive integers differ in
-            //    just one bit.
-            //
-            //    The sequence of Gray codes for 0 to (2**N)-1 can be interpreted as a
-            //    Hamiltonian cycle on a graph of the cube in N dimensions.
-            //
-            //  Example:
-            //
-            //    Rank  Gray  Gray
-            //          (Dec) (Bin)
-            //
-            //     0     0       0
-            //     1     1       1
-            //     2     3      11
-            //     3     2      10
-            //     4     6     110
-            //     5     7     111
-            //     6     5     101
-            //     7     4     100
-            //     8    12    1100
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 May 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms for Computers and Calculators,
-            //    Second Edition,
-            //    Academic Press, 1978,
-            //    ISBN: 0-12-519260-6,
-            //    LC: QA164.N54.
-            //
-            //  Parameters:
-            //
-            //    Input, int RANK, the integer whose Gray code is desired.
-            //
-            //    Output, int GRAY_UNRANK, the Gray code of the given rank.
-            //
+        //
+        //  Find TWO_K, the largest power of 2 less than or equal to GRAY.
+        //
+        k = 0;
+        two_k = 1;
+        while (2 * two_k <= gray)
         {
-            int gray;
-            int i;
-            int nbits = 32;
-
-            gray = 0;
-
-            if (typeMethods.i4_btest(rank, nbits - 1))
-            {
-                gray = typeMethods.i4_bset(gray, nbits - 1);
-            }
-
-            for (i = nbits - 2; 0 <= i; i--)
-            {
-                if (typeMethods.i4_btest(rank, i + 1) != typeMethods.i4_btest(rank, i))
-                {
-                    gray = typeMethods.i4_bset(gray, i);
-                }
-            }
-
-            return gray;
+            two_k *= 2;
+            k += 1;
         }
 
-        public static int gray_unrank2(int rank)
+        rank = two_k;
+        last = true;
+        gray -= two_k;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GRAY_UNRANK2 unranks a Gray code.
-            //
-            //  Discussion:
-            //
-            //    In contrast to GRAY_UNRANK, this routine is entirely arithmetical,
-            //    and does not require access to bit testing and setting routines.
-            //
-            //    The binary values of the Gray codes of successive integers differ in
-            //    just one bit.
-            //
-            //    The sequence of Gray codes for 0 to (2**N)-1 can be interpreted as a
-            //    Hamiltonian cycle on a graph of the cube in N dimensions.
-            //
-            //  Example:
-            //
-            //    Rank  Gray  Gray
-            //          (Dec) (Bin)
-            //
-            //     0     0       0
-            //     1     1       1
-            //     2     3      11
-            //     3     2      10
-            //     4     6     110
-            //     5     7     111
-            //     6     5     101
-            //     7     4     100
-            //     8    12    1100
-            //     9    14    1001
-            //    10    12    1010
-            //    11    13    1011
-            //    12     8    1100
-            //    13     9    1101
-            //    14    11    1110
-            //    15    10    1111
-            //    16    31   10000
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    17 July 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int RANK, the integer whose Gray code is desired.
-            //
-            //    Output, int GRAY_UNRANK2, the Gray code of the given rank.
-            //
+        while (0 < k)
         {
-            int gray;
-            int k;
-            bool last;
-            bool next;
-            int two_k;
+            two_k /= 2;
+            k -= 1;
 
-            if (rank <= 0)
+            next = two_k <= gray && gray < two_k * 2;
+
+            switch (next)
             {
+                case true:
+                    gray -= two_k;
+                    break;
+            }
+
+            if (next != last)
+            {
+                rank += two_k;
+                last = true;
+            }
+            else
+            {
+                last = false;
+            }
+        }
+
+        return rank;
+    }
+
+    public static int gray_unrank(int rank)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GRAY_UNRANK unranks a Gray code.
+        //
+        //  Discussion:
+        //
+        //    The binary values of the Gray codes of successive integers differ in
+        //    just one bit.
+        //
+        //    The sequence of Gray codes for 0 to (2**N)-1 can be interpreted as a
+        //    Hamiltonian cycle on a graph of the cube in N dimensions.
+        //
+        //  Example:
+        //
+        //    Rank  Gray  Gray
+        //          (Dec) (Bin)
+        //
+        //     0     0       0
+        //     1     1       1
+        //     2     3      11
+        //     3     2      10
+        //     4     6     110
+        //     5     7     111
+        //     6     5     101
+        //     7     4     100
+        //     8    12    1100
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 May 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int RANK, the integer whose Gray code is desired.
+        //
+        //    Output, int GRAY_UNRANK, the Gray code of the given rank.
+        //
+    {
+        int gray;
+        int i;
+        int nbits = 32;
+
+        gray = 0;
+
+        if (typeMethods.i4_btest(rank, nbits - 1))
+        {
+            gray = typeMethods.i4_bset(gray, nbits - 1);
+        }
+
+        for (i = nbits - 2; 0 <= i; i--)
+        {
+            if (typeMethods.i4_btest(rank, i + 1) != typeMethods.i4_btest(rank, i))
+            {
+                gray = typeMethods.i4_bset(gray, i);
+            }
+        }
+
+        return gray;
+    }
+
+    public static int gray_unrank2(int rank)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GRAY_UNRANK2 unranks a Gray code.
+        //
+        //  Discussion:
+        //
+        //    In contrast to GRAY_UNRANK, this routine is entirely arithmetical,
+        //    and does not require access to bit testing and setting routines.
+        //
+        //    The binary values of the Gray codes of successive integers differ in
+        //    just one bit.
+        //
+        //    The sequence of Gray codes for 0 to (2**N)-1 can be interpreted as a
+        //    Hamiltonian cycle on a graph of the cube in N dimensions.
+        //
+        //  Example:
+        //
+        //    Rank  Gray  Gray
+        //          (Dec) (Bin)
+        //
+        //     0     0       0
+        //     1     1       1
+        //     2     3      11
+        //     3     2      10
+        //     4     6     110
+        //     5     7     111
+        //     6     5     101
+        //     7     4     100
+        //     8    12    1100
+        //     9    14    1001
+        //    10    12    1010
+        //    11    13    1011
+        //    12     8    1100
+        //    13     9    1101
+        //    14    11    1110
+        //    15    10    1111
+        //    16    31   10000
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    17 July 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int RANK, the integer whose Gray code is desired.
+        //
+        //    Output, int GRAY_UNRANK2, the Gray code of the given rank.
+        //
+    {
+        int gray;
+        int k;
+        bool last;
+        bool next;
+        int two_k;
+
+        switch (rank)
+        {
+            case <= 0:
                 gray = 0;
                 return gray;
-            }
-
-            k = 0;
-            two_k = 1;
-            while (2 * two_k <= rank)
-            {
-                two_k = two_k * 2;
-                k = k + 1;
-            }
-
-            gray = two_k;
-            rank = rank - two_k;
-            next = true;
-
-            while (0 < k)
-            {
-                two_k = two_k / 2;
-                k = k - 1;
-
-                last = next;
-                next = (two_k <= rank && rank <= two_k * 2);
-
-                if (next != last)
-                {
-                    gray = gray + two_k;
-                }
-
-                if (next)
-                {
-                    rank = rank - two_k;
-                }
-            }
-
-            return gray;
         }
 
-        public static int vec_gray_rank(int n, int[] base_, ref int[] a )
+        k = 0;
+        two_k = 1;
+        while (2 * two_k <= rank)
+        {
+            two_k *= 2;
+            k += 1;
+        }
+
+        gray = two_k;
+        rank -= two_k;
+        next = true;
+
+        while (0 < k)
+        {
+            two_k /= 2;
+            k -= 1;
+
+            last = next;
+            next = two_k <= rank && rank <= two_k * 2;
+
+            if (next != last)
+            {
+                gray += two_k;
+            }
+
+            switch (next)
+            {
+                case true:
+                    rank -= two_k;
+                    break;
+            }
+        }
+
+        return gray;
+    }
+
+    public static int vec_gray_rank(int n, int[] base_, ref int[] a )
 
         //****************************************************************************80
         //
@@ -659,33 +666,30 @@ namespace Burkardt.RankingNS
         //    Output, int VEC_RANK, the rank, or order, of the element in
         //    the list of all elements.  The rank count begins at 1.
         //
+    {
+        int c;
+        int i;
+        int rank;
+
+        rank = 0;
+
+        for (i = 0; i < n; i++)
         {
-            int c;
-            int i;
-            int rank;
-
-            rank = 0;
-
-            for (i = 0; i < n; i++)
+            c = (rank % 2) switch
             {
-                if ((rank % 2) == 1)
-                {
-                    c = base_[i] - a[i] - 1;
-                }
-                else
-                {
-                    c = a[i];
-                }
+                1 => base_[i] - a[i] - 1,
+                _ => a[i]
+            };
 
-                rank = base_[i] * rank + c;
-            }
-
-            rank = rank + 1;
-
-            return rank;
+            rank = base_[i] * rank + c;
         }
 
-        public static void vec_gray_unrank(int n, int[] base_, int rank, ref int[] a )
+        rank += 1;
+
+        return rank;
+    }
+
+    public static void vec_gray_unrank(int n, int[] base_, int rank, ref int[] a )
 
         //****************************************************************************80
         //
@@ -738,22 +742,22 @@ namespace Burkardt.RankingNS
         //
         //    Output, int A[N], the product space element of the given rank.
         //
+    {
+        int i;
+        int s;
+
+        s = rank - 1;
+
+        for (i = n - 1; 0 <= i; i--)
         {
-            int i;
-            int s;
+            a[i] = s % base_[i];
+            s /= base_[i];
 
-            s = rank - 1;
-
-            for (i = n - 1; 0 <= i; i--)
+            a[i] = (s % 2) switch
             {
-                a[i] = s % base_[i];
-                s = s / base_[i];
-
-                if ((s % 2) == 1)
-                {
-                    a[i] = base_[i] - a[i] - 1;
-                }
-            }
+                1 => base_[i] - a[i] - 1,
+                _ => a[i]
+            };
         }
     }
 }

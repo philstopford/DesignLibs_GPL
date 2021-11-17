@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZPOSL
 {
-    public static class ZPOSL
-    {
-        public static void zposl ( Complex[] a, int lda, int n, ref Complex[] b )
+    public static void zposl ( Complex[] a, int lda, int n, ref Complex[] b )
 
         //****************************************************************************80
         //
@@ -66,27 +66,26 @@ namespace Burkardt.Linpack
         //    Input/output, Complex B[N].  On input, the right hand side.
         //    On output, the solution.
         //
+    {
+        int k;
+        Complex t;
+        //
+        //  Solve hermitian(R) * Y = B.
+        //
+        for ( k = 1; k <= n; k++ )
         {
-            int k;
-            Complex t;
-            //
-            //  Solve hermitian(R) * Y = B.
-            //
-            for ( k = 1; k <= n; k++ )
-            {
-                t = BLAS1Z.zdotc ( k-1, a, 1, b, 1, xIndex:+0+(k-1)*lda );
-                b[k-1] = ( b[k-1] - t ) / a[k-1+(k-1)*lda];
-            }
-            //
-            //  Solve R * X = Y.
-            //
-            for ( k = n; 1 <= k; k-- )
-            {
-                b[k-1] = b[k-1] / a[k-1+(k-1)*lda];
-                t = -b[k-1];
-                BLAS1Z.zaxpy ( k-1, t, a, 1, ref b, 1 , xIndex:+0+(k-1)*lda);
-            }
+            t = BLAS1Z.zdotc ( k-1, a, 1, b, 1, xIndex:+0+(k-1)*lda );
+            b[k-1] = ( b[k-1] - t ) / a[k-1+(k-1)*lda];
         }
-
+        //
+        //  Solve R * X = Y.
+        //
+        for ( k = n; 1 <= k; k-- )
+        {
+            b[k-1] /= a[k-1+(k-1)*lda];
+            t = -b[k-1];
+            BLAS1Z.zaxpy ( k-1, t, a, 1, ref b, 1 , xIndex:+0+(k-1)*lda);
+        }
     }
+
 }

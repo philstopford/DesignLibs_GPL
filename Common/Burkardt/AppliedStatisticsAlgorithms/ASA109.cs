@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static double xinbta(double p, double q, double beta, double alpha, ref int ifault)
+    public static double xinbta(double p, double q, double beta, double alpha, ref int ifault)
         //****************************************************************************80
         //
         //  Purpose:
@@ -61,107 +61,103 @@ namespace Burkardt.AppliedStatistics
         //
         //    Local, double SAE, requests an accuracy of about 10^SAE.
         //
+    {
+        double a;
+        double acu;
+        double adj;
+        double fpu;
+        double g;
+        double h;
+        int iex;
+        bool indx;
+        double pp;
+        double prev;
+        double qq;
+        double r;
+        double s;
+        double sae = -30.0;
+        double sq;
+        double t;
+        double tx;
+        double value = 0;
+        double w;
+        double xin;
+        double y;
+        double yprev;
+
+        fpu = Math.Pow(10.0, sae);
+
+        ifault = 0;
+        value = alpha;
+        switch (p)
         {
-            double a;
-            double acu;
-            double adj;
-            double fpu;
-            double g;
-            double h;
-            int iex;
-            bool indx;
-            double pp;
-            double prev;
-            double qq;
-            double r;
-            double s;
-            double sae = -30.0;
-            double sq;
-            double t;
-            double tx;
-            double value;
-            double w;
-            double xin;
-            double y;
-            double yprev;
-
-            fpu = Math.Pow(10.0, sae);
-
-            ifault = 0;
-            value = alpha;
             //
             //  Test for admissibility of parameters.
             //
-            if (p <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("XINBTA - Fatal error!");
                 Console.WriteLine("  P <= 0.0.");
                 ifault = 1;
                 return 1;
-            }
+        }
 
-            if (q <= 0.0)
-            {
+        switch (q)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("XINBTA - Fatal error!");
                 Console.WriteLine("  Q <= 0.0.");
                 ifault = 1;
                 return 1;
-            }
+        }
 
-            if (alpha < 0.0 || 1.0 < alpha)
-            {
+        switch (alpha)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("XINBTA - Fatal error!");
                 Console.WriteLine("  ALPHA not between 0 and 1.");
                 ifault = 2;
                 return 1;
-            }
-
             //
             //  If the answer is easy to determine, return immediately.
             //
-            if (alpha == 0.0)
-            {
+            case 0.0:
                 value = 0.0;
                 return value;
-            }
-
-            if (alpha == 1.0)
-            {
+            case 1.0:
                 value = 1.0;
                 return value;
-            }
-
             //
             //  Change tail if necessary.
             //
-            if (0.5 < alpha)
-            {
+            case > 0.5:
                 a = 1.0 - alpha;
                 pp = q;
                 qq = p;
                 indx = true;
-            }
-            else
-            {
+                break;
+            default:
                 a = alpha;
                 pp = p;
                 qq = q;
                 indx = false;
-            }
+                break;
+        }
 
-            //
-            //  Calculate the initial approximation.
-            //
-            r = Math.Sqrt(-Math.Log(a * a));
+        //
+        //  Calculate the initial approximation.
+        //
+        r = Math.Sqrt(-Math.Log(a * a));
 
-            y = r - (2.30753 + 0.27061 * r)
-                / (1.0 + (0.99229 + 0.04481 * r) * r);
+        y = r - (2.30753 + 0.27061 * r)
+            / (1.0 + (0.99229 + 0.04481 * r) * r);
 
-            if (1.0 < pp && 1.0 < qq)
-            {
+        switch (pp)
+        {
+            case > 1.0 when 1.0 < qq:
                 r = (y * y - 3.0) / 6.0;
                 s = 1.0 / (pp + pp - 1.0);
                 t = 1.0 / (qq + qq - 1.0);
@@ -169,120 +165,124 @@ namespace Burkardt.AppliedStatistics
                 w = y * Math.Sqrt(h + r) / h - (t - s)
                     * (r + 5.0 / 6.0 - 2.0 / (3.0 * h));
                 value = pp / (pp + qq * Math.Exp(w + w));
-            }
-            else
+                break;
+            default:
             {
                 r = qq + qq;
                 t = 1.0 / (9.0 * qq);
                 t = r * Math.Pow(1.0 - t + y * Math.Sqrt(t), 3);
 
-                if (t <= 0.0)
+                switch (t)
                 {
-                    value = 1.0 - Math.Exp((Math.Log((1.0 - a) * qq) + beta) / qq);
-                }
-                else
-                {
-                    t = (4.0 * pp + r - 2.0) / t;
-
-                    if (t <= 1.0)
+                    case <= 0.0:
+                        value = 1.0 - Math.Exp((Math.Log((1.0 - a) * qq) + beta) / qq);
+                        break;
+                    default:
                     {
-                        value = Math.Exp((Math.Log(a * pp) + beta) / pp);
-                    }
-                    else
-                    {
-                        value = 1.0 - 2.0 / (t + 1.0);
-                    }
-                }
-            }
+                        t = (4.0 * pp + r - 2.0) / t;
 
-            //
-            //  Solve for X by a modified Newton-Raphson method,
-            //  using the function BETAIN.
-            //
-            r = 1.0 - pp;
-            t = 1.0 - qq;
-            yprev = 0.0;
-            sq = 1.0;
-            prev = 1.0;
-
-            if (value < 0.0001)
-            {
-                value = 0.0001;
-            }
-
-            if (0.9999 < value)
-            {
-                value = 0.9999;
-            }
-
-            iex = (int)Math.Round(Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae));
-
-            acu = Math.Pow(10.0, iex);
-            //
-            //  Iteration loop.
-            //
-            for (;;)
-            {
-                y = betain(value, pp, qq, beta, ref ifault);
-
-                if (ifault != 0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("XINBTA - Fatal error!");
-                    Console.WriteLine("  BETAIN returned IFAULT = " + ifault + "");
-                    ifault = 1;
-                    return 1;
-                }
-
-                xin = value;
-                y = (y - a) * Math.Exp(beta + r * Math.Log(xin) + t * Math.Log(1.0 - xin));
-
-                if (y * yprev <= 0.0)
-                {
-                    prev = Math.Max(sq, fpu);
-                }
-
-                g = 1.0;
-
-                for (;;)
-                {
-                    for (;;)
-                    {
-                        adj = g * y;
-                        sq = adj * adj;
-
-                        if (sq < prev)
+                        value = t switch
                         {
-                            tx = value - adj;
+                            <= 1.0 => Math.Exp((Math.Log(a * pp) + beta) / pp),
+                            _ => 1.0 - 2.0 / (t + 1.0)
+                        };
 
-                            if (0.0 <= tx && tx <= 1.0)
-                            {
-                                break;
-                            }
-                        }
-
-                        g = g / 3.0;
-                    }
-
-                    //
-                    //  Check whether the current estimate is acceptable.
-                    //  The change "VALUE = TX" was suggested by Ivan Ukhov.
-                    //
-                    if (prev <= acu || y * y <= acu)
-                    {
-                        value = tx;
-                        if (indx)
-                        {
-                            value = 1.0 - value;
-                        }
-
-                        return value;
-                    }
-
-                    if (tx != 0.0 && tx != 1.0)
-                    {
                         break;
                     }
+                }
+
+                break;
+            }
+        }
+
+        //
+        //  Solve for X by a modified Newton-Raphson method,
+        //  using the function BETAIN.
+        //
+        r = 1.0 - pp;
+        t = 1.0 - qq;
+        yprev = 0.0;
+        sq = 1.0;
+        prev = 1.0;
+
+        value = value switch
+        {
+            > 0.9999 => 0.9999,
+            _ => value switch
+            {
+                < 0.0001 => 0.0001,
+                _ => value
+            }
+        };
+
+        iex = (int)Math.Round(Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae));
+
+        acu = Math.Pow(10.0, iex);
+        //
+        //  Iteration loop.
+        //
+        for (;;)
+        {
+            y = betain(value, pp, qq, beta, ref ifault);
+
+            if (ifault != 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("XINBTA - Fatal error!");
+                Console.WriteLine("  BETAIN returned IFAULT = " + ifault + "");
+                ifault = 1;
+                return 1;
+            }
+
+            xin = value;
+            y = (y - a) * Math.Exp(beta + r * Math.Log(xin) + t * Math.Log(1.0 - xin));
+
+            prev = (y * yprev) switch
+            {
+                <= 0.0 => Math.Max(sq, fpu),
+                _ => prev
+            };
+
+            g = 1.0;
+
+            for (;;)
+            {
+                for (;;)
+                {
+                    adj = g * y;
+                    sq = adj * adj;
+
+                    if (sq < prev)
+                    {
+                        tx = value - adj;
+
+                        if (0.0 <= tx && tx <= 1.0)
+                        {
+                            break;
+                        }
+                    }
+
+                    g /= 3.0;
+                }
+
+                //
+                //  Check whether the current estimate is acceptable.
+                //  The change "VALUE = TX" was suggested by Ivan Ukhov.
+                //
+                if (prev <= acu || y * y <= acu)
+                {
+                    value = indx switch
+                    {
+                        true => 1.0 - value,
+                        _ => tx
+                    };
+
+                    return value;
+                }
+
+                if (tx != 0.0 && tx != 1.0)
+                {
+                    break;
                 }
             }
         }

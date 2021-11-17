@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Power
 {
-    public static class Power
-    {
-        public static double power_cdf(double x, double a, double b)
+    public static double power_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,26 +33,33 @@ namespace Burkardt.Probability
         //
         //    Output, double POWER_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        switch (x)
         {
-            double cdf;
-
-            if (x <= 0.0)
-            {
+            case <= 0.0:
                 cdf = 0.0;
-            }
-            else if (x <= b)
+                break;
+            default:
             {
-                cdf = Math.Pow((x / b), a);
-            }
-            else
-            {
-                cdf = 1.0;
-            }
+                if (x <= b)
+                {
+                    cdf = Math.Pow(x / b, a);
+                }
+                else
+                {
+                    cdf = 1.0;
+                }
 
-            return cdf;
+                break;
+            }
         }
 
-        public static double power_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double power_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -81,34 +88,32 @@ namespace Burkardt.Probability
         //
         //    Output, double POWER_CDF_INV, the argument of the CDF.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POWER_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf == 0.0)
-            {
+                return 1;
+            case 0.0:
                 x = 0.0;
-            }
-            else if (cdf < 1.0)
-            {
+                break;
+            case < 1.0:
                 x = b * Math.Exp(Math.Log(cdf) / a);
-            }
-            else
-            {
+                break;
+            default:
                 x = b;
-            }
-
-            return x;
+                break;
         }
 
-        public static bool power_check(double a, double b)
+        return x;
+    }
+
+    public static bool power_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -134,27 +139,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool POWER_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POWER_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POWER_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double power_mean(double a, double b)
+    public static double power_mean(double a, double b)
 
         //****************************************************************************80
         //
@@ -181,13 +188,13 @@ namespace Burkardt.Probability
         //
         //    Output, double POWER_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a * b / (a + 1.0);
+    {
+        double mean = a * b / (a + 1.0);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double power_pdf(double x, double a, double b)
+    public static double power_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -226,22 +233,22 @@ namespace Burkardt.Probability
         //
         //    Output, double POWER_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < 0.0 || b < x)
         {
-            double pdf;
-
-            if (x < 0.0 || b < x)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = (a / b) * Math.Pow(x / b, a - 1.0);
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = a / b * Math.Pow(x / b, a - 1.0);
         }
 
-        public static double power_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static double power_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -269,15 +276,15 @@ namespace Burkardt.Probability
         //
         //    Output, double POWER_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = power_cdf_inv(cdf, a, b);
+        double x = power_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double power_variance(double a, double b)
+    public static double power_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -303,10 +310,9 @@ namespace Burkardt.Probability
         //
         //    Output, double POWER_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = b * b * a / ((a + 1.0) * (a + 1.0) * (a + 2.0));
+    {
+        double variance = b * b * a / ((a + 1.0) * (a + 1.0) * (a + 2.0));
 
-            return variance;
-        }
+        return variance;
     }
 }

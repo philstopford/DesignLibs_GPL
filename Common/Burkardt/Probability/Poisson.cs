@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Poisson
 {
-    public static class Poisson
-    {
-        public static double poisson_cdf(int k, double a)
+    public static double poisson_cdf(int k, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -40,45 +40,47 @@ namespace Burkardt.Probability
         //
         //    Output, double POISSON_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+        switch (a)
         {
-            double cdf;
             //
             //  Check.
             //
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("POISSON_CDF - Fatal error!");
                 Console.WriteLine("  A <= 0.");
                 return 0;
-            }
+        }
 
+        switch (k)
+        {
             //
             //  Special cases.
             //
-            if (k < 0)
-            {
+            case < 0:
                 cdf = 0.0;
                 return cdf;
-            }
-
-            //
-            //  General case.
-            //
-            double next = Math.Exp(-a);
-            cdf = next;
-
-            for (int i = 1; i <= k; i++)
-            {
-                double last = next;
-                next = last * a / (double) i;
-                cdf = cdf + next;
-            }
-
-            return cdf;
         }
 
-        public static int poisson_cdf_inv(double cdf, double a)
+        //
+        //  General case.
+        //
+        double next = Math.Exp(-a);
+        cdf = next;
+
+        for (int i = 1; i <= k; i++)
+        {
+            double last = next;
+            next = last * a / i;
+            cdf += next;
+        }
+
+        return cdf;
+    }
+
+    public static int poisson_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -107,60 +109,67 @@ namespace Burkardt.Probability
         //
         //    Output, int POISSON_CDF_INV, the corresponding argument.
         //
-        {
-            int x = 0;
-            int xmax = 100;
+    {
+        int x = 0;
+        int xmax = 100;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POISSON_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
+                return 1;
+        }
 
-            //
-            //  Now simply start at X = 0, and find the first value for which
-            //  CDF(X-1) <= CDF <= CDF(X).
-            //
-            double sum2 = 0.0;
+        //
+        //  Now simply start at X = 0, and find the first value for which
+        //  CDF(X-1) <= CDF <= CDF(X).
+        //
+        double sum2 = 0.0;
 
-            for (int i = 0; i <= xmax; i++)
+        for (int i = 0; i <= xmax; i++)
+        {
+            double sumold = sum2;
+
+            double newval = 0;
+            switch (i)
             {
-                double sumold = sum2;
-
-                double newval = 0;
-                if (i == 0)
-                {
+                case 0:
                     newval = Math.Exp(-a);
                     sum2 = newval;
-                }
-                else
+                    break;
+                default:
                 {
                     double last = newval;
-                    newval = last * a / (double) (i);
-                    sum2 = sum2 + newval;
-                }
-
-                if (sumold <= cdf && cdf <= sum2)
-                {
-                    x = i;
-                    return x;
+                    newval = last * a / i;
+                    sum2 += newval;
+                    break;
                 }
             }
 
-            if (x > 100)
+            if (sumold <= cdf && cdf <= sum2)
             {
+                x = i;
+                return x;
+            }
+        }
+
+        switch (x)
+        {
+            case > 100:
                 Console.WriteLine(" ");
                 Console.WriteLine("POISSON_CDF_INV - Warning!");
                 Console.WriteLine("  Exceeded XMAX = " + xmax + "");
                 x = xmax;
-            }
-            
-            return x;
+                break;
         }
+            
+        return x;
+    }
 
-        public static void poisson_cdf_values(ref int n_data, ref double a, ref int x, ref double fx )
+    public static void poisson_cdf_values(ref int n_data, ref double a, ref int x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -222,92 +231,93 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 21;
+
+        double[] a_vec =
         {
-            int N_MAX = 21;
+            0.02E+00,
+            0.10E+00,
+            0.10E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            1.00E+00,
+            1.00E+00,
+            1.00E+00,
+            1.00E+00,
+            2.00E+00,
+            2.00E+00,
+            2.00E+00,
+            2.00E+00,
+            5.00E+00,
+            5.00E+00,
+            5.00E+00,
+            5.00E+00,
+            5.00E+00,
+            5.00E+00,
+            5.00E+00
+        };
 
-            double[] a_vec =
-            {
-                0.02E+00,
-                0.10E+00,
-                0.10E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                1.00E+00,
-                1.00E+00,
-                1.00E+00,
-                1.00E+00,
-                2.00E+00,
-                2.00E+00,
-                2.00E+00,
-                2.00E+00,
-                5.00E+00,
-                5.00E+00,
-                5.00E+00,
-                5.00E+00,
-                5.00E+00,
-                5.00E+00,
-                5.00E+00
-            };
+        double[] fx_vec =
+        {
+            0.9801986733067553E+00,
+            0.9048374180359596E+00,
+            0.9953211598395555E+00,
+            0.6065306597126334E+00,
+            0.9097959895689501E+00,
+            0.9856123220330293E+00,
+            0.3678794411714423E+00,
+            0.7357588823428846E+00,
+            0.9196986029286058E+00,
+            0.9810118431238462E+00,
+            0.1353352832366127E+00,
+            0.4060058497098381E+00,
+            0.6766764161830635E+00,
+            0.8571234604985470E+00,
+            0.6737946999085467E-02,
+            0.4042768199451280E-01,
+            0.1246520194830811E+00,
+            0.2650259152973617E+00,
+            0.4404932850652124E+00,
+            0.6159606548330631E+00,
+            0.7621834629729387E+00
+        };
 
-            double[] fx_vec =
-            {
-                0.9801986733067553E+00,
-                0.9048374180359596E+00,
-                0.9953211598395555E+00,
-                0.6065306597126334E+00,
-                0.9097959895689501E+00,
-                0.9856123220330293E+00,
-                0.3678794411714423E+00,
-                0.7357588823428846E+00,
-                0.9196986029286058E+00,
-                0.9810118431238462E+00,
-                0.1353352832366127E+00,
-                0.4060058497098381E+00,
-                0.6766764161830635E+00,
-                0.8571234604985470E+00,
-                0.6737946999085467E-02,
-                0.4042768199451280E-01,
-                0.1246520194830811E+00,
-                0.2650259152973617E+00,
-                0.4404932850652124E+00,
-                0.6159606548330631E+00,
-                0.7621834629729387E+00
-            };
+        int[] x_vec =
+        {
+            0, 0, 1, 0,
+            1, 2, 0, 1,
+            2, 3, 0, 1,
+            2, 3, 0, 1,
+            2, 3, 4, 5,
+            6
+        };
 
-            int[] x_vec =
-            {
-                0, 0, 1, 0,
-                1, 2, 0, 1,
-                2, 3, 0, 1,
-                2, 3, 0, 1,
-                2, 3, 4, 5,
-                6
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                x = 0;
-                fx = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            x = 0;
+            fx = 0.0;
         }
+        else
+        {
+            a = a_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool poisson_check(double a)
+    public static bool poisson_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -333,19 +343,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool POISSON_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POISSON_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double poisson_kernel(double r, int n, double[] c, double[] x, double[] y )
+    public static double poisson_kernel(double r, int n, double[] c, double[] x, double[] y )
         //****************************************************************************80
         //
         //  Purpose:
@@ -385,26 +396,26 @@ namespace Burkardt.Probability
         //
         //    Output, double POISSON_KERNEL, the Poisson kernel function P(X,Y).
         //
-        {
-            double area;
-            double b;
-            double p;
-            double t;
-            double xc_diff_norm;
-            double xy_diff_norm;
+    {
+        double area;
+        double b;
+        double p;
+        double t;
+        double xc_diff_norm;
+        double xy_diff_norm;
 
-            xc_diff_norm = typeMethods.r8vec_diff_norm(n, x, c);
-            xy_diff_norm = typeMethods.r8vec_diff_norm(n, x, y);
-            area = Misc.sphere_unit_area_nd(n);
+        xc_diff_norm = typeMethods.r8vec_diff_norm(n, x, c);
+        xy_diff_norm = typeMethods.r8vec_diff_norm(n, x, y);
+        area = Misc.sphere_unit_area_nd(n);
 
-            t = (r + xc_diff_norm) * (r - xc_diff_norm);
-            b = r * area * Math.Pow(xy_diff_norm, n);
-            p = t / b;
+        t = (r + xc_diff_norm) * (r - xc_diff_norm);
+        b = r * area * Math.Pow(xy_diff_norm, n);
+        p = t / b;
 
-            return p;
-        }
+        return p;
+    }
 
-        public static double poisson_mean(double a)
+    public static double poisson_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -430,19 +441,20 @@ namespace Burkardt.Probability
         //
         //    Output, double POISSON_MEAN, the mean of the PDF.
         //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("POISSON_MEAN - Fatal error!");
                 Console.WriteLine("  A <= 0.");
                 return 0;
-            }
-
-            return a;
+            default:
+                return a;
         }
+    }
 
-        public static double poisson_pdf(int k, double a)
+    public static double poisson_pdf(int k, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -483,26 +495,27 @@ namespace Burkardt.Probability
         //
         //    Output, double POISSON_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+        switch (a)
         {
-            double pdf;
             //
             //  Check.
             //
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("POISSON_PDF - Fatal error!");
                 Console.WriteLine("  A <= 0.");
                 pdf = 0.0;
                 return pdf;
-            }
+            default:
+                pdf = Math.Exp(-a) * Math.Pow(a, k) / typeMethods.r8_factorial(k);
 
-            pdf = Math.Exp(-a) * Math.Pow(a, (double) k) / typeMethods.r8_factorial(k);
-
-            return pdf;
+                return pdf;
         }
+    }
 
-        public static int poisson_sample(double a, ref int seed)
+    public static int poisson_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -530,61 +543,65 @@ namespace Burkardt.Probability
         //
         //    Output, int POISSON_SAMPLE, a sample of the PDF.
         //
+    {
+        int KMAX = 100;
+        switch (a)
         {
-            int KMAX = 100;
             //
             //  Check.
             //
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("POISSON_SAMPLE - Fatal error!");
                 Console.WriteLine("  A <= 0.");
                 return 0;
-            }
-
-            //
-            //  Pick a random value of CDF.
-            //
-            double cdf = Uniform.uniform_01_sample(ref seed);
-            //
-            //  Now simply start at K = 0, and find the first value for which
-            //  CDF(K-1) <= CDF <= CDF(K).
-            //
-            double sum = 0.0;
-            double next = 0;
-
-            for (int i = 0; i <= KMAX; i++)
-            {
-                double sumold = sum;
-
-                if (i == 0)
-                {
-                    next = Math.Exp(-a);
-                    sum = next;
-                }
-                else
-                {
-                    double last = next;
-                    next = last * a / (double) i;
-                    sum = sum + next;
-                }
-
-                if (sumold <= cdf && cdf <= sum)
-                {
-                    return i;
-                }
-
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("POISSON_SAMPLE - Warning!");
-            Console.WriteLine("  Exceeded KMAX = " + KMAX + "");
-
-            return KMAX;
         }
 
-        public static double poisson_variance(double a)
+        //
+        //  Pick a random value of CDF.
+        //
+        double cdf = Uniform.uniform_01_sample(ref seed);
+        //
+        //  Now simply start at K = 0, and find the first value for which
+        //  CDF(K-1) <= CDF <= CDF(K).
+        //
+        double sum = 0.0;
+        double next = 0;
+
+        for (int i = 0; i <= KMAX; i++)
+        {
+            double sumold = sum;
+
+            switch (i)
+            {
+                case 0:
+                    next = Math.Exp(-a);
+                    sum = next;
+                    break;
+                default:
+                {
+                    double last = next;
+                    next = last * a / i;
+                    sum += next;
+                    break;
+                }
+            }
+
+            if (sumold <= cdf && cdf <= sum)
+            {
+                return i;
+            }
+
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("POISSON_SAMPLE - Warning!");
+        Console.WriteLine("  Exceeded KMAX = " + KMAX + "");
+
+        return KMAX;
+    }
+
+    public static double poisson_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -610,19 +627,19 @@ namespace Burkardt.Probability
         //
         //    Output, double POISSON_VARIANCE, the variance of the PDF.
         //
+    {
+        switch (a)
         {
             //
             //  Check.
             //
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("POISSON_VARIANCE - Fatal error!");
                 Console.WriteLine("  A <= 0.");
-                return (0.0);
-            }
-
-            return a;
+                return 0.0;
+            default:
+                return a;
         }
     }
 }

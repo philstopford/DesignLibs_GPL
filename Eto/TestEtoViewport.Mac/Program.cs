@@ -1,22 +1,22 @@
 ﻿using System;
 using Eto.Forms;
+using Eto.Mac;
 using Eto.OpenTK;
 using Eto.OpenTK.Mac;
 
-namespace TestEtoGl.Mac
+namespace TestEtoGl.Mac;
+
+public static class Program
 {
-    public static class Program
+    [STAThread]
+    public static void Main(string[] args)
     {
-        [STAThread]
-        public static void Main(string[] args)
-        {
-            var gen = new Eto.Mac.Platform();
+        Platform gen = new();
 
-            // shouldn't be needed, Eto needs fixing
-            gen.Add<GLSurface.IHandler>(() => new MacGLSurfaceHandler());
+        // shouldn't be needed, Eto needs fixing
+        gen.Add<GLSurface.IHandler>(() => new MacGLSurfaceHandler());
 
-            // run application with our main form
-            new Application(gen).Run(new MainForm());
-        }
+        // run application with our main form
+        new Application(gen).Run(new MainForm());
     }
 }

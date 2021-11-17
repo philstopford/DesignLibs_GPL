@@ -1,61 +1,61 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
-{
-    public static partial class FullertonLib
-    {
-        public class r8ShiData
-        {
-            public int nshi = 0;
-            public double xsml = 0.0;
-            public r8E1Data edata = new r8E1Data();
-        }
-        public static double r8_shi(ref r8ShiData data, double x)
+namespace Burkardt.FullertonFnLib;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SHI evaluates the hyperbolic sine integral Shi of an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    Shi ( x ) = Integral ( 0 <= t <= x ) sinh ( t ) dt / t
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_SHI, the hyperbolic sine integral 
-            //    Shi evaluated at X.
-            //
-        {
-            double absx;
-            double[] shics = {
+public static partial class FullertonLib
+{
+    public class r8ShiData
+    {
+        public int nshi;
+        public double xsml;
+        public r8E1Data edata = new();
+    }
+    public static double r8_shi(ref r8ShiData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SHI evaluates the hyperbolic sine integral Shi of an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    Shi ( x ) = Integral ( 0 <= t <= x ) sinh ( t ) dt / t
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_SHI, the hyperbolic sine integral 
+        //    Shi evaluated at X.
+        //
+    {
+        double absx;
+        double[] shics = {
                 0.0078372685688900950695200984317332E+00,
                 0.0039227664934234563972697574427225E+00,
                 0.0000041346787887617266746747908275E+00,
@@ -68,85 +68,86 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000711E+00
             }
             ;
-            double value;
+        double value = 0;
 
-            if (data.nshi == 0)
-            {
+        switch (data.nshi)
+        {
+            case 0:
                 data.nshi = r8_inits(shics, 10, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(r8_mach(3));
-            }
-
-            absx = Math.Abs(x);
-
-            if (absx <= data.xsml)
-            {
-                value = x;
-            }
-            else if (absx <= 0.375)
-            {
-                value = x * (1.0
-                             + r8_csevl(128.0 * x * x / 9.0 - 1.0, shics, data.nshi));
-            }
-            else
-            {
-                value = 0.5 * (r8_ei(x) + r8_e1(ref data.edata, x));
-            }
-
-            return value;
+                break;
         }
 
-        public class r8SiData
+        absx = Math.Abs(x);
+
+        if (absx <= data.xsml)
         {
-            public int nsi = 0;
-            public double xsml = 0.0;
-            public r8SifgData sifgdata = new r8SifgData();
+            value = x;
         }
+        else
+        {
+            value = absx switch
+            {
+                <= 0.375 => x * (1.0 + r8_csevl(128.0 * x * x / 9.0 - 1.0, shics, data.nshi)),
+                _ => 0.5 * (r8_ei(x) + r8_e1(ref data.edata, x))
+            };
+        }
+
+        return value;
+    }
+
+    public class r8SiData
+    {
+        public int nsi;
+        public double xsml;
+        public r8SifgData sifgdata = new();
+    }
         
-        public static double r8_si(ref r8SiData data, double x)
+    public static double r8_si(ref r8SiData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SI evaluates the sine integral Si of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_SI, the sine integral Si evaluated at X.
-            //
-        {
-            double absx;
-            double cosx;
-            double f = 0;
-            double g = 0;
-            const double pi2 = 1.57079632679489661923132169163975;
-            double[] sics = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SI evaluates the sine integral Si of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_SI, the sine integral Si evaluated at X.
+        //
+    {
+        double absx;
+        double cosx;
+        double f = 0;
+        double g = 0;
+        const double pi2 = 1.57079632679489661923132169163975;
+        double[] sics = {
                 -0.1315646598184841928904275173000457,
                 -0.2776578526973601892048287660157299,
                 0.0354414054866659179749135464710086,
@@ -167,54 +168,63 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000858
             }
             ;
-            double value;
+        double value = 0;
 
-            if (data.nsi == 0)
-            {
+        switch (data.nsi)
+        {
+            case 0:
                 data.nsi = r8_inits(sics, 18, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(r8_mach(3));
-            }
+                break;
+        }
 
-            absx = Math.Abs(x);
+        absx = Math.Abs(x);
 
-            if (absx < data.xsml)
+        if (absx < data.xsml)
+        {
+            value = x;
+        }
+        else
+        {
+            switch (absx)
             {
-                value = x;
-            }
-            else if (absx <= 4.0)
-            {
-                value = x * (0.75 + r8_csevl((x * x - 8.0) * 0.125, sics, data.nsi));
-            }
-            else
-            {
-                r8_sifg(ref data.sifgdata, absx, ref f, ref g);
-                cosx = Math.Cos(absx);
-                value = pi2 - f * cosx - g * Math.Sin(x);
-                if (x < 0.0)
+                case <= 4.0:
+                    value = x * (0.75 + r8_csevl((x * x - 8.0) * 0.125, sics, data.nsi));
+                    break;
+                default:
                 {
-                    value = -value;
+                    r8_sifg(ref data.sifgdata, absx, ref f, ref g);
+                    cosx = Math.Cos(absx);
+                    value = x switch
+                    {
+                        < 0.0 => -value,
+                        _ => pi2 - f * cosx - g * Math.Sin(x)
+                    };
+
+                    break;
                 }
             }
-
-            return value;
         }
 
-        public class r8SifgData
-        {
-            public int nf1 = 0;
-            public int nf2 = 0;
-            public int ng1 = 0;
-            public int ng2 = 0;
-            public int ng3 = 0;
-            public double xbig = 0.0;
-            public double xbnd = 0.0;
-            public double xbndg = 0.0;
-            public double xmaxf = 0.0;
-            public double xmaxg = 0.0;
+        return value;
+    }
 
-        }
+    public class r8SifgData
+    {
+        public int nf1;
+        public int nf2;
+        public int ng1;
+        public int ng2;
+        public int ng3;
+        public double xbig;
+        public double xbnd;
+        public double xbndg;
+        public double xmaxf;
+        public double xmaxg;
+
+    }
         
-        public static void r8_sifg( ref r8SifgData data, double x, ref double f, ref double g )
+    public static void r8_sifg( ref r8SifgData data, double x, ref double f, ref double g )
 
         //****************************************************************************80
         //
@@ -252,8 +262,8 @@ namespace Burkardt.FullertonFnLib
         //
         //    Output, double &F, &G.
         //
-        {
-            double[] f1cs = {
+    {
+        double[] f1cs = {
                 -0.1191081969051363610348201965828918,
                 -0.0247823144996236247590074150823133,
                 0.0011910281453357821268120363054457,
@@ -299,7 +309,7 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000245
             }
             ;
-            double[] f2cs = {
+        double[] f2cs = {
                 -0.03484092538970132330836049733745577,
                 -0.01668422056779596873246786312278676,
                 0.00067529012412377385045207859239727,
@@ -401,7 +411,7 @@ namespace Burkardt.FullertonFnLib
                 0.00000000000000000000000000000002377
             }
             ;
-            double[] g1cs = {
+        double[] g1cs = {
                 -0.3040578798253495954499726682091083,
                 -0.0566890984597120587731339156118269,
                 0.0039046158173275643919984071554082,
@@ -448,7 +458,7 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000723
             }
             ;
-            double[] g2cs = {
+        double[] g2cs = {
                 -0.1211802894731646263541834046858267,
                 -0.0316761386394950286701407923505610,
                 0.0013383199778862680163819429492182,
@@ -495,7 +505,7 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000325
             }
             ;
-            double[] g3cs = {
+        double[] g3cs = {
                 -0.0280574367809472928402815264335299,
                 -0.0137271597162236975409100508089556,
                 0.0002894032638760296027448941273751,
@@ -554,10 +564,11 @@ namespace Burkardt.FullertonFnLib
                 -0.0000000000000000000000000000000383
             }
             ;
-            double tol;
+        double tol;
 
-            if (data.nf1 == 0)
-            {
+        switch (data.nf1)
+        {
+            case 0:
                 tol = 0.1 * r8_mach(3);
                 data.nf1 = r8_inits(f1cs, 43, tol);
                 data.nf2 = r8_inits(f2cs, 99, tol);
@@ -570,156 +581,152 @@ namespace Burkardt.FullertonFnLib
                 data.xmaxg = 1.0 / Math.Sqrt(r8_mach(1));
                 data.xbnd = Math.Sqrt(50.0);
                 data.xbndg = Math.Sqrt(200.0);
-            }
+                break;
+        }
 
-            if (x < 4.0)
-            {
+        switch (x)
+        {
+            case < 4.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_SIFG - Fatal error!");
                 Console.WriteLine("  Approximation invalid for X < 4.");
                 return;
-            }
-            else if (x <= data.xbnd)
+        }
+
+        if (x <= data.xbnd)
+        {
+            f = (1.0 + r8_csevl((1.0 / x / x - 0.04125)
+                                / 0.02125, f1cs, data.nf1)) / x;
+            g = (1.0 + r8_csevl((1.0 / x / x - 0.04125)
+                                / 0.02125, g1cs, data.ng1)) / x / x;
+        }
+        else if (x <= data.xbig)
+        {
+            f = (1.0 + r8_csevl(100.0 / x / x - 1.0, f2cs, data.nf2) ) / x;
+            if (x <= data.xbndg)
             {
-                f = (1.0 + r8_csevl((1.0 / x / x - 0.04125)
-                                    / 0.02125, f1cs, data.nf1)) / x;
-                g = (1.0 + r8_csevl((1.0 / x / x - 0.04125)
-                                    / 0.02125, g1cs, data.ng1)) / x / x;
-            }
-            else if (x <= data.xbig)
-            {
-                f = (1.0 + r8_csevl(100.0 / x / x - 1.0, f2cs, data.nf2) ) / x;
-                if (x <= data.xbndg)
-                {
-                    g = (1.0 + r8_csevl((10000.0 / x / x - 125.0)
-                                        / 75.0, g2cs, data.ng2)) / x / x;
-                }
-                else
-                {
-                    g = (1.0 + r8_csevl(400.0 / x / x - 1.0, g3cs, data.ng3)) / x / x;
-                }
+                g = (1.0 + r8_csevl((10000.0 / x / x - 125.0)
+                                    / 75.0, g2cs, data.ng2)) / x / x;
             }
             else
             {
-                if (x < data.xmaxf)
-                {
-                    f = 1.0 / x;
-                }
-                else
-                {
-                    f = 0.0;
-                }
-
-                if (x < data.xmaxg)
-                {
-                    g = 1.0 / x / x;
-                }
-                else
-                {
-                    g = 0.0;
-                }
+                g = (1.0 + r8_csevl(400.0 / x / x - 1.0, g3cs, data.ng3)) / x / x;
             }
-
-            return;
         }
-
-        public static double r8_sign(double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SIGN returns the sign of an R8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    18 October 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the number whose sign is desired.
-            //
-            //    Output, double R8_SIGN, the sign of X.
-            //
+        else
         {
-            double value;
-
-            if (x < 0.0)
+            if (x < data.xmaxf)
             {
-                value = -1.0;
+                f = 1.0 / x;
             }
             else
             {
-                value = 1.0;
+                f = 0.0;
             }
 
-            return value;
+            if (x < data.xmaxg)
+            {
+                g = 1.0 / x / x;
+            }
+            else
+            {
+                g = 0.0;
+            }
         }
+    }
 
-        public class r8SinData
+    public static double r8_sign(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SIGN returns the sign of an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 October 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the number whose sign is desired.
+        //
+        //    Output, double R8_SIGN, the sign of X.
+        //
+    {
+        double value = x switch
         {
-            public int ntsn = 0;
-            public double xmax = 0.0;
-            public double xsml = 0.0;
-            public double xwarn = 0.0;
+            < 0.0 => -1.0,
+            _ => 1.0
+        };
 
-            public r8SqrtData sqrtdata = new r8SqrtData();
-        }
-        public static double r8_sin(ref r8SinData data, double x)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SIN evaluates the sine of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_SIN, the sine of X.
-            //
-        {
-            double f;
-            int n2;
-            const double pi2rec = 0.63661977236758134307553505349006;
-            const double pihi = 3.140625;
-            const double pilo = 9.6765358979323846264338327950288E-04;
-            const double pirec = 0.31830988618379067153776752674503;
-            double sgn;
-            double[] sincs = {
+    public class r8SinData
+    {
+        public int ntsn;
+        public double xmax;
+        public double xsml;
+        public double xwarn;
+
+        public r8SqrtData sqrtdata = new();
+    }
+    public static double r8_sin(ref r8SinData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SIN evaluates the sine of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_SIN, the sine of X.
+        //
+    {
+        double f;
+        int n2;
+        const double pi2rec = 0.63661977236758134307553505349006;
+        const double pihi = 3.140625;
+        const double pilo = 9.6765358979323846264338327950288E-04;
+        const double pirec = 0.31830988618379067153776752674503;
+        double sgn;
+        double[] sincs = {
                 -0.374991154955873175839919279977323464,
                 -0.181603155237250201863830316158004754,
                 0.005804709274598633559427341722857921,
@@ -737,186 +744,192 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000256
             }
             ;
-            double value;
-            double xn;
-            double y;
+        double value = 0;
+        double xn;
+        double y;
 
-            if (data.ntsn == 0)
-            {
+        switch (data.ntsn)
+        {
+            case 0:
                 data.ntsn = r8_inits(sincs, 15, 0.1 * r8_mach(3));
                 data.xsml = r8_sqrt( ref data.sqrtdata,2.0 * r8_mach(3));
                 data.xmax = 1.0 / r8_mach(4);
                 data.xwarn = r8_sqrt(ref data.sqrtdata,data.xmax);
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (data.xmax < y)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_SIN - Warning!");
-                Console.WriteLine("  No precision because |X| is big.");
-                value = 0.0;
-                return value;
-            }
+        if (data.xmax < y)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_SIN - Warning!");
+            Console.WriteLine("  No precision because |X| is big.");
+            value = 0.0;
+            return value;
+        }
 
-            if (data.xwarn < y)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_SIN - Warning!");
-                Console.WriteLine("  Answer < half precision because |X| is big.");
-            }
+        if (data.xwarn < y)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_SIN - Warning!");
+            Console.WriteLine("  Answer < half precision because |X| is big.");
+        }
 
-            value = x;
-            if (y < data.xsml)
-            {
-                return value;
-            }
+        value = x;
+        if (y < data.xsml)
+        {
+            return value;
+        }
 
-            xn = (double) ((int) (y * pirec + 0.5));
-            n2 = (int) (r8_mod(xn, 2.0) + 0.5);
+        xn = (int) (y * pirec + 0.5);
+        n2 = (int) (r8_mod(xn, 2.0) + 0.5);
 
-            sgn = x;
-            if (n2 != 0)
-            {
-                sgn = -sgn;
-            }
+        sgn = x;
+        if (n2 != 0)
+        {
+            sgn = -sgn;
+        }
 
-            f = (y - xn * pihi) - xn * pilo;
-            xn = 2.0 * (f * pi2rec) * (f * pi2rec) - 1.0;
-            value = f + f * r8_csevl(xn, sincs, data.ntsn);
+        f = y - xn * pihi - xn * pilo;
+        xn = 2.0 * (f * pi2rec) * (f * pi2rec) - 1.0;
+        value = f + f * r8_csevl(xn, sincs, data.ntsn);
 
-            if (sgn < 0.0)
-            {
+        switch (sgn)
+        {
+            case < 0.0:
                 value = -value;
-            }
-
-            if (value < -1.0)
-            {
-                value = -1.0;
-            }
-            else if (1.0 < value)
-            {
-                value = +1.0;
-            }
-
-            return value;
+                break;
         }
 
-        public static double r8_sin_deg(double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SIN_DEG evaluates the sine of an R8 argument in degrees.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument in degrees.
-            //
-            //    Output, double R8_SIN_DEG, the sine of X.
-            //
+        value = value switch
         {
-            int n;
-            const double raddeg = 0.017453292519943295769236907684886E+00;
-            double value;
+            < -1.0 => -1.0,
+            > 1.0 => +1.0,
+            _ => value
+        };
 
-            value = Math.Sin(raddeg * x);
+        return value;
+    }
 
-            if (r8_mod(x, 90.0E+00) == 0.0E+00)
+    public static double r8_sin_deg(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SIN_DEG evaluates the sine of an R8 argument in degrees.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument in degrees.
+        //
+        //    Output, double R8_SIN_DEG, the sine of X.
+        //
+    {
+        int n;
+        const double raddeg = 0.017453292519943295769236907684886E+00;
+        double value = 0;
+
+        value = Math.Sin(raddeg * x);
+
+        if (r8_mod(x, 90.0E+00) == 0.0E+00)
+        {
+            n = (int) (Math.Abs(x) / 90.0E+00 + 0.5E+00);
+            n %= 2;
+
+            switch (n)
             {
-                n = (int) (Math.Abs(x) / 90.0E+00 + 0.5E+00);
-                n = (n % 2);
-
-                if (n == 0)
-                {
+                case 0:
                     value = 0.0E+00;
-                }
-                else if (value < 0.0E+00)
+                    break;
+                default:
                 {
-                    value = -1.0E+00;
-                }
-                else
-                {
-                    value = +1.0E+00;
+                    value = value switch
+                    {
+                        < 0.0E+00 => -1.0E+00,
+                        _ => +1.0E+00
+                    };
+
+                    break;
                 }
             }
-
-            return value;
         }
 
-        public class r8SinhData
-        {
-            public int nterms = 0;
-            public double sqeps = 0.0;
-            public double ymax = 0.0;
+        return value;
+    }
 
-        }
-        public static double r8_sinh(ref r8SinhData data, double x)
+    public class r8SinhData
+    {
+        public int nterms;
+        public double sqeps;
+        public double ymax;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SINH evaluates the hyperbolic sine of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_SINH, the hyperbolic sine of X.
-            //
-        {
-            double[] sinhcs = {
+    }
+    public static double r8_sinh(ref r8SinhData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SINH evaluates the hyperbolic sine of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_SINH, the hyperbolic sine of X.
+        //
+    {
+        double[] sinhcs = {
                 +0.17304219404717963167588384698501E+00,
                 +0.87594221922760477154900263454440E-01,
                 +0.10794777745671327502427270651579E-02,
@@ -932,114 +945,124 @@ namespace Burkardt.FullertonFnLib
                 +0.77568437166506666666666666666666E-32
             }
             ;
-            double value;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.nterms == 0)
-            {
+        switch (data.nterms)
+        {
+            case 0:
                 data.nterms = r8_inits(sinhcs, 13, 0.1 * r8_mach(3));
                 data.sqeps = Math.Sqrt(6.0 * r8_mach(3));
                 data.ymax = 1.0 / Math.Sqrt(r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.sqeps)
-            {
-                value = x;
-            }
-            else if (y <= 1.0)
-            {
-                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, sinhcs, data.nterms));
-            }
-            else
-            {
-                y = Math.Exp(y);
-
-                if (data.ymax <= y)
-                {
-                    value = 0.5 * y;
-                }
-                else
-                {
-                    value = 0.5 * (y - 1.0 / y);
-                }
-
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-
-            return value;
+                break;
         }
 
-        public class r8SpenceData
-        {
-            public int nspenc = 0;
-            public double xbig = 0.0;
+        y = Math.Abs(x);
 
+        if (y <= data.sqeps)
+        {
+            value = x;
         }
-        public static double r8_spence(ref r8SpenceData data, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SPENCE evaluates a form of Spence's function for an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    This function evaluates a form of Spence's function defined by
-            //
-            //      f(x) = Integral ( 0 <= y <= x ) - log ( abs ( 1 - y ) ) / y dy
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions, page 1004,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //    K Mitchell,
-            //    Tables of the function Integral ( 0 < y < x ) - log | 1 - y | dy / y
-            //    with an account of some properties of this and related functions,
-            //    Philosophical Magazine,
-            //    Volume 40, pages 351-368, 1949.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_SPENCE, Spence's function evaluated at X.
-            //
+        else
         {
-            double aln;
-            const double pi26 = +1.644934066848226436472415166646025189219;
-            double[] spencs =  {
+            switch (y)
+            {
+                case <= 1.0:
+                    value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, sinhcs, data.nterms));
+                    break;
+                default:
+                {
+                    y = Math.Exp(y);
+
+                    if (data.ymax <= y)
+                    {
+                        value = 0.5 * y;
+                    }
+                    else
+                    {
+                        value = 0.5 * (y - 1.0 / y);
+                    }
+
+                    value = x switch
+                    {
+                        < 0.0 => -value,
+                        _ => value
+                    };
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8SpenceData
+    {
+        public int nspenc;
+        public double xbig;
+
+    }
+    public static double r8_spence(ref r8SpenceData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SPENCE evaluates a form of Spence's function for an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    This function evaluates a form of Spence's function defined by
+        //
+        //      f(x) = Integral ( 0 <= y <= x ) - log ( abs ( 1 - y ) ) / y dy
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions, page 1004,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //    K Mitchell,
+        //    Tables of the function Integral ( 0 < y < x ) - log | 1 - y | dy / y
+        //    with an account of some properties of this and related functions,
+        //    Philosophical Magazine,
+        //    Volume 40, pages 351-368, 1949.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_SPENCE, Spence's function evaluated at X.
+        //
+    {
+        double aln;
+        const double pi26 = +1.644934066848226436472415166646025189219;
+        double[] spencs =  {
                 +0.1527365598892405872946684910028,
                 +0.8169658058051014403501838185271E-01,
                 +0.5814157140778730872977350641182E-02,
@@ -1080,143 +1103,150 @@ namespace Burkardt.FullertonFnLib
                 +0.4742646808928671061333333333333E-31
             }
             ;
-            double value;
+        double value = 0;
 
-            if (data.nspenc == 0)
-            {
+        switch (data.nspenc)
+        {
+            case 0:
                 data.nspenc = r8_inits(spencs, 38, 0.1 * r8_mach(3));
                 data.xbig = 1.0 / r8_mach(3);
-            }
-
-            if (x <= -data.xbig)
-            {
-                aln = Math.Log(1.0 - x);
-                value = -pi26 - 0.5 * aln * (2.0 * Math.Log(-x) - aln);
-            }
-            else if (x <= -1.0)
-            {
-                aln = Math.Log(1.0 - x);
-
-                value = -pi26 - 0.5 * aln * (2.0
-                    * Math.Log(-x) - aln) + (1.0 + r8_csevl(
-                    4.0 / (1.0 - x) - 1.0, spencs, data.nspenc)) / (1.0 - x);
-            }
-            else if (x <= 0.0)
-            {
-                value = -0.5 * Math.Log(1.0 - x)
-                             * Math.Log(1.0 - x) - x * (1.0 + r8_csevl(
-                    4.0 * x / (x - 1.0) - 1.0, spencs, data.nspenc)) / (x - 1.0);
-            }
-            else if (x <= 0.5)
-            {
-                value = x * (1.0 + r8_csevl(4.0 * x - 1.0, spencs, data.nspenc));
-            }
-            else if (x < 1.0)
-            {
-                value = pi26 - Math.Log(x) * Math.Log(1.0 - x)
-                             - (1.0 - x) * (1.0 + r8_csevl(4.0
-                                 * (1.0 - x) - 1.0, spencs, data.nspenc));
-            }
-            else if (x == 1.0)
-            {
-                value = pi26;
-            }
-            else if (x <= 2.0)
-            {
-                value = pi26 - 0.5 * Math.Log(x)
-                                   * Math.Log((x - 1.0) * (x - 1.0) / x)
-                        + (x - 1.0) * (1.0 + r8_csevl(4.0
-                            * (x - 1.0) / x - 1.0, spencs, data.nspenc)) / x;
-            }
-            else if (x < data.xbig)
-            {
-                value = 2.0 * pi26 - 0.5 * Math.Log(x) * Math.Log(x)
-                                   - (1.0 + r8_csevl(4.0 / x - 1.0, spencs, data.nspenc)) / x;
-            }
-            else
-            {
-                value = 2.0 * pi26 - 0.5 * Math.Log(x) * Math.Log(x);
-            }
-
-            return value;
+                break;
         }
 
-        public class r8SqrtData
+        if (x <= -data.xbig)
         {
-            public int niter = 0;
-
-            public r8LogData logdata = new r8LogData();
-            public r8PakData pakdata = new r8PakData();
+            aln = Math.Log(1.0 - x);
+            value = -pi26 - 0.5 * aln * (2.0 * Math.Log(-x) - aln);
         }
-        public static double r8_sqrt(ref r8SqrtData data, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SQRT computes the square root of an R8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the number whose square root is desired.
-            //
-            //    Output, double R8_SQRT, the square root of X.
-            //
+        else
         {
-            int irem;
-            int iter;
-            int ixpnt;
-            int n = 0;
-            double[] sqrt2 = {
+            switch (x)
+            {
+                case <= -1.0:
+                    aln = Math.Log(1.0 - x);
+
+                    value = -pi26 - 0.5 * aln * (2.0
+                        * Math.Log(-x) - aln) + (1.0 + r8_csevl(
+                        4.0 / (1.0 - x) - 1.0, spencs, data.nspenc)) / (1.0 - x);
+                    break;
+                case <= 0.0:
+                    value = -0.5 * Math.Log(1.0 - x)
+                                 * Math.Log(1.0 - x) - x * (1.0 + r8_csevl(
+                        4.0 * x / (x - 1.0) - 1.0, spencs, data.nspenc)) / (x - 1.0);
+                    break;
+                case <= 0.5:
+                    value = x * (1.0 + r8_csevl(4.0 * x - 1.0, spencs, data.nspenc));
+                    break;
+                case < 1.0:
+                    value = pi26 - Math.Log(x) * Math.Log(1.0 - x)
+                                 - (1.0 - x) * (1.0 + r8_csevl(4.0
+                                     * (1.0 - x) - 1.0, spencs, data.nspenc));
+                    break;
+                case 1.0:
+                    value = pi26;
+                    break;
+                case <= 2.0:
+                    value = pi26 - 0.5 * Math.Log(x)
+                                       * Math.Log((x - 1.0) * (x - 1.0) / x)
+                            + (x - 1.0) * (1.0 + r8_csevl(4.0
+                                * (x - 1.0) / x - 1.0, spencs, data.nspenc)) / x;
+                    break;
+                default:
+                {
+                    if (x < data.xbig)
+                    {
+                        value = 2.0 * pi26 - 0.5 * Math.Log(x) * Math.Log(x)
+                                           - (1.0 + r8_csevl(4.0 / x - 1.0, spencs, data.nspenc)) / x;
+                    }
+                    else
+                    {
+                        value = 2.0 * pi26 - 0.5 * Math.Log(x) * Math.Log(x);
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8SqrtData
+    {
+        public int niter;
+
+        public r8LogData logdata = new();
+        public r8PakData pakdata = new();
+    }
+    public static double r8_sqrt(ref r8SqrtData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SQRT computes the square root of an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the number whose square root is desired.
+        //
+        //    Output, double R8_SQRT, the square root of X.
+        //
+    {
+        int irem;
+        int iter;
+        int ixpnt;
+        int n = 0;
+        double[] sqrt2 = {
                 0.70710678118654752440084436210485,
                 1.0,
                 1.41421356237309504880168872420970
             }
             ;
-            double value;
-            double y = 0;
+        double value = 0;
+        double y = 0;
 
-            if (data.niter == 0)
-            {
-                data.niter = (int)(1.443 * r8_log( ref data.logdata,-0.104 * r8_log( ref data.logdata, 0.1 * r8_mach(3))) + 1.0);
-            }
+        data.niter = data.niter switch
+        {
+            0 => (int) (1.443 * r8_log(ref data.logdata, -0.104 * r8_log(ref data.logdata, 0.1 * r8_mach(3))) + 1.0),
+            _ => data.niter
+        };
 
-            if (x < 0.0)
-            {
+        switch (x)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_SQRT - Fatal error!");
                 Console.WriteLine("  X is negative.");
                 return 1;
-            }
-            else if (x == 0.0)
-            {
+            case 0.0:
                 value = 0.0;
-            }
-            else
+                break;
+            default:
             {
                 r8_upak(x, ref y, ref n);
                 ixpnt = n / 2;
@@ -1225,13 +1255,14 @@ namespace Burkardt.FullertonFnLib
 
                 for (iter = 1; iter <= data.niter; iter++)
                 {
-                    value = value + 0.5 * (y - value * value) / value;
+                    value += 0.5 * (y - value * value) / value;
                 }
 
                 value = r8_pak( ref data.pakdata, sqrt2[irem - 1] * value, ixpnt);
+                break;
             }
-
-            return value;
         }
+
+        return value;
     }
 }

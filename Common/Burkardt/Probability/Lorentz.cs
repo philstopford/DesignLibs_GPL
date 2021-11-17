@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Lorentz
 {
-    public static class Lorentz
-    {
-        public static double lorentz_cdf(double x)
+    public static double lorentz_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -30,15 +30,15 @@ namespace Burkardt.Probability
         //
         //    Output, double LORENTZ_CDF, the value of the CDF.
         //
-        {
+    {
             
 
-            double cdf = 0.5 + Math.Atan(x) / Math.PI;
+        double cdf = 0.5 + Math.Atan(x) / Math.PI;
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double lorentz_cdf_inv(double cdf)
+    public static double lorentz_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -64,23 +64,27 @@ namespace Burkardt.Probability
         //
         //    Output, double LORENTZ_CDF_INV, the corresponding argument.
         //
-        {
+    {
             
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("LORENTZ_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = Math.Tan(Math.PI * (cdf - 0.5));
+
+                return x;
             }
-
-            double x = Math.Tan(Math.PI * (cdf - 0.5));
-
-            return x;
         }
+    }
 
-        public static double lorentz_mean()
+    public static double lorentz_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -103,13 +107,13 @@ namespace Burkardt.Probability
         //
         //    Output, double LORENTZ_MEAN, the mean of the PDF.
         //
-        {
-            double mean = 0.0;
+    {
+        double mean = 0.0;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double lorentz_pdf(double x)
+    public static double lorentz_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -144,15 +148,15 @@ namespace Burkardt.Probability
         //
         //    Output, double LORENTZ_PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double pdf = 1.0 / (Math.PI * (1.0 + x * x));
+        double pdf = 1.0 / (Math.PI * (1.0 + x * x));
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double lorentz_sample(ref int seed)
+    public static double lorentz_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -177,15 +181,15 @@ namespace Burkardt.Probability
         //
         //    Output, double LORENTZ_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = lorentz_cdf_inv(cdf);
+        double x = lorentz_cdf_inv(cdf);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double lorentz_variance()
+    public static double lorentz_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -214,12 +218,11 @@ namespace Burkardt.Probability
         //
         //    Output, double LORENTZ_VARIANCE, the mean of the PDF.
         //
-        {
-            const double r8_huge = 1.0E+30;
+    {
+        const double r8_huge = 1.0E+30;
 
-            double variance = r8_huge;
+        double variance = r8_huge;
 
-            return variance;
-        }
+        return variance;
     }
 }

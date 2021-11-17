@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class FEM_1D_BVP
 {
-    public static class FEM_1D_BVP
-    {
-        public static double[] fem1d_bvp_linear(int n, Func<double, double> a, Func<double, double> c,
-            Func<double, double> f, double[] x)
+    public static double[] fem1d_bvp_linear(int n, Func<double, double> a, Func<double, double> c,
+        Func<double, double> f, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -102,135 +102,134 @@ namespace Burkardt.FEM
 //    Output, double FEM1D_BVP_LINEAR[N], the finite element coefficients, 
 //    which are also the value of the computed solution at the mesh points.
 //
-        {
-            int QUAD_NUM = 2;
+    {
+        int QUAD_NUM = 2;
 
-            double[] abscissa =
-                {
-                    -0.577350269189625764509148780502,
-                    +0.577350269189625764509148780502
-                }
-                ;
-            double[] amat;
-            double axq;
-            double[] b;
-            double cxq;
-            int e;
-            int e_num;
-            double fxq;
-            int i;
-            int ierror = 0;
-            int j;
-            int l;
-            int q;
-            int quad_num = QUAD_NUM;
-            int r;
-            double[] u;
-            double[] weight =
-                {
-                    1.0, 1.0
-                }
-                ;
-            double wq;
-            double vl;
-            double vlp;
-            double vr;
-            double vrp;
-            double xl;
-            double xq;
-            double xr;
+        double[] abscissa =
+            {
+                -0.577350269189625764509148780502,
+                +0.577350269189625764509148780502
+            }
+            ;
+        double[] amat;
+        double axq;
+        double[] b;
+        double cxq;
+        int e;
+        int e_num;
+        double fxq;
+        int i;
+        int ierror = 0;
+        int j;
+        int l;
+        int q;
+        int quad_num = QUAD_NUM;
+        int r;
+        double[] u;
+        double[] weight =
+            {
+                1.0, 1.0
+            }
+            ;
+        double wq;
+        double vl;
+        double vlp;
+        double vr;
+        double vrp;
+        double xl;
+        double xq;
+        double xr;
 //
 //  Zero out the matrix and right hand side.
 //
-            amat = typeMethods.r8mat_zero_new(n, n);
-            b = typeMethods.r8vec_zero_new(n);
+        amat = typeMethods.r8mat_zero_new(n, n);
+        b = typeMethods.r8vec_zero_new(n);
 
-            e_num = n - 1;
+        e_num = n - 1;
 
-            for (e = 0; e < e_num; e++)
+        for (e = 0; e < e_num; e++)
+        {
+            l = e;
+            r = e + 1;
+
+            xl = x[l];
+            xr = x[r];
+
+            for (q = 0; q < quad_num; q++)
             {
-                l = e;
-                r = e + 1;
+                xq = ((1.0 - abscissa[q]) * xl
+                      + (1.0 + abscissa[q]) * xr)
+                     / 2.0;
 
-                xl = x[l];
-                xr = x[r];
+                wq = weight[q] * (xr - xl) / 2.0;
 
-                for (q = 0; q < quad_num; q++)
-                {
-                    xq = ((1.0 - abscissa[q]) * xl
-                          + (1.0 + abscissa[q]) * xr)
-                         / 2.0;
+                vl = (xr - xq) / (xr - xl);
+                vlp = -1.0 / (xr - xl);
 
-                    wq = weight[q] * (xr - xl) / 2.0;
+                vr = (xq - xl) / (xr - xl);
+                vrp = +1.0 / (xr - xl);
 
-                    vl = (xr - xq) / (xr - xl);
-                    vlp = -1.0 / (xr - xl);
+                axq = a(xq);
+                cxq = c(xq);
+                fxq = f(xq);
 
-                    vr = (xq - xl) / (xr - xl);
-                    vrp = +1.0 / (xr - xl);
+                amat[l + l * n] += wq * (vlp * axq * vlp + vl * cxq * vl);
+                amat[l + r * n] += wq * (vlp * axq * vrp + vl * cxq * vr);
+                b[l] += wq * (vl * fxq);
 
-                    axq = a(xq);
-                    cxq = c(xq);
-                    fxq = f(xq);
-
-                    amat[l + l * n] = amat[l + l * n] + wq * (vlp * axq * vlp + vl * cxq * vl);
-                    amat[l + r * n] = amat[l + r * n] + wq * (vlp * axq * vrp + vl * cxq * vr);
-                    b[l] = b[l] + wq * (vl * fxq);
-
-                    amat[r + l * n] = amat[r + l * n] + wq * (vrp * axq * vlp + vr * cxq * vl);
-                    amat[r + r * n] = amat[r + r * n] + wq * (vrp * axq * vrp + vr * cxq * vr);
-                    b[r] = b[r] + wq * (vr * fxq);
-                }
+                amat[r + l * n] += wq * (vrp * axq * vlp + vr * cxq * vl);
+                amat[r + r * n] += wq * (vrp * axq * vrp + vr * cxq * vr);
+                b[r] += wq * (vr * fxq);
             }
+        }
 
 //
 //  Equation 1 is the left boundary condition, U(0.0) = 0.0;
 //
-            for (j = 0; j < n; j++)
-            {
-                amat[0 + j * n] = 0.0;
-            }
+        for (j = 0; j < n; j++)
+        {
+            amat[0 + j * n] = 0.0;
+        }
 
-            b[0] = 0.0;
-            for (i = 1; i < n; i++)
-            {
-                b[i] = b[i] - amat[i + 0 * n] * b[0];
-            }
+        b[0] = 0.0;
+        for (i = 1; i < n; i++)
+        {
+            b[i] -= amat[i + 0 * n] * b[0];
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                amat[i + 0 * n] = 0.0;
-            }
+        for (i = 0; i < n; i++)
+        {
+            amat[i + 0 * n] = 0.0;
+        }
 
-            amat[0 + 0 * n] = 1.0;
+        amat[0 + 0 * n] = 1.0;
 //
 //  Equation N is the right boundary condition, U(1.0) = 0.0;
 //
-            for (j = 0; j < n; j++)
-            {
-                amat[n - 1 + j * n] = 0.0;
-            }
+        for (j = 0; j < n; j++)
+        {
+            amat[n - 1 + j * n] = 0.0;
+        }
 
-            b[n - 1] = 0.0;
-            for (i = 0; i < n - 1; i++)
-            {
-                b[i] = b[i] - amat[i + (n - 1) * n] * b[n - 1];
-            }
+        b[n - 1] = 0.0;
+        for (i = 0; i < n - 1; i++)
+        {
+            b[i] -= amat[i + (n - 1) * n] * b[n - 1];
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                amat[i + (n - 1) * n] = 0.0;
-            }
+        for (i = 0; i < n; i++)
+        {
+            amat[i + (n - 1) * n] = 0.0;
+        }
 
-            amat[n - 1 + (n - 1) * n] = 1.0;
+        amat[n - 1 + (n - 1) * n] = 1.0;
 //
 //  Solve the linear system.
 //
-            u = typeMethods.r8mat_solve2(n, ref amat, ref b, ref ierror);
+        u = typeMethods.r8mat_solve2(n, ref amat, ref b, ref ierror);
 
-            return u;
-        }
+        return u;
+    }
 
         
-    }
 }

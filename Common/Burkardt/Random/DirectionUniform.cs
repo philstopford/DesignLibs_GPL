@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.RandomNS
+namespace Burkardt.RandomNS;
+
+public static partial class BRandom
 {
-    public static partial class BRandom
-    {
-        public static void direction_uniform_nd ( int dim_num, ref int seed, ref double[] w )
+    public static void direction_uniform_nd ( int dim_num, ref int seed, ref double[] w )
 
         //****************************************************************************80
         //
@@ -37,29 +37,28 @@ namespace Burkardt.RandomNS
         //
         //    Output, double W[DIM_NUM], a random direction vector, with unit norm.
         //
+    {
+        int i;
+        double norm;
+        //
+        //  Sample the standard normal distribution.
+        //
+        typeMethods.r8vec_normal_01 ( dim_num, ref seed, ref w );
+        //
+        //  Compute the length of the vector.
+        //
+        norm = 0.0;
+        for ( i = 0; i < dim_num; i++ )
         {
-            int i;
-            double norm;
-            //
-            //  Sample the standard normal distribution.
-            //
-            typeMethods.r8vec_normal_01 ( dim_num, ref seed, ref w );
-            //
-            //  Compute the length of the vector.
-            //
-            norm = 0.0;
-            for ( i = 0; i < dim_num; i++ )
-            {
-                norm = norm + w[i] * w[i];
-            }
-            norm = Math.Sqrt ( norm );
-            //
-            //  Normalize the vector.
-            //
-            for ( i = 0; i < dim_num; i++ )
-            {
-                w[i] = w[i] / norm;
-            }
+            norm += w[i] * w[i];
+        }
+        norm = Math.Sqrt ( norm );
+        //
+        //  Normalize the vector.
+        //
+        for ( i = 0; i < dim_num; i++ )
+        {
+            w[i] /= norm;
         }
     }
 }

@@ -1,17 +1,17 @@
 ﻿using Burkardt.Uniform;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
+    public class RContData
     {
-        public class RContData
-        {
-            public int ntotal = 0;
-            public int[] nvect = new int[1];
-            public int seed =  0;
-        }
-        public static void rcont(ref RContData data, int nrow, int ncol, int[] nrowt, int[] ncolt, ref int[] nsubt,
-                            ref int[] matrix, ref bool key, ref int ifault )
+        public int ntotal;
+        public int[] nvect = new int[1];
+        public int seed;
+    }
+    public static void rcont(ref RContData data, int nrow, int ncol, int[] nrowt, int[] ncolt, ref int[] nsubt,
+            ref int[] matrix, ref bool key, ref int ifault )
         //****************************************************************************80
         //
         //  Purpose:
@@ -75,58 +75,66 @@ namespace Burkardt.AppliedStatistics
         //    3, some entry of NROWT is less than 0.
         //    4, some entry of NCOLT is less than 0.
         //
+    {
+
+        ifault = 0;
+
+        switch (key)
         {
-
-            ifault = 0;
-
-            if (!(key))
+            case false:
             {
                 //
                 //  Set KEY for subsequent calls.
                 //
                 key = true;
                 data.seed = 123456789;
-                //
-                //  Check for faults and prepare for future calls.
-                //
-                if (nrow <= 0)
+                switch (nrow)
                 {
-                    ifault = 1;
-                    return;
+                    //
+                    //  Check for faults and prepare for future calls.
+                    //
+                    case <= 0:
+                        ifault = 1;
+                        return;
                 }
 
-                if (ncol <= 1)
+                switch (ncol)
                 {
-                    ifault = 2;
-                    return;
+                    case <= 1:
+                        ifault = 2;
+                        return;
                 }
 
                 for (int i = 0; i < nrow; i++)
                 {
-                    if (nrowt[i] <= 0)
+                    switch (nrowt[i])
                     {
-                        ifault = 3;
-                        return;
+                        case <= 0:
+                            ifault = 3;
+                            return;
                     }
                 }
 
-                if (ncolt[0] <= 0)
+                switch (ncolt[0])
                 {
-                    ifault = 4;
-                    return;
+                    case <= 0:
+                        ifault = 4;
+                        return;
                 }
 
                 nsubt[0] = ncolt[0];
 
                 for (int j = 1; j < ncol; j++)
                 {
-                    if (ncolt[j] <= 0)
+                    switch (ncolt[j])
                     {
-                        ifault = 4;
-                        return;
+                        case <= 0:
+                            ifault = 4;
+                            return;
+                        default:
+                            nsubt[j] = nsubt[j - 1] + ncolt[j];
+                            break;
                     }
-
-                    nsubt[j] = nsubt[j - 1] + ncolt[j];
                 }
 
                 data.ntotal = nsubt[ncol - 1];
@@ -139,58 +147,60 @@ namespace Burkardt.AppliedStatistics
                 {
                     data.nvect[i] = i + 1;
                 }
+
+                break;
             }
+        }
 
-            //
-            //  Initialize vector to be permuted.
-            //
-            int[] nnvect = new int[data.ntotal];
+        //
+        //  Initialize vector to be permuted.
+        //
+        int[] nnvect = new int[data.ntotal];
 
-            for (int i = 0; i < data.ntotal; i++)
-            {
-                nnvect[i] = data.nvect[i];
-            }
+        for (int i = 0; i < data.ntotal; i++)
+        {
+            nnvect[i] = data.nvect[i];
+        }
 
-            //
-            //  Permute vector.
-            //
-            int ntemp = data.ntotal;
+        //
+        //  Permute vector.
+        //
+        int ntemp = data.ntotal;
 
-            for (int i = 0; i < data.ntotal; i++)
-            {
-                int noct = (int) (UniformRNG.r8_uniform_01(ref data.seed) * (double) (ntemp) + 1.0);
-                data.nvect[i] = nnvect[noct - 1];
-                nnvect[noct - 1] = nnvect[ntemp - 1];
-                ntemp = ntemp - 1;
-            }
+        for (int i = 0; i < data.ntotal; i++)
+        {
+            int noct = (int) (UniformRNG.r8_uniform_01(ref data.seed) * ntemp + 1.0);
+            data.nvect[i] = nnvect[noct - 1];
+            nnvect[noct - 1] = nnvect[ntemp - 1];
+            ntemp -= 1;
+        }
 
-            //
-            //  Construct random matrix.
-            //
-            for (int j = 0; j < ncol; j++)
-            {
-                for (int i = 0; i < nrow; i++)
-                {
-                    matrix[i + j * nrow] = 0;
-                }
-            }
-
-            int ii = 0;
-
+        //
+        //  Construct random matrix.
+        //
+        for (int j = 0; j < ncol; j++)
+        {
             for (int i = 0; i < nrow; i++)
             {
-                int limit = nrowt[i];
+                matrix[i + j * nrow] = 0;
+            }
+        }
 
-                for (int k = 0; k < limit; k++)
+        int ii = 0;
+
+        for (int i = 0; i < nrow; i++)
+        {
+            int limit = nrowt[i];
+
+            for (int k = 0; k < limit; k++)
+            {
+                for (int j = 0; j < ncol; j++)
                 {
-                    for (int j = 0; j < ncol; j++)
+                    if (data.nvect[ii] <= nsubt[j])
                     {
-                        if (data.nvect[ii] <= nsubt[j])
-                        {
-                            ii = ii + 1;
-                            matrix[i + j * nrow] = matrix[i + j * nrow] + 1;
-                            break;
-                        }
+                        ii += 1;
+                        matrix[i + j * nrow] += 1;
+                        break;
                     }
                 }
             }

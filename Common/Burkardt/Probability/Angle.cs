@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Angle
 {
-    public static class Angle
-    {
-        public static double angle_cdf(double x, int n)
+    public static double angle_cdf(double x, int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,42 +34,45 @@ namespace Burkardt.Probability
         //
         //    Output, real CDF, the value of the CDF.
         //
-        {
-            double cdf;
-            double zero = 0.0;
+    {
+        double cdf;
+        double zero = 0.0;
 
-            if (n < 2)
-            {
+        switch (n)
+        {
+            case < 2:
                 Console.WriteLine("");
                 Console.WriteLine("ANGLE_CDF - Fatal error!");
                 Console.WriteLine("  N must be at least 2.");
                 Console.WriteLine("  The input value of N = " + n + "");
                 return 1.0;
-            }
+            default:
+                switch (x)
+                {
+                    case < 0.0:
+                        cdf = 0.0;
+                        break;
+                    case > Math.PI:
+                        cdf = 1.0;
+                        break;
+                    default:
+                    {
+                        cdf = n switch
+                        {
+                            2 => x / Math.PI,
+                            _ => Misc.sin_power_int(zero, x, n - 2) * Helpers.Gamma(n / 2.0) /
+                                 (Math.Sqrt(Math.PI) * Helpers.Gamma((n - 1) / 2.0))
+                        };
 
-            if (x < 0.0)
-            {
-                cdf = 0.0;
-            }
-            else if (Math.PI < x)
-            {
-                cdf = 1.0;
-            }
-            else if (n == 2)
-            {
-                cdf = x / Math.PI;
-            }
-            else
-            {
-                cdf = Misc.sin_power_int(zero, x, n - 2)
-                      * Helpers.Gamma((double) (n) / 2.0)
-                      / (Math.Sqrt(Math.PI) * Helpers.Gamma((double) (n - 1) / 2.0));
-            }
+                        break;
+                    }
+                }
 
-            return cdf;
+                return cdf;
         }
+    }
 
-        public static double angle_mean(int n)
+    public static double angle_mean(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -91,15 +94,15 @@ namespace Burkardt.Probability
         //
         //    Output, double ANGLE_MEAN, the mean of the PDF.
         //
-        {
-            double mean;
+    {
+        double mean;
 
-            mean = Math.PI / 2.0;
+        mean = Math.PI / 2.0;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double angle_pdf(double x, int n)
+    public static double angle_pdf(double x, int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -144,34 +147,38 @@ namespace Burkardt.Probability
         //
         //    Output, real PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
 
-            if (n < 2)
-            {
+        switch (n)
+        {
+            case < 2:
                 Console.WriteLine("");
                 Console.WriteLine("ANGLE_PDF - Fatal error!");
                 Console.WriteLine("  N must be at least 2.");
                 Console.WriteLine("  The input value of N = " + n + "");
                 return 1.0;
-            }
-
-            if (x < 0.0 || Math.PI < x)
-            {
-                pdf = 0.0;
-            }
-            else if (n == 2)
-            {
-                pdf = 1.0 / Math.PI;
-            }
-            else
-            {
-                pdf = Math.Pow((Math.Sin(x)), (n - 2))
-                      * Helpers.Gamma((double) (n) / 2.0)
-                      / (Math.Sqrt(Math.PI) * Helpers.Gamma((double) (n - 1) / 2.0));
-            }
-            
-            return pdf;
         }
+
+        switch (x)
+        {
+            case < 0.0:
+            case > Math.PI:
+                pdf = 0.0;
+                break;
+            default:
+            {
+                pdf = n switch
+                {
+                    2 => 1.0 / Math.PI,
+                    _ => Math.Pow(Math.Sin(x), n - 2) * Helpers.Gamma(n / 2.0) /
+                         (Math.Sqrt(Math.PI) * Helpers.Gamma((n - 1) / 2.0))
+                };
+
+                break;
+            }
+        }
+            
+        return pdf;
     }
 }

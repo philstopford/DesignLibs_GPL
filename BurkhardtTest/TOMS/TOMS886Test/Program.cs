@@ -1,14 +1,13 @@
 ﻿using System;
 
-namespace TOMS886Test
+namespace TOMS886Test;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
     {
-        static void Main(string[] args)
-        {
-            EllipseTest.ellipse();
-            RectangleTest.rectangle();
-            TriangleTest.triangle();
-        }
+        EllipseTest.ellipse();
+        RectangleTest.rectangle();
+        TriangleTest.triangle();
     }
 }

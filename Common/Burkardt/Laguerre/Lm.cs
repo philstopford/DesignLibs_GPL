@@ -2,290 +2,294 @@
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt.Laguerre
+namespace Burkardt.Laguerre;
+
+public static partial class Functions
 {
-    public static partial class Functions
+    public static double lm_integral(int n, int m)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LM_INTEGRAL evaluates a monomial integral associated with Lm(n,m,x).
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( 0 <= x < +oo ) x^n * x^m * exp ( -x ) dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the exponent.
+        //    0 <= N.
+        //
+        //    Input, int M, the parameter.
+        //    0 <= M.
+        //
+        //    Output, double LM_INTEGRAL, the value of the integral.
+        //
     {
-        public static double lm_integral(int n, int m)
+        double value = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LM_INTEGRAL evaluates a monomial integral associated with Lm(n,m,x).
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( 0 <= x < +oo ) x^n * x^m * exp ( -x ) dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the exponent.
-            //    0 <= N.
-            //
-            //    Input, int M, the parameter.
-            //    0 <= M.
-            //
-            //    Output, double LM_INTEGRAL, the value of the integral.
-            //
+        value = typeMethods.r8_factorial(n + m);
+
+        return value;
+    }
+
+    public static double[] lm_polynomial(int mm, int n, int m, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LM_POLYNOMIAL evaluates Laguerre polynomials Lm(n,m,x).
+        //
+        //  First terms:
+        //
+        //    M = 0
+        //
+        //    Lm(0,0,X) =   1
+        //    Lm(1,0,X) =  -X   +  1
+        //    Lm(2,0,X) =   X^2 -  4 X   +  2
+        //    Lm(3,0,X) =  -X^3 +  9 X^2 -  18 X   +    6
+        //    Lm(4,0,X) =   X^4 - 16 X^3 +  72 X^2 -   96 X +     24
+        //    Lm(5,0,X) =  -X^5 + 25 X^4 - 200 X^3 +  600 X^2 -  600 x   +  120
+        //    Lm(6,0,X) =   X^6 - 36 X^5 + 450 X^4 - 2400 X^3 + 5400 X^2 - 4320 X + 720
+        //
+        //    M = 1
+        //
+        //    Lm(0,1,X) =    0
+        //    Lm(1,1,X) =   -1,
+        //    Lm(2,1,X) =    2 X - 4,
+        //    Lm(3,1,X) =   -3 X^2 + 18 X - 18,
+        //    Lm(4,1,X) =    4 X^3 - 48 X^2 + 144 X - 96
+        //
+        //    M = 2
+        //
+        //    Lm(0,2,X) =    0
+        //    Lm(1,2,X) =    0,
+        //    Lm(2,2,X) =    2,
+        //    Lm(3,2,X) =   -6 X + 18,
+        //    Lm(4,2,X) =   12 X^2 - 96 X + 144
+        //
+        //    M = 3
+        //
+        //    Lm(0,3,X) =    0
+        //    Lm(1,3,X) =    0,
+        //    Lm(2,3,X) =    0,
+        //    Lm(3,3,X) =   -6,
+        //    Lm(4,3,X) =   24 X - 96
+        //
+        //    M = 4
+        //
+        //    Lm(0,4,X) =    0
+        //    Lm(1,4,X) =    0
+        //    Lm(2,4,X) =    0
+        //    Lm(3,4,X) =    0
+        //    Lm(4,4,X) =   24
+        //
+        //  Recursion:
+        //
+        //    Lm(0,M,X)   = 1 
+        //    Lm(1,M,X)   = (M+1-X)
+        //
+        //    if 2 <= N:
+        //
+        //      Lm(N,M,X)   = ( (M+2*N-1-X) * Lm(N-1,M,X) 
+        //                   +   (1-M-N)    * Lm(N-2,M,X) ) / N
+        //
+        //  Special values:
+        //
+        //    For M = 0, the associated Laguerre polynomials Lm(N,M,X) are equal 
+        //    to the Laguerre polynomials L(N,X).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //  Parameters:
+        //
+        //    Input, int MM, the number of evaluation points.
+        //
+        //    Input, int N, the highest order polynomial to compute.
+        //
+        //    Input, int M, the parameter.  M must be nonnegative.
+        //
+        //    Input, double X[MM], the evaluation points.
+        //
+        //    Output, double LM_POLYNOMIAL[MM*(N+1)], the function values.
+        //
+    {
+        int i;
+        int j;
+        double[] v;
+
+        switch (n)
         {
-            double value;
-
-            value = typeMethods.r8_factorial(n + m);
-
-            return value;
+            case < 0:
+                return null;
         }
 
-        public static double[] lm_polynomial(int mm, int n, int m, double[] x)
+        v = new double[mm * (n + 1)];
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LM_POLYNOMIAL evaluates Laguerre polynomials Lm(n,m,x).
-            //
-            //  First terms:
-            //
-            //    M = 0
-            //
-            //    Lm(0,0,X) =   1
-            //    Lm(1,0,X) =  -X   +  1
-            //    Lm(2,0,X) =   X^2 -  4 X   +  2
-            //    Lm(3,0,X) =  -X^3 +  9 X^2 -  18 X   +    6
-            //    Lm(4,0,X) =   X^4 - 16 X^3 +  72 X^2 -   96 X +     24
-            //    Lm(5,0,X) =  -X^5 + 25 X^4 - 200 X^3 +  600 X^2 -  600 x   +  120
-            //    Lm(6,0,X) =   X^6 - 36 X^5 + 450 X^4 - 2400 X^3 + 5400 X^2 - 4320 X + 720
-            //
-            //    M = 1
-            //
-            //    Lm(0,1,X) =    0
-            //    Lm(1,1,X) =   -1,
-            //    Lm(2,1,X) =    2 X - 4,
-            //    Lm(3,1,X) =   -3 X^2 + 18 X - 18,
-            //    Lm(4,1,X) =    4 X^3 - 48 X^2 + 144 X - 96
-            //
-            //    M = 2
-            //
-            //    Lm(0,2,X) =    0
-            //    Lm(1,2,X) =    0,
-            //    Lm(2,2,X) =    2,
-            //    Lm(3,2,X) =   -6 X + 18,
-            //    Lm(4,2,X) =   12 X^2 - 96 X + 144
-            //
-            //    M = 3
-            //
-            //    Lm(0,3,X) =    0
-            //    Lm(1,3,X) =    0,
-            //    Lm(2,3,X) =    0,
-            //    Lm(3,3,X) =   -6,
-            //    Lm(4,3,X) =   24 X - 96
-            //
-            //    M = 4
-            //
-            //    Lm(0,4,X) =    0
-            //    Lm(1,4,X) =    0
-            //    Lm(2,4,X) =    0
-            //    Lm(3,4,X) =    0
-            //    Lm(4,4,X) =   24
-            //
-            //  Recursion:
-            //
-            //    Lm(0,M,X)   = 1 
-            //    Lm(1,M,X)   = (M+1-X)
-            //
-            //    if 2 <= N:
-            //
-            //      Lm(N,M,X)   = ( (M+2*N-1-X) * Lm(N-1,M,X) 
-            //                   +   (1-M-N)    * Lm(N-2,M,X) ) / N
-            //
-            //  Special values:
-            //
-            //    For M = 0, the associated Laguerre polynomials Lm(N,M,X) are equal 
-            //    to the Laguerre polynomials L(N,X).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //  Parameters:
-            //
-            //    Input, int MM, the number of evaluation points.
-            //
-            //    Input, int N, the highest order polynomial to compute.
-            //
-            //    Input, int M, the parameter.  M must be nonnegative.
-            //
-            //    Input, double X[MM], the evaluation points.
-            //
-            //    Output, double LM_POLYNOMIAL[MM*(N+1)], the function values.
-            //
+        for (j = 0; j <= n; j++)
         {
-            int i;
-            int j;
-            double[] v;
-
-            if (n < 0)
+            for (i = 0; i < mm; i++)
             {
-                return null;
+                v[i + j * mm] = 0.0;
             }
+        }
 
-            v = new double[mm * (n + 1)];
+        for (i = 0; i < mm; i++)
+        {
+            v[i + 0 * mm] = 1.0;
+        }
 
+        switch (n)
+        {
+            case 0:
+                return v;
+        }
+
+        for (i = 0; i < mm; i++)
+        {
+            v[i + 1 * mm] = m + 1 - x[i];
+        }
+
+        for (j = 2; j <= n; j++)
+        {
+            for (i = 0; i < mm; i++)
+            {
+                v[i + j * mm] = ((m + 2 * j - 1 - x[i]) * v[i + (j - 1) * mm]
+                                 + (-m - j + 1) * v[i + (j - 2) * mm])
+                                / j;
+            }
+        }
+
+        return v;
+    }
+
+    public static double[] lm_polynomial_coefficients(int n, int m)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LM_POLYNOMIAL_COEFFICIENTS: coefficients of Laguerre polynomial Lm(n,m,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the highest order polynomial to compute.
+        //    Note that polynomials 0 through N will be computed.
+        //
+        //    Input, int M, the parameter.
+        //
+        //    Output, double LM_POLYNOMIAL_COEFFICIENTS[(N+1)*(N+1)], the coefficients
+        //    of the Laguerre polynomials of degree 0 through N. 
+        //
+    {
+        double[] c;
+        int i;
+        int j;
+
+        switch (n)
+        {
+            case < 0:
+                return null;
+        }
+
+        c = new double[(n + 1) * (n + 1)];
+
+        for (i = 0; i <= n; i++)
+        {
             for (j = 0; j <= n; j++)
             {
-                for (i = 0; i < mm; i++)
-                {
-                    v[i + j * mm] = 0.0;
-                }
+                c[i + j * (n + 1)] = 0.0;
             }
-
-            for (i = 0; i < mm; i++)
-            {
-                v[i + 0 * mm] = 1.0;
-            }
-
-            if (n == 0)
-            {
-                return v;
-            }
-
-            for (i = 0; i < mm; i++)
-            {
-                v[i + 1 * mm] = (double) (m + 1) - x[i];
-            }
-
-            for (j = 2; j <= n; j++)
-            {
-                for (i = 0; i < mm; i++)
-                {
-                    v[i + j * mm] = (((double) (m + 2 * j - 1) - x[i]) * v[i + (j - 1) * mm]
-                                     + (double) (-m - j + 1) * v[i + (j - 2) * mm])
-                                    / (double) (j);
-                }
-            }
-
-            return v;
         }
 
-        public static double[] lm_polynomial_coefficients(int n, int m)
+        c[0 + 0 * (n + 1)] = 1.0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LM_POLYNOMIAL_COEFFICIENTS: coefficients of Laguerre polynomial Lm(n,m,x).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the highest order polynomial to compute.
-            //    Note that polynomials 0 through N will be computed.
-            //
-            //    Input, int M, the parameter.
-            //
-            //    Output, double LM_POLYNOMIAL_COEFFICIENTS[(N+1)*(N+1)], the coefficients
-            //    of the Laguerre polynomials of degree 0 through N. 
-            //
+        switch (n)
         {
-            double[] c;
-            int i;
-            int j;
-
-            if (n < 0)
-            {
-                return null;
-            }
-
-            c = new double[(n + 1) * (n + 1)];
-
-            for (i = 0; i <= n; i++)
-            {
-                for (j = 0; j <= n; j++)
-                {
-                    c[i + j * (n + 1)] = 0.0;
-                }
-            }
-
-            c[0 + 0 * (n + 1)] = 1.0;
-
-            if (n == 0)
-            {
+            case 0:
                 return c;
-            }
-
-            c[1 + 0 * (n + 1)] = (double) (m + 1);
-            c[1 + 1 * (n + 1)] = -1.0;
-
-            for (i = 2; i <= n; i++)
-            {
-                for (j = 0; j <= i; j++)
-                {
-                    c[i + j * (n + 1)] = (
-                                             (double) (m + 2 * i - 1) * c[i - 1 + j * (n + 1)]
-                                             + (double) (-m - i + 1) * c[i - 2 + j * (n + 1)])
-                                         / (double) i;
-                }
-
-                for (j = 1; j <= i; j++)
-                {
-                    c[i + j * (n + 1)] = c[i + j * (n + 1)] - c[i - 1 + (j - 1) * (n + 1)] / (double) i;
-                }
-            }
-
-            return c;
         }
 
-        public static void lm_polynomial_values(ref int n_data, ref int n, ref int m, ref double x,
-        ref double fx )
+        c[1 + 0 * (n + 1)] = m + 1;
+        c[1 + 1 * (n + 1)] = -1.0;
+
+        for (i = 2; i <= n; i++)
+        {
+            for (j = 0; j <= i; j++)
+            {
+                c[i + j * (n + 1)] = (
+                                         (m + 2 * i - 1) * c[i - 1 + j * (n + 1)]
+                                         + (-m - i + 1) * c[i - 2 + j * (n + 1)])
+                                     / i;
+            }
+
+            for (j = 1; j <= i; j++)
+            {
+                c[i + j * (n + 1)] -= c[i - 1 + (j - 1) * (n + 1)] / i;
+            }
+        }
+
+        return c;
+    }
+
+    public static void lm_polynomial_values(ref int n_data, ref int n, ref int m, ref double x,
+            ref double fx )
 
         //****************************************************************************80
         //
@@ -335,10 +339,10 @@ namespace Burkardt.Laguerre
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.1000000000000000E+01,
                 0.1000000000000000E+01,
@@ -363,7 +367,7 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            int[] m_vec =
+        int[] m_vec =
             {
                 0, 0, 0, 0,
                 0, 1, 1, 1,
@@ -373,7 +377,7 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            int[] n_vec =
+        int[] n_vec =
             {
                 1, 2, 3, 4,
                 5, 1, 2, 3,
@@ -383,7 +387,7 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.00E+00,
                 0.00E+00,
@@ -408,108 +412,109 @@ namespace Burkardt.Laguerre
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                n = 0;
-                m = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                n = n_vec[n_data - 1];
-                m = m_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-        }
-
-        public static double[] lm_polynomial_zeros(int n, int m)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LM_POLYNOMIAL_ZEROS returns the zeros for Lm(n,m,x).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 March 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Sylvan Elhay, Jaroslav Kautsky,
-            //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
-            //    Interpolatory Quadrature,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 13, Number 4, December 1987, pages 399-415.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //
-            //    Input, int M, the parameter.
-            //    0 <= M.
-            //
-            //    Output, double X[N], the zeros.
-            //
+        n_data = n_data switch
         {
-            double[] bj;
-            int i;
-            double[] w;
-            double[] x;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = typeMethods.r8_factorial(m);
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                bj[i] = (double) (i + 1) * (i + 1 + m);
-            }
+            < 0 => 0,
+            _ => n_data
+        };
 
-            x = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                x[i] = (double) (2 * i + 1 + m);
-            }
+        n_data += 1;
 
-            w = new double[n];
-            w[0] = Math.Sqrt(zemu);
-            for (i = 1; i < n; i++)
-            {
-                w[i] = 0.0;
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            n = 0;
+            m = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            n = n_vec[n_data - 1];
+            m = m_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+    public static double[] lm_polynomial_zeros(int n, int m)
 
-            return x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LM_POLYNOMIAL_ZEROS returns the zeros for Lm(n,m,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, int M, the parameter.
+        //    0 <= M.
+        //
+        //    Output, double X[N], the zeros.
+        //
+    {
+        double[] bj;
+        int i;
+        double[] w;
+        double[] x;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = typeMethods.r8_factorial(m);
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            bj[i] = (double) (i + 1) * (i + 1 + m);
         }
 
-        public static void lm_quadrature_rule(int n, int m, ref double[] x, ref double[] w )
+        x = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            x[i] = 2 * i + 1 + m;
+        }
+
+        w = new double[n];
+        w[0] = Math.Sqrt(zemu);
+        for (i = 1; i < n; i++)
+        {
+            w[i] = 0.0;
+        }
+
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+
+        return x;
+    }
+
+    public static void lm_quadrature_rule(int n, int m, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -548,43 +553,42 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double[] bj;
+        int i;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = typeMethods.r8_factorial(m);
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double[] bj;
-            int i;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = typeMethods.r8_factorial(m);
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                bj[i] = (double) (i + 1) * (i + 1 + m);
-            }
+            bj[i] = (double) (i + 1) * (i + 1 + m);
+        }
 
-            for (i = 0; i < n; i++)
-            {
-                x[i] = (double) (2 * i + 1 + m);
-            }
+        for (i = 0; i < n; i++)
+        {
+            x[i] = 2 * i + 1 + m;
+        }
 
-            w[0] = Math.Sqrt(zemu);
-            for (i = 1; i < n; i++)
-            {
-                w[i] = 0.0;
-            }
+        w[0] = Math.Sqrt(zemu);
+        for (i = 1; i < n; i++)
+        {
+            w[i] = 0.0;
+        }
 
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx(n, ref x, ref bj, ref w);
 
-            for (i = 0; i < n; i++)
-            {
-                w[i] = w[i] * w[i];
-            }
+        for (i = 0; i < n; i++)
+        {
+            w[i] *= w[i];
         }
     }
 }

@@ -1,58 +1,58 @@
 ﻿using System;
 
-namespace Burkardt.Function
+namespace Burkardt.Function;
+
+public static class BesselJ
 {
-    public static class BesselJ
+    public static double besselj ( double order, double x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BESSELJ evaluates the Bessel J function at an arbitrary real order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 January 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double ORDER, the order.
+        //    0.0 <= ORDER.
+        //
+        //    Input, double, X, the evaluation point. 
+        //
+        //    Output, double BESSELJ, the value.
+        //
     {
-        public static double besselj ( double order, double x )
+        double alpha;
+        double[] b;
+        int n;
+        int nb;
+        int ncalc = 0;
+        double value = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    BESSELJ evaluates the Bessel J function at an arbitrary real order.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 January 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double ORDER, the order.
-            //    0.0 <= ORDER.
-            //
-            //    Input, double, X, the evaluation point. 
-            //
-            //    Output, double BESSELJ, the value.
-            //
-        {
-            double alpha;
-            double[] b;
-            int n;
-            int nb;
-            int ncalc = 0;
-            double value;
+        n = ( int ) order;
+        nb = n + 1;
+        alpha = order - n;
+        b = new double[nb];
 
-            n = ( int ) ( order );
-            nb = n + 1;
-            alpha = order - ( double ) ( n );
-            b = new double[nb];
+        rjbesl ( x, alpha, nb, ref b, ref ncalc );
 
-            rjbesl ( x, alpha, nb, ref b, ref ncalc );
+        value = b[n];
 
-            value = b[n];
-
-            return value;
-        }
-        public static void bessel_jx_values(ref int n_data, ref double nu, ref double x, ref double fx )
+        return value;
+    }
+    public static void bessel_jx_values(ref int n_data, ref double nu, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -111,10 +111,10 @@ namespace Burkardt.Function
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 28;
+    {
+        const int N_MAX = 28;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.3544507442114011E+00,
                 0.6713967071418031E+00,
@@ -146,7 +146,7 @@ namespace Burkardt.Function
                 0.06235967135106445E+00
             }
             ;
-            double[] nu_vec =
+        double[] nu_vec =
             {
                 0.50E+00,
                 0.50E+00,
@@ -179,7 +179,7 @@ namespace Burkardt.Function
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.2E+00,
                 1.0E+00,
@@ -212,30 +212,31 @@ namespace Burkardt.Function
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                nu = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                nu = nu_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            nu = 0.0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            nu = nu_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
 
-        public static void rjbesl(double x, double alpha, int nb, ref double[] b, ref int ncalc )
+    }
+
+    public static void rjbesl(double x, double alpha, int nb, ref double[] b, ref int ncalc )
 
         //****************************************************************************80
         //
@@ -347,18 +348,18 @@ namespace Burkardt.Function
         //    and B(N)/B(NCALC) = 10**(-K), then only the first NSIG-K
         //    significant figures of B(N) can be trusted.
         //
-        {
-            double alpem;
-            double alp2em;
-            double capp;
-            double capq;
-            const double eighth = 0.125E+00;
-            double em;
-            double en;
-            const double enmten = 8.90E-308;
-            const double ensig = 1.0E+16;
-            const double enten = 1.0E+308;
-            double[] fact = {
+    {
+        double alpem;
+        double alp2em;
+        double capp;
+        double capq;
+        const double eighth = 0.125E+00;
+        double em;
+        double en;
+        const double enmten = 8.90E-308;
+        const double ensig = 1.0E+16;
+        const double enten = 1.0E+308;
+        double[] fact = {
                 1.0E+00,
                 1.0E+00,
                 2.0E+00,
@@ -386,67 +387,64 @@ namespace Burkardt.Function
                 6.2044840173323943936E+23
             }
             ;
-            const double four = 4.0E+00;
-            double gnu;
-            const double half = 0.5E+00;
-            double halfx;
-            int i;
-            int j;
-            bool jump;
-            int k;
-            int l;
-            int m;
-            int magx;
-            int n;
-            int nbmx;
-            int nend;
-            int nstart;
-            const double one = 1.0E+00;
-            const double one30 = 130.0E+00;
-            double p;
-            const double pi2 = 0.636619772367581343075535E+00;
-            double plast;
-            double pold;
-            double psave;
-            double psavel;
-            const double rtnsig = 1.0E-04;
-            double s;
-            double sum;
-            double t;
-            double t1;
-            double tempa;
-            double tempb;
-            double tempc;
-            double test;
-            const double three = 3.0E+00;
-            const double three5 = 35.0E+00;
-            double tover;
-            const double two = 2.0E+00;
-            const double twofiv = 25.0E+00;
-            const double twopi1 = 6.28125E+00;
-            const double twopi2 = 1.935307179586476925286767E-03;
-            double xc;
-            double xin;
-            double xk;
-            const double xlarge = 1.0E+04;
-            double xm;
-            double vcos;
-            double vsin;
-            double z;
-            const double zero = 0.0E+00;
+        const double four = 4.0E+00;
+        double gnu;
+        const double half = 0.5E+00;
+        double halfx;
+        int i;
+        int j;
+        bool jump;
+        int k;
+        int l;
+        int m;
+        int magx;
+        int n;
+        int nbmx;
+        int nend;
+        int nstart;
+        const double one = 1.0E+00;
+        const double one30 = 130.0E+00;
+        double p;
+        const double pi2 = 0.636619772367581343075535E+00;
+        double plast;
+        double pold;
+        double psave;
+        double psavel;
+        const double rtnsig = 1.0E-04;
+        double s;
+        double sum;
+        double t;
+        double t1;
+        double tempa;
+        double tempb;
+        double tempc;
+        double test;
+        const double three = 3.0E+00;
+        const double three5 = 35.0E+00;
+        double tover;
+        const double two = 2.0E+00;
+        const double twofiv = 25.0E+00;
+        const double twopi1 = 6.28125E+00;
+        const double twopi2 = 1.935307179586476925286767E-03;
+        double xc;
+        double xin;
+        double xk;
+        const double xlarge = 1.0E+04;
+        double xm;
+        double vcos;
+        double vsin;
+        double z;
+        const double zero = 0.0E+00;
 
-            jump = false;
-            //
-            //  Check for out of range arguments.
-            //
-            magx = (int) (x);
+        jump = false;
+        //
+        //  Check for out of range arguments.
+        //
+        magx = (int) x;
 
-            if (
-                (0 < nb) &&
-                (zero <= x) &&
-                (x <= xlarge) &&
-                (zero <= alpha) &&
-                (alpha < one))
+        switch (nb)
+        {
+            case > 0 when zero <= x && x <= xlarge && zero <= alpha && alpha < one:
             {
                 //
                 //  Initialize result array to zero.
@@ -457,434 +455,414 @@ namespace Burkardt.Function
                     b[i - 1] = zero;
                 }
 
-                //
-                //  Branch to use 2-term ascending series for small X and asymptotic
-                //  form for large X when NB is not too large.
-                //
-                if (x < rtnsig)
+                switch (x)
                 {
                     //
-                    //  Two-term ascending series for small X.
+                    //  Branch to use 2-term ascending series for small X and asymptotic
+                    //  form for large X when NB is not too large.
                     //
-                    tempa = one;
-                    alpem = one + alpha;
+                    case < rtnsig:
+                    {
+                        //
+                        //  Two-term ascending series for small X.
+                        //
+                        tempa = one;
+                        alpem = one + alpha;
 
-                    if (enmten < x)
-                    {
-                        halfx = half * x;
-                    }
-                    else
-                    {
-                        halfx = zero;
-                    }
-
-                    if (alpha != zero)
-                    {
-                        tempa = Math.Pow(halfx, alpha) / (alpha * Helpers.Gamma(alpha));
-                    }
-
-                    if (one < (x + one))
-                    {
-                        tempb = -halfx * halfx;
-                    }
-                    else
-                    {
-                        tempb = zero;
-                    }
-
-                    b[0] = tempa + tempa * tempb / alpem;
-
-                    if ((x != zero) && (b[0] == zero))
-                    {
-                        ncalc = 0;
-                    }
-
-                    if (nb != 1)
-                    {
-                        if (x <= zero)
+                        halfx = x switch
                         {
-                            for (n = 2; n <= nb; n++)
+                            > enmten => half * x,
+                            _ => zero
+                        };
+
+                        if (alpha != zero)
+                        {
+                            tempa = Math.Pow(halfx, alpha) / (alpha * Helpers.Gamma(alpha));
+                        }
+
+                        tempb = (x + one) switch
+                        {
+                            > one => -halfx * halfx,
+                            _ => zero
+                        };
+
+                        b[0] = tempa + tempa * tempb / alpem;
+
+                        if (x != zero && b[0] == zero)
+                        {
+                            ncalc = 0;
+                        }
+
+                        if (nb != 1)
+                        {
+                            switch (x)
                             {
-                                b[n - 1] = zero;
+                                case <= zero:
+                                {
+                                    for (n = 2; n <= nb; n++)
+                                    {
+                                        b[n - 1] = zero;
+                                    }
+
+                                    break;
+                                }
+                                //
+                                default:
+                                {
+                                    tempc = halfx;
+
+                                    if (tempb != zero)
+                                    {
+                                        tover = enmten / tempb;
+                                    }
+                                    else
+                                    {
+                                        tover = (enmten + enmten) / x;
+                                    }
+
+                                    for (n = 2; n <= nb; n++)
+                                    {
+                                        tempa /= alpem;
+                                        alpem += one;
+
+                                        tempa *= tempc;
+                                        if (tempa <= tover * alpem)
+                                        {
+                                            tempa = zero;
+                                        }
+
+                                        b[n - 1] = tempa + tempa * tempb / alpem;
+
+                                        ncalc = b[n - 1] switch
+                                        {
+                                            zero when n < ncalc => n - 1,
+                                            _ => ncalc
+                                        };
+                                    }
+
+                                    break;
+                                }
                             }
                         }
-                        //
-                        //  Calculate higher order functions.
-                        //
-                        else
-                        {
-                            tempc = halfx;
 
-                            if (tempb != zero)
-                            {
-                                tover = enmten / tempb;
-                            }
-                            else
-                            {
-                                tover = (enmten + enmten) / x;
-                            }
-
-                            for (n = 2; n <= nb; n++)
-                            {
-                                tempa = tempa / alpem;
-                                alpem = alpem + one;
-
-                                tempa = tempa * tempc;
-                                if (tempa <= tover * alpem)
-                                {
-                                    tempa = zero;
-                                }
-
-                                b[n - 1] = tempa + tempa * tempb / alpem;
-
-                                if ((b[n - 1] == zero) && (n < ncalc))
-                                {
-                                    ncalc = n - 1;
-                                }
-                            }
-                        }
+                        break;
                     }
-                }
-                //
-                //  Asymptotic series for 21.0 < X.
-                //
-                else if ((twofiv < x) && (nb <= magx + 1))
-                {
-                    xc = Math.Sqrt(pi2 / x);
-                    xin = Math.Pow(eighth / x, 2);
-
-                    if (x < three5)
-                    {
-                        m = 11;
-                    }
-                    else if (x < one30)
-                    {
-                        m = 8;
-                    }
-                    else
-                    {
-                        m = 4;
-                    }
-
-                    xm = four * (double) (m);
                     //
-                    //  Argument reduction for SIN and COS routines.
+                    //  Asymptotic series for 21.0 < X.
                     //
-                    t = Math.Truncate(x / (twopi1 + twopi2) + half);
-                    z = ((x - t * twopi1) - t * twopi2) - (alpha + half) / pi2;
-                    vsin = Math.Sin(z);
-                    vcos = Math.Cos(z);
-                    gnu = alpha + alpha;
-
-                    for (i = 1; i <= 2; i++)
+                    case > twofiv when nb <= magx + 1:
                     {
-                        s = ((xm - one) - gnu) * ((xm - one) + gnu) * xin * half;
-                        t = (gnu - (xm - three)) * (gnu + (xm - three));
-                        capp = s * t / fact[2 * m];
-                        t1 = (gnu - (xm + one)) * (gnu + (xm + one));
-                        capq = s * t1 / fact[2 * m + 1];
-                        xk = xm;
-                        k = m + m;
-                        t1 = t;
+                        xc = Math.Sqrt(pi2 / x);
+                        xin = Math.Pow(eighth / x, 2);
 
-                        for (j = 2; j <= m; j++)
+                        m = x switch
                         {
-                            xk = xk - four;
-                            s = ((xk - one) - gnu) * ((xk - one) + gnu);
-                            t = (gnu - (xk - three)) * (gnu + (xk - three));
-                            capp = (capp + one / fact[k - 2]) * s * t * xin;
-                            capq = (capq + one / fact[k - 1]) * s * t1 * xin;
-                            k = k - 2;
+                            < three5 => 11,
+                            < one30 => 8,
+                            _ => 4
+                        };
+
+                        xm = four * m;
+                        //
+                        //  Argument reduction for SIN and COS routines.
+                        //
+                        t = Math.Truncate(x / (twopi1 + twopi2) + half);
+                        z = x - t * twopi1 - t * twopi2 - (alpha + half) / pi2;
+                        vsin = Math.Sin(z);
+                        vcos = Math.Cos(z);
+                        gnu = alpha + alpha;
+
+                        for (i = 1; i <= 2; i++)
+                        {
+                            s = (xm - one - gnu) * (xm - one + gnu) * xin * half;
+                            t = (gnu - (xm - three)) * (gnu + (xm - three));
+                            capp = s * t / fact[2 * m];
+                            t1 = (gnu - (xm + one)) * (gnu + (xm + one));
+                            capq = s * t1 / fact[2 * m + 1];
+                            xk = xm;
+                            k = m + m;
                             t1 = t;
-                        }
 
-                        capp = capp + one;
-                        capq = (capq + one) * (gnu * gnu - one) * (eighth / x);
-                        b[i - 1] = xc * (capp * vcos - capq * vsin);
-
-                        if (nb == 1)
-                        {
-                            return;
-                        }
-
-                        t = vsin;
-                        vsin = -vcos;
-                        vcos = t;
-                        gnu = gnu + two;
-                    }
-
-                    //
-                    //  If 2 < NB, compute J(X,ORDER+I)  I = 2, NB-1
-                    //
-                    if (2 < nb)
-                    {
-                        gnu = alpha + alpha + two;
-                        for (j = 3; j <= nb; j++)
-                        {
-                            b[j - 1] = gnu * b[j - 2] / x - b[j - 3];
-                            gnu = gnu + two;
-                        }
-                    }
-                }
-                //
-                //  Use recurrence to generate results.  First initialize the calculation of P*S.
-                //
-                else
-                {
-                    nbmx = nb - magx;
-                    n = magx + 1;
-                    en = (double) (n + n) + (alpha + alpha);
-                    plast = one;
-                    p = en / x;
-                    //
-                    //  Calculate general significance test.
-                    //
-                    test = ensig + ensig;
-                    //
-                    //  Calculate P*S until N = NB-1.  Check for possible overflow.
-                    //
-                    if (3 <= nbmx)
-                    {
-                        tover = enten / ensig;
-                        nstart = magx + 2;
-                        nend = nb - 1;
-                        en = (double) (nstart + nstart) - two + (alpha + alpha);
-
-                        for (k = nstart; k <= nend; k++)
-                        {
-                            n = k;
-                            en = en + two;
-                            pold = plast;
-                            plast = p;
-                            p = en * plast / x - pold;
-                            //
-                            //  To avoid overflow, divide P*S by TOVER.  Calculate P*S until 1 < ABS(P).
-                            //
-                            if (tover < p)
+                            for (j = 2; j <= m; j++)
                             {
-                                tover = enten;
-                                p = p / tover;
-                                plast = plast / tover;
-                                psave = p;
-                                psavel = plast;
-                                nstart = n + 1;
+                                xk -= four;
+                                s = (xk - one - gnu) * (xk - one + gnu);
+                                t = (gnu - (xk - three)) * (gnu + (xk - three));
+                                capp = (capp + one / fact[k - 2]) * s * t * xin;
+                                capq = (capq + one / fact[k - 1]) * s * t1 * xin;
+                                k -= 2;
+                                t1 = t;
+                            }
 
-                                for (;;)
+                            capp += one;
+                            capq = (capq + one) * (gnu * gnu - one) * (eighth / x);
+                            b[i - 1] = xc * (capp * vcos - capq * vsin);
+
+                            switch (nb)
+                            {
+                                case 1:
+                                    return;
+                            }
+
+                            t = vsin;
+                            vsin = -vcos;
+                            vcos = t;
+                            gnu += two;
+                        }
+
+                        switch (nb)
+                        {
+                            //
+                            //  If 2 < NB, compute J(X,ORDER+I)  I = 2, NB-1
+                            //
+                            case > 2:
+                            {
+                                gnu = alpha + alpha + two;
+                                for (j = 3; j <= nb; j++)
                                 {
-                                    n = n + 1;
-                                    en = en + two;
+                                    b[j - 1] = gnu * b[j - 2] / x - b[j - 3];
+                                    gnu += two;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+                    //
+                    default:
+                    {
+                        nbmx = nb - magx;
+                        n = magx + 1;
+                        en = n + n + (alpha + alpha);
+                        plast = one;
+                        p = en / x;
+                        //
+                        //  Calculate general significance test.
+                        //
+                        test = ensig + ensig;
+                        switch (nbmx)
+                        {
+                            //
+                            //  Calculate P*S until N = NB-1.  Check for possible overflow.
+                            //
+                            case >= 3:
+                            {
+                                tover = enten / ensig;
+                                nstart = magx + 2;
+                                nend = nb - 1;
+                                en = nstart + nstart - two + (alpha + alpha);
+
+                                for (k = nstart; k <= nend; k++)
+                                {
+                                    n = k;
+                                    en += two;
                                     pold = plast;
                                     plast = p;
                                     p = en * plast / x - pold;
-                                    if (one < p)
+                                    //
+                                    //  To avoid overflow, divide P*S by TOVER.  Calculate P*S until 1 < ABS(P).
+                                    //
+                                    if (tover < p)
                                     {
-                                        break;
-                                    }
-                                }
+                                        tover = enten;
+                                        p /= tover;
+                                        plast /= tover;
+                                        psave = p;
+                                        psavel = plast;
+                                        nstart = n + 1;
 
-                                tempb = en / x;
-                                //
-                                //  Calculate backward test and find NCALC, the highest N such that
-                                //  the test is passed.
-                                //
-                                test = pold * plast * (half - half / (tempb * tempb));
-                                test = test / ensig;
-                                p = plast * tover;
-                                n = n - 1;
-                                en = en - two;
-                                if (nb < n)
-                                {
-                                    nend = nb;
-                                }
-                                else
-                                {
-                                    nend = n;
-                                }
+                                        for (;;)
+                                        {
+                                            n += 1;
+                                            en += two;
+                                            pold = plast;
+                                            plast = p;
+                                            p = en * plast / x - pold;
+                                            if (one < p)
+                                            {
+                                                break;
+                                            }
+                                        }
 
-                                for (l = nstart; l <= nend; l++)
-                                {
-                                    pold = psavel;
-                                    psavel = psave;
-                                    psave = en * psavel / x - pold;
-                                    if (test < psave * psavel)
-                                    {
-                                        ncalc = l - 1;
+                                        tempb = en / x;
+                                        //
+                                        //  Calculate backward test and find NCALC, the highest N such that
+                                        //  the test is passed.
+                                        //
+                                        test = pold * plast * (half - half / (tempb * tempb));
+                                        test /= ensig;
+                                        p = plast * tover;
+                                        n -= 1;
+                                        en -= two;
+                                        if (nb < n)
+                                        {
+                                            nend = nb;
+                                        }
+                                        else
+                                        {
+                                            nend = n;
+                                        }
+
+                                        for (l = nstart; l <= nend; l++)
+                                        {
+                                            pold = psavel;
+                                            psavel = psave;
+                                            psave = en * psavel / x - pold;
+                                            if (test < psave * psavel)
+                                            {
+                                                ncalc = l - 1;
+                                                jump = true;
+                                                break;
+                                            }
+                                        }
+
+                                        if (jump)
+                                        {
+                                            break;
+                                        }
+
+                                        ncalc = nend;
                                         jump = true;
                                         break;
                                     }
                                 }
 
-                                if (jump)
+                                switch (jump)
                                 {
-                                    break;
+                                    case false:
+                                    {
+                                        n = nend;
+                                        en = n + n + (alpha + alpha);
+                                        //
+                                        //  Calculate special significance test for 2 < NBMX.
+                                        //
+                                        if (test < Math.Sqrt(plast * ensig) * Math.Sqrt(p + p))
+                                        {
+                                            test = Math.Sqrt(plast * ensig) * Math.Sqrt(p + p);
+                                        }
+
+                                        break;
+                                    }
                                 }
 
-                                ncalc = nend;
-                                jump = true;
                                 break;
                             }
                         }
 
-                        if (!jump)
+                        switch (jump)
                         {
-                            n = nend;
-                            en = (double) (n + n) + (alpha + alpha);
                             //
-                            //  Calculate special significance test for 2 < NBMX.
+                            //  Calculate P*S until significance test passes.
                             //
-                            if (test < Math.Sqrt(plast * ensig) * Math.Sqrt(p + p))
+                            case false:
                             {
-                                test = Math.Sqrt(plast * ensig) * Math.Sqrt(p + p);
-                            }
-                        }
-                    }
+                                for (;;)
+                                {
+                                    n += 1;
+                                    en += two;
+                                    pold = plast;
+                                    plast = p;
+                                    p = en * plast / x - pold;
 
-                    //
-                    //  Calculate P*S until significance test passes.
-                    //
-                    if (!jump)
-                    {
-                        for (;;)
-                        {
-                            n = n + 1;
-                            en = en + two;
-                            pold = plast;
-                            plast = p;
-                            p = en * plast / x - pold;
+                                    if (test <= p)
+                                    {
+                                        break;
+                                    }
+                                }
 
-                            if (test <= p)
-                            {
                                 break;
                             }
                         }
-                    }
 
-                    //
-                    //  Initialize the backward recursion and the normalization sum.
-                    //
-                    n = n + 1;
-                    en = en + two;
-                    tempb = zero;
-                    tempa = one / p;
-                    m = 2 * n - 4 * (n / 2);
-                    sum = zero;
-                    em = (double) (n / 2);
-                    alpem = (em - one) + alpha;
-                    alp2em = (em + em) + alpha;
-                    if (m != 0)
-                    {
-                        sum = tempa * alpem * alp2em / em;
-                    }
-
-                    nend = n - nb;
-                    //
-                    //  Recur backward via difference equation, calculating (but not
-                    //  storing) B, until N = NB.
-                    //
-                    if (0 < nend)
-                    {
-                        for (l = 1; l <= nend; l++)
+                        //
+                        //  Initialize the backward recursion and the normalization sum.
+                        //
+                        n += 1;
+                        en += two;
+                        tempb = zero;
+                        tempa = one / p;
+                        m = 2 * n - 4 * (n / 2);
+                        sum = zero;
+                        em = n / 2;
+                        alpem = em - one + alpha;
+                        alp2em = em + em + alpha;
+                        if (m != 0)
                         {
-                            n = n - 1;
-                            en = en - two;
-                            tempc = tempb;
-                            tempb = tempa;
-                            tempa = (en * tempb) / x - tempc;
-                            m = 2 - m;
+                            sum = tempa * alpem * alp2em / em;
+                        }
 
-                            if (m != 0)
+                        nend = n - nb;
+                        switch (nend)
+                        {
+                            //
+                            //  Recur backward via difference equation, calculating (but not
+                            //  storing) B, until N = NB.
+                            //
+                            case > 0:
                             {
-                                em = em - one;
-                                alp2em = (em + em) + alpha;
-                                if (n == 1)
+                                for (l = 1; l <= nend; l++)
                                 {
-                                    break;
+                                    n -= 1;
+                                    en -= two;
+                                    tempc = tempb;
+                                    tempb = tempa;
+                                    tempa = en * tempb / x - tempc;
+                                    m = 2 - m;
+
+                                    if (m != 0)
+                                    {
+                                        em -= one;
+                                        alp2em = em + em + alpha;
+                                        if (n == 1)
+                                        {
+                                            break;
+                                        }
+
+                                        alpem = alpem switch
+                                        {
+                                            zero => one,
+                                            _ => em - one + alpha
+                                        };
+
+                                        sum = (sum + tempa * alp2em) * alpem / em;
+                                    }
                                 }
 
-                                alpem = (em - one) + alpha;
-                                if (alpem == zero)
-                                {
-                                    alpem = one;
-                                }
-
-                                sum = (sum + tempa * alp2em) * alpem / em;
+                                break;
                             }
                         }
-                    }
 
-                    //
-                    //  Store B[NB-1].
-                    //
-                    b[n - 1] = tempa;
-
-                    if (0 <= nend)
-                    {
-                        if (nb <= 1)
-                        {
-                            alp2em = alpha;
-                            if ((alpha + one) == one)
-                            {
-                                alp2em = one;
-                            }
-
-                            sum = sum + b[0] * alp2em;
-
-                            if ((alpha + one) != one)
-                            {
-                                sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
-                            }
-
-                            tempa = enmten;
-
-                            if (one < sum)
-                            {
-                                tempa = tempa * sum;
-                            }
-
-                            for (n = 1; n <= nb; n++)
-                            {
-                                if (Math.Abs(b[n - 1]) < tempa)
-                                {
-                                    b[n - 1] = zero;
-                                }
-
-                                b[n - 1] = b[n - 1] / sum;
-                            }
-
-                            return;
-                        }
                         //
-                        //  Calculate and store B[NB-2].
+                        //  Store B[NB-1].
                         //
-                        else
+                        b[n - 1] = tempa;
+
+                        switch (nend)
                         {
-                            n = n - 1;
-                            en = en - two;
-                            b[n - 1] = (en * tempa) / x - tempb;
-
-                            if (n == 1)
+                            case >= 0 when nb <= 1:
                             {
-                                em = em - one;
-                                alp2em = (em + em) + alpha;
-                                if (alp2em == zero)
+                                alp2em = (alpha + one) switch
                                 {
-                                    alp2em = one;
-                                }
+                                    one => one,
+                                    _ => alpha
+                                };
 
-                                sum = sum + b[0] * alp2em;
-                                //
-                                //  Normalize.  Divide all B by sum.
-                                //
-                                if ((alpha + one) != one)
+                                sum += b[0] * alp2em;
+
+                                if (alpha + one != one)
                                 {
                                     sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                                 }
 
                                 tempa = enmten;
 
-                                if (one < sum)
+                                switch (sum)
                                 {
-                                    tempa = tempa * sum;
+                                    case > one:
+                                        tempa *= sum;
+                                        break;
                                 }
 
                                 for (n = 1; n <= nb; n++)
@@ -894,114 +872,169 @@ namespace Burkardt.Function
                                         b[n - 1] = zero;
                                     }
 
-                                    b[n - 1] = b[n - 1] / sum;
+                                    b[n - 1] /= sum;
                                 }
 
                                 return;
                             }
-
-                            m = 2 - m;
-
-                            if (m != 0)
+                            //
+                            //  Calculate and store B[NB-2].
+                            //
+                            case >= 0:
                             {
-                                em = em - one;
-                                alp2em = (em + em) + alpha;
-                                alpem = (em - one) + alpha;
-                                if (alpem == zero)
+                                n -= 1;
+                                en -= two;
+                                b[n - 1] = en * tempa / x - tempb;
+
+                                switch (n)
                                 {
-                                    alpem = one;
+                                    case 1:
+                                    {
+                                        em -= one;
+                                        alp2em = alp2em switch
+                                        {
+                                            zero => one,
+                                            _ => em + em + alpha
+                                        };
+
+                                        sum += b[0] * alp2em;
+                                        //
+                                        //  Normalize.  Divide all B by sum.
+                                        //
+                                        if (alpha + one != one)
+                                        {
+                                            sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
+                                        }
+
+                                        tempa = enmten;
+
+                                        switch (sum)
+                                        {
+                                            case > one:
+                                                tempa *= sum;
+                                                break;
+                                        }
+
+                                        for (n = 1; n <= nb; n++)
+                                        {
+                                            if (Math.Abs(b[n - 1]) < tempa)
+                                            {
+                                                b[n - 1] = zero;
+                                            }
+
+                                            b[n - 1] /= sum;
+                                        }
+
+                                        return;
+                                    }
                                 }
 
-                                sum = (sum + b[n - 1] * alp2em) * alpem / em;
-                            }
-                        }
-                    }
+                                m = 2 - m;
 
-                    nend = n - 2;
-                    //
-                    //  Calculate via difference equation and store B, until N = 2.
-                    //
-                    if (nend != 0)
-                    {
-                        for (l = 1; l <= nend; l++)
-                        {
-                            n = n - 1;
-                            en = en - two;
-                            b[n - 1] = (en * b[n]) / x - b[n + 1];
-                            m = 2 - m;
-
-                            if (m != 0)
-                            {
-                                em = em - one;
-                                alp2em = (em + em) + alpha;
-                                alpem = (em - one) + alpha;
-                                if (alpem == zero)
+                                if (m != 0)
                                 {
-                                    alpem = one;
+                                    em -= one;
+                                    alp2em = em + em + alpha;
+                                    alpem = alpem switch
+                                    {
+                                        zero => one,
+                                        _ => em - one + alpha
+                                    };
+
+                                    sum = (sum + b[n - 1] * alp2em) * alpem / em;
                                 }
 
-                                sum = (sum + b[n - 1] * alp2em) * alpem / em;
+                                break;
                             }
                         }
-                    }
 
-                    //
-                    //  Calculate B[0].
-                    //
-                    b[0] = two * (alpha + one) * b[1] / x - b[2];
-
-                    em = em - one;
-                    alp2em = (em + em) + alpha;
-                    if (alp2em == zero)
-                    {
-                        alp2em = one;
-                    }
-
-                    sum = sum + b[0] * alp2em;
-                    //
-                    //  Normalize.  Divide all B by sum.
-                    //
-                    if ((alpha + one) != one)
-                    {
-                        sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
-                    }
-
-                    tempa = enmten;
-
-                    if (one < sum)
-                    {
-                        tempa = tempa * sum;
-                    }
-
-                    for (n = 1; n <= nb; n++)
-                    {
-                        if (Math.Abs(b[n - 1]) < tempa)
+                        nend = n - 2;
+                        //
+                        //  Calculate via difference equation and store B, until N = 2.
+                        //
+                        if (nend != 0)
                         {
-                            b[n - 1] = zero;
+                            for (l = 1; l <= nend; l++)
+                            {
+                                n -= 1;
+                                en -= two;
+                                b[n - 1] = en * b[n] / x - b[n + 1];
+                                m = 2 - m;
+
+                                if (m != 0)
+                                {
+                                    em -= one;
+                                    alp2em = em + em + alpha;
+                                    alpem = alpem switch
+                                    {
+                                        zero => one,
+                                        _ => em - one + alpha
+                                    };
+
+                                    sum = (sum + b[n - 1] * alp2em) * alpem / em;
+                                }
+                            }
                         }
 
-                        b[n - 1] = b[n - 1] / sum;
+                        //
+                        //  Calculate B[0].
+                        //
+                        b[0] = two * (alpha + one) * b[1] / x - b[2];
+
+                        em -= one;
+                        alp2em = alp2em switch
+                        {
+                            zero => one,
+                            _ => em + em + alpha
+                        };
+
+                        sum += b[0] * alp2em;
+                        //
+                        //  Normalize.  Divide all B by sum.
+                        //
+                        if (alpha + one != one)
+                        {
+                            sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
+                        }
+
+                        tempa = enmten;
+
+                        switch (sum)
+                        {
+                            case > one:
+                                tempa *= sum;
+                                break;
+                        }
+
+                        for (n = 1; n <= nb; n++)
+                        {
+                            if (Math.Abs(b[n - 1]) < tempa)
+                            {
+                                b[n - 1] = zero;
+                            }
+
+                            b[n - 1] /= sum;
+                        }
+
+                        break;
                     }
                 }
+
+                break;
             }
             //
-            //  Error return.
-            //
-            else
+            default:
             {
                 b[0] = zero;
-                if (nb < 0)
+                ncalc = nb switch
                 {
-                    ncalc = nb - 1;
-                }
-                else
-                {
-                    ncalc = -1;
-                }
+                    < 0 => nb - 1,
+                    _ => -1
+                };
+
+                break;
             }
-
-            return;
         }
-
     }
+
 }

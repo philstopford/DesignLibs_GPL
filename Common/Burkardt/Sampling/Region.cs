@@ -4,22 +4,22 @@ using Burkardt.Sequence;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Sampling
+namespace Burkardt.Sampling;
+
+public class RegionData
 {
-    public class RegionData
-    {
-        public BTupleData tdata = new BTupleData();
-        public int[] halton_base;
-        public int halton_seed = 1;
-        public int ngrid;
-        public int rank;
-        public int[] tuple;
-    }
+    public BTupleData tdata = new();
+    public int[] halton_base;
+    public int halton_seed = 1;
+    public int ngrid;
+    public int rank;
+    public int[] tuple;
+}
     
-    public static class Region
-    {
-        public static void region_sampler(ref RegionData data, int m, int n, int n_total, ref double[] x,
-        int sample_function, bool reset, ref int seed )
+public static class Region
+{
+    public static void region_sampler(ref RegionData data, int m, int n, int n_total, ref double[] x,
+            int sample_function, bool reset, ref int seed )
 
         //****************************************************************************80
         //
@@ -75,37 +75,48 @@ namespace Burkardt.Sampling
         //
         //    Input/output, int *SEED, the random number seed.
         //
+    {
+        double exponent;
+        int i;
+        int j;
+        int k;
+        switch (sample_function)
         {
-            double exponent;
-            int i;
-            int j;
-            int k;
             //
-            if (sample_function == -1)
+            case -1:
             {
                 for (k = 0; k < m * n; k++)
                 {
                     x[k] = entropyRNG.RNG.nextdouble();
                 }
+
+                break;
             }
-            else if (sample_function == 0)
+            case 0:
             {
                 for (k = 0; k < m * n; k++)
                 {
                     x[k] = UniformRNG.r8_uniform_01(ref seed);
                 }
-            }
-            else if (sample_function == 1)
-            {
-                if (reset)
-                {
-                    data.halton_seed = 1;
-                    reset = false;
 
-                    data.halton_base = new int[m];
-                    for (i = 0; i < m; i++)
+                break;
+            }
+            case 1:
+            {
+                switch (reset)
+                {
+                    case true:
                     {
-                        data.halton_base[i] = Prime.prime(i + 1);
+                        data.halton_seed = 1;
+                        reset = false;
+
+                        data.halton_base = new int[m];
+                        for (i = 0; i < m; i++)
+                        {
+                            data.halton_base[i] = Prime.prime(i + 1);
+                        }
+
+                        break;
                     }
                 }
 
@@ -116,47 +127,53 @@ namespace Burkardt.Sampling
                 for (j = 0; j < n; j++)
                 {
                     Halton.i4_to_halton(data.halton_seed, data.halton_base, m, ref x, rIndex: + j * m);
-                    data.halton_seed = data.halton_seed + 1;
+                    data.halton_seed += 1;
                 }
+
+                break;
             }
-            else if (sample_function == 2)
+            case 2:
             {
-                if (reset)
+                switch (reset)
                 {
-                    data.rank = 0;
-                    exponent = 1.0 / ((double) (m));
-
-                    data.ngrid = (int) Math.Pow((double) n_total, exponent);
-
-                    if (Math.Pow((double) data.ngrid, m) < n_total)
+                    case true:
                     {
-                        data.ngrid = data.ngrid + 1;
-                    }
+                        data.rank = 0;
+                        exponent = 1.0 / m;
+
+                        data.ngrid = (int) Math.Pow(n_total, exponent);
+
+                        if (Math.Pow(data.ngrid, m) < n_total)
+                        {
+                            data.ngrid += 1;
+                        }
                     
-                    data.tuple = new int[m];
-                    reset = false;
+                        data.tuple = new int[m];
+                        reset = false;
+                        break;
+                    }
                 }
 
                 for (j = 0; j < n; j++)
                 {
                     BTuple.tuple_next_fast(ref data.tdata, data.ngrid, m, data.rank, ref data.tuple);
-                    data.rank = data.rank + 1;
+                    data.rank += 1;
                     for (i = 0; i < m; i++)
                     {
-                        x[j * m + i] = ((double) (2 * data.tuple[i] - 1))
-                                       / ((double) (2 * data.ngrid));
+                        x[j * m + i] = (2 * data.tuple[i] - 1)
+                                       / (double) (2 * data.ngrid);
                     }
                 }
+
+                break;
             }
-            else if (sample_function == 3)
-            {
-            }
-            else
-            {
+            case 3:
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("REGION_SAMPLER - Fatal error!");
                 Console.WriteLine("  Illegal SAMPLE_FUNCTION = " + sample_function + "");
-            }
+                break;
         }
     }
 }

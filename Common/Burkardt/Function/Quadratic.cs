@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Burkardt.Function
+namespace Burkardt.Function;
+
+public static class Quadratic
 {
-    public static class Quadratic
-    {
-        public static void qbf(double x, double y, int element, int inode, double[] node_xy,
-        int[] element_node, int element_num, int nnodes,
-        int node_num, ref double b, ref double dbdx, ref double dbdy )
+    public static void qbf(double x, double y, int element, int inode, double[] node_xy,
+            int[] element_node, int element_num, int nnodes,
+            int node_num, ref double b, ref double dbdx, ref double dbdy )
 
         //****************************************************************************80
         //
@@ -99,109 +99,103 @@ namespace Burkardt.Function
         //    Output, double *B, *DBDX, *DBDY, the value of the basis function
         //    and its X and Y derivatives at (X,Y).
         //
+    {
+        double dbdr;
+        double dbds;
+        double det;
+        double drdx;
+        double drdy;
+        double dsdx;
+        double dsdy;
+        int i;
+        double r;
+        double s;
+        double[] xn = new double[6];
+        double[] yn=  new double[6];
+
+        for (i = 0; i < 6; i++)
         {
-            double dbdr;
-            double dbds;
-            double det;
-            double drdx;
-            double drdy;
-            double dsdx;
-            double dsdy;
-            int i;
-            double r;
-            double s;
-            double[] xn = new double[6];
-            double[] yn=  new double[6];
+            xn[i] = node_xy[0 + (element_node[i + (element - 1) * nnodes] - 1) * 2];
+            yn[i] = node_xy[1 + (element_node[i + (element - 1) * nnodes] - 1) * 2];
+        }
 
-            for (i = 0; i < 6; i++)
-            {
-                xn[i] = node_xy[0 + (element_node[i + (element - 1) * nnodes] - 1) * 2];
-                yn[i] = node_xy[1 + (element_node[i + (element - 1) * nnodes] - 1) * 2];
-            }
+        //
+        //  Determine the (R,S) coordinates corresponding to (X,Y).
+        //
+        //  What is happening here is that we are solving the linear system:
+        //
+        //    ( X2-X1  X3-X1 ) * ( R ) = ( X - X1 )
+        //    ( Y2-Y1  Y3-Y1 )   ( S )   ( Y - Y1 )
+        //
+        //  by computing the inverse of the coefficient matrix and multiplying
+        //  it by the right hand side to get R and S.
+        //
+        //  The values of dRdX, dRdY, dSdX and dSdY are easily from the formulas
+        //  for R and S.
+        //
+        det = (xn[1] - xn[0]) * (yn[2] - yn[0])
+              - (xn[2] - xn[0]) * (yn[1] - yn[0]);
 
-            //
-            //  Determine the (R,S) coordinates corresponding to (X,Y).
-            //
-            //  What is happening here is that we are solving the linear system:
-            //
-            //    ( X2-X1  X3-X1 ) * ( R ) = ( X - X1 )
-            //    ( Y2-Y1  Y3-Y1 )   ( S )   ( Y - Y1 )
-            //
-            //  by computing the inverse of the coefficient matrix and multiplying
-            //  it by the right hand side to get R and S.
-            //
-            //  The values of dRdX, dRdY, dSdX and dSdY are easily from the formulas
-            //  for R and S.
-            //
-            det = (xn[1] - xn[0]) * (yn[2] - yn[0])
-                  - (xn[2] - xn[0]) * (yn[1] - yn[0]);
+        r = ((yn[2] - yn[0]) * (x - xn[0])
+             + (xn[0] - xn[2]) * (y - yn[0])) / det;
 
-            r = ((yn[2] - yn[0]) * (x - xn[0])
-                 + (xn[0] - xn[2]) * (y - yn[0])) / det;
+        drdx = (yn[2] - yn[0]) / det;
+        drdy = (xn[0] - xn[2]) / det;
 
-            drdx = (yn[2] - yn[0]) / det;
-            drdy = (xn[0] - xn[2]) / det;
+        s = ((yn[0] - yn[1]) * (x - xn[0])
+             + (xn[1] - xn[0]) * (y - yn[0])) / det;
 
-            s = ((yn[0] - yn[1]) * (x - xn[0])
-                 + (xn[1] - xn[0]) * (y - yn[0])) / det;
-
-            dsdx = (yn[0] - yn[1]) / det;
-            dsdy = (xn[1] - xn[0]) / det;
+        dsdx = (yn[0] - yn[1]) / det;
+        dsdy = (xn[1] - xn[0]) / det;
+        switch (inode)
+        {
             //
             //  The basis functions can now be evaluated in terms of the
             //  reference coordinates R and S.  It's also easy to determine
             //  the values of the derivatives with respect to R and S.
             //
-            if (inode == 1)
-            {
+            case 1:
                 b = 2.0E+00 * (1.0E+00 - r - s) * (0.5E+00 - r - s);
                 dbdr = -3.0E+00 + 4.0E+00 * r + 4.0E+00 * s;
                 dbds = -3.0E+00 + 4.0E+00 * r + 4.0E+00 * s;
-            }
-            else if (inode == 2)
-            {
+                break;
+            case 2:
                 b = 2.0E+00 * r * (r - 0.5E+00);
                 dbdr = -1.0E+00 + 4.0E+00 * r;
                 dbds = 0.0E+00;
-            }
-            else if (inode == 3)
-            {
+                break;
+            case 3:
                 b = 2.0E+00 * s * (s - 0.5E+00);
                 dbdr = 0.0E+00;
                 dbds = -1.0E+00 + 4.0E+00 * s;
-            }
-            else if (inode == 4)
-            {
+                break;
+            case 4:
                 b = 4.0E+00 * r * (1.0E+00 - r - s);
                 dbdr = 4.0E+00 - 8.0E+00 * r - 4.0E+00 * s;
                 dbds = -4.0E+00 * r;
-            }
-            else if (inode == 5)
-            {
+                break;
+            case 5:
                 b = 4.0E+00 * r * s;
                 dbdr = 4.0E+00 * s;
                 dbds = 4.0E+00 * r;
-            }
-            else if (inode == 6)
-            {
+                break;
+            case 6:
                 b = 4.0E+00 * s * (1.0E+00 - r - s);
                 dbdr = -4.0E+00 * s;
                 dbds = 4.0E+00 - 4.0E+00 * r - 8.0E+00 * s;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("QBF - Fatal error!");
                 Console.WriteLine("  Request for local basis function INODE = " + inode + "");
                 return;
-            }
-
-            //
-            //  We need to convert the derivative information from (R(X,Y),S(X,Y))
-            //  to (X,Y) using the chain rule.
-            //
-            dbdx = dbdr * drdx + dbds * dsdx;
-            dbdy = dbdr * drdy + dbds * dsdy;
         }
+
+        //
+        //  We need to convert the derivative information from (R(X,Y),S(X,Y))
+        //  to (X,Y) using the chain rule.
+        //
+        dbdx = dbdr * drdx + dbds * dsdx;
+        dbdy = dbdr * drdy + dbds * dsdy;
     }
 }

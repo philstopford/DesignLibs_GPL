@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Quadrature
+﻿namespace Burkardt.Quadrature;
+
+public static class CLIQFS
 {
-    public static class CLIQFS
-    {
-        public static double[] cliqfs(int nt, double[] t, int kind, double alpha, double beta,
-        int lo )
+    public static double[] cliqfs(int nt, double[] t, int kind, double alpha, double beta,
+            int lo )
 
         //****************************************************************************80
         //
@@ -70,26 +70,25 @@
         //
         //    Output, double CLIQFS[NT], the weights.
         //
+    {
+        int i;
+        int key;
+        int[] mlt;
+        int[] ndx;
+        double[] wts;
+
+        key = 1;
+        mlt = new int[nt];
+
+        for (i = 0; i < nt; i++)
         {
-            int i;
-            int key;
-            int[] mlt;
-            int[] ndx;
-            double[] wts;
-
-            key = 1;
-            mlt = new int[nt];
-
-            for (i = 0; i < nt; i++)
-            {
-                mlt[i] = 1;
-            }
-
-            ndx = new int[nt];
-
-            wts = CIQFS.ciqfs(nt, t, mlt, nt, ref ndx, key, kind, alpha, beta, lo);
-
-            return wts;
+            mlt[i] = 1;
         }
+
+        ndx = new int[nt];
+
+        wts = CIQFS.ciqfs(nt, t, mlt, nt, ref ndx, key, kind, alpha, beta, lo);
+
+        return wts;
     }
 }

@@ -3,11 +3,11 @@ using System.Numerics;
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZQRDC
 {
-    public static class ZQRDC
-    {
-        public static void zqrdc(ref Complex[] x, int ldx, int n, int p,
+    public static void zqrdc(ref Complex[] x, int ldx, int n, int p,
             ref Complex[] qraux, ref int[] ipvt, int job )
 
         //****************************************************************************80
@@ -82,47 +82,46 @@ namespace Burkardt.Linpack
         //    0, no pivoting is done.
         //    nonzero, pivoting is done.
         //
+    {
+        int itemp;
+        int j;
+        int jj;
+        int l;
+        int lup;
+        int maxj;
+        double maxnrm;
+        bool negj;
+        Complex nrmxl;
+        int pl;
+        int pu;
+        bool swapj;
+        Complex t;
+        double tt;
+        Complex[] work;
+
+        pl = 1;
+        pu = 0;
+        work = new Complex [p];
+
+        if (job != 0)
         {
-            int itemp;
-            int j;
-            int jj;
-            int l;
-            int lup;
-            int maxj;
-            double maxnrm;
-            bool negj;
-            Complex nrmxl;
-            int pl;
-            int pu;
-            bool swapj;
-            Complex t;
-            double tt;
-            Complex[] work;
-
-            pl = 1;
-            pu = 0;
-            work = new Complex [p];
-
-            if (job != 0)
+            //
+            //  Pivoting has been requested.  Rearrange the columns according to IPVT.
+            //
+            for (j = 1; j <= p; j++)
             {
-                //
-                //  Pivoting has been requested.  Rearrange the columns according to IPVT.
-                //
-                for (j = 1; j <= p; j++)
+                swapj = 0 < ipvt[j - 1];
+                negj = ipvt[j - 1] < 0;
+
+                ipvt[j - 1] = negj switch
                 {
-                    swapj = (0 < ipvt[j - 1]);
-                    negj = (ipvt[j - 1] < 0);
+                    true => -j,
+                    _ => j
+                };
 
-                    if (negj)
-                    {
-                        ipvt[j - 1] = -j;
-                    }
-                    else
-                    {
-                        ipvt[j - 1] = j;
-                    }
-
-                    if (swapj)
+                switch (swapj)
+                {
+                    case true:
                     {
                         if (j != pl)
                         {
@@ -131,17 +130,21 @@ namespace Burkardt.Linpack
 
                         ipvt[j - 1] = ipvt[pl - 1];
                         ipvt[pl - 1] = j;
-                        pl = pl + 1;
+                        pl += 1;
+                        break;
                     }
                 }
+            }
 
-                pu = p;
+            pu = p;
 
-                for (jj = 1; jj <= p; jj++)
+            for (jj = 1; jj <= p; jj++)
+            {
+                j = p - jj + 1;
+
+                switch (ipvt[j - 1])
                 {
-                    j = p - jj + 1;
-
-                    if (ipvt[j - 1] < 0)
+                    case < 0:
                     {
                         ipvt[j - 1] = -ipvt[j - 1];
 
@@ -154,123 +157,124 @@ namespace Burkardt.Linpack
                             ipvt[j - 1] = itemp;
                         }
 
-                        pu = pu - 1;
-                    }
-                }
-            }
-
-            //
-            //  Compute the norms of the free columns.
-            //
-            for (j = pl; j <= pu; j++)
-            {
-                qraux[j - 1] = new Complex(BLAS1Z.dznrm2(n, x, 1, index: + 0 + (j - 1) * ldx), 0.0);
-                work[j - 1] = qraux[j - 1];
-            }
-
-            //
-            //  Perform the Householder reduction of X.
-            //
-            lup = Math.Min(n, p);
-
-            for (l = 1; l <= lup; l++)
-            {
-                //
-                //  Locate the column of largest norm and bring it
-                //  into the pivot position.
-                //
-                if (pl <= l && l < pu)
-                {
-                    maxnrm = 0.0;
-                    maxj = l;
-
-                    for (j = l; j <= pu; j++)
-                    {
-                        if (maxnrm < (qraux[j - 1].Real))
-                        {
-                            maxnrm = (qraux[j - 1].Real);
-                            maxj = j;
-                        }
-                    }
-
-                    if (maxj != l)
-                    {
-                        BLAS1Z.zswap(n, ref x, 1, ref x, 1, xIndex: + 0 + (l - 1) * ldx, yIndex: + 0 + (maxj - 1) * ldx);
-                        qraux[maxj - 1] = qraux[l - 1];
-                        work[maxj - 1] = work[l - 1];
-
-                        itemp = ipvt[maxj - 1];
-                        ipvt[maxj - 1] = ipvt[l - 1];
-                        ipvt[l - 1] = itemp;
-                    }
-                }
-
-                qraux[l - 1] = new Complex(0.0, 0.0);
-
-                if (l != n)
-                {
-                    //
-                    //  Compute the Householder transformation for column L.
-                    //
-                    nrmxl = new Complex(BLAS1Z.dznrm2(n - l + 1, x, 1, index: + l - 1 + (l - 1) * ldx), 0.0);
-
-                    if (typeMethods.zabs1(nrmxl) != 0.0)
-                    {
-                        if (typeMethods.zabs1(x[l - 1 + (l - 1) * ldx]) != 0.0)
-                        {
-                            nrmxl = typeMethods.zsign2(nrmxl, x[l - 1 + (l - 1) * ldx]);
-                        }
-
-                        t = new Complex(1.0, 0.0) / nrmxl;
-                        BLAS1Z.zscal(n - l + 1, t, ref x, 1, index: + l - 1 + (l - 1) * ldx);
-                        x[l - 1 + (l - 1) * ldx] = new Complex(1.0, 0.0) + x[l - 1 + (l - 1) * ldx];
-                        //
-                        //  Apply the transformation to the remaining columns,
-                        //  updating the norms.
-                        //
-                        for (j = l + 1; j <= p; j++)
-                        {
-                            t = -BLAS1Z.zdotc(n - l + 1, x, 1, x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx)
-                                / x[l - 1 + (l - 1) * ldx];
-                            BLAS1Z.zaxpy(n - l + 1, t, x, 1, ref x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx);
-
-                            if (j < pl || pu < j)
-                            {
-                                continue;
-                            }
-
-                            if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
-                            {
-                                continue;
-                            }
-
-                            tt = 1.0 - Math.Pow(Complex.Abs(x[l - 1 + (j - 1) * ldx]) / (qraux[j - 1].Real), 2);
-                            tt = Math.Max(tt, 0.0);
-                            t = new Complex(tt, 0.0);
-                            tt = 1.0 + 0.05 * tt
-                                            * Math.Pow((qraux[j - 1].Real) / (work[j - 1].Real), 2);
-
-                            if (tt != 1.0)
-                            {
-                                qraux[j - 1] = qraux[j - 1] * Complex.Sqrt(t);
-                            }
-                            else
-                            {
-                                qraux[j - 1] =
-                                    new Complex(BLAS1Z.dznrm2(n - l, x, 1, index: + l + (j - 1) * ldx), 0.0);
-                                work[j - 1] = qraux[j - 1];
-                            }
-                        }
-
-                        //
-                        //  Save the transformation.
-                        //
-                        qraux[l - 1] = x[l - 1 + (l - 1) * ldx];
-                        x[l - 1 + (l - 1) * ldx] = -nrmxl;
+                        pu -= 1;
+                        break;
                     }
                 }
             }
         }
 
+        //
+        //  Compute the norms of the free columns.
+        //
+        for (j = pl; j <= pu; j++)
+        {
+            qraux[j - 1] = new Complex(BLAS1Z.dznrm2(n, x, 1, index: + 0 + (j - 1) * ldx), 0.0);
+            work[j - 1] = qraux[j - 1];
+        }
+
+        //
+        //  Perform the Householder reduction of X.
+        //
+        lup = Math.Min(n, p);
+
+        for (l = 1; l <= lup; l++)
+        {
+            //
+            //  Locate the column of largest norm and bring it
+            //  into the pivot position.
+            //
+            if (pl <= l && l < pu)
+            {
+                maxnrm = 0.0;
+                maxj = l;
+
+                for (j = l; j <= pu; j++)
+                {
+                    if (maxnrm < qraux[j - 1].Real)
+                    {
+                        maxnrm = qraux[j - 1].Real;
+                        maxj = j;
+                    }
+                }
+
+                if (maxj != l)
+                {
+                    BLAS1Z.zswap(n, ref x, 1, ref x, 1, xIndex: + 0 + (l - 1) * ldx, yIndex: + 0 + (maxj - 1) * ldx);
+                    qraux[maxj - 1] = qraux[l - 1];
+                    work[maxj - 1] = work[l - 1];
+
+                    itemp = ipvt[maxj - 1];
+                    ipvt[maxj - 1] = ipvt[l - 1];
+                    ipvt[l - 1] = itemp;
+                }
+            }
+
+            qraux[l - 1] = new Complex(0.0, 0.0);
+
+            if (l != n)
+            {
+                //
+                //  Compute the Householder transformation for column L.
+                //
+                nrmxl = new Complex(BLAS1Z.dznrm2(n - l + 1, x, 1, index: + l - 1 + (l - 1) * ldx), 0.0);
+
+                if (typeMethods.zabs1(nrmxl) != 0.0)
+                {
+                    if (typeMethods.zabs1(x[l - 1 + (l - 1) * ldx]) != 0.0)
+                    {
+                        nrmxl = typeMethods.zsign2(nrmxl, x[l - 1 + (l - 1) * ldx]);
+                    }
+
+                    t = new Complex(1.0, 0.0) / nrmxl;
+                    BLAS1Z.zscal(n - l + 1, t, ref x, 1, index: + l - 1 + (l - 1) * ldx);
+                    x[l - 1 + (l - 1) * ldx] = new Complex(1.0, 0.0) + x[l - 1 + (l - 1) * ldx];
+                    //
+                    //  Apply the transformation to the remaining columns,
+                    //  updating the norms.
+                    //
+                    for (j = l + 1; j <= p; j++)
+                    {
+                        t = -BLAS1Z.zdotc(n - l + 1, x, 1, x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx)
+                            / x[l - 1 + (l - 1) * ldx];
+                        BLAS1Z.zaxpy(n - l + 1, t, x, 1, ref x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx);
+
+                        if (j < pl || pu < j)
+                        {
+                            continue;
+                        }
+
+                        if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
+                        {
+                            continue;
+                        }
+
+                        tt = 1.0 - Math.Pow(Complex.Abs(x[l - 1 + (j - 1) * ldx]) / qraux[j - 1].Real, 2);
+                        tt = Math.Max(tt, 0.0);
+                        t = new Complex(tt, 0.0);
+                        tt = 1.0 + 0.05 * tt
+                                        * Math.Pow(qraux[j - 1].Real / work[j - 1].Real, 2);
+
+                        if (tt != 1.0)
+                        {
+                            qraux[j - 1] *= Complex.Sqrt(t);
+                        }
+                        else
+                        {
+                            qraux[j - 1] =
+                                new Complex(BLAS1Z.dznrm2(n - l, x, 1, index: + l + (j - 1) * ldx), 0.0);
+                            work[j - 1] = qraux[j - 1];
+                        }
+                    }
+
+                    //
+                    //  Save the transformation.
+                    //
+                    qraux[l - 1] = x[l - 1 + (l - 1) * ldx];
+                    x[l - 1 + (l - 1) * ldx] = -nrmxl;
+                }
+            }
+        }
     }
+
 }

@@ -1,206 +1,203 @@
 ﻿using System;
 
-namespace Burkardt.PointsNS
+namespace Burkardt.PointsNS;
+
+public static partial class Points
 {
-    public static partial class Points
+    public static void points_hull_2d(int node_num, double[] node_xy, ref int hull_num,
+            ref int[] hull)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    POINTS_HULL_2D computes the convex hull of a set of nodes in 2D.
+        //
+        //  Discussion:
+        //
+        //    The work involved is N*log(H), where N is the number of points, and H is
+        //    the number of points that are on the hull.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
+        //
+        //    Output, int *HULL_NUM, the number of nodes that lie on the convex hull.
+        //
+        //    Output, int HULL[NODE_NUM].  The first HULL_NUM entries contain
+        //    the indices of the nodes that form the convex hull, in order.
+        //    These indices are 1-based, not 0-based!
+        //
     {
-        public static void points_hull_2d(int node_num, double[] node_xy, ref int hull_num,
-                ref int[] hull)
+        double angle;
+        double angle_max;
+        double di;
+        double dr;
+        int first;
+        int i;
+        double[] p_xy = new double[2];
+        int q;
+        double[] q_xy = new double[2];
+        int r;
+        double[] r_xy = new double[2];
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    POINTS_HULL_2D computes the convex hull of a set of nodes in 2D.
-            //
-            //  Discussion:
-            //
-            //    The work involved is N*log(H), where N is the number of points, and H is
-            //    the number of points that are on the hull.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    25 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int NODE_NUM, the number of nodes.
-            //
-            //    Input, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
-            //
-            //    Output, int *HULL_NUM, the number of nodes that lie on the convex hull.
-            //
-            //    Output, int HULL[NODE_NUM].  The first HULL_NUM entries contain
-            //    the indices of the nodes that form the convex hull, in order.
-            //    These indices are 1-based, not 0-based!
-            //
+        hull_num = 0;
+
+        switch (node_num)
         {
-            double angle;
-            double angle_max;
-            double di;
-            double dr;
-            int first;
-            int i;
-            double[] p_xy = new double[2];
-            int q;
-            double[] q_xy = new double[2];
-            int r;
-            double[] r_xy = new double[2];
-
-            hull_num = 0;
-
-            if (node_num < 1)
-            {
+            case < 1:
                 return;
-            }
-
             //
             //  If NODE_NUM = 1, the hull is the node.
             //
-            if (node_num == 1)
-            {
+            case 1:
                 hull[hull_num] = 1;
-                hull_num = hull_num + 1;
+                hull_num += 1;
                 return;
-            }
-
             //
             //  If NODE_NUM = 2, then the convex hull is either the two distinct nodes,
             //  or possibly a single (repeated) node.
             //
-            if (node_num == 2)
+            case 2:
             {
                 hull[hull_num] = 1;
-                hull_num = hull_num + 1;
+                hull_num += 1;
 
                 if (node_xy[0 + 0 * 2] != node_xy[0 + 1 * 2] || node_xy[1 + 0 * 2] != node_xy[1 + 1 * 2])
                 {
                     hull[hull_num] = 2;
-                    hull_num = hull_num + 1;
+                    hull_num += 1;
                 }
 
                 return;
             }
+        }
 
-            //
-            //  Find the leftmost point, and take the bottom-most in a tie.
-            //  Call it "Q".
-            //
-            q = 1;
-            for (i = 2; i <= node_num; i++)
+        //
+        //  Find the leftmost point, and take the bottom-most in a tie.
+        //  Call it "Q".
+        //
+        q = 1;
+        for (i = 2; i <= node_num; i++)
+        {
+            if (node_xy[0 + (i - 1) * 2] < node_xy[0 + (q - 1) * 2] ||
+                node_xy[0 + (i - 1) * 2] == node_xy[0 + (q - 1) * 2] &&
+                node_xy[1 + (i - 1) * 2] < node_xy[1 + (q - 1) * 2])
             {
-                if (node_xy[0 + (i - 1) * 2] < node_xy[0 + (q - 1) * 2] ||
-                    (node_xy[0 + (i - 1) * 2] == node_xy[0 + (q - 1) * 2] &&
-                     node_xy[1 + (i - 1) * 2] < node_xy[1 + (q - 1) * 2]))
-                {
-                    q = i;
-                }
+                q = i;
             }
+        }
 
-            q_xy[0] = node_xy[0 + (q - 1) * 2];
-            q_xy[1] = node_xy[1 + (q - 1) * 2];
-            //
-            //  Remember the starting point.
-            //
-            first = q;
-            hull[hull_num] = q;
-            hull_num = hull_num + 1;
-            //
-            //  For the first point, make a dummy previous point, 1 unit south,
-            //  and call it "P".
-            //
-            p_xy[0] = q_xy[0];
-            p_xy[1] = q_xy[1] - 1.0;
-            //
-            //  Now, having old point P, and current point Q, find the new point R
-            //  so the angle PQR is maximal.
-            //
-            //  Watch out for the possibility that the two nodes are identical.
-            //
-            for (;;)
+        q_xy[0] = node_xy[0 + (q - 1) * 2];
+        q_xy[1] = node_xy[1 + (q - 1) * 2];
+        //
+        //  Remember the starting point.
+        //
+        first = q;
+        hull[hull_num] = q;
+        hull_num += 1;
+        //
+        //  For the first point, make a dummy previous point, 1 unit south,
+        //  and call it "P".
+        //
+        p_xy[0] = q_xy[0];
+        p_xy[1] = q_xy[1] - 1.0;
+        //
+        //  Now, having old point P, and current point Q, find the new point R
+        //  so the angle PQR is maximal.
+        //
+        //  Watch out for the possibility that the two nodes are identical.
+        //
+        for (;;)
+        {
+            r = 0;
+            angle_max = 0.0;
+
+            for (i = 1; i <= node_num; i++)
             {
-                r = 0;
-                angle_max = 0.0;
-
-                for (i = 1; i <= node_num; i++)
+                if (i != q && (node_xy[0 + (i - 1) * 2] != q_xy[0] || node_xy[1 + (i - 1) * 2] != q_xy[1]))
                 {
-                    if (i != q && (node_xy[0 + (i - 1) * 2] != q_xy[0] || node_xy[1 + (i - 1) * 2] != q_xy[1]))
-                    {
-                        angle = Helpers.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
+                    angle = Helpers.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
 
-                        if (r == 0 || angle_max < angle)
+                    if (r == 0 || angle_max < angle)
+                    {
+                        r = i;
+                        r_xy[0] = node_xy[0 + (r - 1) * 2];
+                        r_xy[1] = node_xy[1 + (r - 1) * 2];
+                        angle_max = angle;
+                    }
+                    //
+                    //  In case of ties, choose the nearer point.
+                    //
+                    else if (r != 0 && angle == angle_max)
+                    {
+                        di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
+                                       + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
+
+                        dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
+                                       + Math.Pow(r_xy[1] - q_xy[1], 2));
+
+                        if (di < dr)
                         {
                             r = i;
                             r_xy[0] = node_xy[0 + (r - 1) * 2];
                             r_xy[1] = node_xy[1 + (r - 1) * 2];
                             angle_max = angle;
                         }
-                        //
-                        //  In case of ties, choose the nearer point.
-                        //
-                        else if (r != 0 && angle == angle_max)
-                        {
-                            di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
-                                           + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
-
-                            dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
-                                           + Math.Pow(r_xy[1] - q_xy[1], 2));
-
-                            if (di < dr)
-                            {
-                                r = i;
-                                r_xy[0] = node_xy[0 + (r - 1) * 2];
-                                r_xy[1] = node_xy[1 + (r - 1) * 2];
-                                angle_max = angle;
-                            }
-                        }
                     }
                 }
-
-                //
-                //  If we've returned to our starting node, exit.
-                //
-                if (r == first)
-                {
-                    break;
-                }
-
-                if (node_num < hull_num + 1)
-                {
-                    Console.WriteLine("\n");
-                    Console.WriteLine("POINTS_HULL_2D - Fatal error!");
-                    Console.WriteLine("  The algorithm failed.");
-                    return;
-                }
-
-                //
-                //  Add point R to the convex hull.
-                //
-                hull[hull_num] = r;
-                hull_num = hull_num + 1;
-                //
-                //  Set Q := P, P := R, and repeat.
-                //
-                q = r;
-
-                p_xy[0] = q_xy[0];
-                p_xy[1] = q_xy[1];
-
-                q_xy[0] = r_xy[0];
-                q_xy[1] = r_xy[1];
             }
-        }
 
-        public static int[] points_delaunay_naive_2d(int node_num, double[] node_xy,
-        ref int triangle_num )
+            //
+            //  If we've returned to our starting node, exit.
+            //
+            if (r == first)
+            {
+                break;
+            }
+
+            if (node_num < hull_num + 1)
+            {
+                Console.WriteLine("\n");
+                Console.WriteLine("POINTS_HULL_2D - Fatal error!");
+                Console.WriteLine("  The algorithm failed.");
+                return;
+            }
+
+            //
+            //  Add point R to the convex hull.
+            //
+            hull[hull_num] = r;
+            hull_num += 1;
+            //
+            //  Set Q := P, P := R, and repeat.
+            //
+            q = r;
+
+            p_xy[0] = q_xy[0];
+            p_xy[1] = q_xy[1];
+
+            q_xy[0] = r_xy[0];
+            q_xy[1] = r_xy[1];
+        }
+    }
+
+    public static int[] points_delaunay_naive_2d(int node_num, double[] node_xy,
+            ref int triangle_num )
 
         //****************************************************************************80
         //
@@ -254,93 +251,104 @@ namespace Burkardt.PointsNS
         //    Output, int POINTS_DELAUNAY_NAIVE_2D[3*TRIANGLE_NUM], the indices of the
         //    nodes making each triangle.
         //
+    {
+        int count;
+        bool flag;
+        int i;
+        int j;
+        int k;
+        int m;
+        int pass;
+        int[] tri = new int[3];
+        double xn;
+        double yn;
+        double zn;
+        double[] z;
+
+        count = 0;
+
+        z = new double [node_num];
+
+        for (i = 0; i < node_num; i++)
         {
-            int count;
-            bool flag;
-            int i;
-            int j;
-            int k;
-            int m;
-            int pass;
-            int[] tri = new int[3];
-            double xn;
-            double yn;
-            double zn;
-            double[] z;
+            z[i] = node_xy[0 + i * 2] * node_xy[0 + i * 2] + node_xy[1 + i * 2] * node_xy[1 + i * 2];
+        }
+
+        //
+        //  First pass counts triangles,
+        //  Second pass allocates triangles and sets them.
+        //
+        for (pass = 1; pass <= 2; pass++)
+        {
+            tri = pass switch
+            {
+                2 => new int[3 * count],
+                _ => tri
+            };
 
             count = 0;
-
-            z = new double [node_num];
-
-            for (i = 0; i < node_num; i++)
-            {
-                z[i] = node_xy[0 + i * 2] * node_xy[0 + i * 2] + node_xy[1 + i * 2] * node_xy[1 + i * 2];
-            }
-
             //
-            //  First pass counts triangles,
-            //  Second pass allocates triangles and sets them.
+            //  For each triple (I,J,K):
             //
-            for (pass = 1; pass <= 2; pass++)
+            for (i = 0; i < node_num - 2; i++)
             {
-                if (pass == 2)
+                for (j = i + 1; j < node_num; j++)
                 {
-                    tri = new int[3 * count];
-                }
-
-                count = 0;
-                //
-                //  For each triple (I,J,K):
-                //
-                for (i = 0; i < node_num - 2; i++)
-                {
-                    for (j = i + 1; j < node_num; j++)
+                    for (k = i + 1; k < node_num; k++)
                     {
-                        for (k = i + 1; k < node_num; k++)
+                        if (j != k)
                         {
-                            if (j != k)
+                            xn = (node_xy[1 + j * 2] - node_xy[1 + i * 2]) * (z[k] - z[i])
+                                 - (node_xy[1 + k * 2] - node_xy[1 + i * 2]) * (z[j] - z[i]);
+                            yn = (node_xy[0 + k * 2] - node_xy[0 + i * 2]) * (z[j] - z[i])
+                                 - (node_xy[0 + j * 2] - node_xy[0 + i * 2]) * (z[k] - z[i]);
+                            zn = (node_xy[0 + j * 2] - node_xy[0 + i * 2])
+                                 * (node_xy[1 + k * 2] - node_xy[1 + i * 2])
+                                 - (node_xy[0 + k * 2] - node_xy[0 + i * 2])
+                                 * (node_xy[1 + j * 2] - node_xy[1 + i * 2]);
+
+                            flag = zn < 0;
+
+                            switch (flag)
                             {
-                                xn = (node_xy[1 + j * 2] - node_xy[1 + i * 2]) * (z[k] - z[i])
-                                     - (node_xy[1 + k * 2] - node_xy[1 + i * 2]) * (z[j] - z[i]);
-                                yn = (node_xy[0 + k * 2] - node_xy[0 + i * 2]) * (z[j] - z[i])
-                                     - (node_xy[0 + j * 2] - node_xy[0 + i * 2]) * (z[k] - z[i]);
-                                zn = (node_xy[0 + j * 2] - node_xy[0 + i * 2])
-                                     * (node_xy[1 + k * 2] - node_xy[1 + i * 2])
-                                     - (node_xy[0 + k * 2] - node_xy[0 + i * 2])
-                                     * (node_xy[1 + j * 2] - node_xy[1 + i * 2]);
-
-                                flag = (zn < 0);
-
-                                if (flag)
+                                case true:
                                 {
                                     for (m = 0; m < node_num; m++)
                                     {
-                                        flag = flag && ((node_xy[0 + m * 2] - node_xy[0 + i * 2]) * xn
+                                        flag = flag && (node_xy[0 + m * 2] - node_xy[0 + i * 2]) * xn
                                             + (node_xy[1 + m * 2] - node_xy[1 + i * 2]) * yn
-                                            + (z[m] - z[i]) * zn <= 0);
+                                            + (z[m] - z[i]) * zn <= 0;
                                     }
+
+                                    break;
                                 }
+                            }
 
-                                if (flag)
+                            switch (flag)
+                            {
+                                case true:
                                 {
-                                    if (pass == 2)
+                                    switch (pass)
                                     {
-                                        tri[0 + count * 3] = i + 1;
-                                        tri[1 + count * 3] = j + 1;
-                                        tri[2 + count * 3] = k + 1;
+                                        case 2:
+                                            tri[0 + count * 3] = i + 1;
+                                            tri[1 + count * 3] = j + 1;
+                                            tri[2 + count * 3] = k + 1;
+                                            break;
                                     }
 
-                                    count = count + 1;
+                                    count += 1;
+                                    break;
                                 }
                             }
                         }
                     }
                 }
             }
-
-            triangle_num = count;
- 
-            return tri;
         }
+
+        triangle_num = count;
+ 
+        return tri;
     }
 }

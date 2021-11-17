@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.ODENS
+namespace Burkardt.ODENS;
+
+public static class MidpointFixed
 {
-    public static class MidpointFixed
-    {
-        public static void midpoint_fixed ( Func < double, double[], int, double[] > dydt, 
-        double[] tspan, double[] y0, int n, int m, int index, ref double[] t, ref double[] y )
+    public static void midpoint_fixed ( Func < double, double[], int, double[] > dydt, 
+            double[] tspan, double[] y0, int n, int m, int index, ref double[] t, ref double[] y )
 
         //****************************************************************************80
         //
@@ -41,52 +41,51 @@ namespace Burkardt.ODENS
         //
         //    double t[n+1], y[m*(n+1)]: the times and solution values.
         //
+    {
+        double dt;
+        double[] f;
+        int i;
+        int it_max;
+        int j;
+        int k;
+        double theta;
+        double tm;
+        double[] ym;
+
+        ym = new double[m];
+
+        dt = ( tspan[1] - tspan[0] ) / n;
+
+        it_max = 10;
+        theta = 0.5;
+
+        t[0] = tspan[0];
+        j = 0;
+        for ( i = 0; i < m; i++ )
         {
-            double dt;
-            double[] f;
-            int i;
-            int it_max;
-            int j;
-            int k;
-            double theta;
-            double tm;
-            double[] ym;
+            y[i+j*m] = y0[i];
+        }
 
-            ym = new double[m];
-
-            dt = ( tspan[1] - tspan[0] ) / ( double ) ( n );
-
-            it_max = 10;
-            theta = 0.5;
-
-            t[0] = tspan[0];
-            j = 0;
+        for ( j = 0; j < n; j++ )
+        {
+            tm = t[j] + theta * dt;
             for ( i = 0; i < m; i++ )
             {
-                y[i+j*m] = y0[i];
+                ym[i] = y[i+j*m];
             }
-
-            for ( j = 0; j < n; j++ )
+            for ( k = 0; k < it_max; k++ )
             {
-                tm = t[j] + theta * dt;
+                f = dydt ( tm, ym, index );
                 for ( i = 0; i < m; i++ )
                 {
-                    ym[i] = y[i+j*m];
+                    ym[i] = y[i+j*m] + theta * dt * f[i];
                 }
-                for ( k = 0; k < it_max; k++ )
-                {
-                    f = dydt ( tm, ym, index );
-                    for ( i = 0; i < m; i++ )
-                    {
-                        ym[i] = y[i+j*m] + theta * dt * f[i];
-                    }
-                }
-                t[j+1] = t[j] + dt;
-                for ( i = 0; i < m; i++ )
-                {
-                    y[i+(j+1)*m] = (       1.0 / theta ) * ym[i]
-                                   + ( 1.0 - 1.0 / theta ) * y[i+j*m];
-                }
+            }
+            t[j+1] = t[j] + dt;
+            for ( i = 0; i < m; i++ )
+            {
+                y[i+(j+1)*m] = 1.0 / theta * ym[i]
+                               + ( 1.0 - 1.0 / theta ) * y[i+j*m];
             }
         }
     }

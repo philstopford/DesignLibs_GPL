@@ -1,13 +1,13 @@
 ﻿using System;
 using Burkardt.Weight;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CHKQF
 {
-    public static class CHKQF
-    {
-        public static void chkqf(double[] t, double[] wts, int[] mlt, int nt, int nwts, int[] ndx,
-        int key, int mop, int mex, int kind, double alpha, double beta, int lo,
-        double a, double b )
+    public static void chkqf(double[] t, double[] wts, int[] mlt, int nt, int nwts, int[] ndx,
+            int key, int mop, int mex, int kind, double alpha, double beta, int lo,
+            double a, double b )
 
         //****************************************************************************80
         //
@@ -92,95 +92,104 @@ namespace Burkardt.Quadrature
         //
         //    Input, double A, B, the interval endpoints.
         //
+    {
+        int i;
+        int izero;
+        int neg;
+        double[] t2;
+        double tmp = 0;
+        double[] w;
+
+        w = new double[mex];
+
+        PARCHK.parchk(kind, mex, alpha, beta);
+
+        if (lo != 0)
         {
-            int i;
-            int izero;
-            int neg;
-            double[] t2;
-            double tmp = 0;
-            double[] w;
+            izero = 0;
 
-            w = new double[mex];
-
-            PARCHK.parchk(kind, mex, alpha, beta);
-
-            if (lo != 0)
+            Console.WriteLine("");
+            Console.WriteLine("  Interpolatory quadrature formula");
+            Console.WriteLine("");
+            Console.WriteLine("  Type  Interval       Weight function               Name");
+            Console.WriteLine("");
+            switch (kind)
             {
-                izero = 0;
-
-                Console.WriteLine("");
-                Console.WriteLine("  Interpolatory quadrature formula");
-                Console.WriteLine("");
-                Console.WriteLine("  Type  Interval       Weight function               Name");
-                Console.WriteLine("");
-                if (kind == 1)
-                {
+                case 1:
                     Console.WriteLine("    1    (a,b)              1.0                    Legendre");
-                }
-                else if (kind == 2)
-                {
+                    break;
+                case 2:
                     Console.WriteLine("    2    (a,b)      ((b-x)*(x-a))^(-0.5)          Chebyshev Type 1");
-                }
-                else if (kind == 3)
-                {
+                    break;
+                case 3:
                     Console.WriteLine("    3    (a,b)      ((b-x)*(x-a))^alpha           Gegenbauer");
-                }
-                else if (kind == 4)
-                {
+                    break;
+                case 4:
                     Console.WriteLine("    4    (a,b)    (b-x)^alpha*(x-a)^beta          Jacobi");
-                }
-                else if (kind == 5)
-                {
+                    break;
+                case 5:
                     Console.WriteLine("    5   (a,+oo)  (x-a)^alpha*exp(-b*(x-a))      Gen Laguerre");
-                }
-                else if (kind == 6)
-                {
+                    break;
+                case 6:
                     Console.WriteLine("    6  (-oo,+oo) |x-a|^alpha*exp(-b*(x-a)^2)  Gen Hermite");
-                }
-                else if (kind == 7)
-                {
+                    break;
+                case 7:
                     Console.WriteLine("    7    (a,b)      |x-(a+b)/2.0|^alpha        Exponential");
-                }
-                else if (kind == 8)
-                {
+                    break;
+                case 8:
                     Console.WriteLine("    8   (a,+oo)    (x-a)^alpha*(x+b)^beta         Rational");
-                }
-                else if (kind == 9)
-                {
+                    break;
+                case 9:
                     Console.WriteLine("    9   (a,b)     (b-x)*(x-a)^(+0.5)         Chebyshev Type 2");
-                }
-
-                Console.WriteLine("");
-                Console.WriteLine("     Parameters   A          " + a + "");
-                Console.WriteLine("                  B          " + b + "");
-                if (3 <= kind && kind <= 8)
-                {
-                    Console.WriteLine("                  alpha      " + alpha + "");
-                }
-
-                if (kind == 4 || kind == 8)
-                {
-                    Console.WriteLine("                  beta       " + beta + "");
-                }
-
-                CHKQFS.chkqfs(t, wts, mlt, nt, nwts, ndx, key, ref w, mop, mex, izero,
-                    alpha, beta, -Math.Abs(lo));
+                    break;
             }
 
-            if (0 <= lo)
+            Console.WriteLine("");
+            Console.WriteLine("     Parameters   A          " + a + "");
+            Console.WriteLine("                  B          " + b + "");
+            switch (kind)
+            {
+                case >= 3 and <= 8:
+                    Console.WriteLine("                  alpha      " + alpha + "");
+                    break;
+            }
+
+            switch (kind)
+            {
+                case 4:
+                case 8:
+                    Console.WriteLine("                  beta       " + beta + "");
+                    break;
+            }
+
+            CHKQFS.chkqfs(t, wts, mlt, nt, nwts, ndx, key, ref w, mop, mex, izero,
+                alpha, beta, -Math.Abs(lo));
+        }
+
+        switch (lo)
+        {
+            case >= 0:
             {
                 //
                 //  Compute the moments in W.
                 //
                 w = SCMM.scmm(mex, kind, alpha, beta, a, b);
 
-                if (kind == 1 || kind == 2 || kind == 3 || kind == 4 || kind == 7 || kind == 9)
+                switch (kind)
                 {
-                    tmp = (b + a) / 2.0;
-                }
-                else if (kind == 5 || kind == 6 || kind == 8)
-                {
-                    tmp = a;
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 7:
+                    case 9:
+                        tmp = (b + a) / 2.0;
+                        break;
+                    case 5:
+                    case 6:
+                    case 8:
+                        tmp = a;
+                        break;
                 }
 
                 t2 = new double[nt];
@@ -196,7 +205,7 @@ namespace Burkardt.Quadrature
                 //
                 CHKQFS.chkqfs(t2, wts, mlt, nt, nwts, ndx, key, ref w, mop, mex, neg, alpha, beta,
                     lo);
-
+                break;
             }
         }
     }

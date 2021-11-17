@@ -2,159 +2,159 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.ODENS
+namespace Burkardt.ODENS;
+
+public static class PredatorPrey
 {
-    public static class PredatorPrey
+    public static double[] predator_prey_conserved(int n, double[] rf)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    predator_prey_conserved evaluates a conserved quantity.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 October 2020
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    George Lindfield, John Penny,
+        //    Numerical Methods Using MATLAB,
+        //    Second Edition,
+        //    Prentice Hall, 1999,
+        //    ISBN: 0-13-012641-1,
+        //    LC: QA297.P45.
+        //
+        //  Input:
+        //
+        //    int N: the number of sets of variables.
+        //
+        //    double RF[N*2]: the current solution variables, rabbits and foxes.
+        //
+        //  Output:
+        //
+        //    double PREDATOR_PREY_CONSERVED[N]: the value of the conserved quantity.
+        //
     {
-        public static double[] predator_prey_conserved(int n, double[] rf)
+        double alpha = 0;
+        double beta = 0;
+        double delta = 0;
+        double gamma = 0;
+        double[] h;
+        int i;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    predator_prey_conserved evaluates a conserved quantity.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    29 October 2020
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    George Lindfield, John Penny,
-            //    Numerical Methods Using MATLAB,
-            //    Second Edition,
-            //    Prentice Hall, 1999,
-            //    ISBN: 0-13-012641-1,
-            //    LC: QA297.P45.
-            //
-            //  Input:
-            //
-            //    int N: the number of sets of variables.
-            //
-            //    double RF[N*2]: the current solution variables, rabbits and foxes.
-            //
-            //  Output:
-            //
-            //    double PREDATOR_PREY_CONSERVED[N]: the value of the conserved quantity.
-            //
+        predator_prey_parameters(ref alpha, ref beta, ref gamma, ref delta);
+
+        h = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double alpha = 0;
-            double beta = 0;
-            double delta = 0;
-            double gamma = 0;
-            double[] h;
-            int i;
-
-            predator_prey_parameters(ref alpha, ref beta, ref gamma, ref delta);
-
-            h = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                h[i] = delta * rf[0 + i * 2] - gamma * Math.Log(rf[0 + i * 2])
-                    + beta * rf[1 + i * 2] - alpha * Math.Log(rf[1 + i * 2]);
-            }
-
-            return h;
+            h[i] = delta * rf[0 + i * 2] - gamma * Math.Log(rf[0 + i * 2])
+                + beta * rf[1 + i * 2] - alpha * Math.Log(rf[1 + i * 2]);
         }
 
-        public static double[] predator_prey_deriv(double t, double[] rf, int rfIndex)
+        return h;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    predator_prey_deriv evaluates the right hand side of the system.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    29 October 2020
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    George Lindfield, John Penny,
-            //    Numerical Methods Using MATLAB,
-            //    Second Edition,
-            //    Prentice Hall, 1999,
-            //    ISBN: 0-13-012641-1,
-            //    LC: QA297.P45.
-            //
-            //  Input:
-            //
-            //    double T: the current time.
-            //
-            //    double RF[2]: the current solution variables, rabbits and foxes.
-            //
-            //  Output:
-            //
-            //    double PREDATOR_PREY_DERIV[2]: the right hand side of the 2 ODE's.
-            //
-        {
-            double alpha = 0;
-            double beta = 0;
-            double delta = 0;
-            double[] drfdt;
-            double gamma = 0;
+    public static double[] predator_prey_deriv(double t, double[] rf, int rfIndex)
 
-            drfdt = new double[2];
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    predator_prey_deriv evaluates the right hand side of the system.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 October 2020
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    George Lindfield, John Penny,
+        //    Numerical Methods Using MATLAB,
+        //    Second Edition,
+        //    Prentice Hall, 1999,
+        //    ISBN: 0-13-012641-1,
+        //    LC: QA297.P45.
+        //
+        //  Input:
+        //
+        //    double T: the current time.
+        //
+        //    double RF[2]: the current solution variables, rabbits and foxes.
+        //
+        //  Output:
+        //
+        //    double PREDATOR_PREY_DERIV[2]: the right hand side of the 2 ODE's.
+        //
+    {
+        double alpha = 0;
+        double beta = 0;
+        double delta = 0;
+        double[] drfdt;
+        double gamma = 0;
 
-            predator_prey_parameters(ref alpha, ref beta, ref gamma, ref delta);
+        drfdt = new double[2];
 
-            drfdt[0] = alpha * rf[rfIndex + 0] - beta * rf[rfIndex + 0] * rf[rfIndex + 1];
-            drfdt[1] = -gamma * rf[rfIndex + 1] + delta * rf[rfIndex + 0] * rf[rfIndex + 1];
+        predator_prey_parameters(ref alpha, ref beta, ref gamma, ref delta);
 
-            return drfdt;
-        }
+        drfdt[0] = alpha * rf[rfIndex + 0] - beta * rf[rfIndex + 0] * rf[rfIndex + 1];
+        drfdt[1] = -gamma * rf[rfIndex + 1] + delta * rf[rfIndex + 0] * rf[rfIndex + 1];
 
-        public static void predator_prey_parameters(ref double alpha, ref double beta, ref double gamma,
-                ref double delta)
+        return drfdt;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    predator_prey_parameters returns the problem parameters.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    29 October 2020
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Output:
-            //
-            //    double &ALPHA, &BETA, &GAMMA, &DELTA, the coefficient values.
-            //
-        {
-            alpha = 2.0;
-            beta = 0.001;
-            gamma = 10.0;
-            delta = 0.002;
-        }
+    public static void predator_prey_parameters(ref double alpha, ref double beta, ref double gamma,
+            ref double delta)
 
-        public static void predator_prey_euler(double[] tspan, double[] p0, int n )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    predator_prey_parameters returns the problem parameters.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 October 2020
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Output:
+        //
+        //    double &ALPHA, &BETA, &GAMMA, &DELTA, the coefficient values.
+        //
+    {
+        alpha = 2.0;
+        beta = 0.001;
+        gamma = 10.0;
+        delta = 0.002;
+    }
+
+    public static void predator_prey_euler(double[] tspan, double[] p0, int n )
 
         //****************************************************************************80
         //
@@ -226,67 +226,67 @@ namespace Burkardt.ODENS
         //
         //    int N: the number of time steps.
         //
+    {
+        string command_filename;
+        List<string> command = new();
+        string data_filename;
+        List<string> data = new();
+        string header = "predator_prey_euler";
+        int i;
+        const int m = 2;
+        double[] pout;
+        double[] t;
+
+        Console.WriteLine("");
+        Console.WriteLine("predator_prey_euler");
+        Console.WriteLine("  A pair of ordinary differential equations for a population");
+        Console.WriteLine("  of predators and prey are solved using euler().");
+
+        t = new double[n + 1];
+        pout = new double[(n + 1) * m];
+
+        Euler.euler(predator_prey_deriv, tspan, p0, n, m, t, pout);
+        //
+        //  Create the data file.
+        //
+        data_filename = header + "_data.txt";
+        for (i = 0; i < n; i++)
         {
-            string command_filename;
-            List<string> command = new List<string>();
-            string data_filename;
-            List<string> data = new List<string>();
-            string header = "predator_prey_euler";
-            int i;
-            const int m = 2;
-            double[] pout;
-            double[] t;
-
-            Console.WriteLine("");
-            Console.WriteLine("predator_prey_euler");
-            Console.WriteLine("  A pair of ordinary differential equations for a population");
-            Console.WriteLine("  of predators and prey are solved using euler().");
-
-            t = new double[n + 1];
-            pout = new double[(n + 1) * m];
-
-            Euler.euler(predator_prey_deriv, tspan, p0, n, m, t, pout);
-            //
-            //  Create the data file.
-            //
-            data_filename = header + "_data.txt";
-            for (i = 0; i < n; i++)
-            {
-                data.Add("  " + t[i]
-                    + "  " + pout[0 + i * m]
-                    + "  " + pout[1 + i * m] + "");
-            }
-
-            File.WriteAllLines(data_filename, data);
-            
-            Console.WriteLine("");
-            Console.WriteLine("  predator_prey_euler: data stored in '" + data_filename + "'.");
-            //
-            //  Create the command file.
-            //
-            command_filename = header + "_commands.txt";
-
-            command.Add("# " + command_filename + "");
-            command.Add("#");
-            command.Add("# Usage:");
-            command.Add("#  gnuplot < " + command_filename + "");
-            command.Add("#");
-            command.Add("set term png");
-            command.Add("set output '" + header + ".png'");
-            command.Add("set xlabel '<-- PREDATOR -->'");
-            command.Add("set ylabel '<-- PREY -->'");
-            command.Add("set title 'Predator prey: euler'");
-            command.Add("set grid");
-            command.Add("set style data lines");
-            command.Add("plot '" + data_filename + "' using 2:3 with lines lw 3");
-            command.Add("quit");
-
-            File.WriteAllLines(command_filename, command);
-
-            Console.WriteLine("  predator_prey_euler: plot commands stored in '" + command_filename + "'.");
+            data.Add("  " + t[i]
+                          + "  " + pout[0 + i * m]
+                          + "  " + pout[1 + i * m] + "");
         }
 
-        public static void predator_prey_midpoint(double[] tspan, double[] p0, int n )
+        File.WriteAllLines(data_filename, data);
+            
+        Console.WriteLine("");
+        Console.WriteLine("  predator_prey_euler: data stored in '" + data_filename + "'.");
+        //
+        //  Create the command file.
+        //
+        command_filename = header + "_commands.txt";
+
+        command.Add("# " + command_filename + "");
+        command.Add("#");
+        command.Add("# Usage:");
+        command.Add("#  gnuplot < " + command_filename + "");
+        command.Add("#");
+        command.Add("set term png");
+        command.Add("set output '" + header + ".png'");
+        command.Add("set xlabel '<-- PREDATOR -->'");
+        command.Add("set ylabel '<-- PREY -->'");
+        command.Add("set title 'Predator prey: euler'");
+        command.Add("set grid");
+        command.Add("set style data lines");
+        command.Add("plot '" + data_filename + "' using 2:3 with lines lw 3");
+        command.Add("quit");
+
+        File.WriteAllLines(command_filename, command);
+
+        Console.WriteLine("  predator_prey_euler: plot commands stored in '" + command_filename + "'.");
+    }
+
+    public static void predator_prey_midpoint(double[] tspan, double[] p0, int n )
 
         //****************************************************************************80
         //
@@ -360,65 +360,64 @@ namespace Burkardt.ODENS
         //
         //    int N: the number of time steps.
         //
+    {
+        string command_filename;
+        List<string> command = new();
+        string data_filename;
+        List<string> data = new();
+        string header = "predator_prey_midpoint";
+        int i;
+        const int m = 2;
+        double[] pout;
+        double[] t;
+
+        Console.WriteLine("");
+        Console.WriteLine("predator_prey_midpoint");
+        Console.WriteLine("  A pair of ordinary differential equations for a population");
+        Console.WriteLine("  of predators and prey are solved using midpoint_fixed().");
+
+        t = new double[n + 1];
+        pout = new double[(n + 1) * m];
+
+        MidpointFixed.midpoint_fixed(predator_prey_deriv, tspan, p0, n, m, 0, ref t, ref pout);
+        //
+        //  Create the data file.
+        //
+        data_filename = header + "_data.txt";
+
+        for (i = 0; i < n; i++)
         {
-            string command_filename;
-            List<string> command = new List<string>();
-            string data_filename;
-            List<string> data = new List<string>();
-            string header = "predator_prey_midpoint";
-            int i;
-            const int m = 2;
-            double[] pout;
-            double[] t;
-
-            Console.WriteLine("");
-            Console.WriteLine("predator_prey_midpoint");
-            Console.WriteLine("  A pair of ordinary differential equations for a population");
-            Console.WriteLine("  of predators and prey are solved using midpoint_fixed().");
-
-            t = new double[n + 1];
-            pout = new double[(n + 1) * m];
-
-            MidpointFixed.midpoint_fixed(predator_prey_deriv, tspan, p0, n, m, 0, ref t, ref pout);
-            //
-            //  Create the data file.
-            //
-            data_filename = header + "_data.txt";
-
-            for (i = 0; i < n; i++)
-            {
-                data.Add("  " + t[i]
-                    + "  " + pout[0 + i * m]
-                    + "  " + pout[1 + i * m] + "");
-            }
-
-            File.WriteAllLines(data_filename, data);
-
-            Console.WriteLine("");
-            Console.WriteLine("  predator_prey_midpoint: data stored in '" + data_filename + "'.");
-            //
-            //  Create the command file.
-            //
-            command_filename = header + "_commands.txt";
-            
-            command.Add("# " + command_filename + "");
-            command.Add("#");
-            command.Add("# Usage:");
-            command.Add("#  gnuplot < " + command_filename + "");
-            command.Add("#");
-            command.Add("set term png");
-            command.Add("set output '" + header + ".png'");
-            command.Add("set xlabel '<-- PREDATOR -->'");
-            command.Add("set ylabel '<-- PREY -->'");
-            command.Add("set title 'midpoint: predator prey'");
-            command.Add("set grid");
-            command.Add("set style data lines");
-            command.Add("plot '" + data_filename + "' using 2:3 with lines lw 3");
-            command.Add("quit");
-
-            File.WriteAllLines(command_filename, command);
-
-            Console.WriteLine("  predator_prey_midpoint: plot commands stored in '" + command_filename + "'.");
+            data.Add("  " + t[i]
+                          + "  " + pout[0 + i * m]
+                          + "  " + pout[1 + i * m] + "");
         }
+
+        File.WriteAllLines(data_filename, data);
+
+        Console.WriteLine("");
+        Console.WriteLine("  predator_prey_midpoint: data stored in '" + data_filename + "'.");
+        //
+        //  Create the command file.
+        //
+        command_filename = header + "_commands.txt";
+            
+        command.Add("# " + command_filename + "");
+        command.Add("#");
+        command.Add("# Usage:");
+        command.Add("#  gnuplot < " + command_filename + "");
+        command.Add("#");
+        command.Add("set term png");
+        command.Add("set output '" + header + ".png'");
+        command.Add("set xlabel '<-- PREDATOR -->'");
+        command.Add("set ylabel '<-- PREY -->'");
+        command.Add("set title 'midpoint: predator prey'");
+        command.Add("set grid");
+        command.Add("set style data lines");
+        command.Add("plot '" + data_filename + "' using 2:3 with lines lw 3");
+        command.Add("quit");
+
+        File.WriteAllLines(command_filename, command);
+
+        Console.WriteLine("  predator_prey_midpoint: plot commands stored in '" + command_filename + "'.");
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static double chyper(bool point, int kk, int ll, int mm, int nn, ref int ifault)
+    public static double chyper(bool point, int kk, int ll, int mm, int nn, ref int ifault)
         //****************************************************************************80
         //
         //  Purpose:
@@ -69,95 +69,99 @@ namespace Burkardt.AppliedStatistics
         //    exactly LL successes out of KK samples, or the CDF (cumulative
         //    probability) of up to LL successes out of KK samples.
         //
+    {
+        double arg;
+        bool dir;
+        double elimit = -88.0;
+        int i;
+        int j;
+        int k;
+        int kl;
+        int l;
+        int m;
+        int mbig = 600;
+        double mean;
+        int mnkl;
+        int mvbig = 1000;
+        int n;
+        int nl;
+        double p;
+        double pt;
+        double rootpi = 2.506628274631001;
+        double scale = 1.0E+35;
+        double sig;
+        double value = 0;
+
+        ifault = 0;
+
+        k = kk + 1;
+        l = ll + 1;
+        m = mm + 1;
+        n = nn + 1;
+
+        dir = true;
+        //
+        //  Check arguments are within permitted limits.
+        //
+        value = 0.0;
+
+        if (n < 1 || m < n || k < 1 || m < k)
         {
-            double arg;
-            bool dir;
-            double elimit = -88.0;
-            int i;
-            int j;
-            int k;
-            int kl;
-            int l;
-            int m;
-            int mbig = 600;
-            double mean;
-            int mnkl;
-            int mvbig = 1000;
-            int n;
-            int nl;
-            double p;
-            double pt;
-            double rootpi = 2.506628274631001;
-            double scale = 1.0E+35;
-            double sig;
-            double value;
+            ifault = 1;
+            return value;
+        }
 
-            ifault = 0;
+        if (l < 1 || m - n < k - l)
+        {
+            ifault = 2;
+            return value;
+        }
 
-            k = kk + 1;
-            l = ll + 1;
-            m = mm + 1;
-            n = nn + 1;
+        value = point switch
+        {
+            false => 1.0,
+            _ => value
+        };
 
-            dir = true;
+        if (n < l || k < l)
+        {
+            ifault = 2;
+            return value;
+        }
+
+        ifault = 0;
+        value = 1.0;
+
+        if (k == 1 || k == m || n == 1 || n == m)
+        {
+            return value;
+        }
+
+        switch (point)
+        {
+            case false when ll == Math.Min(kk, nn):
+                return value;
+        }
+
+        p = nn / (double) (mm - nn);
+
+        if (16.0 * Math.Max(p, 1.0 / p)
+            < Math.Min(kk, mm - kk) &&
+            mvbig < mm && -100.0 < elimit)
+        {
             //
-            //  Check arguments are within permitted limits.
+            //  Use a normal approximation.
             //
-            value = 0.0;
+            mean = kk * nn / (double) mm;
 
-            if (n < 1 || m < n || k < 1 || m < k)
+            sig = Math.Sqrt(mean * ((mm - nn) / (double) mm)
+                                 * ((mm - kk) / (double) (mm - 1)));
+
+            switch (point)
             {
-                ifault = 1;
-                return value;
-            }
-
-            if (l < 1 || m - n < k - l)
-            {
-                ifault = 2;
-                return value;
-            }
-
-            if (!point)
-            {
-                value = 1.0;
-            }
-
-            if (n < l || k < l)
-            {
-                ifault = 2;
-                return value;
-            }
-
-            ifault = 0;
-            value = 1.0;
-
-            if (k == 1 || k == m || n == 1 || n == m)
-            {
-                return value;
-            }
-
-            if (!point && ll == Math.Min(kk, nn))
-            {
-                return value;
-            }
-
-            p = (double) (nn) / (double) (mm - nn);
-
-            if (16.0 * Math.Max(p, 1.0 / p)
-                < (double) (Math.Min(kk, mm - kk)) &&
-                mvbig < mm && -100.0 < elimit)
-            {
-                //
-                //  Use a normal approximation.
-                //
-                mean = (double) (kk * nn) / (double) (mm);
-
-                sig = Math.Sqrt(mean * ((double) (mm - nn) / (double) (mm))
-                                * ((double) (mm - kk) / ((double) (mm - 1))));
-
-                if (point)
+                case true:
                 {
-                    arg = -0.5 * (Math.Pow(((double) (ll) - mean) / sig, 2));
+                    arg = -0.5 * Math.Pow((ll - mean) / sig, 2);
                     if (elimit <= arg)
                     {
                         value = Math.Exp(arg) / (sig * rootpi);
@@ -166,83 +170,88 @@ namespace Burkardt.AppliedStatistics
                     {
                         value = 0.0;
                     }
+
+                    break;
+                }
+                default:
+                    value = alnorm((ll + 0.5 - mean) / sig, false);
+                    break;
+            }
+        }
+        else
+        {
+            //
+            //  Calculate exact hypergeometric probabilities.
+            //  Interchange K and N if this saves calculations.
+            //
+            if (Math.Min(n - 1, m - n) < Math.Min(k - 1, m - k))
+            {
+                i = k;
+                k = n;
+                n = i;
+            }
+
+            if (m - k < k - 1)
+            {
+                dir = !dir;
+                l = n - l + 1;
+                k = m - k + 1;
+            }
+
+            if (mbig < mm)
+            {
+                //
+                //  Take logarithms of factorials.
+                //
+                p = alnfac(nn)
+                    - alnfac(mm)
+                    + alnfac(mm - kk)
+                    + alnfac(kk)
+                    + alnfac(mm - nn)
+                    - alnfac(ll)
+                    - alnfac(nn - ll)
+                    - alnfac(kk - ll)
+                    - alnfac(mm - nn - kk + ll);
+
+                if (elimit <= p)
+                {
+                    value = Math.Exp(p);
                 }
                 else
                 {
-                    value = alnorm(((double) (ll) + 0.5 - mean) / sig, false);
+                    value = 0.0;
                 }
             }
             else
             {
                 //
-                //  Calculate exact hypergeometric probabilities.
-                //  Interchange K and N if this saves calculations.
+                //  Use Freeman/Lund algorithm.
                 //
-                if (Math.Min(n - 1, m - n) < Math.Min(k - 1, m - k))
+                for (i = 1; i <= l - 1; i++)
                 {
-                    i = k;
-                    k = n;
-                    n = i;
+                    value = value * ((k - i) * (n - i))
+                            / ((l - i) * (m - i));
                 }
 
-                if (m - k < k - 1)
+                if (l != k)
                 {
-                    dir = !dir;
-                    l = n - l + 1;
-                    k = m - k + 1;
-                }
-
-                if (mbig < mm)
-                {
-                    //
-                    //  Take logarithms of factorials.
-                    //
-                    p = alnfac(nn)
-                        - alnfac(mm)
-                        + alnfac(mm - kk)
-                        + alnfac(kk)
-                        + alnfac(mm - nn)
-                        - alnfac(ll)
-                        - alnfac(nn - ll)
-                        - alnfac(kk - ll)
-                        - alnfac(mm - nn - kk + ll);
-
-                    if (elimit <= p)
+                    j = m - n + l;
+                    for (i = l; i <= k - 1; i++)
                     {
-                        value = Math.Exp(p);
-                    }
-                    else
-                    {
-                        value = 0.0;
+                        value = value * (j - i) / (m - i);
                     }
                 }
-                else
-                {
-                    //
-                    //  Use Freeman/Lund algorithm.
-                    //
-                    for (i = 1; i <= l - 1; i++)
-                    {
-                        value = value * (double) ((k - i) * (n - i))
-                                / (double) ((l - i) * (m - i));
-                    }
+            }
 
-                    if (l != k)
-                    {
-                        j = m - n + l;
-                        for (i = l; i <= k - 1; i++)
-                        {
-                            value = value * (double) (j - i) / (double) (m - i);
-                        }
-                    }
-                }
-
-                if (point)
-                {
+            switch (point)
+            {
+                case true:
                     return value;
-                }
+            }
 
-                if (value == 0.0)
+            switch (value)
+            {
+                case 0.0:
                 {
                     //
                     //  We must recompute the point probability since it has underflowed.
@@ -260,76 +269,75 @@ namespace Burkardt.AppliedStatistics
                             + alnfac(mm - kk);
                     }
 
-                    p = p + Math.Log(scale);
+                    p += Math.Log(scale);
 
                     if (p < elimit)
                     {
                         ifault = 3;
-                        if ((double) (nn * kk + nn + kk + 1)
-                            / (double) (mm + 2) < (double) (ll))
+                        if ((nn * kk + nn + kk + 1)
+                            / (double) (mm + 2) < ll)
                         {
                             value = 1.0;
                         }
 
                         return value;
                     }
-                    else
-                    {
-                        p = Math.Exp(p);
-                    }
+
+                    p = Math.Exp(p);
+                    break;
                 }
-                else
                 //
-                //  Scale up at this point.
-                //
-                {
+                default:
                     p = value * scale;
-                }
+                    break;
+            }
 
-                pt = 0.0;
-                nl = n - l;
-                kl = k - l;
-                mnkl = m - n - kl + 1;
+            pt = 0.0;
+            nl = n - l;
+            kl = k - l;
+            mnkl = m - n - kl + 1;
 
-                if (l <= kl)
+            if (l <= kl)
+            {
+                for (i = 1; i <= l - 1; i++)
                 {
-                    for (i = 1; i <= l - 1; i++)
-                    {
-                        p = p * (double) ((l - i) * (mnkl - i)) /
-                            (double) ((nl + i) * (kl + i));
-                        pt = pt + p;
-                    }
+                    p = p * ((l - i) * (mnkl - i)) /
+                        ((nl + i) * (kl + i));
+                    pt += p;
                 }
-                else
+            }
+            else
+            {
+                dir = !dir;
+                for (j = 0; j <= kl - 1; j++)
                 {
-                    dir = !dir;
-                    for (j = 0; j <= kl - 1; j++)
-                    {
-                        p = p * (double) ((nl - j) * (kl - j))
-                            / (double) ((l + j) * (mnkl + j));
-                        pt = pt + p;
-                    }
-                }
-
-                if (p == 0.0)
-                {
-                    ifault = 3;
-                }
-
-                if (dir)
-                {
-                    value = value + (pt / scale);
-                }
-                else
-                {
-                    value = 1.0 - (pt / scale);
+                    p = p * ((nl - j) * (kl - j))
+                        / ((l + j) * (mnkl + j));
+                    pt += p;
                 }
             }
 
-            return value;
+            ifault = p switch
+            {
+                0.0 => 3,
+                _ => ifault
+            };
+
+            switch (dir)
+            {
+                case true:
+                    value += pt / scale;
+                    break;
+                default:
+                    value = 1.0 - pt / scale;
+                    break;
+            }
         }
 
-        public static void hypergeometric_cdf_values(ref int n_data, ref int sam, ref int suc, ref int pop,
+        return value;
+    }
+
+    public static void hypergeometric_cdf_values(ref int n_data, ref int sam, ref int suc, ref int pop,
             ref int n, ref double fx)
         //****************************************************************************80
         //
@@ -393,10 +401,10 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double *FX, the value of the function.
         //
-        {
-            int N_MAX = 16;
+    {
+        const int N_MAX = 16;
 
-            double[] fx_vec =  {
+        double[] fx_vec =  {
                 0.6001858177500578E-01,
                 0.2615284665839845E+00,
                 0.6695237889132748E+00,
@@ -416,7 +424,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] n_vec =  {
+        int[] n_vec =  {
                 7, 8, 9, 10,
                 6, 6, 6, 6,
                 6, 6, 6, 6,
@@ -424,7 +432,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] pop_vec =  {
+        int[] pop_vec =  {
                 100, 100, 100, 100,
                 100, 100, 100, 100,
                 100, 100, 100, 100,
@@ -432,7 +440,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] sam_vec =  {
+        int[] sam_vec =  {
                 10, 10, 10, 10,
                 6, 7, 8, 9,
                 10, 10, 10, 10,
@@ -440,7 +448,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] suc_vec =  {
+        int[] suc_vec =  {
                 90, 90, 90, 90,
                 90, 90, 90, 90,
                 10, 30, 50, 70,
@@ -448,33 +456,34 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                sam = 0;
-                suc = 0;
-                pop = 0;
-                n = 0;
-                fx = 0.0;
-            }
-            else
-            {
-                sam = sam_vec[n_data - 1];
-                suc = suc_vec[n_data - 1];
-                pop = pop_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            sam = 0;
+            suc = 0;
+            pop = 0;
+            n = 0;
+            fx = 0.0;
         }
+        else
+        {
+            sam = sam_vec[n_data - 1];
+            suc = suc_vec[n_data - 1];
+            pop = pop_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static void hypergeometric_pdf_values(ref int n_data, ref int sam, ref int suc, ref int pop,
+    public static void hypergeometric_pdf_values(ref int n_data, ref int sam, ref int suc, ref int pop,
             ref int n, ref double fx)
         //****************************************************************************80
         //
@@ -537,10 +546,10 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double *FX, the value of the function.
         //
-        {
-            int N_MAX = 16;
+    {
+        const int N_MAX = 16;
 
-            double[] fx_vec =  {
+        double[] fx_vec =  {
                 0.05179370533242827E+00,
                 0.2015098848089788E+00,
                 0.4079953223292903E+00,
@@ -560,7 +569,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] n_vec =  {
+        int[] n_vec =  {
                 7, 8, 9, 10,
                 6, 6, 6, 6,
                 6, 6, 6, 6,
@@ -568,7 +577,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] pop_vec =  {
+        int[] pop_vec =  {
                 100, 100, 100, 100,
                 100, 100, 100, 100,
                 100, 100, 100, 100,
@@ -576,7 +585,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] sam_vec =  {
+        int[] sam_vec =  {
                 10, 10, 10, 10,
                 6, 7, 8, 9,
                 10, 10, 10, 10,
@@ -584,7 +593,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            int[] suc_vec =  {
+        int[] suc_vec =  {
                 90, 90, 90, 90,
                 90, 90, 90, 90,
                 10, 30, 50, 70,
@@ -592,30 +601,30 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                sam = 0;
-                suc = 0;
-                pop = 0;
-                n = 0;
-                fx = 0.0;
-            }
-            else
-            {
-                sam = sam_vec[n_data - 1];
-                suc = suc_vec[n_data - 1];
-                pop = pop_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            sam = 0;
+            suc = 0;
+            pop = 0;
+            n = 0;
+            fx = 0.0;
+        }
+        else
+        {
+            sam = sam_vec[n_data - 1];
+            suc = suc_vec[n_data - 1];
+            pop = pop_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

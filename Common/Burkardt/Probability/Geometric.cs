@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Geometric
 {
-    public static class Geometric
-    {
-        public static double geometric_cdf(int x, double a)
+    public static double geometric_cdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -40,30 +40,31 @@ namespace Burkardt.Probability
         //
         //    Output, double GEOMETRIC_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        switch (x)
         {
-            double cdf;
-
-            if (x <= 0)
-            {
+            case <= 0:
                 cdf = 0.0;
-            }
-            else if (a == 0.0)
+                break;
+            default:
             {
-                cdf = 0.0;
-            }
-            else if (a == 1.0)
-            {
-                cdf = 1.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Pow((1.0 - a), x);
-            }
+                cdf = a switch
+                {
+                    0.0 => 0.0,
+                    1.0 => 1.0,
+                    _ => 1.0 - Math.Pow(1.0 - a, x)
+                };
 
-            return cdf;
+                break;
+            }
         }
 
-        public static int geometric_cdf_inv(double cdf, double a)
+        return cdf;
+    }
+
+    public static int geometric_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -92,34 +93,30 @@ namespace Burkardt.Probability
         //
         //    Output, int GEOMETRIC_CDF_INV, the corresponding value of X.
         //
-        {
-            int x;
+    {
+        int x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GEOMETRIC_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (a == 1.0)
-            {
-                x = 1;
-            }
-            else if (a == 0.0)
-            {
-                x = typeMethods.i4_huge();
-            }
-            else
-            {
-                x = 1 + (int) (Math.Log(1.0 - cdf) / Math.Log(1.0 - a));
-            }
-
-            return x;
+                return 1;
         }
 
-        public static void geometric_cdf_values(ref int n_data, ref int x, ref double p, ref double cdf )
+        x = a switch
+        {
+            1.0 => 1,
+            0.0 => typeMethods.i4_huge(),
+            _ => 1 + (int) (Math.Log(1.0 - cdf) / Math.Log(1.0 - a))
+        };
+
+        return x;
+    }
+
+    public static void geometric_cdf_values(ref int n_data, ref int x, ref double p, ref double cdf )
         //****************************************************************************80
         //
         //  Purpose:
@@ -180,75 +177,76 @@ namespace Burkardt.Probability
         //
         //    Output, double &CDF, the cumulative density function.
         //
+    {
+        const int N_MAX = 14;
+
+        double[] cdf_vec =
         {
-            int N_MAX = 14;
+            0.1900000000000000E+00,
+            0.2710000000000000E+00,
+            0.3439000000000000E+00,
+            0.6861894039100000E+00,
+            0.3600000000000000E+00,
+            0.4880000000000000E+00,
+            0.5904000000000000E+00,
+            0.9141006540800000E+00,
+            0.7599000000000000E+00,
+            0.8704000000000000E+00,
+            0.9375000000000000E+00,
+            0.9843750000000000E+00,
+            0.9995117187500000E+00,
+            0.9999000000000000E+00
+        };
 
-            double[] cdf_vec =
-            {
-                0.1900000000000000E+00,
-                0.2710000000000000E+00,
-                0.3439000000000000E+00,
-                0.6861894039100000E+00,
-                0.3600000000000000E+00,
-                0.4880000000000000E+00,
-                0.5904000000000000E+00,
-                0.9141006540800000E+00,
-                0.7599000000000000E+00,
-                0.8704000000000000E+00,
-                0.9375000000000000E+00,
-                0.9843750000000000E+00,
-                0.9995117187500000E+00,
-                0.9999000000000000E+00
-            };
+        double[] p_vec =
+        {
+            0.1E+00,
+            0.1E+00,
+            0.1E+00,
+            0.1E+00,
+            0.2E+00,
+            0.2E+00,
+            0.2E+00,
+            0.2E+00,
+            0.3E+00,
+            0.4E+00,
+            0.5E+00,
+            0.5E+00,
+            0.5E+00,
+            0.9E+00
+        };
 
-            double[] p_vec =
-            {
-                0.1E+00,
-                0.1E+00,
-                0.1E+00,
-                0.1E+00,
-                0.2E+00,
-                0.2E+00,
-                0.2E+00,
-                0.2E+00,
-                0.3E+00,
-                0.4E+00,
-                0.5E+00,
-                0.5E+00,
-                0.5E+00,
-                0.9E+00
-            };
+        int[] x_vec =
+        {
+            1, 2, 3, 10, 1,
+            2, 3, 10, 3, 3,
+            3, 5, 10, 3
+        };
 
-            int[] x_vec =
-            {
-                1, 2, 3, 10, 1,
-                2, 3, 10, 3, 3,
-                3, 5, 10, 3
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0;
-                p = 0.0;
-                cdf = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                p = p_vec[n_data - 1];
-                cdf = cdf_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0;
+            p = 0.0;
+            cdf = 0.0;
         }
+        else
+        {
+            x = x_vec[n_data - 1];
+            p = p_vec[n_data - 1];
+            cdf = cdf_vec[n_data - 1];
+        }
+    }
 
-        public static bool geometric_check(double a)
+    public static bool geometric_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -274,19 +272,21 @@ namespace Burkardt.Probability
         //
         //    Output, bool GEOMETRIC_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 0.0 || 1.0 < a)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("GEOMETRIC_CHECK - Warning!");
                 Console.WriteLine("  A < 0 or 1 < A.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double geometric_mean(double a)
+    public static double geometric_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -317,13 +317,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = 1.0 / a;
+    {
+        double mean = 1.0 / a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double geometric_pdf(int x, double a)
+    public static double geometric_pdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -360,40 +360,34 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+        switch (x)
         {
-            double pdf;
             //
             //  Special cases.
             //
-            if (x < 1)
-            {
+            case < 1:
                 pdf = 0.0;
-            }
-            else if (a == 0.0)
+                break;
+            default:
             {
-                pdf = 0.0;
-            }
-            else if (a == 1.0)
-            {
-                if (x == 1)
+                pdf = a switch
                 {
-                    pdf = 1.0;
-                }
-                else
-                {
-                    pdf = 0.0;
-                }
-            }
-            else
-            {
-                pdf = a * Math.Pow((1.0 - a), (x - 1));
+                    0.0 => 0.0,
+                    1.0 when x == 1 => 1.0,
+                    1.0 => 0.0,
+                    _ => a * Math.Pow(1.0 - a, x - 1)
+                };
 
+                break;
             }
-
-            return pdf;
         }
 
-        public static int geometric_sample(double a, ref int seed)
+        return pdf;
+    }
+
+    public static int geometric_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -421,15 +415,15 @@ namespace Burkardt.Probability
         //
         //    Output, int GEOMETRIC_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            int x = geometric_cdf_inv(cdf, a);
+        int x = geometric_cdf_inv(cdf, a);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double geometric_variance(double a)
+    public static double geometric_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -455,10 +449,9 @@ namespace Burkardt.Probability
         //
         //    Output, double GEOMETRIC_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (1.0 - a) / (a * a);
+    {
+        double variance = (1.0 - a) / (a * a);
 
-            return variance;
-        }
+        return variance;
     }
 }

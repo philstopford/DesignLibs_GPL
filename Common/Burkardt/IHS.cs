@@ -1,95 +1,99 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.IHSNS
+namespace Burkardt.IHSNS;
+
+public class covariance
 {
-    public class covariance
+    public double average, std, covc;
+
+    public covariance(int dim_num, int n, int[] x)
     {
-        public double average, std, covc;
+        const double r8_huge = 1.0E+30;
+        //
+        //  Find the minimum distance for each point.
+        //
+        double[] mindist = new double[n];
 
-        public covariance(int dim_num, int n, int[] x)
+        for (int i = 0; i < n; i++ )
         {
-            const double r8_huge = 1.0E+30;
-            //
-            //  Find the minimum distance for each point.
-            //
-            double[] mindist = new double[n];
-
-            for (int i = 0; i < n; i++ )
+            mindist[i] = r8_huge;
+            for (int j = 0; j < n; j++ )
             {
-                mindist[i] = r8_huge;
-                for (int j = 0; j < n; j++ )
+                if (i == j)
                 {
-                    if ( i != j )
-                    {
-                        double dist = 0.0;
-                        for (int k = 0; k < dim_num; k++ )
-                        {
-                            dist = dist + ( ( double )
-                                ( ( x[k+i*dim_num] - x[k+j*dim_num] )
-                                  * ( x[k+i*dim_num] - x[k+j*dim_num] ) ) );
-                        }
-                        dist = Math.Sqrt ( dist );
-                        if ( dist < mindist[i] )
-                        {
-                            mindist[i] = dist;
-                        }
-                    }
+                    continue;
+                }
+
+                double dist = 0.0;
+                for (int k = 0; k < dim_num; k++ )
+                {
+                    dist += ( x[k+i*dim_num] - x[k+j*dim_num] )
+                            * ( x[k+i*dim_num] - x[k+j*dim_num] );
+                }
+                dist = Math.Sqrt ( dist );
+                if ( dist < mindist[i] )
+                {
+                    mindist[i] = dist;
                 }
             }
-            //
-            //  Find the average minimum distance.
-            //
-            average = average_( n, mindist );
-            //
-            //  Compute the standard deviation of the distances.
-            //
-            std = std_( n, mindist );
-            //
-            //  Compute the covariance.
-            //
-            covc = std / average;
+        }
+        //
+        //  Find the average minimum distance.
+        //
+        average = average_( n, mindist );
+        //
+        //  Compute the standard deviation of the distances.
+        //
+        std = std_( n, mindist );
+        //
+        //  Compute the covariance.
+        //
+        covc = std / average;
             
+    }
+
+    private double average_(int n, double[] a)
+    {
+        foreach (double t in a)
+        {
+            average += t;
         }
 
-        double average_(int n, double[] a)
+        average /= a.Length;
+
+        return average;
+    }
+
+    private double std_(int n, double[] a)
+    {
+        switch (n)
         {
-            foreach (double t in a)
-            {
-                average += t;
-            }
-
-            average /= a.Length;
-
-            return average;
-        }
-
-        double std_(int n, double[] a)
-        {
-            if ( n < 2 )
-            {
+            case < 2:
                 std = 0.0;
-            }
-            else
+                break;
+            default:
             {
                 average = average_( n, a );
 
                 std = 0.0;
                 for (int i = 0; i < n; i++ )
                 {
-                    std = std + ( a[i] - average ) * ( a[i] - average );
+                    std += ( a[i] - average ) * ( a[i] - average );
                 }
-                std = Math.Sqrt ( std / ( ( double ) ( n - 1 ) ) );
-
+                std = Math.Sqrt ( std / (n - 1) );
+                break;
             }
-            return std;
         }
+
+        return std;
     }
+}
 
 
-    public static class IHS
-    {
-        public static int[] ihs ( int dim_num, int n, int d, ref int seed )
+public static class IHS
+{
+    public static int[] ihs ( int dim_num, int n, int d, ref int seed )
 
         //****************************************************************************80
         //
@@ -144,128 +148,129 @@ namespace Burkardt.IHSNS
         //
         //    Output, int IHS[DIM_NUM*N], the points.
         //
-        {
+    {
            
-            int[] avail = new int [ dim_num * n ];
-            int[] list = new int [ d * n ];
-            int[] point = new int [ dim_num * d * n ];
-            int[] x = new int[dim_num*n];
+        int[] avail = new int [ dim_num * n ];
+        int[] list = new int [ d * n ];
+        int[] point = new int [ dim_num * d * n ];
+        int[] x = new int[dim_num*n];
 
-            double opt = ( ( double ) n ) /
-                         Math.Pow ( ( double ) n, ( double ) ( 1.0 / ( double ) dim_num ) );
+        double opt = n /
+                     Math.Pow ( n, 1.0 / dim_num );
+        //
+        //  Pick the first point.
+        //
+        for (int i = 0; i < dim_num; i++ )
+        {
+            x[i+(n-1)*dim_num] = Uniform.UniformRNG.i4_uniform_ab( 1, n, ref seed );
+        }
+        //
+        //  Initialize AVAIL,
+        //  and set an entry in a random row of each column of AVAIL to N.
+        //
+        for (int j = 0; j < n; j++ )
+        {
+            for (int i = 0; i < dim_num; i++ )
+            {
+                avail[i+j*dim_num] = j + 1;
+            }
+        }
+
+        for (int i = 0; i < dim_num; i++ )
+        {
+            avail[i+(x[i+(n-1)*dim_num]-1)*dim_num] = n;
+        }
+        //
+        //  Main loop:
+        //  Assign a value to X(1:M,COUNT) for COUNT = N-1 down to 2.
+        //
+        for (int count = n - 1; 2 <= count; count-- )
+        {
             //
-            //  Pick the first point.
+            //  Generate valid points.
             //
             for (int i = 0; i < dim_num; i++ )
             {
-                x[i+(n-1)*dim_num] = Uniform.UniformRNG.i4_uniform_ab( 1, n, ref seed );
+                for (int k = 0; k < d; k++ )
+                {
+                    for (int j = 0; j < count; j++ )
+                    {
+                        list[j+k*count] = avail[i+j*dim_num];
+                    }
+                }
+
+                for (int k = count*d - 1; 0 <= k; k-- )
+                {
+                    int point_index = Uniform.UniformRNG.i4_uniform_ab( 0, k, ref seed );
+                    point[i+k*dim_num] = list[point_index];
+                    list[point_index] = list[k];
+                }
             }
             //
-            //  Initialize AVAIL,
-            //  and set an entry in a random row of each column of AVAIL to N.
+            //  For each candidate, determine the distance to all the
+            //  points that have already been selected, and save the minimum value.
             //
-            for (int j = 0; j < n; j++ )
+            double min_all = typeMethods.r8_huge();
+            int best = 0;
+
+            for (int k = 0; k < d * count; k++ )
             {
-                for (int i = 0; i < dim_num; i++ )
+                double min_can = typeMethods.r8_huge();
+
+                for (int j = count; j < n; j++ )
                 {
-                    avail[i+j*dim_num] = j + 1;
+
+                    double dist = 0.0;
+                    for (int i = 0; i < dim_num; i++ )
+                    {
+                        dist += ( point[i+k*dim_num] - x[i+j*dim_num] )
+                                * ( point[i+k*dim_num] - x[i+j*dim_num] );
+                    }
+                    dist = Math.Sqrt ( dist );
+
+                    if ( dist < min_can )
+                    {
+                        min_can = dist;
+                    }
                 }
+
+                if (!(Math.Abs(min_can - opt) < min_all))
+                {
+                    continue;
+                }
+
+                min_all = Math.Abs ( min_can - opt );
+                best = k;
+
             }
 
             for (int i = 0; i < dim_num; i++ )
             {
-                avail[i+(x[i+(n-1)*dim_num]-1)*dim_num] = n;
+                x[i+(count-1)*dim_num] = point[i+best*dim_num];
             }
             //
-            //  Main loop:
-            //  Assign a value to X(1:M,COUNT) for COUNT = N-1 down to 2.
-            //
-            for (int count = n - 1; 2 <= count; count-- )
-            {
-                //
-                //  Generate valid points.
-                //
-                for (int i = 0; i < dim_num; i++ )
-                {
-                    for (int k = 0; k < d; k++ )
-                    {
-                        for (int j = 0; j < count; j++ )
-                        {
-                            list[j+k*count] = avail[i+j*dim_num];
-                        }
-                    }
-
-                    for (int k = count*d - 1; 0 <= k; k-- )
-                    {
-                        int point_index = Uniform.UniformRNG.i4_uniform_ab( 0, k, ref seed );
-                        point[i+k*dim_num] = list[point_index];
-                        list[point_index] = list[k];
-                    }
-                }
-                //
-                //  For each candidate, determine the distance to all the
-                //  points that have already been selected, and save the minimum value.
-                //
-                double min_all = typeMethods.r8_huge();
-                int best = 0;
-
-                for (int k = 0; k < d * count; k++ )
-                {
-                    double min_can = typeMethods.r8_huge();
-
-                    for (int j = count; j < n; j++ )
-                    {
-
-                        double dist = 0.0;
-                        for (int i = 0; i < dim_num; i++ )
-                        {
-                            dist = dist + ( point[i+k*dim_num] - x[i+j*dim_num] )
-                                      * ( point[i+k*dim_num] - x[i+j*dim_num] );
-                        }
-                        dist = Math.Sqrt ( dist );
-
-                        if ( dist < min_can )
-                        {
-                            min_can = dist;
-                        }
-                    }
-
-                    if ( Math.Abs ( min_can - opt ) < min_all )
-                    {
-                        min_all = Math.Abs ( min_can - opt );
-                        best = k;
-                    }
-
-                }
-
-                for (int i = 0; i < dim_num; i++ )
-                {
-                    x[i+(count-1)*dim_num] = point[i+best*dim_num];
-                }
-                //
-                //  Having chosen X(*,COUNT), update AVAIL.
-                //
-                for (int i = 0; i < dim_num; i++ )
-                {
-                    for (int j = 0; j < n; j++ )
-                    {
-                        if ( avail[i+j*dim_num] == x[i+(count-1)*dim_num] )
-                        {
-                            avail[i+j*dim_num] = avail[i+(count-1)*dim_num];
-                        }
-                    }
-                }
-            }
-            //
-            //  For the last point, there's only one choice.
+            //  Having chosen X(*,COUNT), update AVAIL.
             //
             for (int i = 0; i < dim_num; i++ )
             {
-                x[i+0*dim_num] = avail[i+0*dim_num];
+                for (int j = 0; j < n; j++ )
+                {
+                    if ( avail[i+j*dim_num] == x[i+(count-1)*dim_num] )
+                    {
+                        avail[i+j*dim_num] = avail[i+(count-1)*dim_num];
+                    }
+                }
             }
+        }
+        //
+        //  For the last point, there's only one choice.
+        //
+        for (int i = 0; i < dim_num; i++ )
+        {
+            x[i+0*dim_num] = avail[i+0*dim_num];
+        }
 
-            return x;
-        }        
+        return x;
+    }        
         
-    }
 }

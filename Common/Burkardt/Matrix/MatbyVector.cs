@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static class MatbyVector
 {
-    public static class MatbyVector
-    {
-        public static double[] mv_gb(int m, int n, int ml, int mu, double[] a, double[] x )
+    public static double[] mv_gb(int m, int n, int ml, int mu, double[] a, double[] x )
 
         //****************************************************************************80
         //
@@ -40,34 +40,34 @@ namespace Burkardt.MatrixNS
         //
         //    Output, double MV_GB[M], the product A * x.
         //
+    {
+        double[] b;
+        int i;
+        int j;
+        int jhi;
+        int jlo;
+
+        b = new double[m];
+
+        for (i = 0; i < m; i++)
         {
-            double[] b;
-            int i;
-            int j;
-            int jhi;
-            int jlo;
-
-            b = new double[m];
-
-            for (i = 0; i < m; i++)
-            {
-                b[i] = 0.0;
-            }
-
-            for (i = 0; i < m; i++)
-            {
-                jlo = Math.Max(0, i - ml);
-                jhi = Math.Min(n - 1, i + mu);
-                for (j = jlo; j <= jhi; j++)
-                {
-                    b[i] = b[i] + a[i - j + ml + mu + j * (2 * ml + mu + 1)] * x[j];
-                }
-            }
-
-            return b;
+            b[i] = 0.0;
         }
 
-        public static double[] mv_ge(int m, int n, double[] a, double[] x )
+        for (i = 0; i < m; i++)
+        {
+            jlo = Math.Max(0, i - ml);
+            jhi = Math.Min(n - 1, i + mu);
+            for (j = jlo; j <= jhi; j++)
+            {
+                b[i] += a[i - j + ml + mu + j * (2 * ml + mu + 1)] * x[j];
+            }
+        }
+
+        return b;
+    }
+
+    public static double[] mv_ge(int m, int n, double[] a, double[] x )
 
         //****************************************************************************80
         //
@@ -112,27 +112,27 @@ namespace Burkardt.MatrixNS
         //
         //    Output, double MV_GE[M], the product A * x.
         //
+    {
+        double[] b;
+        int i;
+        int j;
+
+        b = new double[m];
+
+        for (i = 0; i < m; i++)
         {
-            double[] b;
-            int i;
-            int j;
-
-            b = new double[m];
-
-            for (i = 0; i < m; i++)
+            b[i] = 0.0;
+            for (j = 0; j < n; j++)
             {
-                b[i] = 0.0;
-                for (j = 0; j < n; j++)
-                {
-                    b[i] = b[i] + a[i + j * m] * x[j];
-                }
+                b[i] += a[i + j * m] * x[j];
             }
-
-            return b;
         }
 
-        public static double[] mv_st(int m, int n, int nz_num, int[] row, int[] col, double[] a,
-        double[] x )
+        return b;
+    }
+
+    public static double[] mv_st(int m, int n, int nz_num, int[] row, int[] col, double[] a,
+            double[] x )
 
         //****************************************************************************80
         //
@@ -167,24 +167,23 @@ namespace Burkardt.MatrixNS
         //
         //    Output, double MV_ST[M], the product A*X.
         //
+    {
+        double[] b;
+        int i;
+        int k;
+
+        b = new double[m];
+
+        for (i = 0; i < m; i++)
         {
-            double[] b;
-            int i;
-            int k;
-
-            b = new double[m];
-
-            for (i = 0; i < m; i++)
-            {
-                b[i] = 0.0;
-            }
-
-            for (k = 0; k < nz_num; k++)
-            {
-                b[row[k]] = b[row[k]] + a[k] * x[col[k]];
-            }
-
-            return b;
+            b[i] = 0.0;
         }
+
+        for (k = 0; k < nz_num; k++)
+        {
+            b[row[k]] += a[k] * x[col[k]];
+        }
+
+        return b;
     }
 }

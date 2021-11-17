@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static class IMTQLX
 {
-    public static class IMTQLX
-    {
-        public static void imtqlx(int n, ref double[] d, ref double[] e, ref double[] z )
+    public static void imtqlx(int n, ref double[] d, ref double[] e, ref double[] z )
 
         //****************************************************************************80
         //
@@ -67,139 +67,139 @@ namespace Burkardt.MatrixNS
         //    the value of Q' * Z, where Q is the matrix that diagonalizes the
         //    input symmetric tridiagonal matrix.
         //
+    {
+        double b;
+        double c;
+        double f;
+        double g;
+        int i;
+        int ii;
+        int itn = 30;
+        int j;
+        int k;
+        int l;
+        int m = 0;
+        int mml;
+        double p;
+        double prec;
+        double r;
+        double s;
+
+        prec = 2.2204460492503131e-16; // typeMethods.r8_epsilon();// typeMethods.r8_epsilon();
+
+        switch (n)
         {
-            double b;
-            double c;
-            double f;
-            double g;
-            int i;
-            int ii;
-            int itn = 30;
-            int j;
-            int k;
-            int l;
-            int m = 0;
-            int mml;
-            double p;
-            double prec;
-            double r;
-            double s;
-
-            prec = 2.2204460492503131e-16; // typeMethods.r8_epsilon();// typeMethods.r8_epsilon();
-
-            if (n == 1)
-            {
+            case 1:
                 return;
-            }
+        }
 
-            e[n - 1] = 0.0;
+        e[n - 1] = 0.0;
 
-            for (l = 1; l <= n; l++)
+        for (l = 1; l <= n; l++)
+        {
+            j = 0;
+            for (;;)
             {
-                j = 0;
-                for (;;)
+                for (m = l; m <= n; m++)
                 {
-                    for (m = l; m <= n; m++)
-                    {
-                        if (m == n)
-                        {
-                            break;
-                        }
-
-                        if (Math.Abs(e[m - 1]) <= prec * (Math.Abs(d[m - 1]) + Math.Abs(d[m])))
-                        {
-                            break;
-                        }
-                    }
-
-                    p = d[l - 1];
-                    if (m == l)
+                    if (m == n)
                     {
                         break;
                     }
 
-                    if (itn <= j)
+                    if (Math.Abs(e[m - 1]) <= prec * (Math.Abs(d[m - 1]) + Math.Abs(d[m])))
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine("IMTQLX - Fatal error!");
-                        Console.WriteLine("  Iteration limit exceeded");
-                        return;
+                        break;
+                    }
+                }
+
+                p = d[l - 1];
+                if (m == l)
+                {
+                    break;
+                }
+
+                if (itn <= j)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("IMTQLX - Fatal error!");
+                    Console.WriteLine("  Iteration limit exceeded");
+                    return;
+                }
+
+                j += 1;
+                g = (d[l] - p) / (2.0 * e[l - 1]);
+                r = Math.Sqrt(g * g + 1.0);
+                g = d[m - 1] - p + e[l - 1] / (g + Math.Abs(r) * typeMethods.r8_sign(g));
+                s = 1.0;
+                c = 1.0;
+                p = 0.0;
+                mml = m - l;
+
+                for (ii = 1; ii <= mml; ii++)
+                {
+                    i = m - ii;
+                    f = s * e[i - 1];
+                    b = c * e[i - 1];
+
+                    if (Math.Abs(g) <= Math.Abs(f))
+                    {
+                        c = g / f;
+                        r = Math.Sqrt(c * c + 1.0);
+                        e[i] = f * r;
+                        s = 1.0 / r;
+                        c *= s;
+                    }
+                    else
+                    {
+                        s = f / g;
+                        r = Math.Sqrt(s * s + 1.0);
+                        e[i] = g * r;
+                        c = 1.0 / r;
+                        s *= c;
                     }
 
-                    j = j + 1;
-                    g = (d[l] - p) / (2.0 * e[l - 1]);
-                    r = Math.Sqrt(g * g + 1.0);
-                    g = d[m - 1] - p + e[l - 1] / (g + Math.Abs(r) * typeMethods.r8_sign(g));
-                    s = 1.0;
-                    c = 1.0;
-                    p = 0.0;
-                    mml = m - l;
+                    g = d[i] - p;
+                    r = (d[i - 1] - g) * s + 2.0 * c * b;
+                    p = s * r;
+                    d[i] = g + p;
+                    g = c * r - b;
+                    f = z[i];
+                    z[i] = s * z[i - 1] + c * f;
+                    z[i - 1] = c * z[i - 1] - s * f;
+                }
 
-                    for (ii = 1; ii <= mml; ii++)
-                    {
-                        i = m - ii;
-                        f = s * e[i - 1];
-                        b = c * e[i - 1];
+                d[l - 1] -= p;
+                e[l - 1] = g;
+                e[m - 1] = 0.0;
+            }
+        }
 
-                        if (Math.Abs(g) <= Math.Abs(f))
-                        {
-                            c = g / f;
-                            r = Math.Sqrt(c * c + 1.0);
-                            e[i] = f * r;
-                            s = 1.0 / r;
-                            c = c * s;
-                        }
-                        else
-                        {
-                            s = f / g;
-                            r = Math.Sqrt(s * s + 1.0);
-                            e[i] = g * r;
-                            c = 1.0 / r;
-                            s = s * c;
-                        }
+        //
+        //  Sorting.
+        //
+        for (ii = 2; ii <= m; ii++)
+        {
+            i = ii - 1;
+            k = i;
+            p = d[i - 1];
 
-                        g = d[i] - p;
-                        r = (d[i - 1] - g) * s + 2.0 * c * b;
-                        p = s * r;
-                        d[i] = g + p;
-                        g = c * r - b;
-                        f = z[i];
-                        z[i] = s * z[i - 1] + c * f;
-                        z[i - 1] = c * z[i - 1] - s * f;
-                    }
-
-                    d[l - 1] = d[l - 1] - p;
-                    e[l - 1] = g;
-                    e[m - 1] = 0.0;
+            for (j = ii; j <= n; j++)
+            {
+                if (d[j - 1] < p)
+                {
+                    k = j;
+                    p = d[j - 1];
                 }
             }
 
-            //
-            //  Sorting.
-            //
-            for (ii = 2; ii <= m; ii++)
+            if (k != i)
             {
-                i = ii - 1;
-                k = i;
-                p = d[i - 1];
-
-                for (j = ii; j <= n; j++)
-                {
-                    if (d[j - 1] < p)
-                    {
-                        k = j;
-                        p = d[j - 1];
-                    }
-                }
-
-                if (k != i)
-                {
-                    d[k - 1] = d[i - 1];
-                    d[i - 1] = p;
-                    p = z[i - 1];
-                    z[i - 1] = z[k - 1];
-                    z[k - 1] = p;
-                }
+                d[k - 1] = d[i - 1];
+                d[i - 1] = p;
+                p = z[i - 1];
+                z[i - 1] = z[k - 1];
+                z[k - 1] = p;
             }
         }
     }

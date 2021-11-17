@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.TriangulationNS
+namespace Burkardt.TriangulationNS;
+
+public static class NodeOrder
 {
-    public static class NodeOrder
-    {
-        public static int[] triangulation_node_order ( int triangle_order, int triangle_num,
+    public static int[] triangulation_node_order ( int triangle_order, int triangle_num,
             int[] triangle_node, int node_num )
 
         //****************************************************************************80
@@ -44,41 +44,38 @@ namespace Burkardt.TriangulationNS
         //    Output, integer TRIANGULATION_NODE_ORDER[NODE_NUM], the order of
         //    each node.
         //
+    {
+        int i;
+        int node;
+        int[] node_order;
+        int triangle;
+
+        node_order = new int[node_num];
+
+        for ( node = 0; node < node_num; node++ )
         {
-            int i;
-            int node;
-            int[] node_order;
-            int triangle;
-
-            node_order = new int[node_num];
-
-            for ( node = 0; node < node_num; node++ )
-            {
-                node_order[node] = 0;
-            }
-
-            for ( triangle = 0; triangle < triangle_num; triangle++ )
-            {
-                for ( i = 0; i < triangle_order; i++ )
-                {
-                    node = triangle_node[i+triangle*triangle_order];
-
-                    if ( node < 1 || node_num < node )
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("TRIANGULATION_NODE_ORDER - Fatal error!");
-                        Console.WriteLine("  Illegal entry in TRIANGLE_NODE.");
-                        node_order = null;
-                        return null;
-                    }
-                    else
-                    {
-                        node_order[node-1] = node_order[node-1] + 1;
-                    }
-                }
-            }
-
-            return node_order;
+            node_order[node] = 0;
         }
+
+        for ( triangle = 0; triangle < triangle_num; triangle++ )
+        {
+            for ( i = 0; i < triangle_order; i++ )
+            {
+                node = triangle_node[i+triangle*triangle_order];
+
+                if ( node < 1 || node_num < node )
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("TRIANGULATION_NODE_ORDER - Fatal error!");
+                    Console.WriteLine("  Illegal entry in TRIANGLE_NODE.");
+                    node_order = null;
+                    return null;
+                }
+
+                node_order[node-1] += 1;
+            }
+        }
+
+        return node_order;
     }
 }

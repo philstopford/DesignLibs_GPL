@@ -1,8 +1,8 @@
-﻿namespace Burkardt.CompressedRow
+﻿namespace Burkardt.CompressedRow;
+
+public static class RearrangeCR
 {
-    public static class RearrangeCR
-    {
-        public static void rearrange_cr(int n, int nz_num, int[] ia, ref int[] ja, ref double[] a )
+    public static void rearrange_cr(int n, int nz_num, int[] ia, ref int[] ja, ref double[] a )
 
         //****************************************************************************80
         //
@@ -53,36 +53,35 @@
         //    Input/output, double A[NZ_NUM], the matrix values.  On output, the
         //    order of the entries may have changed because of the sorting.
         //
+    {
+        double dtemp;
+        int i;
+        int is_;
+        int itemp;
+        int j;
+        int j1;
+        int j2;
+        int k;
+
+        for (i = 0; i < n; i++)
         {
-            double dtemp;
-            int i;
-            int is_;
-            int itemp;
-            int j;
-            int j1;
-            int j2;
-            int k;
+            j1 = ia[i];
+            j2 = ia[i + 1];
+            is_ = j2 - j1;
 
-            for (i = 0; i < n; i++)
+            for (k = 1; k < is_; k++)
             {
-                j1 = ia[i];
-                j2 = ia[i + 1];
-                    is_ = j2 - j1;
-
-                for (k = 1; k < is_; k++)
+                for (j = j1; j < j2 - k; j++)
                 {
-                    for (j = j1; j < j2 - k; j++)
+                    if (ja[j + 1] < ja[j])
                     {
-                        if (ja[j + 1] < ja[j])
-                        {
-                            itemp = ja[j + 1];
-                            ja[j + 1] = ja[j];
-                            ja[j] = itemp;
+                        itemp = ja[j + 1];
+                        ja[j + 1] = ja[j];
+                        ja[j] = itemp;
 
-                            dtemp = a[j + 1];
-                            a[j + 1] = a[j];
-                            a[j] = dtemp;
-                        }
+                        dtemp = a[j + 1];
+                        a[j + 1] = a[j];
+                        a[j] = dtemp;
                     }
                 }
             }

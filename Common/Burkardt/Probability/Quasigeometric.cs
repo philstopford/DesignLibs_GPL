@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Quasigeometric
 {
-    public static class Quasigeometric
-    {
-        public static double quasigeometric_cdf(int x, double a, double b)
+    public static double quasigeometric_cdf(int x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -36,30 +36,33 @@ namespace Burkardt.Probability
         //
         //    Output, double QUASIGEOMETRIC_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        switch (x)
         {
-            double cdf;
-
-            if (x < 0)
-            {
+            case < 0:
                 cdf = 0.0;
-            }
-            else if (x == 0)
-            {
+                break;
+            case 0:
                 cdf = a;
-            }
-            else if (b == 0.0)
+                break;
+            default:
             {
-                cdf = 1.0;
-            }
-            else
-            {
-                cdf = a + (1.0 - a) * (1.0 - Math.Pow(b, x));
-            }
+                cdf = b switch
+                {
+                    0.0 => 1.0,
+                    _ => a + (1.0 - a) * (1.0 - Math.Pow(b, x))
+                };
 
-            return cdf;
+                break;
+            }
         }
 
-        public static int quasigeometric_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static int quasigeometric_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -91,34 +94,36 @@ namespace Burkardt.Probability
         //
         //    Output, int QUASIGEOMETRIC_CDF_INV, the corresponding value of X.
         //
-        {
-            int x;
+    {
+        int x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("QUASIGEOMETRIC_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf < a)
-            {
-                x = 0;
-            }
-            else if (b == 0.0)
-            {
-                x = 1;
-            }
-            else
-            {
-                x = 1 + (int) ((Math.Log(1.0 - cdf) - Math.Log(1.0 - a)) / Math.Log(b));
-            }
-
-            return x;
+                return 1;
         }
 
-        public static bool quasigeometric_check(double a, double b)
+        if (cdf < a)
+        {
+            x = 0;
+        }
+        else
+        {
+            x = b switch
+            {
+                0.0 => 1,
+                _ => 1 + (int) ((Math.Log(1.0 - cdf) - Math.Log(1.0 - a)) / Math.Log(b))
+            };
+        }
+
+        return x;
+    }
+
+    public static bool quasigeometric_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -147,30 +152,36 @@ namespace Burkardt.Probability
         //
         //    Output, bool QUASIGEOMETRIC_CHECK, is true if the parameters are legal.
         //
-        {
-            bool check = true;
+    {
+        bool check = true;
 
-            if (a < 0.0 || 1.0 < a)
-            {
+        switch (a)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("QUASIGEOMETRIC_CHECK - Warning!");
                 Console.WriteLine("  A < 0 or 1 < A.");
                 check = false;
-            }
+                break;
+        }
 
-            if (b < 0.0 || 1.0 <= b)
-            {
+        switch (b)
+        {
+            case < 0.0:
+            case >= 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("QUASIGEOMETRIC_CHECK - Warning!");
                 Console.WriteLine("  B < 0 or 1 <= B.");
                 check = false;
-            }
-
-            return check;
+                break;
         }
 
+        return check;
+    }
 
-        public static double quasigeometric_mean(double a, double b)
+
+    public static double quasigeometric_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -199,13 +210,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = (1.0 - a) / (1.0 - b);
+    {
+        double mean = (1.0 - a) / (1.0 - b);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double quasigeometric_pdf(int x, double a, double b)
+    public static double quasigeometric_pdf(int x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -255,37 +266,34 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        switch (x)
         {
-            double pdf;
-
-            if (x < 0)
-            {
+            case < 0:
                 pdf = 0.0;
-            }
-            else if (x == 0)
-            {
+                break;
+            case 0:
                 pdf = a;
-            }
-            else if (b == 0.0)
+                break;
+            default:
             {
-                if (x == 1)
+                pdf = b switch
                 {
-                    pdf = 1.0;
-                }
-                else
-                {
-                    pdf = 0.0;
-                }
-            }
-            else
-            {
-                pdf = (1.0 - a) * (1.0 - b) * Math.Pow(b, x - 1);
-            }
+                    0.0 when x == 1 => 1.0,
+                    0.0 => 0.0,
+                    _ => (1.0 - a) * (1.0 - b) * Math.Pow(b, x - 1)
+                };
 
-            return pdf;
+                break;
+            }
         }
 
-        public static int quasigeometric_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static int quasigeometric_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -317,18 +325,18 @@ namespace Burkardt.Probability
         //
         //    Output, int QUASIGEOMETRIC_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf;
-            int x;
+    {
+        double cdf;
+        int x;
 
-            cdf = UniformRNG.r8_uniform_01(ref seed);
+        cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            x = quasigeometric_cdf_inv(cdf, a, b);
+        x = quasigeometric_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double quasigeometric_variance(double a, double b)
+    public static double quasigeometric_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -357,10 +365,9 @@ namespace Burkardt.Probability
         //
         //    Output, double QUASIGEOMETRIC_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (1.0 - a) * (a + b) / (1.0 - b) / (1.0 - b);
+    {
+        double variance = (1.0 - a) * (a + b) / (1.0 - b) / (1.0 - b);
 
-            return variance;
-        }
+        return variance;
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class Jacobi
 {
-    public static class Jacobi
-    {
-        public static void sncndn(double u, double m, ref double sn, ref double cn, ref double dn )
+    public static void sncndn(double u, double m, ref double sn, ref double cn, ref double dn )
 
         //****************************************************************************80
         //
@@ -39,103 +39,104 @@ namespace Burkardt.Elliptic
         //    Output, double &SN, &CN, &DN, the value of the Jacobi
         //    elliptic functions sn(u,m), cn(u,m), and dn(u,m).
         //
+    {
+        double a;
+        double b;
+        double c = 0;
+        double ca;
+        double d = 0;
+        int i;
+        int l;
+        double[] m_array;
+        double m_comp;
+        double[] n_array;
+        const double r8_epsilon = 2.220446049250313E-16;
+        double u_copy;
+
+        m_comp = 1.0 - m;
+        u_copy = u;
+
+        switch (m_comp)
         {
-            double a;
-            double b;
-            double c = 0;
-            double ca;
-            double d = 0;
-            int i;
-            int l;
-            double[] m_array;
-            double m_comp;
-            double[] n_array;
-            const double r8_epsilon = 2.220446049250313E-16;
-            double u_copy;
-
-            m_comp = 1.0 - m;
-            u_copy = u;
-
-            if (m_comp == 0.0)
-            {
+            case 0.0:
                 cn = 1.0 / Math.Cosh(u_copy);
                 dn = cn;
                 sn = Math.Tanh(u_copy);
                 return;
-            }
+        }
 
-            if (1.0 < m)
-            {
+        switch (m)
+        {
+            case > 1.0:
                 d = 1.0 - m_comp;
                 m_comp = -m_comp / d;
                 d = Math.Sqrt(d);
                 u_copy = d * u_copy;
+                break;
+        }
+
+        ca = Math.Sqrt(r8_epsilon);
+
+        a = 1.0;
+        dn = 1.0;
+        l = 24;
+
+        m_array = new double[25];
+        n_array = new double[25];
+
+        for (i = 0; i < 25; i++)
+        {
+            m_array[i] = a;
+            m_comp = Math.Sqrt(m_comp);
+            n_array[i] = m_comp;
+            c = 0.5 * (a + m_comp);
+            if (Math.Abs(a - m_comp) <= ca * a)
+            {
+                l = i;
+                break;
             }
 
-            ca = Math.Sqrt(r8_epsilon);
+            m_comp = a * m_comp;
+            a = c;
+        }
 
-            a = 1.0;
-            dn = 1.0;
-            l = 24;
+        u_copy = c * u_copy;
+        sn = Math.Sin(u_copy);
+        cn = Math.Cos(u_copy);
 
-            m_array = new double[25];
-            n_array = new double[25];
+        if (sn != 0.0)
+        {
+            a = cn / sn;
+            c = a * c;
 
-            for (i = 0; i < 25; i++)
+            for (i = l; 0 <= i; i--)
             {
-                m_array[i] = a;
-                m_comp = Math.Sqrt(m_comp);
-                n_array[i] = m_comp;
-                c = 0.5 * (a + m_comp);
-                if (Math.Abs(a - m_comp) <= ca * a)
-                {
-                    l = i;
-                    break;
-                }
-
-                m_comp = a * m_comp;
-                a = c;
+                b = m_array[i];
+                a = c * a;
+                c = dn * c;
+                dn = (n_array[i] + a) / (b + a);
+                a = c / b;
             }
 
-            u_copy = c * u_copy;
-            sn = Math.Sin(u_copy);
-            cn = Math.Cos(u_copy);
+            a = 1.0 / Math.Sqrt(c * c + 1.0);
 
-            if (sn != 0.0)
+            sn = sn switch
             {
-                a = cn / sn;
-                c = a * c;
+                < 0.0 => -a,
+                _ => a
+            };
 
-                for (i = l; 0 <= i; i--)
-                {
-                    b = m_array[i];
-                    a = c * a;
-                    c = dn * c;
-                    dn = (n_array[i] + a) / (b + a);
-                    a = c / b;
-                }
+            cn = c * sn;
+        }
 
-                a = 1.0 / Math.Sqrt(c * c + 1.0);
-
-                if (sn < 0.0)
-                {
-                    sn = -a;
-                }
-                else
-                {
-                    sn = a;
-                }
-
-                cn = c * sn;
-            }
-
-            if (1.0 < m)
-            {
+        switch (m)
+        {
+            case > 1.0:
                 a = dn;
                 dn = cn;
                 cn = a;
-                sn = sn / d;
-            }
+                sn /= d;
+                break;
         }
     }
 }

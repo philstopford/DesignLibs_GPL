@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Digamma
 {
-    public static class Digamma
-    {
-        public static double digamma ( double x )
+    public static double digamma ( double x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -43,52 +43,50 @@ namespace Burkardt.Probability
         //
         //    Output, double DIGAMMA, the value of the digamma function at X.
         //
+    {
+        double c = 8.5;
+        double euler_mascheroni = - 0.57721566490153286060;
+        double value = 0;
+        switch (x)
         {
-            double c = 8.5;
-            double euler_mascheroni = - 0.57721566490153286060;
-            double value;
             //
             //  Check the input.
             //
-            if ( x <= 0.0 )
-            {
+            case <= 0.0:
                 value = 0.0;
                 return value;
-            }
             //
             //  Use approximation for small argument.
             //
-            if ( x <= 0.000001 )
-            {
+            case <= 0.000001:
                 value = - euler_mascheroni - 1.0 / x + 1.6449340668482264365 * x;
                 return value;
-            }
-            //
-            //  Reduce to DIGAMA(X + N).
-            //
-            value = 0.0;
-            double x2 = x;
-            while ( x2 < c )
-            {
-                value = value - 1.0 / x2;
-                x2 = x2 + 1.0;
-            }
-            //
-            //  Use Stirling's (actually de Moivre's) expansion.
-            //
-            double r = 1.0 / x2;
-            value = value + Math.Log ( x2 ) - 0.5 * r;
-
-            r = r * r;
-
-            value = value 
-                    - r * ( 1.0 / 12.0 
-                            - r * ( 1.0 / 120.0 
-                                    - r * ( 1.0 / 252.0 
-                                            - r * ( 1.0 / 240.0
-                                                    - r * ( 1.0 / 132.0 ) ) ) ) );
-
-            return value;
         }
+
+        //
+        //  Reduce to DIGAMA(X + N).
+        //
+        value = 0.0;
+        double x2 = x;
+        while ( x2 < c )
+        {
+            value -= 1.0 / x2;
+            x2 += 1.0;
+        }
+        //
+        //  Use Stirling's (actually de Moivre's) expansion.
+        //
+        double r = 1.0 / x2;
+        value = value + Math.Log ( x2 ) - 0.5 * r;
+
+        r *= r;
+
+        value -= r * ( 1.0 / 12.0 
+                       - r * ( 1.0 / 120.0 
+                               - r * ( 1.0 / 252.0 
+                                       - r * ( 1.0 / 240.0
+                                               - r * ( 1.0 / 132.0 ) ) ) ) );
+
+        return value;
     }
 }

@@ -4,259 +4,262 @@ using System.IO;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt.ChebyshevPolynomialNS
+namespace Burkardt.ChebyshevPolynomialNS;
+
+public static partial class ChebyshevPolynomial
 {
-    public static partial class ChebyshevPolynomial
+    public static double[] cheby_u_zero ( int n )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CHEBY_U_ZERO returns zeroes of the Chebyshev polynomial U(N)(X).
+        //
+        //  Discussion:
+        //
+        //    The I-th zero of U(N)(X) is cos((I-1)*PI/(N-1)), I = 1 to N
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 May 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Output, double CHEBY_U_ZERO[N], the zeroes of U(N)(X).
+        //
     {
-        public static double[] cheby_u_zero ( int n )
+        double angle;
+        int i;
+        double[] z;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CHEBY_U_ZERO returns zeroes of the Chebyshev polynomial U(N)(X).
-            //
-            //  Discussion:
-            //
-            //    The I-th zero of U(N)(X) is cos((I-1)*PI/(N-1)), I = 1 to N
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    24 May 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the polynomial.
-            //
-            //    Output, double CHEBY_U_ZERO[N], the zeroes of U(N)(X).
-            //
+        z = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double angle;
-            int i;
-            double[] z;
-
-            z = new double[n];
-
-            for ( i = 0; i < n; i++ )
-            {
-                angle = ( double ) ( i + 1 ) * Math.PI / ( double ) ( n + 1 );
-                z[i] = Math.Cos ( angle );
-            }
-            return z;
+            angle = (i + 1) * Math.PI / (n + 1);
+            z[i] = Math.Cos ( angle );
         }
-        public static double[] u_mass_matrix(int n)
+        return z;
+    }
+    public static double[] u_mass_matrix(int n)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_MASS_MATRIX computes the mass matrix for the Chebyshev U polynomial.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    14 July 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_MASS_MATRIX computes the mass matrix for the Chebyshev U polynomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 July 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        double[] a;
+        int i;
+        int k;
+        double[] phi;
+        double[] phiw;
+        double[] w;
+        double[] x;
+
+        x = new double[n + 1];
+        w = new double[n + 1];
+
+        u_quadrature_rule(n + 1, ref x, ref w);
+
+        phi = u_polynomial(n + 1, n, x);
+
+        phiw = new double[(n + 1) * (n + 1)];
+
+        for (k = 0; k <= n; k++)
         {
-            double[] a;
-            int i;
-            int k;
-            double[] phi;
-            double[] phiw;
-            double[] w;
-            double[] x;
-
-            x = new double[n + 1];
-            w = new double[n + 1];
-
-            u_quadrature_rule(n + 1, ref x, ref w);
-
-            phi = u_polynomial(n + 1, n, x);
-
-            phiw = new double[(n + 1) * (n + 1)];
-
-            for (k = 0; k <= n; k++)
+            for (i = 0; i <= n; i++)
             {
-                for (i = 0; i <= n; i++)
-                {
-                    phiw[i + k * (n + 1)] = w[k] * phi[k + i * (n + 1)];
-                }
+                phiw[i + k * (n + 1)] = w[k] * phi[k + i * (n + 1)];
             }
-
-            a = typeMethods.r8mat_mm_new(n + 1, n + 1, n + 1, phiw, phi);
-
-            return a;
         }
 
-        public static double u_moment(int e)
+        a = typeMethods.r8mat_mm_new(n + 1, n + 1, n + 1, phiw, phi);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_MOMENT: integral ( -1 <= x <= +1 ) x^e sqrt ( 1 - x^2 ) dx.
-            //
-            //  Discussion:
-            //
-            //     E    U_MOMENT
-            //    --    -------------- 
-            //     0         Math.PI /    2 
-            //     2         Math.PI /    8
-            //     4         Math.PI /   16
-            //     6     5 * Math.PI /  128
-            //     8     7 * Math.PI /  256
-            //    10    21 * Math.PI / 1024
-            //    12    33 * Math.PI / 2048
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    18 September 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int E, the exponent of X.
-            //    0 <= E.
-            //
-            //    Output, double U_MOMENT, the value of the integral.
-            //
-        {
-            double arg1;
-            double arg2;
+        return a;
+    }
+
+    public static double u_moment(int e)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_MOMENT: integral ( -1 <= x <= +1 ) x^e sqrt ( 1 - x^2 ) dx.
+        //
+        //  Discussion:
+        //
+        //     E    U_MOMENT
+        //    --    -------------- 
+        //     0         Math.PI /    2 
+        //     2         Math.PI /    8
+        //     4         Math.PI /   16
+        //     6     5 * Math.PI /  128
+        //     8     7 * Math.PI /  256
+        //    10    21 * Math.PI / 1024
+        //    12    33 * Math.PI / 2048
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 September 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int E, the exponent of X.
+        //    0 <= E.
+        //
+        //    Output, double U_MOMENT, the value of the integral.
+        //
+    {
+        double arg1;
+        double arg2;
             
-            double value;
+        double value = 0;
 
-            if ((e % 2) == 1)
-            {
-                value = 0.0;
-            }
-            else
-            {
-                arg1 = 0.5 * (double) (1 + e);
-                arg2 = 2.0 + 0.5 * (double) (e);
-                value = 0.5 * Math.Sqrt(Math.PI) * Helpers.Gamma(arg1) / Helpers.Gamma(arg2);
-            }
-
-            return value;
-        }
-
-        public static double[] u_polynomial(int m, int n, double[] x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_POLYNOMIAL evaluates Chebyshev polynomials U(n,x).
-            //
-            //  Differential equation:
-            //
-            //    (1-X*X) Y'' - 3 X Y' + N (N+2) Y = 0
-            //
-            //  First terms:
-            //
-            //    U(0,X) =   1
-            //    U(1,X) =   2 X
-            //    U(2,X) =   4 X^2 -   1
-            //    U(3,X) =   8 X^3 -   4 X
-            //    U(4,X) =  16 X^4 -  12 X^2 +  1
-            //    U(5,X) =  32 X^5 -  32 X^3 +  6 X
-            //    U(6,X) =  64 X^6 -  80 X^4 + 24 X^2 - 1
-            //    U(7,X) = 128 X^7 - 192 X^5 + 80 X^3 - 8X
-            //
-            //  Recursion:
-            //
-            //    U(0,X) = 1,
-            //    U(1,X) = 2 * X,
-            //    U(N,X) = 2 * X * U(N-1,X) - U(N-2,X)
-            //
-            //  Norm:
-            //
-            //    Integral ( -1 <= X <= 1 ) ( 1 - X^2 ) * U(N,X)^2 dX = PI/2
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    23 April 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, the number of evaluation points.
-            //
-            //    Input, int N, the highest polynomial to compute.
-            //
-            //    Input, double X[M], the evaluation points.
-            //
-            //    Output, double U_POLYNOMIAL[M*(N+1)], the values of the N+1 
-            //    Chebyshev polynomials.
-            //
+        switch (e % 2)
         {
-            int i;
-            int j;
-            double[] v;
-
-            if (n < 0)
-            {
-                return null;
-            }
-
-            v = new double[m * (n + 1)];
-
-            for (i = 0; i < m; i++)
-            {
-                v[i + 0 * m] = 1.0;
-            }
-
-            if (n < 1)
-            {
-                return v;
-            }
-
-            for (i = 0; i < m; i++)
-            {
-                v[i + 1 * m] = 2.0 * x[i];
-            }
-
-            for (i = 0; i < m; i++)
-            {
-                for (j = 2; j <= n; j++)
-                {
-                    v[i + j * m] = 2.0 * x[i] * v[i + (j - 1) * m] - v[i + (j - 2) * m];
-                }
-            }
-
-            return v;
+            case 1:
+                value = 0.0;
+                break;
+            default:
+                arg1 = 0.5 * (1 + e);
+                arg2 = 2.0 + 0.5 * e;
+                value = 0.5 * Math.Sqrt(Math.PI) * Helpers.Gamma(arg1) / Helpers.Gamma(arg2);
+                break;
         }
 
-        public static void u_polynomial_01_values(ref int n_data, ref int n, ref double x, ref double fx )
+        return value;
+    }
+
+    public static double[] u_polynomial(int m, int n, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_POLYNOMIAL evaluates Chebyshev polynomials U(n,x).
+        //
+        //  Differential equation:
+        //
+        //    (1-X*X) Y'' - 3 X Y' + N (N+2) Y = 0
+        //
+        //  First terms:
+        //
+        //    U(0,X) =   1
+        //    U(1,X) =   2 X
+        //    U(2,X) =   4 X^2 -   1
+        //    U(3,X) =   8 X^3 -   4 X
+        //    U(4,X) =  16 X^4 -  12 X^2 +  1
+        //    U(5,X) =  32 X^5 -  32 X^3 +  6 X
+        //    U(6,X) =  64 X^6 -  80 X^4 + 24 X^2 - 1
+        //    U(7,X) = 128 X^7 - 192 X^5 + 80 X^3 - 8X
+        //
+        //  Recursion:
+        //
+        //    U(0,X) = 1,
+        //    U(1,X) = 2 * X,
+        //    U(N,X) = 2 * X * U(N-1,X) - U(N-2,X)
+        //
+        //  Norm:
+        //
+        //    Integral ( -1 <= X <= 1 ) ( 1 - X^2 ) * U(N,X)^2 dX = PI/2
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    23 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of evaluation points.
+        //
+        //    Input, int N, the highest polynomial to compute.
+        //
+        //    Input, double X[M], the evaluation points.
+        //
+        //    Output, double U_POLYNOMIAL[M*(N+1)], the values of the N+1 
+        //    Chebyshev polynomials.
+        //
+    {
+        int i;
+        int j;
+        double[] v;
+
+        switch (n)
+        {
+            case < 0:
+                return null;
+        }
+
+        v = new double[m * (n + 1)];
+
+        for (i = 0; i < m; i++)
+        {
+            v[i + 0 * m] = 1.0;
+        }
+
+        switch (n)
+        {
+            case < 1:
+                return v;
+        }
+
+        for (i = 0; i < m; i++)
+        {
+            v[i + 1 * m] = 2.0 * x[i];
+        }
+
+        for (i = 0; i < m; i++)
+        {
+            for (j = 2; j <= n; j++)
+            {
+                v[i + j * m] = 2.0 * x[i] * v[i + (j - 1) * m] - v[i + (j - 2) * m];
+            }
+        }
+
+        return v;
+    }
+
+    public static void u_polynomial_01_values(ref int n_data, ref int n, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -308,10 +311,10 @@ namespace Burkardt.ChebyshevPolynomialNS
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 25;
+    {
+        const int N_MAX = 25;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.000000000000000,
                 1.000000000000000,
@@ -341,7 +344,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             ;
 
-            int[] n_vec =
+        int[] n_vec =
             {
                 -1,
                 0, 1, 2,
@@ -355,7 +358,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.85,
                 0.85,
@@ -385,227 +388,230 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                n = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                n = n_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            n = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            n = n_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
+
+    public static double[] u_polynomial_ab(double a, double b, int m, int n, double[] xab)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_POLYNOMIAL_AB: Chebyshev polynomials UAB(n,x) in [A,B].
+        //
+        //  Discussion:
+        //
+        //    UAB(n,x) = U(n,(2*x-a-b)/(b-a))
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    20 July 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A, B, the domain of definition.
+        //
+        //    Input, int M, the number of evaluation points.
+        //
+        //    Input, int N, the highest polynomial to compute.
+        //
+        //    Input, double XAB[M], the evaluation points.
+        //    A <= XAB(*) <= B.
+        //
+        //    Output, double U_POLYNOMIAL_AB[M*(N+1)], the values.
+        //
+    {
+        int i;
+        double[] v;
+        double[] x;
+
+        x = new double[m];
+
+        for (i = 0; i < m; i++)
+        {
+            x[i] = (2.0 * xab[i] - a - b) / (b - a);
         }
 
-        public static double[] u_polynomial_ab(double a, double b, int m, int n, double[] xab)
+        v = u_polynomial(m, n, x);
+        return v;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_POLYNOMIAL_AB: Chebyshev polynomials UAB(n,x) in [A,B].
-            //
-            //  Discussion:
-            //
-            //    UAB(n,x) = U(n,(2*x-a-b)/(b-a))
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    20 July 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double A, B, the domain of definition.
-            //
-            //    Input, int M, the number of evaluation points.
-            //
-            //    Input, int N, the highest polynomial to compute.
-            //
-            //    Input, double XAB[M], the evaluation points.
-            //    A <= XAB(*) <= B.
-            //
-            //    Output, double U_POLYNOMIAL_AB[M*(N+1)], the values.
-            //
+    public static double u_polynomial_ab_value(double a, double b, int n, double xab)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_POLYNOMIAL_AB_VALUE: Chebyshev polynomial UAB(n,x) in [A,B].
+        //
+        //  Discussion:
+        //
+        //    UAB(n,x) = U(n,(2*x-a-b)/(b-a))
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    20 July 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A, B, the domain of definition.
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, double XAB, the evaluation point.
+        //    A <= XAB(*) <= B.
+        //
+        //    Output, double U_POLYNOMIAL_AB_VALUE, the value.
+        //
+    {
+        double v;
+        double x;
+
+        x = (2.0 * xab - a - b) / (b - a);
+
+        v = u_polynomial_value(n, x);
+
+        return v;
+    }
+
+    public static double[] u_polynomial_coefficients(int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_POLYNOMIAL_COEFFICIENTS evaluates coefficients of Chebyshev polynomials U(n,x).
+        //
+        //  First terms:
+        //
+        //    N/K     0     1      2      3       4     5      6    7      8    9   10
+        //
+        //     0      1
+        //     1      0     2
+        //     2     -1     0      4
+        //     3      0    -4      0      8
+        //     4      1     0    -12      0      16
+        //     5      0     6      0    -32       0    32
+        //     6     -1     0     24      0     -80     0     64
+        //     7      0    -8      0     80       0  -192      0   128
+        //
+        //  Recursion:
+        //
+        //    U(0,X) = 1,
+        //    U(1,X) = 2*X,
+        //    U(N,X) = 2 * X * U(N-1,X) - U(N-2,X)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    16 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the highest order polynomial to compute.
+        //    Note that polynomials 0 through N will be computed.
+        //
+        //    Output, double U_POLYNOMIAL_COEFFICIENTS[(N+1)*((N+1)], the coefficients 
+        //    of the Chebyshev U polynomials.
+        //
+    {
+        double[] c;
+        int i;
+        int j;
+
+        switch (n)
         {
-            int i;
-            double[] v;
-            double[] x;
-
-            x = new double[m];
-
-            for (i = 0; i < m; i++)
-            {
-                x[i] = (2.0 * xab[i] - a - b) / (b - a);
-            }
-
-            v = u_polynomial(m, n, x);
-            return v;
-        }
-
-        public static double u_polynomial_ab_value(double a, double b, int n, double xab)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_POLYNOMIAL_AB_VALUE: Chebyshev polynomial UAB(n,x) in [A,B].
-            //
-            //  Discussion:
-            //
-            //    UAB(n,x) = U(n,(2*x-a-b)/(b-a))
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    20 July 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double A, B, the domain of definition.
-            //
-            //    Input, int N, the order of the polynomial.
-            //
-            //    Input, double XAB, the evaluation point.
-            //    A <= XAB(*) <= B.
-            //
-            //    Output, double U_POLYNOMIAL_AB_VALUE, the value.
-            //
-        {
-            double v;
-            double x;
-
-            x = (2.0 * xab - a - b) / (b - a);
-
-            v = u_polynomial_value(n, x);
-
-            return v;
-        }
-
-        public static double[] u_polynomial_coefficients(int n)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_POLYNOMIAL_COEFFICIENTS evaluates coefficients of Chebyshev polynomials U(n,x).
-            //
-            //  First terms:
-            //
-            //    N/K     0     1      2      3       4     5      6    7      8    9   10
-            //
-            //     0      1
-            //     1      0     2
-            //     2     -1     0      4
-            //     3      0    -4      0      8
-            //     4      1     0    -12      0      16
-            //     5      0     6      0    -32       0    32
-            //     6     -1     0     24      0     -80     0     64
-            //     7      0    -8      0     80       0  -192      0   128
-            //
-            //  Recursion:
-            //
-            //    U(0,X) = 1,
-            //    U(1,X) = 2*X,
-            //    U(N,X) = 2 * X * U(N-1,X) - U(N-2,X)
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    16 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the highest order polynomial to compute.
-            //    Note that polynomials 0 through N will be computed.
-            //
-            //    Output, double U_POLYNOMIAL_COEFFICIENTS[(N+1)*((N+1)], the coefficients 
-            //    of the Chebyshev U polynomials.
-            //
-        {
-            double[] c;
-            int i;
-            int j;
-
-            if (n < 0)
-            {
+            case < 0:
                 return null;
-            }
-
-            c = new double[(n + 1) * (n + 1)];
-
-            for (i = 0; i <= n; i++)
-            {
-                for (j = 0; j <= n; j++)
-                {
-                    c[i + j * (n + 1)] = 0.0;
-                }
-            }
-
-            c[0 + 0 * (n + 1)] = 1.0;
-
-            if (n == 0)
-            {
-                return c;
-            }
-
-            c[1 + 1 * (n + 1)] = 2.0;
-
-            for (i = 2; i <= n; i++)
-            {
-                c[i + 0 * (n + 1)] = -c[i - 2 + 0 * (n + 1)];
-                for (j = 1; j <= i - 2; j++)
-                {
-                    c[i + j * (n + 1)] = 2.0 * c[i - 1 + (j - 1) * (n + 1)] - c[i - 2 + j * (n + 1)];
-                }
-
-                c[i + (i - 1) * (n + 1)] = 2.0 * c[i - 1 + (i - 2) * (n + 1)];
-                c[i + i * (n + 1)] = 2.0 * c[i - 1 + (i - 1) * (n + 1)];
-            }
-
-            return c;
         }
 
-        public static void u_polynomial_plot(int n_num, int[] n_val, string output_filename )
+        c = new double[(n + 1) * (n + 1)];
+
+        for (i = 0; i <= n; i++)
+        {
+            for (j = 0; j <= n; j++)
+            {
+                c[i + j * (n + 1)] = 0.0;
+            }
+        }
+
+        c[0 + 0 * (n + 1)] = 1.0;
+
+        switch (n)
+        {
+            case 0:
+                return c;
+        }
+
+        c[1 + 1 * (n + 1)] = 2.0;
+
+        for (i = 2; i <= n; i++)
+        {
+            c[i + 0 * (n + 1)] = -c[i - 2 + 0 * (n + 1)];
+            for (j = 1; j <= i - 2; j++)
+            {
+                c[i + j * (n + 1)] = 2.0 * c[i - 1 + (j - 1) * (n + 1)] - c[i - 2 + j * (n + 1)];
+            }
+
+            c[i + (i - 1) * (n + 1)] = 2.0 * c[i - 1 + (i - 2) * (n + 1)];
+            c[i + i * (n + 1)] = 2.0 * c[i - 1 + (i - 1) * (n + 1)];
+        }
+
+        return c;
+    }
+
+    public static void u_polynomial_plot(int n_num, int[] n_val, string output_filename )
 
         //****************************************************************************80
         //
@@ -636,157 +642,154 @@ namespace Burkardt.ChebyshevPolynomialNS
         //    graphics information is to be stored.  Note that the PNG format will 
         //    be used.
         //
+    {
+        double a;
+        double b;
+        int column;
+        string command_filename;
+        List<string> command_unit = new();
+        string data_filename;
+        List<string> data_unit = new();
+        int i;
+        int j;
+        int m = 501;
+        int n;
+        int n_max;
+        double[] v;
+        double[] x;
+
+        a = -1.0;
+        b = +1.0;
+
+        x = typeMethods.r8vec_linspace_new(m, a, b);
+        //
+        //  Compute all the data.
+        //
+        n_max = typeMethods.i4vec_max(n_num, n_val);
+        v = u_polynomial(m, n_max, x);
+        //
+        //  Create the data file.
+        //
+        data_filename = "u_polynomial_data.txt";
+        for (i = 0; i < m; i++)
         {
-            double a;
-            double b;
-            int column;
-            string command_filename;
-            List<string> command_unit = new List<string>();
-            string data_filename;
-            List<string> data_unit = new List<string>();
-            int i;
-            int j;
-            int m = 501;
-            int n;
-            int n_max;
-            double[] v;
-            double[] x;
-
-            a = -1.0;
-            b = +1.0;
-
-            x = typeMethods.r8vec_linspace_new(m, a, b);
-            //
-            //  Compute all the data.
-            //
-            n_max = typeMethods.i4vec_max(n_num, n_val);
-            v = u_polynomial(m, n_max, x);
-            //
-            //  Create the data file.
-            //
-            data_filename = "u_polynomial_data.txt";
-            for (i = 0; i < m; i++)
-            {
-                string line = x[i].ToString();
-                for (j = 0; j < n_num; j++)
-                {
-                    n = n_val[j];
-                    line  += "  " + v[i + n * m];
-                }
-
-                data_unit.Add(line);
-            }
-
-            File.WriteAllLines(data_filename, data_unit);
-            Console.WriteLine("");
-            Console.WriteLine("  Created graphics data file '" + data_filename + "'.");
-            //
-            //  Plot the selected data.
-            //
-            command_filename = "u_polynomial_commands.txt";
-
-            command_unit.Add("# " + command_filename + "");
-            command_unit.Add("#");
-            command_unit.Add("# Usage:");
-            command_unit.Add("#  gnuplot < " + command_filename + "");
-            command_unit.Add("#");
-            command_unit.Add("set term png");
-            command_unit.Add("set nokey");
-            command_unit.Add("set output '" + output_filename + "'");
-            command_unit.Add("set xlabel '<---X--->'");
-            command_unit.Add("set ylabel '<---U(n,x)--->'");
-            command_unit.Add("set title 'Chebyshev Polynomials U(n,x)'");
-            command_unit.Add("set grid");
-            command_unit.Add("set style data lines");
+            string line = x[i].ToString();
             for (j = 0; j < n_num; j++)
             {
-                string line = "";
-                column = n_val[j] + 1;
-                if (j == 0)
-                {
-                    line += "plot ";
-                }
-                else
-                {
-                    line += "     ";
-                }
-
-                line += "'" + data_filename + "' using 1:" + column + " lw 3 linecolor rgb 'red'";
-                if (j < n_num - 1)
-                {
-                    line += ", \\";
-                }
-                else
-                {
-                    line += "";
-                }
-                command_unit.Add(line);
+                n = n_val[j];
+                line  += "  " + v[i + n * m];
             }
 
-            File.WriteAllLines(command_filename, command_unit);
-            Console.WriteLine("  Created graphics command file '" + command_filename + "'.");
+            data_unit.Add(line);
         }
 
-        
-        public static double u_polynomial_value(int n, double x)
+        File.WriteAllLines(data_filename, data_unit);
+        Console.WriteLine("");
+        Console.WriteLine("  Created graphics data file '" + data_filename + "'.");
+        //
+        //  Plot the selected data.
+        //
+        command_filename = "u_polynomial_commands.txt";
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_POLYNOMIAL_VALUE: returns the single value U(n,x).
-            //
-            //  Discussion:
-            //
-            //    In cases where calling U_POLYNOMIAL is inconvenient, because it returns
-            //    a vector of values for multiple arguments X, this simpler interface
-            //    may be appropriate.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 July 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the polynomial.
-            //
-            //    Input, double X, the argument of the polynomial.
-            //
-            //    Output, double U_POLYNOMIAL_VALUE, the value of U(n,x).
-            //
+        command_unit.Add("# " + command_filename + "");
+        command_unit.Add("#");
+        command_unit.Add("# Usage:");
+        command_unit.Add("#  gnuplot < " + command_filename + "");
+        command_unit.Add("#");
+        command_unit.Add("set term png");
+        command_unit.Add("set nokey");
+        command_unit.Add("set output '" + output_filename + "'");
+        command_unit.Add("set xlabel '<---X--->'");
+        command_unit.Add("set ylabel '<---U(n,x)--->'");
+        command_unit.Add("set title 'Chebyshev Polynomials U(n,x)'");
+        command_unit.Add("set grid");
+        command_unit.Add("set style data lines");
+        for (j = 0; j < n_num; j++)
         {
-            int m;
-            double[] v_vec;
-            double value;
-            double[] x_vec = new double[1];
-
-            if (n < 0)
+            string line = "";
+            column = n_val[j] + 1;
+            line += j switch
             {
-                value = 0.0;
+                0 => "plot ",
+                _ => "     "
+            };
+
+            line += "'" + data_filename + "' using 1:" + column + " lw 3 linecolor rgb 'red'";
+            if (j < n_num - 1)
+            {
+                line += ", \\";
             }
             else
             {
+                line += "";
+            }
+            command_unit.Add(line);
+        }
+
+        File.WriteAllLines(command_filename, command_unit);
+        Console.WriteLine("  Created graphics command file '" + command_filename + "'.");
+    }
+
+        
+    public static double u_polynomial_value(int n, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_POLYNOMIAL_VALUE: returns the single value U(n,x).
+        //
+        //  Discussion:
+        //
+        //    In cases where calling U_POLYNOMIAL is inconvenient, because it returns
+        //    a vector of values for multiple arguments X, this simpler interface
+        //    may be appropriate.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 July 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, double X, the argument of the polynomial.
+        //
+        //    Output, double U_POLYNOMIAL_VALUE, the value of U(n,x).
+        //
+    {
+        int m;
+        double[] v_vec;
+        double value = 0;
+        double[] x_vec = new double[1];
+
+        switch (n)
+        {
+            case < 0:
+                value = 0.0;
+                break;
+            default:
                 m = 1;
                 x_vec[0] = x;
 
                 v_vec = u_polynomial(m, n, x_vec);
 
                 value = v_vec[n];
-
-            }
-
-            return value;
+                break;
         }
 
-        public static void u_polynomial_values(ref int n_data, ref int n, ref double x, ref double fx )
+        return value;
+    }
+
+    public static void u_polynomial_values(ref int n_data, ref int n, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -840,10 +843,10 @@ namespace Burkardt.ChebyshevPolynomialNS
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 14;
+    {
+        const int N_MAX = 14;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.0000000000000000E+00,
                 0.1000000000000000E+01,
@@ -862,7 +865,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             ;
 
-            int[] n_vec =
+        int[] n_vec =
             {
                 -1,
                 0, 1, 2,
@@ -873,7 +876,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.8E+00,
                 0.8E+00,
@@ -892,75 +895,76 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                n = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                n = n_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-        }
-
-        public static double[] u_polynomial_zeros(int n)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    U_POLYNOMIAL_ZEROS returns zeroes of Chebyshev polynomials U(n,x).
-            //
-            //  Discussion:
-            //
-            //    The I-th zero is cos((I-1)*PI/(N-1)), I = 1 to N
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    18 March 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the polynomial.
-            //
-            //    Output, double U_POLYNOMIAL_ZEROS[N], the zeroes.
-            //
+        n_data = n_data switch
         {
-            double angle;
-            int i;
-            double[] z;
+            < 0 => 0,
+            _ => n_data
+        };
 
-            z = new double[n];
+        n_data += 1;
 
-            for (i = 1; i <= n; i++)
-            {
-                angle = (double) (i) * Math.PI / (double) (n + 1);
-                z[i - 1] = Math.Cos(angle);
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            n = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            n = n_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-            return z;
+    public static double[] u_polynomial_zeros(int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    U_POLYNOMIAL_ZEROS returns zeroes of Chebyshev polynomials U(n,x).
+        //
+        //  Discussion:
+        //
+        //    The I-th zero is cos((I-1)*PI/(N-1)), I = 1 to N
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    18 March 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Output, double U_POLYNOMIAL_ZEROS[N], the zeroes.
+        //
+    {
+        double angle;
+        int i;
+        double[] z;
+
+        z = new double[n];
+
+        for (i = 1; i <= n; i++)
+        {
+            angle = i * Math.PI / (n + 1);
+            z[i - 1] = Math.Cos(angle);
         }
 
-        public static void u_quadrature_rule(int n, ref double[] t, ref double[] w )
+        return z;
+    }
+
+    public static void u_quadrature_rule(int n, ref double[] t, ref double[] w )
 
         //****************************************************************************80
         //
@@ -991,134 +995,135 @@ namespace Burkardt.ChebyshevPolynomialNS
         //
         //    Output, double T[N], W[N], the points and weights of the rule.
         //
-        {
-            double[] bj;
-            int i;
+    {
+        double[] bj;
+        int i;
             
 
-            for (i = 0; i < n; i++)
-            {
-                t[i] = 0.0;
-            }
-
-            bj = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                bj[i] = 0.5;
-            }
-
-            w[0] = Math.Sqrt(Math.PI / 2.0);
-            for (i = 1; i < n; i++)
-            {
-                w[i] = 0.0;
-            }
-
-            IMTQLX.imtqlx(n, ref t, ref bj, ref w);
-
-            for (i = 0; i < n; i++)
-            {
-                w[i] = w[i] * w[i];
-            }
+        for (i = 0; i < n; i++)
+        {
+            t[i] = 0.0;
         }
 
-        public static double uu_product(int i, int j, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    UU_PRODUCT: evaluate U(i,x)*U(j,x)
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 July 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int I, J, the indices.
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double UU_PRODUCT, the value.
-            //
+        bj = new double[n];
+        for (i = 0; i < n; i++)
         {
-            int k;
-            double value;
-
-            value = 0.0;
-            for (k = Math.Abs(i - j); k <= i + j; k = k + 2)
-            {
-                value = value + u_polynomial_value(k, x);
-            }
-
-            return value;
+            bj[i] = 0.5;
         }
 
-        public static double uu_product_integral(int i, int j)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    UU_PRODUCT_INTEGRAL: integral (-1<=x<=1) U(i,x)*U(j,x)*sqrt(1-x^2) dx
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    25 April 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int I, J, the polynomial indices.
-            //    0 <= I, J.
-            //
-            //    Output, double UU_PRODUCT_INTEGRAL, the value of the integral.
-            //
+        w[0] = Math.Sqrt(Math.PI / 2.0);
+        for (i = 1; i < n; i++)
         {
+            w[i] = 0.0;
+        }
+
+        IMTQLX.imtqlx(n, ref t, ref bj, ref w);
+
+        for (i = 0; i < n; i++)
+        {
+            w[i] *= w[i];
+        }
+    }
+
+    public static double uu_product(int i, int j, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    UU_PRODUCT: evaluate U(i,x)*U(j,x)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 July 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int I, J, the indices.
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double UU_PRODUCT, the value.
+        //
+    {
+        int k;
+        double value = 0;
+
+        value = 0.0;
+        for (k = Math.Abs(i - j); k <= i + j; k += 2)
+        {
+            value += u_polynomial_value(k, x);
+        }
+
+        return value;
+    }
+
+    public static double uu_product_integral(int i, int j)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    UU_PRODUCT_INTEGRAL: integral (-1<=x<=1) U(i,x)*U(j,x)*sqrt(1-x^2) dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int I, J, the polynomial indices.
+        //    0 <= I, J.
+        //
+        //    Output, double UU_PRODUCT_INTEGRAL, the value of the integral.
+        //
+    {
             
-            double value;
+        double value = 0;
 
-            if (i < 0)
-            {
+        switch (i)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("UU_PRODUCT_INTEGRAL - Fatal error!");
                 Console.WriteLine("  0 <= I, is required.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (j < 0)
-            {
+        switch (j)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("UU_PRODUCT_INTEGRAL - Fatal error!");
                 Console.WriteLine("  0 <= J is required.");
-                return (1);
-            }
-
-            if (i != j)
-            {
-                value = 0.0;
-            }
-            else
-            {
-                value = Math.PI / 2.0;
-            }
-
-            return value;
+                return 1;
         }
+
+        if (i != j)
+        {
+            value = 0.0;
+        }
+        else
+        {
+            value = Math.PI / 2.0;
+        }
+
+        return value;
     }
 }

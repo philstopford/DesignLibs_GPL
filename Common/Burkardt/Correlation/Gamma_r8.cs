@@ -1,58 +1,58 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.CorrelationNS
-{
-    public static partial class Correlation
-    {
-        public static double r8_lgmc(double x)
+namespace Burkardt.CorrelationNS;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_LGMC evaluates the log gamma correction factor for an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    For 10 <= X, compute the log gamma correction factor so that
-            //
-            //      log ( gamma ( x ) ) = log ( sqrt ( 2 * Math.PI ) ) 
-            //                          + ( x - 0.5 ) * log ( x ) - x 
-            //                          + r8_lgmc ( x )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_LGMC, the correction factor.
-            //
-        {
-            double[] algmcs = {
+public static partial class Correlation
+{
+    public static double r8_lgmc(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_LGMC evaluates the log gamma correction factor for an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    For 10 <= X, compute the log gamma correction factor so that
+        //
+        //      log ( gamma ( x ) ) = log ( sqrt ( 2 * Math.PI ) ) 
+        //                          + ( x - 0.5 ) * log ( x ) - x 
+        //                          + r8_lgmc ( x )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_LGMC, the correction factor.
+        //
+    {
+        double[] algmcs = {
                 +0.1666389480451863247205729650822,
                 -0.1384948176067563840732986059135E-04,
                 +0.9810825646924729426157171547487E-08,
@@ -70,44 +70,48 @@ namespace Burkardt.CorrelationNS
                 +0.1276642195630062933333333333333E-30
             }
             ;
-            int nalgm = 0;
-            double value;
-            double xbig = 0.0;
-            double xmax = 0.0;
+        int nalgm = 0;
+        double value = 0;
+        double xbig = 0.0;
+        double xmax = 0.0;
 
-            if (nalgm == 0)
-            {
+        switch (nalgm)
+        {
+            case 0:
                 nalgm = r8_inits(algmcs, 15, typeMethods.r8_mach(3));
                 xbig = 1.0 / Math.Sqrt(typeMethods.r8_mach(3));
                 xmax = Math.Exp(Math.Min(Math.Log(typeMethods.r8_mach(2) / 12.0),
                     -Math.Log(12.0 * typeMethods.r8_mach(1))));
-            }
+                break;
+        }
 
-            if (x < 10.0)
-            {
+        switch (x)
+        {
+            case < 10.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_LGMC - Fatal error!");
                 Console.WriteLine("  X must be at least 10.");
-                return (1);
-            }
-            else if (x < xbig)
-            {
-                value = r8_csevl(2.0 * (10.0 / x)
-                                     * (10.0 / x) - 1.0, algmcs, nalgm) / x;
-            }
-            else if (x < xmax)
-            {
-                value = 1.0 / (12.0 * x);
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
+                return 1;
         }
 
-        public static void r8_gaml(ref double xmin, ref double xmax )
+        if (x < xbig)
+        {
+            value = r8_csevl(2.0 * (10.0 / x)
+                                 * (10.0 / x) - 1.0, algmcs, nalgm) / x;
+        }
+        else if (x < xmax)
+        {
+            value = 1.0 / (12.0 * x);
+        }
+        else
+        {
+            value = 0.0;
+        }
+
+        return value;
+    }
+
+    public static void r8_gaml(ref double xmin, ref double xmax )
 
         //****************************************************************************80
         //
@@ -151,25 +155,27 @@ namespace Burkardt.CorrelationNS
         //
         //    Output, double &XMIN, &XMAX, the bounds.
         //
+    {
+        double alnbig;
+        double alnsml;
+        int i;
+        int j;
+        double xln;
+        double xold;
+
+        alnsml = Math.Log(typeMethods.r8_mach(1));
+        xmin = -alnsml;
+
+        for (i = 1; i <= 10; i++)
         {
-            double alnbig;
-            double alnsml;
-            int i;
-            int j;
-            double xln;
-            double xold;
+            xold = xmin;
+            xln = Math.Log(xmin);
+            xmin -= xmin * ((xmin + 0.5) * xln - xmin
+                                               - 0.2258 + alnsml) / (xmin * xln + 0.5);
 
-            alnsml = Math.Log(typeMethods.r8_mach(1));
-            xmin = -alnsml;
-
-            for (i = 1; i <= 10; i++)
+            switch (Math.Abs(xmin - xold))
             {
-                xold = xmin;
-                xln = Math.Log(xmin);
-                xmin = xmin - xmin * ((xmin + 0.5) * xln - xmin
-                                                         - 0.2258 + alnsml) / (xmin * xln + 0.5);
-
-                if (Math.Abs(xmin - xold) < 0.005)
+                case < 0.005:
                 {
                     xmin = -xmin + 0.01;
 
@@ -180,14 +186,15 @@ namespace Burkardt.CorrelationNS
                     {
                         xold = xmax;
                         xln = Math.Log(xmax);
-                        xmax = xmax - xmax * ((xmax - 0.5) * xln - xmax
+                        xmax -= xmax * ((xmax - 0.5) * xln - xmax
                             + 0.9189 - alnbig) / (xmax * xln - 0.5);
 
-                        if (Math.Abs(xmax - xold) < 0.005)
+                        switch (Math.Abs(xmax - xold))
                         {
-                            xmax = xmax - 0.01;
-                            xmin = Math.Max(xmin, -xmax + 1.0);
-                            return;
+                            case < 0.005:
+                                xmax -= 0.01;
+                                xmin = Math.Max(xmin, -xmax + 1.0);
+                                return;
                         }
                     }
 
@@ -197,54 +204,54 @@ namespace Burkardt.CorrelationNS
                     return;
                 }
             }
-
-            Console.WriteLine("");
-            Console.WriteLine("R8_GAML - Fatal error!");
-            Console.WriteLine("  Unable to find XMIN.");
-            return;
         }
 
-        public static double r8_gamma(double x)
+        Console.WriteLine("");
+        Console.WriteLine("R8_GAML - Fatal error!");
+        Console.WriteLine("  Unable to find XMIN.");
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_GAMMA evaluates the gamma function of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_GAMMA, the gamma function of X.
-            //
-        {
-            double dxrel = 0.0;
-            double[] gcs = {
+    public static double r8_gamma(double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_GAMMA evaluates the gamma function of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_GAMMA, the gamma function of X.
+        //
+    {
+        double dxrel = 0.0;
+        double[] gcs = {
                 +0.8571195590989331421920062399942E-02,
                 +0.4415381324841006757191315771652E-02,
                 +0.5685043681599363378632664588789E-01,
@@ -289,106 +296,121 @@ namespace Burkardt.CorrelationNS
                 -0.5793070335782135784625493333333E-31
             }
             ;
-            int i;
-            int n;
-            int ngcs = 0;
+        int i;
+        int n;
+        int ngcs = 0;
             
-            double sinpiy;
-            double sq2pil = 0.91893853320467274178032973640562;
-            double value;
-            double xmax = 0.0;
-            double xmin = 0.0;
-            double xsml = 0.0;
-            double y;
+        double sinpiy;
+        double sq2pil = 0.91893853320467274178032973640562;
+        double value = 0;
+        double xmax = 0.0;
+        double xmin = 0.0;
+        double xsml = 0.0;
+        double y;
 
-            if (ngcs == 0)
-            {
+        switch (ngcs)
+        {
+            case 0:
                 ngcs = r8_inits(gcs, 42, 0.1 * typeMethods.r8_mach(3));
                 r8_gaml(ref xmin, ref xmax);
                 xsml = Math.Exp(Math.Max(Math.Log(typeMethods.r8_mach(1)),
                     -Math.Log(typeMethods.r8_mach(2))) + 0.01);
                 dxrel = Math.Sqrt(typeMethods.r8_mach(4));
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (y <= 10.0)
+        switch (y)
+        {
+            case <= 10.0:
             {
-                n = (int) (x);
-                if (x < 0.0)
+                n = (int) x;
+                switch (x)
                 {
-                    n = n - 1;
+                    case < 0.0:
+                        n -= 1;
+                        break;
                 }
 
-                y = x - (double) (n);
-                n = n - 1;
+                y = x - n;
+                n -= 1;
                 value = 0.9375 + r8_csevl(2.0 * y - 1.0, gcs, ngcs);
 
-                if (n == 0)
+                switch (n)
                 {
-                    return value;
+                    case 0:
+                        return value;
+                    case < 0:
+                    {
+                        n = -n;
+
+                        switch (x)
+                        {
+                            case 0.0:
+                                Console.WriteLine("");
+                                Console.WriteLine("R8_GAMMA - Fatal error!");
+                                Console.WriteLine("  X is 0.");
+                                return 1;
+                            case < 0.0 when x + (n - 2) == 0.0:
+                                Console.WriteLine("");
+                                Console.WriteLine("R8_GAMMA - Fatal error!");
+                                Console.WriteLine("  X is a negative int.");
+                                return 1;
+                            case < -0.5 when Math.Abs((x - Math.Truncate(x - 0.5)) / x) < dxrel:
+                                Console.WriteLine("");
+                                Console.WriteLine("R8_GAMMA - Warning!");
+                                Console.WriteLine("  X too near a negative int,");
+                                Console.WriteLine("  answer is half precision.");
+                                break;
+                        }
+
+                        if (y < xsml)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("R8_GAMMA - Fatal error!");
+                            Console.WriteLine("  X is so close to zero that Gamma overflows.");
+                            return 1;
+                        }
+
+                        for (i = 1; i <= n; i++)
+                        {
+                            value /= (x + (i - 1));
+                        }
+
+                        break;
+                    }
+                    default:
+                    {
+                        switch (n)
+                        {
+                            case 0:
+                                break;
+                            default:
+                            {
+                                for (i = 1; i <= n; i++)
+                                {
+                                    value = (y + i) * value;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
                 }
-                else if (n < 0)
-                {
-                    n = -n;
 
-                    if (x == 0.0)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_GAMMA - Fatal error!");
-                        Console.WriteLine("  X is 0.");
-                        return (1);
-                    }
-
-                    if (x < 0.0 && x + (double) (n - 2) == 0.0)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_GAMMA - Fatal error!");
-                        Console.WriteLine("  X is a negative int.");
-                        return (1);
-                    }
-
-                    if (x < -0.5 && Math.Abs((x - Math.Truncate(x - 0.5)) / x) < dxrel)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_GAMMA - Warning!");
-                        Console.WriteLine("  X too near a negative int,");
-                        Console.WriteLine("  answer is half precision.");
-                    }
-
-                    if (y < xsml)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_GAMMA - Fatal error!");
-                        Console.WriteLine("  X is so close to zero that Gamma overflows.");
-                        return (1);
-                    }
-
-                    for (i = 1; i <= n; i++)
-                    {
-                        value = value / (x + (double) (i - 1));
-                    }
-
-                }
-                else if (n == 0)
-                {
-                }
-                else
-                {
-                    for (i = 1; i <= n; i++)
-                    {
-                        value = (y + (double) (i)) * value;
-                    }
-                }
+                break;
             }
-            else
+            default:
             {
                 if (xmax < x)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8_GAMMA - Fatal error!");
                     Console.WriteLine("  X so big that Gamma overflows.");
-                    return (1);
+                    return 1;
                 }
 
                 //
@@ -402,9 +424,10 @@ namespace Burkardt.CorrelationNS
 
                 value = Math.Exp((y - 0.5) * Math.Log(y) - y + sq2pil + r8_lgmc(y));
 
-                if (0.0 < x)
+                switch (x)
                 {
-                    return value;
+                    case > 0.0:
+                        return value;
                 }
 
                 if (Math.Abs((x - Math.Truncate(x - 0.5)) / x) < dxrel)
@@ -417,18 +440,20 @@ namespace Burkardt.CorrelationNS
 
                 sinpiy = Math.Sin(Math.PI * y);
 
-                if (sinpiy == 0.0)
+                switch (sinpiy)
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8_GAMMA - Fatal error!");
-                    Console.WriteLine("  X is a negative int.");
-                    return (1);
+                    case 0.0:
+                        Console.WriteLine("");
+                        Console.WriteLine("R8_GAMMA - Fatal error!");
+                        Console.WriteLine("  X is a negative int.");
+                        return 1;
                 }
 
                 value = -Math.PI / (y * sinpiy * value);
+                break;
             }
-
-            return value;
         }
+
+        return value;
     }
 }

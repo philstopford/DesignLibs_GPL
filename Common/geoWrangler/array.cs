@@ -3,104 +3,103 @@ using System.Collections.Generic;
 using System.Linq;
 using geoLib;
 
-namespace geoWrangler
+namespace geoWrangler;
+
+public static partial class GeoWrangler
 {
-    public static partial class GeoWrangler
+    public static List<List<GeoLibPointF>> makeArray2(List<GeoLibPointF> source, int xCount, double xPitch, int yCount, double yPitch)
     {
-        public static List<List<GeoLibPointF>> makeArray2(List<GeoLibPointF> source, int xCount, double xPitch, int yCount, double yPitch)
-        {
-            List<GeoLibPointF[]> r = pMakeArray(source.ToArray(), xCount, xPitch, yCount, yPitch);
+        List<GeoLibPointF[]> r = pMakeArray(source.ToArray(), xCount, xPitch, yCount, yPitch);
 
-            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
-            foreach (var t in r)
+        List<List<GeoLibPointF>> ret = new();
+        foreach (GeoLibPointF[] t in r)
+        {
+            ret.Add(t.ToList());
+        }
+
+        return ret;
+    }
+
+    public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
+    {
+        return pMakeArray(source.ToArray(), xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+    }
+
+    public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        return pMakeArray(source.ToArray(), xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+    }
+
+    public static List<GeoLibPointF[]> makeArray(GeoLibPointF[] source, int xCount, decimal xPitch, int yCount, decimal yPitch)
+    {
+        return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+    }
+
+    public static List<GeoLibPointF[]> makeArray(GeoLibPointF[] source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        return pMakeArray(source, xCount, xPitch, yCount, yPitch);
+    }
+
+    private static List<GeoLibPointF[]> pMakeArray(GeoLibPointF[] source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        List<GeoLibPointF[]> ret = new();
+        for (int x = 0; x < xCount; x++)
+        {
+            for (int y = 0; y < yCount; y++)
             {
-                ret.Add(t.ToList());
+                ret.Add(pMove(source, x * xPitch, y * yPitch));
             }
-
-            return ret;
         }
 
-        public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
-        {
-            return pMakeArray(source.ToArray(), xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
-        }
+        return ret;
+    }
 
-        public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, double xPitch, int yCount, double yPitch)
-        {
-            return pMakeArray(source.ToArray(), xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
-        }
+    public static List<List<GeoLibPointF>> makeArray(List<List<GeoLibPointF>> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
+    {
+        return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+    }
 
-        public static List<GeoLibPointF[]> makeArray(GeoLibPointF[] source, int xCount, decimal xPitch, int yCount, decimal yPitch)
-        {
-            return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
-        }
+    public static List<List<GeoLibPointF>> makeArray(List<List<GeoLibPointF>> source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        return pMakeArray(source, xCount, xPitch, yCount, yPitch);
+    }
 
-        public static List<GeoLibPointF[]> makeArray(GeoLibPointF[] source, int xCount, double xPitch, int yCount, double yPitch)
+    private static List<List<GeoLibPointF>> pMakeArray(List<List<GeoLibPointF>> source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        List<List<GeoLibPointF>> ret = new();
+        for (int x = 0; x < xCount; x++)
         {
-            return pMakeArray(source, xCount, xPitch, yCount, yPitch);
-        }
-
-        static List<GeoLibPointF[]> pMakeArray(GeoLibPointF[] source, int xCount, double xPitch, int yCount, double yPitch)
-        {
-            List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            for (int x = 0; x < xCount; x++)
+            for (int y = 0; y < yCount; y++)
             {
-                for (int y = 0; y < yCount; y++)
-                {
-                    ret.Add((pMove(source, x * xPitch, y * yPitch)));
-                }
+                ret.AddRange(pMove(source, x * xPitch, y * yPitch));
             }
-
-            return ret;
         }
 
-        public static List<List<GeoLibPointF>> makeArray(List<List<GeoLibPointF>> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
-        {
-            return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
-        }
+        return ret;
+    }
 
-        public static List<List<GeoLibPointF>> makeArray(List<List<GeoLibPointF>> source, int xCount, double xPitch, int yCount, double yPitch)
-        {
-            return pMakeArray(source, xCount, xPitch, yCount, yPitch);
-        }
 
-        static List<List<GeoLibPointF>> pMakeArray(List<List<GeoLibPointF>> source, int xCount, double xPitch, int yCount, double yPitch)
+    public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF[]> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
+    {
+        return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+    }
+
+    public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF[]> source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        return pMakeArray(source, xCount, xPitch, yCount, yPitch);
+    }
+
+    private static List<GeoLibPointF[]> pMakeArray(List<GeoLibPointF[]> source, int xCount, double xPitch, int yCount, double yPitch)
+    {
+        List<GeoLibPointF[]> ret = new();
+        for (int x = 0; x < xCount; x++)
         {
-            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
-            for (int x = 0; x < xCount; x++)
+            for (int y = 0; y < yCount; y++)
             {
-                for (int y = 0; y < yCount; y++)
-                {
-                    ret.AddRange(pMove(source, x * xPitch, y * yPitch));
-                }
+                ret.AddRange(pMove(source, x * xPitch, y * yPitch));
             }
-
-            return ret;
         }
 
-
-        public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF[]> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
-        {
-            return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
-        }
-
-        public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF[]> source, int xCount, double xPitch, int yCount, double yPitch)
-        {
-            return pMakeArray(source, xCount, xPitch, yCount, yPitch);
-        }
-
-        static List<GeoLibPointF[]> pMakeArray(List<GeoLibPointF[]> source, int xCount, double xPitch, int yCount, double yPitch)
-        {
-            List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            for (int x = 0; x < xCount; x++)
-            {
-                for (int y = 0; y < yCount; y++)
-                {
-                    ret.AddRange(pMove(source, x * xPitch, y * yPitch));
-                }
-            }
-
-            return ret;
-        }
+        return ret;
     }
 }

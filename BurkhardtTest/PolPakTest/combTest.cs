@@ -1,54 +1,53 @@
 ﻿using System;
 using Burkardt.SubsetNS;
 
-namespace PolPakTest
+namespace PolPakTest;
+
+public static class combTest
 {
-    public static class combTest
+    public static void comb_row_next_test ( )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    COMB_ROW_NEXT_TEST tests COMB_ROW_NEXT.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    25 December 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        public static void comb_row_next_test ( )
+        const int N_MAX = 10;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    COMB_ROW_NEXT_TEST tests COMB_ROW_NEXT.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    25 December 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        int[] c = new int[N_MAX+1];
+        int i;
+        int n;
+
+        Console.WriteLine("");
+        Console.WriteLine("COMB_ROW_NEXT_TEST");
+        Console.WriteLine("  COMB_ROW_NEXT computes the next row of Pascal's triangle.");
+        Console.WriteLine("");
+
+        for ( n = 0; n <= N_MAX; n++ )
         {
-            int N_MAX = 10;
-
-            int[] c = new int[N_MAX+1];
-            int i;
-            int n;
-
-            Console.WriteLine("");
-            Console.WriteLine("COMB_ROW_NEXT_TEST");
-            Console.WriteLine("  COMB_ROW_NEXT computes the next row of Pascal's triangle.");
-            Console.WriteLine("");
-
-            for ( n = 0; n <= N_MAX; n++ )
+            Comb.comb_row_next ( n, ref c );
+            string cout = "  " + n.ToString().PadLeft(2) + "  ";
+            for ( i = 0; i <= n; i++ )
             {
-                Comb.comb_row_next ( n, ref c );
-                string cout = "  " + n.ToString().PadLeft(2) + "  ";
-                for ( i = 0; i <= n; i++ )
-                {
-                    cout += c[i].ToString().PadLeft(6);
-                }
-                Console.WriteLine(cout);
+                cout += c[i].ToString().PadLeft(6);
             }
-
+            Console.WriteLine(cout);
         }
 
     }
+
 }

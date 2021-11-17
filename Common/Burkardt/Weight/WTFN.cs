@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Weight
+namespace Burkardt.Weight;
+
+public static class WTFN
 {
-    public static class WTFN
-    {
-        public static double[] wtfn(double[] t, int nt, int kind, double alpha, double beta )
+    public static double[] wtfn(double[] t, int nt, int kind, double alpha, double beta )
 
         //****************************************************************************80
         //
@@ -57,59 +57,72 @@ namespace Burkardt.Weight
         //
         //    Output, double WTFN[NT], the value of the weight function.
         //
+    {
+        int i;
+
+        PARCHK.parchk(kind, 1, alpha, beta);
+
+        double[] w = new double[nt];
+
+        switch (kind)
         {
-            int i;
-            double[] w;
-
-            PARCHK.parchk(kind, 1, alpha, beta);
-
-            w = new double[nt];
-
-            if (kind == 1)
+            case 1:
             {
                 for (i = 0; i < nt; i++)
                 {
                     w[i] = 1.0;
                 }
+
+                break;
             }
-            else if (kind == 2)
+            case 2:
             {
                 for (i = 0; i < nt; i++)
                 {
                     w[i] = 1.0 / Math.Sqrt((1.0 - t[i]) * (1.0 + t[i]));
                 }
+
+                break;
             }
-            else if (kind == 3)
+            case 3 when alpha == 0.0:
             {
-                if (alpha == 0.0)
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = 1.0;
-                    }
+                    w[i] = 1.0;
                 }
-                else
-                {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = Math.Pow((1.0 - t[i]) * (1.0 + t[i]), alpha);
-                    }
-                }
+
+                break;
             }
-            else if (kind == 4)
+            case 3:
             {
-                if (alpha == 0.0)
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = 1.0;
-                    }
+                    w[i] = Math.Pow((1.0 - t[i]) * (1.0 + t[i]), alpha);
                 }
-                else
+
+                break;
+            }
+            case 4:
+            {
+                switch (alpha)
                 {
-                    for (i = 0; i < nt; i++)
+                    case 0.0:
                     {
-                        w[i] = Math.Pow(1.0 - t[i], alpha);
+                        for (i = 0; i < nt; i++)
+                        {
+                            w[i] = 1.0;
+                        }
+
+                        break;
+                    }
+                    default:
+                    {
+                        for (i = 0; i < nt; i++)
+                        {
+                            w[i] = Math.Pow(1.0 - t[i], alpha);
+                        }
+
+                        break;
                     }
                 }
 
@@ -117,75 +130,87 @@ namespace Burkardt.Weight
                 {
                     for (i = 0; i < nt; i++)
                     {
-                        w[i] = w[i] * Math.Pow(1.0 + t[i], beta);
+                        w[i] *= Math.Pow(1.0 + t[i], beta);
                     }
                 }
+
+                break;
             }
-            else if (kind == 5)
+            case 5 when alpha == 0.0:
             {
-                if (alpha == 0.0)
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = Math.Exp(-t[i]);
-                    }
+                    w[i] = Math.Exp(-t[i]);
                 }
-                else
-                {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = Math.Exp(-t[i]) * Math.Pow(t[i], alpha);
-                    }
-                }
+
+                break;
             }
-            else if (kind == 6)
+            case 5:
             {
-                if (alpha == 0.0)
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = Math.Exp(-t[i] * t[i]);
-                    }
+                    w[i] = Math.Exp(-t[i]) * Math.Pow(t[i], alpha);
                 }
-                else
-                {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = Math.Exp(-t[i] * t[i]) * Math.Pow(Math.Abs(t[i]), alpha);
-                    }
-                }
+
+                break;
             }
-            else if (kind == 7)
+            case 6 when alpha == 0.0:
             {
-                if (alpha != 0.0)
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = Math.Pow(Math.Abs(t[i]), alpha);
-                    }
+                    w[i] = Math.Exp(-t[i] * t[i]);
                 }
-                else
-                {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = 1.0;
-                    }
-                }
+
+                break;
             }
-            else if (kind == 8)
+            case 6:
             {
-                if (alpha == 0.0)
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
-                    {
-                        w[i] = 1.0;
-                    }
+                    w[i] = Math.Exp(-t[i] * t[i]) * Math.Pow(Math.Abs(t[i]), alpha);
                 }
-                else
+
+                break;
+            }
+            case 7 when alpha != 0.0:
+            {
+                for (i = 0; i < nt; i++)
                 {
-                    for (i = 0; i < nt; i++)
+                    w[i] = Math.Pow(Math.Abs(t[i]), alpha);
+                }
+
+                break;
+            }
+            case 7:
+            {
+                for (i = 0; i < nt; i++)
+                {
+                    w[i] = 1.0;
+                }
+
+                break;
+            }
+            case 8:
+            {
+                switch (alpha)
+                {
+                    case 0.0:
                     {
-                        w[i] = Math.Pow(t[i], alpha);
+                        for (i = 0; i < nt; i++)
+                        {
+                            w[i] = 1.0;
+                        }
+
+                        break;
+                    }
+                    default:
+                    {
+                        for (i = 0; i < nt; i++)
+                        {
+                            w[i] = Math.Pow(t[i], alpha);
+                        }
+
+                        break;
                     }
                 }
 
@@ -193,21 +218,25 @@ namespace Burkardt.Weight
                 {
                     for (i = 0; i < nt; i++)
                     {
-                        w[i] = w[i] * Math.Pow(1.0 + t[i], beta);
+                        w[i] *= Math.Pow(1.0 + t[i], beta);
                     }
                 }
+
+                break;
             }
-            else if (kind == 9)
+            case 9:
             {
                 for (i = 0; i < nt; i++)
                 {
                     w[i] = Math.Sqrt((1.0 - t[i]) * (1.0 + t[i]));
                 }
-            }
 
-            return w;
+                break;
+            }
         }
 
-
+        return w;
     }
+
+
 }

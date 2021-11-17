@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Weibull
 {
-    public static class Weibull
-    {
-        public static double weibull_cdf(double x, double a, double b, double c)
+    public static double weibull_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -35,24 +35,24 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
+    {
+        double cdf;
+        double y;
+
+        if (x < a)
         {
-            double cdf;
-            double y;
-
-            if (x < a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                y = (x - a) / b;
-                cdf = 1.0 - 1.0 / Math.Exp(Math.Pow(y, c));
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            y = (x - a) / b;
+            cdf = 1.0 - 1.0 / Math.Exp(Math.Pow(y, c));
         }
 
-        public static double weibull_cdf_inv(double cdf, double a, double b, double c)
+        return cdf;
+    }
+
+    public static double weibull_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -82,23 +82,25 @@ namespace Burkardt.Probability
         //
         //    Output, double WEIBULL_CDF_INV, the corresponding argument of the CDF.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("WEIBULL_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
+                return 1;
+            default:
+                x = a + b * Math.Pow(-Math.Log(1.0 - cdf), 1.0 / c);
 
-            x = a + b * Math.Pow((-Math.Log(1.0 - cdf)), (1.0 / c));
-
-            return x;
+                return x;
         }
+    }
 
-        public static void weibull_cdf_values(ref int n_data, ref double alpha, ref double beta,
+    public static void weibull_cdf_values(ref int n_data, ref double alpha, ref double beta,
             ref double x, ref double fx )
         //****************************************************************************80
         //
@@ -156,98 +158,99 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 12;
+
+        double[] alpha_vec =
         {
-            int N_MAX = 12;
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01
+        };
 
-            double[] alpha_vec =
-            {
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01
-            };
+        double[] beta_vec =
+        {
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01
+        };
 
-            double[] beta_vec =
-            {
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01
-            };
+        double[] fx_vec =
+        {
+            0.8646647167633873E+00,
+            0.9816843611112658E+00,
+            0.9975212478233336E+00,
+            0.9996645373720975E+00,
+            0.6321205588285577E+00,
+            0.4865828809674080E+00,
+            0.3934693402873666E+00,
+            0.3296799539643607E+00,
+            0.8946007754381357E+00,
+            0.9657818816883340E+00,
+            0.9936702845725143E+00,
+            0.9994964109502630E+00
+        };
 
-            double[] fx_vec =
-            {
-                0.8646647167633873E+00,
-                0.9816843611112658E+00,
-                0.9975212478233336E+00,
-                0.9996645373720975E+00,
-                0.6321205588285577E+00,
-                0.4865828809674080E+00,
-                0.3934693402873666E+00,
-                0.3296799539643607E+00,
-                0.8946007754381357E+00,
-                0.9657818816883340E+00,
-                0.9936702845725143E+00,
-                0.9994964109502630E+00
-            };
+        double[] x_vec =
+        {
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01,
+            0.3000000000000000E+01
+        };
 
-            double[] x_vec =
-            {
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                alpha = 0.0;
-                beta = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                alpha = alpha_vec[n_data - 1];
-                beta = beta_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            alpha = 0.0;
+            beta = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            alpha = alpha_vec[n_data - 1];
+            beta = beta_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool weibull_check(double a, double b, double c)
+    public static bool weibull_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -274,28 +277,30 @@ namespace Burkardt.Probability
         //
         //    Output, bool WEIBULL_CHECK, is true if the parameters are legal.
         //
-        {
+    {
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("WEIBULL_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
+        }
 
-            if (c <= 0.0)
-            {
+        switch (c)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("WEIBULL_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double weibull_mean(double a, double b, double c)
+    public static double weibull_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -322,13 +327,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = b * Helpers.Gamma((c + 1.0) / c) + a;
+    {
+        double mean = b * Helpers.Gamma((c + 1.0) / c) + a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double weibull_pdf(double x, double a, double b, double c)
+    public static double weibull_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -365,25 +370,25 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+        double y;
+
+        if (x < a)
         {
-            double pdf;
-            double y;
+            pdf = 0.0;
+        }
+        else
+        {
+            y = (x - a) / b;
 
-            if (x < a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                y = (x - a) / b;
-
-                pdf = (c / b) * Math.Pow(y, (c - 1.0)) / Math.Exp(Math.Pow(y, c));
-            }
-
-            return pdf;
+            pdf = c / b * Math.Pow(y, c - 1.0) / Math.Exp(Math.Pow(y, c));
         }
 
-        public static double weibull_sample(double a, double b, double c, ref int seed)
+        return pdf;
+    }
+
+    public static double weibull_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -412,15 +417,15 @@ namespace Burkardt.Probability
         //
         //    Output, double WEIBULL_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = weibull_cdf_inv(cdf, a, b, c);
+        double x = weibull_cdf_inv(cdf, a, b, c);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double weibull_variance(double a, double b, double c)
+    public static double weibull_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -447,16 +452,16 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double g1 = Helpers.Gamma((c + 2.0) / c);
-            double g2 = Helpers.Gamma((c + 1.0) / c);
+    {
+        double g1 = Helpers.Gamma((c + 2.0) / c);
+        double g2 = Helpers.Gamma((c + 1.0) / c);
 
-            double variance = b * b * (g1 - g2 * g2);
+        double variance = b * b * (g1 - g2 * g2);
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double weibull_discrete_cdf(int x, double a, double b)
+    public static double weibull_discrete_cdf(int x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -486,22 +491,17 @@ namespace Burkardt.Probability
         //
         //    Output, double WEIBULL_DISCRETE_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
+            < 0 => 0.0,
+            _ => 1.0 - Math.Pow(1.0 - a, Math.Pow(x + 1, b))
+        };
 
-            if (x < 0)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Pow(1.0 - a, Math.Pow(x + 1, b));
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-        public static int weibull_discrete_cdf_inv(double cdf, double a, double b)
+    public static int weibull_discrete_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -531,22 +531,26 @@ namespace Burkardt.Probability
         //
         //    Output, int WEIBULL_DISCRETE_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("WEIBULL_DISCRETE_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                int x = (int)Math.Ceiling(
+                    Math.Pow(Math.Log(1.0 - cdf) / Math.Log(1.0 - a), 1.0 / b) - 1.0);
+
+                return x;
             }
-
-            int x = (int)Math.Ceiling(
-                Math.Pow(Math.Log(1.0 - cdf) / Math.Log(1.0 - a), 1.0 / b) - 1.0);
-
-            return x;
         }
+    }
 
-        public static bool weibull_discrete_check(double a, double b)
+    public static bool weibull_discrete_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -574,27 +578,30 @@ namespace Burkardt.Probability
         //    Output, bool WEIBULL_DISCRETE_CHECK, is true if the parameters
         //    are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 0.0 || 1.0 < a)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("WEIBULL_DISCRETE_CHECK - Warning!");
                 Console.WriteLine("  A < 0 or 1 < A.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("WEIBULL_DISCRETE_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double weibull_discrete_pdf(int x, double a, double b)
+    public static double weibull_discrete_pdf(int x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -630,22 +637,17 @@ namespace Burkardt.Probability
         //
         //    Output, double WEIBULL_DISCRETE_PDF, the value of the PDF.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
+            < 0 => 0.0,
+            _ => Math.Pow(1.0 - a, Math.Pow(x, b)) - Math.Pow(1.0 - a, Math.Pow(x + 1, b))
+        };
 
-            if (x < 0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Pow(1.0 - a, Math.Pow(x, b)) - Math.Pow(1.0 - a, Math.Pow(x + 1, b));
-            }
+        return pdf;
+    }
 
-            return pdf;
-        }
-
-        public static int weibull_discrete_sample(double a, double b, ref int seed)
+    public static int weibull_discrete_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -674,12 +676,11 @@ namespace Burkardt.Probability
         //
         //    Output, int WEIBULL_DISCRETE_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            int x = weibull_discrete_cdf_inv(cdf, a, b);
+        int x = weibull_discrete_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
     }
 }

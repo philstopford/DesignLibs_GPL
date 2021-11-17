@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-                public static double r8mat_is_eigen_right ( int n, int k, double[] a, double[] x,
-        double[] lambda )
+    public static double r8mat_is_eigen_right ( int n, int k, double[] a, double[] x,
+            double[] lambda )
 
         //****************************************************************************80
         //
@@ -58,380 +58,381 @@ namespace Burkardt.Types
         //    of the difference matrix A * X - X * LAMBDA, which would be exactly zero
         //    if X and LAMBDA were exact eigenvectors and eigenvalues of A.
         //
+    {
+        double[] c;
+        double error_frobenius;
+        int i;
+        int j;
+        int l;
+
+        c = new double[n*k];
+
+        for ( j = 0; j < k; j++ )
         {
-            double[] c;
-            double error_frobenius;
-            int i;
-            int j;
-            int l;
-
-            c = new double[n*k];
-
-            for ( j = 0; j < k; j++ )
+            for ( i = 0; i < n; i++ )
             {
-                for ( i = 0; i < n; i++ )
+                c[i+j*n] = 0.0;
+                for ( l = 0; l < n; l++ )
                 {
-                    c[i+j*n] = 0.0;
-                    for ( l = 0; l < n; l++ )
-                    {
-                        c[i+j*n] = c[i+j*n] + a[i+l*n] * x[l+j*n];
-                    }
+                    c[i+j*n] += a[i+l*n] * x[l+j*n];
                 }
             }
+        }
 
-            for ( j = 0; j < k; j++ )
+        for ( j = 0; j < k; j++ )
+        {
+            for ( i = 0; i < n; i++ )
             {
-                for ( i = 0; i < n; i++ )
-                {
-                    c[i+j*n] = c[i+j*n] - lambda[j] * x[i+j*n];
-                }
+                c[i+j*n] -= lambda[j] * x[i+j*n];
             }
+        }
 
-            error_frobenius = r8mat_norm_fro ( n, k, c );
+        error_frobenius = r8mat_norm_fro ( n, k, c );
             
-            return error_frobenius;
-        }
+        return error_frobenius;
+    }
 
-        public static bool r8mat_is_binary(int m, int n, double[] x)
+    public static bool r8mat_is_binary(int m, int n, double[] x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8MAT_IS_BINARY is true if the entries in an R8MAT are all 0 or 1.
-            //
-            //  Discussion:
-            //
-            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-            //    in column-major order.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    24 April 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the dimensions of the array.
-            //
-            //    Input, double X[M*N], the array to be checked.
-            //
-            //    Output, bool R8MAT_IS_BINARY is true if are entries are 0 or 1.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_BINARY is true if the entries in an R8MAT are all 0 or 1.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 April 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the dimensions of the array.
+        //
+        //    Input, double X[M*N], the array to be checked.
+        //
+        //    Output, bool R8MAT_IS_BINARY is true if are entries are 0 or 1.
+        //
+    {
+        int i;
+        int j;
+        bool value;
+
+        value = true;
+
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-            bool value;
-
-            value = true;
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < m; i++)
             {
-                for (i = 0; i < m; i++)
+                if (x[i + j * m] != 0.0 && x[i + j * m] != 1.0)
                 {
-                    if (x[i + j * m] != 0.0 && x[i + j * m] != 1.0)
-                    {
-                        value = false;
-                        break;
-                    }
+                    value = false;
+                    break;
                 }
             }
-
-            return value;
         }
 
+        return value;
+    }
 
-        public static bool r8mat_is_in_01(int m, int n, double[] a)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8MAT_IS_IN_01 is TRUE if the entries of an R8MAT are in the range [0,1].
-            //
-            //  Discussion:
-            //
-            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-            //    in column-major order.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    06 October 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, the number of rows in A.
-            //
-            //    Input, int N, the number of columns in A.
-            //
-            //    Input, double A[M*N], the matrix.
-            //
-            //    Output, bool R8MAT_IS_IN_01, is TRUE if every entry of A is
-            //    between 0 and 1.
-            //
+    public static bool r8mat_is_in_01(int m, int n, double[] a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_IN_01 is TRUE if the entries of an R8MAT are in the range [0,1].
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    06 October 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows in A.
+        //
+        //    Input, int N, the number of columns in A.
+        //
+        //    Input, double A[M*N], the matrix.
+        //
+        //    Output, bool R8MAT_IS_IN_01, is TRUE if every entry of A is
+        //    between 0 and 1.
+        //
+    {
+        int i;
+        int j;
+
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < m; i++)
             {
-                for (i = 0; i < m; i++)
+                switch (a[i + j * m])
                 {
-                    if (a[i + j * m] < 0.0 || 1.0 < a[i + j * m])
-                    {
+                    case < 0.0:
+                    case > 1.0:
                         return false;
-                    }
                 }
             }
-
-            return true;
         }
 
-        public static bool r8mat_is_insignificant(int m, int n, double[] r, double[] s)
+        return true;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8MAT_IS_INSIGNIFICANT determines if an R8MAT is relatively insignificant.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 November 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the dimension of the matrices.
-            //
-            //    Input, double R[M*N], the vector to be compared against.
-            //
-            //    Input, double S[M*N], the vector to be compared.
-            //
-            //    Output, bool R8MAT_IS_INSIGNIFICANT, is TRUE if S is insignificant
-            //    compared to R.
-            //
+    public static bool r8mat_is_insignificant(int m, int n, double[] r, double[] s)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_INSIGNIFICANT determines if an R8MAT is relatively insignificant.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 November 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the dimension of the matrices.
+        //
+        //    Input, double R[M*N], the vector to be compared against.
+        //
+        //    Input, double S[M*N], the vector to be compared.
+        //
+        //    Output, bool R8MAT_IS_INSIGNIFICANT, is TRUE if S is insignificant
+        //    compared to R.
+        //
+    {
+        int i;
+        int j;
+        double t;
+        double tol;
+        bool value;
+
+        value = true;
+
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-            double t;
-            double tol;
-            bool value;
-
-            value = true;
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < m; i++)
             {
-                for (i = 0; i < m; i++)
-                {
-                    t = r[i + j * m] + s[i + j * m];
-                    tol = typeMethods.r8_epsilon() * Math.Abs(r[i + j * m]);
+                t = r[i + j * m] + s[i + j * m];
+                tol = r8_epsilon() * Math.Abs(r[i + j * m]);
 
-                    if (tol < Math.Abs(r[i + j * m] - t))
-                    {
-                        value = false;
-                        break;
-                    }
+                if (tol < Math.Abs(r[i + j * m] - t))
+                {
+                    value = false;
+                    break;
                 }
             }
+        }
 
+        return value;
+    }
+
+    public static bool r8mat_is_integer(int m, int n, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_INTEGER is true if an R8MAT only contains integer entries.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 August 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the dimensions of the array.
+        //
+        //    Input, double X[M*N], the vector to be checked.
+        //
+        //    Output, bool R8MAT_IS_INTEGER is true if all elements of X
+        //    are integers.
+        //
+    {
+        int i;
+        int j;
+        bool value;
+
+        value = true;
+
+        for (j = 0; j < n; j++)
+        {
+            for (i = 0; i < m; i++)
+            {
+                if (!r8_is_integer(x[i + j * m]))
+                {
+                    value = false;
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public static bool r8mat_is_significant(int m, int n, double[] r, double[] s)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_SIGNIFICANT determines if an R8MAT is relatively significant.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 November 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the dimension of the matrices.
+        //
+        //    Input, double R[M*N], the vector to be compared against.
+        //
+        //    Input, double S[M*N], the vector to be compared.
+        //
+        //    Output, bool R8MAT_IS_SIGNIFICANT, is TRUE if S is significant
+        //    compared to R.
+        //
+    {
+        int i;
+        int j;
+        double t;
+        double tol;
+        bool value;
+
+        value = false;
+
+        for (j = 0; j < n; j++)
+        {
+            for (i = 0; i < m; i++)
+            {
+                t = r[i + j * m] + s[i + j * m];
+                tol = r8_epsilon() * Math.Abs(r[i + j * m]);
+
+                if (tol < Math.Abs(r[i + j * m] - t))
+                {
+                    value = true;
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public static double r8mat_is_symmetric(int m, int n, double[] a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_SYMMETRIC checks an R8MAT for symmetry.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a matrix of double precision real values.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 July 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the order of the matrix.
+        //
+        //    Input, double A[M*N], the matrix.
+        //
+        //    Output, double RMAT_IS_SYMMETRIC, measures the 
+        //    Frobenius norm of ( A - A' ), which would be zero if the matrix
+        //    were exactly symmetric.
+        //
+    {
+        int i;
+        int j;
+        const double r8_huge = 1.79769313486231571E+308;
+        double value = 0;
+
+        if (m != n)
+        {
+            value = r8_huge;
             return value;
         }
 
-        public static bool r8mat_is_integer(int m, int n, double[] x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8MAT_IS_INTEGER is true if an R8MAT only contains integer entries.
-            //
-            //  Discussion:
-            //
-            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-            //    in column-major order.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 August 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the dimensions of the array.
-            //
-            //    Input, double X[M*N], the vector to be checked.
-            //
-            //    Output, bool R8MAT_IS_INTEGER is true if all elements of X
-            //    are integers.
-            //
+        value = 0.0;
+        for (j = 0; j < n; j++)
         {
-            int i;
-            int j;
-            bool value;
-
-            value = true;
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < m; i++)
             {
-                for (i = 0; i < m; i++)
-                {
-                    if (!r8_is_integer(x[i + j * m]))
-                    {
-                        value = false;
-                        break;
-                    }
-                }
+                value += Math.Pow(a[i + j * m] - a[j + i * m], 2);
             }
-
-            return value;
         }
 
-        public static bool r8mat_is_significant(int m, int n, double[] r, double[] s)
+        value = Math.Sqrt(value);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8MAT_IS_SIGNIFICANT determines if an R8MAT is relatively significant.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 November 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the dimension of the matrices.
-            //
-            //    Input, double R[M*N], the vector to be compared against.
-            //
-            //    Input, double S[M*N], the vector to be compared.
-            //
-            //    Output, bool R8MAT_IS_SIGNIFICANT, is TRUE if S is significant
-            //    compared to R.
-            //
-        {
-            int i;
-            int j;
-            double t;
-            double tol;
-            bool value;
-
-            value = false;
-
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i < m; i++)
-                {
-                    t = r[i + j * m] + s[i + j * m];
-                    tol = typeMethods.r8_epsilon() * Math.Abs(r[i + j * m]);
-
-                    if (tol < Math.Abs(r[i + j * m] - t))
-                    {
-                        value = true;
-                        break;
-                    }
-                }
-            }
-
-            return value;
-        }
-
-        public static double r8mat_is_symmetric(int m, int n, double[] a)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8MAT_IS_SYMMETRIC checks an R8MAT for symmetry.
-            //
-            //  Discussion:
-            //
-            //    An R8MAT is a matrix of double precision real values.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    15 July 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, N, the order of the matrix.
-            //
-            //    Input, double A[M*N], the matrix.
-            //
-            //    Output, double RMAT_IS_SYMMETRIC, measures the 
-            //    Frobenius norm of ( A - A' ), which would be zero if the matrix
-            //    were exactly symmetric.
-            //
-        {
-            int i;
-            int j;
-            const double r8_huge = 1.79769313486231571E+308;
-            double value;
-
-            if (m != n)
-            {
-                value = r8_huge;
-                return value;
-            }
-
-            value = 0.0;
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i < m; i++)
-                {
-                    value = value + Math.Pow(a[i + j * m] - a[j + i * m], 2);
-                }
-            }
-
-            value = Math.Sqrt(value);
-
-            return value;
-        }
+        return value;
     }
 }

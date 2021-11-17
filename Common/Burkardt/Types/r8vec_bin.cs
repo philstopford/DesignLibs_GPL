@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void r8vec_bin(int n, double[] x, int bin_num, double bin_min, double bin_max,
-        ref int[] bin, ref double[] bin_limit )
+    public static void r8vec_bin(int n, double[] x, int bin_num, double bin_min, double bin_max,
+            ref int[] bin, ref double[] bin_limit )
 
         //****************************************************************************80
         //
@@ -64,55 +64,44 @@ namespace Burkardt.Types
         //    BIN(I) counts the number of entries X(J) such that
         //      BIN_LIMIT(I-1) <= X(J) < BIN_LIMIT(I).
         //
+    {
+        int i;
+
+        if (Math.Abs(bin_max - bin_min) <= double.Epsilon)
         {
-            int i;
-            int j;
-            double t;
-
-            if (bin_max == bin_min)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8VEC_BIN - Fatal error!");
-                Console.WriteLine("  BIN_MIN = BIN_MAX = " + bin_max + ".");
-                return;
-            }
-
-            for (i = 0; i <= bin_num + 1; i++)
-            {
-                bin[i] = 0;
-            }
-
-            for (i = 0; i < n; i++)
-            {
-                t = (x[i] - bin_min) / (bin_max - bin_min);
-
-                if (t < 0.0)
-                {
-                    j = 0;
-                }
-                else if (1.0 <= t)
-                {
-                    j = bin_num + 1;
-                }
-                else
-                {
-                    j = 1 + (int) ((double) (bin_num) * t);
-                }
-
-                bin[j] = bin[j] + 1;
-            }
-
-            //
-            //  Compute the bin limits.
-            //
-            for (i = 0; i <= bin_num; i++)
-            {
-                bin_limit[i] = ((double) (bin_num - i) * bin_min
-                                + (double) (i) * bin_max)
-                               / (double) (bin_num);
-            }
-
+            Console.WriteLine("");
+            Console.WriteLine("R8VEC_BIN - Fatal error!");
+            Console.WriteLine("  BIN_MIN = BIN_MAX = " + bin_max + ".");
             return;
+        }
+
+        for (i = 0; i <= bin_num + 1; i++)
+        {
+            bin[i] = 0;
+        }
+
+        for (i = 0; i < n; i++)
+        {
+            double t = (x[i] - bin_min) / (bin_max - bin_min);
+
+            int j = t switch
+            {
+                < 0.0 => 0,
+                >= 1.0 => bin_num + 1,
+                _ => 1 + (int) (bin_num * t)
+            };
+
+            bin[j] += 1;
+        }
+
+        //
+        //  Compute the bin limits.
+        //
+        for (i = 0; i <= bin_num; i++)
+        {
+            bin_limit[i] = ((bin_num - i) * bin_min
+                            + i * bin_max)
+                           / bin_num;
         }
     }
 }

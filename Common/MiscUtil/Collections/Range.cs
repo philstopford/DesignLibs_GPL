@@ -2,190 +2,196 @@ using MiscUtil.Extensions;
 using System;
 using System.Collections.Generic;
 
-namespace MiscUtil.Collections
+namespace MiscUtil.Collections;
+
+/// <summary>
+/// Represents a range of values. An IComparer{T} is used to compare specific
+/// values with a start and end point. A range may be include or exclude each end
+/// individually.
+/// 
+/// A range which is half-open but has the same start and end point is deemed to be empty,
+/// e.g. [3,3) doesn't include 3. To create a range with a single value, use an inclusive
+/// range, e.g. [3,3].
+/// 
+/// Ranges are always immutable - calls such as IncludeEnd() and ExcludeEnd() return a new
+/// range without modifying this one.
+/// </summary>
+public sealed class Range<T>
 {
+    private readonly T start;
     /// <summary>
-    /// Represents a range of values. An IComparer{T} is used to compare specific
-    /// values with a start and end point. A range may be include or exclude each end
-    /// individually.
-    /// 
-    /// A range which is half-open but has the same start and end point is deemed to be empty,
-    /// e.g. [3,3) doesn't include 3. To create a range with a single value, use an inclusive
-    /// range, e.g. [3,3].
-    /// 
-    /// Ranges are always immutable - calls such as IncludeEnd() and ExcludeEnd() return a new
-    /// range without modifying this one.
+    /// The start of the range.
     /// </summary>
-    public sealed class Range<T>
+    public T Start
     {
-        readonly T start;
-        /// <summary>
-        /// The start of the range.
-        /// </summary>
-        public T Start
-        {
-            get { return start; }
-        }
+        get { return start; }
+    }
 
-        readonly T end;
-        /// <summary>
-        /// The end of the range.
-        /// </summary>
-        public T End
-        {
-            get { return end; }
-        }
+    private readonly T end;
+    /// <summary>
+    /// The end of the range.
+    /// </summary>
+    public T End
+    {
+        get { return end; }
+    }
 
-        readonly IComparer<T> comparer;
-        /// <summary>
-        /// Comparer to use for comparisons
-        /// </summary>
-        public IComparer<T> Comparer
-        {
-            get { return comparer; }
-        }
+    private readonly IComparer<T> comparer;
+    /// <summary>
+    /// Comparer to use for comparisons
+    /// </summary>
+    public IComparer<T> Comparer
+    {
+        get { return comparer; }
+    }
 
-        readonly bool includesStart;
-        /// <summary>
-        /// Whether or not this range includes the start point
-        /// </summary>
-        public bool IncludesStart
-        {
-            get { return includesStart; }
-        }
+    private readonly bool includesStart;
+    /// <summary>
+    /// Whether or not this range includes the start point
+    /// </summary>
+    public bool IncludesStart
+    {
+        get { return includesStart; }
+    }
 
-        readonly bool includesEnd;
-        /// <summary>
-        /// Whether or not this range includes the end point
-        /// </summary>
-        public bool IncludesEnd
-        {
-            get { return includesEnd; }
-        }
+    private readonly bool includesEnd;
+    /// <summary>
+    /// Whether or not this range includes the end point
+    /// </summary>
+    public bool IncludesEnd
+    {
+        get { return includesEnd; }
+    }
 
-        /// <summary>
-        /// Constructs a new inclusive range using the default comparer
-        /// </summary>
-        public Range(T start, T end)
-            : this(start, end, Comparer<T>.Default, true, true)
-        {
-        }
+    /// <summary>
+    /// Constructs a new inclusive range using the default comparer
+    /// </summary>
+    public Range(T start, T end)
+        : this(start, end, Comparer<T>.Default, true, true)
+    {
+    }
 
-        /// <summary>
-        /// Constructs a new range including both ends using the specified comparer
-        /// </summary>
-        public Range(T start, T end, IComparer<T> comparer)
-            : this(start, end, comparer, true, true)
-        {
-        }
+    /// <summary>
+    /// Constructs a new range including both ends using the specified comparer
+    /// </summary>
+    public Range(T start, T end, IComparer<T> comparer)
+        : this(start, end, comparer, true, true)
+    {
+    }
 
-        /// <summary>
-        /// Constructs a new range, including or excluding each end as specified,
-        /// with the given comparer.
-        /// </summary>
-        public Range(T start, T end, IComparer<T> comparer, bool includeStart, bool includeEnd)
+    /// <summary>
+    /// Constructs a new range, including or excluding each end as specified,
+    /// with the given comparer.
+    /// </summary>
+    public Range(T start, T end, IComparer<T> comparer, bool includeStart, bool includeEnd)
+    {
+        switch (comparer.Compare(start, end))
         {
-            if (comparer.Compare(start, end) > 0)
-            {
+            case > 0:
                 throw new ArgumentOutOfRangeException("end", "start must be lower than end according to comparer");
-            }
-
-            this.start = start;
-            this.end = end;
-            this.comparer = comparer;
-            includesStart = includeStart;
-            includesEnd = includeEnd;
         }
 
-        /// <summary>
-        /// Returns a range with the same boundaries as this, but excluding the end point.
-        /// When called on a range already excluding the end point, the original range is returned.
-        /// </summary>
-        public Range<T> ExcludeEnd()
-        {
-            if (!includesEnd)
-            {
-                return this;
-            }
-            return new Range<T>(start, end, comparer, includesStart, false);
-        }
+        this.start = start;
+        this.end = end;
+        this.comparer = comparer;
+        includesStart = includeStart;
+        includesEnd = includeEnd;
+    }
 
-        /// <summary>
-        /// Returns a range with the same boundaries as this, but excluding the start point.
-        /// When called on a range already excluding the start point, the original range is returned.
-        /// </summary>
-        public Range<T> ExcludeStart()
+    /// <summary>
+    /// Returns a range with the same boundaries as this, but excluding the end point.
+    /// When called on a range already excluding the end point, the original range is returned.
+    /// </summary>
+    public Range<T> ExcludeEnd()
+    {
+        return includesEnd switch
         {
-            if (!includesStart)
-            {
-                return this;
-            }
-            return new Range<T>(start, end, comparer, false, includesEnd);
-        }
+            false => this,
+            _ => new Range<T>(start, end, comparer, includesStart, false)
+        };
+    }
 
-        /// <summary>
-        /// Returns a range with the same boundaries as this, but including the end point.
-        /// When called on a range already including the end point, the original range is returned.
-        /// </summary>
-        public Range<T> IncludeEnd()
+    /// <summary>
+    /// Returns a range with the same boundaries as this, but excluding the start point.
+    /// When called on a range already excluding the start point, the original range is returned.
+    /// </summary>
+    public Range<T> ExcludeStart()
+    {
+        return includesStart switch
         {
-            if (includesEnd)
-            {
-                return this;
-            }
-            return new Range<T>(start, end, comparer, includesStart, true);
-        }
+            false => this,
+            _ => new Range<T>(start, end, comparer, false, includesEnd)
+        };
+    }
 
-        /// <summary>
-        /// Returns a range with the same boundaries as this, but including the start point.
-        /// When called on a range already including the start point, the original range is returned.
-        /// </summary>
-        public Range<T> IncludeStart()
+    /// <summary>
+    /// Returns a range with the same boundaries as this, but including the end point.
+    /// When called on a range already including the end point, the original range is returned.
+    /// </summary>
+    public Range<T> IncludeEnd()
+    {
+        return includesEnd switch
         {
-            if (includesStart)
-            {
-                return this;
-            }
-            return new Range<T>(start, end, comparer, true, includesEnd);
-        }
+            true => this,
+            _ => new Range<T>(start, end, comparer, includesStart, true)
+        };
+    }
 
-        /// <summary>
-        /// Returns whether or not the range contains the given value
-        /// </summary>
-        public bool Contains(T value)
+    /// <summary>
+    /// Returns a range with the same boundaries as this, but including the start point.
+    /// When called on a range already including the start point, the original range is returned.
+    /// </summary>
+    public Range<T> IncludeStart()
+    {
+        return includesStart switch
         {
-            int lowerBound = comparer.Compare(value, start);
-            if (lowerBound < 0 || (lowerBound == 0 && !includesStart))
-            {
+            true => this,
+            _ => new Range<T>(start, end, comparer, true, includesEnd)
+        };
+    }
+
+    /// <summary>
+    /// Returns whether or not the range contains the given value
+    /// </summary>
+    public bool Contains(T value)
+    {
+        int lowerBound = comparer.Compare(value, start);
+        switch (lowerBound)
+        {
+            case < 0:
+            case 0 when !includesStart:
                 return false;
+            default:
+            {
+                int upperBound = comparer.Compare(value, end);
+                return upperBound < 0 || upperBound == 0 && includesEnd;
             }
-            int upperBound = comparer.Compare(value, end);
-            return upperBound < 0 || (upperBound == 0 && includesEnd);
         }
+    }
 
-        /// <summary>
-        /// Returns an iterator which begins at the start of this range,
-        /// applying the given step delegate on each iteration until the 
-        /// end is reached or passed. The start and end points are included
-        /// or excluded according to this range.
-        /// </summary>
-        /// <param name="step">Delegate to apply to the "current value" on each iteration</param>
-        public RangeIterator<T> FromStart(Func<T, T> step)
-        {
-            return new RangeIterator<T>(this, step);
-        }
+    /// <summary>
+    /// Returns an iterator which begins at the start of this range,
+    /// applying the given step delegate on each iteration until the 
+    /// end is reached or passed. The start and end points are included
+    /// or excluded according to this range.
+    /// </summary>
+    /// <param name="step">Delegate to apply to the "current value" on each iteration</param>
+    public RangeIterator<T> FromStart(Func<T, T> step)
+    {
+        return new RangeIterator<T>(this, step);
+    }
 
-        /// <summary>
-        /// Returns an iterator which begins at the end of this range,
-        /// applying the given step delegate on each iteration until the 
-        /// start is reached or passed. The start and end points are included
-        /// or excluded according to this range.
-        /// </summary>
-        /// <param name="step">Delegate to apply to the "current value" on each iteration</param>
-        public RangeIterator<T> FromEnd(Func<T, T> step)
-        {
-            return new RangeIterator<T>(this, step, false);
-        }
+    /// <summary>
+    /// Returns an iterator which begins at the end of this range,
+    /// applying the given step delegate on each iteration until the 
+    /// start is reached or passed. The start and end points are included
+    /// or excluded according to this range.
+    /// </summary>
+    /// <param name="step">Delegate to apply to the "current value" on each iteration</param>
+    public RangeIterator<T> FromEnd(Func<T, T> step)
+    {
+        return new RangeIterator<T>(this, step, false);
+    }
 
 #if DOTNET35
         /// <summary>
@@ -251,22 +257,22 @@ namespace MiscUtil.Collections
         }
 #endif
 
-        /// <summary>
-        /// Returns an iterator which steps through the range, applying the specified
-        /// step delegate on each iteration. The method determines whether to begin 
-        /// at the start or end of the range based on whether the step delegate appears to go
-        /// "up" or "down". The step delegate is applied to the start point. If the result is 
-        /// more than the start point, the returned iterator begins at the start point; otherwise
-        /// it begins at the end point.
-        /// </summary>
-        /// <param name="step">Delegate to apply to the "current value" on each iteration</param>
-        public RangeIterator<T> Step(Func<T, T> step)
-        {
-            step.ThrowIfNull("step");
-            bool ascending = (comparer.Compare(start, step(start)) < 0);
+    /// <summary>
+    /// Returns an iterator which steps through the range, applying the specified
+    /// step delegate on each iteration. The method determines whether to begin 
+    /// at the start or end of the range based on whether the step delegate appears to go
+    /// "up" or "down". The step delegate is applied to the start point. If the result is 
+    /// more than the start point, the returned iterator begins at the start point; otherwise
+    /// it begins at the end point.
+    /// </summary>
+    /// <param name="step">Delegate to apply to the "current value" on each iteration</param>
+    public RangeIterator<T> Step(Func<T, T> step)
+    {
+        step.ThrowIfNull("step");
+        bool ascending = comparer.Compare(start, step(start)) < 0;
 
-            return ascending ? FromStart(step) : FromEnd(step);
-        }
+        return ascending ? FromStart(step) : FromEnd(step);
+    }
 
 #if DOTNET35
         /// <summary>
@@ -300,5 +306,4 @@ namespace MiscUtil.Collections
             return Step(t => Operator.AddAlternative(t, stepAmount));
         }
 #endif
-    }
 }

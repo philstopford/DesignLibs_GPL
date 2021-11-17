@@ -1,35 +1,35 @@
 ﻿using System;
 using Burkardt.Function;
 
-namespace Burkardt.WFunction
-{
-    public class WAPRData
-    {
-        public double an3 = 0;
-        public double an4 = 0;
-        public double an5 = 0;
-        public double an6 = 0;
-        public double c13 = 0;
-        public double c23 = 0;
-        public double d12 = 0;
-        public double em = 0;
-        public double em2 = 0;
-        public double em9 = 0;
-        public int init = 0;
-        public int nbits = 0;
-        public int niter = 1;
-        public double s2 = 0;
-        public double s21 = 0;
-        public double s22 = 0;
-        public double s23 = 0;
-        public double tb = 0;
-        public double x0 = 0;
-        public double x1 = 0;
-    }
+namespace Burkardt.WFunction;
 
-    public static class WAPR
-    {
-        public static double wapr(ref WAPRData data, double x, int nb, ref int nerror, int l )
+public class WAPRData
+{
+    public double an3;
+    public double an4;
+    public double an5;
+    public double an6;
+    public double c13;
+    public double c23;
+    public double d12;
+    public double em;
+    public double em2;
+    public double em9;
+    public int init;
+    public int nbits;
+    public int niter = 1;
+    public double s2;
+    public double s21;
+    public double s22;
+    public double s23;
+    public double tb;
+    public double x0;
+    public double x1;
+}
+
+public static class WAPR
+{
+    public static double wapr(ref WAPRData data, double x, int nb, ref int nerror, int l )
 
         //****************************************************************************80
         //
@@ -83,34 +83,29 @@ namespace Burkardt.WFunction
         //
         //    Output, double WAPR, the approximate value of W(X).
         //
+    {
+        double delx;
+        int i;
+        double reta;
+        double xx;
+        double zl;
+
+        double value = 0.0;
+        nerror = 0;
+
+        switch (data.init)
         {
-            double an2;
-            double delx;
-            double eta;
-            int i;
-            double reta;
-            double t;
-            double temp;
-            double temp2;
-            double ts;
-            double value;
-            double xx;
-            double zl;
-            double zn;
-
-            value = 0.0;
-            nerror = 0;
-
-            if (data.init == 0)
+            case 0:
             {
                 data.init = 1;
 
                 data.nbits = NBITS.nbits_compute();
 
-                if (56 <= data.nbits)
+                data.niter = data.nbits switch
                 {
-                    data.niter = 2;
-                }
+                    >= 56 => 2,
+                    _ => data.niter
+                };
 
                 //
                 //  Various mathematical constants.
@@ -132,32 +127,39 @@ namespace Burkardt.WFunction
                 data.s21 = 2.0 * data.s2 - 3.0;
                 data.s22 = 4.0 - 3.0 * data.s2;
                 data.s23 = data.s2 - 2.0;
+                break;
             }
+        }
 
-            if (l == 1)
+        switch (l)
+        {
+            case 1:
             {
                 delx = x;
 
-                if (delx < 0.0)
+                switch (delx)
                 {
-                    nerror = 1;
-                    Console.WriteLine("");
-                    Console.WriteLine("WAPR - Fatal error!");
-                    Console.WriteLine("  The offset X is negative.");
-                    Console.WriteLine("  It must be nonnegative.");
-                    return 1;
+                    case < 0.0:
+                        nerror = 1;
+                        Console.WriteLine("");
+                        Console.WriteLine("WAPR - Fatal error!");
+                        Console.WriteLine("  The offset X is negative.");
+                        Console.WriteLine("  It must be nonnegative.");
+                        return 1;
                 }
 
                 xx = x + data.em;
+                break;
             }
-            else
+            default:
             {
                 if (x < data.em)
                 {
                     nerror = 1;
                     return value;
                 }
-                else if (x == data.em)
+
+                if (Math.Abs(x - data.em) <= double.Epsilon)
                 {
                     value = -1.0;
                     return value;
@@ -165,90 +167,86 @@ namespace Burkardt.WFunction
 
                 xx = x;
                 delx = xx - data.em;
+                break;
             }
+        }
 
+        switch (nb)
+        {
             //
             //  Calculations for Wp.
             //
-            if (nb == 0)
-            {
-                if (Math.Abs(xx) <= data.x0)
-                {
-                    value = xx / (1.0 + xx / (1.0 + xx
-                        / (2.0 + xx / (0.6 + 0.34 * xx))));
-                    return value;
-                }
-                else if (xx <= data.x1)
-                {
-                    reta = Math.Sqrt(data.d12 * delx);
-                    value = reta / (1.0 + reta / (3.0 + reta / (reta
-                                / (data.an4 + reta / (reta * data.an6 + data.an5)) + data.an3)))
-                            - 1.0;
-                    return value;
-                }
-                else if (xx <= 20.0)
-                {
-                    reta = data.s2 * Math.Sqrt(1.0 - xx / data.em);
-                    an2 = 4.612634277343749 * Math.Sqrt(Math.Sqrt(reta +
-                                                        1.09556884765625));
-                    value = reta / (1.0 + reta / (3.0 + (data.s21 * an2
-                                                         + data.s22) * reta / (data.s23 * (an2 + reta)))) - 1.0;
-                }
-                else
-                {
-                    zl = Math.Log(xx);
-                    value = Math.Log(xx / Math.Log(xx
-                                         / Math.Pow(zl, Math.Exp(-1.124491989777808 /
-                                                       (0.4225028202459761 + zl)))));
-                }
-            }
+            case 0 when Math.Abs(xx) <= data.x0:
+                value = xx / (1.0 + xx / (1.0 + xx
+                    / (2.0 + xx / (0.6 + 0.34 * xx))));
+                return value;
+            case 0 when xx <= data.x1:
+                reta = Math.Sqrt(data.d12 * delx);
+                value = reta / (1.0 + reta / (3.0 + reta / (reta
+                            / (data.an4 + reta / (reta * data.an6 + data.an5)) + data.an3)))
+                        - 1.0;
+                return value;
+            case 0 when xx <= 20.0:
+                reta = data.s2 * Math.Sqrt(1.0 - xx / data.em);
+                double an2 = 4.612634277343749 * Math.Sqrt(Math.Sqrt(reta +
+                                                                     1.09556884765625));
+                value = reta / (1.0 + reta / (3.0 + (data.s21 * an2
+                                                     + data.s22) * reta / (data.s23 * (an2 + reta)))) - 1.0;
+                break;
+            case 0:
+                zl = Math.Log(xx);
+                value = Math.Log(xx / Math.Log(xx
+                                               / Math.Pow(zl, Math.Exp(-1.124491989777808 /
+                                                                       (0.4225028202459761 + zl)))));
+                break;
             //
-            //  Calculations for Wm.
-            //
-            else
+            default:
             {
-                if (0.0 <= xx)
+                switch (xx)
                 {
-                    nerror = 1;
-                    return value;
+                    case >= 0.0:
+                        nerror = 1;
+                        return value;
                 }
-                else if (xx <= data.x1)
+
+                if (xx <= data.x1)
                 {
                     reta = Math.Sqrt(data.d12 * delx);
                     value = reta / (reta / (3.0 + reta / (reta / (data.an4
                                                                   + reta / (reta * data.an6 - data.an5)) - data.an3)) - 1.0) - 1.0;
                     return value;
                 }
-                else if (xx <= data.em9)
+                if (xx <= data.em9)
                 {
                     zl = Math.Log(-xx);
-                    t = -1.0 - zl;
-                    ts = Math.Sqrt(t);
-                    value = zl - (2.0 * ts) / (data.s2 + (data.c13 - t
+                    double t = -1.0 - zl;
+                    double ts = Math.Sqrt(t);
+                    value = zl - 2.0 * ts / (data.s2 + (data.c13 - t
                         / (270.0 + ts * 127.0471381349219)) * ts);
                 }
                 else
                 {
                     zl = Math.Log(-xx);
-                    eta = 2.0 - data.em2 * xx;
+                    double eta = 2.0 - data.em2 * xx;
                     value = Math.Log(xx / Math.Log(-xx / ((1.0
-                                                 - 0.5043921323068457 * (zl + 1.0))
+                                                           - 0.5043921323068457 * (zl + 1.0))
                         * (Math.Sqrt(eta) + eta / 3.0) + 1.0)));
                 }
 
+                break;
             }
-
-            for (i = 1; i <= data.niter; i++)
-            {
-                zn = Math.Log(xx / value) - value;
-                temp = 1.0 + value;
-                temp2 = temp + data.c23 * zn;
-                temp2 = 2.0 * temp * temp2;
-                value = value * (1.0 + (zn / temp) * (temp2 - zn)
-                    / (temp2 - 2.0 * zn));
-            }
-
-            return value;
         }
+
+        for (i = 1; i <= data.niter; i++)
+        {
+            double zn = Math.Log(xx / value) - value;
+            double temp = 1.0 + value;
+            double temp2 = temp + data.c23 * zn;
+            temp2 = 2.0 * temp * temp2;
+            value *= (1.0 + zn / temp * (temp2 - zn)
+                / (temp2 - 2.0 * zn));
+        }
+
+        return value;
     }
 }

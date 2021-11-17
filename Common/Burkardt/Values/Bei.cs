@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Values
+﻿namespace Burkardt.Values;
+
+public class bei
 {
-    public class bei
-    {
-        public static void bei0_values(ref int n_data, ref double x, ref double fx )
+    public static void bei0_values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -60,63 +60,64 @@
         //
         //    Output, ref double FX, the value of the function.
         //
+    {
+        const int N_MAX = 11;
+
+        double[] fx_vec
+                = 
+                {
+                    0.0000000000000000,
+                    0.06249321838219946,
+                    0.2495660400366597,
+                    0.5575600623030867,
+                    0.9722916273066612,
+                    1.457182044159804,
+                    1.937586785266043,
+                    2.283249966853915,
+                    2.292690322699300,
+                    1.686017203632139,
+                    0.1160343815502004
+                }
+            ;
+        double[] x_vec
+                = 
+                {
+                    0.0,
+                    0.5,
+                    1.0,
+                    1.5,
+                    2.0,
+                    2.5,
+                    3.0,
+                    3.5,
+                    4.0,
+                    4.5,
+                    5.0
+                }
+            ;
+
+        n_data = n_data switch
         {
-            int N_MAX = 11;
+            < 0 => 0,
+            _ => n_data
+        };
 
-            double[] fx_vec
-             = 
-            {
-                0.0000000000000000,
-                0.06249321838219946,
-                0.2495660400366597,
-                0.5575600623030867,
-                0.9722916273066612,
-                1.457182044159804,
-                1.937586785266043,
-                2.283249966853915,
-                2.292690322699300,
-                1.686017203632139,
-                0.1160343815502004
-            }
-            ;
-            double[] x_vec
-             = 
-            {
-                0.0,
-                0.5,
-                1.0,
-                1.5,
-                2.0,
-                2.5,
-                3.0,
-                3.5,
-                4.0,
-                4.5,
-                5.0
-            }
-            ;
+        n_data += 1;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static void bei1_values(ref int n_data, ref double x, ref double fx )
+    public static void bei1_values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -174,60 +175,60 @@
         //
         //    Output, ref double FX, the value of the function.
         //
+    {
+        const int N_MAX = 11;
+
+        double[] fx_vec
+                = 
+                {
+                    0.0000000000000000,
+                    0.1711951797170153,
+                    0.3075566313755366,
+                    0.3678649890020899,
+                    0.2997754370020335,
+                    0.03866844396595048,
+                    -0.4874541770160708,
+                    -1.344042373111174,
+                    -2.563821688561078,
+                    -4.105685408400878,
+                    -5.797907901792625
+                }
+            ;
+        double[] x_vec
+                = 
+                {
+                    0.0,
+                    0.5,
+                    1.0,
+                    1.5,
+                    2.0,
+                    2.5,
+                    3.0,
+                    3.5,
+                    4.0,
+                    4.5,
+                    5.0
+                }
+            ;
+
+        n_data = n_data switch
         {
-            int N_MAX = 11;
+            < 0 => 0,
+            _ => n_data
+        };
 
-            double[] fx_vec
-             = 
-            {
-                0.0000000000000000,
-                0.1711951797170153,
-                0.3075566313755366,
-                0.3678649890020899,
-                0.2997754370020335,
-                0.03866844396595048,
-                -0.4874541770160708,
-                -1.344042373111174,
-                -2.563821688561078,
-                -4.105685408400878,
-                -5.797907901792625
-            }
-            ;
-            double[] x_vec
-             = 
-            {
-                0.0,
-                0.5,
-                1.0,
-                1.5,
-                2.0,
-                2.5,
-                3.0,
-                3.5,
-                4.0,
-                4.5,
-                5.0
-            }
-            ;
+        n_data += 1;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

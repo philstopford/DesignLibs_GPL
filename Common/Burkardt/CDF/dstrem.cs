@@ -1,56 +1,55 @@
 ﻿using System;
 
-namespace Burkardt.CDFLib
+namespace Burkardt.CDFLib;
+
+public static partial class CDF
 {
-    public static partial class CDF
+    public static double dstrem(double z)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DSTREM computes the Sterling remainder ln ( Gamma ( Z ) ) - Sterling ( Z ).
+        //
+        //  Discussion:
+        //
+        //    This routine returns
+        //
+        //      ln ( Gamma ( Z ) ) - Sterling ( Z )
+        //
+        //    where Sterling(Z) is Sterling's approximation to ln ( Gamma ( Z ) ).
+        //
+        //    Sterling(Z) = ln ( sqrt ( 2 * PI ) ) + ( Z - 0.5 ) * ln ( Z ) - Z
+        //
+        //    If 6 <= Z, the routine uses 9 terms of a series in Bernoulli numbers,
+        //    with values calculated using Maple.
+        //
+        //    Otherwise, the difference is computed explicitly.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 February 2021
+        //
+        //  Author:
+        //
+        //    Barry Brown, James Lovato, Kathy Russell.
+        //
+        //  Parameters:
+        //
+        //    Input, double *Z, the value at which the Sterling
+        //    remainder is to be calculated.  Z must be positive.
+        //
+        //    Output, double DSTREM, the Sterling remainder.
+        //
     {
-        public static double dstrem(double z)
+        double hln2pi = 0.91893853320467274178e0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DSTREM computes the Sterling remainder ln ( Gamma ( Z ) ) - Sterling ( Z ).
-            //
-            //  Discussion:
-            //
-            //    This routine returns
-            //
-            //      ln ( Gamma ( Z ) ) - Sterling ( Z )
-            //
-            //    where Sterling(Z) is Sterling's approximation to ln ( Gamma ( Z ) ).
-            //
-            //    Sterling(Z) = ln ( sqrt ( 2 * PI ) ) + ( Z - 0.5 ) * ln ( Z ) - Z
-            //
-            //    If 6 <= Z, the routine uses 9 terms of a series in Bernoulli numbers,
-            //    with values calculated using Maple.
-            //
-            //    Otherwise, the difference is computed explicitly.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Parameters:
-            //
-            //    Input, double *Z, the value at which the Sterling
-            //    remainder is to be calculated.  Z must be positive.
-            //
-            //    Output, double DSTREM, the Sterling remainder.
-            //
-        {
-            double hln2pi = 0.91893853320467274178e0;
-            double ncoef = 10;
-
-            double[] coef =  {
+        double[] coef =  {
                 0.0e0,0.0833333333333333333333333333333e0,
                 -0.00277777777777777777777777777778e0,0.000793650793650793650793650793651e0,
                 -0.000595238095238095238095238095238e0,
@@ -59,10 +58,12 @@ namespace Burkardt.CDFLib
                 0.179644372368830573164938490016e0
             }
             ;
-            int K1 = 10;
-            double dstrem;
-            double sterl;
-            double T2;
+        int K1 = 10;
+        double dstrem;
+        double sterl;
+        double T2;
+        switch (z)
+        {
             //
             //    For information, here are the next 11 coefficients of the
             //    remainder term in Sterling's formula
@@ -78,20 +79,22 @@ namespace Burkardt.CDFLib
             //            0.347320283765002252252252252252D12
             //            -0.123696021422692744542517103493D14
             //
-            if (z <= 0.0e0)
-            {
+            case <= 0.0e0:
                 throw new Exception("Zero or negative argument in DSTREM");
-            }
-
-            if (!(z > 6.0e0)) goto S10;
-            T2 = 1.0e0 / Math.Pow(z, 2.0);
-            dstrem = eval_pol(coef, K1, T2) * z;
-            goto S20;
-            S10:
-            sterl = hln2pi + (z - 0.5e0) * Math.Log(z) - z;
-            dstrem = gamma_log(z) - sterl;
-            S20:
-            return dstrem;
         }
+
+        switch ((z > 6.0e0))
+        {
+            case false:
+                goto S10;
+        }
+        T2 = 1.0e0 / Math.Pow(z, 2.0);
+        dstrem = eval_pol(coef, K1, T2) * z;
+        goto S20;
+        S10:
+        sterl = hln2pi + (z - 0.5e0) * Math.Log(z) - z;
+        dstrem = gamma_log(z) - sterl;
+        S20:
+        return dstrem;
     }
 }

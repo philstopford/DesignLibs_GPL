@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class NegativeBinomial
 {
-    public static class NegativeBinomial
-    {
-        public static double negative_binomial_cdf(int x, int a, double b)
+    public static double negative_binomial_cdf(int x, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -39,22 +39,22 @@ namespace Burkardt.Probability
         //
         //    Output, double NEGATIVE_BINOMIAL_CDF, the value of the CDF.
         //
+    {
+        double cdf = 0.0;
+
+        for (int y = a; y <= x; y++)
         {
-            double cdf = 0.0;
+            int cnk = typeMethods.i4_choose(y - 1, a - 1);
 
-            for (int y = a; y <= x; y++)
-            {
-                int cnk = typeMethods.i4_choose(y - 1, a - 1);
+            double pdf = cnk * Math.Pow(b, a) * Math.Pow(1.0 - b, y - a);
 
-                double pdf = (double) (cnk) * Math.Pow(b, a) * Math.Pow(1.0 - b, y - a);
-
-                cdf = cdf + pdf;
-            }
-
-            return cdf;
+            cdf += pdf;
         }
 
-        public static int negative_binomial_cdf_inv(double cdf, int a, double b)
+        return cdf;
+    }
+
+    public static int negative_binomial_cdf_inv(double cdf, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -88,43 +88,46 @@ namespace Burkardt.Probability
         //    Output, int NEGATIVE_BINOMIAL_CDF_INV, the smallest X whose cumulative
         //    density function is greater than or equal to CDF.
         //
+    {
+        double cum;
+        double pdf;
+        int x;
+        int x_max = 1000;
+        switch (cdf)
         {
-            double cum;
-            double pdf;
-            int x;
-            int x_max = 1000;
+    
 //
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("NEGATIVE_BINOMIAL_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            cum = 0.0;
-
-            x = a;
-
-            for (;;)
-            {
-                pdf = negative_binomial_pdf(x, a, b);
-
-                cum = cum + pdf;
-
-                if (cdf <= cum || x_max <= x)
-                {
-                    break;
-                }
-
-                x = x + 1;
-            }
-
-            return x;
+                return 1;
         }
 
-        public static void negative_binomial_cdf_values(ref int n_data, ref int f, ref int s, ref double p,
-                ref double cdf )
+        cum = 0.0;
+
+        x = a;
+
+        for (;;)
+        {
+            pdf = negative_binomial_pdf(x, a, b);
+
+            cum += pdf;
+
+            if (cdf <= cum || x_max <= x)
+            {
+                break;
+            }
+
+            x += 1;
+        }
+
+        return x;
+    }
+
+    public static void negative_binomial_cdf_values(ref int n_data, ref int f, ref int s, ref double p,
+            ref double cdf )
         //****************************************************************************80
         //
         //  Purpose:
@@ -193,122 +196,123 @@ namespace Burkardt.Probability
         //    Output, double &CDF, the probability of at most F failures
         //    before the S-th success.
         //
+    {
+        const int N_MAX = 27;
+
+        double[] cdf_vec =
         {
-            int N_MAX = 27;
+            0.6367187500000000E+00,
+            0.3632812500000000E+00,
+            0.1445312500000000E+00,
+            0.5000000000000000E+00,
+            0.2265625000000000E+00,
+            0.6250000000000000E-01,
+            0.3437500000000000E+00,
+            0.1093750000000000E+00,
+            0.1562500000000000E-01,
+            0.1792000000000000E+00,
+            0.4096000000000000E-01,
+            0.4096000000000000E-02,
+            0.7047000000000000E-01,
+            0.1093500000000000E-01,
+            0.7290000000000000E-03,
+            0.9861587127990000E+00,
+            0.9149749500510000E+00,
+            0.7471846521450000E+00,
+            0.8499053647030009E+00,
+            0.5497160941090026E+00,
+            0.2662040052146710E+00,
+            0.6513215599000000E+00,
+            0.2639010709000000E+00,
+            0.7019082640000000E-01,
+            0.1000000000000000E+01,
+            0.1990000000000000E-01,
+            0.1000000000000000E-03
+        };
 
-            double[] cdf_vec =
-            {
-                0.6367187500000000E+00,
-                0.3632812500000000E+00,
-                0.1445312500000000E+00,
-                0.5000000000000000E+00,
-                0.2265625000000000E+00,
-                0.6250000000000000E-01,
-                0.3437500000000000E+00,
-                0.1093750000000000E+00,
-                0.1562500000000000E-01,
-                0.1792000000000000E+00,
-                0.4096000000000000E-01,
-                0.4096000000000000E-02,
-                0.7047000000000000E-01,
-                0.1093500000000000E-01,
-                0.7290000000000000E-03,
-                0.9861587127990000E+00,
-                0.9149749500510000E+00,
-                0.7471846521450000E+00,
-                0.8499053647030009E+00,
-                0.5497160941090026E+00,
-                0.2662040052146710E+00,
-                0.6513215599000000E+00,
-                0.2639010709000000E+00,
-                0.7019082640000000E-01,
-                0.1000000000000000E+01,
-                0.1990000000000000E-01,
-                0.1000000000000000E-03
-            };
+        int[] f_vec =
+        {
+            4, 3, 2,
+            3, 2, 1,
+            2, 1, 0,
+            2, 1, 0,
+            2, 1, 0,
+            11, 10, 9,
+            17, 16, 15,
+            9, 8, 7,
+            2, 1, 0
+        };
 
-            int[] f_vec =
-            {
-                4, 3, 2,
-                3, 2, 1,
-                2, 1, 0,
-                2, 1, 0,
-                2, 1, 0,
-                11, 10, 9,
-                17, 16, 15,
-                9, 8, 7,
-                2, 1, 0
-            };
+        double[] p_vec =
+        {
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.50E+00,
+            0.40E+00,
+            0.40E+00,
+            0.40E+00,
+            0.30E+00,
+            0.30E+00,
+            0.30E+00,
+            0.30E+00,
+            0.30E+00,
+            0.30E+00,
+            0.10E+00,
+            0.10E+00,
+            0.10E+00,
+            0.10E+00,
+            0.10E+00,
+            0.10E+00,
+            0.10E-01,
+            0.10E-01,
+            0.10E-01
+        };
 
-            double[] p_vec =
-            {
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.50E+00,
-                0.40E+00,
-                0.40E+00,
-                0.40E+00,
-                0.30E+00,
-                0.30E+00,
-                0.30E+00,
-                0.30E+00,
-                0.30E+00,
-                0.30E+00,
-                0.10E+00,
-                0.10E+00,
-                0.10E+00,
-                0.10E+00,
-                0.10E+00,
-                0.10E+00,
-                0.10E-01,
-                0.10E-01,
-                0.10E-01
-            };
+        int[] s_vec =
+        {
+            4, 5, 6,
+            4, 5, 6,
+            4, 5, 6,
+            4, 5, 6,
+            4, 5, 6,
+            1, 2, 3,
+            1, 2, 3,
+            1, 2, 3,
+            0, 1, 2
+        };
 
-            int[] s_vec =
-            {
-                4, 5, 6,
-                4, 5, 6,
-                4, 5, 6,
-                4, 5, 6,
-                4, 5, 6,
-                1, 2, 3,
-                1, 2, 3,
-                1, 2, 3,
-                0, 1, 2
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                f = 0;
-                s = 0;
-                p = 0.0;
-                cdf = 0.0;
-            }
-            else
-            {
-                f = f_vec[n_data - 1];
-                s = s_vec[n_data - 1];
-                p = p_vec[n_data - 1];
-                cdf = cdf_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            f = 0;
+            s = 0;
+            p = 0.0;
+            cdf = 0.0;
         }
+        else
+        {
+            f = f_vec[n_data - 1];
+            s = s_vec[n_data - 1];
+            p = p_vec[n_data - 1];
+            cdf = cdf_vec[n_data - 1];
+        }
+    }
 
-        public static bool negative_binomial_check(int a, double b)
+    public static bool negative_binomial_check(int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -336,27 +340,30 @@ namespace Burkardt.Probability
         //    Output, bool NEGATIVE_BINOMIAL_CHECK, is true if the
         //    parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 0)
-            {
+            case < 0:
                 Console.WriteLine(" ");
                 Console.WriteLine("NEGATIVE_BINOMIAL_CHECK - Warning!");
                 Console.WriteLine("  A < 0.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0 || 1.0 < b)
-            {
+        switch (b)
+        {
+            case <= 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("NEGATIVE_BINOMIAL_CHECK - Warning!");
                 Console.WriteLine("  B <= 0 or 1 < B.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double negative_binomial_mean(int a, double b)
+    public static double negative_binomial_mean(int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -383,13 +390,13 @@ namespace Burkardt.Probability
         //
         //    Output, double NEGATIVE_BINOMIAL_MEAN, the mean of the PDF.
         //
-        {
-            double mean = (double) (a) / b;
+    {
+        double mean = a / b;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double negative_binomial_pdf(int x, int a, double b)
+    public static double negative_binomial_pdf(int x, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -434,24 +441,24 @@ namespace Burkardt.Probability
         //
         //    Output, double NEGATIVE_BINOMIAL_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < a)
         {
-            double pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            int cnk = typeMethods.i4_choose(x - 1, a - 1);
 
-            if (x < a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                int cnk = typeMethods.i4_choose(x - 1, a - 1);
-
-                pdf = (double) (cnk) * Math.Pow(b, a) * Math.Pow(1.0 - b, x - a);
-            }
-
-            return pdf;
+            pdf = cnk * Math.Pow(b, a) * Math.Pow(1.0 - b, x - a);
         }
 
-        public static int negative_binomial_sample(int a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static int negative_binomial_sample(int a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -480,40 +487,39 @@ namespace Burkardt.Probability
         //
         //    Output, int NEGATIVE_BINOMIAL_SAMPLE, a sample of the PDF.
         //
-        {
-            double r;
-            int x;
+    {
+        double r;
+        int x;
 
-            if (b == 1.0)
-            {
+        switch (b)
+        {
+            case 1.0:
                 x = a;
                 return x;
-            }
-            else if (b == 0.0)
-            {
+            case 0.0:
                 x = typeMethods.i4_huge();
                 return x;
-            }
-
-            x = 0;
-            int num_success = 0;
-
-            while (num_success < a)
-            {
-                x = x + 1;
-                r = UniformRNG.r8_uniform_01(ref seed);
-
-                if (r <= b)
-                {
-                    num_success = num_success + 1;
-                }
-
-            }
-
-            return x;
         }
 
-        public static double negative_binomial_variance(int a, double b)
+        x = 0;
+        int num_success = 0;
+
+        while (num_success < a)
+        {
+            x += 1;
+            r = UniformRNG.r8_uniform_01(ref seed);
+
+            if (r <= b)
+            {
+                num_success += 1;
+            }
+
+        }
+
+        return x;
+    }
+
+    public static double negative_binomial_variance(int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -540,10 +546,9 @@ namespace Burkardt.Probability
         //
         //    Output, double NEGATIVE_BINOMIAL_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (double) (a) * (1.0 - b) / (b * b);
+    {
+        double variance = a * (1.0 - b) / (b * b);
 
-            return variance;
-        }
+        return variance;
     }
 }

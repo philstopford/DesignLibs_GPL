@@ -1,24 +1,24 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
-{
-    public static partial class FullertonLib
-    {
-        public class r8KnusData
-        {
-            public double aln2 = 0.69314718055994530941723212145818;
-            public double alnbig = 0;
-            public double alneps = 0;
-            public double alnsml = 0;
-            public int ntc0k = 0;
-            public int ntznu1 = 0;
-            public double euler = 0.57721566490153286060651209008240;
-            public double sqpi2 = +1.2533141373155002512078826424055;
-            public double xnusml = 0.0;
-            public double xsml = 0.0;
+namespace Burkardt.FullertonFnLib;
 
-        }
-        public static void r8_knus(ref r8GammaData gdata, ref r8KnusData data, double xnu, double x, ref double bknu, ref double bknu1, ref int iswtch )
+public static partial class FullertonLib
+{
+    public class r8KnusData
+    {
+        public double aln2 = 0.69314718055994530941723212145818;
+        public double alnbig;
+        public double alneps;
+        public double alnsml;
+        public int ntc0k;
+        public int ntznu1;
+        public double euler = 0.57721566490153286060651209008240;
+        public double sqpi2 = +1.2533141373155002512078826424055;
+        public double xnusml;
+        public double xsml;
+
+    }
+    public static void r8_knus(ref r8GammaData gdata, ref r8KnusData data, double xnu, double x, ref double bknu, ref double bknu1, ref int iswtch )
 
         //****************************************************************************80
         //
@@ -68,19 +68,19 @@ namespace Burkardt.FullertonFnLib
         //
         //    Output, int &ISWTCH, ?
         //
-        {
-            double[] a = new double[32];
-            double a0;
-            double alnz;
-            double[] alpha = new double[32];
-            double an;
-            double b0;
-            double[] beta = new double[32];
-            double bknu0;
-            double bknud;
-            double bn;
-            double c0;
-            double[] c0kcs = {
+    {
+        double[] a = new double[32];
+        double a0;
+        double alnz;
+        double[] alpha = new double[32];
+        double an;
+        double b0;
+        double[] beta = new double[32];
+        double bknu0;
+        double bknud;
+        double bn;
+        double c0;
+        double[] c0kcs = {
                 +0.60183057242626108387577445180329E-01,
                 -0.15364871433017286092959755943124,
                 -0.11751176008210492040068229226213E-01,
@@ -112,27 +112,27 @@ namespace Burkardt.FullertonFnLib
                 -0.21599152067808647728342168089832E-31
             }
             ;
-            double eta;
-            double expx;
-            int i;
-            int ii;
-            int inu;
-            int n;
-            int nterms;
-            double p1;
-            double p2;
-            double p3;
-            double qq;
-            double result;
-            double sqrtx;
-            double v;
-            double vlnz;
-            double x2n;
-            double x2tov;
-            double xi;
-            double xmu;
-            double z;
-            double[] znu1cs = {
+        double eta;
+        double expx;
+        int i;
+        int ii;
+        int inu;
+        int n;
+        int nterms;
+        double p1;
+        double p2;
+        double p3;
+        double qq;
+        double result;
+        double sqrtx;
+        double v;
+        double vlnz;
+        double x2n;
+        double x2tov;
+        double xi;
+        double xmu;
+        double z;
+        double[] znu1cs = {
                 +0.203306756994191729674444001216911,
                 +0.140077933413219771062943670790563,
                 +0.791679696100161352840972241972320E-02,
@@ -155,10 +155,11 @@ namespace Burkardt.FullertonFnLib
                 +0.244637186274497596485238794922666E-32
             }
             ;
-            double ztov;
+        double ztov;
 
-            if (data.ntc0k == 0)
-            {
+        switch (data.ntc0k)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.ntc0k = r8_inits(c0kcs, 29, eta);
                 data.ntznu1 = r8_inits(znu1cs, 20, eta);
@@ -167,41 +168,44 @@ namespace Burkardt.FullertonFnLib
                 data.alnsml = Math.Log(r8_mach(1));
                 data.alnbig = Math.Log(r8_mach(2));
                 data.alneps = Math.Log(0.1 * r8_mach(3));
-            }
+                break;
+        }
 
-            if (xnu < 0.0 || 1.0 <= xnu)
-            {
+        switch (xnu)
+        {
+            case < 0.0:
+            case >= 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_KNUS - Fatal error!");
                 Console.WriteLine("  XNU < 0 or 1 <= XNU.");
                 return;
-            }
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_KNUS - Fatal error!");
                 Console.WriteLine("  X <= 0.");
                 return;
-            }
+        }
 
-            iswtch = 0;
+        iswtch = 0;
+        switch (x)
+        {
             //
             //  X is small.  Compute k-sub-xnu (x) and the derivative of k-sub-xnu (x)
             //  then find k-sub-xnu+1 (x).  xnu is reduced to the interval (-0.5,+0.5)
             //  then to (0., .5), because k of negative order (-nu) = k of positive
             //  order (+nu).
             //
-            if (x <= 2.0)
+            case <= 2.0:
             {
-                if (xnu <= 0.5)
+                v = xnu switch
                 {
-                    v = xnu;
-                }
-                else
-                {
-                    v = 1.0 - xnu;
-                }
+                    <= 0.5 => xnu,
+                    _ => 1.0 - xnu
+                };
 
                 //
                 //  carefully find (x/2)^xnu and z^xnu where z = x*x/4.
@@ -233,22 +237,18 @@ namespace Burkardt.FullertonFnLib
 
                 a0 = 0.5 * r8_gamma(ref gdata, 1.0 + v);
                 b0 = 0.5 * r8_gamma(ref gdata, 1.0 - v);
-                c0 = -data.euler;
 
-                if (0.5 <= ztov && data.xnusml < v)
+                c0 = ztov switch
                 {
-                    c0 = -0.75 + r8_csevl((8.0 * v) * v - 1.0, c0kcs, data.ntc0k);
-                }
+                    >= 0.5 when data.xnusml < v => -0.75 + r8_csevl(8.0 * v * v - 1.0, c0kcs, data.ntc0k),
+                    _ => -data.euler
+                };
 
-                if (ztov <= 0.5)
+                alpha[0] = ztov switch
                 {
-                    alpha[0] = (a0 - ztov * b0) / v;
-                }
-                else
-                {
-                    alpha[0] = c0 - alnz * (0.75 +
-                                            r8_csevl(vlnz / 0.35 + 1.0, znu1cs, data.ntznu1)) * b0;
-                }
+                    <= 0.5 => (a0 - ztov * b0) / v,
+                    _ => c0 - alnz * (0.75 + r8_csevl(vlnz / 0.35 + 1.0, znu1cs, data.ntznu1)) * b0
+                };
 
                 beta[0] = -0.5 * (a0 + ztov * b0);
 
@@ -266,9 +266,9 @@ namespace Burkardt.FullertonFnLib
 
                 for (i = 2; i <= nterms; i++)
                 {
-                    xi = (double) (i - 1);
-                    a0 = a0 / (xi * (xi - v));
-                    b0 = b0 / (xi * (xi + v));
+                    xi = i - 1;
+                    a0 /= (xi * (xi - v));
+                    b0 /= (xi * (xi + v));
                     alpha[i - 1] = (alpha[i - 2] + 2.0 * xi * a0)
                                    / (xi * (xi + v));
                     beta[i - 1] = (xi - 0.5 * v) * alpha[i - 1] - ztov * b0;
@@ -294,21 +294,20 @@ namespace Burkardt.FullertonFnLib
 
                 bknud = expx * bknud * 2.0 / (x2tov * x);
 
-                if (xnu <= 0.5)
+                switch (xnu)
                 {
-                    bknu1 = v * bknu / x - bknud;
-                    return;
+                    case <= 0.5:
+                        bknu1 = v * bknu / x - bknud;
+                        return;
                 }
 
                 bknu0 = bknu;
                 bknu = -v * bknu / x - bknud;
                 bknu1 = 2.0 * xnu * bknu / x + bknu0;
+                break;
             }
             //
-            //  x is large.  find k-sub-xnu (x) and k-sub-xnu+1 (x) with y. l. luke-s
-            //  rational expansion.
-            //
-            else
+            default:
             {
                 sqrtx = Math.Sqrt(x);
 
@@ -325,77 +324,74 @@ namespace Burkardt.FullertonFnLib
 
                 for (inu = 1; inu <= 2; inu++)
                 {
-                    if (inu == 1)
+                    xmu = inu switch
                     {
-                        if (xnu <= data.xnusml)
-                        {
-                            xmu = 0.0;
-                        }
-                        else
-                        {
-                            xmu = (4.0 * xnu) * xnu;
-                        }
-                    }
-                    else
-                    {
-                        xmu = 4.0 * (Math.Abs(xnu) + 1.0) * (Math.Abs(xnu) + 1.0);
-                    }
+                        1 when xnu <= data.xnusml => 0.0,
+                        1 => 4.0 * xnu * xnu,
+                        _ => 4.0 * (Math.Abs(xnu) + 1.0) * (Math.Abs(xnu) + 1.0)
+                    };
 
                     a[0] = 1.0 - xmu;
                     a[1] = 9.0 - xmu;
                     a[2] = 25.0 - xmu;
 
-                    if (a[1] == 0.0)
+                    switch (a[1])
                     {
-                        result = data.sqpi2 * (16.0 * x + xmu + 7.0) / (16.0 * x * sqrtx);
-                    }
-                    else
-                    {
-                        alpha[0] = 1.0;
-                        alpha[1] = (16.0 * x + a[1]) / a[1];
-                        alpha[2] = ((768.0 * x + 48.0 * a[2]) * x
-                                    + a[1] * a[2]) / (a[1] * a[2]);
-
-                        beta[0] = 1.0;
-                        beta[1] = (16.0 * x + (xmu + 7.0)) / a[1];
-                        beta[2] = ((768.0 * x + 48.0 * (xmu + 23.0)) * x +
-                                   ((xmu + 62.0) * xmu + 129.0)) / (a[1] * a[2]);
-
-                        for (i = 4; i <= nterms; i++)
+                        case 0.0:
+                            result = data.sqpi2 * (16.0 * x + xmu + 7.0) / (16.0 * x * sqrtx);
+                            break;
+                        default:
                         {
-                            n = i - 1;
-                            x2n = (double) (2 * n - 1);
+                            alpha[0] = 1.0;
+                            alpha[1] = (16.0 * x + a[1]) / a[1];
+                            alpha[2] = ((768.0 * x + 48.0 * a[2]) * x
+                                        + a[1] * a[2]) / (a[1] * a[2]);
 
-                            a[i - 1] = (x2n + 2.0) * (x2n + 2.0) - xmu;
-                            qq = 16.0 * x2n / a[i - 1];
-                            p1 = -x2n * ((double) (12 * n * n - 20 * n) - a[0])
-                                / ((x2n - 2.0) * a[i - 1]) - qq * x;
-                            p2 = ((double) (12 * n * n - 28 * n + 8) - a[0])
-                                / a[i - 1] - qq * x;
-                            p3 = -x2n * a[i - 4] / ((x2n - 2.0) * a[i - 1]);
+                            beta[0] = 1.0;
+                            beta[1] = (16.0 * x + (xmu + 7.0)) / a[1];
+                            beta[2] = ((768.0 * x + 48.0 * (xmu + 23.0)) * x +
+                                       ((xmu + 62.0) * xmu + 129.0)) / (a[1] * a[2]);
 
-                            alpha[i - 1] = -p1 * alpha[i - 2]
-                                           - p2 * alpha[i - 3]
-                                           - p3 * alpha[i - 4];
+                            for (i = 4; i <= nterms; i++)
+                            {
+                                n = i - 1;
+                                x2n = 2 * n - 1;
 
-                            beta[i - 1] = -p1 * beta[i - 2]
-                                          - p2 * beta[i - 3]
-                                          - p3 * beta[i - 4];
+                                a[i - 1] = (x2n + 2.0) * (x2n + 2.0) - xmu;
+                                qq = 16.0 * x2n / a[i - 1];
+                                p1 = -x2n * (12 * n * n - 20 * n - a[0])
+                                    / ((x2n - 2.0) * a[i - 1]) - qq * x;
+                                p2 = (12 * n * n - 28 * n + 8 - a[0])
+                                    / a[i - 1] - qq * x;
+                                p3 = -x2n * a[i - 4] / ((x2n - 2.0) * a[i - 1]);
 
+                                alpha[i - 1] = -p1 * alpha[i - 2]
+                                               - p2 * alpha[i - 3]
+                                               - p3 * alpha[i - 4];
+
+                                beta[i - 1] = -p1 * beta[i - 2]
+                                              - p2 * beta[i - 3]
+                                              - p3 * beta[i - 4];
+
+                            }
+
+                            result = data.sqpi2 * beta[nterms - 1] / (sqrtx * alpha[nterms - 1]);
+                            break;
                         }
-
-                        result = data.sqpi2 * beta[nterms - 1] / (sqrtx * alpha[nterms - 1]);
                     }
 
-                    if (inu == 1)
+                    switch (inu)
                     {
-                        bknu = result;
-                    }
-                    else
-                    {
-                        bknu1 = result;
+                        case 1:
+                            bknu = result;
+                            break;
+                        default:
+                            bknu1 = result;
+                            break;
                     }
                 }
+
+                break;
             }
         }
     }

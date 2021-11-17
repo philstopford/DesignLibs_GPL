@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.MinpackNS
+namespace Burkardt.MinpackNS;
+
+public static partial class Minpack
 {
-    public static partial class Minpack
-    {
-        public static void r1mpyq(int m, int n, ref double[] a, int lda, double[] v, double[] w, int aIndex = 0 )
+    public static void r1mpyq(int m, int n, ref double[] a, int lda, double[] v, double[] w, int aIndex = 0 )
 
         //****************************************************************************80
         //
@@ -64,63 +64,65 @@ namespace Burkardt.MinpackNS
         //    Input, double W[N], contains the information necessary to recover the
         //    Givens rotation gw(i) described above.
         //
+    {
+        double c;
+        int i;
+        int j;
+        double s;
+        double temp;
+        //
+        //  Apply the first set of Givens rotations to A.
+        //
+        for (j = n - 2; 0 <= j; j--)
         {
-            double c;
-            int i;
-            int j;
-            double s;
-            double temp;
-            //
-            //  Apply the first set of Givens rotations to A.
-            //
-            for (j = n - 2; 0 <= j; j--)
+            switch (Math.Abs(v[j]))
             {
-                if (1.0 < Math.Abs(v[j]))
-                {
+                case > 1.0:
                     c = 1.0 / v[j];
                     s = Math.Sqrt(1.0 - c * c);
-                }
-                else
-                {
+                    break;
+                default:
                     s = v[j];
                     c = Math.Sqrt(1.0 - s * s);
-                }
-
-                for (i = 0; i < m; i++)
-                {
-                    temp = c * a[aIndex + (i + j * lda)] - s * a[aIndex + (i + (n - 1) * lda)];
-                    a[aIndex + (i + (n - 1) * lda)] = s * a[aIndex + (i + j * lda)] + c * a[aIndex + (i + (n - 1) * lda)];
-                    a[aIndex + (i + j * lda)] = temp;
-                }
+                    break;
             }
 
-            //
-            //  Apply the second set of Givens rotations to A.
-            //
-            for (j = 0; j < n - 1; j++)
+            for (i = 0; i < m; i++)
             {
-                if (1.0 < Math.Abs(w[j]))
-                {
-                    c = 1.0 / w[j];
-                    s = Math.Sqrt(1.0 - c * c);
-                }
-                else
-                {
-                    s = w[j];
-                    c = Math.Sqrt(1.0 - s * s);
-                }
-
-                for (i = 0; i < m; i++)
-                {
-                    temp = c * a[aIndex + (i + j * lda)] + s * a[aIndex + (i + (n - 1) * lda)];
-                    a[aIndex + (i + (n - 1) * lda)] = -s * a[aIndex + (i + j * lda)] + c * a[aIndex + (i + (n - 1) * lda)];
-                    a[aIndex + (i + j * lda)] = temp;
-                }
+                temp = c * a[aIndex + i + j * lda] - s * a[aIndex + i + (n - 1) * lda];
+                a[aIndex + i + (n - 1) * lda] = s * a[aIndex + i + j * lda] + c * a[aIndex + i + (n - 1) * lda];
+                a[aIndex + i + j * lda] = temp;
             }
         }
 
-        public static bool r1updt(int m, int n, ref double[] s, int ls, double[] u, ref double[] v,
-        double[] w, int sIndex = 0, int uIndex = 0 )
+        //
+        //  Apply the second set of Givens rotations to A.
+        //
+        for (j = 0; j < n - 1; j++)
+        {
+            switch (Math.Abs(w[j]))
+            {
+                case > 1.0:
+                    c = 1.0 / w[j];
+                    s = Math.Sqrt(1.0 - c * c);
+                    break;
+                default:
+                    s = w[j];
+                    c = Math.Sqrt(1.0 - s * s);
+                    break;
+            }
+
+            for (i = 0; i < m; i++)
+            {
+                temp = c * a[aIndex + i + j * lda] + s * a[aIndex + i + (n - 1) * lda];
+                a[aIndex + i + (n - 1) * lda] = -s * a[aIndex + i + j * lda] + c * a[aIndex + i + (n - 1) * lda];
+                a[aIndex + i + j * lda] = temp;
+            }
+        }
+    }
+
+    public static bool r1updt(int m, int n, ref double[] s, int ls, double[] u, ref double[] v,
+            double[] w, int sIndex = 0, int uIndex = 0 )
 
         //****************************************************************************80
         //
@@ -194,186 +196,187 @@ namespace Burkardt.MinpackNS
         //         of the diagonal elements of the output s are zero. otherwise
         //         sing is set false.
         //
+    {
+        double cotan;
+        double cs;
+        double giant;
+        int i;
+        int j;
+        int jj;
+        int l;
+        int nm1;
+        const double p25 = 0.25;
+        const double p5 = 0.5;
+        double sn;
+        bool sing;
+        double tan;
+        double tau;
+        double temp;
+        //
+        //  Because of the computation of the pointer JJ, this function was
+        //  converted from FORTRAN77 to C++ in a conservative way.  All computations
+        //  are the same, and only array indexing is adjusted.
+        //
+        //  GIANT is the largest magnitude.
+        //
+        giant = typeMethods.r8_huge();
+        //
+        //  Initialize the diagonal element pointer.
+        //
+        jj = n * (2 * m - n + 1) / 2 - (m - n);
+        //
+        //  Move the nontrivial part of the last column of S into W.
+        //
+        l = jj;
+        for (i = n; i <= m; i++)
         {
-            double cotan;
-            double cs;
-            double giant;
-            int i;
-            int j;
-            int jj;
-            int l;
-            int nm1;
-            const double p25 = 0.25;
-            const double p5 = 0.5;
-            double sn;
-            bool sing;
-            double tan;
-            double tau;
-            double temp;
-            //
-            //  Because of the computation of the pointer JJ, this function was
-            //  converted from FORTRAN77 to C++ in a conservative way.  All computations
-            //  are the same, and only array indexing is adjusted.
-            //
-            //  GIANT is the largest magnitude.
-            //
-            giant = typeMethods.r8_huge();
-            //
-            //  Initialize the diagonal element pointer.
-            //
-            jj = (n * (2 * m - n + 1)) / 2 - (m - n);
-            //
-            //  Move the nontrivial part of the last column of S into W.
-            //
-            l = jj;
-            for (i = n; i <= m; i++)
-            {
-                w[i - 1] = s[sIndex + (l - 1)];
-                l = l + 1;
-            }
+            w[i - 1] = s[sIndex + (l - 1)];
+            l += 1;
+        }
 
-            //
-            //  Rotate the vector V into a multiple of the N-th unit vector
-            //  in such a way that a spike is introduced into W.
-            //
-            nm1 = n - 1;
+        //
+        //  Rotate the vector V into a multiple of the N-th unit vector
+        //  in such a way that a spike is introduced into W.
+        //
+        nm1 = n - 1;
 
-            for (j = n - 1; 1 <= j; j--)
-            {
-                jj = jj - (m - j + 1);
-                w[j - 1] = 0.0;
+        for (j = n - 1; 1 <= j; j--)
+        {
+            jj -= (m - j + 1);
+            w[j - 1] = 0.0;
 
-                if (v[j - 1] != 0.0)
-                {
-                    //
-                    //  Determine a Givens rotation which eliminates the J-th element of V.
-                    //
-                    if (Math.Abs(v[n - 1]) < Math.Abs(v[j - 1]))
-                    {
-                        cotan = v[n - 1] / v[j - 1];
-                        sn = p5 / Math.Sqrt(p25 + p25 * cotan * cotan);
-                        cs = sn * cotan;
-                        tau = 1.0;
-                        if (1.0 < Math.Abs(cs) * giant)
-                        {
-                            tau = 1.0 / cs;
-                        }
-                    }
-                    else
-                    {
-                        tan = v[j - 1] / v[n - 1];
-                        cs = p5 / Math.Sqrt(p25 + p25 * tan * tan);
-                        sn = cs * tan;
-                        tau = sn;
-                    }
-
-                    //
-                    //  Apply the transformation to V and store the information
-                    //  necessary to recover the Givens rotation.
-                    //
-                    v[n - 1] = sn * v[j - 1] + cs * v[n - 1];
-                    v[j - 1] = tau;
-                    //
-                    //  Apply the transformation to S and extend the spike in W.
-                    //
-                    l = jj;
-                    for (i = j; i <= m; i++)
-                    {
-                        temp = cs * s[sIndex + (l - 1)] - sn * w[i - 1];
-                        w[i - 1] = sn * s[sIndex + (l - 1)] + cs * w[i - 1];
-                        s[sIndex + (l - 1)] = temp;
-                        l = l + 1;
-                    }
-                }
-            }
-
-            //
-            //  Add the spike from the rank 1 update to W.
-            //
-            for (i = 1; i <= m; i++)
-            {
-                w[i - 1] = w[i - 1] + v[n - 1] * u[uIndex + (i - 1)];
-            }
-
-            //
-            //  Eliminate the spike.
-            //
-            sing = false;
-
-            for (j = 1; j <= nm1; j++)
+            if (v[j - 1] != 0.0)
             {
                 //
-                //  Determine a Givens rotation which eliminates the
-                //  J-th element of the spike.
+                //  Determine a Givens rotation which eliminates the J-th element of V.
                 //
-                if (w[j - 1] != 0.0)
+                if (Math.Abs(v[n - 1]) < Math.Abs(v[j - 1]))
                 {
-
-                    if (Math.Abs(s[sIndex + (jj - 1)]) < Math.Abs(w[j - 1]))
+                    cotan = v[n - 1] / v[j - 1];
+                    sn = p5 / Math.Sqrt(p25 + p25 * cotan * cotan);
+                    cs = sn * cotan;
+                    tau = (Math.Abs(cs) * giant) switch
                     {
-                        cotan = s[sIndex + (jj - 1)] / w[j - 1];
-                        sn = p5 / Math.Sqrt(p25 + p25 * cotan * cotan);
-                        cs = sn * cotan;
-                        tau = 1.0;
-                        if (1.0 < Math.Abs(cs) * giant)
-                        {
-                            tau = 1.0 / cs;
-                        }
-                    }
-                    else
-                    {
-                        tan = w[j - 1] / s[sIndex + (jj - 1)];
-                        cs = p5 / Math.Sqrt(p25 + p25 * tan * tan);
-                        sn = cs * tan;
-                        tau = sn;
-                    }
-
-                    //
-                    //  Apply the transformation to s and reduce the spike in w.
-                    //
-                    l = jj;
-
-                    for (i = j; i <= m; i++)
-                    {
-                        temp = cs * s[sIndex + (l - 1)] + sn * w[i - 1];
-                        w[i - 1] = -sn * s[sIndex + (l - 1)] + cs * w[i - 1];
-                        s[sIndex + (l - 1)] = temp;
-                        l = l + 1;
-                    }
-
-                    //
-                    //  Store the information necessary to recover the givens rotation.
-                    //
-                    w[j - 1] = tau;
+                        > 1.0 => 1.0 / cs,
+                        _ => 1.0
+                    };
+                }
+                else
+                {
+                    tan = v[j - 1] / v[n - 1];
+                    cs = p5 / Math.Sqrt(p25 + p25 * tan * tan);
+                    sn = cs * tan;
+                    tau = sn;
                 }
 
+                //
+                //  Apply the transformation to V and store the information
+                //  necessary to recover the Givens rotation.
+                //
+                v[n - 1] = sn * v[j - 1] + cs * v[n - 1];
+                v[j - 1] = tau;
+                //
+                //  Apply the transformation to S and extend the spike in W.
+                //
+                l = jj;
+                for (i = j; i <= m; i++)
+                {
+                    temp = cs * s[sIndex + (l - 1)] - sn * w[i - 1];
+                    w[i - 1] = sn * s[sIndex + (l - 1)] + cs * w[i - 1];
+                    s[sIndex + (l - 1)] = temp;
+                    l += 1;
+                }
+            }
+        }
+
+        //
+        //  Add the spike from the rank 1 update to W.
+        //
+        for (i = 1; i <= m; i++)
+        {
+            w[i - 1] += v[n - 1] * u[uIndex + (i - 1)];
+        }
+
+        //
+        //  Eliminate the spike.
+        //
+        sing = false;
+
+        for (j = 1; j <= nm1; j++)
+        {
+            //
+            //  Determine a Givens rotation which eliminates the
+            //  J-th element of the spike.
+            //
+            if (w[j - 1] != 0.0)
+            {
+
+                if (Math.Abs(s[sIndex + (jj - 1)]) < Math.Abs(w[j - 1]))
+                {
+                    cotan = s[sIndex + (jj - 1)] / w[j - 1];
+                    sn = p5 / Math.Sqrt(p25 + p25 * cotan * cotan);
+                    cs = sn * cotan;
+                    tau = (Math.Abs(cs) * giant) switch
+                    {
+                        > 1.0 => 1.0 / cs,
+                        _ => 1.0
+                    };
+                }
+                else
+                {
+                    tan = w[j - 1] / s[sIndex + (jj - 1)];
+                    cs = p5 / Math.Sqrt(p25 + p25 * tan * tan);
+                    sn = cs * tan;
+                    tau = sn;
+                }
+
+                //
+                //  Apply the transformation to s and reduce the spike in w.
+                //
+                l = jj;
+
+                for (i = j; i <= m; i++)
+                {
+                    temp = cs * s[sIndex + (l - 1)] + sn * w[i - 1];
+                    w[i - 1] = -sn * s[sIndex + (l - 1)] + cs * w[i - 1];
+                    s[sIndex + (l - 1)] = temp;
+                    l += 1;
+                }
+
+                //
+                //  Store the information necessary to recover the givens rotation.
+                //
+                w[j - 1] = tau;
+            }
+
+            sing = s[sIndex + (jj - 1)] switch
+            {
                 //
                 //  Test for zero diagonal elements in the output s.
                 //
-                if (s[sIndex + (jj - 1)] == 0.0)
-                {
-                    sing = true;
-                }
+                0.0 => true,
+                _ => sing
+            };
 
-                jj = jj + (m - j + 1);
-            }
-
-            //
-            //  Move W back into the last column of the output S.
-            //
-            l = jj;
-            for (i = n; i <= m; i++)
-            {
-                s[sIndex + (l - 1)] = w[i - 1];
-                l = l + 1;
-            }
-
-            if (s[sIndex + (jj - 1)] == 0.0)
-            {
-                sing = true;
-            }
-
-            return sing;
+            jj = jj + (m - j) + 1;
         }
+
+        //
+        //  Move W back into the last column of the output S.
+        //
+        l = jj;
+        for (i = n; i <= m; i++)
+        {
+            s[sIndex + (l - 1)] = w[i - 1];
+            l += 1;
+        }
+
+        sing = s[sIndex + (jj - 1)] switch
+        {
+            0.0 => true,
+            _ => sing
+        };
+
+        return sing;
     }
 }

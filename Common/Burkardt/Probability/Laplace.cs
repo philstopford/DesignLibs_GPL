@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Laplace
 {
-    public static class Laplace
-    {
-        public static void laplace_cdf_values(ref int n_data, ref double mu, ref double beta, ref double x,
+    public static void laplace_cdf_values(ref int n_data, ref double mu, ref double beta, ref double x,
             ref double fx )
         //****************************************************************************80
         //
@@ -63,98 +63,99 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 12;
+
+        double[] beta_vec =
         {
-            int N_MAX = 12;
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01
+        };
 
-            double[] beta_vec =
-            {
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01
-            };
+        double[] fx_vec =
+        {
+            0.5000000000000000E+00,
+            0.8160602794142788E+00,
+            0.9323323583816937E+00,
+            0.9751064658160680E+00,
+            0.6967346701436833E+00,
+            0.6417343447131054E+00,
+            0.6105996084642976E+00,
+            0.5906346234610091E+00,
+            0.5000000000000000E+00,
+            0.3032653298563167E+00,
+            0.1839397205857212E+00,
+            0.1115650800742149E+00
+        };
 
-            double[] fx_vec =
-            {
-                0.5000000000000000E+00,
-                0.8160602794142788E+00,
-                0.9323323583816937E+00,
-                0.9751064658160680E+00,
-                0.6967346701436833E+00,
-                0.6417343447131054E+00,
-                0.6105996084642976E+00,
-                0.5906346234610091E+00,
-                0.5000000000000000E+00,
-                0.3032653298563167E+00,
-                0.1839397205857212E+00,
-                0.1115650800742149E+00
-            };
+        double[] mu_vec =
+        {
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.0000000000000000E+01,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01
+        };
 
-            double[] mu_vec =
-            {
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.0000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01
-            };
+        double[] x_vec =
+        {
+            0.0000000000000000E+01,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01,
+            0.1000000000000000E+01
+        };
 
-            double[] x_vec =
-            {
-                0.0000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01
-            };
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                mu = 0.0;
-                beta = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                mu = mu_vec[n_data - 1];
-                beta = beta_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            mu = 0.0;
+            beta = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            mu = mu_vec[n_data - 1];
+            beta = beta_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static double laplace_cdf(double x, double a, double b)
+    public static double laplace_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -182,25 +183,25 @@ namespace Burkardt.Probability
         //
         //    Output, double LAPLACE_CDF, the value of the PDF.
         //
+    {
+        double cdf;
+        double y;
+
+        y = (x - a) / b;
+
+        if (x <= a)
         {
-            double cdf;
-            double y;
-
-            y = (x - a) / b;
-
-            if (x <= a)
-            {
-                cdf = 0.5 * Math.Exp(y);
-            }
-            else
-            {
-                cdf = 1.0 - 0.5 * Math.Exp(-y);
-            }
-
-            return cdf;
+            cdf = 0.5 * Math.Exp(y);
+        }
+        else
+        {
+            cdf = 1.0 - 0.5 * Math.Exp(-y);
         }
 
-        public static double laplace_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double laplace_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -229,30 +230,29 @@ namespace Burkardt.Probability
         //
         //    Output, double LAPLACE_CDF_INV, the corresponding argument.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("LAPLACE_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf <= 0.5)
-            {
+                return 1;
+            case <= 0.5:
                 x = a + b * Math.Log(2.0 * cdf);
-            }
-            else
-            {
+                break;
+            default:
                 x = a - b * Math.Log(2.0 * (1.0 - cdf));
-            }
-
-            return x;
+                break;
         }
 
-        public static bool laplace_check(double a, double b)
+        return x;
+    }
+
+    public static bool laplace_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -278,19 +278,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool LAPLACE_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("LAPLACE_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double laplace_mean(double a, double b)
+    public static double laplace_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -316,13 +317,13 @@ namespace Burkardt.Probability
         //
         //    Output, double LAPLACE_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double laplace_pdf(double x, double a, double b)
+    public static double laplace_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -358,13 +359,13 @@ namespace Burkardt.Probability
         //
         //    Output, double LAPLACE_PDF, the value of the PDF.
         //
-        {
-            double pdf = Math.Exp(-Math.Abs(x - a) / b) / (2.0 * b);
+    {
+        double pdf = Math.Exp(-Math.Abs(x - a) / b) / (2.0 * b);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double laplace_sample(double a, double b, ref int seed)
+    public static double laplace_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -392,15 +393,15 @@ namespace Burkardt.Probability
         //
         //    Output, double LAPLACE_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = laplace_cdf_inv(cdf, a, b);
+        double x = laplace_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double laplace_variance(double a, double b)
+    public static double laplace_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -426,10 +427,9 @@ namespace Burkardt.Probability
         //
         //    Output, double LAPLACE_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 2.0 * b * b;
+    {
+        double variance = 2.0 * b * b;
 
-            return variance;
-        }
+        return variance;
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Numerics;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZPBDI
 {
-    public static class ZPBDI
-    {
-        public static void zpbdi ( Complex[] abd, int lda, int n, int m, ref double[] det )
+    public static void zpbdi ( Complex[] abd, int lda, int n, int m, ref double[] det )
 
         //****************************************************************************80
         //
@@ -52,35 +52,34 @@ namespace Burkardt.Linpack
         //    form determinant = DET(1) * 10.0**DET(2) with 1.0 <= DET(1) < 10.0
         //    or DET(1) == 0.0.
         //
+    {
+        int i;
+
+        det[0] = 1.0;
+        det[1] = 0.0;
+
+        for ( i = 1; i <= n; i++ )
         {
-            int i;
+            det[0] = det[0] * abd[m+(i-1)*lda].Real * abd[m+(i-1)*lda].Real;
 
-            det[0] = 1.0;
-            det[1] = 0.0;
-
-            for ( i = 1; i <= n; i++ )
+            if ( det[0] == 0.0 )
             {
-                det[0] = det[0] * ( abd[m+(i-1)*lda].Real ) * ( abd[m+(i-1)*lda].Real );
-
-                if ( det[0] == 0.0 )
-                {
-                    break;
-                }
-
-                while ( det[0] < 1.0 )
-                {
-                    det[0] = det[0] * 10.0;
-                    det[1] = det[1] - 1.0;
-                }
-
-                while ( 10.0 <= det[0] )
-                {
-                    det[0] = det[0] / 10.0;
-                    det[1] = det[1] + 1.0;
-                }
-
+                break;
             }
-        }
 
+            while ( det[0] < 1.0 )
+            {
+                det[0] *= 10.0;
+                det[1] -= 1.0;
+            }
+
+            while ( 10.0 <= det[0] )
+            {
+                det[0] /= 10.0;
+                det[1] += 1.0;
+            }
+
+        }
     }
+
 }

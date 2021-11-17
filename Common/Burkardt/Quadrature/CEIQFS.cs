@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CEIQFS
 {
-    public static class CEIQFS
-    {
-        public static double ceiqfs(int nt, double[] t, int[] mlt, int kind, double alpha,
-        double beta, Func < double, int, double > f )
+    public static double ceiqfs(int nt, double[] t, int[] mlt, int kind, double alpha,
+            double beta, Func < double, int, double > f )
 
         //****************************************************************************80
         //
@@ -72,30 +72,29 @@ namespace Burkardt.Quadrature
         //    Output, double CEIQFS, the value of the quadrature formula 
         //    applied to F.
         //
+    {
+        int i;
+        int key;
+        int lu;
+        int n;
+        int[] ndx;
+        double qfsum;
+        double[] wts;
+
+        lu = 0;
+        n = 0;
+        for (i = 0; i < nt; i++)
         {
-            int i;
-            int key;
-            int lu;
-            int n;
-            int[] ndx;
-            double qfsum;
-            double[] wts;
-
-            lu = 0;
-            n = 0;
-            for (i = 0; i < nt; i++)
-            {
-                n = n + mlt[i];
-            }
-
-            ndx = new int[nt];
-            key = 1;
-
-            wts = CIQFS.ciqfs(nt, t, mlt, n, ref ndx, key, kind, alpha, beta, lu);
-
-            qfsum = EIQF.eiqf(nt, t, mlt, wts, n, ndx, key, f);
-
-            return qfsum;
+            n += mlt[i];
         }
+
+        ndx = new int[nt];
+        key = 1;
+
+        wts = CIQFS.ciqfs(nt, t, mlt, n, ref ndx, key, kind, alpha, beta, lu);
+
+        qfsum = EIQF.eiqf(nt, t, mlt, wts, n, ndx, key, f);
+
+        return qfsum;
     }
 }

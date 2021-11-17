@@ -3,12 +3,12 @@ using Burkardt.IntegralNS;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt.Laguerre
+namespace Burkardt.Laguerre;
+
+public static partial class QuadratureRule
 {
-    public static partial class QuadratureRule
-    {
-        public static void laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
-        ref double[] w )
+    public static void laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
+            ref double[] w )
 
         //****************************************************************************80
         //
@@ -67,11 +67,11 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            laguerre_compute ( order, ref x, ref w );
-        }
+    {
+        laguerre_compute ( order, ref x, ref w );
+    }
         
-        public static void laguerre_compute ( int n, ref double[] x, ref double[] w )
+    public static void laguerre_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -108,48 +108,48 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double[] bj;
+        int i;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = 1.0;
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double[] bj;
-            int i;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = 1.0;
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-
-            for ( i = 0; i < n; i++ )
-            {
-                bj[i] = ( double ) ( i + 1 );
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                x[i] = ( double ) ( 2 * i + 1 );
-            }
-
-            w[0] = Math.Sqrt ( zemu );
-
-            for ( i = 1; i < n; i++ )
-            {
-                w[i] = 0.0;
-            }
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
-
-            for ( i = 0; i < n; i++ )
-            {
-                w[i] = w[i] * w[i];
-            }
+            bj[i] = i + 1;
         }
+
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = 2 * i + 1;
+        }
+
+        w[0] = Math.Sqrt ( zemu );
+
+        for ( i = 1; i < n; i++ )
+        {
+            w[i] = 0.0;
+        }
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+        for ( i = 0; i < n; i++ )
+        {
+            w[i] *= w[i];
+        }
+    }
         
-        public static void gen_laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
-        ref double[] w )
+    public static void gen_laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
+            ref double[] w )
 
         //****************************************************************************80
         //
@@ -228,54 +228,54 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            double alpha;
+    {
+        double alpha;
 
-            alpha = p[0];
+        alpha = p[0];
 
-            gen_laguerre_compute(order, alpha, ref x, ref w);
-        }
+        gen_laguerre_compute(order, alpha, ref x, ref w);
+    }
         
-        public static void gen_laguerre_compute_weights ( int order, double alpha, ref double[] w )
+    public static void gen_laguerre_compute_weights ( int order, double alpha, ref double[] w )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GEN_LAGUERRE_COMPUTE_WEIGHTS: Generalized Laguerre quadrature weights.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    Set ALPHA = 0.0 for the simplest rule.
-            //    ALPHA must be nonnegative.
-            //
-            //    Output, double W[ORDER], the weights.
-            //
-        {
-            double[] x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_LAGUERRE_COMPUTE_WEIGHTS: Generalized Laguerre quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    Set ALPHA = 0.0 for the simplest rule.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+    {
+        double[] x;
 
-            x = new double[order];
+        x = new double[order];
 
-            gen_laguerre_compute ( order, alpha, ref x, ref w );
-        }
+        gen_laguerre_compute ( order, alpha, ref x, ref w );
+    }
 
-        public static double[] gen_laguerre_compute_weights_np ( int order, int np, double[] p,
-        double[] w )
+    public static double[] gen_laguerre_compute_weights_np ( int order, int np, double[] p,
+            double[] w )
 
         //****************************************************************************80
         //
@@ -308,119 +308,119 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[ORDER], the weights.
         //
+    {
+        double alpha;
+
+        alpha = p[0];
+
+        gen_laguerre_compute_weights ( order, alpha, ref w );
+
+        return w;
+    }
+
+    public static void gen_laguerre_compute(int n, double alpha, ref double[] x, ref double[] w)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_LAGUERRE_COMPUTE: generalized Gauss-Laguerre quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( 0 <= x < +oo ) exp ( - x ) * x^alpha * f(x) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //    The integral:
+        //
+        //      integral ( 0 <= x < +oo ) x^alpha * f(x) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * exp ( x(i) ) * f ( x(i) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 April 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+    {
+        double[] bj;
+        int i;
+        double i_r8;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = typeMethods.r8_gamma(alpha + 1.0);
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double alpha;
-
-            alpha = p[0];
-
-            gen_laguerre_compute_weights ( order, alpha, ref w );
-
-            return w;
+            i_r8 = i + 1;
+            bj[i] = Math.Sqrt(i_r8 * (i_r8 + alpha));
         }
 
-        public static void gen_laguerre_compute(int n, double alpha, ref double[] x, ref double[] w)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GEN_LAGUERRE_COMPUTE: generalized Gauss-Laguerre quadrature rule.
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( 0 <= x < +oo ) exp ( - x ) * x^alpha * f(x) dx
-            //
-            //    The quadrature rule:
-            //
-            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
-            //
-            //    The integral:
-            //
-            //      integral ( 0 <= x < +oo ) x^alpha * f(x) dx
-            //
-            //    The quadrature rule:
-            //
-            //      sum ( 1 <= i <= n ) w(i) * exp ( x(i) ) * f ( x(i) )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    23 April 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Sylvan Elhay, Jaroslav Kautsky,
-            //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
-            //    Interpolatory Quadrature,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 13, Number 4, December 1987, pages 399-415.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    ALPHA must be nonnegative.
-            //
-            //    Output, double X[N], the abscissas.
-            //
-            //    Output, double W[N], the weights.
-            //
+        for (i = 0; i < n; i++)
         {
-            double[] bj;
-            int i;
-            double i_r8;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = typeMethods.r8_gamma(alpha + 1.0);
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                i_r8 = (double) (i + 1);
-                bj[i] = Math.Sqrt(i_r8 * (i_r8 + alpha));
-            }
-
-            for (i = 0; i < n; i++)
-            {
-                i_r8 = (double) (i + 1);
-                x[i] = 2.0 * i_r8 - 1.0 + alpha;
-            }
-
-            w[0] = Math.Sqrt(zemu);
-
-            for (i = 1; i < n; i++)
-            {
-                w[i] = 0.0;
-            }
-
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
-
-            for (i = 0; i < n; i++)
-            {
-                w[i] = w[i] * w[i];
-            }
+            i_r8 = i + 1;
+            x[i] = 2.0 * i_r8 - 1.0 + alpha;
         }
 
-        public static double monomial_quadrature_gen_laguerre ( int expon, double alpha, int order, 
+        w[0] = Math.Sqrt(zemu);
+
+        for (i = 1; i < n; i++)
+        {
+            w[i] = 0.0;
+        }
+
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+
+        for (i = 0; i < n; i++)
+        {
+            w[i] *= w[i];
+        }
+    }
+
+    public static double monomial_quadrature_gen_laguerre ( int expon, double alpha, int order, 
             int option, double[] w, double[] x )
 
         //****************************************************************************80
@@ -461,43 +461,50 @@ namespace Burkardt.Laguerre
         //
         //    Output, double MONOMIAL_QUADRATURE_GEN_LAGUERRE, the quadrature error.
         //
+    {
+        double exact;
+        int i;
+        double quad;
+        double quad_error;
+        //
+        //  Get the exact value of the integral.
+        //
+        exact = Integral.gen_laguerre_integral ( expon, alpha );
+        //
+        //  Evaluate the unweighted monomial at the quadrature points.
+        //
+        quad = 0.0;
+
+        switch (option)
         {
-            double exact;
-            int i;
-            double quad;
-            double quad_error;
-            //
-            //  Get the exact value of the integral.
-            //
-            exact = Integral.gen_laguerre_integral ( expon, alpha );
-            //
-            //  Evaluate the unweighted monomial at the quadrature points.
-            //
-            quad = 0.0;
-
-            if ( option == 0 )
+            case 0:
             {
                 for ( i = 0; i < order; i++ )
                 {
-                    quad = quad + w[i] * Math.Pow ( x[i], expon );
+                    quad += w[i] * Math.Pow ( x[i], expon );
                 }
+
+                break;
             }
-            else
+            default:
             {
                 for ( i = 0; i < order; i++ )
                 {
-                    quad = quad + w[i] * Math.Pow ( x[i], alpha ) * Math.Exp ( - x[i] ) * Math.Pow ( x[i], expon );
+                    quad += w[i] * Math.Pow ( x[i], alpha ) * Math.Exp ( - x[i] ) * Math.Pow ( x[i], expon );
                 }
-            }
-            //
-            //  Error:
-            //
-            quad_error = Math.Abs ( quad - exact ) / exact;
 
-            return quad_error;
+                break;
+            }
         }
+        //
+        //  Error:
+        //
+        quad_error = Math.Abs ( quad - exact ) / exact;
+
+        return quad_error;
+    }
         
-        public static double[] product_weight_laguerre ( int dim_num, int[] order_1d, int order_nd )
+    public static double[] product_weight_laguerre ( int dim_num, int[] order_1d, int order_nd )
 
         //****************************************************************************80
         //
@@ -532,365 +539,369 @@ namespace Burkardt.Laguerre
         //
         //    Output, double PRODUCT_WEIGHT_HERM[ORDER_ND], the product rule weights.
         //
-        {
-            int dim;
-            int order;
-            double[] w_1d;
-            double[] w_nd;
-            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
+    {
+        int dim;
+        int order;
+        double[] w_1d;
+        double[] w_nd;
+        typeMethods.r8vecDPData data = new();
 
-            w_nd = new double[order_nd];
+        w_nd = new double[order_nd];
   
-            for ( order = 0; order < order_nd; order++ )
-            {
-                w_nd[order] = 1.0;
-            }
-
-            for ( dim = 0; dim < dim_num; dim++ )
-            {
-                w_1d = new double[order_1d[dim]];
-    
-                laguerre_weights ( order_1d[dim], ref w_1d );
-
-                typeMethods.r8vec_direct_product2 (ref data, dim, order_1d[dim], w_1d, dim_num, 
-                    order_nd, ref w_nd );
-
-            }
-            return w_nd;
-        }
-        public static void laguerre_abscissa(int dim_num, int point_num, int[] grid_index,
-                int[] grid_base, ref double[] grid_point, int gridIndex = 0, int gridBaseIndex = 0, int gridPointIndex = 0)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_ABSCISSA sets abscissas for multidimensional Gauss-Laguerre quadrature.
-            //
-            //  Discussion:
-            //
-            //    The "nesting" as it occurs for Gauss-Laguerre sparse grids simply
-            //    involves the use of a specified set of permissible orders for the
-            //    rule.  
-            //
-            //    The X array lists the (complete) Gauss-Legendre abscissas for rules 
-            //    of order 1, 3, 7, 15, 31, 63 or 127, in order. 
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 October 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the spatial dimension.
-            //
-            //    Input, int POINT_NUM, the number of points.
-            //
-            //    Input, int GRID_INDEX[DIM_NUM*POINT_NUM], the index of the abscissa
-            //    from the rule, for each dimension and point.
-            //
-            //    Input, int GRID_BASE[DIM_NUM], the number of points used in the 
-            //    rule for a given dimension.
-            //
-            //    Output, double GRID_POINT[DIM_NUM], the grid points of abscissas.
-            //
+        for ( order = 0; order < order_nd; order++ )
         {
-            int dim;
-            int level;
-            int point;
-            int pointer;
-            int[] skip = { 0, 1, 4, 11, 26, 57, 120, 247 };
-            double[] x =
-            {
-                1.0E+00,
-                0.415774556783479083311533873128E+00,
-                0.229428036027904171982205036136E+01,
-                0.628994508293747919686641576551E+01,
-                0.193043676560362413838247885004E+00,
-                0.102666489533919195034519944317E+01,
-                0.256787674495074620690778622666E+01,
-                0.490035308452648456810171437810E+01,
-                0.818215344456286079108182755123E+01,
-                0.127341802917978137580126424582E+02,
-                0.193957278622625403117125820576E+02,
-                0.933078120172818047629030383672E-01,
-                0.492691740301883908960101791412E+00,
-                0.121559541207094946372992716488E+01,
-                0.226994952620374320247421741375E+01,
-                0.366762272175143727724905959436E+01,
-                0.542533662741355316534358132596E+01,
-                0.756591622661306786049739555812E+01,
-                0.101202285680191127347927394568E+02,
-                0.131302824821757235640991204176E+02,
-                0.166544077083299578225202408430E+02,
-                0.207764788994487667729157175676E+02,
-                0.256238942267287801445868285977E+02,
-                0.314075191697539385152432196202E+02,
-                0.385306833064860094162515167595E+02,
-                0.480260855726857943465734308508E+02,
-                0.45901947621108290743496080275224E-01,
-                0.24198016382477204890408974151714E+00,
-                0.59525389422235073707330165005414E+00,
-                1.1066894995329987162111308789792E+00,
-                1.7775956928747727211593727482675E+00,
-                2.6097034152566806503893375925315E+00,
-                3.6051968023400442698805817554243E+00,
-                4.7667470844717611313629127271123E+00,
-                6.0975545671817409269925429328463E+00,
-                7.6014009492331374229360106942867E+00,
-                9.2827143134708894182536695297710E+00,
-                11.146649755619291358993815629587E+00,
-                13.199189576244998522464925028637E+00,
-                15.447268315549310075809325891801E+00,
-                17.898929826644757646725793817752E+00,
-                20.563526336715822170743048968779E+00,
-                23.451973482011858591050255575933E+00,
-                26.577081352118260459975876986478E+00,
-                29.953990872346445506951917840024E+00,
-                33.600759532902202735410313885784E+00,
-                37.539164407330440882887902558001E+00,
-                41.795830870182219981347945853330E+00,
-                46.403866806411123136029227604386E+00,
-                51.405314476797755161861461088395E+00,
-                56.854992868715843620511922055660E+00,
-                62.826855908786321453677523304806E+00,
-                69.425277191080345623322251656443E+00,
-                76.807047763862732837609972285484E+00,
-                85.230358607545669169387065607043E+00,
-                95.188939891525629981308606853957E+00,
-                107.95224382757871475002440117666E+00,
-                0.22768893732576153785994330248562E-01,
-                0.11998325242727824715771416426383E+00,
-                0.29494185444770149577427738517405E+00,
-                0.54779087896237725363865073775856E+00,
-                0.87869061179931901673895567052285E+00,
-                1.2878464335919706302309207788611E+00,
-                1.7755123815388553763979463268728E+00,
-                2.3419925567085989256055628337716E+00,
-                2.9876423223246473939976731053629E+00,
-                3.7128695992018000346299637413422E+00,
-                4.5181363349503584391105568561550E+00,
-                5.4039601781825946286902599782736E+00,
-                6.3709163787865330220392250891777E+00,
-                7.4196399339311711154888493199004E+00,
-                8.5508280008403328312589048722235E+00,
-                9.7652425999245366807004592977996E+00,
-                11.063713635140661736220550410604E+00,
-                12.447142262356492749798687569289E+00,
-                13.916504641057818562912967008183E+00,
-                15.472856110036296424777143607779E+00,
-                17.117335833863588753116900303886E+00,
-                18.851171974154856850873483787506E+00,
-                20.675687448056515660377265667433E+00,
-                22.592306346311528381292277759986E+00,
-                24.602561094972638883700642760037E+00,
-                26.708100458737343969779087998829E+00,
-                28.910698500451382640177718103234E+00,
-                31.212264631175912885477773820802E+00,
-                33.614854909101154836598842888345E+00,
-                36.120684774484823056306328740825E+00,
-                38.732143442933582145626041607663E+00,
-                41.451810222318741191114726181363E+00,
-                44.282473071479233839358857134636E+00,
-                47.227149784295686898935095231536E+00,
-                50.289112264240695761749021839419E+00,
-                53.471914456788652808348280619542E+00,
-                56.779424636342062213099781057119E+00,
-                60.215862909019862886417550114424E+00,
-                63.785845004235974631701139601836E+00,
-                67.494433702293885830374325695045E+00,
-                71.347199604295266286654803376075E+00,
-                75.350293425653234254290504744279E+00,
-                79.510532629986309149555391354778E+00,
-                83.835506080872257843339817658508E+00,
-                88.333701570354369086112766326498E+00,
-                93.014662728558547405303399037100E+00,
-                97.889184147578140043386727677112E+00,
-                102.96955690741381650783952746778E+00,
-                108.26988161961595392226350967206E+00,
-                113.80647350287462738934485955901E+00,
-                119.59839538830458666962452963285E+00,
-                125.66817255856119431291196303280E+00,
-                132.04277272091165746585590583045E+00,
-                138.75498418103789078167590567526E+00,
-                145.84541318313540358283994248439E+00,
-                153.36548459497863623710815962660E+00,
-                161.38215194813761243562172669592E+00,
-                169.98570600665839438795175301156E+00,
-                179.30366247401580910251827858515E+00,
-                189.52789596532475473668721332981E+00,
-                200.97521159924656741628671841018E+00,
-                214.25368536638788642698056296400E+00,
-                230.93465747089703971246562985079E+00,
-                0.11339635298518611691893169631306E-01,
-                0.59749753435726620281348237057387E-01,
-                0.14685098690746167612388223687431E+00,
-                0.27267590735859553131378008278900E+00,
-                0.43724600644192665554577035869932E+00,
-                0.64058688222566929533576416399983E+00,
-                0.88272968639058364481487653650042E+00,
-                1.1637114160166537661560584700951E+00,
-                1.4835750152834613891313584861012E+00,
-                1.8423694351613565380686320809853E+00,
-                2.2401496839579024244513315656522E+00,
-                2.6769768780141303692167869961238E+00,
-                3.1529182957082825565771508308846E+00,
-                3.6680474360304752540226339926515E+00,
-                4.2224440823301888455977876667425E+00,
-                4.8161943715870502475665535087286E+00,
-                5.4493908694559416755862178908416E+00,
-                6.1221326512997254193944584763155E+00,
-                6.8345253894122668112237994973336E+00,
-                7.5866814466367472174205986836847E+00,
-                8.3787199765932725254842120659452E+00,
-                9.2107670307426558777922506102445E+00,
-                10.082955672528643809166439353647E+00,
-                10.995426098858125429803147358780E+00,
-                11.948325769197725997610605127857E+00,
-                12.941809542585531053723381098192E+00,
-                13.976039822878506520014405668679E+00,
-                15.051186712579523631574796365435E+00,
-                16.167428175612852922977395051768E+00,
-                17.324950209443673446561163712616E+00,
-                18.523947026965688560811711309349E+00,
-                19.764621248611504104071669386884E+00,
-                21.047184105173183606877044020054E+00,
-                22.371855651855542817648123918101E+00,
-                23.738864994122497183652313788712E+00,
-                25.148450525937368234077278385644E+00,
-                26.600860181041749607253384279755E+00,
-                28.096351697964619201753961292129E+00,
-                29.635192899504178910610227138642E+00,
-                31.217661987479759144214467152615E+00,
-                32.844047853610430460522951341338E+00,
-                34.514650407441149149105635947422E+00,
-                36.229780922306804019615388508885E+00,
-                37.989762400399956435968780140278E+00,
-                39.794929958089961778396437141707E+00,
-                41.645631232730180705153990897484E+00,
-                43.542226812286859549950892993822E+00,
-                45.485090689228791137996151336673E+00,
-                47.474610740231964719468766599146E+00,
-                49.511189233379087716728884584381E+00,
-                51.595243364671244443182771266934E+00,
-                53.727205825819316758288140069145E+00,
-                55.907525405447553305830605991732E+00,
-                58.136667626022439197077526025660E+00,
-                60.415115419018590295707192053805E+00,
-                62.743369841051809700207126742685E+00,
-                65.121950833949996311956025417139E+00,
-                67.551398031997886314411872443149E+00,
-                70.032271619884584511229871192030E+00,
-                72.565153245206849090888669416801E+00,
-                75.150646989739935299354362325096E+00,
-                77.789380404085816000647405462136E+00,
-                80.482005610750729205803962926758E+00,
-                83.229200481195914886796120019048E+00,
-                86.031669892953582966798238732643E+00,
-                88.890147073512051099652518544282E+00,
-                91.805395038358177994971250170499E+00,
-                94.778208131331583205387031034825E+00,
-                97.809413676305116411054110115424E+00,
-                100.89987375017285940371939762172E+00,
-                104.05048708821598934704076845022E+00,
-                107.26219113414600428423116401414E+00,
-                110.53596424851500530602771351277E+00,
-                113.87282809075839485348376187652E+00,
-                117.27385019192517774095477886379E+00,
-                120.74014673718880106173978002719E+00,
-                124.27288557955698354259506446928E+00,
-                127.87328950885942645093841745425E+00,
-                131.54263980314366921809377742137E+00,
-                135.28228009311836970132738106369E+00,
-                139.09362057432970013964422086977E+00,
-                142.97814260643601776808227753574E+00,
-                146.93740374437366549441080969072E+00,
-                150.97304325252187127492511437460E+00,
-                155.08678816034612572229641420609E+00,
-                159.28045992663288235401956989889E+00,
-                163.55598178957571104015967182053E+00,
-                167.91538689194360134245547184721E+00,
-                172.36082728473812536838156191681E+00,
-                176.89458392960192176311674993508E+00,
-                181.51907784036813069227528834025E+00,
-                186.23688252828112373861202530357E+00,
-                191.05073794450929196790836610789E+00,
-                195.96356614879879837839002542988E+00,
-                200.97848897600025153696475526130E+00,
-                206.09884802468871112127283042753E+00,
-                211.32822735671655260572377256981E+00,
-                216.67047937658230323477089465777E+00,
-                222.12975445929687246267304963754E+00,
-                227.71053502072232419089132431317E+00,
-                233.41767488282602453367775322563E+00,
-                239.25644498830308620018749667089E+00,
-                245.23258677871567172531254018984E+00,
-                251.35237488718128030005500991754E+00,
-                257.62269123792061413076191882313E+00,
-                264.05111322908240551754377241831E+00,
-                270.64601945722796749299111718606E+00,
-                277.41671750163651071798388218104E+00,
-                284.37359974220870326674402873120E+00,
-                291.52833521346495719581282021650E+00,
-                298.89410837028248600878895615414E+00,
-                306.48591978262611320418112423947E+00,
-                314.32096986471177487400007507615E+00,
-                322.41915589128679683349440361344E+00,
-                330.80372663802405651933847334878E+00,
-                339.50216127832433747735367595958E+00,
-                348.54737559472697355480761787441E+00,
-                357.97942028029845454049007443090E+00,
-                367.84794520076004578858341422871E+00,
-                378.21590623135532818332979188889E+00,
-                389.16539141251004101579475325153E+00,
-                400.80729331451702589996361286427E+00,
-                413.29853681779384418008260081859E+00,
-                426.87579153663675538288509017051E+00,
-                441.93085485310841412460309271842E+00,
-                459.21804639888429981971267313224E+00,
-                480.69378263388373859704269229304E+00
-            };
+            w_nd[order] = 1.0;
+        }
 
-            for (dim = 0; dim < dim_num; dim++)
+        for ( dim = 0; dim < dim_num; dim++ )
+        {
+            w_1d = new double[order_1d[dim]];
+    
+            laguerre_weights ( order_1d[dim], ref w_1d );
+
+            typeMethods.r8vec_direct_product2 (ref data, dim, order_1d[dim], w_1d, dim_num, 
+                order_nd, ref w_nd );
+
+        }
+        return w_nd;
+    }
+    public static void laguerre_abscissa(int dim_num, int point_num, int[] grid_index,
+            int[] grid_base, ref double[] grid_point, int gridIndex = 0, int gridBaseIndex = 0, int gridPointIndex = 0)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_ABSCISSA sets abscissas for multidimensional Gauss-Laguerre quadrature.
+        //
+        //  Discussion:
+        //
+        //    The "nesting" as it occurs for Gauss-Laguerre sparse grids simply
+        //    involves the use of a specified set of permissible orders for the
+        //    rule.  
+        //
+        //    The X array lists the (complete) Gauss-Legendre abscissas for rules 
+        //    of order 1, 3, 7, 15, 31, 63 or 127, in order. 
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 October 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int POINT_NUM, the number of points.
+        //
+        //    Input, int GRID_INDEX[DIM_NUM*POINT_NUM], the index of the abscissa
+        //    from the rule, for each dimension and point.
+        //
+        //    Input, int GRID_BASE[DIM_NUM], the number of points used in the 
+        //    rule for a given dimension.
+        //
+        //    Output, double GRID_POINT[DIM_NUM], the grid points of abscissas.
+        //
+    {
+        int dim;
+        int level;
+        int point;
+        int pointer;
+        int[] skip = { 0, 1, 4, 11, 26, 57, 120, 247 };
+        double[] x =
+        {
+            1.0E+00,
+            0.415774556783479083311533873128E+00,
+            0.229428036027904171982205036136E+01,
+            0.628994508293747919686641576551E+01,
+            0.193043676560362413838247885004E+00,
+            0.102666489533919195034519944317E+01,
+            0.256787674495074620690778622666E+01,
+            0.490035308452648456810171437810E+01,
+            0.818215344456286079108182755123E+01,
+            0.127341802917978137580126424582E+02,
+            0.193957278622625403117125820576E+02,
+            0.933078120172818047629030383672E-01,
+            0.492691740301883908960101791412E+00,
+            0.121559541207094946372992716488E+01,
+            0.226994952620374320247421741375E+01,
+            0.366762272175143727724905959436E+01,
+            0.542533662741355316534358132596E+01,
+            0.756591622661306786049739555812E+01,
+            0.101202285680191127347927394568E+02,
+            0.131302824821757235640991204176E+02,
+            0.166544077083299578225202408430E+02,
+            0.207764788994487667729157175676E+02,
+            0.256238942267287801445868285977E+02,
+            0.314075191697539385152432196202E+02,
+            0.385306833064860094162515167595E+02,
+            0.480260855726857943465734308508E+02,
+            0.45901947621108290743496080275224E-01,
+            0.24198016382477204890408974151714E+00,
+            0.59525389422235073707330165005414E+00,
+            1.1066894995329987162111308789792E+00,
+            1.7775956928747727211593727482675E+00,
+            2.6097034152566806503893375925315E+00,
+            3.6051968023400442698805817554243E+00,
+            4.7667470844717611313629127271123E+00,
+            6.0975545671817409269925429328463E+00,
+            7.6014009492331374229360106942867E+00,
+            9.2827143134708894182536695297710E+00,
+            11.146649755619291358993815629587E+00,
+            13.199189576244998522464925028637E+00,
+            15.447268315549310075809325891801E+00,
+            17.898929826644757646725793817752E+00,
+            20.563526336715822170743048968779E+00,
+            23.451973482011858591050255575933E+00,
+            26.577081352118260459975876986478E+00,
+            29.953990872346445506951917840024E+00,
+            33.600759532902202735410313885784E+00,
+            37.539164407330440882887902558001E+00,
+            41.795830870182219981347945853330E+00,
+            46.403866806411123136029227604386E+00,
+            51.405314476797755161861461088395E+00,
+            56.854992868715843620511922055660E+00,
+            62.826855908786321453677523304806E+00,
+            69.425277191080345623322251656443E+00,
+            76.807047763862732837609972285484E+00,
+            85.230358607545669169387065607043E+00,
+            95.188939891525629981308606853957E+00,
+            107.95224382757871475002440117666E+00,
+            0.22768893732576153785994330248562E-01,
+            0.11998325242727824715771416426383E+00,
+            0.29494185444770149577427738517405E+00,
+            0.54779087896237725363865073775856E+00,
+            0.87869061179931901673895567052285E+00,
+            1.2878464335919706302309207788611E+00,
+            1.7755123815388553763979463268728E+00,
+            2.3419925567085989256055628337716E+00,
+            2.9876423223246473939976731053629E+00,
+            3.7128695992018000346299637413422E+00,
+            4.5181363349503584391105568561550E+00,
+            5.4039601781825946286902599782736E+00,
+            6.3709163787865330220392250891777E+00,
+            7.4196399339311711154888493199004E+00,
+            8.5508280008403328312589048722235E+00,
+            9.7652425999245366807004592977996E+00,
+            11.063713635140661736220550410604E+00,
+            12.447142262356492749798687569289E+00,
+            13.916504641057818562912967008183E+00,
+            15.472856110036296424777143607779E+00,
+            17.117335833863588753116900303886E+00,
+            18.851171974154856850873483787506E+00,
+            20.675687448056515660377265667433E+00,
+            22.592306346311528381292277759986E+00,
+            24.602561094972638883700642760037E+00,
+            26.708100458737343969779087998829E+00,
+            28.910698500451382640177718103234E+00,
+            31.212264631175912885477773820802E+00,
+            33.614854909101154836598842888345E+00,
+            36.120684774484823056306328740825E+00,
+            38.732143442933582145626041607663E+00,
+            41.451810222318741191114726181363E+00,
+            44.282473071479233839358857134636E+00,
+            47.227149784295686898935095231536E+00,
+            50.289112264240695761749021839419E+00,
+            53.471914456788652808348280619542E+00,
+            56.779424636342062213099781057119E+00,
+            60.215862909019862886417550114424E+00,
+            63.785845004235974631701139601836E+00,
+            67.494433702293885830374325695045E+00,
+            71.347199604295266286654803376075E+00,
+            75.350293425653234254290504744279E+00,
+            79.510532629986309149555391354778E+00,
+            83.835506080872257843339817658508E+00,
+            88.333701570354369086112766326498E+00,
+            93.014662728558547405303399037100E+00,
+            97.889184147578140043386727677112E+00,
+            102.96955690741381650783952746778E+00,
+            108.26988161961595392226350967206E+00,
+            113.80647350287462738934485955901E+00,
+            119.59839538830458666962452963285E+00,
+            125.66817255856119431291196303280E+00,
+            132.04277272091165746585590583045E+00,
+            138.75498418103789078167590567526E+00,
+            145.84541318313540358283994248439E+00,
+            153.36548459497863623710815962660E+00,
+            161.38215194813761243562172669592E+00,
+            169.98570600665839438795175301156E+00,
+            179.30366247401580910251827858515E+00,
+            189.52789596532475473668721332981E+00,
+            200.97521159924656741628671841018E+00,
+            214.25368536638788642698056296400E+00,
+            230.93465747089703971246562985079E+00,
+            0.11339635298518611691893169631306E-01,
+            0.59749753435726620281348237057387E-01,
+            0.14685098690746167612388223687431E+00,
+            0.27267590735859553131378008278900E+00,
+            0.43724600644192665554577035869932E+00,
+            0.64058688222566929533576416399983E+00,
+            0.88272968639058364481487653650042E+00,
+            1.1637114160166537661560584700951E+00,
+            1.4835750152834613891313584861012E+00,
+            1.8423694351613565380686320809853E+00,
+            2.2401496839579024244513315656522E+00,
+            2.6769768780141303692167869961238E+00,
+            3.1529182957082825565771508308846E+00,
+            3.6680474360304752540226339926515E+00,
+            4.2224440823301888455977876667425E+00,
+            4.8161943715870502475665535087286E+00,
+            5.4493908694559416755862178908416E+00,
+            6.1221326512997254193944584763155E+00,
+            6.8345253894122668112237994973336E+00,
+            7.5866814466367472174205986836847E+00,
+            8.3787199765932725254842120659452E+00,
+            9.2107670307426558777922506102445E+00,
+            10.082955672528643809166439353647E+00,
+            10.995426098858125429803147358780E+00,
+            11.948325769197725997610605127857E+00,
+            12.941809542585531053723381098192E+00,
+            13.976039822878506520014405668679E+00,
+            15.051186712579523631574796365435E+00,
+            16.167428175612852922977395051768E+00,
+            17.324950209443673446561163712616E+00,
+            18.523947026965688560811711309349E+00,
+            19.764621248611504104071669386884E+00,
+            21.047184105173183606877044020054E+00,
+            22.371855651855542817648123918101E+00,
+            23.738864994122497183652313788712E+00,
+            25.148450525937368234077278385644E+00,
+            26.600860181041749607253384279755E+00,
+            28.096351697964619201753961292129E+00,
+            29.635192899504178910610227138642E+00,
+            31.217661987479759144214467152615E+00,
+            32.844047853610430460522951341338E+00,
+            34.514650407441149149105635947422E+00,
+            36.229780922306804019615388508885E+00,
+            37.989762400399956435968780140278E+00,
+            39.794929958089961778396437141707E+00,
+            41.645631232730180705153990897484E+00,
+            43.542226812286859549950892993822E+00,
+            45.485090689228791137996151336673E+00,
+            47.474610740231964719468766599146E+00,
+            49.511189233379087716728884584381E+00,
+            51.595243364671244443182771266934E+00,
+            53.727205825819316758288140069145E+00,
+            55.907525405447553305830605991732E+00,
+            58.136667626022439197077526025660E+00,
+            60.415115419018590295707192053805E+00,
+            62.743369841051809700207126742685E+00,
+            65.121950833949996311956025417139E+00,
+            67.551398031997886314411872443149E+00,
+            70.032271619884584511229871192030E+00,
+            72.565153245206849090888669416801E+00,
+            75.150646989739935299354362325096E+00,
+            77.789380404085816000647405462136E+00,
+            80.482005610750729205803962926758E+00,
+            83.229200481195914886796120019048E+00,
+            86.031669892953582966798238732643E+00,
+            88.890147073512051099652518544282E+00,
+            91.805395038358177994971250170499E+00,
+            94.778208131331583205387031034825E+00,
+            97.809413676305116411054110115424E+00,
+            100.89987375017285940371939762172E+00,
+            104.05048708821598934704076845022E+00,
+            107.26219113414600428423116401414E+00,
+            110.53596424851500530602771351277E+00,
+            113.87282809075839485348376187652E+00,
+            117.27385019192517774095477886379E+00,
+            120.74014673718880106173978002719E+00,
+            124.27288557955698354259506446928E+00,
+            127.87328950885942645093841745425E+00,
+            131.54263980314366921809377742137E+00,
+            135.28228009311836970132738106369E+00,
+            139.09362057432970013964422086977E+00,
+            142.97814260643601776808227753574E+00,
+            146.93740374437366549441080969072E+00,
+            150.97304325252187127492511437460E+00,
+            155.08678816034612572229641420609E+00,
+            159.28045992663288235401956989889E+00,
+            163.55598178957571104015967182053E+00,
+            167.91538689194360134245547184721E+00,
+            172.36082728473812536838156191681E+00,
+            176.89458392960192176311674993508E+00,
+            181.51907784036813069227528834025E+00,
+            186.23688252828112373861202530357E+00,
+            191.05073794450929196790836610789E+00,
+            195.96356614879879837839002542988E+00,
+            200.97848897600025153696475526130E+00,
+            206.09884802468871112127283042753E+00,
+            211.32822735671655260572377256981E+00,
+            216.67047937658230323477089465777E+00,
+            222.12975445929687246267304963754E+00,
+            227.71053502072232419089132431317E+00,
+            233.41767488282602453367775322563E+00,
+            239.25644498830308620018749667089E+00,
+            245.23258677871567172531254018984E+00,
+            251.35237488718128030005500991754E+00,
+            257.62269123792061413076191882313E+00,
+            264.05111322908240551754377241831E+00,
+            270.64601945722796749299111718606E+00,
+            277.41671750163651071798388218104E+00,
+            284.37359974220870326674402873120E+00,
+            291.52833521346495719581282021650E+00,
+            298.89410837028248600878895615414E+00,
+            306.48591978262611320418112423947E+00,
+            314.32096986471177487400007507615E+00,
+            322.41915589128679683349440361344E+00,
+            330.80372663802405651933847334878E+00,
+            339.50216127832433747735367595958E+00,
+            348.54737559472697355480761787441E+00,
+            357.97942028029845454049007443090E+00,
+            367.84794520076004578858341422871E+00,
+            378.21590623135532818332979188889E+00,
+            389.16539141251004101579475325153E+00,
+            400.80729331451702589996361286427E+00,
+            413.29853681779384418008260081859E+00,
+            426.87579153663675538288509017051E+00,
+            441.93085485310841412460309271842E+00,
+            459.21804639888429981971267313224E+00,
+            480.69378263388373859704269229304E+00
+        };
+
+        for (dim = 0; dim < dim_num; dim++)
+        {
+            switch (grid_base[gridBaseIndex + dim])
             {
-                if (grid_base[gridBaseIndex + dim] < 1)
-                {
+                case < 1:
                     Console.WriteLine("");
                     Console.WriteLine("LAGUERRE_ABSCISSA - Fatal error!");
                     Console.WriteLine("  Some base values are less than 1.");
                     return;
-                }
             }
+        }
 
-            for (dim = 0; dim < dim_num; dim++)
+        for (dim = 0; dim < dim_num; dim++)
+        {
+            switch (grid_base[gridBaseIndex + dim])
             {
-                if (127 < grid_base[gridBaseIndex + dim])
-                {
+                case > 127:
                     Console.WriteLine("");
                     Console.WriteLine("LAGUERRE_ABSCISSA - Fatal error!");
                     Console.WriteLine("  Some base values are greater than 127.");
                     return;
-                }
             }
+        }
 
-            for (point = 0; point < point_num; point++)
+        for (point = 0; point < point_num; point++)
+        {
+            for (dim = 0; dim < dim_num; dim++)
             {
-                for (dim = 0; dim < dim_num; dim++)
+                level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1) - 1;
+
+                pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num];
+
+                switch (pointer)
                 {
-                    level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1) - 1;
-
-                    pointer = skip[level] + grid_index[gridIndex + (dim + point * dim_num)];
-
-                    if (pointer < 1 || 247 < pointer)
-                    {
+                    case < 1:
+                    case > 247:
                         Console.WriteLine("");
                         Console.WriteLine("LAGUERRE_ABSCISSA - Fatal error!");
                         Console.WriteLine("  POINTER out of bounds.");
@@ -899,176 +910,177 @@ namespace Burkardt.Laguerre
                         Console.WriteLine("  DIM        = " + dim + "");
                         Console.WriteLine("  GRID_BASE  = " + grid_base[gridBaseIndex + dim] + "");
                         Console.WriteLine("  LEVEL      = " + level + "");
-                        Console.WriteLine("  GRID_INDEX = " + grid_index[gridIndex + (dim + point * dim_num)] + "");
+                        Console.WriteLine("  GRID_INDEX = " + grid_index[gridIndex + dim + point * dim_num] + "");
                         return;
-                    }
-
-                    grid_point[gridPointIndex + (dim + point * dim_num)] = x[pointer - 1];
+                    default:
+                        grid_point[gridPointIndex + dim + point * dim_num] = x[pointer - 1];
+                        break;
                 }
             }
-
         }
 
-        public static void laguerre_compute(int order, ref double[] xtab, ref double[] weight,
-                double alpha)
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_COMPUTE computes a Gauss-Laguerre quadrature rule.
-            //
-            //  Discussion:
-            //
-            //    In the simplest case, ALPHA is 0, and we are approximating the
-            //    integral from 0 to +oo of EXP(-X) * F(X).  When this is so,
-            //    it is easy to modify the rule to approximate the integral from
-            //    A to +oo as well.
-            //
-            //    If ALPHA is nonzero, then there is no simple way to extend the
-            //    rule to approximate the integral from A to +oo.  The simplest
-            //    procedures would be to approximate the integral from 0 to A.
-            //
-            //    The integration interval is [ A, +oo ) or [ 0, +oo ).
-            //
-            //    The weight function is w(x) = exp ( -x ) or exp ( -x ) * x^alpha.
-            //
-            //
-            //    If the integral to approximate is:
-            //
-            //        Integral ( A <= X < +oo ) EXP ( - X ) * F(X) dX
-            //      or
-            //        Integral ( 0 <= X < +oo ) EXP ( - X ) * X^ALPHA * F(X) dX
-            //
-            //    then the quadrature rule is:
-            //
-            //      EXP ( - A ) * Sum ( 1 <= I <= ORDER ) WEIGHT(I) * F ( A+XTAB(I) )
-            //    or
-            //      sum ( 1 <= I <= ORDER ) WEIGHT(I) * F ( XTAB(I) )
-            //
-            //    If the integral to approximate is:
-            //
-            //        Integral ( A <= X < +oo ) F(X) dX
-            //      or
-            //        Integral ( 0 <= X < +oo ) X^ALPHA * F(X) dX
-            //
-            //    then the quadrature rule is:
-            //
-            //      EXP ( - A ) * Sum ( 1 <= I <= ORDER ) 
-            //        WEIGHT(I) * EXP(A+XTAB(I)) * F ( A+XTAB(I) )
-            //    or
-            //      sum ( 1 <= I <= ORDER ) WEIGHT(I) * EXP(XTAB(I)) * F ( XTAB(I) )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    02 May 2006
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Arthur Stroud, Don Secrest.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Arthur Stroud, Don Secrest,
-            //    Gaussian Quadrature Formulas,
-            //    Prentice Hall, 1966,
-            //    LC: QA299.4G3S7.
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the quadrature rule to be computed.
-            //    ORDER must be at least 1.
-            //
-            //    Output, double XTAB[ORDER], the Gauss-Laguerre abscissas.
-            //
-            //    Output, double WEIGHT[ORDER], the Gauss-Laguerre weights.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    Set ALPHA = 0.0 for the simplest rule.
-            //    ALPHA must be nonnegative.
-            //
+    public static void laguerre_compute(int order, ref double[] xtab, ref double[] weight,
+            double alpha)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE computes a Gauss-Laguerre quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    In the simplest case, ALPHA is 0, and we are approximating the
+        //    integral from 0 to +oo of EXP(-X) * F(X).  When this is so,
+        //    it is easy to modify the rule to approximate the integral from
+        //    A to +oo as well.
+        //
+        //    If ALPHA is nonzero, then there is no simple way to extend the
+        //    rule to approximate the integral from A to +oo.  The simplest
+        //    procedures would be to approximate the integral from 0 to A.
+        //
+        //    The integration interval is [ A, +oo ) or [ 0, +oo ).
+        //
+        //    The weight function is w(x) = exp ( -x ) or exp ( -x ) * x^alpha.
+        //
+        //
+        //    If the integral to approximate is:
+        //
+        //        Integral ( A <= X < +oo ) EXP ( - X ) * F(X) dX
+        //      or
+        //        Integral ( 0 <= X < +oo ) EXP ( - X ) * X^ALPHA * F(X) dX
+        //
+        //    then the quadrature rule is:
+        //
+        //      EXP ( - A ) * Sum ( 1 <= I <= ORDER ) WEIGHT(I) * F ( A+XTAB(I) )
+        //    or
+        //      sum ( 1 <= I <= ORDER ) WEIGHT(I) * F ( XTAB(I) )
+        //
+        //    If the integral to approximate is:
+        //
+        //        Integral ( A <= X < +oo ) F(X) dX
+        //      or
+        //        Integral ( 0 <= X < +oo ) X^ALPHA * F(X) dX
+        //
+        //    then the quadrature rule is:
+        //
+        //      EXP ( - A ) * Sum ( 1 <= I <= ORDER ) 
+        //        WEIGHT(I) * EXP(A+XTAB(I)) * F ( A+XTAB(I) )
+        //    or
+        //      sum ( 1 <= I <= ORDER ) WEIGHT(I) * EXP(XTAB(I)) * F ( XTAB(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 May 2006
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Arthur Stroud, Don Secrest.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the quadrature rule to be computed.
+        //    ORDER must be at least 1.
+        //
+        //    Output, double XTAB[ORDER], the Gauss-Laguerre abscissas.
+        //
+        //    Output, double WEIGHT[ORDER], the Gauss-Laguerre weights.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    Set ALPHA = 0.0 for the simplest rule.
+        //    ALPHA must be nonnegative.
+        //
+    {
+        double[] b;
+        double[] c;
+        double cc;
+        double dp2 = 0;
+        int i;
+        double p1 = 0;
+        double prod;
+        double r1;
+        double r2;
+        double ratio;
+        double x = 0;
+
+        b = new double[order];
+        c = new double[order];
+        //
+        //  Set the recursion coefficients.
+        //
+        for (i = 0; i < order; i++)
         {
-            double[] b;
-            double[] c;
-            double cc;
-            double dp2 = 0;
-            int i;
-            double p1 = 0;
-            double prod;
-            double r1;
-            double r2;
-            double ratio;
-            double x = 0;
+            b[i] = alpha + (2 * i + 1);
+        }
 
-            b = new double[order];
-            c = new double[order];
-            //
-            //  Set the recursion coefficients.
-            //
-            for (i = 0; i < order; i++)
-            {
-                b[i] = (alpha + (double) (2 * i + 1));
-            }
+        for (i = 0; i < order; i++)
+        {
+            c[i] = i * (alpha + i);
+        }
 
-            for (i = 0; i < order; i++)
-            {
-                c[i] = (double) (i) * (alpha + (double) (i));
-            }
+        prod = 1.0;
+        for (i = 1; i < order; i++)
+        {
+            prod *= c[i];
+        }
 
-            prod = 1.0;
-            for (i = 1; i < order; i++)
-            {
-                prod = prod * c[i];
-            }
+        cc = typeMethods.r8_gamma(alpha + 1.0) * prod;
 
-            cc = typeMethods.r8_gamma(alpha + 1.0) * prod;
-
-            for (i = 0; i < order; i++)
+        for (i = 0; i < order; i++)
+        {
+            switch (i)
             {
                 //
                 //  Compute an estimate for the root.
                 //
-                if (i == 0)
-                {
+                case 0:
                     x = (1.0 + alpha) * (3.0 + 0.92 * alpha) /
-                        (1.0 + 2.4 * (double) (order) + 1.8 * alpha);
-                }
-                else if (i == 1)
-                {
-                    x = x + (15.0 + 6.25 * alpha) /
-                        (1.0 + 0.9 * alpha + 2.5 * (double) (order));
-                }
-                else
-                {
-                    r1 = (1.0 + 2.55 * (double) (i - 1))
-                         / (1.9 * (double) (i - 1));
+                        (1.0 + 2.4 * order + 1.8 * alpha);
+                    break;
+                case 1:
+                    x += (15.0 + 6.25 * alpha) /
+                         (1.0 + 0.9 * alpha + 2.5 * order);
+                    break;
+                default:
+                    r1 = (1.0 + 2.55 * (i - 1))
+                         / (1.9 * (i - 1));
 
-                    r2 = 1.26 * (double) (i - 1) * alpha /
-                         (1.0 + 3.5 * (double) (i - 1));
+                    r2 = 1.26 * (i - 1) * alpha /
+                         (1.0 + 3.5 * (i - 1));
 
                     ratio = (r1 + r2) / (1.0 + 0.3 * alpha);
 
-                    x = x + ratio * (x - xtab[i - 2]);
-                }
-
-                //
-                //  Use iteration to find the root.
-                //
-                PolynomialNS.Laguerre.laguerre_root(ref x, order, alpha, ref dp2, ref p1, b, c);
-                //
-                //  Set the abscissa and weight.
-                //
-                xtab[i] = x;
-                weight[i] = (cc / dp2) / p1;
+                    x += ratio * (x - xtab[i - 2]);
+                    break;
             }
+
+            //
+            //  Use iteration to find the root.
+            //
+            PolynomialNS.Laguerre.laguerre_root(ref x, order, alpha, ref dp2, ref p1, b, c);
+            //
+            //  Set the abscissa and weight.
+            //
+            xtab[i] = x;
+            weight[i] = cc / dp2 / p1;
         }
+    }
         
-        public static void l_quadrature_rule ( int n, ref double[] x, ref double[] w )
+    public static void l_quadrature_rule ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -1104,84 +1116,84 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double[] bj;
+        int i;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = 1.0;
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+        for ( i = 0; i < n; i++ )
         {
-            double[] bj;
-            int i;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = 1.0;
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-            for ( i = 0; i < n; i++ )
-            {
-                bj[i] = ( double ) ( i + 1 );
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                x[i] = ( double ) ( 2 * i + 1 );
-            }
-
-            w[0] = Math.Sqrt ( zemu );
-            for ( i = 1; i < n; i++ )
-            {
-                w[i] = 0.0;
-            }
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
-
-            for ( i = 0; i < n; i++ )
-            {
-                w[i] = w[i] * w[i];
-            }
+            bj[i] = i + 1;
         }
+
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = 2 * i + 1;
+        }
+
+        w[0] = Math.Sqrt ( zemu );
+        for ( i = 1; i < n; i++ )
+        {
+            w[i] = 0.0;
+        }
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+        for ( i = 0; i < n; i++ )
+        {
+            w[i] *= w[i];
+        }
+    }
         
-        public static void gen_laguerre_compute_points ( int order, double alpha, ref double[] x )
+    public static void gen_laguerre_compute_points ( int order, double alpha, ref double[] x )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GEN_LAGUERRE_COMPUTE_POINTS: Generalized Laguerre quadrature points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    19 March 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    Set ALPHA = 0.0 for the simplest rule.
-            //    ALPHA must be nonnegative.
-            //
-            //    Output, double X[ORDER], the abscissas.
-            //
-        {
-            double[] w;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_LAGUERRE_COMPUTE_POINTS: Generalized Laguerre quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 March 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    Set ALPHA = 0.0 for the simplest rule.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+    {
+        double[] w;
 
-            w = new double[order];
+        w = new double[order];
 
-            gen_laguerre_compute ( order, alpha, ref x, ref w );
-        }
+        gen_laguerre_compute ( order, alpha, ref x, ref w );
+    }
 
-        public static double[] gen_laguerre_compute_points_np ( int order, int np, double[] p,
-        double[] x )
+    public static double[] gen_laguerre_compute_points_np ( int order, int np, double[] p,
+            double[] x )
 
         //****************************************************************************80
         //
@@ -1214,51 +1226,51 @@ namespace Burkardt.Laguerre
         //
         //    Output, double X[ORDER], the abscissas.
         //
-        {
-            double alpha;
+    {
+        double alpha;
 
-            alpha = p[0];
+        alpha = p[0];
 
-            gen_laguerre_compute_points ( order, alpha, ref x );
+        gen_laguerre_compute_points ( order, alpha, ref x );
 
-            return x;
-        }
+        return x;
+    }
         
-        public static void laguerre_compute_points ( int order, ref double[] x )
+    public static void laguerre_compute_points ( int order, ref double[] x )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_COMPUTE_POINTS computes Laguerre quadrature points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Output, double X[ORDER], the abscissas.
-            //
-        {
-            double[] w;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE_POINTS computes Laguerre quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+    {
+        double[] w;
 
-            w = new double[order];
+        w = new double[order];
 
-            laguerre_compute ( order, ref x, ref w );
-        }
+        laguerre_compute ( order, ref x, ref w );
+    }
 
-        public static double[] laguerre_compute_points_np ( int order, int np, double[] p, double[] x )
+    public static double[] laguerre_compute_points_np ( int order, int np, double[] p, double[] x )
 
         //****************************************************************************80
         //
@@ -1288,47 +1300,47 @@ namespace Burkardt.Laguerre
         //
         //    Output, double X[ORDER], the abscissas.
         //
-        {
-            laguerre_compute_points ( order, ref x );
+    {
+        laguerre_compute_points ( order, ref x );
 
-            return x;
-        }
+        return x;
+    }
 
-        public static void laguerre_compute_weights ( int order, ref double[] w )
+    public static void laguerre_compute_weights ( int order, ref double[] w )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_COMPUTE_WEIGHTS computes Laguerre quadrature weights.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Output, double W[ORDER], the weights.
-            //
-        {
-            double[] x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE_WEIGHTS computes Laguerre quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+    {
+        double[] x;
 
-            x = new double[order];
+        x = new double[order];
 
-            laguerre_compute ( order, ref x, ref w );
-        }
+        laguerre_compute ( order, ref x, ref w );
+    }
 
-        public static double[] laguerre_compute_weights_np ( int order, int np, double[] p, double[] w )
+    public static double[] laguerre_compute_weights_np ( int order, int np, double[] p, double[] w )
 
         //****************************************************************************80
         //
@@ -1358,81 +1370,88 @@ namespace Burkardt.Laguerre
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            laguerre_compute_weights ( order, ref w );
+    {
+        laguerre_compute_weights ( order, ref w );
 
-            return w;
-        }
+        return w;
+    }
         
-        public static void laguerre_handle(int order, double a, int option, string output)
+    public static void laguerre_handle(int order, double a, int option, string output)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_HANDLE computes the requested Gauss-Laguerre rule and outputs it.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    27 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Input, double A, the left endpoint of the interval.
-            //
-            //    Input, int OPTION.
-            //    * 0, the integral has the form 
-            //      Integral ( A <= x < +oo ) exp(-x) f(x) dx
-            //    * 1, the integral has the form 
-            //      Integral ( A <= x < +oo )         f(x) dx.
-            //
-            //    Input, STING OUTPUT_FILE, specifies the output.
-            //    * "C++'", print as C++ code.
-            //    * "F77", print as FORTRAN77 code.
-            //    * "F90", print as FORTRAN90 code.
-            //    * "MAT", print as MATLAB code.
-            //    * file,  write files "file_w.txt", "file_x.txt", "file_r.txt" 
-            //      defining weights, abscissas, and region.
-            // 
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_HANDLE computes the requested Gauss-Laguerre rule and outputs it.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    27 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, double A, the left endpoint of the interval.
+        //
+        //    Input, int OPTION.
+        //    * 0, the integral has the form 
+        //      Integral ( A <= x < +oo ) exp(-x) f(x) dx
+        //    * 1, the integral has the form 
+        //      Integral ( A <= x < +oo )         f(x) dx.
+        //
+        //    Input, STING OUTPUT_FILE, specifies the output.
+        //    * "C++'", print as C++ code.
+        //    * "F77", print as FORTRAN77 code.
+        //    * "F90", print as FORTRAN90 code.
+        //    * "MAT", print as MATLAB code.
+        //    * file,  write files "file_w.txt", "file_x.txt", "file_r.txt" 
+        //      defining weights, abscissas, and region.
+        // 
+    {
+        int i;
+        string output_r;
+        string output_w;
+        string output_x;
+        double[] r;
+        double[] w;
+        double[] x;
+
+        r = new double[2];
+        w = new double[order];
+        x = new double[order];
+
+        r[0] = a;
+        r[1] = typeMethods.r8_huge();
+
+        laguerre_compute(order, ref x, ref w);
+        switch (option)
         {
-            int i;
-            string output_r;
-            string output_w;
-            string output_x;
-            double[] r;
-            double[] w;
-            double[] x;
-
-            r = new double[2];
-            w = new double[order];
-            x = new double[order];
-
-            r[0] = a;
-            r[1] = typeMethods.r8_huge();
-
-            laguerre_compute(order, ref x, ref w);
             //
             //  Modify weights if requested.
             //
-            if (option == 1)
+            case 1:
             {
                 for (i = 0; i < order; i++)
                 {
                     w[i] = Math.Exp(x[i]) * w[i];
                 }
-            }
 
-            if (output == "C++")
+                break;
+            }
+        }
+
+        switch (output)
+        {
+            case "C++":
             {
                 Console.WriteLine("//");
                 Console.WriteLine("//  Weights W, abscissas X and range R");
@@ -1441,19 +1460,20 @@ namespace Burkardt.Laguerre
                 Console.WriteLine("//  A = " + a + "");
                 Console.WriteLine("//");
 
-                if (option == 0)
+                switch (option)
                 {
-                    Console.WriteLine("//  OPTION = 0, Standard rule:");
-                    Console.WriteLine("//    Integral ( A <= x < +oo ) exp(-x) f(x) dx");
-                    Console.WriteLine("//    is to be approximated by");
-                    Console.WriteLine("//    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
-                }
-                else
-                {
-                    Console.WriteLine("//  OPTION = 1, modified rule:");
-                    Console.WriteLine("//    Integral ( A <= x < +oo ) f(x) dx");
-                    Console.WriteLine("//    is to be approximated by");
-                    Console.WriteLine("//    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                    case 0:
+                        Console.WriteLine("//  OPTION = 0, Standard rule:");
+                        Console.WriteLine("//    Integral ( A <= x < +oo ) exp(-x) f(x) dx");
+                        Console.WriteLine("//    is to be approximated by");
+                        Console.WriteLine("//    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
+                    default:
+                        Console.WriteLine("//  OPTION = 1, modified rule:");
+                        Console.WriteLine("//    Integral ( A <= x < +oo ) f(x) dx");
+                        Console.WriteLine("//    is to be approximated by");
+                        Console.WriteLine("//    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
                 }
 
                 Console.WriteLine("//");
@@ -1461,14 +1481,14 @@ namespace Burkardt.Laguerre
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("  w[" + i + "] = "
-                        + w[i].ToString("0.################") + ";");
+                                      + w[i].ToString("0.################") + ";");
                 }
 
                 Console.WriteLine("");
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("  x[" + i + "] = "
-                        + x[i].ToString("0.################") + ";");
+                                      + x[i].ToString("0.################") + ";");
                 }
 
                 Console.WriteLine("");
@@ -1476,8 +1496,10 @@ namespace Burkardt.Laguerre
                 {
                     Console.WriteLine("  r[" + i + "] = " + r[i] + ";");
                 }
+
+                break;
             }
-            else if (output == "F77")
+            case "F77":
             {
                 Console.WriteLine("c");
                 Console.WriteLine("c  Weights W, abscissas X and range R");
@@ -1485,19 +1507,20 @@ namespace Burkardt.Laguerre
                 Console.WriteLine("c  ORDER = " + order + "");
                 Console.WriteLine("c  A = " + a + "");
                 Console.WriteLine("c");
-                if (option == 0)
+                switch (option)
                 {
-                    Console.WriteLine("c  OPTION = 0, Standard rule:");
-                    Console.WriteLine("c    Integral ( A <= x < +oo ) exp(-x) f(x) dx");
-                    Console.WriteLine("c    is to be approximated by");
-                    Console.WriteLine("c    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
-                }
-                else
-                {
-                    Console.WriteLine("c  OPTION = 1, modified rule:");
-                    Console.WriteLine("c    Integral ( A <= x < +oo ) f(x) dx");
-                    Console.WriteLine("c    is to be approximated by");
-                    Console.WriteLine("c    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                    case 0:
+                        Console.WriteLine("c  OPTION = 0, Standard rule:");
+                        Console.WriteLine("c    Integral ( A <= x < +oo ) exp(-x) f(x) dx");
+                        Console.WriteLine("c    is to be approximated by");
+                        Console.WriteLine("c    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
+                    default:
+                        Console.WriteLine("c  OPTION = 1, modified rule:");
+                        Console.WriteLine("c    Integral ( A <= x < +oo ) f(x) dx");
+                        Console.WriteLine("c    is to be approximated by");
+                        Console.WriteLine("c    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
                 }
 
                 Console.WriteLine("c");
@@ -1505,14 +1528,14 @@ namespace Burkardt.Laguerre
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("      w(" + i + 1 + ") = "
-                        + w[i].ToString("0.################") + "");
+                                      + w[i].ToString("0.################") + "");
                 }
 
                 Console.WriteLine("");
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("      x(" + i + 1 + ") = "
-                        + x[i].ToString("0.################") + "");
+                                      + x[i].ToString("0.################") + "");
                 }
 
                 Console.WriteLine("");
@@ -1520,8 +1543,10 @@ namespace Burkardt.Laguerre
                 {
                     Console.WriteLine("      r(" + i + 1 + ") = " + r[i] + "");
                 }
+
+                break;
             }
-            else if (output == "F90")
+            case "F90":
             {
                 Console.WriteLine("!");
                 Console.WriteLine("!  Weights W, abscissas X and range R");
@@ -1529,19 +1554,20 @@ namespace Burkardt.Laguerre
                 Console.WriteLine("!  ORDER = " + order + "");
                 Console.WriteLine("!  A = " + a + "");
                 Console.WriteLine("!");
-                if (option == 0)
+                switch (option)
                 {
-                    Console.WriteLine("!  OPTION = 0, Standard rule:");
-                    Console.WriteLine("!    Integral ( A <= x < +oo ) exp(-x) f(x) dx");
-                    Console.WriteLine("!    is to be approximated by");
-                    Console.WriteLine("!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
-                }
-                else
-                {
-                    Console.WriteLine("!  OPTION = 1, modified rule:");
-                    Console.WriteLine("!    Integral ( A <= x < +oo ) f(x) dx");
-                    Console.WriteLine("!    is to be approximated by");
-                    Console.WriteLine("!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                    case 0:
+                        Console.WriteLine("!  OPTION = 0, Standard rule:");
+                        Console.WriteLine("!    Integral ( A <= x < +oo ) exp(-x) f(x) dx");
+                        Console.WriteLine("!    is to be approximated by");
+                        Console.WriteLine("!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
+                    default:
+                        Console.WriteLine("!  OPTION = 1, modified rule:");
+                        Console.WriteLine("!    Integral ( A <= x < +oo ) f(x) dx");
+                        Console.WriteLine("!    is to be approximated by");
+                        Console.WriteLine("!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
                 }
 
                 Console.WriteLine("!");
@@ -1549,14 +1575,14 @@ namespace Burkardt.Laguerre
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("  w(" + i + 1 + ") = "
-                        + w[i].ToString("0.################") + "");
+                                      + w[i].ToString("0.################") + "");
                 }
 
                 Console.WriteLine("");
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("  x(" + i + 1 + ") = "
-                        + x[i].ToString("0.################") + "");
+                                      + x[i].ToString("0.################") + "");
                 }
 
                 Console.WriteLine("");
@@ -1564,8 +1590,10 @@ namespace Burkardt.Laguerre
                 {
                     Console.WriteLine("  r(" + i + 1 + ") = " + r[i] + "");
                 }
+
+                break;
             }
-            else if (output == "MAT")
+            case "MAT":
             {
                 Console.WriteLine("%");
                 Console.WriteLine("%  Weights W, abscissas X and range R");
@@ -1573,19 +1601,20 @@ namespace Burkardt.Laguerre
                 Console.WriteLine("%  ORDER = " + order + "");
                 Console.WriteLine("%  A = " + a + "");
                 Console.WriteLine("%");
-                if (option == 0)
+                switch (option)
                 {
-                    Console.WriteLine("%  OPTION = 0, Standard rule:");
-                    Console.WriteLine("%   Integral ( A <= x < +oo ) exp(-x) f(x) dx");
-                    Console.WriteLine("%    is to be approximated by");
-                    Console.WriteLine("%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
-                }
-                else
-                {
-                    Console.WriteLine("%  OPTION = 1, modified rule:");
-                    Console.WriteLine("%    Integral ( A <= x < +oo ) f(x) dx");
-                    Console.WriteLine("%    is to be approximated by");
-                    Console.WriteLine("%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                    case 0:
+                        Console.WriteLine("%  OPTION = 0, Standard rule:");
+                        Console.WriteLine("%   Integral ( A <= x < +oo ) exp(-x) f(x) dx");
+                        Console.WriteLine("%    is to be approximated by");
+                        Console.WriteLine("%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
+                    default:
+                        Console.WriteLine("%  OPTION = 1, modified rule:");
+                        Console.WriteLine("%    Integral ( A <= x < +oo ) f(x) dx");
+                        Console.WriteLine("%    is to be approximated by");
+                        Console.WriteLine("%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                        break;
                 }
 
                 Console.WriteLine("%");
@@ -1593,14 +1622,14 @@ namespace Burkardt.Laguerre
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("  w(" + i + 1 + ") = "
-                        + w[i].ToString("0.################") + ";");
+                                      + w[i].ToString("0.################") + ";");
                 }
 
                 Console.WriteLine("");
                 for (i = 0; i < order; i++)
                 {
                     Console.WriteLine("  x(" + i + 1 + ") = "
-                        + x[i].ToString("0.################") + ";");
+                                      + x[i].ToString("0.################") + ";");
                 }
 
                 Console.WriteLine("");
@@ -1608,20 +1637,23 @@ namespace Burkardt.Laguerre
                 {
                     Console.WriteLine("  r(" + i + 1 + ") = " + r[i] + ";");
                 }
+
+                break;
             }
-            else
+            default:
             {
-                if (option == 0)
+                switch (option)
                 {
-                    output_w = output + "%s_w.txt";
-                    output_x = output + "%s_x.txt";
-                    output_r = output + "%s_r.txt";
-                }
-                else
-                {
-                    output_w = output + "%s_modified_w.txt";
-                    output_x = output + "%s_modified_x.txt";
-                    output_r = output + "%s_modified_r.txt";
+                    case 0:
+                        output_w = output + "%s_w.txt";
+                        output_x = output + "%s_x.txt";
+                        output_r = output + "%s_r.txt";
+                        break;
+                    default:
+                        output_w = output + "%s_modified_w.txt";
+                        output_x = output + "%s_modified_x.txt";
+                        output_r = output + "%s_modified_r.txt";
+                        break;
                 }
 
                 Console.WriteLine("");
@@ -1636,67 +1668,68 @@ namespace Burkardt.Laguerre
                 typeMethods.r8mat_write(output_w, 1, order, w);
                 typeMethods.r8mat_write(output_x, 1, order, x);
                 typeMethods.r8mat_write(output_r, 1, 2, r);
+                break;
             }
         }
+    }
 
-        public static void laguerre_weights(int order, ref double[] weight)
+    public static void laguerre_weights(int order, ref double[] weight)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGUERRE_WEIGHTS returns weights for certain Gauss-Laguerre quadrature rules.
-            //
-            //  Discussion:
-            //
-            //    The allowed orders are 1, 3, 7, 15, 31, 63 and 127.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 October 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //    Arthur Stroud, Don Secrest,
-            //    Gaussian Quadrature Formulas,
-            //    Prentice Hall, 1966,
-            //    LC: QA299.4G3S7.
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the rule.
-            //    ORDER must be 1, 3, 7, 15, 31, 63 or 127.
-            //
-            //    Output, double WEIGHT[ORDER], the weights.
-            //    The weights are positive, symmetric and should sum to 1.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_WEIGHTS returns weights for certain Gauss-Laguerre quadrature rules.
+        //
+        //  Discussion:
+        //
+        //    The allowed orders are 1, 3, 7, 15, 31, 63 and 127.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 October 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //    ORDER must be 1, 3, 7, 15, 31, 63 or 127.
+        //
+        //    Output, double WEIGHT[ORDER], the weights.
+        //    The weights are positive, symmetric and should sum to 1.
+        //
+    {
+        switch (order)
         {
-            if (order == 1)
-            {
+            case 1:
                 weight[1 - 1] = 1.0E+00;
-            }
-            else if (order == 3)
-            {
+                break;
+            case 3:
                 weight[1 - 1] = 0.711093009929173015449590191143E+00;
                 weight[2 - 1] = 0.278517733569240848801444888457E+00;
                 weight[3 - 1] = 0.103892565015861357489649204007E-01;
-            }
-            else if (order == 7)
-            {
+                break;
+            case 7:
                 weight[1 - 1] = 0.409318951701273902130432880018E+00;
                 weight[2 - 1] = 0.421831277861719779929281005417E+00;
                 weight[3 - 1] = 0.147126348657505278395374184637E+00;
@@ -1704,9 +1737,8 @@ namespace Burkardt.Laguerre
                 weight[5 - 1] = 0.107401014328074552213195962843E-02;
                 weight[6 - 1] = 0.158654643485642012687326223234E-04;
                 weight[7 - 1] = 0.317031547899558056227132215385E-07;
-            }
-            else if (order == 15)
-            {
+                break;
+            case 15:
                 weight[1 - 1] = 0.218234885940086889856413236448E+00;
                 weight[2 - 1] = 0.342210177922883329638948956807E+00;
                 weight[3 - 1] = 0.263027577941680097414812275022E+00;
@@ -1722,9 +1754,8 @@ namespace Burkardt.Laguerre
                 weight[13 - 1] = 0.145651526407312640633273963455E-12;
                 weight[14 - 1] = 0.148302705111330133546164737187E-15;
                 weight[15 - 1] = 0.160059490621113323104997812370E-19;
-            }
-            else if (order == 31)
-            {
+                break;
+            case 31:
                 weight[1 - 1] = 0.11252789550372583820847728082801E+00;
                 weight[2 - 1] = 0.21552760818089123795222505285045E+00;
                 weight[3 - 1] = 0.23830825164569654731905788089234E+00;
@@ -1756,9 +1787,8 @@ namespace Burkardt.Laguerre
                 weight[29 - 1] = 0.87663710117162041472932760732881E-36;
                 weight[30 - 1] = 0.50363643921161490411297172316582E-40;
                 weight[31 - 1] = 0.19909984582531456482439549080330E-45;
-            }
-            else if (order == 63)
-            {
+                break;
+            case 63:
                 weight[1 - 1] = 0.57118633213868979811587283390476E-01;
                 weight[2 - 1] = 0.12067476090640395283319932036351E+00;
                 weight[3 - 1] = 0.15925001096581873723870561096472E+00;
@@ -1822,9 +1852,8 @@ namespace Burkardt.Laguerre
                 weight[61 - 1] = 0.63780013856587414257760666006511E-86;
                 weight[62 - 1] = 0.12997078942372924566347473916943E-91;
                 weight[63 - 1] = 0.10008511496968754063443740168421E-98;
-            }
-            else if (order == 127)
-            {
+                break;
+            case 127:
                 weight[1 - 1] = 0.28773246692000124355770010301506E-01;
                 weight[2 - 1] = 0.63817468175134649363480949265236E-01;
                 weight[3 - 1] = 0.91919669721570571389864194652717E-01;
@@ -1952,15 +1981,14 @@ namespace Burkardt.Laguerre
                 weight[125 - 1] = 0.18873507745825517106171619101120E-190;
                 weight[126 - 1] = 0.69106601826730911682786705950895E-198;
                 weight[127 - 1] = 0.43506813201105855628383313334402E-207;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("LAGUERRE_WEIGHTS - Fatal error!");
                 Console.WriteLine("  Illegal value of ORDER = " + order + "");
                 Console.WriteLine("  Legal values are 1, 3, 7, 15, 31, 63 and 127.");
-            }
+                break;
         }
-
     }
+
 }

@@ -1,191 +1,209 @@
 ﻿using System;
 using Burkardt.Quadrature;
 
-namespace Burkardt.Stroud
+namespace Burkardt.Stroud;
+
+public static class Triangle
 {
-    public static class Triangle
+    public static void triangle_rule_adjust(double[] xval, double[] yval, int order,
+            double[] xtab, double[] ytab, double[] weight, ref double[] xtab2, ref double[] ytab2,
+            ref double[] weight2)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_RULE_ADJUST adjusts a unit quadrature rule to an arbitrary triangle.
+        //
+        //  Integration region:
+        //
+        //      (X,Y) = ALPHA * (X1,Y1) + BETA * (X2,Y2) + ( 1 - ALPHA - BETA ) * (X3,Y3)
+        //    and
+        //      0 <= ALPHA <= 1 - BETA
+        //    and
+        //      0 <= BETA <= 1 - ALPHA
+        //
+        //  Discussion:
+        //
+        //    This routine accepts as input abscissas and weights appropriate for
+        //    quadrature in the unit triangle, and returns abscissas and weights
+        //    appropriate for quadrature in a given triangle.
+        //
+        //    Once this routine has been called, an integral over the given triangle
+        //    can be approximated as:
+        //
+        //      QUAD = sum ( 1 <= I <= ORDER ) WTAB2(I) * FUNC ( XTAB2(I), YTAB2(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    16 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double XVAL[3], YVAL[3], the coordinates of the nodes.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas for
+        //    the unit triangle.
+        //
+        //    Input, double WEIGHT[ORDER], the weights for the unit triangle.
+        //
+        //    Output, double XTAB2[ORDER], YTAB2[ORDER], the adjusted
+        //    abscissas.
+        //
+        //    Output, double WEIGHT2[ORDER], the adjusted weights.
+        //
     {
-        public static void triangle_rule_adjust(double[] xval, double[] yval, int order,
-                double[] xtab, double[] ytab, double[] weight, ref double[] xtab2, ref double[] ytab2,
-                ref double[] weight2)
+        int i;
+        double volume;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_RULE_ADJUST adjusts a unit quadrature rule to an arbitrary triangle.
-            //
-            //  Integration region:
-            //
-            //      (X,Y) = ALPHA * (X1,Y1) + BETA * (X2,Y2) + ( 1 - ALPHA - BETA ) * (X3,Y3)
-            //    and
-            //      0 <= ALPHA <= 1 - BETA
-            //    and
-            //      0 <= BETA <= 1 - ALPHA
-            //
-            //  Discussion:
-            //
-            //    This routine accepts as input abscissas and weights appropriate for
-            //    quadrature in the unit triangle, and returns abscissas and weights
-            //    appropriate for quadrature in a given triangle.
-            //
-            //    Once this routine has been called, an integral over the given triangle
-            //    can be approximated as:
-            //
-            //      QUAD = sum ( 1 <= I <= ORDER ) WTAB2(I) * FUNC ( XTAB2(I), YTAB2(I) )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    16 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double XVAL[3], YVAL[3], the coordinates of the nodes.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas for
-            //    the unit triangle.
-            //
-            //    Input, double WEIGHT[ORDER], the weights for the unit triangle.
-            //
-            //    Output, double XTAB2[ORDER], YTAB2[ORDER], the adjusted
-            //    abscissas.
-            //
-            //    Output, double WEIGHT2[ORDER], the adjusted weights.
-            //
+        volume = triangle_volume(xval, yval);
+
+        for (i = 0; i < order; i++)
         {
-            int i;
-            double volume;
+            xtab2[i] = xtab[i] * xval[0]
+                       + ytab[i] * xval[1]
+                       + (1.0 - xtab[i] - ytab[i]) * xval[2];
 
-            volume = triangle_volume(xval, yval);
+            ytab2[i] = xtab[i] * yval[0]
+                       + ytab[i] * yval[1]
+                       + (1.0 - xtab[i] - ytab[i]) * yval[2];
 
-            for (i = 0; i < order; i++)
-            {
-                xtab2[i] = xtab[i] * xval[0]
-                           + ytab[i] * xval[1]
-                           + (1.0 - xtab[i] - ytab[i]) * xval[2];
-
-                ytab2[i] = xtab[i] * yval[0]
-                           + ytab[i] * yval[1]
-                           + (1.0 - xtab[i] - ytab[i]) * yval[2];
-
-                weight2[i] = weight[i] * 2.0 * volume;
-            }
-
-            return;
+            weight2[i] = weight[i] * 2.0 * volume;
         }
+    }
 
-        public static double triangle_sub(int setting, Func<int, double, double, double> func, double[] xval,
-                double[] yval, int nsub, int order, double[] xtab, double[] ytab,
-                double[] weight)
+    public static double triangle_sub(int setting, Func<int, double, double, double> func, double[] xval,
+            double[] yval, int nsub, int order, double[] xtab, double[] ytab,
+            double[] weight)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_SUB carries out quadrature over subdivisions of a triangular region.
-            //
-            //  Integration region:
-            //
-            //      (X,Y) =       ALPHA          * ( XVAL[0], YVAL[0] )
-            //            +               BETA   * ( XVAL[1], YVAL[1] )
-            //            + ( 1 - ALPHA - BETA ) * ( XVAL[2], YVAL[2] )
-            //    and
-            //      0 <= ALPHA <= 1 - BETA
-            //    and
-            //      0 <= BETA <= 1 - ALPHA
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    17 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, Func < double, double, double > func, the name of the user supplied
-            //    function to be integrated.
-            //
-            //    Input, double XVAL[3], YVAL[3], the coordinates of the triangle vertices.
-            //
-            //    Input, int NSUB, the number of subdivisions of each side of the
-            //    input triangle to be made.  NSUB = 1 means no subdivisions are made.
-            //    NSUB = 3 means that each side of the triangle is subdivided into
-            //    three portions, and that the original triangle is subdivided into
-            //    NSUB * NSUB triangles.  NSUB must be at least 1.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
-            //
-            //    Input, double WEIGHT[ORDER], the weights of the rule.
-            //
-            //    Output, double TRIANGLE_SUB, the approximate integral of the function.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_SUB carries out quadrature over subdivisions of a triangular region.
+        //
+        //  Integration region:
+        //
+        //      (X,Y) =       ALPHA          * ( XVAL[0], YVAL[0] )
+        //            +               BETA   * ( XVAL[1], YVAL[1] )
+        //            + ( 1 - ALPHA - BETA ) * ( XVAL[2], YVAL[2] )
+        //    and
+        //      0 <= ALPHA <= 1 - BETA
+        //    and
+        //      0 <= BETA <= 1 - ALPHA
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    17 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, Func < double, double, double > func, the name of the user supplied
+        //    function to be integrated.
+        //
+        //    Input, double XVAL[3], YVAL[3], the coordinates of the triangle vertices.
+        //
+        //    Input, int NSUB, the number of subdivisions of each side of the
+        //    input triangle to be made.  NSUB = 1 means no subdivisions are made.
+        //    NSUB = 3 means that each side of the triangle is subdivided into
+        //    three portions, and that the original triangle is subdivided into
+        //    NSUB * NSUB triangles.  NSUB must be at least 1.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
+        //
+        //    Input, double WEIGHT[ORDER], the weights of the rule.
+        //
+        //    Output, double TRIANGLE_SUB, the approximate integral of the function.
+        //
+    {
+        int i;
+        int j;
+        int k;
+        double quad;
+        double result;
+        double temp1;
+        double temp2;
+        double volume;
+        double x;
+        double x1;
+        double x2;
+        double x3;
+        double y;
+        double y1;
+        double y2;
+        double y3;
+        //
+        //  Initialize RESULT, the approximate integral.
+        //
+        result = 0.0;
+        switch (nsub)
         {
-            int i;
-            int j;
-            int k;
-            double quad;
-            double result;
-            double temp1;
-            double temp2;
-            double volume;
-            double x;
-            double x1;
-            double x2;
-            double x3;
-            double y;
-            double y1;
-            double y2;
-            double y3;
-            //
-            //  Initialize RESULT, the approximate integral.
-            //
-            result = 0.0;
             //
             //  NSUB must be positive.
             //
-            if (nsub <= 0)
-            {
+            case <= 0:
                 return result;
-            }
+        }
 
+        //
+        //  Initialize QUAD, the quadrature sum.
+        //
+        quad = 0.0;
+        //
+        //  The sub-triangles can be grouped into NSUB strips.
+        //
+        for (i = 1; i <= nsub; i++)
+        {
+            temp1 = 0.0;
+            temp2 = i / (double)nsub;
+
+            x2 = xval[1] + temp1 * (xval[2] - xval[1])
+                         + temp2 * (xval[0] - xval[1]);
+
+            y2 = yval[1] + temp1 * (yval[2] - yval[1])
+                         + temp2 * (yval[0] - yval[1]);
+
+            temp1 = 0.0;
+            temp2 = (i - 1) / (double)nsub;
+
+            x3 = xval[1] + temp1 * (xval[2] - xval[1])
+                         + temp2 * (xval[0] - xval[1]);
+
+            y3 = yval[1] + temp1 * (yval[2] - yval[1])
+                         + temp2 * (yval[0] - yval[1]);
             //
-            //  Initialize QUAD, the quadrature sum.
+            //  There are 2*I-1 triangles in strip number I.
+            //  The next triangle in the strip shares two nodes with the previous one.
+            //  Compute its corners, (X1,Y1), (X2,Y2), (X3,Y3).
             //
-            quad = 0.0;
-            //
-            //  The sub-triangles can be grouped into NSUB strips.
-            //
-            for (i = 1; i <= nsub; i++)
+            for (j = 1; j <= 2 * i - 1; j++)
             {
-                temp1 = 0.0;
-                temp2 = (double)(i) / (double)(nsub);
-
-                x2 = xval[1] + temp1 * (xval[2] - xval[1])
-                             + temp2 * (xval[0] - xval[1]);
-
-                y2 = yval[1] + temp1 * (yval[2] - yval[1])
-                             + temp2 * (yval[0] - yval[1]);
-
-                temp1 = 0.0;
-                temp2 = (double)(i - 1) / (double)(nsub);
+                x1 = x2;
+                y1 = y2;
+                x2 = x3;
+                y2 = y3;
+                temp1 = (j + 1) / 2 / (double)nsub;
+                temp2 = (i - 1 - j / 2) / (double)nsub;
 
                 x3 = xval[1] + temp1 * (xval[2] - xval[1])
                              + temp2 * (xval[0] - xval[1]);
@@ -193,534 +211,515 @@ namespace Burkardt.Stroud
                 y3 = yval[1] + temp1 * (yval[2] - yval[1])
                              + temp2 * (yval[0] - yval[1]);
                 //
-                //  There are 2*I-1 triangles in strip number I.
-                //  The next triangle in the strip shares two nodes with the previous one.
-                //  Compute its corners, (X1,Y1), (X2,Y2), (X3,Y3).
+                //  Now integrate over the triangle, mapping the points ( XTAB(K), YTAB(K) )
+                //  into the triangle.
                 //
-                for (j = 1; j <= 2 * i - 1; j++)
+                for (k = 0; k < order; k++)
                 {
-                    x1 = x2;
-                    y1 = y2;
-                    x2 = x3;
-                    y2 = y3;
-                    temp1 = (double)(((j + 1) / 2)) / (double)(nsub);
-                    temp2 = (double)((i - 1 - (j / 2))) / (double)(nsub);
-
-                    x3 = xval[1] + temp1 * (xval[2] - xval[1])
-                                 + temp2 * (xval[0] - xval[1]);
-
-                    y3 = yval[1] + temp1 * (yval[2] - yval[1])
-                                 + temp2 * (yval[0] - yval[1]);
-                    //
-                    //  Now integrate over the triangle, mapping the points ( XTAB(K), YTAB(K) )
-                    //  into the triangle.
-                    //
-                    for (k = 0; k < order; k++)
-                    {
-                        x = x2 + xtab[k] * (x3 - x2) + ytab[k] * (x1 - x2);
-                        y = y2 + xtab[k] * (y3 - y2) + ytab[k] * (y1 - y2);
-                        quad = quad + weight[k] * func(setting, x, y);
-                    }
-                }
-            }
-
-            volume = triangle_volume(xval, yval) / (double)(nsub * nsub);
-            result = quad * volume;
-
-            return result;
-        }
-
-        public static double triangle_sum(int setting, Func<int, double, double, double> func,
-                double[] xval, double[] yval, int order, double[] xtab, double[] ytab,
-                double[] weight)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_SUM carries out a unit quadrature rule in an arbitrary triangle.
-            //
-            //  Integration region:
-            //
-            //      (X,Y) =       ALPHA          * (X1,Y1) 
-            //            +               BETA   * (X2,Y2) 
-            //            + ( 1 - ALPHA - BETA ) * (X3,Y3)
-            //    and
-            //      0 <= ALPHA <= 1 - BETA
-            //    and
-            //      0 <= BETA <= 1 - ALPHA
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    17 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, Func< double, double, double, double > func, the name of the 
-            //    user supplied function to be integrated.
-            //
-            //    Input, double XVAL[3], YVAL[3], the coordinates of the nodes.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
-            //
-            //    Input, double WEIGHT[ORDER], the weights of the rule.
-            //
-            //    Output, double RESULT, the approximate integral of the function.
-            //
-        {
-            int i;
-            double quad;
-            double result;
-            double volume;
-            double x;
-            double y;
-
-            quad = 0.0;
-
-            for (i = 0; i < order; i++)
-            {
-                x = xtab[i] * xval[0]
-                    + ytab[i] * xval[1]
-                    + (1.0 - xtab[i] - ytab[i]) * xval[2];
-
-                y = xtab[i] * yval[0]
-                    + ytab[i] * yval[1]
-                    + (1.0 - xtab[i] - ytab[i]) * yval[2];
-
-                quad = quad + weight[i] * func(setting, x, y);
-            }
-
-            volume = triangle_volume(xval, yval);
-            result = quad * volume;
-
-            return result;
-        }
-
-        public static double triangle_sum_adjusted(Func<double, double, double> func,
-                int order, double[] xtab, double[] ytab, double[] weight)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_SUM_ADJUSTED carries out an adjusted quadrature rule in a triangle.
-            //
-            //  Integration region:
-            //
-            //      (X,Y) =       ALPHA          * (X1,Y1) 
-            //                          + BETA   * (X2,Y2) 
-            //            + ( 1 - ALPHA - BETA ) * (X3,Y3)
-            //    and
-            //      0 <= ALPHA <= 1 - BETA
-            //    and
-            //      0 <= BETA <= 1 - ALPHA
-            //
-            //  Discussion:
-            //
-            //    It is assumed that a quadrature rule approprate for the unit triangle
-            //    was generated, and then adjusted to a particular triangle by calling
-            //    TRIANGLE_RULE_ADJUST.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    18 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, Func < double, double, double > func, the name of the 
-            //    user supplied function to be integrated.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
-            //
-            //    Input, double WEIGHT[ORDER], the weights of the rule.
-            //
-            //    Output, double TRIANGLE_SUM_ADJUSTED, the approximate integral 
-            //    of the function.
-            //
-        {
-            int i;
-            double result;
-
-            result = 0.0;
-
-            for (i = 0; i < order; i++)
-            {
-                result = result + weight[i] * func(xtab[i], ytab[i]);
-            }
-
-            return result;
-        }
-
-        public static void triangle_unit_product_set(int rule, int order, ref double[] xtab,
-                ref double[] ytab, ref double[] weight)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_PRODUCT_SET sets a product rule on the unit triangle.
-            //
-            //  Discussion:
-            //
-            //    For a given order of accuracy, a product rule on a triangle usually
-            //    uses more points than necessary.  That is, there is usually a rule
-            //    of the same order that uses fewer points.
-            //
-            //    However, one advantage of product rules is that a rule of any
-            //    desired order can be generated automatically.
-            //   
-            //    The integration region is:
-            //
-            //      0 <= X,
-            //    and
-            //      0 <= Y, 
-            //    and
-            //      X + Y <= 1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    08 September 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Arthur Stroud,
-            //    Approximate Calculation of Multiple Integrals,
-            //    Prentice Hall, 1971,
-            //    ISBN: 0130438936,
-            //    LC: QA311.S85.
-            //
-            //  Parameters:
-            //
-            //    Input, int RULE, the order of the 1D rule.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Output, double XTAB[ORDER], YTAB[ORDER], the abscissas.
-            //
-            //    Output, double WEIGHT[ORDER], the weights of the rule.
-            //
-        {
-            double a;
-            double b;
-            double c;
-            double d;
-            int i;
-            int j;
-            int k;
-            int order0;
-            int order1;
-            double[] weight0;
-            double[] weight1;
-            double[] xtab0;
-            double[] xtab1;
-
-            weight0 = new double[rule];
-            weight1 = new double[rule];
-            xtab0 = new double[rule];
-            xtab1 = new double[rule];
-
-            a = -1.0;
-            b = +1.0;
-            c = 0.0;
-            d = +1.0;
-
-            order0 = rule;
-            LegendreQuadrature.legendre_set(order0, ref xtab0, ref weight0);
-            QuadratureRule.rule_adjust(a, b, c, d, order0, ref xtab0, ref weight0);
-
-            order1 = rule;
-            LegendreQuadrature.legendre_set_x1(order1, ref xtab1, ref weight1);
-            QuadratureRule.rule_adjust(a, b, c, d, order1, ref xtab1, ref weight1);
-
-            k = 0;
-            for (j = 0; j < order1; j++)
-            {
-                for (i = 0; i < order0; i++)
-                {
-                    xtab[k] = 1.0 - xtab1[j];
-                    ytab[k] = xtab0[i] * xtab1[j];
-                    weight[k] = weight0[i] * weight1[j];
-                    k = k + 1;
+                    x = x2 + xtab[k] * (x3 - x2) + ytab[k] * (x1 - x2);
+                    y = y2 + xtab[k] * (y3 - y2) + ytab[k] * (y1 - y2);
+                    quad += weight[k] * func(setting, x, y);
                 }
             }
         }
 
-        public static int triangle_unit_product_size(int rule)
+        volume = triangle_volume(xval, yval) / (nsub * nsub);
+        result = quad * volume;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_PRODUCT_SIZE sizes a product rule on the unit triangle.
-            //
-            //  Discussion:
-            //
-            //    The integration region is:
-            //
-            //      0 <= X,
-            //    and
-            //      0 <= Y, 
-            //    and
-            //      X + Y <= 1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    08 April 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Arthur Stroud,
-            //    Approximate Calculation of Multiple Integrals,
-            //    Prentice Hall, 1971,
-            //    ISBN: 0130438936,
-            //    LC: QA311.S85.
-            //
-            //  Parameters:
-            //
-            //    Input, int RULE, the order of the 1D rule.
-            //
-            //    Input, int TRIANGLE_UNIT_PRODUCT_SIZE, the order of the rule.
-            //
+        return result;
+    }
+
+    public static double triangle_sum(int setting, Func<int, double, double, double> func,
+            double[] xval, double[] yval, int order, double[] xtab, double[] ytab,
+            double[] weight)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_SUM carries out a unit quadrature rule in an arbitrary triangle.
+        //
+        //  Integration region:
+        //
+        //      (X,Y) =       ALPHA          * (X1,Y1) 
+        //            +               BETA   * (X2,Y2) 
+        //            + ( 1 - ALPHA - BETA ) * (X3,Y3)
+        //    and
+        //      0 <= ALPHA <= 1 - BETA
+        //    and
+        //      0 <= BETA <= 1 - ALPHA
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    17 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, Func< double, double, double, double > func, the name of the 
+        //    user supplied function to be integrated.
+        //
+        //    Input, double XVAL[3], YVAL[3], the coordinates of the nodes.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
+        //
+        //    Input, double WEIGHT[ORDER], the weights of the rule.
+        //
+        //    Output, double RESULT, the approximate integral of the function.
+        //
+    {
+        int i;
+        double quad;
+        double result;
+        double volume;
+        double x;
+        double y;
+
+        quad = 0.0;
+
+        for (i = 0; i < order; i++)
         {
-            int order;
+            x = xtab[i] * xval[0]
+                + ytab[i] * xval[1]
+                + (1.0 - xtab[i] - ytab[i]) * xval[2];
 
-            order = rule * rule;
+            y = xtab[i] * yval[0]
+                + ytab[i] * yval[1]
+                + (1.0 - xtab[i] - ytab[i]) * yval[2];
 
-            return order;
+            quad += weight[i] * func(setting, x, y);
         }
 
-        public static void triangle_unit_set(int rule, int order, ref double[] xtab, ref double[] ytab,
-                ref double[] weight)
+        volume = triangle_volume(xval, yval);
+        result = quad * volume;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_SET sets a quadrature rule in the unit triangle.
-            //
-            //  Discussion:
-            //
-            //    The user is responsible for determining the value of ORDER,
-            //    and appropriately dimensioning the arrays XTAB, YTAB and
-            //    WEIGHT so that they can accommodate the data.
-            //
-            //    The value of ORDER for each rule can be found by invoking
-            //    the function TRIANGLE_RULE_SIZE.
-            //
-            //  Integration region:
-            //
-            //      0 <= X,
-            //    and
-            //      0 <= Y, 
-            //    and
-            //      X + Y <= 1.
-            //
-            //  Graph:
-            //
-            //      ^
-            //    1 | *
-            //      | |.
-            //    Y | | .
-            //      | |  .
-            //    0 | *---*
-            //      +------->
-            //        0 X 1
-            //
-            //   The rules are accessed by an index number, RULE.  The indices,
-            //   and the descriptions of the corresponding rules, are:
-            //
-            //     1, ORDER =  1, precision 1, Zienkiewicz #1.
-            //     2, ORDER =  2, precision 1, (the "vertex rule").
-            //     3, ORDER =  3, precision 2, Strang and Fix formula #1.
-            //     4, ORDER =  3, precision 2, Strang and Fix formula #2,
-            //                                 Zienkiewicz #2.
-            //     5, ORDER =  4, precision 3, Strang and Fix formula #3,
-            //                                 Zienkiewicz #3.
-            //     6, ORDER =  6, precision 3, Strang and Fix formula #4.
-            //     7, ORDER =  6, precision 3, Stroud formula T2:3-1.
-            //     8, ORDER =  6, precision 4, Strang and Fix formula #5.
-            //     9, ORDER =  7, precision 4, Strang and Fix formula #6.
-            //    10, ORDER =  7, precision 5, Strang and Fix formula #7,
-            //                                 Stroud formula T2:5-1, 
-            //                                 Zienkiewicz #4, 
-            //                                 Schwarz Table 2.2.
-            //    11, ORDER =  9, precision 6, Strang and Fix formula #8.
-            //    12, ORDER = 12, precision 6, Strang and Fix formula #9.
-            //    13, ORDER = 13, precision 7, Strang and Fix formula #10.
-            //        Note that there is a typographical error in Strang and Fix
-            //        which lists the value of the XSI(3) component of the
-            //        last generator point as 0.4869... when it should be 0.04869...
-            //    14, ORDER =  7, precision 3.
-            //    15, ORDER = 16, precision 7, conical product Gauss, Stroud formula T2:7-1.
-            //    16, ORDER = 64, precision 15, triangular product Gauss rule.
-            //    17, ORDER = 19, precision 8, from CUBTRI, ACM TOMS #584.
-            //    18, ORDER = 19, precision 9, from TRIEX, ACM TOMS #612.
-            //    19, ORDER = 28, precision 11, from TRIEX, ACM TOMS #612.
-            //    20, ORDER = 37, precision 13, from ACM TOMS #706.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    29 September 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Jarle Berntsen, Terje Espelid,
-            //    Algorithm 706,
-            //    DCUTRI: an algorithm for adaptive cubature over a collection of triangles, 
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 18, Number 3, September 1992, pages 329-342.
-            //
-            //    Elise deDoncker, Ian Robinson,
-            //    Algorithm 612:
-            //    Integration over a Triangle Using Nonlinear Extrapolation,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 10, Number 1, March 1984, pages 17-22.
-            //
-            //    Dirk Laurie,
-            //    Algorithm 584,
-            //    CUBTRI, Automatic Cubature Over a Triangle,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 8, Number 2, 1982, pages 210-218.
-            //
-            //    James Lyness, Dennis Jespersen,
-            //    Moderate Degree Symmetric Quadrature Rules for the Triangle,
-            //    Journal of the Institute of Mathematics and its Applications,
-            //    Volume 15, Number 1, February 1975, pages 19-32.
-            //
-            //    Hans Rudolf Schwarz,
-            //    Finite Element Methods,
-            //    Academic Press, 1988,
-            //    ISBN: 0126330107,
-            //    LC: TA347.F5.S3313.
-            //
-            //    Gilbert Strang, George Fix,
-            //    An Analysis of the Finite Element Method,
-            //    Cambridge, 1973,
-            //    ISBN: 096140888X,
-            //    LC: TA335.S77.
-            //
-            //    Arthur Stroud,
-            //    Approximate Calculation of Multiple Integrals,
-            //    Prentice Hall, 1971,
-            //    ISBN: 0130438936,
-            //    LC: QA311.S85.
-            //
-            //    Olgierd Zienkiewicz,
-            //    The Finite Element Method,
-            //    Sixth Edition,
-            //    Butterworth-Heinemann, 2005,
-            //    ISBN: 0750663200,
-            //    LC: TA640.2.Z54
-            //
-            //  Parameters:
-            //
-            //    Input, int RULE, the index of the rule.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Output, double XTAB[ORDER], YTAB[ORDER], the abscissas.
-            //
-            //    Output, double WEIGHT[ORDER], the weights of the rule.
-            //
+        return result;
+    }
+
+    public static double triangle_sum_adjusted(Func<double, double, double> func,
+            int order, double[] xtab, double[] ytab, double[] weight)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_SUM_ADJUSTED carries out an adjusted quadrature rule in a triangle.
+        //
+        //  Integration region:
+        //
+        //      (X,Y) =       ALPHA          * (X1,Y1) 
+        //                          + BETA   * (X2,Y2) 
+        //            + ( 1 - ALPHA - BETA ) * (X3,Y3)
+        //    and
+        //      0 <= ALPHA <= 1 - BETA
+        //    and
+        //      0 <= BETA <= 1 - ALPHA
+        //
+        //  Discussion:
+        //
+        //    It is assumed that a quadrature rule approprate for the unit triangle
+        //    was generated, and then adjusted to a particular triangle by calling
+        //    TRIANGLE_RULE_ADJUST.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    18 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, Func < double, double, double > func, the name of the 
+        //    user supplied function to be integrated.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
+        //
+        //    Input, double WEIGHT[ORDER], the weights of the rule.
+        //
+        //    Output, double TRIANGLE_SUM_ADJUSTED, the approximate integral 
+        //    of the function.
+        //
+    {
+        int i;
+        double result;
+
+        result = 0.0;
+
+        for (i = 0; i < order; i++)
         {
-            double a;
-            double b;
-            double c;
-            double d;
-            double e;
-            double f;
-            double g;
-            double h;
-            int i;
-            int j;
-            int k;
-            int order2;
-            double p;
-            double q;
-            double r;
-            double s;
-            double t;
-            double u;
-            double v;
-            double w;
-            double w1;
-            double w2;
-            double w3;
-            double w4;
-            double w5;
-            double w6;
-            double w7;
-            double w8;
-            double w9;
-            double[] weight1 = new double[8];
-            double[] weight2 = new double[8];
-            double wx;
-            double x;
-            double[] xtab1 = new double[8];
-            double[] xtab2 = new double[8];
-            double y;
-            double z;
+            result += weight[i] * func(xtab[i], ytab[i]);
+        }
 
+        return result;
+    }
+
+    public static void triangle_unit_product_set(int rule, int order, ref double[] xtab,
+            ref double[] ytab, ref double[] weight)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_PRODUCT_SET sets a product rule on the unit triangle.
+        //
+        //  Discussion:
+        //
+        //    For a given order of accuracy, a product rule on a triangle usually
+        //    uses more points than necessary.  That is, there is usually a rule
+        //    of the same order that uses fewer points.
+        //
+        //    However, one advantage of product rules is that a rule of any
+        //    desired order can be generated automatically.
+        //   
+        //    The integration region is:
+        //
+        //      0 <= X,
+        //    and
+        //      0 <= Y, 
+        //    and
+        //      X + Y <= 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    08 September 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud,
+        //    Approximate Calculation of Multiple Integrals,
+        //    Prentice Hall, 1971,
+        //    ISBN: 0130438936,
+        //    LC: QA311.S85.
+        //
+        //  Parameters:
+        //
+        //    Input, int RULE, the order of the 1D rule.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Output, double XTAB[ORDER], YTAB[ORDER], the abscissas.
+        //
+        //    Output, double WEIGHT[ORDER], the weights of the rule.
+        //
+    {
+        double a;
+        double b;
+        double c;
+        double d;
+        int i;
+        int j;
+        int k;
+        int order0;
+        int order1;
+        double[] weight0;
+        double[] weight1;
+        double[] xtab0;
+        double[] xtab1;
+
+        weight0 = new double[rule];
+        weight1 = new double[rule];
+        xtab0 = new double[rule];
+        xtab1 = new double[rule];
+
+        a = -1.0;
+        b = +1.0;
+        c = 0.0;
+        d = +1.0;
+
+        order0 = rule;
+        LegendreQuadrature.legendre_set(order0, ref xtab0, ref weight0);
+        QuadratureRule.rule_adjust(a, b, c, d, order0, ref xtab0, ref weight0);
+
+        order1 = rule;
+        LegendreQuadrature.legendre_set_x1(order1, ref xtab1, ref weight1);
+        QuadratureRule.rule_adjust(a, b, c, d, order1, ref xtab1, ref weight1);
+
+        k = 0;
+        for (j = 0; j < order1; j++)
+        {
+            for (i = 0; i < order0; i++)
+            {
+                xtab[k] = 1.0 - xtab1[j];
+                ytab[k] = xtab0[i] * xtab1[j];
+                weight[k] = weight0[i] * weight1[j];
+                k += 1;
+            }
+        }
+    }
+
+    public static int triangle_unit_product_size(int rule)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_PRODUCT_SIZE sizes a product rule on the unit triangle.
+        //
+        //  Discussion:
+        //
+        //    The integration region is:
+        //
+        //      0 <= X,
+        //    and
+        //      0 <= Y, 
+        //    and
+        //      X + Y <= 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    08 April 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud,
+        //    Approximate Calculation of Multiple Integrals,
+        //    Prentice Hall, 1971,
+        //    ISBN: 0130438936,
+        //    LC: QA311.S85.
+        //
+        //  Parameters:
+        //
+        //    Input, int RULE, the order of the 1D rule.
+        //
+        //    Input, int TRIANGLE_UNIT_PRODUCT_SIZE, the order of the rule.
+        //
+    {
+        int order;
+
+        order = rule * rule;
+
+        return order;
+    }
+
+    public static void triangle_unit_set(int rule, int order, ref double[] xtab, ref double[] ytab,
+            ref double[] weight)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_SET sets a quadrature rule in the unit triangle.
+        //
+        //  Discussion:
+        //
+        //    The user is responsible for determining the value of ORDER,
+        //    and appropriately dimensioning the arrays XTAB, YTAB and
+        //    WEIGHT so that they can accommodate the data.
+        //
+        //    The value of ORDER for each rule can be found by invoking
+        //    the function TRIANGLE_RULE_SIZE.
+        //
+        //  Integration region:
+        //
+        //      0 <= X,
+        //    and
+        //      0 <= Y, 
+        //    and
+        //      X + Y <= 1.
+        //
+        //  Graph:
+        //
+        //      ^
+        //    1 | *
+        //      | |.
+        //    Y | | .
+        //      | |  .
+        //    0 | *---*
+        //      +------->
+        //        0 X 1
+        //
+        //   The rules are accessed by an index number, RULE.  The indices,
+        //   and the descriptions of the corresponding rules, are:
+        //
+        //     1, ORDER =  1, precision 1, Zienkiewicz #1.
+        //     2, ORDER =  2, precision 1, (the "vertex rule").
+        //     3, ORDER =  3, precision 2, Strang and Fix formula #1.
+        //     4, ORDER =  3, precision 2, Strang and Fix formula #2,
+        //                                 Zienkiewicz #2.
+        //     5, ORDER =  4, precision 3, Strang and Fix formula #3,
+        //                                 Zienkiewicz #3.
+        //     6, ORDER =  6, precision 3, Strang and Fix formula #4.
+        //     7, ORDER =  6, precision 3, Stroud formula T2:3-1.
+        //     8, ORDER =  6, precision 4, Strang and Fix formula #5.
+        //     9, ORDER =  7, precision 4, Strang and Fix formula #6.
+        //    10, ORDER =  7, precision 5, Strang and Fix formula #7,
+        //                                 Stroud formula T2:5-1, 
+        //                                 Zienkiewicz #4, 
+        //                                 Schwarz Table 2.2.
+        //    11, ORDER =  9, precision 6, Strang and Fix formula #8.
+        //    12, ORDER = 12, precision 6, Strang and Fix formula #9.
+        //    13, ORDER = 13, precision 7, Strang and Fix formula #10.
+        //        Note that there is a typographical error in Strang and Fix
+        //        which lists the value of the XSI(3) component of the
+        //        last generator point as 0.4869... when it should be 0.04869...
+        //    14, ORDER =  7, precision 3.
+        //    15, ORDER = 16, precision 7, conical product Gauss, Stroud formula T2:7-1.
+        //    16, ORDER = 64, precision 15, triangular product Gauss rule.
+        //    17, ORDER = 19, precision 8, from CUBTRI, ACM TOMS #584.
+        //    18, ORDER = 19, precision 9, from TRIEX, ACM TOMS #612.
+        //    19, ORDER = 28, precision 11, from TRIEX, ACM TOMS #612.
+        //    20, ORDER = 37, precision 13, from ACM TOMS #706.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    29 September 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jarle Berntsen, Terje Espelid,
+        //    Algorithm 706,
+        //    DCUTRI: an algorithm for adaptive cubature over a collection of triangles, 
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 18, Number 3, September 1992, pages 329-342.
+        //
+        //    Elise deDoncker, Ian Robinson,
+        //    Algorithm 612:
+        //    Integration over a Triangle Using Nonlinear Extrapolation,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 10, Number 1, March 1984, pages 17-22.
+        //
+        //    Dirk Laurie,
+        //    Algorithm 584,
+        //    CUBTRI, Automatic Cubature Over a Triangle,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 8, Number 2, 1982, pages 210-218.
+        //
+        //    James Lyness, Dennis Jespersen,
+        //    Moderate Degree Symmetric Quadrature Rules for the Triangle,
+        //    Journal of the Institute of Mathematics and its Applications,
+        //    Volume 15, Number 1, February 1975, pages 19-32.
+        //
+        //    Hans Rudolf Schwarz,
+        //    Finite Element Methods,
+        //    Academic Press, 1988,
+        //    ISBN: 0126330107,
+        //    LC: TA347.F5.S3313.
+        //
+        //    Gilbert Strang, George Fix,
+        //    An Analysis of the Finite Element Method,
+        //    Cambridge, 1973,
+        //    ISBN: 096140888X,
+        //    LC: TA335.S77.
+        //
+        //    Arthur Stroud,
+        //    Approximate Calculation of Multiple Integrals,
+        //    Prentice Hall, 1971,
+        //    ISBN: 0130438936,
+        //    LC: QA311.S85.
+        //
+        //    Olgierd Zienkiewicz,
+        //    The Finite Element Method,
+        //    Sixth Edition,
+        //    Butterworth-Heinemann, 2005,
+        //    ISBN: 0750663200,
+        //    LC: TA640.2.Z54
+        //
+        //  Parameters:
+        //
+        //    Input, int RULE, the index of the rule.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Output, double XTAB[ORDER], YTAB[ORDER], the abscissas.
+        //
+        //    Output, double WEIGHT[ORDER], the weights of the rule.
+        //
+    {
+        double a;
+        double b;
+        double c;
+        double d;
+        double e;
+        double f;
+        double g;
+        double h;
+        int i;
+        int j;
+        int k;
+        int order2;
+        double p;
+        double q;
+        double r;
+        double s;
+        double t;
+        double u;
+        double v;
+        double w;
+        double w1;
+        double w2;
+        double w3;
+        double w4;
+        double w5;
+        double w6;
+        double w7;
+        double w8;
+        double w9;
+        double[] weight1 = new double[8];
+        double[] weight2 = new double[8];
+        double wx;
+        double x;
+        double[] xtab1 = new double[8];
+        double[] xtab2 = new double[8];
+        double y;
+        double z;
+
+        switch (rule)
+        {
             //
             //  1 point, precision 1.
             //
-            if (rule == 1)
-            {
+            case 1:
                 xtab[0] = 0.33333333333333333333;
 
                 ytab[0] = 0.33333333333333333333;
 
                 weight[0] = 1.00000000000000000000;
-            }
+                break;
             //
             //  3 points, precision 1, the "vertex rule".
             //
-            else if (rule == 2)
-            {
+            case 2:
                 xtab[0] = 1.00000000000000000000;
                 xtab[1] = 0.00000000000000000000;
                 xtab[2] = 0.00000000000000000000;
@@ -732,12 +731,11 @@ namespace Burkardt.Stroud
                 weight[0] = 0.33333333333333333333;
                 weight[1] = 0.33333333333333333333;
                 weight[2] = 0.33333333333333333333;
-            }
+                break;
             //
             //  3 points, precision 2, Strang and Fix formula #1.
             //
-            else if (rule == 3)
-            {
+            case 3:
                 xtab[0] = 0.66666666666666666667;
                 xtab[1] = 0.16666666666666666667;
                 xtab[2] = 0.16666666666666666667;
@@ -749,12 +747,11 @@ namespace Burkardt.Stroud
                 weight[0] = 0.33333333333333333333;
                 weight[1] = 0.33333333333333333333;
                 weight[2] = 0.33333333333333333333;
-            }
+                break;
             //
             //  3 points, precision 2, Strang and Fix formula #2.
             //
-            else if (rule == 4)
-            {
+            case 4:
                 xtab[0] = 0.50000000000000000000;
                 xtab[1] = 0.50000000000000000000;
                 xtab[2] = 0.00000000000000000000;
@@ -766,12 +763,11 @@ namespace Burkardt.Stroud
                 weight[0] = 0.33333333333333333333;
                 weight[1] = 0.33333333333333333333;
                 weight[2] = 0.33333333333333333333;
-            }
+                break;
             //
             //  4 points, precision 3, Strang and Fix formula #3.
             //
-            else if (rule == 5)
-            {
+            case 5:
                 a = 6.0 / 30.0;
                 b = 10.0 / 30.0;
                 c = 18.0 / 30.0;
@@ -793,12 +789,11 @@ namespace Burkardt.Stroud
                 weight[1] = d;
                 weight[2] = d;
                 weight[3] = d;
-            }
+                break;
             //
             //  6 points, precision 3, Strang and Fix formula #4.
             //
-            else if (rule == 6)
-            {
+            case 6:
                 a = 0.659027622374092;
                 b = 0.231933368553031;
                 c = 0.109039009072877;
@@ -823,12 +818,11 @@ namespace Burkardt.Stroud
                 weight[3] = 0.16666666666666666667;
                 weight[4] = 0.16666666666666666667;
                 weight[5] = 0.16666666666666666667;
-            }
+                break;
             //
             //  6 points, precision 3, Stroud T2:3-1.
             //
-            else if (rule == 7)
-            {
+            case 7:
                 a = 0.0;
                 b = 0.5;
                 c = 2.0 / 3.0;
@@ -856,12 +850,11 @@ namespace Burkardt.Stroud
                 weight[3] = w;
                 weight[4] = w;
                 weight[5] = w;
-            }
+                break;
             //
             //  6 points, precision 4, Strang and Fix, formula #5.
             //
-            else if (rule == 8)
-            {
+            case 8:
                 a = 0.816847572980459;
                 b = 0.091576213509771;
                 c = 0.108103018168070;
@@ -889,12 +882,11 @@ namespace Burkardt.Stroud
                 weight[3] = w;
                 weight[4] = w;
                 weight[5] = w;
-            }
+                break;
             //
             //  7 points, precision 4, Strang and Fix formula #6.
             //
-            else if (rule == 9)
-            {
+            case 9:
                 a = 1.0 / 3.0;
                 c = 0.736712498968435;
                 d = 0.237932366472434;
@@ -925,12 +917,11 @@ namespace Burkardt.Stroud
                 weight[4] = w;
                 weight[5] = w;
                 weight[6] = w;
-            }
+                break;
             //
             //  7 points, precision 5, Strang and Fix formula #7, Stroud T2:5-1
             //
-            else if (rule == 10)
-            {
+            case 10:
                 a = 1.0 / 3.0;
                 b = (9.0 + 2.0 * Math.Sqrt(15.0)) / 21.0;
                 c = (6.0 - Math.Sqrt(15.0)) / 21.0;
@@ -963,12 +954,11 @@ namespace Burkardt.Stroud
                 weight[4] = w;
                 weight[5] = w;
                 weight[6] = w;
-            }
+                break;
             //
             //  9 points, precision 6, Strang and Fix formula #8.
             //
-            else if (rule == 11)
-            {
+            case 11:
                 a = 0.124949503233232;
                 b = 0.437525248383384;
                 c = 0.797112651860071;
@@ -1007,12 +997,11 @@ namespace Burkardt.Stroud
                 weight[6] = v;
                 weight[7] = v;
                 weight[8] = v;
-            }
+                break;
             //
             //  12 points, precision 6, Strang and Fix, formula #9.
             //
-            else if (rule == 12)
-            {
+            case 12:
                 a = 0.873821971016996;
                 b = 0.063089014491502;
                 c = 0.501426509658179;
@@ -1063,7 +1052,7 @@ namespace Burkardt.Stroud
                 weight[9] = w;
                 weight[10] = w;
                 weight[11] = w;
-            }
+                break;
             //
             //  13 points, precision 7, Strang and Fix, formula #10.
             //
@@ -1071,8 +1060,7 @@ namespace Burkardt.Stroud
             //  which lists the value of the XSI[2] component of the
             //  last generator point as 0.4869... when it should be 0.04869...
             //
-            else if (rule == 13)
-            {
+            case 13:
                 h = 1.0 / 3.0;
                 a = 0.479308067841923;
                 b = 0.260345966079038;
@@ -1128,12 +1116,11 @@ namespace Burkardt.Stroud
                 weight[10] = v;
                 weight[11] = v;
                 weight[12] = v;
-            }
+                break;
             //
             //  7 points, precision 3.
             //
-            else if (rule == 14)
-            {
+            case 14:
                 a = 1.0 / 3.0;
                 b = 1.0;
                 c = 0.5;
@@ -1166,11 +1153,11 @@ namespace Burkardt.Stroud
                 weight[4] = w;
                 weight[5] = w;
                 weight[6] = w;
-            }
+                break;
             //
             //  16 points, precision 5, Stroud T2:7-1.
             //
-            else if (rule == 15)
+            case 15:
             {
                 //
                 //  Legendre rule of order 4.
@@ -1210,14 +1197,16 @@ namespace Burkardt.Stroud
                         xtab[k] = xtab2[j];
                         ytab[k] = xtab1[i] * (1.0 - xtab2[j]);
                         weight[k] = weight1[i] * weight2[j];
-                        k = k + 1;
+                        k += 1;
                     }
                 }
+
+                break;
             }
             //
             //  64 points, precision 15.
             //
-            else if (rule == 16)
+            case 16:
             {
                 //
                 //  Legendre rule of order 8.
@@ -1268,15 +1257,16 @@ namespace Burkardt.Stroud
                         xtab[k] = 1.0 - xtab2[j];
                         ytab[k] = 0.5 * (1.0 + xtab1[i]) * xtab2[j];
                         weight[k] = weight1[i] * weight2[j];
-                        k = k + 1;
+                        k += 1;
                     }
                 }
+
+                break;
             }
             //
             //  19 points, precision 8, from CUBTRI.
             //
-            else if (rule == 17)
-            {
+            case 17:
                 a = 1.0 / 3.0;
                 b = (9.0 + 2.0 * Math.Sqrt(15.0)) / 21.0;
                 c = (6.0 - Math.Sqrt(15.0)) / 21.0;
@@ -1300,22 +1290,22 @@ namespace Burkardt.Stroud
                 w2 = -9301697.0 / 4695040.0 - 13517313.0 * Math.Sqrt(15.0)
                     / 23475200.0 + 764885.0 * Math.Sqrt(7.0) / 939008.0
                                  + 198763.0 * Math.Sqrt(105.0) / 939008.0;
-                w2 = w2 / 3.0;
+                w2 /= 3.0;
                 w3 = -9301697.0 / 4695040.0 + 13517313.0 * Math.Sqrt(15.0)
                                             / 23475200.0
                                             + 764885.0 * Math.Sqrt(7.0) / 939008.0
                      - 198763.0 * Math.Sqrt(105.0) / 939008.0;
-                w3 = w3 / 3.0;
+                w3 /= 3.0;
                 w4 = (102791225.0 - 23876225.0 * Math.Sqrt(15.0)
                                   - 34500875.0 * Math.Sqrt(7.0)
                       + 9914825.0 * Math.Sqrt(105.0)) / 59157504.0;
-                w4 = w4 / 3.0;
+                w4 /= 3.0;
                 w5 = (102791225.0 + 23876225.0 * Math.Sqrt(15.0)
                       - 34500875.0 * Math.Sqrt(7.0)
                       - 9914825 * Math.Sqrt(105.0)) / 59157504.0;
-                w5 = w5 / 3.0;
+                w5 /= 3.0;
                 w6 = (11075.0 - 3500.0 * Math.Sqrt(7.0)) / 8064.0;
-                w6 = w6 / 6.0;
+                w6 /= 6.0;
 
                 xtab[0] = a;
                 xtab[1] = b;
@@ -1376,13 +1366,12 @@ namespace Burkardt.Stroud
                 weight[16] = w6;
                 weight[17] = w6;
                 weight[18] = w6;
-            }
+                break;
             //
             //  19 points, precision 9.
             //  Lyness and Jesperson.
             //
-            else if (rule == 18)
-            {
+            case 18:
                 a = 1.0 / 3.0;
                 b = 0.02063496160252593;
                 c = 0.4896825191987370;
@@ -1462,13 +1451,12 @@ namespace Burkardt.Stroud
                 weight[16] = w6;
                 weight[17] = w6;
                 weight[18] = w6;
-            }
+                break;
             //
             //  28 points, precision 11.
             //  Lyness and Jesperson.
             //
-            else if (rule == 19)
-            {
+            case 19:
                 a = 1.0 / 3.0;
                 b = 0.9480217181434233;
                 c = 0.02598914092828833;
@@ -1582,12 +1570,11 @@ namespace Burkardt.Stroud
                 weight[25] = w8;
                 weight[26] = w8;
                 weight[27] = w8;
-            }
+                break;
             //
             //  37 points, precision 13.
             //
-            else if (rule == 20)
-            {
+            case 20:
                 a = 1.0 / 3.0;
                 b = 0.950275662924105565450352089520;
                 c = 0.024862168537947217274823955239;
@@ -1768,342 +1755,311 @@ namespace Burkardt.Stroud
 
                 xtab[36] = c;
                 ytab[36] = b;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("TRIANGLE_UNIT_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of RULE = " + rule + "");
-            }
+                break;
         }
-
-        public static int triangle_unit_size(int rule)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_SIZE returns the "size" of a unit triangle quadrature rule.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    18 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Jarle Berntsen, Terje Espelid,
-            //    Algorithm 706,
-            //    DCUTRI: an algorithm for adaptive cubature over a collection of triangles, 
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 18, Number 3, September 1992, pages 329-342.
-            //
-            //    Elise deDoncker, Ian Robinson,
-            //    Algorithm 612:
-            //    Integration over a Triangle Using Nonlinear Extrapolation,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 10, Number 1, March 1984, pages 17-22.
-            //
-            //    DP Laurie,
-            //    Algorithm 584,
-            //    CUBTRI, Automatic Cubature Over a Triangle,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 8, Number 2, 1982, pages 210-218.
-            //
-            //    James Lyness, Dennis Jespersen,
-            //    Moderate Degree Symmetric Quadrature Rules for the Triangle,
-            //    Journal of the Institute of Mathematics and its Applications,
-            //    Volume 15, Number 1, February 1975, pages 19-32.
-            //
-            //    Hans Rudolf Schwarz,
-            //    Methode der Finiten Elemente,
-            //    Teubner Studienbuecher, 1980,
-            //    ISBN: 3-519-02349-0.
-            //
-            //    Gilbert Strang, George Fix,
-            //    An Analysis of the Finite Element Method,
-            //    Prentice Hall, 1973, page 184,
-            //    ISBN: 096140888X,
-            //    LC: TA335.S77.
-            //
-            //    Arthur Stroud,
-            //    Approximate Calculation of Multiple Integrals,
-            //    Prentice Hall, 1971,
-            //    ISBN: 0130438936,
-            //    LC: QA311.S85.
-            //
-            //    Olgierd Zienkiewicz,
-            //    The Finite Element Method,
-            //    Sixth Edition,
-            //    Butterworth-Heinemann, 2005,
-            //    ISBN: 0750663200,
-            //    TA640.2.Z54
-            //
-            //  Parameters:
-            //
-            //    Input, int RULE, the index of the rule.
-            //     1, ORDER =  1, precision 1, Zienkiewicz #1.
-            //     2, ORDER =  2, precision 1, (the "vertex rule").
-            //     3, ORDER =  3, precision 2, Strang and Fix formula #1.
-            //     4, ORDER =  3, precision 2, Strang and Fix formula #2, Zienkiewicz #2.
-            //     5, ORDER =  4, precision 3, Strang and Fix formula #3, Zienkiewicz #3.
-            //     6, ORDER =  6, precision 3, Strang and Fix formula #4.
-            //     7, ORDER =  6, precision 3, Stroud formula T2:3-1.
-            //     8, ORDER =  6, precision 4, Strang and Fix formula #5.
-            //     9, ORDER =  7, precision 4, Strang and Fix formula #6.
-            //    10, ORDER =  7, precision 5, Strang and Fix formula #7,
-            //        Stroud formula T2:5-1, Zienkiewicz #4, Schwarz Table 2.2.
-            //    11, ORDER =  9, precision 6, Strang and Fix formula #8.
-            //    12, ORDER = 12, precision 6, Strang and Fix formula #9.
-            //    13, ORDER = 13, precision 7, Strang and Fix formula #10.
-            //    14, ORDER =  7, precision ?.
-            //    15, ORDER = 16, precision 7, conical product Gauss, Stroud formula T2:7-1.
-            //    16, ORDER = 64, precision 15, triangular product Gauss rule.
-            //    17, ORDER = 19, precision 8, from CUBTRI, ACM TOMS #584.
-            //    18, ORDER = 19, precision 9, from TRIEX, Lyness and Jespersen.
-            //    19, ORDER = 28, precision 11, from TRIEX, Lyness and Jespersen.
-            //    20, ORDER = 37, precision 13, from ACM TOMS #706.
-            //
-            //    Output, int TRIANGLE_UNIT_SIZE, the order of the rule.
-            //
-        {
-            int size;
-
-            if (rule == 1)
-            {
-                size = 1;
-            }
-            else if (rule == 2)
-            {
-                size = 3;
-            }
-            else if (rule == 3)
-            {
-                size = 3;
-            }
-            else if (rule == 4)
-            {
-                size = 3;
-            }
-            else if (rule == 5)
-            {
-                size = 4;
-            }
-            else if (rule == 6)
-            {
-                size = 6;
-            }
-            else if (rule == 7)
-            {
-                size = 6;
-            }
-            else if (rule == 8)
-            {
-                size = 6;
-            }
-            else if (rule == 9)
-            {
-                size = 7;
-            }
-            else if (rule == 10)
-            {
-                size = 7;
-            }
-            else if (rule == 11)
-            {
-                size = 9;
-            }
-            else if (rule == 12)
-            {
-                size = 12;
-            }
-            else if (rule == 13)
-            {
-                size = 13;
-            }
-            else if (rule == 14)
-            {
-                size = 7;
-            }
-            else if (rule == 15)
-            {
-                size = 16;
-            }
-            else if (rule == 16)
-            {
-                size = 64;
-            }
-            else if (rule == 17)
-            {
-                size = 19;
-            }
-            else if (rule == 18)
-            {
-                size = 19;
-            }
-            else if (rule == 19)
-            {
-                size = 28;
-            }
-            else if (rule == 20)
-            {
-                size = 37;
-            }
-            else
-            {
-                size = -1;
-            }
-
-            return size;
-        }
-
-        public static double triangle_unit_sum(int setting, Func<int, double, double, double> func, int order,
-                double[] xtab, double[] ytab, double[] weight)
-
-            //****************************************************************************80
-            //
-            //// TRIANGLE_UNIT_SUM carries out a quadrature rule in the unit triangle.
-            //
-            //  Integration region:
-            //
-            //      0 <= X,
-            //    and
-            //      0 <= Y, 
-            //    and
-            //      X + Y <= 1.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, Func < double, double, double > func, the name of the
-            //    user supplied function to be integrated.
-            //
-            //    Input, int ORDER, the order of the rule.
-            //
-            //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
-            //
-            //    Input, double WEIGHT[ORDER], the weights of the rule.
-            //
-            //    Output, double RESULT, the approximate integral of the function.
-            //
-        {
-            int i;
-            double quad;
-            double result;
-            double volume;
-
-            quad = 0.0;
-            for (i = 0; i < order; i++)
-            {
-                quad = quad + weight[i] * func(setting, xtab[i], ytab[i]);
-            }
-
-            volume = triangle_unit_volume();
-            result = quad * volume;
-
-            return result;
-        }
-
-        public static double triangle_unit_volume()
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_UNIT_VOLUME returns the "volume" of the unit triangle in 2D.
-            //
-            //  Integration region:
-            //
-            //      0 <= X,
-            //    and
-            //      0 <= Y, 
-            //    and
-            //      X + Y <= 1.
-            //
-            //  Discussion:
-            //
-            //    The "volume" of a triangle is usually called its area.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double TRIANGLE_UNIT_VOLUME, the volume of the unit
-            //    triangle.
-            //
-        {
-            double volume;
-
-            volume = 1.0 / 2.0;
-
-            return volume;
-        }
-
-        public static double triangle_volume(double[] x, double[] y)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGLE_VOLUME returns the "volume" of a triangle in 2D.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 March 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X[3], Y[3], the vertices of the triangle.
-            //
-            //    Output, double TRIANGLE_VOLUME, the volume of the triangle.
-            //
-        {
-            double value;
-
-            value = 0.5 * Math.Abs(
-                x[0] * (y[1] - y[2]) +
-                x[1] * (y[2] - y[0]) +
-                x[2] * (y[0] - y[1]));
-
-            return value;
-        }
-
-
     }
+
+    public static int triangle_unit_size(int rule)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_SIZE returns the "size" of a unit triangle quadrature rule.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    18 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jarle Berntsen, Terje Espelid,
+        //    Algorithm 706,
+        //    DCUTRI: an algorithm for adaptive cubature over a collection of triangles, 
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 18, Number 3, September 1992, pages 329-342.
+        //
+        //    Elise deDoncker, Ian Robinson,
+        //    Algorithm 612:
+        //    Integration over a Triangle Using Nonlinear Extrapolation,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 10, Number 1, March 1984, pages 17-22.
+        //
+        //    DP Laurie,
+        //    Algorithm 584,
+        //    CUBTRI, Automatic Cubature Over a Triangle,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 8, Number 2, 1982, pages 210-218.
+        //
+        //    James Lyness, Dennis Jespersen,
+        //    Moderate Degree Symmetric Quadrature Rules for the Triangle,
+        //    Journal of the Institute of Mathematics and its Applications,
+        //    Volume 15, Number 1, February 1975, pages 19-32.
+        //
+        //    Hans Rudolf Schwarz,
+        //    Methode der Finiten Elemente,
+        //    Teubner Studienbuecher, 1980,
+        //    ISBN: 3-519-02349-0.
+        //
+        //    Gilbert Strang, George Fix,
+        //    An Analysis of the Finite Element Method,
+        //    Prentice Hall, 1973, page 184,
+        //    ISBN: 096140888X,
+        //    LC: TA335.S77.
+        //
+        //    Arthur Stroud,
+        //    Approximate Calculation of Multiple Integrals,
+        //    Prentice Hall, 1971,
+        //    ISBN: 0130438936,
+        //    LC: QA311.S85.
+        //
+        //    Olgierd Zienkiewicz,
+        //    The Finite Element Method,
+        //    Sixth Edition,
+        //    Butterworth-Heinemann, 2005,
+        //    ISBN: 0750663200,
+        //    TA640.2.Z54
+        //
+        //  Parameters:
+        //
+        //    Input, int RULE, the index of the rule.
+        //     1, ORDER =  1, precision 1, Zienkiewicz #1.
+        //     2, ORDER =  2, precision 1, (the "vertex rule").
+        //     3, ORDER =  3, precision 2, Strang and Fix formula #1.
+        //     4, ORDER =  3, precision 2, Strang and Fix formula #2, Zienkiewicz #2.
+        //     5, ORDER =  4, precision 3, Strang and Fix formula #3, Zienkiewicz #3.
+        //     6, ORDER =  6, precision 3, Strang and Fix formula #4.
+        //     7, ORDER =  6, precision 3, Stroud formula T2:3-1.
+        //     8, ORDER =  6, precision 4, Strang and Fix formula #5.
+        //     9, ORDER =  7, precision 4, Strang and Fix formula #6.
+        //    10, ORDER =  7, precision 5, Strang and Fix formula #7,
+        //        Stroud formula T2:5-1, Zienkiewicz #4, Schwarz Table 2.2.
+        //    11, ORDER =  9, precision 6, Strang and Fix formula #8.
+        //    12, ORDER = 12, precision 6, Strang and Fix formula #9.
+        //    13, ORDER = 13, precision 7, Strang and Fix formula #10.
+        //    14, ORDER =  7, precision ?.
+        //    15, ORDER = 16, precision 7, conical product Gauss, Stroud formula T2:7-1.
+        //    16, ORDER = 64, precision 15, triangular product Gauss rule.
+        //    17, ORDER = 19, precision 8, from CUBTRI, ACM TOMS #584.
+        //    18, ORDER = 19, precision 9, from TRIEX, Lyness and Jespersen.
+        //    19, ORDER = 28, precision 11, from TRIEX, Lyness and Jespersen.
+        //    20, ORDER = 37, precision 13, from ACM TOMS #706.
+        //
+        //    Output, int TRIANGLE_UNIT_SIZE, the order of the rule.
+        //
+    {
+        int size;
+
+        switch (rule)
+        {
+            case 1:
+                size = 1;
+                break;
+            case 2:
+            case 3:
+            case 4:
+                size = 3;
+                break;
+            case 5:
+                size = 4;
+                break;
+            case 6:
+            case 7:
+            case 8:
+                size = 6;
+                break;
+            case 9:
+            case 10:
+                size = 7;
+                break;
+            case 11:
+                size = 9;
+                break;
+            case 12:
+                size = 12;
+                break;
+            case 13:
+                size = 13;
+                break;
+            case 14:
+                size = 7;
+                break;
+            case 15:
+                size = 16;
+                break;
+            case 16:
+                size = 64;
+                break;
+            case 17:
+            case 18:
+                size = 19;
+                break;
+            case 19:
+                size = 28;
+                break;
+            case 20:
+                size = 37;
+                break;
+            default:
+                size = -1;
+                break;
+        }
+
+        return size;
+    }
+
+    public static double triangle_unit_sum(int setting, Func<int, double, double, double> func, int order,
+            double[] xtab, double[] ytab, double[] weight)
+
+        //****************************************************************************80
+        //
+        //// TRIANGLE_UNIT_SUM carries out a quadrature rule in the unit triangle.
+        //
+        //  Integration region:
+        //
+        //      0 <= X,
+        //    and
+        //      0 <= Y, 
+        //    and
+        //      X + Y <= 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, Func < double, double, double > func, the name of the
+        //    user supplied function to be integrated.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, double XTAB[ORDER], YTAB[ORDER], the abscissas.
+        //
+        //    Input, double WEIGHT[ORDER], the weights of the rule.
+        //
+        //    Output, double RESULT, the approximate integral of the function.
+        //
+    {
+        int i;
+        double quad;
+        double result;
+        double volume;
+
+        quad = 0.0;
+        for (i = 0; i < order; i++)
+        {
+            quad += weight[i] * func(setting, xtab[i], ytab[i]);
+        }
+
+        volume = triangle_unit_volume();
+        result = quad * volume;
+
+        return result;
+    }
+
+    public static double triangle_unit_volume()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_UNIT_VOLUME returns the "volume" of the unit triangle in 2D.
+        //
+        //  Integration region:
+        //
+        //      0 <= X,
+        //    and
+        //      0 <= Y, 
+        //    and
+        //      X + Y <= 1.
+        //
+        //  Discussion:
+        //
+        //    The "volume" of a triangle is usually called its area.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double TRIANGLE_UNIT_VOLUME, the volume of the unit
+        //    triangle.
+        //
+    {
+        double volume;
+
+        volume = 1.0 / 2.0;
+
+        return volume;
+    }
+
+    public static double triangle_volume(double[] x, double[] y)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_VOLUME returns the "volume" of a triangle in 2D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X[3], Y[3], the vertices of the triangle.
+        //
+        //    Output, double TRIANGLE_VOLUME, the volume of the triangle.
+        //
+    {
+        double value = 0;
+
+        value = 0.5 * Math.Abs(
+            x[0] * (y[1] - y[2]) +
+            x[1] * (y[2] - y[0]) +
+            x[2] * (y[0] - y[1]));
+
+        return value;
+    }
+
+
 }

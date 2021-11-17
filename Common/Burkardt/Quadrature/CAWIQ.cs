@@ -2,12 +2,12 @@
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CAWIQ
 {
-    public static class CAWIQ
-    {
-        public static double[] cawiq(int nt, double[] t, int[] mlt, int nwts, ref int[] ndx, int key,
-        int nst, ref double[] aj, ref double[] bj, ref int jdf, double zemu )
+    public static double[] cawiq(int nt, double[] t, int[] mlt, int nwts, ref int[] ndx, int key,
+            int nst, ref double[] aj, ref double[] bj, ref int jdf, double zemu )
 
         //****************************************************************************80
         //
@@ -112,40 +112,39 @@ namespace Burkardt.Quadrature
         //
         //    Output, double CAWIQ[NWTS], the weights.
         //
+    {
+        int i;
+        int ip;
+        int j;
+        int jj;
+        int jp;
+        int k;
+        int l;
+        int m;
+        int mnm;
+        int n = 0;
+        double p;
+        double prec;
+        double[] r;
+        double tmp;
+        double[] xk;
+        double[] wtmp;
+        double[] wts;
+        double[] z;
+
+        prec = typeMethods.r8_epsilon();
+
+        switch (nt)
         {
-            int i;
-            int ip;
-            int j;
-            int jj;
-            int jp;
-            int k;
-            int l;
-            int m;
-            int mnm;
-            int n = 0;
-            double p;
-            double prec;
-            double[] r;
-            double tmp;
-            double[] xk;
-            double[] wtmp;
-            double[] wts;
-            double[] z;
-
-            prec = typeMethods.r8_epsilon();
-
-            if (nt < 1)
-            {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("CAWIQ - Fatal error!");
                 Console.WriteLine("  NT < 1.");
                 return null;
-            }
-
             //
             //  Check for indistinct knots.
             //
-            if (1 < nt)
+            case > 1:
             {
                 k = nt - 1;
                 for (i = 1; i <= k; i++)
@@ -163,71 +162,86 @@ namespace Burkardt.Quadrature
                         }
                     }
                 }
+
+                break;
             }
+        }
 
-            //
-            //  Check multiplicities,
-            //  Set up various useful parameters and
-            //  set up or check pointers to WTS array.
-            //
-            l = Math.Abs(key);
+        //
+        //  Check multiplicities,
+        //  Set up various useful parameters and
+        //  set up or check pointers to WTS array.
+        //
+        l = Math.Abs(key);
 
-            if (l < 1 || 4 < l)
-            {
+        switch (l)
+        {
+            case < 1:
+            case > 4:
                 Console.WriteLine("");
                 Console.WriteLine("CAWIQ - Fatal error!");
                 Console.WriteLine("  Magnitude of KEY not between 1 and 4.");
                 return null;
-            }
+        }
 
-            k = 1;
+        k = 1;
 
-            if (l == 1)
+        switch (l)
+        {
+            case 1:
             {
                 for (i = 1; i <= nt; i++)
                 {
                     ndx[i - 1] = k;
-                    if (mlt[i - 1] < 1)
+                    switch (mlt[i - 1])
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine("CAWIQ - Fatal error!");
-                        Console.WriteLine("  MLT(I) < 1.");
-                        return null;
+                        case < 1:
+                            Console.WriteLine("");
+                            Console.WriteLine("CAWIQ - Fatal error!");
+                            Console.WriteLine("  MLT(I) < 1.");
+                            return null;
+                        default:
+                            k += mlt[i - 1];
+                            break;
                     }
-
-                    k = k + mlt[i - 1];
                 }
 
                 n = k - 1;
+                break;
             }
-            else if (l == 2 || l == 3)
+            case 2:
+            case 3:
             {
                 n = 0;
 
                 for (i = 1; i <= nt; i++)
                 {
-                    if (ndx[i - 1] == 0)
+                    switch (ndx[i - 1])
                     {
-                        continue;
+                        case 0:
+                            continue;
                     }
 
-                    if (mlt[i - 1] < 1)
+                    switch (mlt[i - 1])
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine("CAWIQ - Fatal error!");
-                        Console.WriteLine("  MLT(I) < 1.");
-                        return null;
+                        case < 1:
+                            Console.WriteLine("");
+                            Console.WriteLine("CAWIQ - Fatal error!");
+                            Console.WriteLine("  MLT(I) < 1.");
+                            return null;
                     }
 
-                    n = n + mlt[i - 1];
+                    n += mlt[i - 1];
 
-                    if (ndx[i - 1] < 0 && l == 3)
+                    switch (ndx[i - 1])
                     {
-                        continue;
+                        case < 0 when l == 3:
+                            continue;
+                        default:
+                            ndx[i - 1] = Math.Abs(k) * typeMethods.i4_sign(ndx[i - 1]);
+                            k += mlt[i - 1];
+                            break;
                     }
-
-                    ndx[i - 1] = Math.Abs(k) * typeMethods.i4_sign(ndx[i - 1]);
-                    k = k + mlt[i - 1];
                 }
 
                 if (nwts + 1 < k)
@@ -237,16 +251,19 @@ namespace Burkardt.Quadrature
                     Console.WriteLine("  NWTS + 1 < K.");
                     return null;
                 }
+
+                break;
             }
-            else if (l == 4)
+            case 4:
             {
                 for (i = 1; i <= nt; i++)
                 {
                     ip = Math.Abs(ndx[i - 1]);
 
-                    if (ip == 0)
+                    switch (ip)
                     {
-                        continue;
+                        case 0:
+                            continue;
                     }
 
                     if (nwts < ip + mlt[i - 1])
@@ -275,47 +292,59 @@ namespace Burkardt.Quadrature
                         }
                     }
                 }
-            }
 
-            //
-            //  Test some parameters.
-            //
-            if (nst < (n + 1) / 2)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CAWIQ - Fatal error!");
-                Console.WriteLine("  NST < ( N + 1 ) / 2.");
-                return null;
+                break;
             }
+        }
 
-            if (zemu <= 0.0)
-            {
+        //
+        //  Test some parameters.
+        //
+        if (nst < (n + 1) / 2)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CAWIQ - Fatal error!");
+            Console.WriteLine("  NST < ( N + 1 ) / 2.");
+            return null;
+        }
+
+        switch (zemu)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("CAWIQ - Fatal error!");
                 Console.WriteLine("  ZEMU <= 0.");
                 return null;
-            }
+        }
 
-            wts = new double[nwts];
+        wts = new double[nwts];
+        switch (n)
+        {
             //
             //  Treat a quadrature formula with 1 simple knot first.
             //
-            if (n <= 1)
+            case <= 1:
             {
                 for (i = 0; i < nt; i++)
                 {
-                    if (0 < ndx[i])
+                    switch (ndx[i])
                     {
-                        wts[Math.Abs(ndx[i]) - 1] = zemu;
-                        return wts;
+                        case > 0:
+                            wts[Math.Abs(ndx[i]) - 1] = zemu;
+                            return wts;
                     }
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (jdf)
+        {
             //
             //  Carry out diagonalization if not already done.
             //
-            if (jdf == 0)
+            case 0:
             {
                 //
                 //  Set unit vector in work field to get back first row of Q.
@@ -343,85 +372,89 @@ namespace Burkardt.Quadrature
                 {
                     bj[i] = z[i] * z[i];
                 }
+
+                break;
+            }
+        }
+
+        //
+        //  Find all the weights for each knot flagged.
+        //
+        for (i = 1; i <= nt; i++)
+        {
+            switch (ndx[i - 1])
+            {
+                case <= 0:
+                    continue;
             }
 
+            m = mlt[i - 1];
+            mnm = Math.Max(n - m, 1);
+            l = Math.Min(m, n - m + 1);
             //
-            //  Find all the weights for each knot flagged.
+            //  Set up K-hat matrix for CWIQD with knots according to their multiplicities.
             //
-            for (i = 1; i <= nt; i++)
+            xk = new double[mnm];
+
+            k = 1;
+            for (j = 1; j <= nt; j++)
             {
-                if (ndx[i - 1] <= 0)
+                if (ndx[j - 1] != 0)
                 {
-                    continue;
-                }
-
-                m = mlt[i - 1];
-                mnm = Math.Max(n - m, 1);
-                l = Math.Min(m, n - m + 1);
-                //
-                //  Set up K-hat matrix for CWIQD with knots according to their multiplicities.
-                //
-                xk = new double[mnm];
-
-                k = 1;
-                for (j = 1; j <= nt; j++)
-                {
-                    if (ndx[j - 1] != 0)
+                    if (j != i)
                     {
-                        if (j != i)
+                        for (jj = 1; jj <= mlt[j - 1]; jj++)
                         {
-                            for (jj = 1; jj <= mlt[j - 1]; jj++)
-                            {
-                                xk[k - 1] = t[j - 1];
-                                k = k + 1;
-                            }
+                            xk[k - 1] = t[j - 1];
+                            k += 1;
                         }
                     }
                 }
-
-                //
-                //  Set up the right principal vector.
-                //
-                r = new double[l];
-
-                r[0] = 1.0 / zemu;
-                for (j = 1; j < l; j++)
-                {
-                    r[j] = 0.0;
-                }
-
-                //
-                //  Pick up pointer for the location of the weights to be output.
-                //
-                k = ndx[i - 1];
-                //
-                //  Find all the weights for this knot.
-                //
-                wtmp = CWIQD.cwiqd(m, mnm, l, t[i - 1], xk, nst, aj, bj, r);
-
-                for (j = 0; j < m; j++)
-                {
-                    wts[k - 1 + j] = wtmp[j];
-                }
-
-                if (key < 0)
-                {
-                    continue;
-                }
-
-                //
-                //  Divide by factorials for weights in standard form.
-                //
-                tmp = 1.0;
-                for (j = 1; j < m - 1; j++)
-                {
-                    p = j;
-                    tmp = tmp * p;
-                    wts[k - 1 + j] = wts[k - 1 + j] / tmp;
-                }
             }
 
-            return wts;
+            //
+            //  Set up the right principal vector.
+            //
+            r = new double[l];
+
+            r[0] = 1.0 / zemu;
+            for (j = 1; j < l; j++)
+            {
+                r[j] = 0.0;
+            }
+
+            //
+            //  Pick up pointer for the location of the weights to be output.
+            //
+            k = ndx[i - 1];
+            //
+            //  Find all the weights for this knot.
+            //
+            wtmp = CWIQD.cwiqd(m, mnm, l, t[i - 1], xk, nst, aj, bj, r);
+
+            for (j = 0; j < m; j++)
+            {
+                wts[k - 1 + j] = wtmp[j];
+            }
+
+            switch (key)
+            {
+                case < 0:
+                    continue;
+            }
+
+            //
+            //  Divide by factorials for weights in standard form.
+            //
+            tmp = 1.0;
+            for (j = 1; j < m - 1; j++)
+            {
+                p = j;
+                tmp *= p;
+                wts[k - 1 + j] /= tmp;
+            }
         }
+
+        return wts;
     }
 }

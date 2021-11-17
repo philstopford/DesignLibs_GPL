@@ -1,8 +1,8 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.MatrixNS
-{
+namespace Burkardt.MatrixNS;
+
 public static class D3
 {
     public static double[] d3_mxv ( int n, double[] a, double[] x )
@@ -50,29 +50,29 @@ public static class D3
 //
 //    Output, double D3_MXV[N], the product A * x.
 //
-{
-double[] b;
-int i;
+    {
+        double[] b;
+        int i;
 
-b = new double[n];
+        b = new double[n];
 
-for ( i = 0; i < n; i++ )
-{
-b[i] =        a[1+i*3] * x[i];
-}
-for ( i = 0; i < n-1; i++ )
-{
-b[i] = b[i] + a[0+(i+1)*3] * x[i+1];
-}
-for ( i = 1; i < n; i++ )
-{
-b[i] = b[i] + a[2+(i-1)*3] * x[i-1];
-}
+        for ( i = 0; i < n; i++ )
+        {
+            b[i] =        a[1+i*3] * x[i];
+        }
+        for ( i = 0; i < n-1; i++ )
+        {
+            b[i] += a[0+(i+1)*3] * x[i+1];
+        }
+        for ( i = 1; i < n; i++ )
+        {
+            b[i] += a[2+(i-1)*3] * x[i-1];
+        }
 
-return b;
-}
+        return b;
+    }
 
-public static double[] d3_np_fs ( int n, double[] a, double[] b )
+    public static double[] d3_np_fs ( int n, double[] a, double[] b )
 
 //****************************************************************************80
 //
@@ -126,44 +126,45 @@ public static double[] d3_np_fs ( int n, double[] a, double[] b )
 //    This is NULL if there was an error because one of the diagonal
 //    entries was zero.
 //
-{
-int i;
-double[] x;
-double xmult;
+    {
+        int i;
+        double[] x;
+        double xmult;
 //
 //  Check.
 //
-for ( i = 0; i < n; i++ )
-{
-if ( a[1+i*3] == 0.0 )
-{
-return null;
-}
-}
-x = new double[n];
+        for ( i = 0; i < n; i++ )
+        {
+            switch (a[1+i*3])
+            {
+                case 0.0:
+                    return null;
+            }
+        }
+        x = new double[n];
 
-for ( i = 0; i < n; i++ )
-{
-x[i] = b[i];
-}
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = b[i];
+        }
 
-for ( i = 1; i < n; i++ )
-{
-xmult = a[2+(i-1)*3] / a[1+(i-1)*3];
-a[1+i*3] = a[1+i*3] - xmult * a[0+i*3];
-x[i] = x[i] - xmult * x[i-1];
-}
+        for ( i = 1; i < n; i++ )
+        {
+            xmult = a[2+(i-1)*3] / a[1+(i-1)*3];
+            a[1+i*3] -= xmult * a[0+i*3];
+            x[i] -= xmult * x[i-1];
+        }
 
-x[n-1] = x[n-1] / a[1+(n-1)*3];
-for ( i = n-2; 0 <= i; i-- )
-{
-x[i] = ( x[i] - a[0+(i+1)*3] * x[i+1] ) / a[1+i*3];
-}
+        x[n-1] /= a[1+(n-1)*3];
+        for ( i = n-2; 0 <= i; i-- )
+        {
+            x[i] = ( x[i] - a[0+(i+1)*3] * x[i+1] ) / a[1+i*3];
+        }
 
-return x;
-}
+        return x;
+    }
 
-public static void d3_print ( int n, double[] a, string title )
+    public static void d3_print ( int n, double[] a, string title )
 
 //****************************************************************************80
 //
@@ -207,16 +208,16 @@ public static void d3_print ( int n, double[] a, string title )
 //
 //    Input, string TITLE, a title to print.
 //
-{
-Console.WriteLine("");
-Console.WriteLine(title + "");
-Console.WriteLine("");
+    {
+        Console.WriteLine("");
+        Console.WriteLine(title + "");
+        Console.WriteLine("");
 
-d3_print_some ( n, a, 1, 1, n, n );
+        d3_print_some ( n, a, 1, 1, n, n );
 
-}
+    }
 
-public static void d3_print_some ( int n, double[] a, int ilo, int jlo, int ihi, int jhi )
+    public static void d3_print_some ( int n, double[] a, int ilo, int jlo, int ihi, int jhi )
 
 //****************************************************************************80
 //
@@ -261,83 +262,83 @@ public static void d3_print_some ( int n, double[] a, int ilo, int jlo, int ihi,
 //    Input, int ILO, JLO, IHI, JHI, designate the first row and
 //    column, and the last row and column, to be printed.
 //
-{
-int INCX = 5;
+    {
+        int INCX = 5;
 
-int i;
-int i2hi;
-int i2lo;
-int inc;
-int j;
-int j2;
-int j2hi;
-int j2lo;
+        int i;
+        int i2hi;
+        int i2lo;
+        int inc;
+        int j;
+        int j2;
+        int j2hi;
+        int j2lo;
 //
 //  Print the columns of the matrix, in strips of 5.
 //
-for ( j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX )
-{
-j2hi = j2lo + INCX - 1;
-j2hi = Math.Min ( j2hi, n );
-j2hi = Math.Min ( j2hi, jhi );
+        for ( j2lo = jlo; j2lo <= jhi; j2lo += INCX )
+        {
+            j2hi = j2lo + INCX - 1;
+            j2hi = Math.Min ( j2hi, n );
+            j2hi = Math.Min ( j2hi, jhi );
 
-inc = j2hi + 1 - j2lo;
+            inc = j2hi + 1 - j2lo;
 
-Console.WriteLine("");
-string cout = "  Col: ";
-for ( j = j2lo; j <= j2hi; j++ )
-{
-j2 = j + 1 - j2lo;
-cout += j.ToString().PadLeft(7) + "       ";
-}
+            Console.WriteLine("");
+            string cout = "  Col: ";
+            for ( j = j2lo; j <= j2hi; j++ )
+            {
+                j2 = j + 1 - j2lo;
+                cout += j.ToString().PadLeft(7) + "       ";
+            }
 
-Console.WriteLine(cout);
-Console.WriteLine("  Row");
-Console.WriteLine("  ---");
+            Console.WriteLine(cout);
+            Console.WriteLine("  Row");
+            Console.WriteLine("  ---");
 //
 //  Determine the range of the rows in this strip.
 //
-i2lo = Math.Max ( ilo, 1 );
-i2lo = Math.Max ( i2lo, j2lo - 1 );
+            i2lo = Math.Max ( ilo, 1 );
+            i2lo = Math.Max ( i2lo, j2lo - 1 );
 
-i2hi = Math.Min ( ihi, n );
-i2hi = Math.Min ( i2hi, j2hi + 1 );
+            i2hi = Math.Min ( ihi, n );
+            i2hi = Math.Min ( i2hi, j2hi + 1 );
 
-for ( i = i2lo; i <= i2hi; i++ )
-{
+            for ( i = i2lo; i <= i2hi; i++ )
+            {
 //
 //  Print out (up to) 5 entries in row I, that lie in the current strip.
 //
-cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString().PadLeft(6) + "  ";
 
-for ( j2 = 1; j2 <= inc; j2++ )
-{
-j = j2lo - 1 + j2;
+                for ( j2 = 1; j2 <= inc; j2++ )
+                {
+                    j = j2lo - 1 + j2;
 
-if ( 1 < i-j || 1 < j-i )
-{
-cout += "              ";
-}
-else if ( j == i+1 )
-{
-cout += a[0+(j-1)*3].ToString().PadLeft(12) + "  ";
-}
-else if ( j == i )
-{
-cout += a[1+(j-1)*3].ToString().PadLeft(12) + "  ";
-}
-else if ( j == i-1 )
-{
-cout += a[2+(j-1)*3].ToString().PadLeft(12) + "  ";
-}
+                    if ( 1 < i-j || 1 < j-i )
+                    {
+                        cout += "              ";
+                    }
+                    else if ( j == i+1 )
+                    {
+                        cout += a[0+(j-1)*3].ToString().PadLeft(12) + "  ";
+                    }
+                    else if ( j == i )
+                    {
+                        cout += a[1+(j-1)*3].ToString().PadLeft(12) + "  ";
+                    }
+                    else if ( j == i-1 )
+                    {
+                        cout += a[2+(j-1)*3].ToString().PadLeft(12) + "  ";
+                    }
 
-}
-Console.WriteLine(cout);
-}
-}
-}
+                }
+                Console.WriteLine(cout);
+            }
+        }
+    }
 
-public static double[] d3_uniform ( int n, ref int seed )
+    public static double[] d3_uniform ( int n, ref int seed )
 
 //****************************************************************************80
 //
@@ -380,35 +381,34 @@ public static double[] d3_uniform ( int n, ref int seed )
 //
 //    Output, double D3_UNIFORM[3*N], the D3 matrix.
 //
-{
-double[] a;
-int i;
-double[] u;
-double[] v;
-double[] w;
+    {
+        double[] a;
+        int i;
+        double[] u;
+        double[] v;
+        double[] w;
 
-a = new double[3*n];
+        a = new double[3*n];
 
-u = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
-v = UniformRNG.r8vec_uniform_new ( n,   0.0, 1.0, ref seed );
-w = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
+        u = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
+        v = UniformRNG.r8vec_uniform_new ( n,   0.0, 1.0, ref seed );
+        w = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
 
-a[0+0*3] = 0.0;
-for ( i = 1; i < n; i++ )
-{
-a[0+i*3] = u[i-1];
-}
-for ( i = 0; i < n; i++ )
-{
-a[1+i*3] = v[i];
-}
-for ( i = 0; i < n-1; i++ )
-{
-a[2+i*3] = w[i];
-}
-a[2+(n-1)*3] = 0.0;
+        a[0+0*3] = 0.0;
+        for ( i = 1; i < n; i++ )
+        {
+            a[0+i*3] = u[i-1];
+        }
+        for ( i = 0; i < n; i++ )
+        {
+            a[1+i*3] = v[i];
+        }
+        for ( i = 0; i < n-1; i++ )
+        {
+            a[2+i*3] = w[i];
+        }
+        a[2+(n-1)*3] = 0.0;
 
-return a;
-}        
-}
+        return a;
+    }        
 }

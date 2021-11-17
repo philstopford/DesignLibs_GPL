@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZPPSL
 {
-    public static class ZPPSL
-    {
-        public static void zppsl ( Complex[] ap, int n, ref Complex[] b )
+    public static void zppsl ( Complex[] ap, int n, ref Complex[] b )
 
         //****************************************************************************80
         //
@@ -64,27 +64,26 @@ namespace Burkardt.Linpack
         //    Input/output, Complex B[N].  On input, the right hand side.
         //    On output, the solution.
         //
+    {
+        int k;
+        int kk;
+        Complex t;
+
+        kk = 0;
+        for ( k = 1; k <= n; k++ )
         {
-            int k;
-            int kk;
-            Complex t;
-
-            kk = 0;
-            for ( k = 1; k <= n; k++ )
-            {
-                t = BLAS1Z.zdotc ( k-1, ap, 1, b, 1, xIndex:+kk );
-                kk = kk + k;
-                b[k-1] = ( b[k-1] - t ) / ap[kk-1];
-            }
-
-            for ( k = n; 1 <= k; k-- )
-            {
-                b[k-1] = b[k-1] / ap[kk-1];
-                kk = kk - k;
-                t = -b[k-1];
-                BLAS1Z.zaxpy ( k-1, t, ap, 1, ref b, 1, xIndex:+kk );
-            }
+            t = BLAS1Z.zdotc ( k-1, ap, 1, b, 1, xIndex:+kk );
+            kk += k;
+            b[k-1] = ( b[k-1] - t ) / ap[kk-1];
         }
 
+        for ( k = n; 1 <= k; k-- )
+        {
+            b[k-1] /= ap[kk-1];
+            kk -= k;
+            t = -b[k-1];
+            BLAS1Z.zaxpy ( k-1, t, ap, 1, ref b, 1, xIndex:+kk );
+        }
     }
+
 }

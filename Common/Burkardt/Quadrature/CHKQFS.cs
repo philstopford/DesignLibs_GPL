@@ -2,13 +2,13 @@
 using Burkardt.Types;
 using Burkardt.Weight;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CHKQFS
 {
-    public static class CHKQFS
-    {
-        public static void chkqfs(double[] t, double[] wts, int[] mlt, int nt, int nwts, int[] ndx,
-        int key, ref double[] w, int mop, int mex, int kind, double alpha, double beta,
-        int lo )
+    public static void chkqfs(double[] t, double[] wts, int[] mlt, int nt, int nwts, int[] ndx,
+            int key, ref double[] w, int mop, int mex, int kind, double alpha, double beta,
+            int lo )
 
         //****************************************************************************80
         //
@@ -101,190 +101,195 @@ namespace Burkardt.Quadrature
         //    Local, double QM[MEX], the values of the quadrature formula
         //    applied to (X-DEL)^N.
         //
+    {
+        double[] e;
+        double ek;
+        double emn;
+        double emx;
+        double erest;
+        double ern;
+        double erx;
+        double[] er;
+        int i;
+        int j;
+        int jl;
+        int k;
+        int kindp;
+        int kjl;
+        int l;
+        int m;
+        int mx;
+        double px;
+        double tmp;
+        double tmpx;
+        double prec;
+        double[] qm;
+        //
+        //  KIND may be set to -1 to allow printing of moments only.
+        //
+        //  This feature is only used internally, by CHKQF.
+        //
+        kindp = Math.Max(0, kind);
+
+        if (lo != 0 && kind != -1)
         {
-            double[] e;
-            double ek;
-            double emn;
-            double emx;
-            double erest;
-            double ern;
-            double erx;
-            double[] er;
-            int i;
-            int j;
-            int jl;
-            int k;
-            int kindp;
-            int kjl;
-            int l;
-            int m;
-            int mx;
-            double px;
-            double tmp;
-            double tmpx;
-            double prec;
-            double[] qm;
-            //
-            //  KIND may be set to -1 to allow printing of moments only.
-            //
-            //  This feature is only used internally, by CHKQF.
-            //
-            kindp = Math.Max(0, kind);
-
-            if (lo != 0 && kind != -1)
-            {
-                if (kindp != 0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("  Interpolatory quadrature formula");
-                    Console.WriteLine("");
-                    Console.WriteLine("  Type  Interval       Weight function               Name");
-                    Console.WriteLine("");
-                    if (kindp == 1)
-                    {
-                        Console.WriteLine("    1    (-1,+1)            1.0                    Legendre");
-                    }
-                    else if (kindp == 2)
-                    {
-                        Console.WriteLine("    2    (-1,+1)    ((b-x)*(x-a))^(-0.5)          Chebyshev Type 1");
-                    }
-                    else if (kindp == 3)
-                    {
-                        Console.WriteLine("    3    (-1,+1)    ((b-x)*(x-a))^alpha           Gegenbauer");
-                    }
-                    else if (kindp == 4)
-                    {
-                        Console.WriteLine("    4    (-1,+1)  (b-x)^alpha*(x-a)^beta          Jacobi");
-                    }
-                    else if (kindp == 5)
-                    {
-                        Console.WriteLine("    5   (a,+oo)   (x-a)^alpha*exp(-b*(x-a))      Gen Laguerre");
-                    }
-                    else if (kindp == 6)
-                    {
-                        Console.WriteLine("    6  (-oo,+oo) |x-a|^alpha*exp(-b*(x-a)^2)  Gen Hermite");
-                    }
-                    else if (kindp == 7)
-                    {
-                        Console.WriteLine("    7    (-1,+1)    |x-(a+b)/2.0|^alpha        Exponential");
-                    }
-                    else if (kindp == 8)
-                    {
-                        Console.WriteLine("    8   (0,+oo)    (x-a)^alpha*(x+b)^beta         Rational");
-                    }
-                    else if (kindp == 9)
-                    {
-                        Console.WriteLine("    9    (-1,+1)    ((b-x)*(x-a))^(+0.5)          Chebyshev Type 2");
-                    }
-
-                    if (3 <= kindp && kindp <= 8)
-                    {
-                        Console.WriteLine("                  alpha      " + alpha + "");
-                    }
-
-                    if (kindp == 4 || kindp == 8)
-                    {
-                        Console.WriteLine("                  beta       " + beta + "");
-                    }
-
-                }
-
-                if (kind != -1)
-                {
-                    prec = typeMethods.r8_epsilon();
-                    Console.WriteLine("");
-                    Console.WriteLine("  Machine precision = " + prec + "");
-                }
-
-                Console.WriteLine("");
-                Console.WriteLine("           Knots               Mult                Weights");
-                Console.WriteLine("");
-
-                for (i = 1; i <= nt; i++)
-                {
-                    k = Math.Abs(ndx[i - 1]);
-                    if (k != 0)
-                    {
-                        Console.WriteLine(i.ToString().PadLeft(4)
-                            + t[i - 1].ToString("0.#################").PadLeft(26)
-                            + mlt[i - 1].ToString().PadLeft(4)
-                            + wts[k - 1].ToString("0.#################").PadLeft(26) + "");
-                        for (j = k + 1; j <= k + mlt[i - 1] - 1; j++)
-                        {
-                            Console.WriteLine("                                  "
-                                 + wts[j - 1].ToString("0.#################").PadLeft(26) + "");
-                        }
-                    }
-                }
-            }
-
-            if (lo < 0)
-            {
-                return;
-            }
-
-            //
-            //  Compute the moments in W.
-            //
             if (kindp != 0)
             {
-                w = WM.wm(mex, kindp, alpha, beta);
-            }
-
-            e = new double[mex];
-            er = new double[mex];
-            qm = new double[mex];
-
-            for (j = 0; j < mex; j++)
-            {
-                qm[j] = 0.0;
-            }
-
-            erest = 0.0;
-
-            for (k = 1; k <= nt; k++)
-            {
-                tmp = 1.0;
-                l = Math.Abs(ndx[k - 1]);
-                if (l == 0)
+                Console.WriteLine("");
+                Console.WriteLine("  Interpolatory quadrature formula");
+                Console.WriteLine("");
+                Console.WriteLine("  Type  Interval       Weight function               Name");
+                Console.WriteLine("");
+                switch (kindp)
                 {
-                    continue;
+                    case 1:
+                        Console.WriteLine("    1    (-1,+1)            1.0                    Legendre");
+                        break;
+                    case 2:
+                        Console.WriteLine("    2    (-1,+1)    ((b-x)*(x-a))^(-0.5)          Chebyshev Type 1");
+                        break;
+                    case 3:
+                        Console.WriteLine("    3    (-1,+1)    ((b-x)*(x-a))^alpha           Gegenbauer");
+                        break;
+                    case 4:
+                        Console.WriteLine("    4    (-1,+1)  (b-x)^alpha*(x-a)^beta          Jacobi");
+                        break;
+                    case 5:
+                        Console.WriteLine("    5   (a,+oo)   (x-a)^alpha*exp(-b*(x-a))      Gen Laguerre");
+                        break;
+                    case 6:
+                        Console.WriteLine("    6  (-oo,+oo) |x-a|^alpha*exp(-b*(x-a)^2)  Gen Hermite");
+                        break;
+                    case 7:
+                        Console.WriteLine("    7    (-1,+1)    |x-(a+b)/2.0|^alpha        Exponential");
+                        break;
+                    case 8:
+                        Console.WriteLine("    8   (0,+oo)    (x-a)^alpha*(x+b)^beta         Rational");
+                        break;
+                    case 9:
+                        Console.WriteLine("    9    (-1,+1)    ((b-x)*(x-a))^(+0.5)          Chebyshev Type 2");
+                        break;
                 }
 
-                erest = erest + Math.Abs(wts[l - 1]);
-                for (j = 1; j <= mex; j++)
+                switch (kindp)
                 {
-                    qm[j - 1] = qm[j - 1] + tmp * wts[l - 1];
-                    tmpx = tmp;
-                    px = 1.0;
-                    for (jl = 2; jl <= Math.Min(mlt[k - 1], mex - j + 1); jl++)
+                    case >= 3 and <= 8:
+                        Console.WriteLine("                  alpha      " + alpha + "");
+                        break;
+                }
+
+                switch (kindp)
+                {
+                    case 4:
+                    case 8:
+                        Console.WriteLine("                  beta       " + beta + "");
+                        break;
+                }
+
+            }
+
+            if (kind != -1)
+            {
+                prec = typeMethods.r8_epsilon();
+                Console.WriteLine("");
+                Console.WriteLine("  Machine precision = " + prec + "");
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("           Knots               Mult                Weights");
+            Console.WriteLine("");
+
+            for (i = 1; i <= nt; i++)
+            {
+                k = Math.Abs(ndx[i - 1]);
+                if (k != 0)
+                {
+                    Console.WriteLine(i.ToString().PadLeft(4)
+                                      + t[i - 1].ToString("0.#################").PadLeft(26)
+                                      + mlt[i - 1].ToString().PadLeft(4)
+                                      + wts[k - 1].ToString("0.#################").PadLeft(26) + "");
+                    for (j = k + 1; j <= k + mlt[i - 1] - 1; j++)
                     {
-                        kjl = j + jl - 1;
-                        tmpx = tmpx * (kjl - 1);
-                        qm[kjl - 1] = qm[kjl - 1] + tmpx * wts[l + jl - 2] / px;
-                        if (key <= 0)
-                        {
-                            px = px * jl;
-                        }
+                        Console.WriteLine("                                  "
+                                          + wts[j - 1].ToString("0.#################").PadLeft(26) + "");
                     }
+                }
+            }
+        }
 
-                    tmp = tmp * t[k - 1];
+        switch (lo)
+        {
+            case < 0:
+                return;
+        }
+
+        //
+        //  Compute the moments in W.
+        //
+        if (kindp != 0)
+        {
+            w = WM.wm(mex, kindp, alpha, beta);
+        }
+
+        e = new double[mex];
+        er = new double[mex];
+        qm = new double[mex];
+
+        for (j = 0; j < mex; j++)
+        {
+            qm[j] = 0.0;
+        }
+
+        erest = 0.0;
+
+        for (k = 1; k <= nt; k++)
+        {
+            tmp = 1.0;
+            l = Math.Abs(ndx[k - 1]);
+            switch (l)
+            {
+                case 0:
+                    continue;
+            }
+
+            erest += Math.Abs(wts[l - 1]);
+            for (j = 1; j <= mex; j++)
+            {
+                qm[j - 1] += tmp * wts[l - 1];
+                tmpx = tmp;
+                px = 1.0;
+                for (jl = 2; jl <= Math.Min(mlt[k - 1], mex - j + 1); jl++)
+                {
+                    kjl = j + jl - 1;
+                    tmpx *= (kjl - 1);
+                    qm[kjl - 1] += tmpx * wts[l + jl - 2] / px;
+                    switch (key)
+                    {
+                        case <= 0:
+                            px *= jl;
+                            break;
+                    }
                 }
 
+                tmp *= t[k - 1];
             }
 
-            for (j = 0; j < mex; j++)
-            {
-                e[j] = w[j] - qm[j];
-                er[j] = e[j] / (Math.Abs(w[j]) + 1.0);
-            }
+        }
 
-            //
-            //  For some strange weight functions W(1) may vanish.
-            //
-            erest = erest / (Math.Abs(w[0]) + 1.0);
+        for (j = 0; j < mex; j++)
+        {
+            e[j] = w[j] - qm[j];
+            er[j] = e[j] / (Math.Abs(w[j]) + 1.0);
+        }
 
-            if (0 < lo)
+        //
+        //  For some strange weight functions W(1) may vanish.
+        //
+        erest /= (Math.Abs(w[0]) + 1.0);
+
+        switch (lo)
+        {
+            case > 0:
             {
                 m = mop + 1;
                 mx = Math.Min(mop, mex);
@@ -308,25 +313,25 @@ namespace Burkardt.Quadrature
                 Console.WriteLine("  Errors :    Absolute    Relative");
                 Console.WriteLine("  ---------+-------------------------");
                 Console.WriteLine("  Minimum :" + emn.ToString("0.###").PadLeft(12)
-                    + "  " + ern.ToString("0.###").PadLeft(12) + "");
+                                                + "  " + ern.ToString("0.###").PadLeft(12) + "");
                 Console.WriteLine("  Maximum :" + emx.ToString("0.###").PadLeft(12)
-                    + "  " + erx.ToString("0.###").PadLeft(12) + "");
+                                                + "  " + erx.ToString("0.###").PadLeft(12) + "");
                 Console.WriteLine("");
                 Console.WriteLine("  Weights ratio       "
-                     + erest.ToString("0.###").PadLeft(12) + "");
+                                  + erest.ToString("0.###").PadLeft(12) + "");
 
                 if (m <= mex)
                 {
                     ek = e[m - 1];
                     for (j = 1; j <= mop; j++)
                     {
-                        ek = ek / (double) (j);
+                        ek /= j;
                     }
 
                     Console.WriteLine("  Error in " + mop + "th power "
-                        + e[m - 1].ToString("0.###").PadLeft(12) + "");
+                                      + e[m - 1].ToString("0.###").PadLeft(12) + "");
                     Console.WriteLine("  Error constant      "
-                         + ek.ToString("0.###").PadLeft(12) + "");
+                                      + ek.ToString("0.###").PadLeft(12) + "");
                 }
 
                 Console.WriteLine("");
@@ -337,21 +342,23 @@ namespace Burkardt.Quadrature
                 for (j = 1; j <= mx; j++)
                 {
                     Console.WriteLine(j.ToString().PadLeft(4)
-                        + w[j - 1].ToString("0.##########").PadLeft(19)
-                        + qm[j - 1].ToString("0.##########").PadLeft(19)
-                        + e[j - 1].ToString("0.###").PadLeft(12)
-                        + er[j - 1].ToString("0.###").PadLeft(12) + "");
+                                      + w[j - 1].ToString("0.##########").PadLeft(19)
+                                      + qm[j - 1].ToString("0.##########").PadLeft(19)
+                                      + e[j - 1].ToString("0.###").PadLeft(12)
+                                      + er[j - 1].ToString("0.###").PadLeft(12) + "");
                 }
 
                 Console.WriteLine("");
                 for (j = m; j <= mex; j++)
                 {
                     Console.WriteLine(j.ToString().PadLeft(4)
-                        + w[j - 1].ToString("0.##########").PadLeft(19)
-                        + qm[j - 1].ToString("0.##########").PadLeft(19)
-                        + e[j - 1].ToString("0.###").PadLeft(12)
-                        + er[j - 1].ToString("0.###").PadLeft(12) + "");
+                                      + w[j - 1].ToString("0.##########").PadLeft(19)
+                                      + qm[j - 1].ToString("0.##########").PadLeft(19)
+                                      + e[j - 1].ToString("0.###").PadLeft(12)
+                                      + er[j - 1].ToString("0.###").PadLeft(12) + "");
                 }
+
+                break;
             }
         }
     }

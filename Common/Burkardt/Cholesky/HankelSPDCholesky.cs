@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.CholeskyNS
+namespace Burkardt.CholeskyNS;
+
+public static class HankelSPDCholesky
 {
-    public static class HankelSPDCholesky
-    {
-        public static double[] hankel_spd_cholesky_lower(int n, double[] lii, double[] liim1 )
+    public static double[] hankel_spd_cholesky_lower(int n, double[] lii, double[] liim1 )
 
         //****************************************************************************80
         //
@@ -52,61 +52,61 @@ namespace Burkardt.CholeskyNS
         //    Output, double HANKEL_spd_CHOLESKY_LOWER[N,N], the lower 
         //    Cholesky factor.
         //
+    {
+        double alpha;
+        double beta;
+        int i;
+        int j;
+        double[] l;
+        int q;
+        int r;
+        int s;
+        int t;
+
+        l = typeMethods.r8mat_zeros_new(n, n);
+
+        for (i = 0; i < n; i++)
         {
-            double alpha;
-            double beta;
-            int i;
-            int j;
-            double[] l;
-            int q;
-            int r;
-            int s;
-            int t;
+            l[i + i * n] = lii[i];
+        }
 
-            l = typeMethods.r8mat_zeros_new(n, n);
+        for (i = 0; i < n - 1; i++)
+        {
+            l[i + 1 + i * n] = liim1[i];
+        }
 
-            for (i = 0; i < n; i++)
+        for (i = 2; i < n; i++)
+        {
+            for (j = 0; j < i - 1; j++)
             {
-                l[i + i * n] = lii[i];
-            }
-
-            for (i = 0; i < n - 1; i++)
-            {
-                l[i + 1 + i * n] = liim1[i];
-            }
-
-            for (i = 2; i < n; i++)
-            {
-                for (j = 0; j < i - 1; j++)
+                switch ((i + j) % 2)
                 {
-                    if (((i + j) % 2) == 0)
-                    {
+                    case 0:
                         q = (i + j) / 2;
                         r = q;
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         q = (i + j - 1) / 2;
                         r = q + 1;
-                    }
-
-                    alpha = 0.0;
-                    for (s = 0; s <= q; s++)
-                    {
-                        alpha = alpha + l[q + s * n] * l[r + s * n];
-                    }
-
-                    beta = 0.0;
-                    for (t = 0; t < j; t++)
-                    {
-                        beta = beta + l[i + t * n] * l[j + t * n];
-                    }
-
-                    l[i + j * n] = (alpha - beta) / l[j + j * n];
+                        break;
                 }
-            }
 
-            return l;
+                alpha = 0.0;
+                for (s = 0; s <= q; s++)
+                {
+                    alpha += l[q + s * n] * l[r + s * n];
+                }
+
+                beta = 0.0;
+                for (t = 0; t < j; t++)
+                {
+                    beta += l[i + t * n] * l[j + t * n];
+                }
+
+                l[i + j * n] = (alpha - beta) / l[j + j * n];
+            }
         }
+
+        return l;
     }
 }

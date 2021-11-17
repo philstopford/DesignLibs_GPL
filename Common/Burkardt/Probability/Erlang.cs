@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Erlang
 {
-    public static class Erlang
-    {
-        public static double erlang_cdf(double x, double a, double b, int c)
+    public static double erlang_cdf(double x, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,25 +34,25 @@ namespace Burkardt.Probability
         //
         //    Output, double ERLANG_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x < a)
         {
-            double cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            double x2 = (x - a) / b;
+            double p2 = c;
 
-            if (x < a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                double x2 = (x - a) / b;
-                double p2 = (double) (c);
-
-                cdf = typeMethods.r8_gamma_inc(p2, x2);
-            }
-
-            return cdf;
+            cdf = typeMethods.r8_gamma_inc(p2, x2);
         }
 
-        public static double erlang_cdf_inv(double cdf, double a, double b, int c)
+        return cdf;
+    }
+
+    public static double erlang_cdf_inv(double cdf, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -85,92 +85,89 @@ namespace Burkardt.Probability
         //
         //    Output, double ERLANG_CDF_INV, the corresponding argument of the CDF.
         //
+    {
+        double cdf2;
+        int it_max = 100;
+        const double r8_huge = 1.0E+30;
+        double tol = 0.0001;
+
+        double x = 0.0;
+
+        switch (cdf)
         {
-            double cdf2;
-            int it_max = 100;
-            const double r8_huge = 1.0E+30;
-            double tol = 0.0001;
-
-            double x = 0.0;
-
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("ERLANG_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf == 0.0)
-            {
+                return 1;
+            case 0.0:
                 x = a;
                 return x;
-            }
-            else if (1.0 == cdf)
-            {
+            case 1.0:
                 x = r8_huge;
+                return x;
+        }
+
+        double x1 = a;
+        double cdf1 = 0.0;
+
+        double x2 = a + 1.0;
+
+        for (;;)
+        {
+            cdf2 = erlang_cdf(x2, a, b, c);
+
+            if (cdf < cdf2)
+            {
+                break;
+            }
+
+            x2 = a + 2.0 * (x2 - a);
+        }
+
+        //
+        //  Now use bisection.
+        //
+        int it = 0;
+
+        for (;;)
+        {
+            it += 1;
+
+            double x3 = 0.5 * (x1 + x2);
+            double cdf3 = erlang_cdf(x3, a, b, c);
+
+            if (Math.Abs(cdf3 - cdf) < tol)
+            {
+                x = x3;
+                break;
+            }
+
+            if (it_max < it)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("ERLANG_CDF_INV - Warning!");
+                Console.WriteLine("  Iteration limit exceeded.");
                 return x;
             }
 
-            double x1 = a;
-            double cdf1 = 0.0;
-
-            double x2 = a + 1.0;
-
-            for (;;)
+            if (cdf3 <= cdf && cdf1 <= cdf || cdf <= cdf3 && cdf <= cdf1)
             {
-                cdf2 = erlang_cdf(x2, a, b, c);
-
-                if (cdf < cdf2)
-                {
-                    break;
-                }
-
-                x2 = a + 2.0 * (x2 - a);
+                x1 = x3;
+                cdf1 = cdf3;
             }
-
-            //
-            //  Now use bisection.
-            //
-            int it = 0;
-
-            for (;;)
+            else
             {
-                it = it + 1;
-
-                double x3 = 0.5 * (x1 + x2);
-                double cdf3 = erlang_cdf(x3, a, b, c);
-
-                if (Math.Abs(cdf3 - cdf) < tol)
-                {
-                    x = x3;
-                    break;
-                }
-
-                if (it_max < it)
-                {
-                    Console.WriteLine(" ");
-                    Console.WriteLine("ERLANG_CDF_INV - Warning!");
-                    Console.WriteLine("  Iteration limit exceeded.");
-                    return x;
-                }
-
-                if ((cdf3 <= cdf && cdf1 <= cdf) || (cdf <= cdf3 && cdf <= cdf1))
-                {
-                    x1 = x3;
-                    cdf1 = cdf3;
-                }
-                else
-                {
-                    x2 = x3;
-                    cdf2 = cdf3;
-                }
+                x2 = x3;
+                cdf2 = cdf3;
             }
-
-            return x;
         }
 
-        public static bool erlang_check(double a, double b, int c)
+        return x;
+    }
+
+    public static bool erlang_check(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -197,27 +194,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool ERLANG_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("ERLANG_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.0");
                 return false;
-            }
+        }
 
-            if (c <= 0)
-            {
+        switch (c)
+        {
+            case <= 0:
                 Console.WriteLine(" ");
                 Console.WriteLine("ERLANG_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double erlang_mean(double a, double b, int c)
+    public static double erlang_mean(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -244,13 +243,13 @@ namespace Burkardt.Probability
         //
         //    Output, double ERLANG_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a + b * (double) (c);
+    {
+        double mean = a + b * c;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double erlang_pdf(double x, double a, double b, int c)
+    public static double erlang_pdf(double x, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -286,24 +285,24 @@ namespace Burkardt.Probability
         //
         //    Output, double ERLANG_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x <= a)
         {
-            double pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            double y = (x - a) / b;
 
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                double y = (x - a) / b;
-
-                pdf = Math.Pow(y, c - 1) / (b * typeMethods.r8_factorial(c - 1) * Math.Exp(y));
-            }
-
-            return pdf;
+            pdf = Math.Pow(y, c - 1) / (b * typeMethods.r8_factorial(c - 1) * Math.Exp(y));
         }
 
-        public static double erlang_sample(double a, double b, int c, ref int seed)
+        return pdf;
+    }
+
+    public static double erlang_sample(double a, double b, int c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -332,21 +331,21 @@ namespace Burkardt.Probability
         //
         //    Output, double ERLANG_SAMPLE, a sample of the PDF.
         //
+    {
+        double a2 = 0.0;
+        double b2 = b;
+        double x = a;
+
+        for (int i = 1; i <= c; i++)
         {
-            double a2 = 0.0;
-            double b2 = b;
-            double x = a;
-
-            for (int i = 1; i <= c; i++)
-            {
-                double x2 = Exponential.exponential_sample(a2, b2, ref seed);
-                x = x + x2;
-            }
-
-            return x;
+            double x2 = Exponential.exponential_sample(a2, b2, ref seed);
+            x += x2;
         }
 
-        public static double erlang_variance(double a, double b, int c)
+        return x;
+    }
+
+    public static double erlang_variance(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -373,10 +372,9 @@ namespace Burkardt.Probability
         //
         //    Output, double ERLANG_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = b * b * (double) (c);
+    {
+        double variance = b * b * c;
 
-            return variance;
-        }
+        return variance;
     }
 }

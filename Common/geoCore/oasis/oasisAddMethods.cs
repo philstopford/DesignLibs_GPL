@@ -2,536 +2,347 @@
 using geoLib;
 using System;
 
-namespace oasis
+namespace oasis;
+
+internal partial class oasReader
 {
-    partial class oasReader
+    private void addElement(elementType e, GeoLibPoint p)
     {
-        void addElement(elementType e, GeoLibPoint p)
+        int x;
+        int y;
+        switch (e)
         {
-            Int32 x;
-            Int32 y;
-            switch (e)
-            {
-                case elementType.boxElement:
-                    x = modal.geometry_x;
-                    y = modal.geometry_y;
-                    modal.geometry_x += p.X;
-                    modal.geometry_y += p.Y;
-                    addBox();
-                    modal.geometry_x = x;
-                    modal.geometry_y = y;
-                    break;
-                case elementType.polygonElement:
-                    x = modal.geometry_x;
-                    y = modal.geometry_y;
-                    modal.geometry_x += p.X;
-                    modal.geometry_y += p.Y;
-                    addPolygon();
-                    modal.geometry_x = x;
-                    modal.geometry_y = y;
-                    break;
-                case elementType.pathElement:
-                    x = modal.geometry_x;
-                    y = modal.geometry_y;
-                    modal.geometry_x += p.X;
-                    modal.geometry_y += p.Y;
-                    addPath();
-                    modal.geometry_x = x;
-                    modal.geometry_y = y;
-                    break;
-                case elementType.cellrefElement:
-                    x = modal.placement_x;
-                    y = modal.placement_y;
-                    modal.placement_x += p.X;
-                    modal.placement_y += p.Y;
-                    addCellref();
-                    modal.placement_x = x;
-                    modal.placement_y = y;
-                    break;
-                case elementType.textElement:
-                    x = modal.text_x;
-                    y = modal.text_y;
-                    modal.text_x += p.X;
-                    modal.text_y += p.Y;
-                    addText();
-                    modal.text_x = x;
-                    modal.text_y = y;
-                    break;
-                case elementType.circleElement:
-                    x = modal.text_x;
-                    y = modal.text_y;
-                    modal.text_x += p.X;
-                    modal.text_y += p.Y;
-                    addCircle();
-                    modal.text_x = x;
-                    modal.text_y = y;
-                    break;
-                case elementType.trapezoidElement:
-                    x = modal.text_x;
-                    y = modal.text_y;
-                    modal.text_x += p.X;
-                    modal.text_y += p.Y;
-                    addTrapezoid();
-                    modal.text_x = x;
-                    modal.text_y = y;
-                    break;
-                case elementType.ctrapezoidElement:
-                    x = modal.text_x;
-                    y = modal.text_y;
-                    modal.text_x += p.X;
-                    modal.text_y += p.Y;
-                    addCtrapezoid();
-                    modal.text_x = x;
-                    modal.text_y = y;
-                    break;
-            }
+            case elementType.boxElement:
+                x = modal.geometry_x;
+                y = modal.geometry_y;
+                modal.geometry_x += p.X;
+                modal.geometry_y += p.Y;
+                addBox();
+                modal.geometry_x = x;
+                modal.geometry_y = y;
+                break;
+            case elementType.polygonElement:
+                x = modal.geometry_x;
+                y = modal.geometry_y;
+                modal.geometry_x += p.X;
+                modal.geometry_y += p.Y;
+                addPolygon();
+                modal.geometry_x = x;
+                modal.geometry_y = y;
+                break;
+            case elementType.pathElement:
+                x = modal.geometry_x;
+                y = modal.geometry_y;
+                modal.geometry_x += p.X;
+                modal.geometry_y += p.Y;
+                addPath();
+                modal.geometry_x = x;
+                modal.geometry_y = y;
+                break;
+            case elementType.cellrefElement:
+                x = modal.placement_x;
+                y = modal.placement_y;
+                modal.placement_x += p.X;
+                modal.placement_y += p.Y;
+                addCellref();
+                modal.placement_x = x;
+                modal.placement_y = y;
+                break;
+            case elementType.textElement:
+                x = modal.text_x;
+                y = modal.text_y;
+                modal.text_x += p.X;
+                modal.text_y += p.Y;
+                addText();
+                modal.text_x = x;
+                modal.text_y = y;
+                break;
+            case elementType.circleElement:
+                x = modal.text_x;
+                y = modal.text_y;
+                modal.text_x += p.X;
+                modal.text_y += p.Y;
+                addCircle();
+                modal.text_x = x;
+                modal.text_y = y;
+                break;
+            case elementType.trapezoidElement:
+                x = modal.text_x;
+                y = modal.text_y;
+                modal.text_x += p.X;
+                modal.text_y += p.Y;
+                addTrapezoid();
+                modal.text_x = x;
+                modal.text_y = y;
+                break;
+            case elementType.ctrapezoidElement:
+                x = modal.text_x;
+                y = modal.text_y;
+                modal.text_x += p.X;
+                modal.text_y += p.Y;
+                addCtrapezoid();
+                modal.text_x = x;
+                modal.text_y = y;
+                break;
         }
+    }
 
-        void addBox()
-        {
-            cell_.addBox(modal.geometry_x, modal.geometry_y, modal.geometry_w, modal.geometry_h, modal.layer, modal.datatype);
-        }
+    private void addBox()
+    {
+        cell_.addBox(modal.geometry_x, modal.geometry_y, modal.geometry_w, modal.geometry_h, modal.layer, modal.datatype);
+    }
 
-        void addCellref()
+    private void addCellref()
+    {
+        cell_.addCellref();
+        cell_.elementList[^1].setPos(new GeoLibPoint(modal.placement_x, modal.placement_y));
+        cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
+        cell_.elementList[^1].setName(modal.placement_cell);
+        cell_.elementList[^1].rotate(modal.angle);
+        cell_.elementList[^1].scale(modal.mag);
+        switch (modal.mirror_x)
         {
-            cell_.addCellref();
-            cell_.elementList[^1].setPos(new GeoLibPoint(modal.placement_x, modal.placement_y));
-            cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
-            cell_.elementList[^1].setName(modal.placement_cell);
-            cell_.elementList[^1].rotate(modal.angle);
-            cell_.elementList[^1].scale(modal.mag);
-            if (modal.mirror_x)
-            {
+            case true:
                 cell_.elementList[^1].setMirrorx();
-            }
+                break;
         }
+    }
 
-        void addCircle()
+    private void addCircle()
+    {
+        cell_.addCircle(modal.layer, modal.datatype, new GeoLibPoint(modal.geometry_x, modal.geometry_y), modal.circle_radius);
+    }
+
+    private void addPath()
+    {
+        GeoLibPoint[] pa = new GeoLibPoint[modal.polygon_point_list.Count];
+        GeoLibPoint p = new(modal.geometry_x, modal.geometry_y);
+        for (int i = 0; i < modal.polygon_point_list.Count; i++)
         {
-            cell_.addCircle(modal.layer, modal.datatype, new GeoLibPoint(modal.geometry_x, modal.geometry_y), modal.circle_radius);
+            pa[i] = modal.polygon_point_list[i];
+            pa[i].Offset(p.X, p.Y);
         }
-
-        void addPath()
+        cell_.addPath(pa, modal.layer, modal.datatype);
+        cell_.elementList[^1].setWidth(2 * modal.geometry_w);
+        switch (modal.path_start_extension)
         {
-            GeoLibPoint[] pa = new GeoLibPoint[modal.polygon_point_list.Count];
-            GeoLibPoint p = new GeoLibPoint(modal.geometry_x, modal.geometry_y);
-            for (Int32 i = 0; i < modal.polygon_point_list.Count; i++)
-            {
-                pa[i] = modal.polygon_point_list[i];
-                pa[i].Offset(p.X, p.Y);
-            }
-            cell_.addPath(pa, modal.layer, modal.datatype);
-            cell_.elementList[^1].setWidth(2 * modal.geometry_w);
-            if ((modal.path_start_extension == 2) && (modal.path_end_extension == 2))
-            {
+            case 2 when modal.path_end_extension == 2:
                 cell_.elementList[^1].setCap(2);
-            }
-            else if ((modal.path_start_extension == 0) && (modal.path_end_extension == 0))
-            {
+                break;
+            case 0 when modal.path_end_extension == 0:
                 cell_.elementList[^1].setCap(0);
-            }
-            else
+                break;
+            default:
             {
-                Int32 start = modal.path_start_extension_value;
-                Int32 ende = modal.path_end_extension_value;
-                if (modal.path_start_extension == 2)
+                int start = modal.path_start_extension_value;
+                int ende = modal.path_end_extension_value;
+                start = modal.path_start_extension switch
                 {
-                    start = modal.geometry_w;
-                }
-                if (modal.path_end_extension == 2)
+                    2 => modal.geometry_w,
+                    _ => start
+                };
+                ende = modal.path_end_extension switch
                 {
-                    ende = modal.geometry_w;
-                }
+                    2 => modal.geometry_w,
+                    _ => ende
+                };
                 cell_.elementList[^1].expandCaps(start, ende);
+                break;
             }
         }
+    }
 
-        void addPolygon()
+    private void addPolygon()
+    {
+        GeoLibPoint[] pa = new GeoLibPoint[modal.polygon_point_list.Count];
+        GeoLibPoint p = new(modal.geometry_x, modal.geometry_y);
+        for (int i = 0; i < modal.polygon_point_list.Count; i++)
         {
-            GeoLibPoint[] pa = new GeoLibPoint[modal.polygon_point_list.Count];
-            GeoLibPoint p = new GeoLibPoint(modal.geometry_x, modal.geometry_y);
-            for (Int32 i = 0; i < modal.polygon_point_list.Count; i++)
-            {
-                pa[i] = new GeoLibPoint(modal.polygon_point_list[i]);
-                pa[i].Offset(p.X, p.Y);
-            }
-            cell_.addPolygon(pa, modal.layer, modal.datatype);
+            pa[i] = new GeoLibPoint(modal.polygon_point_list[i]);
+            pa[i].Offset(p.X, p.Y);
         }
+        cell_.addPolygon(pa, modal.layer, modal.datatype);
+    }
 
-        void addText()
+    private void addText()
+    {
+        cell_.addText(modal.textlayer, modal.datatype, new GeoLibPoint(modal.text_x, modal.text_y), modal.text_string);
+        cell_.elementList[^1].setWidth(GCSetup.defaultTextWidth);
+        cell_.elementList[^1].setPresentation(GCSetup.defaultTextPresentation);
+    }
+
+    private void addTrapezoid()
+    {
+        GeoLibPoint[] pa = new GeoLibPoint[5];
+
+        switch (modal.trapezoid_orientation)
         {
-            cell_.addText(modal.textlayer, modal.datatype, new GeoLibPoint(modal.text_x, modal.text_y), modal.text_string);
-            cell_.elementList[^1].setWidth(GCSetup.defaultTextWidth);
-            cell_.elementList[^1].setPresentation(GCSetup.defaultTextPresentation);
-        }
-
-        void addTrapezoid()
-        {
-            GeoLibPoint[] pa = new GeoLibPoint[5];
-
-            if (modal.trapezoid_orientation) // (m & 0x80)
-            {
+            // (m & 0x80)
+            case true:
                 //  vertically
                 pa[0] = new GeoLibPoint(modal.geometry_x, modal.geometry_y + Math.Max(modal.trapezoid_delta_a, 0));
                 pa[1] = new GeoLibPoint(modal.geometry_x, modal.geometry_y + modal.geometry_h + Math.Min(modal.trapezoid_delta_b, 0));
                 pa[2] = new GeoLibPoint(modal.geometry_x + modal.geometry_w, modal.geometry_y + modal.geometry_h - Math.Max(modal.trapezoid_delta_b, 0));
                 pa[3] = new GeoLibPoint(modal.geometry_x + modal.geometry_w, modal.geometry_y - Math.Min(modal.trapezoid_delta_a, 0));
-            }
-            else
-            {
+                break;
+            default:
                 //  horizontally
                 pa[0] = new GeoLibPoint(modal.geometry_x + Math.Max(modal.trapezoid_delta_a, 0), modal.geometry_y + modal.geometry_h);
                 pa[1] = new GeoLibPoint(modal.geometry_x + modal.geometry_w + Math.Min(modal.trapezoid_delta_b, 0), modal.geometry_y + modal.geometry_h);
                 pa[2] = new GeoLibPoint(modal.geometry_x + modal.geometry_w - Math.Max(modal.trapezoid_delta_b, 0), modal.geometry_y);
                 pa[3] = new GeoLibPoint(modal.geometry_x - Math.Min(modal.trapezoid_delta_a, 0), modal.geometry_y);
-            }
-
-            pa[4] = new GeoLibPoint(pa[0]);
-
-            cell_.addPolygon(pa, modal.layer, modal.datatype);
+                break;
         }
 
-        void addCtrapezoid()
+        pa[4] = new GeoLibPoint(pa[0]);
+
+        cell_.addPolygon(pa, modal.layer, modal.datatype);
+    }
+
+    private void addCtrapezoid()
+    {
+        GeoLibPoint[] pa = new GeoLibPoint[5];
+
+        int[,] coords = modal.ctrapezoid_type switch
         {
-            GeoLibPoint[] pa = new GeoLibPoint[5];
-            Int32[,] coords = new Int32[4, 4];
-
-            switch (modal.ctrapezoid_type)
+            0 => new[,]
             {
-                case 0:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },  // x=0*w+0*h, y=0*w+0*h ...
-                                                { 0, 0, 0, 1 },
-                                                { 1, -1, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
+                {0, 0, 0, 0}, // x=0*w+0*h, y=0*w+0*h ...
+                {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}
+            },
+            1 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
+            2 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+            3 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+            4 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
+            5 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
+            6 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
+            7 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
+            8 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
+            9 => new[,] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+            10 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
+            11 => new[,] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+            12 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 1, 0}},
+            13 => new[,] {{0, 0, 1, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+            14 => new[,] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
+            15 => new[,] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
+            16 => new[,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
+            17 => new[,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
+            18 => new[,] {{0, 0, 0, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
+            19 => new[,] {{0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 1, 0}},
+            20 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {0, 2, 0, 0}, {0, 0, 0, 0}},
+            21 => new[,] {{0, 0, 0, 1}, {0, 2, 0, 1}, {0, 1, 0, 0}, {0, 0, 0, 1}},
+            22 => new[,] {{0, 0, 0, 0}, {0, 0, 2, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
+            23 => new[,] {{1, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 2, 0}, {1, 0, 0, 0}},
+            24 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+            25 => new[,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}},
+            _ => new int[4, 4]
+        };
 
-                case 1:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, -1, 0, 0 }
-                        };
-                    break;
-
-                case 2:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 1, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 3:
-                    coords = new [,] {
-                                                { 0, 1, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 4:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 1, 0, 1 },
-                                                { 1, -1, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 5:
-                    coords = new [,] {
-                                                { 0, 1, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, -1, 0, 0 }
-                        };
-                    break;
-
-                case 6:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 1, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, -1, 0, 0 }
-                        };
-                    break;
-
-                case 7:
-                    coords = new [,] {
-                                                { 0, 1, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, -1, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 8:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, -1, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 9:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, -1, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 10:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 1, 0 }
-                        };
-                    break;
-
-                case 11:
-                    coords = new [,] {
-                                                { 0, 0, 1, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 12:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, -1, 1 },
-                                                { 1, 0, 1, 0 }
-                        };
-                    break;
-
-                case 13:
-                    coords = new [,] {
-                                                { 0, 0, 1, 0 },
-                                                { 0, 0, -1, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 14:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, -1, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 1, 0 }
-                        };
-                    break;
-
-                case 15:
-                    coords = new [,] {
-                                                { 0, 0, 1, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, -1, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 16:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 1, 0 },
-                                                { 1, 0, 0, 0 },
-                                                { 0, 0, 0, 0 }
-                        };
-                    break;
-
-                case 17:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 1, 0 },
-                                                { 1, 0, 1, 0 },
-                                                { 0, 0, 0, 0 }
-                        };
-                    break;
-
-                case 18:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 1, 0, 1, 0 },
-                                                { 1, 0, 0, 0 },
-                                                { 0, 0, 0, 0 }
-                        };
-                    break;
-
-                case 19:
-                    coords = new [,] {
-                                                { 0, 0, 1, 0 },
-                                                { 1, 0, 1, 0 },
-                                                { 1, 0, 0, 0 },
-                                                { 0, 0, 1, 0 }
-                        };
-                    break;
-
-                case 20:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 1, 0, 1 },
-                                                { 0, 2, 0, 0 },
-                                                { 0, 0, 0, 0 }
-                        };
-                    break;
-
-                case 21:
-                    coords = new [,] {
-                                                { 0, 0, 0, 1 },
-                                                { 0, 2, 0, 1 },
-                                                { 0, 1, 0, 0 },
-                                                { 0, 0, 0, 1 }
-                        };
-                    break;
-
-                case 22:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 2, 0 },
-                                                { 1, 0, 1, 0 },
-                                                { 0, 0, 0, 0 }
-                        };
-                    break;
-
-                case 23:
-                    coords = new [,] {
-                                                { 1, 0, 0, 0 },
-                                                { 0, 0, 1, 0 },
-                                                { 1, 0, 2, 0 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 24:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 0, 1 },
-                                                { 1, 0, 0, 1 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
-                case 25:
-                    coords = new [,] {
-                                                { 0, 0, 0, 0 },
-                                                { 0, 0, 1, 0 },
-                                                { 1, 0, 1, 0 },
-                                                { 1, 0, 0, 0 }
-                        };
-                    break;
-
+        for (int pt = 0; pt < 4; pt++)
+        {
+            int x = 0;
+            if (coords[pt, 0] != 0)
+            {
+                x += coords[pt, 0] * modal.geometry_w;
             }
 
-            for (Int32 pt = 0; pt < 4; pt++)
+            if (coords[pt, 1] != 0)
             {
-                Int32 x = 0;
-                if (coords[pt, 0] != 0)
-                {
-                    x += coords[pt, 0] * modal.geometry_w;
-                }
-
-                if (coords[pt, 1] != 0)
-                {
-                    x += coords[pt, 1] * modal.geometry_h;
-                }
-
-                Int32 y = 0;
-                if (coords[pt, 2] != 0)
-                {
-                    y += coords[pt, 2] * modal.geometry_w;
-                }
-
-                if (coords[pt, 3] != 0)
-                {
-                    y += coords[pt, 3] * modal.geometry_h;
-                }
-
-                pa[pt] = new GeoLibPoint(modal.geometry_x + x, modal.geometry_y + y);
-
-                if (x > modal.geometry_w)
-                {
-                    modal.geometry_w = x;
-                }
-                if (y > modal.geometry_h)
-                {
-                    modal.geometry_h = y;
-                }
+                x += coords[pt, 1] * modal.geometry_h;
             }
 
-            pa[^1] = new GeoLibPoint(pa[0]);
+            int y = 0;
+            if (coords[pt, 2] != 0)
+            {
+                y += coords[pt, 2] * modal.geometry_w;
+            }
 
-            cell_.addPolygon(pa, modal.layer, modal.datatype);
+            if (coords[pt, 3] != 0)
+            {
+                y += coords[pt, 3] * modal.geometry_h;
+            }
+
+            pa[pt] = new GeoLibPoint(modal.geometry_x + x, modal.geometry_y + y);
+
+            if (x > modal.geometry_w)
+            {
+                modal.geometry_w = x;
+            }
+            if (y > modal.geometry_h)
+            {
+                modal.geometry_h = y;
+            }
         }
 
-        void processRepetition(elementType e)
+        pa[^1] = new GeoLibPoint(pa[0]);
+
+        cell_.addPolygon(pa, modal.layer, modal.datatype);
+    }
+
+    private void processRepetition(elementType e)
+    {
+        switch (modal.repetition)
         {
-            if ((modal.repetition <= 3) && (e == elementType.cellrefElement))
-            {
+            case <= 3 when e == elementType.cellrefElement:
                 switch (modal.repetition)
                 {
                     case 1:
+                    {
+                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
+                            new GeoLibPoint(modal.x_space + modal.placement_x, modal.y_space + modal.placement_y), modal.x_dimension, modal.y_dimension);
+                        cell_.elementList[^1].setName(modal.placement_cell);
+                        cell_.elementList[^1].rotate(modal.angle);
+                        cell_.elementList[^1].scale(modal.mag);
+                        switch (modal.mirror_x)
                         {
-                            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
-                                   new GeoLibPoint(modal.x_space + modal.placement_x, modal.y_space + modal.placement_y), modal.x_dimension, modal.y_dimension);
-                            cell_.elementList[^1].setName(modal.placement_cell);
-                            cell_.elementList[^1].rotate(modal.angle);
-                            cell_.elementList[^1].scale(modal.mag);
-                            if (modal.mirror_x)
-                            {
+                            case true:
                                 cell_.elementList[^1].setMirrorx();
-                            }
+                                break;
                         }
+                    }
                         break;
                     case 2:
+                    {
+                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
+                            new GeoLibPoint(modal.x_space + modal.placement_x, modal.placement_y), modal.x_dimension, 1);
+                        cell_.elementList[^1].setName(modal.placement_cell);
+                        cell_.elementList[^1].rotate(modal.angle);
+                        cell_.elementList[^1].scale(modal.mag);
+                        switch (modal.mirror_x)
                         {
-                            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
-                                   new GeoLibPoint(modal.x_space + modal.placement_x, modal.placement_y), modal.x_dimension, 1);
-                            cell_.elementList[^1].setName(modal.placement_cell);
-                            cell_.elementList[^1].rotate(modal.angle);
-                            cell_.elementList[^1].scale(modal.mag);
-                            if (modal.mirror_x)
-                            {
+                            case true:
                                 cell_.elementList[^1].setMirrorx();
-                            }
+                                break;
                         }
+                    }
                         break;
                     case 3:
+                    {
+                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
+                            new GeoLibPoint(modal.placement_x, modal.y_space + modal.placement_y), 1, modal.y_dimension);
+                        cell_.elementList[^1].setName(modal.placement_cell);
+                        cell_.elementList[^1].rotate(modal.angle);
+                        cell_.elementList[^1].scale(modal.mag);
+                        switch (modal.mirror_x)
                         {
-                            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
-                                   new GeoLibPoint(modal.placement_x, modal.y_space + modal.placement_y), 1, modal.y_dimension);
-                            cell_.elementList[^1].setName(modal.placement_cell);
-                            cell_.elementList[^1].rotate(modal.angle);
-                            cell_.elementList[^1].scale(modal.mag);
-                            if (modal.mirror_x)
-                            {
+                            case true:
                                 cell_.elementList[^1].setMirrorx();
-                            }
+                                break;
                         }
+                    }
                         break;
                 }
-            }
-            else
-            {
+
+                break;
+            default:
                 switch (modal.repetition)
                 {
                     case 1:
                         for (int x = 0; x < modal.x_dimension; x++)
-                            for (int y = 0; y < modal.y_dimension; y++)
-                            {
-                                addElement(e, new GeoLibPoint(x * modal.x_space, y * modal.y_space));
-                            }
+                        for (int y = 0; y < modal.y_dimension; y++)
+                        {
+                            addElement(e, new GeoLibPoint(x * modal.x_space, y * modal.y_space));
+                        }
                         break;
                     case 2:
                         for (int x = 0; x < modal.x_dimension; x++)
@@ -552,7 +363,8 @@ namespace oasis
                         }
                         break;
                 }
-            }
+
+                break;
         }
     }
 }

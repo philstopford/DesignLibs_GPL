@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.IO
+namespace Burkardt.IO;
+
+public static class XML
 {
-    public static class XML
-    {
-        public static void xml_mesh1d_write(string xml_filename, int m, int node_num,
+    public static void xml_mesh1d_write(string xml_filename, int m, int node_num,
             double[] node_x, int element_order, int element_num, int[] element_node )
         //****************************************************************************80
         //
@@ -52,48 +52,50 @@ namespace Burkardt.IO
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            int element;
-            int node;
-            //
-            //  Force 0-based indexing.
-            //
-            MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+    {
+        int element;
+        int node;
+        //
+        //  Force 0-based indexing.
+        //
+        MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
-            List<string> lines = new List<string>();
+        List<string> lines = new()
+        {
             //
             //  Write the data.
             //
-            lines.Add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            lines.Add("");
-            lines.Add("<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">");
-            lines.Add("  <mesh celltype=\"interval\" dim=\"" + m + "\">");
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "",
+            "<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">",
+            "  <mesh celltype=\"interval\" dim=\"" + m + "\">",
+            "    <vertices size=\"" + node_num + "\">"
+        };
 
-            lines.Add("    <vertices size=\"" + node_num + "\">");
-            for (node = 0; node < node_num; node++)
-            {
-                lines.Add("      <vertex index =\"" + node
-                    + "\" x =\"" + node_x[0 + node * m] + "\"/>");
-            }
-
-            lines.Add("    </vertices>");
-
-            lines.Add("    <cells size=\"" + element_num + "\">");
-            for (element = 0; element < element_num; element++)
-            {
-                lines.Add("      <interval index =\"" + element
-                    + "\" v0 =\"" + element_node[0 + element * element_order]
-                    + "\" v1 =\"" + element_node[1 + element * element_order] + "\"/>");
-            }
-
-            lines.Add("    </cells>");
-            lines.Add("  </mesh>");
-            lines.Add("</dolfin>");
-
-            File.WriteAllLines(xml_filename, lines);
+        for (node = 0; node < node_num; node++)
+        {
+            lines.Add("      <vertex index =\"" + node
+                                                + "\" x =\"" + node_x[0 + node * m] + "\"/>");
         }
 
-        public static void xml_mesh2d_write(string xml_filename, int m, int node_num,
+        lines.Add("    </vertices>");
+
+        lines.Add("    <cells size=\"" + element_num + "\">");
+        for (element = 0; element < element_num; element++)
+        {
+            lines.Add("      <interval index =\"" + element
+                                                  + "\" v0 =\"" + element_node[0 + element * element_order]
+                                                  + "\" v1 =\"" + element_node[1 + element * element_order] + "\"/>");
+        }
+
+        lines.Add("    </cells>");
+        lines.Add("  </mesh>");
+        lines.Add("</dolfin>");
+
+        File.WriteAllLines(xml_filename, lines);
+    }
+
+    public static void xml_mesh2d_write(string xml_filename, int m, int node_num,
             double[] node_x, int element_order, int element_num, int[] element_node )
         //****************************************************************************80
         //
@@ -140,52 +142,53 @@ namespace Burkardt.IO
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            int element;
-            int node;
-            //
-            //  Force 0-based indexing.
-            //
-            MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+    {
+        int element;
+        int node;
+        //
+        //  Force 0-based indexing.
+        //
+        MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
-            List<string> lines = new List<string>();
-            
+        List<string> lines = new()
+        {
             //
             //  Write the data.
             //
-            lines.Add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            lines.Add("");
-            lines.Add("<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">");
-            lines.Add("  <mesh celltype=\"triangle\" dim=\"" + m + "\">");
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "",
+            "<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">",
+            "  <mesh celltype=\"triangle\" dim=\"" + m + "\">",
+            "    <vertices size=\"" + node_num + "\">"
+        };
 
-            lines.Add("    <vertices size=\"" + node_num + "\">");
-            for (node = 0; node < node_num; node++)
-            {
-                lines.Add("      <vertex index =\"" + node
-                    + "\" x =\"" + node_x[0 + node * m]
-                    + "\" y =\"" + node_x[1 + node * m]
-                    + "\" z =\"" + 0 + "\"/>");
-            }
-
-            lines.Add("    </vertices>");
-
-            lines.Add("    <cells size=\"" + element_num + "\">");
-            for (element = 0; element < element_num; element++)
-            {
-                lines.Add("      <triangle index =\"" + element
-                    + "\" v0 =\"" + element_node[0 + element * element_order]
-                    + "\" v1 =\"" + element_node[1 + element * element_order]
-                    + "\" v2 =\"" + element_node[2 + element * element_order] + "\"/>");
-            }
-
-            lines.Add("    </cells>");
-            lines.Add("  </mesh>");
-            lines.Add("</dolfin>");
-
-            File.WriteAllLines(xml_filename, lines);
+        for (node = 0; node < node_num; node++)
+        {
+            lines.Add("      <vertex index =\"" + node
+                                                + "\" x =\"" + node_x[0 + node * m]
+                                                + "\" y =\"" + node_x[1 + node * m]
+                                                + "\" z =\"" + 0 + "\"/>");
         }
 
-        public static void xml_mesh3d_write(string xml_filename, int m, int node_num,
+        lines.Add("    </vertices>");
+
+        lines.Add("    <cells size=\"" + element_num + "\">");
+        for (element = 0; element < element_num; element++)
+        {
+            lines.Add("      <triangle index =\"" + element
+                                                  + "\" v0 =\"" + element_node[0 + element * element_order]
+                                                  + "\" v1 =\"" + element_node[1 + element * element_order]
+                                                  + "\" v2 =\"" + element_node[2 + element * element_order] + "\"/>");
+        }
+
+        lines.Add("    </cells>");
+        lines.Add("  </mesh>");
+        lines.Add("</dolfin>");
+
+        File.WriteAllLines(xml_filename, lines);
+    }
+
+    public static void xml_mesh3d_write(string xml_filename, int m, int node_num,
             double[] node_x, int element_order, int element_num, int[] element_node )
         //****************************************************************************80
         //
@@ -232,54 +235,55 @@ namespace Burkardt.IO
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            int element;
-            int node;
-            //
-            //  Force 0-based indexing.
-            //
-            MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+    {
+        int element;
+        int node;
+        //
+        //  Force 0-based indexing.
+        //
+        MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
-            List<string> lines = new List<string>();
-            
+        List<string> lines = new()
+        {
             //
             //  Write the data.
             //
-            lines.Add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            lines.Add("");
-            lines.Add("<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">");
-            lines.Add("  <mesh celltype=\"tetrahedron\" dim=\"" + m + "\">");
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "",
+            "<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">",
+            "  <mesh celltype=\"tetrahedron\" dim=\"" + m + "\">",
+            "    <vertices size=\"" + node_num + "\">"
+        };
 
-            lines.Add("    <vertices size=\"" + node_num + "\">");
-            for (node = 0; node < node_num; node++)
-            {
-                lines.Add("      <vertex index =\"" + node
-                    + "\" x =\"" + node_x[0 + node * m]
-                    + "\" y =\"" + node_x[1 + node * m]
-                    + "\" z =\"" + node_x[2 + node * m] + "\"/>");
-            }
-
-            lines.Add("    </vertices>");
-
-            lines.Add("    <cells size=\"" + element_num + "\">");
-            for (element = 0; element < element_num; element++)
-            {
-                lines.Add("      <tetrahedron index =\"" + element
-                    + "\" v0 =\"" + element_node[0 + element * element_order]
-                    + "\" v1 =\"" + element_node[1 + element * element_order]
-                    + "\" v2 =\"" + element_node[1 + element * element_order]
-                    + "\" v3 =\"" + element_node[2 + element * element_order] + "\"/>");
-            }
-
-            lines.Add("    </cells>");
-            lines.Add("  </mesh>");
-            lines.Add("</dolfin>");
-
-            File.WriteAllLines(xml_filename, lines);
+        for (node = 0; node < node_num; node++)
+        {
+            lines.Add("      <vertex index =\"" + node
+                                                + "\" x =\"" + node_x[0 + node * m]
+                                                + "\" y =\"" + node_x[1 + node * m]
+                                                + "\" z =\"" + node_x[2 + node * m] + "\"/>");
         }
 
-        public static void xml_write ( string xml_filename, int dim_num, int node_num, 
-        double[] node_xyz, int element_order, int element_num, int[] element_node )
+        lines.Add("    </vertices>");
+
+        lines.Add("    <cells size=\"" + element_num + "\">");
+        for (element = 0; element < element_num; element++)
+        {
+            lines.Add("      <tetrahedron index =\"" + element
+                                                     + "\" v0 =\"" + element_node[0 + element * element_order]
+                                                     + "\" v1 =\"" + element_node[1 + element * element_order]
+                                                     + "\" v2 =\"" + element_node[1 + element * element_order]
+                                                     + "\" v3 =\"" + element_node[2 + element * element_order] + "\"/>");
+        }
+
+        lines.Add("    </cells>");
+        lines.Add("  </mesh>");
+        lines.Add("</dolfin>");
+
+        File.WriteAllLines(xml_filename, lines);
+    }
+
+    public static void xml_write ( string xml_filename, int dim_num, int node_num, 
+            double[] node_xyz, int element_order, int element_num, int[] element_node )
 
         //****************************************************************************80
         //
@@ -326,43 +330,42 @@ namespace Burkardt.IO
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
+    {
+        int element;
+        List<string> xml = new();
+        int node;
+        //  Write the data.
+        //
+        xml.Add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        xml.Add("");
+        xml.Add("<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">");
+        xml.Add("  <mesh celltype=\"tetrahedron\" dim=\"3\">");
+
+        xml.Add("    <vertices size=\"" + node_num + "\">");
+        for (node = 0; node < node_num; node++)
         {
-            int element;
-            List<string> xml = new List<string>();
-            int node;
-            //  Write the data.
-            //
-            xml.Add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-            xml.Add("");
-            xml.Add("<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">");
-            xml.Add("  <mesh celltype=\"tetrahedron\" dim=\"3\">");
-
-            xml.Add("    <vertices size=\"" + node_num + "\">");
-            for (node = 0; node < node_num; node++)
-            {
-                xml.Add("      <vertex index =\"" + node
-                    + "\" x =\"" + node_xyz[0 + node * 3]
-                    + "\" y =\"" + node_xyz[1 + node * 3]
-                    + "\" z =\"" + node_xyz[2 + node * 3] + "\"/>");
-            }
-
-            xml.Add("    </vertices>");
-
-            xml.Add("    <cells size=\"" + element_num + "\">");
-            for (element = 0; element < element_num; element++)
-            {
-                xml.Add("      <tetrahedron index =\"" + element
-                    + "\" v0 =\"" + element_node[0 + element * 4]
-                    + "\" v1 =\"" + element_node[1 + element * 4]
-                    + "\" v2 =\"" + element_node[2 + element * 4]
-                    + "\" v3 =\"" + element_node[3 + element * 4] + "\"/>");
-            }
-
-            xml.Add("    </cells>");
-            xml.Add("  </mesh>");
-            xml.Add("</dolfin>");
-
-            File.WriteAllLines(xml_filename, xml);
+            xml.Add("      <vertex index =\"" + node
+                                              + "\" x =\"" + node_xyz[0 + node * 3]
+                                              + "\" y =\"" + node_xyz[1 + node * 3]
+                                              + "\" z =\"" + node_xyz[2 + node * 3] + "\"/>");
         }
+
+        xml.Add("    </vertices>");
+
+        xml.Add("    <cells size=\"" + element_num + "\">");
+        for (element = 0; element < element_num; element++)
+        {
+            xml.Add("      <tetrahedron index =\"" + element
+                                                   + "\" v0 =\"" + element_node[0 + element * 4]
+                                                   + "\" v1 =\"" + element_node[1 + element * 4]
+                                                   + "\" v2 =\"" + element_node[2 + element * 4]
+                                                   + "\" v3 =\"" + element_node[3 + element * 4] + "\"/>");
+        }
+
+        xml.Add("    </cells>");
+        xml.Add("  </mesh>");
+        xml.Add("</dolfin>");
+
+        File.WriteAllLines(xml_filename, xml);
     }
 }

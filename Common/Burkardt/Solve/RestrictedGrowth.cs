@@ -1,8 +1,8 @@
-﻿namespace Burkardt.SolveNS
+﻿namespace Burkardt.SolveNS;
+
+public static class RestrictedGrowth
 {
-    public static class RestrictedGrowth
-    {
-        public static void regro_next(ref bool done, int n, ref int[] v, ref int[] vmax )
+    public static void regro_next(ref bool done, int n, ref int[] v, ref int[] vmax )
 
         //****************************************************************************80
         //
@@ -73,13 +73,15 @@
         //    VMAX(I) records the largest value that component V(I) could take,
         //    given the values of components 1 through I-1.
         //
+    {
+        int i;
+        int j;
+        switch (done)
         {
-            int i;
-            int j;
             //
             //  First call:
             //
-            if (done)
+            case true:
             {
                 for (i = 0; i < n; i++)
                 {
@@ -93,20 +95,20 @@
                 }
 
                 done = false;
+                break;
             }
             //
-            //  Later calls.
-            //
-            else
+            default:
             {
                 j = n;
 
                 for (;;)
                 {
-                    if (j == 1)
+                    switch (j)
                     {
-                        done = true;
-                        return;
+                        case 1:
+                            done = true;
+                            return;
                     }
 
                     if (v[j - 1] != vmax[j - 1])
@@ -114,11 +116,11 @@
                         break;
                     }
 
-                    j = j - 1;
+                    j -= 1;
 
                 }
 
-                v[j - 1] = v[j - 1] + 1;
+                v[j - 1] += 1;
 
                 for (i = j + 1; i <= n; i++)
                 {
@@ -133,8 +135,10 @@
                         vmax[i - 1] = vmax[j - 1];
                     }
                 }
-            }
 
+                break;
+            }
         }
+
     }
 }

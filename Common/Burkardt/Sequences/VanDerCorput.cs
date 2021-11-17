@@ -1,752 +1,1010 @@
 ﻿using System;
 
-namespace Burkardt.Sequence
+namespace Burkardt.Sequence;
+
+public static class VanDerCorput
 {
-    public static class VanDerCorput
-    {
-        public static int van_der_corput_BASE = 2;
-        public static int van_der_corput_SEED = 1;
+    public static int van_der_corput_BASE = 2;
+    public static int van_der_corput_SEED = 1;
         
-        public static double[] circle_unit_van_der_corput ( )
+    public static double[] circle_unit_van_der_corput ( )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CIRCLE_UNIT_VAN_DER_CORPUT picks a van der Corput point on the unit circle.
-            //
-            //  Discussion:
-            //
-            //    This routine computes the "next" van der Corput number U, converts it
-            //    to an angle between 0 and 2 PI, and determines the corresponding
-            //    X and Y coordinates on the circle.
-            //
-            //    You can get or set the van der Corput seed, which determines the next
-            //    value, by calling VAN_DER_CORPUT_SEED_GET or VAN_DER_CORPUT_SEED_SET.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 March 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double CIRCLE_UNIT_VAN_DER_CORPUT[2], the next van der Corput
-            //    point on the circle.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CIRCLE_UNIT_VAN_DER_CORPUT picks a van der Corput point on the unit circle.
+        //
+        //  Discussion:
+        //
+        //    This routine computes the "next" van der Corput number U, converts it
+        //    to an angle between 0 and 2 PI, and determines the corresponding
+        //    X and Y coordinates on the circle.
+        //
+        //    You can get or set the van der Corput seed, which determines the next
+        //    value, by calling VAN_DER_CORPUT_SEED_GET or VAN_DER_CORPUT_SEED_SET.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 March 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double CIRCLE_UNIT_VAN_DER_CORPUT[2], the next van der Corput
+        //    point on the circle.
+        //
+    {
+        double angle;
+        double u;
+        double[] x;
+
+        u = van_der_corput ( );
+
+        angle = 2.0 * Math.PI * u;
+
+        x = new double[2];
+
+        x[0] = Math.Cos ( angle );
+        x[1] = Math.Sin ( angle );
+
+        return x;
+    }
+    public static double i4_to_van_der_corput(int seed, int base_)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_TO_VAN_DER_CORPUT computes an element of a van der Corput sequence.
+        //
+        //  Discussion:
+        //
+        //    The van der Corput sequence is often used to generate a "subrandom"
+        //    sequence of points which have a better covering property
+        //    than pseudorandom points.
+        //
+        //    The van der Corput sequence generates a sequence of points in [0,1]
+        //    which (theoretically) never repeats.  Except for SEED = 0, the
+        //    elements of the van der Corput sequence are strictly between 0 and 1.
+        //
+        //    The van der Corput sequence writes an integer in a given base B,
+        //    and then its digits are "reflected" about the decimal point.
+        //    This maps the numbers from 1 to N into a set of numbers in [0,1],
+        //    which are especially nicely distributed if N is one less
+        //    than a power of the base.
+        //
+        //    Hammersley suggested generating a set of N nicely distributed
+        //    points in two dimensions by setting the first component of the
+        //    Ith point to I/N, and the second to the van der Corput 
+        //    value of I in base 2.  
+        //
+        //    Halton suggested that in many cases, you might not know the number 
+        //    of points you were generating, so Hammersley's formulation was
+        //    not ideal.  Instead, he suggested that to generated a nicely
+        //    distributed sequence of points in M dimensions, you simply
+        //    choose the first M primes, P(1:M), and then for the J-th component of
+        //    the I-th point in the sequence, you compute the van der Corput
+        //    value of I in base P(J).
+        //
+        //    Thus, to generate a Halton sequence in a 2 dimensional space,
+        //    it is typical practice to generate a pair of van der Corput sequences,
+        //    the first with prime base 2, the second with prime base 3.
+        //    Similarly, by using the first K primes, a suitable sequence
+        //    in K-dimensional space can be generated.
+        //
+        //    The generation is quite simple.  Given an integer SEED, the expansion
+        //    of SEED in base BASE is generated.  Then, essentially, the result R
+        //    is generated by writing a decimal point followed by the digits of
+        //    the expansion of SEED, in reverse order.  This decimal value is actually
+        //    still in base BASE, so it must be properly interpreted to generate
+        //    a usable value.
+        //
+        //  Example:
+        //
+        //    BASE = 2
+        //
+        //    SEED     SEED      van der Corput
+        //    decimal  binary    binary   decimal
+        //    -------  ------    ------   -------
+        //        0  =     0  =>  .0     = 0.0
+        //        1  =     1  =>  .1     = 0.5
+        //        2  =    10  =>  .01    = 0.25
+        //        3  =    11  =>  .11    = 0.75
+        //        4  =   100  =>  .001   = 0.125
+        //        5  =   101  =>  .101   = 0.625
+        //        6  =   110  =>  .011   = 0.375
+        //        7  =   111  =>  .111   = 0.875
+        //        8  =  1000  =>  .0001  = 0.0625
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    25 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    John Halton,
+        //    On the efficiency of certain quasi-random sequences of points
+        //    in evaluating multi-dimensional integrals,
+        //    Numerische Mathematik,
+        //    Volume 2, 1960, pages 84-90.
+        // 
+        //    John Hammersley,
+        //    Monte Carlo methods for solving multivariable problems,
+        //    Proceedings of the New York Academy of Science,
+        //    Volume 86, 1960, pages 844-874.
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int SEED, the index of the desired element.
+        //    SEED should be nonnegative.
+        //    SEED = 0 is allowed, and returns R = 0.
+        //
+        //    Input, int BASE, the van der Corput base, which is usually 
+        //    a prime number.  BASE must be greater than 1.
+        //
+        //    Output, double VAN_DER_CORPUT, the SEED-th element of the van 
+        //    der Corput sequence for base BASE.
+        //
+    {
+        double base_inv;
+        int digit;
+        double r;
+
+        switch (base_)
         {
-            double angle;
-            double u;
-            double[] x;
-
-            u = van_der_corput ( );
-
-            angle = 2.0 * Math.PI * u;
-
-            x = new double[2];
-
-            x[0] = Math.Cos ( angle );
-            x[1] = Math.Sin ( angle );
-
-            return x;
-        }
-        public static double i4_to_van_der_corput(int seed, int base_)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I4_TO_VAN_DER_CORPUT computes an element of a van der Corput sequence.
-            //
-            //  Discussion:
-            //
-            //    The van der Corput sequence is often used to generate a "subrandom"
-            //    sequence of points which have a better covering property
-            //    than pseudorandom points.
-            //
-            //    The van der Corput sequence generates a sequence of points in [0,1]
-            //    which (theoretically) never repeats.  Except for SEED = 0, the
-            //    elements of the van der Corput sequence are strictly between 0 and 1.
-            //
-            //    The van der Corput sequence writes an integer in a given base B,
-            //    and then its digits are "reflected" about the decimal point.
-            //    This maps the numbers from 1 to N into a set of numbers in [0,1],
-            //    which are especially nicely distributed if N is one less
-            //    than a power of the base.
-            //
-            //    Hammersley suggested generating a set of N nicely distributed
-            //    points in two dimensions by setting the first component of the
-            //    Ith point to I/N, and the second to the van der Corput 
-            //    value of I in base 2.  
-            //
-            //    Halton suggested that in many cases, you might not know the number 
-            //    of points you were generating, so Hammersley's formulation was
-            //    not ideal.  Instead, he suggested that to generated a nicely
-            //    distributed sequence of points in M dimensions, you simply
-            //    choose the first M primes, P(1:M), and then for the J-th component of
-            //    the I-th point in the sequence, you compute the van der Corput
-            //    value of I in base P(J).
-            //
-            //    Thus, to generate a Halton sequence in a 2 dimensional space,
-            //    it is typical practice to generate a pair of van der Corput sequences,
-            //    the first with prime base 2, the second with prime base 3.
-            //    Similarly, by using the first K primes, a suitable sequence
-            //    in K-dimensional space can be generated.
-            //
-            //    The generation is quite simple.  Given an integer SEED, the expansion
-            //    of SEED in base BASE is generated.  Then, essentially, the result R
-            //    is generated by writing a decimal point followed by the digits of
-            //    the expansion of SEED, in reverse order.  This decimal value is actually
-            //    still in base BASE, so it must be properly interpreted to generate
-            //    a usable value.
-            //
-            //  Example:
-            //
-            //    BASE = 2
-            //
-            //    SEED     SEED      van der Corput
-            //    decimal  binary    binary   decimal
-            //    -------  ------    ------   -------
-            //        0  =     0  =>  .0     = 0.0
-            //        1  =     1  =>  .1     = 0.5
-            //        2  =    10  =>  .01    = 0.25
-            //        3  =    11  =>  .11    = 0.75
-            //        4  =   100  =>  .001   = 0.125
-            //        5  =   101  =>  .101   = 0.625
-            //        6  =   110  =>  .011   = 0.375
-            //        7  =   111  =>  .111   = 0.875
-            //        8  =  1000  =>  .0001  = 0.0625
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    25 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    John Halton,
-            //    On the efficiency of certain quasi-random sequences of points
-            //    in evaluating multi-dimensional integrals,
-            //    Numerische Mathematik,
-            //    Volume 2, 1960, pages 84-90.
-            // 
-            //    John Hammersley,
-            //    Monte Carlo methods for solving multivariable problems,
-            //    Proceedings of the New York Academy of Science,
-            //    Volume 86, 1960, pages 844-874.
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int SEED, the index of the desired element.
-            //    SEED should be nonnegative.
-            //    SEED = 0 is allowed, and returns R = 0.
-            //
-            //    Input, int BASE, the van der Corput base, which is usually 
-            //    a prime number.  BASE must be greater than 1.
-            //
-            //    Output, double VAN_DER_CORPUT, the SEED-th element of the van 
-            //    der Corput sequence for base BASE.
-            //
-        {
-            double base_inv;
-            int digit;
-            double r;
-
-            if (base_ <= 1)
-            {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("I4_TO_VAN_DER_CORPUT - Fatal error!");
                 Console.WriteLine("  The input base BASE is <= 1!");
                 Console.WriteLine("  BASE = " + base_ + "");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (seed < 0)
-            {
+        switch (seed)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("I4_TO_VAN_DER_CORPUT - Fatal error!");
                 Console.WriteLine("  SEED < 0."+
-                "  SEED = " + seed + "");
-                return (1);
-            }
-
-            r = 0.0;
-
-            base_inv = 1.0 / ((double)base_);
-
-            while (seed != 0)
-            {
-                digit = seed % base_;
-                r = r + ((double)digit) * base_inv;
-                base_inv = base_inv / ((double)base_);
-                seed = seed / base_;
-            }
-
-            return r;
+                                  "  SEED = " + seed + "");
+                return 1;
         }
 
-        public static void i4_to_van_der_corput_sequence(int seed, int base_, int n, ref double[] r)
+        r = 0.0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I4_TO_VAN_DER_CORPUT_SEQUENCE: next N elements of a van der Corput sequence.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    27 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    John Halton,
-            //    On the efficiency of certain quasi-random sequences of points
-            //    in evaluating multi-dimensional integrals,
-            //    Numerische Mathematik,
-            //    Volume 2, pages 84-90, 1960.
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int SEED, the index of the first desired element.
-            //    SEED should be nonnegative.
-            //    SEED = 0 is allowed, and returns R = 0.
-            //
-            //    Input, int BASE, the van der Corput base, which is typically a
-            //    prime number.
-            //
-            //    Input, int N, the number of elements desired.
-            //
-            //    Output, double R[N], the SEED-th through
-            //    (SEED+N-1)-th elements of the van der Corput sequence for
-            //    the given base.
-            //
+        base_inv = 1.0 / base_;
+
+        while (seed != 0)
         {
-            double base_inv;
-            int digit;
-            int i;
-            int seed2;
+            digit = seed % base_;
+            r += digit * base_inv;
+            base_inv /= base_;
+            seed /= base_;
+        }
 
-            if (base_ <= 1)
-            {
+        return r;
+    }
+
+    public static void i4_to_van_der_corput_sequence(int seed, int base_, int n, ref double[] r)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_TO_VAN_DER_CORPUT_SEQUENCE: next N elements of a van der Corput sequence.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    27 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    John Halton,
+        //    On the efficiency of certain quasi-random sequences of points
+        //    in evaluating multi-dimensional integrals,
+        //    Numerische Mathematik,
+        //    Volume 2, pages 84-90, 1960.
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int SEED, the index of the first desired element.
+        //    SEED should be nonnegative.
+        //    SEED = 0 is allowed, and returns R = 0.
+        //
+        //    Input, int BASE, the van der Corput base, which is typically a
+        //    prime number.
+        //
+        //    Input, int N, the number of elements desired.
+        //
+        //    Output, double R[N], the SEED-th through
+        //    (SEED+N-1)-th elements of the van der Corput sequence for
+        //    the given base.
+        //
+    {
+        double base_inv;
+        int digit;
+        int i;
+        int seed2;
+
+        switch (base_)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("I4_TO_VAN_DER_CORPUT_SEQUENCE - Fatal error!");
                 Console.WriteLine("  The input base BASE is <= 1!");
                 Console.WriteLine("  BASE = " + base_ + "");
                 return;
-            }
+        }
 
-            if (seed < 0)
-            {
+        switch (seed)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("I4_TO_VAN_DER_CORPUT_SEQUENCE - Fatal error!");
                 Console.WriteLine("  The input base SEED is < 0!");
                 Console.WriteLine("  SEED = " + seed + "");
                 return;
-            }
+        }
 
-            for (i = 0; i < n; i++)
+        for (i = 0; i < n; i++)
+        {
+            r[i] = 0.0;
+            seed2 = seed + i;
+            base_inv = 1.0E+00 / base_;
+
+            while (seed2 != 0)
             {
-                r[i] = 0.0;
-                seed2 = seed + i;
-                base_inv = 1.0E+00 / ((double) base_);
-
-                while (seed2 != 0)
-                {
-                    digit = seed2 % base_;
-                    r[i] = r[i] + ((double) digit) * base_inv;
-                    base_inv = base_inv / ((double) base_);
-                    seed2 = seed2 / base_;
-                }
+                digit = seed2 % base_;
+                r[i] += digit * base_inv;
+                base_inv /= base_;
+                seed2 /= base_;
             }
-
         }
 
-        public static double van_der_corput()
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VAN_DER_CORPUT computes the next element in the van der Corput sequence.
-            //
-            //  Discussion:
-            //
-            //    The internal variables van_der_corput_SEED and van_der_corput_BASE
-            //    control the van der Corput sequence.
-            //
-            //    The value of van_der_corput_SEED is incremented by one on each call.
-            //
-            //  Modified:
-            //
-            //    25 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Output, double VAN_DER_CORPUT, the next element of the van der Corput sequence.
-            //
+    public static double van_der_corput()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VAN_DER_CORPUT computes the next element in the van der Corput sequence.
+        //
+        //  Discussion:
+        //
+        //    The internal variables van_der_corput_SEED and van_der_corput_BASE
+        //    control the van der Corput sequence.
+        //
+        //    The value of van_der_corput_SEED is incremented by one on each call.
+        //
+        //  Modified:
+        //
+        //    25 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Output, double VAN_DER_CORPUT, the next element of the van der Corput sequence.
+        //
+    {
+        double r;
+
+        r = i4_to_van_der_corput(van_der_corput_SEED, van_der_corput_BASE);
+
+        van_der_corput_SEED += 1;
+
+        return r;
+    }
+
+    public static int van_der_corput_base_get()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VAN_DER_CORPUT_BASE_GET gets the base for a van der Corput sequence.
+        //
+        //  Modified:
+        //
+        //    28 August 2002
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Output, int VAN_DER_CORPUT_BASE_GET, the base for the
+        //    van der Corput sequence.
+        //
+    {
+        return van_der_corput_BASE;
+    }
+
+    public static void van_der_corput_base_set(int base_)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VAN_DER_CORPUT_BASE_SET sets the base for a van der Corput sequence.
+        //
+        //
+        //  Modified:
+        //
+        //    28 August 2002
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int BASE, the base for the van der Corput sequence.
+        //    BASE must be greater than 1.
+        //
+    {
+        switch (base_)
         {
-            double r;
-
-            r = i4_to_van_der_corput(van_der_corput_SEED, van_der_corput_BASE);
-
-            van_der_corput_SEED = van_der_corput_SEED + 1;
-
-            return r;
-        }
-
-        public static int van_der_corput_base_get()
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VAN_DER_CORPUT_BASE_GET gets the base for a van der Corput sequence.
-            //
-            //  Modified:
-            //
-            //    28 August 2002
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Output, int VAN_DER_CORPUT_BASE_GET, the base for the
-            //    van der Corput sequence.
-            //
-        {
-            return van_der_corput_BASE;
-        }
-
-        public static void van_der_corput_base_set(int base_)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VAN_DER_CORPUT_BASE_SET sets the base for a van der Corput sequence.
-            //
-            //
-            //  Modified:
-            //
-            //    28 August 2002
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int BASE, the base for the van der Corput sequence.
-            //    BASE must be greater than 1.
-            //
-        {
-            if (base_ <= 1)
-            {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("VAN_DER_CORPUT_BASE_SET - Fatal error!");
                 Console.WriteLine("  The input base BASE is <= 1!");
                 Console.WriteLine("  BASE = " + base_ + "");
                 return;
-            }
-
-            van_der_corput_BASE = base_;
-
+            default:
+                van_der_corput_BASE = base_;
+                break;
         }
+    }
 
-        public static int van_der_corput_seed_get()
+    public static int van_der_corput_seed_get()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VAN_DER_CORPUT_SEED_GET gets the "seed" for the van der Corput sequence.
-            //
-            //  Modified:
-            //
-            //    25 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Output, int VAN_DER_CORPUT_SEED_GET, the current seed for
-            //    the van der Corput sequence.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VAN_DER_CORPUT_SEED_GET gets the "seed" for the van der Corput sequence.
+        //
+        //  Modified:
+        //
+        //    25 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Output, int VAN_DER_CORPUT_SEED_GET, the current seed for
+        //    the van der Corput sequence.
+        //
+    {
+        return van_der_corput_SEED;
+    }
+
+    public static void van_der_corput_seed_set(int seed)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VAN_DER_CORPUT_SEED_SET sets the "seed" for the van der Corput sequence.
+        //
+        //  Discussion:
+        //
+        //    Calling VAN_DER_CORPUT repeatedly returns the elements of the
+        //    van der Corput sequence in order, starting with element number 1.
+        //    An internal counter, called SEED, keeps track of the next element
+        //    to return.  Each time the routine is called, the SEED-th element
+        //    is computed, and then SEED is incremented by 1.
+        //
+        //    To restart the van der Corput sequence, it is only necessary to reset
+        //    SEED to 1.  It might also be desirable to reset SEED to some other value.
+        //    This routine allows the user to specify any value of SEED.
+        //
+        //    The default value of SEED is 1, which restarts the van der Corput sequence.
+        //
+        //  Modified:
+        //
+        //    25 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int SEED, the seed for the van der Corput sequence.
+        //    SEED must be nonnegative.
+        //
+    {
+        switch (seed)
         {
-            return van_der_corput_SEED;
-        }
-
-        public static void van_der_corput_seed_set(int seed)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VAN_DER_CORPUT_SEED_SET sets the "seed" for the van der Corput sequence.
-            //
-            //  Discussion:
-            //
-            //    Calling VAN_DER_CORPUT repeatedly returns the elements of the
-            //    van der Corput sequence in order, starting with element number 1.
-            //    An internal counter, called SEED, keeps track of the next element
-            //    to return.  Each time the routine is called, the SEED-th element
-            //    is computed, and then SEED is incremented by 1.
-            //
-            //    To restart the van der Corput sequence, it is only necessary to reset
-            //    SEED to 1.  It might also be desirable to reset SEED to some other value.
-            //    This routine allows the user to specify any value of SEED.
-            //
-            //    The default value of SEED is 1, which restarts the van der Corput sequence.
-            //
-            //  Modified:
-            //
-            //    25 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int SEED, the seed for the van der Corput sequence.
-            //    SEED must be nonnegative.
-            //
-        {
-            if (seed < 0)
-            {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("VAN_DER_CORPUT_SEED_SET - Fatal error!");
                 Console.WriteLine("  SEED < 0.");
                 Console.WriteLine("  SEED = " + seed + "");
                 return;
-            }
-
-            van_der_corput_SEED = seed;
-
+            default:
+                van_der_corput_SEED = seed;
+                break;
         }
+    }
 
-        public static void van_der_corput_sequence(int n, ref double[] r)
+    public static void van_der_corput_sequence(int n, ref double[] r)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VAN_DER_CORPUT_SEQUENCE: next N elements in the van der Corput sequence.
-            //
-            //  Modified:
-            //
-            //    27 February 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of elements desired.
-            //
-            //    Output, double R[N], the next N elements of the van
-            //    der Corput sequence.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VAN_DER_CORPUT_SEQUENCE: next N elements in the van der Corput sequence.
+        //
+        //  Modified:
+        //
+        //    27 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of elements desired.
+        //
+        //    Output, double R[N], the next N elements of the van
+        //    der Corput sequence.
+        //
+    {
+        int base_;
+        int seed;
+
+        seed = van_der_corput_seed_get();
+
+        base_ = van_der_corput_base_get();
+
+        i4_to_van_der_corput_sequence(seed, base_, n, ref r);
+
+        seed += n;
+        van_der_corput_seed_set(seed);
+    }
+
+    public static int[] vdc_numerator_sequence(int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VDC_NUMERATOR_SEQUENCE: van der Corput numerator sequence base 2.
+        //
+        //  Discussion:
+        //
+        //    The classical van der Corput sequence, base 2, can be considered
+        //    as a way of enumerating the dyadic fractions P/2^K in an order of
+        //    increasing denominator.
+        //
+        //    If we fix a value of K, then the first (2^K) - 1 items in the
+        //    sequence are fractions strictly between 0 and 1, which can be written
+        //    as P/2^K where 0 < P < 2^K.
+        //
+        //    This function determines the numerator sequence, that is, the values
+        //    P, which is interesting in its own right.  Note that the P sequence
+        //    is "nested" in the sense that if 2^(K-1) <= N1 < N2 < 2^(K), then the
+        //    sequence for N2 will begin with the sequence for N1.
+        //
+        //    The I-th value in the sequence can be determined by writing
+        //    the integer I in binary using K digits, and reversing the order.
+        //
+        //    N = 10
+        //
+        //    2^3 = 8 <= 10 < 16 = 2^4
+        //
+        //    1  0001  1000   8
+        //    2  0010  0100   4
+        //    3  0011  1100  12
+        //    4  0100  0010   2
+        //    5  0101  1010  10
+        //    6  0110  0110   6
+        //    7  0111  1110  14
+        //    8  1000  0001   1
+        //    9  1001  1001   9
+        //   10  1010  0101   5
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 February 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    John Halton,
+        //    On the efficiency of certain quasi-random sequences of points
+        //    in evaluating multi-dimensional integrals,
+        //    Numerische Mathematik,
+        //    Volume 2, pages 84-90, 1960.
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of elements to compute.
+        //
+        //    Output, int VDC_NUMERATOR_SEQUENCE[N], the elements of the van der Corput
+        //    numerator sequence base 2.
+        //
+    {
+        int d;
+        int i;
+        int j;
+        int n_log_2;
+        int[] p;
+        int s;
+        //
+        //  Carry out the computation.
+        //
+        p = new int[n];
+
+        n_log_2 = (int)Math.Log2(n) + 1;
+
+        for (i = 0; i < n; i++)
         {
-            int base_;
-            int seed;
-
-            seed = van_der_corput_seed_get();
-
-            base_ = van_der_corput_base_get();
-
-            i4_to_van_der_corput_sequence(seed, base_, n, ref r);
-
-            seed = seed + n;
-            van_der_corput_seed_set(seed);
-        }
-
-        public static int[] vdc_numerator_sequence(int n)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VDC_NUMERATOR_SEQUENCE: van der Corput numerator sequence base 2.
-            //
-            //  Discussion:
-            //
-            //    The classical van der Corput sequence, base 2, can be considered
-            //    as a way of enumerating the dyadic fractions P/2^K in an order of
-            //    increasing denominator.
-            //
-            //    If we fix a value of K, then the first (2^K) - 1 items in the
-            //    sequence are fractions strictly between 0 and 1, which can be written
-            //    as P/2^K where 0 < P < 2^K.
-            //
-            //    This function determines the numerator sequence, that is, the values
-            //    P, which is interesting in its own right.  Note that the P sequence
-            //    is "nested" in the sense that if 2^(K-1) <= N1 < N2 < 2^(K), then the
-            //    sequence for N2 will begin with the sequence for N1.
-            //
-            //    The I-th value in the sequence can be determined by writing
-            //    the integer I in binary using K digits, and reversing the order.
-            //
-            //    N = 10
-            //
-            //    2^3 = 8 <= 10 < 16 = 2^4
-            //
-            //    1  0001  1000   8
-            //    2  0010  0100   4
-            //    3  0011  1100  12
-            //    4  0100  0010   2
-            //    5  0101  1010  10
-            //    6  0110  0110   6
-            //    7  0111  1110  14
-            //    8  1000  0001   1
-            //    9  1001  1001   9
-            //   10  1010  0101   5
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 February 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    John Halton,
-            //    On the efficiency of certain quasi-random sequences of points
-            //    in evaluating multi-dimensional integrals,
-            //    Numerische Mathematik,
-            //    Volume 2, pages 84-90, 1960.
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of elements to compute.
-            //
-            //    Output, int VDC_NUMERATOR_SEQUENCE[N], the elements of the van der Corput
-            //    numerator sequence base 2.
-            //
-        {
-            int d;
-            int i;
-            int j;
-            int n_log_2;
-            int[] p;
-            int s;
-            //
-            //  Carry out the computation.
-            //
-            p = new int[n];
-
-            n_log_2 = (int)Math.Log2(n) + 1;
-
-            for (i = 0; i < n; i++)
+            p[i] = 0;
+            s = i + 1;
+            for (j = 0; j < n_log_2; j++)
             {
-                p[i] = 0;
-                s = i + 1;
-                for (j = 0; j < n_log_2; j++)
-                {
-                    d = (s % 2);
-                    p[i] = 2 * p[i] + d;
-                    s = s / 2;
-                }
+                d = s % 2;
+                p[i] = 2 * p[i] + d;
+                s /= 2;
             }
-
-            return p;
         }
 
-        public static double vdc(int i)
+        return p;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //   VDC computes an element of the van der Corput sequence.
-            //
-            //  Discussion:
-            //
-            //    The van der Corput sequence is often used to generate a "subrandom"
-            //    sequence of points which have a better covering property
-            //    than pseudorandom points.
-            //
-            //    The van der Corput sequence generates a sequence of points in [0,1]
-            //    which never repeats.  The elements of the van der Corput sequence 
-            //    are strictly less than 1.
-            //
-            //    The van der Corput sequence writes an integer in a given base 2,
-            //    and then its digits are "reflected" about the decimal point.
-            //    This maps the numbers from 1 to N into a set of numbers in [0,1],
-            //    which are especially nicely distributed if N is one less
-            //    than a power of the base.
-            //
-            //    The generation is quite simple.  Given an integer I, the expansion
-            //    of I in base 2 is generated.  Then, essentially, the result R
-            //    is generated by writing a decimal point followed by the digits of
-            //    the expansion of I, in reverse order.  This decimal value is actually
-            //    still in base 2, so it must be properly interpreted to generate
-            //    a usable value.
-            //
-            //  Example:
-            //
-            //    I        I         van der Corput
-            //    decimal  binary    binary   decimal
-            //    -------  ------    ------   -------
-            //        0  =     0  =>  .0     = 0.0
-            //        1  =     1  =>  .1     = 0.5
-            //        2  =    10  =>  .01    = 0.25
-            //        3  =    11  =>  .11    = 0.75
-            //        4  =   100  =>  .001   = 0.125
-            //        5  =   101  =>  .101   = 0.625
-            //        6  =   110  =>  .011   = 0.375
-            //        7  =   111  =>  .111   = 0.875
-            //        8  =  1000  =>  .0001  = 0.0625
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 August 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    John Halton,
-            //    On the efficiency of certain quasi-random sequences of points
-            //    in evaluating multi-dimensional integrals,
-            //    Numerische Mathematik,
-            //    Volume 2, pages 84-90, 1960.
-            //
-            //    John Hammersley,
-            //    Monte Carlo methods for solving multivariable problems,
-            //    Proceedings of the New York Academy of Science,
-            //    Volume 86, pages 844-874, 1960.
-            //
-            //    Johannes van der Corput,
-            //    Verteilungsfunktionen I & II,
-            //    Nederl. Akad. Wetensch. Proc.,
-            //    Volume 38, 1935, pages 813-820, pages 1058-1066.
-            //
-            //  Parameters:
-            //
-            //    Input, int I, the index of the element of the sequence.
-            //    I = 0 is allowed, and returns R = 0.
-            //
-            //    Output, double VDC, the I-th element of the van der Corput 
-            //    sequence.
-            //
+    public static double vdc(int i)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //   VDC computes an element of the van der Corput sequence.
+        //
+        //  Discussion:
+        //
+        //    The van der Corput sequence is often used to generate a "subrandom"
+        //    sequence of points which have a better covering property
+        //    than pseudorandom points.
+        //
+        //    The van der Corput sequence generates a sequence of points in [0,1]
+        //    which never repeats.  The elements of the van der Corput sequence 
+        //    are strictly less than 1.
+        //
+        //    The van der Corput sequence writes an integer in a given base 2,
+        //    and then its digits are "reflected" about the decimal point.
+        //    This maps the numbers from 1 to N into a set of numbers in [0,1],
+        //    which are especially nicely distributed if N is one less
+        //    than a power of the base.
+        //
+        //    The generation is quite simple.  Given an integer I, the expansion
+        //    of I in base 2 is generated.  Then, essentially, the result R
+        //    is generated by writing a decimal point followed by the digits of
+        //    the expansion of I, in reverse order.  This decimal value is actually
+        //    still in base 2, so it must be properly interpreted to generate
+        //    a usable value.
+        //
+        //  Example:
+        //
+        //    I        I         van der Corput
+        //    decimal  binary    binary   decimal
+        //    -------  ------    ------   -------
+        //        0  =     0  =>  .0     = 0.0
+        //        1  =     1  =>  .1     = 0.5
+        //        2  =    10  =>  .01    = 0.25
+        //        3  =    11  =>  .11    = 0.75
+        //        4  =   100  =>  .001   = 0.125
+        //        5  =   101  =>  .101   = 0.625
+        //        6  =   110  =>  .011   = 0.375
+        //        7  =   111  =>  .111   = 0.875
+        //        8  =  1000  =>  .0001  = 0.0625
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 August 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    John Halton,
+        //    On the efficiency of certain quasi-random sequences of points
+        //    in evaluating multi-dimensional integrals,
+        //    Numerische Mathematik,
+        //    Volume 2, pages 84-90, 1960.
+        //
+        //    John Hammersley,
+        //    Monte Carlo methods for solving multivariable problems,
+        //    Proceedings of the New York Academy of Science,
+        //    Volume 86, pages 844-874, 1960.
+        //
+        //    Johannes van der Corput,
+        //    Verteilungsfunktionen I & II,
+        //    Nederl. Akad. Wetensch. Proc.,
+        //    Volume 38, 1935, pages 813-820, pages 1058-1066.
+        //
+        //  Parameters:
+        //
+        //    Input, int I, the index of the element of the sequence.
+        //    I = 0 is allowed, and returns R = 0.
+        //
+        //    Output, double VDC, the I-th element of the van der Corput 
+        //    sequence.
+        //
+    {
+        double base_inv;
+        int d;
+        double r;
+        double s;
+        int t;
+        s = i switch
         {
-            double base_inv;
-            int d;
-            double r;
-            double s;
-            int t;
             //
             //  Isolate the sign.
             //
-            if (i < 0)
+            < 0 => -1.0,
+            _ => +1.0
+        };
+
+        //
+        //  Work with the magnitude of I.
+        //
+        t = Math.Abs(i);
+        //
+        //  Carry out the computation.
+        //
+        base_inv = 0.5;
+
+        r = 0.0;
+
+        while (t != 0)
+        {
+            d = t % 2;
+            r += d * base_inv;
+            base_inv /= 2.0;
+            t /= 2;
+        }
+
+        //
+        //  Recover the sign.
+        //
+        r *= s;
+
+        return r;
+    }
+
+    public static double vdc_base(int i, int b)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VDC_BASE computes an element of the van der Corput sequence in any base.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 August 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int I, the index of the element of the sequence.
+        //    I = 0 is allowed, and returns R = 0.
+        //
+        //    Input, int B, the base of the sequence.  The standard 
+        //    sequence uses B = 2, and this function expects 2 <= B.
+        //
+        //    Output, double VDC_BASE, the I-th element of the van der 
+        //    Corput sequence.
+        //
+    {
+        double base_inv;
+        int d;
+        double r;
+        double s;
+        int t;
+        switch (b)
+        {
+            //
+            //  2 <= B.
+            //
+            case < 2:
+                Console.WriteLine("");
+                Console.WriteLine("VDC_BASE - Fatal error!");
+                Console.WriteLine("  2 <= B is required.");
+                return 1;
+        }
+
+        s = i switch
+        {
+            //
+            //  Isolate the sign.
+            //
+            < 0 => -1.0,
+            _ => +1.0
+        };
+
+        //
+        //  Only work with the nonnegative part of I.
+        //
+        t = Math.Abs(i);
+        //
+        //  Carry out the computation.
+        //
+        base_inv = 1.0 / b;
+
+        r = 0.0;
+
+        while (t != 0)
+        {
+            d = t % b;
+            r += d * base_inv;
+            base_inv /= b;
+            t /= b;
+        }
+
+        //
+        //  Recover the sign.
+        //
+        r *= s;
+
+        return r;
+    }
+
+    public static int vdc_inverse(double r)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VDC_INVERSE inverts an element of the van der Corput sequence.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 August 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double R, the I-th element of the van der Corput 
+        //    sequence.  |R| < 1.0
+        //
+        //    Output, int VDC_INVERSE, the index of the element of 
+        //    the sequence.
+        //
+    {
+        int d;
+        int i;
+        int p;
+        double s;
+        double t;
+
+        s = r switch
+        {
+            < 0.0 => -1.0,
+            _ => +1.0
+        };
+
+        switch (Math.Abs(r))
+        {
+            case >= 1.0:
+                Console.WriteLine("");
+                Console.WriteLine("VDC_INVERSE - Fatal error!");
+                Console.WriteLine("  |R| < 1.0 is required.");
+                return 1;
+        }
+
+        t = Math.Abs(r);
+
+        i = 0;
+        p = 1;
+
+        while (t != 0.0)
+        {
+            t *= 2.0;
+            d = (int) t;
+            i += d * p;
+            p *= 2;
+            t %= 1.0;
+        }
+
+        //
+        //  Recover the sign.
+        //
+        i = (int) (i * s);
+
+        return i;
+    }
+
+    public static double[] vdc_sequence(int i1, int i2)
+
+        //****************************************************************************80
+        /*
+        Purpose:
+
+        VDC_SEQUENCE computes a sequence of elements of the van der Corput sequence.
+
+        Discussion:
+
+        This function could be rewritten to take advantage of MATLAB's
+        vectorization capabilities.
+
+        Licensing:
+
+        This code is distributed under the GNU LGPL license.
+
+        Modified:
+
+        10 August 2016
+
+        Author:
+
+        John Burkardt
+
+        Parameters:
+
+        Input, int I1, I2, the indices of the first and
+        last elements.
+
+        Output, double VDC_SEQUENCE[|I2+1-I1|], elements I1 through I2 of 
+        the van der Corput sequence.
+        */
+    {
+        double base_inv;
+        int d;
+        int i;
+        int i3;
+        int j;
+        int n;
+        double[] r;
+        double s;
+        int t;
+
+        if (i1 <= i2)
+        {
+            i3 = +1;
+        }
+        else
+        {
+            i3 = -1;
+        }
+
+        n = Math.Abs(i2 - i1) + 1;
+
+        r = new double[n];
+
+        j = 0;
+        i = i1;
+
+        while (true)
+        {
+            s = i switch
             {
-                s = -1.0;
-            }
-            else
-            {
-                s = +1.0;
-            }
+                //
+                //  Isolate the sign.
+                //
+                < 0 => -1.0,
+                _ => +1.0
+            };
 
             //
             //  Work with the magnitude of I.
@@ -757,295 +1015,32 @@ namespace Burkardt.Sequence
             //
             base_inv = 0.5;
 
-            r = 0.0;
+            r[j] = 0.0;
 
             while (t != 0)
             {
-                d = (t % 2);
-                r = r + (double) (d) * base_inv;
-                base_inv = base_inv / 2.0;
-                t = (t / 2);
+                d = t % 2;
+                r[j] += d * base_inv;
+                base_inv /= 2.0;
+                t /= 2;
             }
 
             //
             //  Recover the sign.
             //
-            r = r * s;
+            r[j] *= s;
 
-            return r;
+            j += 1;
+
+            if (i == i2)
+            {
+                break;
+            }
+
+            i += i3;
         }
 
-        public static double vdc_base(int i, int b)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VDC_BASE computes an element of the van der Corput sequence in any base.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 August 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int I, the index of the element of the sequence.
-            //    I = 0 is allowed, and returns R = 0.
-            //
-            //    Input, int B, the base of the sequence.  The standard 
-            //    sequence uses B = 2, and this function expects 2 <= B.
-            //
-            //    Output, double VDC_BASE, the I-th element of the van der 
-            //    Corput sequence.
-            //
-        {
-            double base_inv;
-            int d;
-            double r;
-            double s;
-            int t;
-            //
-            //  2 <= B.
-            //
-            if (b < 2)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("VDC_BASE - Fatal error!");
-                Console.WriteLine("  2 <= B is required.");
-                return (1);
-            }
-
-            //
-            //  Isolate the sign.
-            //
-            if (i < 0)
-            {
-                s = -1.0;
-            }
-            else
-            {
-                s = +1.0;
-            }
-
-            //
-            //  Only work with the nonnegative part of I.
-            //
-            t = Math.Abs(i);
-            //
-            //  Carry out the computation.
-            //
-            base_inv = 1.0 / (double) (b);
-
-            r = 0.0;
-
-            while (t != 0)
-            {
-                d = (t % b);
-                r = r + (double) (d) * base_inv;
-                base_inv = base_inv / b;
-                t = (t / b);
-            }
-
-            //
-            //  Recover the sign.
-            //
-            r = r * s;
-
-            return r;
-        }
-
-        public static int vdc_inverse(double r)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    VDC_INVERSE inverts an element of the van der Corput sequence.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 August 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double R, the I-th element of the van der Corput 
-            //    sequence.  |R| < 1.0
-            //
-            //    Output, int VDC_INVERSE, the index of the element of 
-            //    the sequence.
-            //
-        {
-            int d;
-            int i;
-            int p;
-            double s;
-            double t;
-
-            if (r < 0.0)
-            {
-                s = -1.0;
-            }
-            else
-            {
-                s = +1.0;
-            }
-
-            if (1.0 <= Math.Abs(r))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("VDC_INVERSE - Fatal error!");
-                Console.WriteLine("  |R| < 1.0 is required.");
-                return (1);
-            }
-
-            t = Math.Abs(r);
-
-            i = 0;
-            p = 1;
-
-            while (t != 0.0)
-            {
-                t = t * 2.0;
-                d = (int) (t);
-                i = i + d * p;
-                p = p * 2;
-                t = (t % 1.0);
-            }
-
-            //
-            //  Recover the sign.
-            //
-            i = (int) (i * s);
-
-            return i;
-        }
-
-        public static double[] vdc_sequence(int i1, int i2)
-
-            //****************************************************************************80
-            /*
-            Purpose:
-    
-            VDC_SEQUENCE computes a sequence of elements of the van der Corput sequence.
-    
-            Discussion:
-    
-            This function could be rewritten to take advantage of MATLAB's
-            vectorization capabilities.
-    
-            Licensing:
-    
-            This code is distributed under the GNU LGPL license.
-    
-            Modified:
-    
-            10 August 2016
-    
-            Author:
-    
-            John Burkardt
-    
-            Parameters:
-    
-            Input, int I1, I2, the indices of the first and
-            last elements.
-    
-            Output, double VDC_SEQUENCE[|I2+1-I1|], elements I1 through I2 of 
-            the van der Corput sequence.
-            */
-        {
-            double base_inv;
-            int d;
-            int i;
-            int i3;
-            int j;
-            int n;
-            double[] r;
-            double s;
-            int t;
-
-            if (i1 <= i2)
-            {
-                i3 = +1;
-            }
-            else
-            {
-                i3 = -1;
-            }
-
-            n = Math.Abs(i2 - i1) + 1;
-
-            r = new double[n];
-
-            j = 0;
-            i = i1;
-
-            while (true)
-            {
-                //
-                //  Isolate the sign.
-                //
-                if (i < 0)
-                {
-                    s = -1.0;
-                }
-                else
-                {
-                    s = +1.0;
-                }
-
-                //
-                //  Work with the magnitude of I.
-                //
-                t = Math.Abs(i);
-                //
-                //  Carry out the computation.
-                //
-                base_inv = 0.5;
-
-                r[j] = 0.0;
-
-                while (t != 0)
-                {
-                    d = (t % 2);
-                    r[j] = r[j] + (double) (d) * base_inv;
-                    base_inv = base_inv / 2.0;
-                    t = (t / 2);
-                }
-
-                //
-                //  Recover the sign.
-                //
-                r[j] = r[j] * s;
-
-                j = j + 1;
-
-                if (i == i2)
-                {
-                    break;
-                }
-
-                i = i + i3;
-            }
-
-            return r;
-        }
-
+        return r;
     }
+
 }

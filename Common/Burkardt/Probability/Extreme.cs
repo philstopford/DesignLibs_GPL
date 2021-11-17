@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Extreme
 {
-    public static class Extreme
-    {
-        public static double extreme_values_cdf(double x, double a, double b)
+    public static double extreme_values_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,18 +33,18 @@ namespace Burkardt.Probability
         //
         //    Output, double EXTREME_VALUES_CDF, the value of the CDF.
         //
-        {
-            double cdf;
-            double y;
+    {
+        double cdf;
+        double y;
 
-            y = (x - a) / b;
+        y = (x - a) / b;
 
-            cdf = Math.Exp(-Math.Exp(-y));
+        cdf = Math.Exp(-Math.Exp(-y));
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double extreme_values_cdf_inv(double cdf, double a, double b)
+    public static double extreme_values_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -73,21 +73,25 @@ namespace Burkardt.Probability
         //
         //    Output, double EXTREME_VALUES_CDF_INV, the corresponding argument of the CDF.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EXTREME_VALUES_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = a - b * Math.Log(-Math.Log(cdf));
+
+                return x;
             }
-
-            double x = a - b * Math.Log(-Math.Log(cdf));
-
-            return x;
         }
+    }
 
-        public static void extreme_values_cdf_values(ref int n_data, ref double alpha, ref double beta,
+    public static void extreme_values_cdf_values(ref int n_data, ref double alpha, ref double beta,
             ref double x, ref double fx )
         //****************************************************************************80
         //
@@ -145,10 +149,10 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 12;
+    {
+        const int N_MAX = 12;
 
-            double[] alpha_vec =
+        double[] alpha_vec =
             {
                 0.1000000000000000E+01,
                 0.1000000000000000E+01,
@@ -165,7 +169,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] beta_vec =
+        double[] beta_vec =
             {
                 0.5000000000000000E+00,
                 0.5000000000000000E+00,
@@ -182,7 +186,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.3678794411714423E+00,
                 0.8734230184931166E+00,
@@ -199,7 +203,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.1000000000000000E+01,
                 0.2000000000000000E+01,
@@ -216,31 +220,32 @@ namespace Burkardt.Probability
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                alpha = 0.0;
-                beta = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                alpha = alpha_vec[n_data - 1];
-                beta = beta_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            alpha = 0.0;
+            beta = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            alpha = alpha_vec[n_data - 1];
+            beta = beta_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool extreme_values_check(double a, double b)
+    public static bool extreme_values_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -266,19 +271,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool EXTREME_VALUES_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EXTREME_VALUES_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double extreme_values_mean(double a, double b)
+    public static double extreme_values_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -304,15 +310,15 @@ namespace Burkardt.Probability
         //
         //    Output, double EXTREME_VALUES_MEAN, the mean of the PDF.
         //
-        {
-            double mean;
+    {
+        double mean;
 
-            mean = a + b * Misc.euler_constant();
+        mean = a + b * Misc.euler_constant();
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double extreme_values_pdf(double x, double a, double b)
+    public static double extreme_values_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -360,13 +366,13 @@ namespace Burkardt.Probability
         //
         //    Output, double EXTREME_VALUES_PDF, the value of the PDF.
         //
-        {
-            double pdf = (1.0 / b) * Math.Exp((a - x) / b - Math.Exp((a - x) / b));
+    {
+        double pdf = 1.0 / b * Math.Exp((a - x) / b - Math.Exp((a - x) / b));
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double extreme_values_sample(double a, double b, ref int seed)
+    public static double extreme_values_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -394,15 +400,15 @@ namespace Burkardt.Probability
         //
         //    Output, double EXTREME_VALUES_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = extreme_values_cdf_inv(cdf, a, b);
+        double x = extreme_values_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double extreme_values_variance(double a, double b)
+    public static double extreme_values_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -428,12 +434,11 @@ namespace Burkardt.Probability
         //
         //    Output, double EXTREME_VALUES_VARIANCE, the variance of the PDF.
         //
-        {
+    {
             
 
-            double variance = Math.PI * Math.PI * b * b / 6.0;
+        double variance = Math.PI * Math.PI * b * b / 6.0;
 
-            return variance;
-        }
+        return variance;
     }
 }

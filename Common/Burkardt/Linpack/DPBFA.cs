@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DPBFA
 {
-    public static class DPBFA
-    {
-        public static int dpbfa(ref double[] abd, int lda, int n, int m )
+    public static int dpbfa(ref double[] abd, int lda, int n, int m )
 
         //****************************************************************************80
         //
@@ -72,48 +72,49 @@ namespace Burkardt.Linpack
         //    0, for normal return.
         //    K, if the leading minor of order K is not positive definite.
         //
+    {
+        int ik;
+        int info;
+        int j;
+        int jk;
+        int k;
+        int mu;
+        double s;
+        double t;
+
+        for (j = 1; j <= n; j++)
         {
-            int ik;
-            int info;
-            int j;
-            int jk;
-            int k;
-            int mu;
-            double s;
-            double t;
+            s = 0.0;
+            ik = m + 1;
+            jk = Math.Max(j - m, 1);
+            mu = Math.Max(m + 2 - j, 1);
 
-            for (j = 1; j <= n; j++)
+            for (k = mu; k <= m; k++)
             {
-                s = 0.0;
-                ik = m + 1;
-                jk = Math.Max(j - m, 1);
-                mu = Math.Max(m + 2 - j, 1);
-
-                for (k = mu; k <= m; k++)
-                {
-                    t = abd[k - 1 + (j - 1) * lda]
-                        - BLAS1D.ddot(k - mu, abd, 1, abd, 1, xIndex:  + ik - 1 + (jk - 1) * lda, yIndex: + mu - 1 + (j - 1) * lda);
-                    t = t / abd[m + (jk - 1) * lda];
-                    abd[k - 1 + (j - 1) * lda] = t;
-                    s = s + t * t;
-                    ik = ik - 1;
-                    jk = jk + 1;
-                }
-
-                s = abd[m + (j - 1) * lda] - s;
-
-                if (s <= 0.0)
-                {
-                    info = j;
-                    return info;
-                }
-
-                abd[m + (j - 1) * lda] = Math.Sqrt(s);
+                t = abd[k - 1 + (j - 1) * lda]
+                    - BLAS1D.ddot(k - mu, abd, 1, abd, 1, xIndex:  + ik - 1 + (jk - 1) * lda, yIndex: + mu - 1 + (j - 1) * lda);
+                t /= abd[m + (jk - 1) * lda];
+                abd[k - 1 + (j - 1) * lda] = t;
+                s += t * t;
+                ik -= 1;
+                jk += 1;
             }
 
-            info = 0;
+            s = abd[m + (j - 1) * lda] - s;
 
-            return info;
+            switch (s)
+            {
+                case <= 0.0:
+                    info = j;
+                    return info;
+                default:
+                    abd[m + (j - 1) * lda] = Math.Sqrt(s);
+                    break;
+            }
         }
+
+        info = 0;
+
+        return info;
     }
 }

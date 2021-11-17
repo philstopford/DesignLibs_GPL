@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Kronrod
+namespace Burkardt.Kronrod;
+
+public static class Abscissa_Weight
 {
-    public static class Abscissa_Weight
-    {
-        public static void abwe1(int n, int m, double eps, double coef2, bool even, double[] b,
-        ref double x, ref double w )
+    public static void abwe1(int n, int m, double eps, double coef2, bool even, double[] b,
+            ref double x, ref double w )
 
         //****************************************************************************80
         //
@@ -55,133 +55,134 @@ namespace Burkardt.Kronrod
         //
         //    Output, double *W, the weight.
         //
+    {
+        double ai;
+        double b0 = 0;
+        double b1;
+        double b2;
+        double d0;
+        double d1;
+        double d2 = 0;
+        double delta = 0;
+        double dif;
+        double f;
+        double fd = 0;
+        int i;
+        int iter;
+        int k;
+        int ka;
+        double yy;
+
+        ka = x switch
         {
-            double ai;
-            double b0 = 0;
-            double b1;
-            double b2;
-            double d0;
-            double d1;
-            double d2 = 0;
-            double delta = 0;
-            double dif;
-            double f;
-            double fd = 0;
-            int i;
-            int iter;
-            int k;
-            int ka;
-            double yy;
+            0.0 => 1,
+            _ => 0
+        };
 
-            if (x == 0.0)
-            {
-                ka = 1;
-            }
-            else
-            {
-                ka = 0;
-            }
+        //
+        //  Iterative process for the computation of a Kronrod abscissa.
+        //
+        for (iter = 1; iter <= 50; iter++)
+        {
+            b1 = 0.0;
+            b2 = b[m];
+            yy = 4.0 * x * x - 2.0;
+            d1 = 0.0;
 
-            //
-            //  Iterative process for the computation of a Kronrod abscissa.
-            //
-            for (iter = 1; iter <= 50; iter++)
+            switch (even)
             {
-                b1 = 0.0;
-                b2 = b[m];
-                yy = 4.0 * (x) * (x) - 2.0;
-                d1 = 0.0;
-
-                if (even)
-                {
+                case true:
                     ai = m + m + 1;
                     d2 = ai * b[m];
                     dif = 2.0;
-                }
-                else
-                {
+                    break;
+                default:
                     ai = m + 1;
                     d2 = 0.0;
                     dif = 1.0;
-                }
-
-                for (k = 1; k <= m; k++)
-                {
-                    ai = ai - dif;
-                    i = m - k + 1;
-                    b0 = b1;
-                    b1 = b2;
-                    d0 = d1;
-                    d1 = d2;
-                    b2 = yy * b1 - b0 + b[i - 1];
-                    if (!even)
-                    {
-                        i = i + 1;
-                    }
-
-                    d2 = yy * d1 - d0 + ai * b[i - 1];
-                }
-
-                if (even)
-                {
-                    f = (x) * (b2 - b1);
-                    fd = d2 + d1;
-                }
-                else
-                {
-                    f = 0.5 * (b2 - b0);
-                    fd = 4.0 * (x) * d2;
-                }
-
-                //
-                //  Newton correction.
-                //
-                delta = f / fd;
-                x = x - delta;
-
-                if (ka == 1)
-                {
                     break;
-                }
-
-                if (Math.Abs(delta) <= eps)
-                {
-                    ka = 1;
-                }
             }
 
-            //
-            //  Catch non-convergence.
-            //
-            if (ka != 1)
+            for (k = 1; k <= m; k++)
             {
-                Console.WriteLine("");
-                Console.WriteLine("ABWE1 - Fatal error!");
-                Console.WriteLine("  Iteration limit reached.");
-                Console.WriteLine("  EPS is " + eps + "");
-                Console.WriteLine("  Last DELTA was " + delta + "");
-                return;
-            }
-
-            //
-            //  Computation of the weight.
-            //
-            d0 = 1.0;
-            d1 = x;
-            ai = 0.0;
-            for (k = 2; k <= n; k++)
-            {
-                ai = ai + 1.0;
-                d2 = ((ai + ai + 1.0) * (x) * d1 - ai * d0) / (ai + 1.0);
+                ai -= dif;
+                i = m - k + 1;
+                b0 = b1;
+                b1 = b2;
                 d0 = d1;
                 d1 = d2;
+                b2 = yy * b1 - b0 + b[i - 1];
+                switch (even)
+                {
+                    case false:
+                        i += 1;
+                        break;
+                }
+
+                d2 = yy * d1 - d0 + ai * b[i - 1];
             }
 
-            w = coef2 / (fd * d2);
+            switch (even)
+            {
+                case true:
+                    f = x * (b2 - b1);
+                    fd = d2 + d1;
+                    break;
+                default:
+                    f = 0.5 * (b2 - b0);
+                    fd = 4.0 * x * d2;
+                    break;
+            }
+
+            //
+            //  Newton correction.
+            //
+            delta = f / fd;
+            x -= delta;
+
+            if (ka == 1)
+            {
+                break;
+            }
+
+            if (Math.Abs(delta) <= eps)
+            {
+                ka = 1;
+            }
         }
 
-        public static void abwe2(int n, int m, double eps, double coef2, bool even, double[] b,
-        ref double x, ref double w1, ref double w2 )
+        //
+        //  Catch non-convergence.
+        //
+        if (ka != 1)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ABWE1 - Fatal error!");
+            Console.WriteLine("  Iteration limit reached.");
+            Console.WriteLine("  EPS is " + eps + "");
+            Console.WriteLine("  Last DELTA was " + delta + "");
+            return;
+        }
+
+        //
+        //  Computation of the weight.
+        //
+        d0 = 1.0;
+        d1 = x;
+        ai = 0.0;
+        for (k = 2; k <= n; k++)
+        {
+            ai += 1.0;
+            d2 = ((ai + ai + 1.0) * x * d1 - ai * d0) / (ai + 1.0);
+            d0 = d1;
+            d1 = d2;
+        }
+
+        w = coef2 / (fd * d2);
+    }
+
+    public static void abwe2(int n, int m, double eps, double coef2, bool even, double[] b,
+            ref double x, ref double w1, ref double w2 )
 
         //****************************************************************************80
         //
@@ -232,126 +233,117 @@ namespace Burkardt.Kronrod
         //
         //    Output, double *W2, the Gauss weight.
         //
+    {
+        double ai;
+        double an;
+        double delta = 0;
+        int i;
+        int iter;
+        int k;
+        int ka;
+        double p0 = 0;
+        double p1;
+        double p2 = 0;
+        double pd0;
+        double pd1;
+        double pd2 = 0;
+        double yy;
+
+        ka = x switch
         {
-            double ai;
-            double an;
-            double delta = 0;
-            int i;
-            int iter;
-            int k;
-            int ka;
-            double p0 = 0;
-            double p1;
-            double p2 = 0;
-            double pd0;
-            double pd1;
-            double pd2 = 0;
-            double yy;
+            0.0 => 1,
+            _ => 0
+        };
 
-            if (x == 0.0)
+        //
+        //  Iterative process for the computation of a Gaussian abscissa.
+        //
+        for (iter = 1; iter <= 50; iter++)
+        {
+            p0 = 1.0;
+            p1 = x;
+            pd0 = 0.0;
+            pd1 = 1.0;
+            switch (n)
             {
-                ka = 1;
-            }
-            else
-            {
-                ka = 0;
-            }
-
-            //
-            //  Iterative process for the computation of a Gaussian abscissa.
-            //
-            for (iter = 1; iter <= 50; iter++)
-            {
-                p0 = 1.0;
-                p1 = x;
-                pd0 = 0.0;
-                pd1 = 1.0;
                 //
                 //  When N is 1, we need to initialize P2 and PD2 to avoid problems with DELTA.
                 //
-                if (n <= 1)
-                {
-                    if (typeMethods.r8_epsilon() < Math.Abs(x))
-                    {
-                        p2 = (3.0 * (x) * (x) - 1.0) / 2.0;
-                        pd2 = 3.0 * (x);
-                    }
-                    else
-                    {
-                        p2 = 3.0 * (x);
-                        pd2 = 3.0;
-                    }
-                }
-
-                ai = 0.0;
-                for (k = 2; k <= n; k++)
-                {
-                    ai = ai + 1.0;
-                    p2 = ((ai + ai + 1.0) * (x) * p1 - ai * p0) / (ai + 1.0);
-                    pd2 = ((ai + ai + 1.0) * (p1 + (x) * pd1) - ai * pd0)
-                          / (ai + 1.0);
-                    p0 = p1;
-                    p1 = p2;
-                    pd0 = pd1;
-                    pd1 = pd2;
-                }
-
-                //
-                //  Newton correction.
-                //
-                delta = p2 / pd2;
-                x = x - delta;
-
-                if (ka == 1)
-                {
+                case <= 1 when typeMethods.r8_epsilon() < Math.Abs(x):
+                    p2 = (3.0 * x * x - 1.0) / 2.0;
+                    pd2 = 3.0 * x;
                     break;
-                }
-
-                if (Math.Abs(delta) <= eps)
-                {
-                    ka = 1;
-                }
+                case <= 1:
+                    p2 = 3.0 * x;
+                    pd2 = 3.0;
+                    break;
             }
 
-            //
-            //  Catch non-convergence.
-            //
-            if (ka != 1)
+            ai = 0.0;
+            for (k = 2; k <= n; k++)
             {
-                Console.WriteLine("");
-                Console.WriteLine("ABWE2 - Fatal error!");
-                Console.WriteLine("  Iteration limit reached.");
-                Console.WriteLine("  EPS is " + eps + "");
-                Console.WriteLine("  Last DELTA was " + delta + "");
-                return;
-            }
-
-            //
-            //  Computation of the weight.
-            //
-            an = n;
-
-            w2 = 2.0 / (an * pd2 * p0);
-
-            p1 = 0.0;
-            p2 = b[m];
-            yy = 4.0 * (x) * (x) - 2.0;
-            for (k = 1; k <= m; k++)
-            {
-                i = m - k + 1;
+                ai += 1.0;
+                p2 = ((ai + ai + 1.0) * x * p1 - ai * p0) / (ai + 1.0);
+                pd2 = ((ai + ai + 1.0) * (p1 + x * pd1) - ai * pd0)
+                      / (ai + 1.0);
                 p0 = p1;
                 p1 = p2;
-                p2 = yy * p1 - p0 + b[i - 1];
+                pd0 = pd1;
+                pd1 = pd2;
             }
 
-            if (even)
+            //
+            //  Newton correction.
+            //
+            delta = p2 / pd2;
+            x -= delta;
+
+            if (ka == 1)
             {
-                w1 = w2 + coef2 / (pd2 * (x) * (p2 - p1));
+                break;
             }
-            else
+
+            if (Math.Abs(delta) <= eps)
             {
-                w1 = w2 + 2.0 * coef2 / (pd2 * (p2 - p0));
+                ka = 1;
             }
         }
+
+        //
+        //  Catch non-convergence.
+        //
+        if (ka != 1)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ABWE2 - Fatal error!");
+            Console.WriteLine("  Iteration limit reached.");
+            Console.WriteLine("  EPS is " + eps + "");
+            Console.WriteLine("  Last DELTA was " + delta + "");
+            return;
+        }
+
+        //
+        //  Computation of the weight.
+        //
+        an = n;
+
+        w2 = 2.0 / (an * pd2 * p0);
+
+        p1 = 0.0;
+        p2 = b[m];
+        yy = 4.0 * x * x - 2.0;
+        for (k = 1; k <= m; k++)
+        {
+            i = m - k + 1;
+            p0 = p1;
+            p1 = p2;
+            p2 = yy * p1 - p0 + b[i - 1];
+        }
+
+        w1 = even switch
+        {
+            true => w2 + coef2 / (pd2 * x * (p2 - p1)),
+            _ => w2 + 2.0 * coef2 / (pd2 * (p2 - p0))
+        };
     }
 }

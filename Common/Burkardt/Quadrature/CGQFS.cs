@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class CGQFS
 {
-    public static class CGQFS
-    {
-        public static void cgqfs(int nt, int kind, double alpha, double beta, int lo, ref double[] t,
-        ref double[] wts )
+    public static void cgqfs(int nt, int kind, double alpha, double beta, int lo, ref double[] t,
+            ref double[] wts )
 
         //****************************************************************************80
         //
@@ -74,50 +74,49 @@ namespace Burkardt.Quadrature
         //
         //    Output, double WTS[NT], the weights.
         //
+    {
+        int i;
+        int key;
+        int m;
+        int mex;
+        int[] mlt;
+        int mmex;
+        int mop;
+        int[] ndx;
+        double[] w;
+        //
+        //  Check there is enough workfield and assign workfield
+        //
+        key = 1;
+        mop = 2 * nt;
+        m = mop + 1;
+        mex = m + 2;
+        mmex = Math.Max(mex, 1);
+        //
+        //  Compute the Gauss quadrature formula for default values of A and B.
+        //
+        CDGQF.cdgqf(nt, kind, alpha, beta, ref t, ref wts);
+        //
+        //  Exit if no print required.
+        //
+        if (lo != 0)
         {
-            int i;
-            int key;
-            int m;
-            int mex;
-            int[] mlt;
-            int mmex;
-            int mop;
-            int[] ndx;
-            double[] w;
-            //
-            //  Check there is enough workfield and assign workfield
-            //
-            key = 1;
-            mop = 2 * nt;
-            m = mop + 1;
-            mex = m + 2;
-            mmex = Math.Max(mex, 1);
-            //
-            //  Compute the Gauss quadrature formula for default values of A and B.
-            //
-            CDGQF.cdgqf(nt, kind, alpha, beta, ref t, ref wts);
-            //
-            //  Exit if no print required.
-            //
-            if (lo != 0)
+            mlt = new int[nt];
+            for (i = 0; i < nt; i++)
             {
-                mlt = new int[nt];
-                for (i = 0; i < nt; i++)
-                {
-                    mlt[i] = 1;
-                }
-
-                ndx = new int[nt];
-                for (i = 0; i < nt; i++)
-                {
-                    ndx[i] = i + 1;
-                }
-
-                w = new double[mmex];
-
-                CHKQFS.chkqfs(t, wts, mlt, nt, nt, ndx, key, ref w, mop, mmex, kind, alpha,
-                    beta, lo);
+                mlt[i] = 1;
             }
+
+            ndx = new int[nt];
+            for (i = 0; i < nt; i++)
+            {
+                ndx[i] = i + 1;
+            }
+
+            w = new double[mmex];
+
+            CHKQFS.chkqfs(t, wts, mlt, nt, nt, ndx, key, ref w, mop, mmex, kind, alpha,
+                beta, lo);
         }
     }
 }

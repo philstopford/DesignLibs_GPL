@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static int[] r8vec_histogram ( int n, double[] a, double a_lo, double a_hi,
-        int histo_num )
+    public static int[] r8vec_histogram ( int n, double[] a, double a_lo, double a_hi,
+            int histo_num )
 
         //****************************************************************************80
         //
@@ -45,40 +45,36 @@
         //    Output, int HISTO_GRAM[HISTO_NUM+2], contains the number of
         //    entries of A in each bin.
         //
+    {
+        int i;
+
+        int[] histo_gram = new int[histo_num+2];
+
+        i4vec_zeros ( histo_num+2, ref histo_gram );
+
+        double delta = ( a_hi - a_lo ) / (2 * histo_num);
+
+        for ( i = 0; i < n; i++ )
         {
-            double delta;
-            int[] histo_gram;
-            int i;
-            int j;
-
-            histo_gram = new int[histo_num+2];
-
-            i4vec_zeros ( histo_num+2, ref histo_gram );
-
-            delta = ( a_hi - a_lo ) / ( double ) ( 2 * histo_num );
-
-            for ( i = 0; i < n; i++ )
+            if ( a[i] < a_lo )
             {
-                if ( a[i] < a_lo )
-                {
-                    histo_gram[0] = histo_gram[0] + 1;
-                }
-                else if ( a[i] <= a_hi )
-                {
-                    j = (int)r8_nint (
-                        ( ( a_hi -       delta - a[i]        ) * ( double ) ( 1         )
-                          + (      -       delta + a[i] - a_lo ) * ( double ) ( histo_num ) )
-                        / ( a_hi - 2.0 * delta        - a_lo ) );
-
-                    histo_gram[j] = histo_gram[j] + 1;
-                }
-                else if ( a_hi < a[i] )
-                {
-                    histo_gram[histo_num+1] = histo_gram[histo_num+1] + 1;
-                }
+                histo_gram[0] += 1;
             }
+            else if ( a[i] <= a_hi )
+            {
+                int j = (int)r8_nint (
+                    ( ( a_hi -       delta - a[i]        ) * 1
+                      + (      -       delta + a[i] - a_lo ) * histo_num )
+                    / ( a_hi - 2.0 * delta        - a_lo ) );
 
-            return histo_gram;
+                histo_gram[j] += 1;
+            }
+            else if ( a_hi < a[i] )
+            {
+                histo_gram[histo_num+1] += 1;
+            }
         }
+
+        return histo_gram;
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class EIQFS
 {
-    public static class EIQFS
-    {
-        public static double eiqfs ( int nt, double[] t, double[] wts, Func < double, int, double > f )
+    public static double eiqfs ( int nt, double[] t, double[] wts, Func < double, int, double > f )
 
         //****************************************************************************80
         //
@@ -55,16 +55,15 @@ namespace Burkardt.Quadrature
         //    Output, double EIQFS, the value of the quadrature formula 
         //    applied to F.
         //
-        {
-            int j;
-            double qfsum;
+    {
+        int j;
+        double qfsum;
 
-            qfsum = 0.0;
-            for ( j = 0; j < nt; j++ )
-            {
-                qfsum = qfsum + wts[j] * f ( t[j], 0 );
-            }
-            return qfsum;
+        qfsum = 0.0;
+        for ( j = 0; j < nt; j++ )
+        {
+            qfsum += wts[j] * f ( t[j], 0 );
         }
+        return qfsum;
     }
 }

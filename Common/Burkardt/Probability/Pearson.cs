@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Pearson
 {
-    public static class Pearson
-    {
-        public static bool pearson_05_check(double a, double b, double c)
+    public static bool pearson_05_check(double a, double b, double c)
 
 //****************************************************************************80
 //
@@ -31,28 +31,30 @@ namespace Burkardt.Probability
 //
 //    Output, bool PEARSON_05_CHECK, is true if the parameters are legal.
 //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PEARSON_05_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PEARSON_05_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 //****************************************************************************80
 
-        public static double pearson_05_mean(double a, double b, double c)
+    public static double pearson_05_mean(double a, double b, double c)
 
 //****************************************************************************80
 //
@@ -83,25 +85,26 @@ namespace Burkardt.Probability
 //
 //    Output, double PEARSON_05_MEAN, the mean of the PDF.
 //
-        {
-            double mean;
+    {
+        double mean;
 
-            if (b <= 1.0)
-            {
+        switch (b)
+        {
+            case <= 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("PEARSON_05_MEAN - Warning!");
                 Console.WriteLine("  MEAN undefined for B <= 1.");
                 mean = c;
                 return mean;
-            }
+            default:
+                mean = c + a / (b - 1.0);
 
-            mean = c + a / (b - 1.0);
-
-            return mean;
+                return mean;
         }
+    }
 //****************************************************************************80
 
-        public static double pearson_05_pdf(double x, double a, double b, double c)
+    public static double pearson_05_pdf(double x, double a, double b, double c)
 
 //****************************************************************************80
 //
@@ -136,24 +139,24 @@ namespace Burkardt.Probability
 //
 //    Output, double PDF, the value of the PDF.
 //
+    {
+        double pdf;
+
+        if (x <= c)
         {
-            double pdf;
-
-            if (x <= c)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Pow(a, b) * Math.Pow(x - c, -b - 1.0)
-                                * Math.Exp(-a / (x - c)) / Helpers.Gamma(b);
-            }
-
-            return pdf;
+            pdf = 0.0;
         }
+        else
+        {
+            pdf = Math.Pow(a, b) * Math.Pow(x - c, -b - 1.0)
+                                 * Math.Exp(-a / (x - c)) / Helpers.Gamma(b);
+        }
+
+        return pdf;
+    }
 //****************************************************************************80
 
-        public static double pearson_05_sample(double a, double b, double c, ref int seed)
+    public static double pearson_05_sample(double a, double b, double c, ref int seed)
 
 //****************************************************************************80
 //
@@ -182,22 +185,21 @@ namespace Burkardt.Probability
 //
 //    Output, double PEARSON_05_SAMPLE, a sample of the PDF.
 //
-        {
-            double a2;
-            double b2;
-            double c2;
-            double x;
-            double x2;
+    {
+        double a2;
+        double b2;
+        double c2;
+        double x;
+        double x2;
 
-            a2 = 0.0;
-            b2 = b;
-            c2 = 1.0 / a;
+        a2 = 0.0;
+        b2 = b;
+        c2 = 1.0 / a;
 
-            x2 = Gamma.gamma_sample(a2, b2, c2, ref seed);
+        x2 = Gamma.gamma_sample(a2, b2, c2, ref seed);
 
-            x = c + 1.0 / x2;
+        x = c + 1.0 / x2;
 
-            return x;
-        }
+        return x;
     }
 }

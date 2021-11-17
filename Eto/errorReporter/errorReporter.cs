@@ -1,15 +1,14 @@
 ﻿using Eto.Forms;
 
-namespace Error
+namespace Error;
+
+public static class ErrorReporter
 {
-    public static class ErrorReporter
+    public static void showMessage_OK(string stringToDisplay, string caption)
     {
-        public static void showMessage_OK(string stringToDisplay, string caption)
+        Application.Instance.Invoke(() =>
         {
-            Application.Instance.Invoke(() =>
-            {
-                MessageBox.Show(stringToDisplay, caption, MessageBoxButtons.OK);
-            });
-        }
+            MessageBox.Show(stringToDisplay, caption, MessageBoxButtons.OK);
+        });
     }
 }

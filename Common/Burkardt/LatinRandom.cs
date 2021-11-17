@@ -1,11 +1,11 @@
 ﻿using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Latin
+namespace Burkardt.Latin;
+
+public static class Random
 {
-    public static class Random
-    {
-        public static double[] latin_random_new ( int dim_num, int point_num, ref int seed )
+    public static double[] latin_random_new ( int dim_num, int point_num, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -42,26 +42,25 @@ namespace Burkardt.Latin
         //
         //    Output, double LATIN_RANDOM_NEW[DIM_NUM,POINT_NUM], the points.
         //
+    {
+        double[] x = UniformRNG.r8mat_uniform_01 ( dim_num, point_num, ref seed );
+        //
+        //  For spatial dimension I, 
+        //    pick a random permutation of 1 to POINT_NUM,
+        //    force the corresponding I-th components of X to lie in the
+        //    interval ( PERM[J]-1, PERM[J] ) / POINT_NUM.
+        //
+        for (int i = 0; i < dim_num; i++ )
         {
-            double[] x = UniformRNG.r8mat_uniform_01 ( dim_num, point_num, ref seed );
-            //
-            //  For spatial dimension I, 
-            //    pick a random permutation of 1 to POINT_NUM,
-            //    force the corresponding I-th components of X to lie in the
-            //    interval ( PERM[J]-1, PERM[J] ) / POINT_NUM.
-            //
-            for (int i = 0; i < dim_num; i++ )
+            int[] perm = typeMethods.perm_uniform ( point_num, 0, ref seed );
+
+            for (int j = 0; j < point_num; j++ )
             {
-                int[] perm = typeMethods.perm_uniform ( point_num, 0, ref seed );
-
-                for (int j = 0; j < point_num; j++ )
-                {
-                    x[i+j*dim_num] = ( ( perm[j] ) + x[i+j*dim_num] ) 
-                                     / ( point_num );
-                }
+                x[i+j*dim_num] = ( perm[j] + x[i+j*dim_num] ) 
+                                 / point_num;
             }
-            return x;
         }
-
+        return x;
     }
+
 }

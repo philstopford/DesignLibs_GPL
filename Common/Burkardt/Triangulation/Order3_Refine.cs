@@ -1,13 +1,13 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.TriangulationNS
+namespace Burkardt.TriangulationNS;
+
+public static partial class Refine
 {
-    public static partial class Refine
-    {
-        public static void triangulation_order3_refine_compute(int node_num1, int triangle_num1,
+    public static void triangulation_order3_refine_compute(int node_num1, int triangle_num1,
             double[] node_xy1, int[] triangle_node1, int node_num2, int triangle_num2,
-        int[] edge_data, ref double[] node_xy2, ref int[] triangle_node2 )
+            int[] edge_data, ref double[] node_xy2, ref int[] triangle_node2 )
 
         //****************************************************************************80
         //
@@ -68,110 +68,110 @@ namespace Burkardt.TriangulationNS
         //    Output, int TRIANGLE_NODE2[3*TRIANGLE_NUM2], the nodes that make up the
         //    triangles in the refined mesh.
         //
+    {
+        int edge;
+        int i;
+        int j;
+        int n1;
+        int n1_old;
+        int n2;
+        int n2_old;
+        int node;
+        int triangle1;
+        int v1;
+        int v2;
+        //
+        //  Copy the old nodes.
+        //
+        for (j = 0; j < node_num1; j++)
         {
-            int edge;
-            int i;
-            int j;
-            int n1;
-            int n1_old;
-            int n2;
-            int n2_old;
-            int node;
-            int triangle1;
-            int v1;
-            int v2;
-            //
-            //  Copy the old nodes.
-            //
-            for (j = 0; j < node_num1; j++)
+            for (i = 0; i < 2; i++)
             {
-                for (i = 0; i < 2; i++)
-                {
-                    node_xy2[i + j * 2] = node_xy1[i + j * 2];
-                }
-            }
-
-            for (j = 0; j < triangle_num2; j++)
-            {
-                for (i = 0; i < 3; i++)
-                {
-                    triangle_node2[i + j * 3] = -1;
-                }
-            }
-
-            //
-            //  We can assign the existing nodes to the new triangles.
-            //
-            for (triangle1 = 0; triangle1 < triangle_num1; triangle1++)
-            {
-                triangle_node2[0 + (triangle1 * 4 + 0) * 3] = triangle_node1[0 + triangle1 * 3];
-                triangle_node2[1 + (triangle1 * 4 + 1) * 3] = triangle_node1[1 + triangle1 * 3];
-                triangle_node2[2 + (triangle1 * 4 + 2) * 3] = triangle_node1[2 + triangle1 * 3];
-            }
-
-            node = node_num1;
-
-            n1_old = -1;
-            n2_old = -1;
-
-            for (edge = 0; edge < 3 * triangle_num1; edge++)
-            {
-                n1 = edge_data[0 + edge * 5] - 1;
-                n2 = edge_data[1 + edge * 5] - 1;
-                //
-                //  If this edge is new, create the coordinates and index for this node.
-                //
-                if (n1 != n1_old || n2 != n2_old)
-                {
-
-                    if (node_num2 < node)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("TRIANGLE_MESH_ORDER3_REFINE - Fatal error!");
-                        Console.WriteLine("  Node index exceeds NODE_NUM2.");
-                        return;
-                    }
-
-                    for (i = 0; i < 2; i++)
-                    {
-                        node_xy2[((i + node * 2) + node_xy2.Length) % node_xy2.Length] = (node_xy2[((i + n1 * 2) + node_xy2.Length) % node_xy2.Length] + node_xy2[((i + n2 * 2) + node_xy2.Length) % node_xy2.Length]) / 2.0;
-                    }
-
-                    node = node + 1;
-
-                    n1_old = n1;
-                    n2_old = n2;
-                }
-
-                //
-                //  Assign the node to triangles.
-                //
-                v1 = edge_data[2 + edge * 5];
-                v2 = edge_data[3 + edge * 5];
-                triangle1 = edge_data[4 + edge * 5];
-
-                if (v1 == 1 && v2 == 2)
-                {
-                    triangle_node2[0 + (triangle1 * 4 + 1) * 3] = node;
-                    triangle_node2[1 + (triangle1 * 4 + 0) * 3] = node;
-                    triangle_node2[2 + (triangle1 * 4 + 3) * 3] = node;
-                }
-                else if (v1 == 1 && v2 == 3)
-                {
-                    triangle_node2[0 + (triangle1 * 4 + 2) * 3] = node;
-                    triangle_node2[1 + (triangle1 * 4 + 3) * 3] = node;
-                    triangle_node2[2 + (triangle1 * 4 + 0) * 3] = node;
-                }
-                else if (v1 == 2 && v2 == 3)
-                {
-                    triangle_node2[0 + (triangle1 * 4 + 3) * 3] = node;
-                    triangle_node2[1 + (triangle1 * 4 + 2) * 3] = node;
-                    triangle_node2[2 + (triangle1 * 4 + 1) * 3] = node;
-                }
+                node_xy2[i + j * 2] = node_xy1[i + j * 2];
             }
         }
 
-        public static void triangulation_order3_refine_size(int node_num1, int triangle_num1,
+        for (j = 0; j < triangle_num2; j++)
+        {
+            for (i = 0; i < 3; i++)
+            {
+                triangle_node2[i + j * 3] = -1;
+            }
+        }
+
+        //
+        //  We can assign the existing nodes to the new triangles.
+        //
+        for (triangle1 = 0; triangle1 < triangle_num1; triangle1++)
+        {
+            triangle_node2[0 + (triangle1 * 4 + 0) * 3] = triangle_node1[0 + triangle1 * 3];
+            triangle_node2[1 + (triangle1 * 4 + 1) * 3] = triangle_node1[1 + triangle1 * 3];
+            triangle_node2[2 + (triangle1 * 4 + 2) * 3] = triangle_node1[2 + triangle1 * 3];
+        }
+
+        node = node_num1;
+
+        n1_old = -1;
+        n2_old = -1;
+
+        for (edge = 0; edge < 3 * triangle_num1; edge++)
+        {
+            n1 = edge_data[0 + edge * 5] - 1;
+            n2 = edge_data[1 + edge * 5] - 1;
+            //
+            //  If this edge is new, create the coordinates and index for this node.
+            //
+            if (n1 != n1_old || n2 != n2_old)
+            {
+
+                if (node_num2 < node)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("TRIANGLE_MESH_ORDER3_REFINE - Fatal error!");
+                    Console.WriteLine("  Node index exceeds NODE_NUM2.");
+                    return;
+                }
+
+                for (i = 0; i < 2; i++)
+                {
+                    node_xy2[(i + node * 2 + node_xy2.Length) % node_xy2.Length] = (node_xy2[(i + n1 * 2 + node_xy2.Length) % node_xy2.Length] + node_xy2[(i + n2 * 2 + node_xy2.Length) % node_xy2.Length]) / 2.0;
+                }
+
+                node += 1;
+
+                n1_old = n1;
+                n2_old = n2;
+            }
+
+            //
+            //  Assign the node to triangles.
+            //
+            v1 = edge_data[2 + edge * 5];
+            v2 = edge_data[3 + edge * 5];
+            triangle1 = edge_data[4 + edge * 5];
+
+            switch (v1)
+            {
+                case 1 when v2 == 2:
+                    triangle_node2[0 + (triangle1 * 4 + 1) * 3] = node;
+                    triangle_node2[1 + (triangle1 * 4 + 0) * 3] = node;
+                    triangle_node2[2 + (triangle1 * 4 + 3) * 3] = node;
+                    break;
+                case 1 when v2 == 3:
+                    triangle_node2[0 + (triangle1 * 4 + 2) * 3] = node;
+                    triangle_node2[1 + (triangle1 * 4 + 3) * 3] = node;
+                    triangle_node2[2 + (triangle1 * 4 + 0) * 3] = node;
+                    break;
+                case 2 when v2 == 3:
+                    triangle_node2[0 + (triangle1 * 4 + 3) * 3] = node;
+                    triangle_node2[1 + (triangle1 * 4 + 2) * 3] = node;
+                    triangle_node2[2 + (triangle1 * 4 + 1) * 3] = node;
+                    break;
+            }
+        }
+    }
+
+    public static void triangulation_order3_refine_size(int node_num1, int triangle_num1,
             int[] triangle_node1, ref int node_num2, ref int triangle_num2, ref int[] edge_data )
 
         //****************************************************************************80
@@ -240,97 +240,96 @@ namespace Burkardt.TriangulationNS
         //    Output, int EDGE_DATA[5*(3*TRIANGLE_NUM1)], edge data that will
         //    be needed by TRIANGULATION_ORDER3_REFINE_COMPUTE.
         //
+    {
+        int a;
+        int b;
+        int edge;
+        int i;
+        int j;
+        int k;
+        int n1;
+        int n1_old;
+        int n2;
+        int n2_old;
+        int triangle;
+        //
+        //  Step 1.
+        //  From the list of nodes for triangle T, of the form: (I,J,K)
+        //  construct the edge relations:
+        //
+        //    (I,J,1,2,T)
+        //    (I,K,1,3,T)
+        //    (J,K,2,3,T)
+        //
+        //  In order to make matching easier, we reorder each pair of nodes
+        //  into ascending order.
+        //
+        for (triangle = 0; triangle < triangle_num1; triangle++)
         {
-            int a;
-            int b;
-            int edge;
-            int i;
-            int j;
-            int k;
-            int n1;
-            int n1_old;
-            int n2;
-            int n2_old;
-            int triangle;
-            //
-            //  Step 1.
-            //  From the list of nodes for triangle T, of the form: (I,J,K)
-            //  construct the edge relations:
-            //
-            //    (I,J,1,2,T)
-            //    (I,K,1,3,T)
-            //    (J,K,2,3,T)
-            //
-            //  In order to make matching easier, we reorder each pair of nodes
-            //  into ascending order.
-            //
-            for (triangle = 0; triangle < triangle_num1; triangle++)
-            {
-                i = triangle_node1[0 + triangle * 3];
-                j = triangle_node1[1 + triangle * 3];
-                k = triangle_node1[2 + triangle * 3];
+            i = triangle_node1[0 + triangle * 3];
+            j = triangle_node1[1 + triangle * 3];
+            k = triangle_node1[2 + triangle * 3];
 
-                a = Math.Min(i, j);
-                b = Math.Max(i, j);
+            a = Math.Min(i, j);
+            b = Math.Max(i, j);
 
-                edge_data[0 + 5 * (3 * triangle + 0)] = a;
-                edge_data[1 + 5 * (3 * triangle + 0)] = b;
-                edge_data[2 + 5 * (3 * triangle + 0)] = 1;
-                edge_data[3 + 5 * (3 * triangle + 0)] = 2;
-                edge_data[4 + 5 * (3 * triangle + 0)] = triangle;
+            edge_data[0 + 5 * (3 * triangle + 0)] = a;
+            edge_data[1 + 5 * (3 * triangle + 0)] = b;
+            edge_data[2 + 5 * (3 * triangle + 0)] = 1;
+            edge_data[3 + 5 * (3 * triangle + 0)] = 2;
+            edge_data[4 + 5 * (3 * triangle + 0)] = triangle;
 
-                a = Math.Min(i, k);
-                b = Math.Max(i, k);
+            a = Math.Min(i, k);
+            b = Math.Max(i, k);
 
-                edge_data[0 + 5 * (3 * triangle + 1)] = a;
-                edge_data[1 + 5 * (3 * triangle + 1)] = b;
-                edge_data[2 + 5 * (3 * triangle + 1)] = 1;
-                edge_data[3 + 5 * (3 * triangle + 1)] = 3;
-                edge_data[4 + 5 * (3 * triangle + 1)] = triangle;
+            edge_data[0 + 5 * (3 * triangle + 1)] = a;
+            edge_data[1 + 5 * (3 * triangle + 1)] = b;
+            edge_data[2 + 5 * (3 * triangle + 1)] = 1;
+            edge_data[3 + 5 * (3 * triangle + 1)] = 3;
+            edge_data[4 + 5 * (3 * triangle + 1)] = triangle;
 
-                a = Math.Min(j, k);
-                b = Math.Max(j, k);
+            a = Math.Min(j, k);
+            b = Math.Max(j, k);
 
-                edge_data[0 + 5 * (3 * triangle + 2)] = a;
-                edge_data[1 + 5 * (3 * triangle + 2)] = b;
-                edge_data[2 + 5 * (3 * triangle + 2)] = 2;
-                edge_data[3 + 5 * (3 * triangle + 2)] = 3;
-                edge_data[4 + 5 * (3 * triangle + 2)] = triangle;
-            }
-
-            //
-            //  Step 2. Perform an ascending dictionary sort on the neighbor relations.
-            //  We only intend to sort on rows 1:2; the routine we call here
-            //  sorts on the full column but that won't hurt us.
-            //
-            //  What we need is to find all cases where triangles share an edge.
-            //  By sorting the columns of the EDGE_DATA array, we will put shared edges
-            //  next to each other.
-            //
-            typeMethods.i4col_sort_a(5, 3 * triangle_num1, ref edge_data);
-            //
-            //  Step 3. All the triangles which share an edge show up as consecutive
-            //  columns with identical first two entries.  Figure out how many new
-            //  nodes there are, and allocate space for their coordinates.
-            //
-            node_num2 = node_num1;
-
-            n1_old = -1;
-            n2_old = -1;
-
-            for (edge = 0; edge < 3 * triangle_num1; edge++)
-            {
-                n1 = edge_data[0 + edge * 5];
-                n2 = edge_data[1 + edge * 5];
-                if (n1 != n1_old || n2 != n2_old)
-                {
-                    node_num2 = node_num2 + 1;
-                    n1_old = n1;
-                    n2_old = n2;
-                }
-            }
-
-            triangle_num2 = 4 * triangle_num1;
+            edge_data[0 + 5 * (3 * triangle + 2)] = a;
+            edge_data[1 + 5 * (3 * triangle + 2)] = b;
+            edge_data[2 + 5 * (3 * triangle + 2)] = 2;
+            edge_data[3 + 5 * (3 * triangle + 2)] = 3;
+            edge_data[4 + 5 * (3 * triangle + 2)] = triangle;
         }
+
+        //
+        //  Step 2. Perform an ascending dictionary sort on the neighbor relations.
+        //  We only intend to sort on rows 1:2; the routine we call here
+        //  sorts on the full column but that won't hurt us.
+        //
+        //  What we need is to find all cases where triangles share an edge.
+        //  By sorting the columns of the EDGE_DATA array, we will put shared edges
+        //  next to each other.
+        //
+        typeMethods.i4col_sort_a(5, 3 * triangle_num1, ref edge_data);
+        //
+        //  Step 3. All the triangles which share an edge show up as consecutive
+        //  columns with identical first two entries.  Figure out how many new
+        //  nodes there are, and allocate space for their coordinates.
+        //
+        node_num2 = node_num1;
+
+        n1_old = -1;
+        n2_old = -1;
+
+        for (edge = 0; edge < 3 * triangle_num1; edge++)
+        {
+            n1 = edge_data[0 + edge * 5];
+            n2 = edge_data[1 + edge * 5];
+            if (n1 != n1_old || n2 != n2_old)
+            {
+                node_num2 += 1;
+                n1_old = n1;
+                n2_old = n2;
+            }
+        }
+
+        triangle_num2 = 4 * triangle_num1;
     }
 }

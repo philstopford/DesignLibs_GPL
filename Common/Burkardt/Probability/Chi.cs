@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Chi
 {
-    public static class Chi
-    {
-        public static double chi_cdf(double x, double a, double b, double c)
+    public static double chi_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,26 +34,26 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x <= a)
         {
-            double cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            double y = (x - a) / b;
+            double x2 = 0.5 * y * y;
+            double p2 = 0.5 * c;
 
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                double y = (x - a) / b;
-                double x2 = 0.5 * y * y;
-                double p2 = 0.5 * c;
-
-                cdf = typeMethods.r8_gamma_inc(p2, x2);
-            }
-
-            return cdf;
+            cdf = typeMethods.r8_gamma_inc(p2, x2);
         }
 
-        public static double chi_cdf_inv(double cdf, double a, double b, double c)
+        return cdf;
+    }
+
+    public static double chi_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -86,93 +86,90 @@ namespace Burkardt.Probability
         //
         //    Output, double CHI_CDF_INV, the corresponding argument of the CDF.
         //
+    {
+        double cdf2;
+        int it_max = 100;
+        const double r8_huge = 1.0E+30;
+        double tol = 0.0001;
+
+        double x = 0.0;
+
+        switch (cdf)
         {
-            double cdf2;
-            int it_max = 100;
-            const double r8_huge = 1.0E+30;
-            double tol = 0.0001;
-
-            double x = 0.0;
-
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CHI_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf == 0.0)
-            {
+                return 1;
+            case 0.0:
                 x = a;
                 return x;
-            }
-            else if (1.0 == cdf)
-            {
+            case 1.0:
                 x = r8_huge;
+                return x;
+        }
+
+        double x1 = a;
+        double cdf1 = 0.0;
+
+        double x2 = a + 1.0;
+
+        for (;;)
+        {
+            cdf2 = chi_cdf(x2, a, b, c);
+
+            if (cdf < cdf2)
+            {
+                break;
+            }
+
+            x2 = a + 2.0 * (x2 - a);
+        }
+
+        //
+        //  Now use bisection.
+        //
+        int it = 0;
+
+        for (;;)
+        {
+            it += 1;
+
+            double x3 = 0.5 * (x1 + x2);
+            double cdf3 = chi_cdf(x3, a, b, c);
+
+            if (Math.Abs(cdf3 - cdf) < tol)
+            {
+                x = x3;
+                break;
+            }
+
+            if (it_max < it)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("CHI_CDF_INV - Fatal error!");
+                Console.WriteLine("  Iteration limit exceeded.");
                 return x;
             }
 
-            double x1 = a;
-            double cdf1 = 0.0;
-
-            double x2 = a + 1.0;
-
-            for (;;)
+            if (cdf3 <= cdf && cdf1 <= cdf || cdf <= cdf3 && cdf <= cdf1)
             {
-                cdf2 = chi_cdf(x2, a, b, c);
-
-                if (cdf < cdf2)
-                {
-                    break;
-                }
-
-                x2 = a + 2.0 * (x2 - a);
+                x1 = x3;
+                cdf1 = cdf3;
+            }
+            else
+            {
+                x2 = x3;
+                cdf2 = cdf3;
             }
 
-            //
-            //  Now use bisection.
-            //
-            int it = 0;
-
-            for (;;)
-            {
-                it = it + 1;
-
-                double x3 = 0.5 * (x1 + x2);
-                double cdf3 = chi_cdf(x3, a, b, c);
-
-                if (Math.Abs(cdf3 - cdf) < tol)
-                {
-                    x = x3;
-                    break;
-                }
-
-                if (it_max < it)
-                {
-                    Console.WriteLine(" ");
-                    Console.WriteLine("CHI_CDF_INV - Fatal error!");
-                    Console.WriteLine("  Iteration limit exceeded.");
-                    return x;
-                }
-
-                if ((cdf3 <= cdf && cdf1 <= cdf) || (cdf <= cdf3 && cdf <= cdf1))
-                {
-                    x1 = x3;
-                    cdf1 = cdf3;
-                }
-                else
-                {
-                    x2 = x3;
-                    cdf2 = cdf3;
-                }
-
-            }
-
-            return x;
         }
 
-        public static bool chi_check(double a, double b, double c)
+        return x;
+    }
+
+    public static bool chi_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -199,27 +196,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool CHI_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CHI_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.0.");
                 return false;
-            }
+        }
 
-            if (c <= 0.0)
-            {
+        switch (c)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CHI_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double chi_mean(double a, double b, double c)
+    public static double chi_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -246,14 +245,14 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean value.
         //
-        {
-            double mean = a + Math.Sqrt(2.0) * b * Helpers.Gamma(0.5 * (c + 1.0))
-                / Helpers.Gamma(0.5 * c);
+    {
+        double mean = a + Math.Sqrt(2.0) * b * Helpers.Gamma(0.5 * (c + 1.0))
+            / Helpers.Gamma(0.5 * c);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double chi_pdf(double x, double a, double b, double c)
+    public static double chi_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -293,25 +292,25 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x <= a)
         {
-            double pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            double y = (x - a) / b;
 
-            if (x <= a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                double y = (x - a) / b;
-
-                pdf = Math.Exp(-0.5 * y * y) * Math.Pow(y, (c - 1.0)) /
-                      (Math.Pow(2.0, (0.5 * c - 1.0)) * b * Helpers.Gamma(0.5 * c));
-            }
-
-            return pdf;
+            pdf = Math.Exp(-0.5 * y * y) * Math.Pow(y, c - 1.0) /
+                  (Math.Pow(2.0, 0.5 * c - 1.0) * b * Helpers.Gamma(0.5 * c));
         }
 
-        public static double chi_sample(double a, double b, double c, ref int seed)
+        return pdf;
+    }
+
+    public static double chi_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -340,15 +339,15 @@ namespace Burkardt.Probability
         //
         //    Output, double CHI_SAMPLE, a sample of the PDF.
         //
-        {
-            double x = chi_square_sample(c, ref seed);
+    {
+        double x = chi_square_sample(c, ref seed);
 
-            x = a + b * Math.Sqrt(x);
+        x = a + b * Math.Sqrt(x);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double chi_variance(double a, double b, double c)
+    public static double chi_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -375,14 +374,14 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = b * b * (c - 2.0 *
-                Math.Pow((Helpers.Gamma(0.5 * (c + 1.0)) / Helpers.Gamma(0.5 * c)), 2));
+    {
+        double variance = b * b * (c - 2.0 *
+            Math.Pow(Helpers.Gamma(0.5 * (c + 1.0)) / Helpers.Gamma(0.5 * c), 2));
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double chi_square_cdf(double x, double a)
+    public static double chi_square_cdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -410,18 +409,18 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
-        {
-            double x2 = 0.5 * x;
-            double a2 = 0.0;
-            double b2 = 1.0;
-            double c2 = 0.5 * a;
+    {
+        double x2 = 0.5 * x;
+        double a2 = 0.0;
+        double b2 = 1.0;
+        double c2 = 0.5 * a;
 
-            double cdf = Gamma.gamma_cdf(x2, a2, b2, c2);
+        double cdf = Gamma.gamma_cdf(x2, a2, b2, c2);
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double chi_square_cdf_inv(double cdf, double a)
+    public static double chi_square_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -462,209 +461,209 @@ namespace Burkardt.Probability
         //    with the property that the probability that a chi-squared random
         //    deviate with parameter A is less than or equal to X is CDF.
         //
+    {
+        double a2;
+        double aa = 0.6931471806;
+        double c1 = 0.01;
+        double c2 = 0.222222;
+        double c3 = 0.32;
+        double c4 = 0.4;
+        double c5 = 1.24;
+        double c6 = 2.2;
+        double c7 = 4.67;
+        double c8 = 6.66;
+        double c9 = 6.73;
+        double c10 = 13.32;
+        double c11 = 60.0;
+        double c12 = 70.0;
+        double c13 = 84.0;
+        double c14 = 105.0;
+        double c15 = 120.0;
+        double c16 = 127.0;
+        double c17 = 140.0;
+        double c18 = 175.0;
+        double c19 = 210.0;
+        double c20 = 252.0;
+        double c21 = 264.0;
+        double c22 = 294.0;
+        double c23 = 346.0;
+        double c24 = 420.0;
+        double c25 = 462.0;
+        double c26 = 606.0;
+        double c27 = 672.0;
+        double c28 = 707.0;
+        double c29 = 735.0;
+        double c30 = 889.0;
+        double c31 = 932.0;
+        double c32 = 966.0;
+        double c33 = 1141.0;
+        double c34 = 1182.0;
+        double c35 = 1278.0;
+        double c36 = 1740.0;
+        double c37 = 2520.0;
+        double c38 = 5040.0;
+        double cdf_max = 0.999998;
+        double cdf_min = 0.000002;
+        double ch;
+        double e = 0.0000005;
+        double g;
+        int i;
+        int it_max = 20;
+        double p1;
+        double p2;
+        double q;
+        double t;
+        double x;
+        //
+        if (cdf < cdf_min)
         {
-            double a2;
-            double aa = 0.6931471806;
-            double c1 = 0.01;
-            double c2 = 0.222222;
-            double c3 = 0.32;
-            double c4 = 0.4;
-            double c5 = 1.24;
-            double c6 = 2.2;
-            double c7 = 4.67;
-            double c8 = 6.66;
-            double c9 = 6.73;
-            double c10 = 13.32;
-            double c11 = 60.0;
-            double c12 = 70.0;
-            double c13 = 84.0;
-            double c14 = 105.0;
-            double c15 = 120.0;
-            double c16 = 127.0;
-            double c17 = 140.0;
-            double c18 = 175.0;
-            double c19 = 210.0;
-            double c20 = 252.0;
-            double c21 = 264.0;
-            double c22 = 294.0;
-            double c23 = 346.0;
-            double c24 = 420.0;
-            double c25 = 462.0;
-            double c26 = 606.0;
-            double c27 = 672.0;
-            double c28 = 707.0;
-            double c29 = 735.0;
-            double c30 = 889.0;
-            double c31 = 932.0;
-            double c32 = 966.0;
-            double c33 = 1141.0;
-            double c34 = 1182.0;
-            double c35 = 1278.0;
-            double c36 = 1740.0;
-            double c37 = 2520.0;
-            double c38 = 5040.0;
-            double cdf_max = 0.999998;
-            double cdf_min = 0.000002;
-            double ch;
-            double e = 0.0000005;
-            double g;
-            int i;
-            int it_max = 20;
-            double p1;
-            double p2;
-            double q;
-            double t;
-            double x;
-            //
-            if (cdf < cdf_min)
-            {
-                x = -1.0;
-                Console.WriteLine(" ");
-                Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
-                Console.WriteLine("  CDF < CDF_MIN.");
-                return (1);
-            }
-
-            if (cdf_max < cdf)
-            {
-                x = -1.0;
-                Console.WriteLine(" ");
-                Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
-                Console.WriteLine("  CDF_MAX < CDF.");
-                return (1);
-            }
-
-            double xx = 0.5 * a;
-            double c = xx - 1.0;
-            //
-            //  Compute Log ( Gamma ( A/2 ) ).
-            //
-            g = Helpers.LogGamma(a / 2.0);
-            //
-            //  Starting approximation for small chi-squared.
-            //
-            if (a < -c5 * Math.Log(cdf))
-            {
-                ch = Math.Pow((cdf * xx * Math.Exp(g + xx * aa)), (1.0 / xx));
-
-                if (ch < e)
-                {
-                    x = ch;
-                    return x;
-                }
-            }
-            //
-            //  Starting approximation for A less than or equal to 0.32.
-            //
-            else if (a <= c3)
-            {
-                ch = c4;
-                a2 = Math.Log(1.0 - cdf);
-
-                for (;;)
-                {
-                    q = ch;
-                    p1 = 1.0 + ch * (c7 + ch);
-                    p2 = ch * (c9 + ch * (c8 + ch));
-
-                    t = -0.5 + (c7 + 2.0 * ch) / p1 - (c9 + ch * (c10 + 3.0 * ch)) / p2;
-
-                    ch = ch - (1.0 - Math.Exp(a2 + g + 0.5 * ch + c * aa) * p2 / p1) / t;
-
-                    if (Math.Abs(q / ch - 1.0) <= c1)
-                    {
-                        break;
-                    }
-                }
-            }
-            //
-            //  Call to algorithm AS 111.
-            //  Note that P has been tested above.
-            //  AS 241 could be used as an alternative.
-            //
-            else
-            {
-                double x2 = Normal.normal_01_cdf_inv(cdf);
-                //
-                //  Starting approximation using Wilson and Hilferty estimate.
-                //
-                p1 = c2 / a;
-                ch = a * Math.Pow((x2 * Math.Sqrt(p1) + 1.0 - p1), 3);
-                //
-                //  Starting approximation for P tending to 1.
-                //
-                if (c6 * a + 6.0 < ch)
-                {
-                    ch = -2.0 * (Math.Log(1.0 - cdf) - c * Math.Log(0.5 * ch) + g);
-                }
-            }
-
-            //
-            //  Call to algorithm AS 239 and calculation of seven term Taylor series.
-            //
-            for (i = 1; i <= it_max; i++)
-            {
-                q = ch;
-                p1 = 0.5 * ch;
-                p2 = cdf - typeMethods.r8_gamma_inc(xx, p1);
-                t = p2 * Math.Exp(xx * aa + g + p1 - c * Math.Log(ch));
-                double b = t / ch;
-                a2 = 0.5 * t - b * c;
-
-                double s1 = (c19 + a2
-                    * (c17 + a2
-                        * (c14 + a2
-                            * (c13 + a2
-                                * (c12 + a2
-                                    * c11))))) / c24;
-
-                double s2 = (c24 + a2
-                    * (c29 + a2
-                        * (c32 + a2
-                            * (c33 + a2
-                                * c35)))) / c37;
-
-                double s3 = (c19 + a2
-                    * (c25 + a2
-                        * (c28 + a2
-                            * c31))) / c37;
-
-                double s4 = (c20 + a2
-                    * (c27 + a2
-                        * c34) + c
-                    * (c22 + a2
-                        * (c30 + a2
-                            * c36))) / c38;
-
-                double s5 = (c13 + c21 * a2 + c * (c18 + c26 * a2)) / c37;
-
-                double s6 = (c15 + c * (c23 + c16 * c)) / c38;
-
-                ch = ch + t * (1.0 + 0.5 * t * s1 - b * c
-                                                      * (s1 - b
-                                                          * (s2 - b
-                                                              * (s3 - b
-                                                                  * (s4 - b
-                                                                      * (s5 - b
-                                                                          * s6))))));
-
-                if (e < Math.Abs(q / ch - 1.0))
-                {
-                    x = ch;
-                    return x;
-                }
-
-            }
-
-            x = ch;
+            x = -1.0;
             Console.WriteLine(" ");
-            Console.WriteLine("CHI_SQUARE_CDF_INV - Warning!");
-            Console.WriteLine("  Convergence not reached.");
-
-            return x;
+            Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
+            Console.WriteLine("  CDF < CDF_MIN.");
+            return 1;
         }
 
-        public static void chi_square_cdf_values(ref int n_data, ref int a, ref double x, ref double fx )
+        if (cdf_max < cdf)
+        {
+            x = -1.0;
+            Console.WriteLine(" ");
+            Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
+            Console.WriteLine("  CDF_MAX < CDF.");
+            return 1;
+        }
+
+        double xx = 0.5 * a;
+        double c = xx - 1.0;
+        //
+        //  Compute Log ( Gamma ( A/2 ) ).
+        //
+        g = Helpers.LogGamma(a / 2.0);
+        //
+        //  Starting approximation for small chi-squared.
+        //
+        if (a < -c5 * Math.Log(cdf))
+        {
+            ch = Math.Pow(cdf * xx * Math.Exp(g + xx * aa), 1.0 / xx);
+
+            if (ch < e)
+            {
+                x = ch;
+                return x;
+            }
+        }
+        //
+        //  Starting approximation for A less than or equal to 0.32.
+        //
+        else if (a <= c3)
+        {
+            ch = c4;
+            a2 = Math.Log(1.0 - cdf);
+
+            for (;;)
+            {
+                q = ch;
+                p1 = 1.0 + ch * (c7 + ch);
+                p2 = ch * (c9 + ch * (c8 + ch));
+
+                t = -0.5 + (c7 + 2.0 * ch) / p1 - (c9 + ch * (c10 + 3.0 * ch)) / p2;
+
+                ch -= (1.0 - Math.Exp(a2 + g + 0.5 * ch + c * aa) * p2 / p1) / t;
+
+                if (Math.Abs(q / ch - 1.0) <= c1)
+                {
+                    break;
+                }
+            }
+        }
+        //
+        //  Call to algorithm AS 111.
+        //  Note that P has been tested above.
+        //  AS 241 could be used as an alternative.
+        //
+        else
+        {
+            double x2 = Normal.normal_01_cdf_inv(cdf);
+            //
+            //  Starting approximation using Wilson and Hilferty estimate.
+            //
+            p1 = c2 / a;
+            ch = a * Math.Pow(x2 * Math.Sqrt(p1) + 1.0 - p1, 3);
+            //
+            //  Starting approximation for P tending to 1.
+            //
+            if (c6 * a + 6.0 < ch)
+            {
+                ch = -2.0 * (Math.Log(1.0 - cdf) - c * Math.Log(0.5 * ch) + g);
+            }
+        }
+
+        //
+        //  Call to algorithm AS 239 and calculation of seven term Taylor series.
+        //
+        for (i = 1; i <= it_max; i++)
+        {
+            q = ch;
+            p1 = 0.5 * ch;
+            p2 = cdf - typeMethods.r8_gamma_inc(xx, p1);
+            t = p2 * Math.Exp(xx * aa + g + p1 - c * Math.Log(ch));
+            double b = t / ch;
+            a2 = 0.5 * t - b * c;
+
+            double s1 = (c19 + a2
+                * (c17 + a2
+                    * (c14 + a2
+                        * (c13 + a2
+                            * (c12 + a2
+                                * c11))))) / c24;
+
+            double s2 = (c24 + a2
+                * (c29 + a2
+                    * (c32 + a2
+                        * (c33 + a2
+                            * c35)))) / c37;
+
+            double s3 = (c19 + a2
+                * (c25 + a2
+                    * (c28 + a2
+                        * c31))) / c37;
+
+            double s4 = (c20 + a2
+                * (c27 + a2
+                    * c34) + c
+                * (c22 + a2
+                    * (c30 + a2
+                        * c36))) / c38;
+
+            double s5 = (c13 + c21 * a2 + c * (c18 + c26 * a2)) / c37;
+
+            double s6 = (c15 + c * (c23 + c16 * c)) / c38;
+
+            ch += t * (1.0 + 0.5 * t * s1 - b * c
+                                              * (s1 - b
+                                                  * (s2 - b
+                                                      * (s3 - b
+                                                          * (s4 - b
+                                                              * (s5 - b
+                                                                  * s6))))));
+
+            if (e < Math.Abs(q / ch - 1.0))
+            {
+                x = ch;
+                return x;
+            }
+
+        }
+
+        x = ch;
+        Console.WriteLine(" ");
+        Console.WriteLine("CHI_SQUARE_CDF_INV - Warning!");
+        Console.WriteLine("  Convergence not reached.");
+
+        return x;
+    }
+
+    public static void chi_square_cdf_values(ref int n_data, ref int a, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -719,10 +718,10 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 21;
+    {
+        const int N_MAX = 21;
 
-            int[] a_vec =
+        int[] a_vec =
             {
                 1, 2, 1, 2,
                 1, 2, 3, 4,
@@ -733,7 +732,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.7965567455405796E-01,
                 0.4987520807317687E-02,
@@ -759,7 +758,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.01E+00,
                 0.01E+00,
@@ -785,29 +784,30 @@ namespace Burkardt.Probability
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                a = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            a = 0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            a = a_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool chi_square_check(double a)
+    public static bool chi_square_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -833,19 +833,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool CHI_SQUARE_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 1.0)
-            {
+            case < 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CHI_SQUARE_CHECK - Warning!");
                 Console.WriteLine("  A < 1.0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double chi_square_mean(double a)
+    public static double chi_square_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -871,13 +872,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean value.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double chi_square_pdf(double x, double a)
+    public static double chi_square_pdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -911,24 +912,27 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
 
-            if (x < 0.0)
-            {
+        switch (x)
+        {
+            case < 0.0:
                 pdf = 0.0;
-            }
-            else
+                break;
+            default:
             {
                 double b = a / 2.0;
-                pdf = Math.Exp(-0.5 * x) * Math.Pow(x, (b - 1.0)) / (Math.Pow(2.0, b)
-                                                                     * Helpers.Gamma(b));
+                pdf = Math.Exp(-0.5 * x) * Math.Pow(x, b - 1.0) / (Math.Pow(2.0, b)
+                                                                   * Helpers.Gamma(b));
+                break;
             }
-
-            return pdf;
         }
 
-        public static double chi_square_sample(double a, ref int seed)
+        return pdf;
+    }
+
+    public static double chi_square_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -956,37 +960,37 @@ namespace Burkardt.Probability
         //
         //    Output, double CHI_SQUARE_SAMPLE, a sample of the PDF.
         //
+    {
+        int i;
+        int it_max = 100;
+        double x;
+
+        int n = (int) a;
+
+        if (n == a && n <= it_max)
         {
-            int i;
-            int it_max = 100;
-            double x;
-
-            int n = (int) a;
-
-            if ((double) (n) == a && n <= it_max)
+            x = 0.0;
+            for (i = 1; i <= n; i++)
             {
-                x = 0.0;
-                for (i = 1; i <= n; i++)
-                {
-                    double x2 = Normal.normal_01_sample(ref seed);
-                    x = x + x2 * x2;
-                }
+                double x2 = Normal.normal_01_sample(ref seed);
+                x += x2 * x2;
             }
-            else
-            {
-                double a2 = 0.0;
-                double b2 = 1.0;
-                double c2 = a / 2.0;
+        }
+        else
+        {
+            double a2 = 0.0;
+            double b2 = 1.0;
+            double c2 = a / 2.0;
 
-                x = Gamma.gamma_sample(a2, b2, c2, ref seed);
+            x = Gamma.gamma_sample(a2, b2, c2, ref seed);
 
-                x = 2.0 * x;
-            }
-
-            return x;
+            x = 2.0 * x;
         }
 
-        public static double chi_square_variance(double a)
+        return x;
+    }
+
+    public static double chi_square_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1012,13 +1016,13 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 2.0 * a;
+    {
+        double variance = 2.0 * a;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static void chi_square_noncentral_cdf_values(ref int n_data, ref int df, ref double lambda,
+    public static void chi_square_noncentral_cdf_values(ref int n_data, ref int df, ref double lambda,
             ref double x, ref double cdf )
         //****************************************************************************80
         //
@@ -1070,10 +1074,10 @@ namespace Burkardt.Probability
         //
         //    Output, double &CDF, the noncentral chi CDF.
         //
-        {
-            int N_MAX = 28;
+    {
+        const int N_MAX = 28;
 
-            double[] cdf_vec =
+        double[] cdf_vec =
             {
                 0.8399444269398261E+00,
                 0.6959060300435139E+00,
@@ -1106,7 +1110,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            int[] df_vec =
+        int[] df_vec =
             {
                 1, 2, 3,
                 1, 2, 3,
@@ -1121,7 +1125,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] lambda_vec =
+        double[] lambda_vec =
             {
                 0.5E+00,
                 0.5E+00,
@@ -1154,7 +1158,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 3.000E+00,
                 3.000E+00,
@@ -1187,31 +1191,32 @@ namespace Burkardt.Probability
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                lambda = 0.0;
-                df = 0;
-                cdf = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                lambda = lambda_vec[n_data - 1];
-                df = df_vec[n_data - 1];
-                cdf = cdf_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            lambda = 0.0;
+            df = 0;
+            cdf = 0.0;
         }
+        else
+        {
+            x = x_vec[n_data - 1];
+            lambda = lambda_vec[n_data - 1];
+            df = df_vec[n_data - 1];
+            cdf = cdf_vec[n_data - 1];
+        }
+    }
 
-        public static bool chi_square_noncentral_check(double a, double b)
+    public static bool chi_square_noncentral_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1241,27 +1246,29 @@ namespace Burkardt.Probability
         //    Output, bool CHI_SQUARE_NONCENTRAL_CHECK, is true if the parameters
         //    are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 1.0)
-            {
+            case < 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CHI_SQUARE_NONCENTRAL_CHECK - Warning!");
                 Console.WriteLine("  A < 1.");
                 return false;
-            }
+        }
 
-            if (b < 0.0)
-            {
+        switch (b)
+        {
+            case < 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("CHI_SQUARE_NONCENTRAL_CHECK - Warning!");
                 Console.WriteLine("  B < 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double chi_square_noncentral_mean(double a, double b)
+    public static double chi_square_noncentral_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1290,13 +1297,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean value.
         //
-        {
-            double mean = a + b;
+    {
+        double mean = a + b;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double chi_square_noncentral_sample(double a, double b, ref int seed)
+    public static double chi_square_noncentral_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1327,21 +1334,21 @@ namespace Burkardt.Probability
         //
         //    Output, double CHI_SQUARE_NONCENTRAL_SAMPLE, a sample of the PDF.
         //
-        {
-            double a1 = a - 1.0;
+    {
+        double a1 = a - 1.0;
 
-            double x1 = chi_square_sample(a1, ref seed);
+        double x1 = chi_square_sample(a1, ref seed);
 
-            double a2 = Math.Sqrt(b);
-            double b2 = 1.0;
-            double x2 = Normal.normal_sample(a2, b2, ref seed);
+        double a2 = Math.Sqrt(b);
+        double b2 = 1.0;
+        double x2 = Normal.normal_sample(a2, b2, ref seed);
 
-            double x = x1 + x2 * x2;
+        double x = x1 + x2 * x2;
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double chi_square_noncentral_variance(double a, double b)
+    public static double chi_square_noncentral_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1370,11 +1377,10 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance value.
         //
-        {
-            double variance = 2.0 * (a + 2.0 * b);
+    {
+        double variance = 2.0 * (a + 2.0 * b);
 
-            return variance;
-        }
-
+        return variance;
     }
+
 }

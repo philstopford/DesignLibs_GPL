@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void syminv ( double[] a, int n, ref double[] c, double[] w, ref int nullty, 
-  ref int ifault )
+    public static void syminv ( double[] a, int n, ref double[] c, double[] w, ref int nullty, 
+            ref int ifault )
         //****************************************************************************80
         //
         //  Purpose:
@@ -57,59 +57,64 @@ namespace Burkardt.AppliedStatistics
         //    1, N < 1.
         //    2, A is not positive semi-definite.
         //
-        {
-            ifault = 0;
+    {
+        ifault = 0;
 
-            if (n <= 0)
-            {
+        switch (n)
+        {
+            case <= 0:
                 ifault = 1;
                 return;
-            }
+        }
 
-            int nrow = n;
-            //
-            //  Compute the Cholesky factorization of A.
-            //  The result is stored in C.
-            //
-            int nn = (n * (n + 1)) / 2;
+        int nrow = n;
+        //
+        //  Compute the Cholesky factorization of A.
+        //  The result is stored in C.
+        //
+        int nn = n * (n + 1) / 2;
 
-            cholesky(a, n, nn, ref c, ref nullty, ref ifault);
+        cholesky(a, n, nn, ref c, ref nullty, ref ifault);
 
-            if (ifault != 0)
+        if (ifault != 0)
+        {
+            return;
+        }
+
+        //
+        //  Invert C and form the product (Cinv)' * Cinv, where Cinv is the inverse
+        //  of C, row by row starting with the last row.
+        //  IROW = the row number, 
+        //  NDIAG = location of last element in the row.
+        //
+        int irow = nrow;
+        int ndiag = nn;
+        //
+        //  Special case, zero diagonal element.
+        //
+        for (;;)
+        {
+            int l;
+            switch (c[ndiag - 1])
             {
-                return;
-            }
-
-            //
-            //  Invert C and form the product (Cinv)' * Cinv, where Cinv is the inverse
-            //  of C, row by row starting with the last row.
-            //  IROW = the row number, 
-            //  NDIAG = location of last element in the row.
-            //
-            int irow = nrow;
-            int ndiag = nn;
-            //
-            //  Special case, zero diagonal element.
-            //
-            for (;;)
-            {
-                int l;
-                if (c[ndiag - 1] == 0.0)
+                case 0.0:
                 {
                     l = ndiag;
                     for (int j = irow; j <= nrow; j++)
                     {
                         c[l - 1] = 0.0;
-                        l = l + j;
+                        l += j;
                     }
+
+                    break;
                 }
-                else
+                default:
                 {
                     l = ndiag;
                     for (int i = irow; i <= nrow; i++)
                     {
                         w[i - 1] = c[l - 1];
-                        l = l + i;
+                        l += i;
                     }
 
                     int icol = nrow;
@@ -134,9 +139,9 @@ namespace Burkardt.AppliedStatistics
 
                         while (irow < k)
                         {
-                            x = x - w[k - 1] * c[l - 1];
-                            k = k - 1;
-                            l = l - 1;
+                            x -= w[k - 1] * c[l - 1];
+                            k -= 1;
+                            l -= 1;
 
                             if (mdiag < l)
                             {
@@ -151,19 +156,21 @@ namespace Burkardt.AppliedStatistics
                             break;
                         }
 
-                        mdiag = mdiag - icol;
-                        icol = icol - 1;
-                        jcol = jcol - 1;
+                        mdiag -= icol;
+                        icol -= 1;
+                        jcol -= 1;
                     }
-                }
 
-                ndiag = ndiag - irow;
-                irow = irow - 1;
-
-                if (irow <= 0)
-                {
                     break;
                 }
+            }
+
+            ndiag -= irow;
+            irow -= 1;
+
+            if (irow <= 0)
+            {
+                break;
             }
         }
     }

@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Ziggurat
+﻿namespace Burkardt.Ziggurat;
+
+public static class KISS
 {
-    public static class KISS
-    {
-        public static int kiss_seeded ( ref int jcong, ref int jsr, ref int w, ref int z )
+    public static int kiss_seeded ( ref int jcong, ref int jsr, ref int w, ref int z )
 
         //****************************************************************************80
         //
@@ -36,12 +36,9 @@
         //
         //    Output, uint32_t KISS_SEEDED, the new value.
         //
-        {
-            int value;
+    {
+        int value = ( MultiplyWithCarry.mwc_seeded ( ref w, ref z ) ^ Congruential.cong_seeded ( ref jcong ) ) + SHR3.shr3_seeded ( ref jsr );
 
-            value = ( MultiplyWithCarry.mwc_seeded ( ref w, ref z ) ^ Congruential.cong_seeded ( ref jcong ) ) + SHR3.shr3_seeded ( ref jsr );
-
-            return value;
-        }
+        return value;
     }
 }

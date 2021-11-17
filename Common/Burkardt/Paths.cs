@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.PathsNS
+namespace Burkardt.PathsNS;
+
+public static class Paths
 {
-    public static class Paths
-    {
-        public static void paths_plot(int n, int n2, double[] rho, double[] x, string header,
-        string title )
+    public static void paths_plot(int n, int n2, double[] rho, double[] x, string header,
+            string title )
 
         //****************************************************************************80
         //
@@ -41,51 +41,49 @@ namespace Burkardt.PathsNS
         //
         //    Input, string TITLE, a title for the plot.
         //
+    {
+        List<string> command_unit = new();
+        List<string> data_unit = new();
+        int i;
+
+        string data_filename = header + "_path_data.txt";
+
+        for (i = 0; i < n; i++)
         {
-            string command_filename;
-            List<string> command_unit = new List<string>();
-            string data_filename;
-            List<string> data_unit = new List<string>();
-            int i;
+            string line = "  " + rho[i];
             int j;
-            //double rho0;
-
-            data_filename = header + "_path_data.txt";
-
-            for (i = 0; i < n; i++)
+            for (j = 0; j < n2; j++)
             {
-                string line = "  " + rho[i];
-                for (j = 0; j < n2; j++)
-                {
-                    line += "  " + x[i + j * n];
-                }
-
-                data_unit.Add(line);;
+                line += "  " + x[i + j * n];
             }
 
-            File.WriteAllLines(data_filename, data_unit);
-            Console.WriteLine("  Created data file \"" + data_filename + "\".");
+            data_unit.Add(line);
+        }
 
-            command_filename = header + "_path_commands.txt";
+        File.WriteAllLines(data_filename, data_unit);
+        Console.WriteLine("  Created data file \"" + data_filename + "\".");
 
-            command_unit.Add("# " + command_filename + "");
-            command_unit.Add("#");
-            command_unit.Add("# Usage:");
-            command_unit.Add("#  gnuplot < " + command_filename + "");
-            command_unit.Add("#");
-            command_unit.Add("set term png");
-            command_unit.Add("set output \"" + header + "_paths.png\"");
-            command_unit.Add("set xlabel 'Rho'");
-            command_unit.Add("set ylabel 'X(Rho)'");
-            command_unit.Add("set title '" + title + "'");
-            command_unit.Add("set grid");
-            command_unit.Add("set style data lines");
-            command_unit.Add("set key off");
-            if (n2 == 1)
-            {
+        string command_filename = header + "_path_commands.txt";
+
+        command_unit.Add("# " + command_filename + "");
+        command_unit.Add("#");
+        command_unit.Add("# Usage:");
+        command_unit.Add("#  gnuplot < " + command_filename + "");
+        command_unit.Add("#");
+        command_unit.Add("set term png");
+        command_unit.Add("set output \"" + header + "_paths.png\"");
+        command_unit.Add("set xlabel 'Rho'");
+        command_unit.Add("set ylabel 'X(Rho)'");
+        command_unit.Add("set title '" + title + "'");
+        command_unit.Add("set grid");
+        command_unit.Add("set style data lines");
+        command_unit.Add("set key off");
+        switch (n2)
+        {
+            case 1:
                 command_unit.Add("plot '" + data_filename + "' using 1:2 lw 3");
-            }
-            else
+                break;
+            default:
             {
                 command_unit.Add("plot '" + data_filename + "' using 1:2, \\");
                 for (i = 2; i < n2; i++)
@@ -94,11 +92,12 @@ namespace Burkardt.PathsNS
                 }
 
                 command_unit.Add("     '" + data_filename + "' using 1:" + (n2 + 1) + "");
+                break;
             }
-
-            command_unit.Add("quit");
-            File.WriteAllLines(command_filename, command_unit);
-            Console.WriteLine("  Created command file \"" + command_filename + "\".");
         }
+
+        command_unit.Add("quit");
+        File.WriteAllLines(command_filename, command_unit);
+        Console.WriteLine("  Created command file \"" + command_filename + "\".");
     }
 }

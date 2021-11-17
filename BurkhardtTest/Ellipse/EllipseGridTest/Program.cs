@@ -1,105 +1,105 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace EllipseGridTest
+namespace EllipseGridTest;
+
+using Grid = Burkardt.Ellipse.Grid;
+
+internal class Program
 {
-    using Grid = Burkardt.Ellipse.Grid;
-    class Program
+    private static void Main(string[] args)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MAIN is the main program for ELLIPSE_GRID_TEST.
+        //
+        //  Discussion:
+        //
+        //    ELLIPSE_GRID_TEST tests the ELLIPSE_GRID library.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 November 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        static void Main(string[] args)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MAIN is the main program for ELLIPSE_GRID_TEST.
-            //
-            //  Discussion:
-            //
-            //    ELLIPSE_GRID_TEST tests the ELLIPSE_GRID library.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 November 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ELLIPSE_GRID_TEST:");
-            Console.WriteLine("  Test the ELLIPSE_GRID library.");
+        Console.WriteLine("");
+        Console.WriteLine("ELLIPSE_GRID_TEST:");
+        Console.WriteLine("  Test the ELLIPSE_GRID library.");
 
-            ellipse_grid_test01();
+        ellipse_grid_test01();
 
-            Console.WriteLine("");
-            Console.WriteLine("ELLIPSE_GRID_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("ELLIPSE_GRID_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
 
-        static void ellipse_grid_test01()
+    private static void ellipse_grid_test01()
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPSE_GRID_TEST01 tests ELLIPSE_GRID.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    12 November 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-        {
-            double[] c = new double[2];
-            string filename = "ellipse_grid_test01.xy";
-            int n;
-            int ng;
-            double[] r = new double[2];
-            double[] xy;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPSE_GRID_TEST01 tests ELLIPSE_GRID.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 November 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+    {
+        double[] c = new double[2];
+        string filename = "ellipse_grid_test01.xy";
+        int n;
+        int ng;
+        double[] r = new double[2];
+        double[] xy;
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01:");
-            Console.WriteLine("  ELLIPSE_GRID can define a grid of points");
-            Console.WriteLine("  with N+1 points on the minor half axis,");
-            Console.WriteLine("  based on any ellipse.");
+        Console.WriteLine("");
+        Console.WriteLine("TEST01:");
+        Console.WriteLine("  ELLIPSE_GRID can define a grid of points");
+        Console.WriteLine("  with N+1 points on the minor half axis,");
+        Console.WriteLine("  based on any ellipse.");
 
-            n = 8;
-            r[0] = 2.0;
-            r[1] = 1.0;
-            c[0] = 1.0;
-            c[1] = 2.0;
+        n = 8;
+        r[0] = 2.0;
+        r[1] = 1.0;
+        c[0] = 1.0;
+        c[1] = 2.0;
 
-            Console.WriteLine("");
-            Console.WriteLine("  We use N = " + n + "");
-            Console.WriteLine("  Radius R = (" + r[0] + "," + r[1] + ")");
-            Console.WriteLine("  Center C = (" + c[0] + "," + c[1] + ")");
+        Console.WriteLine("");
+        Console.WriteLine("  We use N = " + n + "");
+        Console.WriteLine("  Radius R = (" + r[0] + "," + r[1] + ")");
+        Console.WriteLine("  Center C = (" + c[0] + "," + c[1] + ")");
 
-            ng = Grid.ellipse_grid_count(n, r, c);
+        ng = Grid.ellipse_grid_count(n, r, c);
 
-            Console.WriteLine("");
-            Console.WriteLine("  Number of grid points will be " + ng + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Number of grid points will be " + ng + "");
 
-            xy = Grid.ellipse_grid(n, r, c, ng);
+        xy = Grid.ellipse_grid(n, r, c, ng);
 
-            typeMethods.r82vec_print_part(ng, xy, 20, "  Part of the grid point array:");
+        typeMethods.r82vec_print_part(ng, xy, 20, "  Part of the grid point array:");
 
-            typeMethods.r8mat_write(filename, 2, ng, xy);
+        typeMethods.r8mat_write(filename, 2, ng, xy);
 
-            Console.WriteLine("");
-            Console.WriteLine("  Data written to the file \"" + filename + "\".");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("  Data written to the file \"" + filename + "\".");
     }
 }

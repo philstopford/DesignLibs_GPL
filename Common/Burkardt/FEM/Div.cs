@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public class Div
 {
-    public class Div
-    {
-        public static void div_q4(int m, int n, double[] u, double[] v, double xlo, double xhi,
-        double ylo, double yhi, ref double[] div, ref double[] vort )
+    public static void div_q4(int m, int n, double[] u, double[] v, double xlo, double xhi,
+            double ylo, double yhi, ref double[] div, ref double[] vort )
 
         //****************************************************************************80
         //
@@ -103,124 +103,125 @@ namespace Burkardt.FEM
         //    the vorticity in the bilinear element that lies between
         //    data rows I and I+1, and data columns J and J+1.
         //
-        {
-            double[] dphidx = new double[4];
-            double[] dphidy = new double[4];
-            int i;
-            int j;
-            double[] p = new double[2];
-            double[] phi = new double[4];
-            double[] q = new double[2 * 4];
-            double xl;
-            double xr;
-            double yb;
-            double yt;
+    {
+        double[] dphidx = new double[4];
+        double[] dphidy = new double[4];
+        int i;
+        int j;
+        double[] p = new double[2];
+        double[] phi = new double[4];
+        double[] q = new double[2 * 4];
+        double xl;
+        double xr;
+        double yb;
+        double yt;
 
-            if (m <= 1)
-            {
+        switch (m)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("DIV_Q4 - Fatal error!");
                 Console.WriteLine("  M must be at least 2,");
                 Console.WriteLine("  but the input value of M is " + m + "");
                 return;
-            }
+        }
 
-            if (n <= 1)
-            {
+        switch (n)
+        {
+            case <= 1:
                 Console.WriteLine("");
                 Console.WriteLine("DIV_Q4 - Fatal error!");
                 Console.WriteLine("  N must be at least 2,");
                 Console.WriteLine("  but the input value of N is " + n + "");
                 return;
-            }
-
-            if (xhi == xlo)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DIV_Q4 - Fatal error!");
-                Console.WriteLine("  XHI and XLO must be distinct,");
-                Console.WriteLine("  but the input value of XLO is " + xlo + "");
-                Console.WriteLine("  and the input value of XHI is " + xhi + "");
-                return;
-            }
-
-            if (yhi == ylo)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DIV_Q4 - Fatal error!");
-                Console.WriteLine("  YHI and YLO must be distinct,");
-                Console.WriteLine("  but the input value of YLO is " + ylo + "");
-                Console.WriteLine("  and the input value of YHI is " + yhi + "");
-                return;
-            }
-
-            for (i = 1; i <= m - 1; i++)
-            {
-                yb = ((double) (2 * m - 2 * i) * ylo
-                      + (double) (2 * i - 2) * yhi)
-                     / (double) (2 * m - 2);
-                p[1] = ((double) (2 * m - 2 * i - 1) * ylo
-                        + (double) (2 * i - 1) * yhi)
-                       / (double) (2 * m - 2);
-                yt = ((double) (2 * m - 2 * i - 2) * ylo
-                      + (double) (2 * i) * yhi)
-                     / (double) (2 * m - 2);
-
-                q[1 + 0 * 2] = yb;
-                q[1 + 1 * 2] = yb;
-                q[1 + 2 * 2] = yt;
-                q[1 + 3 * 2] = yt;
-
-                for (j = 1; j <= n - 1; j++)
-                {
-                    xl = ((double) (2 * n - 2 * j) * xlo
-                          + (double) (2 * j - 2) * xhi)
-                         / (double) (2 * n - 2);
-                    p[0] = ((double) (2 * n - 2 * j - 1) * xlo
-                            + (double) (2 * j - 1) * xhi)
-                           / (double) (2 * n - 2);
-                    xr = ((double) (2 * n - 2 * j - 2) * xlo
-                          + (double) (2 * j) * xhi)
-                         / (double) (2 * n - 2);
-
-                    q[0 + 0 * 2] = xl;
-                    q[0 + 1 * 2] = xr;
-                    q[0 + 2 * 2] = xr;
-                    q[0 + 3 * 2] = xl;
-                    //
-                    //  Evaluate the basis function and derivatives at the center of the element.
-                    //
-                    Basis_mn.basis_mn_q4(q, 1, p, ref phi, ref dphidx, ref dphidy);
-                    //
-                    //  Note the following formula for the value of U and V at the same
-                    //  point that the divergence and vorticity are being evaluated.
-                    //
-                    //         umid =  u(i  ,j  ) * phi[0] &
-                    //               + u(i  ,j+1) * phi[1] &
-                    //               + u(i+1,j+1) * phi[2] &
-                    //               + u(i+1,j  ) * phi[3] 
-                    //
-                    //         vmid =  v(i  ,j  ) * phi[0] &
-                    //               + v(i  ,j+1) * phi[1] &
-                    //               + v(i+1,j+1) * phi[2] &
-                    //               + v(i+1,j  ) * phi[3] 
-                    //
-                    div[i - 1 + (j - 1) * (m - 1)] =
-                        u[i - 1 + (j - 1) * m] * dphidx[0] + v[i - 1 + (j - 1) * m] * dphidy[0]
-                                                           + u[i - 1 + (j) * m] * dphidx[1] +
-                                                           v[i - 1 + (j) * m] * dphidy[1]
-                                                           + u[i + (j) * m] * dphidx[2] + v[i + (j) * m] * dphidy[2]
-                                                           + u[i + (j - 1) * m] * dphidx[3] +
-                                                           v[i + (j - 1) * m] * dphidy[3];
-
-                    vort[i - 1 + (j - 1) * (m - 1)] =
-                        v[i - 1 + (j - 1) * m] * dphidx[0] - u[i - 1 + (j - 1) * m] * dphidy[0]
-                        + v[i - 1 + (j) * m] * dphidx[1] - u[i - 1 + (j) * m] * dphidy[1]
-                        + v[i + (j) * m] * dphidx[2] - u[i + (j) * m] * dphidy[2]
-                        + v[i + (j - 1) * m] * dphidx[3] - u[i + (j - 1) * m] * dphidy[3];
-                }
-            }
-
         }
+
+        if (xhi == xlo)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DIV_Q4 - Fatal error!");
+            Console.WriteLine("  XHI and XLO must be distinct,");
+            Console.WriteLine("  but the input value of XLO is " + xlo + "");
+            Console.WriteLine("  and the input value of XHI is " + xhi + "");
+            return;
+        }
+
+        if (yhi == ylo)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("DIV_Q4 - Fatal error!");
+            Console.WriteLine("  YHI and YLO must be distinct,");
+            Console.WriteLine("  but the input value of YLO is " + ylo + "");
+            Console.WriteLine("  and the input value of YHI is " + yhi + "");
+            return;
+        }
+
+        for (i = 1; i <= m - 1; i++)
+        {
+            yb = ((2 * m - 2 * i) * ylo
+                  + (2 * i - 2) * yhi)
+                 / (2 * m - 2);
+            p[1] = ((2 * m - 2 * i - 1) * ylo
+                    + (2 * i - 1) * yhi)
+                   / (2 * m - 2);
+            yt = ((2 * m - 2 * i - 2) * ylo
+                  + 2 * i * yhi)
+                 / (2 * m - 2);
+
+            q[1 + 0 * 2] = yb;
+            q[1 + 1 * 2] = yb;
+            q[1 + 2 * 2] = yt;
+            q[1 + 3 * 2] = yt;
+
+            for (j = 1; j <= n - 1; j++)
+            {
+                xl = ((2 * n - 2 * j) * xlo
+                      + (2 * j - 2) * xhi)
+                     / (2 * n - 2);
+                p[0] = ((2 * n - 2 * j - 1) * xlo
+                        + (2 * j - 1) * xhi)
+                       / (2 * n - 2);
+                xr = ((2 * n - 2 * j - 2) * xlo
+                      + 2 * j * xhi)
+                     / (2 * n - 2);
+
+                q[0 + 0 * 2] = xl;
+                q[0 + 1 * 2] = xr;
+                q[0 + 2 * 2] = xr;
+                q[0 + 3 * 2] = xl;
+                //
+                //  Evaluate the basis function and derivatives at the center of the element.
+                //
+                Basis_mn.basis_mn_q4(q, 1, p, ref phi, ref dphidx, ref dphidy);
+                //
+                //  Note the following formula for the value of U and V at the same
+                //  point that the divergence and vorticity are being evaluated.
+                //
+                //         umid =  u(i  ,j  ) * phi[0] &
+                //               + u(i  ,j+1) * phi[1] &
+                //               + u(i+1,j+1) * phi[2] &
+                //               + u(i+1,j  ) * phi[3] 
+                //
+                //         vmid =  v(i  ,j  ) * phi[0] &
+                //               + v(i  ,j+1) * phi[1] &
+                //               + v(i+1,j+1) * phi[2] &
+                //               + v(i+1,j  ) * phi[3] 
+                //
+                div[i - 1 + (j - 1) * (m - 1)] =
+                    u[i - 1 + (j - 1) * m] * dphidx[0] + v[i - 1 + (j - 1) * m] * dphidy[0]
+                                                       + u[i - 1 + j * m] * dphidx[1] +
+                                                       v[i - 1 + j * m] * dphidy[1]
+                                                       + u[i + j * m] * dphidx[2] + v[i + j * m] * dphidy[2]
+                                                       + u[i + (j - 1) * m] * dphidx[3] +
+                                                       v[i + (j - 1) * m] * dphidy[3];
+
+                vort[i - 1 + (j - 1) * (m - 1)] =
+                    v[i - 1 + (j - 1) * m] * dphidx[0] - u[i - 1 + (j - 1) * m] * dphidy[0]
+                    + v[i - 1 + j * m] * dphidx[1] - u[i - 1 + j * m] * dphidy[1]
+                    + v[i + j * m] * dphidx[2] - u[i + j * m] * dphidy[2]
+                    + v[i + (j - 1) * m] * dphidx[3] - u[i + (j - 1) * m] * dphidy[3];
+            }
+        }
+
     }
 }

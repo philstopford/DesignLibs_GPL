@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Runs
 {
-    public static class Runs
-    {
-        public static double runs_mean(int m, int n)
+    public static double runs_mean(int m, int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -31,14 +31,14 @@ namespace Burkardt.Probability
         //
         //    Output, double RUNS_MEAN, the mean of the PDF.
         //
-        {
-            double mean = (double) (m + 2 * m * n + n)
-                          / (double) (m + n);
+    {
+        double mean = (m + 2 * m * n + n)
+                      / (double) (m + n);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double runs_pdf(int m, int n, int r)
+    public static double runs_pdf(int m, int n, int r)
         //****************************************************************************80
         //
         //  Purpose:
@@ -101,84 +101,78 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
 
-            if (m < 0)
-            {
+        switch (m)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("RUN_PDF - Fatal error!");
                 Console.WriteLine("  M must be at least 0.");
                 Console.WriteLine("  The input value of M = " + m + "");
-                return(1);
-            }
+                return 1;
+        }
 
-            if (n < 0)
-            {
+        switch (n)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("RUN_PDF - Fatal error!");
                 Console.WriteLine("  N must be at least 0.");
                 Console.WriteLine("  The input value of N = " + n + "");
-                return(1);
-            }
+                return 1;
+        }
 
-            if (n + m <= 0)
-            {
+        switch (n + m)
+        {
+            case <= 0:
                 Console.WriteLine("");
                 Console.WriteLine("RUN_PDF - Fatal error!");
                 Console.WriteLine("  M+N must be at least 1.");
                 Console.WriteLine("  The input value of M+N = " + m + n + "");
-                return(1);
-            }
+                return 1;
+        }
 
-            //
-            //  If all the symbols are of one type, there is always 1 run.
-            //
-            if (m == 0 || n == 0)
+        //
+        //  If all the symbols are of one type, there is always 1 run.
+        //
+        if (m == 0 || n == 0)
+        {
+            pdf = r switch
             {
-                if (r == 1)
-                {
-                    pdf = 1.0;
-                }
-                else
-                {
-                    pdf = 0.0;
-                }
-
-                return pdf;
-            }
-
-            //
-            //  Take care of extreme values of R.
-            //
-            if (r < 2 || m + n < r)
-            {
-                pdf = 0.0;
-                return pdf;
-            }
-
-            //
-            //  The normal cases.
-            //
-            if ((r % 2) == 0)
-            {
-                pdf = (double) (2 * typeMethods.i4_choose(m - 1, (r / 2) - 1)
-                                  * typeMethods.i4_choose(n - 1, (r / 2) - 1))
-                      / (double) (typeMethods.i4_choose(m + n, n));
-            }
-            else
-            {
-                pdf = (double) (typeMethods.i4_choose(m - 1, (r - 1) / 2)
-                                * typeMethods.i4_choose(n - 1, (r - 3) / 2)
-                                + typeMethods.i4_choose(m - 1, (r - 3) / 2)
-                                * typeMethods.i4_choose(n - 1, (r - 1) / 2))
-                      / (double) (typeMethods.i4_choose(m + n, n));
-            }
+                1 => 1.0,
+                _ => 0.0
+            };
 
             return pdf;
         }
 
-        public static int runs_sample(int m, int n, ref int seed)
+        //
+        //  Take care of extreme values of R.
+        //
+        if (r < 2 || m + n < r)
+        {
+            pdf = 0.0;
+            return pdf;
+        }
+
+        pdf = (r % 2) switch
+        {
+            //
+            //  The normal cases.
+            //
+            0 => 2 * typeMethods.i4_choose(m - 1, r / 2 - 1) * typeMethods.i4_choose(n - 1, r / 2 - 1) /
+                 (double) typeMethods.i4_choose(m + n, n),
+            _ => (typeMethods.i4_choose(m - 1, (r - 1) / 2) * typeMethods.i4_choose(n - 1, (r - 3) / 2) +
+                  typeMethods.i4_choose(m - 1, (r - 3) / 2) * typeMethods.i4_choose(n - 1, (r - 1) / 2)) /
+                 (double) typeMethods.i4_choose(m + n, n)
+        };
+
+        return pdf;
+    }
+
+    public static int runs_sample(int m, int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -205,15 +199,15 @@ namespace Burkardt.Probability
         //
         //    Output, int RUNS_SAMPLE, the number of runs.
         //
-        {
-            int[] a = runs_simulate(m, n, ref seed);
+    {
+        int[] a = runs_simulate(m, n, ref seed);
 
-            int r = typeMethods.i4vec_run_count(m + n, a);
+        int r = typeMethods.i4vec_run_count(m + n, a);
             
-            return r;
-        }
+        return r;
+    }
 
-        public static int[] runs_simulate(int m, int n, ref int seed)
+    public static int[] runs_simulate(int m, int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -241,35 +235,35 @@ namespace Burkardt.Probability
         //    Output, int RUNS_SIMULATE[M+N], a sequence of M 0's and N 1's chosen
         //    uniformly at random.
         //
+    {
+        int j;
+        int k;
+
+        int[] a = new int[m + n];
+
+        for (int i = 0; i < m; i++)
         {
-            int j;
-            int k;
-
-            int[] a = new int[m + n];
-
-            for (int i = 0; i < m; i++)
-            {
-                a[i] = 0;
-            }
-
-            for (int i = m; i < m + n; i++)
-            {
-                a[i] = 1;
-            }
-
-            for (int i = 1; i <= m + n - 1; i++)
-            {
-                j = UniformRNG.i4_uniform_ab(i, m + n, ref seed);
-
-                k = a[i - 1];
-                a[i - 1] = a[j - 1];
-                a[j - 1] = k;
-            }
-
-            return a;
+            a[i] = 0;
         }
 
-        public static double runs_variance(int m, int n)
+        for (int i = m; i < m + n; i++)
+        {
+            a[i] = 1;
+        }
+
+        for (int i = 1; i <= m + n - 1; i++)
+        {
+            j = UniformRNG.i4_uniform_ab(i, m + n, ref seed);
+
+            k = a[i - 1];
+            a[i - 1] = a[j - 1];
+            a[j - 1] = k;
+        }
+
+        return a;
+    }
+
+    public static double runs_variance(int m, int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -294,11 +288,10 @@ namespace Burkardt.Probability
         //
         //    Output, double RUNS_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (double) (2 * m * n * (2 * m * n - m - n))
-                              / (double) ((m + n) * (m + n) * (m + n - 1));
+    {
+        double variance = 2 * m * n * (2 * m * n - m - n)
+                          / (double) ((m + n) * (m + n) * (m + n - 1));
 
-            return variance;
-        }
+        return variance;
     }
 }

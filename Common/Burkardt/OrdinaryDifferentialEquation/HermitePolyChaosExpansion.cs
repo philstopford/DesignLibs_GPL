@@ -1,10 +1,10 @@
 ﻿using Burkardt.IntegralNS;
 
-namespace Burkardt.ODENS
+namespace Burkardt.ODENS;
+
+public static class HermitePolyChaosExpansion
 {
-    public static class HermitePolyChaosExpansion
-    {
-        public static void pce_ode_hermite(double ti, double tf, int nt, double ui, int np,
+    public static void pce_ode_hermite(double ti, double tf, int nt, double ui, int np,
             double alpha_mu, double alpha_sigma, ref double[] t, ref double[] u )
 
         //****************************************************************************80
@@ -60,88 +60,87 @@ namespace Burkardt.ODENS
         //    Output, double T[NT+1], U[(NT+1)*(NP+1)], the times and the PCE 
         //    coefficients at the successive time steps.
         //
+    {
+        double dp;
+        double dt;
+        int i;
+        int it;
+        int j;
+        int k;
+        double t1;
+        double t2;
+        double term;
+        double tp;
+        double[] u1;
+        double[] u2;
+
+        u1 = new double[np + 1];
+        u2 = new double[np + 1];
+
+        dt = (tf - ti) / nt;
+        //
+        //  Set the PCE coefficients for the initial time.
+        //
+        t1 = ti;
+
+        u1[0] = ui;
+        for (j = 1; j <= np; j++)
         {
-            double dp;
-            double dt;
-            int i;
-            int it;
-            int j;
-            int k;
-            double t1;
-            double t2;
-            double term;
-            double tp;
-            double[] u1;
-            double[] u2;
+            u1[j] = 0.0;
+        }
 
-            u1 = new double[np + 1];
-            u2 = new double[np + 1];
+        //
+        //  Copy into the output arrays.
+        //
+        t[0] = t1;
+        for (j = 0; j <= np; j++)
+        {
+            u[0 + j * (nt + 1)] = u1[j];
+        }
 
-            dt = (tf - ti) / (double)(nt);
-            //
-            //  Set the PCE coefficients for the initial time.
-            //
-            t1 = ti;
+        //
+        //  Time integration.
+        //
+        for (it = 1; it <= nt; it++)
+        {
+            t2 = ((nt - it) * ti
+                  + it * tf)
+                 / nt;
 
-            u1[0] = ui;
-            for (j = 1; j <= np; j++)
+            for (k = 0; k <= np; k++)
             {
-                u1[j] = 0.0;
+                dp = Integral.he_double_product_integral(k, k);
+
+                term = -alpha_mu * u1[k];
+
+                i = 1;
+                for (j = 0; j <= np; j++)
+                {
+                    tp = Integral.he_triple_product_integral(i, j, k);
+                    term -= alpha_sigma * u1[j] * tp / dp;
+                }
+
+                u2[k] = u1[k] + dt * term;
+            }
+
+            //
+            //  Prepare for next step.
+            //
+            t1 = t2;
+            for (j = 0; j <= np; j++)
+            {
+                u1[j] = u2[j];
             }
 
             //
             //  Copy into the output arrays.
             //
-            t[0] = t1;
+            t[it] = t1;
             for (j = 0; j <= np; j++)
             {
-                u[0 + j * (nt + 1)] = u1[j];
-            }
-
-            //
-            //  Time integration.
-            //
-            for (it = 1; it <= nt; it++)
-            {
-                t2 = ((double)(nt - it) * ti
-                      + (double)(it) * tf)
-                     / (double)(nt);
-
-                for (k = 0; k <= np; k++)
-                {
-                    dp = Integral.he_double_product_integral(k, k);
-
-                    term = -alpha_mu * u1[k];
-
-                    i = 1;
-                    for (j = 0; j <= np; j++)
-                    {
-                        tp = Integral.he_triple_product_integral(i, j, k);
-                        term = term - alpha_sigma * u1[j] * tp / dp;
-                    }
-
-                    u2[k] = u1[k] + dt * term;
-                }
-
-                //
-                //  Prepare for next step.
-                //
-                t1 = t2;
-                for (j = 0; j <= np; j++)
-                {
-                    u1[j] = u2[j];
-                }
-
-                //
-                //  Copy into the output arrays.
-                //
-                t[it] = t1;
-                for (j = 0; j <= np; j++)
-                {
-                    u[it + j * (nt + 1)] = u1[j];
-                }
+                u[it + j * (nt + 1)] = u1[j];
             }
         }
-
     }
+
 }

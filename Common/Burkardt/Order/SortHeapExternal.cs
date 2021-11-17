@@ -1,17 +1,17 @@
-﻿namespace Burkardt.SortNS
-{
-    public class SortHeapExternalData
-    {
-        public int i_save = 0;
-        public int j_save = 0;
-        public int k = 0;
-        public int k1 = 0;
-        public int n1 = 0;
-    }
+﻿namespace Burkardt.SortNS;
 
-    public static partial class Sort
-    {
-        public static void sort_heap_external(ref SortHeapExternalData data, int n, ref int indx, ref int i, ref int j, int isgn )
+public class SortHeapExternalData
+{
+    public int i_save;
+    public int j_save;
+    public int k;
+    public int k1;
+    public int n1;
+}
+
+public static partial class Sort
+{
+    public static void sort_heap_external(ref SortHeapExternalData data, int n, ref int indx, ref int i, ref int j, int isgn )
 
         //****************************************************************************80
         //
@@ -73,128 +73,126 @@
         //    item I is to precede item J, set ISGN negative,
         //    otherwise set ISGN positive.
         //
+    {
+        switch (indx)
         {
             //
             //  INDX = 0: This is the first call.
             //
-            if (indx == 0)
-            {
-
+            case 0:
                 data.i_save = 0;
                 data.j_save = 0;
                 data.k = n / 2;
                 data.k1 = data.k;
                 data.n1 = n;
-            }
+                break;
             //
             //  INDX < 0: The user is returning the results of a comparison.
             //
-            else if (indx < 0)
+            case < 0 when indx == -2:
             {
-                if (indx == -2)
+                switch (isgn)
                 {
-                    if (isgn < 0)
-                    {
-                        data.i_save = data.i_save + 1;
-                    }
-
-                    data.j_save = data.k1;
-                    data.k1 = data.i_save;
-                    indx = -1;
-                    i = data.i_save;
-                    j = data.j_save;
-                    return;
+                    case < 0:
+                        data.i_save += 1;
+                        break;
                 }
 
-                if (0 < isgn)
+                data.j_save = data.k1;
+                data.k1 = data.i_save;
+                indx = -1;
+                i = data.i_save;
+                j = data.j_save;
+                return;
+            }
+            case < 0 when 0 < isgn:
+                indx = 2;
+                i = data.i_save;
+                j = data.j_save;
+                return;
+            case < 0 when data.k <= 1:
+            {
+                switch (data.n1)
                 {
-                    indx = 2;
-                    i = data.i_save;
-                    j = data.j_save;
-                    return;
-                }
-
-                if (data.k <= 1)
-                {
-                    if (data.n1 == 1)
-                    {
+                    case 1:
                         data.i_save = 0;
                         data.j_save = 0;
                         indx = 0;
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         data.i_save = data.n1;
                         data.j_save = 1;
-                        data.n1 = data.n1 - 1;
+                        data.n1 -= 1;
                         indx = 1;
-                    }
-
-                    i = data.i_save;
-                    j = data.j_save;
-                    return;
+                        break;
                 }
 
-                data.k = data.k - 1;
-                data.k1 = data.k;
+                i = data.i_save;
+                j = data.j_save;
+                return;
             }
+            case < 0:
+                data.k -= 1;
+                data.k1 = data.k;
+                break;
             //
             //  0 < INDX: the user was asked to make an interchange.
             //
-            else if (indx == 1)
-            {
+            case 1:
                 data.k1 = data.k;
+                break;
+        }
+
+        for (;;)
+        {
+
+            data.i_save = 2 * data.k1;
+
+            if (data.i_save == data.n1)
+            {
+                data.j_save = data.k1;
+                data.k1 = data.i_save;
+                indx = -1;
+                i = data.i_save;
+                j = data.j_save;
+                return;
             }
 
-            for (;;)
+            if (data.i_save <= data.n1)
             {
-
-                data.i_save = 2 * data.k1;
-
-                if (data.i_save == data.n1)
-                {
-                    data.j_save = data.k1;
-                    data.k1 = data.i_save;
-                    indx = -1;
-                    i = data.i_save;
-                    j = data.j_save;
-                    return;
-                }
-                else if (data.i_save <= data.n1)
-                {
-                    data.j_save = data.i_save + 1;
-                    indx = -2;
-                    i = data.i_save;
-                    j = data.j_save;
-                    return;
-                }
-
-                if (data.k <= 1)
-                {
-                    break;
-                }
-
-                data.k = data.k - 1;
-                data.k1 = data.k;
+                data.j_save = data.i_save + 1;
+                indx = -2;
+                i = data.i_save;
+                j = data.j_save;
+                return;
             }
 
-            if (data.n1 == 1)
+            if (data.k <= 1)
             {
+                break;
+            }
+
+            data.k -= 1;
+            data.k1 = data.k;
+        }
+
+        switch (data.n1)
+        {
+            case 1:
                 data.i_save = 0;
                 data.j_save = 0;
                 indx = 0;
                 i = data.i_save;
                 j = data.j_save;
-            }
-            else
-            {
+                break;
+            default:
                 data.i_save = data.n1;
                 data.j_save = 1;
-                data.n1 = data.n1 - 1;
+                data.n1 -= 1;
                 indx = 1;
                 i = data.i_save;
                 j = data.j_save;
-            }
+                break;
         }
     }
 }

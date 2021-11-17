@@ -1,123 +1,125 @@
 ﻿using System;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Misc
 {
-    public static class Misc
+    public static double sin_power_int(double a, double b, int n)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SIN_POWER_INT evaluates the sine power integral.
+        //
+        //  Discussion:
+        //
+        //    The function is defined by
+        //
+        //      SIN_POWER_INT(A,B,N) = Integral ( A <= T <= B ) ( sin ( t ))^n dt
+        //
+        //    The algorithm uses the following fact:
+        //
+        //      Integral sin^n ( t ) = (1/n) * (
+        //        sin^(n-1)(t) * cos(t) + ( n-1 ) * Integral sin^(n-2) ( t ) dt )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    02 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters
+        //
+        //    Input, double A, B, the limits of integration.
+        //
+        //    Input, int N, the power of the sine function.
+        //
+        //    Output, double SIN_POWER_INT, the value of the integral.
+        //
     {
-        public static double sin_power_int(double a, double b, int n)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SIN_POWER_INT evaluates the sine power integral.
-            //
-            //  Discussion:
-            //
-            //    The function is defined by
-            //
-            //      SIN_POWER_INT(A,B,N) = Integral ( A <= T <= B ) ( sin ( t ))^n dt
-            //
-            //    The algorithm uses the following fact:
-            //
-            //      Integral sin^n ( t ) = (1/n) * (
-            //        sin^(n-1)(t) * cos(t) + ( n-1 ) * Integral sin^(n-2) ( t ) dt )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    02 September 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters
-            //
-            //    Input, double A, B, the limits of integration.
-            //
-            //    Input, int N, the power of the sine function.
-            //
-            //    Output, double SIN_POWER_INT, the value of the integral.
-            //
+        int mlo;
+        double value = 0;
+        switch (n)
         {
-            int mlo;
-            double value;
-            if (n < 0)
-            {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("SIN_POWER_INT - Fatal error!");
                 Console.WriteLine("  Power N < 0.");
                 return 1.0;
-            }
+        }
 
-            double sa = Math.Sin(a);
-            double sb = Math.Sin(b);
-            double ca = Math.Cos(a);
-            double cb = Math.Cos(b);
+        double sa = Math.Sin(a);
+        double sb = Math.Sin(b);
+        double ca = Math.Cos(a);
+        double cb = Math.Cos(b);
 
-            if ((n % 2) == 0)
-            {
+        switch (n % 2)
+        {
+            case 0:
                 value = b - a;
                 mlo = 2;
-            }
-            else
-            {
+                break;
+            default:
                 value = ca - cb;
                 mlo = 3;
-            }
-
-            for (int m = mlo; m <= n; m = m + 2)
-            {
-                value = ((double) (m - 1) * value
-                            + Math.Pow(sa, (m - 1)) * ca - Math.Pow(sb, (m - 1)) * cb)
-                        / (double) (m);
-            }
-
-            return value;
+                break;
         }
 
-        public static double euler_constant()
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    EULER_CONSTANT returns the value of the Euler-Mascheroni constant.
-            //
-            //  Discussion:
-            //
-            //    The Euler-Mascheroni constant is often denoted by a lower-case
-            //    Gamma.  Gamma is defined as
-            //
-            //      Gamma = limit ( M -> Infinity )
-            //        ( Sum ( 1 <= N <= M ) 1 / N ) - Log ( M )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 October 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, double EULER_CONSTANT, the value of the
-            //    Euler-Mascheroni constant.
-            //
+        for (int m = mlo; m <= n; m += 2)
         {
-            double value = 0.577215664901532860606512090082402431042;
-
-            return value;
+            value = ((m - 1) * value
+                        + Math.Pow(sa, m - 1) * ca - Math.Pow(sb, m - 1) * cb)
+                    / m;
         }
 
-        public static double sphere_unit_area_nd(int dim_num)
+        return value;
+    }
+
+    public static double euler_constant()
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    EULER_CONSTANT returns the value of the Euler-Mascheroni constant.
+        //
+        //  Discussion:
+        //
+        //    The Euler-Mascheroni constant is often denoted by a lower-case
+        //    Gamma.  Gamma is defined as
+        //
+        //      Gamma = limit ( M -> Infinity )
+        //        ( Sum ( 1 <= N <= M ) 1 / N ) - Log ( M )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 October 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, double EULER_CONSTANT, the value of the
+        //    Euler-Mascheroni constant.
+        //
+    {
+        double value = 0.577215664901532860606512090082402431042;
+
+        return value;
+    }
+
+    public static double sphere_unit_area_nd(int dim_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -164,35 +166,42 @@ namespace Burkardt.Probability
         //
         //    Output, double SPHERE_UNIT_AREA_ND, the area of the sphere.
         //
-        {
-            double area;
-            int i;
-            int m;
+    {
+        double area;
+        int i;
+        int m;
             
 
-            if ((dim_num % 2) == 0)
+        switch (dim_num % 2)
+        {
+            case 0:
             {
                 m = dim_num / 2;
                 area = 2.0 * Math.Pow(Math.PI, m);
                 for (i = 1; i <= m - 1; i++)
                 {
-                    area = area / ((double) i);
+                    area /= i;
                 }
+
+                break;
             }
-            else
+            default:
             {
                 m = (dim_num - 1) / 2;
                 area = Math.Pow(2.0, dim_num) * Math.Pow(Math.PI, m);
                 for (i = m + 1; i <= 2 * m; i++)
                 {
-                    area = area / ((double) i);
+                    area /= i;
                 }
-            }
 
-            return area;
+                break;
+            }
         }
 
-        public static int stirling2_value(int n, int m)
+        return area;
+    }
+
+    public static int stirling2_value(int n, int m)
         //****************************************************************************80
         //
         //  Purpose:
@@ -286,44 +295,46 @@ namespace Burkardt.Probability
         //
         //    Output, int STIRLING2_VALUE, the value of S2(N,M).
         //
+    {
+        int value;
+
+        int[] s2 = new int[n * m];
+
+        switch (n)
         {
-            int value;
-
-            int[] s2 = new int[n * m];
-
-            if (n <= 0)
-            {
+            case <= 0:
                 value = 0;
                 return value;
-            }
+        }
 
-            if (m <= 0)
-            {
+        switch (m)
+        {
+            case <= 0:
                 value = 0;
                 return value;
-            }
+        }
 
-            s2[0 + 0 * n] = 1;
+        s2[0 + 0 * n] = 1;
+        for (int j = 2; j <= m; j++)
+        {
+            s2[0 + (j - 1) * n] = 0;
+        }
+
+        for (int i = 2; i <= n; i++)
+        {
+            s2[i - 1 + 0 * n] = 1;
             for (int j = 2; j <= m; j++)
             {
-                s2[0 + (j - 1) * n] = 0;
+                s2[i - 1 + (j - 1) * n] = j * s2[i - 2 + (j - 1) * n] + s2[i - 2 + (j - 2) * n];
             }
-
-            for (int i = 2; i <= n; i++)
-            {
-                s2[i - 1 + 0 * n] = 1;
-                for (int j = 2; j <= m; j++)
-                {
-                    s2[i - 1 + (j - 1) * n] = j * s2[i - 2 + (j - 1) * n] + s2[i - 2 + (j - 2) * n];
-                }
-            }
-
-            value = s2[n - 1 + (m - 1) * n];
-            
-            return value;
         }
+
+        value = s2[n - 1 + (m - 1) * n];
+            
+        return value;
+    }
         
-        public static double trigamma ( double x )
+    public static double trigamma ( double x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -363,61 +374,62 @@ namespace Burkardt.Probability
         //    Output, double TRIGAMMA, the value of the
         //    trigamma function at X.
         //
+    {
+        double a = 0.0001;
+        double b = 5.0;
+        double b2 =   1.0 / 6.0;
+        double b4 = - 1.0 / 30.0;
+        double b6 =   1.0 / 42.0;
+        double b8 = - 1.0 / 30.0;
+        double value = 0;
+        double y;
+        double z;
+        switch (x)
         {
-            double a = 0.0001;
-            double b = 5.0;
-            double b2 =   1.0 / 6.0;
-            double b4 = - 1.0 / 30.0;
-            double b6 =   1.0 / 42.0;
-            double b8 = - 1.0 / 30.0;
-            double value = 0;
-            double y;
-            double z;
             //
             //  1): If X is not positive, fail.
             //
-            if ( x <= 0.0 )
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("TRIGAMMA - Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return ( 1 );
-            }
-            //
-            //  2): If X is smaller than A, use a small value approximation.
-            //
-            else if ( x <= a )
+                return 1;
+        }
+        //
+        //  2): If X is smaller than A, use a small value approximation.
+        //
+
+        if ( x <= a )
+        {
+            value = 1.0 / x / x;
+        }
+        //
+        //  3): Otherwise, increase the argument to B <= ( X + I ).
+        //
+        else
+        {
+            z = x;
+            value = 0.0;
+
+            while ( z < b )
             {
-                value = 1.0 / x / x;
+                value += 1.0 / z / z;
+                z += 1.0;
             }
             //
-            //  3): Otherwise, increase the argument to B <= ( X + I ).
+            //  ...and then apply an asymptotic formula.
             //
-            else
-            {
-                z = x;
-                value = 0.0;
+            y = 1.0 / z / z;
 
-                while ( z < b )
-                {
-                    value = value + 1.0 / z / z;
-                    z = z + 1.0;
-                }
-                //
-                //  ...and then apply an asymptotic formula.
-                //
-                y = 1.0 / z / z;
-
-                value = value + 0.5 *
-                    y + ( 1.0
-                          + y * ( b2
-                                  + y * ( b4
-                                          + y * ( b6
-                                                  + y *   b8 )))) / z;
-            }
-
-            return value;
+            value = value + 0.5 *
+                y + ( 1.0
+                      + y * ( b2
+                              + y * ( b4
+                                      + y * ( b6
+                                              + y *   b8 )))) / z;
         }
 
+        return value;
     }
+
 }

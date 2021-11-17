@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.ODENS
+namespace Burkardt.ODENS;
+
+public static class Euler
 {
-    public static class Euler
-    {
-        public static void euler ( Func < double, double[], int, double[] > dydt, double[] tspan, 
-        double[] y0, int n, int m, double[] t, double[] y )
+    public static void euler ( Func < double, double[], int, double[] > dydt, double[] tspan, 
+            double[] y0, int n, int m, double[] t, double[] y )
 
         //****************************************************************************80
         //
@@ -41,32 +41,31 @@ namespace Burkardt.ODENS
         //
         //    double t[n+1], y[m*(n+1)]: the times and solution values.
         //
-        {
-            double dt;
-            double[] dy;
-            int i;
-            int j;
-            double tfirst;
-            double tlast;
+    {
+        double dt;
+        double[] dy;
+        int i;
+        int j;
+        double tfirst;
+        double tlast;
 
-            tfirst = tspan[0];
-            tlast = tspan[1];
-            dt = ( tlast - tfirst ) / ( double ) ( n );
-            j = 0;
-            t[j] = tspan[0];
+        tfirst = tspan[0];
+        tlast = tspan[1];
+        dt = ( tlast - tfirst ) / n;
+        j = 0;
+        t[j] = tspan[0];
+        for ( i = 0; i < m; i++ )
+        {
+            y[i+j*m] = y0[i];
+        }
+
+        for ( j = 0; j < n; j++ )
+        {
+            dy = dydt ( t[j], y, +j*m );
+            t[j+1] = t[j] + dt;
             for ( i = 0; i < m; i++ )
             {
-                y[i+j*m] = y0[i];
-            }
-
-            for ( j = 0; j < n; j++ )
-            {
-                dy = dydt ( t[j], y, +j*m );
-                t[j+1] = t[j] + dt;
-                for ( i = 0; i < m; i++ )
-                {
-                    y[i+(j+1)*m] = y[i+j*m] + dt * dy[i];
-                }
+                y[i+(j+1)*m] = y[i+j*m] + dt * dy[i];
             }
         }
     }

@@ -2,11 +2,11 @@
 using Burkardt.Probability;
 using Burkardt.Types;
 
-namespace ProbabilityTest
+namespace ProbabilityTest;
+
+internal partial class Program
 {
-    partial class Program
-    {
-    static void anglit_cdf_test()
+    private static void anglit_cdf_test()
 
 //****************************************************************************80
 //
@@ -57,11 +57,9 @@ namespace ProbabilityTest
                               + cdf.ToString().PadLeft(12) + "  "
                               + x2.ToString().PadLeft(12) + "");
         }
-
-        return;
     }
 
-    static void anglit_sample_test()
+    private static void anglit_sample_test()
 
 //****************************************************************************80
 //
@@ -124,5 +122,4 @@ namespace ProbabilityTest
 
     }
         
-    }
 }

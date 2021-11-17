@@ -2,11 +2,11 @@
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.SolveNS
+namespace Burkardt.SolveNS;
+
+public static class NormalSolve
 {
-    public static class NormalSolve
-    {
-        public static double[] normal_solve(int m, int n, double[] a, double[] b, ref int flag )
+    public static double[] normal_solve(int m, int n, double[] a, double[] b, ref int flag )
 
         //****************************************************************************80
         //
@@ -66,31 +66,30 @@ namespace Burkardt.SolveNS
         //
         //    Output, double NORMAL_SOLVE[N], the least squares solution.
         //
+    {
+        flag = 0;
+
+        if (m < n)
         {
-            flag = 0;
-
-            if (m < n)
-            {
-                flag = 1;
-                return null;
-            }
-
-            double[] at = typeMethods.r8mat_transpose_new(m, n, a);
-
-            double[] ata = typeMethods.r8mat_mm_new(n, m, n, at, a);
-
-            double[] ata_c = typeMethods.r8mat_cholesky_factor(n, ata, ref flag);
-
-            if (flag != 0)
-            {
-                return null;
-            }
-
-            double[] atb = typeMethods.r8mat_mv_new(n, m, at, b);
-
-            double[] x = typeMethods.r8mat_cholesky_solve(n, ata_c, atb);
-
-            return x;
+            flag = 1;
+            return null;
         }
+
+        double[] at = typeMethods.r8mat_transpose_new(m, n, a);
+
+        double[] ata = typeMethods.r8mat_mm_new(n, m, n, at, a);
+
+        double[] ata_c = typeMethods.r8mat_cholesky_factor(n, ata, ref flag);
+
+        if (flag != 0)
+        {
+            return null;
+        }
+
+        double[] atb = typeMethods.r8mat_mv_new(n, m, at, b);
+
+        double[] x = typeMethods.r8mat_cholesky_solve(n, ata_c, atb);
+
+        return x;
     }
 }

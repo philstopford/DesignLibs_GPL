@@ -2,11 +2,11 @@
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static class Data
 {
-    public static class Data
-    {
-        public static void data_to_dif(int ntab, double[] xtab, double[] ytab, ref double[] diftab )
+    public static void data_to_dif(int ntab, double[] xtab, double[] ytab, ref double[] diftab )
 
         //****************************************************************************80
         //
@@ -53,49 +53,50 @@ namespace Burkardt.MatrixNS
         //    Output, double DIFTAB[NTAB], the divided difference coefficients
         //    corresponding to the input (XTAB,YTAB).
         //
+    {
+        int i;
+        int j;
+        //
+        //  Copy the data values into DIFTAB.
+        //
+        for (i = 0; i < ntab; i++)
         {
-            int i;
-            int j;
-            //
-            //  Copy the data values into DIFTAB.
-            //
-            for (i = 0; i < ntab; i++)
-            {
-                diftab[i] = ytab[i];
-            }
+            diftab[i] = ytab[i];
+        }
 
-            //
-            //  Make sure the abscissas are distinct.
-            //
-            for (i = 0; i < ntab; i++)
+        //
+        //  Make sure the abscissas are distinct.
+        //
+        for (i = 0; i < ntab; i++)
+        {
+            for (j = i + 1; j < ntab; j++)
             {
-                for (j = i + 1; j < ntab; j++)
+                switch (xtab[i] - xtab[j])
                 {
-                    if (xtab[i] - xtab[j] == 0.0)
-                    {
+                    case 0.0:
                         Console.WriteLine("");
                         Console.WriteLine("DATA_TO_DIF - Fatal error!");
                         Console.WriteLine("  Two entries of XTAB are equal!");
                         Console.WriteLine("  XTAB[%d] = " + xtab[i] + "");
                         Console.WriteLine("  XTAB[%d] = " + xtab[j] + "");
                         return;
-                    }
-                }
-            }
-
-            //
-            //  Compute the divided differences.
-            //
-            for (i = 1; i <= ntab - 1; i++)
-            {
-                for (j = ntab - 1; i <= j; j--)
-                {
-                    diftab[j] = (diftab[j] - diftab[j - 1]) / (xtab[j] - xtab[j - i]);
                 }
             }
         }
 
-        public static double[] data_to_dif_new(int ntab, double[] xtab, double[] ytab )
+        //
+        //  Compute the divided differences.
+        //
+        for (i = 1; i <= ntab - 1; i++)
+        {
+            for (j = ntab - 1; i <= j; j--)
+            {
+                diftab[j] = (diftab[j] - diftab[j - 1]) / (xtab[j] - xtab[j - i]);
+            }
+        }
+    }
+
+    public static double[] data_to_dif_new(int ntab, double[] xtab, double[] ytab )
 
         //****************************************************************************80
         //
@@ -136,56 +137,57 @@ namespace Burkardt.MatrixNS
         //    Output, double DATA_TO_DIF_NEW[NTAB], the divided difference coefficients
         //    corresponding to the input.
         //
+    {
+        double[] diftab;
+        int i;
+        int j;
+        //
+        //  Make sure the abscissas are distinct.
+        //
+        for (i = 0; i < ntab; i++)
         {
-            double[] diftab;
-            int i;
-            int j;
-            //
-            //  Make sure the abscissas are distinct.
-            //
-            for (i = 0; i < ntab; i++)
+            for (j = i + 1; j < ntab; j++)
             {
-                for (j = i + 1; j < ntab; j++)
+                switch (xtab[i] - xtab[j])
                 {
-                    if (xtab[i] - xtab[j] == 0.0)
-                    {
+                    case 0.0:
                         Console.WriteLine("");
                         Console.WriteLine("DATA_TO_DIF_NEW - Fatal error!");
                         Console.WriteLine("  Two entries of XTAB are equal!");
                         Console.WriteLine("  XTAB[%d] = " + xtab[i] + "");
                         Console.WriteLine("  XTAB[%d] = " + xtab[j] + "");
                         return null;
-                    }
                 }
             }
-
-            //
-            //  Copy the Y data into DIFTAB.
-            //
-            diftab = new double[ntab];
-
-            for (i = 0; i < ntab; i++)
-            {
-                diftab[i] = ytab[i];
-            }
-
-            //
-            //  Compute the divided differences.
-            //
-            for (i = 1; i <= ntab - 1; i++)
-            {
-                for (j = ntab - 1; i <= j; j--)
-                {
-                    diftab[j] = (diftab[j] - diftab[j - 1])
-                                / (xtab[j] - xtab[j - i]);
-                }
-            }
-
-            return diftab;
         }
 
-        public static void data_to_dif_display(int ntab, double[] xtab, double[] ytab,
-        ref double[] diftab )
+        //
+        //  Copy the Y data into DIFTAB.
+        //
+        diftab = new double[ntab];
+
+        for (i = 0; i < ntab; i++)
+        {
+            diftab[i] = ytab[i];
+        }
+
+        //
+        //  Compute the divided differences.
+        //
+        for (i = 1; i <= ntab - 1; i++)
+        {
+            for (j = ntab - 1; i <= j; j--)
+            {
+                diftab[j] = (diftab[j] - diftab[j - 1])
+                            / (xtab[j] - xtab[j - i]);
+            }
+        }
+
+        return diftab;
+    }
+
+    public static void data_to_dif_display(int ntab, double[] xtab, double[] ytab,
+            ref double[] diftab )
 
         //****************************************************************************80
         //
@@ -218,65 +220,65 @@ namespace Burkardt.MatrixNS
         //    Output, double DIFTAB[NTAB], the divided difference coefficients
         //    corresponding to the input (XTAB,YTAB).
         //
+    {
+        int i;
+        int j;
+
+        if (!typeMethods.r8vec_distinct(ntab, xtab))
         {
-            int i;
-            int j;
-
-            if (!typeMethods.r8vec_distinct(ntab, xtab))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DATA_TO_DIF_DISPLAY - Fatal error!");
-                Console.WriteLine("  Two entries of XTAB are equal!");
-                return;
-            }
-
             Console.WriteLine("");
-            Console.WriteLine("  The divided difference table:");
-            Console.WriteLine("");
-            string cout = "        ";
-            for (i = 0; i < ntab; i++)
-            {
-                cout += xtab[i].ToString().PadLeft(10) + "  ";
-            }
-
-            Console.WriteLine(cout);
-            Console.WriteLine("");
-            cout = 0.ToString().PadLeft(6) + "  ";
-            for (i = 0; i < ntab; i++)
-            {
-                cout += ytab[i].ToString().PadLeft(10) + "  ";
-            }
-
-            Console.WriteLine(cout);
-            //
-            //  Copy the data values into DIFTAB.
-            //
-            for (i = 0; i < ntab; i++)
-            {
-                diftab[i] = ytab[i];
-            }
-
-            //
-            //  Compute the divided differences.
-            //
-            for (i = 1; i <= ntab - 1; i++)
-            {
-                cout = i.ToString().PadLeft(6) + "  ";
-                for (j = ntab - 1; i <= j; j--)
-                {
-                    diftab[j] = (diftab[j] - diftab[j - 1]) / (xtab[j] - xtab[j - i]);
-                }
-
-                for (j = i; j < ntab; j++)
-                {
-                    cout += diftab[j].ToString().PadLeft(10) + "  ";
-                }
-
-                Console.WriteLine(cout);
-            }
+            Console.WriteLine("DATA_TO_DIF_DISPLAY - Fatal error!");
+            Console.WriteLine("  Two entries of XTAB are equal!");
+            return;
         }
 
-        public static void data_to_r8poly(int ntab, double[] xtab, double[] ytab, ref double[] c )
+        Console.WriteLine("");
+        Console.WriteLine("  The divided difference table:");
+        Console.WriteLine("");
+        string cout = "        ";
+        for (i = 0; i < ntab; i++)
+        {
+            cout += xtab[i].ToString().PadLeft(10) + "  ";
+        }
+
+        Console.WriteLine(cout);
+        Console.WriteLine("");
+        cout = 0.ToString().PadLeft(6) + "  ";
+        for (i = 0; i < ntab; i++)
+        {
+            cout += ytab[i].ToString().PadLeft(10) + "  ";
+        }
+
+        Console.WriteLine(cout);
+        //
+        //  Copy the data values into DIFTAB.
+        //
+        for (i = 0; i < ntab; i++)
+        {
+            diftab[i] = ytab[i];
+        }
+
+        //
+        //  Compute the divided differences.
+        //
+        for (i = 1; i <= ntab - 1; i++)
+        {
+            cout = i.ToString().PadLeft(6) + "  ";
+            for (j = ntab - 1; i <= j; j--)
+            {
+                diftab[j] = (diftab[j] - diftab[j - 1]) / (xtab[j] - xtab[j - i]);
+            }
+
+            for (j = i; j < ntab; j++)
+            {
+                cout += diftab[j].ToString().PadLeft(10) + "  ";
+            }
+
+            Console.WriteLine(cout);
+        }
+    }
+
+    public static void data_to_r8poly(int ntab, double[] xtab, double[] ytab, ref double[] c )
 
         //****************************************************************************80
         //
@@ -319,18 +321,17 @@ namespace Burkardt.MatrixNS
         //    Output, double C[NTAB], the coefficients of the polynomial that passes
         //    through the data (XTAB,YTAB).  C(0) is the constant term.
         //
+    {
+        if (!typeMethods.r8vec_distinct(ntab, xtab))
         {
-            if (!typeMethods.r8vec_distinct(ntab, xtab))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DATA_TO_R8POLY - Fatal error!");
-                Console.WriteLine("  Two entries of XTAB are equal.");
-                return;
-            }
-
-            data_to_dif(ntab, xtab, ytab, ref c);
-
-            Dif.dif_to_r8poly(ntab, xtab, c, ref c);
+            Console.WriteLine("");
+            Console.WriteLine("DATA_TO_R8POLY - Fatal error!");
+            Console.WriteLine("  Two entries of XTAB are equal.");
+            return;
         }
+
+        data_to_dif(ntab, xtab, ytab, ref c);
+
+        Dif.dif_to_r8poly(ntab, xtab, c, ref c);
     }
 }

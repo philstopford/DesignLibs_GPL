@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Probability;
 
-namespace ProbabilityTest
+namespace ProbabilityTest;
+
+internal partial class Program
 {
-    partial class Program
-    {
-        static void benford_cdf_test()
+    private static void benford_cdf_test()
 
 //****************************************************************************80
 //
@@ -25,52 +25,50 @@ namespace ProbabilityTest
 //
 //    John Burkardt
 //
+    {
+        double cdf;
+        double cdf2;
+        int n;
+        double pdf;
+
+        Console.WriteLine("");
+        Console.WriteLine("BENFORD_CDF_TEST");
+        Console.WriteLine("  BENFORD_CDF evaluates the Benford CDF.");
+
+        Console.WriteLine("");
+        Console.WriteLine("       N          CDF(N)          CDF(N) by summing");
+        Console.WriteLine("");
+
+        cdf2 = 0.0;
+        for (n = 1; n <= 9; n++)
         {
-            double cdf;
-            double cdf2;
-            int n;
-            double pdf;
-
-            Console.WriteLine("");
-            Console.WriteLine("BENFORD_CDF_TEST");
-            Console.WriteLine("  BENFORD_CDF evaluates the Benford CDF.");
-
-            Console.WriteLine("");
-            Console.WriteLine("       N          CDF(N)          CDF(N) by summing");
-            Console.WriteLine("");
-
-            cdf2 = 0.0;
-            for (n = 1; n <= 9; n++)
-            {
-                cdf = Benford.benford_cdf(n);
-                pdf = Benford.benford_pdf(n);
-                cdf2 = cdf2 + pdf;
-                Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                  + "  " + pdf.ToString().PadLeft(14)
-                                  + "  " + cdf.ToString().PadLeft(14)
-                                  + "  " + cdf2.ToString().PadLeft(14) + "");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("       N          CDF(N)          CDF(N) by summing");
-            Console.WriteLine("");
-
-            cdf2 = 0.0;
-            for (n = 10; n <= 99; n++)
-            {
-                cdf = Benford.benford_cdf(n);
-                pdf = Benford.benford_pdf(n);
-                cdf2 = cdf2 + pdf;
-                Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                  + "  " + pdf.ToString().PadLeft(14)
-                                  + "  " + cdf.ToString().PadLeft(14)
-                                  + "  " + cdf2.ToString().PadLeft(14) + "");
-            }
-
-            return;
+            cdf = Benford.benford_cdf(n);
+            pdf = Benford.benford_pdf(n);
+            cdf2 += pdf;
+            Console.WriteLine("  " + n.ToString().PadLeft(6)
+                                   + "  " + pdf.ToString().PadLeft(14)
+                                   + "  " + cdf.ToString().PadLeft(14)
+                                   + "  " + cdf2.ToString().PadLeft(14) + "");
         }
 
-        static void benford_pdf_test()
+        Console.WriteLine("");
+        Console.WriteLine("       N          CDF(N)          CDF(N) by summing");
+        Console.WriteLine("");
+
+        cdf2 = 0.0;
+        for (n = 10; n <= 99; n++)
+        {
+            cdf = Benford.benford_cdf(n);
+            pdf = Benford.benford_pdf(n);
+            cdf2 += pdf;
+            Console.WriteLine("  " + n.ToString().PadLeft(6)
+                                   + "  " + pdf.ToString().PadLeft(14)
+                                   + "  " + cdf.ToString().PadLeft(14)
+                                   + "  " + cdf2.ToString().PadLeft(14) + "");
+        }
+    }
+
+    private static void benford_pdf_test()
 
 //****************************************************************************80
 //
@@ -90,38 +88,35 @@ namespace ProbabilityTest
 //
 //    John Burkardt
 //
+    {
+        int n;
+        double pdf;
+
+        Console.WriteLine("");
+        Console.WriteLine("BENFORD_PDF_TEST");
+        Console.WriteLine("  BENFORD_PDF evaluates the Benford PDF.");
+
+        Console.WriteLine("");
+        Console.WriteLine("       N          PDF(N)");
+        Console.WriteLine("");
+
+        for (n = 1; n <= 9; n++)
         {
-            int n;
-            double pdf;
-
-            Console.WriteLine("");
-            Console.WriteLine("BENFORD_PDF_TEST");
-            Console.WriteLine("  BENFORD_PDF evaluates the Benford PDF.");
-
-            Console.WriteLine("");
-            Console.WriteLine("       N          PDF(N)");
-            Console.WriteLine("");
-
-            for (n = 1; n <= 9; n++)
-            {
-                pdf = Benford.benford_pdf(n);
-                Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                  + "  " + pdf.ToString().PadLeft(14) + "");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("       N          PDF(N)");
-            Console.WriteLine("");
-
-            for (n = 10; n <= 99; n++)
-            {
-                pdf = Benford.benford_pdf(n);
-                Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                  + "  " + pdf.ToString().PadLeft(14) + "");
-            }
-
-            return;
+            pdf = Benford.benford_pdf(n);
+            Console.WriteLine("  " + n.ToString().PadLeft(6)
+                                   + "  " + pdf.ToString().PadLeft(14) + "");
         }
 
+        Console.WriteLine("");
+        Console.WriteLine("       N          PDF(N)");
+        Console.WriteLine("");
+
+        for (n = 10; n <= 99; n++)
+        {
+            pdf = Benford.benford_pdf(n);
+            Console.WriteLine("  " + n.ToString().PadLeft(6)
+                                   + "  " + pdf.ToString().PadLeft(14) + "");
+        }
     }
+
 }

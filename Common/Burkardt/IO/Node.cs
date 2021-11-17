@@ -2,91 +2,84 @@
 using System.IO;
 using Burkardt.Types;
 
-namespace Burkardt.IO
+namespace Burkardt.IO;
+
+public static class Node
 {
-    public static class Node
+    public static void node_data_read(string node_file, int node_num, int node_dim,
+            int node_att_num, int node_marker_num, ref double[] node_coord, ref double[] node_att,
+            ref int[] node_marker)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NODE_HEADER_READ reads the header information from a node file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 December 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string NODE_FILE, the name of the node file to be read.
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, int NODE_DIM, the spatial dimension.
+        //
+        //    Input, int NODE_ATT_NUM, number of node attributes listed on each 
+        //    node record.
+        //
+        //    Input, int NODE_MARKER_NUM, 1 if every node record includes a final
+        //    boundary marker value.
+        //
+        //    Output, double NODE_COORD[NODE_DIM*NODE_NUM], the nodal coordinates.
+        //
+        //    Output, double NODE_ATT[NODE_ATT_NUM*NODE_NUM], the nodal attributes.
+        //
+        //    Output, int NODE_MARKER[NODE_MARKER_NUM*NODE_NUM], the node markers.
+        //
     {
-        public static void node_data_read(string node_file, int node_num, int node_dim,
-                int node_att_num, int node_marker_num, ref double[] node_coord, ref double[] node_att,
-                ref int[] node_marker)
+        int i;
+        string[] inputlines;
+        int ival;
+        int node;
+        double value = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NODE_HEADER_READ reads the header information from a node file.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    07 December 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string NODE_FILE, the name of the node file to be read.
-            //
-            //    Input, int NODE_NUM, the number of nodes.
-            //
-            //    Input, int NODE_DIM, the spatial dimension.
-            //
-            //    Input, int NODE_ATT_NUM, number of node attributes listed on each 
-            //    node record.
-            //
-            //    Input, int NODE_MARKER_NUM, 1 if every node record includes a final
-            //    boundary marker value.
-            //
-            //    Output, double NODE_COORD[NODE_DIM*NODE_NUM], the nodal coordinates.
-            //
-            //    Output, double NODE_ATT[NODE_ATT_NUM*NODE_NUM], the nodal attributes.
-            //
-            //    Output, int NODE_MARKER[NODE_MARKER_NUM*NODE_NUM], the node markers.
-            //
+        node = -1;
+
+        try
         {
-            int i;
-            int i1;
-            int i2;
-            int i3;
-            int i4;
-            string[] inputlines;
-            int ival;
-            int node;
-            double value;
+            inputlines = File.ReadAllLines(node_file);
+        }
+        catch
+        {
+            Console.WriteLine("");
+            Console.WriteLine("NODE_DATA_READ - Fatal error!");
+            Console.WriteLine("  Could not open file.");
+            return;
+        }
 
-            node = -1;
-
-            try
+        foreach (string input in inputlines)
+        {
+            //
+            //  Read, but ignore, dimension line.
+            //
+            string[] tokens = Helpers.splitStringByWhitespace(input);
+            switch (node)
             {
-                inputlines = File.ReadAllLines(node_file);
-            }
-            catch
-            {
-                Console.WriteLine("");
-                Console.WriteLine("NODE_DATA_READ - Fatal error!");
-                Console.WriteLine("  Could not open file.");
-                return;
-            }
-
-            foreach (string input in inputlines)
-            {
-                //
-                //  Read, but ignore, dimension line.
-                //
-                string[] tokens = Helpers.splitStringByWhitespace(input);
-                if (node == -1)
-                {
-                    i1 = Convert.ToInt32(tokens[0]);
-                    i2 = Convert.ToInt32(tokens[1]);
-                    i3 = Convert.ToInt32(tokens[2]);
-                    i4 = Convert.ToInt32(tokens[3]);
-                }
-                else
+                case -1:
+                    break;
+                default:
                 {
                     int index = 0;
                     ival = Convert.ToInt32(tokens[index]);
@@ -112,64 +105,67 @@ namespace Burkardt.IO
                         index++;
                         node_marker[i + node * node_marker_num] = ival;
                     }
-                }
 
-                node = node + 1;
-
-                if (node_num <= node)
-                {
                     break;
                 }
             }
+
+            node += 1;
+
+            if (node_num <= node)
+            {
+                break;
+            }
         }
+    }
 
-        public static void node_size_read(string node_file, ref int node_num, ref int node_dim,
-                ref int node_att_num, ref int node_marker_num)
+    public static void node_size_read(string node_file, ref int node_num, ref int node_dim,
+            ref int node_att_num, ref int node_marker_num)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NODE_SIZE_READ reads the header information from a node file.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    07 December 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string NODE_FILE, the name of the node file to be read.
-            //
-            //    Output, int *NODE_NUM, the number of nodes.
-            //
-            //    Output, int *NODE_DIM, the spatial dimension.
-            //
-            //    Output, int *NODE_ATT_NUM, number of node attributes listed on each 
-            //    node record.
-            //
-            //    Output, int *NODE_MARKER_NUM, 1 if every node record includes a final
-            //    boundary marker value.
-            //
-        {
-            string input = File.ReadAllLines(node_file)[0];
-            string[] tokens = Helpers.splitStringByWhitespace(input);
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NODE_SIZE_READ reads the header information from a node file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 December 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string NODE_FILE, the name of the node file to be read.
+        //
+        //    Output, int *NODE_NUM, the number of nodes.
+        //
+        //    Output, int *NODE_DIM, the spatial dimension.
+        //
+        //    Output, int *NODE_ATT_NUM, number of node attributes listed on each 
+        //    node record.
+        //
+        //    Output, int *NODE_MARKER_NUM, 1 if every node record includes a final
+        //    boundary marker value.
+        //
+    {
+        string input = File.ReadAllLines(node_file)[0];
+        string[] tokens = Helpers.splitStringByWhitespace(input);
 
-            node_num = Convert.ToInt32(tokens[0]);
-            node_dim = Convert.ToInt32(tokens[1]);
-            node_att_num = Convert.ToInt32(tokens[2]);
-            node_marker_num = Convert.ToInt32(tokens[3]);
-        }
+        node_num = Convert.ToInt32(tokens[0]);
+        node_dim = Convert.ToInt32(tokens[1]);
+        node_att_num = Convert.ToInt32(tokens[2]);
+        node_marker_num = Convert.ToInt32(tokens[3]);
+    }
 
-        public static void node_merge(int dim_num, int node_num, double[] node_xy,
-        double tolerance, ref int[] node_rep )
+    public static void node_merge(int dim_num, int node_num, double[] node_xy,
+            double tolerance, ref int[] node_rep )
 
         //****************************************************************************80
         //
@@ -232,58 +228,56 @@ namespace Burkardt.IO
         //    NODE, or for which a chain of nodes can be found, all having the
         //    same representative, and all of which are pairwise closer than TOLERANCE.
         //
+    {
+        double dist;
+        int i;
+        int j;
+        int node1;
+        int node2;
+        int rep;
+        double[] rep_dist;
+
+        rep_dist = new double[node_num];
+
+        for (node1 = 0; node1 < node_num; node1++)
         {
-            double dist;
-            int i;
-            int j;
-            int node1;
-            int node2;
-            int rep;
-            double[] rep_dist;
+            node_rep[node1] = node1;
+        }
 
-            rep_dist = new double[node_num];
-
-            for (node1 = 0; node1 < node_num; node1++)
+        for (node1 = 0; node1 < node_num; node1++)
+        {
+            for (j = 0; j < node_num; j++)
             {
-                node_rep[node1] = node1;
+                rep_dist[j] = typeMethods.r8_huge();
             }
 
-            for (node1 = 0; node1 < node_num; node1++)
+            for (node2 = 0; node2 < node_num; node2++)
             {
-                for (j = 0; j < node_num; j++)
+                dist = 0.0;
+                for (i = 0; i < dim_num; i++)
                 {
-                    rep_dist[j] = typeMethods.r8_huge();
+                    dist += Math.Pow(node_xy[i + node1 * dim_num] - node_xy[i + node2 * dim_num], 2);
                 }
 
-                for (node2 = 0; node2 < node_num; node2++)
+                dist = Math.Sqrt(dist);
+
+                rep = node_rep[node2];
+
+                if (dist < rep_dist[rep])
                 {
-                    dist = 0.0;
-                    for (i = 0; i < dim_num; i++)
-                    {
-                        dist = dist
-                               + Math.Pow(node_xy[i + node1 * dim_num] - node_xy[i + node2 * dim_num], 2);
-                    }
-
-                    dist = Math.Sqrt(dist);
-
-                    rep = node_rep[node2];
-
-                    if (dist < rep_dist[rep])
-                    {
-                        rep_dist[rep] = dist;
-                    }
+                    rep_dist[rep] = dist;
                 }
-
-                for (node2 = 0; node2 < node_num; node2++)
-                {
-                    rep = node_rep[node2];
-                    if (rep_dist[rep] <= tolerance)
-                    {
-                        node_rep[node2] = node1;
-                    }
-                }
-
             }
+
+            for (node2 = 0; node2 < node_num; node2++)
+            {
+                rep = node_rep[node2];
+                if (rep_dist[rep] <= tolerance)
+                {
+                    node_rep[node2] = node1;
+                }
+            }
+
         }
     }
 }

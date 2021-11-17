@@ -1,8 +1,8 @@
-﻿namespace TriangulationTest
+﻿namespace TriangulationTest;
+
+public static partial class TriangulationSampleData
 {
-    public static partial class TriangulationSampleData
-    {
-        public static void triangulation_order6_example1(int node_num, int triangle_num,
+    public static void triangulation_order6_example1(int node_num, int triangle_num,
             ref double[] node_xy, ref int[] triangle_node, ref int[] triangle_neighbor )
 
         //****************************************************************************80
@@ -44,15 +44,15 @@
         //    Output, int TRIANGLE_NEIGHBOR[3*TRIANGLE_NUM], the triangle neighbors
         //    on each side.  Negative values indicate edges that lie on the exterior.
         //
-        {
-            int DIM_NUM = 2;
-            int NODE_NUM = 48;
-            int TRIANGLE_NUM = 16;
-            int TRIANGLE_ORDER = 6;
+    {
+        int DIM_NUM = 2;
+        int NODE_NUM = 48;
+        int TRIANGLE_NUM = 16;
+        int TRIANGLE_ORDER = 6;
 
-            int i;
-            int j;
-            double[] node_xy_save = {
+        int i;
+        int j;
+        double[] node_xy_save = {
                 0.0, 0.0,
                 1.0, 0.0,
                 2.0, 0.0,
@@ -103,7 +103,7 @@
                 6.0, 6.0
             }
             ;
-            int[] triangle_node_save = {
+        int[] triangle_node_save = {
                 1, 3, 15, 2, 9, 8,
                 17, 15, 3, 16, 9, 10,
                 5, 19, 3, 12, 11, 4,
@@ -122,7 +122,7 @@
                 48, 46, 34, 47, 40, 41
             }
             ;
-            int[] triangle_neighbor_save = {
+        int[] triangle_neighbor_save = {
                 -3, 2, -5,
                 7, 1, 4,
                 6, 4, -11,
@@ -142,65 +142,64 @@
             }
             ;
 
-            for (j = 0; j < NODE_NUM; j++)
-            {
-                for (i = 0; i < DIM_NUM; i++)
-                {
-                    node_xy[i + j * DIM_NUM] = node_xy_save[i + j * DIM_NUM];
-                }
-            }
-
-            for (j = 0; j < TRIANGLE_NUM; j++)
-            {
-                for (i = 0; i < TRIANGLE_ORDER; i++)
-                {
-                    triangle_node[i + j * TRIANGLE_ORDER] =
-                        triangle_node_save[i + j * TRIANGLE_ORDER];
-                }
-            }
-
-            for (j = 0; j < TRIANGLE_NUM; j++)
-            {
-                for (i = 0; i < 3; i++)
-                {
-                    triangle_neighbor[i + j * 3] = triangle_neighbor_save[i + j * 3];
-                }
-            }
-        }
-
-        public static void triangulation_order6_example1_size(ref int node_num, ref int triangle_num,
-                ref int hole_num)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    TRIANGULATION_ORDER6_EXAMPLE1_SIZE sets sizes for a sample triangulation.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Output, int *NODE_NUM, the number of nodes.
-            //
-            //    Output, int *TRIANGLE_NUM, the number of triangles.
-            //
-            //    Output, int *HOLE_NUM, the number of holes.
-            //
+        for (j = 0; j < NODE_NUM; j++)
         {
-            node_num = 48;
-            triangle_num = 16;
-            hole_num = 1;
+            for (i = 0; i < DIM_NUM; i++)
+            {
+                node_xy[i + j * DIM_NUM] = node_xy_save[i + j * DIM_NUM];
+            }
         }
+
+        for (j = 0; j < TRIANGLE_NUM; j++)
+        {
+            for (i = 0; i < TRIANGLE_ORDER; i++)
+            {
+                triangle_node[i + j * TRIANGLE_ORDER] =
+                    triangle_node_save[i + j * TRIANGLE_ORDER];
+            }
+        }
+
+        for (j = 0; j < TRIANGLE_NUM; j++)
+        {
+            for (i = 0; i < 3; i++)
+            {
+                triangle_neighbor[i + j * 3] = triangle_neighbor_save[i + j * 3];
+            }
+        }
+    }
+
+    public static void triangulation_order6_example1_size(ref int node_num, ref int triangle_num,
+            ref int hole_num)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGULATION_ORDER6_EXAMPLE1_SIZE sets sizes for a sample triangulation.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, int *NODE_NUM, the number of nodes.
+        //
+        //    Output, int *TRIANGLE_NUM, the number of triangles.
+        //
+        //    Output, int *HOLE_NUM, the number of holes.
+        //
+    {
+        node_num = 48;
+        triangle_num = 16;
+        hole_num = 1;
     }
 }

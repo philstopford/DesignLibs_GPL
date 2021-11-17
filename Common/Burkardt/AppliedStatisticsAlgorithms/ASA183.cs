@@ -1,9 +1,9 @@
-﻿namespace Burkardt.AppliedStatistics
-{
-    public static partial class Algorithms
-    {
+﻿namespace Burkardt.AppliedStatistics;
 
-        public static float r4_random(ref int s1, ref int s2, ref int s3)
+public static partial class Algorithms
+{
+
+    public static float r4_random(ref int s1, ref int s2, ref int s3)
         //*****************************************************************************80
         //
         //  Purpose:
@@ -46,21 +46,21 @@
         //
         //    Output, float R4_RANDOM, the next value in the sequence.
         //
-        {
-            float value;
+    {
+        float value;
 
-            s1 = ((171 * s1) % 30269);
-            s2 = ((172 * s2) % 30307);
-            s3 = ((170 * s3) % 30323);
+        s1 = 171 * s1 % 30269;
+        s2 = 172 * s2 % 30307;
+        s3 = 170 * s3 % 30323;
 
-            value = ((float) (s1) / 30269.0f
-                         + (float) (s2) / 30307.0f
-                         + (float) (s3) / 30323.0f) % 1.0f;
+        value = (s1 / 30269.0f
+                 + s2 / 30307.0f
+                 + s3 / 30323.0f) % 1.0f;
 
-            return value;
-        }
+        return value;
+    }
 
-        public static float r4_uni(ref int s1, ref int s2)
+    public static float r4_uni(ref int s1, ref int s2)
         //*****************************************************************************80
         //
         //  Purpose:
@@ -104,37 +104,43 @@
         //
         //    Output, float R4_UNI, the next value in the sequence.
         //
+    {
+        int k;
+        float value;
+        int z;
+
+        k = s1 / 53668;
+        s1 = 40014 * (s1 - k * 53668) - k * 12211;
+        switch (s1)
         {
-            int k;
-            float value;
-            int z;
-
-            k = s1 / 53668;
-            s1 = 40014 * (s1 - k * 53668) - k * 12211;
-            if (s1 < 0)
-            {
-                s1 = s1 + 2147483563;
-            }
-
-            k = s2 / 52774;
-            s2 = 40692 * (s2 - k * 52774) - k * 3791;
-            if (s2 < 0)
-            {
-                s2 = s2 + 2147483399;
-            }
-
-            z = s1 - s2;
-            if (z < 1)
-            {
-                z = z + 2147483562;
-            }
-
-            value = (float) (z) / 2147483563.0f;
-
-            return value;
+            case < 0:
+                s1 += 2147483563;
+                break;
         }
 
-        public static double r8_random(ref int s1, ref int s2, ref int s3)
+        k = s2 / 52774;
+        s2 = 40692 * (s2 - k * 52774) - k * 3791;
+        switch (s2)
+        {
+            case < 0:
+                s2 += 2147483399;
+                break;
+        }
+
+        z = s1 - s2;
+        switch (z)
+        {
+            case < 1:
+                z += 2147483562;
+                break;
+        }
+
+        value = z / 2147483563.0f;
+
+        return value;
+    }
+
+    public static double r8_random(ref int s1, ref int s2, ref int s3)
         //*****************************************************************************80
         //
         //  Purpose:
@@ -177,21 +183,21 @@
         //
         //    Output, double R8_RANDOM, the next value in the sequence.
         //
-        {
-            double value;
+    {
+        double value = 0;
 
-            s1 = ((171 * s1) % 30269);
-            s2 = ((172 * s2) % 30307);
-            s3 = ((170 * s3) % 30323);
+        s1 = 171 * s1 % 30269;
+        s2 = 172 * s2 % 30307;
+        s3 = 170 * s3 % 30323;
 
-            value = ((double) (s1) / 30269.0
-                         + (double) (s2) / 30307.0
-                         + (double) (s3) / 30323.0) % 1.0;
+        value = (s1 / 30269.0
+                 + s2 / 30307.0
+                 + s3 / 30323.0) % 1.0;
 
-            return value;
-        }
+        return value;
+    }
 
-        public static double r8_uni(ref int s1, ref int s2)
+    public static double r8_uni(ref int s1, ref int s2)
         //*****************************************************************************80
         //
         //  Purpose:
@@ -235,35 +241,40 @@
         //
         //    Output, double R8_UNI, the next value in the sequence.
         //
+    {
+        int k;
+        double value = 0;
+        int z;
+
+        k = s1 / 53668;
+        s1 = 40014 * (s1 - k * 53668) - k * 12211;
+        switch (s1)
         {
-            int k;
-            double value;
-            int z;
-
-            k = s1 / 53668;
-            s1 = 40014 * (s1 - k * 53668) - k * 12211;
-            if (s1 < 0)
-            {
-                s1 = s1 + 2147483563;
-            }
-
-            k = s2 / 52774;
-            s2 = 40692 * (s2 - k * 52774) - k * 3791;
-            if (s2 < 0)
-            {
-                s2 = s2 + 2147483399;
-            }
-
-            z = s1 - s2;
-            if (z < 1)
-            {
-                z = z + 2147483562;
-            }
-
-            value = (double) (z) / 2147483563.0;
-
-            return value;
+            case < 0:
+                s1 += 2147483563;
+                break;
         }
 
+        k = s2 / 52774;
+        s2 = 40692 * (s2 - k * 52774) - k * 3791;
+        switch (s2)
+        {
+            case < 0:
+                s2 += 2147483399;
+                break;
+        }
+
+        z = s1 - s2;
+        switch (z)
+        {
+            case < 1:
+                z += 2147483562;
+                break;
+        }
+
+        value = z / 2147483563.0;
+
+        return value;
     }
+
 }

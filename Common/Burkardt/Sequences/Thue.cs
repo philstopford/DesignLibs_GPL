@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Sequence
+namespace Burkardt.Sequence;
+
+public static class Thue
 {
-    public static class Thue
-    {
-        public static void thue_binary_next(ref int n, ref int[] thue )
+    public static void thue_binary_next(ref int n, ref int[] thue )
 
         //****************************************************************************80
         //
@@ -56,49 +56,48 @@ namespace Burkardt.Sequence
         //    Input, int THUE[N].  On input, the initial Thue sequence, and on
         //    output, the result of applying the substitution rules once.
         //
+    {
+        int i;
+        int n_out;
+        int[] thue_out;
+
+        n_out = 0;
+        thue_out = new int[2 * n];
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int n_out;
-            int[] thue_out;
-
-            n_out = 0;
-            thue_out = new int[2 * n];
-
-            for (i = 0; i < n; i++)
+            switch (thue[i])
             {
-                if (thue[i] == 0)
-                {
+                case 0:
                     thue_out[n_out] = 0;
-                    n_out = n_out + 1;
+                    n_out += 1;
                     thue_out[n_out] = 1;
-                    n_out = n_out + 1;
-                }
-                else if (thue[i] == 1)
-                {
+                    n_out += 1;
+                    break;
+                case 1:
                     thue_out[n_out] = 1;
-                    n_out = n_out + 1;
+                    n_out += 1;
                     thue_out[n_out] = 0;
-                    n_out = n_out + 1;
-                }
-                else
-                {
+                    n_out += 1;
+                    break;
+                default:
                     Console.WriteLine("");
                     Console.WriteLine("THUE_BINARY_NEXT - Fatal error!");
                     Console.WriteLine("  The input sequence contains a non-binary digit");
                     Console.WriteLine("  THUE[" + i + "] = " + thue[i] + "");
                     return;
-                }
-            }
-
-            n = n_out;
-
-            for (i = 0; i < n; i++)
-            {
-                thue[i] = thue_out[i];
             }
         }
 
-        public static void thue_ternary_next(ref int n, ref int[] thue )
+        n = n_out;
+
+        for (i = 0; i < n; i++)
+        {
+            thue[i] = thue_out[i];
+        }
+    }
+
+    public static void thue_ternary_next(ref int n, ref int[] thue )
 
         //****************************************************************************80
         //
@@ -162,53 +161,49 @@ namespace Burkardt.Sequence
         //    Input, int THUE[*N].  On input, the initial Thue sequence, and on
         //    output, the result of applying the substitution rules once.
         //
+    {
+        int i;
+        int n_out;
+        int[] thue_out;
+
+        n_out = 0;
+        thue_out = new int[3 * n];
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int n_out;
-            int[] thue_out;
-
-            n_out = 0;
-            thue_out = new int[3 * n];
-
-            for (i = 0; i < n; i++)
+            switch (thue[i])
             {
-
-                if (thue[i] == 0)
-                {
+                case 0:
                     thue_out[n_out] = 1;
-                    n_out = n_out + 1;
+                    n_out += 1;
                     thue_out[n_out] = 2;
-                    n_out = n_out + 1;
-                }
-                else if (thue[i] == 1)
-                {
+                    n_out += 1;
+                    break;
+                case 1:
                     thue_out[n_out] = 1;
-                    n_out = n_out + 1;
+                    n_out += 1;
                     thue_out[n_out] = 0;
-                    n_out = n_out + 1;
+                    n_out += 1;
                     thue_out[n_out] = 2;
-                    n_out = n_out + 1;
-                }
-                else if (thue[i] == 2)
-                {
+                    n_out += 1;
+                    break;
+                case 2:
                     thue_out[n_out] = 0;
-                    n_out = n_out + 1;
-                }
-                else
-                {
+                    n_out += 1;
+                    break;
+                default:
                     Console.WriteLine("");
                     Console.WriteLine("THUE_TERNARY_NEXT - Fatal error!");
                     Console.WriteLine("  The input sequence contains a non-ternary digit");
                     Console.WriteLine("  THUE[" + i + "] = " + thue[i] + "");
                     return;
-                }
             }
+        }
 
-            n = n_out;
-            for (i = 0; i < n_out; i++)
-            {
-                thue[i] = thue_out[i];
-            }
+        n = n_out;
+        for (i = 0; i < n_out; i++)
+        {
+            thue[i] = thue_out[i];
         }
     }
 }

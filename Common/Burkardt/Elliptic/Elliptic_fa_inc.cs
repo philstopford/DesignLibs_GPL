@@ -1,81 +1,81 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class FA_inc
 {
-    public static class FA_inc
+    public static double evaluate(double phi, double a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_INC_FA evaluates the incomplete elliptic integral F(PHI,A).
+        //
+        //  Discussion:
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      k = sin ( a * Math.PI / 180 )
+        //      F(phi,k) = sin(phi) * RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double PHI, A, the arguments.
+        //    0 <= PHI <= PI/2.
+        //    0 <= sin^2 ( A * Math.PI / 180 ) * sin^2(PHI) <= 1.
+        //
+        //    Output, double ELLIPTIC_INC_FA, the function value.
+        //
     {
-        public static double evaluate(double phi, double a)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_INC_FA evaluates the incomplete elliptic integral F(PHI,A).
-            //
-            //  Discussion:
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      k = sin ( a * Math.PI / 180 )
-            //      F(phi,k) = sin(phi) * RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    25 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double PHI, A, the arguments.
-            //    0 <= PHI <= PI/2.
-            //    0 <= sin^2 ( A * Math.PI / 180 ) * sin^2(PHI) <= 1.
-            //
-            //    Output, double ELLIPTIC_INC_FA, the function value.
-            //
-        {
-            double cp;
-            double errtol;
-            int ierr = 0;
-            double k;
+        double cp;
+        double errtol;
+        int ierr = 0;
+        double k;
             
-            double sp;
-            double value;
-            double x;
-            double y;
-            double z;
+        double sp;
+        double value = 0;
+        double x;
+        double y;
+        double z;
 
-            k = Math.Sin(a * Math.PI / 180.0);
+        k = Math.Sin(a * Math.PI / 180.0);
 
-            cp = Math.Cos(phi);
-            sp = Math.Sin(phi);
-            x = cp * cp;
-            y = (1.0 - k * sp) * (1.0 + k * sp);
-            z = 1.0;
-            errtol = 1.0E-03;
+        cp = Math.Cos(phi);
+        sp = Math.Sin(phi);
+        x = cp * cp;
+        y = (1.0 - k * sp) * (1.0 + k * sp);
+        z = 1.0;
+        errtol = 1.0E-03;
 
-            value = Integral.rf(x, y, z, errtol, ref ierr);
+        value = Integral.rf(x, y, z, errtol, ref ierr);
 
-            if (ierr != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPTIC_INC_FA - Fatal error!");
-                Console.WriteLine("  RF returned IERR = " + ierr + "");
-                return(1);
-            }
-
-            value = sp * value;
-
-            return value;
+        if (ierr != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPTIC_INC_FA - Fatal error!");
+            Console.WriteLine("  RF returned IERR = " + ierr + "");
+            return 1;
         }
 
-        public static void values(ref int n_data, ref double phi, ref double a, ref double fa )
+        value = sp * value;
+
+        return value;
+    }
+
+    public static void values(ref int n_data, ref double phi, ref double a, ref double fa )
 
         //****************************************************************************80
         //
@@ -124,10 +124,10 @@ namespace Burkardt.Elliptic
         //
         //    Output, double &FA, the function value.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] a_vec =
+        double[] a_vec =
             {
                 123.0821233267548,
                 11.26931745051486,
@@ -152,7 +152,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] fa_vec =
+        double[] fa_vec =
             {
                 0.3478806460316299,
                 1.313180577009584,
@@ -177,7 +177,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] phi_vec =
+        double[] phi_vec =
             {
                 0.3430906586047127,
                 1.302990057703935,
@@ -202,25 +202,25 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (N_MAX <= n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                fa = 0.0;
-                phi = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data];
-                fa = fa_vec[n_data];
-                phi = phi_vec[n_data];
-                n_data = n_data + 1;
-            }
+        if (N_MAX <= n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            fa = 0.0;
+            phi = 0.0;
+        }
+        else
+        {
+            a = a_vec[n_data];
+            fa = fa_vec[n_data];
+            phi = phi_vec[n_data];
+            n_data += 1;
         }
     }
 }

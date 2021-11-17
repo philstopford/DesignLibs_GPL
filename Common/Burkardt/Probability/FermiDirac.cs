@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class FermiDirac
 {
-    public static class FermiDirac
-    {
-        public static double fermi_dirac_sample(double u, double v, ref int seed)
+    public static double fermi_dirac_sample(double u, double v, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -50,39 +50,38 @@ namespace Burkardt.Probability
         //    Output values will be nonnegative, and roughly half of them should
         //    be less than or equal to U.
         //
+    {
+        int iter_max = 1000;
+        double y1;
+
+        double x = UniformRNG.r8_uniform_01(ref seed);
+        double y = 1.0;
+        double a = Math.Exp(4.0 * u / v);
+        double b = (x - 1.0) * Math.Log(1.0 + a);
+
+        int iter_num = 0;
+
+        for (;;)
         {
-            int iter_max = 1000;
-            double y1;
+            y1 = b + Math.Log(a + Math.Exp(y));
 
-            double x = UniformRNG.r8_uniform_01(ref seed);
-            double y = 1.0;
-            double a = Math.Exp(4.0 * u / v);
-            double b = (x - 1.0) * Math.Log(1.0 + a);
-
-            int iter_num = 0;
-
-            for (;;)
+            if (Math.Abs(y - y1) < 0.001)
             {
-                y1 = b + Math.Log(a + Math.Exp(y));
-
-                if (Math.Abs(y - y1) < 0.001)
-                {
-                    break;
-                }
-
-                y = y1;
-
-                iter_num = iter_num + 1;
-
-                if (iter_max < iter_num)
-                {
-                    break;
-                }
+                break;
             }
 
-            double z = v * y1 / 4.0;
+            y = y1;
 
-            return z;
+            iter_num += 1;
+
+            if (iter_max < iter_num)
+            {
+                break;
+            }
         }
+
+        double z = v * y1 / 4.0;
+
+        return z;
     }
 }

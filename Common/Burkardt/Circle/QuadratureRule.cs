@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.CircleNS
+namespace Burkardt.CircleNS;
+
+public static class QuadratureRule
 {
-    public static class QuadratureRule
-    {
-        public static void circle_rule ( int nt, ref double[] w, ref double[] t )
+    public static void circle_rule ( int nt, ref double[] w, ref double[] t )
 
         //****************************************************************************80
         //
@@ -42,12 +42,11 @@ namespace Burkardt.CircleNS
         //
         //    Output, double T[NT], the angles for the rule.
         //
+    {
+        for ( int it = 0; it < nt; it++ )
         {
-            for ( int it = 0; it < nt; it++ )
-            {
-                w[it] = 1.0 / ( double ) ( nt );
-                t[it] = 2.0 * Math.PI * ( double ) ( it ) / ( double ) ( nt );
-            }
+            w[it] = 1.0 / nt;
+            t[it] = 2.0 * Math.PI * it / nt;
         }
     }
 }

@@ -2,433 +2,426 @@
 using Burkardt;
 using Burkardt.SolveNS;
 
-namespace FEM2DPoissonRectangleLinearTest
+namespace FEM2DPoissonRectangleLinearTest;
+
+internal class Program
 {
-    class Program
+    private static void Main(string[] args)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MAIN is the main routine for FEM2D_POISSON_RECTANGLE_LINEAR.
+        //
+        //  Discussion:
+        //
+        //    This program solves
+        //
+        //      - d2U(X,Y)/dx2 - d2U(X,Y)/dy2 = F(X,Y)
+        //
+        //    in a rectangular region in the plane.
+        //
+        //    Along the boundary of the region, Dirichlet conditions
+        //    are imposed:
+        //
+        //      U(X,Y) = G(X,Y)
+        //
+        //    The code uses continuous piecewise linear basis functions on
+        //    triangles determined by a uniform grid of NX by NY points.
+        //
+        //    u    =      sin ( pi * x ) * sin ( pi * y ) + x
+        //
+        //    dudx = pi * cos ( pi * x ) * sin ( pi * y ) + 1
+        //    dudy = pi * sin ( pi * x ) * cos ( pi * y )
+        //
+        //    d2udx2 = - pi * pi * sin ( pi * x ) * sin ( pi * y )
+        //    d2udy2 = - pi * pi * sin ( pi * x ) * sin ( pi * y )
+        //
+        //    rhs  = 2 * pi * pi * sin ( pi * x ) * sin ( pi * y )
+        //
+        //  THINGS YOU CAN EASILY CHANGE:
+        //
+        //    1) Change NX or NY, the number of nodes in the X and Y directions.
+        //    2) Change XL, XR, YB, YT, the left, right, bottom and top limits of the rectangle.
+        //    3) Change the exact solution in the EXACT routine, but make sure you also
+        //       modify the formula for RHS in the assembly portion of the program//
+        //
+        //  HARDER TO CHANGE:
+        //
+        //    4) Change from "linear" to "quadratic" triangles;
+        //    5) Change the region from a rectangle to a general triangulated region;
+        //    6) Store the matrix as a sparse matrix so you can solve bigger systems.
+        //    7) Handle Neumann boundary conditions.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    28 November 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        static void Main(string[] args)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MAIN is the main routine for FEM2D_POISSON_RECTANGLE_LINEAR.
-            //
-            //  Discussion:
-            //
-            //    This program solves
-            //
-            //      - d2U(X,Y)/dx2 - d2U(X,Y)/dy2 = F(X,Y)
-            //
-            //    in a rectangular region in the plane.
-            //
-            //    Along the boundary of the region, Dirichlet conditions
-            //    are imposed:
-            //
-            //      U(X,Y) = G(X,Y)
-            //
-            //    The code uses continuous piecewise linear basis functions on
-            //    triangles determined by a uniform grid of NX by NY points.
-            //
-            //    u    =      sin ( pi * x ) * sin ( pi * y ) + x
-            //
-            //    dudx = pi * cos ( pi * x ) * sin ( pi * y ) + 1
-            //    dudy = pi * sin ( pi * x ) * cos ( pi * y )
-            //
-            //    d2udx2 = - pi * pi * sin ( pi * x ) * sin ( pi * y )
-            //    d2udy2 = - pi * pi * sin ( pi * x ) * sin ( pi * y )
-            //
-            //    rhs  = 2 * pi * pi * sin ( pi * x ) * sin ( pi * y )
-            //
-            //  THINGS YOU CAN EASILY CHANGE:
-            //
-            //    1) Change NX or NY, the number of nodes in the X and Y directions.
-            //    2) Change XL, XR, YB, YT, the left, right, bottom and top limits of the rectangle.
-            //    3) Change the exact solution in the EXACT routine, but make sure you also
-            //       modify the formula for RHS in the assembly portion of the program//
-            //
-            //  HARDER TO CHANGE:
-            //
-            //    4) Change from "linear" to "quadratic" triangles;
-            //    5) Change the region from a rectangle to a general triangulated region;
-            //    6) Store the matrix as a sparse matrix so you can solve bigger systems.
-            //    7) Handle Neumann boundary conditions.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    28 November 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-        {
-            int nx = 17;
-            int ny = 17;
+        int nx = 17;
+        int ny = 17;
 
-            double[] a;
-            double area;
-            double[] b;
-            double[] c;
-            double dqidx;
-            double dqidy;
-            double dqjdx;
-            double dqjdy;
-            double dudx;
-            double dudy;
-            int e;
-            int[] element_node;
-            int element_num;
-            int i;
-            int i1;
-            int i2;
-            int i3;
-            int j;
-            int j2;
-            int k;
-            int node_num;
-            int nq1;
-            int nq2;
-            int nti1;
-            int nti2;
-            int nti3;
-            int ntj1;
-            int ntj2;
-            int ntj3;
-            int q1;
-            int q2;
-            double qi;
-            int ti1;
-            int ti2;
-            int ti3;
-            int tj1;
-            int tj2;
-            int tj3;
-            double rhs;
-            double u;
-            double wq;
-            double[] x;
-            double xl = 0.0;
-            double xq;
-            double xr = 1.0;
-            double[] y;
-            double yb = 0.0;
-            double yq;
-            double yt = 1.0;
+        double[] a;
+        double area;
+        double[] b;
+        double[] c;
+        double dqidx;
+        double dqidy;
+        double dqjdx;
+        double dqjdy;
+        int e;
+        int[] element_node;
+        int element_num;
+        int i;
+        int i1;
+        int i2;
+        int i3;
+        int j;
+        int j2;
+        int k;
+        int node_num;
+        int nq1;
+        int nq2;
+        int nti1;
+        int nti2;
+        int nti3;
+        int ntj1;
+        int ntj2;
+        int ntj3;
+        int q1;
+        int q2;
+        double qi;
+        int ti1;
+        int ti2;
+        int ti3;
+        int tj1;
+        int tj2;
+        int tj3;
+        double rhs;
+        double u;
+        double wq;
+        double[] x;
+        double xl = 0.0;
+        double xq;
+        double xr = 1.0;
+        double[] y;
+        double yb = 0.0;
+        double yq;
+        double yt = 1.0;
 
-            Console.WriteLine("");
-            Console.WriteLine("FEM2D_POISSON_RECTANGLE_LINEAR");
+        Console.WriteLine("");
+        Console.WriteLine("FEM2D_POISSON_RECTANGLE_LINEAR");
             
-            Console.WriteLine("");
-            Console.WriteLine("  Solution of the Poisson equation:");
-            Console.WriteLine("");
-            Console.WriteLine("  - Uxx - Uyy = F(x,y) inside the region,");
-            Console.WriteLine("       U(x,y) = G(x,y) on the boundary of the region.");
-            Console.WriteLine("");
-            Console.WriteLine("  The region is a rectangle, defined by:");
-            Console.WriteLine("");
-            Console.WriteLine("  " + xl + " = XL<= X <= XR = " + xr + "");
-            Console.WriteLine("  " + yb + " = YB<= Y <= YT = " + yt + "");
-            Console.WriteLine("");
-            Console.WriteLine("  The finite element method is used, with piecewise");
-            Console.WriteLine("  linear basis functions on 3 node triangular");
-            Console.WriteLine("  elements.");
-            Console.WriteLine("");
-            Console.WriteLine("  The corner nodes of the triangles are generated by an");
-            Console.WriteLine("  underlying grid whose dimensions are");
-            Console.WriteLine("");
-            Console.WriteLine("  NX =                       " + nx + "");
-            Console.WriteLine("  NY =                       " + ny + "");
-            //
-            //  NODE COORDINATES
-            //
-            //  Numbering of nodes is suggested by the following 5x10 example:
-            //
-            //    J=5 | K=41  K=42 ... K=50
-            //    ... |
-            //    J=2 | K=11  K=12 ... K=20
-            //    J=1 | K= 1  K= 2     K=10
-            //        +--------------------
-            //          I= 1  I= 2 ... I=10
-            //
-            node_num = nx * ny;
+        Console.WriteLine("");
+        Console.WriteLine("  Solution of the Poisson equation:");
+        Console.WriteLine("");
+        Console.WriteLine("  - Uxx - Uyy = F(x,y) inside the region,");
+        Console.WriteLine("       U(x,y) = G(x,y) on the boundary of the region.");
+        Console.WriteLine("");
+        Console.WriteLine("  The region is a rectangle, defined by:");
+        Console.WriteLine("");
+        Console.WriteLine("  " + xl + " = XL<= X <= XR = " + xr + "");
+        Console.WriteLine("  " + yb + " = YB<= Y <= YT = " + yt + "");
+        Console.WriteLine("");
+        Console.WriteLine("  The finite element method is used, with piecewise");
+        Console.WriteLine("  linear basis functions on 3 node triangular");
+        Console.WriteLine("  elements.");
+        Console.WriteLine("");
+        Console.WriteLine("  The corner nodes of the triangles are generated by an");
+        Console.WriteLine("  underlying grid whose dimensions are");
+        Console.WriteLine("");
+        Console.WriteLine("  NX =                       " + nx + "");
+        Console.WriteLine("  NY =                       " + ny + "");
+        //
+        //  NODE COORDINATES
+        //
+        //  Numbering of nodes is suggested by the following 5x10 example:
+        //
+        //    J=5 | K=41  K=42 ... K=50
+        //    ... |
+        //    J=2 | K=11  K=12 ... K=20
+        //    J=1 | K= 1  K= 2     K=10
+        //        +--------------------
+        //          I= 1  I= 2 ... I=10
+        //
+        node_num = nx * ny;
 
-            Console.WriteLine("  Number of nodes =          " + node_num + "");
+        Console.WriteLine("  Number of nodes =          " + node_num + "");
 
-            x = new double[node_num];
-            y = new double[node_num];
+        x = new double[node_num];
+        y = new double[node_num];
 
-            k = 0;
-            for (j = 1; j <= ny; j++)
+        k = 0;
+        for (j = 1; j <= ny; j++)
+        {
+            for (i = 1; i <= nx; i++)
             {
-                for (i = 1; i <= nx; i++)
-                {
-                    x[k] = ((double) (nx - i) * xl
-                            + (double) (i - 1) * xr)
-                           / (double) (nx - 1);
+                x[k] = ((nx - i) * xl
+                        + (i - 1) * xr)
+                       / (nx - 1);
 
-                    y[k] = ((double) (ny - j) * yb
-                            + (double) (j - 1) * yt)
-                           / (double) (ny - 1);
-                    k = k + 1;
-                }
+                y[k] = ((ny - j) * yb
+                        + (j - 1) * yt)
+                       / (ny - 1);
+                k += 1;
             }
+        }
 
-            //
-            //  ELEMENT array
-            //
-            //  Organize the nodes into a grid of 3-node triangles.
-            //  Here is part of the diagram for a 5x10 example:
-            //
-            //    |  \ |  \ |  \ |
-            //    |   \|   \|   \|
-            //   21---22---23---24--
-            //    |\ 8 |\10 |\12 |
-            //    | \  | \  | \  |
-            //    |  \ |  \ |  \ |  \ |
-            //    |  7\|  9\| 11\|   \|
-            //   11---12---13---14---15---16---17---18---19---20
-            //    |\ 2 |\ 4 |\ 6 |\  8|                   |\ 18|
-            //    | \  | \  | \  | \  |                   | \  |
-            //    |  \ |  \ |  \ |  \ |      ...          |  \ |
-            //    |  1\|  3\|  5\| 7 \|                   |17 \|
-            //    1----2----3----4----5----6----7----8----9---10
-            //
-            element_num = 2 * (nx - 1) * (ny - 1);
+        //
+        //  ELEMENT array
+        //
+        //  Organize the nodes into a grid of 3-node triangles.
+        //  Here is part of the diagram for a 5x10 example:
+        //
+        //    |  \ |  \ |  \ |
+        //    |   \|   \|   \|
+        //   21---22---23---24--
+        //    |\ 8 |\10 |\12 |
+        //    | \  | \  | \  |
+        //    |  \ |  \ |  \ |  \ |
+        //    |  7\|  9\| 11\|   \|
+        //   11---12---13---14---15---16---17---18---19---20
+        //    |\ 2 |\ 4 |\ 6 |\  8|                   |\ 18|
+        //    | \  | \  | \  | \  |                   | \  |
+        //    |  \ |  \ |  \ |  \ |      ...          |  \ |
+        //    |  1\|  3\|  5\| 7 \|                   |17 \|
+        //    1----2----3----4----5----6----7----8----9---10
+        //
+        element_num = 2 * (nx - 1) * (ny - 1);
 
-            Console.WriteLine("  Number of elements =       " + element_num + "");
+        Console.WriteLine("  Number of elements =       " + element_num + "");
 
-            element_node = new int[3 * element_num];
+        element_node = new int[3 * element_num];
 
-            k = 0;
+        k = 0;
 
-            for (j = 1; j <= ny - 1; j++)
+        for (j = 1; j <= ny - 1; j++)
+        {
+            for (i = 1; i <= nx - 1; i++)
             {
-                for (i = 1; i <= nx - 1; i++)
-                {
-                    element_node[0 + k * 3] = i + (j - 1) * nx - 1;
-                    element_node[1 + k * 3] = i + 1 + (j - 1) * nx - 1;
-                    element_node[2 + k * 3] = i + j * nx - 1;
-                    k = k + 1;
+                element_node[0 + k * 3] = i + (j - 1) * nx - 1;
+                element_node[1 + k * 3] = i + 1 + (j - 1) * nx - 1;
+                element_node[2 + k * 3] = i + j * nx - 1;
+                k += 1;
 
-                    element_node[0 + k * 3] = i + 1 + j * nx - 1;
-                    element_node[1 + k * 3] = i + j * nx - 1;
-                    element_node[2 + k * 3] = i + 1 + (j - 1) * nx - 1;
-                    k = k + 1;
-                }
+                element_node[0 + k * 3] = i + 1 + j * nx - 1;
+                element_node[1 + k * 3] = i + j * nx - 1;
+                element_node[2 + k * 3] = i + 1 + (j - 1) * nx - 1;
+                k += 1;
             }
+        }
 
-            //
-            //  Assemble the coefficient matrix A and the right-hand side B of the
-            //  finite element equations, ignoring boundary conditions.
-            //
-            a = new double[node_num * node_num];
-            b = new double[node_num];
+        //
+        //  Assemble the coefficient matrix A and the right-hand side B of the
+        //  finite element equations, ignoring boundary conditions.
+        //
+        a = new double[node_num * node_num];
+        b = new double[node_num];
 
+        for (i = 0; i < node_num; i++)
+        {
+            b[i] = 0.0;
+        }
+
+        for (j = 0; j < node_num; j++)
+        {
             for (i = 0; i < node_num; i++)
             {
-                b[i] = 0.0;
+                a[i + j * node_num] = 0.0;
             }
+        }
 
-            for (j = 0; j < node_num; j++)
+        for (e = 0; e < element_num; e++)
+        {
+            i1 = element_node[0 + e * 3];
+            i2 = element_node[1 + e * 3];
+            i3 = element_node[2 + e * 3];
+            area = 0.5 *
+                   (x[i1] * (y[i2] - y[i3])
+                    + x[i2] * (y[i3] - y[i1])
+                    + x[i3] * (y[i1] - y[i2]));
+            //
+            //  Consider each quadrature point.
+            //  Here, we use the midside nodes as quadrature points.
+            //
+            for (q1 = 0; q1 < 3; q1++)
             {
-                for (i = 0; i < node_num; i++)
-                {
-                    a[i + j * node_num] = 0.0;
-                }
-            }
+                q2 = (q1 + 1) % 3;
 
-            for (e = 0; e < element_num; e++)
-            {
-                i1 = element_node[0 + e * 3];
-                i2 = element_node[1 + e * 3];
-                i3 = element_node[2 + e * 3];
-                area = 0.5 *
-                       (x[i1] * (y[i2] - y[i3])
-                        + x[i2] * (y[i3] - y[i1])
-                        + x[i3] * (y[i1] - y[i2]));
+                nq1 = element_node[q1 + e * 3];
+                nq2 = element_node[q2 + e * 3];
+
+                xq = 0.5 * (x[nq1] + x[nq2]);
+                yq = 0.5 * (y[nq1] + y[nq2]);
+                wq = 1.0 / 3.0;
                 //
-                //  Consider each quadrature point.
-                //  Here, we use the midside nodes as quadrature points.
+                //  Consider each test function in the element.
                 //
-                for (q1 = 0; q1 < 3; q1++)
+                for (ti1 = 0; ti1 < 3; ti1++)
                 {
-                    q2 = (q1 + 1) % 3;
+                    ti2 = (ti1 + 1) % 3;
+                    ti3 = (ti1 + 2) % 3;
 
-                    nq1 = element_node[q1 + e * 3];
-                    nq2 = element_node[q2 + e * 3];
+                    nti1 = element_node[ti1 + e * 3];
+                    nti2 = element_node[ti2 + e * 3];
+                    nti3 = element_node[ti3 + e * 3];
 
-                    xq = 0.5 * (x[nq1] + x[nq2]);
-                    yq = 0.5 * (y[nq1] + y[nq2]);
-                    wq = 1.0 / 3.0;
+                    qi = 0.5 * (
+                        (x[nti3] - x[nti2]) * (yq - y[nti2])
+                        - (y[nti3] - y[nti2]) * (xq - x[nti2])) / area;
+                    dqidx = -0.5 * (y[nti3] - y[nti2]) / area;
+                    dqidy = 0.5 * (x[nti3] - x[nti2]) / area;
+
+                    rhs = 2.0 * Math.PI * Math.PI * Math.Sin(Math.PI * xq) * Math.Sin(Math.PI * yq);
+
+                    b[nti1] += area * wq * rhs * qi;
                     //
-                    //  Consider each test function in the element.
+                    //  Consider each basis function in the element.
                     //
-                    for (ti1 = 0; ti1 < 3; ti1++)
+                    for (tj1 = 0; tj1 < 3; tj1++)
                     {
-                        ti2 = (ti1 + 1) % 3;
-                        ti3 = (ti1 + 2) % 3;
+                        tj2 = (tj1 + 1) % 3;
+                        tj3 = (tj1 + 2) % 3;
 
-                        nti1 = element_node[ti1 + e * 3];
-                        nti2 = element_node[ti2 + e * 3];
-                        nti3 = element_node[ti3 + e * 3];
+                        ntj1 = element_node[tj1 + e * 3];
+                        ntj2 = element_node[tj2 + e * 3];
+                        ntj3 = element_node[tj3 + e * 3];
 
-                        qi = 0.5 * (
-                            (x[nti3] - x[nti2]) * (yq - y[nti2])
-                            - (y[nti3] - y[nti2]) * (xq - x[nti2])) / area;
-                        dqidx = -0.5 * (y[nti3] - y[nti2]) / area;
-                        dqidy = 0.5 * (x[nti3] - x[nti2]) / area;
+                        //        qj = 0.5 * (
+                        //            ( x[ntj3] - x[ntj2] ) * ( yq - y[ntj2] )
+                        //          - ( y[ntj3] - y[ntj2] ) * ( xq - x[ntj2] ) ) / area;
+                        dqjdx = -0.5 * (y[ntj3] - y[ntj2]) / area;
+                        dqjdy = 0.5 * (x[ntj3] - x[ntj2]) / area;
 
-                        rhs = 2.0 * Math.PI * Math.PI * Math.Sin(Math.PI * xq) * Math.Sin(Math.PI * yq);
-
-                        b[nti1] = b[nti1] + area * wq * rhs * qi;
-                        //
-                        //  Consider each basis function in the element.
-                        //
-                        for (tj1 = 0; tj1 < 3; tj1++)
-                        {
-                            tj2 = (tj1 + 1) % 3;
-                            tj3 = (tj1 + 2) % 3;
-
-                            ntj1 = element_node[tj1 + e * 3];
-                            ntj2 = element_node[tj2 + e * 3];
-                            ntj3 = element_node[tj3 + e * 3];
-
-                            //        qj = 0.5 * (
-                            //            ( x[ntj3] - x[ntj2] ) * ( yq - y[ntj2] )
-                            //          - ( y[ntj3] - y[ntj2] ) * ( xq - x[ntj2] ) ) / area;
-                            dqjdx = -0.5 * (y[ntj3] - y[ntj2]) / area;
-                            dqjdy = 0.5 * (x[ntj3] - x[ntj2]) / area;
-
-                            a[nti1 + ntj1 * node_num] = a[nti1 + ntj1 * node_num]
-                                                        + area * wq * (dqidx * dqjdx + dqidy * dqjdy);
-                        }
+                        a[nti1 + ntj1 * node_num] += area * wq * (dqidx * dqjdx + dqidy * dqjdy);
                     }
                 }
             }
+        }
 
-            //
-            //  BOUNDARY CONDITIONS
-            //
-            //  If the K-th variable is at a boundary node, replace the K-th finite
-            //  element equation by a boundary condition that sets the variable to U(K).
-            //
-            k = 0;
-            for (j = 1; j <= ny; j++)
+        //
+        //  BOUNDARY CONDITIONS
+        //
+        //  If the K-th variable is at a boundary node, replace the K-th finite
+        //  element equation by a boundary condition that sets the variable to U(K).
+        //
+        k = 0;
+        for (j = 1; j <= ny; j++)
+        {
+            for (i = 1; i <= nx; i++)
             {
-                for (i = 1; i <= nx; i++)
-                {
-                    if (i == 1 || i == nx || j == 1 || j == ny)
-                    {
-                        ExactResult res = exact(x[k], y[k]);
-                        u = res.u;
-                        dudx = res.dudx;
-                        dudy = res.dudy;
-                        for (j2 = 0; j2 < node_num; j2++)
-                        {
-                            a[k + j2 * node_num] = 0.0;
-                        }
-
-                        a[k + k * node_num] = 1.0;
-                        b[k] = u;
-                    }
-
-                    k = k + 1;
-                }
-            }
-
-            //  SOLVE the linear system A * C = B.
-            //
-            //  The solution is returned in C.
-            //
-            c = Solve.r8ge_fs_new(node_num, a, b);
-            //
-            //  COMPARE computed and exact solutions.
-            //
-            Console.WriteLine("");
-            Console.WriteLine(
-                "     K     I     J          X           Y        U               U                Error");
-            Console.WriteLine("                                                 exact           computed");
-            Console.WriteLine("");
-
-            k = 0;
-
-            for (j = 1; j <= ny; j++)
-            {
-                for (i = 1; i <= nx; i++)
+                if (i == 1 || i == nx || j == 1 || j == ny)
                 {
                     ExactResult res = exact(x[k], y[k]);
                     u = res.u;
-                    dudx = res.dudx;
-                    dudy = res.dudy;
+                    for (j2 = 0; j2 < node_num; j2++)
+                    {
+                        a[k + j2 * node_num] = 0.0;
+                    }
 
-                    Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                           + "  " + i.ToString().PadLeft(4)
-                                           + "  " + j.ToString().PadLeft(4)
-                                           + "  " + x[k].ToString().PadLeft(10)
-                                           + "  " + y[k].ToString().PadLeft(10)
-                                           + "  " + u.ToString().PadLeft(14)
-                                           + "  " + c[k].ToString().PadLeft(14)
-                                           + "  " + Math.Abs(u - c[k]).ToString().PadLeft(14) + "");
-
-                    k = k + 1;
+                    a[k + k * node_num] = 1.0;
+                    b[k] = u;
                 }
 
-                Console.WriteLine("");
+                k += 1;
+            }
+        }
+
+        //  SOLVE the linear system A * C = B.
+        //
+        //  The solution is returned in C.
+        //
+        c = Solve.r8ge_fs_new(node_num, a, b);
+        //
+        //  COMPARE computed and exact solutions.
+        //
+        Console.WriteLine("");
+        Console.WriteLine(
+            "     K     I     J          X           Y        U               U                Error");
+        Console.WriteLine("                                                 exact           computed");
+        Console.WriteLine("");
+
+        k = 0;
+
+        for (j = 1; j <= ny; j++)
+        {
+            for (i = 1; i <= nx; i++)
+            {
+                ExactResult res = exact(x[k], y[k]);
+                u = res.u;
+
+                Console.WriteLine("  " + k.ToString().PadLeft(4)
+                                       + "  " + i.ToString().PadLeft(4)
+                                       + "  " + j.ToString().PadLeft(4)
+                                       + "  " + x[k].ToString().PadLeft(10)
+                                       + "  " + y[k].ToString().PadLeft(10)
+                                       + "  " + u.ToString().PadLeft(14)
+                                       + "  " + c[k].ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u - c[k]).ToString().PadLeft(14) + "");
+
+                k += 1;
             }
 
             Console.WriteLine("");
-            Console.WriteLine("FEM2D_POISSON_RECTANGLE_LINEAR:");
-            Console.WriteLine("  Normal end of execution.");
-
         }
 
-        static ExactResult exact(double x, double y)
+        Console.WriteLine("");
+        Console.WriteLine("FEM2D_POISSON_RECTANGLE_LINEAR:");
+        Console.WriteLine("  Normal end of execution.");
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    EXACT calculates the exact solution and its first derivatives.
-            //
-            //  Discussion:
-            //
-            //    The function specified here depends on the problem being
-            //    solved.  The user must be sure to change both EXACT and RHS
-            //    or the program will have inconsistent data.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    28 November 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, Y, the coordinates of a point
-            //    in the region, at which the exact solution is to be evaluated.
-            //
-            //    Output, double[] U, *DUDX, *DUDY, the value of
-            //    the exact solution U and its derivatives dUdX
-            //    and dUdY at the point (X,Y).
-            //
+    }
+
+    private static ExactResult exact(double x, double y)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    EXACT calculates the exact solution and its first derivatives.
+        //
+        //  Discussion:
+        //
+        //    The function specified here depends on the problem being
+        //    solved.  The user must be sure to change both EXACT and RHS
+        //    or the program will have inconsistent data.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    28 November 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, Y, the coordinates of a point
+        //    in the region, at which the exact solution is to be evaluated.
+        //
+        //    Output, double[] U, *DUDX, *DUDY, the value of
+        //    the exact solution U and its derivatives dUdX
+        //    and dUdY at the point (X,Y).
+        //
+    {
+        ExactResult res = new()
         {
-            ExactResult res = new ExactResult();
+            u = Math.Sin(Math.PI * x) * Math.Sin(Math.PI * y) + x,
+            dudx = Math.PI * Math.Cos(Math.PI * x) * Math.Sin(Math.PI * y) + 1.0,
+            dudy = Math.PI * Math.Sin(Math.PI * x) * Math.Cos(Math.PI * y)
+        };
 
-            res.u = Math.Sin(Math.PI * x) * Math.Sin(Math.PI * y) + x;
-            res.dudx = Math.PI * Math.Cos(Math.PI * x) * Math.Sin(Math.PI * y) + 1.0;
-            res.dudy = Math.PI * Math.Sin(Math.PI * x) * Math.Cos(Math.PI * y);
-
-            return res;
-        }
+        return res;
     }
 }

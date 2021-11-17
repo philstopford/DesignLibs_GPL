@@ -1,8 +1,8 @@
-﻿namespace Burkardt.SolveNS
+﻿namespace Burkardt.SolveNS;
+
+public static class Tridisolve
 {
-    public static class Tridisolve
-    {
-        public static double[] tridisolve(int n, double[] a, double[] b, double[] c, double[] d )
+    public static double[] tridisolve(int n, double[] a, double[] b, double[] c, double[] d )
 
         //****************************************************************************80
         //
@@ -45,39 +45,38 @@
         //
         //    Output, double TRIDISOLVE[N], the solution.
         //
+    {
+        double[] bi;
+        int j;
+        double mu;
+        double[] x;
+
+        x = new double[n];
+
+        for (j = 0; j < n; j++)
         {
-            double[] bi;
-            int j;
-            double mu;
-            double[] x;
-
-            x = new double[n];
-
-            for (j = 0; j < n; j++)
-            {
-                x[j] = d[j];
-            }
-
-            bi = new double[n];
-            for (j = 0; j < n; j++)
-            {
-                bi[j] = 1.0 / b[j];
-            }
-
-            for (j = 0; j < n - 1; j++)
-            {
-                mu = a[j] * bi[j];
-                b[j + 1] = b[j + 1] - mu * c[j];
-                x[j + 1] = x[j + 1] - mu * x[j];
-            }
-
-            x[n - 1] = x[n - 1] * bi[n - 1];
-            for (j = n - 2; 0 <= j; j--)
-            {
-                x[j] = (x[j] - c[j] * x[j + 1]) * bi[j];
-            }
-
-            return x;
+            x[j] = d[j];
         }
+
+        bi = new double[n];
+        for (j = 0; j < n; j++)
+        {
+            bi[j] = 1.0 / b[j];
+        }
+
+        for (j = 0; j < n - 1; j++)
+        {
+            mu = a[j] * bi[j];
+            b[j + 1] -= mu * c[j];
+            x[j + 1] -= mu * x[j];
+        }
+
+        x[n - 1] *= bi[n - 1];
+        for (j = n - 2; 0 <= j; j--)
+        {
+            x[j] = (x[j] - c[j] * x[j + 1]) * bi[j];
+        }
+
+        return x;
     }
 }

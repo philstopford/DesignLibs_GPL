@@ -1,100 +1,110 @@
 ﻿using System;
 using geoLib;
 
-namespace gds
+namespace gds;
+
+internal partial class gdsReader
 {
-    partial class gdsReader
+    private void addCellRef()
     {
-        void addCellRef()
+        cell_.addCellref();
+        cell_.elementList[^1].setPos(new GeoLibPoint(modal.point_array[0].X, modal.point_array[0].Y));
+        cell_.elementList[^1].setCellRef(drawing_.findCell(modal.sname));
+        cell_.elementList[^1].setName(modal.sname);
+        cell_.elementList[^1].rotate(modal.angle);
+        cell_.elementList[^1].scale(modal.mag);
+        switch (modal.mirror_x)
         {
-            cell_.addCellref();
-            cell_.elementList[^1].setPos(new GeoLibPoint(modal.point_array[0].X, modal.point_array[0].Y));
-            cell_.elementList[^1].setCellRef(drawing_.findCell(modal.sname));
-            cell_.elementList[^1].setName(modal.sname);
-            cell_.elementList[^1].rotate(modal.angle);
-            cell_.elementList[^1].scale(modal.mag);
-            if (modal.mirror_x)
-            {
+            case true:
                 cell_.elementList[^1].setMirrorx();
-            }
+                break;
         }
+    }
 
-        void addCellRefArray()
+    private void addCellRefArray()
+    {
+        /*if (mirror_x){
+            point=point_array.point(1);
+            point.setY(-point.y());
+            point_array.setPoint(1,point);
+            point=point_array.point(2);
+            point.setY(-point.y());
+            point_array.setPoint(2,point);};*/
+        cell_.addCellrefArray(drawing_.findCell(modal.sname), modal.point_array, modal.anzx, modal.anzy);
+        switch (modal.mirror_x)
         {
-            /*if (mirror_x){
-				point=point_array.point(1);
-				point.setY(-point.y());
-				point_array.setPoint(1,point);
-				point=point_array.point(2);
-				point.setY(-point.y());
-				point_array.setPoint(2,point);};*/
-            cell_.addCellrefArray(drawing_.findCell(modal.sname), modal.point_array, modal.anzx, modal.anzy);
-            if (modal.mirror_x)
-            {
+            case true:
                 cell_.elementList[^1].rotate(-modal.angle);
-            }
-            else
-            {
+                break;
+            default:
                 cell_.elementList[^1].rotate(modal.angle);
-            }
-            cell_.elementList[^1].scale(modal.mag);
-            cell_.elementList[^1].setName(modal.sname);
-            if (modal.mirror_x)
-            {
+                break;
+        }
+        cell_.elementList[^1].scale(modal.mag);
+        cell_.elementList[^1].setName(modal.sname);
+        switch (modal.mirror_x)
+        {
+            case true:
                 cell_.elementList[^1].setMirrorx();
-            }
+                break;
         }
+    }
 
-        void addBox()
-        {
-            cell_.addBox(modal.point_array, modal.layer, modal.datatype);
-        }
+    private void addBox()
+    {
+        cell_.addBox(modal.point_array, modal.layer, modal.datatype);
+    }
 
-        void addPolygon()
-        {
-            cell_.addPolygon(modal.point_array, modal.layer, modal.datatype);
-        }
+    private void addPolygon()
+    {
+        cell_.addPolygon(modal.point_array, modal.layer, modal.datatype);
+    }
 
-        void addText()
+    private void addText()
+    {
+        modal.width = modal.width switch
         {
-            if (modal.mag <= 1 && modal.width == 0)
+            1 => -10,
+            _ => modal.width switch
             {
-                modal.width = -10;
+                0 => -10,
+                _ => modal.mag switch
+                {
+                    <= 1 when modal.width == 0 => -10,
+                    _ => modal.width
+                }
             }
-            if (modal.width == 0)
-            {
-                modal.width = -10;
-            }
-            if (modal.width == 1)
-            {
-                modal.width = -10;
-            }
-            cell_.addText(modal.layer, modal.datatype, modal.point_array[0], modal.sname);
-            if (modal.mirror_x)
-            {
+        };
+        cell_.addText(modal.layer, modal.datatype, modal.point_array[0], modal.sname);
+        switch (modal.mirror_x)
+        {
+            case true:
                 cell_.elementList[^1].rotate(-modal.angle);
-            }
-            else
-            {
+                break;
+            default:
                 cell_.elementList[^1].rotate(modal.angle);
-            }
-            cell_.elementList[^1].scale(modal.mag);
-            cell_.elementList[^1].setName(modal.sname);
-            if (modal.mirror_x)
-            {
-                cell_.elementList[^1].setMirrorx();
-            }
-            cell_.elementList[^1].setWidth(modal.width);
-            cell_.elementList[^1].setPresentation(modal.presentation);
+                break;
         }
-
-        void addPath()
+        cell_.elementList[^1].scale(modal.mag);
+        cell_.elementList[^1].setName(modal.sname);
+        switch (modal.mirror_x)
         {
-            if (modal.point_array.Length == 1)
-            {
+            case true:
+                cell_.elementList[^1].setMirrorx();
+                break;
+        }
+        cell_.elementList[^1].setWidth(modal.width);
+        cell_.elementList[^1].setPresentation(modal.presentation);
+    }
+
+    private void addPath()
+    {
+        switch (modal.point_array.Length)
+        {
+            case 1:
                 cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], Convert.ToDouble(modal.width) / 2);
-            }
-            else
+                break;
+            default:
             {
                 cell_.addPath(modal.point_array, modal.layer, modal.datatype);
                 cell_.elementList[^1].setWidth(modal.width);
@@ -106,6 +116,8 @@ namespace gds
                 {
                     cell_.elementList[^1].expandCaps(modal.beginExt, modal.endExt);
                 }
+
+                break;
             }
         }
     }

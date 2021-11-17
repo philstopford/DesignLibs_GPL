@@ -4,49 +4,49 @@ using Burkardt.IntegralNS;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+using Monomial = Burkardt.MonomialNS.Monomial;
+public static class HermiteQuadrature
 {
-    using Monomial = Burkardt.MonomialNS.Monomial;
-    public static class HermiteQuadrature
+    public static void gen_hermite_compute_points ( int order, double alpha, ref double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_HERMITE_COMPUTE_POINTS computes Generalized Hermite quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    -1.0 < ALPHA.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
     {
-        public static void gen_hermite_compute_points ( int order, double alpha, ref double[] x )
+        double[] w;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GEN_HERMITE_COMPUTE_POINTS computes Generalized Hermite quadrature points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    -1.0 < ALPHA.
-            //
-            //    Output, double X[ORDER], the abscissas.
-            //
-        {
-            double[] w;
+        w = new double[order];
 
-            w = new double[order];
+        gen_hermite_compute ( order, alpha, ref x, ref w );
+    }
 
-            gen_hermite_compute ( order, alpha, ref x, ref w );
-        }
-
-        public static double[] gen_hermite_compute_points_np ( int order, int np, double[] p, double[] x )
+    public static double[] gen_hermite_compute_points_np ( int order, int np, double[] p, double[] x )
 
         //****************************************************************************80
         //
@@ -77,55 +77,55 @@ namespace Burkardt.Quadrature
         //
         //    Output, double X[ORDER], the abscissas.
         //
-        {
-            double alpha;
+    {
+        double alpha;
 
-            alpha = p[0];
+        alpha = p[0];
 
-            gen_hermite_compute_points ( order, alpha, ref x );
+        gen_hermite_compute_points ( order, alpha, ref x );
 
-            return x;
-        }
-        public static void gen_hermite_compute_weights ( int order, double alpha, ref double[] w )
+        return x;
+    }
+    public static void gen_hermite_compute_weights ( int order, double alpha, ref double[] w )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GEN_HERMITE_COMPUTE_WEIGHTS computes Generalized Hermite quadrature weights.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Input, double ALPHA, the exponent of the X factor.
-            //    -1.0 < ALPHA.
-            //
-            //    Output, double W[ORDER], the weights.
-            //
-        {
-            double[] x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_HERMITE_COMPUTE_WEIGHTS computes Generalized Hermite quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, double ALPHA, the exponent of the X factor.
+        //    -1.0 < ALPHA.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+    {
+        double[] x;
 
-            x = new double[order];
+        x = new double[order];
 
-            gen_hermite_compute ( order, alpha, ref x, ref w );
+        gen_hermite_compute ( order, alpha, ref x, ref w );
             
-        }
+    }
 
-        public static double[] gen_hermite_compute_weights_np ( int order, int np, double[] p,
-        double[] w )
+    public static double[] gen_hermite_compute_weights_np ( int order, int np, double[] p,
+            double[] w )
 
         //****************************************************************************80
         //
@@ -156,18 +156,18 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            double alpha;
+    {
+        double alpha;
 
-            alpha = p[0];
+        alpha = p[0];
 
-            gen_hermite_compute_weights ( order, alpha, ref w );
+        gen_hermite_compute_weights ( order, alpha, ref w );
 
-            return w;
-        }
+        return w;
+    }
         
-        public static void gen_hermite_compute_np ( int order, int np, double[] p, ref double[] x,
-        ref double[] w )
+    public static void gen_hermite_compute_np ( int order, int np, double[] p, ref double[] x,
+            ref double[] w )
 
         //****************************************************************************80
         //
@@ -216,16 +216,16 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            double alpha;
+    {
+        double alpha;
 
-            alpha = p[0];
+        alpha = p[0];
 
-            gen_hermite_compute ( order, alpha, ref x, ref w );
-        }
+        gen_hermite_compute ( order, alpha, ref x, ref w );
+    }
         
-        public static void hermite_compute_np ( int order, int np, double[] p, ref double[] x,
-        ref double[] w )
+    public static void hermite_compute_np ( int order, int np, double[] p, ref double[] x,
+            ref double[] w )
 
         //****************************************************************************80
         //
@@ -278,45 +278,45 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            hermite_compute ( order, ref x, ref w );
-        }
+    {
+        hermite_compute ( order, ref x, ref w );
+    }
         
-        public static void hermite_compute_weights ( int order, ref double[] w )
+    public static void hermite_compute_weights ( int order, ref double[] w )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_COMPUTE_WEIGHTS computes Hermite quadrature weights.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Output, double W[ORDER], the weights.
-            //
-        {
-            double[] x;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_COMPUTE_WEIGHTS computes Hermite quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+    {
+        double[] x;
 
-            x = new double[order];
+        x = new double[order];
 
-            hermite_compute ( order, ref x, ref w );
-        }
+        hermite_compute ( order, ref x, ref w );
+    }
 
-        public static double[] hermite_compute_weights_np ( int order, int np, double[] p, double[] w )
+    public static double[] hermite_compute_weights_np ( int order, int np, double[] p, double[] w )
 
         //****************************************************************************80
         //
@@ -346,13 +346,13 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[ORDER], the weights.
         //
-        {
-            hermite_compute_weights ( order, ref w );
+    {
+        hermite_compute_weights ( order, ref w );
 
-            return w;
-        }
+        return w;
+    }
         
-        public static void hermite_compute ( int n, ref double[] x, ref double[] w )
+    public static void hermite_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -403,55 +403,56 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double arg;
+        double[] bj;
+        int i;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        arg = 0.5;
+        zemu = typeMethods.r8_gamma ( arg );
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double arg;
-            double[] bj;
-            int i;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            arg = 0.5;
-            zemu = typeMethods.r8_gamma ( arg );
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
+            bj[i] = Math.Sqrt ( (i + 1) / 2.0 );
+        }
 
-            for ( i = 0; i < n; i++ )
-            {
-                bj[i] = Math.Sqrt ( ( double ) ( i + 1 ) / 2.0 );
-            }
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = 0.0;
+        }
 
-            for ( i = 0; i < n; i++ )
-            {
-                x[i] = 0.0;
-            }
-
-            w[0] = Math.Sqrt ( zemu );
-            for ( i = 1; i < n; i++ )
-            {
-                w[i] = 0.0;
-            }
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+        w[0] = Math.Sqrt ( zemu );
+        for ( i = 1; i < n; i++ )
+        {
+            w[i] = 0.0;
+        }
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+        x[(n - 1) / 2] = (n % 2) switch
+        {
             //
             //  If N is odd, force the middle X to be exactly zero.
             //
-            if ( ( n % 2 ) == 1 )
-            {
-                x[(n-1)/2] = 0.0;
-            }
+            1 => 0.0,
+            _ => x[(n - 1) / 2]
+        };
 
-            for ( i = 0; i < n; i++ )
-            {
-                w[i] = w[i] * w[i];
-            }
+        for ( i = 0; i < n; i++ )
+        {
+            w[i] *= w[i];
         }
+    }
         
-        public static void gen_hermite_compute ( int n, double alpha, ref double[] x, ref double[] w )
+    public static void gen_hermite_compute ( int n, double alpha, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -503,60 +504,57 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double[] bj;
+        int i;
+        double i_r8;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        zemu = typeMethods.r8_gamma ( ( alpha + 1.0 ) / 2.0 );
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double[] bj;
-            int i;
-            double i_r8;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            zemu = typeMethods.r8_gamma ( ( alpha + 1.0 ) / 2.0 );
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-
-            for ( i = 0; i < n; i++ )
+            i_r8 = i + 1;
+            bj[i] = (i % 2) switch
             {
-                i_r8 = ( double ) ( i + 1 );
-                if ( ( i % 2 ) == 0 )
-                {
-                    bj[i] = ( i_r8 + alpha ) / 2.0;
-                }
-                else
-                {
-                    bj[i] = i_r8 / 2.0;
-                }
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                bj[i] = Math.Sqrt ( bj[i] );
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                x[i] = 0.0;
-            }
-
-            w[0] = Math.Sqrt ( zemu );
-            for ( i = 1; i < n; i++ )
-            {
-                w[i] = 0.0;
-            }
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            MatrixNS.IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
-
-            for ( i = 0; i < n; i++ )
-            {
-                w[i] = w[i] * w[i];
-            }
+                0 => (i_r8 + alpha) / 2.0,
+                _ => i_r8 / 2.0
+            };
         }
+
+        for ( i = 0; i < n; i++ )
+        {
+            bj[i] = Math.Sqrt ( bj[i] );
+        }
+
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = 0.0;
+        }
+
+        w[0] = Math.Sqrt ( zemu );
+        for ( i = 1; i < n; i++ )
+        {
+            w[i] = 0.0;
+        }
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+        for ( i = 0; i < n; i++ )
+        {
+            w[i] *= w[i];
+        }
+    }
         
-        public static double monomial_quadrature_gen_hermite ( int expon, double alpha, int order, 
+    public static double monomial_quadrature_gen_hermite ( int expon, double alpha, int order, 
             int option, double[] w, double[] x )
 
         //****************************************************************************80
@@ -595,49 +593,54 @@ namespace Burkardt.Quadrature
         //
         //    Output, double MONOMIAL_QUADRATURE_GEN_HERMITE, the quadrature error.
         //
+    {
+        double exact;
+        int i;
+        double quad;
+        double quad_error;
+        //
+        //  Get the exact value of the integral of the monomial.
+        //
+        exact = Integral.gen_hermite_integral ( expon, alpha );
+        //
+        //  Evaluate the unweighted monomial at the quadrature points.
+        //
+        quad = 0.0;
+        switch (option)
         {
-            double exact;
-            int i;
-            double quad;
-            double quad_error;
-            //
-            //  Get the exact value of the integral of the monomial.
-            //
-            exact = Integral.gen_hermite_integral ( expon, alpha );
-            //
-            //  Evaluate the unweighted monomial at the quadrature points.
-            //
-            quad = 0.0;
-            if ( option == 0 )
+            case 0:
             {
                 for ( i = 0; i < order; i++ )
                 {
-                    quad = quad + w[i] * Math.Pow ( x[i], expon );
+                    quad += w[i] * Math.Pow ( x[i], expon );
                 }
+
+                break;
             }
-            else
+            default:
             {
                 for ( i = 0; i < order; i++ )
                 {
-                    quad = quad + w[i] * Math.Pow ( Math.Abs ( x[i] ), alpha )
-                                       * Math.Exp ( - x[i] * x[i] ) * Math.Pow ( x[i], expon );
+                    quad += w[i] * Math.Pow ( Math.Abs ( x[i] ), alpha )
+                                 * Math.Exp ( - x[i] * x[i] ) * Math.Pow ( x[i], expon );
                 }
+
+                break;
             }
+        }
+
+        quad_error = exact switch
+        {
             //
             //  Error:
             //
-            if ( exact == 0.0 )
-            {
-                quad_error = Math.Abs ( quad );
-            }
-            else
-            {
-                quad_error = Math.Abs ( ( quad - exact ) / exact );
-            }
-            return quad_error;
-        }
+            0.0 => Math.Abs(quad),
+            _ => Math.Abs((quad - exact) / exact)
+        };
+        return quad_error;
+    }
         
-        public static void hermite_ek_compute ( int n, ref double[] x, ref double[] w )
+    public static void hermite_ek_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -688,49 +691,49 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[N], the weights.
         //
+    {
+        double arg;
+        double[] bj;
+        int i;
+        double zemu;
+        //
+        //  Define the zero-th moment.
+        //
+        arg = 0.5;
+        zemu = Helpers.Gamma ( arg );
+        //
+        //  Define the Jacobi matrix.
+        //
+        bj = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double arg;
-            double[] bj;
-            int i;
-            double zemu;
-            //
-            //  Define the zero-th moment.
-            //
-            arg = 0.5;
-            zemu = Helpers.Gamma ( arg );
-            //
-            //  Define the Jacobi matrix.
-            //
-            bj = new double[n];
-
-            for ( i = 0; i < n; i++ )
-            {
-                bj[i] = Math.Sqrt ( ( double ) ( i + 1 ) / 2.0 );
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                x[i] = 0.0;
-            }
-
-            w[0] = Math.Sqrt ( zemu );
-            for ( i = 1; i < n; i++ )
-            {
-                w[i] = 0.0;
-            }
-            //
-            //  Diagonalize the Jacobi matrix.
-            //
-            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
-
-            for ( i = 0; i < n; i++ )
-            {
-                w[i] = w[i] * w[i];
-            }
+            bj[i] = Math.Sqrt ( (i + 1) / 2.0 );
         }
+
+        for ( i = 0; i < n; i++ )
+        {
+            x[i] = 0.0;
+        }
+
+        w[0] = Math.Sqrt ( zemu );
+        for ( i = 1; i < n; i++ )
+        {
+            w[i] = 0.0;
+        }
+        //
+        //  Diagonalize the Jacobi matrix.
+        //
+        IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+        for ( i = 0; i < n; i++ )
+        {
+            w[i] *= w[i];
+        }
+    }
         
-        public static void hermite_abscissa(int dim_num, int point_num, int[] grid_index,
-        int[] grid_base, ref double[] grid_point, int gridIndex = 0, int gridBaseIndex = 0, int gridPointIndex = 0 )
+    public static void hermite_abscissa(int dim_num, int point_num, int[] grid_index,
+            int[] grid_base, ref double[] grid_point, int gridIndex = 0, int gridBaseIndex = 0, int gridPointIndex = 0 )
 
         //****************************************************************************80
         //
@@ -773,16 +776,16 @@ namespace Burkardt.Quadrature
         //
         //    Output, double GRID_POINT[DIM_NUM*POINT_NUM], the grid points of abscissas.
         //
-        {
-            int dim;
-            int level;
-            int point;
-            int pointer;
-            int[] skip =  {
+    {
+        int dim;
+        int level;
+        int point;
+        int pointer;
+        int[] skip =  {
                 0, 1, 4, 11, 26, 57, 120, 247
             }
             ;
-            double[] x =  {
+        double[] x =  {
                 0.0E+00,
                 -0.122474487139158904909864203735E+01,
                 0.0E+00,
@@ -1033,132 +1036,133 @@ namespace Burkardt.Quadrature
             }
             ;
 
-            for (dim = 0; dim < dim_num; dim++)
+        for (dim = 0; dim < dim_num; dim++)
+        {
+            switch (grid_base[gridBaseIndex + dim])
             {
-                if (grid_base[gridBaseIndex + dim] < 0)
-                {
+                case < 0:
                     Console.WriteLine("");
                     Console.WriteLine("HERMITE_ABSCISSA - Fatal error!");
                     Console.WriteLine("  Some base values are less than 0.");
                     return;
-                }
             }
+        }
 
-            for (dim = 0; dim < dim_num; dim++)
+        for (dim = 0; dim < dim_num; dim++)
+        {
+            switch (grid_base[gridBaseIndex + dim])
             {
-                if (63 < grid_base[gridBaseIndex + dim])
-                {
+                case > 63:
                     Console.WriteLine("");
                     Console.WriteLine("HERMITE_ABSCISSA - Fatal error!");
                     Console.WriteLine("  Some base values are greater than 63.");
                     return;
-                }
             }
-
-            for (point = 0; point < point_num; point++)
-            {
-                for (dim = 0; dim < dim_num; dim++)
-                {
-                    level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1);
-
-                    pointer = skip[level] + (grid_index[gridIndex + (dim + point * dim_num)] + grid_base[gridBaseIndex + dim]);
-
-                    grid_point[gridPointIndex + (dim + point * dim_num)] = x[pointer];
-                }
-            }
-
         }
 
-        public static void hermite_genz_keister_lookup_points(int n, ref double[] x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_GENZ_KEISTER_LOOKUP_POINTS looks up Genz-Keister Hermite abscissas.
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
-            //
-            //    The quadrature rule:
-            //
-            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
-            //
-            //    A nested family of rules for the Hermite integration problem
-            //    was produced by Genz and Keister.  The structure of the nested
-            //    family was denoted by 1+2+6+10+?, that is, it comprised rules
-            //    of successive orders O = 1, 3, 9, 19, and a final rule of order
-            //    35, 37, 41 or 43.
-            //
-            //    The precisions of these rules are P = 1, 5, 15, 29, 
-            //    with the final rule of precision 51, 55, 63 or 67.
-            //
-            //    Three related families begin the same way, but end with a different final
-            //    rule.  As a convenience, this function includes these final rules as well:
-            //
-            //    Designation  Orders       Precisions
-            //
-            //    1+2+6+10+16, 1,3,9,19,35  1,5,15,29,51
-            //    1+2+6+10+18  1,3,9,19,37  1,5,15,29,55
-            //    1+2+6+10+22  1,3,9,19,41  1,5,15,29,63
-            //    1+2+6+10+24  1,3,9,19,43  1,5,15,29,67
-            //
-            //    Some of the data in this function was kindly supplied directly by
-            //    Alan Genz on 24 April 2011.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    04 October 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Alan Genz, Bradley Keister,
-            //    Fully symmetric interpolatory rules for multiple integrals
-            //    over infinite regions with Gaussian weight,
-            //    Journal of Computational and Applied Mathematics,
-            //    Volume 71, 1996, pages 299-309
-            //
-            //    Florian Heiss, Viktor Winschel,
-            //    Likelihood approximation by numerical integration on sparse grids,
-            //    Journal of Econometrics,
-            //    Volume 144, 2008, pages 62-80.
-            //
-            //    Thomas Patterson,
-            //    The Optimal Addition of Points to Quadrature Formulae,
-            //    Mathematics of Computation,
-            //    Volume 22, Number 104, October 1968, pages 847-856.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //    N must be 1, 3, 9, 19, 35, 37, 41, or 43.
-            //
-            //    Output, double X[N], the abscissas.
-            //
+        for (point = 0; point < point_num; point++)
         {
-            if (n == 1)
+            for (dim = 0; dim < dim_num; dim++)
             {
-                x[0] = 0.0000000000000000E+00;
+                level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1);
+
+                pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num] + grid_base[gridBaseIndex + dim];
+
+                grid_point[gridPointIndex + dim + point * dim_num] = x[pointer];
             }
-            else if (n == 3)
-            {
+        }
+
+    }
+
+    public static void hermite_genz_keister_lookup_points(int n, ref double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_GENZ_KEISTER_LOOKUP_POINTS looks up Genz-Keister Hermite abscissas.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //    A nested family of rules for the Hermite integration problem
+        //    was produced by Genz and Keister.  The structure of the nested
+        //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+        //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+        //    35, 37, 41 or 43.
+        //
+        //    The precisions of these rules are P = 1, 5, 15, 29, 
+        //    with the final rule of precision 51, 55, 63 or 67.
+        //
+        //    Three related families begin the same way, but end with a different final
+        //    rule.  As a convenience, this function includes these final rules as well:
+        //
+        //    Designation  Orders       Precisions
+        //
+        //    1+2+6+10+16, 1,3,9,19,35  1,5,15,29,51
+        //    1+2+6+10+18  1,3,9,19,37  1,5,15,29,55
+        //    1+2+6+10+22  1,3,9,19,41  1,5,15,29,63
+        //    1+2+6+10+24  1,3,9,19,43  1,5,15,29,67
+        //
+        //    Some of the data in this function was kindly supplied directly by
+        //    Alan Genz on 24 April 2011.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 October 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Alan Genz, Bradley Keister,
+        //    Fully symmetric interpolatory rules for multiple integrals
+        //    over infinite regions with Gaussian weight,
+        //    Journal of Computational and Applied Mathematics,
+        //    Volume 71, 1996, pages 299-309
+        //
+        //    Florian Heiss, Viktor Winschel,
+        //    Likelihood approximation by numerical integration on sparse grids,
+        //    Journal of Econometrics,
+        //    Volume 144, 2008, pages 62-80.
+        //
+        //    Thomas Patterson,
+        //    The Optimal Addition of Points to Quadrature Formulae,
+        //    Mathematics of Computation,
+        //    Volume 22, Number 104, October 1968, pages 847-856.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    N must be 1, 3, 9, 19, 35, 37, 41, or 43.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+    {
+        switch (n)
+        {
+            case 1:
+                x[0] = 0.0000000000000000E+00;
+                break;
+            case 3:
                 x[0] = -1.2247448713915889E+00;
                 x[1] = 0.0000000000000000E+00;
                 x[2] = 1.2247448713915889E+00;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 x[0] = -2.9592107790638380E+00;
                 x[1] = -2.0232301911005157E+00;
                 x[2] = -1.2247448713915889E+00;
@@ -1168,9 +1172,8 @@ namespace Burkardt.Quadrature
                 x[6] = 1.2247448713915889E+00;
                 x[7] = 2.0232301911005157E+00;
                 x[8] = 2.9592107790638380E+00;
-            }
-            else if (n == 19)
-            {
+                break;
+            case 19:
                 x[0] = -4.4995993983103881E+00;
                 x[1] = -3.6677742159463378E+00;
                 x[2] = -2.9592107790638380E+00;
@@ -1190,9 +1193,8 @@ namespace Burkardt.Quadrature
                 x[16] = 2.9592107790638380E+00;
                 x[17] = 3.6677742159463378E+00;
                 x[18] = 4.4995993983103881E+00;
-            }
-            else if (n == 35)
-            {
+                break;
+            case 35:
                 x[0] = -6.3759392709822356E+00;
                 x[1] = -5.6432578578857449E+00;
                 x[2] = -5.0360899444730940E+00;
@@ -1228,9 +1230,8 @@ namespace Burkardt.Quadrature
                 x[32] = 5.0360899444730940E+00;
                 x[33] = 5.6432578578857449E+00;
                 x[34] = 6.3759392709822356E+00;
-            }
-            else if (n == 37)
-            {
+                break;
+            case 37:
                 x[0] = -6.853200069757519;
                 x[1] = -6.124527854622158;
                 x[2] = -5.521865209868350;
@@ -1268,9 +1269,8 @@ namespace Burkardt.Quadrature
                 x[34] = 5.521865209868350;
                 x[35] = 6.124527854622158;
                 x[36] = 6.853200069757519;
-            }
-            else if (n == 41)
-            {
+                break;
+            case 41:
                 x[0] = -7.251792998192644;
                 x[1] = -6.547083258397540;
                 x[2] = -5.961461043404500;
@@ -1312,9 +1312,8 @@ namespace Burkardt.Quadrature
                 x[38] = 5.961461043404500;
                 x[39] = 6.547083258397540;
                 x[40] = 7.251792998192644;
-            }
-            else if (n == 43)
-            {
+                break;
+            case 43:
                 x[0] = -10.167574994881873;
                 x[1] = -7.231746029072501;
                 x[2] = -6.535398426382995;
@@ -1358,181 +1357,180 @@ namespace Burkardt.Quadrature
                 x[40] = 6.535398426382995;
                 x[41] = 7.231746029072501;
                 x[42] = 10.167574994881873;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("HERMITE_GENZ_KEISTER_LOOKUP_POINTS - Fatal error!");
                 Console.WriteLine("  Illegal input value of N.");
                 Console.WriteLine("  N must be 1, 3, 9, 19, 35, 37, 41 or 43.");
-            }
+                break;
         }
+    }
 
-        public static double[] hermite_genz_keister_lookup_points_np(int n, int np, double[] p,
-                double[] x)
+    public static double[] hermite_genz_keister_lookup_points_np(int n, int np, double[] p,
+            double[] x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_GENZ_KEISTER_LOOKUP_POINTS_NP looks up Genz-Keister Hermite abscissas.
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
-            //
-            //    The quadrature rule:
-            //
-            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
-            //
-            //    A nested family of rules for the Hermite integration problem
-            //    was produced by Genz and Keister.  The structure of the nested
-            //    family was denoted by 1+2+6+10+?, that is, it comprised rules
-            //    of successive orders O = 1, 3, 9, 19, and a final rule of order
-            //    35, 37, 41 or 43.
-            //
-            //    The precisions of these rules are P = 1, 5, 15, 29, 
-            //    with the final rule of precision 51, 55, 63 or 67.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    04 October 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Alan Genz, Bradley Keister,
-            //    Fully symmetric interpolatory rules for multiple integrals
-            //    over infinite regions with Gaussian weight,
-            //    Journal of Computational and Applied Mathematics,
-            //    Volume 71, 1996, pages 299-309
-            //
-            //    Florian Heiss, Viktor Winschel,
-            //    Likelihood approximation by numerical integration on sparse grids,
-            //    Journal of Econometrics,
-            //    Volume 144, 2008, pages 62-80.
-            //
-            //    Thomas Patterson,
-            //    The Optimal Addition of Points to Quadrature Formulae,
-            //    Mathematics of Computation,
-            //    Volume 22, Number 104, October 1968, pages 847-856.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //    N must be 1, 3, 9, 19, 35, 37, 41 or 43.
-            //
-            //    Input, int NP, the number of parameters.
-            //
-            //    Input, double P[NP], parameters which are not needed by this function.
-            //
-            //    Output, double X[N], the abscissas.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_GENZ_KEISTER_LOOKUP_POINTS_NP looks up Genz-Keister Hermite abscissas.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //    A nested family of rules for the Hermite integration problem
+        //    was produced by Genz and Keister.  The structure of the nested
+        //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+        //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+        //    35, 37, 41 or 43.
+        //
+        //    The precisions of these rules are P = 1, 5, 15, 29, 
+        //    with the final rule of precision 51, 55, 63 or 67.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 October 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Alan Genz, Bradley Keister,
+        //    Fully symmetric interpolatory rules for multiple integrals
+        //    over infinite regions with Gaussian weight,
+        //    Journal of Computational and Applied Mathematics,
+        //    Volume 71, 1996, pages 299-309
+        //
+        //    Florian Heiss, Viktor Winschel,
+        //    Likelihood approximation by numerical integration on sparse grids,
+        //    Journal of Econometrics,
+        //    Volume 144, 2008, pages 62-80.
+        //
+        //    Thomas Patterson,
+        //    The Optimal Addition of Points to Quadrature Formulae,
+        //    Mathematics of Computation,
+        //    Volume 22, Number 104, October 1968, pages 847-856.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    N must be 1, 3, 9, 19, 35, 37, 41 or 43.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+    {
+        hermite_genz_keister_lookup_points(n, ref x);
+
+        return x;
+    }
+
+    public static void hermite_genz_keister_lookup_weights(int n, ref double[] w)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_GENZ_KEISTER_LOOKUP_WEIGHTS looks up Genz-Keister Hermite weights.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //    A nested family of rules for the Hermite integration problem
+        //    was produced by Genz and Keister.  The structure of the nested
+        //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+        //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+        //    35, 37, 41 or 43.
+        //
+        //    The precisions of these rules are P = 1, 5, 15, 29, 
+        //    with the final rule of precision 51, 55, 63 or 67.
+        //
+        //    Three related families begin the same way, but end with a different final
+        //    rule.  As a convenience, this function includes these final rules as well:
+        //
+        //    Designation  Orders       Precisions
+        //
+        //    1+2+6+10+16, 1,3,9,19,35  1,5,15,29,51
+        //    1+2+6+10+18  1,3,9,19,37  1,5,15,29,55
+        //    1+2+6+10+22  1,3,9,19,41  1,5,15,29,63
+        //    1+2+6+10+24  1,3,9,19,43  1,5,15,29,67
+        //
+        //    Some of the data in this function was kindly supplied directly by
+        //    Alan Genz on 24 April 2011.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 October 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Alan Genz, Bradley Keister,
+        //    Fully symmetric interpolatory rules for multiple integrals
+        //    over infinite regions with Gaussian weight,
+        //    Journal of Computational and Applied Mathematics,
+        //    Volume 71, 1996, pages 299-309
+        //
+        //    Florian Heiss, Viktor Winschel,
+        //    Likelihood approximation by numerical integration on sparse grids,
+        //    Journal of Econometrics,
+        //    Volume 144, 2008, pages 62-80.
+        //
+        //    Thomas Patterson,
+        //    The Optimal Addition of Points to Quadrature Formulae,
+        //    Mathematics of Computation,
+        //    Volume 22, Number 104, October 1968, pages 847-856.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    N must be 1, 3, 9, 19, 35, 37, 41, or 43.
+        //
+        //    Output, double W[N], the weights.
+        //
+    {
+        switch (n)
         {
-            hermite_genz_keister_lookup_points(n, ref x);
-
-            return x;
-        }
-
-        public static void hermite_genz_keister_lookup_weights(int n, ref double[] w)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_GENZ_KEISTER_LOOKUP_WEIGHTS looks up Genz-Keister Hermite weights.
-            //
-            //  Discussion:
-            //
-            //    The integral:
-            //
-            //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
-            //
-            //    The quadrature rule:
-            //
-            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
-            //
-            //    A nested family of rules for the Hermite integration problem
-            //    was produced by Genz and Keister.  The structure of the nested
-            //    family was denoted by 1+2+6+10+?, that is, it comprised rules
-            //    of successive orders O = 1, 3, 9, 19, and a final rule of order
-            //    35, 37, 41 or 43.
-            //
-            //    The precisions of these rules are P = 1, 5, 15, 29, 
-            //    with the final rule of precision 51, 55, 63 or 67.
-            //
-            //    Three related families begin the same way, but end with a different final
-            //    rule.  As a convenience, this function includes these final rules as well:
-            //
-            //    Designation  Orders       Precisions
-            //
-            //    1+2+6+10+16, 1,3,9,19,35  1,5,15,29,51
-            //    1+2+6+10+18  1,3,9,19,37  1,5,15,29,55
-            //    1+2+6+10+22  1,3,9,19,41  1,5,15,29,63
-            //    1+2+6+10+24  1,3,9,19,43  1,5,15,29,67
-            //
-            //    Some of the data in this function was kindly supplied directly by
-            //    Alan Genz on 24 April 2011.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    04 October 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Alan Genz, Bradley Keister,
-            //    Fully symmetric interpolatory rules for multiple integrals
-            //    over infinite regions with Gaussian weight,
-            //    Journal of Computational and Applied Mathematics,
-            //    Volume 71, 1996, pages 299-309
-            //
-            //    Florian Heiss, Viktor Winschel,
-            //    Likelihood approximation by numerical integration on sparse grids,
-            //    Journal of Econometrics,
-            //    Volume 144, 2008, pages 62-80.
-            //
-            //    Thomas Patterson,
-            //    The Optimal Addition of Points to Quadrature Formulae,
-            //    Mathematics of Computation,
-            //    Volume 22, Number 104, October 1968, pages 847-856.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //    N must be 1, 3, 9, 19, 35, 37, 41, or 43.
-            //
-            //    Output, double W[N], the weights.
-            //
-        {
-            if (n == 1)
-            {
+            case 1:
                 w[0] = 1.7724538509055159E+00;
-            }
-            else if (n == 3)
-            {
+                break;
+            case 3:
                 w[0] = 2.9540897515091930E-01;
                 w[1] = 1.1816359006036772E+00;
                 w[2] = 2.9540897515091930E-01;
-            }
-            else if (n == 9)
-            {
+                break;
+            case 9:
                 w[0] = 1.6708826306882348E-04;
                 w[1] = 1.4173117873979098E-02;
                 w[2] = 1.6811892894767771E-01;
@@ -1542,9 +1540,8 @@ namespace Burkardt.Quadrature
                 w[6] = 1.6811892894767771E-01;
                 w[7] = 1.4173117873979098E-02;
                 w[8] = 1.6708826306882348E-04;
-            }
-            else if (n == 19)
-            {
+                break;
+            case 19:
                 w[0] = 1.5295717705322357E-09;
                 w[1] = 1.0802767206624762E-06;
                 w[2] = 1.0656589772852267E-04;
@@ -1564,9 +1561,8 @@ namespace Burkardt.Quadrature
                 w[16] = 1.0656589772852267E-04;
                 w[17] = 1.0802767206624762E-06;
                 w[18] = 1.5295717705322357E-09;
-            }
-            else if (n == 35)
-            {
+                break;
+            case 35:
                 w[0] = 1.8684014894510604E-18;
                 w[1] = 9.6599466278563243E-15;
                 w[2] = 5.4896836948499462E-12;
@@ -1602,9 +1598,8 @@ namespace Burkardt.Quadrature
                 w[32] = 5.4896836948499462E-12;
                 w[33] = 9.6599466278563243E-15;
                 w[34] = 1.8684014894510604E-18;
-            }
-            else if (n == 37)
-            {
+                break;
+            case 37:
                 w[0] = 0.337304188079177058E-20;
                 w[1] = 0.332834739632930463E-16;
                 w[2] = 0.323016866782871498E-13;
@@ -1642,9 +1637,8 @@ namespace Burkardt.Quadrature
                 w[34] = 0.323016866782871498E-13;
                 w[35] = 0.332834739632930463E-16;
                 w[36] = 0.337304188079177058E-20;
-            }
-            else if (n == 41)
-            {
+                break;
+            case 41:
                 w[0] = 0.117725656974405367E-22;
                 w[1] = 0.152506745534300636E-18;
                 w[2] = 0.202183949965101288E-15;
@@ -1686,9 +1680,8 @@ namespace Burkardt.Quadrature
                 w[38] = 0.202183949965101288E-15;
                 w[39] = 0.152506745534300636E-18;
                 w[40] = 0.117725656974405367E-22;
-            }
-            else if (n == 43)
-            {
+                break;
+            case 43:
                 w[0] = 0.968100020641528185E-37;
                 w[1] = 0.15516931262860431E-22;
                 w[2] = 0.175937309107750992E-18;
@@ -1732,18 +1725,18 @@ namespace Burkardt.Quadrature
                 w[40] = 0.175937309107750992E-18;
                 w[41] = 0.15516931262860431E-22;
                 w[42] = 0.968100020641528185E-37;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("HERMITE_GENZ_KEISTER_LOOKUP_WEIGHTS - Fatal error!");
                 Console.WriteLine("  Illegal input value of N.");
                 Console.WriteLine("  N must be 1, 3, 9, 19, 35, 37, 41 or 43.");
-            }
+                break;
         }
+    }
 
-        public static double[] hermite_genz_keister_lookup_weights_np ( int n, int np, double[] p,
-        double[] w )
+    public static double[] hermite_genz_keister_lookup_weights_np ( int n, int np, double[] p,
+            double[] w )
 
         //****************************************************************************80
         //
@@ -1811,71 +1804,70 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[N], the weights.
         //
-        {
-            hermite_genz_keister_lookup_weights ( n, ref w );
+    {
+        hermite_genz_keister_lookup_weights ( n, ref w );
 
-            return w;
-        }
+        return w;
+    }
         
 
-        public static void hermite_weights(int order, ref double[] weight)
+    public static void hermite_weights(int order, ref double[] weight)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_WEIGHTS returns weights for certain Gauss-Hermite quadrature rules.
-            //
-            //  Discussion:
-            //
-            //    The allowed orders are 1, 3, 7, 15, 31, 63 and 127.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    07 October 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    National Bureau of Standards, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
-            //    Arthur Stroud, Don Secrest,
-            //    Gaussian Quadrature Formulas,
-            //    Prentice Hall, 1966,
-            //    LC: QA299.4G3S7.
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order of the rule.
-            //    ORDER must be 1, 3, 7, 15, 31, 63 or 127.
-            //
-            //    Output, double WEIGHT[ORDER], the weights.
-            //    The weights are positive, symmetric and should sum to SQRT(PI).
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_WEIGHTS returns weights for certain Gauss-Hermite quadrature rules.
+        //
+        //  Discussion:
+        //
+        //    The allowed orders are 1, 3, 7, 15, 31, 63 and 127.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 October 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //    ORDER must be 1, 3, 7, 15, 31, 63 or 127.
+        //
+        //    Output, double WEIGHT[ORDER], the weights.
+        //    The weights are positive, symmetric and should sum to SQRT(PI).
+        //
+    {
+        switch (order)
         {
-            if (order == 1)
-            {
+            case 1:
                 weight[1 - 1] = 1.77245385090551602729816748334E+00;
-            }
-            else if (order == 3)
-            {
+                break;
+            case 3:
                 weight[1 - 1] = 0.295408975150919337883027913890E+00;
                 weight[2 - 1] = 0.118163590060367735153211165556E+01;
                 weight[3 - 1] = 0.295408975150919337883027913890E+00;
-            }
-            else if (order == 7)
-            {
+                break;
+            case 7:
                 weight[1 - 1] = 0.971781245099519154149424255939E-03;
                 weight[2 - 1] = 0.545155828191270305921785688417E-01;
                 weight[3 - 1] = 0.425607252610127800520317466666E+00;
@@ -1883,9 +1875,8 @@ namespace Burkardt.Quadrature
                 weight[5 - 1] = 0.425607252610127800520317466666E+00;
                 weight[6 - 1] = 0.545155828191270305921785688417E-01;
                 weight[7 - 1] = 0.971781245099519154149424255939E-03;
-            }
-            else if (order == 15)
-            {
+                break;
+            case 15:
                 weight[1 - 1] = 0.152247580425351702016062666965E-08;
                 weight[2 - 1] = 0.105911554771106663577520791055E-05;
                 weight[3 - 1] = 0.100004441232499868127296736177E-03;
@@ -1901,9 +1892,8 @@ namespace Burkardt.Quadrature
                 weight[13 - 1] = 0.100004441232499868127296736177E-03;
                 weight[14 - 1] = 0.105911554771106663577520791055E-05;
                 weight[15 - 1] = 0.152247580425351702016062666965E-08;
-            }
-            else if (order == 31)
-            {
+                break;
+            case 31:
                 weight[1 - 1] = 0.46189683944498305857470556847735E-21;
                 weight[2 - 1] = 0.51106090079112519643027197715274E-17;
                 weight[3 - 1] = 0.58995564987355133075257722133966E-14;
@@ -1935,9 +1925,8 @@ namespace Burkardt.Quadrature
                 weight[29 - 1] = 0.58995564987355133075257722133966E-14;
                 weight[30 - 1] = 0.51106090079112519643027197715274E-17;
                 weight[31 - 1] = 0.46189683944498305857470556847735E-21;
-            }
-            else if (order == 63)
-            {
+                break;
+            case 63:
                 weight[1 - 1] = 0.37099206434787551197827130470031E-47;
                 weight[2 - 1] = 0.10400778615192299534481914814892E-41;
                 weight[3 - 1] = 0.19796804708258311251124226474396E-37;
@@ -2001,9 +1990,8 @@ namespace Burkardt.Quadrature
                 weight[61 - 1] = 0.19796804708258311251124226474396E-37;
                 weight[62 - 1] = 0.10400778615192299534481914814892E-41;
                 weight[63 - 1] = 0.37099206434787551197827130470031E-47;
-            }
-            else if (order == 127)
-            {
+                break;
+            case 127:
                 weight[1 - 1] = 0.12504497577050595552677230002883E-100;
                 weight[2 - 1] = 0.17272798059419131415318615789672E-93;
                 weight[3 - 1] = 0.89321681571986548608031150791499E-88;
@@ -2131,120 +2119,120 @@ namespace Burkardt.Quadrature
                 weight[125 - 1] = 0.89321681571986548608031150791499E-88;
                 weight[126 - 1] = 0.17272798059419131415318615789672E-93;
                 weight[127 - 1] = 0.12504497577050595552677230002883E-100;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("HERMITE_WEIGHTS - Fatal error!");
                 Console.WriteLine("  Illegal value of ORDER = " + order + "");
                 Console.WriteLine("  Legal values are 1, 3, 7, 15, 31, 63 and 127.");
-            }
-
+                break;
         }
+    }
 
-        public static int[] index_level_hermite(int level, int level_max, int dim_num, int point_num,
-                int[] grid_index, int[] grid_base)
+    public static int[] index_level_hermite(int level, int level_max, int dim_num, int point_num,
+            int[] grid_index, int[] grid_base)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    INDEX_LEVEL_HERMITE: determine first level at which given index is generated.
-            //
-            //  Discussion:
-            //
-            //    We are constructing a sparse grid of Gauss-Hermite points.  The grid
-            //    is built up of product grids, with a characteristic LEVEL.  
-            //
-            //    We are concerned with identifying points in this product grid which
-            //    have actually been generated previously, on a lower value of LEVEL.
-            //
-            //    This routine determines the lowest value of LEVEL at which each of
-            //    the input points would be generated.
-            //
-            //    In 1D, given LEVEL, the number of points is ORDER = 2**(LEVEL+1) + 1,
-            //    (except that LEVEL = 0 implies ORDER = 1), the BASE is (ORDER-1)/2, 
-            //    and the point INDEX values range from -BASE to +BASE.
-            //
-            //    The values of INDEX and BASE allow us to determine the abstract
-            //    properties of the point.  In particular, if INDEX is 0, the corresponding
-            //    Gauss-Legendre abscissa is 0, the special "nested" value we need
-            //    to take care of.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    07 October 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Fabio Nobile, Raul Tempone, Clayton Webster,
-            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
-            //    Equations with Random Input Data,
-            //    SIAM Journal on Numerical Analysis,
-            //    Volume 46, Number 5, 2008, pages 2309-2345.
-            //
-            //  Parameters:
-            //
-            //    Input, int LEVEL, the level at which these points were 
-            //    generated.  LEVEL_MIN <= LEVEL <= LEVEL_MAX.
-            //
-            //    Input, int LEVEL_MAX, the maximum level.
-            //
-            //    Input, int DIM_NUM, the spatial dimension.
-            //
-            //    Input, int POINT_NUM, the number of points to be tested.
-            //
-            //    Input, int GRID_INDEX[DIM_NUM*POINT_NUM], the indices of the 
-            //    points to be tested.
-            //
-            //    Input, int GRID_BASE[DIM_NUM], the "base", which is essentially
-            //    the denominator of the index.
-            //
-            //    Output, int INDEX_LEVEL_HERM[POINT_NUM], the value of LEVEL at 
-            //    which the point would first be generated.  This will be the same as
-            //    the input value of LEVEL, unless the point has an INDEX of 0 and
-            //    a corresponding BASE that is NOT zero.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    INDEX_LEVEL_HERMITE: determine first level at which given index is generated.
+        //
+        //  Discussion:
+        //
+        //    We are constructing a sparse grid of Gauss-Hermite points.  The grid
+        //    is built up of product grids, with a characteristic LEVEL.  
+        //
+        //    We are concerned with identifying points in this product grid which
+        //    have actually been generated previously, on a lower value of LEVEL.
+        //
+        //    This routine determines the lowest value of LEVEL at which each of
+        //    the input points would be generated.
+        //
+        //    In 1D, given LEVEL, the number of points is ORDER = 2**(LEVEL+1) + 1,
+        //    (except that LEVEL = 0 implies ORDER = 1), the BASE is (ORDER-1)/2, 
+        //    and the point INDEX values range from -BASE to +BASE.
+        //
+        //    The values of INDEX and BASE allow us to determine the abstract
+        //    properties of the point.  In particular, if INDEX is 0, the corresponding
+        //    Gauss-Legendre abscissa is 0, the special "nested" value we need
+        //    to take care of.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 October 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Fabio Nobile, Raul Tempone, Clayton Webster,
+        //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+        //    Equations with Random Input Data,
+        //    SIAM Journal on Numerical Analysis,
+        //    Volume 46, Number 5, 2008, pages 2309-2345.
+        //
+        //  Parameters:
+        //
+        //    Input, int LEVEL, the level at which these points were 
+        //    generated.  LEVEL_MIN <= LEVEL <= LEVEL_MAX.
+        //
+        //    Input, int LEVEL_MAX, the maximum level.
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int POINT_NUM, the number of points to be tested.
+        //
+        //    Input, int GRID_INDEX[DIM_NUM*POINT_NUM], the indices of the 
+        //    points to be tested.
+        //
+        //    Input, int GRID_BASE[DIM_NUM], the "base", which is essentially
+        //    the denominator of the index.
+        //
+        //    Output, int INDEX_LEVEL_HERM[POINT_NUM], the value of LEVEL at 
+        //    which the point would first be generated.  This will be the same as
+        //    the input value of LEVEL, unless the point has an INDEX of 0 and
+        //    a corresponding BASE that is NOT zero.
+        //
+    {
+        int dim;
+        int[] grid_level;
+        int level_min;
+        int point;
+
+        grid_level = new int[point_num];
+
+        level_min = Math.Max(0, level_max + 1 - dim_num);
+        //
+        //  If a point has a DIM-th component whose INDEX is 0, then the 
+        //  value of LEVEL at which this point would first be generated is
+        //  less than LEVEL, unless the DIM-th component of GRID_BASE is 0.
+        //
+        for (point = 0; point < point_num; point++)
         {
-            int dim;
-            int[] grid_level;
-            int level_min;
-            int point;
+            grid_level[point] = Math.Max(level, level_min);
 
-            grid_level = new int[point_num];
-
-            level_min = Math.Max(0, level_max + 1 - dim_num);
-            //
-            //  If a point has a DIM-th component whose INDEX is 0, then the 
-            //  value of LEVEL at which this point would first be generated is
-            //  less than LEVEL, unless the DIM-th component of GRID_BASE is 0.
-            //
-            for (point = 0; point < point_num; point++)
+            for (dim = 0; dim < dim_num; dim++)
             {
-                grid_level[point] = Math.Max(level, level_min);
-
-                for (dim = 0; dim < dim_num; dim++)
+                grid_level[point] = grid_index[dim + point * dim_num] switch
                 {
-                    if (grid_index[dim + point * dim_num] == 0)
-                    {
-                        grid_level[point] = Math.Max(grid_level[point] - grid_base[dim], level_min);
-                    }
-                }
+                    0 => Math.Max(grid_level[point] - grid_base[dim], level_min),
+                    _ => grid_level[point]
+                };
             }
-
-            return grid_level;
         }
 
-        public static double monomial_quadrature_hermite ( int dim_num, int[] expon, int point_num, 
-        double[] weight, double[] x )
+        return grid_level;
+    }
+
+    public static double monomial_quadrature_hermite ( int dim_num, int[] expon, int point_num, 
+            double[] weight, double[] x )
 
         //****************************************************************************80
         //
@@ -2278,44 +2266,42 @@ namespace Burkardt.Quadrature
         //
         //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
         //
+    {
+        double exact;
+        int point;
+        double quad;
+        double quad_error;
+        double[] value;
+        //
+        //  Get the exact value of the integral of the unscaled monomial.
+        //
+        exact = Integral.hermite_integral_nd ( dim_num, expon );
+        //
+        //  Evaluate the monomial at the quadrature points.
+        //
+        value = Monomial.monomial_value ( dim_num, point_num, x, expon );
+        //
+        //  Compute the weighted sum.
+        //
+        quad = 0.0;
+        for ( point = 0; point < point_num; point++ )
         {
-            double exact;
-            int point;
-            double quad;
-            double quad_error;
-            double[] value;
-            //
-            //  Get the exact value of the integral of the unscaled monomial.
-            //
-            exact = Integral.hermite_integral_nd ( dim_num, expon );
-            //
-            //  Evaluate the monomial at the quadrature points.
-            //
-            value = Monomial.monomial_value ( dim_num, point_num, x, expon );
-            //
-            //  Compute the weighted sum.
-            //
-            quad = 0.0;
-            for ( point = 0; point < point_num; point++ )
-            {
-                quad = quad + weight[point] * value[point];
-            }
+            quad += weight[point] * value[point];
+        }
+
+        quad_error = exact switch
+        {
             //
             //  If the exact value is nonzero, use it to scale the data.
             //
-            if ( exact == 0.0 )
-            {
-                quad_error = Math.Abs ( quad );
-            }
-            else
-            {
-                quad_error = Math.Abs ( ( quad - exact ) / exact );
-            }
+            0.0 => Math.Abs(quad),
+            _ => Math.Abs((quad - exact) / exact)
+        };
 
-            return quad_error;
-        }
+        return quad_error;
+    }
         
-        public static double[] product_weight_hermite ( int dim_num, int[] order_1d, int order_nd )
+    public static double[] product_weight_hermite ( int dim_num, int[] order_1d, int order_nd )
 
         //****************************************************************************80
         //
@@ -2350,97 +2336,97 @@ namespace Burkardt.Quadrature
         //
         //    Output, double PRODUCT_WEIGHT_HERM[ORDER_ND], the product rule weights.
         //
-        {
-            int dim;
-            int order;
-            double[] w_1d;
-            double[] w_nd;
-            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
+    {
+        int dim;
+        int order;
+        double[] w_1d;
+        double[] w_nd;
+        typeMethods.r8vecDPData data = new();
 
-            w_nd = new double[order_nd];
+        w_nd = new double[order_nd];
   
-            for ( order = 0; order < order_nd; order++ )
-            {
-                w_nd[order] = 1.0;
-            }
-
-            for ( dim = 0; dim < dim_num; dim++ )
-            {
-                w_1d = new double[order_1d[dim]];
-    
-                hermite_weights ( order_1d[dim], ref w_1d );
-
-                typeMethods.r8vec_direct_product2 ( ref data, dim, order_1d[dim], w_1d, dim_num, 
-                    order_nd, ref w_nd );
-
-            }
-            return w_nd;
-        }
-        
-        public static void h_quadrature_rule(int nt, ref double[] t, ref double[] wts)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    H_QUADRATURE_RULE: quadrature for H(i,x).
-            //
-            //  Discussion:
-            //
-            //    H(i,x) is the physicist's Hermite polynomial of degree I.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    23 February 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int NT, the order of the rule.
-            //
-            //    Output, double T[NT], WTS[NT], the points and weights 
-            //    of the rule.
-            //
+        for ( order = 0; order < order_nd; order++ )
         {
-            double[] bj;
-            int i;
+            w_nd[order] = 1.0;
+        }
+
+        for ( dim = 0; dim < dim_num; dim++ )
+        {
+            w_1d = new double[order_1d[dim]];
+    
+            hermite_weights ( order_1d[dim], ref w_1d );
+
+            typeMethods.r8vec_direct_product2 ( ref data, dim, order_1d[dim], w_1d, dim_num, 
+                order_nd, ref w_nd );
+
+        }
+        return w_nd;
+    }
+        
+    public static void h_quadrature_rule(int nt, ref double[] t, ref double[] wts)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    H_QUADRATURE_RULE: quadrature for H(i,x).
+        //
+        //  Discussion:
+        //
+        //    H(i,x) is the physicist's Hermite polynomial of degree I.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 February 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NT, the order of the rule.
+        //
+        //    Output, double T[NT], WTS[NT], the points and weights 
+        //    of the rule.
+        //
+    {
+        double[] bj;
+        int i;
             
 
-            for (i = 0; i < nt; i++)
-            {
-                t[i] = 0.0;
-            }
-
-            bj = new double[nt];
-
-            for (i = 0; i < nt; i++)
-            {
-                bj[i] = Math.Sqrt((double)(i + 1) / 2.0);
-            }
-
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = 0.0;
-            }
-
-            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
-
-            IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
-
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = wts[i] * wts[i];
-            }
+        for (i = 0; i < nt; i++)
+        {
+            t[i] = 0.0;
         }
+
+        bj = new double[nt];
+
+        for (i = 0; i < nt; i++)
+        {
+            bj[i] = Math.Sqrt((i + 1) / 2.0);
+        }
+
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] = 0.0;
+        }
+
+        wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
+
+        IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
+
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] *= wts[i];
+        }
+    }
         
-        public static void hc_compute_weights_from_points ( int nhalf, double[] xhalf, ref double[] w )
+    public static void hc_compute_weights_from_points ( int nhalf, double[] xhalf, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2484,24 +2470,24 @@ namespace Burkardt.Quadrature
         //    Output, double W[2*NHALF], the weights.  The first two weights are 
         //    associated with the first point, and so on.
         //
+    {
+        int j;
+
+        w[0+0*2] =    0.5 * ( xhalf[1] - xhalf[0] );
+        w[1+0*2] = Math.Pow ( xhalf[1] - xhalf[0], 2 ) / 12.0;
+
+        for ( j = 1; j < nhalf - 1; j++ )
         {
-            int j;
-
-            w[0+0*2] =    0.5 * ( xhalf[1] - xhalf[0] );
-            w[1+0*2] = Math.Pow ( xhalf[1] - xhalf[0], 2 ) / 12.0;
-
-            for ( j = 1; j < nhalf - 1; j++ )
-            {
-                w[0+j*2] = 0.5 * ( xhalf[j+1] - xhalf[j-1] );
-                w[1+j*2] =       ( xhalf[j+1] - xhalf[j-1] ) 
-                    * ( xhalf[j+1] - 2.0 * xhalf[j] + xhalf[j-1] ) / 12.0;
-            }
-
-            w[0+(nhalf-1)*2] =      0.5 * ( xhalf[nhalf-1] - xhalf[nhalf-2]   );
-            w[1+(nhalf-1)*2] = - Math.Pow ( xhalf[nhalf-2] - xhalf[nhalf-1], 2 ) / 12.0;
+            w[0+j*2] = 0.5 * ( xhalf[j+1] - xhalf[j-1] );
+            w[1+j*2] =       ( xhalf[j+1] - xhalf[j-1] ) 
+                * ( xhalf[j+1] - 2.0 * xhalf[j] + xhalf[j-1] ) / 12.0;
         }
+
+        w[0+(nhalf-1)*2] =      0.5 * ( xhalf[nhalf-1] - xhalf[nhalf-2]   );
+        w[1+(nhalf-1)*2] = - Math.Pow ( xhalf[nhalf-2] - xhalf[nhalf-1], 2 ) / 12.0;
+    }
         
-        public static void hcc_compute ( int n, ref double[] x, ref double[] w )
+    public static void hcc_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2540,53 +2526,53 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[N], the weights.
         //
-        {
-            int nhalf;
-            double[] xhalf;
+    {
+        int nhalf;
+        double[] xhalf;
 
-            nhalf = n / 2;
-            xhalf = new double[nhalf];
+        nhalf = n / 2;
+        xhalf = new double[nhalf];
 
-            ClenshawCurtis.clenshaw_curtis_compute_points ( nhalf, ref xhalf );
-            typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
-            hc_compute_weights_from_points ( nhalf, xhalf, ref w );
-        }
+        ClenshawCurtis.clenshaw_curtis_compute_points ( nhalf, ref xhalf );
+        typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
+        hc_compute_weights_from_points ( nhalf, xhalf, ref w );
+    }
         
-        public static void hermite_compute_points ( int order, ref double[] x )
+    public static void hermite_compute_points ( int order, ref double[] x )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HERMITE_COMPUTE_POINTS computes Hermite quadrature points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int ORDER, the order.
-            //
-            //    Output, double X[ORDER], the abscissas.
-            //
-        {
-            double[] w;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_COMPUTE_POINTS computes Hermite quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+    {
+        double[] w;
 
-            w = new double[order];
+        w = new double[order];
 
-            hermite_compute ( order, ref x, ref w );
-        }
+        hermite_compute ( order, ref x, ref w );
+    }
 
-        public static double[] hermite_compute_points_np ( int order, int np, double[] p, double[] x )
+    public static double[] hermite_compute_points_np ( int order, int np, double[] p, double[] x )
 
         //****************************************************************************80
         //
@@ -2616,68 +2602,68 @@ namespace Burkardt.Quadrature
         //
         //    Output, double X[ORDER], the abscissas.
         //
-        {
-            hermite_compute_points ( order, ref x );
+    {
+        hermite_compute_points ( order, ref x );
 
-            return x;
-        }
+        return x;
+    }
         
-        public static void hcc_compute_weights ( int n, ref double[] w )
+    public static void hcc_compute_weights ( int n, ref double[] w )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HCC_COMPUTE_WEIGHTS: Hermite-Cubic-Chebyshev-Spacing quadrature weights.
-            //
-            //  Discussion:
-            //
-            //    For the HCE rule, we assume that an interval has been divided by
-            //    M nodes X into Chebyshev-spaced subintervals, and that at each
-            //    abscissa both function and derivative information is available.
-            //    The piecewise cubic Hermite interpolant is constructed for this data.
-            //    The quadrature rule uses N = 2 * M abscissas, where each node is
-            //    listed twice, and the weights occur in pairs, with the first multiplying
-            //    the function value and the second the derivative.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    24 March 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order.
-            //
-            //    Output, double W[N], the weights.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HCC_COMPUTE_WEIGHTS: Hermite-Cubic-Chebyshev-Spacing quadrature weights.
+        //
+        //  Discussion:
+        //
+        //    For the HCE rule, we assume that an interval has been divided by
+        //    M nodes X into Chebyshev-spaced subintervals, and that at each
+        //    abscissa both function and derivative information is available.
+        //    The piecewise cubic Hermite interpolant is constructed for this data.
+        //    The quadrature rule uses N = 2 * M abscissas, where each node is
+        //    listed twice, and the weights occur in pairs, with the first multiplying
+        //    the function value and the second the derivative.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 March 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Output, double W[N], the weights.
+        //
+    {
+        int nhalf;
+        double[] xhalf;
+
+        if ( n % 2 != 0 )
         {
-            int nhalf;
-            double[] xhalf;
-
-            if ( ( n % 2 ) != 0 )
-            {
-                Console.WriteLine("");
-                Console.WriteLine("HCC_COMPUTE_WEIGHTS - Fatal error!");
-                Console.WriteLine("  Order of rule N is not even.");
-                return;
-            }
-
-            nhalf = n / 2;
-            xhalf = new double[nhalf];
-
-            hc_compute_weights_from_points ( nhalf, xhalf, ref w );
-
+            Console.WriteLine("");
+            Console.WriteLine("HCC_COMPUTE_WEIGHTS - Fatal error!");
+            Console.WriteLine("  Order of rule N is not even.");
+            return;
         }
+
+        nhalf = n / 2;
+        xhalf = new double[nhalf];
+
+        hc_compute_weights_from_points ( nhalf, xhalf, ref w );
+
+    }
         
-        public static void hce_compute ( int n, ref double[] x, ref double[] w )
+    public static void hce_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -2716,151 +2702,150 @@ namespace Burkardt.Quadrature
         //
         //    Output, double W[N], the weights.
         //
-        {
-            double a_high = 1.0;
-            double a_low = 0.0;
-            int nhalf;
-            double[] xhalf;
+    {
+        double a_high = 1.0;
+        double a_low = 0.0;
+        int nhalf;
+        double[] xhalf;
 
-            a_low = 0.0;
-            a_high = 1.0;
+        a_low = 0.0;
+        a_high = 1.0;
 
-            nhalf = n / 2;
+        nhalf = n / 2;
 
-            xhalf = typeMethods.r8vec_linspace_new ( nhalf, a_low, a_high );
-            typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
-            hc_compute_weights_from_points ( nhalf, xhalf, ref w );
-        }
+        xhalf = typeMethods.r8vec_linspace_new ( nhalf, a_low, a_high );
+        typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
+        hc_compute_weights_from_points ( nhalf, xhalf, ref w );
+    }
 
-        public static void he_quadrature_rule(int nt, ref double[] t, ref double[] wts)
+    public static void he_quadrature_rule(int nt, ref double[] t, ref double[] wts)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HE_QUADRATURE_RULE: quadrature for He(i,x).
-            //
-            //  Discussion:
-            //
-            //    He(i,x) represents the probabilist's Hermite polynomial.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    23 February 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int NT, the order of the rule.
-            //
-            //    Output, double T[NT], WTS[NT], the points and weights 
-            //    of the rule.
-            //
-        {
-            double[] bj;
-            int i;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HE_QUADRATURE_RULE: quadrature for He(i,x).
+        //
+        //  Discussion:
+        //
+        //    He(i,x) represents the probabilist's Hermite polynomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 February 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NT, the order of the rule.
+        //
+        //    Output, double T[NT], WTS[NT], the points and weights 
+        //    of the rule.
+        //
+    {
+        double[] bj;
+        int i;
             
 
-            for (i = 0; i < nt; i++)
-            {
-                t[i] = 0.0;
-            }
-
-            bj = new double[nt];
-
-            for (i = 0; i < nt; i++)
-            {
-                bj[i] = Math.Sqrt((double)(i + 1) / 2.0);
-            }
-
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = 0.0;
-            }
-
-            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
-
-            IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
-
-            for (i = 0; i < nt; i++)
-            {
-                t[i] = t[i] * Math.Sqrt(2.0);
-            }
-
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = wts[i] * wts[i] * Math.Sqrt(2.0);
-            }
+        for (i = 0; i < nt; i++)
+        {
+            t[i] = 0.0;
         }
 
-        public static void hf_quadrature_rule(int nt, ref double[] t, ref double[] wts)
+        bj = new double[nt];
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    HF_QUADRATURE_RULE: quadrature for Hf(i,x).
-            //
-            //  Discussion:
-            //
-            //    Hf(i,x) represents the Hermite function of "degree" I.   
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 February 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int NT, the order of the rule.
-            //
-            //    Output, double T[NT], WTS[NT], the points and weights 
-            //    of the rule.
-            //
+        for (i = 0; i < nt; i++)
         {
-            double[] bj;
-            int i;
+            bj[i] = Math.Sqrt((i + 1) / 2.0);
+        }
+
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] = 0.0;
+        }
+
+        wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
+
+        IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
+
+        for (i = 0; i < nt; i++)
+        {
+            t[i] *= Math.Sqrt(2.0);
+        }
+
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] = wts[i] * wts[i] * Math.Sqrt(2.0);
+        }
+    }
+
+    public static void hf_quadrature_rule(int nt, ref double[] t, ref double[] wts)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HF_QUADRATURE_RULE: quadrature for Hf(i,x).
+        //
+        //  Discussion:
+        //
+        //    Hf(i,x) represents the Hermite function of "degree" I.   
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 February 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NT, the order of the rule.
+        //
+        //    Output, double T[NT], WTS[NT], the points and weights 
+        //    of the rule.
+        //
+    {
+        double[] bj;
+        int i;
             
 
-            for (i = 0; i < nt; i++)
-            {
-                t[i] = 0.0;
-            }
+        for (i = 0; i < nt; i++)
+        {
+            t[i] = 0.0;
+        }
 
-            bj = new double[nt];
+        bj = new double[nt];
 
-            for (i = 0; i < nt; i++)
-            {
-                bj[i] = Math.Sqrt((double)(i + 1) / 2.0);
-            }
+        for (i = 0; i < nt; i++)
+        {
+            bj[i] = Math.Sqrt((i + 1) / 2.0);
+        }
 
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = 0.0;
-            }
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] = 0.0;
+        }
 
-            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
+        wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
 
-            IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
+        IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
 
-            for (i = 0; i < nt; i++)
-            {
-                wts[i] = wts[i] * wts[i] * Math.Exp(t[i] * t[i]);
-            }
+        for (i = 0; i < nt; i++)
+        {
+            wts[i] = wts[i] * wts[i] * Math.Exp(t[i] * t[i]);
         }
     }
 }

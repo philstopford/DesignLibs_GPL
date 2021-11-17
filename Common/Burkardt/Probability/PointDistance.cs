@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class PointDistance
 {
-    public static class PointDistance
-    {
-        public static double point_distance_1d_pdf(double x, int a, double b)
+    public static double point_distance_1d_pdf(double x, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -52,38 +52,37 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
 
-            if (a < 1)
-            {
+        switch (a)
+        {
+            case < 1:
                 Console.WriteLine(" ");
                 Console.WriteLine("POINT_DISTANCE_1D_PDF - Fatal error!");
                 Console.WriteLine("  Input parameter A < 1.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POINT_DISTANCE_1D_PDF - Fatal error!");
                 Console.WriteLine("  Input parameter B <= 0.0.");
-                return (1);
-            }
-
-            if (x < 0.0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Pow(b, a) * Math.Pow(x, a - 1) * Math.Exp(-b * x) / typeMethods.r8_factorial(a - 1);
-            }
-
-            return pdf;
+                return 1;
         }
 
-        public static double point_distance_2d_pdf(double x, int a, double b)
+        pdf = x switch
+        {
+            < 0.0 => 0.0,
+            _ => Math.Pow(b, a) * Math.Pow(x, a - 1) * Math.Exp(-b * x) / typeMethods.r8_factorial(a - 1)
+        };
+
+        return pdf;
+    }
+
+    public static double point_distance_2d_pdf(double x, int a, double b)
 
 //****************************************************************************80
 //
@@ -137,40 +136,39 @@ namespace Burkardt.Probability
 //
 //    Output, double PDF, the value of the PDF.
 //
-        {
-            double pdf;
+    {
+        double pdf;
             
 
-            if (a < 1)
-            {
+        switch (a)
+        {
+            case < 1:
                 Console.WriteLine(" ");
                 Console.WriteLine("POINT_DISTANCE_2D_PDF - Fatal error!");
                 Console.WriteLine("  Input parameter A < 1.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POINT_DISTANCE_2D_PDF - Fatal error!");
                 Console.WriteLine("  Input parameter B <= 0.0.");
-                return (1);
-            }
-
-            if (x < 0.0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = 2.0 * Math.Pow(b * Math.PI, a) * Math.Pow(x, 2 * a - 1)
-                    * Math.Exp(-b * Math.PI * x * x) / typeMethods.r8_factorial(a - 1);
-            }
-
-            return pdf;
+                return 1;
         }
 
-        public static double point_distance_3d_pdf(double x, int a, double b)
+        pdf = x switch
+        {
+            < 0.0 => 0.0,
+            _ => 2.0 * Math.Pow(b * Math.PI, a) * Math.Pow(x, 2 * a - 1) * Math.Exp(-b * Math.PI * x * x) /
+                 typeMethods.r8_factorial(a - 1)
+        };
+
+        return pdf;
+    }
+
+    public static double point_distance_3d_pdf(double x, int a, double b)
 
 //****************************************************************************80
 //
@@ -224,38 +222,35 @@ namespace Burkardt.Probability
 //
 //    Output, double PDF, the value of the PDF.
 //
-        {
-            double pdf;
+    {
+        double pdf;
             
 
-            if (a < 1)
-            {
+        switch (a)
+        {
+            case < 1:
                 Console.WriteLine(" ");
                 Console.WriteLine("POINT_DISTANCE_3D_PDF - Fatal error!");
                 Console.WriteLine("  Input parameter A < 1.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("POINT_DISTANCE_3D_PDF - Fatal error!");
                 Console.WriteLine("  Input parameter B <= 0.0.");
-                return (1);
-            }
-
-            if (x < 0.0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = 3.0 * Math.Pow(((4.0 / 3.0) * b * Math.PI), a)
-                          * Math.Pow(x, 3 * a - 1) * Math.Exp(-(4.0 / 3.0) * b * Math.PI * x * x * x)
-                      / typeMethods.r8_factorial(a - 1);
-            }
-
-            return pdf;
+                return 1;
         }
+
+        pdf = x switch
+        {
+            < 0.0 => 0.0,
+            _ => 3.0 * Math.Pow(4.0 / 3.0 * b * Math.PI, a) * Math.Pow(x, 3 * a - 1) *
+                Math.Exp(-(4.0 / 3.0) * b * Math.PI * x * x * x) / typeMethods.r8_factorial(a - 1)
+        };
+
+        return pdf;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Nakagami
 {
-    public static class Nakagami
-    {
-        public static double nakagami_cdf(double x, double a, double b, double c)
+    public static double nakagami_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,26 +34,29 @@ namespace Burkardt.Probability
         //
         //    Output, double NAKAGAMI_CDF, the value of the CDF.
         //
-        {
-            double cdf = 0;
+    {
+        double cdf = 0;
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 cdf = 0.0;
-            }
-            else if (0.0 < x)
+                break;
+            case > 0.0:
             {
                 double y = (x - a) / b;
                 double x2 = c * y * y;
                 double p2 = c;
 
                 cdf = typeMethods.r8_gamma_inc(p2, x2);
+                break;
             }
-
-            return cdf;
         }
 
-        public static double nakagami_cdf_inv(double cdf, double a, double b, double c)
+        return cdf;
+    }
+
+    public static double nakagami_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -86,92 +89,89 @@ namespace Burkardt.Probability
         //
         //    Output, double NAKAGAMI_CDF_INV, the corresponding argument of the CDF.
         //
+    {
+        double cdf2;
+        int it_max = 100;
+        const double r8_huge = 1.0E+30;
+        double tol = 0.000000001;
+
+        double x = 0.0;
+
+        switch (cdf)
         {
-            double cdf2;
-            int it_max = 100;
-            const double r8_huge = 1.0E+30;
-            double tol = 0.000000001;
-
-            double x = 0.0;
-
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("NAKAGAMI_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf == 0.0)
-            {
+                return 1;
+            case 0.0:
                 x = c * a * a;
                 return x;
-            }
-            else if (1.0 == cdf)
-            {
+            case 1.0:
                 x = r8_huge;
+                return x;
+        }
+
+        double x1 = a;
+        double cdf1 = 0.0;
+
+        double x2 = a + 1.0;
+
+        for (;;)
+        {
+            cdf2 = nakagami_cdf(x2, a, b, c);
+
+            if (cdf < cdf2)
+            {
+                break;
+            }
+
+            x2 = a + 2.0 * (x2 - a);
+        }
+
+        /*
+        Now use bisection.
+        */
+        int it = 0;
+
+        for (;;)
+        {
+            it += 1;
+
+            double x3 = 0.5 * (x1 + x2);
+            double cdf3 = nakagami_cdf(x3, a, b, c);
+
+            if (Math.Abs(cdf3 - cdf) < tol)
+            {
+                x = x3;
+                break;
+            }
+
+            if (it_max < it)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("NAKAGAMI_CDF_INV - Warning!");
+                Console.WriteLine("  Iteration limit exceeded.");
                 return x;
             }
 
-            double x1 = a;
-            double cdf1 = 0.0;
-
-            double x2 = a + 1.0;
-
-            for (;;)
+            if (cdf3 <= cdf && cdf1 <= cdf || cdf <= cdf3 && cdf <= cdf1)
             {
-                cdf2 = nakagami_cdf(x2, a, b, c);
-
-                if (cdf < cdf2)
-                {
-                    break;
-                }
-
-                x2 = a + 2.0 * (x2 - a);
+                x1 = x3;
+                cdf1 = cdf3;
             }
-
-            /*
-            Now use bisection.
-            */
-            int it = 0;
-
-            for (;;)
+            else
             {
-                it = it + 1;
-
-                double x3 = 0.5 * (x1 + x2);
-                double cdf3 = nakagami_cdf(x3, a, b, c);
-
-                if (Math.Abs(cdf3 - cdf) < tol)
-                {
-                    x = x3;
-                    break;
-                }
-
-                if (it_max < it)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("NAKAGAMI_CDF_INV - Warning!");
-                    Console.WriteLine("  Iteration limit exceeded.");
-                    return x;
-                }
-
-                if ((cdf3 <= cdf && cdf1 <= cdf) || (cdf <= cdf3 && cdf <= cdf1))
-                {
-                    x1 = x3;
-                    cdf1 = cdf3;
-                }
-                else
-                {
-                    x2 = x3;
-                    cdf2 = cdf3;
-                }
+                x2 = x3;
+                cdf2 = cdf3;
             }
-
-            return x;
         }
 
-        public static bool nakagami_check(double a, double b, double c)
+        return x;
+    }
+
+    public static bool nakagami_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -198,27 +198,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool NAKAGAMI_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("NAKAGAMI_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
+        }
 
-            if (c <= 0.0)
-            {
+        switch (c)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("NAKAGAMI_CHECK - Warning!");
                 Console.WriteLine("  C <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double nakagami_mean(double a, double b, double c)
+    public static double nakagami_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -245,15 +247,15 @@ namespace Burkardt.Probability
         //
         //    Output, double NAKAGAMI_MEAN, the mean of the PDF.
         //
-        {
-            double mean;
+    {
+        double mean;
 
-            mean = a + b * Helpers.Gamma(c + 0.5) / (Math.Sqrt(c) * Helpers.Gamma(c));
+        mean = a + b * Helpers.Gamma(c + 0.5) / (Math.Sqrt(c) * Helpers.Gamma(c));
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double nakagami_pdf(double x, double a, double b, double c)
+    public static double nakagami_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -282,28 +284,28 @@ namespace Burkardt.Probability
         //
         //    Output, double NAKAGAMI_PDF, the value of the PDF.
         //
-        {
-            double pdf = 0;
-            double y;
+    {
+        double pdf = 0;
+        double y;
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 pdf = 0.0;
-            }
-            else if (0.0 < x)
-            {
+                break;
+            case > 0.0:
                 y = (x - a) / b;
 
                 pdf = 2.0 * Math.Pow(c, c) / (b * Helpers.Gamma(c))
-                      * Math.Pow(y, (2.0 * c - 1.0))
+                      * Math.Pow(y, 2.0 * c - 1.0)
                       * Math.Exp(-c * y * y);
-
-            }
-
-            return pdf;
+                break;
         }
 
-        public static double nakagami_variance(double a, double b, double c)
+        return pdf;
+    }
+
+    public static double nakagami_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -330,14 +332,13 @@ namespace Burkardt.Probability
         //
         //    Output, double NAKAGAMI_VARIANCE, the variance of the PDF.
         //
-        {
-            double t1 = Helpers.Gamma(c + 0.5);
-            double t2 = Helpers.Gamma(c);
+    {
+        double t1 = Helpers.Gamma(c + 0.5);
+        double t2 = Helpers.Gamma(c);
 
-            double variance = b * b * (1.0 - t1 * t1 / (c * t2 * t2));
+        double variance = b * b * (1.0 - t1 * t1 / (c * t2 * t2));
 
-            return variance;
-        }
-
+        return variance;
     }
+
 }

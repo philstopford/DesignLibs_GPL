@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Disk
 {
-    public static class Disk
-    {
-        public static double[] disk_mean(double a, double b, double c)
+    public static double[] disk_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -32,16 +32,16 @@ namespace Burkardt.Probability
         //
         //    Output, double DISK_MEAN[2], the mean of the points.
         //
-        {
-            double[] x = new double[2];
+    {
+        double[] x = new double[2];
 
-            x[0] = a;
-            x[1] = b;
+        x[0] = a;
+        x[1] = b;
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double[] disk_sample(double a, double b, double c, ref int seed)
+    public static double[] disk_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -70,22 +70,22 @@ namespace Burkardt.Probability
         //
         //    Output, double DISK_SAMPLE[2], a sampled point of the disk.
         //
-        {
+    {
             
 
-            double[] x = new double[2];
+        double[] x = new double[2];
 
-            double radius_frac = Math.Sqrt(UniformRNG.r8_uniform_01(ref seed));
+        double radius_frac = Math.Sqrt(UniformRNG.r8_uniform_01(ref seed));
 
-            double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
+        double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
 
-            x[0] = a + c * radius_frac * Math.Cos(angle);
-            x[1] = b + c * radius_frac * Math.Sin(angle);
+        x[0] = a + c * radius_frac * Math.Cos(angle);
+        x[1] = b + c * radius_frac * Math.Sin(angle);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double disk_variance(double a, double b, double c)
+    public static double disk_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -112,10 +112,9 @@ namespace Burkardt.Probability
         //
         //    Output, double DISK_VARIANCE, the variance of points in the disk.
         //
-        {
-            double value = 0.5 * c * c;
+    {
+        double value = 0.5 * c * c;
 
-            return value;
-        }
+        return value;
     }
 }

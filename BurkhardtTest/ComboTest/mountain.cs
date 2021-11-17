@@ -2,52 +2,51 @@
 using Burkardt.RankingNS;
 using Burkardt.Types;
 
-namespace ComboTest
+namespace ComboTest;
+
+internal partial class Program
 {
-    partial class Program
+    private static void mountain_test()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MOUNTAIN_TEST tests MOUNTAIN.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    27 July 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        static void mountain_test()
+        int n = 5;
+        int x;
+        int y;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    MOUNTAIN_TEST tests MOUNTAIN.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    27 July 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        Console.WriteLine("");
+        Console.WriteLine("MOUNTAIN_TEST");
+        Console.WriteLine("  MOUNTAIN computes mountain numbers.");
+        Console.WriteLine("");
+        Console.WriteLine("  Y  MXY");
+        Console.WriteLine("");
+
+        for ( y = 0; y <= n; y++ )
         {
-            int n = 5;
-            int x;
-            int y;
+            string cout = "  " + y.ToString().PadLeft(2) + "   ";
 
-            Console.WriteLine("");
-            Console.WriteLine("MOUNTAIN_TEST");
-            Console.WriteLine("  MOUNTAIN computes mountain numbers.");
-            Console.WriteLine("");
-            Console.WriteLine("  Y  MXY");
-            Console.WriteLine("");
-
-            for ( y = 0; y <= n; y++ )
+            for ( x = 0; x <= 2 * n; x++ )
             {
-                string cout = "  " + y.ToString().PadLeft(2) + "   ";
-
-                for ( x = 0; x <= 2 * n; x++ )
-                {
-                    cout += "  " + Ranking.mountain ( n, x, y ).ToString().PadLeft(4);
-                }
-                Console.WriteLine(cout);
+                cout += "  " + Ranking.mountain ( n, x, y ).ToString().PadLeft(4);
             }
+            Console.WriteLine(cout);
         }
     }
 }

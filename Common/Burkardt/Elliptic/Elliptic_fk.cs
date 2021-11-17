@@ -1,58 +1,58 @@
-﻿namespace Burkardt.Elliptic
+﻿namespace Burkardt.Elliptic;
+
+public class FK
 {
-    public class FK
+    public static double evaluate(double k)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_FK evaluates the complete elliptic integral F(K).
+        //
+        //  Discussion:
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      F(k) = RF ( 0, 1-k^2, 1 ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double K, the argument.
+        //
+        //    Output, double ELLIPTIC_FK, the function value.
+        //
     {
-        public static double evaluate(double k)
+        double errtol;
+        int ierr = 0;
+        double value = 0;
+        double x;
+        double y;
+        double z;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_FK evaluates the complete elliptic integral F(K).
-            //
-            //  Discussion:
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      F(k) = RF ( 0, 1-k^2, 1 ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double K, the argument.
-            //
-            //    Output, double ELLIPTIC_FK, the function value.
-            //
-        {
-            double errtol;
-            int ierr = 0;
-            double value;
-            double x;
-            double y;
-            double z;
+        x = 0.0;
+        y = (1.0 - k) * (1.0 + k);
+        z = 1.0;
+        errtol = 1.0E-03;
 
-            x = 0.0;
-            y = (1.0 - k) * (1.0 + k);
-            z = 1.0;
-            errtol = 1.0E-03;
+        value = Integral.rf(x, y, z, errtol, ref ierr);
 
-            value = Integral.rf(x, y, z, errtol, ref ierr);
+        return value;
+    }
 
-            return value;
-        }
-
-        public static void values(ref int n_data, ref double x, ref double fx )
+    public static void values(ref int n_data, ref double x, ref double fx )
 
         //****************************************************************************80
         //
@@ -112,10 +112,10 @@
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 1.570796326794897E+00,
                 1.591003453790792E+00,
@@ -140,7 +140,7 @@
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.0000000000000000E+00,
                 0.2236067977499790E+00,
@@ -165,24 +165,24 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
+        }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Burkardt.PolynomialNS;
 
-namespace Burkardt.RootsNS
+namespace Burkardt.RootsNS;
+
+public static class Roots
 {
-    public static class Roots
-    {
-        public static void roots_to_dif(int nroots, double[] roots, ref int ntab, ref double[] xtab,
-        ref double[] diftab )
+    public static void roots_to_dif(int nroots, double[] roots, ref int ntab, ref double[] xtab,
+            ref double[] diftab )
 
         //****************************************************************************80
         //
@@ -53,35 +53,33 @@ namespace Burkardt.RootsNS
         //
         //    Output, double DIFTAB[NTAB], the divided difference table.
         //
+    {
+        int i;
+
+        ntab = nroots + 1;
+        //
+        //  Build the appropriate difference table for the polynomial
+        //  through ( ROOTS(I), 0 ) of degree NTAB-2.
+        //
+        for (i = 0; i < ntab - 1; i++)
         {
-            int i;
-
-            ntab = nroots + 1;
-            //
-            //  Build the appropriate difference table for the polynomial
-            //  through ( ROOTS(I), 0 ) of degree NTAB-2.
-            //
-            for (i = 0; i < ntab - 1; i++)
-            {
-                diftab[i] = 0.0;
-            }
-
-            for (i = 0; i < ntab - 1; i++)
-            {
-                xtab[i] = roots[i];
-            }
-
-            //
-            //  Append the extra data to make a monic polynomial of degree NTAB-1
-            //  which is zero at the NTAB-1 roots.
-            //
-            xtab[ntab - 1] = 0.0;
-            diftab[ntab - 1] = 1.0;
-
-            return;
+            diftab[i] = 0.0;
         }
 
-        public static void roots_to_r8poly(int nroots, double[] roots, ref int nc, ref double[] c )
+        for (i = 0; i < ntab - 1; i++)
+        {
+            xtab[i] = roots[i];
+        }
+
+        //
+        //  Append the extra data to make a monic polynomial of degree NTAB-1
+        //  which is zero at the NTAB-1 roots.
+        //
+        xtab[ntab - 1] = 0.0;
+        diftab[ntab - 1] = 1.0;
+    }
+
+    public static void roots_to_r8poly(int nroots, double[] roots, ref int nc, ref double[] c )
 
         //****************************************************************************80
         //
@@ -111,34 +109,32 @@ namespace Burkardt.RootsNS
         //
         //    Output, double C[*NC], the coefficients of the polynomial.
         //
+    {
+        int i;
+
+        nc = nroots + 1;
+        //
+        //  Initialize C to (0, 0, ..., 0, 1).
+        //  Essentially, we are setting up a divided difference table.
+        //
+        double[] xtab = new double[nroots + 1];
+        for (i = 0; i < nc - 1; i++)
         {
-            int i;
-            double[] xtab;
-
-            nc = nroots + 1;
-            //
-            //  Initialize C to (0, 0, ..., 0, 1).
-            //  Essentially, we are setting up a divided difference table.
-            //
-            xtab = new double[nroots + 1];
-            for (i = 0; i < nc - 1; i++)
-            {
-                xtab[i] = roots[i];
-            }
-
-            xtab[nc - 1] = 0.0;
-
-            for (i = 0; i < nc - 1; i++)
-            {
-                c[i] = 0.0;
-            }
-
-            c[nc - 1] = 1.0;
-            //
-            //  Convert to standard polynomial form by shifting the abscissas
-            //  of the divided difference table to 0.
-            //
-            Dif.dif_shift_zero(nc, ref xtab, ref c);
+            xtab[i] = roots[i];
         }
+
+        xtab[nc - 1] = 0.0;
+
+        for (i = 0; i < nc - 1; i++)
+        {
+            c[i] = 0.0;
+        }
+
+        c[nc - 1] = 1.0;
+        //
+        //  Convert to standard polynomial form by shifting the abscissas
+        //  of the divided difference table to 0.
+        //
+        Dif.dif_shift_zero(nc, ref xtab, ref c);
     }
 }

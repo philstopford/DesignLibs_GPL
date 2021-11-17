@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Interpolation
+namespace Burkardt.Interpolation;
+
+public static class BarycentricInterp1D
 {
-    public static class BarycentricInterp1D
-    {
-        public static double[] lagcheby1_interp_1d(int nd, double[] xd, double[] yd, int ni,
-        double[] xi )
+    public static double[] lagcheby1_interp_1d(int nd, double[] xd, double[] yd, int ni,
+            double[] xi )
 
         //****************************************************************************
         //
@@ -61,58 +61,60 @@ namespace Burkardt.Interpolation
         //
         //    Output, double LAGCHEBY1_INTERP_1D[NI], the interpolated values.
         //
+    {
+        int i;
+        int j;
+        double t;
+        double theta;
+        double wd;
+
+        double[] denom = new double[ni];
+        int[] exact = new int[ni];
+        double[] numer = new double[ni];
+        double[] yi = new double[ni];
+
+        for (i = 0; i < ni; i++)
         {
-            int i;
-            int j;
-            double t;
-            double theta;
-            double wd;
-
-            double[] denom = new double[ni];
-            int[] exact = new int[ni];
-            double[] numer = new double[ni];
-            double[] yi = new double[ni];
-
-            for (i = 0; i < ni; i++)
-            {
-                exact[i] = -1;
-                denom[i] = 0.0;
-                numer[i] = 0.0;
-            }
-
-            for (j = 0; j < nd; j++)
-            {
-                theta = (double) (2 * j - 1) * Math.PI / (double) (2 * nd);
-                wd = typeMethods.r8_mop(j + 1) * Math.Sin(theta);
-
-                for (i = 0; i < ni; i++)
-                {
-                    if (xi[i] == xd[j])
-                    {
-                        exact[i] = j;
-                        numer[i] = yd[j];
-                        denom[i] = 1.0;
-                    }
-
-                    if (exact[i] == -1)
-                    {
-                        t = wd / (xi[i] - xd[j]);
-                        numer[i] = numer[i] + t * yd[j];
-                        denom[i] = denom[i] + t;
-                    }
-                }
-            }
-
-            for (i = 0; i < ni; i++)
-            {
-                yi[i] = numer[i] / denom[i];
-            }
-
-            return yi;
+            exact[i] = -1;
+            denom[i] = 0.0;
+            numer[i] = 0.0;
         }
 
-        public static double[] lagcheby2_interp_1d(int nd, double[] xd, double[] yd, int ni,
-        double[] xi )
+        for (j = 0; j < nd; j++)
+        {
+            theta = (2 * j - 1) * Math.PI / (2 * nd);
+            wd = typeMethods.r8_mop(j + 1) * Math.Sin(theta);
+
+            for (i = 0; i < ni; i++)
+            {
+                if (xi[i] == xd[j])
+                {
+                    exact[i] = j;
+                    numer[i] = yd[j];
+                    denom[i] = 1.0;
+                }
+
+                switch (exact[i])
+                {
+                    case -1:
+                        t = wd / (xi[i] - xd[j]);
+                        numer[i] += t * yd[j];
+                        denom[i] += t;
+                        break;
+                }
+            }
+        }
+
+        for (i = 0; i < ni; i++)
+        {
+            yi[i] = numer[i] / denom[i];
+        }
+
+        return yi;
+    }
+
+    public static double[] lagcheby2_interp_1d(int nd, double[] xd, double[] yd, int ni,
+            double[] xi )
 
         //****************************************************************************
         //
@@ -167,60 +169,62 @@ namespace Burkardt.Interpolation
         //
         //    Output, double LAGCHEBY2_INTERP_1D[NI], the interpolated values.
         //
+    {
+        int i;
+        int j;
+        double t;
+        double wd;
+
+        double[] denom = new double[ni];
+        int[] exact = new int[ni];
+        double[] numer = new double[ni];
+        double[] yi = new double[ni];
+
+        for (i = 0; i < ni; i++)
         {
-            int i;
-            int j;
-            double t;
-            double wd;
-
-            double[] denom = new double[ni];
-            int[] exact = new int[ni];
-            double[] numer = new double[ni];
-            double[] yi = new double[ni];
-
-            for (i = 0; i < ni; i++)
-            {
-                exact[i] = -1;
-                denom[i] = 0.0;
-                numer[i] = 0.0;
-            }
-
-            for (j = 0; j < nd; j++)
-            {
-                wd = typeMethods.r8_mop(j);
-                if (j == 0 || j == nd - 1)
-                {
-                    wd = 0.5 * wd;
-                }
-
-                for (i = 0; i < ni; i++)
-                {
-                    if (xi[i] == xd[j])
-                    {
-                        exact[i] = j;
-                        numer[i] = yd[j];
-                        denom[i] = 1.0;
-                    }
-
-                    if (exact[i] == -1)
-                    {
-                        t = wd / (xi[i] - xd[j]);
-                        numer[i] = numer[i] + t * yd[j];
-                        denom[i] = denom[i] + t;
-                    }
-                }
-            }
-
-            for (i = 0; i < ni; i++)
-            {
-                yi[i] = numer[i] / denom[i];
-            }
-
-            return yi;
+            exact[i] = -1;
+            denom[i] = 0.0;
+            numer[i] = 0.0;
         }
 
-        public static double[] lageven_interp_1d(int nd, double[] xd, double[] yd, int ni,
-        double[] xi )
+        for (j = 0; j < nd; j++)
+        {
+            wd = typeMethods.r8_mop(j);
+            if (j == 0 || j == nd - 1)
+            {
+                wd = 0.5 * wd;
+            }
+
+            for (i = 0; i < ni; i++)
+            {
+                if (xi[i] == xd[j])
+                {
+                    exact[i] = j;
+                    numer[i] = yd[j];
+                    denom[i] = 1.0;
+                }
+
+                switch (exact[i])
+                {
+                    case -1:
+                        t = wd / (xi[i] - xd[j]);
+                        numer[i] += t * yd[j];
+                        denom[i] += t;
+                        break;
+                }
+            }
+        }
+
+        for (i = 0; i < ni; i++)
+        {
+            yi[i] = numer[i] / denom[i];
+        }
+
+        return yi;
+    }
+
+    public static double[] lageven_interp_1d(int nd, double[] xd, double[] yd, int ni,
+            double[] xi )
 
         //****************************************************************************
         //
@@ -277,52 +281,53 @@ namespace Burkardt.Interpolation
         //
         //    Output, double LAGEVEN_INTERP_1D[NI], the interpolated values.
         //
-        {
-            int i;
-            int j;
-            double t;
-            double wd;
+    {
+        int i;
+        int j;
+        double t;
+        double wd;
 
-            double[] denom = new double[ni];
-            int[] exact = new int[ni];
-            double[] numer = new double[ni];
-            double[] yi = new double[ni];
+        double[] denom = new double[ni];
+        int[] exact = new int[ni];
+        double[] numer = new double[ni];
+        double[] yi = new double[ni];
+
+        for (i = 0; i < ni; i++)
+        {
+            exact[i] = -1;
+            denom[i] = 0.0;
+            numer[i] = 0.0;
+        }
+
+        for (j = 0; j < nd; j++)
+        {
+            wd = typeMethods.r8_mop(j) * typeMethods.r8_choose(nd, j);
 
             for (i = 0; i < ni; i++)
             {
-                exact[i] = -1;
-                denom[i] = 0.0;
-                numer[i] = 0.0;
-            }
-
-            for (j = 0; j < nd; j++)
-            {
-                wd = typeMethods.r8_mop(j) * typeMethods.r8_choose(nd, j);
-
-                for (i = 0; i < ni; i++)
+                if (xi[i] == xd[j])
                 {
-                    if (xi[i] == xd[j])
-                    {
-                        exact[i] = j;
-                        numer[i] = yd[j];
-                        denom[i] = 1.0;
-                    }
+                    exact[i] = j;
+                    numer[i] = yd[j];
+                    denom[i] = 1.0;
+                }
 
-                    if (exact[i] == -1)
-                    {
+                switch (exact[i])
+                {
+                    case -1:
                         t = wd / (xi[i] - xd[j]);
-                        numer[i] = numer[i] + t * yd[j];
-                        denom[i] = denom[i] + t;
-                    }
+                        numer[i] += t * yd[j];
+                        denom[i] += t;
+                        break;
                 }
             }
-
-            for (i = 0; i < ni; i++)
-            {
-                yi[i] = numer[i] / denom[i];
-            }
-
-            return yi;
         }
+
+        for (i = 0; i < ni; i++)
+        {
+            yi[i] = numer[i] / denom[i];
+        }
+
+        return yi;
     }
 }

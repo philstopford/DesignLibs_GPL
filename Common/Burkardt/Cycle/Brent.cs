@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Cycle
+namespace Burkardt.Cycle;
+
+public static class Brent
 {
-    public static class Brent
-    {
-        public static void cycle_brent( Func < int, int  > f, int x0, ref int lam, ref int mu )
+    public static void cycle_brent( Func < int, int  > f, int x0, ref int lam, ref int mu )
 
         //****************************************************************************80
         //
@@ -59,45 +59,44 @@ namespace Burkardt.Cycle
         //    Output, int &MU, the index in the sequence starting
         //    at X0, of the first appearance of an element of the cycle.
         //
+    {
+        int hare;
+        int i;
+        int power;
+        int tortoise;
+
+        power = 1;
+        lam = 1;
+        tortoise = x0;
+        hare = f(x0);
+
+        while (tortoise != hare)
         {
-            int hare;
-            int i;
-            int power;
-            int tortoise;
-
-            power = 1;
-            lam = 1;
-            tortoise = x0;
-            hare = f(x0);
-
-            while (tortoise != hare)
+            if (power == lam)
             {
-                if (power == lam)
-                {
-                    tortoise = hare;
-                    power = power * 2;
-                    lam = 0;
-                }
-
-                hare = f(hare);
-                lam = lam + 1;
+                tortoise = hare;
+                power *= 2;
+                lam = 0;
             }
 
-            mu = 0;
-            tortoise = x0;
-            hare = x0;
+            hare = f(hare);
+            lam += 1;
+        }
 
-            for (i = 0; i < lam; i++)
-            {
-                hare = f(hare);
-            }
+        mu = 0;
+        tortoise = x0;
+        hare = x0;
 
-            while (tortoise != hare)
-            {
-                tortoise = f(tortoise);
-                hare = f(hare);
-                mu = mu + 1;
-            }
+        for (i = 0; i < lam; i++)
+        {
+            hare = f(hare);
+        }
+
+        while (tortoise != hare)
+        {
+            tortoise = f(tortoise);
+            hare = f(hare);
+            mu += 1;
         }
     }
 }

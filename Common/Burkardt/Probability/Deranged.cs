@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Deranged
 {
-    public static class Deranged
-    {
-        public static double deranged_cdf(int x, int a)
+    public static double deranged_cdf(int x, int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -35,31 +35,31 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x < 0 || a < x)
         {
-            double cdf;
-
-            if (x < 0 || a < x)
+            cdf = 0.0;
+        }
+        else
+        {
+            int sum2 = 0;
+            int x2;
+            for (x2 = 0; x2 <= x; x2++)
             {
-                cdf = 0.0;
-            }
-            else
-            {
-                int sum2 = 0;
-                int x2;
-                for (x2 = 0; x2 <= x; x2++)
-                {
-                    int cnk = typeMethods.i4_choose(a, x2);
-                    int dnmk = deranged_enum(a - x2);
-                    sum2 = sum2 + cnk * dnmk;
-                }
-
-                cdf = (double) (sum2) / typeMethods.r8_factorial(a);
+                int cnk = typeMethods.i4_choose(a, x2);
+                int dnmk = deranged_enum(a - x2);
+                sum2 += cnk * dnmk;
             }
 
-            return cdf;
+            cdf = sum2 / typeMethods.r8_factorial(a);
         }
 
-        public static int deranged_cdf_inv(double cdf, int a)
+        return cdf;
+    }
+
+    public static int deranged_cdf_inv(double cdf, int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -88,39 +88,41 @@ namespace Burkardt.Probability
         //
         //    Output, int DERANGED_CDF_INV, the corresponding argument.
         //
-        {
-            int x;
+    {
+        int x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("DERANGED_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return(1);
-            }
-
-            double cdf2 = 0.0;
-
-            for (int x2 = 0; x2 <= a; x2++)
-            {
-                double pdf = deranged_pdf(x2, a);
-
-                cdf2 = cdf2 + pdf;
-
-                if (cdf <= cdf2)
-                {
-                    x = x2;
-                    return x;
-                }
-
-            }
-
-            x = a;
-
-            return x;
+                return 1;
         }
 
-        public static bool deranged_check(int a)
+        double cdf2 = 0.0;
+
+        for (int x2 = 0; x2 <= a; x2++)
+        {
+            double pdf = deranged_pdf(x2, a);
+
+            cdf2 += pdf;
+
+            if (cdf <= cdf2)
+            {
+                x = x2;
+                return x;
+            }
+
+        }
+
+        x = a;
+
+        return x;
+    }
+
+    public static bool deranged_check(int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -146,19 +148,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool DERANGED_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 1)
-            {
+            case < 1:
                 Console.WriteLine(" ");
                 Console.WriteLine("DERANGED_CHECK - Warning!");
                 Console.WriteLine("  A < 1.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static int deranged_enum(int n)
+    public static int deranged_enum(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -229,26 +232,24 @@ namespace Burkardt.Probability
         //
         //    Output, int DERANGED_ENUM, the number of derangements of N objects.
         //
-        {
-            int dn;
+    {
+        int dn;
 
-            if (n < 0)
-            {
+        switch (n)
+        {
+            case < 0:
                 dn = 0;
-            }
-            else if (n == 0)
-            {
+                break;
+            case 0:
                 dn = 1;
-            }
-            else if (n == 1)
-            {
+                break;
+            case 1:
                 dn = 0;
-            }
-            else if (n == 2)
-            {
+                break;
+            case 2:
                 dn = 1;
-            }
-            else
+                break;
+            default:
             {
                 int dnm1 = 0;
                 dn = 1;
@@ -260,12 +261,14 @@ namespace Burkardt.Probability
                     dn = (i - 1) * (dnm1 + dnm2);
                 }
 
+                break;
             }
-
-            return dn;
         }
 
-        public static double deranged_mean(int a)
+        return dn;
+    }
+
+    public static double deranged_mean(int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -295,18 +298,18 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
+    {
+        double mean = 0.0;
+        for (int x = 0; x <= a; x++)
         {
-            double mean = 0.0;
-            for (int x = 0; x <= a; x++)
-            {
-                double pdf = deranged_pdf(x, a);
-                mean = mean + pdf * x;
-            }
-
-            return mean;
+            double pdf = deranged_pdf(x, a);
+            mean += pdf * x;
         }
 
-        public static double deranged_pdf(int x, int a)
+        return mean;
+    }
+
+    public static double deranged_pdf(int x, int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -340,24 +343,24 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < 0 || a < x)
         {
-            double pdf;
-
-            if (x < 0 || a < x)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                int cnk = typeMethods.i4_choose(a, x);
-                int dnmk = deranged_enum(a - x);
-                pdf = (double) (cnk * dnmk) / typeMethods.r8_factorial(a);
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            int cnk = typeMethods.i4_choose(a, x);
+            int dnmk = deranged_enum(a - x);
+            pdf = cnk * dnmk / typeMethods.r8_factorial(a);
         }
 
-        public static int deranged_sample(int a, ref int seed)
+        return pdf;
+    }
+
+    public static int deranged_sample(int a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -385,15 +388,15 @@ namespace Burkardt.Probability
         //
         //    Output, int DERANGED_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            int x = deranged_cdf_inv(cdf, a);
+        int x = deranged_cdf_inv(cdf, a);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double deranged_variance(int a)
+    public static double deranged_variance(int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -423,17 +426,16 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
+    {
+        double mean = deranged_mean(a);
+
+        double variance = 0.0;
+        for (int x = 0; x <= a; x++)
         {
-            double mean = deranged_mean(a);
-
-            double variance = 0.0;
-            for (int x = 0; x <= a; x++)
-            {
-                double pdf = deranged_pdf(x, a);
-                variance = variance + pdf * Math.Pow((x - mean), 2);
-            }
-
-            return variance;
+            double pdf = deranged_pdf(x, a);
+            variance += pdf * Math.Pow(x - mean, 2);
         }
+
+        return variance;
     }
 }

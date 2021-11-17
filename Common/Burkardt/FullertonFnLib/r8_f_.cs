@@ -1,55 +1,55 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class r8FacData
     {
-        public class r8FacData
-        {
-            public int nmax = 0;
-            public r8LgmcData lgmcdata = new r8LgmcData();
+        public int nmax;
+        public r8LgmcData lgmcdata = new();
 
-        }
-        public static double r8_fac( ref r8FacData data, int n)
+    }
+    public static double r8_fac( ref r8FacData data, int n)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_FAC evaluates the factorial of an I4 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the argument.
-            //
-            //    Output, double R8_FAC, the factorial of N.
-            //
-        {
-            double[] facn = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_FAC evaluates the factorial of an I4 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the argument.
+        //
+        //    Output, double R8_FAC, the factorial of N.
+        //
+    {
+        double[] facn = {
                 +0.100000000000000000000000000000000E+01,
                 +0.100000000000000000000000000000000E+01,
                 +0.200000000000000000000000000000000E+01,
@@ -83,43 +83,49 @@ namespace Burkardt.FullertonFnLib
                 +0.265252859812191058636308480000000E+33
             }
             ;
-            const double sq2pil = 0.91893853320467274178032973640562;
-            double value;
-            double x;
-            double xmax = 0;
-            double xmin = 0;
+        const double sq2pil = 0.91893853320467274178032973640562;
+        double value = 0;
+        double x;
+        double xmax = 0;
+        double xmin = 0;
 
-            if (data.nmax == 0)
-            {
+        switch (data.nmax)
+        {
+            case 0:
                 r8_gaml(ref xmin, ref xmax);
                 data.nmax = (int) (xmax - 1.0);
-            }
+                break;
+        }
 
-            if (n < 0)
-            {
+        switch (n)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_FAC - Fatal error!");
                 Console.WriteLine("  Input argument is negative.");
-                return (1);
-            }
-            else if (n <= 30)
-            {
+                return 1;
+            case <= 30:
                 value = facn[n];
-            }
-            else if (n <= data.nmax)
+                break;
+            default:
             {
-                x = (double) (n + 1);
-                value = Math.Exp((x - 0.5) * Math.Log(x) - x + sq2pil + r8_lgmc(ref data.lgmcdata, x));
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_FAC - Fatal error!");
-                Console.WriteLine("  Factorial overflows.");
-                return (1);
-            }
+                if (n <= data.nmax)
+                {
+                    x = n + 1;
+                    value = Math.Exp((x - 0.5) * Math.Log(x) - x + sq2pil + r8_lgmc(ref data.lgmcdata, x));
+                }
+                else
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("R8_FAC - Fatal error!");
+                    Console.WriteLine("  Factorial overflows.");
+                    return 1;
+                }
 
-            return value;
+                break;
+            }
         }
+
+        return value;
     }
 }

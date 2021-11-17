@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace FEM1DPMethodTest
+namespace FEM1DPMethodTest;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
 //****************************************************************************80
 //
 //  Purpose:
@@ -87,88 +87,88 @@ namespace FEM1DPMethodTest
 //
 //    Local, double QUAD_X[QUAD_NUM], the quadrature abscissas.
 //
+    {
+        int NP = 2;
+        int QUAD_NUM = 10;
+
+        double[] a = new double[NP + 1];
+        double[] alpha = new double[NP];
+        double[] beta = new double[NP];
+        double[] f = new double[NP + 1];
+        int nprint = 10;
+        int problem = 2;
+        double[] quad_w = new double[QUAD_NUM];
+        double[] quad_x = new double[QUAD_NUM];
+
+        Console.WriteLine("");
+        Console.WriteLine("FEM1D_PMETHOD");
+        Console.WriteLine("");
+        Console.WriteLine("  Solve the two-point boundary value problem");
+        Console.WriteLine("");
+        Console.WriteLine("  - d/dX (P dU/dX) + Q U  =  F");
+        Console.WriteLine("");
+        Console.WriteLine("  on the interval [-1,1], with");
+        Console.WriteLine("  U(-1) = U(1) = 0.");
+        Console.WriteLine("");
+        Console.WriteLine("  The P method is used, which represents U as");
+        Console.WriteLine("  a weighted sum of orthogonal polynomials.");
+        Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine("  Highest degree polynomial to use is " + NP + "");
+        Console.WriteLine("  Number of points to be used for output = " + nprint + "");
+
+        switch (problem)
         {
-            int NP = 2;
-            int QUAD_NUM = 10;
-
-            double[] a = new double[NP + 1];
-            double[] alpha = new double[NP];
-            double[] beta = new double[NP];
-            double[] f = new double[NP + 1];
-            int nprint = 10;
-            int problem = 2;
-            double[] quad_w = new double[QUAD_NUM];
-            double[] quad_x = new double[QUAD_NUM];
-
-            Console.WriteLine("");
-            Console.WriteLine("FEM1D_PMETHOD");
-            Console.WriteLine("");
-            Console.WriteLine("  Solve the two-point boundary value problem");
-            Console.WriteLine("");
-            Console.WriteLine("  - d/dX (P dU/dX) + Q U  =  F");
-            Console.WriteLine("");
-            Console.WriteLine("  on the interval [-1,1], with");
-            Console.WriteLine("  U(-1) = U(1) = 0.");
-            Console.WriteLine("");
-            Console.WriteLine("  The P method is used, which represents U as");
-            Console.WriteLine("  a weighted sum of orthogonal polynomials.");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("  Highest degree polynomial to use is " + NP + "");
-            Console.WriteLine("  Number of points to be used for output = " + nprint + "");
-
-            if (problem == 1)
-            {
+            case 1:
                 Console.WriteLine("");
                 Console.WriteLine("  Problem #1:");
                 Console.WriteLine("  U=1-x^4,");
                 Console.WriteLine("  P=1,");
                 Console.WriteLine("  Q=1,");
                 Console.WriteLine("  F=1 + 12 * x^2 - x^4");
-            }
-            else if (problem == 2)
-            {
+                break;
+            case 2:
                 Console.WriteLine("");
                 Console.WriteLine("  Problem #2:");
                 Console.WriteLine("  U=cos(0.5*pi*x),");
                 Console.WriteLine("  P=1,");
                 Console.WriteLine("  Q=0,");
                 Console.WriteLine("  F=0.25*pi*pi*cos(0.5*pi*x)");
-            }
+                break;
+        }
 
 //
 //  Get quadrature abscissas and weights for interval [-1,1].
 //
-            FEM_1D_PMethod.quad(QUAD_NUM, ref quad_w, ref quad_x);
+        FEM_1D_PMethod.quad(QUAD_NUM, ref quad_w, ref quad_x);
 //
 //  Compute the constants for the recurrence relationship
 //  that defines the basis functions.
 //
-            FEM_1D_PMethod.alpbet(ref a, ref alpha, ref beta, NP, problem, QUAD_NUM, quad_w, quad_x);
+        FEM_1D_PMethod.alpbet(ref a, ref alpha, ref beta, NP, problem, QUAD_NUM, quad_w, quad_x);
 //
 //  Test the orthogonality of the basis functions.
 //
-            FEM_1D_PMethod.ortho(a, alpha, beta, NP, problem, QUAD_NUM, quad_w, quad_x);
+        FEM_1D_PMethod.ortho(a, alpha, beta, NP, problem, QUAD_NUM, quad_w, quad_x);
 //
 //  Solve for the solution of the problem, in terms of coefficients
 //  of the basis functions.
 //
-            FEM_1D_PMethod.sol(a, alpha, beta, ref f, NP, problem, QUAD_NUM, quad_w, quad_x);
+        FEM_1D_PMethod.sol(a, alpha, beta, ref f, NP, problem, QUAD_NUM, quad_w, quad_x);
 //
 //  Print out the solution, evaluated at each of the NPRINT points.
 //
-            FEM_1D_PMethod.out_(alpha, beta, f, NP, nprint);
+        FEM_1D_PMethod.out_(alpha, beta, f, NP, nprint);
 //
 //  Compare the computed and exact solutions.
 //
-            FEM_1D_PMethod.exact(alpha, beta, f, NP, nprint, problem, QUAD_NUM, quad_w, quad_x);
+        FEM_1D_PMethod.exact(alpha, beta, f, NP, nprint, problem, QUAD_NUM, quad_w, quad_x);
 //
 //  Terminate.
 //
-            Console.WriteLine("");
-            Console.WriteLine("FEM1D_PMETHOD");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("FEM1D_PMETHOD");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
     }
 }

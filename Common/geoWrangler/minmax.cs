@@ -4,326 +4,325 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace geoWrangler
+namespace geoWrangler;
+
+using Path = List<IntPoint>;
+
+public static partial class GeoWrangler
 {
-    using Path = List<IntPoint>;
-
-    public static partial class GeoWrangler
+    public static int MinX(Path sourcePath)
     {
-        public static Int32 MinX(Path sourcePath)
-        {
-            return pMinX(sourcePath);
-        }
+        return pMinX(sourcePath);
+    }
 
-        static Int32 pMinX(Path sourcePath)
-        {
-            Int64 min = sourcePath[0].X;
-            Int32 minIndex = 0;
+    private static int pMinX(Path sourcePath)
+    {
+        long min = sourcePath[0].X;
+        int minIndex = 0;
 
-            for (Int32 i = 1; i < sourcePath.Count; ++i)
+        for (int i = 1; i < sourcePath.Count; ++i)
+        {
+            if (sourcePath[i].X < min)
             {
-                if (sourcePath[i].X < min)
-                {
-                    min = sourcePath[i].X;
-                    minIndex = i;
-                }
+                min = sourcePath[i].X;
+                minIndex = i;
             }
-
-            return minIndex;
         }
 
-        public static Int32 MaxX(Path sourcePath)
-        {
-            return pMaxX(sourcePath);
-        }
+        return minIndex;
+    }
 
-        static Int32 pMaxX(Path sourcePath)
-        {
-            Int64 max = sourcePath[0].X;
-            Int32 maxIndex = 0;
+    public static int MaxX(Path sourcePath)
+    {
+        return pMaxX(sourcePath);
+    }
 
-            for (Int32 i = 1; i < sourcePath.Count; ++i)
+    private static int pMaxX(Path sourcePath)
+    {
+        long max = sourcePath[0].X;
+        int maxIndex = 0;
+
+        for (int i = 1; i < sourcePath.Count; ++i)
+        {
+            if (sourcePath[i].X > max)
             {
-                if (sourcePath[i].X > max)
-                {
-                    max = sourcePath[i].X;
-                    maxIndex = i;
-                }
+                max = sourcePath[i].X;
+                maxIndex = i;
             }
-
-            return maxIndex;
         }
 
-        public static Int32 MinY(Path sourcePath)
-        {
-            return pMinY(sourcePath);
-        }
+        return maxIndex;
+    }
 
-        static Int32 pMinY(Path sourcePath)
-        {
-            Int64 min = sourcePath[0].Y;
-            Int32 minIndex = 0;
+    public static int MinY(Path sourcePath)
+    {
+        return pMinY(sourcePath);
+    }
 
-            for (Int32 i = 1; i < sourcePath.Count; ++i)
+    private static int pMinY(Path sourcePath)
+    {
+        long min = sourcePath[0].Y;
+        int minIndex = 0;
+
+        for (int i = 1; i < sourcePath.Count; ++i)
+        {
+            if (sourcePath[i].Y < min)
             {
-                if (sourcePath[i].Y < min)
-                {
-                    min = sourcePath[i].Y;
-                    minIndex = i;
-                }
+                min = sourcePath[i].Y;
+                minIndex = i;
             }
-
-            return minIndex;
         }
 
-        public static Int32 MaxY(Path sourcePath)
-        {
-            return pMaxY(sourcePath);
-        }
+        return minIndex;
+    }
 
-        static Int32 pMaxY(Path sourcePath)
-        {
-            Int64 max = sourcePath[0].Y;
-            Int32 maxIndex = 0;
+    public static int MaxY(Path sourcePath)
+    {
+        return pMaxY(sourcePath);
+    }
 
-            for (Int32 i = 1; i < sourcePath.Count; ++i)
+    private static int pMaxY(Path sourcePath)
+    {
+        long max = sourcePath[0].Y;
+        int maxIndex = 0;
+
+        for (int i = 1; i < sourcePath.Count; ++i)
+        {
+            if (sourcePath[i].Y > max)
             {
-                if (sourcePath[i].Y > max)
-                {
-                    max = sourcePath[i].Y;
-                    maxIndex = i;
-                }
+                max = sourcePath[i].Y;
+                maxIndex = i;
             }
-
-            return maxIndex;
         }
 
-        public static Int32 MinX(GeoLibPoint[] iPoints)
-        {
-            return pMinX(iPoints);
-        }
+        return maxIndex;
+    }
 
-        static Int32 pMinX(GeoLibPoint[] iPoints)
-        {
-            Int64 min = iPoints[0].X;
-            Int32 minIndex = 0;
+    public static int MinX(GeoLibPoint[] iPoints)
+    {
+        return pMinX(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMinX(GeoLibPoint[] iPoints)
+    {
+        long min = iPoints[0].X;
+        int minIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].X < min)
             {
-                if (iPoints[i].X < min)
-                {
-                    min = iPoints[i].X;
-                    minIndex = i;
-                }
+                min = iPoints[i].X;
+                minIndex = i;
             }
-
-            return minIndex;
         }
 
-        public static Int32 MinY(GeoLibPoint[] iPoints)
-        {
-            return pMinY(iPoints);
-        }
+        return minIndex;
+    }
 
-        static Int32 pMinY(GeoLibPoint[] iPoints)
-        {
-            Int64 min = iPoints[0].Y;
-            Int32 minIndex = 0;
+    public static int MinY(GeoLibPoint[] iPoints)
+    {
+        return pMinY(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMinY(GeoLibPoint[] iPoints)
+    {
+        long min = iPoints[0].Y;
+        int minIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].Y < min)
             {
-                if (iPoints[i].Y < min)
-                {
-                    min = iPoints[i].Y;
-                    minIndex = i;
-                }
+                min = iPoints[i].Y;
+                minIndex = i;
             }
-
-            return minIndex;
         }
 
-        public static Int32 MaxX(GeoLibPoint[] iPoints)
-        {
-            return pMaxX(iPoints);
-        }
+        return minIndex;
+    }
 
-        static Int32 pMaxX(GeoLibPoint[] iPoints)
-        {
-            Int64 max = iPoints[0].X;
-            Int32 maxIndex = 0;
+    public static int MaxX(GeoLibPoint[] iPoints)
+    {
+        return pMaxX(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMaxX(GeoLibPoint[] iPoints)
+    {
+        long max = iPoints[0].X;
+        int maxIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].X > max)
             {
-                if (iPoints[i].X > max)
-                {
-                    max = iPoints[i].X;
-                    maxIndex = i;
-                }
+                max = iPoints[i].X;
+                maxIndex = i;
             }
-
-            return maxIndex;
         }
 
-        public static Int32 MaxY(GeoLibPoint[] iPoints)
-        {
-            return pMaxY(iPoints);
-        }
+        return maxIndex;
+    }
 
-        static Int32 pMaxY(GeoLibPoint[] iPoints)
-        {
-            Int64 max = iPoints[0].Y;
-            Int32 maxIndex = 0;
+    public static int MaxY(GeoLibPoint[] iPoints)
+    {
+        return pMaxY(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMaxY(GeoLibPoint[] iPoints)
+    {
+        long max = iPoints[0].Y;
+        int maxIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].Y > max)
             {
-                if (iPoints[i].Y > max)
-                {
-                    max = iPoints[i].Y;
-                    maxIndex = i;
-                }
+                max = iPoints[i].Y;
+                maxIndex = i;
             }
-
-            return maxIndex;
         }
 
-        public static Int32 MinX(GeoLibPointF[] iPoints)
-        {
-            return pMinX(iPoints);
-        }
+        return maxIndex;
+    }
 
-        static Int32 pMinX(GeoLibPointF[] iPoints)
-        {
-            double min = iPoints[0].X;
-            Int32 minIndex = 0;
+    public static int MinX(GeoLibPointF[] iPoints)
+    {
+        return pMinX(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMinX(GeoLibPointF[] iPoints)
+    {
+        double min = iPoints[0].X;
+        int minIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].X < min)
             {
-                if (iPoints[i].X < min)
-                {
-                    min = iPoints[i].X;
-                    minIndex = i;
-                }
+                min = iPoints[i].X;
+                minIndex = i;
             }
-
-            return minIndex;
         }
 
-        public static Int32 MinY(GeoLibPointF[] iPoints)
-        {
-            return pMinY(iPoints);
-        }
+        return minIndex;
+    }
 
-        static Int32 pMinY(GeoLibPointF[] iPoints)
-        {
-            double min = iPoints[0].Y;
-            Int32 minIndex = 0;
+    public static int MinY(GeoLibPointF[] iPoints)
+    {
+        return pMinY(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMinY(GeoLibPointF[] iPoints)
+    {
+        double min = iPoints[0].Y;
+        int minIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].Y < min)
             {
-                if (iPoints[i].Y < min)
-                {
-                    min = iPoints[i].Y;
-                    minIndex = i;
-                }
+                min = iPoints[i].Y;
+                minIndex = i;
             }
-
-            return minIndex;
         }
 
-        public static Int32 MaxX(GeoLibPointF[] iPoints)
-        {
-            return pMaxX(iPoints);
-        }
+        return minIndex;
+    }
 
-        static Int32 pMaxX(GeoLibPointF[] iPoints)
-        {
-            double max = iPoints[0].X;
-            Int32 maxIndex = 0;
+    public static int MaxX(GeoLibPointF[] iPoints)
+    {
+        return pMaxX(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMaxX(GeoLibPointF[] iPoints)
+    {
+        double max = iPoints[0].X;
+        int maxIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].X > max)
             {
-                if (iPoints[i].X > max)
-                {
-                    max = iPoints[i].X;
-                    maxIndex = i;
-                }
+                max = iPoints[i].X;
+                maxIndex = i;
             }
-
-            return maxIndex;
         }
 
-        public static Int32 MaxY(GeoLibPointF[] iPoints)
-        {
-            return pMaxY(iPoints);
-        }
+        return maxIndex;
+    }
 
-        static Int32 pMaxY(GeoLibPointF[] iPoints)
-        {
-            double max = iPoints[0].Y;
-            Int32 maxIndex = 0;
+    public static int MaxY(GeoLibPointF[] iPoints)
+    {
+        return pMaxY(iPoints);
+    }
 
-            for (Int32 i = 1; i < iPoints.Length; ++i)
+    private static int pMaxY(GeoLibPointF[] iPoints)
+    {
+        double max = iPoints[0].Y;
+        int maxIndex = 0;
+
+        for (int i = 1; i < iPoints.Length; ++i)
+        {
+            if (iPoints[i].Y > max)
             {
-                if (iPoints[i].Y > max)
-                {
-                    max = iPoints[i].Y;
-                    maxIndex = i;
-                }
+                max = iPoints[i].Y;
+                maxIndex = i;
             }
-
-            return maxIndex;
         }
 
-        public static GeoLibPoint getMinimumPoint(GeoLibPoint[] iPoints)
-        {
-            return pGetMinimumPoint(iPoints);
-        }
+        return maxIndex;
+    }
 
-        static GeoLibPoint pGetMinimumPoint(GeoLibPoint[] iPoints)
-        {
-            int x = iPoints.Min(p => p.X);
-            int y = iPoints.Min(p => p.Y);
+    public static GeoLibPoint getMinimumPoint(GeoLibPoint[] iPoints)
+    {
+        return pGetMinimumPoint(iPoints);
+    }
 
-            return new GeoLibPoint(x, y);
-        }
+    private static GeoLibPoint pGetMinimumPoint(GeoLibPoint[] iPoints)
+    {
+        int x = iPoints.Min(p => p.X);
+        int y = iPoints.Min(p => p.Y);
 
-        public static GeoLibPoint getMaximumPoint(GeoLibPoint[] iPoints)
-        {
-            return pGetMaximumPoint(iPoints);
-        }
+        return new GeoLibPoint(x, y);
+    }
 
-        static GeoLibPoint pGetMaximumPoint(GeoLibPoint[] iPoints)
-        {
-            int x = iPoints.Max(p => p.X);
-            int y = iPoints.Max(p => p.Y);
+    public static GeoLibPoint getMaximumPoint(GeoLibPoint[] iPoints)
+    {
+        return pGetMaximumPoint(iPoints);
+    }
 
-            return new GeoLibPoint(x, y);
-        }
+    private static GeoLibPoint pGetMaximumPoint(GeoLibPoint[] iPoints)
+    {
+        int x = iPoints.Max(p => p.X);
+        int y = iPoints.Max(p => p.Y);
 
-        public static GeoLibPointF getMinimumPoint(GeoLibPointF[] iPoints)
-        {
-            return pGetMinimumPoint(iPoints);
-        }
+        return new GeoLibPoint(x, y);
+    }
 
-        static GeoLibPointF pGetMinimumPoint(GeoLibPointF[] iPoints)
-        {
-            double x = iPoints.Min(p => p.X);
-            double y = iPoints.Min(p => p.Y);
+    public static GeoLibPointF getMinimumPoint(GeoLibPointF[] iPoints)
+    {
+        return pGetMinimumPoint(iPoints);
+    }
 
-            return new GeoLibPointF(x, y);
-        }
+    private static GeoLibPointF pGetMinimumPoint(GeoLibPointF[] iPoints)
+    {
+        double x = iPoints.Min(p => p.X);
+        double y = iPoints.Min(p => p.Y);
 
-        public static GeoLibPointF getMaximumPoint(GeoLibPointF[] iPoints)
-        {
-            return pGetMaximumPoint(iPoints);
-        }
+        return new GeoLibPointF(x, y);
+    }
 
-        static GeoLibPointF pGetMaximumPoint(GeoLibPointF[] iPoints)
-        {
-            double x = iPoints.Max(p => p.X);
-            double y = iPoints.Max(p => p.Y);
+    public static GeoLibPointF getMaximumPoint(GeoLibPointF[] iPoints)
+    {
+        return pGetMaximumPoint(iPoints);
+    }
 
-            return new GeoLibPointF(x, y);
-        }
+    private static GeoLibPointF pGetMaximumPoint(GeoLibPointF[] iPoints)
+    {
+        double x = iPoints.Max(p => p.X);
+        double y = iPoints.Max(p => p.Y);
+
+        return new GeoLibPointF(x, y);
     }
 }

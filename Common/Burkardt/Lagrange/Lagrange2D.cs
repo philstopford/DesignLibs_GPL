@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Lagrange
+﻿namespace Burkardt.Lagrange;
+
+public static class Lagrange2D
 {
-    public static class Lagrange2D
-    {
-        public static double[] lagrange_interp_2d ( int mx, int my, double[] xd_1d, double[] yd_1d, 
-        double[] zd, int ni, double[] xi, double[] yi )
+    public static double[] lagrange_interp_2d ( int mx, int my, double[] xd_1d, double[] yd_1d, 
+            double[] zd, int ni, double[] xi, double[] yi )
 
         //****************************************************************************80
         //
@@ -37,33 +37,32 @@
         //
         //    Output, double LAGRANGE_INTERP_2D[NI], the interpolated values.
         //
+    {
+        int i;
+        int j;
+        int k;
+        int l;
+        double lx;
+        double ly;
+        double[] zi;
+
+        zi = new double[ni];
+
+        for ( k = 0; k < ni; k++ )
         {
-            int i;
-            int j;
-            int k;
-            int l;
-            double lx;
-            double ly;
-            double[] zi;
-
-            zi = new double[ni];
-
-            for ( k = 0; k < ni; k++ )
+            l = 0;
+            zi[k] = 0.0;
+            for ( j = 0; j < my + 1; j++ )
             {
-                l = 0;
-                zi[k] = 0.0;
-                for ( j = 0; j < my + 1; j++ )
+                for ( i = 0; i < mx + 1; i++ )
                 {
-                    for ( i = 0; i < mx + 1; i++ )
-                    {
-                        lx = Lagrange1D.lagrange_basis_function_1d ( mx, xd_1d, i, xi[k] );
-                        ly = Lagrange1D.lagrange_basis_function_1d ( my, yd_1d, j, yi[k] );
-                        zi[k] = zi[k] + zd[l] * lx * ly;
-                        l = l + 1;
-                    }
+                    lx = Lagrange1D.lagrange_basis_function_1d ( mx, xd_1d, i, xi[k] );
+                    ly = Lagrange1D.lagrange_basis_function_1d ( my, yd_1d, j, yi[k] );
+                    zi[k] += zd[l] * lx * ly;
+                    l += 1;
                 }
             }
-            return zi;
         }
+        return zi;
     }
 }

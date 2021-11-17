@@ -1,11 +1,11 @@
 ﻿using System.Numerics;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class ZPPDI
 {
-    public static class ZPPDI
-    {
-        public static void zppdi(ref Complex[] ap, int n, ref double[] det, int job )
+    public static void zppdi(ref Complex[] ap, int n, ref double[] det, int job )
 
         //****************************************************************************80
         //
@@ -59,103 +59,102 @@ namespace Burkardt.Linpack
         //    01, inverse only.
         //    10, determinant only.
         //
+    {
+        int i;
+        int ii;
+        int j;
+        int j1;
+        int jj;
+        int k;
+        int k1;
+        int kj;
+        int kk;
+        int kp1;
+        Complex t;
+        //
+        //  Compute determinant.
+        //
+        if (job / 10 != 0)
         {
-            int i;
-            int ii;
-            int j;
-            int j1;
-            int jj;
-            int k;
-            int k1;
-            int kj;
-            int kk;
-            int kp1;
-            Complex t;
-            //
-            //  Compute determinant.
-            //
-            if ((job / 10) != 0)
+            det[0] = 1.0;
+            det[1] = 0.0;
+            ii = 0;
+
+            for (i = 1; i <= n; i++)
             {
-                det[0] = 1.0;
-                det[1] = 0.0;
-                ii = 0;
+                ii += i;
+                det[0] = det[0] * ap[ii - 1].Real * ap[ii - 1].Real;
 
-                for (i = 1; i <= n; i++)
+                if (det[0] == 0.0)
                 {
-                    ii = ii + i;
-                    det[0] = det[0] * (ap[ii - 1].Real) * (ap[ii - 1].Real);
-
-                    if (det[0] == 0.0)
-                    {
-                        break;
-                    }
-
-                    while (det[0] < 1.0)
-                    {
-                        det[0] = det[0] * 10.0;
-                        det[1] = det[1] - 1.0;
-                    }
-
-                    while (10.0 <= det[0])
-                    {
-                        det[0] = det[0] / 10.0;
-                        det[1] = det[1] + 1.0;
-                    }
-                }
-            }
-
-            //
-            //  Compute inverse ( R ).
-            //
-            if ((job % 10) != 0)
-            {
-                kk = 0;
-
-                for (k = 1; k <= n; k++)
-                {
-                    k1 = kk + 1;
-                    kk = kk + k;
-                    ap[kk - 1] = new Complex(1.0, 0.0) / ap[kk - 1];
-                    t = -ap[kk - 1];
-                    BLAS1Z.zscal(k - 1, t, ref ap, 1, index: + k1 - 1);
-                    kp1 = k + 1;
-                    j1 = kk + 1;
-                    kj = kk + k;
-
-                    for (j = kp1; j <= n; j++)
-                    {
-                        t = ap[kj - 1];
-                        ap[kj - 1] = new Complex(0.0, 0.0);
-                        BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + k1 - 1, yIndex: + j1 - 1);
-                        j1 = j1 + j;
-                        kj = kj + j;
-                    }
+                    break;
                 }
 
-                //
-                //  Form inverse ( R ) * hermitian ( inverse ( R ) ).
-                //
-                jj = 0;
-                for (j = 1; j <= n; j++)
+                while (det[0] < 1.0)
                 {
-                    j1 = jj + 1;
-                    jj = jj + j;
-                    k1 = 1;
-                    kj = j1;
+                    det[0] *= 10.0;
+                    det[1] -= 1.0;
+                }
 
-                    for (k = 1; k <= j - 1; k++)
-                    {
-                        t = Complex.Conjugate(ap[kj - 1]);
-                        BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + j1 - 1, yIndex: k1 - 1);
-                        k1 = k1 + k;
-                        kj = kj + 1;
-                    }
-
-                    t = Complex.Conjugate(ap[jj - 1]);
-                    BLAS1Z.zscal(j, t, ref ap, 1, index: + j1 - 1);
+                while (10.0 <= det[0])
+                {
+                    det[0] /= 10.0;
+                    det[1] += 1.0;
                 }
             }
         }
 
+        //
+        //  Compute inverse ( R ).
+        //
+        if (job % 10 != 0)
+        {
+            kk = 0;
+
+            for (k = 1; k <= n; k++)
+            {
+                k1 = kk + 1;
+                kk += k;
+                ap[kk - 1] = new Complex(1.0, 0.0) / ap[kk - 1];
+                t = -ap[kk - 1];
+                BLAS1Z.zscal(k - 1, t, ref ap, 1, index: + k1 - 1);
+                kp1 = k + 1;
+                j1 = kk + 1;
+                kj = kk + k;
+
+                for (j = kp1; j <= n; j++)
+                {
+                    t = ap[kj - 1];
+                    ap[kj - 1] = new Complex(0.0, 0.0);
+                    BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + k1 - 1, yIndex: + j1 - 1);
+                    j1 += j;
+                    kj += j;
+                }
+            }
+
+            //
+            //  Form inverse ( R ) * hermitian ( inverse ( R ) ).
+            //
+            jj = 0;
+            for (j = 1; j <= n; j++)
+            {
+                j1 = jj + 1;
+                jj += j;
+                k1 = 1;
+                kj = j1;
+
+                for (k = 1; k <= j - 1; k++)
+                {
+                    t = Complex.Conjugate(ap[kj - 1]);
+                    BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + j1 - 1, yIndex: k1 - 1);
+                    k1 += k;
+                    kj += 1;
+                }
+
+                t = Complex.Conjugate(ap[jj - 1]);
+                BLAS1Z.zscal(j, t, ref ap, 1, index: + j1 - 1);
+            }
+        }
     }
+
 }

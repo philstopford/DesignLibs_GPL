@@ -1,8 +1,8 @@
-﻿namespace Burkardt.TOMSNS
+﻿namespace Burkardt.TOMSNS;
+
+public static partial class TOMS
 {
-    public static partial class TOMS
-    {
-        public static bool point_in_polygon ( int n, double[] x, double[] y, double x0, double y0 )
+    public static bool point_in_polygon ( int n, double[] x, double[] y, double x0, double y0 )
 
         //****************************************************************************80
         //
@@ -55,29 +55,29 @@
         //    Output, bool POINT_IN_POLYGON, is TRUE if the point is
         //    inside the polygon.
         //
-        {
-            int i;
-            int ip1;
-            double t;
-            bool value;
+    {
+        int i;
+        int ip1;
+        double t;
+        bool value;
   
-            value = false;
+        value = false;
 
-            for ( i = 0; i < n; i++ )
+        for ( i = 0; i < n; i++ )
+        {
+            ip1 = ( i + 1 ) % n;
+
+            if ( y[ip1] < y0 == y0 <= y[i] )
             {
-                ip1 = ( ( i + 1 ) % n );
-
-                if ( ( y[ip1] < y0 ) == ( y0 <= y[i] ) )
+                t = x0 - x[i] - ( y0 - y[i] ) * ( x[ip1] - x[i] ) / ( y[ip1] - y[i] );
+                value = t switch
                 {
-                    t = x0 - x[i] - ( y0 - y[i] ) * ( x[ip1] - x[i] ) / ( y[ip1] - y[i] );
-                    if ( t < 0.0 )
-                    {
-                        value = ! value;
-                    }
-                }
+                    < 0.0 => !value,
+                    _ => value
+                };
             }
-
-            return value;
         }
+
+        return value;
     }
 }

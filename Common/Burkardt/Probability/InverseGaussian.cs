@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class InverseGaussian
 {
-    public static class InverseGaussian
-    {
-        public static double inverse_gaussian_cdf(double x, double a, double b)
+    public static double inverse_gaussian_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -35,14 +35,15 @@ namespace Burkardt.Probability
         //
         //    Output, double INVERSE_GAUSSIAN_CDF, the value of the CDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 cdf = 0.0;
-            }
-            else
+                break;
+            default:
             {
                 double x1 = Math.Sqrt(b / x) * (x - a) / a;
                 double cdf1 = Normal.normal_01_cdf(x1);
@@ -51,12 +52,14 @@ namespace Burkardt.Probability
                 double cdf2 = Normal.normal_01_cdf(x2);
 
                 cdf = cdf1 + Math.Exp(2.0 * b / a) * cdf2;
+                break;
             }
-
-            return cdf;
         }
 
-        public static bool inverse_gaussian_check(double a, double b)
+        return cdf;
+    }
+
+    public static bool inverse_gaussian_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -83,27 +86,29 @@ namespace Burkardt.Probability
         //
         //    Output, bool INVERSE_GAUSSIAN_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("INVERSE_GAUSSIAN_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("INVERSE_GAUSSIAN_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double inverse_gaussian_mean(double a, double b)
+    public static double inverse_gaussian_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -130,13 +135,13 @@ namespace Burkardt.Probability
         //
         //    Output, double INVERSE_GAUSSIAN_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double inverse_gaussian_pdf(double x, double a, double b)
+    public static double inverse_gaussian_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -175,24 +180,17 @@ namespace Burkardt.Probability
         //
         //    Output, double INVERSE_GAUSSIAN_PDF, the value of the PDF.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
-            
+            <= 0.0 => 0.0,
+            _ => Math.Sqrt(b / (2.0 * Math.PI * Math.Pow(x, 3))) * Math.Exp(-b * (x - a) * (x - a) / (2.0 * a * a * x))
+        };
 
-            if (x <= 0.0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Sqrt(b / (2.0 * Math.PI * Math.Pow(x, 3))) *
-                      Math.Exp(-b * (x - a) * (x - a) / (2.0 * a * a * x));
-            }
+        return pdf;
+    }
 
-            return pdf;
-        }
-
-        public static double inverse_gaussian_sample(double a, double b, ref int seed)
+    public static double inverse_gaussian_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -221,29 +219,26 @@ namespace Burkardt.Probability
         //
         //    Output, double INVERSE_GAUSSIAN_SAMPLE, a sample of the PDF.
         //
+    {
+        double x;
+
+        double phi = b / a;
+        double z = Normal.normal_01_sample(ref seed);
+        double y = z * z;
+
+        double t = 1.0 + 0.5 * (y - Math.Sqrt(4.0 * phi * y + y * y)) / phi;
+        double u = UniformRNG.r8_uniform_01(ref seed);
+
+        x = (u * (1.0 + t)) switch
         {
-            double x;
+            <= 1.0 => a * t,
+            _ => a / t
+        };
 
-            double phi = b / a;
-            double z = Normal.normal_01_sample(ref seed);
-            double y = z * z;
+        return x;
+    }
 
-            double t = 1.0 + 0.5 * (y - Math.Sqrt(4.0 * phi * y + y * y)) / phi;
-            double u = UniformRNG.r8_uniform_01(ref seed);
-
-            if (u * (1.0 + t) <= 1.0)
-            {
-                x = a * t;
-            }
-            else
-            {
-                x = a / t;
-            }
-
-            return x;
-        }
-
-        public static double inverse_gaussian_variance(double a, double b)
+    public static double inverse_gaussian_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -270,11 +265,10 @@ namespace Burkardt.Probability
         //
         //    Output, double INVERSE_GAUSSIAN_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = a * a * a / b;
+    {
+        double variance = a * a * a / b;
 
-            return variance;
-        }
-
+        return variance;
     }
+
 }

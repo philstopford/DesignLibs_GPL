@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Praxis
+﻿namespace Burkardt.Praxis;
+
+public static class SVSORT
 {
-    public static class SVSORT
-    {
-        public static void svsort ( int n, ref double[] d, ref double[] v ) 
+    public static void svsort ( int n, ref double[] d, ref double[] v ) 
 
         //****************************************************************************80
         //
@@ -49,41 +49,40 @@
         //    moved to D(J) on output, then the input column V(*,I) is moved to
         //    the output column V(*,J).
         //
-        {
-            int i;
-            int j1;
-            int j2;
-            int j3;
-            double t;
+    {
+        int i;
+        int j1;
+        int j2;
+        int j3;
+        double t;
 
-            for ( j1 = 0; j1 < n - 1; j1++ )
+        for ( j1 = 0; j1 < n - 1; j1++ )
+        {
+            //
+            //  Find J3, the index of the largest entry in D[J1:N-1].
+            //  MAXLOC apparently requires its output to be an array.
+            //
+            j3 = j1;
+            for ( j2 = j1 + 1; j2 < n; j2++ )
             {
-                //
-                //  Find J3, the index of the largest entry in D[J1:N-1].
-                //  MAXLOC apparently requires its output to be an array.
-                //
-                j3 = j1;
-                for ( j2 = j1 + 1; j2 < n; j2++ )
+                if ( d[j3] < d[j2] )
                 {
-                    if ( d[j3] < d[j2] )
-                    {
-                        j3 = j2;
-                    }
+                    j3 = j2;
                 }
-                //
-                //  If J1 != J3, swap D[J1] and D[J3], and columns J1 and J3 of V.
-                //
-                if ( j1 != j3 )
+            }
+            //
+            //  If J1 != J3, swap D[J1] and D[J3], and columns J1 and J3 of V.
+            //
+            if ( j1 != j3 )
+            {
+                t     = d[j1];
+                d[j1] = d[j3];
+                d[j3] = t;
+                for ( i = 0; i < n; i++ )
                 {
-                    t     = d[j1];
-                    d[j1] = d[j3];
-                    d[j3] = t;
-                    for ( i = 0; i < n; i++ )
-                    {
-                        t         = v[i+j1*n];
-                        v[i+j1*n] = v[i+j3*n];
-                        v[i+j3*n] = t;
-                    }
+                    t         = v[i+j1*n];
+                    v[i+j1*n] = v[i+j3*n];
+                    v[i+j3*n] = t;
                 }
             }
         }

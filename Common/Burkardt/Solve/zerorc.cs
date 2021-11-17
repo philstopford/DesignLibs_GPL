@@ -1,24 +1,24 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.SolveNS
-{
-    public class ZeroRC_data
-    {
-        public double c;
-        public double d;
-        public double e;
-        public double fa;
-        public double fb;
-        public double fc;
-        public double sa;
-        public double sb;
-    }
+namespace Burkardt.SolveNS;
 
-    public static class ZeroRC
-    {
-        public static void zero_rc(ref ZeroRC_data data, double a, double b, double t, ref double arg, ref int status,
-        double value )
+public class ZeroRC_data
+{
+    public double c;
+    public double d;
+    public double e;
+    public double fa;
+    public double fb;
+    public double fc;
+    public double sa;
+    public double sb;
+}
+
+public static class ZeroRC
+{
+    public static void zero_rc(ref ZeroRC_data data, double a, double b, double t, ref double arg, ref int status,
+            double value )
 
         //****************************************************************************80
         //
@@ -84,19 +84,20 @@ namespace Burkardt.SolveNS
         //    Input, double VALUE, the function value at ARG, as requested
         //    by the routine on the previous call.
         //
+    {
+        double m;
+        double p;
+        double q;
+        double r;
+        double s;
+        double tol;
+        switch (status)
         {
-            double m;
-            double p;
-            double q;
-            double r;
-            double s;
-            double tol;
             //
             //  Input STATUS = 0.
             //  Initialize, request F(A).
             //
-            if (status == 0)
-            {
+            case 0:
                 data.sa = a;
                 data.sb = b;
                 data.e = data.sb - data.sa;
@@ -105,135 +106,144 @@ namespace Burkardt.SolveNS
                 status = 1;
                 arg = a;
                 return;
-            }
             //
             //  Input STATUS = 1.
             //  Receive F(A), request F(B).
             //
-            else if (status == 1)
-            {
+            case 1:
                 data.fa = value;
                 status = 2;
                 arg = data.sb;
                 return;
-            }
             //
             //  Input STATUS = 2
             //  Receive F(B).
             //
-            else if (status == 2)
+            case 2:
             {
                 data.fb = value;
 
-                if (0.0 < data.fa * data.fb)
+                switch (data.fa * data.fb)
                 {
-                    status = -1;
-                    return;
+                    case > 0.0:
+                        status = -1;
+                        return;
                 }
 
                 data.c = data.sa;
                 data.fc = data.fa;
+                break;
+            }
+            default:
+            {
+                data.fb = value;
+
+                switch (data.fb)
+                {
+                    case > 0.0 when 0.0 < data.fc:
+                    case <= 0.0 when data.fc <= 0.0:
+                        data.c = data.sa;
+                        data.fc = data.fa;
+                        data.e = data.sb - data.sa;
+                        data.d = data.e;
+                        break;
+                }
+
+                break;
+            }
+        }
+
+        //
+        //  Compute the next point at which a function value is requested.
+        //
+        if (Math.Abs(data.fc) < Math.Abs(data.fb))
+        {
+            data.sa = data.sb;
+            data.sb = data.c;
+            data.c = data.sa;
+            data.fa = data.fb;
+            data.fb = data.fc;
+            data.fc = data.fa;
+        }
+
+        tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(data.sb) + t;
+        m = 0.5 * (data.c - data.sb);
+
+        if (Math.Abs(m) <= tol || data.fb == 0.0)
+        {
+            status = 0;
+            arg = data.sb;
+            return;
+        }
+
+        if (Math.Abs(data.e) < tol || Math.Abs(data.fa) <= Math.Abs(data.fb))
+        {
+            data.e = m;
+            data.d = data.e;
+        }
+        else
+        {
+            s = data.fb / data.fa;
+
+            if (data.sa == data.c)
+            {
+                p = 2.0 * m * s;
+                q = 1.0 - s;
             }
             else
             {
-                data.fb = value;
-
-                if ((0.0 < data.fb && 0.0 < data.fc) || (data.fb <= 0.0 && data.fc <= 0.0))
-                {
-                    data.c = data.sa;
-                    data.fc = data.fa;
-                    data.e = data.sb - data.sa;
-                    data.d = data.e;
-                }
+                q = data.fa / data.fc;
+                r = data.fb / data.fc;
+                p = s * (2.0 * m * q * (q - r) - (data.sb - data.sa) * (r - 1.0));
+                q = (q - 1.0) * (r - 1.0) * (s - 1.0);
             }
 
-            //
-            //  Compute the next point at which a function value is requested.
-            //
-            if (Math.Abs(data.fc) < Math.Abs(data.fb))
+            switch (p)
             {
-                data.sa = data.sb;
-                data.sb = data.c;
-                data.c = data.sa;
-                data.fa = data.fb;
-                data.fb = data.fc;
-                data.fc = data.fa;
+                case > 0.0:
+                    q = -q;
+                    break;
+                default:
+                    p = -p;
+                    break;
             }
 
-            tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(data.sb) + t;
-            m = 0.5 * (data.c - data.sb);
+            s = data.e;
+            data.e = data.d;
 
-            if (Math.Abs(m) <= tol || data.fb == 0.0)
+            if (2.0 * p < 3.0 * m * q - Math.Abs(tol * q) &&
+                p < Math.Abs(0.5 * s * q))
             {
-                status = 0;
-                arg = data.sb;
-                return;
+                data.d = p / q;
             }
-
-            if (Math.Abs(data.e) < tol || Math.Abs(data.fa) <= Math.Abs(data.fb))
+            else
             {
                 data.e = m;
                 data.d = data.e;
             }
-            else
-            {
-                s = data.fb / data.fa;
-
-                if (data.sa == data.c)
-                {
-                    p = 2.0 * m * s;
-                    q = 1.0 - s;
-                }
-                else
-                {
-                    q = data.fa / data.fc;
-                    r = data.fb / data.fc;
-                    p = s * (2.0 * m * q * (q - r) - (data.sb - data.sa) * (r - 1.0));
-                    q = (q - 1.0) * (r - 1.0) * (s - 1.0);
-                }
-
-                if (0.0 < p)
-                {
-                    q = -q;
-                }
-                else
-                {
-                    p = -p;
-                }
-
-                s = data.e;
-                data.e = data.d;
-
-                if (2.0 * p < 3.0 * m * q - Math.Abs(tol * q) &&
-                    p < Math.Abs(0.5 * s * q))
-                {
-                    data.d = p / q;
-                }
-                else
-                {
-                    data.e = m;
-                    data.d = data.e;
-                }
-            }
-
-            data.sa = data.sb;
-            data.fa = data.fb;
-
-            if (tol < Math.Abs(data.d))
-            {
-                data.sb = data.sb + data.d;
-            }
-            else if (0.0 < m)
-            {
-                data.sb = data.sb + tol;
-            }
-            else
-            {
-                data.sb = data.sb - tol;
-            }
-
-            arg = data.sb;
-            status = status + 1;
         }
+
+        data.sa = data.sb;
+        data.fa = data.fb;
+
+        if (tol < Math.Abs(data.d))
+        {
+            data.sb += data.d;
+        }
+        else
+        {
+            switch (m)
+            {
+                case > 0.0:
+                    data.sb += tol;
+                    break;
+                default:
+                    data.sb -= tol;
+                    break;
+            }
+        }
+
+        arg = data.sb;
+        status += 1;
     }
 }

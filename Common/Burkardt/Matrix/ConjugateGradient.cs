@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.MatrixNS
+namespace Burkardt.MatrixNS;
+
+public static class ConjugateGradient
 {
-    public static class ConjugateGradient
-    {
-        public static void cg_gb(int n, int ml, int mu, double[] a, double[] b, ref double[] x )
+    public static void cg_gb(int n, int ml, int mu, double[] a, double[] b, ref double[] x )
 
         //****************************************************************************80
         //
@@ -60,99 +60,99 @@ namespace Burkardt.MatrixNS
         //    On input, an estimate for the solution, which may be 0.
         //    On output, the approximate solution vector.  
         //
+    {
+        double alpha;
+        double[] ap;
+        double beta;
+        int i;
+        int it;
+        double[] p;
+        double pap;
+        double pr;
+        double[] r;
+        double rap;
+        //
+        //  Initialize
+        //    AP = A * x,
+        //    R  = b - A * x,
+        //    P  = b - A * x.
+        //
+        ap = MatbyVector.mv_gb(n, n, ml, mu, a, x);
+
+        r = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double alpha;
-            double[] ap;
-            double beta;
-            int i;
-            int it;
-            double[] p;
-            double pap;
-            double pr;
-            double[] r;
-            double rap;
-            //
-            //  Initialize
-            //    AP = A * x,
-            //    R  = b - A * x,
-            //    P  = b - A * x.
-            //
-            ap = MatbyVector.mv_gb(n, n, ml, mu, a, x);
-
-            r = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                r[i] = b[i] - ap[i];
-            }
-
-            p = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                p[i] = b[i] - ap[i];
-            }
-
-            //
-            //  Do the N steps of the conjugate gradient method.
-            //
-            for (it = 1; it <= n; it++)
-            {
-                //
-                //  Compute the matrix*vector product AP = A*P.
-                //
-                ap = MatbyVector.mv_gb(n, n, ml, mu, a, p);
-                //
-                //  Compute the dot products
-                //    PAP = P*AP,
-                //    PR  = P*R
-                //  Set
-                //    ALPHA = PR / PAP.
-                //
-                pap = typeMethods.r8vec_dot_product(n, p, ap);
-                pr = typeMethods.r8vec_dot_product(n, p, r);
-
-                if (pap == 0.0)
-                {
-                    break;
-                }
-
-                alpha = pr / pap;
-                //
-                //  Set
-                //    X = X + ALPHA * P
-                //    R = R - ALPHA * AP.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    x[i] = x[i] + alpha * p[i];
-                }
-
-                for (i = 0; i < n; i++)
-                {
-                    r[i] = r[i] - alpha * ap[i];
-                }
-                //
-                //  Compute the vector dot product
-                //    RAP = R*AP
-                //  Set
-                //    BETA = - RAP / PAP.
-                //
-
-                rap = typeMethods.r8vec_dot_product(n, r, ap);
-
-                beta = -rap / pap;
-                //
-                //  Update the perturbation vector
-                //    P = R + BETA * P.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    p[i] = r[i] + beta * p[i];
-                }
-            }
-
+            r[i] = b[i] - ap[i];
         }
 
-        public static void cg_ge(int n, double[] a, double[] b, ref double[] x )
+        p = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            p[i] = b[i] - ap[i];
+        }
+
+        //
+        //  Do the N steps of the conjugate gradient method.
+        //
+        for (it = 1; it <= n; it++)
+        {
+            //
+            //  Compute the matrix*vector product AP = A*P.
+            //
+            ap = MatbyVector.mv_gb(n, n, ml, mu, a, p);
+            //
+            //  Compute the dot products
+            //    PAP = P*AP,
+            //    PR  = P*R
+            //  Set
+            //    ALPHA = PR / PAP.
+            //
+            pap = typeMethods.r8vec_dot_product(n, p, ap);
+            pr = typeMethods.r8vec_dot_product(n, p, r);
+
+            if (pap == 0.0)
+            {
+                break;
+            }
+
+            alpha = pr / pap;
+            //
+            //  Set
+            //    X = X + ALPHA * P
+            //    R = R - ALPHA * AP.
+            //
+            for (i = 0; i < n; i++)
+            {
+                x[i] += alpha * p[i];
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                r[i] -= alpha * ap[i];
+            }
+            //
+            //  Compute the vector dot product
+            //    RAP = R*AP
+            //  Set
+            //    BETA = - RAP / PAP.
+            //
+
+            rap = typeMethods.r8vec_dot_product(n, r, ap);
+
+            beta = -rap / pap;
+            //
+            //  Update the perturbation vector
+            //    P = R + BETA * P.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = r[i] + beta * p[i];
+            }
+        }
+
+    }
+
+    public static void cg_ge(int n, double[] a, double[] b, ref double[] x )
 
         //****************************************************************************80
         //
@@ -206,100 +206,100 @@ namespace Burkardt.MatrixNS
         //    On input, an estimate for the solution, which may be 0.
         //    On output,  the approximate solution vector.  
         //
+    {
+        double alpha;
+        double[] ap;
+        double beta;
+        int i;
+        int it;
+        double[] p;
+        double pap;
+        double pr;
+        double[] r;
+        double rap;
+        //
+        //  Initialize
+        //    AP = A * x,
+        //    R  = b - A * x,
+        //    P  = b - A * x.
+        //
+        ap = MatbyVector.mv_ge(n, n, a, x);
+
+        r = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double alpha;
-            double[] ap;
-            double beta;
-            int i;
-            int it;
-            double[] p;
-            double pap;
-            double pr;
-            double[] r;
-            double rap;
-            //
-            //  Initialize
-            //    AP = A * x,
-            //    R  = b - A * x,
-            //    P  = b - A * x.
-            //
-            ap = MatbyVector.mv_ge(n, n, a, x);
-
-            r = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                r[i] = b[i] - ap[i];
-            }
-
-            p = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                p[i] = b[i] - ap[i];
-            }
-
-            //
-            //  Do the N steps of the conjugate gradient method.
-            //
-            for (it = 1; it <= n; it++)
-            {
-                //
-                //  Compute the matrix*vector product AP = A*P.
-                //
-
-                ap = MatbyVector.mv_ge(n, n, a, p);
-                //
-                //  Compute the dot products
-                //    PAP = P*AP,
-                //    PR  = P*R
-                //  Set
-                //    ALPHA = PR / PAP.
-                //
-                pap = typeMethods.r8vec_dot_product(n, p, ap);
-                pr = typeMethods.r8vec_dot_product(n, p, r);
-
-                if (pap == 0.0)
-                {
-                    break;
-                }
-
-                alpha = pr / pap;
-                //
-                //  Set
-                //    X = X + ALPHA * P
-                //    R = R - ALPHA * AP.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    x[i] = x[i] + alpha * p[i];
-                }
-
-                for (i = 0; i < n; i++)
-                {
-                    r[i] = r[i] - alpha * ap[i];
-                }
-
-                //
-                //  Compute the vector dot product
-                //    RAP = R*AP
-                //  Set
-                //    BETA = - RAP / PAP.
-                //
-                rap = typeMethods.r8vec_dot_product(n, r, ap);
-
-                beta = -rap / pap;
-                //
-                //  Update the perturbation vector
-                //    P = R + BETA * P.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    p[i] = r[i] + beta * p[i];
-                }
-            }
+            r[i] = b[i] - ap[i];
         }
 
-        public static void cg_st(int n, int nz_num, int[] row, int[] col, double[] a, double[] b,
-        ref double[] x )
+        p = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            p[i] = b[i] - ap[i];
+        }
+
+        //
+        //  Do the N steps of the conjugate gradient method.
+        //
+        for (it = 1; it <= n; it++)
+        {
+            //
+            //  Compute the matrix*vector product AP = A*P.
+            //
+
+            ap = MatbyVector.mv_ge(n, n, a, p);
+            //
+            //  Compute the dot products
+            //    PAP = P*AP,
+            //    PR  = P*R
+            //  Set
+            //    ALPHA = PR / PAP.
+            //
+            pap = typeMethods.r8vec_dot_product(n, p, ap);
+            pr = typeMethods.r8vec_dot_product(n, p, r);
+
+            if (pap == 0.0)
+            {
+                break;
+            }
+
+            alpha = pr / pap;
+            //
+            //  Set
+            //    X = X + ALPHA * P
+            //    R = R - ALPHA * AP.
+            //
+            for (i = 0; i < n; i++)
+            {
+                x[i] += alpha * p[i];
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                r[i] -= alpha * ap[i];
+            }
+
+            //
+            //  Compute the vector dot product
+            //    RAP = R*AP
+            //  Set
+            //    BETA = - RAP / PAP.
+            //
+            rap = typeMethods.r8vec_dot_product(n, r, ap);
+
+            beta = -rap / pap;
+            //
+            //  Update the perturbation vector
+            //    P = R + BETA * P.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = r[i] + beta * p[i];
+            }
+        }
+    }
+
+    public static void cg_st(int n, int nz_num, int[] row, int[] col, double[] a, double[] b,
+            ref double[] x )
 
         //****************************************************************************80
         //
@@ -358,94 +358,93 @@ namespace Burkardt.MatrixNS
         //    On input, an estimate for the solution, which may be 0.
         //    On output, the approximate solution vector.  
         //
+    {
+        double alpha;
+        double[] ap;
+        double beta;
+        int i;
+        int it;
+        double[] p;
+        double pap;
+        double pr;
+        double[] r;
+        double rap;
+        //
+        //  Initialize
+        //    AP = A * x,
+        //    R  = b - A * x,
+        //    P  = b - A * x.
+        //
+        ap = MatbyVector.mv_st(n, n, nz_num, row, col, a, x);
+
+        r = new double[n];
+        for (i = 0; i < n; i++)
         {
-            double alpha;
-            double[] ap;
-            double beta;
-            int i;
-            int it;
-            double[] p;
-            double pap;
-            double pr;
-            double[] r;
-            double rap;
-            //
-            //  Initialize
-            //    AP = A * x,
-            //    R  = b - A * x,
-            //    P  = b - A * x.
-            //
-            ap = MatbyVector.mv_st(n, n, nz_num, row, col, a, x);
+            r[i] = b[i] - ap[i];
+        }
 
-            r = new double[n];
-            for (i = 0; i < n; i++)
+        p = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            p[i] = b[i] - ap[i];
+        }
+
+        //
+        //  Do the N steps of the conjugate gradient method.
+        //
+        for (it = 1; it <= n; it++)
+        {
+            //
+            //  Compute the matrix*vector product AP = A*P.
+            //
+            ap = MatbyVector.mv_st(n, n, nz_num, row, col, a, p);
+            //
+            //  Compute the dot products
+            //    PAP = P*AP,
+            //    PR  = P*R
+            //  Set
+            //    ALPHA = PR / PAP.
+            //
+            pap = typeMethods.r8vec_dot_product(n, p, ap);
+            pr = typeMethods.r8vec_dot_product(n, p, r);
+
+            if (pap == 0.0)
             {
-                r[i] = b[i] - ap[i];
+                break;
             }
 
-            p = new double[n];
+            alpha = pr / pap;
+            //
+            //  Set
+            //    X = X + ALPHA * P
+            //    R = R - ALPHA * AP.
+            //
             for (i = 0; i < n; i++)
             {
-                p[i] = b[i] - ap[i];
+                x[i] += alpha * p[i];
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                r[i] -= alpha * ap[i];
             }
 
             //
-            //  Do the N steps of the conjugate gradient method.
+            //  Compute the vector dot product
+            //    RAP = R*AP
+            //  Set
+            //    BETA = - RAP / PAP.
             //
-            for (it = 1; it <= n; it++)
+            rap = typeMethods.r8vec_dot_product(n, r, ap);
+
+            beta = -rap / pap;
+            //
+            //  Update the perturbation vector
+            //    P = R + BETA * P.
+            //
+            for (i = 0; i < n; i++)
             {
-                //
-                //  Compute the matrix*vector product AP = A*P.
-                //
-                ap = MatbyVector.mv_st(n, n, nz_num, row, col, a, p);
-                //
-                //  Compute the dot products
-                //    PAP = P*AP,
-                //    PR  = P*R
-                //  Set
-                //    ALPHA = PR / PAP.
-                //
-                pap = typeMethods.r8vec_dot_product(n, p, ap);
-                pr = typeMethods.r8vec_dot_product(n, p, r);
-
-                if (pap == 0.0)
-                {
-                    break;
-                }
-
-                alpha = pr / pap;
-                //
-                //  Set
-                //    X = X + ALPHA * P
-                //    R = R - ALPHA * AP.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    x[i] = x[i] + alpha * p[i];
-                }
-
-                for (i = 0; i < n; i++)
-                {
-                    r[i] = r[i] - alpha * ap[i];
-                }
-
-                //
-                //  Compute the vector dot product
-                //    RAP = R*AP
-                //  Set
-                //    BETA = - RAP / PAP.
-                //
-                rap = typeMethods.r8vec_dot_product(n, r, ap);
-
-                beta = -rap / pap;
-                //
-                //  Update the perturbation vector
-                //    P = R + BETA * P.
-                //
-                for (i = 0; i < n; i++)
-                {
-                    p[i] = r[i] + beta * p[i];
-                }
+                p[i] = r[i] + beta * p[i];
             }
         }
     }

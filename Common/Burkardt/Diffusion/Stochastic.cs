@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Diffusion
+namespace Burkardt.Diffusion;
+
+public static class Stochastic
 {
-    public static class Stochastic
-    {
-        public static double[] diffusivity_1d_pwc(int nc, double[] xc, double[] vc, int np,
+    public static double[] diffusivity_1d_pwc(int nc, double[] xc, double[] vc, int np,
         double[] xp )
 //****************************************************************************80
 //
@@ -48,29 +48,29 @@ namespace Burkardt.Diffusion
 //    Output, double DIFFUSIVITY_1D_PWC[NP], the function value at the 
 //    evaluation points.
 //
+    {
+        double[] vp = new double[np];
+
+        for (int ip = 0; ip < np; ip++)
         {
-            double[] vp = new double[np];
-
-            for (int ip = 0; ip < np; ip++)
+            int kc = 0;
+            for (int ic = 0; ic < nc - 1; ic++)
             {
-                int kc = 0;
-                for (int ic = 0; ic < nc - 1; ic++)
+                if (xp[ip] < xc[ic])
                 {
-                    if (xp[ip] < xc[ic])
-                    {
-                        break;
-                    }
-
-                    kc = kc + 1;
+                    break;
                 }
 
-                vp[ip] = vc[kc];
+                kc += 1;
             }
 
-            return vp;
+            vp[ip] = vc[kc];
         }
 
-        public static double[] diffusivity_1d_xk(double dc0, int m, double[] omega, int n,
+        return vp;
+    }
+
+    public static double[] diffusivity_1d_xk(double dc0, int m, double[] omega, int n,
         double[] x )
 //****************************************************************************80
 //
@@ -150,55 +150,55 @@ namespace Burkardt.Diffusion
 //    Output, double DIFFUSIVITY_1D_XK[N], the value of the diffusion coefficient 
 //    at X.
 //
+    {
+        int k = 0;
+        double w = 1.0;
+
+        double[] dc = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            int k = 0;
-            double w = 1.0;
-
-            double[] dc = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                dc[j] = 0.0;
-            }
-
-            while (k < m)
-            {
-                if (k < m)
-                {
-                    k = k + 1;
-                    for (int j = 0; j < n; j++)
-                    {
-                        dc[j] = dc[j] + omega[k - 1] * Math.Sin(w * Math.PI * x[j]);
-                    }
-                }
-
-                if (k < m)
-                {
-                    k = k + 1;
-                    for (int j = 0; j < n; j++)
-                    {
-                        dc[j] = dc[j] + omega[k - 1] * Math.Cos(w * Math.PI * x[j]);
-                    }
-                }
-
-                w = w + 1.0;
-
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                dc[j] = Math.Exp(-0.125) * dc[j];
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                dc[j] = dc0 + Math.Exp(dc[j]);
-            }
-
-            return dc;
+            dc[j] = 0.0;
         }
 
-        public static double[] diffusivity_2d_bnt(double dc0, double[] omega, int n, double[] x,
+        while (k < m)
+        {
+            if (k < m)
+            {
+                k += 1;
+                for (int j = 0; j < n; j++)
+                {
+                    dc[j] += omega[k - 1] * Math.Sin(w * Math.PI * x[j]);
+                }
+            }
+
+            if (k < m)
+            {
+                k += 1;
+                for (int j = 0; j < n; j++)
+                {
+                    dc[j] += omega[k - 1] * Math.Cos(w * Math.PI * x[j]);
+                }
+            }
+
+            w += 1.0;
+
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            dc[j] = Math.Exp(-0.125) * dc[j];
+        }
+
+        for (int j = 0; j < n; j++)
+        {
+            dc[j] = dc0 + Math.Exp(dc[j]);
+        }
+
+        return dc;
+    }
+
+    public static double[] diffusivity_2d_bnt(double dc0, double[] omega, int n, double[] x,
         double[] y )
 //****************************************************************************80
 //
@@ -264,33 +264,33 @@ namespace Burkardt.Diffusion
 //    Output, double DIFFUSIVITY_2D_BNT[N], the value of the diffusion
 //    coefficient at (X,Y).
 //
+    {
+        double[] arg = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double[] arg = new double[n];
-
-            for (int j = 0; j < n; j++)
-            {
-                arg[j] = omega[0] * Math.Cos(Math.PI * x[j])
-                         + omega[1] * Math.Sin(Math.PI * x[j])
-                         + omega[2] * Math.Cos(Math.PI * y[j])
-                         + omega[3] * Math.Sin(Math.PI * y[j]);
-            }
-
-            for (int j = 0; j < n; j++)
-            {
-                arg[j] = Math.Exp(-0.125) * arg[j];
-            }
-
-            double[] dc = new double[n];
-            for (int j = 0; j < n; j++)
-            {
-                dc[j] = dc0 + Math.Exp(arg[j]);
-            }
-
-            return dc;
+            arg[j] = omega[0] * Math.Cos(Math.PI * x[j])
+                     + omega[1] * Math.Sin(Math.PI * x[j])
+                     + omega[2] * Math.Cos(Math.PI * y[j])
+                     + omega[3] * Math.Sin(Math.PI * y[j]);
         }
 
-        public static double[] diffusivity_2d_elman(double a, double cl, double dc0, int m_1d,
-            double[] omega, int n1, int n2, double[] x, double[] y )
+        for (int j = 0; j < n; j++)
+        {
+            arg[j] = Math.Exp(-0.125) * arg[j];
+        }
+
+        double[] dc = new double[n];
+        for (int j = 0; j < n; j++)
+        {
+            dc[j] = dc0 + Math.Exp(arg[j]);
+        }
+
+        return dc;
+    }
+
+    public static double[] diffusivity_2d_elman(double a, double cl, double dc0, int m_1d,
+        double[] omega, int n1, int n2, double[] x, double[] y )
 //****************************************************************************80
 //
 //  Purpose:
@@ -363,114 +363,114 @@ namespace Burkardt.Diffusion
 //    Output, double DIFFUSIVITY_2D_ELMAN[N1*N2], the value of the diffusion 
 //    coefficient at X.
 //
-        {
+    {
 //
 //  Compute THETA.
 //
-            double[] theta_1d = theta_solve(a, cl, m_1d);
+        double[] theta_1d = theta_solve(a, cl, m_1d);
 //
 //  Compute LAMBDA_1D.
 //
-            double[] lambda_1d = new double[m_1d];
+        double[] lambda_1d = new double[m_1d];
 
-            int i = 0;
+        int i = 0;
 
-            for (i = 0; i < m_1d; i++)
-            {
-                lambda_1d[i] = 2.0 * cl / (1.0 + cl * cl * theta_1d[i] * theta_1d[i]);
-            }
+        for (i = 0; i < m_1d; i++)
+        {
+            lambda_1d[i] = 2.0 * cl / (1.0 + cl * cl * theta_1d[i] * theta_1d[i]);
+        }
 
 //
 //  Compute C_1DX(1:M1D) and C_1DY(1:M1D) at (X,Y).
 //
-            double[] c_1dx = new double[m_1d * n1 * n2];
-            double[] c_1dy = new double[m_1d * n1 * n2];
+        double[] c_1dx = new double[m_1d * n1 * n2];
+        double[] c_1dy = new double[m_1d * n1 * n2];
+
+        for (int k = 0; k < n2; k++)
+        {
+            for (int j = 0; j < n1; j++)
+            {
+                for (i = 0; i < m_1d; i++)
+                {
+                    c_1dx[i + j * m_1d + k * m_1d * n1] = 0.0;
+                    c_1dy[i + j * m_1d + k * m_1d * n1] = 0.0;
+                }
+            }
+        }
+
+        i = 0;
+
+        for (;;)
+        {
+            if (m_1d <= i)
+            {
+                break;
+            }
 
             for (int k = 0; k < n2; k++)
             {
                 for (int j = 0; j < n1; j++)
                 {
-                    for (i = 0; i < m_1d; i++)
-                    {
-                        c_1dx[i + j * m_1d + k * m_1d * n1] = 0.0;
-                        c_1dy[i + j * m_1d + k * m_1d * n1] = 0.0;
-                    }
+                    c_1dx[i + j * m_1d + k * m_1d * n1] = Math.Cos(theta_1d[i] * a * x[j + k * n1])
+                                                          / Math.Sqrt(a + Math.Sin(2.0 * theta_1d[i] * a)
+                                                              / (2.0 * theta_1d[i]));
+
+                    c_1dy[i + j * m_1d + k * m_1d * n1] = Math.Cos(theta_1d[i] * a * y[j + k * n1])
+                                                          / Math.Sqrt(a + Math.Sin(2.0 * theta_1d[i] * a)
+                                                              / (2.0 * theta_1d[i]));
                 }
             }
 
-            i = 0;
+            i += 1;
 
-            for (;;)
+            if (m_1d <= i)
             {
-                if (m_1d <= i)
-                {
-                    break;
-                }
-
-                for (int k = 0; k < n2; k++)
-                {
-                    for (int j = 0; j < n1; j++)
-                    {
-                        c_1dx[i + j * m_1d + k * m_1d * n1] = Math.Cos(theta_1d[i] * a * x[j + k * n1])
-                                                              / Math.Sqrt(a + Math.Sin(2.0 * theta_1d[i] * a)
-                                                                  / (2.0 * theta_1d[i]));
-
-                        c_1dy[i + j * m_1d + k * m_1d * n1] = Math.Cos(theta_1d[i] * a * y[j + k * n1])
-                                                              / Math.Sqrt(a + Math.Sin(2.0 * theta_1d[i] * a)
-                                                                  / (2.0 * theta_1d[i]));
-                    }
-                }
-
-                i = i + 1;
-
-                if (m_1d <= i)
-                {
-                    break;
-                }
-
-                for (int k = 0; k < n2; k++)
-                {
-                    for (int j = 0; j < n1; j++)
-                    {
-                        c_1dx[i + j * m_1d + k * m_1d * n1] = Math.Sin(theta_1d[i] * a * x[j + k * n1])
-                                                              / Math.Sqrt(a - Math.Sin(2.0 * theta_1d[i] * a)
-                                                                  / (2.0 * theta_1d[i]));
-
-                        c_1dy[i + j * m_1d + k * m_1d * n1] = Math.Sin(theta_1d[i] * a * y[j + k * n1])
-                                                              / Math.Sqrt(a - Math.Sin(2.0 * theta_1d[i] * a)
-                                                                  / (2.0 * theta_1d[i]));
-                    }
-                }
-
-                i = i + 1;
+                break;
             }
+
+            for (int k = 0; k < n2; k++)
+            {
+                for (int j = 0; j < n1; j++)
+                {
+                    c_1dx[i + j * m_1d + k * m_1d * n1] = Math.Sin(theta_1d[i] * a * x[j + k * n1])
+                                                          / Math.Sqrt(a - Math.Sin(2.0 * theta_1d[i] * a)
+                                                              / (2.0 * theta_1d[i]));
+
+                    c_1dy[i + j * m_1d + k * m_1d * n1] = Math.Sin(theta_1d[i] * a * y[j + k * n1])
+                                                          / Math.Sqrt(a - Math.Sin(2.0 * theta_1d[i] * a)
+                                                              / (2.0 * theta_1d[i]));
+                }
+            }
+
+            i += 1;
+        }
 
 //
 //  Evaluate the diffusion coefficient DC at (X,Y).
 //
-            double[] dc = new double[n1 * n2];
+        double[] dc = new double[n1 * n2];
 
-            for (int k = 0; k < n2; k++)
+        for (int k = 0; k < n2; k++)
+        {
+            for (int j = 0; j < n1; j++)
             {
-                for (int j = 0; j < n1; j++)
+                dc[j + k * n1] = dc0;
+                for (int i2 = 0; i2 < m_1d; i2++)
                 {
-                    dc[j + k * n1] = dc0;
-                    for (int i2 = 0; i2 < m_1d; i2++)
+                    for (int i1 = 0; i1 < m_1d; i1++)
                     {
-                        for (int i1 = 0; i1 < m_1d; i1++)
-                        {
-                            dc[j + k * n1] = dc[j + k * n1] + Math.Sqrt(lambda_1d[i1] * lambda_1d[i2])
-                                * c_1dx[i1 + j * m_1d + k * m_1d * n1] * c_1dy[i2 + j * m_1d + k * m_1d * n1]
-                                * omega[i1 + i2 * m_1d];
-                        }
+                        dc[j + k * n1] += Math.Sqrt(lambda_1d[i1] * lambda_1d[i2])
+                                          * c_1dx[i1 + j * m_1d + k * m_1d * n1] * c_1dy[i2 + j * m_1d + k * m_1d * n1]
+                                          * omega[i1 + i2 * m_1d];
                     }
                 }
             }
-
-            return dc;
         }
 
-        public static double[] diffusivity_2d_ntw(double cl, double dc0, int m, double[] omega,
+        return dc;
+    }
+
+    public static double[] diffusivity_2d_ntw(double cl, double dc0, int m, double[] omega,
         int n, double[] x, double[] y )
 //****************************************************************************80
 //
@@ -545,57 +545,64 @@ namespace Burkardt.Diffusion
 //    Output, double DIFFUSIVITY_2D_NTW[N], the value of the diffusion coefficient
 //    at (X,Y).
 //
+    {
+        double d = 1.0;
+        double lp = Math.Max(d, 2.0 * cl);
+        double l = cl / lp;
+
+        double[] dc_arg = new double[n];
+
+        for (int j = 0; j < n; j++)
         {
-            double d = 1.0;
-            double lp = Math.Max(d, 2.0 * cl);
-            double l = cl / lp;
+            dc_arg[j] = 1.0 + omega[0] * Math.Sqrt(Math.Sqrt(Math.PI) * l / 2.0);
+        }
 
-            double[] dc_arg = new double[n];
+        double[] dc = new double[n];
+        double[] phi = new double[n];
 
-            for (int j = 0; j < n; j++)
+        for (int i = 2; i <= m; i++)
+        {
+            double ihalf_r8 = i / 2;
+            double zeta_arg = -Math.Pow(ihalf_r8 * Math.PI * l, 2) / 8.0;
+            double zeta = Math.Sqrt(Math.Sqrt(Math.PI) * l) * Math.Exp(zeta_arg);
+
+            switch (i % 2)
             {
-                dc_arg[j] = 1.0 + omega[0] * Math.Sqrt(Math.Sqrt(Math.PI) * l / 2.0);
-            }
-
-            double[] dc = new double[n];
-            double[] phi = new double[n];
-
-            for (int i = 2; i <= m; i++)
-            {
-                double ihalf_r8 = (double) (i / 2);
-                double zeta_arg = -Math.Pow(ihalf_r8 * Math.PI * l, 2) / 8.0;
-                double zeta = Math.Sqrt(Math.Sqrt(Math.PI) * l) * Math.Exp(zeta_arg);
-
-                if ((i % 2) == 0)
+                case 0:
                 {
                     for (int j = 0; j < n; j++)
                     {
                         phi[j] = Math.Sin(ihalf_r8 * Math.PI * x[j] / lp);
                     }
+
+                    break;
                 }
-                else
+                default:
                 {
                     for (int j = 0; j < n; j++)
                     {
                         phi[j] = Math.Cos(ihalf_r8 * Math.PI * x[j] / lp);
                     }
-                }
 
-                for (int j = 0; j < n; j++)
-                {
-                    dc_arg[j] = dc_arg[j] + zeta * phi[j] * omega[i - 1];
+                    break;
                 }
             }
 
             for (int j = 0; j < n; j++)
             {
-                dc[j] = dc0 + Math.Exp(dc_arg[j]);
+                dc_arg[j] += zeta * phi[j] * omega[i - 1];
             }
-            return dc;
         }
 
-        public static double[] diffusivity_2d_pwc(int h, int w, double a, double b, double c,
-            double d, double[] omega, int n, double[] x, double[] y )
+        for (int j = 0; j < n; j++)
+        {
+            dc[j] = dc0 + Math.Exp(dc_arg[j]);
+        }
+        return dc;
+    }
+
+    public static double[] diffusivity_2d_pwc(int h, int w, double a, double b, double c,
+        double d, double[] omega, int n, double[] x, double[] y )
 //****************************************************************************80
 //
 //  Purpose:
@@ -719,32 +726,32 @@ namespace Burkardt.Diffusion
 //    Output, double DIFFUSIVITY_2D_PWC[N], the value of the diffusion 
 //    coefficient at each point.
 //
+    {
+        double[] rho = new double[n];
+
+        for (int ij = 0; ij < n; ij++)
         {
-            double[] rho = new double[n];
+            double x01 = (x[ij] - a) / (b - a);
+            double y01 = (y[ij] - c) / (d - c);
 
-            for (int ij = 0; ij < n; ij++)
-            {
-                double x01 = (x[ij] - a) / (b - a);
-                double y01 = (y[ij] - c) / (d - c);
+            int i = (int) Math.Round((2 * h * y01 - 1) / 2);
+            i = Math.Max(i, 0);
+            i = Math.Min(i, h - 1);
 
-                int i = (int) Math.Round((2 * h * y01 - 1) / 2);
-                i = Math.Max(i, 0);
-                i = Math.Min(i, h - 1);
+            int j = (int) Math.Round((2 * w * x01 - 1) / 2);
+            j = Math.Max(j, 0);
+            j = Math.Min(j, w - 1);
 
-                int j = (int) Math.Round((2 * w * x01 - 1) / 2);
-                j = Math.Max(j, 0);
-                j = Math.Min(j, w - 1);
-
-                int k = i * w + j;
-                rho[ij] = omega[k];
-            }
-
-            return rho;
+            int k = i * w + j;
+            rho[ij] = omega[k];
         }
 
+        return rho;
+    }
 
 
-        public static double[] theta_solve(double a, double cl, int m)
+
+    public static double[] theta_solve(double a, double cl, int m)
 //****************************************************************************80
 //
 //  Purpose:
@@ -808,79 +815,83 @@ namespace Burkardt.Diffusion
 //
 //    Output, double THETA_SOLVE[M], the values of Theta.
 //
+    {
+        double xc = 0;
+
+        int k;
+
+        double[] theta = new double[m];
+        for (k = 0; k < m; k++)
         {
-            double xc = 0;
-
-            int k;
-
-            double[] theta = new double[m];
-            for (k = 0; k < m; k++)
-            {
-                theta[k] = 0.0;
-            }
+            theta[k] = 0.0;
+        }
 
 //
 //  [ XA_INIT, XB_INIT] = [ n * pi, n+1/2 Math.PI ] / a, n = 0, 1, 2, ...
 //
-            double xa_init = 0.0;
-            double xb_init = (Math.PI / 2.0) / a;
+        double xa_init = 0.0;
+        double xb_init = Math.PI / 2.0 / a;
 
-            k = 0;
-            for (;;)
-            {
+        k = 0;
+        for (;;)
+        {
 //
 //  Seek root of equation 1 in interval.
 //
-                if (m <= k)
+            if (m <= k)
+            {
+                break;
+            }
+
+            k += 1;
+            double xa = xa_init;
+            double fa = 1.0 / cl - xa * Math.Tan(a * xa);
+            double ftol = typeMethods.r8_epsilon() * (Math.Abs(fa) + 1.0);
+            double xb = xb_init;
+            double fc = fa;
+            double bmatol = 100.0 * typeMethods.r8_epsilon() * (Math.Abs(xa) + Math.Abs(xb));
+
+            while (bmatol < xb - xa)
+            {
+                xc = (xa + xb) / 2.0;
+                fc = 1.0 / cl - xc * Math.Tan(a * xc);
+
+                if (Math.Abs(fc) <= ftol)
                 {
                     break;
                 }
 
-                k = k + 1;
-                double xa = xa_init;
-                double fa = 1.0 / cl - xa * Math.Tan(a * xa);
-                double ftol = typeMethods.r8_epsilon() * (Math.Abs(fa) + 1.0);
-                double xb = xb_init;
-                double fc = fa;
-                double bmatol = 100.0 * typeMethods.r8_epsilon() * (Math.Abs(xa) + Math.Abs(xb));
-
-                while (bmatol < xb - xa)
+                switch (fc)
                 {
-                    xc = (xa + xb) / 2.0;
-                    fc = 1.0 / cl - xc * Math.Tan(a * xc);
-
-                    if (Math.Abs(fc) <= ftol)
-                    {
-                        break;
-                    }
-                    else if (0.0 < fc)
-                    {
+                    case > 0.0:
                         xa = xc;
-                    }
-                    else
-                    {
+                        break;
+                    default:
                         xb = xc;
-                    }
+                        break;
                 }
+            }
 
-                theta[k - 1] = xc;
+            theta[k - 1] = xc;
 //
 //  Seek root of equation 2 in interval.
 //
-                if (m <= k)
-                {
-                    break;
-                }
+            if (m <= k)
+            {
+                break;
+            }
 
-                k = k + 1;
+            k += 1;
+            switch (k)
+            {
+    
 //
-//  In the first interval, we need to skip the zero root of equation 2.
-//
-                if (k == 2)
-                {
-                    k = k - 1;
-                }
-                else
+                //  In the first interval, we need to skip the zero root of equation 2.
+                //
+                case 2:
+                    k -= 1;
+                    break;
+default:
                 {
                     xa = xa_init;
                     fa = xa - Math.Tan(a * xa) / cl;
@@ -896,27 +907,30 @@ namespace Burkardt.Diffusion
                         {
                             break;
                         }
-                        else if (0.0 < fc)
+
+                        switch (fc)
                         {
-                            xa = xc;
-                        }
-                        else
-                        {
-                            xb = xc;
+                            case > 0.0:
+                                xa = xc;
+                                break;
+                            default:
+                                xb = xc;
+                                break;
                         }
                     }
 
                     theta[k - 1] = xc;
+                    break;
                 }
+            }
 
 //
 //  Advance the interval.
 //
-                xa_init = xa_init + Math.PI / a;
-                xb_init = xb_init + Math.PI / a;
-            }
-
-            return theta;
+            xa_init += Math.PI / a;
+            xb_init += Math.PI / a;
         }
+
+        return theta;
     }
 }

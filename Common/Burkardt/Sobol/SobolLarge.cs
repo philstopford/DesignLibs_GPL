@@ -1,58 +1,58 @@
 ﻿using System;
 
-namespace Burkardt.Sobol
+namespace Burkardt.Sobol;
+
+public static partial class SobolSampler
 {
-    public static partial class SobolSampler
+    public static double[] i8_sobol_generate ( int m, int n, int skip )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_SOBOL_GENERATE generates a Sobol dataset.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 December 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int N, the number of points to generate.
+        //
+        //    Input, int SKIP, the number of initial points to skip.
+        //
+        //    Output, float I4_SOBOL_GENERATE[M*N], the points.
+        //
     {
-        public static double[] i8_sobol_generate ( int m, int n, int skip )
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I4_SOBOL_GENERATE generates a Sobol dataset.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    12 December 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int M, the spatial dimension.
-            //
-            //    Input, int N, the number of points to generate.
-            //
-            //    Input, int SKIP, the number of initial points to skip.
-            //
-            //    Output, float I4_SOBOL_GENERATE[M*N], the points.
-            //
+        double[] r = new double[m*n];
+
+        int seed = skip;
+
+        SobolConfigLarge config = new(m) {seed = seed};
+
+        for (int j = 0; j < n; j++ )
         {
-            double[] r = new double[m*n];
-
-            int seed = skip;
-
-            SobolConfigLarge config = new SobolConfigLarge(m) {seed = seed};
-
-            for (int j = 0; j < n; j++ )
+            int res = i8_sobol ( m, ref config );
+            for (int i = 0; i < config.quasi.Length; i++)
             {
-                int res = i8_sobol ( m, ref config );
-                for (int i = 0; i < config.quasi.Length; i++)
-                {
-                    r[(j * m) + i] = config.quasi[i];
-                }
+                r[j * m + i] = config.quasi[i];
             }
-
-            return r;
         }
 
-        public static int i8_sobol ( int dim_num, ref SobolConfigLarge config )
+        return r;
+    }
+
+    public static int i8_sobol ( int dim_num, ref SobolConfigLarge config )
         //****************************************************************************80
         //
         //  Purpose:
@@ -135,220 +135,233 @@ namespace Burkardt.Sobol
         //
         //    Output, double QUASI[DIM_NUM], the next quasirandom vector.
         //
+    {
+        //
+        //  Here, we have commented out the definition of ATMOST, because
+        //  in some cases, a compiler was complaining that the value of ATMOST could not
+        //  seem to be properly stored.  We only need ATMOST in order to specify MAXCOL,
+        //  so as long as we set MAXCOL (below) to what we expect it should be, we
+        //  may be able to get around this difficulty.
+        //  JVB, 24 January 2006.
+        //
+        //static long long int atmost = 4611686018427387903;
+        //
+        long i;
+        long l = 1;
+        long seed_temp;
+        bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
+
+        config.recipd = (double)1 / ( 2 * l ) ;
+
+        if ( !config.initialized || dim_num != config.dim_num_save )
         {
+            config.initialized = true;
+
+            config.initv();
+
             //
-            //  Here, we have commented out the definition of ATMOST, because
+            //  Check parameters.
+            //
+            if ( dim_num < 1 || SobolConfigLarge.DIM_MAX2 < dim_num )
+            {
+                Console.WriteLine();;
+                Console.WriteLine("I8_SOBOL - Fatal error!");
+                Console.WriteLine("  The spatial dimension DIM_NUM should satisfy:");
+                Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfigLarge.DIM_MAX2);
+                Console.WriteLine("  But this input value is DIM_NUM = " + dim_num);
+                return 1;
+            }
+
+            config.dim_num_save = dim_num;
+            //
+            //  Find the number of bits in ATMOST.
+            //
+            //  Here, we have short-circuited the computation of MAXCOL from ATMOST, because
             //  in some cases, a compiler was complaining that the value of ATMOST could not
             //  seem to be properly stored.  We only need ATMOST in order to specify MAXCOL,
-            //  so as long as we set MAXCOL (below) to what we expect it should be, we
-            //  may be able to get around this difficulty.
+            //  so if we know what the answer should be we can try to get it this way!
             //  JVB, 24 January 2006.
             //
-            //static long long int atmost = 4611686018427387903;
+            //  maxcol = i8_bit_hi1 ( atmost );
             //
-            long i;
-            long l = 1;
-            long seed_temp;
-            bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
-
-            config.recipd = (double)1 / ( 2 * l ) ;
-
-            if ( !config.initialized || dim_num != config.dim_num_save )
+            config.maxcol = 62;
+            //
+            //  Initialize row 1 of V.
+            //
+            long j;
+            for ( j = 0; j < config.maxcol; j++ )
             {
-                config.initialized = true;
-
-                config.initv();
-
-                //
-                //  Check parameters.
-                //
-                if ( dim_num < 1 || SobolConfigLarge.DIM_MAX2 < dim_num )
-                {
-                    Console.WriteLine();;
-                    Console.WriteLine("I8_SOBOL - Fatal error!");
-                    Console.WriteLine("  The spatial dimension DIM_NUM should satisfy:");
-                    Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfigLarge.DIM_MAX2);
-                    Console.WriteLine("  But this input value is DIM_NUM = " + dim_num);
-                    return 1;
-                }
-
-                config.dim_num_save = dim_num;
-                //
-                //  Find the number of bits in ATMOST.
-                //
-                //  Here, we have short-circuited the computation of MAXCOL from ATMOST, because
-                //  in some cases, a compiler was complaining that the value of ATMOST could not
-                //  seem to be properly stored.  We only need ATMOST in order to specify MAXCOL,
-                //  so if we know what the answer should be we can try to get it this way!
-                //  JVB, 24 January 2006.
-                //
-                //  maxcol = i8_bit_hi1 ( atmost );
-                //
-                config.maxcol = 62;
-                //
-                //  Initialize row 1 of V.
-                //
-                long j;
-                for ( j = 0; j < config.maxcol; j++ )
-                {
-                    config.v[0,j] = 1;
-                }
-                //
-                //  Initialize the remaining rows of V.
-                //
-                for ( i = 1; i < dim_num; i++ )
-                {
-                    //
-                    //  The bit pattern of the integer POLY(I) gives the form
-                    //  of polynomial I.
-                    //
-                    //  Find the degree of polynomial I from binary encoding.
-                    //
-                    j = config.poly[i];
-                    long  m = 0;
-
-                    while ( true )
-                    {
-                        j = j / 2;
-                        if ( j <= 0 )
-                        {
-                            break;
-                        }
-                        m = m + 1;
-                    }
-                    //
-                    //  We expand this bit pattern to separate components
-                    //  of the logical array INCLUD.
-                    //
-                    j = config.poly[i];
-                    long k;
-                    for ( k = m-1; 0 <= k; k-- )
-                    {
-                        long j2 = j / 2;
-                        includ[k] = ( j != ( 2 * j2 ) );
-                        j = j2;
-                    }
-                    //
-                    //  Calculate the remaining elements of row I as explained
-                    //  in Bratley and Fox, section 2.
-                    //
-                    for ( j = m; j < config.maxcol; j++ )
-                    {
-                        long newv = config.v[i,j-m];
-                        l = 1;
-
-                        for ( k = 0; k < m; k++ )
-                        {
-                            l = 2 * l;
-
-                            if ( includ[k] )
-                            {
-                                newv = ( newv ^ ( l * config.v[i,j-k-1] ) );
-                            }
-                        }
-                        config.v[i,j] = newv;
-                    }
-                }
-                //
-                //  Multiply columns of V by appropriate power of 2.
-                //
-                l = 1;
-                for ( j = config.maxcol - 2; 0 <= j; j-- )
-                {
-                    l = 2 * l;
-                    for ( i = 0; i < dim_num; i++ )
-                    {
-                        config.v[i,j] = config.v[i,j] * l;
-                    }
-                }
-                //
-                //  RECIPD is 1/(common denominator of the elements in V).
-                //
-                config.recipd = ((double)1) / ( 2 * l );
+                config.v[0,j] = 1;
             }
-
-            if ( config.seed < 0 )
+            //
+            //  Initialize the remaining rows of V.
+            //
+            for ( i = 1; i < dim_num; i++ )
             {
-                config.seed = 0;
+                //
+                //  The bit pattern of the integer POLY(I) gives the form
+                //  of polynomial I.
+                //
+                //  Find the degree of polynomial I from binary encoding.
+                //
+                j = config.poly[i];
+                long  m = 0;
+
+                while ( true )
+                {
+                    j /= 2;
+                    if ( j <= 0 )
+                    {
+                        break;
+                    }
+                    m += 1;
+                }
+                //
+                //  We expand this bit pattern to separate components
+                //  of the logical array INCLUD.
+                //
+                j = config.poly[i];
+                long k;
+                for ( k = m-1; 0 <= k; k-- )
+                {
+                    long j2 = j / 2;
+                    includ[k] = j != 2 * j2;
+                    j = j2;
+                }
+                //
+                //  Calculate the remaining elements of row I as explained
+                //  in Bratley and Fox, section 2.
+                //
+                for ( j = m; j < config.maxcol; j++ )
+                {
+                    long newv = config.v[i,j-m];
+                    l = 1;
+
+                    for ( k = 0; k < m; k++ )
+                    {
+                        l = 2 * l;
+
+                        switch (includ[k])
+                        {
+                            case true:
+                                newv ^= ( l * config.v[i,j-k-1] );
+                                break;
+                        }
+                    }
+                    config.v[i,j] = newv;
+                }
             }
-
-            if ( config.seed == 0 )
+            //
+            //  Multiply columns of V by appropriate power of 2.
+            //
+            l = 1;
+            for ( j = config.maxcol - 2; 0 <= j; j-- )
             {
-                l = 1;
+                l = 2 * l;
                 for ( i = 0; i < dim_num; i++ )
                 {
-                    config.lastq[i] = 0;
+                    config.v[i,j] *= l;
                 }
             }
-            else if ( config.seed == config.seed_save + 1 )
-            {
-                l = i8_bit_lo0 ( config.seed );
-            }
-            else if ( config.seed <= config.seed_save )
-            {
-                config.seed_save = 0;
-                l = 1;
-                for ( i = 0; i < dim_num; i++ )
-                {
-                    config.lastq[i] = 0;
-                }
-
-                for ( seed_temp = config.seed_save; seed_temp <= (config.seed)-1; seed_temp++ )
-                {
-
-                    l = i8_bit_lo0 ( seed_temp );
-
-                    for ( i = 0; i < dim_num; i++ )
-                    {
-                        config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
-                    }
-                }
-                l = i8_bit_lo0 ( config.seed );
-            }
-            else if ( config.seed_save+1 < config.seed )
-            {
-                for ( seed_temp = config.seed_save+1; seed_temp <= (config.seed)-1; seed_temp++ )
-                {
-                    l = i8_bit_lo0 ( seed_temp );
-
-                    for ( i = 0; i < dim_num; i++ )
-                    {
-                        config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
-                    }
-                }
-                l = i8_bit_lo0 ( config.seed );
-            }
             //
-            //  Check that the user is not calling too many times!
+            //  RECIPD is 1/(common denominator of the elements in V).
             //
-            if ( config.maxcol < l )
-            {
-                Console.WriteLine();
-                Console.WriteLine("I8_SOBOL - Fatal error!");
-                Console.WriteLine("  The value of SEED seems to be too large!");
-                Console.WriteLine("  SEED =   " + config.seed);
-                Console.WriteLine("  MAXCOL = " + config.maxcol);
-                Console.WriteLine("  L =      " + l);
-                return 2;
-            }
-            //
-            //  Calculate the new components of QUASI.
-            //  The caret indicates the bitwise exclusive OR.
-            //
-            for ( i = 0; i < dim_num; i++ )
-            {
-                config.quasi[i] = ( ( double ) config.lastq[i] ) * config.recipd;
-                config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
-            }
-
-            config.seed_save = config.seed;
-            config.seed = config.seed + 1;
-
-            return 0;
+            config.recipd = (double)1 / ( 2 * l );
         }
 
+        config.seed = config.seed switch
+        {
+            < 0 => 0,
+            _ => config.seed
+        };
+
+        switch (config.seed)
+        {
+            case 0:
+            {
+                l = 1;
+                for ( i = 0; i < dim_num; i++ )
+                {
+                    config.lastq[i] = 0;
+                }
+
+                break;
+            }
+            default:
+            {
+                if ( config.seed == config.seed_save + 1 )
+                {
+                    l = i8_bit_lo0 ( config.seed );
+                }
+                else if ( config.seed <= config.seed_save )
+                {
+                    config.seed_save = 0;
+                    l = 1;
+                    for ( i = 0; i < dim_num; i++ )
+                    {
+                        config.lastq[i] = 0;
+                    }
+
+                    for ( seed_temp = config.seed_save; seed_temp <= config.seed-1; seed_temp++ )
+                    {
+
+                        l = i8_bit_lo0 ( seed_temp );
+
+                        for ( i = 0; i < dim_num; i++ )
+                        {
+                            config.lastq[i] ^= config.v[i,l-1];
+                        }
+                    }
+                    l = i8_bit_lo0 ( config.seed );
+                }
+                else if ( config.seed_save+1 < config.seed )
+                {
+                    for ( seed_temp = config.seed_save+1; seed_temp <= config.seed-1; seed_temp++ )
+                    {
+                        l = i8_bit_lo0 ( seed_temp );
+
+                        for ( i = 0; i < dim_num; i++ )
+                        {
+                            config.lastq[i] ^= config.v[i,l-1];
+                        }
+                    }
+                    l = i8_bit_lo0 ( config.seed );
+                }
+
+                break;
+            }
+        }
+        //
+        //  Check that the user is not calling too many times!
+        //
+        if ( config.maxcol < l )
+        {
+            Console.WriteLine();
+            Console.WriteLine("I8_SOBOL - Fatal error!");
+            Console.WriteLine("  The value of SEED seems to be too large!");
+            Console.WriteLine("  SEED =   " + config.seed);
+            Console.WriteLine("  MAXCOL = " + config.maxcol);
+            Console.WriteLine("  L =      " + l);
+            return 2;
+        }
+        //
+        //  Calculate the new components of QUASI.
+        //  The caret indicates the bitwise exclusive OR.
+        //
+        for ( i = 0; i < dim_num; i++ )
+        {
+            config.quasi[i] = config.lastq[i] * config.recipd;
+            config.lastq[i] ^= config.v[i,l-1];
+        }
+
+        config.seed_save = config.seed;
+        config.seed += 1;
+
+        return 0;
+    }
+
         
-        public static int i8_bit_hi1 ( long n )
+    public static int i8_bit_hi1 ( long n )
         //****************************************************************************80
         //
         //  Purpose:
@@ -401,20 +414,20 @@ namespace Burkardt.Sobol
         //
         //    Output, int I8_BIT_HI1, the number of bits base 2.
         //
+    {
+        int bit = 0;
+
+        while ( 0 < n )
         {
-            int bit = 0;
-
-            while ( 0 < n )
-            {
-                bit = bit + 1;
-                n = n / 2;
-            }
-
-            return bit;
+            bit += 1;
+            n /= 2;
         }
 
+        return bit;
+    }
+
         
-        public static int i8_bit_lo0 ( long n )
+    public static int i8_bit_lo0 ( long n )
         //****************************************************************************80
         //
         //  Purpose:
@@ -466,23 +479,22 @@ namespace Burkardt.Sobol
         //
         //    Output, int I8_BIT_LO0, the position of the low 1 bit.
         //
+    {
+        int bit = 0;
+
+        while ( true )
         {
-            int bit = 0;
+            bit += 1;
+            long n2 = n / 2;
 
-            while ( true )
+            if ( n == 2 * n2 )
             {
-                bit = bit + 1;
-                long n2 = n / 2;
-
-                if ( n == 2 * n2 )
-                {
-                    break;
-                }
-                n = n2;
+                break;
             }
-
-            return bit;
+            n = n2;
         }
 
+        return bit;
     }
+
 }

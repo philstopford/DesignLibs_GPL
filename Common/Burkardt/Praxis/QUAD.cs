@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Burkardt.Praxis
+namespace Burkardt.Praxis;
+
+public static class QUAD
 {
-    public static class QUAD
-    {
-        public static void quad(int n, Func < double[], int, double > f, ref double[] x, double t,
-        double h, double[] v, ref double[] q0, ref double[] q1, ref int  nl, ref int  nf, double dmin,
-        double ldt, ref double fx, ref double qf1, ref double qa, ref double qb, ref double qc,
-        ref double qd0, ref double qd1 )
+    public static void quad(int n, Func < double[], int, double > f, ref double[] x, double t,
+            double h, double[] v, ref double[] q0, ref double[] q1, ref int  nl, ref int  nf, double dmin,
+            double ldt, ref double fx, ref double qf1, ref double qa, ref double qb, ref double qc,
+            ref double qd0, ref double qd1 )
 
         //****************************************************************************80
         //
@@ -70,69 +70,68 @@ namespace Burkardt.Praxis
         //
         //    Input/output, ref double QF1, &QA, &QB, &QC, &QD0, &QD1 ?
         //
+    {
+        bool fk;
+        int i;
+        int jsearch;
+        double l;
+        int nits;
+        double s;
+        double temp;
+        double value = 0;
+
+        temp = fx;
+        fx = qf1;
+        qf1 = temp;
+
+        for (i = 0; i < n; i++)
         {
-            bool fk;
-            int i;
-            int jsearch;
-            double l;
-            int nits;
-            double s;
-            double temp;
-            double value;
-
-            temp = fx;
-            fx = qf1;
-            qf1 = temp;
-
-            for (i = 0; i < n; i++)
-            {
-                temp = x[i];
-                x[i] = q1[i];
-                q1[i] = temp;
-            }
-
-            qd1 = 0.0;
-            for (i = 0; i < n; i++)
-            {
-                qd1 = qd1 + (x[i] - q1[i]) * (x[i] - q1[i]);
-            }
-
-            qd1 = Math.Sqrt(qd1);
-
-            if (qd0 <= 0.0 || qd1 <= 0.0 || nl < 3 * n * n)
-            {
-                fx = qf1;
-                qa = 0.0;
-                qb = 0.0;
-                qc = 1.0;
-                s = 0.0;
-            }
-            else
-            {
-                jsearch = -1;
-                nits = 2;
-                s = 0.0;
-                l = qd1;
-                value = qf1;
-                fk = true;
-
-                MINNY.minny(n, jsearch, nits, ref s, ref l, ref value, fk, f, x, t,
-                    h, v, q0, q1, ref nl, ref nf, dmin, ldt, ref fx, ref qa, ref qb, ref qc, ref qd0, ref qd1);
-
-                qa = l * (l - qd1) / (qd0 + qd1) / qd0;
-                qb = -(l + qd0) * (l - qd1) / qd1 / qd0;
-                qc = (l + qd0) * l / qd1 / (qd0 + qd1);
-            }
-
-            qd0 = qd1;
-
-            for (i = 0; i < n; i++)
-            {
-                s = q0[i];
-                q0[i] = x[i];
-                x[i] = qa * s + qb * x[i] + qc * q1[i];
-            }
-
+            temp = x[i];
+            x[i] = q1[i];
+            q1[i] = temp;
         }
+
+        qd1 = 0.0;
+        for (i = 0; i < n; i++)
+        {
+            qd1 += (x[i] - q1[i]) * (x[i] - q1[i]);
+        }
+
+        qd1 = Math.Sqrt(qd1);
+
+        if (qd0 <= 0.0 || qd1 <= 0.0 || nl < 3 * n * n)
+        {
+            fx = qf1;
+            qa = 0.0;
+            qb = 0.0;
+            qc = 1.0;
+            s = 0.0;
+        }
+        else
+        {
+            jsearch = -1;
+            nits = 2;
+            s = 0.0;
+            l = qd1;
+            value = qf1;
+            fk = true;
+
+            MINNY.minny(n, jsearch, nits, ref s, ref l, ref value, fk, f, x, t,
+                h, v, q0, q1, ref nl, ref nf, dmin, ldt, ref fx, ref qa, ref qb, ref qc, ref qd0, ref qd1);
+
+            qa = l * (l - qd1) / (qd0 + qd1) / qd0;
+            qb = -(l + qd0) * (l - qd1) / qd1 / qd0;
+            qc = (l + qd0) * l / qd1 / (qd0 + qd1);
+        }
+
+        qd0 = qd1;
+
+        for (i = 0; i < n; i++)
+        {
+            s = q0[i];
+            q0[i] = x[i];
+            x[i] = qa * s + qb * x[i] + qc * q1[i];
+        }
+
     }
 }

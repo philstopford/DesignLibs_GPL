@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.QuadMesh
+namespace Burkardt.QuadMesh;
+
+public static class NodeOrder
 {
-    public static class NodeOrder
-    {
-        public static int[] node_order_q4_mesh ( int element_num, int[] element_node, int node_num )
+    public static int[] node_order_q4_mesh ( int element_num, int[] element_node, int node_num )
 
         //****************************************************************************80
         //
@@ -41,33 +41,30 @@ namespace Burkardt.QuadMesh
         //
         //    Output, int NODE_ORDER_Q4_MESH[NODE_NUM], the order of each node.
         //
+    {
+        int element;
+        int i;
+        int node;
+        int[] node_order = null;
+
+        node_order = typeMethods.i4vec_zero_new ( node_num );
+
+        for ( element = 0; element < element_num; element++ )
         {
-            int element;
-            int i;
-            int node;
-            int[] node_order = null;
-
-            node_order = typeMethods.i4vec_zero_new ( node_num );
-
-            for ( element = 0; element < element_num; element++ )
+            for ( i = 0; i < 4; i++ )
             {
-                for ( i = 0; i < 4; i++ )
+                node = element_node[i+element*4];
+                if ( node < 0 || node_num <= node )
                 {
-                    node = element_node[i+element*4];
-                    if ( node < 0 || node_num <= node )
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("NODE_ORDER_Q4_MESH - Fatal error!");
-                        Console.WriteLine("  Illegal entry in ELEMENT_NODE.");
-                        return null;
-                    }
-                    else
-                    {
-                        node_order[node] = node_order[node] + 1;
-                    }
+                    Console.WriteLine("");
+                    Console.WriteLine("NODE_ORDER_Q4_MESH - Fatal error!");
+                    Console.WriteLine("  Illegal entry in ELEMENT_NODE.");
+                    return null;
                 }
+
+                node_order[node] += 1;
             }
-            return node_order;
         }
+        return node_order;
     }
 }

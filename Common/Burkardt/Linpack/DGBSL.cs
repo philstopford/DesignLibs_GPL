@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DGBSL
 {
-    public static class DGBSL
-    {
-        public static void dgbsl(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
-        ref double[] b, int job )
+    public static void dgbsl(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
+            ref double[] b, int job )
 
         //****************************************************************************80
         //
@@ -80,37 +80,44 @@ namespace Burkardt.Linpack
         //    0, solve A*X=B.
         //    nonzero, solve A'*X=B.
         //
-        {
-            int k;
-            int l;
-            int la;
-            int lb;
-            int lm;
-            int m;
-            double t;
+    {
+        int k;
+        int l;
+        int la;
+        int lb;
+        int lm;
+        int m;
+        double t;
 
-            m = mu + ml + 1;
+        m = mu + ml + 1;
+        switch (job)
+        {
             //
             //  JOB = 0, Solve A * x = b.
             //
             //  First solve L * y = b.
             //
-            if (job == 0)
+            case 0:
             {
-                if (0 < ml)
+                switch (ml)
                 {
-                    for (k = 1; k <= n - 1; k++)
+                    case > 0:
                     {
-                        lm = Math.Min(ml, n - k);
-                        l = ipvt[k - 1];
-                        t = b[l - 1];
-                        if (l != k)
+                        for (k = 1; k <= n - 1; k++)
                         {
-                            b[l - 1] = b[k - 1];
-                            b[k - 1] = t;
+                            lm = Math.Min(ml, n - k);
+                            l = ipvt[k - 1];
+                            t = b[l - 1];
+                            if (l != k)
+                            {
+                                b[l - 1] = b[k - 1];
+                                b[k - 1] = t;
+                            }
+
+                            BLAS1D.daxpy(lm, t, abd, 1, ref b, 1, xIndex:  + m + (k - 1) * lda, yIndex:  + k);
                         }
 
-                        BLAS1D.daxpy(lm, t, abd, 1, ref b, 1, xIndex:  + m + (k - 1) * lda, yIndex:  + k);
+                        break;
                     }
                 }
 
@@ -119,20 +126,18 @@ namespace Burkardt.Linpack
                 //
                 for (k = n; 1 <= k; k--)
                 {
-                    b[k - 1] = b[k - 1] / abd[m - 1 + (k - 1) * lda];
+                    b[k - 1] /= abd[m - 1 + (k - 1) * lda];
                     lm = Math.Min(k, m) - 1;
                     la = m - lm;
                     lb = k - lm;
                     t = -b[k - 1];
                     BLAS1D.daxpy(lm, t, abd, 1, ref b, 1, xIndex:  + la - 1 + (k - 1) * lda, yIndex:  + lb - 1);
                 }
+
+                break;
             }
             //
-            //  JOB nonzero, solve A' * x = b.
-            //
-            //  First solve U' * y = b.
-            //
-            else
+            default:
             {
                 for (k = 1; k <= n; k++)
                 {
@@ -143,24 +148,31 @@ namespace Burkardt.Linpack
                     b[k - 1] = (b[k - 1] - t) / abd[m - 1 + (k - 1) * lda];
                 }
 
-                //
-                //  Now solve L' * x = y.
-                //
-                if (0 < ml)
+                switch (ml)
                 {
-                    for (k = n - 1; 1 <= k; k--)
+                    //
+                    //  Now solve L' * x = y.
+                    //
+                    case > 0:
                     {
-                        lm = Math.Min(ml, n - k);
-                        b[k - 1] = b[k - 1] + BLAS1D.ddot(lm, abd, 1, b, 1, xIndex:  + m + (k - 1) * lda, yIndex: + k);
-                        l = ipvt[k - 1];
-                        if (l != k)
+                        for (k = n - 1; 1 <= k; k--)
                         {
-                            t = b[l - 1];
-                            b[l - 1] = b[k - 1];
-                            b[k - 1] = t;
+                            lm = Math.Min(ml, n - k);
+                            b[k - 1] += BLAS1D.ddot(lm, abd, 1, b, 1, xIndex:  + m + (k - 1) * lda, yIndex: + k);
+                            l = ipvt[k - 1];
+                            if (l != k)
+                            {
+                                t = b[l - 1];
+                                b[l - 1] = b[k - 1];
+                                b[k - 1] = t;
+                            }
                         }
+
+                        break;
                     }
                 }
+
+                break;
             }
         }
     }

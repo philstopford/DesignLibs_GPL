@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static void swap(double[] varval, ref int[] klass, ref int[] clsize, int in_, int ik, int iv,
-                                ref double critvl, ref int ntrans, ref int ifault )
+    public static void swap(double[] varval, ref int[] klass, ref int[] clsize, int in_, int ik, int iv,
+            ref double critvl, ref int ntrans, ref int ifault )
         //****************************************************************************80
         //
         //  Purpose:
@@ -86,84 +86,85 @@ namespace Burkardt.AppliedStatistics
         //    1, the number of classes was less than 2.
         //    2, the number of objects was less than the number of classes.
         //
-        {
-            double eps = 1.0E-38;
+    {
+        double eps = 1.0E-38;
 
-            if (ik <= 1)
-            {
+        switch (ik)
+        {
+            case <= 1:
                 ifault = 1;
                 return;
+        }
+
+        if ( in_ <= ik )
+        {
+            ifault = 2;
+            return;
+        }
+
+        ifault = 0;
+        int icount = 0;
+        ntrans = 0;
+        int itop = in_ *( in_ -1 ) / 2;
+
+        int i = 1;
+
+        for (;;)
+        {
+            i += 1;
+
+            if (itop <= icount)
+            {
+                break;
             }
 
-            if ( in_ <= ik )
+            if ( in_ < i )
             {
-                ifault = 2;
-                return;
+                i = 1;
+                continue;
             }
 
-            ifault = 0;
-            int icount = 0;
-            ntrans = 0;
-            int itop = ( in_ *( in_ -1 ) ) / 2;
-
-            int i = 1;
-
-            for (;;)
+            int l = klass[i - 1];
+            int it = i - 1;
+            //
+            //  Test the swap of object I from class M to L, 
+            //  and object J from class L to M.
+            //
+            for (int j = 1; j <= it; j++)
             {
-                i = i + 1;
+                icount += 1;
+                int m = klass[j - 1];
 
-                if (itop <= icount)
+                if (l != j)
                 {
-                    break;
-                }
-
-                if ( in_ < i )
-                {
-                    i = 1;
-                    continue;
-                }
-
-                int l = klass[i - 1];
-                int it = i - 1;
-                //
-                //  Test the swap of object I from class M to L, 
-                //  and object J from class L to M.
-                //
-                for (int j = 1; j <= it; j++)
-                {
-                    icount = icount + 1;
-                    int m = klass[j - 1];
-
-                    if (l != j)
+                    if (clsize[l - 1] != 1 || clsize[m - 1] != 1)
                     {
-                        if (clsize[l - 1] != 1 || clsize[m - 1] != 1)
+                        int iswitch = 1;
+                        double inc = crswap(varval, klass, clsize, in_, ik, iv, critvl,
+                            i, j, l, m, iswitch);
+
+                        if (inc < -eps)
                         {
-                            int iswitch = 1;
-                            double inc = crswap(varval, klass, clsize, in_, ik, iv, critvl,
+                            critvl += inc;
+                            icount = 0;
+
+                            iswitch = 2;
+                            crswap(varval, klass, clsize, in_, ik, iv, critvl,
                                 i, j, l, m, iswitch);
 
-                            if (inc < -eps)
-                            {
-                                critvl = critvl + inc;
-                                icount = 0;
-
-                                iswitch = 2;
-                                crswap(varval, klass, clsize, in_, ik, iv, critvl,
-                                    i, j, l, m, iswitch);
-
-                                ntrans = ntrans + 1;
-                                klass[i - 1] = m;
-                                klass[j - 1] = l;
-                                l = m;
-                            }
+                            ntrans += 1;
+                            klass[i - 1] = m;
+                            klass[j - 1] = l;
+                            l = m;
                         }
                     }
                 }
             }
         }
+    }
         
-        public static void trnsfr ( double[] varval, ref int[] klass, ref int[] clsize, int in_, int ik, 
-                                    int iv, ref double critvl, ref int ntrans, ref int ifault )
+    public static void trnsfr ( double[] varval, ref int[] klass, ref int[] clsize, int in_, int ik, 
+            int iv, ref double critvl, ref int ntrans, ref int ifault )
         //****************************************************************************80
         //
         //  Purpose:
@@ -241,98 +242,100 @@ namespace Burkardt.AppliedStatistics
         //    1, the number of classes was less than 2.
         //    2, the number of objects was less than the number of classes.
         //
-        {
-            double eps = 1.0E-38;
+    {
+        double eps = 1.0E-38;
 
-            if (ik <= 1)
-            {
+        switch (ik)
+        {
+            case <= 1:
                 ifault = 1;
                 return;
-            }
-
-            if ( in_ <= ik )
-            {
-                ifault = 2;
-                return;
-            }
-
-            ifault = 0;
-            ntrans = 0;
-            int i = 0;
-            int icount = 0;
-
-            for (;;)
-            {
-                i = i + 1;
-
-                if ( in_ <= icount )
-                {
-                    break;
-                }
-
-                if ( in_ < i )
-                {
-                    i = 0;
-                    icount = 0;
-                    continue;
-                }
-
-                int m = klass[i - 1];
-                if (clsize[m - 1] <= 1)
-                {
-                    icount = icount + 1;
-                    continue;
-                }
-
-                double inco = -eps;
-                int lo = m;
-                //
-                //  Test the transfer of object I from class M to class L.
-                //
-                int iswitch;
-                int l;
-                for (l = 1; l <= ik; l++)
-                {
-                    if (l != m)
-                    {
-                        iswitch = 1;
-                        double inc = crtran(varval, klass, clsize, in_, ik, iv, critvl,
-                            i, m, l, iswitch);
-                        //
-                        //  Remember the values of L and INC.
-                        //
-                        if (inc < inco)
-                        {
-                            lo = l;
-                            inco = inc;
-                        }
-                    }
-                }
-
-                icount = icount + 1;
-                //
-                //  Execute the transfer of object I from class M to class LO.
-                //
-                if (lo != m)
-                {
-                    l = lo;
-                    critvl = critvl + inco;
-                    icount = 0;
-
-                    iswitch = 2;
-                    crtran(varval, klass, clsize, in_, ik, iv, critvl,
-                        i, m, l, iswitch);
-
-                    ntrans = ntrans + 1;
-                    klass[i - 1] = l;
-                    clsize[l - 1] = clsize[l - 1] + 1;
-                    clsize[m - 1] = clsize[m - 1] - 1;
-                }
-            }
         }
 
-        public static double crswap ( double[] a, int[] c, int[] c_size, int m, int k,
-                                int n, double critvl, int i1, int i2, int c1, int c2, int iswitch )
+        if ( in_ <= ik )
+        {
+            ifault = 2;
+            return;
+        }
+
+        ifault = 0;
+        ntrans = 0;
+        int i = 0;
+        int icount = 0;
+
+        for (;;)
+        {
+            i += 1;
+
+            if ( in_ <= icount )
+            {
+                break;
+            }
+
+            if ( in_ < i )
+            {
+                i = 0;
+                icount = 0;
+                continue;
+            }
+
+            int m = klass[i - 1];
+            switch (clsize[m - 1])
+            {
+                case <= 1:
+                    icount += 1;
+                    continue;
+            }
+
+            double inco = -eps;
+            int lo = m;
+            //
+            //  Test the transfer of object I from class M to class L.
+            //
+            int iswitch;
+            int l;
+            for (l = 1; l <= ik; l++)
+            {
+                if (l != m)
+                {
+                    iswitch = 1;
+                    double inc = crtran(varval, klass, clsize, in_, ik, iv, critvl,
+                        i, m, l, iswitch);
+                    //
+                    //  Remember the values of L and INC.
+                    //
+                    if (inc < inco)
+                    {
+                        lo = l;
+                        inco = inc;
+                    }
+                }
+            }
+
+            icount += 1;
+            //
+            //  Execute the transfer of object I from class M to class LO.
+            //
+            if (lo != m)
+            {
+                l = lo;
+                critvl += inco;
+                icount = 0;
+
+                iswitch = 2;
+                crtran(varval, klass, clsize, in_, ik, iv, critvl,
+                    i, m, l, iswitch);
+
+                ntrans += 1;
+                klass[i - 1] = l;
+                clsize[l - 1] += 1;
+                clsize[m - 1] -= 1;
+            }
+        }
+    }
+
+    public static double crswap ( double[] a, int[] c, int[] c_size, int m, int k,
+            int n, double critvl, int i1, int i2, int c1, int c2, int iswitch )
         //****************************************************************************80
         //
         //  Purpose:
@@ -395,79 +398,79 @@ namespace Burkardt.AppliedStatistics
         //    Output, double CRSWAP, the change to CRITVL that would occur if I1 and
         //    I2 were swapped.  This is only computed for ISWITCH = 1.
         //
-        {
-            int ci;
-            double inc;
+    {
+        int ci;
+        double inc;
 
-            if (iswitch == 2)
-            {
+        switch (iswitch)
+        {
+            case 2:
                 inc = 0.0;
                 return inc;
-            }
-
-            double[] c_center = new double[k * n];
-            //
-            //  Move object I1 from class C1 to class C2.
-            //  Move object I2 from class C2 to class C1.
-            //
-            c[i1 - 1] = c2;
-            c[i2 - 1] = c1;
-            //
-            //  Define the critical value as the sum of the squares of the distances
-            //  of the points to their cluster center.
-            //
-            for (int i = 1; i <= k; i++)
-            {
-                c_size[i - 1] = 0;
-                for (int j = 1; j <= n; j++)
-                {
-                    c_center[i - 1 + (j - 1) * k] = 0.0;
-                }
-            }
-
-            for (int i = 1; i <= m; i++)
-            {
-                ci = c[i - 1];
-                c_size[ci - 1] = c_size[ci - 1] + 1;
-                for (int j = 1; j <= n; j++)
-                {
-                    c_center[ci - 1 + (j - 1) * k] = c_center[ci - 1 + (j - 1) * k] + a[i - 1 + (j - 1) * m];
-                }
-            }
-
-            for (int i = 1; i <= k; i++)
-            {
-                for (int j = 1; j <= n; j++)
-                {
-                    c_center[i - 1 + (j - 1) * k] = c_center[i - 1 + (j - 1) * k] / (double) (c_size[i - 1]);
-                }
-            }
-
-            double critvl_new = 0.0;
-
-            for (int i = 1; i <= m; i++)
-            {
-                ci = c[i - 1];
-                for (int j = 1; j <= n; j++)
-                {
-                    critvl_new = critvl_new
-                                 + Math.Pow(a[i - 1 + (j - 1) * m] - c_center[ci - 1 + (j - 1) * k], 2);
-                }
-            }
-
-            inc = critvl_new - critvl;
-            //
-            //  Move object I1 from class C2 to class C1.
-            //  Move object I2 from class C1 to class C2.
-            //
-            c[i1 - 1] = c1;
-            c[i2 - 1] = c2;
-
-            return inc;
         }
 
-        public static double crtran ( double[] a, int[] c, int[] c_size, int m, int k, int n,
-                                double critvl, int i1, int c1, int c2, int iswitch )
+        double[] c_center = new double[k * n];
+        //
+        //  Move object I1 from class C1 to class C2.
+        //  Move object I2 from class C2 to class C1.
+        //
+        c[i1 - 1] = c2;
+        c[i2 - 1] = c1;
+        //
+        //  Define the critical value as the sum of the squares of the distances
+        //  of the points to their cluster center.
+        //
+        for (int i = 1; i <= k; i++)
+        {
+            c_size[i - 1] = 0;
+            for (int j = 1; j <= n; j++)
+            {
+                c_center[i - 1 + (j - 1) * k] = 0.0;
+            }
+        }
+
+        for (int i = 1; i <= m; i++)
+        {
+            ci = c[i - 1];
+            c_size[ci - 1] += 1;
+            for (int j = 1; j <= n; j++)
+            {
+                c_center[ci - 1 + (j - 1) * k] += a[i - 1 + (j - 1) * m];
+            }
+        }
+
+        for (int i = 1; i <= k; i++)
+        {
+            for (int j = 1; j <= n; j++)
+            {
+                c_center[i - 1 + (j - 1) * k] /= c_size[i - 1];
+            }
+        }
+
+        double critvl_new = 0.0;
+
+        for (int i = 1; i <= m; i++)
+        {
+            ci = c[i - 1];
+            for (int j = 1; j <= n; j++)
+            {
+                critvl_new += Math.Pow(a[i - 1 + (j - 1) * m] - c_center[ci - 1 + (j - 1) * k], 2);
+            }
+        }
+
+        inc = critvl_new - critvl;
+        //
+        //  Move object I1 from class C2 to class C1.
+        //  Move object I2 from class C1 to class C2.
+        //
+        c[i1 - 1] = c1;
+        c[i2 - 1] = c2;
+
+        return inc;
+    }
+
+    public static double crtran ( double[] a, int[] c, int[] c_size, int m, int k, int n,
+            double critvl, int i1, int c1, int c2, int iswitch )
         //****************************************************************************80
         //
         //  Purpose:
@@ -531,77 +534,76 @@ namespace Burkardt.AppliedStatistics
         //    Output, double CRTRAN, the change to CRITVL that would occur if I1 were
         //    transferred from class C1 to C2.  This is only computed for ISWITCH = 1.
         //
-        {
-            int ci;
-            double inc;
+    {
+        int ci;
+        double inc;
 
-            if (iswitch == 2)
-            {
+        switch (iswitch)
+        {
+            case 2:
                 inc = 0.0;
                 return inc;
-            }
-
-            double[] c_center = new double[k * n];
-            //
-            //  Move object I from class C1 to class C2.
-            //
-            c[i1 - 1] = c2;
-            c_size[c1 - 1] = c_size[c1 - 1] - 1;
-            c_size[c2 - 1] = c_size[c2 - 1] + 1;
-            //
-            //  Define the critical value as the sum of the squares of the distances
-            //  of the points to their cluster center.
-            //
-            for (int i = 1; i <= k; i++)
-            {
-                c_size[i - 1] = 0;
-                for (int j = 1; j <= n; j++)
-                {
-                    c_center[i - 1 + (j - 1) * k] = 0.0;
-                }
-            }
-
-            for (int i = 1; i <= m; i++)
-            {
-                ci = c[i - 1];
-                c_size[ci - 1] = c_size[ci - 1] + 1;
-                for (int j = 1; j <= n; j++)
-                {
-                    c_center[ci - 1 + (j - 1) * k] = c_center[ci - 1 + (j - 1) * k] + a[i - 1 + (j - 1) * m];
-                }
-            }
-
-            for (int i = 1; i <= k; i++)
-            {
-                for (int j = 1; j <= n; j++)
-                {
-                    c_center[i - 1 + (j - 1) * k] = c_center[i - 1 + (j - 1) * k] / (double) (c_size[i - 1]);
-                }
-            }
-
-            double critvl_new = 0.0;
-
-            for (int i = 1; i <= m; i++)
-            {
-                ci = c[i - 1];
-                for (int j = 1; j <= n; j++)
-                {
-                    critvl_new = critvl_new
-                                 + Math.Pow(a[i - 1 + (j - 1) * m] - c_center[ci - 1 + (j - 1) * k], 2);
-                }
-            }
-
-            inc = critvl_new - critvl;
-            //
-            //  Move object I1 from class C2 to class C1.
-            //
-            c[i1 - 1] = c1;
-            c_size[c1 - 1] = c_size[c1 - 1] + 1;
-            c_size[c2 - 1] = c_size[c2 - 1] - 1;
-
-            return inc;
         }
 
+        double[] c_center = new double[k * n];
+        //
+        //  Move object I from class C1 to class C2.
+        //
+        c[i1 - 1] = c2;
+        c_size[c1 - 1] -= 1;
+        c_size[c2 - 1] += 1;
+        //
+        //  Define the critical value as the sum of the squares of the distances
+        //  of the points to their cluster center.
+        //
+        for (int i = 1; i <= k; i++)
+        {
+            c_size[i - 1] = 0;
+            for (int j = 1; j <= n; j++)
+            {
+                c_center[i - 1 + (j - 1) * k] = 0.0;
+            }
+        }
 
+        for (int i = 1; i <= m; i++)
+        {
+            ci = c[i - 1];
+            c_size[ci - 1] += 1;
+            for (int j = 1; j <= n; j++)
+            {
+                c_center[ci - 1 + (j - 1) * k] += a[i - 1 + (j - 1) * m];
+            }
+        }
+
+        for (int i = 1; i <= k; i++)
+        {
+            for (int j = 1; j <= n; j++)
+            {
+                c_center[i - 1 + (j - 1) * k] /= c_size[i - 1];
+            }
+        }
+
+        double critvl_new = 0.0;
+
+        for (int i = 1; i <= m; i++)
+        {
+            ci = c[i - 1];
+            for (int j = 1; j <= n; j++)
+            {
+                critvl_new += Math.Pow(a[i - 1 + (j - 1) * m] - c_center[ci - 1 + (j - 1) * k], 2);
+            }
+        }
+
+        inc = critvl_new - critvl;
+        //
+        //  Move object I1 from class C2 to class C1.
+        //
+        c[i1 - 1] = c1;
+        c_size[c1 - 1] += 1;
+        c_size[c2 - 1] -= 1;
+
+        return inc;
     }
+
+
 }

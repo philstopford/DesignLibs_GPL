@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Quadrature;
 
-namespace Burkardt.IntegralNS
+namespace Burkardt.IntegralNS;
+
+public static class QMult
 {
-    public static class QMult
-    {
-        public static double qmult_1d(int setting, Func< int, double, double > func, double a, double b )
+    public static double qmult_1d(int setting, Func< int, double, double > func, double a, double b )
 
         //****************************************************************************80
         //
@@ -51,36 +51,36 @@ namespace Burkardt.IntegralNS
         //    Output, double QMULT_1D, the approximate integral of 
         //    the function.
         //
+    {
+        int i;
+        int order = 16;
+        double quad;
+        double result;
+        double volume;
+        double[] weight;
+        double x;
+        double[] xtab;
+
+        xtab = new double[order];
+        weight = new double[order];
+
+        LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
+
+        quad = 0.0;
+        for (i = 0; i < order; i++)
         {
-            int i;
-            int order = 16;
-            double quad;
-            double result;
-            double volume;
-            double[] weight;
-            double x;
-            double[] xtab;
-
-            xtab = new double[order];
-            weight = new double[order];
-
-            LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
-
-            quad = 0.0;
-            for (i = 0; i < order; i++)
-            {
-                x = 0.5 * (b - a) * xtab[i] + 0.5 * (a + b);
-                quad = quad + 0.5 * weight[i] * func(setting, x);
-            }
-
-            volume = b - a;
-            result = quad * volume;
-
-            return result;
+            x = 0.5 * (b - a) * xtab[i] + 0.5 * (a + b);
+            quad += 0.5 * weight[i] * func(setting, x);
         }
 
-        public static double qmult_2d(Func<double, double, double> func, double a, double b,
-                Func< double, double > fup, Func<double, double> flo )
+        volume = b - a;
+        result = quad * volume;
+
+        return result;
+    }
+
+    public static double qmult_2d(Func<double, double, double> func, double a, double b,
+            Func< double, double > fup, Func<double, double> flo )
 
         //****************************************************************************80
         //
@@ -138,47 +138,47 @@ namespace Burkardt.IntegralNS
         //    the names of the user supplied functions which evaluate the upper 
         //    and lower limits of the Y integration.
         //
+    {
+        double c;
+        double d;
+        int i;
+        int j;
+        int order = 16;
+        double quad;
+        double w1;
+        double w2;
+        double[] weight;
+        double x;
+        double[] xtab;
+        double y;
+
+        xtab = new double[order];
+        weight = new double[order];
+
+        LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
+
+        quad = 0.0;
+        for (i = 0; i < order; i++)
         {
-            double c;
-            double d;
-            int i;
-            int j;
-            int order = 16;
-            double quad;
-            double w1;
-            double w2;
-            double[] weight;
-            double x;
-            double[] xtab;
-            double y;
+            w1 = 0.5 * (b - a) * weight[i];
+            x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
+            c = flo(x);
+            d = fup(x);
 
-            xtab = new double[order];
-            weight = new double[order];
-
-            LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
-
-            quad = 0.0;
-            for (i = 0; i < order; i++)
+            for (j = 0; j < order; j++)
             {
-                w1 = 0.5 * (b - a) * weight[i];
-                x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
-                c = flo(x);
-                d = fup(x);
-
-                for (j = 0; j < order; j++)
-                {
-                    w2 = 0.5 * (d - c) * weight[j];
-                    y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
-                    quad = quad + w1 * w2 * func(x, y);
-                }
+                w2 = 0.5 * (d - c) * weight[j];
+                y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
+                quad += w1 * w2 * func(x, y);
             }
-
-            return quad;
         }
 
-        public static double qmult_3d(int settings, Func<int, double, double, double, double> func, double a,
+        return quad;
+    }
+
+    public static double qmult_3d(int settings, Func<int, double, double, double, double> func, double a,
             double b, Func< double, double > fup1, Func<double, double> flo1,
-        Func<double, double, double> fup2, Func<double, double, double> flo2 )
+            Func<double, double, double> fup2, Func<double, double, double> flo2 )
 
         //****************************************************************************80
         //
@@ -238,62 +238,61 @@ namespace Burkardt.IntegralNS
         //    Output, double QMULT_3D, the approximate integral of 
         //    the function.
         //
+    {
+        double c;
+        double d;
+        double e;
+        double f;
+        int i;
+        int j;
+        int k;
+        int order = 16;
+        double quad;
+        double result;
+        double volume;
+        double w1;
+        double w2;
+        double w3;
+        double[] weight;
+        double x;
+        double[] xtab;
+        double y;
+        double z;
+
+        xtab = new double[order];
+        weight = new double[order];
+
+        LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
+
+        quad = 0.0;
+
+        for (i = 0; i < order; i++)
         {
-            double c;
-            double d;
-            double e;
-            double f;
-            int i;
-            int j;
-            int k;
-            int order = 16;
-            double quad;
-            double result;
-            double volume;
-            double w1;
-            double w2;
-            double w3;
-            double[] weight;
-            double x;
-            double[] xtab;
-            double y;
-            double z;
+            x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
+            w1 = 0.5 * weight[i];
+            c = flo1(x);
+            d = fup1(x);
 
-            xtab = new double[order];
-            weight = new double[order];
-
-            LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
-
-            quad = 0.0;
-
-            for (i = 0; i < order; i++)
+            for (j = 0; j < order; j++)
             {
-                x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
-                w1 = 0.5 * weight[i];
-                c = flo1(x);
-                d = fup1(x);
+                w2 = 0.5 * (d - c) * weight[j];
+                y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
+                e = flo2(x, y);
+                f = fup2(x, y);
 
-                for (j = 0; j < order; j++)
+                for (k = 0; k < order; k++)
                 {
-                    w2 = 0.5 * (d - c) * weight[j];
-                    y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
-                    e = flo2(x, y);
-                    f = fup2(x, y);
-
-                    for (k = 0; k < order; k++)
-                    {
-                        w3 = 0.5 * (f - e) * weight[k];
-                        z = 0.5 * (f - e) * xtab[k] + 0.5 * (f + e);
-                        quad = quad + w1 * w2 * w3 * func(settings, x, y, z);
-                    }
+                    w3 = 0.5 * (f - e) * weight[k];
+                    z = 0.5 * (f - e) * xtab[k] + 0.5 * (f + e);
+                    quad += w1 * w2 * w3 * func(settings, x, y, z);
                 }
             }
-
-            volume = b - a;
-            result = quad * volume;
-
-            return result;
         }
 
+        volume = b - a;
+        result = quad * volume;
+
+        return result;
     }
+
 }

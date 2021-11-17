@@ -1,42 +1,44 @@
 using System;
 
-namespace MiscUtil.Threading
+namespace MiscUtil.Threading;
+
+/// <summary>
+/// A lock token returned by a Lock method call on a SyncLock.
+/// This effectively holds the lock until it is disposed - a 
+/// slight violation of the IDisposable contract, but it makes
+/// for easy use of the SyncLock system. This type itself
+/// is not thread-safe - LockTokens should not be shared between
+/// threads.
+/// </summary>
+public struct LockToken : IDisposable
 {
     /// <summary>
-    /// A lock token returned by a Lock method call on a SyncLock.
-    /// This effectively holds the lock until it is disposed - a 
-    /// slight violation of the IDisposable contract, but it makes
-    /// for easy use of the SyncLock system. This type itself
-    /// is not thread-safe - LockTokens should not be shared between
-    /// threads.
+    /// The lock this token has been created by.
     /// </summary>
-    public struct LockToken : IDisposable
+    private SyncLock parent;
+
+    /// <summary>
+    /// Constructs a new lock token for the specified lock.
+    /// </summary>
+    /// <param name="parent">The internal monitor used for locking.</param>
+    internal LockToken(SyncLock parent)
     {
-        /// <summary>
-        /// The lock this token has been created by.
-        /// </summary>
-        SyncLock parent;
+        this.parent = parent;
+    }
 
-        /// <summary>
-        /// Constructs a new lock token for the specified lock.
-        /// </summary>
-        /// <param name="parent">The internal monitor used for locking.</param>
-        internal LockToken(SyncLock parent)
+    /// <summary>
+    /// Releases the lock. Subsequent calls to this method do nothing.
+    /// </summary>
+    public void Dispose()
+    {
+        switch (parent)
         {
-            this.parent = parent;
-        }
-
-        /// <summary>
-        /// Releases the lock. Subsequent calls to this method do nothing.
-        /// </summary>
-        public void Dispose()
-        {
-            if (parent == null)
-            {
+            case null:
                 return;
-            }
-            parent.Unlock();
-            parent = null;
+            default:
+                parent.Unlock();
+                parent = null;
+                break;
         }
     }
 }

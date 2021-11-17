@@ -1,13 +1,13 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.TriangulationNS
+namespace Burkardt.TriangulationNS;
+
+public static class VBEDG
 {
-    public static class VBEDG
-    {
-        public static void vbedg(double x, double y, int node_num, double[] node_xy,
-        int triangle_num, int[] triangle_node, int[] triangle_neighbor, ref int ltri,
-        ref int ledg, ref int rtri, ref int redg )
+    public static void vbedg(double x, double y, int node_num, double[] node_xy,
+            int triangle_num, int[] triangle_node, int[] triangle_neighbor, ref int ltri,
+            ref int ledg, ref int rtri, ref int redg )
 
         //****************************************************************************80
         //
@@ -73,108 +73,49 @@ namespace Burkardt.TriangulationNS
         //    Input/output, int *REDG, the edge of triangle RTRI that is visible
         //    from (X,Y).  1 <= REDG <= 3.
         //
+    {
+        int a;
+        double ax;
+        double ay;
+        int b;
+        double bx;
+        double by;
+        bool done;
+        int e;
+        int l;
+        int lr;
+        int t;
+        switch (ltri)
         {
-            int a;
-            double ax;
-            double ay;
-            int b;
-            double bx;
-            double by;
-            bool done;
-            int e;
-            int l;
-            int lr;
-            int t;
             //
             //  Find the rightmost visible boundary edge using links, then possibly
             //  leftmost visible boundary edge using triangle neighbor information.
             //
-            if (ltri == 0)
-            {
+            case 0:
                 done = false;
                 ltri = rtri;
                 ledg = redg;
-            }
-            else
-            {
+                break;
+            default:
                 done = true;
-            }
+                break;
+        }
 
-            for (;;)
+        for (;;)
+        {
+            try
             {
-                try
-                {
-                    l = -triangle_neighbor[3 * ((rtri) - 1) + (redg) - 1];
-                    t = l / 3;
-                    e = 1 + l % 3;
-                    a = triangle_node[3 * (t - 1) + e - 1];
-
-                    if (e <= 2)
-                    {
-                        b = triangle_node[3 * (t - 1) + e];
-                    }
-                    else
-                    {
-                        b = triangle_node[3 * (t - 1) + 0];
-                    }
-
-                    ax = node_xy[2 * (a - 1) + 0];
-                    ay = node_xy[2 * (a - 1) + 1];
-
-                    bx = node_xy[2 * (b - 1) + 0];
-                    by = node_xy[2 * (b - 1) + 1];
-
-                    lr = Helpers.lrline(x, y, ax, ay, bx, by, 0.0);
-
-                    if (lr <= 0)
-                    {
-                        break;
-                    }
-
-                    rtri = t;
-                    redg = e;
-
-
-                }
-                catch
-                {
-                    break;
-                }
-            }
-
-            if (done)
-            {
-                return;
-            }
-
-            t = ltri;
-            e = ledg;
-
-            for (;;)
-            {
-                b = triangle_node[3 * (t - 1) + e - 1];
-                e = typeMethods.i4_wrap(e - 1, 1, 3);
-
-                while (0 < triangle_neighbor[3 * (t - 1) + e - 1])
-                {
-                    t = triangle_neighbor[3 * (t - 1) + e - 1];
-
-                    if (triangle_node[3 * (t - 1) + 0] == b)
-                    {
-                        e = 3;
-                    }
-                    else if (triangle_node[3 * (t - 1) + 1] == b)
-                    {
-                        e = 1;
-                    }
-                    else
-                    {
-                        e = 2;
-                    }
-
-                }
-
+                l = -triangle_neighbor[3 * (rtri - 1) + redg - 1];
+                t = l / 3;
+                e = 1 + l % 3;
                 a = triangle_node[3 * (t - 1) + e - 1];
+
+                b = e switch
+                {
+                    <= 2 => triangle_node[3 * (t - 1) + e],
+                    _ => triangle_node[3 * (t - 1) + 0]
+                };
+
                 ax = node_xy[2 * (a - 1) + 0];
                 ay = node_xy[2 * (a - 1) + 1];
 
@@ -188,10 +129,67 @@ namespace Burkardt.TriangulationNS
                     break;
                 }
 
+                rtri = t;
+                redg = e;
+
+
+            }
+            catch
+            {
+                break;
+            }
+        }
+
+        switch (done)
+        {
+            case true:
+                return;
+        }
+
+        t = ltri;
+        e = ledg;
+
+        for (;;)
+        {
+            b = triangle_node[3 * (t - 1) + e - 1];
+            e = typeMethods.i4_wrap(e - 1, 1, 3);
+
+            while (0 < triangle_neighbor[3 * (t - 1) + e - 1])
+            {
+                t = triangle_neighbor[3 * (t - 1) + e - 1];
+
+                if (triangle_node[3 * (t - 1) + 0] == b)
+                {
+                    e = 3;
+                }
+                else if (triangle_node[3 * (t - 1) + 1] == b)
+                {
+                    e = 1;
+                }
+                else
+                {
+                    e = 2;
+                }
+
             }
 
-            ltri = t;
-            ledg = e;
+            a = triangle_node[3 * (t - 1) + e - 1];
+            ax = node_xy[2 * (a - 1) + 0];
+            ay = node_xy[2 * (a - 1) + 1];
+
+            bx = node_xy[2 * (b - 1) + 0];
+            by = node_xy[2 * (b - 1) + 1];
+
+            lr = Helpers.lrline(x, y, ax, ay, bx, by, 0.0);
+
+            if (lr <= 0)
+            {
+                break;
+            }
+
         }
+
+        ltri = t;
+        ledg = e;
     }
 }

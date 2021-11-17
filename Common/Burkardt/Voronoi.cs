@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.VoronoiNS
+namespace Burkardt.VoronoiNS;
+
+public static class Voronoi
 {
-    public static class Voronoi
-    {
-        public static double voronoi_polygon_area(int node, int neighbor_num,
+    public static double voronoi_polygon_area(int node, int neighbor_num,
             int[] neighbor_index, int node_num, double[] node_xy )
 
         //****************************************************************************80
@@ -78,81 +78,64 @@ namespace Burkardt.VoronoiNS
         //
         //    Output, double VORONOI_POLYGON_AREA, the area of the Voronoi polygon.
         //
+    {
+        double area = 0.0;
+
+        if (node < 0 || node_num <= node)
         {
-            double a;
-            double area;
-            double b;
-            double c;
-            int i;
-            int ip1;
-            double ui;
-            double uip1;
-            double vi;
-            double vip1;
-            double xc;
-            double xi;
-            double xip1;
-            double yc;
-            double yi;
-            double yip1;
+            Console.WriteLine("");
+            Console.WriteLine("  VORONOI_POLYGON_AREA - Fatal error!");
+            Console.WriteLine("  Illegal value of input parameter NODE.");
+            return 1;
+        }
 
-            area = 0.0;
+        double xc = node_xy[0 + node * 2];
+        double yc = node_xy[1 + node * 2];
 
-            if (node < 0 || node_num <= node)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("  VORONOI_POLYGON_AREA - Fatal error!");
-                Console.WriteLine("  Illegal value of input parameter NODE.");
-                return 1;
-            }
+        int i = neighbor_num - 1;
+        i = neighbor_index[i];
 
-            xc = node_xy[0 + node * 2];
-            yc = node_xy[1 + node * 2];
+        double xi = node_xy[0 + i * 2];
+        double yi = node_xy[1 + i * 2];
 
-            i = neighbor_num - 1;
-            i = neighbor_index[i];
+        int ip1 = 0;
+        ip1 = neighbor_index[ip1];
 
-            xi = node_xy[0 + i * 2];
-            yi = node_xy[1 + i * 2];
+        double xip1 = node_xy[0 + ip1 * 2];
+        double yip1 = node_xy[1 + ip1 * 2];
+        double a = xi * xi + yi * yi - xc * xc - yc * yc;
+        double b = xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc;
+        double c = 2.0 * ((xi - xc) * (yip1 - yc) - (xip1 - xc) * (yi - yc));
+        double uip1 = (a * (yip1 - yc) - b * (yi - yc)) / c;
+        double vip1 = (a * (xip1 - xc) - b * (xi - xc)) / c;
 
-            ip1 = 0;
+        for (i = 0; i < neighbor_num; i++)
+        {
+            xi = xip1;
+            yi = yip1;
+            double ui = uip1;
+            double vi = vip1;
+
+            ip1 = typeMethods.i4_wrap(i + 1, 0, neighbor_num - 1);
             ip1 = neighbor_index[ip1];
 
             xip1 = node_xy[0 + ip1 * 2];
             yip1 = node_xy[1 + ip1 * 2];
-            a = (xi * xi + yi * yi - xc * xc - yc * yc);
-            b = (xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc);
+            a = xi * xi + yi * yi - xc * xc - yc * yc;
+            b = xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc;
             c = 2.0 * ((xi - xc) * (yip1 - yc) - (xip1 - xc) * (yi - yc));
             uip1 = (a * (yip1 - yc) - b * (yi - yc)) / c;
             vip1 = (a * (xip1 - xc) - b * (xi - xc)) / c;
 
-            for (i = 0; i < neighbor_num; i++)
-            {
-                xi = xip1;
-                yi = yip1;
-                ui = uip1;
-                vi = vip1;
-
-                ip1 = typeMethods.i4_wrap(i + 1, 0, neighbor_num - 1);
-                ip1 = neighbor_index[ip1];
-
-                xip1 = node_xy[0 + ip1 * 2];
-                yip1 = node_xy[1 + ip1 * 2];
-                a = (xi * xi + yi * yi - xc * xc - yc * yc);
-                b = (xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc);
-                c = 2.0 * ((xi - xc) * (yip1 - yc) - (xip1 - xc) * (yi - yc));
-                uip1 = (a * (yip1 - yc) - b * (yi - yc)) / c;
-                vip1 = (a * (xip1 - xc) - b * (xi - xc)) / c;
-
-                area = area + uip1 * vi - ui * vip1;
-            }
-
-            area = 0.5 * area;
-
-            return area;
+            area = area + uip1 * vi - ui * vip1;
         }
 
-        public static double[] voronoi_polygon_centroid(int node, int neighbor_num,
+        area = 0.5 * area;
+
+        return area;
+    }
+
+    public static double[] voronoi_polygon_centroid(int node, int neighbor_num,
             int[] neighbor_index, int node_num, double[] node_xy )
 
         //****************************************************************************80
@@ -228,92 +211,74 @@ namespace Burkardt.VoronoiNS
         //    containing the coordinates of the centroid of the Voronoi polygon
         //    of node NODE.
         //
+    {
+        double[] centroid = new double[2];
+
+        centroid[0] = 0.0;
+        centroid[1] = 0.0;
+
+        if (node < 0 || node_num <= node)
         {
-            double a;
-            double area;
-            double b;
-            double c;
-            double[] centroid;
-            int i;
-            int ip1;
-            double ui;
-            double uip1;
-            double vi;
-            double vip1;
-            double xc;
-            double xi;
-            double xip1;
-            double yc;
-            double yi;
-            double yip1;
+            Console.WriteLine("");
+            Console.WriteLine("VORONOI_POLYGON_CENTROID - Fatal error!");
+            Console.WriteLine("  Illegal value of input parameter NODE.");
+            return null;
+        }
 
-            centroid = new double[2];
+        double xc = node_xy[0 + node * 2];
+        double yc = node_xy[1 + node * 2];
 
-            centroid[0] = 0.0;
-            centroid[1] = 0.0;
+        int i = neighbor_num - 1;
+        i = neighbor_index[i];
 
-            if (node < 0 || node_num <= node)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("VORONOI_POLYGON_CENTROID - Fatal error!");
-                Console.WriteLine("  Illegal value of input parameter NODE.");
-                return null;
-            }
+        double xi = node_xy[0 + i * 2];
+        double yi = node_xy[1 + i * 2];
 
-            xc = node_xy[0 + node * 2];
-            yc = node_xy[1 + node * 2];
+        int ip1 = 0;
+        ip1 = neighbor_index[ip1];
 
-            i = neighbor_num - 1;
-            i = neighbor_index[i];
+        double xip1 = node_xy[0 + ip1 * 2];
+        double yip1 = node_xy[1 + ip1 * 2];
+        double a = xi * xi + yi * yi - xc * xc - yc * yc;
+        double b = xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc;
+        double c = 2.0 * ((xi - xc) * (yip1 - yc) - (xip1 - xc) * (yi - yc));
+        double uip1 = (a * (yip1 - yc) - b * (yi - yc)) / c;
+        double vip1 = (a * (xip1 - xc) - b * (xi - xc)) / c;
 
-            xi = node_xy[0 + i * 2];
-            yi = node_xy[1 + i * 2];
+        for (i = 0; i < neighbor_num; i++)
+        {
+            xi = xip1;
+            yi = yip1;
+            double ui = uip1;
+            double vi = vip1;
 
-            ip1 = 0;
+            ip1 = typeMethods.i4_wrap(i + 1, 0, neighbor_num - 1);
             ip1 = neighbor_index[ip1];
 
             xip1 = node_xy[0 + ip1 * 2];
             yip1 = node_xy[1 + ip1 * 2];
-            a = (xi * xi + yi * yi - xc * xc - yc * yc);
-            b = (xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc);
+            a = xi * xi + yi * yi - xc * xc - yc * yc;
+            b = xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc;
             c = 2.0 * ((xi - xc) * (yip1 - yc) - (xip1 - xc) * (yi - yc));
             uip1 = (a * (yip1 - yc) - b * (yi - yc)) / c;
             vip1 = (a * (xip1 - xc) - b * (xi - xc)) / c;
 
-            for (i = 0; i < neighbor_num; i++)
-            {
-                xi = xip1;
-                yi = yip1;
-                ui = uip1;
-                vi = vip1;
-
-                ip1 = typeMethods.i4_wrap(i + 1, 0, neighbor_num - 1);
-                ip1 = neighbor_index[ip1];
-
-                xip1 = node_xy[0 + ip1 * 2];
-                yip1 = node_xy[1 + ip1 * 2];
-                a = (xi * xi + yi * yi - xc * xc - yc * yc);
-                b = (xip1 * xip1 + yip1 * yip1 - xc * xc - yc * yc);
-                c = 2.0 * ((xi - xc) * (yip1 - yc) - (xip1 - xc) * (yi - yc));
-                uip1 = (a * (yip1 - yc) - b * (yi - yc)) / c;
-                vip1 = (a * (xip1 - xc) - b * (xi - xc)) / c;
-
-                centroid[0] = centroid[0] + (vi - vip1)
-                    * ((uip1 + ui) * (uip1 + ui) - uip1 * ui);
-                centroid[1] = centroid[1] + (ui - uip1)
-                    * ((vip1 + vi) * (vip1 + vi) - vip1 * vi);
-            }
-
-            area = voronoi_polygon_area(node, neighbor_num, neighbor_index,
-                node_num, node_xy);
-
-            centroid[0] = centroid[0] / (6.0 * area);
-            centroid[1] = centroid[1] / (6.0 * area);
-
-            return centroid;
+            centroid[0] += (vi - vip1)
+                           * ((uip1 + ui) * (uip1 + ui) - uip1 * ui);
+            centroid[1] += (ui - uip1)
+                           * ((vip1 + vi) * (vip1 + vi) - vip1 * vi);
         }
 
-        public static void voronoi_polygon_vertices(int node, int neighbor_num,
+        double area = voronoi_polygon_area(node, neighbor_num, neighbor_index,
+            node_num, node_xy);
+
+        centroid[0] /= (6.0 * area);
+        centroid[1] /= (6.0 * area);
+
+        return centroid;
+    }
+
+    public static void voronoi_polygon_vertices(int node, int neighbor_num,
             int[] neighbor_index, int node_num, double[] node_xy, ref double[] v )
 
         //****************************************************************************80
@@ -381,47 +346,44 @@ namespace Burkardt.VoronoiNS
         //    Output, double V[2*NEIGHBOR_NUM], the vertices of the Voronoi polygon
         //    around node NODE.
         //
+    {
+        const int DIM_NUM = 2;
+
+        int i;
+        double[] t = new double[DIM_NUM * 3];
+
+        if (node < 0 || node_num <= node)
         {
-            int DIM_NUM = 2;
+            Console.WriteLine("");
+            Console.WriteLine("VORONOI_POLYGON_VERTICES - Fatal error!");
+            Console.WriteLine("  Illegal value of input parameter NODE.");
+            return;
+        }
 
-            double[] center;
-            int i;
-            int ip1;
-            double[] t = new double[DIM_NUM * 3];
+        t[0 + 0 * 2] = node_xy[0 + node * 2];
+        t[1 + 0 * 2] = node_xy[1 + node * 2];
 
-            if (node < 0 || node_num <= node)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("VORONOI_POLYGON_VERTICES - Fatal error!");
-                Console.WriteLine("  Illegal value of input parameter NODE.");
-                return;
-            }
+        int ip1 = neighbor_index[0];
+        t[0 + 2 * 2] = node_xy[0 + ip1 * 2];
+        t[1 + 2 * 2] = node_xy[1 + ip1 * 2];
 
-            t[0 + 0 * 2] = node_xy[0 + node * 2];
-            t[1 + 0 * 2] = node_xy[1 + node * 2];
+        for (i = 0; i < neighbor_num; i++)
+        {
+            t[0 + 1 * 2] = t[0 + 2 * 2];
+            t[1 + 1 * 2] = t[1 + 2 * 2];
 
-            ip1 = neighbor_index[0];
+            ip1 = typeMethods.i4_wrap(i + 1, 0, neighbor_num - 1);
+            ip1 = neighbor_index[ip1];
+
             t[0 + 2 * 2] = node_xy[0 + ip1 * 2];
             t[1 + 2 * 2] = node_xy[1 + ip1 * 2];
 
-            for (i = 0; i < neighbor_num; i++)
-            {
-                t[0 + 1 * 2] = t[0 + 2 * 2];
-                t[1 + 1 * 2] = t[1 + 2 * 2];
+            double[] center = typeMethods.triangle_circumcenter_2d(t);
 
-                ip1 = typeMethods.i4_wrap(i + 1, 0, neighbor_num - 1);
-                ip1 = neighbor_index[ip1];
+            v[0 + i * 2] = center[0];
+            v[1 + i * 2] = center[1];
 
-                t[0 + 2 * 2] = node_xy[0 + ip1 * 2];
-                t[1 + 2 * 2] = node_xy[1 + ip1 * 2];
-
-                center = typeMethods.triangle_circumcenter_2d(t);
-
-                v[0 + i * 2] = center[0];
-                v[1 + i * 2] = center[1];
-
-            }
         }
-
     }
+
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Buffon
 {
-    public static class Buffon
-    {
-        public static double buffon_box_pdf(double a, double b, double l)
+    public static double buffon_box_pdf(double a, double b, double l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -71,61 +71,63 @@ namespace Burkardt.Probability
         //
         //    Output, double BUFFON_BOX_PDF, the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
 
-            if (a < 0.0)
-            {
+        switch (a)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("BUFFON_BOX_PDF - Fatal error!");
                 Console.WriteLine("  Input A < 0.");
                 return 1;
-            }
-            else if (a == 0.0)
-            {
+            case 0.0:
                 pdf = 1.0;
                 return pdf;
-            }
+        }
 
-            if (b < 0.0)
-            {
+        switch (b)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("BUFFON_BOX_PDF - Fatal error!");
                 Console.WriteLine("  Input B < 0.");
                 return 1;
-            }
-            else if (b == 0.0)
-            {
+            case 0.0:
                 pdf = 1.0;
                 return pdf;
-            }
+        }
 
-            if (l < 0.0)
-            {
+        switch (l)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("BUFFON_BOX_PDF - Fatal error!");
                 Console.WriteLine("  Input L < 0.");
                 return 1;
-            }
-            else if (l == 0.0)
-            {
+            case 0.0:
                 pdf = 0.0;
                 return pdf;
-            }
-            else if (Math.Min(a, b) < l)
+            default:
             {
-                Console.WriteLine("");
-                Console.WriteLine("BUFFON_BOX_PDF - Fatal error!");
-                Console.WriteLine("  min ( A, B ) < L.");
-                return 1;
+                if (Math.Min(a, b) < l)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("BUFFON_BOX_PDF - Fatal error!");
+                    Console.WriteLine("  min ( A, B ) < L.");
+                    return 1;
+                }
+
+                break;
             }
-
-            pdf = (2.0 * l * (a + b) - l * l) / (Math.PI * a * b);
-
-            return pdf;
         }
 
-        public static int buffon_box_sample(double a, double b, double l, int trial_num)
+        pdf = (2.0 * l * (a + b) - l * l) / (Math.PI * a * b);
+
+        return pdf;
+    }
+
+    public static int buffon_box_sample(double a, double b, double l, int trial_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -205,39 +207,39 @@ namespace Burkardt.Probability
         //    Output, int BUFFON_BOX_SAMPLE, the number of times the needle
         //    crossed at least one line of the grid of cells.
         //
+    {
+
+        int hits = 0;
+
+        int seed = 12345678;
+
+        for (int trial = 1; trial <= trial_num; trial++)
         {
-
-            int hits = 0;
-
-            int seed = 12345678;
-
-            for (int trial = 1; trial <= trial_num; trial++)
+            //
+            //  Randomly choose the location of the eye of the needle in [0,0]x[A,B],
+            //  and the angle the needle makes.
+            //
+            double x1 = a * UniformRNG.r8_uniform_01(ref seed);
+            double y1 = b * UniformRNG.r8_uniform_01(ref seed);
+            double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
+            //
+            //  Compute the location of the point of the needle.
+            //
+            double x2 = x1 + l * Math.Cos(angle);
+            double y2 = y1 + l * Math.Sin(angle);
+            //
+            //  Count the end locations that lie outside the cell.
+            //
+            if (x2 <= 0.0 || a <= x2 || y2 <= 0.0 || b <= y2)
             {
-                //
-                //  Randomly choose the location of the eye of the needle in [0,0]x[A,B],
-                //  and the angle the needle makes.
-                //
-                double x1 = a * UniformRNG.r8_uniform_01(ref seed);
-                double y1 = b * UniformRNG.r8_uniform_01(ref seed);
-                double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
-                //
-                //  Compute the location of the point of the needle.
-                //
-                double x2 = x1 + l * Math.Cos(angle);
-                double y2 = y1 + l * Math.Sin(angle);
-                //
-                //  Count the end locations that lie outside the cell.
-                //
-                if (x2 <= 0.0 || a <= x2 || y2 <= 0.0 || b <= y2)
-                {
-                    hits = hits + 1;
-                }
+                hits += 1;
             }
-
-            return hits;
         }
 
-        public static double buffon_pdf(double a, double l)
+        return hits;
+    }
+
+    public static double buffon_pdf(double a, double l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -293,41 +295,39 @@ namespace Burkardt.Probability
         //
         //    Output, double BUFFON_PDF, the Buffon PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
 
-            if (a < 0.0)
-            {
+        switch (a)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("BUFFON_PDF - Fatal error!");
                 Console.WriteLine("  Input A < 0.");
                 return 1.0;
-            }
-            else if (a == 0.0)
-            {
+            case 0.0:
                 pdf = 1.0;
                 return pdf;
-            }
+        }
 
-            if (l < 0.0)
-            {
+        switch (l)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("BUFFON_PDF - Fatal error!");
                 Console.WriteLine("  Input L < 0.");
                 return 1.0;
-            }
-            else if (l == 0.0)
-            {
+            case 0.0:
                 pdf = 0.0;
                 return pdf;
-            }
+            default:
+                pdf = 2.0 * l / (Math.PI * a);
 
-            pdf = (2.0 * l) / (Math.PI * a);
-
-            return pdf;
+                return pdf;
         }
+    }
 
-        public static int buffon_sample(double a, double l, int trial_num)
+    public static int buffon_sample(double a, double l, int trial_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -392,35 +392,34 @@ namespace Burkardt.Probability
         //    Output, int BUFFON_SAMPLE, the number of times the needle
         //    crossed at least one line of the grid of cells.
         //
-        {
+    {
 
-            int hits = 0;
+        int hits = 0;
 
-            int seed = 12345678;
+        int seed = 12345678;
             
-            for (int trial = 1; trial <= trial_num; trial++)
+        for (int trial = 1; trial <= trial_num; trial++)
+        {
+            //
+            //  Randomly choose the location (X1,Y1) of the eye of the needle
+            //  in [0,0]x[A,0], and the angle the needle makes.
+            //
+            double x1 = a * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
+            double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
+            //
+            //  Compute the location of the point of the needle.
+            //  We only need to know the value of X2, not Y2!
+            //
+            double x2 = x1 + l * Math.Cos(angle);
+            //
+            //  Count the end locations that lie outside the cell.
+            //
+            if (x2 <= 0.0 || a <= x2)
             {
-                //
-                //  Randomly choose the location (X1,Y1) of the eye of the needle
-                //  in [0,0]x[A,0], and the angle the needle makes.
-                //
-                double x1 = a * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
-                double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
-                //
-                //  Compute the location of the point of the needle.
-                //  We only need to know the value of X2, not Y2!
-                //
-                double x2 = x1 + l * Math.Cos(angle);
-                //
-                //  Count the end locations that lie outside the cell.
-                //
-                if (x2 <= 0.0 || a <= x2)
-                {
-                    hits = hits + 1;
-                }
+                hits += 1;
             }
-
-            return hits;
         }
+
+        return hits;
     }
 }

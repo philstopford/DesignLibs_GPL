@@ -2,19 +2,19 @@
 using Burkardt.Uniform;
 using entropyRNG;
 
-namespace Burkardt.TriangulationNS
-{
-    public class DelaunaySearchData
-    {
-        public int triangle_index_save = -1;
-    }
-    
-    public static class Search
-    {
+namespace Burkardt.TriangulationNS;
 
-        public static void triangulation_search_delaunay ( int node_num, double[] node_xy, int triangle_order,
-        int triangle_num, int[] triangle_node, int[] triangle_neighbor, 
-        double[] p, ref int triangle, ref int edge, int pIndex = 0 )
+public class DelaunaySearchData
+{
+    public int triangle_index_save = -1;
+}
+    
+public static class Search
+{
+
+    public static void triangulation_search_delaunay ( int node_num, double[] node_xy, int triangle_order,
+            int triangle_num, int[] triangle_node, int[] triangle_neighbor, 
+            double[] p, ref int triangle, ref int edge, int pIndex = 0 )
 
         //****************************************************************************80
         //
@@ -97,83 +97,85 @@ namespace Burkardt.TriangulationNS
         //    -2, outside the convex hull of the triangulation, past edge 2;
         //    -3, outside the convex hull of the triangulation, past edge 3.
         //
+    {
+        int a;
+        double alpha;
+        int b;
+        double beta;
+        int c;
+        int count;
+        double det;
+        double dxp;
+        double dxa;
+        double dxb;
+        double dyp;
+        double dya;
+        double dyb;
+        double gamma;
+        int seed;
+
+        count = 0;
+        edge = 0;
+
+        seed = RNG.nextint();
+
+        triangle = UniformRNG.i4_uniform(1, triangle_num, ref seed);
+
+        for (;;)
         {
-            int a;
-            double alpha;
-            int b;
-            double beta;
-            int c;
-            int count;
-            double det;
-            double dxp;
-            double dxa;
-            double dxb;
-            double dyp;
-            double dya;
-            double dyb;
-            double gamma;
-            int seed;
+            count += 1;
 
-            count = 0;
-            edge = 0;
-
-            seed = RNG.nextint();
-
-            triangle = UniformRNG.i4_uniform(1, triangle_num, ref seed);
-
-            for (;;)
+            if (triangle_num < count)
             {
-                count = count + 1;
+                Console.WriteLine();
+                Console.WriteLine("TRIANGULATION_SEARCH_DELAUNAY - Fatal error!");
+                Console.WriteLine("  The algorithm seems to be cycling.");
+                Console.WriteLine("  Current triangle is " + triangle + "");
+                triangle = -1;
+                edge = -1;
+                return;
+            }
 
-                if (triangle_num < count)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("TRIANGULATION_SEARCH_DELAUNAY - Fatal error!");
-                    Console.WriteLine("  The algorithm seems to be cycling.");
-                    Console.WriteLine("  Current triangle is " + triangle + "");
-                    triangle = -1;
-                    edge = -1;
-                    return;
-                }
+            //
+            //  Get the vertices of triangle TRIANGLE.
+            //
+            a = triangle_node[0 + (triangle - 1) * triangle_order] - 1;
+            b = triangle_node[1 + (triangle - 1) * triangle_order] - 1;
+            c = triangle_node[2 + (triangle - 1) * triangle_order] - 1;
+            //
+            //  Using vertex C as a base, compute the distances to vertices A and B,
+            //  and the point (X,Y).
+            //
+            dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+            dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
 
-                //
-                //  Get the vertices of triangle TRIANGLE.
-                //
-                a = triangle_node[0 + (triangle - 1) * triangle_order] - 1;
-                b = triangle_node[1 + (triangle - 1) * triangle_order] - 1;
-                c = triangle_node[2 + (triangle - 1) * triangle_order] - 1;
-                //
-                //  Using vertex C as a base, compute the distances to vertices A and B,
-                //  and the point (X,Y).
-                //
-                dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
-                dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
+            dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+            dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-                dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
-                dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
+            dxp = p[0 + pIndex] - node_xy[0 + c * 2];
+            dyp = p[1 + pIndex] - node_xy[1 + c * 2];
 
-                dxp = p[0 + pIndex] - node_xy[0 + c * 2];
-                dyp = p[1 + pIndex] - node_xy[1 + c * 2];
+            det = dxa * dyb - dya * dxb;
+            //
+            //  Compute the barycentric coordinates of the point (X,Y) with respect
+            //  to this triangle.
+            //
+            alpha = (dxp * dyb - dyp * dxb) / det;
+            beta = (dxa * dyp - dya * dxp) / det;
+            gamma = 1.0 - alpha - beta;
+            //
+            //  If the barycentric coordinates are all positive, then the point
+            //  is inside the triangle and we're done.
+            //
+            if (0.0 <= alpha &&
+                0.0 <= beta &&
+                0.0 <= gamma)
+            {
+                break;
+            }
 
-                det = dxa * dyb - dya * dxb;
-                //
-                //  Compute the barycentric coordinates of the point (X,Y) with respect
-                //  to this triangle.
-                //
-                alpha = (dxp * dyb - dyp * dxb) / det;
-                beta = (dxa * dyp - dya * dxp) / det;
-                gamma = 1.0 - alpha - beta;
-                //
-                //  If the barycentric coordinates are all positive, then the point
-                //  is inside the triangle and we're done.
-                //
-                if (0.0 <= alpha &&
-                    0.0 <= beta &&
-                    0.0 <= gamma)
-                {
-                    break;
-                }
-
+            switch (alpha)
+            {
                 //
                 //  At least one barycentric coordinate is negative.
                 //
@@ -184,63 +186,61 @@ namespace Burkardt.TriangulationNS
                 //  most negative one, or the most negative one normalized by the actual
                 //  distance it represents).
                 //
-                if (alpha < 0.0 && 0 <= triangle_neighbor[1 + (triangle - 1) * 3])
-                {
+                case < 0.0 when 0 <= triangle_neighbor[1 + (triangle - 1) * 3]:
                     triangle = triangle_neighbor[1 + (triangle - 1) * 3];
                     continue;
-                }
-                else if (beta < 0.0 && 0 <= triangle_neighbor[2 + (triangle - 1) * 3])
-                {
-                    triangle = triangle_neighbor[2 + (triangle - 1) * 3];
-                    continue;
-                }
-                else if (gamma < 0.0 && 0 <= triangle_neighbor[0 + (triangle - 1) * 3])
-                {
-                    triangle = triangle_neighbor[0 + (triangle - 1) * 3];
-                    continue;
-                }
-
-                //
-                //  All negative barycentric coordinates correspond to vertices opposite
-                //  sides on the convex hull.
-                //
-                //  Note the edge and exit.
-                //
-                if (alpha < 0.0)
-                {
-                    edge = -2;
-                    break;
-                }
-                else if (beta < 0.0)
-                {
-                    edge = -3;
-                    break;
-                }
-                else if (gamma < 0.0)
-                {
-                    edge = -1;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("TRIANGULATION_SEARCH - Fatal error!");
-                    Console.WriteLine("  The algorithm seems to have reached a dead end");
-                    Console.WriteLine("  after " + count + " steps.");
-                    triangle = -1;
-                    edge = -1;
-                    return;
-                }
             }
 
+            switch (beta)
+            {
+                case < 0.0 when 0 <= triangle_neighbor[2 + (triangle - 1) * 3]:
+                    triangle = triangle_neighbor[2 + (triangle - 1) * 3];
+                    continue;
+            }
+            switch (gamma)
+            {
+                case < 0.0 when 0 <= triangle_neighbor[0 + (triangle - 1) * 3]:
+                    triangle = triangle_neighbor[0 + (triangle - 1) * 3];
+                    continue;
+            }
+
+            //
+            //  All negative barycentric coordinates correspond to vertices opposite
+            //  sides on the convex hull.
+            //
+            //  Note the edge and exit.
+            //
+            if (alpha < 0.0)
+            {
+                edge = -2;
+                break;
+            }
+
+            if (beta < 0.0)
+            {
+                edge = -3;
+                break;
+            }
+            if (gamma < 0.0)
+            {
+                edge = -1;
+                break;
+            }
+            Console.WriteLine("");
+            Console.WriteLine("TRIANGULATION_SEARCH - Fatal error!");
+            Console.WriteLine("  The algorithm seems to have reached a dead end");
+            Console.WriteLine("  after " + count + " steps.");
+            triangle = -1;
+            edge = -1;
             return;
         }
+    }
 
-        public static void triangulation_search_delaunay_a(ref DelaunaySearchData data, int node_num, double[] node_xy,
-        int triangle_order, int triangle_num, int[] triangle_node,
-        int[] triangle_neighbor, double[] p, ref int triangle_index,
-        ref double alpha, ref double beta, ref double gamma, ref int edge,
-        ref int step_num, int pIndex = 0 )
+    public static void triangulation_search_delaunay_a(ref DelaunaySearchData data, int node_num, double[] node_xy,
+            int triangle_order, int triangle_num, int[] triangle_node,
+            int[] triangle_neighbor, double[] p, ref int triangle_index,
+            ref double alpha, ref double beta, ref double gamma, ref int edge,
+            ref int step_num, int pIndex = 0 )
 
         //****************************************************************************80
         //
@@ -325,81 +325,83 @@ namespace Burkardt.TriangulationNS
         //    -3, outside the convex hull of the triangulation, past edge 3.
         //
         //    Output, int *STEP_NUM, the number of steps.
+    {
+        int a;
+        int b;
+        int c;
+        double det;
+        double dxp;
+        double dxa;
+        double dxb;
+        double dyp;
+        double dya;
+        double dyb;
+
+        step_num = -1;
+        edge = 0;
+
+        if (data.triangle_index_save < 0 || triangle_num <= data.triangle_index_save)
         {
-            int a;
-            int b;
-            int c;
-            double det;
-            double dxp;
-            double dxa;
-            double dxb;
-            double dyp;
-            double dya;
-            double dyb;
+            triangle_index = (triangle_num + 1) / 2;
+        }
+        else
+        {
+            triangle_index = data.triangle_index_save;
+        }
 
-            step_num = -1;
-            edge = 0;
+        for (;;)
+        {
+            step_num += 1;
 
-            if (data.triangle_index_save < 0 || triangle_num <= data.triangle_index_save)
+            if (triangle_num < step_num)
             {
-                triangle_index = (triangle_num + 1) / 2;
-            }
-            else
-            {
-                triangle_index = data.triangle_index_save;
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGULATION_SEARCH_DELAUNAY - Fatal error!");
+                Console.WriteLine("  The algorithm seems to be cycling.");
+                Console.WriteLine("  Current triangle is " + triangle_index + "");
+                return;
             }
 
-            for (;;)
+            //
+            //  Get the vertices of triangle TRIANGLE.
+            //
+            a = triangle_node[0 + triangle_index * triangle_order];
+            b = triangle_node[1 + triangle_index * triangle_order];
+            c = triangle_node[2 + triangle_index * triangle_order];
+            //
+            //  Using vertex C as a base, compute the distances to vertices A and B,
+            //  and the point (X,Y).
+            //
+            dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+            dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
+
+            dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+            dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
+
+            dxp = p[(pIndex + 0 + p.Length) % p.Length] - node_xy[(0 + c * 2 + node_xy.Length) % node_xy.Length];
+            dyp = p[(pIndex + 1 + p.Length) % p.Length] - node_xy[(1 + c * 2 + node_xy.Length) % node_xy.Length];
+
+            det = dxa * dyb - dya * dxb;
+            //
+            //  Compute the barycentric coordinates of the point (X,Y) with respect
+            //  to this triangle.
+            //
+            alpha = (dxp * dyb - dyp * dxb) / det;
+            beta = (dxa * dyp - dya * dxp) / det;
+            gamma = 1.0 - alpha - beta;
+            //
+            //  If the barycentric coordinates are all positive, then the point
+            //  is inside the triangle and we're done.
+            //
+            if (0.0 <= alpha &&
+                0.0 <= beta &&
+                0.0 <= gamma)
             {
-                step_num = step_num + 1;
+                break;
+            }
 
-                if (triangle_num < step_num)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("TRIANGULATION_SEARCH_DELAUNAY - Fatal error!");
-                    Console.WriteLine("  The algorithm seems to be cycling.");
-                    Console.WriteLine("  Current triangle is " + triangle_index + "");
-                    return;
-                }
-
-                //
-                //  Get the vertices of triangle TRIANGLE.
-                //
-                a = triangle_node[0 + triangle_index * triangle_order];
-                b = triangle_node[1 + triangle_index * triangle_order];
-                c = triangle_node[2 + triangle_index * triangle_order];
-                //
-                //  Using vertex C as a base, compute the distances to vertices A and B,
-                //  and the point (X,Y).
-                //
-                dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
-                dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
-
-                dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
-                dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
-
-                dxp = p[((pIndex + 0) + p.Length) % p.Length] - node_xy[((0 + c * 2) + node_xy.Length) % node_xy.Length];
-                dyp = p[((pIndex + 1) + p.Length) % p.Length] - node_xy[((1 + c * 2) + node_xy.Length) % node_xy.Length];
-
-                det = dxa * dyb - dya * dxb;
-                //
-                //  Compute the barycentric coordinates of the point (X,Y) with respect
-                //  to this triangle.
-                //
-                alpha = (dxp * dyb - dyp * dxb) / det;
-                beta = (dxa * dyp - dya * dxp) / det;
-                gamma = 1.0 - alpha - beta;
-                //
-                //  If the barycentric coordinates are all positive, then the point
-                //  is inside the triangle and we're done.
-                //
-                if (0.0 <= alpha &&
-                    0.0 <= beta &&
-                    0.0 <= gamma)
-                {
-                    break;
-                }
-
+            switch (alpha)
+            {
                 //
                 //  At least one barycentric coordinate is negative.
                 //
@@ -410,60 +412,60 @@ namespace Burkardt.TriangulationNS
                 //  most negative one, or the most negative one normalized by the actual
                 //  distance it represents).
                 //
-                if (alpha < 0.0 && 0 <= triangle_neighbor[1 + triangle_index * 3])
-                {
+                case < 0.0 when 0 <= triangle_neighbor[1 + triangle_index * 3]:
                     triangle_index = triangle_neighbor[1 + triangle_index * 3];
                     continue;
-                }
-                else if (beta < 0.0 && 0 <= triangle_neighbor[2 + triangle_index * 3])
-                {
-                    triangle_index = triangle_neighbor[2 + triangle_index * 3];
-                    continue;
-                }
-                else if (gamma < 0.0 && 0 <= triangle_neighbor[0 + triangle_index * 3])
-                {
-                    triangle_index = triangle_neighbor[0 + triangle_index * 3];
-                    continue;
-                }
-
-                //
-                //  All negative barycentric coordinates correspond to vertices opposite
-                //  sides on the convex hull.
-                //
-                //  Note the edge and exit.
-                //
-                if (alpha < 0.0)
-                {
-                    edge = -2;
-                    break;
-                }
-                else if (beta < 0.0)
-                {
-                    edge = -3;
-                    break;
-                }
-                else if (gamma < 0.0)
-                {
-                    edge = -1;
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("TRIANGULATION_ORDER3_SEARCH - Fatal error!");
-                    Console.WriteLine("  The algorithm seems to have reached a dead end");
-                    Console.WriteLine("  after " + step_num + " steps.");
-                    triangle_index = -1;
-                    edge = -1;
-                    return;
-                }
             }
 
-            data.triangle_index_save = triangle_index;
+            switch (beta)
+            {
+                case < 0.0 when 0 <= triangle_neighbor[2 + triangle_index * 3]:
+                    triangle_index = triangle_neighbor[2 + triangle_index * 3];
+                    continue;
+            }
+            switch (gamma)
+            {
+                case < 0.0 when 0 <= triangle_neighbor[0 + triangle_index * 3]:
+                    triangle_index = triangle_neighbor[0 + triangle_index * 3];
+                    continue;
+            }
+
+            //
+            //  All negative barycentric coordinates correspond to vertices opposite
+            //  sides on the convex hull.
+            //
+            //  Note the edge and exit.
+            //
+            if (alpha < 0.0)
+            {
+                edge = -2;
+                break;
+            }
+
+            if (beta < 0.0)
+            {
+                edge = -3;
+                break;
+            }
+            if (gamma < 0.0)
+            {
+                edge = -1;
+                break;
+            }
+            Console.WriteLine("");
+            Console.WriteLine("TRIANGULATION_ORDER3_SEARCH - Fatal error!");
+            Console.WriteLine("  The algorithm seems to have reached a dead end");
+            Console.WriteLine("  after " + step_num + " steps.");
+            triangle_index = -1;
+            edge = -1;
+            return;
         }
 
-        public static int triangulation_search_naive(int node_num, double[] node_xy,
-        int triangle_order, int triangle_num, int[] triangle_node, double[] p, int pIndex = 0 )
+        data.triangle_index_save = triangle_index;
+    }
+
+    public static int triangulation_search_naive(int node_num, double[] node_xy,
+            int triangle_order, int triangle_num, int[] triangle_node, double[] p, int pIndex = 0 )
 
         //****************************************************************************80
         //
@@ -508,69 +510,68 @@ namespace Burkardt.TriangulationNS
         //    containing the point, or -1 if no triangle was found containing
         //    the point.
         //
+    {
+        int a;
+        double alpha;
+        int b;
+        double beta;
+        int c;
+        double det;
+        double dxp;
+        double dxa;
+        double dxb;
+        double dyp;
+        double dya;
+        double dyb;
+        double gamma;
+        int triangle;
+        int triangle_index;
+
+        triangle_index = -1;
+
+        for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            int a;
-            double alpha;
-            int b;
-            double beta;
-            int c;
-            double det;
-            double dxp;
-            double dxa;
-            double dxb;
-            double dyp;
-            double dya;
-            double dyb;
-            double gamma;
-            int triangle;
-            int triangle_index;
+            //
+            //  Get the vertices of triangle TRIANGLE.
+            //
+            a = triangle_node[0 + triangle * triangle_order];
+            b = triangle_node[1 + triangle * triangle_order];
+            c = triangle_node[2 + triangle * triangle_order];
+            //
+            //  Using vertex C as a base, compute the distances to vertices A and B,
+            //  and the point (X,Y).
+            //
+            dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+            dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
 
-            triangle_index = -1;
+            dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+            dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-            for (triangle = 0; triangle < triangle_num; triangle++)
+            dxp = p[(pIndex + 0 + p.Length) % p.Length] - node_xy[(0 + c * 2 + node_xy.Length) % node_xy.Length];
+            dyp = p[(pIndex + 1 + p.Length) % p.Length] - node_xy[(1 + c * 2 + node_xy.Length) % node_xy.Length];
+
+            det = dxa * dyb - dya * dxb;
+            //
+            //  Compute the barycentric coordinates of the point (X,Y) with respect
+            //  to this triangle.
+            //
+            alpha = (dxp * dyb - dyp * dxb) / det;
+            beta = (dxa * dyp - dya * dxp) / det;
+            gamma = 1.0 - alpha - beta;
+            //
+            //  If the barycentric coordinates are all positive, then the point
+            //  is inside the triangle and we're done.
+            //
+            if (0.0 <= alpha &&
+                0.0 <= beta &&
+                0.0 <= gamma)
             {
-                //
-                //  Get the vertices of triangle TRIANGLE.
-                //
-                a = triangle_node[0 + triangle * triangle_order];
-                b = triangle_node[1 + triangle * triangle_order];
-                c = triangle_node[2 + triangle * triangle_order];
-                //
-                //  Using vertex C as a base, compute the distances to vertices A and B,
-                //  and the point (X,Y).
-                //
-                dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
-                dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
-
-                dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
-                dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
-
-                dxp = p[((pIndex + 0) + p.Length) % p.Length] - node_xy[((0 + c * 2) + node_xy.Length) % node_xy.Length];
-                dyp = p[((pIndex + 1) + p.Length) % p.Length] - node_xy[((1 + c * 2) + node_xy.Length) % node_xy.Length];
-
-                det = dxa * dyb - dya * dxb;
-                //
-                //  Compute the barycentric coordinates of the point (X,Y) with respect
-                //  to this triangle.
-                //
-                alpha = (dxp * dyb - dyp * dxb) / det;
-                beta = (dxa * dyp - dya * dxp) / det;
-                gamma = 1.0 - alpha - beta;
-                //
-                //  If the barycentric coordinates are all positive, then the point
-                //  is inside the triangle and we're done.
-                //
-                if (0.0 <= alpha &&
-                    0.0 <= beta &&
-                    0.0 <= gamma)
-                {
-                    triangle_index = triangle + 1;
-                    break;
-                }
+                triangle_index = triangle + 1;
+                break;
             }
-
-            return triangle_index;
         }
 
+        return triangle_index;
     }
+
 }

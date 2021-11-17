@@ -1,14 +1,13 @@
 
-namespace MiscUtil.Compression.Vcdiff
+namespace MiscUtil.Compression.Vcdiff;
+
+/// <summary>
+/// Enumeration of the different instruction types.
+/// </summary>
+internal enum InstructionType : byte
 {
-    /// <summary>
-    /// Enumeration of the different instruction types.
-    /// </summary>
-    internal enum InstructionType : byte
-    {
-        NoOp = 0,
-        Add = 1,
-        Run = 2,
-        Copy = 3
-    }
+    NoOp = 0,
+    Add = 1,
+    Run = 2,
+    Copy = 3
 }

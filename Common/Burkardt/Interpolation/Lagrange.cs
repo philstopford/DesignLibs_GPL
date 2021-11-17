@@ -1,88 +1,88 @@
-﻿namespace Burkardt.Interpolation
+﻿namespace Burkardt.Interpolation;
+
+public static class LagrangeInterpolation
 {
-    public static class LagrangeInterpolation
+    public static double[] lagrange_rule(int n, double[] x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGRANGE_RULE computes the weights of a Lagrange interpolation rule.
+        //
+        //  Discussion:
+        //
+        //    Given N abscissas X, an arbitrary function F(X) can be
+        //    interpolated by a polynomial P(X) of order N (and degree N-1)
+        //    using weights that depend only on X.
+        //
+        //    Standard Lagrange interpolation can be rewritten into this form,
+        //    which is more economical than evaluating the individual Lagrange
+        //    basis polynomials.
+        //
+        //    If we define
+        //
+        //      W(I) = 1 / product ( 1 <= J <= N, J /= I ) ( X(J) - X(I) )
+        //
+        //    then
+        //
+        //      P(XV) = sum ( 1 <= I <= N ) W(I) * F( X(I) ) / ( XV - X(I) )
+        //            / sum ( 1 <= I <= N ) W(I)             / ( XV - X(I) )
+        //
+        //    except when XV = X(J), for some J, when we set:
+        //
+        //      P(X(J)) = F(X(J))
+        //
+        //  Modified:
+        //
+        //    24 May 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jean-Paul Berrut, Lloyd Trefethen,
+        //    Barycentric Lagrange Interpolation,
+        //    SIAM Review,
+        //    Volume 46, Number 3, September 2004, pages 501-517.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the rule.
+        //
+        //    Input, double X[N], the abscissas of the rule.
+        //
+        //    Output, double LAGRANGE_RULE[N], the weights of the rule.
+        //
     {
-        public static double[] lagrange_rule(int n, double[] x)
+        int i;
+        int j;
+        double[] w;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LAGRANGE_RULE computes the weights of a Lagrange interpolation rule.
-            //
-            //  Discussion:
-            //
-            //    Given N abscissas X, an arbitrary function F(X) can be
-            //    interpolated by a polynomial P(X) of order N (and degree N-1)
-            //    using weights that depend only on X.
-            //
-            //    Standard Lagrange interpolation can be rewritten into this form,
-            //    which is more economical than evaluating the individual Lagrange
-            //    basis polynomials.
-            //
-            //    If we define
-            //
-            //      W(I) = 1 / product ( 1 <= J <= N, J /= I ) ( X(J) - X(I) )
-            //
-            //    then
-            //
-            //      P(XV) = sum ( 1 <= I <= N ) W(I) * F( X(I) ) / ( XV - X(I) )
-            //            / sum ( 1 <= I <= N ) W(I)             / ( XV - X(I) )
-            //
-            //    except when XV = X(J), for some J, when we set:
-            //
-            //      P(X(J)) = F(X(J))
-            //
-            //  Modified:
-            //
-            //    24 May 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Jean-Paul Berrut, Lloyd Trefethen,
-            //    Barycentric Lagrange Interpolation,
-            //    SIAM Review,
-            //    Volume 46, Number 3, September 2004, pages 501-517.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the order of the rule.
-            //
-            //    Input, double X[N], the abscissas of the rule.
-            //
-            //    Output, double LAGRANGE_RULE[N], the weights of the rule.
-            //
+        w = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int j;
-            double[] w;
-
-            w = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                w[i] = 1.0;
-            }
-
-            for (i = 0; i < n; i++)
-            {
-                for (j = 0; j < n; j++)
-                {
-                    if (i != j)
-                    {
-                        w[j] = w[j] / (x[i] - x[j]);
-                    }
-                }
-            }
-
-            return w;
+            w[i] = 1.0;
         }
 
-        public static double lagrange_sum(int n, double[] x, double[] w, double[] y, double xv )
+        for (i = 0; i < n; i++)
+        {
+            for (j = 0; j < n; j++)
+            {
+                if (i != j)
+                {
+                    w[j] /= (x[i] - x[j]);
+                }
+            }
+        }
+
+        return w;
+    }
+
+    public static double lagrange_sum(int n, double[] x, double[] w, double[] y, double xv )
 
         //****************************************************************************80
         //
@@ -129,36 +129,36 @@
         //
         //    Output, double LAGRANGE_SUM, the interpolated function value.
         //
+    {
+        double bot;
+        int i;
+        double top;
+        double yv;
+
+        for (i = 0; i < n; i++)
         {
-            double bot;
-            int i;
-            double top;
-            double yv;
-
-            for (i = 0; i < n; i++)
+            if (xv == x[i])
             {
-                if (xv == x[i])
-                {
-                    yv = y[i];
-                    return yv;
-                }
+                yv = y[i];
+                return yv;
             }
-
-            top = 0.0;
-            bot = 0.0;
-
-            for (i = 0; i < n; i++)
-            {
-                top = top + w[i] * y[i] / (xv - x[i]);
-                bot = bot + w[i] / (xv - x[i]);
-            }
-
-            yv = top / bot;
-
-            return yv;
         }
 
-        public static double lagrange_val(int n, double[] x, double[] y, double xv )
+        top = 0.0;
+        bot = 0.0;
+
+        for (i = 0; i < n; i++)
+        {
+            top += w[i] * y[i] / (xv - x[i]);
+            bot += w[i] / (xv - x[i]);
+        }
+
+        yv = top / bot;
+
+        return yv;
+    }
+
+    public static double lagrange_val(int n, double[] x, double[] y, double xv )
 
         //****************************************************************************80
         //
@@ -213,29 +213,28 @@
         //
         //    Output, double LAGRANGE_VAL, the interpolated function value.
         //
+    {
+        int i;
+        int j;
+        double poly;
+        double yv;
+
+        yv = 0.0;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int j;
-            double poly;
-            double yv;
-
-            yv = 0.0;
-
-            for (i = 0; i < n; i++)
+            poly = 1.0;
+            for (j = 0; j < n; j++)
             {
-                poly = 1.0;
-                for (j = 0; j < n; j++)
+                if (j != i)
                 {
-                    if (j != i)
-                    {
-                        poly = poly * (xv - x[j]) / (x[i] - x[j]);
-                    }
+                    poly = poly * (xv - x[j]) / (x[i] - x[j]);
                 }
-
-                yv = yv + y[i] * poly;
             }
 
-            return yv;
+            yv += y[i] * poly;
         }
+
+        return yv;
     }
 }

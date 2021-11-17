@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Linpack
+﻿namespace Burkardt.Linpack;
+
+public static class DPBDI
 {
-    public static class DPBDI
-    {
-        public static void dpbdi ( double[] abd, int lda, int n, int m, ref double[] det )
+    public static void dpbdi ( double[] abd, int lda, int n, int m, ref double[] det )
 
         //****************************************************************************80
         //
@@ -52,38 +52,38 @@
         //      determinant = DET[0] * 10.0**DET[1]
         //    with 1.0D+00 <= DET[0] < 10.0D+00 or DET[0] == 0.0D+00.
         //
+    {
+        int i;
+        double s;
+        //
+        //  Compute the determinant.
+        //
+        det[0] = 1.0;
+        det[1] = 0.0;
+        s = 10.0;
+
+        for ( i = 1; i <= n; i++ )
         {
-            int i;
-            double s;
-            //
-            //  Compute the determinant.
-            //
-            det[0] = 1.0;
-            det[1] = 0.0;
-            s = 10.0;
+            det[0] = det[0] * abd[m+(i-1)*lda] * abd[m+(i-1)*lda];
 
-            for ( i = 1; i <= n; i++ )
+            switch (det[0])
             {
-                det[0] = det[0] * abd[m+(i-1)*lda] * abd[m+(i-1)*lda];
-
-                if ( det[0] == 0.0 )
-                {
+                case 0.0:
                     return;
-                }
-
-                while ( det[0] < 1.0 )
-                {
-                    det[0] = det[0] * s;
-                    det[1] = det[1] - 1.0;
-                }
-
-                while ( s <= det[0] )
-                {
-                    det[0] = det[0] / s;
-                    det[1] = det[1] + 1.0;
-                }
-
             }
+
+            while ( det[0] < 1.0 )
+            {
+                det[0] *= s;
+                det[1] -= 1.0;
+            }
+
+            while ( s <= det[0] )
+            {
+                det[0] /= s;
+                det[1] += 1.0;
+            }
+
         }
     }
 }

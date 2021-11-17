@@ -1,94 +1,94 @@
 ﻿using System;
 
-namespace Burkardt.Elliptic
+namespace Burkardt.Elliptic;
+
+public static class PIA_inc
 {
-    public static class PIA_inc
+    public static double evaluate(double phi, double n, double a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPTIC_INC_PIA evaluates the incomplete elliptic integral Pi(PHI,N,A).
+        //
+        //  Discussion:
+        //
+        //    The value is computed using Carlson elliptic integrals:
+        //
+        //      Pi(PHI,N,A) = integral ( 0 <= T <= PHI )
+        //        dT / (1 - N sin^2(T) ) sqrt ( 1 - sin^2(A*pi/180) * sin ( T )^2 )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 June 2018
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double PHI, N, A, the arguments.
+        //
+        //    Output, double ELLIPTIC_INC_PIA, the function value.
+        //
     {
-        public static double evaluate(double phi, double n, double a)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPTIC_INC_PIA evaluates the incomplete elliptic integral Pi(PHI,N,A).
-            //
-            //  Discussion:
-            //
-            //    The value is computed using Carlson elliptic integrals:
-            //
-            //      Pi(PHI,N,A) = integral ( 0 <= T <= PHI )
-            //        dT / (1 - N sin^2(T) ) sqrt ( 1 - sin^2(A*pi/180) * sin ( T )^2 )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    25 June 2018
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double PHI, N, A, the arguments.
-            //
-            //    Output, double ELLIPTIC_INC_PIA, the function value.
-            //
-        {
-            double cp;
-            double errtol;
-            int ierr = 0;
-            double k;
-            double p;
+        double cp;
+        double errtol;
+        int ierr = 0;
+        double k;
+        double p;
             
-            double sp;
-            double value;
-            double value1;
-            double value2;
-            double x;
-            double y;
-            double z;
+        double sp;
+        double value = 0;
+        double value1;
+        double value2;
+        double x;
+        double y;
+        double z;
 
-            k = Math.Sin(a * Math.PI / 180.0);
+        k = Math.Sin(a * Math.PI / 180.0);
 
-            cp = Math.Cos(phi);
-            sp = Math.Sin(phi);
-            x = cp * cp;
-            y = (1.0 - k * sp) * (1.0 + k * sp);
-            z = 1.0;
-            p = 1.0 - n * sp * sp;
-            errtol = 1.0E-03;
+        cp = Math.Cos(phi);
+        sp = Math.Sin(phi);
+        x = cp * cp;
+        y = (1.0 - k * sp) * (1.0 + k * sp);
+        z = 1.0;
+        p = 1.0 - n * sp * sp;
+        errtol = 1.0E-03;
 
-            value1 = Integral.rf(x, y, z, errtol, ref ierr);
+        value1 = Integral.rf(x, y, z, errtol, ref ierr);
 
-            if (ierr != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPTIC_INC_PIA - Fatal error!");
-                Console.WriteLine("  RF returned IERR = " + ierr + "");
-                return (1);
-            }
-
-            value2 = Integral.rj(x, y, z, p, errtol, ref ierr);
-
-            if (ierr != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPTIC_INC_PIA - Fatal error!");
-                Console.WriteLine("  RJ returned IERR = " + ierr + "");
-                return (1);
-            }
-
-            value = sp * value1 + n * sp * sp * sp * value2 / 3.0;
-
-            return value;
+        if (ierr != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPTIC_INC_PIA - Fatal error!");
+            Console.WriteLine("  RF returned IERR = " + ierr + "");
+            return 1;
         }
 
-        public static void values(ref int n_data, ref double phi, ref double n, ref double a,
-        ref double pia )
+        value2 = Integral.rj(x, y, z, p, errtol, ref ierr);
+
+        if (ierr != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPTIC_INC_PIA - Fatal error!");
+            Console.WriteLine("  RJ returned IERR = " + ierr + "");
+            return 1;
+        }
+
+        value = sp * value1 + n * sp * sp * sp * value2 / 3.0;
+
+        return value;
+    }
+
+    public static void values(ref int n_data, ref double phi, ref double n, ref double a,
+            ref double pia )
 
         //****************************************************************************80
         //
@@ -137,10 +137,10 @@ namespace Burkardt.Elliptic
         //
         //    Output, double &PIA, the value of the function.
         //
-        {
-            int N_MAX = 20;
+    {
+        const int N_MAX = 20;
 
-            double[] a_vec =
+        double[] a_vec =
             {
                 88.87822485052908,
                 -86.55208740039521,
@@ -165,7 +165,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] n_vec =
+        double[] n_vec =
             {
                 8.064681366127422,
                 -0.2840588974558835,
@@ -190,7 +190,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] phi_vec =
+        double[] phi_vec =
             {
                 0.3430906586047127,
                 0.8823091382756705,
@@ -215,7 +215,7 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            double[] pia_vec =
+        double[] pia_vec =
             {
                 0.7099335174334724,
                 0.9601963779142505,
@@ -240,27 +240,27 @@ namespace Burkardt.Elliptic
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (N_MAX <= n_data)
-            {
-                n_data = 0;
-                a = 0.0;
-                n = 0.0;
-                phi = 0.0;
-                pia = 0.0;
-            }
-            else
-            {
-                a = a_vec[n_data];
-                n = n_vec[n_data];
-                phi = phi_vec[n_data];
-                pia = pia_vec[n_data];
-                n_data = n_data + 1;
-            }
+        if (N_MAX <= n_data)
+        {
+            n_data = 0;
+            a = 0.0;
+            n = 0.0;
+            phi = 0.0;
+            pia = 0.0;
+        }
+        else
+        {
+            a = a_vec[n_data];
+            n = n_vec[n_data];
+            phi = phi_vec[n_data];
+            pia = pia_vec[n_data];
+            n_data += 1;
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Exponential
 {
-    public static class Exponential
-    {
-        public static double exponential_01_cdf(double x)
+    public static double exponential_01_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -30,22 +30,17 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_01_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
+            <= 0.0 => 0.0,
+            _ => 1.0 - Math.Exp(-x)
+        };
 
-            if (x <= 0.0)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Exp(-x);
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-        public static double exponential_01_cdf_inv(double cdf)
+    public static double exponential_01_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -71,23 +66,25 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_CDF_INV, the corresponding argument.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EXPONENTIAL_01_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
+                return 1;
+            default:
+                x = -Math.Log(1.0 - cdf);
 
-            x = -Math.Log(1.0 - cdf);
-
-            return x;
+                return x;
         }
+    }
 
-        public static double exponential_01_mean()
+    public static double exponential_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -110,13 +107,13 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_MEAN, the mean of the PDF.
         //
-        {
-            double mean = 1.0;
+    {
+        double mean = 1.0;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double exponential_01_pdf(double x)
+    public static double exponential_01_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -146,22 +143,17 @@ namespace Burkardt.Probability
         //
         //    Output, double PDF, the value of the PDF.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
+            < 0.0 => 0.0,
+            _ => Math.Exp(-x)
+        };
 
-            if (x < 0.0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = Math.Exp(-x);
-            }
+        return pdf;
+    }
 
-            return pdf;
-        }
-
-        public static double exponential_01_sample(ref int seed)
+    public static double exponential_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -186,15 +178,15 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_01_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = -Math.Log(1.0 - cdf);
+        double x = -Math.Log(1.0 - cdf);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double exponential_01_variance()
+    public static double exponential_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -217,13 +209,13 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 1.0;
+    {
+        double variance = 1.0;
 
-            return variance;
-        }
+        return variance;
+    }
 
-        public static double exponential_cdf(double x, double a, double b)
+    public static double exponential_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -251,22 +243,22 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        if (x <= a)
         {
-            double cdf;
-
-            if (x <= a)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Exp((a - x) / b);
-            }
-
-            return cdf;
+            cdf = 0.0;
+        }
+        else
+        {
+            cdf = 1.0 - Math.Exp((a - x) / b);
         }
 
-        public static double exponential_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double exponential_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -295,21 +287,25 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_CDF_INV, the corresponding argument.
         //
+    {
+        switch (cdf)
         {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EXPONENTIAL_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
+                return 1;
+            default:
+            {
+                double x = a - b * Math.Log(1.0 - cdf);
+
+                return x;
             }
-
-            double x = a - b * Math.Log(1.0 - cdf);
-
-            return x;
         }
+    }
 
-        public static void exponential_cdf_values(ref int n_data, ref double lambda, ref double x,
+    public static void exponential_cdf_values(ref int n_data, ref double lambda, ref double x,
             ref double fx )
         //****************************************************************************80
         //
@@ -365,71 +361,72 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
+    {
+        const int N_MAX = 9;
+
+        double[] fx_vec =
         {
-            int N_MAX = 9;
+            0.3934693402873666E+00,
+            0.6321205588285577E+00,
+            0.7768698398515702E+00,
+            0.8646647167633873E+00,
+            0.8646647167633873E+00,
+            0.9816843611112658E+00,
+            0.9975212478233336E+00,
+            0.9996645373720975E+00,
+            0.9999546000702375E+00
+        } ;
 
-            double[] fx_vec =
-            {
-                0.3934693402873666E+00,
-                0.6321205588285577E+00,
-                0.7768698398515702E+00,
-                0.8646647167633873E+00,
-                0.8646647167633873E+00,
-                0.9816843611112658E+00,
-                0.9975212478233336E+00,
-                0.9996645373720975E+00,
-                0.9999546000702375E+00
-            } ;
+        double[] lambda_vec =
+        {
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.5000000000000000E+00,
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.5000000000000000E+01
+        } ;
 
-            double[] lambda_vec =
-            {
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01
-            } ;
+        double[] x_vec =
+        {
+            0.1000000000000000E+01,
+            0.2000000000000000E+01,
+            0.3000000000000000E+01,
+            0.4000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01,
+            0.2000000000000000E+01
+        } ;
 
-            double[] x_vec =
-            {
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01
-            } ;
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data += 1;
 
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                lambda = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                lambda = lambda_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            lambda = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            lambda = lambda_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool exponential_check(double a, double b)
+    public static bool exponential_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -455,19 +452,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool EXPONENTIAL_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("EXPONENTIAL_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.0");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double exponential_mean(double a, double b)
+    public static double exponential_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -493,13 +491,13 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a + b;
+    {
+        double mean = a + b;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double exponential_pdf(double x, double a, double b)
+    public static double exponential_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -551,22 +549,22 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        if (x < a)
         {
-            double pdf;
-
-            if (x < a)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = (1.0 / b) * Math.Exp((a - x) / b);
-            }
-
-            return pdf;
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = 1.0 / b * Math.Exp((a - x) / b);
         }
 
-        public static double exponential_sample(double a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static double exponential_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -594,15 +592,15 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = exponential_cdf_inv(cdf, a, b);
+        double x = exponential_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double exponential_variance(double a, double b)
+    public static double exponential_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -628,10 +626,9 @@ namespace Burkardt.Probability
         //
         //    Output, double EXPONENTIAL_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = b * b;
+    {
+        double variance = b * b;
 
-            return variance;
-        }
+        return variance;
     }
 }

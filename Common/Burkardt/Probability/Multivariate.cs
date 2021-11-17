@@ -1,9 +1,9 @@
-﻿namespace Burkardt.Probability
+﻿namespace Burkardt.Probability;
+
+public static class Multivariate
 {
-    public static class Multivariate
-    {
-        public static double[] multivariate_normal_sample ( int n, double[] mean, 
-        double[] covar_factor, ref int seed )
+    public static double[] multivariate_normal_sample ( int n, double[] mean, 
+            double[] covar_factor, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -58,22 +58,21 @@
         //    Output, double MULTIVARIATE_NORMAL_SAMPLE[N], a sample point
         //    of the distribution.
         //
+    {
+        double[] x = new double[n];
+
+        for (int i = 0; i < n; i++ )
         {
-            double[] x = new double[n];
+            double z = Normal.normal_01_sample ( ref seed );
 
-            for (int i = 0; i < n; i++ )
+            x[i] = mean[i];
+
+            for (int j = 0; j <= i; j++ )
             {
-                double z = Normal.normal_01_sample ( ref seed );
-
-                x[i] = mean[i];
-
-                for (int j = 0; j <= i; j++ )
-                {
-                    x[i] = x[i] + covar_factor[i+j*n] * z;
-                }
+                x[i] += covar_factor[i+j*n] * z;
             }
-
-            return x;
         }
+
+        return x;
     }
 }

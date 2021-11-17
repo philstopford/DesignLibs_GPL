@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Uniform
+namespace Burkardt.Uniform;
+
+public static class Annulus
 {
-    public static class Annulus
-    {
-        public static double[] uniform_in_annulus(double[] pc, double r1, double r2, int n,
-        ref int seed )
+    public static double[] uniform_in_annulus(double[] pc, double r1, double r2, int n,
+            ref int seed )
 
         //****************************************************************************80
         //
@@ -54,35 +54,30 @@ namespace Burkardt.Uniform
         //
         //    Output, double UNIFORM_IN_ANNULUS[2*N], sample points.
         //
+    {
+        const int DIM_NUM = 2;
+
+        int j;
+
+        double[] p = new double[DIM_NUM * n];
+
+        for (j = 0; j < n; j++)
         {
-            int DIM_NUM = 2;
+            double u = UniformRNG.r8_uniform_01(ref seed);
+            double theta = u * 2.0 * Math.PI;
+            double v = UniformRNG.r8_uniform_01(ref seed);
+            double r = Math.Sqrt((1.0 - v) * r1 * r1
+                                 + v * r2 * r2);
 
-            int j;
-            double[] p;
-            double r;
-            double theta;
-            double u;
-            double v;
-
-            p = new double[DIM_NUM * n];
-
-            for (j = 0; j < n; j++)
-            {
-                u = UniformRNG.r8_uniform_01(ref seed);
-                theta = u * 2.0 * Math.PI;
-                v = UniformRNG.r8_uniform_01(ref seed);
-                r = Math.Sqrt((1.0 - v) * r1 * r1
-                         + v * r2 * r2);
-
-                p[0 + j * 2] = pc[0] + r * Math.Cos(theta);
-                p[1 + j * 2] = pc[1] + r * Math.Sin(theta);
-            }
-
-            return p;
+            p[0 + j * 2] = pc[0] + r * Math.Cos(theta);
+            p[1 + j * 2] = pc[1] + r * Math.Sin(theta);
         }
 
-        public static double[] uniform_in_annulus_accept(double[] pc, double r1, double r2, int n,
-        ref int seed )
+        return p;
+    }
+
+    public static double[] uniform_in_annulus_accept(double[] pc, double r1, double r2, int n,
+            ref int seed )
 
         //****************************************************************************80
         //
@@ -123,64 +118,62 @@ namespace Burkardt.Uniform
         //
         //    Output, double UNIFORM_IN_ANNULUS_ACCEPT[2*N], the points.
         //
+    {
+        const int DIM_NUM = 2;
+
+        int j;
+        double[] u = new double[DIM_NUM];
+
+        if (r2 <= r1)
         {
-            int DIM_NUM = 2;
+            Console.WriteLine("");
+            Console.WriteLine("UNIFORM_IN_ANNULUS_ACCEPT - Fatal error!");
+            Console.WriteLine("  R2 <= R1.");
+            return null;
+        }
 
+        double[] p = new double[DIM_NUM * n];
+        //
+        //  Generate points in a square of "radius" R2.
+        //  Accept those points which lie inside the circle of radius R2, and outside
+        //  the circle of radius R1.
+        //
+        for (j = 0; j < n; j++)
+        {
             int i;
-            int j;
-            double[] p;
-            double r_squared;
-            double[] u = new double[DIM_NUM];
-
-            if (r2 <= r1)
+            for (;;)
             {
-                Console.WriteLine("");
-                Console.WriteLine("UNIFORM_IN_ANNULUS_ACCEPT - Fatal error!");
-                Console.WriteLine("  R2 <= R1.");
-                return null;
-            }
-
-            p = new double[DIM_NUM * n];
-            //
-            //  Generate points in a square of "radius" R2.
-            //  Accept those points which lie inside the circle of radius R2, and outside
-            //  the circle of radius R1.
-            //
-            for (j = 0; j < n; j++)
-            {
-                for (;;)
-                {
-                    UniformRNG.r8vec_uniform_01(DIM_NUM, ref seed, ref u);
-
-                    for (i = 0; i < DIM_NUM; i++)
-                    {
-                        u[i] = (2.0 * u[i] - 1.0) * r2;
-                    }
-
-                    r_squared = 0.0;
-                    for (i = 0; i < DIM_NUM; i++)
-                    {
-                        r_squared = r_squared + u[i] * u[i];
-                    }
-
-                    if (r1 * r1 <= r_squared && r_squared <= r2 * r2)
-                    {
-                        break;
-                    }
-                }
+                UniformRNG.r8vec_uniform_01(DIM_NUM, ref seed, ref u);
 
                 for (i = 0; i < DIM_NUM; i++)
                 {
-                    p[i + j * DIM_NUM] = pc[i] + u[i];
+                    u[i] = (2.0 * u[i] - 1.0) * r2;
                 }
 
+                double r_squared = 0.0;
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    r_squared += u[i] * u[i];
+                }
+
+                if (r1 * r1 <= r_squared && r_squared <= r2 * r2)
+                {
+                    break;
+                }
             }
 
-            return p;
+            for (i = 0; i < DIM_NUM; i++)
+            {
+                p[i + j * DIM_NUM] = pc[i] + u[i];
+            }
+
         }
 
-        public static double[] uniform_in_annulus_sector(double[] pc, double r1, double r2,
-        double theta1, double theta2, int n, ref int seed )
+        return p;
+    }
+
+    public static double[] uniform_in_annulus_sector(double[] pc, double r1, double r2,
+            double theta1, double theta2, int n, ref int seed )
 
         //****************************************************************************80
         //
@@ -236,35 +229,29 @@ namespace Burkardt.Uniform
         //
         //    Output, double UNIFORM_IN_ANNULUS_SECTOR[2*N], sample points.
         //
+    {
+        const int DIM_NUM = 2;
+
+        int j;
+
+        double[] p = new double[DIM_NUM * n];
+
+        for (j = 0; j < n; j++)
         {
-            int DIM_NUM = 2;
+            double u = UniformRNG.r8_uniform_01(ref seed);
 
-            int j;
-            double[] p;
-            double r;
-            double theta;
-            double u;
-            double v;
+            double theta = (1.0 - u) * theta1
+                           + u * theta2;
 
-            p = new double[DIM_NUM * n];
+            double v = UniformRNG.r8_uniform_01(ref seed);
 
-            for (j = 0; j < n; j++)
-            {
-                u = UniformRNG.r8_uniform_01(ref seed);
+            double r = Math.Sqrt((1.0 - v) * r1 * r1
+                                 + v * r2 * r2);
 
-                theta = (1.0 - u) * theta1
-                        + u * theta2;
-
-                v = UniformRNG.r8_uniform_01(ref seed);
-
-                r = Math.Sqrt((1.0 - v) * r1 * r1
-                         + v * r2 * r2);
-
-                p[0 + j * 2] = pc[0] + r * Math.Cos(theta);
-                p[1 + j * 2] = pc[1] + r * Math.Sin(theta);
-            }
-
-            return p;
+            p[0 + j * 2] = pc[0] + r * Math.Cos(theta);
+            p[1 + j * 2] = pc[1] + r * Math.Sin(theta);
         }
+
+        return p;
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Uniform
+﻿namespace Burkardt.Uniform;
+
+public static partial class UniformRNG
 {
-    public static partial class UniformRNG
-    {
-        public static void r83vec_uniform ( int n, double[] alo, double[] ahi, ref int seed, ref double[] a )
+    public static void r83vec_uniform ( int n, double[] alo, double[] ahi, ref int seed, ref double[] a )
 
         //****************************************************************************80
         //
@@ -37,13 +37,12 @@
         //
         //    Output, double A[N*3], the vector of randomly chosen values.
         //
+    {
+        for ( int i = 0; i < n; i++ )
         {
-            for ( int i = 0; i < n; i++ )
+            for ( int j = 0; j < 3; j++ )
             {
-                for ( int j = 0; j < 3; j++ )
-                {
-                    a[3*i+j] = r8_uniform ( alo[j], ahi[j], ref seed );
-                }
+                a[3*i+j] = r8_uniform ( alo[j], ahi[j], ref seed );
             }
         }
     }

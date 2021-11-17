@@ -1,40 +1,42 @@
 using System;
 
-namespace MiscUtil
+namespace MiscUtil;
+
+/// <summary>
+/// Type of buffer returned by CachingBufferManager.
+/// </summary>
+internal class CachedBuffer : IBuffer
 {
-    /// <summary>
-    /// Type of buffer returned by CachingBufferManager.
-    /// </summary>
-    class CachedBuffer : IBuffer
+    private readonly byte[] data;
+    private volatile bool available;
+    private readonly bool clearOnDispose;
+
+    internal CachedBuffer(int size, bool clearOnDispose)
     {
-        readonly byte[] data;
-        volatile bool available;
-        readonly bool clearOnDispose;
+        data = new byte[size];
+        this.clearOnDispose = clearOnDispose;
+    }
 
-        internal CachedBuffer(int size, bool clearOnDispose)
-        {
-            data = new byte[size];
-            this.clearOnDispose = clearOnDispose;
-        }
+    internal bool Available
+    {
+        get { return available; }
+        set { available = value; }
+    }
 
-        internal bool Available
-        {
-            get { return available; }
-            set { available = value; }
-        }
+    public byte[] Bytes
+    {
+        get { return data; }
+    }
 
-        public byte[] Bytes
+    public void Dispose()
+    {
+        switch (clearOnDispose)
         {
-            get { return data; }
-        }
-
-        public void Dispose()
-        {
-            if (clearOnDispose)
-            {
+            case true:
                 Array.Clear(data, 0, data.Length);
-            }
-            available = true;
+                break;
         }
+
+        available = true;
     }
 }

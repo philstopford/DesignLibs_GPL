@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class FEM_1D_Heat_Steady
 {
-    public static class FEM_1D_Heat_Steady
-    {
-        public static double[] fem1d_heat_steady(int n, double a, double b, double ua, double ub,
-            Func<double, double> k, Func<double, double> f, double[] x)
+    public static double[] fem1d_heat_steady(int n, double a, double b, double ua, double ub,
+        Func<double, double> k, Func<double, double> f, double[] x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -99,50 +99,50 @@ namespace Burkardt.FEM
 //    Output, double FEM1D_HEAT_STEADY[N], the finite element coefficients, 
 //    which are also the value of the computed solution at the mesh points.
 //
-        {
-            int QUAD_NUM = 2;
+    {
+        int QUAD_NUM = 2;
 
-            double[] abscissa =  {
+        double[] abscissa =  {
                 -0.577350269189625764509148780502,
                 +0.577350269189625764509148780502
             }
             ;
-            double al;
-            double am;
-            double ar;
-            double[] amat;
-            double[] bvec;
-            double bm;
-            double fxq;
-            int i;
-            int ierror = 0;
-            double kxq;
-            int q;
-            int quad_num = QUAD_NUM;
-            double[] u;
-            double[] weight =  {
+        double al;
+        double am;
+        double ar;
+        double[] amat;
+        double[] bvec;
+        double bm;
+        double fxq;
+        int i;
+        int ierror = 0;
+        double kxq;
+        int q;
+        int quad_num = QUAD_NUM;
+        double[] u;
+        double[] weight =  {
                 1.0, 1.0
             }
             ;
-            double wq;
-            double vlp;
-            double vm;
-            double vmp;
-            double vrp;
-            double xl;
-            double xm;
-            double xq;
-            double xr;
+        double wq;
+        double vlp;
+        double vm;
+        double vmp;
+        double vrp;
+        double xl;
+        double xm;
+        double xq;
+        double xr;
 //
 //  Zero out the matrix and right hand side.
 //
-            amat = typeMethods.r8mat_zero_new(n, n);
-            bvec = typeMethods.r8vec_zero_new(n);
+        amat = typeMethods.r8mat_zero_new(n, n);
+        bvec = typeMethods.r8vec_zero_new(n);
 //
 //  Equation 1 is the left boundary condition, U(A) = UA;
 //
-            amat[0 + 0 * n] = 1.0;
-            bvec[0] = ua;
+        amat[0 + 0 * n] = 1.0;
+        bvec[0] = ua;
 //
 //  Equation I involves the basis function at node I.
 //  This basis function is nonzero from X(I-1) to X(I+1).
@@ -174,27 +174,27 @@ namespace Burkardt.FEM
 //  Now gather the multipliers of U(I-1) to get the matrix entry A(I,I-1), 
 //  and so on.
 //
-            for (i = 1; i < n - 1; i++)
-            {
+        for (i = 1; i < n - 1; i++)
+        {
 //
 //  Get the left, right and middle coordinates.
 //
-                xl = x[i - 1];
-                xm = x[i];
-                xr = x[i + 1];
+            xl = x[i - 1];
+            xm = x[i];
+            xr = x[i + 1];
 //
 //  Make temporary variables for A(I,I-1), A(I,I), A(I,I+1) and B(I).
 //
-                al = 0.0;
-                am = 0.0;
-                ar = 0.0;
-                bm = 0.0;
+            al = 0.0;
+            am = 0.0;
+            ar = 0.0;
+            bm = 0.0;
 //
 //  We approximate the integrals by using a weighted sum of
 //  the integrand values at quadrature points.
 //
-                for (q = 0; q < quad_num; q++)
-                {
+            for (q = 0; q < quad_num; q++)
+            {
 //
 //  Integrate over the LEFT interval, between XL and XM, where:
 //
@@ -206,28 +206,28 @@ namespace Burkardt.FEM
 //  VM'(X) =             + 1 / ( XM - XL ) 
 //  VR'(X) = 0
 //
-                    xq = ((1.0 - abscissa[q]) * xl
-                          + (1.0 + abscissa[q]) * xm)
-                         / 2.0;
+                xq = ((1.0 - abscissa[q]) * xl
+                      + (1.0 + abscissa[q]) * xm)
+                     / 2.0;
 
-                    wq = weight[q] * (xm - xl) / 2.0;
+                wq = weight[q] * (xm - xl) / 2.0;
 
 //    vl =  ( xm - xq ) / ( xm - xl );
-                    vlp = -1.0 / (xm - xl);
+                vlp = -1.0 / (xm - xl);
 
-                    vm = (xq - xl) / (xm - xl);
-                    vmp = +1.0 / (xm - xl);
+                vm = (xq - xl) / (xm - xl);
+                vmp = +1.0 / (xm - xl);
 
 //    vr =  0.0;
-                    vrp = 0.0;
+                vrp = 0.0;
 
-                    kxq = k(xq);
-                    fxq = f(xq);
+                kxq = k(xq);
+                fxq = f(xq);
 
-                    al = al + wq * (kxq * vlp * vmp);
-                    am = am + wq * (kxq * vmp * vmp);
-                    ar = ar + wq * (kxq * vrp * vmp);
-                    bm = bm + wq * (fxq * vm);
+                al += wq * (kxq * vlp * vmp);
+                am += wq * (kxq * vmp * vmp);
+                ar += wq * (kxq * vrp * vmp);
+                bm += wq * (fxq * vm);
 //
 //  Integrate over the RIGHT interval, between XM and XR, where:
 //
@@ -239,48 +239,47 @@ namespace Burkardt.FEM
 //  VM'(X) =             - 1 / ( XR - XM )
 //  VR'(X) =             + 1 / ( XR - XM ) 
 //
-                    xq = ((1.0 - abscissa[q]) * xm
-                          + (1.0 + abscissa[q]) * xr)
-                         / 2.0;
+                xq = ((1.0 - abscissa[q]) * xm
+                      + (1.0 + abscissa[q]) * xr)
+                     / 2.0;
 
-                    wq = weight[q] * (xr - xm) / 2.0;
+                wq = weight[q] * (xr - xm) / 2.0;
 
 //    vl = 0.0;
-                    vlp = 0.0;
+                vlp = 0.0;
 
-                    vm = (xr - xq) / (xr - xm);
-                    vmp = -1.0 / (xr - xm);
+                vm = (xr - xq) / (xr - xm);
+                vmp = -1.0 / (xr - xm);
 
 //    vr = ( xq - xm ) / ( xr - xm );
-                    vrp = 1.0 / (xr - xm);
+                vrp = 1.0 / (xr - xm);
 
-                    kxq = k(xq);
-                    fxq = f(xq);
+                kxq = k(xq);
+                fxq = f(xq);
 
-                    al = al + wq * (kxq * vlp * vmp);
-                    am = am + wq * (kxq * vmp * vmp);
-                    ar = ar + wq * (kxq * vrp * vmp);
-                    bm = bm + wq * (fxq * vm);
-                }
-
-                amat[i + (i - 1) * n] = al;
-                amat[i + i * n] = am;
-                amat[i + (i + 1) * n] = ar;
-
-                bvec[i] = bm;
+                al += wq * (kxq * vlp * vmp);
+                am += wq * (kxq * vmp * vmp);
+                ar += wq * (kxq * vrp * vmp);
+                bm += wq * (fxq * vm);
             }
+
+            amat[i + (i - 1) * n] = al;
+            amat[i + i * n] = am;
+            amat[i + (i + 1) * n] = ar;
+
+            bvec[i] = bm;
+        }
 
 //
 //  Equation N is the right boundary condition, U(B) = UB;
 //
-            amat[n - 1 + (n - 1) * n] = 1.0;
-            bvec[n - 1] = ub;
+        amat[n - 1 + (n - 1) * n] = 1.0;
+        bvec[n - 1] = ub;
 //
 //  Solve the linear system.
 //
-            u = typeMethods.r8mat_solve2(n, ref amat, ref bvec, ref ierror);
+        u = typeMethods.r8mat_solve2(n, ref amat, ref bvec, ref ierror);
 
-            return u;
-        }
+        return u;
     }
 }

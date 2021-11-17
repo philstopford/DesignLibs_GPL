@@ -2,65 +2,64 @@
 using Burkardt;
 using Burkardt.AppliedStatistics;
 
-namespace PolPakTest
+namespace PolPakTest;
+
+public static class lgammaTest
 {
-    public static class lgammaTest
+    public static void lgamma_test()
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LGAMMA_TEST tests LGAMMA.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    23 May 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
     {
-        public static void lgamma_test()
+        double fx = 0;
+        double fx2 = 0;
+        int n_data = 0;
+        double x = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    LGAMMA_TEST tests LGAMMA.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    23 May 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
+        Console.WriteLine("");
+        Console.WriteLine("LGAMMA_TEST:");
+        Console.WriteLine("  LGAMMA is a C math library function which evaluates");
+        Console.WriteLine("  the logarithm of the Gamma function.");
+        Console.WriteLine("");
+        Console.WriteLine("     X       Exact F       LGAMMA(X)");
+        Console.WriteLine("");
+
+        n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            double fx2 = 0;
-            int n_data = 0;
-            double x = 0;
+            Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("LGAMMA_TEST:");
-            Console.WriteLine("  LGAMMA is a C math library function which evaluates");
-            Console.WriteLine("  the logarithm of the Gamma function.");
-            Console.WriteLine("");
-            Console.WriteLine("     X       Exact F       LGAMMA(X)");
-            Console.WriteLine("");
-
-            n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                fx2 = Helpers.LogGamma(x);
-
-                Console.WriteLine("  "
-                                  + x.ToString().PadLeft(8) + "  "
-                                  + fx.ToString().PadLeft(10) + "  "
-                                  + fx2.ToString().PadLeft(10) + "");
-
+                break;
             }
+
+            fx2 = Helpers.LogGamma(x);
+
+            Console.WriteLine("  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(10) + "  "
+                              + fx2.ToString().PadLeft(10) + "");
 
         }
 
     }
+
 }

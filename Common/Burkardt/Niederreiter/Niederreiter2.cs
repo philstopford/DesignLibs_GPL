@@ -1,85 +1,85 @@
 ﻿using System;
 
-namespace Burkardt.NiederreiterNS
+namespace Burkardt.NiederreiterNS;
+
+public static partial class Niederreiter2
 {
-    public static partial class Niederreiter2
+    private static int MAXDEG = 50;
+    private static int DIM_MAX = 20;
+    private static int NBITS = 31;
+    public static void calcc2(ref NiederReiter2CalcData data, int dim_num, ref int[,] cj)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CALCC2 computes values of the constants C(I,J,R).
+        //
+        //  Discussion:
+        //
+        //    This program calculates the values of the constants C(I,J,R).
+        //
+        //    As far as possible, Niederreiter's notation is used.
+        //
+        //    For each value of I, we first calculate all the corresponding
+        //    values of C.  These are held in the array CI.  All these
+        //    values are either 0 or 1.  
+        //
+        //    Next we pack the values into the
+        //    array CJ, in such a way that CJ(I,R) holds the values of C
+        //    for the indicated values of I and R and for every value of
+        //    J from 1 to NBITS.  The most significant bit of CJ(I,R)
+        //    (not counting the sign bit) is C(I,1,R) and the least
+        //    significant bit is C(I,NBITS,R).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    29 March 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    R Lidl, Harald Niederreiter, 
+        //    Finite Fields,
+        //    Cambridge University Press, 1984, page 553.
+        //
+        //    Harald Niederreiter,
+        //    Low-discrepancy and low-dispersion sequences,
+        //    Journal of Number Theory,
+        //    Volume 30, 1988, pages 51-70.
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the dimension of the sequence to be generated.
+        //
+        //    Output, int CJ[DIM_MAX][NBITS], the packed values of 
+        //    Niederreiter's C(I,J,R)
+        //
+        //  Local Parameters:
+        //
+        //    Local, int MAXE; we need DIM_MAX irreducible polynomials over Z2.
+        //    MAXE is the highest degree among these.
+        //
+        //    Local, int MAXV, the maximum possible index used in V.
+        //
     {
-        static int MAXDEG = 50;
-        static int DIM_MAX = 20;
-        private static int NBITS = 31;
-        public static void calcc2(ref NiederReiter2CalcData data, int dim_num, ref int[,] cj)
+        int MAXE = 6;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CALCC2 computes values of the constants C(I,J,R).
-            //
-            //  Discussion:
-            //
-            //    This program calculates the values of the constants C(I,J,R).
-            //
-            //    As far as possible, Niederreiter's notation is used.
-            //
-            //    For each value of I, we first calculate all the corresponding
-            //    values of C.  These are held in the array CI.  All these
-            //    values are either 0 or 1.  
-            //
-            //    Next we pack the values into the
-            //    array CJ, in such a way that CJ(I,R) holds the values of C
-            //    for the indicated values of I and R and for every value of
-            //    J from 1 to NBITS.  The most significant bit of CJ(I,R)
-            //    (not counting the sign bit) is C(I,1,R) and the least
-            //    significant bit is C(I,NBITS,R).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    29 March 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    R Lidl, Harald Niederreiter, 
-            //    Finite Fields,
-            //    Cambridge University Press, 1984, page 553.
-            //
-            //    Harald Niederreiter,
-            //    Low-discrepancy and low-dispersion sequences,
-            //    Journal of Number Theory,
-            //    Volume 30, 1988, pages 51-70.
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the dimension of the sequence to be generated.
-            //
-            //    Output, int CJ[DIM_MAX][NBITS], the packed values of 
-            //    Niederreiter's C(I,J,R)
-            //
-            //  Local Parameters:
-            //
-            //    Local, int MAXE; we need DIM_MAX irreducible polynomials over Z2.
-            //    MAXE is the highest degree among these.
-            //
-            //    Local, int MAXV, the maximum possible index used in V.
-            //
-        {
-            int MAXE = 6;
-
-            int[,] add = new int [2,2];
-            int[] b = new int[MAXDEG + 1];
-            int b_deg;
-            int[,] ci = new int[NBITS,NBITS];
-            int e;
-            int i;
-            int[,] irred =
+        int[,] add = new int [2,2];
+        int[] b = new int[MAXDEG + 1];
+        int b_deg;
+        int[,] ci = new int[NBITS,NBITS];
+        int e;
+        int i;
+        int[,] irred =
             {
                 {
                     0,1,0,0,0,0,0
@@ -143,119 +143,121 @@ namespace Burkardt.NiederreiterNS
                 }
             }
             ;
-            int[] irred_deg = 
+        int[] irred_deg = 
             {
                 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6
             }
             ;
-            int j;
-            int maxv = NBITS + MAXE;
-            int[,] mul = new int[2,2];
-            int[] px = new int[MAXDEG + 1];
-            int px_deg;
-            int r;
-            int[,] sub = new int[2,2];
-            int term;
-            int u;
-            int[] v = new int[NBITS + MAXE + 1];
-            //
-            //  Prepare to work in Z2.
-            //
-            setfld2(add, mul, sub);
+        int j;
+        int maxv = NBITS + MAXE;
+        int[,] mul = new int[2,2];
+        int[] px = new int[MAXDEG + 1];
+        int px_deg;
+        int r;
+        int[,] sub = new int[2,2];
+        int term;
+        int u;
+        int[] v = new int[NBITS + MAXE + 1];
+        //
+        //  Prepare to work in Z2.
+        //
+        setfld2(add, mul, sub);
 
-            for (i = 0; i < dim_num; i++)
+        for (i = 0; i < dim_num; i++)
+        {
+            //
+            //  For each dimension, we need to calculate powers of an
+            //  appropriate irreducible polynomial:  see Niederreiter
+            //  page 65, just below equation (19).
+            //
+            //  Copy the appropriate irreducible polynomial into PX,
+            //  and its degree into E.  Set polynomial B = PX ** 0 = 1.
+            //  M is the degree of B.  Subsequently B will hold higher
+            //  powers of PX.
+            //
+            e = irred_deg[i];
+
+            px_deg = irred_deg[i];
+
+            for (j = 0; j <= px_deg; j++)
             {
-                //
-                //  For each dimension, we need to calculate powers of an
-                //  appropriate irreducible polynomial:  see Niederreiter
-                //  page 65, just below equation (19).
-                //
-                //  Copy the appropriate irreducible polynomial into PX,
-                //  and its degree into E.  Set polynomial B = PX ** 0 = 1.
-                //  M is the degree of B.  Subsequently B will hold higher
-                //  powers of PX.
-                //
-                e = irred_deg[i];
+                px[j] = irred[i,j];
+            }
 
-                px_deg = irred_deg[i];
+            b_deg = 0;
+            b[0] = 1;
+            //
+            //  Niederreiter (page 56, after equation (7), defines two
+            //  variables Q and U.  We do not need Q explicitly, but we do need U.
+            //
+            u = 0;
 
-                for (j = 0; j <= px_deg; j++)
-                {
-                    px[j] = irred[i,j];
-                }
-
-                b_deg = 0;
-                b[0] = 1;
-                //
-                //  Niederreiter (page 56, after equation (7), defines two
-                //  variables Q and U.  We do not need Q explicitly, but we do need U.
-                //
-                u = 0;
-
-                for (j = 0; j < NBITS; j++)
+            for (j = 0; j < NBITS; j++)
+            {
+                switch (u)
                 {
                     //
                     //  If U = 0, we need to set B to the next power of PX
                     //  and recalculate V.  This is done by subroutine CALCV.
                     //
-                    if (u == 0)
-                    {
+                    case 0:
                         calcv2(ref data, maxv, px_deg, px, add, mul, sub, ref b_deg, b, v);
-                    }
-
-                    //
-                    //  Now C is obtained from V.  Niederreiter obtains A from V (page 65, 
-                    //  near the bottom), and then gets C from A (page 56, equation (7)).  
-                    //  However this can be done in one step.  Here CI(J,R) corresponds to
-                    //  Niederreiter's C(I,J,R).
-                    //
-                    for (r = 0; r < NBITS; r++)
-                    {
-                        ci[j,r] = v[r + u];
-                    }
-
-                    //
-                    //  Increment U.  
-                    //
-                    //  If U = E, then U = 0 and in Niederreiter's
-                    //  paper Q = Q + 1.  Here, however, Q is not used explicitly.
-                    //
-                    u = u + 1;
-                    if (u == e)
-                    {
-                        u = 0;
-                    }
-
+                        break;
                 }
 
                 //
-                //  The array CI now holds the values of C(I,J,R) for this value
-                //  of I.  We pack them into array CJ so that CJ(I,R) holds all
-                //  the values of C(I,J,R) for J from 1 to NBITS.
+                //  Now C is obtained from V.  Niederreiter obtains A from V (page 65, 
+                //  near the bottom), and then gets C from A (page 56, equation (7)).  
+                //  However this can be done in one step.  Here CI(J,R) corresponds to
+                //  Niederreiter's C(I,J,R).
                 //
                 for (r = 0; r < NBITS; r++)
                 {
-                    term = 0;
-                    for (j = 0; j < NBITS; j++)
-                    {
-                        term = 2 * term + ci[j,r];
-                    }
+                    ci[j,r] = v[r + u];
+                }
 
-                    cj[i,r] = term;
+                //
+                //  Increment U.  
+                //
+                //  If U = E, then U = 0 and in Niederreiter's
+                //  paper Q = Q + 1.  Here, however, Q is not used explicitly.
+                //
+                u += 1;
+                if (u == e)
+                {
+                    u = 0;
                 }
 
             }
-        }
 
-        public class NiederReiter2CalcData
-        {
-            public int arbit = 1;
-            public int nonzer = 1;
+            //
+            //  The array CI now holds the values of C(I,J,R) for this value
+            //  of I.  We pack them into array CJ so that CJ(I,R) holds all
+            //  the values of C(I,J,R) for J from 1 to NBITS.
+            //
+            for (r = 0; r < NBITS; r++)
+            {
+                term = 0;
+                for (j = 0; j < NBITS; j++)
+                {
+                    term = 2 * term + ci[j,r];
+                }
+
+                cj[i,r] = term;
+            }
+
         }
+    }
+
+    public class NiederReiter2CalcData
+    {
+        public int arbit = 1;
+        public int nonzer = 1;
+    }
         
-        public static void calcv2(ref NiederReiter2CalcData data, int maxv, int px_deg, int[] px, int[,] add,
-        int[,] mul, int[,] sub, ref int b_deg, int[] b,
-        int[] v )
+    public static void calcv2(ref NiederReiter2CalcData data, int maxv, int px_deg, int[] px, int[,] add,
+            int[,] mul, int[,] sub, ref int b_deg, int[] b,
+            int[] v )
 
         //****************************************************************************80
         //
@@ -329,334 +331,335 @@ namespace Burkardt.NiederreiterNS
         //    non-zero element of the field.  For the code, this means 
         //    0 < NONZER < 2.
         //
+    {
+        int bigm;
+        int[] h = new int[MAXDEG + 1];
+        int h_deg;
+        int i;
+        int kj;
+        int m;
+        int pb_deg;
+        int r;
+        int term;
+        //
+        //  The polynomial H is PX**(J-1), which is the value of B on arrival.
+        //
+        //  In section 3.3, the values of Hi are defined with a minus sign:
+        //  don't forget this if you use them later!
+        //
+        h_deg = b_deg;
+
+        for (i = 0; i <= h_deg; i++)
         {
-            int bigm;
-            int[] h = new int[MAXDEG + 1];
-            int h_deg;
-            int i;
-            int kj;
-            int m;
-            int pb_deg;
-            int r;
-            int term;
-            //
-            //  The polynomial H is PX**(J-1), which is the value of B on arrival.
-            //
-            //  In section 3.3, the values of Hi are defined with a minus sign:
-            //  don't forget this if you use them later!
-            //
-            h_deg = b_deg;
-
-            for (i = 0; i <= h_deg; i++)
-            {
-                h[i] = b[i];
-            }
-
-            bigm = h_deg;
-            //
-            //  Multiply B by PX so B becomes PX**J.
-            //  In section 2.3, the values of Bi are defined with a minus sign:
-            //  don't forget this if you use them later!
-            //
-            pb_deg = b_deg;
-
-            plymul2(add, mul, px_deg, px, pb_deg, b, ref pb_deg, b);
-
-            b_deg = pb_deg;
-            m = b_deg;
-            //
-            //  Now choose a value of Kj as defined in section 3.3.
-            //  We must have 0 <= Kj < E*J = M.
-            //  The limit condition on Kj does not seem very relevant
-            //  in this program.
-            //
-            kj = bigm;
-            //
-            //  Choose values of V in accordance with the conditions in section 3.3.
-            //
-            for (r = 0; r < kj; r++)
-            {
-                v[r] = 0;
-            }
-
-            v[kj] = 1;
-
-            if (kj < bigm)
-            {
-                term = sub[0,h[kj]];
-
-                for (r = kj + 1; r <= bigm - 1; r++)
-                {
-                    v[r] = data.arbit;
-                    //
-                    //  Check the condition of section 3.3,
-                    //  remembering that the H's have the opposite sign.
-                    //
-                    term = sub[term,mul[h[r],v[r]]];
-
-                }
-
-                //
-                //  Now V(BIGM) is anything but TERM.
-                //
-                v[bigm] = add[data.nonzer,term];
-
-                for (r = bigm + 1; r <= m - 1; r++)
-                {
-                    v[r] = data.arbit;
-                }
-            }
-            else
-            {
-                for (r = kj + 1; r <= m - 1; r++)
-                {
-                    v[r] = data.arbit;
-                }
-
-            }
-
-            //
-            //  Calculate the remaining V's using the recursion of section 2.3,
-            //  remembering that the B's have the opposite sign.
-            //
-            for (r = 0; r <= maxv - m; r++)
-            {
-                term = 0;
-                for (i = 0; i <= m - 1; i++)
-                {
-                    term = sub[term,mul[b[i],v[r + i]]];
-                }
-
-                v[r + m] = term;
-            }
+            h[i] = b[i];
         }
 
-        public class Niederreiter2Data
+        bigm = h_deg;
+        //
+        //  Multiply B by PX so B becomes PX**J.
+        //  In section 2.3, the values of Bi are defined with a minus sign:
+        //  don't forget this if you use them later!
+        //
+        pb_deg = b_deg;
+
+        plymul2(add, mul, px_deg, px, pb_deg, b, ref pb_deg, b);
+
+        b_deg = pb_deg;
+        m = b_deg;
+        //
+        //  Now choose a value of Kj as defined in section 3.3.
+        //  We must have 0 <= Kj < E*J = M.
+        //  The limit condition on Kj does not seem very relevant
+        //  in this program.
+        //
+        kj = bigm;
+        //
+        //  Choose values of V in accordance with the conditions in section 3.3.
+        //
+        for (r = 0; r < kj; r++)
         {
-            public int seed_save = 0;
-            public int dim_save = 0;
+            v[r] = 0;
+        }
+
+        v[kj] = 1;
+
+        if (kj < bigm)
+        {
+            term = sub[0,h[kj]];
+
+            for (r = kj + 1; r <= bigm - 1; r++)
+            {
+                v[r] = data.arbit;
+                //
+                //  Check the condition of section 3.3,
+                //  remembering that the H's have the opposite sign.
+                //
+                term = sub[term,mul[h[r],v[r]]];
+
+            }
+
+            //
+            //  Now V(BIGM) is anything but TERM.
+            //
+            v[bigm] = add[data.nonzer,term];
+
+            for (r = bigm + 1; r <= m - 1; r++)
+            {
+                v[r] = data.arbit;
+            }
+        }
+        else
+        {
+            for (r = kj + 1; r <= m - 1; r++)
+            {
+                v[r] = data.arbit;
+            }
+
+        }
+
+        //
+        //  Calculate the remaining V's using the recursion of section 2.3,
+        //  remembering that the B's have the opposite sign.
+        //
+        for (r = 0; r <= maxv - m; r++)
+        {
+            term = 0;
+            for (i = 0; i <= m - 1; i++)
+            {
+                term = sub[term,mul[b[i],v[r + i]]];
+            }
+
+            v[r + m] = term;
+        }
+    }
+
+    public class Niederreiter2Data
+    {
+        public int seed_save;
+        public int dim_save;
             
-            public int[,] cj = new int[DIM_MAX, NBITS];
-            public int[] nextq = new int[DIM_MAX];
-            public double RECIP = 1.0 / (double) (1 << NBITS);
+        public int[,] cj = new int[DIM_MAX, NBITS];
+        public int[] nextq = new int[DIM_MAX];
+        public double RECIP = 1.0 / (1 << NBITS);
 
-            public NiederReiter2CalcData calcdata = new NiederReiter2CalcData();
+        public NiederReiter2CalcData calcdata = new();
 
-        }
-        public static void niederreiter2(ref Niederreiter2Data data, int dim_num, ref int seed, ref double[] quasi, int index = 0)
+    }
+    public static void niederreiter2(ref Niederreiter2Data data, int dim_num, ref int seed, ref double[] quasi, int index = 0)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NIEDERREITER2 returns an element of the Niederreiter sequence base 2.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    29 March 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Harald Niederreiter,
-            //    Low-discrepancy and low-dispersion sequences,
-            //    Journal of Number Theory,
-            //    Volume 30, 1988, pages 51-70.
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the dimension of the sequence to be generated.
-            //
-            //    Input/output, int *SEED, the index of the element entry to
-            //    compute.  On output, SEED is typically reset by this routine
-            //    to SEED+1.
-            //
-            //    Output, double QUASI[DIM_NUM], the next quasirandom vector.
-            //
-            //  Local Parameters:
-            //
-            //    Local, int CJ(DIM_MAX,0:NBITS-1), the packed values of 
-            //    Niederreiter's C(I,J,R).
-            //
-            //    Local, int DIM_SAVE, the spatial dimension of the sequence
-            //    as specified on an initialization call.
-            //
-            //    Local, int COUNT, the index of the current item in the sequence,
-            //    expressed as an array of bits.  COUNT(R) is the same as Niederreiter's
-            //    AR(N) (page 54) except that N is implicit.
-            //
-            //    Local, int NEXTQ[DIM_MAX], the numerators of the next item in the
-            //    series.  These are like Niederreiter's XI(N) (page 54) except that
-            //    N is implicit, and the NEXTQ are integers.  To obtain
-            //    the values of XI(N), multiply by RECIP.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NIEDERREITER2 returns an element of the Niederreiter sequence base 2.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    29 March 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Paul Bratley, Bennett Fox, Harald Niederreiter.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Harald Niederreiter,
+        //    Low-discrepancy and low-dispersion sequences,
+        //    Journal of Number Theory,
+        //    Volume 30, 1988, pages 51-70.
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the dimension of the sequence to be generated.
+        //
+        //    Input/output, int *SEED, the index of the element entry to
+        //    compute.  On output, SEED is typically reset by this routine
+        //    to SEED+1.
+        //
+        //    Output, double QUASI[DIM_NUM], the next quasirandom vector.
+        //
+        //  Local Parameters:
+        //
+        //    Local, int CJ(DIM_MAX,0:NBITS-1), the packed values of 
+        //    Niederreiter's C(I,J,R).
+        //
+        //    Local, int DIM_SAVE, the spatial dimension of the sequence
+        //    as specified on an initialization call.
+        //
+        //    Local, int COUNT, the index of the current item in the sequence,
+        //    expressed as an array of bits.  COUNT(R) is the same as Niederreiter's
+        //    AR(N) (page 54) except that N is implicit.
+        //
+        //    Local, int NEXTQ[DIM_MAX], the numerators of the next item in the
+        //    series.  These are like Niederreiter's XI(N) (page 54) except that
+        //    N is implicit, and the NEXTQ are integers.  To obtain
+        //    the values of XI(N), multiply by RECIP.
+        //
+    {
+        int gray;
+        int i;
+        int r;
+        //
+        //  Initialization.
+        //
+        if (data.dim_save < 1 || dim_num != data.dim_save || seed <= 0)
         {
-            int gray;
-            int i;
-            int r;
-            //
-            //  Initialization.
-            //
-            if (data.dim_save < 1 || dim_num != data.dim_save || seed <= 0)
-            {
-                if (dim_num <= 0 || DIM_MAX < dim_num)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("NIEDERREITER2 - Fatal error!");
-                    Console.WriteLine("  Bad spatial dimension.");
-                    return;
-                }
-
-                data.dim_save = dim_num;
-
-                if (seed < 0)
-                {
-                    seed = 0;
-                }
-
-                data.seed_save = seed;
-                //
-                //  Calculate the C array.
-                //
-                calcc2(ref data.calcdata, data.dim_save, ref data.cj);
-            }
-
-            //
-            //  Set up NEXTQ appropriately, depending on the Gray code of SEED.
-            //
-            //  You can do this every time, starting NEXTQ back at 0,
-            //  or you can do it once, and then carry the value of NEXTQ
-            //  around from the previous computation.
-            //
-            if (seed != data.seed_save + 1)
-            {
-                gray = (seed) ^ (seed / 2);
-
-                for (i = 0; i < data.dim_save; i++)
-                {
-                    data.nextq[i] = 0;
-                }
-
-                r = 0;
-
-                while (gray != 0)
-                {
-                    if ((gray % 2) != 0)
-                    {
-                        for (i = 0; i < data.dim_save; i++)
-                        {
-                            data.nextq[i] = (data.nextq[i]) ^ (data.cj[i,r]);
-                        }
-                    }
-
-                    gray = gray / 2;
-                    r = r + 1;
-                }
-            }
-
-            //
-            //  Multiply the numerators in NEXTQ by RECIP to get the next
-            //  quasi-random vector.
-            //
-            for (i = 0; i < data.dim_save; i++)
-            {
-                quasi[index + i] = ((double) data.nextq[i]) * data.RECIP;
-            }
-
-            //
-            //  Find the position of the right-hand zero in SEED.  This
-            //  is the bit that changes in the Gray-code representation as
-            //  we go from SEED to SEED+1.
-            //
-            r = 0;
-            i = seed;
-
-            while ((i % 2) != 0)
-            {
-                r = r + 1;
-                i = i / 2;
-            }
-
-            //
-            //  Check that we have not passed 2^NBITS calls.
-            //
-            if (NBITS <= r)
+            if (dim_num <= 0 || DIM_MAX < dim_num)
             {
                 Console.WriteLine("");
                 Console.WriteLine("NIEDERREITER2 - Fatal error!");
-                Console.WriteLine("  Too many calls!");
+                Console.WriteLine("  Bad spatial dimension.");
                 return;
             }
 
-            //
-            //  Compute the new numerators in vector NEXTQ.
-            //
-            for (i = 0; i < data.dim_save; i++)
+            data.dim_save = dim_num;
+
+            seed = seed switch
             {
-                data.nextq[i] = (data.nextq[i]) ^ (data.cj[i,r]);
-            }
+                < 0 => 0,
+                _ => seed
+            };
 
             data.seed_save = seed;
-            seed = seed + 1;
-
+            //
+            //  Calculate the C array.
+            //
+            calcc2(ref data.calcdata, data.dim_save, ref data.cj);
         }
 
-        public static double[] niederreiter2_generate(ref Niederreiter2Data data, int dim_num, int n, ref int seed)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NIEDERREITER2_GENERATE generates a set of Niederreiter values.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    11 December 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int DIM_NUM, the spatial dimension.
-            //
-            //    Input, int N, the number of points desired.
-            //
-            //    Input/output, int *SEED, a seed for the random 
-            //    number generator.
-            //
-            //    Output, double R[DIM_NUM*N], the points.
-            //
+        //
+        //  Set up NEXTQ appropriately, depending on the Gray code of SEED.
+        //
+        //  You can do this every time, starting NEXTQ back at 0,
+        //  or you can do it once, and then carry the value of NEXTQ
+        //  around from the previous computation.
+        //
+        if (seed != data.seed_save + 1)
         {
-            int j;
-            double[] r;
+            gray = seed ^ (seed / 2);
 
-            r = new double[dim_num * n];
-
-            for (j = 0; j < n; j++)
+            for (i = 0; i < data.dim_save; i++)
             {
-                niederreiter2(ref data, dim_num, ref seed, ref r, index: + j * dim_num);
+                data.nextq[i] = 0;
             }
 
-            return r;
+            r = 0;
+
+            while (gray != 0)
+            {
+                if (gray % 2 != 0)
+                {
+                    for (i = 0; i < data.dim_save; i++)
+                    {
+                        data.nextq[i] ^= data.cj[i,r];
+                    }
+                }
+
+                gray /= 2;
+                r += 1;
+            }
         }
 
-        public static void plymul2(int[,] add, int[,] mul, int pa_deg,
-        int[] pa, int pb_deg, int[] pb,
-        ref int pc_deg, int[] pc )
+        //
+        //  Multiply the numerators in NEXTQ by RECIP to get the next
+        //  quasi-random vector.
+        //
+        for (i = 0; i < data.dim_save; i++)
+        {
+            quasi[index + i] = data.nextq[i] * data.RECIP;
+        }
+
+        //
+        //  Find the position of the right-hand zero in SEED.  This
+        //  is the bit that changes in the Gray-code representation as
+        //  we go from SEED to SEED+1.
+        //
+        r = 0;
+        i = seed;
+
+        while (i % 2 != 0)
+        {
+            r += 1;
+            i /= 2;
+        }
+
+        //
+        //  Check that we have not passed 2^NBITS calls.
+        //
+        if (NBITS <= r)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("NIEDERREITER2 - Fatal error!");
+            Console.WriteLine("  Too many calls!");
+            return;
+        }
+
+        //
+        //  Compute the new numerators in vector NEXTQ.
+        //
+        for (i = 0; i < data.dim_save; i++)
+        {
+            data.nextq[i] ^= data.cj[i,r];
+        }
+
+        data.seed_save = seed;
+        seed += 1;
+
+    }
+
+    public static double[] niederreiter2_generate(ref Niederreiter2Data data, int dim_num, int n, ref int seed)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NIEDERREITER2_GENERATE generates a set of Niederreiter values.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 December 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int N, the number of points desired.
+        //
+        //    Input/output, int *SEED, a seed for the random 
+        //    number generator.
+        //
+        //    Output, double R[DIM_NUM*N], the points.
+        //
+    {
+        int j;
+        double[] r;
+
+        r = new double[dim_num * n];
+
+        for (j = 0; j < n; j++)
+        {
+            niederreiter2(ref data, dim_num, ref seed, ref r, index: + j * dim_num);
+        }
+
+        return r;
+    }
+
+    public static void plymul2(int[,] add, int[,] mul, int pa_deg,
+            int[] pa, int pb_deg, int[] pb,
+            ref int pc_deg, int[] pc )
 
         //****************************************************************************80
         //
@@ -701,69 +704,68 @@ namespace Burkardt.NiederreiterNS
         //
         //    Output, int PC[MAXDEG+1], the product polynomial.
         //
+    {
+        int i;
+        int j;
+        int jhi;
+        int jlo = 0;
+        int[] pt = new int[MAXDEG + 1];
+        int term;
+
+        if (pa_deg == -1 || pb_deg == -1)
         {
-            int i;
-            int j;
-            int jhi;
-            int jlo;
-            int[] pt = new int[MAXDEG + 1];
-            int term;
-
-            if (pa_deg == -1 || pb_deg == -1)
-            {
-                pc_deg = -1;
-            }
-            else
-            {
-                pc_deg = pa_deg + pb_deg;
-            }
-
-            if (MAXDEG < pc_deg)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PLYMUL2 - Fatal error!");
-                Console.WriteLine("  Degree of the product exceeds MAXDEG.");
-                return;
-            }
-
-            for (i = 0; i <= pc_deg; i++)
-            {
-    
-                jlo = i - pa_deg;
-                if (jlo < 0)
-                {
-                    jlo = 0;
-                }
-
-                jhi = pb_deg;
-                if (i < jhi)
-                {
-                    jhi = i;
-                }
-
-                term = 0;
-
-                for (j = jlo; j <= jhi; j++)
-                {
-                    term = add[term,mul[pa[i - j],pb[j]]];
-                }
-
-                pt[i] = term;
-            }
-
-            for (i = 0; i <= pc_deg; i++)
-            {
-                pc[i] = pt[i];
-            }
-
-            for (i = pc_deg + 1; i <= MAXDEG; i++)
-            {
-                pc[i] = 0;
-            }
-
+            pc_deg = -1;
+        }
+        else
+        {
+            pc_deg = pa_deg + pb_deg;
         }
 
-        public static void setfld2(int[,] add, int[,] mul, int[,] sub )
+        if (MAXDEG < pc_deg)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("PLYMUL2 - Fatal error!");
+            Console.WriteLine("  Degree of the product exceeds MAXDEG.");
+            return;
+        }
+
+        for (i = 0; i <= pc_deg; i++)
+        {
+            jlo = jlo switch
+            {
+                < 0 => 0,
+                _ => i - pa_deg
+            };
+
+            jhi = pb_deg;
+            if (i < jhi)
+            {
+                jhi = i;
+            }
+
+            term = 0;
+
+            for (j = jlo; j <= jhi; j++)
+            {
+                term = add[term,mul[pa[i - j],pb[j]]];
+            }
+
+            pt[i] = term;
+        }
+
+        for (i = 0; i <= pc_deg; i++)
+        {
+            pc[i] = pt[i];
+        }
+
+        for (i = pc_deg + 1; i <= MAXDEG; i++)
+        {
+            pc[i] = 0;
+        }
+
+    }
+
+    public static void setfld2(int[,] add, int[,] mul, int[,] sub )
 
         //****************************************************************************80
         //
@@ -794,30 +796,29 @@ namespace Burkardt.NiederreiterNS
         //    Input, int ADD[2][2], MUL[2][2], SUB[2][2], the addition, multiplication, 
         //    and subtraction tables, mod 2.
         //
+    {
+        int i;
+        int j;
+        int p = 2;
+        int q = 2;
+        //
+        for (i = 0; i < q; i++)
         {
-            int i;
-            int j;
-            int p = 2;
-            int q = 2;
-            //
-            for (i = 0; i < q; i++)
+            for (j = 0; j < q; j++)
             {
-                for (j = 0; j < q; j++)
-                {
-                    add[i,j] = (i + j) % p;
-                    mul[i,j] = (i * j) % p;
-                }
+                add[i,j] = (i + j) % p;
+                mul[i,j] = i * j % p;
             }
+        }
 
-            //
-            //  Use the addition table to set the subtraction table.
-            //
-            for (i = 0; i < q; i++)
+        //
+        //  Use the addition table to set the subtraction table.
+        //
+        for (i = 0; i < q; i++)
+        {
+            for (j = 0; j < q; j++)
             {
-                for (j = 0; j < q; j++)
-                {
-                    sub[add[i,j],i] = j;
-                }
+                sub[add[i,j],i] = j;
             }
         }
     }

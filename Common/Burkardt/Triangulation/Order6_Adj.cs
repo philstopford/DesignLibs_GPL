@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.TriangulationNS
+namespace Burkardt.TriangulationNS;
+
+public static partial class Adjacency
 {
-    public static partial class Adjacency
-    {
-        public static int triangulation_order6_adj_count(int node_num, int triangle_num,
+    public static int triangulation_order6_adj_count(int node_num, int triangle_num,
             int[] triangle_node, ref int[] triangle_neighbor, ref int[] adj_col )
 
         //****************************************************************************80
@@ -160,142 +160,142 @@ namespace Burkardt.TriangulationNS
         //    Output, int ADJ_COL[NODE_NUM+1].  Information about column J is stored
         //    in entries ADJ_COL(J) through ADJ_COL(J+1)-1 of ADJ.
         //
+    {
+        int adj_num;
+        int i;
+        int n1;
+        int n2;
+        int n3;
+        int n4;
+        int n5;
+        int n6;
+        int node;
+        int triangle;
+        int triangle_order = 6;
+        int triangle2;
+
+        adj_num = 0;
+        //
+        //  Set every node to be adjacent to itself.
+        //
+        for (node = 0; node < node_num; node++)
         {
-            int adj_num;
-            int i;
-            int n1;
-            int n2;
-            int n3;
-            int n4;
-            int n5;
-            int n6;
-            int node;
-            int triangle;
-            int triangle_order = 6;
-            int triangle2;
-
-            adj_num = 0;
-            //
-            //  Set every node to be adjacent to itself.
-            //
-            for (node = 0; node < node_num; node++)
-            {
-                adj_col[node] = 1;
-            }
-
-            //
-            //  Examine each triangle.
-            //
-            for (triangle = 0; triangle < triangle_num; triangle++)
-            {
-                n1 = triangle_node[0 + triangle * triangle_order];
-                n2 = triangle_node[1 + triangle * triangle_order];
-                n3 = triangle_node[2 + triangle * triangle_order];
-                n4 = triangle_node[3 + triangle * triangle_order];
-                n5 = triangle_node[4 + triangle * triangle_order];
-                n6 = triangle_node[5 + triangle * triangle_order];
-                //
-                //  For sure, we add the adjacencies:
-                //    43 / (34)
-                //    51 / (15)
-                //    54 / (45)
-                //    62 / (26)
-                //    64 / (46)
-                //    65 / (56)
-                //
-                adj_col[n3 - 1] = adj_col[n3 - 1] + 1;
-                adj_col[n4 - 1] = adj_col[n4 - 1] + 1;
-                adj_col[n1 - 1] = adj_col[n1 - 1] + 1;
-                adj_col[n5 - 1] = adj_col[n5 - 1] + 1;
-                adj_col[n4 - 1] = adj_col[n4 - 1] + 1;
-                adj_col[n5 - 1] = adj_col[n5 - 1] + 1;
-                adj_col[n2 - 1] = adj_col[n2 - 1] + 1;
-                adj_col[n6 - 1] = adj_col[n6 - 1] + 1;
-                adj_col[n4 - 1] = adj_col[n4 - 1] + 1;
-                adj_col[n6 - 1] = adj_col[n6 - 1] + 1;
-                adj_col[n5 - 1] = adj_col[n5 - 1] + 1;
-                adj_col[n6 - 1] = adj_col[n6 - 1] + 1;
-                //
-                //  Add edges (1,2), (1,4), (2,4) if this is the first occurrence,
-                //  that is, if the edge (1,4,2) is on a boundary (TRIANGLE2 <= 0)
-                //  or if this triangle is the first of the pair in which the edge
-                //  occurs (TRIANGLE < TRIANGLE2).
-                //
-                //  Maybe add
-                //    21 / 12
-                //    41 / 14
-                //    42 / 24
-                //
-                triangle2 = triangle_neighbor[0 + triangle * 3];
-
-                if (triangle2 < 0 || triangle < triangle2)
-                {
-                    adj_col[n1 - 1] = adj_col[n1 - 1] + 1;
-                    adj_col[n2 - 1] = adj_col[n2 - 1] + 1;
-                    adj_col[n1 - 1] = adj_col[n1 - 1] + 1;
-                    adj_col[n4 - 1] = adj_col[n4 - 1] + 1;
-                    adj_col[n2 - 1] = adj_col[n2 - 1] + 1;
-                    adj_col[n4 - 1] = adj_col[n4 - 1] + 1;
-                }
-
-                //
-                //  Maybe add
-                //    32 / 23
-                //    52 / 25
-                //    53 / 35
-                //
-                triangle2 = triangle_neighbor[1 + triangle * 3];
-
-                if (triangle2 < 0 || triangle < triangle2)
-                {
-                    adj_col[n2 - 1] = adj_col[n2 - 1] + 1;
-                    adj_col[n3 - 1] = adj_col[n3 - 1] + 1;
-                    adj_col[n2 - 1] = adj_col[n2 - 1] + 1;
-                    adj_col[n5 - 1] = adj_col[n5 - 1] + 1;
-                    adj_col[n3 - 1] = adj_col[n3 - 1] + 1;
-                    adj_col[n5 - 1] = adj_col[n5 - 1] + 1;
-                }
-
-                //
-                //  Maybe add
-                //    31 / 13
-                //    61 / 16
-                //    63 / 36
-                //
-                triangle2 = triangle_neighbor[2 + triangle * 3];
-
-                if (triangle2 < 0 || triangle < triangle2)
-                {
-                    adj_col[n1 - 1] = adj_col[n1 - 1] + 1;
-                    adj_col[n3 - 1] = adj_col[n3 - 1] + 1;
-                    adj_col[n1 - 1] = adj_col[n1 - 1] + 1;
-                    adj_col[n6 - 1] = adj_col[n6 - 1] + 1;
-                    adj_col[n3 - 1] = adj_col[n3 - 1] + 1;
-                    adj_col[n6 - 1] = adj_col[n6 - 1] + 1;
-                }
-            }
-
-            //
-            //  We used ADJ_COL to count the number of entries in each column.
-            //  Convert it to pointers into the ADJ array.
-            //
-            for (node = node_num; 1 <= node; node--)
-            {
-                adj_col[node] = adj_col[node - 1];
-            }
-
-            adj_col[0] = 1;
-            for (i = 1; i <= node_num; i++)
-            {
-                adj_col[i] = adj_col[i - 1] + adj_col[i];
-            }
-
-            adj_num = adj_col[node_num] - 1;
-
-            return adj_num;
+            adj_col[node] = 1;
         }
 
-        public static int[] triangulation_order6_adj_set(int node_num, int triangle_num,
+        //
+        //  Examine each triangle.
+        //
+        for (triangle = 0; triangle < triangle_num; triangle++)
+        {
+            n1 = triangle_node[0 + triangle * triangle_order];
+            n2 = triangle_node[1 + triangle * triangle_order];
+            n3 = triangle_node[2 + triangle * triangle_order];
+            n4 = triangle_node[3 + triangle * triangle_order];
+            n5 = triangle_node[4 + triangle * triangle_order];
+            n6 = triangle_node[5 + triangle * triangle_order];
+            //
+            //  For sure, we add the adjacencies:
+            //    43 / (34)
+            //    51 / (15)
+            //    54 / (45)
+            //    62 / (26)
+            //    64 / (46)
+            //    65 / (56)
+            //
+            adj_col[n3 - 1] += 1;
+            adj_col[n4 - 1] += 1;
+            adj_col[n1 - 1] += 1;
+            adj_col[n5 - 1] += 1;
+            adj_col[n4 - 1] += 1;
+            adj_col[n5 - 1] += 1;
+            adj_col[n2 - 1] += 1;
+            adj_col[n6 - 1] += 1;
+            adj_col[n4 - 1] += 1;
+            adj_col[n6 - 1] += 1;
+            adj_col[n5 - 1] += 1;
+            adj_col[n6 - 1] += 1;
+            //
+            //  Add edges (1,2), (1,4), (2,4) if this is the first occurrence,
+            //  that is, if the edge (1,4,2) is on a boundary (TRIANGLE2 <= 0)
+            //  or if this triangle is the first of the pair in which the edge
+            //  occurs (TRIANGLE < TRIANGLE2).
+            //
+            //  Maybe add
+            //    21 / 12
+            //    41 / 14
+            //    42 / 24
+            //
+            triangle2 = triangle_neighbor[0 + triangle * 3];
+
+            if (triangle2 < 0 || triangle < triangle2)
+            {
+                adj_col[n1 - 1] += 1;
+                adj_col[n2 - 1] += 1;
+                adj_col[n1 - 1] += 1;
+                adj_col[n4 - 1] += 1;
+                adj_col[n2 - 1] += 1;
+                adj_col[n4 - 1] += 1;
+            }
+
+            //
+            //  Maybe add
+            //    32 / 23
+            //    52 / 25
+            //    53 / 35
+            //
+            triangle2 = triangle_neighbor[1 + triangle * 3];
+
+            if (triangle2 < 0 || triangle < triangle2)
+            {
+                adj_col[n2 - 1] += 1;
+                adj_col[n3 - 1] += 1;
+                adj_col[n2 - 1] += 1;
+                adj_col[n5 - 1] += 1;
+                adj_col[n3 - 1] += 1;
+                adj_col[n5 - 1] += 1;
+            }
+
+            //
+            //  Maybe add
+            //    31 / 13
+            //    61 / 16
+            //    63 / 36
+            //
+            triangle2 = triangle_neighbor[2 + triangle * 3];
+
+            if (triangle2 < 0 || triangle < triangle2)
+            {
+                adj_col[n1 - 1] += 1;
+                adj_col[n3 - 1] += 1;
+                adj_col[n1 - 1] += 1;
+                adj_col[n6 - 1] += 1;
+                adj_col[n3 - 1] += 1;
+                adj_col[n6 - 1] += 1;
+            }
+        }
+
+        //
+        //  We used ADJ_COL to count the number of entries in each column.
+        //  Convert it to pointers into the ADJ array.
+        //
+        for (node = node_num; 1 <= node; node--)
+        {
+            adj_col[node] = adj_col[node - 1];
+        }
+
+        adj_col[0] = 1;
+        for (i = 1; i <= node_num; i++)
+        {
+            adj_col[i] = adj_col[i - 1] + adj_col[i];
+        }
+
+        adj_num = adj_col[node_num] - 1;
+
+        return adj_num;
+    }
+
+    public static int[] triangulation_order6_adj_set(int node_num, int triangle_num,
             int[] triangle_node, int[] triangle_neighbor, int adj_num, int[] adj_col )
 
         //****************************************************************************80
@@ -458,182 +458,181 @@ namespace Burkardt.TriangulationNS
         //    Output, int TRIANGULATION_ORDER6_ADJ_SET[ADJ_NUM], the adjacency
         //    information.
         //
+    {
+        int[] adj;
+        int[] adj_copy;
+        int k;
+        int k1;
+        int k2;
+        int n1;
+        int n2;
+        int n3;
+        int n4;
+        int n5;
+        int n6;
+        int node;
+        int triangle;
+        int triangle2;
+        int triangle_order = 6;
+
+        adj = new int[adj_num];
+        for (k = 0; k < adj_num; k++)
         {
-            int[] adj;
-            int[] adj_copy;
-            int k;
-            int k1;
-            int k2;
-            int n1;
-            int n2;
-            int n3;
-            int n4;
-            int n5;
-            int n6;
-            int node;
-            int triangle;
-            int triangle2;
-            int triangle_order = 6;
-
-            adj = new int[adj_num];
-            for (k = 0; k < adj_num; k++)
-            {
-                adj[k] = -1;
-            }
-
-            adj_copy = new int[node_num];
-            for (node = 0; node < node_num; node++)
-            {
-                adj_copy[node] = adj_col[node];
-            }
-
-            //
-            //  Set every node to be adjacent to itself.
-            //
-            for (node = 1; node <= node_num; node++)
-            {
-                adj[adj_copy[node - 1] - 1] = node;
-                adj_copy[node - 1] = adj_copy[node - 1] + 1;
-            }
-
-            //
-            //  Examine each triangle.
-            //
-            for (triangle = 0; triangle < triangle_num; triangle++)
-            {
-                n1 = triangle_node[0 + triangle * triangle_order];
-                n2 = triangle_node[1 + triangle * triangle_order];
-                n3 = triangle_node[2 + triangle * triangle_order];
-                n4 = triangle_node[3 + triangle * triangle_order];
-                n5 = triangle_node[4 + triangle * triangle_order];
-                n6 = triangle_node[5 + triangle * triangle_order];
-                //
-                //  For sure, we add the adjacencies:
-                //    43 / (34)
-                //    51 / (15)
-                //    54 / (45)
-                //    62 / (26)
-                //    64 / (46)
-                //    65 / (56)
-                //
-                adj[adj_copy[n3 - 1] - 1] = n4;
-                adj_copy[n3 - 1] = adj_copy[n3 - 1] + 1;
-                adj[adj_copy[n4 - 1] - 1] = n3;
-                adj_copy[n4 - 1] = adj_copy[n4 - 1] + 1;
-
-                adj[adj_copy[n1 - 1] - 1] = n5;
-                adj_copy[n1 - 1] = adj_copy[n1 - 1] + 1;
-                adj[adj_copy[n5 - 1] - 1] = n1;
-                adj_copy[n5 - 1] = adj_copy[n5 - 1] + 1;
-
-                adj[adj_copy[n4 - 1] - 1] = n5;
-                adj_copy[n4 - 1] = adj_copy[n4 - 1] + 1;
-                adj[adj_copy[n5 - 1] - 1] = n4;
-                adj_copy[n5 - 1] = adj_copy[n5 - 1] + 1;
-
-                adj[adj_copy[n2 - 1] - 1] = n6;
-                adj_copy[n2 - 1] = adj_copy[n2 - 1] + 1;
-                adj[adj_copy[n6 - 1] - 1] = n2;
-                adj_copy[n6 - 1] = adj_copy[n6 - 1] + 1;
-
-                adj[adj_copy[n4 - 1] - 1] = n6;
-                adj_copy[n4 - 1] = adj_copy[n4 - 1] + 1;
-                adj[adj_copy[n6 - 1] - 1] = n4;
-                adj_copy[n6 - 1] = adj_copy[n6 - 1] + 1;
-
-                adj[adj_copy[n5 - 1] - 1] = n6;
-                adj_copy[n5 - 1] = adj_copy[n5 - 1] + 1;
-                adj[adj_copy[n6 - 1] - 1] = n5;
-                adj_copy[n6 - 1] = adj_copy[n6 - 1] + 1;
-                //
-                //  Add edges (1,2), (1,4), (2,4) if this is the first occurrence,
-                //  that is, if the edge (1,4,2) is on a boundary (TRIANGLE2 <= 0)
-                //  or if this triangle is the first of the pair in which the edge
-                //  occurs (TRIANGLE < TRIANGLE2).
-                //
-                //  Maybe add
-                //    21 / 12
-                //    41 / 14
-                //    42 / 24
-                //
-                triangle2 = triangle_neighbor[0 + triangle * 3];
-
-                if (triangle2 < 0 || triangle < triangle2)
-                {
-                    adj[adj_copy[n1 - 1] - 1] = n2;
-                    adj_copy[n1 - 1] = adj_copy[n1 - 1] + 1;
-                    adj[adj_copy[n2 - 1] - 1] = n1;
-                    adj_copy[n2 - 1] = adj_copy[n2 - 1] + 1;
-                    adj[adj_copy[n1 - 1] - 1] = n4;
-                    adj_copy[n1 - 1] = adj_copy[n1 - 1] + 1;
-                    adj[adj_copy[n4 - 1] - 1] = n1;
-                    adj_copy[n4 - 1] = adj_copy[n4 - 1] + 1;
-                    adj[adj_copy[n2 - 1] - 1] = n4;
-                    adj_copy[n2 - 1] = adj_copy[n2 - 1] + 1;
-                    adj[adj_copy[n4 - 1] - 1] = n2;
-                    adj_copy[n4 - 1] = adj_copy[n4 - 1] + 1;
-                }
-
-                //
-                //  Maybe add
-                //    32 / 23
-                //    52 / 25
-                //    53 / 35
-                //
-                triangle2 = triangle_neighbor[1 + triangle * 3];
-
-                if (triangle2 < 0 || triangle < triangle2)
-                {
-                    adj[adj_copy[n2 - 1] - 1] = n3;
-                    adj_copy[n2 - 1] = adj_copy[n2 - 1] + 1;
-                    adj[adj_copy[n3 - 1] - 1] = n2;
-                    adj_copy[n3 - 1] = adj_copy[n3 - 1] + 1;
-                    adj[adj_copy[n2 - 1] - 1] = n5;
-                    adj_copy[n2 - 1] = adj_copy[n2 - 1] + 1;
-                    adj[adj_copy[n5 - 1] - 1] = n2;
-                    adj_copy[n5 - 1] = adj_copy[n5 - 1] + 1;
-                    adj[adj_copy[n3 - 1] - 1] = n5;
-                    adj_copy[n3 - 1] = adj_copy[n3 - 1] + 1;
-                    adj[adj_copy[n5 - 1] - 1] = n3;
-                    adj_copy[n5 - 1] = adj_copy[n5 - 1] + 1;
-                }
-
-                //
-                //  Maybe add
-                //    31 / 13
-                //    61 / 16
-                //    63 / 36
-                //
-                triangle2 = triangle_neighbor[2 + triangle * 3];
-
-                if (triangle2 < 0 || triangle < triangle2)
-                {
-                    adj[adj_copy[n1 - 1] - 1] = n3;
-                    adj_copy[n1 - 1] = adj_copy[n1 - 1] + 1;
-                    adj[adj_copy[n3 - 1] - 1] = n1;
-                    adj_copy[n3 - 1] = adj_copy[n3 - 1] + 1;
-                    adj[adj_copy[n1 - 1] - 1] = n6;
-                    adj_copy[n1 - 1] = adj_copy[n1 - 1] + 1;
-                    adj[adj_copy[n6 - 1] - 1] = n1;
-                    adj_copy[n6 - 1] = adj_copy[n6 - 1] + 1;
-                    adj[adj_copy[n3 - 1] - 1] = n6;
-                    adj_copy[n3 - 1] = adj_copy[n3 - 1] + 1;
-                    adj[adj_copy[n6 - 1] - 1] = n3;
-                    adj_copy[n6 - 1] = adj_copy[n6 - 1] + 1;
-                }
-            }
-
-            //
-            //  Ascending sort the entries for each node.
-            //
-            for (node = 1; node <= node_num; node++)
-            {
-                k1 = adj_col[node - 1];
-                k2 = adj_col[node] - 1;
-                typeMethods.i4vec_sort_heap_a(k2 + 1 - k1, ref adj, aIndex: + k1 - 1);
-            }
-
-            return adj;
+            adj[k] = -1;
         }
+
+        adj_copy = new int[node_num];
+        for (node = 0; node < node_num; node++)
+        {
+            adj_copy[node] = adj_col[node];
+        }
+
+        //
+        //  Set every node to be adjacent to itself.
+        //
+        for (node = 1; node <= node_num; node++)
+        {
+            adj[adj_copy[node - 1] - 1] = node;
+            adj_copy[node - 1] += 1;
+        }
+
+        //
+        //  Examine each triangle.
+        //
+        for (triangle = 0; triangle < triangle_num; triangle++)
+        {
+            n1 = triangle_node[0 + triangle * triangle_order];
+            n2 = triangle_node[1 + triangle * triangle_order];
+            n3 = triangle_node[2 + triangle * triangle_order];
+            n4 = triangle_node[3 + triangle * triangle_order];
+            n5 = triangle_node[4 + triangle * triangle_order];
+            n6 = triangle_node[5 + triangle * triangle_order];
+            //
+            //  For sure, we add the adjacencies:
+            //    43 / (34)
+            //    51 / (15)
+            //    54 / (45)
+            //    62 / (26)
+            //    64 / (46)
+            //    65 / (56)
+            //
+            adj[adj_copy[n3 - 1] - 1] = n4;
+            adj_copy[n3 - 1] += 1;
+            adj[adj_copy[n4 - 1] - 1] = n3;
+            adj_copy[n4 - 1] += 1;
+
+            adj[adj_copy[n1 - 1] - 1] = n5;
+            adj_copy[n1 - 1] += 1;
+            adj[adj_copy[n5 - 1] - 1] = n1;
+            adj_copy[n5 - 1] += 1;
+
+            adj[adj_copy[n4 - 1] - 1] = n5;
+            adj_copy[n4 - 1] += 1;
+            adj[adj_copy[n5 - 1] - 1] = n4;
+            adj_copy[n5 - 1] += 1;
+
+            adj[adj_copy[n2 - 1] - 1] = n6;
+            adj_copy[n2 - 1] += 1;
+            adj[adj_copy[n6 - 1] - 1] = n2;
+            adj_copy[n6 - 1] += 1;
+
+            adj[adj_copy[n4 - 1] - 1] = n6;
+            adj_copy[n4 - 1] += 1;
+            adj[adj_copy[n6 - 1] - 1] = n4;
+            adj_copy[n6 - 1] += 1;
+
+            adj[adj_copy[n5 - 1] - 1] = n6;
+            adj_copy[n5 - 1] += 1;
+            adj[adj_copy[n6 - 1] - 1] = n5;
+            adj_copy[n6 - 1] += 1;
+            //
+            //  Add edges (1,2), (1,4), (2,4) if this is the first occurrence,
+            //  that is, if the edge (1,4,2) is on a boundary (TRIANGLE2 <= 0)
+            //  or if this triangle is the first of the pair in which the edge
+            //  occurs (TRIANGLE < TRIANGLE2).
+            //
+            //  Maybe add
+            //    21 / 12
+            //    41 / 14
+            //    42 / 24
+            //
+            triangle2 = triangle_neighbor[0 + triangle * 3];
+
+            if (triangle2 < 0 || triangle < triangle2)
+            {
+                adj[adj_copy[n1 - 1] - 1] = n2;
+                adj_copy[n1 - 1] += 1;
+                adj[adj_copy[n2 - 1] - 1] = n1;
+                adj_copy[n2 - 1] += 1;
+                adj[adj_copy[n1 - 1] - 1] = n4;
+                adj_copy[n1 - 1] += 1;
+                adj[adj_copy[n4 - 1] - 1] = n1;
+                adj_copy[n4 - 1] += 1;
+                adj[adj_copy[n2 - 1] - 1] = n4;
+                adj_copy[n2 - 1] += 1;
+                adj[adj_copy[n4 - 1] - 1] = n2;
+                adj_copy[n4 - 1] += 1;
+            }
+
+            //
+            //  Maybe add
+            //    32 / 23
+            //    52 / 25
+            //    53 / 35
+            //
+            triangle2 = triangle_neighbor[1 + triangle * 3];
+
+            if (triangle2 < 0 || triangle < triangle2)
+            {
+                adj[adj_copy[n2 - 1] - 1] = n3;
+                adj_copy[n2 - 1] += 1;
+                adj[adj_copy[n3 - 1] - 1] = n2;
+                adj_copy[n3 - 1] += 1;
+                adj[adj_copy[n2 - 1] - 1] = n5;
+                adj_copy[n2 - 1] += 1;
+                adj[adj_copy[n5 - 1] - 1] = n2;
+                adj_copy[n5 - 1] += 1;
+                adj[adj_copy[n3 - 1] - 1] = n5;
+                adj_copy[n3 - 1] += 1;
+                adj[adj_copy[n5 - 1] - 1] = n3;
+                adj_copy[n5 - 1] += 1;
+            }
+
+            //
+            //  Maybe add
+            //    31 / 13
+            //    61 / 16
+            //    63 / 36
+            //
+            triangle2 = triangle_neighbor[2 + triangle * 3];
+
+            if (triangle2 < 0 || triangle < triangle2)
+            {
+                adj[adj_copy[n1 - 1] - 1] = n3;
+                adj_copy[n1 - 1] += 1;
+                adj[adj_copy[n3 - 1] - 1] = n1;
+                adj_copy[n3 - 1] += 1;
+                adj[adj_copy[n1 - 1] - 1] = n6;
+                adj_copy[n1 - 1] += 1;
+                adj[adj_copy[n6 - 1] - 1] = n1;
+                adj_copy[n6 - 1] += 1;
+                adj[adj_copy[n3 - 1] - 1] = n6;
+                adj_copy[n3 - 1] += 1;
+                adj[adj_copy[n6 - 1] - 1] = n3;
+                adj_copy[n6 - 1] += 1;
+            }
+        }
+
+        //
+        //  Ascending sort the entries for each node.
+        //
+        for (node = 1; node <= node_num; node++)
+        {
+            k1 = adj_col[node - 1];
+            k2 = adj_col[node] - 1;
+            typeMethods.i4vec_sort_heap_a(k2 + 1 - k1, ref adj, aIndex: + k1 - 1);
+        }
+
+        return adj;
     }
 }

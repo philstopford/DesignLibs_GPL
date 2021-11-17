@@ -1,9 +1,9 @@
-﻿namespace Burkardt.TriangulationNS
+﻿namespace Burkardt.TriangulationNS;
+
+public static partial class Triangulation
 {
-    public static partial class Triangulation
-    {
-        public static void triangle_order3_physical_to_reference(double[] t, int n,
-        double[] phy, ref double[] ref_ )
+    public static void triangle_order3_physical_to_reference(double[] t, int n,
+            double[] phy, ref double[] ref_ )
 
         //****************************************************************************80
         //
@@ -63,24 +63,23 @@
         //    Output, double REF[2*N], the coordinates of the corresponding
         //    points in the reference space.
         //
+    {
+        int j;
+
+        for (j = 0; j < n; j++)
         {
-            int j;
 
-            for (j = 0; j < n; j++)
-            {
+            ref_[
+                    0 + j * 2] = ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2])
+                                  - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2]))
+                                 / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
+                                    - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
 
-                ref_[
-                0 + j * 2] = ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2])
-                              - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2]))
-                    / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
-                       - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
-
-                ref_[
-                1 + j * 2] = ((t[0 + 1 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2])
-                              - (t[1 + 1 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2]))
-                    / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
-                       - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
-            }
+            ref_[
+                    1 + j * 2] = ((t[0 + 1 * 2] - t[0 + 0 * 2]) * (phy[1 + j * 2] - t[1 + 0 * 2])
+                                  - (t[1 + 1 * 2] - t[1 + 0 * 2]) * (phy[0 + j * 2] - t[0 + 0 * 2]))
+                                 / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
+                                    - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
         }
     }
 }

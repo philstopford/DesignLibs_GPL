@@ -1,13 +1,13 @@
 ﻿using Burkardt.TriangulationNS;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class FEM_2D_Evaluate
 {
-    public static class FEM_2D_Evaluate
-    {
-        public static double[] fem2d_evaluate ( int fem_node_num, double[] fem_node_xy, 
-        int fem_element_order, int fem_element_num, int[] fem_element_node, 
-        int[] fem_element_neighbor, int fem_value_dim, double[] fem_value, 
-        int sample_node_num, double[] sample_node_xy )
+    public static double[] fem2d_evaluate ( int fem_node_num, double[] fem_node_xy, 
+            int fem_element_order, int fem_element_num, int[] fem_element_node, 
+            int[] fem_element_neighbor, int fem_value_dim, double[] fem_value, 
+            int sample_node_num, double[] sample_node_xy )
 
         //****************************************************************************80
         //
@@ -73,91 +73,91 @@ namespace Burkardt.FEM
         //    Output, double SAMPLE_VALUE[FEM_VALUE_DIM*SAMPLE_NODE_NUM],
         //    the sampled values.
         //
+    {
+        double[] b;
+        double[] dbdx;
+        double[] dbdy;
+        double dot;
+        int edge = 0;
+        int i;
+        int j;
+        int order;
+        double[] p_xy = new double[2];
+        int t = 0;
+        double[] sample_value;
+        int[] t_node;
+        double[] t_xy;
+
+        b = new double[fem_element_order];
+        dbdx = new double[fem_element_order];
+        dbdy = new double[fem_element_order];
+        sample_value = new double[fem_value_dim * sample_node_num];
+        t_node = new int[fem_element_order];
+        t_xy = new double[2 * fem_element_order];
+        //
+        //  For each sample point: find the triangle T that contains it,
+        //  and evaluate the finite element function there.
+        //
+        for (j = 0; j < sample_node_num; j++)
         {
-            double[] b;
-            double[] dbdx;
-            double[] dbdy;
-            double dot;
-            int edge = 0;
-            int i;
-            int j;
-            int order;
-            double[] p_xy = new double[2];
-            int t = 0;
-            double[] sample_value;
-            int[] t_node;
-            double[] t_xy;
+            p_xy[0] = sample_node_xy[0 + j * 2];
+            p_xy[1] = sample_node_xy[1 + j * 2];
+            //
+            //  Find the triangle T that contains the point.
+            //
+            /*
+            Search.triangulation_search_delaunay(fem_node_num, fem_node_xy,
+                fem_element_order, fem_element_num, fem_element_node,
+                fem_element_neighbor, p_xy, ref t, ref edge);
+                */
 
-            b = new double[fem_element_order];
-            dbdx = new double[fem_element_order];
-            dbdy = new double[fem_element_order];
-            sample_value = new double[fem_value_dim * sample_node_num];
-            t_node = new int[fem_element_order];
-            t_xy = new double[2 * fem_element_order];
+            Search.triangulation_search_delaunay ( fem_node_num, fem_node_xy, 
+                fem_element_order, fem_element_num, fem_element_node, 
+                fem_element_neighbor, p_xy, ref t, ref edge );
+
             //
-            //  For each sample point: find the triangle T that contains it,
-            //  and evaluate the finite element function there.
+            //  Evaluate the finite element basis functions at the point in T.
             //
-            for (j = 0; j < sample_node_num; j++)
+            //  Note that in the following loop, we assume that FEM_ELEMENT_NODE
+            //  is 1-based, and that for convenience we can get away with making
+            //  T_NODE 0-based.
+            //
+            for (order = 0; order < fem_element_order; order++)
             {
-                p_xy[0] = sample_node_xy[0 + j * 2];
-                p_xy[1] = sample_node_xy[1 + j * 2];
-                //
-                //  Find the triangle T that contains the point.
-                //
-                /*
-                Search.triangulation_search_delaunay(fem_node_num, fem_node_xy,
-                    fem_element_order, fem_element_num, fem_element_node,
-                    fem_element_neighbor, p_xy, ref t, ref edge);
-                    */
-
-                Search.triangulation_search_delaunay ( fem_node_num, fem_node_xy, 
-                    fem_element_order, fem_element_num, fem_element_node, 
-                    fem_element_neighbor, p_xy, ref t, ref edge );
-
-                //
-                //  Evaluate the finite element basis functions at the point in T.
-                //
-                //  Note that in the following loop, we assume that FEM_ELEMENT_NODE
-                //  is 1-based, and that for convenience we can get away with making
-                //  T_NODE 0-based.
-                //
-                for (order = 0; order < fem_element_order; order++)
-                {
-                    t_node[order] = fem_element_node[order + (t - 1) * fem_element_order] - 1;
-                }
-
-                for (order = 0; order < fem_element_order; order++)
-                {
-                    t_xy[0 + order * 2] = fem_node_xy[0 + t_node[order] * 2];
-                    t_xy[1 + order * 2] = fem_node_xy[1 + t_node[order] * 2];
-                }
-
-                if (fem_element_order == 3)
-                {
-                    Basis_mn.basis_mn_t3(t_xy, 1, p_xy, ref b, ref dbdx, ref dbdy);
-                }
-                else if (fem_element_order == 6)
-                {
-                    Basis_mn.basis_mn_t6(t_xy, 1, p_xy, ref b, ref dbdx, ref dbdy);
-                }
-
-                //
-                //  Multiply by the finite element values to get the sample values.
-                //
-                for (i = 0; i < fem_value_dim; i++)
-                {
-                    dot = 0.0;
-                    for (order = 0; order < fem_element_order; order++)
-                    {
-                        dot = dot + fem_value[i + t_node[order]] * b[order];
-                    }
-
-                    sample_value[i + j * fem_value_dim] = dot;
-                }
+                t_node[order] = fem_element_node[order + (t - 1) * fem_element_order] - 1;
             }
 
-            return sample_value;
+            for (order = 0; order < fem_element_order; order++)
+            {
+                t_xy[0 + order * 2] = fem_node_xy[0 + t_node[order] * 2];
+                t_xy[1 + order * 2] = fem_node_xy[1 + t_node[order] * 2];
+            }
+
+            switch (fem_element_order)
+            {
+                case 3:
+                    Basis_mn.basis_mn_t3(t_xy, 1, p_xy, ref b, ref dbdx, ref dbdy);
+                    break;
+                case 6:
+                    Basis_mn.basis_mn_t6(t_xy, 1, p_xy, ref b, ref dbdx, ref dbdy);
+                    break;
+            }
+
+            //
+            //  Multiply by the finite element values to get the sample values.
+            //
+            for (i = 0; i < fem_value_dim; i++)
+            {
+                dot = 0.0;
+                for (order = 0; order < fem_element_order; order++)
+                {
+                    dot += fem_value[i + t_node[order]] * b[order];
+                }
+
+                sample_value[i + j * fem_value_dim] = dot;
+            }
         }
+
+        return sample_value;
     }
 }

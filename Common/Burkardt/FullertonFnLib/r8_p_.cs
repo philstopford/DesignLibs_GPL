@@ -1,58 +1,60 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class r8PakData
     {
-        public class r8PakData
+        public int nmax;
+        public int nmin;
+
+    }
+    public static double r8_pak(ref r8PakData data, double y, int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_PAK packs a base 2 exponent into an R8.
+        //
+        //  Discussion:
+        //
+        //    This routine is almost the inverse of R8_UPAK.  It is not exactly 
+        //    the inverse, because abs(x) need not be between 0.5 and 1.0.  
+        //    If both R8_PAK and 2.0^n were known to be in range, we could compute
+        //    R8_PAK = x * 2.0^n .
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    C++ version by John Burkardt.
+        //
+        //  Parameters:
+        //
+        //    Input, double Y, the mantissa.
+        //
+        //    Input, int N, the exponent.
+        //
+        //    Output, double R8_PAK, the packed value.
+        //
+    {
+        const double aln210 = 3.321928094887362347870319429489;
+        double aln2b;
+        int nsum;
+        int ny = 0;
+        double value = 0;
+
+        switch (data.nmin)
         {
-            public int nmax = 0;
-            public int nmin = 0;
-
-        }
-        public static double r8_pak(ref r8PakData data, double y, int n)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_PAK packs a base 2 exponent into an R8.
-            //
-            //  Discussion:
-            //
-            //    This routine is almost the inverse of R8_UPAK.  It is not exactly 
-            //    the inverse, because abs(x) need not be between 0.5 and 1.0.  
-            //    If both R8_PAK and 2.0^n were known to be in range, we could compute
-            //    R8_PAK = x * 2.0^n .
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    C++ version by John Burkardt.
-            //
-            //  Parameters:
-            //
-            //    Input, double Y, the mantissa.
-            //
-            //    Input, int N, the exponent.
-            //
-            //    Output, double R8_PAK, the packed value.
-            //
-        {
-            const double aln210 = 3.321928094887362347870319429489;
-            double aln2b;
-            int nsum;
-            int ny = 0;
-            double value = 0;
-
-            if (data.nmin == 0)
+            case 0:
             {
                 aln2b = 1.0;
                 if (i4_mach(10) != 2)
@@ -60,131 +62,135 @@ namespace Burkardt.FullertonFnLib
                     aln2b = r8_mach(5) * aln210;
                 }
 
-                data.nmin = (int)(aln2b * (double) (i4_mach(15)));
-                data.nmax = (int)(aln2b * (double) (i4_mach(16)));
+                data.nmin = (int)(aln2b * i4_mach(15));
+                data.nmax = (int)(aln2b * i4_mach(16));
+                break;
             }
+        }
 
-            r8_upak(y, ref value, ref ny);
+        r8_upak(y, ref value, ref ny);
 
-            nsum = n + ny;
+        nsum = n + ny;
 
-            if (nsum < data.nmin)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_PAK - Warning!");
-                Console.WriteLine("  Packed number underflows.");
-                value = 0.0;
-                return value;
-            }
-
-            if (data.nmax < nsum)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_PAK - Fatal error!");
-                Console.WriteLine("  Packed number overflows.");
-                return (1);
-            }
-
-            while (nsum < 0)
-            {
-                value = 0.5 * value;
-                nsum = nsum + 1;
-            }
-
-            while (0 < nsum)
-            {
-                value = 2.0 * value;
-                nsum = nsum - 1;
-            }
-
+        if (nsum < data.nmin)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_PAK - Warning!");
+            Console.WriteLine("  Packed number underflows.");
+            value = 0.0;
             return value;
         }
 
-        public class r8PochData
+        if (data.nmax < nsum)
         {
-            public double eps = 0.0;
-
-            public r8FacData facdata = new r8FacData();
-
-            public r8LnrelData lnreldata = new r8LnrelData();
-            public r8LgmcData lgmcdata = new r8LgmcData();
-            public r8GamrData gamrdata = new r8GamrData();
-            public r8LgamsData lgamsdata = new r8LgamsData();
+            Console.WriteLine("");
+            Console.WriteLine("R8_PAK - Fatal error!");
+            Console.WriteLine("  Packed number overflows.");
+            return 1;
         }
-        public static double r8_poch(ref r8PochData data, ref r8GammaData gdata, double a, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_POCH evaluates Pochhammer's function of R8 arguments.
-            //
-            //  Discussion:
-            //
-            //    POCH ( A, X ) = Gamma ( A + X ) / Gamma ( A ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double A, X, the arguments.
-            //
-            //    Output, double R8_POCH, the Pochhammer function of A and X.
-            //
+        while (nsum < 0)
         {
-            double absa;
-            double absax;
-            double alnga = 0;
-            double alngax = 0;
-            double ax;
-            double b;
-            double cospia;
-            double cospix;
-            double den;
-            double err;
-            double errpch;
-            int i;
-            int ia;
-            int n;
+            value = 0.5 * value;
+            nsum += 1;
+        }
+
+        while (0 < nsum)
+        {
+            value = 2.0 * value;
+            nsum -= 1;
+        }
+
+        return value;
+    }
+
+    public class r8PochData
+    {
+        public double eps;
+
+        public r8FacData facdata = new();
+
+        public r8LnrelData lnreldata = new();
+        public r8LgmcData lgmcdata = new();
+        public r8GamrData gamrdata = new();
+        public r8LgamsData lgamsdata = new();
+    }
+    public static double r8_poch(ref r8PochData data, ref r8GammaData gdata, double a, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_POCH evaluates Pochhammer's function of R8 arguments.
+        //
+        //  Discussion:
+        //
+        //    POCH ( A, X ) = Gamma ( A + X ) / Gamma ( A ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double A, X, the arguments.
+        //
+        //    Output, double R8_POCH, the Pochhammer function of A and X.
+        //
+    {
+        double absa;
+        double absax;
+        double alnga = 0;
+        double alngax = 0;
+        double ax;
+        double b;
+        double cospia;
+        double cospix;
+        double den;
+        double err;
+        double errpch;
+        int i;
+        int ia;
+        int n;
             
-            double sgnga = 0;
-            double sgngax = 0;
-            double sinpia;
-            double sinpix;
-            //static double sqeps = 0.0;
-            double value;
+        double sgnga = 0;
+        double sgngax = 0;
+        double sinpia;
+        double sinpix;
+        //static double sqeps = 0.0;
+        double value = 0;
 
-            if (data.eps == 0.0)
-            {
-                data.eps = r8_mach(4);
-                //  sqeps = sqrt ( eps );
-            }
+        data.eps = data.eps switch
+        {
+            0.0 => r8_mach(4),
+            _ => data.eps
+        };
 
-            ax = a + x;
+        ax = a + x;
 
-            if (ax <= 0.0 && r8_aint(ax) == ax)
+        switch (ax)
+        {
+            case <= 0.0 when r8_aint(ax) == ax:
             {
                 if (0.0 < a || r8_aint(a) != a)
                 {
@@ -192,189 +198,195 @@ namespace Burkardt.FullertonFnLib
                     Console.WriteLine("R8_POCH - Fatal error!");
                     Console.WriteLine("  A + X is nonpositive int,");
                     Console.WriteLine("  but A is not.");
-                    return (1);
+                    return 1;
                 }
 
-                //
-                //  We know here that both A+X and A are non-positive integers.
-                //
-                if (x == 0.0)
+                switch (x)
                 {
-                    value = 1.0;
-                }
-                else if (-20.0 < r8_min(a + x, a))
-                {
-                    n = (int) (x);
-                    ia = (int) (a);
-                    value = r8_mop(n) * r8_fac(ref data.facdata, -ia) / r8_fac(ref data.facdata, -ia - n);
-                }
-                else
-                {
-                    n = (int) (x);
-                    value = r8_mop(n) * Math.Exp((a - 0.5)
-                                            * r8_lnrel(ref data.lnreldata, x / (a - 1.0))
-                                            + x * Math.Log(-a + 1.0 - x) - x
-                                            + r8_lgmc(ref data.lgmcdata, -a + 1.0)
-                                            - r8_lgmc(ref data.lgmcdata, -a - x + 1.0));
+                    //
+                    //  We know here that both A+X and A are non-positive integers.
+                    //
+                    case 0.0:
+                        value = 1.0;
+                        break;
+                    default:
+                    {
+                        if (-20.0 < r8_min(a + x, a))
+                        {
+                            n = (int) x;
+                            ia = (int) a;
+                            value = r8_mop(n) * r8_fac(ref data.facdata, -ia) / r8_fac(ref data.facdata, -ia - n);
+                        }
+                        else
+                        {
+                            n = (int) x;
+                            value = r8_mop(n) * Math.Exp((a - 0.5)
+                                                         * r8_lnrel(ref data.lnreldata, x / (a - 1.0))
+                                                         + x * Math.Log(-a + 1.0 - x) - x
+                                                         + r8_lgmc(ref data.lgmcdata, -a + 1.0)
+                                                         - r8_lgmc(ref data.lgmcdata, -a - x + 1.0));
+                        }
+
+                        break;
+                    }
                 }
 
                 return value;
             }
+        }
 
+        switch (a)
+        {
             //
             //  A + X is not zero or a negative integer.
             //
-            if (a <= 0.0 && r8_aint(a) == a)
-            {
+            case <= 0.0 when r8_aint(a) == a:
                 value = 0.0;
                 return value;
-            }
+        }
 
-            n = (int)Math.Abs(x);
-            //
-            //  x is a small non-positive integer, presummably a common case.
-            //
-            if ((double) (n) == x && n <= 20)
+        n = (int)Math.Abs(x);
+        //
+        //  x is a small non-positive integer, presummably a common case.
+        //
+        if (n == x && n <= 20)
+        {
+            value = 1.0;
+            for (i = 1; i <= n; i++)
             {
-                value = 1.0;
-                for (i = 1; i <= n; i++)
-                {
-                    value = value * (a + (double) (i - 1));
-                }
-
-                return value;
+                value *= (a + (i - 1));
             }
 
-            absax = Math.Abs(a + x);
-            absa = Math.Abs(a);
+            return value;
+        }
 
-            if (r8_max(absax, absa) <= 20.0)
-            {
-                value = r8_gamma(ref gdata, a + x) * r8_gamr(ref data.gamrdata, ref gdata, a);
-                return value;
-            }
+        absax = Math.Abs(a + x);
+        absa = Math.Abs(a);
 
-            if (0.5 * absa < Math.Abs(x))
-            {
-                r8_lgams(ref data.lgamsdata, ref gdata, a + x, ref alngax, ref sgngax);
-                r8_lgams(ref data.lgamsdata, ref gdata, a, ref alnga, ref sgnga);
-                value = sgngax * sgnga * Math.Exp(alngax - alnga);
-                return value;
-            }
+        if (r8_max(absax, absa) <= 20.0)
+        {
+            value = r8_gamma(ref gdata, a + x) * r8_gamr(ref data.gamrdata, ref gdata, a);
+            return value;
+        }
 
+        if (0.5 * absa < Math.Abs(x))
+        {
+            r8_lgams(ref data.lgamsdata, ref gdata, a + x, ref alngax, ref sgngax);
+            r8_lgams(ref data.lgamsdata, ref gdata, a, ref alnga, ref sgnga);
+            value = sgngax * sgnga * Math.Exp(alngax - alnga);
+            return value;
+        }
+
+        b = a switch
+        {
             //
             //  abs(x) is small and both abs(a+x) and abs(a) are large.  thus,
             //  a+x and a must have the same sign.  for negative a, we use
             //  gamma(a+x)/gamma(a) = gamma(-a+1)/gamma(-a-x+1) *
             //  sin(pi*a)/sin(pi*(a+x))
             //
-            if (a < 0.0)
-            {
-                b = -a - x + 1.0;
-            }
-            else
-            {
-                b = a;
-            }
+            < 0.0 => -a - x + 1.0,
+            _ => a
+        };
 
-            value = Math.Exp((b - 0.5) * r8_lnrel(ref data.lnreldata, x / b)
-                + x * Math.Log(b + x) - x + r8_lgmc(ref data.lgmcdata, b + x) - r8_lgmc(ref data.lgmcdata, b));
+        value = Math.Exp((b - 0.5) * r8_lnrel(ref data.lnreldata, x / b)
+            + x * Math.Log(b + x) - x + r8_lgmc(ref data.lgmcdata, b + x) - r8_lgmc(ref data.lgmcdata, b));
 
-            if (0.0 <= a || value == 0.0)
-            {
-                return value;
-            }
-
-            cospix = Math.Cos(Math.PI * x);
-            sinpix = Math.Sin(Math.PI * x);
-            cospia = Math.Cos(Math.PI * a);
-            sinpia = Math.Sin(Math.PI * a);
-
-            errpch = Math.Abs(x) * (1.0 + Math.Log(b));
-            den = cospix + cospia * sinpix / sinpia;
-            err = (Math.Abs(x) * (Math.Abs(sinpix)
-                                  + Math.Abs(cospia * cospix / sinpia))
-                   + Math.Abs(a * sinpix) / sinpia / sinpia) * Math.PI;
-            err = errpch + err / Math.Abs(den);
-
-            value = value / den;
-
+        if (0.0 <= a || value == 0.0)
+        {
             return value;
         }
 
-        public class r8Poch1Data
-        {
-            public double alneps = 0.0;
-            public double sqtbig = 0.0;
+        cospix = Math.Cos(Math.PI * x);
+        sinpix = Math.Sin(Math.PI * x);
+        cospia = Math.Cos(Math.PI * a);
+        sinpia = Math.Sin(Math.PI * a);
 
-            public r8PsiData psidata = new r8PsiData();
-            public r8CotData cotdata = new r8CotData();
-            public r8ExprelData expreldata = new r8ExprelData();
-            public r8PochData pochdata = new r8PochData();
-        }
-        public static double r8_poch1(ref r8Poch1Data data, ref r8GammaData gdata, double a, double x)
+        errpch = Math.Abs(x) * (1.0 + Math.Log(b));
+        den = cospix + cospia * sinpix / sinpia;
+        err = (Math.Abs(x) * (Math.Abs(sinpix)
+                              + Math.Abs(cospia * cospix / sinpia))
+               + Math.Abs(a * sinpix) / sinpia / sinpia) * Math.PI;
+        err = errpch + err / Math.Abs(den);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_POCH1 evaluates a quantity related to Pochhammer's symbol.
-            //
-            //  Discussion:
-            //
-            //    Evaluate a generalization of Pochhammer's symbol for special
-            //    situations that require especially accurate values when x is small in
-            //      poch1(a,x) = (poch(a,x)-1)/x
-            //                 = (gamma(a+x)/gamma(a) - 1.0)/x .
-            //    This specification is particularly suited for stably computing
-            //    expressions such as
-            //      (gamma(a+x)/gamma(a) - gamma(b+x)/gamma(b))/x
-            //           = poch1(a,x) - poch1(b,x)
-            //    Note that poch1(a,0.0) = psi(a)
-            //
-            //    When abs(x) is so small that substantial cancellation will occur if
-            //    the straightforward formula is used, we  use an expansion due
-            //    to fields and discussed by y. l. luke, the special functions and their
-            //    approximations, vol. 1, academic press, 1969, page 34.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double A, the parameter.
-            //
-            //    Input, double X, the evaluation point.
-            //
-            //    Output, double R8_POCH1, the value of the function.
-            //
-        {
-            double absa;
-            double absx;
-            double alnvar;
-            double b;
-            double[] bern = {
+        value /= den;
+
+        return value;
+    }
+
+    public class r8Poch1Data
+    {
+        public double alneps;
+        public double sqtbig;
+
+        public r8PsiData psidata = new();
+        public r8CotData cotdata = new();
+        public r8ExprelData expreldata = new();
+        public r8PochData pochdata = new();
+    }
+    public static double r8_poch1(ref r8Poch1Data data, ref r8GammaData gdata, double a, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_POCH1 evaluates a quantity related to Pochhammer's symbol.
+        //
+        //  Discussion:
+        //
+        //    Evaluate a generalization of Pochhammer's symbol for special
+        //    situations that require especially accurate values when x is small in
+        //      poch1(a,x) = (poch(a,x)-1)/x
+        //                 = (gamma(a+x)/gamma(a) - 1.0)/x .
+        //    This specification is particularly suited for stably computing
+        //    expressions such as
+        //      (gamma(a+x)/gamma(a) - gamma(b+x)/gamma(b))/x
+        //           = poch1(a,x) - poch1(b,x)
+        //    Note that poch1(a,0.0) = psi(a)
+        //
+        //    When abs(x) is so small that substantial cancellation will occur if
+        //    the straightforward formula is used, we  use an expansion due
+        //    to fields and discussed by y. l. luke, the special functions and their
+        //    approximations, vol. 1, academic press, 1969, page 34.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double A, the parameter.
+        //
+        //    Input, double X, the evaluation point.
+        //
+        //    Output, double R8_POCH1, the value of the function.
+        //
+    {
+        double absa;
+        double absx;
+        double alnvar;
+        double b;
+        double[] bern = {
                 +0.833333333333333333333333333333333E-01,
                 -0.138888888888888888888888888888888E-02,
                 +0.330687830687830687830687830687830E-04,
@@ -397,229 +409,227 @@ namespace Burkardt.FullertonFnLib
                 -0.236502241570062993455963519636983E-31
             }
             ;
-            double binv;
-            double bp;
-            double[] gbern = new double[21];
-            double gbk;
-            int i;
-            int ii;
-            int incr;
-            int j;
-            int k;
-            int ndx;
-            int nterms;
+        double binv;
+        double bp;
+        double[] gbern = new double[21];
+        double gbk;
+        int i;
+        int ii;
+        int incr;
+        int j;
+        int k;
+        int ndx;
+        int nterms;
             
-            double poly1;
-            double q;
-            double rho;
-            double sinpxx;
-            double sinpx2;
-            double term;
-            double trig;
-            double value;
-            double var;
-            double var2;
+        double poly1;
+        double q;
+        double rho;
+        double sinpxx;
+        double sinpx2;
+        double term;
+        double trig;
+        double value = 0;
+        double var;
+        double var2;
 
-            if (data.sqtbig == 0.0)
-            {
+        switch (data.sqtbig)
+        {
+            case 0.0:
                 data.sqtbig = 1.0 / Math.Sqrt(24.0 * r8_mach(1));
                 data.alneps = Math.Log(r8_mach(3));
-            }
+                break;
+        }
 
-            if (x == 0.0)
-            {
+        switch (x)
+        {
+            case 0.0:
                 value = r8_psi(ref data.psidata, a);
                 return value;
-            }
+        }
 
-            absx = Math.Abs(x);
-            absa = Math.Abs(a);
+        absx = Math.Abs(x);
+        absa = Math.Abs(a);
 
-            if (0.1 * absa < absx || 0.1 < absx * Math.Log(r8_max(absa, 2.0)))
+        if (0.1 * absa < absx || 0.1 < absx * Math.Log(r8_max(absa, 2.0)))
+        {
+            value = r8_poch(ref data.pochdata, ref gdata, a, x);
+            value = (value - 1.0) / x;
+            return value;
+        }
+
+        bp = a switch
+        {
+            < -0.5 => 1.0 - a - x,
+            _ => a
+        };
+
+        incr = bp switch
+        {
+            < 10.0 => (int) r8_aint(11.0 - bp),
+            _ => 0
+        };
+
+        b = bp + incr;
+
+        var = b + 0.5 * (x - 1.0);
+        alnvar = Math.Log(var);
+        q = x * alnvar;
+        poly1 = 0.0;
+
+        if (var < data.sqtbig)
+        {
+            var2 = 1.0 / var / var;
+
+            rho = 0.5 * (x + 1.0);
+            gbern[0] = 1.0;
+            gbern[1] = -rho / 12.0;
+            term = var2;
+            poly1 = gbern[1] * term;
+
+            nterms = (int) (-0.5 * data.alneps / alnvar + 1.0);
+
+            switch (nterms)
             {
-                value = r8_poch(ref data.pochdata, ref gdata, a, x);
-                value = (value - 1.0) / x;
-                return value;
-            }
-
-            if (a < -0.5)
-            {
-                bp = 1.0 - a - x;
-            }
-            else
-            {
-                bp = a;
-            }
-
-            if (bp < 10.0)
-            {
-                incr = (int)r8_aint(11.0 - bp);
-            }
-            else
-            {
-                incr = 0;
-            }
-
-            b = bp + (double) (incr);
-
-            var = b + 0.5 * (x - 1.0);
-            alnvar = Math.Log(var);
-            q = x * alnvar;
-            poly1 = 0.0;
-
-            if (var < data.sqtbig)
-            {
-                var2 = 1.0 / var / var;
-
-                rho = 0.5 * (x + 1.0);
-                gbern[0] = 1.0;
-                gbern[1] = -rho / 12.0;
-                term = var2;
-                poly1 = gbern[1] * term;
-
-                nterms = (int) (-0.5 * data.alneps / alnvar + 1.0);
-
-                if (20 < nterms)
-                {
+                case > 20:
                     Console.WriteLine("");
                     Console.WriteLine("R8_POCH1 - Fatal error!");
                     Console.WriteLine(" 20 < NTERMS.");
-                    return (1);
-                }
+                    return 1;
+            }
 
-                for (k = 2; k <= nterms; k++)
+            for (k = 2; k <= nterms; k++)
+            {
+                gbk = 0.0;
+                for (j = 1; j <= k; j++)
                 {
-                    gbk = 0.0;
-                    for (j = 1; j <= k; j++)
-                    {
-                        ndx = k - j + 1;
-                        gbk = gbk + bern[ndx - 1] * gbern[j - 1];
-                    }
-
-                    gbern[k] = -rho * gbk / (double) (k);
-                    term = term * ((double) (2 * k - 2) - x)
-                                * ((double) (2 * k - 1) - x) * var2;
-                    poly1 = poly1 + gbern[k] * term;
+                    ndx = k - j + 1;
+                    gbk += bern[ndx - 1] * gbern[j - 1];
                 }
+
+                gbern[k] = -rho * gbk / k;
+                term = term * (2 * k - 2 - x)
+                            * (2 * k - 1 - x) * var2;
+                poly1 += gbern[k] * term;
             }
+        }
 
-            poly1 = (x - 1.0) * poly1;
-            value = r8_exprel(ref data.expreldata, q) * (alnvar + q * poly1) + poly1;
-            //
-            //  we have r8_poch1(b,x), but bp is small, so we use backwards recursion
-            //  to obtain r8_poch1(bp,x).
-            //
-            for (ii = 1; ii <= incr; ii++)
-            {
-                i = incr - ii;
-                binv = 1.0 / (bp + (double) (i));
-                value = (value - binv) / (1.0 + x * binv);
-            }
+        poly1 = (x - 1.0) * poly1;
+        value = r8_exprel(ref data.expreldata, q) * (alnvar + q * poly1) + poly1;
+        //
+        //  we have r8_poch1(b,x), but bp is small, so we use backwards recursion
+        //  to obtain r8_poch1(bp,x).
+        //
+        for (ii = 1; ii <= incr; ii++)
+        {
+            i = incr - ii;
+            binv = 1.0 / (bp + i);
+            value = (value - binv) / (1.0 + x * binv);
+        }
 
-            if (bp == a)
-            {
-                return value;
-            }
-
-            //
-            //  we have r8_poch1(bp,x), but a is lt -0.5.  we therefore use a reflection
-            //  formula to obtain r8_poch1(a,x).
-            //
-            sinpxx = Math.Sin(Math.PI * x) / x;
-            sinpx2 = Math.Sin(0.5 * Math.PI * x);
-            trig = sinpxx * r8_cot(ref data.cotdata, Math.PI * b) - 2.0 * sinpx2 * (sinpx2 / x);
-
-            value = trig + (1.0 + x * trig) * value;
-
+        if (bp == a)
+        {
             return value;
         }
 
-        public static double r8_power(double a, double b)
+        //
+        //  we have r8_poch1(bp,x), but a is lt -0.5.  we therefore use a reflection
+        //  formula to obtain r8_poch1(a,x).
+        //
+        sinpxx = Math.Sin(Math.PI * x) / x;
+        sinpx2 = Math.Sin(0.5 * Math.PI * x);
+        trig = sinpxx * r8_cot(ref data.cotdata, Math.PI * b) - 2.0 * sinpx2 * (sinpx2 / x);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_POWER evaluates A^B.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    31 August 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double A, the base.
-            //
-            //    Input, double B, the exponent.
-            //
-            //    Output, double R8_POWER, the value of A^B.
-            //
-        {
-            double value;
+        value = trig + (1.0 + x * trig) * value;
 
-            value = Math.Pow(a, b);
+        return value;
+    }
 
-            return value;
-        }
+    public static double r8_power(double a, double b)
 
-        public class r8PsiData
-        {
-            public double dxrel = 0.0;
-            public int ntapsi = 0;
-            public int ntpsi = 0;
-            public double xbig = 0.0;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_POWER evaluates A^B.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 August 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A, the base.
+        //
+        //    Input, double B, the exponent.
+        //
+        //    Output, double R8_POWER, the value of A^B.
+        //
+    {
+        double value = 0;
 
-            public r8CotData cotdata = new r8CotData();
-        }
+        value = Math.Pow(a, b);
+
+        return value;
+    }
+
+    public class r8PsiData
+    {
+        public double dxrel;
+        public int ntapsi;
+        public int ntpsi;
+        public double xbig;
+
+        public r8CotData cotdata = new();
+    }
         
-        public static double r8_psi( ref r8PsiData data, double x)
+    public static double r8_psi( ref r8PsiData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_PSI evaluates the psi function of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_PSI, the psi function of X.
-            //
-        {
-            double[] apsics = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_PSI evaluates the psi function of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_PSI, the psi function of X.
+        //
+    {
+        double[] apsics = {
                 -0.832710791069290760174456932269E-03,
                 -0.416251842192739352821627121990E-03,
                 +0.103431560978741291174463193961E-06,
@@ -638,11 +648,11 @@ namespace Burkardt.FullertonFnLib
                 -0.775195892523335680000000000000E-32
             }
             ;
-            double aux;
-            int i;
-            int n;
+        double aux;
+        int i;
+        int n;
             
-            double[] psics = {
+        double[] psics = {
                 -0.38057080835217921520437677667039E-01,
                 +0.49141539302938712748204699654277,
                 -0.56815747821244730242892064734081E-01,
@@ -687,78 +697,86 @@ namespace Burkardt.FullertonFnLib
                 +0.57930703193214159246677333333333E-31
             }
             ;
-            double value = 0;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.ntpsi == 0)
-            {
+        switch (data.ntpsi)
+        {
+            case 0:
                 data.ntpsi = r8_inits(psics, 42, 0.1 * r8_mach(3));
                 data.ntapsi = r8_inits(apsics, 16, 0.1 * r8_mach(3));
                 data.xbig = 1.0 / Math.Sqrt(r8_mach(3));
                 data.dxrel = Math.Sqrt(r8_mach(4));
-            }
+                break;
+        }
 
-            y = Math.Abs(x);
+        y = Math.Abs(x);
 
-            if (y < 10.0)
+        switch (y)
+        {
+            case < 10.0:
             {
-                n = (int) (x);
-                if (x < 0.0)
+                n = (int) x;
+                switch (x)
                 {
-                    n = n - 1;
+                    case < 0.0:
+                        n -= 1;
+                        break;
                 }
 
-                y = x - (double) (n);
-                n = n - 1;
+                y = x - n;
+                n -= 1;
                 value = r8_csevl(2.0 * y - 1.0, psics, data.ntpsi);
 
-                if (n == 0)
+                switch (n)
                 {
-                    return value;
+                    case 0:
+                        return value;
+                    case < 0:
+                    {
+                        n = -n;
+
+                        switch (x)
+                        {
+                            case 0.0:
+                                Console.WriteLine("");
+                                Console.WriteLine("R8_PSI - Fatal error!");
+                                Console.WriteLine("  X is zero.");
+                                return 1;
+                            case < 0.0 when x + (n - 2) == 0.0:
+                                Console.WriteLine("");
+                                Console.WriteLine("R8_PSI - Fatal error!");
+                                Console.WriteLine("  X is a negative int.");
+                                return 1;
+                            case < -0.5 when Math.Abs((x - r8_aint(x - 0.5)) / x) < data.dxrel:
+                                Console.WriteLine("");
+                                Console.WriteLine("R8_PSI - Warning!");
+                                Console.WriteLine("  Answer is less than half precision");
+                                Console.WriteLine("  because X is near a negative int.");
+                                break;
+                        }
+
+                        for (i = 1; i <= n; i++)
+                        {
+                            value -= 1.0 / (x + (i - 1));
+                        }
+
+                        break;
+                    }
+                    case > 0:
+                    {
+                        for (i = 1; i <= n; i++)
+                        {
+                            value += 1.0 / (y + i);
+                        }
+
+                        break;
+                    }
                 }
-                else if (n < 0)
-                {
-                    n = -n;
 
-                    if (x == 0.0)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_PSI - Fatal error!");
-                        Console.WriteLine("  X is zero.");
-                        return (1);
-                    }
-
-                    if (x < 0.0 && x + (double) (n - 2) == 0.0)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_PSI - Fatal error!");
-                        Console.WriteLine("  X is a negative int.");
-                        return (1);
-                    }
-
-                    if (x < -0.5 && Math.Abs((x - r8_aint(x - 0.5)) / x) < data.dxrel)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8_PSI - Warning!");
-                        Console.WriteLine("  Answer is less than half precision");
-                        Console.WriteLine("  because X is near a negative int.");
-                    }
-
-                    for (i = 1; i <= n; i++)
-                    {
-                        value = value - 1.0 / (x + (double) (i - 1));
-                    }
-                }
-                else if (0 < n)
-                {
-                    for (i = 1; i <= n; i++)
-                    {
-                        value = value + 1.0 / (y + (double) (i));
-                    }
-
-                }
+                break;
             }
-            else
+            default:
             {
                 if (y < data.xbig)
                 {
@@ -769,18 +787,17 @@ namespace Burkardt.FullertonFnLib
                     aux = 0.0;
                 }
 
-                if (x < 0.0)
+                value = x switch
                 {
-                    value = Math.Log(Math.Abs(x)) - 0.5 / x + aux
-                            - Math.PI * r8_cot(ref data.cotdata, Math.PI * x);
-                }
-                else if (0.0 < x)
-                {
-                    value = Math.Log(x) - 0.5 / x + aux;
-                }
-            }
+                    < 0.0 => Math.Log(Math.Abs(x)) - 0.5 / x + aux - Math.PI * r8_cot(ref data.cotdata, Math.PI * x),
+                    > 0.0 => Math.Log(x) - 0.5 / x + aux,
+                    _ => value
+                };
 
-            return value;
+                break;
+            }
         }
+
+        return value;
     }
 }

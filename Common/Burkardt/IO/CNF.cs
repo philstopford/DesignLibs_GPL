@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using Burkardt.Types;
 
-namespace Burkardt.IO
+namespace Burkardt.IO;
+
+public static class CNF
 {
-    public static class CNF
-    {
-        public static bool cnf_data_read(string cnf_file_name, int v_num, int c_num,
+    public static bool cnf_data_read(string cnf_file_name, int v_num, int c_num,
             int l_num, ref int[] l_c_num, ref int[] l_val )
 
         //****************************************************************************80
@@ -48,168 +48,170 @@ namespace Burkardt.IO
         //    Output, bool CNF_DATA_READ, is TRUE if there was an error during 
         //    the read.
         //
+    {
+        int c_num2;
+        bool error;
+        int l_c_num2;
+        int l_num2;
+        int l_val2;
+        string word = "";
+
+        error = false;
+
+        string[] input;
+
+        try
         {
-            int c_num2;
-            bool error;
-            int l_c_num2;
-            int l_num2;
-            int l_val2;
-            int length;
-            string rest = "";
-            int v_num2;
-            string word = "";
+            input = File.ReadAllLines(cnf_file_name);
 
-            error = false;
-
-            string[] input;
-
-            try
-            {
-                input = File.ReadAllLines(cnf_file_name);
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CNF_DATA_READ - Fatal error!");
-                Console.WriteLine("  Could not open file.");
-                return true;
-            }
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CNF_DATA_READ - Fatal error!");
+            Console.WriteLine("  Could not open file.");
+            return true;
+        }
             
-            //
-            //  Read lines until you find one that is not blank and does not begin
-            //  with a "c".  This should be the header line.
-            //
-            int index = 0;
-            string line = "";
-            foreach (string tmp in input)
+        //
+        //  Read lines until you find one that is not blank and does not begin
+        //  with a "c".  This should be the header line.
+        //
+        int index = 0;
+        string line = "";
+        foreach (string tmp in input)
+        {
+            index++;
+            switch (tmp[0])
             {
-                index++;
-                if (tmp[0] == 'c' || tmp[0] == 'C')
-                {
+                case 'c':
+                case 'C':
                     continue;
-                }
-
-                if (0 < typeMethods.s_len_trim(tmp))
-                {
-                    line = tmp;
-                    break;
-                }
             }
 
-            if (line == "")
+            if (0 < typeMethods.s_len_trim(tmp))
             {
+                line = tmp;
+                break;
+            }
+        }
+
+        switch (line)
+        {
+            case "":
                 Console.WriteLine("");
                 Console.WriteLine("CNF_DATA_READ - Fatal error!");
                 Console.WriteLine("  Error3 while reading the file.");
                 return true;
-            }
+        }
 
+        switch (line.StartsWith("p cnf "))
+        {
             //
             //  We expect to be reading the line "p cnf V_NUM C_NUM"
             //
-            if (!line.StartsWith("p cnf "))
-            {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("CNF_DATA_READ - Fatal error!");
                 Console.WriteLine("  First non-comment non-blank line does not start");
                 Console.WriteLine("  with 'p cnf' marker.");
                 return true;
-            }
-
-            //
-            //  Remove the first four characters and shift left.
-            //
-            line.Replace("p cnf ", "");
-
-            //
-            //  Extract the next word, which is the number of variables.
-            //  You can compare this to V_NUM for an extra check.
-            //
-            try
-            {
-                i4vec ti = typeMethods.s_to_i4vec(line, 2);
-                v_num2 = ti.ivec[0];
-                c_num2 = ti.ivec[1];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CNF_DATA_READ - Fatal error!");
-                Console.WriteLine("  Unexpected End of input.");
-                return true;
-            }
-
-            //
-            //  Read remaining lines, counting the literals while ignoring occurrences of '0'.
-            //
-            l_num2 = 0;
-            c_num2 = 0;
-            l_c_num2 = 0;
-
-            foreach (string tmp in input.Skip(index))
-            {
-                line = tmp;
-
-                if (line[0] == 'c' || line[0] == 'C')
-                {
-                    continue;
-                }
-
-                if (typeMethods.s_len_trim(line) == 0)
-                {
-                    continue;
-                }
-
-                while (true)
-                {
-                    string tmp2 = tmp.Replace("       ", " ");
-                    string[] tokens = tmp2.Split(' ');
-                    word = tokens[0];
-                    line = String.Join( " ", tokens.Skip(1) );
-
-                    if (typeMethods.s_len_trim(word) <= 0)
-                    {
-                        break;
-                    }
-
-                    l_val2 = typeMethods.s_to_i4(word).val;
-                    l_val = new int[tokens.Length];
-                    l_c_num = new int[tokens.Length];
-
-                    if (error)
-                    {
-                        break;
-                    }
-
-                    if (l_val2 != 0)
-                    {
-                        l_val[l_num2] = l_val2;
-                        l_num2 = l_num2 + 1;
-                        l_c_num2 = l_c_num2 + 1;
-                    }
-                    else
-                    {
-                        l_c_num[c_num2] = l_c_num2;
-                        c_num2 = c_num2 + 1;
-                        l_c_num2 = 0;
-                    }
-                }
-            }
-
-            //
-            //  At the end:
-            //
-            //    C_NUM2 should equal C_NUM.
-            //    L_NUM2 should equal L_NUM.
-            //
-            //  Close file and return.
-            //
-
-            return error;
         }
 
-        public static bool cnf_data_write(int c_num, int l_num, int[] l_c_num, int[] l_val,
+        //
+        //  Remove the first four characters and shift left.
+        //
+        line.Replace("p cnf ", "");
+
+        //
+        //  Extract the next word, which is the number of variables.
+        //  You can compare this to V_NUM for an extra check.
+        //
+        try
+        {
+            i4vec ti = typeMethods.s_to_i4vec(line, 2);
+            c_num2 = ti.ivec[1];
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CNF_DATA_READ - Fatal error!");
+            Console.WriteLine("  Unexpected End of input.");
+            return true;
+        }
+
+        //
+        //  Read remaining lines, counting the literals while ignoring occurrences of '0'.
+        //
+        l_num2 = 0;
+        c_num2 = 0;
+        l_c_num2 = 0;
+
+        foreach (string tmp in input.Skip(index))
+        {
+            line = tmp;
+
+            switch (line[0])
+            {
+                case 'c':
+                case 'C':
+                    continue;
+            }
+
+            if (typeMethods.s_len_trim(line) == 0)
+            {
+                continue;
+            }
+
+            while (true)
+            {
+                string tmp2 = tmp.Replace("       ", " ");
+                string[] tokens = tmp2.Split(' ');
+                word = tokens[0];
+                line = string.Join( " ", tokens.Skip(1) );
+
+                if (typeMethods.s_len_trim(word) <= 0)
+                {
+                    break;
+                }
+
+                l_val2 = typeMethods.s_to_i4(word).val;
+                l_val = new int[tokens.Length];
+                l_c_num = new int[tokens.Length];
+
+                if (error)
+                {
+                    break;
+                }
+
+                if (l_val2 != 0)
+                {
+                    l_val[l_num2] = l_val2;
+                    l_num2 += 1;
+                    l_c_num2 += 1;
+                }
+                else
+                {
+                    l_c_num[c_num2] = l_c_num2;
+                    c_num2 += 1;
+                    l_c_num2 = 0;
+                }
+            }
+        }
+
+        //
+        //  At the end:
+        //
+        //    C_NUM2 should equal C_NUM.
+        //    L_NUM2 should equal L_NUM.
+        //
+        //  Close file and return.
+        //
+
+        return error;
+    }
+
+    public static bool cnf_data_write(int c_num, int l_num, int[] l_c_num, int[] l_val,
             ref List<string> output_unit )
 
         //****************************************************************************80
@@ -244,40 +246,42 @@ namespace Burkardt.IO
         //
         //    Input, ofstream &OUTPUT_UNIT, the output unit.
         //
+    {
+        int c;
+        bool error;
+        int l;
+        int l_c;
+
+        error = false;
+
+        l = 0;
+
+        string line = "";
+
+        for (c = 0; c < c_num; c++)
         {
-            int c;
-            bool error;
-            int l;
-            int l_c;
-
-            error = false;
-
-            l = 0;
-
-            string line = "";
-
-            for (c = 0; c < c_num; c++)
+            for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
-                for (l_c = 0; l_c < l_c_num[c]; l_c++)
+                line += " " + l_val[l].ToString().PadLeft(7);
+                l += 1;
+
+                switch ((l_c + 1) % 10)
                 {
-                    line += " " + l_val[l].ToString().PadLeft(7);
-                    l = l + 1;
-
-                    if (((l_c + 1) % 10) == 0)
-                    {
+                    case 0:
                         output_unit.Add(line);
-                    }
+                        break;
                 }
-
-                line += " " + 0.ToString().PadLeft(7);
-                output_unit.Add(line);
             }
 
-            return error;
+            line += " " + 0.ToString().PadLeft(7);
+            output_unit.Add(line);
         }
 
-        public static bool cnf_evaluate(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val,
-        bool[] v_val )
+        return error;
+    }
+
+    public static bool cnf_evaluate(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val,
+            bool[] v_val )
 
         //****************************************************************************80
         //
@@ -320,272 +324,277 @@ namespace Burkardt.IO
         //    Output, bool CNF_EVALUATE, the value of the CNF formula for the
         //    given variable values.
         //
+    {
+        int c;
+        bool c_val;
+        bool f_val;
+        int l;
+        int l_c;
+        bool s_val;
+        int v_index;
+
+        f_val = true;
+
+        l = 0;
+
+        for (c = 0; c < c_num; c++)
         {
-            int c;
-            bool c_val;
-            bool f_val;
-            int l;
-            int l_c;
-            bool s_val;
-            int v_index;
-
-            f_val = true;
-
-            l = 0;
-
-            for (c = 0; c < c_num; c++)
+            //
+            //  The clause is false unless some signed literal is true.
+            //
+            c_val = false;
+            for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
+                s_val = 0 < l_val[l];
+                v_index = Math.Abs(l_val[l]);
+                l += 1;
                 //
-                //  The clause is false unless some signed literal is true.
+                //  The signed literal is true if the sign "equals" the value.
+                //  Note that we CAN'T exit the loop because we need to run out the 
+                //  L index!
                 //
-                c_val = false;
-                for (l_c = 0; l_c < l_c_num[c]; l_c++)
+                if (v_val[v_index - 1] == s_val)
                 {
-                    s_val = (0 < l_val[l]);
-                    v_index = Math.Abs(l_val[l]);
-                    l = l + 1;
-                    //
-                    //  The signed literal is true if the sign "equals" the value.
-                    //  Note that we CAN'T exit the loop because we need to run out the 
-                    //  L index!
-                    //
-                    if (v_val[v_index - 1] == s_val)
-                    {
-                        c_val = true;
-                    }
-                }
-
-                //
-                //  The formula is false if any clause is false.
-                //
-                if (!c_val)
-                {
-                    f_val = false;
-                    break;
+                    c_val = true;
                 }
             }
 
-            return f_val;
+            //
+            //  The formula is false if any clause is false.
+            //
+            if (!c_val)
+            {
+                f_val = false;
+                break;
+            }
         }
 
-        public static bool cnf_header_read(string cnf_file_name, ref int v_num, ref int c_num,
-                ref int l_num)
+        return f_val;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CNF_HEADER_READ reads the header of a CNF file.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    06 June 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string CNF_FILE_NAME, the name of the CNF file.
-            //
-            //    Output, int *V_NUM, the number of variables.
-            //
-            //    Output, int *C_NUM, the number of clauses.
-            //
-            //    Output, int *L_NUM, the number of signed literals.
-            //
-            //    Output, bool CNF_HEADER_READ, is TRUE if there was an error during 
-            //    the read.
-            //
+    public static bool cnf_header_read(string cnf_file_name, ref int v_num, ref int c_num,
+            ref int l_num)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CNF_HEADER_READ reads the header of a CNF file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 June 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string CNF_FILE_NAME, the name of the CNF file.
+        //
+        //    Output, int *V_NUM, the number of variables.
+        //
+        //    Output, int *C_NUM, the number of clauses.
+        //
+        //    Output, int *L_NUM, the number of signed literals.
+        //
+        //    Output, bool CNF_HEADER_READ, is TRUE if there was an error during 
+        //    the read.
+        //
+    {
+        string[] input;
+        bool error;
+        int l_val;
+        string line = "";
+        string rest;
+        string word;
+
+        error = false;
+
+        try
         {
-            string[] input;
-            bool error;
-            int l_val;
-            int length;
-            string line = "";
-            string rest;
-            string word;
+            input = File.ReadAllLines(cnf_file_name);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CNF_HEADER_READ - Fatal error!");
+            Console.WriteLine("  Could not open file.");
+            return true;
+        }
 
-            error = false;
-
-            try
-            {
-                input = File.ReadAllLines(cnf_file_name);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CNF_HEADER_READ - Fatal error!");
-                Console.WriteLine("  Could not open file.");
-                return true;
-            }
-
-            //
-            //  Read lines until you find one that is not blank and does not begin
-            //  with a "c".  This should be the header line.
-            //
-            int index = 0;
-            foreach (string tmp in input)
-            {
-                index++;
+        //
+        //  Read lines until you find one that is not blank and does not begin
+        //  with a "c".  This should be the header line.
+        //
+        int index = 0;
+        foreach (string tmp in input)
+        {
+            index++;
                 
-                if (tmp[0] == 'c' || tmp[0] == 'C')
-                {
+            switch (tmp[0])
+            {
+                case 'c':
+                case 'C':
                     continue;
-                }
-
-                if (0 < typeMethods.s_len_trim(tmp))
-                {
-                    line = tmp;
-                    break;
-                }
             }
 
-            if (line == "")
+            if (0 < typeMethods.s_len_trim(tmp))
             {
+                line = tmp;
+                break;
+            }
+        }
+
+        switch (line)
+        {
+            case "":
                 Console.WriteLine("");
                 Console.WriteLine("CNF_HEADER_READ - Fatal error!");
                 Console.WriteLine("  Error3 while reading the file.");
                 return true;
-            }
-            
+        }
+
+        switch (line.StartsWith("p cnf "))
+        {
             //
             //  We expect to be reading the line "p cnf V_NUM C_NUM"
             //
-            if (!line.StartsWith("p cnf "))
-            {
+            case false:
                 Console.WriteLine("");
                 Console.WriteLine("CNF_DATA_READ - Fatal error!");
                 Console.WriteLine("  First non-comment non-blank line does not start");
                 Console.WriteLine("  with 'p cnf' marker.");
                 return true;
-            }
+        }
 
-            //
-            //  Remove the first four characters and shift left.
-            //
-            line.Replace("p cnf ", "");
+        //
+        //  Remove the first four characters and shift left.
+        //
+        line.Replace("p cnf ", "");
 
-            //
-            //  Extract the next word, which is the number of variables.
-            //
-            try
+        //
+        //  Extract the next word, which is the number of variables.
+        //
+        try
+        {
+            i4vec ti = typeMethods.s_to_i4vec(line, 2);
+            v_num = ti.ivec[0];
+            c_num = ti.ivec[1];
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("CNF_HEADER_READ - Fatal error!");
+            Console.WriteLine("  Unexpected End of input.");
+            return true;
+        }
+
+        //
+        //  Read remaining lines, counting the literals while ignoring occurrences of '0'.
+        //
+        l_num = 0;
+
+        foreach (string tmp in input.Skip(index))
+        {
+            line = tmp;
+
+            switch (line[0])
             {
-                i4vec ti = typeMethods.s_to_i4vec(line, 2);
-                v_num = ti.ivec[0];
-                c_num = ti.ivec[1];
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CNF_HEADER_READ - Fatal error!");
-                Console.WriteLine("  Unexpected End of input.");
-                return true;
-            }
-
-            //
-            //  Read remaining lines, counting the literals while ignoring occurrences of '0'.
-            //
-            l_num = 0;
-
-            foreach (string tmp in input.Skip(index))
-            {
-                line = tmp;
-
-                if (line[0] == 'c' || line[0] == 'C')
-                {
+                case 'c':
+                case 'C':
                     continue;
-                }
+            }
 
-                if (typeMethods.s_len_trim(line) < 0)
+            if (typeMethods.s_len_trim(line) < 0)
+            {
+                break;
+            }
+
+            if (typeMethods.s_len_trim(line) == 0)
+            {
+                continue;
+            }
+
+            while (true)
+            {
+                string tmp2 = tmp.Replace("       ", " ");
+                string[] tokens = tmp2.Split(' ');
+                word = tokens[0];
+                rest = string.Join(" ", tokens.Skip(1));
+                line = rest;
+
+                if (typeMethods.s_len_trim(word) <= 0)
                 {
                     break;
                 }
 
-                if (typeMethods.s_len_trim(line) == 0)
+                l_val = typeMethods.s_to_i4(word).val;
+
+                if (error)
                 {
-                    continue;
+                    break;
                 }
 
-                while (true)
+                if (l_val != 0)
                 {
-                    string tmp2 = tmp.Replace("       ", " ");
-                    string[] tokens = tmp2.Split(' ');
-                    word = tokens[0];
-                    rest = String.Join(" ", tokens.Skip(1));
-                    line = rest;
-
-                    if (typeMethods.s_len_trim(word) <= 0)
-                    {
-                        break;
-                    }
-
-                    l_val = typeMethods.s_to_i4(word).val;
-
-                    if (error)
-                    {
-                        break;
-                    }
-
-                    if (l_val != 0)
-                    {
-                        l_num = l_num + 1;
-                    }
+                    l_num += 1;
                 }
             }
-
-            return error;
         }
 
-        public static bool cnf_header_write(int v_num, int c_num, string output_name,
-                ref List<string> output_unit)
+        return error;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CNF_HEADER_WRITE writes the header for a CNF file.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    06 June 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int V_NUM, the number of variables.
-            //
-            //    Input, int C_NUM, the number of clauses.
-            //
-            //    Input, string OUTPUT_NAME, the name of the output file.
-            //
-            //    Input, ofstream &OUTPUT_UNIT, the output unit.
-            //
-        {
-            bool error;
+    public static bool cnf_header_write(int v_num, int c_num, string output_name,
+            ref List<string> output_unit)
 
-            error = false;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CNF_HEADER_WRITE writes the header for a CNF file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 June 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int V_NUM, the number of variables.
+        //
+        //    Input, int C_NUM, the number of clauses.
+        //
+        //    Input, string OUTPUT_NAME, the name of the output file.
+        //
+        //    Input, ofstream &OUTPUT_UNIT, the output unit.
+        //
+    {
+        bool error;
 
-            output_unit.Add("c " + output_name + "");
-            output_unit.Add("c");
-            output_unit.Add("p cnf " + v_num + " " + c_num + "");
+        error = false;
 
-            return error;
-        }
+        output_unit.Add("c " + output_name + "");
+        output_unit.Add("c");
+        output_unit.Add("p cnf " + v_num + " " + c_num + "");
 
-        public static void cnf_print(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val )
+        return error;
+    }
+
+    public static void cnf_print(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val )
 
         //****************************************************************************80
         //
@@ -619,33 +628,33 @@ namespace Burkardt.IO
         //    Input, int L_VAL[L_NUM], a list of all the signed 
         //    literals in all the clauses, ordered by clause.
         //
-        {
-            int c;
-            int l;
-            int l_c;
+    {
+        int c;
+        int l;
+        int l_c;
 
+        Console.WriteLine("");
+        Console.WriteLine("CNF data printout:");
+        Console.WriteLine("");
+        Console.WriteLine("  The number of variables       V_NUM  = " + v_num + "");
+        Console.WriteLine("  The number of clauses         C_NUM  = " + c_num + "");
+        Console.WriteLine("  The number of signed literals L_NUM  = " + l_num + "");
+        l = 0;
+        for (c = 0; c < c_num; c++)
+        {
             Console.WriteLine("");
-            Console.WriteLine("CNF data printout:");
-            Console.WriteLine("");
-            Console.WriteLine("  The number of variables       V_NUM  = " + v_num + "");
-            Console.WriteLine("  The number of clauses         C_NUM  = " + c_num + "");
-            Console.WriteLine("  The number of signed literals L_NUM  = " + l_num + "");
-            l = 0;
-            for (c = 0; c < c_num; c++)
+            Console.WriteLine("  Clause " + c
+                                          + " includes " + l_c_num[c] + " signed literals:");
+            for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Clause " + c
-                    + " includes " + l_c_num[c] + " signed literals:");
-                for (l_c = 0; l_c < l_c_num[c]; l_c++)
-                {
-                    Console.WriteLine(l_val[l].ToString().PadLeft(4) + "");
-                    l = l + 1;
-                }
+                Console.WriteLine(l_val[l].ToString().PadLeft(4) + "");
+                l += 1;
             }
         }
+    }
 
-        public static bool cnf_write(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val,
-        string output_name )
+    public static bool cnf_write(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val,
+            string output_name )
 
         //****************************************************************************80
         //
@@ -681,50 +690,51 @@ namespace Burkardt.IO
         //
         //    Input, string OUTPUT_NAME, the name of the output file.
         //
+    {
+        bool error;
+        List<string> output_unit = new();
+
+        error = false;
+        //
+        //  Write the header.
+        //
+        error = cnf_header_write(v_num, c_num, output_name, ref output_unit);
+
+        switch (error)
         {
-            bool error;
-            List<string> output_unit = new List<string>();
-
-            error = false;
-            //
-            //  Write the header.
-            //
-            error = cnf_header_write(v_num, c_num, output_name, ref output_unit);
-
-            if (error)
-            {
+            case true:
                 Console.WriteLine("");
                 Console.WriteLine("CNF_WRITE - Fatal error!");
                 Console.WriteLine("  Cannot write the header for the output file \"" + output_name + "\".");
                 return error;
-            }
+        }
 
-            //
-            //  Write the data.
-            //
-            error = cnf_data_write(c_num, l_num, l_c_num, l_val, ref output_unit);
+        //
+        //  Write the data.
+        //
+        error = cnf_data_write(c_num, l_num, l_c_num, l_val, ref output_unit);
 
-            if (error)
-            {
+        switch (error)
+        {
+            case true:
                 Console.WriteLine("");
                 Console.WriteLine("CNF_WRITE - Fatal error!");
                 Console.WriteLine("  Cannot write the data for the output file \"" + output_name + "\".");
                 return error;
-            }
-
-            try
-            {
-                File.WriteAllLines(output_name, output_unit);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("CNF_WRITE - Fatal error!");
-                Console.WriteLine("  Cannot open the output file \"" + output_name + "\".");
-                error = true;
-            }
+            default:
+                try
+                {
+                    File.WriteAllLines(output_name, output_unit);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("CNF_WRITE - Fatal error!");
+                    Console.WriteLine("  Cannot open the output file \"" + output_name + "\".");
+                    error = true;
+                }
             
-            return error;
+                return error;
         }
     }
 }

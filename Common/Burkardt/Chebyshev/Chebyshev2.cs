@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Chebyshev
+namespace Burkardt.Chebyshev;
+
+public static class Chebyshev2
 {
-    public static class Chebyshev2
-    {
-        public static void chebyshev2_compute_np ( int n, int np, double[] p, ref double[] x,
-        ref double[] w )
+    public static void chebyshev2_compute_np ( int n, int np, double[] p, ref double[] x,
+            ref double[] w )
 
         //****************************************************************************80
         //
@@ -57,11 +57,11 @@ namespace Burkardt.Chebyshev
         //
         //    Output, double W[N], the weights.
         //
-        {
-            chebyshev2_compute ( n, ref x, ref w );
-        }
+    {
+        chebyshev2_compute ( n, ref x, ref w );
+    }
         
-        public static void chebyshev2_compute ( int n, ref double[] x, ref double[] w )
+    public static void chebyshev2_compute ( int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //
@@ -109,31 +109,31 @@ namespace Burkardt.Chebyshev
         //
         //    Output, double W[N], the weights.
         //
-        {
-            double angle;
-            int i;
+    {
+        double angle;
+        int i;
             
 
-            if ( n < 1 )
-            {
+        switch (n)
+        {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("CHEBYSHEV2_COMPUTE - Fatal error!");
                 Console.WriteLine("  Illegal value of N = " + n + "");
                 return;
-            }
-
-            for ( i = 0; i < n; i++ )
-            {
-                angle = Math.PI * ( double ) ( n - i ) / ( double ) ( n + 1 );
-                w[i] = Math.PI / ( double ) ( n + 1 ) * Math.Pow ( Math.Sin ( angle ), 2 );
-                x[i] = Math.Cos ( angle );
-            }
-
-            if ( ( n % 2 ) == 1 )
-            {
-                x[(n-1)/2] = 0.0;
-            }
-
         }
+
+        for ( i = 0; i < n; i++ )
+        {
+            angle = Math.PI * (n - i) / (n + 1);
+            w[i] = Math.PI / (n + 1) * Math.Pow ( Math.Sin ( angle ), 2 );
+            x[i] = Math.Cos ( angle );
+        }
+
+        x[(n - 1) / 2] = (n % 2) switch
+        {
+            1 => 0.0,
+            _ => x[(n - 1) / 2]
+        };
     }
 }

@@ -2,11 +2,11 @@
 using Burkardt;
 using Burkardt.AppliedStatistics;
 
-namespace ASA091Test
+namespace ASA091Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -29,21 +29,21 @@ namespace ASA091Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ASA091_TEST:");
-            Console.WriteLine("  Test the ASA091 library.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("ASA091_TEST:");
+        Console.WriteLine("  Test the ASA091 library.");
 
-            test01();
-            test02();
+        test01();
+        test02();
 
-            Console.WriteLine("");
-            Console.WriteLine("ASA091_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("ASA091_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
 
-        static void test01()
+    private static void test01()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,46 +62,44 @@ namespace ASA091Test
         //
         //    John Burkardt
         //
-        {
-            double g;
-            int ifault = 0;
-            double p;
-            double v;
-            double value;
-            double value_correct = 0.4;
+    {
+        double g;
+        int ifault = 0;
+        double p;
+        double v;
+        double value = 0;
+        double value_correct = 0.4;
 
-            p = 0.017523;
-            v = 4.0;
+        p = 0.017523;
+        v = 4.0;
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01:");
-            Console.WriteLine("  Perform a simple sample calculation using");
-            Console.WriteLine("  PPCHI2 to invert the Chi-Squared CDF.");
+        Console.WriteLine("");
+        Console.WriteLine("TEST01:");
+        Console.WriteLine("  Perform a simple sample calculation using");
+        Console.WriteLine("  PPCHI2 to invert the Chi-Squared CDF.");
 
-            g = Helpers.LogGamma(v / 2.0);
+        g = Helpers.LogGamma(v / 2.0);
 
-            Console.WriteLine("");
-            Console.WriteLine("  P =                  "
-                 + p.ToString("0.################").PadLeft(24) + "");
-            Console.WriteLine("  V =                  "
-                 + v.ToString("0.################").PadLeft(24) + "");
-            Console.WriteLine("  G Log(Gamma(V/2)) =  "
-                 + g.ToString("0.################").PadLeft(24) + "");
+        Console.WriteLine("");
+        Console.WriteLine("  P =                  "
+                          + p.ToString("0.################").PadLeft(24) + "");
+        Console.WriteLine("  V =                  "
+                          + v.ToString("0.################").PadLeft(24) + "");
+        Console.WriteLine("  G Log(Gamma(V/2)) =  "
+                          + g.ToString("0.################").PadLeft(24) + "");
 
-            value = Algorithms.ppchi2(p, v, g, ref ifault);
+        value = Algorithms.ppchi2(p, v, g, ref ifault);
 
-            Console.WriteLine("  VALUE =              "
-                 + value.ToString("0.################").PadLeft(24) + "");
-            Console.WriteLine("  VALUE (correct) =    "
-                 + value_correct.ToString("0.################").PadLeft(24) + "");
+        Console.WriteLine("  VALUE =              "
+                          + value.ToString("0.################").PadLeft(24) + "");
+        Console.WriteLine("  VALUE (correct) =    "
+                          + value_correct.ToString("0.################").PadLeft(24) + "");
 
-            Console.WriteLine("");
-            Console.WriteLine("  Error flag IFAULT = " + ifault + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Error flag IFAULT = " + ifault + "");
+    }
 
-            return;
-        }
-
-        static void test02()
+    private static void test02()
         //****************************************************************************80
         //
         //  Purpose:
@@ -120,51 +118,50 @@ namespace ASA091Test
         //
         //    John Burkardt
         //
+    {
+        int a = 0;
+        double fx = 0;
+        double g;
+        int ifault = 0;
+        int n_data;
+        double v;
+        double x = 0;
+        double x2;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST02:");
+        Console.WriteLine("  PPCHI2 computes percentage points of the Chi-Square CDF.");
+        Console.WriteLine("  Compare to tabulated values.");
+        Console.WriteLine("");
+        Console.WriteLine("         N        CDF       X                        "
+                          + " X2                    DIFF");
+        Console.WriteLine("                           (tabulated)               "
+                          + "(PPCHI2)");
+        Console.WriteLine("");
+
+        n_data = 0;
+
+        for (;;)
         {
-            int a = 0;
-            double fx = 0;
-            double g;
-            int ifault = 0;
-            int n_data;
-            double v;
-            double x = 0;
-            double x2;
+            Algorithms.chi_square_cdf_values(ref n_data, ref a, ref x, ref fx);
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST02:");
-            Console.WriteLine("  PPCHI2 computes percentage points of the Chi-Square CDF.");
-            Console.WriteLine("  Compare to tabulated values.");
-            Console.WriteLine("");
-            Console.WriteLine("         N        CDF       X                        "
-                + " X2                    DIFF");
-            Console.WriteLine("                           (tabulated)               "
-                + "(PPCHI2)");
-            Console.WriteLine("");
-
-            n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Algorithms.chi_square_cdf_values(ref n_data, ref a, ref x, ref fx);
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                v = a;
-
-                g = Helpers.LogGamma(v / 2.0);
-
-                x2 = Algorithms.ppchi2(fx, v, g, ref ifault);
-
-                Console.WriteLine("  " + a.ToString("0.####").PadLeft(10)
-                    + "  " + fx.ToString("0.####").PadLeft(10)
-                    + "  " + x.ToString("0.################").PadLeft(24)
-                    + "  " + x2.ToString("0.################").PadLeft(24)
-                    + "  " + Math.Abs((x - x2)).ToString("0.####").PadLeft(10) + "");
+                break;
             }
-        }
 
+            v = a;
+
+            g = Helpers.LogGamma(v / 2.0);
+
+            x2 = Algorithms.ppchi2(fx, v, g, ref ifault);
+
+            Console.WriteLine("  " + a.ToString("0.####").PadLeft(10)
+                                   + "  " + fx.ToString("0.####").PadLeft(10)
+                                   + "  " + x.ToString("0.################").PadLeft(24)
+                                   + "  " + x2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs(x - x2).ToString("0.####").PadLeft(10) + "");
+        }
     }
+
 }

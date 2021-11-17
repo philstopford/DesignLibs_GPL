@@ -1,12 +1,12 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Disk
+namespace Burkardt.Disk;
+
+public static class QuadratureRule
 {
-    public static class QuadratureRule
-    {
-        public static void disk_rule(int nr, int nt, double xc, double yc, double rc, ref double[] w,
-        ref double[] x, ref double[] y )
+    public static void disk_rule(int nr, int nt, double xc, double yc, double rc, ref double[] w,
+            ref double[] x, ref double[] y )
 
         //****************************************************************************80
         //
@@ -54,33 +54,33 @@ namespace Burkardt.Disk
         //
         //    Output, double X[NR*NT], Y[NR*NT], the points for the rule.
         //
+    {
+        int i;
+        int j;
+        double[] r01;
+        double[] t01;
+        double[] w01;
+
+        w01 = new double[nr];
+        r01 = new double[nr];
+        t01 = new double[nt];
+
+        disk01_rule(nr, nt, ref w01, ref r01, ref t01);
+        //
+        //  Recompute the rule for the general circle in terms of X, Y.
+        //
+        for (j = 0; j < nt; j++)
         {
-            int i;
-            int j;
-            double[] r01;
-            double[] t01;
-            double[] w01;
-
-            w01 = new double[nr];
-            r01 = new double[nr];
-            t01 = new double[nt];
-
-            disk01_rule(nr, nt, ref w01, ref r01, ref t01);
-            //
-            //  Recompute the rule for the general circle in terms of X, Y.
-            //
-            for (j = 0; j < nt; j++)
+            for (i = 0; i < nr; i++)
             {
-                for (i = 0; i < nr; i++)
-                {
-                    w[i + j * nr] = w01[i];
-                    x[i + j * nr] = xc + rc * r01[i] * Math.Cos(t01[j]);
-                    y[i + j * nr] = yc + rc * r01[i] * Math.Sin(t01[j]);
-                }
+                w[i + j * nr] = w01[i];
+                x[i + j * nr] = xc + rc * r01[i] * Math.Cos(t01[j]);
+                y[i + j * nr] = yc + rc * r01[i] * Math.Sin(t01[j]);
             }
         }
+    }
 
-        public static double disk01_monomial_integral(int[] e )
+    public static double disk01_monomial_integral(int[] e )
 
         //****************************************************************************80
         //
@@ -122,51 +122,51 @@ namespace Burkardt.Disk
         //
         //    Output, double DISK01_MONOMIAL_INTEGRAL, the integral.
         //
+    {
+        double arg;
+        int i;
+        double integral;
+        const double r = 1.0;
+        double s;
+
+        if (e[0] < 0 || e[1] < 0)
         {
-            double arg;
-            int i;
-            double integral;
-            const double r = 1.0;
-            double s;
-
-            if (e[0] < 0 || e[1] < 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("DISK01_MONOMIAL_INTEGRAL - Fatal error!");
-                Console.WriteLine("  All exponents must be nonnegative.");
-                Console.WriteLine("  E[0] = " + e[0] + "");
-                Console.WriteLine("  E[1] = " + e[1] + "");
-                return 1;
-            }
-
-            if ((e[0] % 2) == 1 || (e[1] % 2) == 1)
-            {
-                integral = 0.0;
-            }
-            else
-            {
-                integral = 2.0;
-
-                for (i = 0; i < 2; i++)
-                {
-                    arg = 0.5 * (double) (e[i] + 1);
-                    integral = integral * typeMethods.r8_gamma(arg);
-                }
-
-                arg = 0.5 * (double) (e[0] + e[1] + 2);
-                integral = integral / typeMethods.r8_gamma(arg);
-            }
-
-            //
-            //  Adjust the surface integral to get the volume integral.
-            //
-            s = e[0] + e[1] + 2;
-            integral = integral * Math.Pow(r, s) / (double) (s);
-
-            return integral;
+            Console.WriteLine("");
+            Console.WriteLine("DISK01_MONOMIAL_INTEGRAL - Fatal error!");
+            Console.WriteLine("  All exponents must be nonnegative.");
+            Console.WriteLine("  E[0] = " + e[0] + "");
+            Console.WriteLine("  E[1] = " + e[1] + "");
+            return 1;
         }
 
-        public static void disk01_rule(int nr, int nt, ref double[] w, ref double[] r, ref double[] t )
+        if (e[0] % 2 == 1 || e[1] % 2 == 1)
+        {
+            integral = 0.0;
+        }
+        else
+        {
+            integral = 2.0;
+
+            for (i = 0; i < 2; i++)
+            {
+                arg = 0.5 * (e[i] + 1);
+                integral *= typeMethods.r8_gamma(arg);
+            }
+
+            arg = 0.5 * (e[0] + e[1] + 2);
+            integral /= typeMethods.r8_gamma(arg);
+        }
+
+        //
+        //  Adjust the surface integral to get the volume integral.
+        //
+        s = e[0] + e[1] + 2;
+        integral = integral * Math.Pow(r, s) / s;
+
+        return integral;
+    }
+
+    public static void disk01_rule(int nr, int nt, ref double[] w, ref double[] r, ref double[] t )
 
         //****************************************************************************80
         //
@@ -207,41 +207,40 @@ namespace Burkardt.Disk
         //
         //    Output, double R[NR], T[NT], the (R,Theta) points for the rule.
         //
-        {
-            int ir;
-            int it;
+    {
+        int ir;
+        int it;
             
-            double[] wr;
-            double[] xr;
-            //
-            //  Request a Legendre rule for [-1,+1].
-            //
-            xr = new double[nr];
-            wr = new double[nr];
+        double[] wr;
+        double[] xr;
+        //
+        //  Request a Legendre rule for [-1,+1].
+        //
+        xr = new double[nr];
+        wr = new double[nr];
 
-            Legendre.QuadratureRule.legendre_ek_compute(nr, ref xr, ref wr);
-            //
-            //  Shift the rule to [0,1].
-            //
-            for (ir = 0; ir < nr; ir++)
-            {
-                xr[ir] = (xr[ir] + 1.0) / 2.0;
-                wr[ir] = wr[ir] / 2.0;
-            }
+        Legendre.QuadratureRule.legendre_ek_compute(nr, ref xr, ref wr);
+        //
+        //  Shift the rule to [0,1].
+        //
+        for (ir = 0; ir < nr; ir++)
+        {
+            xr[ir] = (xr[ir] + 1.0) / 2.0;
+            wr[ir] /= 2.0;
+        }
 
-            //
-            //  Compute the disk rule.
-            //
-            for (it = 0; it < nt; it++)
-            {
-                t[it] = 2.0 * Math.PI * (double) (it) / (double) (nt);
-            }
+        //
+        //  Compute the disk rule.
+        //
+        for (it = 0; it < nt; it++)
+        {
+            t[it] = 2.0 * Math.PI * it / nt;
+        }
 
-            for (ir = 0; ir < nr; ir++)
-            {
-                w[ir] = wr[ir] / (double) (nt);
-                r[ir] = Math.Sqrt(xr[ir]);
-            }
+        for (ir = 0; ir < nr; ir++)
+        {
+            w[ir] = wr[ir] / nt;
+            r[ir] = Math.Sqrt(xr[ir]);
         }
     }
 }

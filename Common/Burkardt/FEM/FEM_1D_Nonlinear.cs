@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.FEM
+namespace Burkardt.FEM;
+
+public static class FEM_1D_Nonlinear
 {
-    public static class FEM_1D_Nonlinear
-    {
-        public static void assemble_newton(ref double[] adiag, ref double[] aleft, ref double[] arite,
-            ref double[] f, double[] fold, double[] h, int[] indx, int n, int nl,
+    public static void assemble_newton(ref double[] adiag, ref double[] aleft, ref double[] arite,
+        ref double[] f, double[] fold, double[] h, int[] indx, int n, int nl,
         int[] node, int nquad, int nu, int problem, double ul, double ur,
         double[] xn, double[] xquad )
 //****************************************************************************80
@@ -141,112 +141,116 @@ namespace Burkardt.FEM
 //    XQUAD(I) is the location of the single quadrature point
 //    in interval I.
 //
-        {
-            double phii = 0;
-            double phiix = 0;
-            double phij = 0;
-            double phijx = 0;
+    {
+        double phii = 0;
+        double phiix = 0;
+        double phij = 0;
+        double phijx = 0;
 
-            for (int i = 0; i < nu; i++)
-            {
-                f[i] = 0.0;
-                adiag[i] = 0.0;
-                aleft[i] = 0.0;
-                arite[i] = 0.0;
-            }
+        for (int i = 0; i < nu; i++)
+        {
+            f[i] = 0.0;
+            adiag[i] = 0.0;
+            aleft[i] = 0.0;
+            arite[i] = 0.0;
+        }
 
 //
 //  For element IE...
 //
-            for (int ie = 0; ie < n; ie++)
-            {
-                double he = h[ie];
-                double xleft = xn[node[0 + ie * 2]];
-                double xrite = xn[node[1 + ie * 2]];
+        for (int ie = 0; ie < n; ie++)
+        {
+            double he = h[ie];
+            double xleft = xn[node[0 + ie * 2]];
+            double xrite = xn[node[1 + ie * 2]];
 //
 //  For quadrature point IQ...
 //
-                for (int iq = 0; iq < nquad; iq++)
-                {
-                    double xqe = xquad[ie];
+            for (int iq = 0; iq < nquad; iq++)
+            {
+                double xqe = xquad[ie];
 //
 //  Compute value of U for previous solution.
 //
-                    double total = 0.0;
+                double total = 0.0;
 
-                    int ig;
-                    int iu;
-                    for (int il = 1; il <= nl; il++)
+                int ig;
+                int iu;
+                for (int il = 1; il <= nl; il++)
+                {
+                    ig = node[il - 1 + ie * 2];
+                    iu = indx[ig] - 1;
+
+                    total += iu switch
                     {
-                        ig = node[il - 1 + ie * 2];
-                        iu = indx[ig] - 1;
+                        < 0 when il == 1 => ul,
+                        < 0 => ur,
+                        _ => fold[iu]
+                    };
+                }
 
-                        if (iu < 0)
-                        {
-                            if (il == 1)
-                            {
-                                total = total + ul;
-                            }
-                            else
-                            {
-                                total = total + ur;
-                            }
-                        }
-                        else
-                        {
-                            total = total + fold[iu];
-                        }
-                    }
-
-                    double uold = total / (double) (nl);
+                double uold = total / nl;
 //
 //  Compute value of U' for previous solution.
 //
-                    int jl = node[0 + ie * 2];
-                    int jr = node[1 + ie * 2];
-                    int iul = indx[jl] - 1;
-                    int iur = indx[jr] - 1;
+                int jl = node[0 + ie * 2];
+                int jr = node[1 + ie * 2];
+                int iul = indx[jl] - 1;
+                int iur = indx[jr] - 1;
 
-                    double uoldx;
-                    if (iul < 0)
-                    {
+                double uoldx;
+                switch (iul)
+                {
+                    case < 0:
                         uoldx = (fold[iur] - ul) / he;
-                    }
-                    else if (iur < 0)
+                        break;
+                    default:
                     {
-                        uoldx = (ur - fold[iul]) / he;
+                        uoldx = iur switch
+                        {
+                            < 0 => (ur - fold[iul]) / he,
+                            _ => (fold[iur] - fold[iul]) / he
+                        };
+
+                        break;
                     }
-                    else
-                    {
-                        uoldx = (fold[iur] - fold[iul]) / he;
-                    }
+                }
 
 //
 //  For basis function IL...
 //
-                    for (int il = 1; il <= nl; il++)
-                    {
-                        ig = node[il - 1 + ie * 2];
-                        iu = indx[ig] - 1;
+                for (int il = 1; il <= nl; il++)
+                {
+                    ig = node[il - 1 + ie * 2];
+                    iu = indx[ig] - 1;
 
-                        if (0 <= iu)
+                    switch (iu)
+                    {
+                        case >= 0:
                         {
                             phi(il, xqe, ref phii, ref phiix, xleft, xrite);
 
-                            f[iu] = f[iu] + he * phii * (ff(xqe, problem) + uold * uoldx);
+                            f[iu] += he * phii * (ff(xqe, problem) + uold * uoldx);
 //
 //  Handle boundary conditions that prescribe the value of U'.
 //
-double x;
-if (ig == 0)
+                            double x;
+                            switch (ig)
                             {
-                                x = 0.0;
-                                f[iu] = f[iu] - pp(x, problem) * ul;
-                            }
-                            else if (ig == n)
-                            {
-                                x = 1.0;
-                                f[iu] = f[iu] + pp(x, problem) * ur;
+                                case 0:
+                                    x = 0.0;
+                                    f[iu] -= pp(x, problem) * ul;
+                                    break;
+                                default:
+                                {
+                                    if (ig == n)
+                                    {
+                                        x = 1.0;
+                                        f[iu] += pp(x, problem) * ur;
+                                    }
+
+                                    break;
+                                }
                             }
 
 //
@@ -264,38 +268,50 @@ if (ig == 0)
                                                    + uold * phii * phijx
                                                    + uoldx * phij * phii);
 
-                                if (ju < 0)
+                                switch (ju)
                                 {
-                                    if (jg == 0)
+                                    case < 0 when jg == 0:
+                                        f[iu] -= aij * ul;
+                                        break;
+                                    case < 0:
                                     {
-                                        f[iu] = f[iu] - aij * ul;
+                                        if (jg == n)
+                                        {
+                                            f[iu] -= aij * ur;
+                                        }
+
+                                        break;
                                     }
-                                    else if (jg == n)
+                                    default:
                                     {
-                                        f[iu] = f[iu] - aij * ur;
+                                        if (iu == ju)
+                                        {
+                                            adiag[iu] += aij;
+                                        }
+                                        else if (ju < iu)
+                                        {
+                                            aleft[iu] += aij;
+                                        }
+                                        else
+                                        {
+                                            arite[iu] += aij;
+                                        }
+
+                                        break;
                                     }
-                                }
-                                else if (iu == ju)
-                                {
-                                    adiag[iu] = adiag[iu] + aij;
-                                }
-                                else if (ju < iu)
-                                {
-                                    aleft[iu] = aleft[iu] + aij;
-                                }
-                                else
-                                {
-                                    arite[iu] = arite[iu] + aij;
                                 }
                             }
+
+                            break;
                         }
                     }
                 }
             }
         }
+    }
 
-        public static void assemble_picard(ref double[] adiag, ref double[] aleft, ref double[] arite,
-            ref double[] f, double[] fold, double[] h, int[] indx, int n, int nl,
+    public static void assemble_picard(ref double[] adiag, ref double[] aleft, ref double[] arite,
+        ref double[] f, double[] fold, double[] h, int[] indx, int n, int nl,
         int[] node, int nquad, int nu, int problem, double ul, double ur,
         double[] xn, double[] xquad )
 //****************************************************************************80
@@ -430,94 +446,94 @@ if (ig == 0)
 //    XQUAD(I) is the location of the single quadrature point
 //    in interval I.
 //
-        {
-            double phii = 0;
-            double phiix = 0;
-            double phij = 0;
-            double phijx = 0;
+    {
+        double phii = 0;
+        double phiix = 0;
+        double phij = 0;
+        double phijx = 0;
 
-            for (int i = 0; i < nu; i++)
-            {
-                f[i] = 0.0;
-                adiag[i] = 0.0;
-                aleft[i] = 0.0;
-                arite[i] = 0.0;
-            }
+        for (int i = 0; i < nu; i++)
+        {
+            f[i] = 0.0;
+            adiag[i] = 0.0;
+            aleft[i] = 0.0;
+            arite[i] = 0.0;
+        }
 
 //
 //  For element IE...
 //
-            for (int ie = 0; ie < n; ie++)
-            {
-                double he = h[ie];
-                double xleft = xn[node[0 + ie * 2]];
-                double xrite = xn[node[1 + ie * 2]];
+        for (int ie = 0; ie < n; ie++)
+        {
+            double he = h[ie];
+            double xleft = xn[node[0 + ie * 2]];
+            double xrite = xn[node[1 + ie * 2]];
 //
 //  For quadrature point IQ...
 //
-                for (int iq = 0; iq < nquad; iq++)
-                {
-                    double xqe = xquad[ie];
+            for (int iq = 0; iq < nquad; iq++)
+            {
+                double xqe = xquad[ie];
 //
 //  Compute value of U for previous solution.
 //
-                    double total = 0.0;
+                double total = 0.0;
 
-                    int ig;
-                    int iu;
-                    for (int il = 1; il <= nl; il++)
+                int ig;
+                int iu;
+                for (int il = 1; il <= nl; il++)
+                {
+                    ig = node[il - 1 + ie * 2];
+                    iu = indx[ig] - 1;
+
+                    total += iu switch
                     {
-                        ig = node[il - 1 + ie * 2];
-                        iu = indx[ig] - 1;
+                        < 0 when il == 1 => ul,
+                        < 0 => ur,
+                        _ => fold[iu]
+                    };
+                }
 
-                        if (iu < 0)
-                        {
-                            if (il == 1)
-                            {
-                                total = total + ul;
-                            }
-                            else
-                            {
-                                total = total + ur;
-                            }
-                        }
-                        else
-                        {
-                            total = total + fold[iu];
-                        }
-                    }
-
-                    double uold = total / (double) (nl);
+                double uold = total / nl;
 //
 //  Compute value of U' for previous solution.
 //
-                    int jl = node[0 + ie * 2];
+                int jl = node[0 + ie * 2];
 //
 //  For basis function IL...
 //
-                    for (int il = 1; il <= nl; il++)
-                    {
-                        ig = node[il - 1 + ie * 2];
-                        iu = indx[ig] - 1;
+                for (int il = 1; il <= nl; il++)
+                {
+                    ig = node[il - 1 + ie * 2];
+                    iu = indx[ig] - 1;
 
-                        if (0 <= iu)
+                    switch (iu)
+                    {
+                        case >= 0:
                         {
                             phi(il, xqe, ref phii, ref phiix, xleft, xrite);
 
-                            f[iu] = f[iu] + he * phii * (ff(xqe, problem));
+                            f[iu] += he * phii * ff(xqe, problem);
 //
 //  Handle boundary conditions that prescribe the value of U'.
 //
-double x;
-if (ig == 0)
+                            double x;
+                            switch (ig)
                             {
-                                x = 0.0;
-                                f[iu] = f[iu] - pp(x, problem) * ul;
-                            }
-                            else if (ig == n)
-                            {
-                                x = 1.0;
-                                f[iu] = f[iu] + pp(x, problem) * ur;
+                                case 0:
+                                    x = 0.0;
+                                    f[iu] -= pp(x, problem) * ul;
+                                    break;
+                                default:
+                                {
+                                    if (ig == n)
+                                    {
+                                        x = 1.0;
+                                        f[iu] += pp(x, problem) * ur;
+                                    }
+
+                                    break;
+                                }
                             }
 
 //
@@ -534,37 +550,49 @@ if (ig == 0)
                                                    + qq(xqe, problem) * phii * phij
                                                    + uold * phii * phijx);
 
-                                if (ju < 0)
+                                switch (ju)
                                 {
-                                    if (jg == 0)
+                                    case < 0 when jg == 0:
+                                        f[iu] -= aij * ul;
+                                        break;
+                                    case < 0:
                                     {
-                                        f[iu] = f[iu] - aij * ul;
+                                        if (jg == n)
+                                        {
+                                            f[iu] -= aij * ur;
+                                        }
+
+                                        break;
                                     }
-                                    else if (jg == n)
+                                    default:
                                     {
-                                        f[iu] = f[iu] - aij * ur;
+                                        if (iu == ju)
+                                        {
+                                            adiag[iu] += aij;
+                                        }
+                                        else if (ju < iu)
+                                        {
+                                            aleft[iu] += aij;
+                                        }
+                                        else
+                                        {
+                                            arite[iu] += aij;
+                                        }
+
+                                        break;
                                     }
-                                }
-                                else if (iu == ju)
-                                {
-                                    adiag[iu] = adiag[iu] + aij;
-                                }
-                                else if (ju < iu)
-                                {
-                                    aleft[iu] = aleft[iu] + aij;
-                                }
-                                else
-                                {
-                                    arite[iu] = arite[iu] + aij;
                                 }
                             }
+
+                            break;
                         }
                     }
                 }
             }
         }
+    }
 
-        public static void compare(double[] f, int[] indx, int n, int nl, int[] node, int nprint,
+    public static void compare(double[] f, int[] indx, int n, int nl, int[] node, int nprint,
         int nu, int problem, double ul, double ur, double xl, double[] xn,
         double xr )
 //****************************************************************************80
@@ -658,70 +686,73 @@ if (ig == 0)
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
+    {
+        double phii = 0;
+        double phiix = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("Compare computed and exact solutions:");
+        Console.WriteLine("");
+        Console.WriteLine("      X      Computed U      Exact U");
+        Console.WriteLine("");
+
+        for (int i = 1; i <= nprint; i++)
         {
-            double phii = 0;
-            double phiix = 0;
+            double x = ((nprint - i) * xl
+                        + (i - 1) * xr)
+                       / (nprint - 1);
 
-            Console.WriteLine("");
-            Console.WriteLine("Compare computed and exact solutions:");
-            Console.WriteLine("");
-            Console.WriteLine("      X      Computed U      Exact U");
-            Console.WriteLine("");
+            double ux = FEM_Test_Methods.u_exact(x, problem);
 
-            for (int i = 1; i <= nprint; i++)
+            double u = 0;
+            for (int j = 1; j <= n; j++)
             {
-                double x = ((double) (nprint - i) * xl
-                            + (double) (i - 1) * xr)
-                           / (double) (nprint - 1);
-
-                double ux = FEM_Test_Methods.u_exact(x, problem);
-
-                double u = 0;
-                for (int j = 1; j <= n; j++)
-                {
-                    double xleft = xn[j - 1];
-                    double xrite = xn[j];
+                double xleft = xn[j - 1];
+                double xrite = xn[j];
 //
 //  Search for the interval that X lies in.
 //
-                    if (xleft <= x && x <= xrite)
+                if (xleft <= x && x <= xrite)
+                {
+                    u = 0.0;
+
+                    for (int k = 1; k <= nl; k++)
                     {
-                        u = 0.0;
+                        int ig = node[k - 1 + (j - 1) * 2];
+                        int iu = indx[ig];
+                        phi(k, x, ref phii, ref phiix, xleft, xrite);
 
-                        for (int k = 1; k <= nl; k++)
+                        switch (iu)
                         {
-                            int ig = node[k - 1 + (j - 1) * 2];
-                            int iu = indx[ig];
-                            phi(k, x, ref phii, ref phiix, xleft, xrite);
+                            case <= 0 when j == 1 && k == 1:
+                                u += ul * phii;
+                                break;
+                            case <= 0:
+                            {
+                                if (j == n && k == nl)
+                                {
+                                    u += ur * phii;
+                                }
 
-                            if (iu <= 0)
-                            {
-                                if (j == 1 && k == 1)
-                                {
-                                    u = u + ul * phii;
-                                }
-                                else if (j == n && k == nl)
-                                {
-                                    u = u + ur * phii;
-                                }
+                                break;
                             }
-                            else
-                            {
-                                u = u + f[iu - 1] * phii;
-                            }
+                            default:
+                                u += f[iu - 1] * phii;
+                                break;
                         }
-
-                        break;
                     }
+
+                    break;
                 }
-
-                Console.WriteLine("  " + x.ToString().PadLeft(12)
-                    + "  " + u.ToString().PadLeft(12)
-                    + "  " + ux.ToString().PadLeft(12) + "");
             }
-        }
 
-        public static double ff(double x, int problem)
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + u.ToString().PadLeft(12)
+                                   + "  " + ux.ToString().PadLeft(12) + "");
+        }
+    }
+
+    public static double ff(double x, int problem)
 //****************************************************************************80
 //
 //  Purpose:
@@ -752,29 +783,25 @@ if (ig == 0)
 //
 //    Output, double FF, the value of F(X).
 //
+    {
+        double value = problem switch
         {
-            double value = 0;
-//
-//  Test problem 1
-//
-            if (problem == 1)
-            {
-                value = x;
-            }
-//
-//  Test problem 2
-//
-            else if (problem == 2)
-            {
-                value = -0.5 * Math.PI * Math.Cos(0.5 * Math.PI * x)
-                        + 2.0 * Math.Sin(0.5 * Math.PI * x)
-                              * (1.0 - Math.Cos(0.5 * Math.PI * x)) / Math.PI;
-            }
+            //
+            //  Test problem 1
+            //
+            1 => x,
+            //
+            //  Test problem 2
+            //
+            2 => -0.5 * Math.PI * Math.Cos(0.5 * Math.PI * x) +
+                 2.0 * Math.Sin(0.5 * Math.PI * x) * (1.0 - Math.Cos(0.5 * Math.PI * x)) / Math.PI,
+            _ => 0
+        };
 
-            return value;
-        }
+        return value;
+    }
 
-        public static void geometry(ref double[] h, int ibc, ref int[] indx, int nl, ref int[] node, int nsub,
+    public static void geometry(ref double[] h, int ibc, ref int[] indx, int nl, ref int[] node, int nsub,
         ref int nu, double xl, ref double[] xn, ref double[] xquad, double xr )
 //****************************************************************************80
 //
@@ -860,123 +887,127 @@ if (ig == 0)
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
-            int i;
+    {
+        int i;
 //
 //  Set the value of XN, the locations of the nodes.
 //
-            Console.WriteLine("");
-            Console.WriteLine("  Node      Location");
-            Console.WriteLine("");
-            for (i = 0; i <= nsub; i++)
-            {
-                xn[i] = ((double) (nsub - i) * xl
-                         + (double) i * xr)
-                        / (double) (nsub);
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + "  " + xn[i].ToString().PadLeft(14) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("  Node      Location");
+        Console.WriteLine("");
+        for (i = 0; i <= nsub; i++)
+        {
+            xn[i] = ((nsub - i) * xl
+                     + i * xr)
+                    / nsub;
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + xn[i].ToString().PadLeft(14) + "");
+        }
 
 //
 //  Set the lengths of each subinterval.
 //
-            Console.WriteLine("");
-            Console.WriteLine("Subint    Length");
-            Console.WriteLine("");
-            for ( i = 0; i < nsub; i++)
-            {
-                h[i] = xn[i + 1] - xn[i];
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + h[i].ToString().PadLeft(14) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("Subint    Length");
+        Console.WriteLine("");
+        for ( i = 0; i < nsub; i++)
+        {
+            h[i] = xn[i + 1] - xn[i];
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + h[i].ToString().PadLeft(14) + "");
+        }
 
 //
 //  Set the quadrature points, each of which is the midpoint
 //  of its subinterval.
 //
-            Console.WriteLine("");
-            Console.WriteLine("Subint    Quadrature point");
-            Console.WriteLine("");
-            for ( i = 0; i < nsub; i++)
-            {
-                xquad[i] = 0.5 * (xn[i] + xn[i + 1]);
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + xquad[i].ToString().PadLeft(14) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("Subint    Quadrature point");
+        Console.WriteLine("");
+        for ( i = 0; i < nsub; i++)
+        {
+            xquad[i] = 0.5 * (xn[i] + xn[i + 1]);
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + xquad[i].ToString().PadLeft(14) + "");
+        }
 
 //
 //  Set the value of NODE, which records, for each interval,
 //  the node numbers at the left and right.
 //
-            Console.WriteLine("");
-            Console.WriteLine("Subint  Left Node  Right Node");
-            Console.WriteLine("");
-            for (i = 0; i < nsub; i++)
-            {
-                node[0 + i * 2] = i;
-                node[1 + i * 2] = i + 1;
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + node[0 + i * 2].ToString().PadLeft(8)
-                    + "  " + node[1 + i * 2].ToString().PadLeft(8) + "");
-            }
+        Console.WriteLine("");
+        Console.WriteLine("Subint  Left Node  Right Node");
+        Console.WriteLine("");
+        for (i = 0; i < nsub; i++)
+        {
+            node[0 + i * 2] = i;
+            node[1 + i * 2] = i + 1;
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + node[0 + i * 2].ToString().PadLeft(8)
+                                   + "  " + node[1 + i * 2].ToString().PadLeft(8) + "");
+        }
 
 //
 //  Starting with node 0, see if an unknown is associated with
 //  the node.  If so, give it an index.
 //
-            nu = 0;
+        nu = 0;
 //
 //  Handle first node.
 //
-            i = 0;
-            if (ibc == 1 || ibc == 3)
-            {
+        i = 0;
+        switch (ibc)
+        {
+            case 1:
+            case 3:
                 indx[i] = -1;
-            }
-            else
-            {
-                nu = nu + 1;
+                break;
+            default:
+                nu += 1;
                 indx[i] = nu;
-            }
+                break;
+        }
 
 //
 //  Handle nodes 1 through nsub-1
 //
-            for (i = 1; i < nsub; i++)
-            {
-                nu = nu + 1;
-                indx[i] = nu;
-            }
+        for (i = 1; i < nsub; i++)
+        {
+            nu += 1;
+            indx[i] = nu;
+        }
 
 //
 //  Handle the last node.
 //
-            i = nsub;
+        i = nsub;
 
-            if (ibc == 2 || ibc == 3)
-            {
+        switch (ibc)
+        {
+            case 2:
+            case 3:
                 indx[i] = -1;
-            }
-            else
-            {
-                nu = nu + 1;
+                break;
+            default:
+                nu += 1;
                 indx[i] = nu;
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Number of unknowns NU = " + nu + "");
-            Console.WriteLine("");
-            Console.WriteLine("  Node  Unknown");
-            Console.WriteLine("");
-            for (i = 0; i <= nsub; i++)
-            {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + "  " + indx[i].ToString().PadLeft(8) + "");
-            }
+                break;
         }
 
-        public static void init(ref int ibc, ref int imax, ref int nprint, ref int nquad, ref int problem,
-            ref double ul, ref double ur, ref double xl, ref double xr)
+        Console.WriteLine("");
+        Console.WriteLine("  Number of unknowns NU = " + nu + "");
+        Console.WriteLine("");
+        Console.WriteLine("  Node  Unknown");
+        Console.WriteLine("");
+        for (i = 0; i <= nsub; i++)
+        {
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + indx[i].ToString().PadLeft(8) + "");
+        }
+    }
+
+    public static void init(ref int ibc, ref int imax, ref int nprint, ref int nquad, ref int problem,
+        ref double ul, ref double ur, ref double xl, ref double xr)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1045,47 +1076,52 @@ if (ig == 0)
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
-            ibc = 1;
-            imax = 10;
-            nprint = 9;
-            nquad = 1;
-            problem = 2;
-            ul = 0.0;
-            ur = 1.0;
-            xl = 0.0;
-            xr = 1.0;
+    {
+        ibc = 1;
+        imax = 10;
+        nprint = 9;
+        nquad = 1;
+        problem = 2;
+        ul = 0.0;
+        ur = 1.0;
+        xl = 0.0;
+        xr = 1.0;
 //
 //  Print out the values that have been set.
 //
-            Console.WriteLine("");
-            Console.WriteLine("  The equation is to be solved for");
-            Console.WriteLine("  X greater than XL = " + xl + "");
-            Console.WriteLine("  and less than XR = " + xr + "");
-            Console.WriteLine("");
-            Console.WriteLine("  The boundary conditions are:");
-            Console.WriteLine("");
+        Console.WriteLine("");
+        Console.WriteLine("  The equation is to be solved for");
+        Console.WriteLine("  X greater than XL = " + xl + "");
+        Console.WriteLine("  and less than XR = " + xr + "");
+        Console.WriteLine("");
+        Console.WriteLine("  The boundary conditions are:");
+        Console.WriteLine("");
 
-            if (ibc == 1 || ibc == 3)
-            {
+        switch (ibc)
+        {
+            case 1:
+            case 3:
                 Console.WriteLine("  At X = XL, U = " + ul + "");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  At X = XL, U' = " + ul + "");
-            }
+                break;
+        }
 
-            if (ibc == 2 || ibc == 3)
-            {
+        switch (ibc)
+        {
+            case 2:
+            case 3:
                 Console.WriteLine("  At X = XR, U = " + ur + "");
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("  At X = XR, U' = " + ur + "");
-            }
+                break;
+        }
 
-            if (problem == 1)
-            {
+        switch (problem)
+        {
+            case 1:
                 Console.WriteLine("");
                 Console.WriteLine("  This is test problem #1:");
                 Console.WriteLine("");
@@ -1093,9 +1129,8 @@ if (ig == 0)
                 Console.WriteLine("  Boundary conditions: U(0) = 0, U''(1) = 1.");
                 Console.WriteLine("");
                 Console.WriteLine("  The exact solution is U(X) = X");
-            }
-            else if (problem == 2)
-            {
+                break;
+            case 2:
                 Console.WriteLine("");
                 Console.WriteLine("  This is test problem #2:");
                 Console.WriteLine("");
@@ -1105,14 +1140,15 @@ if (ig == 0)
                 Console.WriteLine("  Boundary conditions: U(0) = 0, U''(1) = 1.");
                 Console.WriteLine("");
                 Console.WriteLine("  The exact solution is U(X) = 2*(1-cos(pi*x/2))/pi");
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Number of quadrature points per element is " + nquad + "");
-            Console.WriteLine("  Number of iterations is " + imax + "");
+                break;
         }
 
-        public static void output(double[] f, int ibc, int[] indx, int nsub, int nu, double ul,
+        Console.WriteLine("");
+        Console.WriteLine("  Number of quadrature points per element is " + nquad + "");
+        Console.WriteLine("  Number of iterations is " + imax + "");
+    }
+
+    public static void output(double[] f, int ibc, int[] indx, int nsub, int nu, double ul,
         double ur, double[] xn )
 //****************************************************************************80
 //
@@ -1187,52 +1223,57 @@ if (ig == 0)
 //    XN(I) is the location of the I-th node.  XN(0) is XL,
 //    and XN(N) is XR.
 //
+    {
+        double u;
+
+        Console.WriteLine("");
+        Console.WriteLine("Computed solution:");
+        Console.WriteLine("");
+        Console.WriteLine("Node    X(I)        U(X(I))");
+        Console.WriteLine("");
+
+        for (int i = 0; i <= nsub; i++)
         {
-            double u;
-
-            Console.WriteLine("");
-            Console.WriteLine("Computed solution:");
-            Console.WriteLine("");
-            Console.WriteLine("Node    X(I)        U(X(I))");
-            Console.WriteLine("");
-
-            for (int i = 0; i <= nsub; i++)
+            switch (i)
             {
-                if (i == 0)
-                {
-                    if (ibc == 1 || ibc == 3)
-                    {
-                        u = ul;
-                    }
-                    else
-                    {
-                        u = f[indx[i] - 1];
-                    }
-                }
-                else if (i == nsub)
-                {
-                    if (ibc == 2 || ibc == 3)
-                    {
-                        u = ur;
-                    }
-                    else
-                    {
-                        u = f[indx[i] - 1];
-                    }
-                }
-                else
-                {
+                case 0 when ibc == 1 || ibc == 3:
+                    u = ul;
+                    break;
+                case 0:
                     u = f[indx[i] - 1];
+                    break;
+                default:
+                {
+                    if (i == nsub)
+                    {
+                        switch (ibc)
+                        {
+                            case 2:
+                            case 3:
+                                u = ur;
+                                break;
+                            default:
+                                u = f[indx[i] - 1];
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        u = f[indx[i] - 1];
+                    }
+
+                    break;
                 }
-
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + xn[i].ToString().PadLeft(12)
-                    + "  " + u.ToString().PadLeft(12) + "");
             }
-        }
 
-        public static void phi(int il, double x, ref double phii, ref double phiix, double xleft,
-            double xrite)
+            Console.WriteLine("  " + i.ToString().PadLeft(6)
+                                   + "  " + xn[i].ToString().PadLeft(12)
+                                   + "  " + u.ToString().PadLeft(12) + "");
+        }
+    }
+
+    public static void phi(int il, double x, ref double phii, ref double phiix, double xleft,
+        double xrite)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1272,31 +1313,32 @@ if (ig == 0)
 //    Input, double XLEFT, XRITE, the left and right
 //    endpoints of the interval.
 //
+    {
+        if (xleft <= x && x <= xrite)
         {
-            if (xleft <= x && x <= xrite)
+            switch (il)
             {
-                if (il == 1)
-                {
+                case 1:
                     phii = (xrite - x) / (xrite - xleft);
                     phiix = -1.0 / (xrite - xleft);
-                }
-                else
-                {
+                    break;
+                default:
                     phii = (x - xleft) / (xrite - xleft);
                     phiix = 1.0 / (xrite - xleft);
-                }
+                    break;
             }
+        }
 //
 //  If X is outside of the interval, just set everything to 0.
 //
-            else
-            {
-                phii = 0.0;
-                phiix = 0.0;
-            }
+        else
+        {
+            phii = 0.0;
+            phiix = 0.0;
         }
+    }
 
-        public static double pp(double x, int problem)
+    public static double pp(double x, int problem)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1327,27 +1369,28 @@ if (ig == 0)
 //
 //    Output, double PP, the value of P(X).
 //
+    {
+        double value = 0;
+        switch (problem)
         {
-            double value = 0;
+    
 //
-//  Test problem 1
-//
-            if (problem == 1)
-            {
-                value = 1.0;
-            }
+            //  Test problem 1
+            //
+            case 1:
+
 //
 //  Test problem 2
 //
-            else if (problem == 2)
-            {
+            case 2:
                 value = 1.0;
-            }
-
-            return value;
+                break;
         }
 
-        public static void prsys(double[] adiag, double[] aleft, double[] arite, double[] f,
+        return value;
+    }
+
+    public static void prsys(double[] adiag, double[] aleft, double[] arite, double[] f,
         int nu )
 
 //****************************************************************************80
@@ -1397,26 +1440,26 @@ if (ig == 0)
 //    NSUB, or NSUB+1 unknown values, which are the coefficients
 //    of basis functions.
 //
+    {
+        int i;
+
+        Console.WriteLine("");
+        Console.WriteLine("Printout of tridiagonal linear system:");
+        Console.WriteLine("");
+        Console.WriteLine("Equation  ALEFT  ADIAG  ARITE  RHS");
+        Console.WriteLine("");
+
+        for (i = 0; i < nu; i++)
         {
-            int i;
-
-            Console.WriteLine("");
-            Console.WriteLine("Printout of tridiagonal linear system:");
-            Console.WriteLine("");
-            Console.WriteLine("Equation  ALEFT  ADIAG  ARITE  RHS");
-            Console.WriteLine("");
-
-            for (i = 0; i < nu; i++)
-            {
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                    + "  " + aleft[i].ToString().PadLeft(14)
-                    + "  " + adiag[i].ToString().PadLeft(14)
-                    + "  " + arite[i].ToString().PadLeft(14)
-                    + "  " + f[i].ToString().PadLeft(14) + "");
-            }
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + aleft[i].ToString().PadLeft(14)
+                                   + "  " + adiag[i].ToString().PadLeft(14)
+                                   + "  " + arite[i].ToString().PadLeft(14)
+                                   + "  " + f[i].ToString().PadLeft(14) + "");
         }
+    }
 
-        public static double qq(double x, int problem)
+    public static double qq(double x, int problem)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1447,27 +1490,28 @@ if (ig == 0)
 //
 //    Output, double QQ, the value of Q(X).
 //
+    {
+        double value = 0;
+        switch (problem)
         {
-            double value = 0;
+    
 //
-//  Test problem 1
-//
-            if (problem == 1)
-            {
-                value = 0.0;
-            }
+            //  Test problem 1
+            //
+            case 1:
+
 //
 //  Test problem 2
 //
-            else if (problem == 2)
-            {
+            case 2:
                 value = 0.0;
-            }
-
-            return value;
+                break;
         }
 
-        public static void solve(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
+        return value;
+    }
+
+    public static void solve(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
         int nu )
 //****************************************************************************80
 //
@@ -1506,37 +1550,36 @@ if (ig == 0)
 //
 //    Input, int NU, the number of equations to be solved.
 //
-        {
+    {
 //
 //  Carry out Gauss elimination on the matrix, saving information
 //  needed for the backsolve.
 //
-            arite[0] = arite[0] / adiag[0];
+        arite[0] /= adiag[0];
 
-            for (int i = 1; i < nu - 1; i++)
-            {
-                adiag[i] = adiag[i] - aleft[i] * arite[i - 1];
-                arite[i] = arite[i] / adiag[i];
-            }
+        for (int i = 1; i < nu - 1; i++)
+        {
+            adiag[i] -= aleft[i] * arite[i - 1];
+            arite[i] /= adiag[i];
+        }
 
-            adiag[nu - 1] = adiag[nu - 1] - aleft[nu - 1] * arite[nu - 2];
+        adiag[nu - 1] -= aleft[nu - 1] * arite[nu - 2];
 //
 //  Carry out the same elimination steps on F that were done to the
 //  matrix.
 //
-            f[0] = f[0] / adiag[0];
-            for (int i = 1; i < nu; i++)
-            {
-                f[i] = (f[i] - aleft[i] * f[i - 1]) / adiag[i];
-            }
+        f[0] /= adiag[0];
+        for (int i = 1; i < nu; i++)
+        {
+            f[i] = (f[i] - aleft[i] * f[i - 1]) / adiag[i];
+        }
 
 //
 //  And now carry out the steps of "back substitution".
 //
-            for (int i = nu - 2; 0 <= i; i--)
-            {
-                f[i] = f[i] - arite[i] * f[i + 1];
-            }
+        for (int i = nu - 2; 0 <= i; i--)
+        {
+            f[i] -= arite[i] * f[i + 1];
         }
     }
 }

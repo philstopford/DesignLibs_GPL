@@ -33,325 +33,335 @@
 
 using System.Diagnostics;
 
-namespace LibTessDotNet.Double
+namespace LibTessDotNet.Double;
+
+internal class Mesh : Pooled<Mesh>
 {
-    internal class Mesh : Pooled<Mesh>
+    internal MeshUtils.Vertex _vHead;
+    internal MeshUtils.Face _fHead;
+    internal MeshUtils.Edge _eHead, _eHeadSym;
+
+    public void Init(IPool pool)
     {
-        internal MeshUtils.Vertex _vHead;
-        internal MeshUtils.Face _fHead;
-        internal MeshUtils.Edge _eHead, _eHeadSym;
+        MeshUtils.Vertex v = _vHead = pool.Get<MeshUtils.Vertex>();
+        MeshUtils.Face f = _fHead = pool.Get<MeshUtils.Face>();
 
-        public void Init(IPool pool)
+        MeshUtils.EdgePair pair = MeshUtils.EdgePair.Create(pool);
+        MeshUtils.Edge e = _eHead = pair._e;
+        MeshUtils.Edge eSym = _eHeadSym = pair._eSym;
+
+        v._next = v._prev = v;
+        v._anEdge = null;
+
+        f._next = f._prev = f;
+        f._anEdge = null;
+        f._trail = null;
+        f._marked = false;
+        f._inside = false;
+
+        e._next = e;
+        e._Sym = eSym;
+        e._Onext = null;
+        e._Lnext = null;
+        e._Org = null;
+        e._Lface = null;
+        e._winding = 0;
+        e._activeRegion = null;
+
+        eSym._next = eSym;
+        eSym._Sym = e;
+        eSym._Onext = null;
+        eSym._Lnext = null;
+        eSym._Org = null;
+        eSym._Lface = null;
+        eSym._winding = 0;
+        eSym._activeRegion = null;
+    }
+
+    public void Reset(IPool pool)
+    {
+        for (MeshUtils.Face f = _fHead, fNext = _fHead; f._next != null; f = fNext)
         {
-            var v = _vHead = pool.Get<MeshUtils.Vertex>();
-            var f = _fHead = pool.Get<MeshUtils.Face>();
-
-            var pair = MeshUtils.EdgePair.Create(pool);
-            var e = _eHead = pair._e;
-            var eSym = _eHeadSym = pair._eSym;
-
-            v._next = v._prev = v;
-            v._anEdge = null;
-
-            f._next = f._prev = f;
-            f._anEdge = null;
-            f._trail = null;
-            f._marked = false;
-            f._inside = false;
-
-            e._next = e;
-            e._Sym = eSym;
-            e._Onext = null;
-            e._Lnext = null;
-            e._Org = null;
-            e._Lface = null;
-            e._winding = 0;
-            e._activeRegion = null;
-
-            eSym._next = eSym;
-            eSym._Sym = e;
-            eSym._Onext = null;
-            eSym._Lnext = null;
-            eSym._Org = null;
-            eSym._Lface = null;
-            eSym._winding = 0;
-            eSym._activeRegion = null;
+            fNext = f._next;
+            pool.Return(f);
+        }
+        for (MeshUtils.Vertex v = _vHead, vNext = _vHead; v._next != null; v = vNext)
+        {
+            vNext = v._next;
+            pool.Return(v);
+        }
+        for (MeshUtils.Edge e = _eHead, eNext = _eHead; e._next != null; e = eNext)
+        {
+            eNext = e._next;
+            pool.Return(e._Sym);
+            pool.Return(e);
         }
 
-        public void Reset(IPool pool)
-        {
-            for (MeshUtils.Face f = _fHead, fNext = _fHead; f._next != null; f = fNext)
-            {
-                fNext = f._next;
-                pool.Return(f);
-            }
-            for (MeshUtils.Vertex v = _vHead, vNext = _vHead; v._next != null; v = vNext)
-            {
-                vNext = v._next;
-                pool.Return(v);
-            }
-            for (MeshUtils.Edge e = _eHead, eNext = _eHead; e._next != null; e = eNext)
-            {
-                eNext = e._next;
-                pool.Return(e._Sym);
-                pool.Return(e);
-            }
+        _vHead = null;
+        _fHead = null;
+        _eHead = _eHeadSym = null;
+    }
 
-            _vHead = null;
-            _fHead = null;
-            _eHead = _eHeadSym = null;
+    /// <summary>
+    /// Creates one edge, two vertices and a loop (face).
+    /// The loop consists of the two new half-edges.
+    /// </summary>
+    public MeshUtils.Edge MakeEdge(IPool pool)
+    {
+        MeshUtils.Edge e = MeshUtils.MakeEdge(pool, _eHead);
+
+        MeshUtils.MakeVertex(pool, e, _vHead);
+        MeshUtils.MakeVertex(pool, e._Sym, _vHead);
+        MeshUtils.MakeFace(pool, e, _fHead);
+
+        return e;
+    }
+
+    /// <summary>
+    /// Splice is the basic operation for changing the
+    /// mesh connectivity and topology.  It changes the mesh so that
+    ///     eOrg->Onext = OLD( eDst->Onext )
+    ///     eDst->Onext = OLD( eOrg->Onext )
+    /// where OLD(...) means the value before the meshSplice operation.
+    /// 
+    /// This can have two effects on the vertex structure:
+    ///  - if eOrg->Org != eDst->Org, the two vertices are merged together
+    ///  - if eOrg->Org == eDst->Org, the origin is split into two vertices
+    /// In both cases, eDst->Org is changed and eOrg->Org is untouched.
+    /// 
+    /// Similarly (and independently) for the face structure,
+    ///  - if eOrg->Lface == eDst->Lface, one loop is split into two
+    ///  - if eOrg->Lface != eDst->Lface, two distinct loops are joined into one
+    /// In both cases, eDst->Lface is changed and eOrg->Lface is unaffected.
+    /// 
+    /// Some special cases:
+    /// If eDst == eOrg, the operation has no effect.
+    /// If eDst == eOrg->Lnext, the new face will have a single edge.
+    /// If eDst == eOrg->Lprev, the old face will have a single edge.
+    /// If eDst == eOrg->Onext, the new vertex will have a single edge.
+    /// If eDst == eOrg->Oprev, the old vertex will have a single edge.
+    /// </summary>
+    public void Splice(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
+    {
+        if (eOrg == eDst)
+        {
+            return;
         }
 
-        /// <summary>
-        /// Creates one edge, two vertices and a loop (face).
-        /// The loop consists of the two new half-edges.
-        /// </summary>
-        public MeshUtils.Edge MakeEdge(IPool pool)
+        bool joiningVertices = false;
+        if (eDst._Org != eOrg._Org)
         {
-            var e = MeshUtils.MakeEdge(pool, _eHead);
-
-            MeshUtils.MakeVertex(pool, e, _vHead);
-            MeshUtils.MakeVertex(pool, e._Sym, _vHead);
-            MeshUtils.MakeFace(pool, e, _fHead);
-
-            return e;
+            // We are merging two disjoint vertices -- destroy eDst->Org
+            joiningVertices = true;
+            MeshUtils.KillVertex(pool, eDst._Org, eOrg._Org);
+        }
+        bool joiningLoops = false;
+        if (eDst._Lface != eOrg._Lface)
+        {
+            // We are connecting two disjoint loops -- destroy eDst->Lface
+            joiningLoops = true;
+            MeshUtils.KillFace(pool, eDst._Lface, eOrg._Lface);
         }
 
-        /// <summary>
-        /// Splice is the basic operation for changing the
-        /// mesh connectivity and topology.  It changes the mesh so that
-        ///     eOrg->Onext = OLD( eDst->Onext )
-        ///     eDst->Onext = OLD( eOrg->Onext )
-        /// where OLD(...) means the value before the meshSplice operation.
-        /// 
-        /// This can have two effects on the vertex structure:
-        ///  - if eOrg->Org != eDst->Org, the two vertices are merged together
-        ///  - if eOrg->Org == eDst->Org, the origin is split into two vertices
-        /// In both cases, eDst->Org is changed and eOrg->Org is untouched.
-        /// 
-        /// Similarly (and independently) for the face structure,
-        ///  - if eOrg->Lface == eDst->Lface, one loop is split into two
-        ///  - if eOrg->Lface != eDst->Lface, two distinct loops are joined into one
-        /// In both cases, eDst->Lface is changed and eOrg->Lface is unaffected.
-        /// 
-        /// Some special cases:
-        /// If eDst == eOrg, the operation has no effect.
-        /// If eDst == eOrg->Lnext, the new face will have a single edge.
-        /// If eDst == eOrg->Lprev, the old face will have a single edge.
-        /// If eDst == eOrg->Onext, the new vertex will have a single edge.
-        /// If eDst == eOrg->Oprev, the old vertex will have a single edge.
-        /// </summary>
-        public void Splice(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
+        // Change the edge structure
+        MeshUtils.Splice(eDst, eOrg);
+
+        switch (joiningVertices)
         {
-            if (eOrg == eDst)
-            {
-                return;
-            }
-
-            bool joiningVertices = false;
-            if (eDst._Org != eOrg._Org)
-            {
-                // We are merging two disjoint vertices -- destroy eDst->Org
-                joiningVertices = true;
-                MeshUtils.KillVertex(pool, eDst._Org, eOrg._Org);
-            }
-            bool joiningLoops = false;
-            if (eDst._Lface != eOrg._Lface)
-            {
-                // We are connecting two disjoint loops -- destroy eDst->Lface
-                joiningLoops = true;
-                MeshUtils.KillFace(pool, eDst._Lface, eOrg._Lface);
-            }
-
-            // Change the edge structure
-            MeshUtils.Splice(eDst, eOrg);
-
-            if (!joiningVertices)
-            {
+            case false:
                 // We split one vertex into two -- the new vertex is eDst->Org.
                 // Make sure the old vertex points to a valid half-edge.
                 MeshUtils.MakeVertex(pool, eDst, eOrg._Org);
                 eOrg._Org._anEdge = eOrg;
-            }
-            if (!joiningLoops)
-            {
+                break;
+        }
+        switch (joiningLoops)
+        {
+            case false:
                 // We split one loop into two -- the new loop is eDst->Lface.
                 // Make sure the old face points to a valid half-edge.
                 MeshUtils.MakeFace(pool, eDst, eOrg._Lface);
                 eOrg._Lface._anEdge = eOrg;
-            }
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Removes the edge eDel. There are several cases:
+    /// if (eDel->Lface != eDel->Rface), we join two loops into one; the loop
+    /// eDel->Lface is deleted. Otherwise, we are splitting one loop into two;
+    /// the newly created loop will contain eDel->Dst. If the deletion of eDel
+    /// would create isolated vertices, those are deleted as well.
+    /// </summary>
+    public void Delete(IPool pool, MeshUtils.Edge eDel)
+    {
+        MeshUtils.Edge eDelSym = eDel._Sym;
+
+        // First step: disconnect the origin vertex eDel->Org.  We make all
+        // changes to get a consistent mesh in this "intermediate" state.
+
+        bool joiningLoops = false;
+        if (eDel._Lface != eDel._Rface)
+        {
+            // We are joining two loops into one -- remove the left face
+            joiningLoops = true;
+            MeshUtils.KillFace(pool, eDel._Lface, eDel._Rface);
         }
 
-        /// <summary>
-        /// Removes the edge eDel. There are several cases:
-        /// if (eDel->Lface != eDel->Rface), we join two loops into one; the loop
-        /// eDel->Lface is deleted. Otherwise, we are splitting one loop into two;
-        /// the newly created loop will contain eDel->Dst. If the deletion of eDel
-        /// would create isolated vertices, those are deleted as well.
-        /// </summary>
-        public void Delete(IPool pool, MeshUtils.Edge eDel)
+        if (eDel._Onext == eDel)
         {
-            var eDelSym = eDel._Sym;
+            MeshUtils.KillVertex(pool, eDel._Org, null);
+        }
+        else
+        {
+            // Make sure that eDel->Org and eDel->Rface point to valid half-edges
+            eDel._Rface._anEdge = eDel._Oprev;
+            eDel._Org._anEdge = eDel._Onext;
 
-            // First step: disconnect the origin vertex eDel->Org.  We make all
-            // changes to get a consistent mesh in this "intermediate" state.
+            MeshUtils.Splice(eDel, eDel._Oprev);
 
-            bool joiningLoops = false;
-            if (eDel._Lface != eDel._Rface)
+            switch (joiningLoops)
             {
-                // We are joining two loops into one -- remove the left face
-                joiningLoops = true;
-                MeshUtils.KillFace(pool, eDel._Lface, eDel._Rface);
-            }
-
-            if (eDel._Onext == eDel)
-            {
-                MeshUtils.KillVertex(pool, eDel._Org, null);
-            }
-            else
-            {
-                // Make sure that eDel->Org and eDel->Rface point to valid half-edges
-                eDel._Rface._anEdge = eDel._Oprev;
-                eDel._Org._anEdge = eDel._Onext;
-
-                MeshUtils.Splice(eDel, eDel._Oprev);
-
-                if (!joiningLoops)
-                {
+                case false:
                     // We are splitting one loop into two -- create a new loop for eDel.
                     MeshUtils.MakeFace(pool, eDel, eDel._Lface);
-                }
+                    break;
             }
-
-            // Claim: the mesh is now in a consistent state, except that eDel->Org
-            // may have been deleted.  Now we disconnect eDel->Dst.
-
-            if (eDelSym._Onext == eDelSym)
-            {
-                MeshUtils.KillVertex(pool, eDelSym._Org, null);
-                MeshUtils.KillFace(pool, eDelSym._Lface, null);
-            }
-            else
-            {
-                // Make sure that eDel->Dst and eDel->Lface point to valid half-edges
-                eDel._Lface._anEdge = eDelSym._Oprev;
-                eDelSym._Org._anEdge = eDelSym._Onext;
-                MeshUtils.Splice(eDelSym, eDelSym._Oprev);
-            }
-
-            // Any isolated vertices or faces have already been freed.
-            MeshUtils.KillEdge(pool, eDel);
         }
 
-        /// <summary>
-        /// Creates a new edge such that eNew == eOrg.Lnext and eNew.Dst is a newly created vertex.
-        /// eOrg and eNew will have the same left face.
-        /// </summary>
-        public MeshUtils.Edge AddEdgeVertex(IPool pool, MeshUtils.Edge eOrg)
+        // Claim: the mesh is now in a consistent state, except that eDel->Org
+        // may have been deleted.  Now we disconnect eDel->Dst.
+
+        if (eDelSym._Onext == eDelSym)
         {
-            var eNew = MeshUtils.MakeEdge(pool, eOrg);
-            var eNewSym = eNew._Sym;
-
-            // Connect the new edge appropriately
-            MeshUtils.Splice(eNew, eOrg._Lnext);
-
-            // Set vertex and face information
-            eNew._Org = eOrg._Dst;
-            MeshUtils.MakeVertex(pool, eNewSym, eNew._Org);
-            eNew._Lface = eNewSym._Lface = eOrg._Lface;
-
-            return eNew;
+            MeshUtils.KillVertex(pool, eDelSym._Org, null);
+            MeshUtils.KillFace(pool, eDelSym._Lface, null);
+        }
+        else
+        {
+            // Make sure that eDel->Dst and eDel->Lface point to valid half-edges
+            eDel._Lface._anEdge = eDelSym._Oprev;
+            eDelSym._Org._anEdge = eDelSym._Onext;
+            MeshUtils.Splice(eDelSym, eDelSym._Oprev);
         }
 
-        /// <summary>
-        /// Splits eOrg into two edges eOrg and eNew such that eNew == eOrg.Lnext.
-        /// The new vertex is eOrg.Dst == eNew.Org.
-        /// eOrg and eNew will have the same left face.
-        /// </summary>
-        public MeshUtils.Edge SplitEdge(IPool pool, MeshUtils.Edge eOrg)
+        // Any isolated vertices or faces have already been freed.
+        MeshUtils.KillEdge(pool, eDel);
+    }
+
+    /// <summary>
+    /// Creates a new edge such that eNew == eOrg.Lnext and eNew.Dst is a newly created vertex.
+    /// eOrg and eNew will have the same left face.
+    /// </summary>
+    public MeshUtils.Edge AddEdgeVertex(IPool pool, MeshUtils.Edge eOrg)
+    {
+        MeshUtils.Edge eNew = MeshUtils.MakeEdge(pool, eOrg);
+        MeshUtils.Edge eNewSym = eNew._Sym;
+
+        // Connect the new edge appropriately
+        MeshUtils.Splice(eNew, eOrg._Lnext);
+
+        // Set vertex and face information
+        eNew._Org = eOrg._Dst;
+        MeshUtils.MakeVertex(pool, eNewSym, eNew._Org);
+        eNew._Lface = eNewSym._Lface = eOrg._Lface;
+
+        return eNew;
+    }
+
+    /// <summary>
+    /// Splits eOrg into two edges eOrg and eNew such that eNew == eOrg.Lnext.
+    /// The new vertex is eOrg.Dst == eNew.Org.
+    /// eOrg and eNew will have the same left face.
+    /// </summary>
+    public MeshUtils.Edge SplitEdge(IPool pool, MeshUtils.Edge eOrg)
+    {
+        MeshUtils.Edge eTmp = AddEdgeVertex(pool, eOrg);
+        MeshUtils.Edge eNew = eTmp._Sym;
+
+        // Disconnect eOrg from eOrg->Dst and connect it to eNew->Org
+        MeshUtils.Splice(eOrg._Sym, eOrg._Sym._Oprev);
+        MeshUtils.Splice(eOrg._Sym, eNew);
+
+        // Set the vertex and face information
+        eOrg._Dst = eNew._Org;
+        eNew._Dst._anEdge = eNew._Sym; // may have pointed to eOrg->Sym
+        eNew._Rface = eOrg._Rface;
+        eNew._winding = eOrg._winding; // copy old winding information
+        eNew._Sym._winding = eOrg._Sym._winding;
+
+        return eNew;
+    }
+
+    /// <summary>
+    /// Creates a new edge from eOrg->Dst to eDst->Org, and returns the corresponding half-edge eNew.
+    /// If eOrg->Lface == eDst->Lface, this splits one loop into two,
+    /// and the newly created loop is eNew->Lface.  Otherwise, two disjoint
+    /// loops are merged into one, and the loop eDst->Lface is destroyed.
+    /// 
+    /// If (eOrg == eDst), the new face will have only two edges.
+    /// If (eOrg->Lnext == eDst), the old face is reduced to a single edge.
+    /// If (eOrg->Lnext->Lnext == eDst), the old face is reduced to two edges.
+    /// </summary>
+    public MeshUtils.Edge Connect(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
+    {
+        MeshUtils.Edge eNew = MeshUtils.MakeEdge(pool, eOrg);
+        MeshUtils.Edge eNewSym = eNew._Sym;
+
+        bool joiningLoops = false;
+        if (eDst._Lface != eOrg._Lface)
         {
-            var eTmp = AddEdgeVertex(pool, eOrg);
-            var eNew = eTmp._Sym;
-
-            // Disconnect eOrg from eOrg->Dst and connect it to eNew->Org
-            MeshUtils.Splice(eOrg._Sym, eOrg._Sym._Oprev);
-            MeshUtils.Splice(eOrg._Sym, eNew);
-
-            // Set the vertex and face information
-            eOrg._Dst = eNew._Org;
-            eNew._Dst._anEdge = eNew._Sym; // may have pointed to eOrg->Sym
-            eNew._Rface = eOrg._Rface;
-            eNew._winding = eOrg._winding; // copy old winding information
-            eNew._Sym._winding = eOrg._Sym._winding;
-
-            return eNew;
+            // We are connecting two disjoint loops -- destroy eDst->Lface
+            joiningLoops = true;
+            MeshUtils.KillFace(pool, eDst._Lface, eOrg._Lface);
         }
 
-        /// <summary>
-        /// Creates a new edge from eOrg->Dst to eDst->Org, and returns the corresponding half-edge eNew.
-        /// If eOrg->Lface == eDst->Lface, this splits one loop into two,
-        /// and the newly created loop is eNew->Lface.  Otherwise, two disjoint
-        /// loops are merged into one, and the loop eDst->Lface is destroyed.
-        /// 
-        /// If (eOrg == eDst), the new face will have only two edges.
-        /// If (eOrg->Lnext == eDst), the old face is reduced to a single edge.
-        /// If (eOrg->Lnext->Lnext == eDst), the old face is reduced to two edges.
-        /// </summary>
-        public MeshUtils.Edge Connect(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
+        // Connect the new edge appropriately
+        MeshUtils.Splice(eNew, eOrg._Lnext);
+        MeshUtils.Splice(eNewSym, eDst);
+
+        // Set the vertex and face information
+        eNew._Org = eOrg._Dst;
+        eNewSym._Org = eDst._Org;
+        eNew._Lface = eNewSym._Lface = eOrg._Lface;
+
+        // Make sure the old face points to a valid half-edge
+        eOrg._Lface._anEdge = eNewSym;
+
+        switch (joiningLoops)
         {
-            var eNew = MeshUtils.MakeEdge(pool, eOrg);
-            var eNewSym = eNew._Sym;
-
-            bool joiningLoops = false;
-            if (eDst._Lface != eOrg._Lface)
-            {
-                // We are connecting two disjoint loops -- destroy eDst->Lface
-                joiningLoops = true;
-                MeshUtils.KillFace(pool, eDst._Lface, eOrg._Lface);
-            }
-
-            // Connect the new edge appropriately
-            MeshUtils.Splice(eNew, eOrg._Lnext);
-            MeshUtils.Splice(eNewSym, eDst);
-
-            // Set the vertex and face information
-            eNew._Org = eOrg._Dst;
-            eNewSym._Org = eDst._Org;
-            eNew._Lface = eNewSym._Lface = eOrg._Lface;
-
-            // Make sure the old face points to a valid half-edge
-            eOrg._Lface._anEdge = eNewSym;
-
-            if (!joiningLoops)
-            {
+            case false:
                 MeshUtils.MakeFace(pool, eNew, eOrg._Lface);
-            }
-
-            return eNew;
+                break;
         }
 
-        /// <summary>
-        /// Destroys a face and removes it from the global face list. All edges of
-        /// fZap will have a NULL pointer as their left face. Any edges which
-        /// also have a NULL pointer as their right face are deleted entirely
-        /// (along with any isolated vertices this produces).
-        /// An entire mesh can be deleted by zapping its faces, one at a time,
-        /// in any order. Zapped faces cannot be used in further mesh operations!
-        /// </summary>
-        public void ZapFace(IPool pool, MeshUtils.Face fZap)
+        return eNew;
+    }
+
+    /// <summary>
+    /// Destroys a face and removes it from the global face list. All edges of
+    /// fZap will have a NULL pointer as their left face. Any edges which
+    /// also have a NULL pointer as their right face are deleted entirely
+    /// (along with any isolated vertices this produces).
+    /// An entire mesh can be deleted by zapping its faces, one at a time,
+    /// in any order. Zapped faces cannot be used in further mesh operations!
+    /// </summary>
+    public void ZapFace(IPool pool, MeshUtils.Face fZap)
+    {
+        MeshUtils.Edge eStart = fZap._anEdge;
+
+        // walk around face, deleting edges whose right face is also NULL
+        MeshUtils.Edge eNext = eStart._Lnext;
+        MeshUtils.Edge e, eSym;
+        do
         {
-            var eStart = fZap._anEdge;
+            e = eNext;
+            eNext = e._Lnext;
 
-            // walk around face, deleting edges whose right face is also NULL
-            var eNext = eStart._Lnext;
-            MeshUtils.Edge e, eSym;
-            do
+            e._Lface = null;
+            switch (e._Rface)
             {
-                e = eNext;
-                eNext = e._Lnext;
-
-                e._Lface = null;
-                if (e._Rface == null)
+                case null:
                 {
                     // delete the edge -- see TESSmeshDelete above
 
@@ -377,118 +387,122 @@ namespace LibTessDotNet.Double
                         MeshUtils.Splice(eSym, eSym._Oprev);
                     }
                     MeshUtils.KillEdge(pool, e);
+                    break;
                 }
-            } while (e != eStart);
+            }
+        } while (e != eStart);
 
-            /* delete from circular doubly-linked list */
-            var fPrev = fZap._prev;
-            var fNext = fZap._next;
-            fNext._prev = fPrev;
-            fPrev._next = fNext;
+        /* delete from circular doubly-linked list */
+        MeshUtils.Face fPrev = fZap._prev;
+        MeshUtils.Face fNext = fZap._next;
+        fNext._prev = fPrev;
+        fPrev._next = fNext;
 
-            pool.Return(fZap);
-        }
+        pool.Return(fZap);
+    }
 
-        public void MergeConvexFaces(IPool pool, int maxVertsPerFace)
+    public void MergeConvexFaces(IPool pool, int maxVertsPerFace)
+    {
+        for (MeshUtils.Face f = _fHead._next; f != _fHead; f = f._next)
         {
-            for (var f = _fHead._next; f != _fHead; f = f._next)
+            switch (f._inside)
             {
                 // Skip faces which are outside the result
-                if (!f._inside)
-                {
+                case false:
                     continue;
-                }
+            }
 
-                var eCur = f._anEdge;
-                var vStart = eCur._Org;
+            MeshUtils.Edge eCur = f._anEdge;
+            MeshUtils.Vertex vStart = eCur._Org;
 
-                while (true)
+            while (true)
+            {
+                MeshUtils.Edge eNext = eCur._Lnext;
+                MeshUtils.Edge eSym = eCur._Sym;
+
+                if (eSym != null && eSym._Lface != null && eSym._Lface._inside)
                 {
-                    var eNext = eCur._Lnext;
-                    var eSym = eCur._Sym;
-
-                    if (eSym != null && eSym._Lface != null && eSym._Lface._inside)
+                    // Try to merge the neighbour faces if the resulting polygons
+                    // does not exceed maximum number of vertices.
+                    int curNv = f.VertsCount;
+                    int symNv = eSym._Lface.VertsCount;
+                    if (curNv + symNv - 2 <= maxVertsPerFace)
                     {
-                        // Try to merge the neighbour faces if the resulting polygons
-                        // does not exceed maximum number of vertices.
-                        int curNv = f.VertsCount;
-                        int symNv = eSym._Lface.VertsCount;
-                        if ((curNv + symNv - 2) <= maxVertsPerFace)
+                        // Merge if the resulting poly is convex.
+                        if (Geom.VertCCW(eCur._Lprev._Org, eCur._Org, eSym._Lnext._Lnext._Org) &&
+                            Geom.VertCCW(eSym._Lprev._Org, eSym._Org, eCur._Lnext._Lnext._Org))
                         {
-                            // Merge if the resulting poly is convex.
-                            if (Geom.VertCCW(eCur._Lprev._Org, eCur._Org, eSym._Lnext._Lnext._Org) &&
-                                Geom.VertCCW(eSym._Lprev._Org, eSym._Org, eCur._Lnext._Lnext._Org))
-                            {
-                                eNext = eSym._Lnext;
-                                Delete(pool, eSym);
-                                eCur = null;
-                            }
+                            eNext = eSym._Lnext;
+                            Delete(pool, eSym);
+                            eCur = null;
                         }
                     }
-
-                    if (eCur != null && eCur._Lnext._Org == vStart)
-                        break;
-
-                    // Continue to next edge.
-                    eCur = eNext;
                 }
+
+                if (eCur != null && eCur._Lnext._Org == vStart)
+                {
+                    break;
+                }
+
+                // Continue to next edge.
+                eCur = eNext;
             }
         }
+    }
 
-        [Conditional("DEBUG")]
-        public void Check()
+    [Conditional("DEBUG")]
+    public void Check()
+    {
+        MeshUtils.Edge e;
+
+        MeshUtils.Face fPrev = _fHead, f;
+        for (fPrev = _fHead; (f = fPrev._next) != _fHead; fPrev = f)
         {
-            MeshUtils.Edge e;
-
-            MeshUtils.Face fPrev = _fHead, f;
-            for (fPrev = _fHead; (f = fPrev._next) != _fHead; fPrev = f)
+            e = f._anEdge;
+            do
             {
-                e = f._anEdge;
-                do
-                {
-                    Debug.Assert(e._Sym != e);
-                    Debug.Assert(e._Sym._Sym == e);
-                    Debug.Assert(e._Lnext._Onext._Sym == e);
-                    Debug.Assert(e._Onext._Sym._Lnext == e);
-                    Debug.Assert(e._Lface == f);
-                    e = e._Lnext;
-                } while (e != f._anEdge);
-            }
-            Debug.Assert(f._prev == fPrev && f._anEdge == null);
-
-            MeshUtils.Vertex vPrev = _vHead, v;
-            for (vPrev = _vHead; (v = vPrev._next) != _vHead; vPrev = v)
-            {
-                Debug.Assert(v._prev == vPrev);
-                e = v._anEdge;
-                do
-                {
-                    Debug.Assert(e._Sym != e);
-                    Debug.Assert(e._Sym._Sym == e);
-                    Debug.Assert(e._Lnext._Onext._Sym == e);
-                    Debug.Assert(e._Onext._Sym._Lnext == e);
-                    Debug.Assert(e._Org == v);
-                    e = e._Onext;
-                } while (e != v._anEdge);
-            }
-            Debug.Assert(v._prev == vPrev && v._anEdge == null);
-
-            MeshUtils.Edge ePrev = _eHead;
-            for (ePrev = _eHead; (e = ePrev._next) != _eHead; ePrev = e)
-            {
-                Debug.Assert(e._Sym._next == ePrev._Sym);
                 Debug.Assert(e._Sym != e);
                 Debug.Assert(e._Sym._Sym == e);
-                Debug.Assert(e._Org != null);
-                Debug.Assert(e._Dst != null);
                 Debug.Assert(e._Lnext._Onext._Sym == e);
                 Debug.Assert(e._Onext._Sym._Lnext == e);
-            }
-            Debug.Assert(e._Sym._next == ePrev._Sym
-                && e._Sym == _eHeadSym
-                && e._Sym._Sym == e
-                && e._Org == null && e._Dst == null
-                && e._Lface == null && e._Rface == null);
+                Debug.Assert(e._Lface == f);
+                e = e._Lnext;
+            } while (e != f._anEdge);
         }
+        Debug.Assert(f._prev == fPrev && f._anEdge == null);
+
+        MeshUtils.Vertex vPrev = _vHead, v;
+        for (vPrev = _vHead; (v = vPrev._next) != _vHead; vPrev = v)
+        {
+            Debug.Assert(v._prev == vPrev);
+            e = v._anEdge;
+            do
+            {
+                Debug.Assert(e._Sym != e);
+                Debug.Assert(e._Sym._Sym == e);
+                Debug.Assert(e._Lnext._Onext._Sym == e);
+                Debug.Assert(e._Onext._Sym._Lnext == e);
+                Debug.Assert(e._Org == v);
+                e = e._Onext;
+            } while (e != v._anEdge);
+        }
+        Debug.Assert(v._prev == vPrev && v._anEdge == null);
+
+        MeshUtils.Edge ePrev = _eHead;
+        for (ePrev = _eHead; (e = ePrev._next) != _eHead; ePrev = e)
+        {
+            Debug.Assert(e._Sym._next == ePrev._Sym);
+            Debug.Assert(e._Sym != e);
+            Debug.Assert(e._Sym._Sym == e);
+            Debug.Assert(e._Org != null);
+            Debug.Assert(e._Dst != null);
+            Debug.Assert(e._Lnext._Onext._Sym == e);
+            Debug.Assert(e._Onext._Sym._Lnext == e);
+        }
+        Debug.Assert(e._Sym._next == ePrev._Sym
+                     && e._Sym == _eHeadSym
+                     && e._Sym._Sym == e
+                     && e._Org == null && e._Dst == null
+                     && e._Lface == null && e._Rface == null);
     }
 }

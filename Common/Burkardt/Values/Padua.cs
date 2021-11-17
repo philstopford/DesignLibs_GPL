@@ -1,60 +1,59 @@
 ﻿using System;
 
-namespace Burkardt.Values
-{
-    public static class Padua
-    {
-        public static void padua_point_set(int l, ref double[] x, ref double[] y)
+namespace Burkardt.Values;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    PADUA_POINT_SET sets the Padua points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    29 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Marco Caliari, Stefano de Marchi, Marco Vianello,
-            //    Bivariate interpolation on the square at new nodal sets,
-            //    Applied Mathematics and Computation,
-            //    Volume 165, Number 2, 2005, pages 261-274.
-            //
-            //  Parameters:
-            //
-            //    Input, int L, the level.
-            //    0 <= L <= 10.
-            //
-            //    Output, double X[N], Y[N], the Padua points.
-            //
+public static class Padua
+{
+    public static void padua_point_set(int l, ref double[] x, ref double[] y)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PADUA_POINT_SET sets the Padua points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Marco Caliari, Stefano de Marchi, Marco Vianello,
+        //    Bivariate interpolation on the square at new nodal sets,
+        //    Applied Mathematics and Computation,
+        //    Volume 165, Number 2, 2005, pages 261-274.
+        //
+        //  Parameters:
+        //
+        //    Input, int L, the level.
+        //    0 <= L <= 10.
+        //
+        //    Output, double X[N], Y[N], the Padua points.
+        //
+    {
+        switch (l)
         {
-            if (l == 0)
-            {
+            case 0:
                 x[0] = 0.000000000000000;
                 y[0] = 0.000000000000000;
-            }
-            else if (l == 1)
-            {
+                break;
+            case 1:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
                 y[1] = 1.000000000000000;
                 x[2] = 1.000000000000000;
                 y[2] = 0.000000000000000;
-            }
-            else if (l == 2)
-            {
+                break;
+            case 2:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -67,9 +66,8 @@ namespace Burkardt.Values
                 y[4] = -1.000000000000000;
                 x[5] = 1.000000000000000;
                 y[5] = 0.5000000000000001;
-            }
-            else if (l == 3)
-            {
+                break;
+            case 3:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -90,9 +88,8 @@ namespace Burkardt.Values
                 y[8] = -0.7071067811865475;
                 x[9] = 1.000000000000000;
                 y[9] = 0.7071067811865476;
-            }
-            else if (l == 4)
-            {
+                break;
+            case 4:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -123,9 +120,8 @@ namespace Burkardt.Values
                 y[13] = -0.3090169943749473;
                 x[14] = 1.000000000000000;
                 y[14] = 0.8090169943749475;
-            }
-            else if (l == 5)
-            {
+                break;
+            case 5:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -168,9 +164,8 @@ namespace Burkardt.Values
                 y[19] = 0.000000000000000;
                 x[20] = 1.000000000000000;
                 y[20] = 0.8660254037844387;
-            }
-            else if (l == 6)
-            {
+                break;
+            case 6:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -227,9 +222,8 @@ namespace Burkardt.Values
                 y[26] = 0.2225209339563144;
                 x[27] = 1.000000000000000;
                 y[27] = 0.9009688679024191;
-            }
-            else if (l == 7)
-            {
+                break;
+            case 7:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -302,9 +296,8 @@ namespace Burkardt.Values
                 y[34] = 0.3826834323650898;
                 x[35] = 1.000000000000000;
                 y[35] = 0.9238795325112867;
-            }
-            else if (l == 8)
-            {
+                break;
+            case 8:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -395,9 +388,8 @@ namespace Burkardt.Values
                 y[43] = 0.5000000000000001;
                 x[44] = 1.000000000000000;
                 y[44] = 0.9396926207859084;
-            }
-            else if (l == 9)
-            {
+                break;
+            case 9:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -508,9 +500,8 @@ namespace Burkardt.Values
                 y[53] = 0.5877852522924731;
                 x[54] = 1.000000000000000;
                 y[54] = 0.9510565162951535;
-            }
-            else if (l == 10)
-            {
+                break;
+            case 10:
                 x[0] = -1.000000000000000;
                 y[0] = -1.000000000000000;
                 x[1] = -1.000000000000000;
@@ -643,73 +634,70 @@ namespace Burkardt.Values
                 y[64] = 0.6548607339452851;
                 x[65] = 1.000000000000000;
                 y[65] = 0.9594929736144974;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("PADUA_POINT_SET - Fatal error!");
                 Console.WriteLine("  Illegal value of L = " + l + "");
                 Console.WriteLine("  Legal values are 1 through 10.");
-            }
-
+                break;
         }
+    }
 
-        public static void padua_weight_set(int l, ref double[] w)
+    public static void padua_weight_set(int l, ref double[] w)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    PADUA_WEIGHT_SET sets quadrature weights for the Padua points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    30 May 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Marco Caliari, Stefano de Marchi, Marco Vianello,
-            //    Bivariate interpolation on the square at new nodal sets,
-            //    Applied Mathematics and Computation,
-            //    Volume 165, Number 2, 2005, pages 261-274.
-            //
-            //  Parameters:
-            //
-            //    Input, int L, the level.
-            //    0 <= L <= 10.
-            //
-            //    Output, double W[N], the quadrature weights.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PADUA_WEIGHT_SET sets quadrature weights for the Padua points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    30 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Marco Caliari, Stefano de Marchi, Marco Vianello,
+        //    Bivariate interpolation on the square at new nodal sets,
+        //    Applied Mathematics and Computation,
+        //    Volume 165, Number 2, 2005, pages 261-274.
+        //
+        //  Parameters:
+        //
+        //    Input, int L, the level.
+        //    0 <= L <= 10.
+        //
+        //    Output, double W[N], the quadrature weights.
+        //
+    {
+        switch (l)
         {
-            if (l == 0)
-            {
+            case 0:
                 w[0] = 4.000000000000000E+00;
-            }
-            else if (l == 1)
-            {
+                break;
+            case 1:
                 w[0] = 1.000000000000000E+00;
                 w[1] = 1.000000000000000E+00;
                 w[2] = 2.000000000000000E+00;
-            }
-            else if (l == 2)
-            {
+                break;
+            case 2:
                 w[0] = 0.0E+00;
                 w[1] = 0.6666666666666663E+00;
                 w[2] = 2.222222222222222E+00;
                 w[3] = 0.4444444444444444E+00;
                 w[4] = 0.0E+00;
                 w[5] = 0.6666666666666664E+00;
-            }
-            else if (l == 3)
-            {
+                break;
+            case 3:
                 w[0] = -0.5555555555555480E-01;
                 w[1] = 0.3333333333333331E+00;
                 w[2] = -0.5555555555555580E-01;
@@ -720,9 +708,8 @@ namespace Burkardt.Values
                 w[7] = 0.2222222222222220E+00;
                 w[8] = 0.1111111111111109E+00;
                 w[9] = 0.1111111111111112E+00;
-            }
-            else if (l == 4)
-            {
+                break;
+            case 4:
                 w[0] = -0.8888888888888932E-02;
                 w[1] = 0.8104919101110961E-01;
                 w[2] = 0.6117303121111219E-01;
@@ -738,9 +725,8 @@ namespace Burkardt.Values
                 w[12] = -0.8888888888888703E-02;
                 w[13] = 0.8104919101110968E-01;
                 w[14] = 0.6117303121111135E-01;
-            }
-            else if (l == 5)
-            {
+                break;
+            case 5:
                 w[0] = -0.1037037037037093E-01;
                 w[1] = 0.5037037037036911E-01;
                 w[2] = 0.5037037037037081E-01;
@@ -762,9 +748,8 @@ namespace Burkardt.Values
                 w[18] = 0.2074074074074123E-01;
                 w[19] = 0.3851851851851849E-01;
                 w[20] = 0.2074074074074051E-01;
-            }
-            else if (l == 6)
-            {
+                break;
+            case 6:
                 w[0] = -0.3023431594858565E-02;
                 w[1] = 0.1957267632451884E-01;
                 w[2] = 0.2633929313290840E-01;
@@ -793,9 +778,8 @@ namespace Burkardt.Values
                 w[25] = 0.1957267632451757E-01;
                 w[26] = 0.2633929313290797E-01;
                 w[27] = 0.1425431928029198E-01;
-            }
-            else if (l == 7)
-            {
+                break;
+            case 7:
                 w[0] = -0.3287981859413765E-02;
                 w[1] = 0.1337868480725671E-01;
                 w[2] = 0.2063492063491996E-01;
@@ -832,9 +816,8 @@ namespace Burkardt.Values
                 w[33] = 0.1405228180237514E-01;
                 w[34] = 0.1405228180237651E-01;
                 w[35] = 0.6355881462928496E-02;
-            }
-            else if (l == 8)
-            {
+                break;
+            case 8:
                 w[0] = -0.1269841269835311E-02;
                 w[1] = 0.6706089639041270E-02;
                 w[2] = 0.1111455441352989E-01;
@@ -880,9 +863,8 @@ namespace Burkardt.Values
                 w[42] = 0.1111455441352761E-01;
                 w[43] = 0.1026455026454956E-01;
                 w[44] = 0.4930678698747173E-02;
-            }
-            else if (l == 9)
-            {
+                break;
+            case 9:
                 w[0] = -0.1368606701945113E-02;
                 w[1] = 0.4837977417140975E-02;
                 w[2] = 0.8876308297144902E-02;
@@ -938,9 +920,8 @@ namespace Burkardt.Values
                 w[52] = 0.7421516754852508E-02;
                 w[53] = 0.6084230077458821E-02;
                 w[54] = 0.2550690557473353E-02;
-            }
-            else if (l == 10)
-            {
+                break;
+            case 10:
                 w[0] = -0.6240762604463766E-03;
                 w[1] = 0.2843227149025789E-02;
                 w[2] = 0.5250031948150784E-02;
@@ -1007,14 +988,13 @@ namespace Burkardt.Values
                 w[63] = 0.5891746241587802E-02;
                 w[64] = 0.4705736485965663E-02;
                 w[65] = 0.2135354637703863E-02;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("PADUA_WEIGHT_SET - Fatal error");
                 Console.WriteLine("  Illegal value of L = " + l + "");
                 Console.WriteLine("  Legal values are 0 through 10.");
-            }
+                break;
         }
     }
 }

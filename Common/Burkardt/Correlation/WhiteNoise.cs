@@ -1,10 +1,10 @@
 ﻿using Burkardt.FullertonFnLib;
 
-namespace Burkardt.CorrelationNS
+namespace Burkardt.CorrelationNS;
+
+public static partial class Correlation
 {
-    public static partial class Correlation
-    {
-        public static CorrelationResult correlation_white_noise (FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
+    public static CorrelationResult correlation_white_noise (FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -40,25 +40,21 @@ namespace Burkardt.CorrelationNS
         //
         //    Output, double C[N], the correlations.
         //
+    {
+        double[] c;
+        int i;
+
+        c = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double[] c;
-            int i;
-
-            c = new double[n];
-
-            for ( i = 0; i < n; i++ )
+            c[i] = rho[i] switch
             {
-                if ( rho[i] == 0.0 )
-                {
-                    c[i] = 1.0;
-                }
-                else
-                {
-                    c[i] = 0.0;
-                }
-            }
-
-            return new CorrelationResult(){result = c, data = globaldata, k1data = data};
+                0.0 => 1.0,
+                _ => 0.0
+            };
         }
+
+        return new CorrelationResult(){result = c, data = globaldata, k1data = data};
     }
 }

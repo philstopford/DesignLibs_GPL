@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt.Linpack
+namespace Burkardt.Linpack;
+
+public static class DPPFA
 {
-    public static class DPPFA
-    {
-        public static int dppfa(ref double[] ap, int n )
+    public static int dppfa(ref double[] ap, int n )
 
         //****************************************************************************80
         //
@@ -67,50 +67,50 @@ namespace Burkardt.Linpack
         //    0, for normal return.
         //    K, if the leading minor of order K is not positive definite.
         //
+    {
+        int info;
+        int j;
+        int jj;
+        int k;
+        int kj;
+        int kk;
+        double s;
+        double t;
+
+        info = 0;
+        jj = 0;
+
+        for (j = 1; j <= n; j++)
         {
-            int info;
-            int j;
-            int jj;
-            int k;
-            int kj;
-            int kk;
-            double s;
-            double t;
+            s = 0.0;
+            kj = jj;
+            kk = 0;
 
-            info = 0;
-            jj = 0;
-
-            for (j = 1; j <= n; j++)
+            for (k = 1; k <= j - 1; k++)
             {
-                s = 0.0;
-                kj = jj;
-                kk = 0;
-
-                for (k = 1; k <= j - 1; k++)
-                {
-                    kj = kj + 1;
-                    t = ap[kj - 1] - BLAS1D.ddot(k - 1, ap, 1, ap, 1, xIndex: + kk, yIndex: + jj);
-                    kk = kk + k;
-                    t = t / ap[kk - 1];
-                    ap[kj - 1] = t;
-                    s = s + t * t;
-                }
-
-                jj = jj + j;
-                s = ap[jj - 1] - s;
-
-                if (s <= 0.0)
-                {
-                    info = j;
-                    return info;
-                }
-
-                ap[jj - 1] = Math.Sqrt(s);
-
+                kj += 1;
+                t = ap[kj - 1] - BLAS1D.ddot(k - 1, ap, 1, ap, 1, xIndex: + kk, yIndex: + jj);
+                kk += k;
+                t /= ap[kk - 1];
+                ap[kj - 1] = t;
+                s += t * t;
             }
 
-            return info;
+            jj += j;
+            s = ap[jj - 1] - s;
+
+            switch (s)
+            {
+                case <= 0.0:
+                    info = j;
+                    return info;
+                default:
+                    ap[jj - 1] = Math.Sqrt(s);
+                    break;
+            }
         }
 
+        return info;
     }
+
 }

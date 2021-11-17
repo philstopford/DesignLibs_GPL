@@ -1,10 +1,10 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.Latin
+namespace Burkardt.Latin;
+
+public static partial class LatinVariants
 {
-    public static partial class LatinVariants
-    {
-        public static double[] latin_center ( int dim_num, int point_num, ref int seed )
+    public static double[] latin_center ( int dim_num, int point_num, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -40,31 +40,30 @@ namespace Burkardt.Latin
         //
         //    Output, double LATIN_CENTER[DIM_NUM*POINT_NUM], the points.
         //
+    {
+        int base_ = 0;
+        double[] x = new double[dim_num * point_num];
+        //
+        //  For spatial dimension I, 
+        //    pick a random permutation of 1 to POINT_NUM,
+        //    force the corresponding I-th components of X to lie in the
+        //    interval ( PERM[J]-1, PERM[J] ) / POINT_NUM.
+        //
+        int k = 0;
+        for (int i = 0; i < dim_num; i++ )
         {
-            int base_ = 0;
-            double[] x = new double[dim_num * point_num];
-            //
-            //  For spatial dimension I, 
-            //    pick a random permutation of 1 to POINT_NUM,
-            //    force the corresponding I-th components of X to lie in the
-            //    interval ( PERM[J]-1, PERM[J] ) / POINT_NUM.
-            //
-            int k = 0;
-            for (int i = 0; i < dim_num; i++ )
+            int[] perm = typeMethods.perm_uniform ( point_num, base_, ref seed );
+
+            for (int j = 0; j < point_num; j++ )
             {
-                int[] perm = typeMethods.perm_uniform ( point_num, base_, ref seed );
-
-                for (int j = 0; j < point_num; j++ )
-                {
-                    double r = 0.5;
-                    x[k] = ( perm[j] + r ) / point_num;
-                    k = k + 1;
-                }
+                double r = 0.5;
+                x[k] = ( perm[j] + r ) / point_num;
+                k += 1;
             }
-
-            return x;
         }
 
-        
+        return x;
     }
+
+        
 }

@@ -1,8 +1,8 @@
-﻿namespace Burkardt.Probability
+﻿namespace Burkardt.Probability;
+
+public static class Multinoulli
 {
-    public static class Multinoulli
-    {
-        public static double multinoulli_pdf ( int x, int n, double[] theta )
+    public static double multinoulli_pdf ( int x, int n, double[] theta )
         //****************************************************************************80
         //
         //  Purpose:
@@ -37,19 +37,13 @@
         //
         //    Output, double MULTINOULLI_PDF, the probability of outcome X.
         //
+    {
+        double value = x switch
         {
-            double value;
+            >= 0 when x < n => theta[x],
+            _ => 0.0
+        };
 
-            if ( 0 <= x && x < n )
-            {
-                value = theta[x];
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
-        }
+        return value;
     }
 }

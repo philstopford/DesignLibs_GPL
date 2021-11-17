@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.Quadrature
+namespace Burkardt.Quadrature;
+
+public static class EIQF
 {
-    public static class EIQF
-    {
-        public static double eiqf(int nt, double[] t, int[] mlt, double[] wts, int nwts, int[] ndx,
-        int key, Func <double, int, double > f )
+    public static double eiqf(int nt, double[] t, int[] mlt, double[] wts, int nwts, int[] ndx,
+            int key, Func <double, int, double > f )
 
         //****************************************************************************80
         //
@@ -70,42 +70,45 @@ namespace Burkardt.Quadrature
         //    Output, double EIQF, the value of the quadrature formula 
         //    applied to F.
         //
+    {
+        int i;
+        int j;
+        int l;
+        double p;
+        double qfsum;
+
+        l = Math.Abs(key);
+
+        switch (l)
         {
-            int i;
-            int j;
-            int l;
-            double p;
-            double qfsum;
-
-            l = Math.Abs(key);
-
-            if (l < 1 || 4 < l)
-            {
+            case < 1:
+            case > 4:
                 Console.WriteLine("");
                 Console.WriteLine("EIQF - Fatal error!");
                 Console.WriteLine("  Magnitude of KEY must be between 1 and 4.");
-                return (1);
-            }
+                return 1;
+        }
 
-            qfsum = 0.0;
-            for (j = 0; j < nt; j++)
+        qfsum = 0.0;
+        for (j = 0; j < nt; j++)
+        {
+            l = Math.Abs(ndx[j]);
+            if (l != 0)
             {
-                l = Math.Abs(ndx[j]);
-                if (l != 0)
+                p = 1.0;
+                for (i = 0; i < mlt[j]; i++)
                 {
-                    p = 1.0;
-                    for (i = 0; i < mlt[j]; i++)
+                    qfsum += wts[l + i - 1] * f(t[j], i) / p;
+                    switch (key)
                     {
-                        qfsum = qfsum + wts[l + i - 1] * f(t[j], i) / p;
-                        if (key <= 0)
-                        {
-                            p = p * (i + 1);
-                        }
+                        case <= 0:
+                            p *= (i + 1);
+                            break;
                     }
                 }
             }
-
-            return qfsum;
         }
+
+        return qfsum;
     }
 }

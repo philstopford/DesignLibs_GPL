@@ -2,11 +2,11 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Binomial
 {
-    public static class Binomial
-    {
-        public static double binomial_cdf(double x, int a, double b)
+    public static double binomial_cdf(double x, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -46,45 +46,57 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the CDF.
         //
+    {
+        double cdf;
+
+        switch (x)
         {
-            double cdf;
-
-            if (x < 0)
-            {
+            case < 0:
                 cdf = 0.0;
-            }
-            else if (a <= x)
+                break;
+            default:
             {
-                cdf = 1.0;
-            }
-            else if (b == 0.0)
-            {
-                cdf = 1.0;
-            }
-            else if (b == 1.0)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 0.0;
-
-                for (int j = 0; j <= x; j++)
+                if (a <= x)
                 {
-                    int cnk = typeMethods.i4_choose(a, j);
+                    cdf = 1.0;
+                }
+                else
+                {
+                    switch (b)
+                    {
+                        case 0.0:
+                            cdf = 1.0;
+                            break;
+                        case 1.0:
+                            cdf = 0.0;
+                            break;
+                        default:
+                        {
+                            cdf = 0.0;
 
-                    double pr = (double) (cnk) * Math.Pow(b, j) * Math.Pow((1.0 - b), (a - j));
+                            for (int j = 0; j <= x; j++)
+                            {
+                                int cnk = typeMethods.i4_choose(a, j);
 
-                    cdf = cdf + pr;
+                                double pr = cnk * Math.Pow(b, j) * Math.Pow(1.0 - b, a - j);
 
+                                cdf += pr;
+
+                            }
+
+                            break;
+                        }
+                    }
                 }
 
+                break;
             }
-
-            return cdf;
         }
 
-        public static int binomial_cdf_inv(double cdf, int a, double b)
+        return cdf;
+    }
+
+    public static int binomial_cdf_inv(double cdf, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -116,38 +128,40 @@ namespace Burkardt.Probability
         //
         //    Output, int BINOMIAL_CDF_INV, the corresponding argument.
         //
-        {
-            int x2;
+    {
+        int x2;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("BINOMIAL_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
-            }
-
-            int x = 0;
-            double cdf2 = 0.0;
-
-            for (x2 = 0; x2 <= a; x2++)
-            {
-                double pdf = binomial_pdf(x2, a, b);
-
-                cdf2 = cdf2 + pdf;
-
-                if (cdf <= cdf2)
-                {
-                    x = x2;
-                    return x;
-                }
-
-            }
-
-            return x;
         }
 
-        public static bool binomial_check(int a, double b)
+        int x = 0;
+        double cdf2 = 0.0;
+
+        for (x2 = 0; x2 <= a; x2++)
+        {
+            double pdf = binomial_pdf(x2, a, b);
+
+            cdf2 += pdf;
+
+            if (cdf <= cdf2)
+            {
+                x = x2;
+                return x;
+            }
+
+        }
+
+        return x;
+    }
+
+    public static bool binomial_check(int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -176,27 +190,30 @@ namespace Burkardt.Probability
         //
         //    Output, bool BINOMIAL_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (a)
         {
-            if (a < 1)
-            {
+            case < 1:
                 Console.WriteLine("");
                 Console.WriteLine("BINOMIAL_CHECK - Warning!");
                 Console.WriteLine("  A < 1.");
                 return false;
-            }
+        }
 
-            if (b < 0.0 || 1.0 < b)
-            {
+        switch (b)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("BINOMIAL_CHECK - Warning!");
                 Console.WriteLine("  B < 0 or 1 < B.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double binomial_mean(int a, double b)
+    public static double binomial_mean(int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -226,13 +243,13 @@ namespace Burkardt.Probability
         //    Output, double BINOMIAL_MEAN, the expected value of the number of
         //    successes in A trials.
         //
-        {
-            double mean = (double) (a) * b;
+    {
+        double mean = a * b;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double binomial_pdf(int x, int a, double b)
+    public static double binomial_pdf(int x, int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -273,50 +290,54 @@ namespace Burkardt.Probability
         //
         //    Output, double BINOMIAL_PDF, the value of the PDF.
         //
+    {
+        double pdf;
+
+        switch (a)
         {
-            double pdf;
-
-            if (a < 1)
-            {
+            case < 1:
                 pdf = 0.0;
-            }
-            else if (x < 0 || a < x)
+                break;
+            default:
             {
-                pdf = 0.0;
-            }
-            else if (b == 0.0)
-            {
-                if (x == 0)
-                {
-                    pdf = 1.0;
-                }
-                else
+                if (x < 0 || a < x)
                 {
                     pdf = 0.0;
                 }
-            }
-            else if (b == 1.0)
-            {
-                if (x == a)
-                {
-                    pdf = 1.0;
-                }
                 else
                 {
-                    pdf = 0.0;
+                    switch (b)
+                    {
+                        case 0.0 when x == 0:
+                            pdf = 1.0;
+                            break;
+                        case 0.0:
+                            pdf = 0.0;
+                            break;
+                        case 1.0 when x == a:
+                            pdf = 1.0;
+                            break;
+                        case 1.0:
+                            pdf = 0.0;
+                            break;
+                        default:
+                        {
+                            int cnk = typeMethods.i4_choose(a, x);
+
+                            pdf = cnk * Math.Pow(b, x) * Math.Pow(1.0 - b, a - x);
+                            break;
+                        }
+                    }
                 }
-            }
-            else
-            {
-                int cnk = typeMethods.i4_choose(a, x);
 
-                pdf = (double) (cnk) * Math.Pow(b, x) * Math.Pow((1.0 - b), (a - x));
+                break;
             }
-
-            return pdf;
         }
 
-        public static int binomial_sample(int a, double b, ref int seed)
+        return pdf;
+    }
+
+    public static int binomial_sample(int a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -354,23 +375,23 @@ namespace Burkardt.Probability
         //
         //    Output, int BINOMIAL_SAMPLE, a sample of the PDF.
         //
+    {
+        int x = 0;
+
+        for (int i = 1; i <= a; i++)
         {
-            int x = 0;
+            double u = UniformRNG.r8_uniform_01(ref seed);
 
-            for (int i = 1; i <= a; i++)
+            if (u <= b)
             {
-                double u = UniformRNG.r8_uniform_01(ref seed);
-
-                if (u <= b)
-                {
-                    x = x + 1;
-                }
+                x += 1;
             }
-
-            return x;
         }
 
-        public static double binomial_variance(int a, double b)
+        return x;
+    }
+
+    public static double binomial_variance(int a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -399,10 +420,9 @@ namespace Burkardt.Probability
         //
         //    Output, double BINOMIAL_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = (double) (a) * b * (1.0 - b);
+    {
+        double variance = a * b * (1.0 - b);
 
-            return variance;
-        }
+        return variance;
     }
 }

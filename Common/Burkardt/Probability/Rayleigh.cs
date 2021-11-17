@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Rayleigh
 {
-    public static class Rayleigh
-    {
-        public static double rayleigh_cdf(double x, double a)
+    public static double rayleigh_cdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -34,22 +34,17 @@ namespace Burkardt.Probability
         //
         //    Output, double RAYLEIGH_CDF, the value of the CDF.
         //
+    {
+        double cdf = x switch
         {
-            double cdf;
+            < 0.0 => 0.0,
+            _ => 1.0 - Math.Exp(-x * x / (2.0 * a * a))
+        };
 
-            if (x < 0.0)
-            {
-                cdf = 0.0;
-            }
-            else
-            {
-                cdf = 1.0 - Math.Exp(-x * x / (2.0 * a * a));
-            }
+        return cdf;
+    }
 
-            return cdf;
-        }
-
-        public static double rayleigh_cdf_inv(double cdf, double a)
+    public static double rayleigh_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -78,23 +73,25 @@ namespace Burkardt.Probability
         //
         //    Output, double RAYLEIGH_CDF_INV, the corresponding argument.
         //
-        {
-            double x;
+    {
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("RAYLEIGH_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
+                return 1;
+            default:
+                x = Math.Sqrt(-2.0 * a * a * Math.Log(1.0 - cdf));
 
-            x = Math.Sqrt(-2.0 * a * a * Math.Log(1.0 - cdf));
-
-            return x;
+                return x;
         }
+    }
 
-        public static void rayleigh_cdf_values(ref int n_data, ref double sigma, ref double x, ref double fx )
+    public static void rayleigh_cdf_values(ref int n_data, ref double sigma, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -149,10 +146,10 @@ namespace Burkardt.Probability
         //
         //    Output, double &FX, the value of the function.
         //
-        {
-            int N_MAX = 9;
+    {
+        const int N_MAX = 9;
 
-            double[] fx_vec =
+        double[] fx_vec =
             {
                 0.8646647167633873E+00,
                 0.9996645373720975E+00,
@@ -166,7 +163,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] sigma_vec =
+        double[] sigma_vec =
             {
                 0.5000000000000000E+00,
                 0.5000000000000000E+00,
@@ -180,7 +177,7 @@ namespace Burkardt.Probability
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 0.1000000000000000E+01,
                 0.2000000000000000E+01,
@@ -194,29 +191,30 @@ namespace Burkardt.Probability
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                sigma = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                sigma = sigma_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            sigma = 0.0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            sigma = sigma_vec[n_data - 1];
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+    }
 
-        public static bool rayleigh_check(double a)
+    public static bool rayleigh_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -242,19 +240,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool RAYLEIGH_CHECK, is true if the parameter is legal.
         //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("RAYLEIGH_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double rayleigh_mean(double a)
+    public static double rayleigh_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -280,16 +279,16 @@ namespace Burkardt.Probability
         //
         //    Output, double RAYLEIGH_MEAN, the mean of the PDF.
         //
-        {
-            double mean;
+    {
+        double mean;
             
 
-            mean = a * Math.Sqrt(0.5 * Math.PI);
+        mean = a * Math.Sqrt(0.5 * Math.PI);
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double rayleigh_pdf(double x, double a)
+    public static double rayleigh_pdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -322,22 +321,17 @@ namespace Burkardt.Probability
         //
         //    Output, double RAYLEIGH_PDF, the value of the PDF.
         //
+    {
+        double pdf = x switch
         {
-            double pdf;
+            < 0.0 => 0.0,
+            _ => x / (a * a) * Math.Exp(-x * x / (2.0 * a * a))
+        };
 
-            if (x < 0.0)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = (x / (a * a)) * Math.Exp(-x * x / (2.0 * a * a));
-            }
+        return pdf;
+    }
 
-            return pdf;
-        }
-
-        public static double rayleigh_sample(double a, ref int seed)
+    public static double rayleigh_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -365,15 +359,15 @@ namespace Burkardt.Probability
         //
         //    Output, double RAYLEIGH_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = rayleigh_cdf_inv(cdf, a);
+        double x = rayleigh_cdf_inv(cdf, a);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double rayleigh_variance(double a)
+    public static double rayleigh_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -399,12 +393,11 @@ namespace Burkardt.Probability
         //
         //    Output, double RAYLEIGH_VARIANCE, the variance of the PDF.
         //
-        {
+    {
             
 
-            double variance = 2.0 * a * a * (1.0 - 0.25 * Math.PI);
+        double variance = 2.0 * a * a * (1.0 - 0.25 * Math.PI);
 
-            return variance;
-        }
+        return variance;
     }
 }

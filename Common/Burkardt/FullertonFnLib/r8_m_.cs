@@ -1,98 +1,94 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public static double r8_mach(int i)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_MACH returns double precision real machine constants.
+        //
+        //  Discussion:
+        //
+        //    Assuming that the internal representation of a double precision real
+        //    number is in base B, with T the number of base-B digits in the mantissa,
+        //    and EMIN the smallest possible exponent and EMAX the largest possible 
+        //    exponent, then
+        //
+        //      R8_MACH(1) = B^(EMIN-1), the smallest positive magnitude.
+        //      R8_MACH(2) = B^EMAX*(1-B^(-T)), the largest magnitude.
+        //      R8_MACH(3) = B^(-T), the smallest relative spacing.
+        //      R8_MACH(4) = B^(1-T), the largest relative spacing.
+        //      R8_MACH(5) = log10(B).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    24 April 2007
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Phyllis Fox, Andrew Hall, Norman Schryer.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Phyllis Fox, Andrew Hall, Norman Schryer,
+        //    Algorithm 528:
+        //    Framework for a Portable Library,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 4, Number 2, June 1978, page 176-188.
+        //
+        //  Parameters:
+        //
+        //    Input, int I, chooses the parameter to be returned.
+        //    1 <= I <= 5.
+        //
+        //    Output, double R8_MACH, the value of the chosen parameter.
+        //
     {
-        public static double r8_mach(int i)
+        double value = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_MACH returns double precision real machine constants.
-            //
-            //  Discussion:
-            //
-            //    Assuming that the internal representation of a double precision real
-            //    number is in base B, with T the number of base-B digits in the mantissa,
-            //    and EMIN the smallest possible exponent and EMAX the largest possible 
-            //    exponent, then
-            //
-            //      R8_MACH(1) = B^(EMIN-1), the smallest positive magnitude.
-            //      R8_MACH(2) = B^EMAX*(1-B^(-T)), the largest magnitude.
-            //      R8_MACH(3) = B^(-T), the smallest relative spacing.
-            //      R8_MACH(4) = B^(1-T), the largest relative spacing.
-            //      R8_MACH(5) = log10(B).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    24 April 2007
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Phyllis Fox, Andrew Hall, Norman Schryer.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Phyllis Fox, Andrew Hall, Norman Schryer,
-            //    Algorithm 528:
-            //    Framework for a Portable Library,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 4, Number 2, June 1978, page 176-188.
-            //
-            //  Parameters:
-            //
-            //    Input, int I, chooses the parameter to be returned.
-            //    1 <= I <= 5.
-            //
-            //    Output, double R8_MACH, the value of the chosen parameter.
-            //
+        switch (i)
         {
-            double value;
-
-            if (i == 1)
-            {
+            case 1:
                 value = 4.450147717014403E-308;
-            }
-            else if (i == 2)
-            {
+                break;
+            case 2:
                 value = 8.988465674311579E+307;
-            }
-            else if (i == 3)
-            {
+                break;
+            case 3:
                 value = 1.110223024625157E-016;
-            }
-            else if (i == 4)
-            {
+                break;
+            case 4:
                 value = 2.220446049250313E-016;
-            }
-            else if (i == 5)
-            {
+                break;
+            case 5:
                 value = 0.301029995663981E+000;
-            }
-            else
-            {
+                break;
+            default:
                 Console.WriteLine("");
                 Console.WriteLine("R8_MACH - Fatal error!");
                 Console.WriteLine("  The input argument I is out of bounds.");
                 Console.WriteLine("  Legal values satisfy 1 <= I <= 5.");
                 Console.WriteLine("  I = " + i + "");
                 value = 0.0;
-                return (1);
-            }
-
-            return value;
+                return 1;
         }
 
-        public static void r8_machar(ref long ibeta, ref long it, ref long irnd, ref long ngrd,
-                ref long machep, ref long negep, ref long iexp, ref long minexp,
-                ref long maxexp, ref double eps, ref double epsneg, ref double xmin, ref double xmax )
+        return value;
+    }
+
+    public static void r8_machar(ref long ibeta, ref long it, ref long irnd, ref long ngrd,
+            ref long machep, ref long negep, ref long iexp, ref long minexp,
+            ref long maxexp, ref double eps, ref double epsneg, ref double xmin, ref double xmax )
 
         //****************************************************************************80
         //
@@ -221,512 +217,523 @@ namespace Burkardt.FullertonFnLib
         //    or perhaps third, largest number, being too small by 1 or 2 units in 
         //    the last digit of the significand.
         //
+    {
+        double a;
+        double b;
+        double beta;
+        double betah;
+        double betain;
+        int i;
+        int itmp;
+        int iz;
+        int j;
+        int k;
+        int mx;
+        int nxres;
+        double one;
+        double t;
+        double tmp;
+        double tmp1;
+        double tmpa;
+        double two;
+        double y;
+        double z;
+        double zero;
+
+        irnd = 1;
+        one = irnd;
+        two = one + one;
+        a = two;
+        b = a;
+        zero = 0.0e0;
+        //
+        //  Determine IBETA and BETA ala Malcolm.
+        //
+        tmp = a + one - a - one;
+
+        while (tmp == zero)
         {
-            double a;
-            double b;
-            double beta;
-            double betah;
-            double betain;
-            int i;
-            int itmp;
-            int iz;
-            int j;
-            int k;
-            int mx;
-            int nxres;
-            double one;
-            double t;
-            double tmp;
-            double tmp1;
-            double tmpa;
-            double two;
-            double y;
-            double z;
-            double zero;
+            a += a;
+            tmp = a + one;
+            tmp1 = tmp - a;
+            tmp = tmp1 - one;
+        }
 
-            (irnd) = 1;
-            one = (double) (irnd);
-            two = one + one;
-            a = two;
-            b = a;
-            zero = 0.0e0;
-            //
-            //  Determine IBETA and BETA ala Malcolm.
-            //
-            tmp = ((a + one) - a) - one;
+        tmp = a + b;
+        itmp = (int) (tmp - a);
 
-            while (tmp == zero)
-            {
-                a = a + a;
-                tmp = a + one;
-                tmp1 = tmp - a;
-                tmp = tmp1 - one;
-            }
-
+        while (itmp == 0)
+        {
+            b += b;
             tmp = a + b;
             itmp = (int) (tmp - a);
+        }
 
-            while (itmp == 0)
-            {
-                b = b + b;
-                tmp = a + b;
-                itmp = (int) (tmp - a);
-            }
+        ibeta = itmp;
+        beta = ibeta;
+        //
+        //  Determine IRND, IT.
+        //
+        it = 0;
+        b = one;
+        tmp = b + one - b - one;
 
-            ibeta = itmp;
-            beta = (double) (ibeta);
-            //
-            //  Determine IRND, IT.
-            //
-            (it) = 0;
-            b = one;
-            tmp = ((b + one) - b) - one;
+        while (tmp == zero)
+        {
+            it += 1;
+            b *= beta;
+            tmp = b + one;
+            tmp1 = tmp - b;
+            tmp = tmp1 - one;
+        }
 
-            while (tmp == zero)
-            {
-                it = it + 1;
-                b = b * beta;
-                tmp = b + one;
-                tmp1 = tmp - b;
-                tmp = tmp1 - one;
-            }
+        irnd = 0;
+        betah = beta / two;
+        tmp = a + betah;
+        tmp1 = tmp - a;
 
-            irnd = 0;
-            betah = beta / two;
-            tmp = a + betah;
-            tmp1 = tmp - a;
+        if (tmp1 != zero)
+        {
+            irnd = 1;
+        }
 
-            if (tmp1 != zero)
-            {
-                irnd = 1;
-            }
+        tmpa = a + beta;
+        tmp = tmpa + betah;
 
-            tmpa = a + beta;
-            tmp = tmpa + betah;
+        irnd = irnd switch
+        {
+            0 when tmp - tmpa != zero => 2,
+            _ => irnd
+        };
 
-            if ((irnd == 0) && (tmp - tmpa != zero))
-            {
-                irnd = 2;
-            }
+        //
+        //  Determine NEGEP, EPSNEG.
+        //
+        negep = it + 3;
+        betain = one / beta;
+        a = one;
 
-            //
-            //  Determine NEGEP, EPSNEG.
-            //
-            (negep) = (it) + 3;
-            betain = one / beta;
-            a = one;
+        for (i = 1; i <= negep; i++)
+        {
+            a *= betain;
+        }
 
-            for (i = 1; i <= (negep); i++)
-            {
-                a = a * betain;
-            }
+        b = a;
+        tmp = one - a;
+        tmp -= one;
 
-            b = a;
-            tmp = (one - a);
-            tmp = tmp - one;
+        while (tmp == zero)
+        {
+            a *= beta;
+            negep -= 1;
+            tmp1 = one - a;
+            tmp = tmp1 - one;
+        }
 
-            while (tmp == zero)
-            {
-                a = a * beta;
-                negep = negep - 1;
-                tmp1 = one - a;
-                tmp = tmp1 - one;
-            }
+        negep = -negep;
+        epsneg = a;
+        //
+        //  Determine MACHEP, EPS.
+        //
 
-            (negep) = -(negep);
-            (epsneg) = a;
-            //
-            //  Determine MACHEP, EPS.
-            //
+        machep = -it - 3;
+        a = b;
+        tmp = one + a;
 
-            (machep) = -(it) - 3;
-            a = b;
+        while (tmp - one == zero)
+        {
+            a *= beta;
+            machep += 1;
             tmp = one + a;
+        }
 
-            while (tmp - one == zero)
+        eps = a;
+        //
+        //  Determine NGRD.
+        //
+        ngrd = 0;
+        tmp = one + eps;
+        tmp *= one;
+
+        ngrd = irnd switch
+        {
+            0 when tmp - one != zero => 1,
+            _ => ngrd
+        };
+        //
+        //  Determine IEXP, MINEXP and XMIN.
+        //
+        //  Loop to determine largest I such that (1/BETA) ** (2**(I))
+        //  does not underflow.  Exit from loop is signaled by an underflow.
+        //
+
+        i = 0;
+        k = 1;
+        z = betain;
+        t = one + eps;
+        nxres = 0;
+
+        for (;;)
+        {
+            y = z;
+            z = y * y;
+            //
+            //  Check for underflow
+            //
+
+            a = z * one;
+            tmp = z * t;
+
+            if (a + a == zero || Math.Abs(z) > y)
             {
-                a = a * beta;
-                machep = machep + 1;
-                tmp = one + a;
+                break;
             }
 
-            eps = a;
-            //
-            //  Determine NGRD.
-            //
-            (ngrd) = 0;
-            tmp = one + eps;
-            tmp = tmp * one;
+            tmp1 = tmp * betain;
 
-            if (((irnd) == 0) && (tmp - one) != zero)
+            if (tmp1 * beta == z)
             {
-                (ngrd) = 1;
-            }
-            //
-            //  Determine IEXP, MINEXP and XMIN.
-            //
-            //  Loop to determine largest I such that (1/BETA) ** (2**(I))
-            //  does not underflow.  Exit from loop is signaled by an underflow.
-            //
-
-            i = 0;
-            k = 1;
-            z = betain;
-            t = one + eps;
-            nxres = 0;
-
-            for (;;)
-            {
-                y = z;
-                z = y * y;
-                //
-                //  Check for underflow
-                //
-
-                a = z * one;
-                tmp = z * t;
-
-                if ((a + a == zero) || (Math.Abs(z) > y))
-                {
-                    break;
-                }
-
-                tmp1 = tmp * betain;
-
-                if (tmp1 * beta == z)
-                {
-                    break;
-                }
-
-                i = i + 1;
-                k = k + k;
+                break;
             }
 
-            //
-            //  Determine K such that (1/BETA)**K does not underflow.
-            //  First set  K = 2 ^ I.
-            //
-            (iexp) = i + 1;
-            mx = k + k;
+            i += 1;
+            k += k;
+        }
+
+        //
+        //  Determine K such that (1/BETA)**K does not underflow.
+        //  First set  K = 2 ^ I.
+        //
+        iexp = i + 1;
+        mx = k + k;
+        switch (ibeta)
+        {
             //
             //  For decimal machines only
             //
-            if (ibeta == 10)
+            case 10:
             {
-                (iexp) = 2;
+                iexp = 2;
                 iz = (int)ibeta;
                 while (iz <= k)
                 {
-                    iz *= (int)(ibeta);
-                    (iexp) = (iexp) + 1;
+                    iz *= (int)ibeta;
+                    iexp += 1;
                 }
 
                 mx = iz + iz - 1;
+                break;
             }
+        }
 
-            //
-            //  Loop to determine MINEXP, XMIN.
-            //  Exit from loop is signaled by an underflow.
-            //
-            for (;;)
+        //
+        //  Loop to determine MINEXP, XMIN.
+        //  Exit from loop is signaled by an underflow.
+        //
+        for (;;)
+        {
+            xmin = y;
+            y *= betain;
+            a = y * one;
+            tmp = y * t;
+            tmp1 = a + a;
+
+            if (tmp1 == zero || Math.Abs(y) >= xmin)
             {
-                (xmin) = y;
-                y = y * betain;
-                a = y * one;
-                tmp = y * t;
-                tmp1 = a + a;
-
-                if ((tmp1 == zero) || (Math.Abs(y) >= (xmin)))
-                {
-                    break;
-                }
-
-                k = k + 1;
-                tmp1 = tmp * betain;
-                tmp1 = tmp1 * beta;
-
-                if ((tmp1 == y) && (tmp != y))
-                {
-                    nxres = 3;
-                    xmin = y;
-                    break;
-                }
-
+                break;
             }
 
-            (minexp) = -k;
-            //
-            //  Determine MAXEXP, XMAX.
-            //
-            if ((mx <= k + k - 3) && ((ibeta) != 10))
+            k += 1;
+            tmp1 = tmp * betain;
+            tmp1 *= beta;
+
+            if (tmp1 == y && tmp != y)
             {
-                mx = mx + mx;
-                (iexp) = (iexp) + 1;
+                nxres = 3;
+                xmin = y;
+                break;
             }
 
-            (maxexp) = mx + (minexp);
-            //
-            //  Adjust IRND to reflect partial underflow.
-            //
-            (irnd) = (irnd) + nxres;
+        }
+
+        minexp = -k;
+        //
+        //  Determine MAXEXP, XMAX.
+        //
+        if (mx <= k + k - 3 && ibeta != 10)
+        {
+            mx += mx;
+            iexp += 1;
+        }
+
+        maxexp = mx + minexp;
+        //
+        //  Adjust IRND to reflect partial underflow.
+        //
+        irnd += nxres;
+        switch (irnd)
+        {
             //
             //  Adjust for IEEE style machines.
             //
-            if ((irnd) >= 2)
+            case >= 2:
+                maxexp -= 2;
+                break;
+        }
+
+        //
+        //  Adjust for machines with implicit leading bit in binary
+        //  significand and machines with radix point at extreme
+        //  right of significand.
+        //
+        i = (int)(maxexp + minexp);
+
+        switch (ibeta)
+        {
+            case 2 when i == 0:
+                maxexp -= 1;
+                break;
+        }
+
+        switch (i)
+        {
+            case > 20:
+                maxexp -= 1;
+                break;
+        }
+
+        if (a != y)
+        {
+            maxexp -= 2;
+        }
+
+        xmax = one - epsneg;
+        tmp = xmax * one;
+
+        if (tmp != xmax)
+        {
+            xmax = one - beta * epsneg;
+        }
+
+        xmax /= (beta * beta * beta * xmin);
+        i = (int)(maxexp + minexp + 3);
+
+        switch (i)
+        {
+            case > 0:
             {
-                (maxexp) = (maxexp) - 2;
-            }
-
-            //
-            //  Adjust for machines with implicit leading bit in binary
-            //  significand and machines with radix point at extreme
-            //  right of significand.
-            //
-            i = (int)((maxexp) + (minexp));
-
-            if (((ibeta) == 2) && (i == 0))
-            {
-                (maxexp) = (maxexp) - 1;
-            }
-
-            if (i > 20)
-            {
-                (maxexp) = (maxexp) - 1;
-            }
-
-            if (a != y)
-            {
-                (maxexp) = (maxexp) - 2;
-            }
-
-            (xmax) = one - (epsneg);
-            tmp = (xmax) * one;
-
-            if (tmp != (xmax))
-            {
-                (xmax) = one - beta * (epsneg);
-            }
-
-            (xmax) = (xmax) / (beta * beta * beta * (xmin));
-            i = (int)((maxexp) + (minexp) + 3);
-
-            if (i > 0)
-            {
-
                 for (j = 1; j <= i; j++)
                 {
-                    if ((ibeta) == 2)
+                    switch (ibeta)
                     {
-                        (xmax) = (xmax) + (xmax);
+                        case 2:
+                            xmax += xmax;
+                            break;
                     }
 
-                    if ((ibeta) != 2)
+                    if (ibeta != 2)
                     {
-                        (xmax) = (xmax) * beta;
+                        xmax *= beta;
                     }
                 }
 
+                break;
             }
+        }
+    }
 
-            return;
+    public static double r8_max(double x, double y)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_MAX returns the maximum of two R8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    18 August 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, Y, the quantities to compare.
+        //
+        //    Output, double R8_MAX, the maximum of X and Y.
+        //
+    {
+        double value = 0;
+
+        if (y < x)
+        {
+            value = x;
+        }
+        else
+        {
+            value = y;
         }
 
-        public static double r8_max(double x, double y)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_MAX returns the maximum of two R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    18 August 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, Y, the quantities to compare.
-            //
-            //    Output, double R8_MAX, the maximum of X and Y.
-            //
+    public static double r8_min(double x, double y)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_MIN returns the minimum of two R8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 August 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, Y, the quantities to compare.
+        //
+        //    Output, double R8_MIN, the minimum of X and Y.
+        //
+    {
+        double value = 0;
+
+        if (y < x)
         {
-            double value;
-
-            if (y < x)
-            {
-                value = x;
-            }
-            else
-            {
-                value = y;
-            }
-
-            return value;
+            value = y;
+        }
+        else
+        {
+            value = x;
         }
 
-        public static double r8_min(double x, double y)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_MIN returns the minimum of two R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    31 August 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, Y, the quantities to compare.
-            //
-            //    Output, double R8_MIN, the minimum of X and Y.
-            //
+    public static double r8_mod(double x, double y)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_MOD returns the remainder of R8 division.
+        //
+        //  Discussion:
+        //
+        //    If
+        //      REM = R8_MOD ( X, Y )
+        //      RMULT = ( X - REM ) / Y
+        //    then
+        //      X = Y * RMULT + REM
+        //    where REM has the same sign as X, and abs ( REM ) < Y.
+        //
+        //  Example:
+        //
+        //        X         Y     R8_MOD   R8_MOD  Factorization
+        //
+        //      107        50       7     107 =  2 *  50 + 7
+        //      107       -50       7     107 = -2 * -50 + 7
+        //     -107        50      -7    -107 = -2 *  50 - 7
+        //     -107       -50      -7    -107 =  2 * -50 - 7
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 June 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the number to be divided.
+        //
+        //    Input, double Y, the number that divides X.
+        //
+        //    Output, double R8_MOD, the remainder when X is divided by Y.
+        //
+    {
+        double value = 0;
+
+        switch (y)
         {
-            double value;
-
-            if (y < x)
-            {
-                value = y;
-            }
-            else
-            {
-                value = x;
-            }
-
-            return value;
-        }
-
-        public static double r8_mod(double x, double y)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_MOD returns the remainder of R8 division.
-            //
-            //  Discussion:
-            //
-            //    If
-            //      REM = R8_MOD ( X, Y )
-            //      RMULT = ( X - REM ) / Y
-            //    then
-            //      X = Y * RMULT + REM
-            //    where REM has the same sign as X, and abs ( REM ) < Y.
-            //
-            //  Example:
-            //
-            //        X         Y     R8_MOD   R8_MOD  Factorization
-            //
-            //      107        50       7     107 =  2 *  50 + 7
-            //      107       -50       7     107 = -2 * -50 + 7
-            //     -107        50      -7    -107 = -2 *  50 - 7
-            //     -107       -50      -7    -107 =  2 * -50 - 7
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 June 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the number to be divided.
-            //
-            //    Input, double Y, the number that divides X.
-            //
-            //    Output, double R8_MOD, the remainder when X is divided by Y.
-            //
-        {
-            double value;
-
-            if (y == 0.0)
-            {
+            case 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_MOD - Fatal error!");
                 Console.WriteLine("  R8_MOD ( X, Y ) called with Y = " + y + "");
-                return (1);
-            }
-
-            value = x - ((double) ((int) (x / y))) * y;
-
-            if (x < 0.0 && 0.0 < value)
-            {
-                value = value - Math.Abs(y);
-            }
-            else if (0.0 < x && value < 0.0)
-            {
-                value = value + Math.Abs(y);
-            }
-
-            return value;
+                return 1;
         }
 
-        public static double r8_mop(int i)
+        value = x - (int) (x / y) * y;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_MOP returns the I-th power of -1 as an R8 value.
-            //
-            //  Discussion:
-            //
-            //    An R8 is an double value.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    16 November 2007
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int I, the power of -1.
-            //
-            //    Output, double R8_MOP, the I-th power of -1.
-            //
+        switch (x)
         {
-            double value;
-
-            if ((i % 2) == 0)
-            {
-                value = 1.0;
-            }
-            else
-            {
-                value = -1.0;
-            }
-
-            return value;
+            case < 0.0 when 0.0 < value:
+                value -= Math.Abs(y);
+                break;
+            case > 0.0 when value < 0.0:
+                value += Math.Abs(y);
+                break;
         }
+
+        return value;
+    }
+
+    public static double r8_mop(int i)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_MOP returns the I-th power of -1 as an R8 value.
+        //
+        //  Discussion:
+        //
+        //    An R8 is an double value.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 November 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int I, the power of -1.
+        //
+        //    Output, double R8_MOP, the I-th power of -1.
+        //
+    {
+        double value = (i % 2) switch
+        {
+            0 => 1.0,
+            _ => -1.0
+        };
+
+        return value;
     }
 }

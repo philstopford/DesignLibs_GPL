@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Planck
 {
-    public static class Planck
-    {
-        public static bool planck_check(double a, double b)
+    public static bool planck_check(double a, double b)
 
 //****************************************************************************80
 //
@@ -33,28 +33,30 @@ namespace Burkardt.Probability
 //
 //    Output, bool PLANCK_CHECK, is true if the parameters are legal.
 //
+    {
+        switch (a)
         {
-            if (a <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("PLANCK_CHECK - Warning!");
                 Console.WriteLine("  A <= 0.");
                 return false;
-            }
+        }
 
-            if (b <= 0.0)
-            {
+        switch (b)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("PLANCK_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 //****************************************************************************80
 
-        public static double planck_mean(double a, double b)
+    public static double planck_mean(double a, double b)
 
 //****************************************************************************80
 //
@@ -82,16 +84,16 @@ namespace Burkardt.Probability
 //
 //    Output, double PLANCK_MEAN, the mean of the PDF.
 //
-        {
-            double mean;
+    {
+        double mean;
 
-            mean = (b + 1.0) * typeMethods.r8_zeta(b + 2.0) / typeMethods.r8_zeta(b + 1.0);
+        mean = (b + 1.0) * typeMethods.r8_zeta(b + 2.0) / typeMethods.r8_zeta(b + 1.0);
 
-            return mean;
-        }
+        return mean;
+    }
 //****************************************************************************80
 
-        public static double planck_pdf(double x, double a, double b)
+    public static double planck_pdf(double x, double a, double b)
 
 //****************************************************************************80
 //
@@ -144,25 +146,26 @@ namespace Burkardt.Probability
 //
 //    Output, double PLANCK_PDF, the value of the PDF.
 //
-        {
-            double k;
-            double pdf;
+    {
+        double k;
+        double pdf;
 
-            if (x < 0.0)
-            {
+        switch (x)
+        {
+            case < 0.0:
                 pdf = 0.0;
-            }
-            else
-            {
+                break;
+            default:
                 k = Helpers.Gamma(b + 1.0) * typeMethods.r8_zeta(b + 1.0);
                 pdf = Math.Pow(a, b + 1.0) * Math.Pow(x, b) / (Math.Exp(a * x) - 1.0) / k;
-            }
-
-            return pdf;
+                break;
         }
+
+        return pdf;
+    }
 //****************************************************************************80
 
-        public static double planck_sample(double a, double b, ref int seed)
+    public static double planck_sample(double a, double b, ref int seed)
 
 //****************************************************************************80
 //
@@ -198,29 +201,29 @@ namespace Burkardt.Probability
 //
 //    Output, double PLANCK_SAMPLE, a sample of the PDF.
 //
-        {
-            double a2;
-            double b2;
-            double c2;
-            double g;
-            double x;
-            int z;
+    {
+        double a2;
+        double b2;
+        double c2;
+        double g;
+        double x;
+        int z;
 //
-            a2 = 0.0;
-            b2 = 1.0;
-            c2 = b + 1.0;
+        a2 = 0.0;
+        b2 = 1.0;
+        c2 = b + 1.0;
 
-            g = Gamma.gamma_sample(a2, b2, c2, ref seed);
+        g = Gamma.gamma_sample(a2, b2, c2, ref seed);
 
-            z = Zipf.zipf_sample(c2, ref seed);
+        z = Zipf.zipf_sample(c2, ref seed);
 
-            x = g / (a * (double) (z));
+        x = g / (a * z);
 
-            return x;
-        }
+        return x;
+    }
 //****************************************************************************80
 
-        public static double planck_variance(double a, double b)
+    public static double planck_variance(double a, double b)
 
 //****************************************************************************80
 //
@@ -248,13 +251,12 @@ namespace Burkardt.Probability
 //
 //    Output, double PLANCK_VARIANCE, the variance of the PDF.
 //
-        {
-            double variance;
+    {
+        double variance;
 
-            variance = 0.0;
+        variance = 0.0;
 
-            return variance;
-        }
-
+        return variance;
     }
+
 }

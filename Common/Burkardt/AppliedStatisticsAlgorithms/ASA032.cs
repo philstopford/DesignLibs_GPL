@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
-{
-    public static partial class Algorithms
-    {
+namespace Burkardt.AppliedStatistics;
 
-    }
+public static partial class Algorithms
+{
+
 }

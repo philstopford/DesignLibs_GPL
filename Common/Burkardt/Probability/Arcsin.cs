@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Arcsin
 {
-    public static class Arcsin
-    {
-        public static double arcsin_cdf(double x, double a)
+    public static double arcsin_cdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -29,27 +29,27 @@ namespace Burkardt.Probability
         //
         //    Output, double ARCSIN_CDF, the value of the CDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
             
 
-            if (x <= -a)
-            {
-                cdf = 0.0;
-            }
-            else if (x < a)
-            {
-                cdf = 0.5 + Math.Asin(x / a) / Math.PI;
-            }
-            else
-            {
-                cdf = 1.0;
-            }
-
-            return cdf;
+        if (x <= -a)
+        {
+            cdf = 0.0;
+        }
+        else if (x < a)
+        {
+            cdf = 0.5 + Math.Asin(x / a) / Math.PI;
+        }
+        else
+        {
+            cdf = 1.0;
         }
 
-        public static double arcsin_cdf_inv(double cdf, double a)
+        return cdf;
+    }
+
+    public static double arcsin_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -74,24 +74,26 @@ namespace Burkardt.Probability
         //
         //    Output, double ARCSIN_CDF_INV, the corresponding argument.
         //
-        {
+    {
             
-            double x;
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("ARCSIN_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1.0;
-            }
+            default:
+                x = a * Math.Sin(Math.PI * (cdf - 0.5));
 
-            x = a * Math.Sin(Math.PI * (cdf - 0.5));
-
-            return x;
+                return x;
         }
+    }
 
-        public static bool arcsin_check(double a)
+    public static bool arcsin_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -112,18 +114,15 @@ namespace Burkardt.Probability
         //    0.0 < A.
         //
         //    Output, bool ARCSIN_CHECK, is TRUE if the data is acceptable.
+    {
+        return a switch
         {
-            if (a <= 0.0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+            <= 0.0 => false,
+            _ => true
+        };
+    }
 
-        public static double arcsin_mean(double a)
+    public static double arcsin_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -146,13 +145,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = 0.0;
+    {
+        double mean = 0.0;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double arcsin_pdf(double x, double a)
+    public static double arcsin_pdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -210,31 +209,32 @@ namespace Burkardt.Probability
         //
         //    Output, double ARCSIN_PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
             
 
-            if (a <= 0)
-            {
+        switch (a)
+        {
+            case <= 0:
                 Console.WriteLine("");
                 Console.WriteLine("ARCSIN_PDF - Fatal error!");
                 Console.WriteLine("  Parameter A <= 0.");
                 return 1.0;
-            }
-
-            if (x <= -a || a <= x)
-            {
-                pdf = 0.0;
-            }
-            else
-            {
-                pdf = 1.0 / (Math.PI * Math.Sqrt(a * a - x * x));
-            }
-
-            return pdf;
         }
 
-        public static double arcsin_sample(double a, ref int seed)
+        if (x <= -a || a <= x)
+        {
+            pdf = 0.0;
+        }
+        else
+        {
+            pdf = 1.0 / (Math.PI * Math.Sqrt(a * a - x * x));
+        }
+
+        return pdf;
+    }
+
+    public static double arcsin_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -258,16 +258,16 @@ namespace Burkardt.Probability
         //
         //    Output, double ARCSIN_SAMPLE, a sample of the PDF.
         //
-        {
+    {
 
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = arcsin_cdf_inv(cdf, a);
+        double x = arcsin_cdf_inv(cdf, a);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double arcsin_variance(double a)
+    public static double arcsin_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -289,10 +289,9 @@ namespace Burkardt.Probability
         //
         //    Output, double ARCSIN_VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = a * a / 2.0;
+    {
+        double variance = a * a / 2.0;
 
-            return variance;
-        }
+        return variance;
     }
 }

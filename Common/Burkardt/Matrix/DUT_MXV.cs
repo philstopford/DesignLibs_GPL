@@ -1,8 +1,8 @@
-﻿namespace Burkardt.MatrixNS
+﻿namespace Burkardt.MatrixNS;
+
+public static partial class Matrix
 {
-    public static partial class Matrix
-    {
-        public static double[] dut_mxv ( int m, int n, double[] a, double[] x )
+    public static double[] dut_mxv ( int m, int n, double[] a, double[] x )
 
         //****************************************************************************80
         //
@@ -41,23 +41,22 @@
         //
         //    Output, double DUT_MXV[M], the product A * x.
         //
+    {
+        double[] b;
+        int i;
+        int j;
+
+        b = new double[m];
+
+        for ( i = 0; i < m; i++ )
         {
-            double[] b;
-            int i;
-            int j;
-
-            b = new double[m];
-
-            for ( i = 0; i < m; i++ )
+            b[i] = 0.0;
+            for ( j = i; j < n; j++ )
             {
-                b[i] = 0.0;
-                for ( j = i; j < n; j++ )
-                {
-                    b[i] = b[i] + a[i+j*m] * x[j];
-                }
+                b[i] += a[i+j*m] * x[j];
             }
-
-            return b;
         }
+
+        return b;
     }
 }

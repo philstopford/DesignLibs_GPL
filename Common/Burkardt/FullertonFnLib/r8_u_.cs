@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
-    {
-        public static void r8_upak ( double x, ref double y, ref int n )
+    public static void r8_upak ( double x, ref double y, ref int n )
 
         //****************************************************************************80
         //
@@ -42,39 +42,36 @@ namespace Burkardt.FullertonFnLib
         //
         //    Output, int &N, the exponent.
         //
+    {
+        double absx;
+
+        absx = Math.Abs ( x );
+        n = 0;
+        y = 0.0;
+
+        switch (x)
         {
-            double absx;
-
-            absx = Math.Abs ( x );
-            n = 0;
-            y = 0.0;
-
-            if ( x == 0.0 )
-            {
+            case 0.0:
                 return;
-            }
-
-            while ( absx < 0.5 )
-            {
-                n = n - 1;
-                absx = absx * 2.0;
-            }
-
-            while ( 1.0 <= absx )
-            {
-                n = n + 1;
-                absx = absx * 0.5;
-            }
-
-            if ( x < 0.0 )
-            {
-                y = - absx;
-            }
-            else
-            {
-                y = + absx;
-            }
         }
 
+        while ( absx < 0.5 )
+        {
+            n -= 1;
+            absx *= 2.0;
+        }
+
+        while ( 1.0 <= absx )
+        {
+            n += 1;
+            absx *= 0.5;
+        }
+
+        y = x switch
+        {
+            < 0.0 => -absx,
+            _ => +absx
+        };
     }
+
 }

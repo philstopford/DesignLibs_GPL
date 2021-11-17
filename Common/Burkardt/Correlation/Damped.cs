@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.FullertonFnLib;
 
-namespace Burkardt.CorrelationNS
+namespace Burkardt.CorrelationNS;
+
+public static partial class Correlation
 {
-    public static partial class Correlation
-    {
-        public static CorrelationResult correlation_damped_cosine(FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
+    public static CorrelationResult correlation_damped_cosine(FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -41,21 +41,21 @@ namespace Burkardt.CorrelationNS
         //
         //    Output, double C[N], the correlations.
         //
+    {
+        double[] c;
+        int i;
+
+        c = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double[] c;
-            int i;
-
-            c = new double[n];
-
-            for (i = 0; i < n; i++)
-            {
-                c[i] = Math.Exp(-Math.Abs(rho[i]) / rho0) * Math.Cos(Math.Abs(rho[i]) / rho0);
-            }
-
-            return new CorrelationResult(){result = c, data = globaldata, k1data = data};
+            c[i] = Math.Exp(-Math.Abs(rho[i]) / rho0) * Math.Cos(Math.Abs(rho[i]) / rho0);
         }
 
-        public static CorrelationResult correlation_damped_sine(FullertonLib.BesselData globaldata, FullertonLib.r8BESJ0Data data, int n, double[] rho, double rho0 )
+        return new CorrelationResult(){result = c, data = globaldata, k1data = data};
+    }
+
+    public static CorrelationResult correlation_damped_sine(FullertonLib.BesselData globaldata, FullertonLib.r8BESJ0Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -91,27 +91,27 @@ namespace Burkardt.CorrelationNS
         //
         //    Output, double C[N], the correlations.
         //
+    {
+        double[] c;
+        int i;
+        double rhohat;
+
+        c = new double[n];
+
+        for (i = 0; i < n; i++)
         {
-            double[] c;
-            int i;
-            double rhohat;
-
-            c = new double[n];
-
-            for (i = 0; i < n; i++)
+            switch (rho[i])
             {
-                if (rho[i] == 0.0)
-                {
+                case 0.0:
                     c[i] = 1.0;
-                }
-                else
-                {
+                    break;
+                default:
                     rhohat = Math.Abs(rho[i]) / rho0;
                     c[i] = Math.Sin(rhohat) / rhohat;
-                }
+                    break;
             }
-
-            return new CorrelationResult(){result = c, data = globaldata, j0data = data};
         }
+
+        return new CorrelationResult(){result = c, data = globaldata, j0data = data};
     }
 }

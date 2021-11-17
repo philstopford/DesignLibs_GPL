@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Interpolation
+namespace Burkardt.Interpolation;
+
+public static class Smolyak
 {
-    public static class Smolyak
-    {
-        public static void smolyak_coefficients(int l_max, int m, ref int[] c, ref int[] w )
+    public static void smolyak_coefficients(int l_max, int m, ref int[] c, ref int[] w )
 
         //****************************************************************************80
         //
@@ -64,32 +64,31 @@ namespace Burkardt.Interpolation
         //    Output, int W[L_MAX+1], the number of objects at 
         //    sublevels 0 through L_MAX.
         //
+    {
+        int l;
+        int l_min;
+
+        l_min = Math.Max(l_max - m + 1, 0);
+
+        for (l = 0; l < l_min; l++)
         {
-            int l;
-            int l_min;
-
-            l_min = Math.Max(l_max - m + 1, 0);
-
-            for (l = 0; l < l_min; l++)
-            {
-                c[l] = 0;
-            }
-
-            for (l = l_min; l <= l_max; l++)
-            {
-                c[l] = typeMethods.i4_mop(l_max - l) * typeMethods.i4_choose(m - 1, l_max - l);
-            }
-
-            for (l = 0; l < l_min; l++)
-            {
-                w[l] = 0;
-            }
-
-            for (l = l_min; l <= l_max; l++)
-            {
-                w[l] = typeMethods.i4_choose(l + m - 1, m - 1);
-            }
+            c[l] = 0;
         }
 
+        for (l = l_min; l <= l_max; l++)
+        {
+            c[l] = typeMethods.i4_mop(l_max - l) * typeMethods.i4_choose(m - 1, l_max - l);
+        }
+
+        for (l = 0; l < l_min; l++)
+        {
+            w[l] = 0;
+        }
+
+        for (l = l_min; l <= l_max; l++)
+        {
+            w[l] = typeMethods.i4_choose(l + m - 1, m - 1);
+        }
     }
+
 }

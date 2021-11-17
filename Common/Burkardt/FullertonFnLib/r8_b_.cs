@@ -1,71 +1,71 @@
 ﻿using System;
 
-namespace Burkardt.FullertonFnLib
+namespace Burkardt.FullertonFnLib;
+
+public static partial class FullertonLib
 {
-    public static partial class FullertonLib
+    public class BesselData
     {
-        public class BesselData
-        {
-            /*
-            public int nti1 = 0;
-            public int ntai1 = 0;
-            public int ntai12 = 0;
-            
-
-            public int ntai02 = 0;
-            public int ntai0 = 0;
-            public int nti0 = 0;
-
-            public int ntj0 = 0;
-            public int ntj1 = 0;
-
-            public int ntk0 = 0;
-            public int ntak0 = 0;
-            public int ntak02 = 0;
-
-            public int ntk1 = 0;
-            public int ntak1 = 0;
-            public int ntak12 = 0;
-
-            public int nty0 = 0;
-            public int nty1 = 0;
-            public double xsml = 0.0;
-            
-            public double xmin = 0.0;
-            public double xmax = 0.0;
-
-            public double alnbig = 0.0;
-            public double bknu1 = 0;
-            public int iswtch = 0;
-
-            */
-            public r8GammaData gdata = new r8GammaData();
-
-            public r8KnusData kdata = new r8KnusData();
-        }
-
-        public class BetaData
-        {
-            public double alneps = 0.0;
-            public double alnsml = 0.0;
-            public double eps = 0.0;
-            public double sml = 0.0;
-
-            public r8GammaData gdata = new r8GammaData();
-
-        }
-
-        public class r8B0MPData
-        {
-            public int nbm0 = 0;
-            public int nbm02 = 0;
-            public int nbt02 = 0;
-            public int nbth0 = 0;
-            
-            public double xmax = 0.0;
-        }
+        /*
+        public int nti1 = 0;
+        public int ntai1 = 0;
+        public int ntai12 = 0;
         
-        static void r8_b0mp(ref BesselData globaldata, ref r8B0MPData data, double x, ref double ampl, ref double theta )
+
+        public int ntai02 = 0;
+        public int ntai0 = 0;
+        public int nti0 = 0;
+
+        public int ntj0 = 0;
+        public int ntj1 = 0;
+
+        public int ntk0 = 0;
+        public int ntak0 = 0;
+        public int ntak02 = 0;
+
+        public int ntk1 = 0;
+        public int ntak1 = 0;
+        public int ntak12 = 0;
+
+        public int nty0 = 0;
+        public int nty1 = 0;
+        public double xsml = 0.0;
+        
+        public double xmin = 0.0;
+        public double xmax = 0.0;
+
+        public double alnbig = 0.0;
+        public double bknu1 = 0;
+        public int iswtch = 0;
+
+        */
+        public r8GammaData gdata = new();
+
+        public r8KnusData kdata = new();
+    }
+
+    public class BetaData
+    {
+        public double alneps = 0.0;
+        public double alnsml = 0.0;
+        public double eps = 0.0;
+        public double sml = 0.0;
+
+        public r8GammaData gdata = new();
+
+    }
+
+    public class r8B0MPData
+    {
+        public int nbm0;
+        public int nbm02;
+        public int nbt02;
+        public int nbth0;
+            
+        public double xmax;
+    }
+
+    private static void r8_b0mp(ref BesselData globaldata, ref r8B0MPData data, double x, ref double ampl, ref double theta )
 
         //****************************************************************************80
         //
@@ -103,8 +103,8 @@ namespace Burkardt.FullertonFnLib
         //
         //    Output, ref double AMPL, &THETA, the modulus and phase.
         //
-        {
-            double[] bm0cs = {
+    {
+        double[] bm0cs = {
                 +0.9211656246827742712573767730182E-01,
                 -0.1050590997271905102480716371755E-02,
                 +0.1470159840768759754056392850952E-04,
@@ -144,7 +144,7 @@ namespace Burkardt.FullertonFnLib
                 +0.4395880138594310737100799999999E-31
             }
             ;
-            double[] bm02cs = {
+        double[] bm02cs = {
                 +0.9500415145228381369330861335560E-01,
                 -0.3801864682365670991748081566851E-03,
                 +0.2258339301031481192951829927224E-05,
@@ -187,7 +187,7 @@ namespace Burkardt.FullertonFnLib
                 -0.4715852749754438693013210568045E-31
             }
             ;
-            double[] bt02cs = {
+        double[] bt02cs = {
                 -0.24548295213424597462050467249324,
                 +0.12544121039084615780785331778299E-02,
                 -0.31253950414871522854973446709571E-04,
@@ -229,7 +229,7 @@ namespace Burkardt.FullertonFnLib
                 -0.29860056267039913454250666666666E-31
             }
             ;
-            double[] bth0cs = {
+        double[] bth0cs = {
                 -0.24901780862128936717709793789967,
                 +0.48550299609623749241048615535485E-03,
                 -0.54511837345017204950656273563505E-05,
@@ -276,51 +276,53 @@ namespace Burkardt.FullertonFnLib
                 +0.26611111369199356137177018346367E-31
             }
             ;
-            double eta;
-            const double pi4 = 0.785398163397448309615660845819876;
-            double z;
+        double eta;
+        const double pi4 = 0.785398163397448309615660845819876;
+        double z;
 
-            if (data.nbm0 == 0)
-            {
+        switch (data.nbm0)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nbm0 = r8_inits(bm0cs, 37, eta);
                 data.nbt02 = r8_inits(bt02cs, 39, eta);
                 data.nbm02 = r8_inits(bm02cs, 40, eta);
                 data.nbth0 = r8_inits(bth0cs, 44, eta);
                 data.xmax = 1.0 / r8_mach ( 4 );
-            }
+                break;
+        }
 
-            if (x < 4.0)
-            {
+        switch (x)
+        {
+            case < 4.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_B0MP - Fatal error!");
                 Console.WriteLine("  X < 4.");
-            }
-            else if (x <= 8.0)
-            {
+                break;
+            case <= 8.0:
                 z = (128.0 / x / x - 5.0) / 3.0;
                 ampl = (0.75 + r8_csevl(z, bm0cs, data.nbm0)) / Math.Sqrt(x);
                 theta = x - pi4 + r8_csevl(z, bt02cs, data.nbt02) / x;
-            }
-            else
-            {
+                break;
+            default:
                 z = 128.0 / x / x - 1.0;
                 ampl = (0.75 + r8_csevl(z, bm02cs, data.nbm02)) / Math.Sqrt(x);
                 theta = x - pi4 + r8_csevl(z, bth0cs, data.nbth0) / x;
-            }
+                break;
         }
+    }
         
-        public class r8B1MPData
-        {
-            public int nbm1 = 0;
-            public int nbm12 = 0;
-            public int nbt12 = 0;
-            public int nbth1 = 0;
+    public class r8B1MPData
+    {
+        public int nbm1;
+        public int nbm12;
+        public int nbt12;
+        public int nbth1;
             
-            public double xmax = 0.0;
-        }
+        public double xmax;
+    }
 
-        public static void r8_b1mp(ref BesselData globaldata, ref r8B1MPData data, double x, ref double ampl, ref double theta )
+    public static void r8_b1mp(ref BesselData globaldata, ref r8B1MPData data, double x, ref double ampl, ref double theta )
 
         //****************************************************************************80
         //
@@ -358,8 +360,8 @@ namespace Burkardt.FullertonFnLib
         //
         //    Output, ref double AMPL, &THETA, the modulus and phase.
         //
-        {
-            double[] bm12cs = {
+    {
+        double[] bm12cs = {
                 +0.9807979156233050027272093546937E-01,
                 +0.1150961189504685306175483484602E-02,
                 -0.4312482164338205409889358097732E-05,
@@ -402,7 +404,7 @@ namespace Burkardt.FullertonFnLib
                 +0.5008634462958810520684951501254E-31
             }
             ;
-            double[] bm1cs = {
+        double[] bm1cs = {
                 +0.1069845452618063014969985308538,
                 +0.3274915039715964900729055143445E-02,
                 -0.2987783266831698592030445777938E-04,
@@ -442,7 +444,7 @@ namespace Burkardt.FullertonFnLib
                 -0.4905225761116225518523733333333E-31
             }
             ;
-            double[] bt12cs = {
+        double[] bt12cs = {
                 +0.73823860128742974662620839792764,
                 -0.33361113174483906384470147681189E-02,
                 +0.61463454888046964698514899420186E-04,
@@ -484,7 +486,7 @@ namespace Burkardt.FullertonFnLib
                 +0.33263109233894654388906666666666E-31
             }
             ;
-            double[] bth1cs = {
+        double[] bth1cs = {
                 +0.74749957203587276055443483969695,
                 -0.12400777144651711252545777541384E-02,
                 +0.99252442404424527376641497689592E-05,
@@ -531,90 +533,92 @@ namespace Burkardt.FullertonFnLib
                 -0.28172247861233641166739574622810E-31
             }
             ;
-            double eta;
-            const double pi4 = 0.785398163397448309615660845819876;
-            double z;
+        double eta;
+        const double pi4 = 0.785398163397448309615660845819876;
+        double z;
 
-            if (data.nbm1 == 0)
-            {
+        switch (data.nbm1)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nbm1 = r8_inits(bm1cs, 37, eta);
                 data.nbt12 = r8_inits(bt12cs, 39, eta);
                 data.nbm12 = r8_inits(bm12cs, 40, eta);
                 data.nbth1 = r8_inits(bth1cs, 44, eta);
                 data.xmax = 1.0 / r8_mach ( 4 );
-            }
+                break;
+        }
 
-            if (x < 4.0)
-            {
+        switch (x)
+        {
+            case < 4.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_B1MP - Fatal error!");
                 Console.WriteLine("  X < 4.");
-            }
-            else if (x <= 8.0)
-            {
+                break;
+            case <= 8.0:
                 z = (128.0 / x / x - 5.0) / 3.0;
                 ampl = (0.75 + r8_csevl(z, bm1cs, data.nbm1)) / Math.Sqrt(x);
                 theta = x - 3.0 * pi4 + r8_csevl(z, bt12cs, data.nbt12) / x;
-            }
-            else
-            {
+                break;
+            default:
                 z = 128.0 / x / x - 1.0;
                 ampl = (0.75 + r8_csevl(z, bm12cs, data.nbm12)) / Math.Sqrt(x);
                 theta = x - 3.0 * pi4 + r8_csevl(z, bth1cs, data.nbth1) / x;
-            }
+                break;
         }
+    }
 
-        public class r8BESI0Data
-        {
-            public int nti0 = 0;
-            public double xsml = 0;
-            public double xmax = 0;
+    public class r8BESI0Data
+    {
+        public int nti0;
+        public double xsml;
+        public double xmax;
 
-            public r8BESI0EData edata = new r8BESI0EData();
+        public r8BESI0EData edata = new();
 
-        }
+    }
 
-        public static double r8_besi0(ref BesselData globaldata, ref r8BESI0Data data, double x)
+    public static double r8_besi0(ref BesselData globaldata, ref r8BESI0Data data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESI0 evaluates the Bessel function I of order 0 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESI0, the Bessel function I of order 0 of X.
-            //
-        {
-            double[] bi0cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESI0 evaluates the Bessel function I of order 0 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESI0, the Bessel function I of order 0 of X.
+        //
+    {
+        double[] bi0cs = {
                 -0.7660547252839144951081894976243285E-01,
                 +0.1927337953993808269952408750881196E+01,
                 +0.2282644586920301338937029292330415,
@@ -635,90 +639,102 @@ namespace Burkardt.FullertonFnLib
                 +0.9508172606122666666666666666666666E-33
             }
             ;
-            double value;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.nti0 == 0)
-            {
+        switch (data.nti0)
+        {
+            case 0:
                 data.nti0 = r8_inits(bi0cs, 18, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(8.0 * r8_mach(3));
                 data.xmax = Math.Log(r8_mach(2));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xsml)
-            {
-                value = 1.0;
-            }
-            else if (y <= 3.0)
-            {
-                value = 2.75 + r8_csevl(y * y / 4.5 - 1.0, bi0cs, data.nti0);
-            }
-            else if (y <= data.xmax)
-            {
-                value = Math.Exp(y) * r8_besi0e(ref globaldata, ref data.edata, x);
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_BESI0 - Fatal error!");
-                Console.WriteLine("  |X| too large.");
-                return (1);
-            }
-
-            return value;
+                break;
         }
 
-        public class r8BESI0EData
+        y = Math.Abs(x);
+
+        if (y <= data.xsml)
         {
-            public int nti0 = 0;
-            public int ntai0 = 0;
-            public int ntai02 = 0;
-            public double xsml = 0;
+            value = 1.0;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 3.0:
+                    value = 2.75 + r8_csevl(y * y / 4.5 - 1.0, bi0cs, data.nti0);
+                    break;
+                default:
+                {
+                    if (y <= data.xmax)
+                    {
+                        value = Math.Exp(y) * r8_besi0e(ref globaldata, ref data.edata, x);
+                    }
+                    else
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("R8_BESI0 - Fatal error!");
+                        Console.WriteLine("  |X| too large.");
+                        return 1;
+                    }
+
+                    break;
+                }
+            }
         }
 
-        public static double r8_besi0e(ref BesselData globaldata, ref r8BESI0EData data, double x)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESI0E evaluates the exponentially scaled Bessel function I0(X).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESI0E, the exponentially scaled Bessel 
-            //    function I0(X).
-            //
-        {
-            double[] ai02cs = {
+    public class r8BESI0EData
+    {
+        public int nti0;
+        public int ntai0;
+        public int ntai02;
+        public double xsml;
+    }
+
+    public static double r8_besi0e(ref BesselData globaldata, ref r8BESI0EData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESI0E evaluates the exponentially scaled Bessel function I0(X).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESI0E, the exponentially scaled Bessel 
+        //    function I0(X).
+        //
+    {
+        double[] ai02cs = {
                 +0.5449041101410883160789609622680E-01,
                 +0.3369116478255694089897856629799E-02,
                 +0.6889758346916823984262639143011E-04,
@@ -790,7 +806,7 @@ namespace Burkardt.FullertonFnLib
                 +0.1965352984594290603938848073318E-31
             }
             ;
-            double[] ai0cs = {
+        double[] ai0cs = {
                 +0.7575994494023795942729872037438E-01,
                 +0.7591380810823345507292978733204E-02,
                 +0.4153131338923750501863197491382E-03,
@@ -839,7 +855,7 @@ namespace Burkardt.FullertonFnLib
                 +0.2741320937937481145603413333333E-31
             }
             ;
-            double[] bi0cs = {
+        double[] bi0cs = {
                 -0.7660547252839144951081894976243285E-01,
                 +0.1927337953993808269952408750881196E+01,
                 +0.2282644586920301338937029292330415,
@@ -860,94 +876,90 @@ namespace Burkardt.FullertonFnLib
                 +0.9508172606122666666666666666666666E-33
             }
             ;
-            double eta;
-            double value;
-            double y;
+        double eta;
+        double value = 0;
+        double y;
 
-            if (data.nti0 == 0)
-            {
+        switch (data.nti0)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nti0 = r8_inits(bi0cs, 18, eta);
                 data.ntai0 = r8_inits(ai0cs, 46, eta);
                 data.ntai02 = r8_inits(ai02cs, 69, eta);
                 data.xsml = Math.Sqrt(8.0 * r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xsml)
-            {
-                value = 1.0;
-            }
-            else if (y <= 3.0)
-            {
-                value = Math.Exp(-y) * (2.75
-                                   + r8_csevl(y * y / 4.5 - 1.0, bi0cs, data.nti0));
-            }
-            else if (y <= 8.0)
-            {
-                value = (0.375
-                         + r8_csevl((48.0 / y - 11.0) / 5.0, ai0cs, data.ntai0)) / Math.Sqrt(y);
-            }
-            else
-            {
-                value = (0.375
-                         + r8_csevl(16.0 / y - 1.0, ai02cs, data.ntai02)) / Math.Sqrt(y);
-            }
-
-            return value;
+                break;
         }
 
-        public class r8BESI1Data
-        {
-            public int nti1 = 0;
-            public double xmin = 0;
-            public double xsml = 0;
-            public double xmax = 0;
-            public r8BESI1EData edata = new r8BESI1EData();
+        y = Math.Abs(x);
 
+        if (y <= data.xsml)
+        {
+            value = 1.0;
+        }
+        else
+        {
+            value = y switch
+            {
+                <= 3.0 => Math.Exp(-y) * (2.75 + r8_csevl(y * y / 4.5 - 1.0, bi0cs, data.nti0)),
+                <= 8.0 => (0.375 + r8_csevl((48.0 / y - 11.0) / 5.0, ai0cs, data.ntai0)) / Math.Sqrt(y),
+                _ => (0.375 + r8_csevl(16.0 / y - 1.0, ai02cs, data.ntai02)) / Math.Sqrt(y)
+            };
         }
 
-        public static double r8_besi1(ref BesselData globaldata, ref r8BESI1Data data, double x)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESI1 evaluates the Bessel function I of order 1 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESI1, the Bessel function I of order 1 of X.
-            //
-        {
-            double[] bi1cs = {
+    public class r8BESI1Data
+    {
+        public int nti1;
+        public double xmin;
+        public double xsml;
+        public double xmax;
+        public r8BESI1EData edata = new();
+
+    }
+
+    public static double r8_besi1(ref BesselData globaldata, ref r8BESI1Data data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESI1 evaluates the Bessel function I of order 1 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESI1, the Bessel function I of order 1 of X.
+        //
+    {
+        double[] bi1cs = {
                 -0.19717132610998597316138503218149E-02,
                 +0.40734887667546480608155393652014,
                 +0.34838994299959455866245037783787E-01,
@@ -967,97 +979,109 @@ namespace Burkardt.FullertonFnLib
                 +0.14367948220620800000000000000000E-31
             }
             ;
-            double value;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.nti1 == 0)
-            {
+        switch (data.nti1)
+        {
+            case 0:
                 data.nti1 = r8_inits(bi1cs, 17, 0.1 * r8_mach(3));
                 data.xmin = 2.0 * r8_mach(1);
                 data.xsml = Math.Sqrt(8.0 * r8_mach(3));
                 data.xmax = Math.Log(r8_mach(2));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xmin)
-            {
-                value = 0.0;
-            }
-            else if (y <= data.xsml)
-            {
-                value = 0.5 * x;
-            }
-            else if (y <= 3.0)
-            {
-                value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, data.nti1));
-            }
-            else if (y <= data.xmax)
-            {
-                value = Math.Exp(y) * r8_besi1e(ref globaldata, ref data.edata, x);
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_BESI1 - Fatal error!");
-                Console.WriteLine("  Result overflows.");
-                return (1);
-            }
-
-            return value;
+                break;
         }
 
-        public class r8BESI1EData
+        y = Math.Abs(x);
+
+        if (y <= data.xmin)
         {
-            public int nti1 = 0;
-            public int ntai1 = 0;
-            public int ntai12 = 0;
-            public double xmin = 0;
-            public double xsml = 0;
-
+            value = 0.0;
         }
+        else if (y <= data.xsml)
+        {
+            value = 0.5 * x;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 3.0:
+                    value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, data.nti1));
+                    break;
+                default:
+                {
+                    if (y <= data.xmax)
+                    {
+                        value = Math.Exp(y) * r8_besi1e(ref globaldata, ref data.edata, x);
+                    }
+                    else
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("R8_BESI1 - Fatal error!");
+                        Console.WriteLine("  Result overflows.");
+                        return 1;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BESI1EData
+    {
+        public int nti1;
+        public int ntai1;
+        public int ntai12;
+        public double xmin;
+        public double xsml;
+
+    }
         
-        public static double r8_besi1e(ref BesselData globaldata, ref r8BESI1EData data, double x)
+    public static double r8_besi1e(ref BesselData globaldata, ref r8BESI1EData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESI1E evaluates the exponentially scaled Bessel function I1(X).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    29 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESI1E, the exponentially scaled Bessel 
-            //    function I1(X).
-            //
-        {
-            double[] ai12cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESI1E evaluates the exponentially scaled Bessel function I1(X).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    29 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESI1E, the exponentially scaled Bessel 
+        //    function I1(X).
+        //
+    {
+        double[] ai12cs = {
                 +0.2857623501828012047449845948469E-01,
                 -0.9761097491361468407765164457302E-02,
                 -0.1105889387626237162912569212775E-03,
@@ -1129,7 +1153,7 @@ namespace Burkardt.FullertonFnLib
                 -0.1834079908804941413901308439210E-31
             }
             ;
-            double[] ai1cs = {
+        double[] ai1cs = {
                 -0.2846744181881478674100372468307E-01,
                 -0.1922953231443220651044448774979E-01,
                 -0.6115185857943788982256249917785E-03,
@@ -1178,7 +1202,7 @@ namespace Burkardt.FullertonFnLib
                 -0.2813835155653561106370833066666E-31
             }
             ;
-            double[] bi1cs = {
+        double[] bi1cs = {
                 -0.19717132610998597316138503218149E-02,
                 +0.40734887667546480608155393652014,
                 +0.34838994299959455866245037783787E-01,
@@ -1198,105 +1222,120 @@ namespace Burkardt.FullertonFnLib
                 +0.14367948220620800000000000000000E-31
             }
             ;
-            double eta;
-            double value;
-            double y;
+        double eta;
+        double value = 0;
+        double y;
 
-            if (data.nti1 == 0)
-            {
+        switch (data.nti1)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nti1 = r8_inits(bi1cs, 17, eta);
                 data.ntai1 = r8_inits(ai1cs, 46, eta);
                 data.ntai12 = r8_inits(ai12cs, 69, eta);
                 data.xmin = 2.0 * r8_mach(1);
                 data.xsml = Math.Sqrt(8.0 * r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xmin)
-            {
-                value = 0.0;
-            }
-            else if (y <= data.xsml)
-            {
-                value = 0.5 * x * Math.Exp(-y);
-            }
-            else if (y <= 3.0)
-            {
-                value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, data.nti1))
-                          * Math.Exp(-y);
-            }
-            else if (y <= 8.0)
-            {
-                value = (0.375 + r8_csevl((48.0 / y - 11.0) / 5.0,
-                    ai1cs, data.ntai1)) / Math.Sqrt(y);
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-            else
-            {
-                value = (0.375 + r8_csevl(16.0 / y - 1.0, ai12cs, data.ntai12)) / Math.Sqrt(y);
-                if (x < 0.0)
-                {
-                    value = -value;
-                }
-            }
-
-            return value;
+                break;
         }
 
-        public class r8BESJ0Data
-        {
-            public int ntj0 = 0;
-            public double xsml = 0;
+        y = Math.Abs(x);
 
-            public r8B0MPData edata = new r8B0MPData();
+        if (y <= data.xmin)
+        {
+            value = 0.0;
+        }
+        else if (y <= data.xsml)
+        {
+            value = 0.5 * x * Math.Exp(-y);
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 3.0:
+                    value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, data.nti1))
+                              * Math.Exp(-y);
+                    break;
+                case <= 8.0:
+                {
+                    value = (0.375 + r8_csevl((48.0 / y - 11.0) / 5.0,
+                        ai1cs, data.ntai1)) / Math.Sqrt(y);
+                    switch (x)
+                    {
+                        case < 0.0:
+                            value = -value;
+                            break;
+                    }
+
+                    break;
+                }
+                default:
+                {
+                    value = (0.375 + r8_csevl(16.0 / y - 1.0, ai12cs, data.ntai12)) / Math.Sqrt(y);
+                    switch (x)
+                    {
+                        case < 0.0:
+                            value = -value;
+                            break;
+                    }
+
+                    break;
+                }
+            }
         }
 
-        public static double r8_besj0(ref BesselData globaldata, ref r8BESJ0Data data, double x)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESJ0 evaluates the Bessel function J of order 0 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESJ0, the Bessel function J of order 0 of X.
-            //
-        {
-            double ampl = 0;
-            double[] bj0cs = {
+    public class r8BESJ0Data
+    {
+        public int ntj0;
+        public double xsml;
+
+        public r8B0MPData edata = new();
+    }
+
+    public static double r8_besj0(ref BesselData globaldata, ref r8BESJ0Data data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESJ0 evaluates the Bessel function J of order 0 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESJ0, the Bessel function J of order 0 of X.
+        //
+    {
+        double ampl = 0;
+        double[] bj0cs = {
                 +0.10025416196893913701073127264074,
                 -0.66522300776440513177678757831124,
                 +0.24898370349828131370460468726680,
@@ -1318,83 +1357,89 @@ namespace Burkardt.FullertonFnLib
                 +0.43910905496698880000000000000000E-31
             }
             ;
-            double theta = 0;
-            double value;
-            double y;
+        double theta = 0;
+        double value = 0;
+        double y;
 
-            if (data.ntj0 == 0)
-            {
+        switch (data.ntj0)
+        {
+            case 0:
                 data.ntj0 = r8_inits(bj0cs, 19, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(4.0 * r8_mach(3));
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xsml)
-            {
-                value = 1.0;
-            }
-            else if (y <= 4.0)
-            {
-                value = r8_csevl(0.125 * y * y - 1.0, bj0cs, data.ntj0);
-            }
-            else
-            {
-                r8_b0mp(ref globaldata, ref data.edata, y, ref ampl, ref theta);
-                value = ampl * Math.Cos(theta);
-            }
-
-            return value;
+                break;
         }
 
-        public class r8BESJ1Data
-        {
-            public int ntj1 = 0;
-            public double xsml = 0;
-            public double xmin = 0;
-            public r8B1MPData edata = new r8B1MPData();
-        }
-        public static double r8_besj1(ref BesselData globaldata, ref r8BESJ1Data data, double x)
+        y = Math.Abs(x);
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESJ1 evaluates the Bessel function J of order 1 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESJ1, the Bessel function J of order 1 of X.
-            //
+        if (y <= data.xsml)
         {
-            double ampl = 0;
-            double[] bj1cs = {
+            value = 1.0;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 4.0:
+                    value = r8_csevl(0.125 * y * y - 1.0, bj0cs, data.ntj0);
+                    break;
+                default:
+                    r8_b0mp(ref globaldata, ref data.edata, y, ref ampl, ref theta);
+                    value = ampl * Math.Cos(theta);
+                    break;
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BESJ1Data
+    {
+        public int ntj1;
+        public double xsml;
+        public double xmin;
+        public r8B1MPData edata = new();
+    }
+    public static double r8_besj1(ref BesselData globaldata, ref r8BESJ1Data data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESJ1 evaluates the Bessel function J of order 1 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESJ1, the Bessel function J of order 1 of X.
+        //
+    {
+        double ampl = 0;
+        double[] bj1cs = {
                 -0.117261415133327865606240574524003,
                 -0.253615218307906395623030884554698,
                 +0.501270809844695685053656363203743E-01,
@@ -1416,155 +1461,161 @@ namespace Burkardt.FullertonFnLib
                 +0.116167808226645333333333333333333E-32
             }
             ;
-            double theta = 0;
-            double value;
-            double y;
+        double theta = 0;
+        double value = 0;
+        double y;
 
-            if (data.ntj1 == 0)
-            {
+        switch (data.ntj1)
+        {
+            case 0:
                 data.ntj1 = r8_inits(bj1cs, 19, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(4.0 * r8_mach(3));
                 data.xmin = 2.0 * r8_mach(1);
-            }
-
-            y = Math.Abs(x);
-
-            if (y <= data.xmin)
-            {
-                value = 0.0;
-            }
-            else if (y <= data.xsml)
-            {
-                value = 0.5 * x;
-            }
-            else if (y <= 4.0)
-            {
-                value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, bj1cs, data.ntj1));
-            }
-            else
-            {
-                r8_b1mp(ref globaldata, ref data.edata, y, ref ampl, ref theta);
-                if (x < 0.0)
-                {
-                    value = -ampl * Math.Cos(theta);
-                }
-                else
-                {
-                    value = +ampl * Math.Cos(theta);
-                }
-            }
-
-            return value;
+                break;
         }
 
-        public class r8BESKData
+        y = Math.Abs(x);
+
+        if (y <= data.xmin)
         {
-            public r8BESKSData edata = new r8BESKSData();
+            value = 0.0;
         }
+        else if (y <= data.xsml)
+        {
+            value = 0.5 * x;
+        }
+        else
+        {
+            switch (y)
+            {
+                case <= 4.0:
+                    value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, bj1cs, data.ntj1));
+                    break;
+                default:
+                {
+                    r8_b1mp(ref globaldata, ref data.edata, y, ref ampl, ref theta);
+                    value = x switch
+                    {
+                        < 0.0 => -ampl * Math.Cos(theta),
+                        _ => +ampl * Math.Cos(theta)
+                    };
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BESKData
+    {
+        public r8BESKSData edata = new();
+    }
         
-        public static double r8_besk(ref BesselData globaldata, ref r8BESKData data, double nu, double x)
+    public static double r8_besk(ref BesselData globaldata, ref r8BESKData data, double nu, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESK evaluates the Bessel function K of order NU of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    03 November 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double NU, the order.
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESK, the Bessel function K of order NU at X.
-            //
-        {
-            int nin;
-            double value;
-            double xnu;
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESK evaluates the Bessel function K of order NU of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    03 November 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double NU, the order.
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESK, the Bessel function K of order NU at X.
+        //
+    {
+        int nin;
+        double value = 0;
+        double xnu;
 
-            xnu = nu - (int) (nu);
-            nin = (int) (nu) + 1;
-            double[] bke = new double[nin];
-            r8_besks(ref globaldata.gdata, ref globaldata.kdata, ref data.edata, xnu, x, nin, ref bke);
+        xnu = nu - (int) nu;
+        nin = (int) nu + 1;
+        double[] bke = new double[nin];
+        r8_besks(ref globaldata.gdata, ref globaldata.kdata, ref data.edata, xnu, x, nin, ref bke);
 
-            value = bke[nin - 1];
+        value = bke[nin - 1];
 
-            return value;
-        }
+        return value;
+    }
 
-        public class r8BESK0Data
-        {
-            public int ntk0 = 0;
-            public double xsml = 0;
-            public double xmax = 0;
-            public r8BESI0Data edata = new r8BESI0Data();
-            public r8BESK0EData kedata = new r8BESK0EData();
-        }
+    public class r8BESK0Data
+    {
+        public int ntk0;
+        public double xsml;
+        public double xmax;
+        public r8BESI0Data edata = new();
+        public r8BESK0EData kedata = new();
+    }
 
-        public static double r8_besk0(ref BesselData globaldata, ref r8BESK0Data data, double x)
+    public static double r8_besk0(ref BesselData globaldata, ref r8BESK0Data data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESK0 evaluates the Bessel function K of order 0 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESK0, the Bessel function K of order 0 of X.
-            //
-        {
-            double[] bk0cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESK0 evaluates the Bessel function K of order 0 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESK0, the Bessel function K of order 0 of X.
+        //
+    {
+        double[] bk0cs = {
                 -0.353273932339027687201140060063153E-01,
                 +0.344289899924628486886344927529213,
                 +0.359799365153615016265721303687231E-01,
@@ -1583,99 +1634,113 @@ namespace Burkardt.FullertonFnLib
                 +0.308259388791466666666666666666666E-32
             }
             ;
-            double value;
-            double y;
+        double value = 0;
+        double y;
 
-            if (data.ntk0 == 0)
-            {
+        switch (data.ntk0)
+        {
+            case 0:
                 data.ntk0 = r8_inits(bk0cs, 16, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(4.0 * r8_mach(3));
                 data.xmax = -Math.Log(r8_mach(1));
-                data.xmax = data.xmax - 0.5 * data.xmax * Math.Log(data.xmax) / (data.xmax + 0.5);
-            }
+                data.xmax -= 0.5 * data.xmax * Math.Log(data.xmax) / (data.xmax + 0.5);
+                break;
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESK0 = Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-            else if (x <= data.xsml)
-            {
-                y = 0.0;
-                value = -Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x)
-                    - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0);
-            }
-            else if (x <= 2.0)
-            {
-                y = x * x;
-                value = -Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x)
-                    - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0);
-            }
-            else if (x <= data.xmax)
-            {
-                value = Math.Exp(-x) * r8_besk0e(ref globaldata, ref data.kedata, x);
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8BESK0EData
+        if (x <= data.xsml)
         {
-            public int  ntk0 = 0;
-            public int ntak0 = 0;
-            public int ntak02 = 0;
-            public double xsml = 0;
-
-            public r8BESI0Data edata = new r8BESI0Data();
-
+            y = 0.0;
+            value = -Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x)
+                - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0);
         }
-        public static double r8_besk0e(ref BesselData globaldata, ref r8BESK0EData data, double x)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESK0E evaluates the exponentially scaled Bessel function K0(X).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESK0E, the exponentially scaled Bessel 
-            //    function K0(X).
-            //
+        else
         {
-            double[] ak02cs = {
+            switch (x)
+            {
+                case <= 2.0:
+                    y = x * x;
+                    value = -Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x)
+                        - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0);
+                    break;
+                default:
+                {
+                    if (x <= data.xmax)
+                    {
+                        value = Math.Exp(-x) * r8_besk0e(ref globaldata, ref data.kedata, x);
+                    }
+                    else
+                    {
+                        value = 0.0;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BESK0EData
+    {
+        public int  ntk0;
+        public int ntak0;
+        public int ntak02;
+        public double xsml;
+
+        public r8BESI0Data edata = new();
+
+    }
+    public static double r8_besk0e(ref BesselData globaldata, ref r8BESK0EData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESK0E evaluates the exponentially scaled Bessel function K0(X).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESK0E, the exponentially scaled Bessel 
+        //    function K0(X).
+        //
+    {
+        double[] ak02cs = {
                 -0.1201869826307592239839346212452E-01,
                 -0.9174852691025695310652561075713E-02,
                 +0.1444550931775005821048843878057E-03,
@@ -1711,7 +1776,7 @@ namespace Burkardt.FullertonFnLib
                 +0.2301266594249682802005333333333E-31
             }
             ;
-            double[] ak0cs = {
+        double[] ak0cs = {
                 -0.7643947903327941424082978270088E-01,
                 -0.2235652605699819052023095550791E-01,
                 +0.7734181154693858235300618174047E-03,
@@ -1752,7 +1817,7 @@ namespace Burkardt.FullertonFnLib
                 -0.2851874167359832570811733333333E-31
             }
             ;
-            double[] bk0cs = {
+        double[] bk0cs = {
                 -0.353273932339027687201140060063153E-01,
                 +0.344289899924628486886344927529213,
                 +0.359799365153615016265721303687231E-01,
@@ -1771,104 +1836,111 @@ namespace Burkardt.FullertonFnLib
                 +0.308259388791466666666666666666666E-32
             }
             ;
-            double eta;
-            double value;
-            double y;
+        double eta;
+        double value = 0;
+        double y;
 
-            if (data.ntk0 == 0)
-            {
+        switch (data.ntk0)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.ntk0 = r8_inits(bk0cs, 16, eta);
                 data.ntak0 = r8_inits(ak0cs, 38, eta);
                 data.ntak02 = r8_inits(ak02cs, 33, eta);
                 data.xsml = Math.Sqrt(4.0 * r8_mach(3));
-            }
+                break;
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESK0E = Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-            else if (x <= data.xsml)
-            {
-                y = 0.0;
-                value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x) - 0.25
-                                  + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0));
-            }
-            else if (x <= 2.0)
-            {
-                y = x * x;
-                value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x) - 0.25
-                                  + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0));
-            }
-            else if (x <= 8.0)
-            {
-                value = (1.25 + r8_csevl((16.0 / x - 5.0) / 3.0, ak0cs,
-                    data.ntak0)) / Math.Sqrt(x);
-            }
-            else
-            {
-                value = (1.25 + r8_csevl(16.0 / x - 1.0, ak02cs, data.ntak02)) / Math.Sqrt(x);
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8BESK1Data
+        if (x <= data.xsml)
         {
-            public int ntk1 = 0;
-
-            public double xmin = 0;
-            public double xsml = 0;
-            public double xmax = 0;
-
-            public r8BESI1Data edata = new r8BESI1Data();
-            public r8BESK1EData e1data = new r8BESK1EData();
-
+            y = 0.0;
+            value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x) - 0.25
+                                   + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0));
         }
+        else
+        {
+            switch (x)
+            {
+                case <= 2.0:
+                    y = x * x;
+                    value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(ref globaldata, ref data.edata, x) - 0.25
+                                           + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0));
+                    break;
+                case <= 8.0:
+                    value = (1.25 + r8_csevl((16.0 / x - 5.0) / 3.0, ak0cs,
+                        data.ntak0)) / Math.Sqrt(x);
+                    break;
+                default:
+                    value = (1.25 + r8_csevl(16.0 / x - 1.0, ak02cs, data.ntak02)) / Math.Sqrt(x);
+                    break;
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BESK1Data
+    {
+        public int ntk1;
+
+        public double xmin = 0;
+        public double xsml;
+        public double xmax;
+
+        public r8BESI1Data edata = new();
+        public r8BESK1EData e1data = new();
+
+    }
         
-        public static double r8_besk1(ref BesselData globaldata, ref r8BESK1Data data, double x)
+    public static double r8_besk1(ref BesselData globaldata, ref r8BESK1Data data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESK1 evaluates the Bessel function K of order 1 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESK1, the Bessel function K of order 1 of X.
-            //
-        {
-            double[] bk1cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESK1 evaluates the Bessel function K of order 1 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESK1, the Bessel function K of order 1 of X.
+        //
+    {
+        double[] bk1cs = {
                 +0.25300227338947770532531120868533E-01,
                 -0.35315596077654487566723831691801,
                 -0.12261118082265714823479067930042,
@@ -1887,12 +1959,13 @@ namespace Burkardt.FullertonFnLib
                 -0.91550857176541866666666666666666E-31
             }
             ;
-            double value;
+        double value = 0;
 
-            double y;
+        double y;
 
-            if (data.ntk1 == 0)
-            {
+        switch (data.ntk1)
+        {
+            case 0:
                 data.ntk1 = r8_inits(bk1cs, 16, 0.1 * r8_mach(3));
                 //  xmin = exp ( r8_max ( log ( r8_mach ( 1 ) ), 
                 //    - log ( r8_mach ( 2 ) ) ) + 0.01 );
@@ -1900,89 +1973,102 @@ namespace Burkardt.FullertonFnLib
                 data.xmax = -Math.Log(r8_mach(1));
                 data.xmax = data.xmax - 0.5 * data.xmax * Math.Log(data.xmax)
                     / (data.xmax + 0.5) - 0.01;
-            }
+                break;
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESK1 = Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-            else if (x <= data.xsml)
-            {
-                y = 0.0;
-                value = Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x) + (0.75
-                                                      + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x;
-            }
-            else if (x <= 2.0)
-            {
-                y = x * x;
-                value = Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x) + (0.75
-                                                                           + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x;
-            }
-            else if (x <= data.xmax)
-            {
-                value = Math.Exp(-x) * r8_besk1e(ref globaldata, ref data.e1data, x);
-            }
-            else
-            {
-                value = 0.0;
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8BESK1EData
+        if (x <= data.xsml)
         {
-            public int ntk1 = 0;
-            public int ntak1 = 0;
-            public int ntak12 = 0;
-            public double xsml = 0;
-            public r8BESI1Data edata = new r8BESI1Data();
+            y = 0.0;
+            value = Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x) + (0.75
+                + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x;
         }
+        else
+        {
+            switch (x)
+            {
+                case <= 2.0:
+                    y = x * x;
+                    value = Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x) + (0.75
+                        + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x;
+                    break;
+                default:
+                {
+                    if (x <= data.xmax)
+                    {
+                        value = Math.Exp(-x) * r8_besk1e(ref globaldata, ref data.e1data, x);
+                    }
+                    else
+                    {
+                        value = 0.0;
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BESK1EData
+    {
+        public int ntk1;
+        public int ntak1;
+        public int ntak12;
+        public double xsml;
+        public r8BESI1Data edata = new();
+    }
         
-        public static double r8_besk1e(ref BesselData globaldata, ref r8BESK1EData data, double x)
+    public static double r8_besk1e(ref BesselData globaldata, ref r8BESK1EData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESK1E evaluates the exponentially scaled Bessel function K1(X).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESK1E, the exponentially scaled Bessel 
-            //    function K1(X).
-            //
-        {
-            double[] ak12cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESK1E evaluates the exponentially scaled Bessel function K1(X).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESK1E, the exponentially scaled Bessel 
+        //    function K1(X).
+        //
+    {
+        double[] ak12cs = {
                 +0.6379308343739001036600488534102E-01,
                 +0.2832887813049720935835030284708E-01,
                 -0.2475370673905250345414545566732E-03,
@@ -2018,7 +2104,7 @@ namespace Burkardt.FullertonFnLib
                 -0.2412930801459408841386666666666E-31
             }
             ;
-            double[] ak1cs = {
+        double[] ak1cs = {
                 +0.27443134069738829695257666227266,
                 +0.75719899531993678170892378149290E-01,
                 -0.14410515564754061229853116175625E-02,
@@ -2059,7 +2145,7 @@ namespace Burkardt.FullertonFnLib
                 +0.30736573872934276300799999999999E-31
             }
             ;
-            double[] bk1cs = {
+        double[] bk1cs = {
                 +0.25300227338947770532531120868533E-01,
                 -0.35315596077654487566723831691801,
                 -0.12261118082265714823479067930042,
@@ -2078,13 +2164,14 @@ namespace Burkardt.FullertonFnLib
                 -0.91550857176541866666666666666666E-31
             }
             ;
-            double eta;
-            double value;
+        double eta;
+        double value = 0;
 
-            double y;
+        double y;
 
-            if (data.ntk1 == 0)
-            {
+        switch (data.ntk1)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.ntk1 = r8_inits(bk1cs, 16, eta);
                 data.ntak1 = r8_inits(ak1cs, 38, eta);
@@ -2092,290 +2179,299 @@ namespace Burkardt.FullertonFnLib
                 //  xmin = exp ( r8_max ( log ( r8_mach ( 1 ) ), 
                 //    - log ( r8_mach ( 2 ) ) ) + 0.01 );
                 data.xsml = Math.Sqrt(4.0 * r8_mach(3));
-            }
+                break;
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESK1E = Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-            else if (x <= data.xsml)
-            {
-                y = 0.0;
-                value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x)
-                                  + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x);
-            }
-            else if (x <= 2.0)
-            {
-                y = x * x;
-                value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x)
-                                  + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x);
-            }
-            else if (x <= 8.0)
-            {
-                value = (1.25
-                         + r8_csevl((16.0 / x - 5.0) / 3.0, ak1cs, data.ntak1)) / Math.Sqrt(x);
-            }
-            else
-            {
-                value = (1.25 +
-                         r8_csevl(16.0 / x - 1.0, ak12cs, data.ntak12)) / Math.Sqrt(x);
-            }
-
-            return value;
+                return 1;
         }
-        
-        static void r8_beskes(ref r8GammaData gdata, ref r8KnusData kdata, double xnu, double x, int nin, ref double[] bke)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESKES: a sequence of exponentially scaled K Bessel functions at X.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double XNU, ?
-            //    |XNU| < 1.
-            //
-            //    Input, double X, the argument.
-            //
-            //    Input, int NIN, indicates the number of terms to compute.
-            //
-            //    Output, double BKE(abs(NIN)), the exponentially scaled 
-            //    K Bessel functions.
-            //
+        if (x <= data.xsml)
         {
-            double bknu1 = 0;
-            double direct;
-            int i;
-            int n;
-            double v;
-            //double vend;
-            double vincr;
-            int iswtch = 0;
-            
-            v = Math.Abs(xnu);
-            n = i4_abs(nin);
-
-            if (1.0 <= v)
+            y = 0.0;
+            value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x)
+                                   + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x);
+        }
+        else
+        {
+            switch (x)
             {
+                case <= 2.0:
+                    y = x * x;
+                    value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(ref globaldata, ref data.edata, x)
+                                           + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x);
+                    break;
+                case <= 8.0:
+                    value = (1.25
+                             + r8_csevl((16.0 / x - 5.0) / 3.0, ak1cs, data.ntak1)) / Math.Sqrt(x);
+                    break;
+                default:
+                    value = (1.25 +
+                             r8_csevl(16.0 / x - 1.0, ak12cs, data.ntak12)) / Math.Sqrt(x);
+                    break;
+            }
+        }
+
+        return value;
+    }
+
+    private static void r8_beskes(ref r8GammaData gdata, ref r8KnusData kdata, double xnu, double x, int nin, ref double[] bke)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESKES: a sequence of exponentially scaled K Bessel functions at X.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double XNU, ?
+        //    |XNU| < 1.
+        //
+        //    Input, double X, the argument.
+        //
+        //    Input, int NIN, indicates the number of terms to compute.
+        //
+        //    Output, double BKE(abs(NIN)), the exponentially scaled 
+        //    K Bessel functions.
+        //
+    {
+        double bknu1 = 0;
+        double direct;
+        int i;
+        int n;
+        double v;
+        //double vend;
+        double vincr;
+        int iswtch = 0;
+            
+        v = Math.Abs(xnu);
+        n = i4_abs(nin);
+
+        switch (v)
+        {
+            case >= 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESKES - Fatal error!");
                 Console.WriteLine("  |XNU| must be less than 1.");
                 return;
-            }
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESKES - Fatal error!");
                 Console.WriteLine("  X <= 0.");
                 return;
-            }
+        }
 
-            if (n == 0)
-            {
+        switch (n)
+        {
+            case 0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESKES - Fatal error!");
                 Console.WriteLine("  N = 0.");
                 return;
-            }
+        }
 
-            r8_knus(ref gdata, ref kdata, v, x, ref bke[0], ref bknu1, ref iswtch);
+        r8_knus(ref gdata, ref kdata, v, x, ref bke[0], ref bknu1, ref iswtch);
 
-            if (n == 1)
-            {
+        switch (n)
+        {
+            case 1:
                 return;
-            }
+        }
 
-            if (nin < 0)
-            {
-                vincr = -1.0;
-            }
-            else
-            {
-                vincr = +1.0;
-            }
+        vincr = nin switch
+        {
+            < 0 => -1.0,
+            _ => +1.0
+        };
 
-            if (xnu < 0.0)
-            {
-                direct = -vincr;
-            }
-            else
-            {
-                direct = vincr;
-            }
+        direct = xnu switch
+        {
+            < 0.0 => -vincr,
+            _ => vincr
+        };
 
-            bke[1] = bknu1;
+        bke[1] = bknu1;
 
-            if (direct < 0.0)
-            {
+        switch (direct)
+        {
+            case < 0.0:
                 r8_knus(ref gdata, ref kdata, Math.Abs(xnu + vincr), x, ref bke[1], ref bknu1, ref iswtch);
-            }
+                break;
+        }
 
-            if (n == 2)
-            {
+        switch (n)
+        {
+            case 2:
                 return;
-            }
-
-            //vend = fabs ( xnu + ( double ) ( nin ) ) - 1.0;
-
-            v = xnu;
-            for (i = 3; i <= n; i++)
-            {
-                v = v + vincr;
-                bke[i - 1] = 2.0 * v * bke[i - 2] / x + bke[i - 3];
-            }
         }
 
-        public class r8BESKSData
+        //vend = fabs ( xnu + ( double ) ( nin ) ) - 1.0;
+
+        v = xnu;
+        for (i = 3; i <= n; i++)
         {
-            public double xmax = 0;
+            v += vincr;
+            bke[i - 1] = 2.0 * v * bke[i - 2] / x + bke[i - 3];
         }
-        
-        static void r8_besks(ref r8GammaData gdata, ref r8KnusData kdata, ref r8BESKSData data, double xnu, double x, int nin, ref double[] bk)
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESKS evaluates a sequence of K Bessel functions at X.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double XNU, ?
-            //    |XNU| < 1.
-            //
-            //    Input, double X, the argument.
-            //
-            //    Input, int NIN, indicates the number of terms to compute.
-            //
-            //    Output, double BK(abs(NIN)), the K Bessel functions.
-            //
+    public class r8BESKSData
+    {
+        public double xmax;
+    }
+
+    private static void r8_besks(ref r8GammaData gdata, ref r8KnusData kdata, ref r8BESKSData data, double xnu, double x, int nin, ref double[] bk)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESKS evaluates a sequence of K Bessel functions at X.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double XNU, ?
+        //    |XNU| < 1.
+        //
+        //    Input, double X, the argument.
+        //
+        //    Input, int NIN, indicates the number of terms to compute.
+        //
+        //    Output, double BK(abs(NIN)), the K Bessel functions.
+        //
+    {
+        double expxi;
+        int i;
+        int n;
+
+        switch (data.xmax)
         {
-            double expxi;
-            int i;
-            int n;
-
-            if (data.xmax == 0.0)
-            {
+            case 0.0:
                 data.xmax = -Math.Log(r8_mach(1));
-                data.xmax = data.xmax + 0.5 * Math.Log(3.14 * 0.5 / data.xmax);
-            }
-
-            r8_beskes(ref gdata, ref kdata, xnu, x, nin, ref bk);
-
-            expxi = Math.Exp(-x);
-            n = i4_abs(nin);
-
-            for (i = 0; i < n; i++)
-            {
-                bk[i] = expxi * bk[i];
-            }
+                data.xmax += 0.5 * Math.Log(3.14 * 0.5 / data.xmax);
+                break;
         }
 
-        public class r8BESY0Data
+        r8_beskes(ref gdata, ref kdata, xnu, x, nin, ref bk);
+
+        expxi = Math.Exp(-x);
+        n = i4_abs(nin);
+
+        for (i = 0; i < n; i++)
         {
-            public int nty0 = 0;
-            public double xsml = 0;
-
-            public r8B0MPData edata = new r8B0MPData();
-            public r8BESJ0Data jdata = new r8BESJ0Data();
+            bk[i] = expxi * bk[i];
         }
+    }
+
+    public class r8BESY0Data
+    {
+        public int nty0;
+        public double xsml;
+
+        public r8B0MPData edata = new();
+        public r8BESJ0Data jdata = new();
+    }
         
-        public static double r8_besy0(ref BesselData globaldata, ref r8BESY0Data data, double x)
+    public static double r8_besy0(ref BesselData globaldata, ref r8BESY0Data data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESY0 evaluates the Bessel function Y of order 0 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESY0, the Bessel function Y of order 0 of X.
-            //
-        {
-            const double alnhaf = -0.69314718055994530941723212145818;
-            double ampl = 0;
-            double[] by0cs = {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESY0 evaluates the Bessel function Y of order 0 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESY0, the Bessel function Y of order 0 of X.
+        //
+    {
+        const double alnhaf = -0.69314718055994530941723212145818;
+        double ampl = 0;
+        double[] by0cs = {
                 -0.1127783939286557321793980546028E-01,
                 -0.1283452375604203460480884531838,
                 -0.1043788479979424936581762276618,
@@ -2397,95 +2493,103 @@ namespace Burkardt.FullertonFnLib
                 -0.8141268814163694933333333333333E-31
             }
             ;
-            double theta = 0;
-            const double twodpi = 0.636619772367581343075535053490057;
-            double value;
-            double y;
+        double theta = 0;
+        const double twodpi = 0.636619772367581343075535053490057;
+        double value = 0;
+        double y;
 
-            if (data.nty0 == 0)
-            {
+        switch (data.nty0)
+        {
+            case 0:
                 data.nty0 = r8_inits(by0cs, 19, 0.1 * r8_mach(3));
                 data.xsml = Math.Sqrt(4.0 * r8_mach(3));
-            }
+                break;
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESY0 - Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-            else if (x <= data.xsml)
-            {
-                y = 0.0;
-                value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(ref globaldata, ref data.jdata, x)
-                        + 0.375 + r8_csevl(0.125 * y - 1.0, by0cs, data.nty0);
-            }
-            else if (x <= 4.0)
-            {
-                y = x * x;
-                value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(ref globaldata, ref data.jdata, x) + 0.375
-                                                                 + r8_csevl(0.125 * y - 1.0, by0cs, data.nty0);
-            }
-            else
-            {
-                r8_b0mp(ref globaldata, ref data.edata, x, ref ampl, ref theta);
-                value = ampl * Math.Sin(theta);
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8BESY1Data
+        if (x <= data.xsml)
         {
-            public int nty1 = 0;
-            public double xmin = 0;
-
-            public r8B1MPData edata = new r8B1MPData();
-            public r8BESJ1Data jdata = new r8BESJ1Data();
+            y = 0.0;
+            value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(ref globaldata, ref data.jdata, x)
+                    + 0.375 + r8_csevl(0.125 * y - 1.0, by0cs, data.nty0);
+        }
+        else
+        {
+            switch (x)
+            {
+                case <= 4.0:
+                    y = x * x;
+                    value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(ref globaldata, ref data.jdata, x) + 0.375
+                        + r8_csevl(0.125 * y - 1.0, by0cs, data.nty0);
+                    break;
+                default:
+                    r8_b0mp(ref globaldata, ref data.edata, x, ref ampl, ref theta);
+                    value = ampl * Math.Sin(theta);
+                    break;
+            }
         }
 
-        public static double r8_besy1(ref BesselData globaldata, ref r8BESY1Data data, double x)
+        return value;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BESY1 evaluates the Bessel function Y of order 1 of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BESY1, the Bessel function Y of order 1 of X.
-            //
-        {
-            double ampl = 0;
-            double[] by1cs = {
+    public class r8BESY1Data
+    {
+        public int nty1;
+        public double xmin;
+
+        public r8B1MPData edata = new();
+        public r8BESJ1Data jdata = new();
+    }
+
+    public static double r8_besy1(ref BesselData globaldata, ref r8BESY1Data data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BESY1 evaluates the Bessel function Y of order 1 of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BESY1, the Bessel function Y of order 1 of X.
+        //
+    {
+        double ampl = 0;
+        double[] by1cs = {
                 +0.320804710061190862932352018628015E-01,
                 +0.126270789743350044953431725999727E+01,
                 +0.649996189992317500097490637314144E-02,
@@ -2508,301 +2612,321 @@ namespace Burkardt.FullertonFnLib
                 -0.864754113893717333333333333333333E-32
             }
             ;
-            double theta = 0;
-            const double twodpi = 0.636619772367581343075535053490057;
-            double value;
-            double y;
+        double theta = 0;
+        const double twodpi = 0.636619772367581343075535053490057;
+        double value = 0;
+        double y;
 
-            if (data.nty1 == 0)
-            {
+        switch (data.nty1)
+        {
+            case 0:
                 data.nty1 = r8_inits(by1cs, 20, 0.1 * r8_mach(3));
                 data.xmin = 1.571 * Math.Exp(r8_max(Math.Log(r8_mach(1)),
                     -Math.Log(r8_mach(2))) + 0.01);
                 //  xsml = sqrt ( 4.0 * r8_mach ( 3 ) );
-            }
+                break;
+        }
 
-            if (x <= 0.0)
-            {
+        switch (x)
+        {
+            case <= 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BESY1 - Fatal error!");
                 Console.WriteLine("  X <= 0.");
-                return (1);
-            }
-            else if (x <= data.xmin)
-            {
-                y = 0.0;
-                value = twodpi * Math.Log(0.5 * x) * r8_besj1(ref globaldata, ref data.jdata, x)
-                        + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, data.nty1)) / x;
-            }
-            else if (x <= 4.0)
-            {
-                y = x * x;
-                value = twodpi * Math.Log(0.5 * x) * r8_besj1(ref globaldata, ref data.jdata, x)
-                        + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, data.nty1)) / x;
-            }
-            else
-            {
-                r8_b1mp(ref globaldata, ref data.edata, x, ref ampl, ref theta);
-                value = ampl * Math.Sin(theta);
-            }
-
-            return value;
+                return 1;
         }
 
-        public class r8BetaData
+        if (x <= data.xmin)
         {
-            public double xmin = 0;
-            public double xmax = 0;
-            public r8LBetaData lbetadata = new r8LBetaData();
+            y = 0.0;
+            value = twodpi * Math.Log(0.5 * x) * r8_besj1(ref globaldata, ref data.jdata, x)
+                    + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, data.nty1)) / x;
         }
+        else
+        {
+            switch (x)
+            {
+                case <= 4.0:
+                    y = x * x;
+                    value = twodpi * Math.Log(0.5 * x) * r8_besj1(ref globaldata, ref data.jdata, x)
+                            + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, data.nty1)) / x;
+                    break;
+                default:
+                    r8_b1mp(ref globaldata, ref data.edata, x, ref ampl, ref theta);
+                    value = ampl * Math.Sin(theta);
+                    break;
+            }
+        }
+
+        return value;
+    }
+
+    public class r8BetaData
+    {
+        public double xmin;
+        public double xmax;
+        public r8LBetaData lbetadata = new();
+    }
         
-        public static double r8_beta(ref r8GammaData gdata, ref BesselData globaldata, ref r8BetaData data, double a, double b)
+    public static double r8_beta(ref r8GammaData gdata, ref BesselData globaldata, ref r8BetaData data, double a, double b)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BETA evaluates the beta function of R8 arguments.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double A, B, the arguments.
-            //
-            //    Output, double R8_BETA, the beta function of A and B.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BETA evaluates the beta function of R8 arguments.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double A, B, the arguments.
+        //
+        //    Output, double R8_BETA, the beta function of A and B.
+        //
+    {
+        double value = 0;
+
+        switch (data.xmax)
         {
-            double value;
-
-            if (data.xmax == 0.0)
-            {
+            case 0.0:
                 r8_gaml(ref data.xmin, ref data.xmax);
                 //  alnsml = log ( r8_mach ( 1 ) );
-            }
+                break;
+        }
 
-            if (a <= 0.0 || b <= 0.0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_BETA - Fatal error!");
-                Console.WriteLine("  A and B must be greater than 0.");
-                return (1);
-            }
+        if (a <= 0.0 || b <= 0.0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_BETA - Fatal error!");
+            Console.WriteLine("  A and B must be greater than 0.");
+            return 1;
+        }
 
-            if (a + b < data.xmax)
-            {
-                value = r8_gamma(ref gdata, a) * r8_gamma(ref gdata, b) / r8_gamma(ref gdata, a + b);
-                return value;
-            }
-
-            value = r8_lbeta(ref data.lbetadata, ref gdata, a, b);
-
-            value = Math.Exp(value);
-
+        if (a + b < data.xmax)
+        {
+            value = r8_gamma(ref gdata, a) * r8_gamma(ref gdata, b) / r8_gamma(ref gdata, a + b);
             return value;
         }
 
-        public class r8Beta1Data
-        {
-            public double eps = 0;
-            public double alneps = 0;
-            public double alnsml = 0;
-            public double sml = 0;
-            public r8LBetaData lbetadata = new r8LBetaData();
-        }
+        value = r8_lbeta(ref data.lbetadata, ref gdata, a, b);
+
+        value = Math.Exp(value);
+
+        return value;
+    }
+
+    public class r8Beta1Data
+    {
+        public double eps;
+        public double alneps;
+        public double alnsml;
+        public double sml;
+        public r8LBetaData lbetadata = new();
+    }
         
-        public static double r8_betai(ref r8Beta1Data data, ref r8GammaData gammadata, double x, double pin, double qin)
+    public static double r8_betai(ref r8Beta1Data data, ref r8GammaData gammadata, double x, double pin, double qin)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BETAI evaluates the incomplete beta ratio of R8 arguments.
-            //
-            //  Discussion:
-            //
-            //    The incomplete Beta function ratio is the probability that a
-            //    random variable from a beta distribution having parameters
-            //    P and Q will be less than or equal to X.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Nancy Bosten, EL Battiste,
-            //    Remark on Algorithm 179: 
-            //    Incomplete Beta Ratio,
-            //    Communications of the ACM,
-            //    Volume 17, Number 3, March 1974, pages 156-157.
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the upper limit of integration.
-            //    0.0 <= X <= 1.0.
-            //
-            //    Input, double PIN, the first distribution parameter.
-            //    0.0 < PIN.
-            //
-            //    Input, double QIN, the second distribution parameter.
-            //    0.0 < QIN.
-            //
-            //    Output, double R8_BETAI, the incomplete beta function ratio.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BETAI evaluates the incomplete beta ratio of R8 arguments.
+        //
+        //  Discussion:
+        //
+        //    The incomplete Beta function ratio is the probability that a
+        //    random variable from a beta distribution having parameters
+        //    P and Q will be less than or equal to X.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Nancy Bosten, EL Battiste,
+        //    Remark on Algorithm 179: 
+        //    Incomplete Beta Ratio,
+        //    Communications of the ACM,
+        //    Volume 17, Number 3, March 1974, pages 156-157.
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the upper limit of integration.
+        //    0.0 <= X <= 1.0.
+        //
+        //    Input, double PIN, the first distribution parameter.
+        //    0.0 < PIN.
+        //
+        //    Input, double QIN, the second distribution parameter.
+        //    0.0 < QIN.
+        //
+        //    Output, double R8_BETAI, the incomplete beta function ratio.
+        //
+    {
+        double c;
+        double finsum;
+        int i;
+        int ib;
+        int n;
+        double p;
+        double p1;
+        double ps;
+        double q;
+        double term;
+        double value = 0;
+        double xb;
+        double xi;
+        double y;
+
+        switch (data.eps)
         {
-            double c;
-            double finsum;
-            int i;
-            int ib;
-            int n;
-            double p;
-            double p1;
-            double ps;
-            double q;
-            double term;
-            double value;
-            double xb;
-            double xi;
-            double y;
-
-            if (data.eps == 0.0)
-            {
+            case 0.0:
                 data.eps = r8_mach(3);
                 data.alneps = Math.Log(data.eps);
                 data.sml = r8_mach(1);
                 data.alnsml = Math.Log(data.sml);
-            }
+                break;
+        }
 
-            if (x < 0.0 || 1.0 < x)
-            {
+        switch (x)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BETAI - Fatal error!");
                 Console.WriteLine("  0 <= X <= 1 is required.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (pin <= 0.0 || qin <= 0.0)
+        if (pin <= 0.0 || qin <= 0.0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_BETAI - Fatal error!");
+            Console.WriteLine("  P or Q <= 0.0.");
+            return 1;
+        }
+
+        y = x;
+        p = pin;
+        q = qin;
+
+        if (p < q || 0.8 <= x)
+        {
+            switch (x)
             {
-                Console.WriteLine("");
-                Console.WriteLine("R8_BETAI - Fatal error!");
-                Console.WriteLine("  P or Q <= 0.0.");
-                return (1);
-            }
-
-            y = x;
-            p = pin;
-            q = qin;
-
-            if (p < q || 0.8 <= x)
-            {
-                if (0.2 <= x)
-                {
+                case >= 0.2:
                     y = 1.0 - y;
                     p = qin;
                     q = pin;
-                }
+                    break;
             }
+        }
 
-            if ((p + q) * y / (p + 1.0) < data.eps)
-            {
-                value = 0.0;
-                xb = p * Math.Log(r8_max(y, data.sml)) - Math.Log(p) - r8_lbeta(ref data.lbetadata, ref gammadata, p, q);
-                if (data.alnsml < xb && y != 0.0)
-                {
-                    value = Math.Exp(xb);
-                }
-
-                if (y != x || p != pin)
-                {
-                    value = 1.0 - value;
-                }
-
-                return value;
-            }
-
-            ps = q - r8_aint(q);
-            if (ps == 0.0)
-            {
-                ps = 1.0;
-            }
-
-            xb = p * Math.Log(y) - r8_lbeta(ref data.lbetadata, ref gammadata, ps, p) - Math.Log(p);
-
-            if (xb < data.alnsml)
-            {
-                value = 0.0;
-            }
-            else
+        if ((p + q) * y / (p + 1.0) < data.eps)
+        {
+            value = 0.0;
+            xb = p * Math.Log(r8_max(y, data.sml)) - Math.Log(p) - r8_lbeta(ref data.lbetadata, ref gammadata, p, q);
+            if (data.alnsml < xb && y != 0.0)
             {
                 value = Math.Exp(xb);
-                term = value * p;
-                if (ps != 1.0)
-                {
-                    n = (int) (r8_max(data.alneps / Math.Log(y), 4.0));
-                    for (i = 1; i <= n; i++)
-                    {
-                        xi = (double) (i);
-                        term = term * (xi - ps) * y / xi;
-                        value = value + term / (p + xi);
-                    }
-                }
             }
 
-            if (1.0 < q)
+            if (y != x || p != pin)
+            {
+                value = 1.0 - value;
+            }
+
+            return value;
+        }
+
+        ps = q - r8_aint(q);
+        switch (ps)
+        {
+            case 0.0:
+                ps = 1.0;
+                break;
+        }
+
+        xb = p * Math.Log(y) - r8_lbeta(ref data.lbetadata, ref gammadata, ps, p) - Math.Log(p);
+
+        if (xb < data.alnsml)
+        {
+            value = 0.0;
+        }
+        else
+        {
+            value = Math.Exp(xb);
+            term = value * p;
+            if (ps != 1.0)
+            {
+                n = (int) r8_max(data.alneps / Math.Log(y), 4.0);
+                for (i = 1; i <= n; i++)
+                {
+                    xi = i;
+                    term = term * (xi - ps) * y / xi;
+                    value += term / (p + xi);
+                }
+            }
+        }
+
+        switch (q)
+        {
+            case > 1.0:
             {
                 xb = p * Math.Log(y) + q * Math.Log(1.0 - y)
                      - r8_lbeta(ref data.lbetadata, ref gammadata, p, q) - Math.Log(q);
-                ib = (int) (r8_max(xb / data.alnsml, 0.0));
-                term = Math.Exp(xb - (double) (ib) * data.alnsml);
+                ib = (int) r8_max(xb / data.alnsml, 0.0);
+                term = Math.Exp(xb - ib * data.alnsml);
                 c = 1.0 / (1.0 - y);
                 p1 = q * c / (p + q - 1.0);
 
                 finsum = 0.0;
-                n = (int) (q);
-                if (q == (double) (n))
+                n = (int) q;
+                if (q == n)
                 {
-                    n = n - 1;
+                    n -= 1;
                 }
 
                 for (i = 1; i <= n; i++)
@@ -2812,93 +2936,99 @@ namespace Burkardt.FullertonFnLib
                         break;
                     }
 
-                    xi = (double) (i);
+                    xi = i;
                     term = (q - xi + 1.0) * c * term / (p + q - xi);
 
-                    if (1.0 < term)
+                    switch (term)
                     {
-                        ib = ib - 1;
-                        term = term * data.sml;
+                        case > 1.0:
+                            ib -= 1;
+                            term *= data.sml;
+                            break;
                     }
 
-                    if (ib == 0)
+                    switch (ib)
                     {
-                        finsum = finsum + term;
+                        case 0:
+                            finsum += term;
+                            break;
                     }
                 }
 
-                value = value + finsum;
+                value += finsum;
+                break;
             }
-
-            if (y != x || p != pin)
-            {
-                value = 1.0 - value;
-            }
-
-            if (value < 0.0)
-            {
-                value = 0.0;
-            }
-
-            if (1.0 < value)
-            {
-                value = 1.0;
-            }
-
-            return value;
         }
 
-
-        public class r8BiData
+        if (y != x || p != pin)
         {
-            public int nbif = 0;
-            public int nbif2 = 0;
-            public int nbig = 0;
-            public int nbig2 = 0;
-            public double x3sml = 0.0;
-            public r8AIMPData aimpdata = new r8AIMPData();
-            public r8BieData biedata = new r8BieData();
+            value = 1.0 - value;
         }
-        public static double r8_bi(ref r8BiData data, double x)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BI evaluates the Airy function Bi of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BI, the Airy function Bi of X.
-            //
+        value = value switch
         {
-            double[] bifcs = {
+            > 1.0 => 1.0,
+            _ => value switch
+            {
+                < 0.0 => 0.0,
+                _ => value
+            }
+        };
+
+        return value;
+    }
+
+
+    public class r8BiData
+    {
+        public int nbif;
+        public int nbif2;
+        public int nbig;
+        public int nbig2;
+        public double x3sml;
+        public r8AIMPData aimpdata = new();
+        public r8BieData biedata = new();
+    }
+    public static double r8_bi(ref r8BiData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BI evaluates the Airy function Bi of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BI, the Airy function Bi of X.
+        //
+    {
+        double[] bifcs = {
                 -0.16730216471986649483537423928176E-01,
                 +0.10252335834249445611426362777757,
                 +0.17083092507381516539429650242013E-02,
@@ -2914,7 +3044,7 @@ namespace Burkardt.FullertonFnLib
                 +0.14497565927953066666666666666666E-31
             }
             ;
-            double[] bif2cs = {
+        double[] bif2cs = {
                 +0.0998457269381604104468284257993,
                 +0.47862497786300553772211467318231,
                 +0.25155211960433011771324415436675E-01,
@@ -2932,7 +3062,7 @@ namespace Burkardt.FullertonFnLib
                 +0.60827497446570666666666666666666E-31
             }
             ;
-            double[] bigcs = {
+        double[] bigcs = {
                 +0.22466223248574522283468220139024E-01,
                 +0.37364775453019545441727561666752E-01,
                 +0.44476218957212285696215294326639E-03,
@@ -2948,7 +3078,7 @@ namespace Burkardt.FullertonFnLib
                 +0.12938919273216000000000000000000E-32
             }
             ;
-            double[] big2cs = {
+        double[] big2cs = {
                 +0.033305662145514340465176188111647,
                 +0.161309215123197067613287532084943,
                 +0.631900730961342869121615634921173E-02,
@@ -2966,15 +3096,16 @@ namespace Burkardt.FullertonFnLib
                 +0.491020674696533333333333333333333E-32
             }
             ;
-            double eta;
-            double theta = 0;
-            double value;
-            double xm = 0;
-            //static double xmax = 0.0;
-            double z;
+        double eta;
+        double theta = 0;
+        double value = 0;
+        double xm = 0;
+        //static double xmax = 0.0;
+        double z;
 
-            if (data.nbif == 0)
-            {
+        switch (data.nbif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
@@ -2982,91 +3113,102 @@ namespace Burkardt.FullertonFnLib
                 data.nbig2 = r8_inits(big2cs, 15, eta);
                 data.x3sml = r8_power(eta, 0.3333);
                 //  xmax = r8_power ( 1.5 * log ( r8_mach ( 2 ) ), 0.6666 );
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_aimp(ref data.aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Sin(theta);
-            }
-            else if (Math.Abs(x) <= data.x3sml)
+                break;
+            default:
             {
-                z = 0.0;
-                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
-            }
-            else if (x <= 1.0)
-            {
-                z = x * x * x;
-                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
-            }
-            else if (x <= 2.0)
-            {
-                z = (2.0 * x * x * x - 9.0) / 7.0;
-                value = 1.125 + r8_csevl(z, bif2cs, data.nbif2)
-                              + x * (0.625 + r8_csevl(z, big2cs, data.nbig2));
-            }
-            else
-            {
-                value = r8_bie(ref data.biedata, x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
-            }
+                if (Math.Abs(x) <= data.x3sml)
+                {
+                    z = 0.0;
+                    value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                                  + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
+                }
+                else
+                {
+                    switch (x)
+                    {
+                        case <= 1.0:
+                            z = x * x * x;
+                            value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                                          + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
+                            break;
+                        case <= 2.0:
+                            z = (2.0 * x * x * x - 9.0) / 7.0;
+                            value = 1.125 + r8_csevl(z, bif2cs, data.nbif2)
+                                          + x * (0.625 + r8_csevl(z, big2cs, data.nbig2));
+                            break;
+                        default:
+                            value = r8_bie(ref data.biedata, x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                            break;
+                    }
+                }
 
-            return value;
+                break;
+            }
         }
 
-        public class r8BidData
-        {
-            public int nbif = 0;
-            public int nbif2 = 0;
-            public int nbig = 0;
-            public int nbig2 = 0;
-            public double x2sml = 0.0;
-            public double x3sml = 0.0;
-            public r8ADMPData admpdata = new r8ADMPData();
-            public r8BideData bidedata = new r8BideData();
+        return value;
+    }
 
-        }
-        public static double r8_bid(ref r8BidData data, double x)
+    public class r8BidData
+    {
+        public int nbif;
+        public int nbif2;
+        public int nbig;
+        public int nbig2;
+        public double x2sml;
+        public double x3sml;
+        public r8ADMPData admpdata = new();
+        public r8BideData bidedata = new();
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BID evaluates the derivative of the Airy function Bi of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BID, the derivative of the Airy function Bi of X.
-            //
-        {
-            double[] bif2cs = {
+    }
+    public static double r8_bid(ref r8BidData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BID evaluates the derivative of the Airy function Bi of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BID, the derivative of the Airy function Bi of X.
+        //
+    {
+        double[] bif2cs = {
                 0.32349398760352203352119193596266015,
                 0.08629787153556355913888835323811100,
                 0.00299402555265539742613821050727155,
@@ -3084,7 +3226,7 @@ namespace Burkardt.FullertonFnLib
                 0.00000000000000000000000000000000138
             }
             ;
-            double[] bifcs = {
+        double[] bifcs = {
                 0.115353679082857024267474446284908879,
                 0.020500789404919287530357789445940252,
                 0.000213529027890287581892679619451158,
@@ -3100,7 +3242,7 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000382
             }
             ;
-            double[] big2cs = {
+        double[] big2cs = {
                 1.606299946362129457759284537862622883,
                 0.744908881987608865201476685194753972,
                 0.047013873861027737964095177635353019,
@@ -3119,7 +3261,7 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000191
             }
             ;
-            double[] bigcs = {
+        double[] bigcs = {
                 -0.0971964404164435373897790974606802,
                 0.1495035768431670665710843445326264,
                 0.0031135253871213260419419176839631,
@@ -3135,16 +3277,17 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000479
             }
             ;
-            double eta;
-            double phi = 0;
-            double value;
-            double x2;
-            double x3;
-            //static double xmax = 0.0;
-            double xn = 0;
-            double z;
-            if (data.nbif == 0)
-            {
+        double eta;
+        double phi = 0;
+        double value = 0;
+        double x2;
+        double x3;
+        //static double xmax = 0.0;
+        double xn = 0;
+        double z;
+        switch (data.nbif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
@@ -3153,113 +3296,124 @@ namespace Burkardt.FullertonFnLib
                 data.x2sml = Math.Sqrt(eta);
                 data.x3sml = r8_power(eta, 0.3333);
                 //  xmax = r8_power ( 1.5 * log ( r8_mach ( 2 ) ), 0.6666 );
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_admp(ref data.admpdata, x, ref xn, ref phi);
                 value = xn * Math.Sin(phi);
-            }
-            else if (Math.Abs(x) <= data.x2sml)
+                break;
+            default:
             {
-                x2 = 0.0;
-                x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
-                        + r8_csevl(x3, bigcs, data.nbig) + 0.5;
-            }
-            else if (Math.Abs(x) <= data.x3sml)
-            {
-                x2 = x * x;
-                x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
-                        + r8_csevl(x3, bigcs, data.nbig) + 0.5;
-            }
-            else if (x <= 1.0)
-            {
-                x2 = x * x;
-                x3 = x * x * x;
-                value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
-                        + r8_csevl(x3, bigcs, data.nbig) + 0.5;
-            }
-            else if (x <= 2.0)
-            {
-                z = (2.0 * x * x * x - 9.0) / 7.0;
-                value = x * x * (r8_csevl(z, bif2cs, data.nbif2) + 0.25)
-                        + r8_csevl(z, big2cs, data.nbig2) + 0.5;
-            }
-            else
-            {
-                value = r8_bide(ref data.bidedata, x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
-            }
+                if (Math.Abs(x) <= data.x2sml)
+                {
+                    x2 = 0.0;
+                    x3 = 0.0;
+                    value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
+                            + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                }
+                else if (Math.Abs(x) <= data.x3sml)
+                {
+                    x2 = x * x;
+                    x3 = 0.0;
+                    value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
+                            + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                }
+                else
+                {
+                    switch (x)
+                    {
+                        case <= 1.0:
+                            x2 = x * x;
+                            x3 = x * x * x;
+                            value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
+                                    + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                            break;
+                        case <= 2.0:
+                            z = (2.0 * x * x * x - 9.0) / 7.0;
+                            value = x * x * (r8_csevl(z, bif2cs, data.nbif2) + 0.25)
+                                    + r8_csevl(z, big2cs, data.nbig2) + 0.5;
+                            break;
+                        default:
+                            value = r8_bide(ref data.bidedata, x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                            break;
+                    }
+                }
 
-            return value;
+                break;
+            }
         }
 
-        public class r8BideData
-        {
-            public int nbif = 0;
-            public int nbif2 = 0;
-            public int nbig = 0;
-            public int nbig2 = 0;
-            public int nbip1 = 0;
-            public int nbip2 = 0;
-            public double x2sml = 0.0;
-            public double x3sml = 0.0;
-            public double x32sml = 0.0;
-            public double xbig = 0.0;
+        return value;
+    }
 
-            public r8ADMPData admpdata = new r8ADMPData();
-        }
+    public class r8BideData
+    {
+        public int nbif;
+        public int nbif2;
+        public int nbig;
+        public int nbig2;
+        public int nbip1;
+        public int nbip2;
+        public double x2sml;
+        public double x3sml;
+        public double x32sml;
+        public double xbig;
 
-        public static double r8_bide(ref r8BideData data, double x)
+        public r8ADMPData admpdata = new();
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BIDE: exponentially scaled derivative, Airy function Bi of an R8 argument.
-            //
-            //  Discussion:
-            //
-            //    if X < 0,
-            //      R8_BIDE ( X ) = R8_BID ( X )
-            //    else
-            //      R8_BIDE ( X ) = R8_BID ( X ) * exp ( - 2/3 * X^(3/2) )
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BIDE, the exponentially scaled derivative of 
-            //    the Airy function Bi of X.
-            //
-        {
-            const double atr = 8.75069057084843450880771988210148;
-            double[] bif2cs = {
+    public static double r8_bide(ref r8BideData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BIDE: exponentially scaled derivative, Airy function Bi of an R8 argument.
+        //
+        //  Discussion:
+        //
+        //    if X < 0,
+        //      R8_BIDE ( X ) = R8_BID ( X )
+        //    else
+        //      R8_BIDE ( X ) = R8_BID ( X ) * exp ( - 2/3 * X^(3/2) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BIDE, the exponentially scaled derivative of 
+        //    the Airy function Bi of X.
+        //
+    {
+        const double atr = 8.75069057084843450880771988210148;
+        double[] bif2cs = {
                 0.32349398760352203352119193596266015,
                 0.08629787153556355913888835323811100,
                 0.00299402555265539742613821050727155,
@@ -3277,7 +3431,7 @@ namespace Burkardt.FullertonFnLib
                 0.00000000000000000000000000000000138
             }
             ;
-            double[] bifcs = {
+        double[] bifcs = {
                 0.115353679082857024267474446284908879,
                 0.020500789404919287530357789445940252,
                 0.000213529027890287581892679619451158,
@@ -3293,7 +3447,7 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000382
             }
             ;
-            double[] big2cs = {
+        double[] big2cs = {
                 1.606299946362129457759284537862622883,
                 0.744908881987608865201476685194753972,
                 0.047013873861027737964095177635353019,
@@ -3312,7 +3466,7 @@ namespace Burkardt.FullertonFnLib
                 0.000000000000000000000000000000000191
             }
             ;
-            double[] bigcs = {
+        double[] bigcs = {
                 -0.0971964404164435373897790974606802,
                 0.1495035768431670665710843445326264,
                 0.0031135253871213260419419176839631,
@@ -3328,7 +3482,7 @@ namespace Burkardt.FullertonFnLib
                 0.0000000000000000000000000000000479
             }
             ;
-            double[] bip1cs = {
+        double[] bip1cs = {
                 -0.17291873510795537186124679823741003,
                 -0.01493584929846943639486231021818675,
                 -0.00054711049516785663990658697874460,
@@ -3378,7 +3532,7 @@ namespace Burkardt.FullertonFnLib
                 0.00000000000000000000000000000001748
             }
             ;
-            double[] bip2cs = {
+        double[] bip2cs = {
                 -0.13269705443526630494937031210217135,
                 -0.00568443626045977481306046339037428,
                 -0.00015643601119611609623698471216660,
@@ -3469,18 +3623,19 @@ namespace Burkardt.FullertonFnLib
                 0.00000000000000000000000000000000437
             }
             ;
-            const double btr = -2.09383632135605431360096498526268;
-            double eta;
-            double phi = 0;
-            double sqrtx;
-            double value;
-            double x2;
-            double x3;
-            double xn = 0;
-            double z;
+        const double btr = -2.09383632135605431360096498526268;
+        double eta;
+        double phi = 0;
+        double sqrtx;
+        double value = 0;
+        double x2;
+        double x3;
+        double xn = 0;
+        double z;
 
-            if (data.nbif == 0)
-            {
+        switch (data.nbif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
@@ -3492,131 +3647,150 @@ namespace Burkardt.FullertonFnLib
                 data.x3sml = r8_power(eta, 0.3333);
                 data.x32sml = 1.3104 * data.x3sml * data.x3sml;
                 data.xbig = r8_power(r8_mach(2), 0.6666);
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_admp(ref data.admpdata, x, ref xn, ref phi);
                 value = xn * Math.Sin(phi);
-            }
-            else if (Math.Abs(x) <= data.x2sml)
+                break;
+            default:
             {
-                x2 = 0.0;
-                x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, data.nbif)
-                              + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
-                if (data.x32sml < x)
+                if (Math.Abs(x) <= data.x2sml)
                 {
-                    value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                    x2 = 0.0;
+                    x3 = 0.0;
+                    value = x2 * (r8_csevl(x3, bifcs, data.nbif)
+                                  + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                    if (data.x32sml < x)
+                    {
+                        value *= Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                    }
                 }
-            }
-            else if (Math.Abs(x) <= data.x3sml)
-            {
-                x2 = x * x;
-                x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, data.nbif)
-                              + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
-                if (data.x32sml < x)
+                else if (Math.Abs(x) <= data.x3sml)
                 {
-                    value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                    x2 = x * x;
+                    x3 = 0.0;
+                    value = x2 * (r8_csevl(x3, bifcs, data.nbif)
+                                  + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                    if (data.x32sml < x)
+                    {
+                        value *= Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                    }
                 }
-            }
-            else if (x <= 1.0)
-            {
-                x2 = x * x;
-                x3 = x * x * x;
-                value = x2 * (r8_csevl(x3, bifcs, data.nbif)
-                              + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
-                if (data.x32sml < x)
+                else
                 {
-                    value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
-                }
-            }
-            else if (x <= 2.0)
-            {
-                z = (2.0 * x * x * x - 9.0) / 7.0;
-                value = Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0)
-                        * (x * x * (0.25 + r8_csevl(z, bif2cs, data.nbif2))
-                           + 0.5 + r8_csevl(z, big2cs, data.nbig2));
-            }
-            else if (x <= 4.0)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = atr / x / sqrtx + btr;
-                value = (0.625 + r8_csevl(z, bip1cs, data.nbip1)) * Math.Sqrt(sqrtx);
-            }
-            else if (x <= data.xbig)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = 16.0 / x / sqrtx - 1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) * Math.Sqrt(sqrtx);
-            }
-            else
-            {
-                sqrtx = Math.Sqrt(x);
-                z = -1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) * Math.Sqrt(sqrtx);
-            }
+                    switch (x)
+                    {
+                        case <= 1.0:
+                        {
+                            x2 = x * x;
+                            x3 = x * x * x;
+                            value = x2 * (r8_csevl(x3, bifcs, data.nbif)
+                                          + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                            if (data.x32sml < x)
+                            {
+                                value *= Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                            }
 
-            return value;
+                            break;
+                        }
+                        case <= 2.0:
+                            z = (2.0 * x * x * x - 9.0) / 7.0;
+                            value = Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0)
+                                    * (x * x * (0.25 + r8_csevl(z, bif2cs, data.nbif2))
+                                       + 0.5 + r8_csevl(z, big2cs, data.nbig2));
+                            break;
+                        case <= 4.0:
+                            sqrtx = Math.Sqrt(x);
+                            z = atr / x / sqrtx + btr;
+                            value = (0.625 + r8_csevl(z, bip1cs, data.nbip1)) * Math.Sqrt(sqrtx);
+                            break;
+                        default:
+                        {
+                            if (x <= data.xbig)
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = 16.0 / x / sqrtx - 1.0;
+                                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) * Math.Sqrt(sqrtx);
+                            }
+                            else
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = -1.0;
+                                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) * Math.Sqrt(sqrtx);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
         }
 
-        public class r8BieData
-        {
-            public int nbif = 0;
-            public int nbif2 = 0;
-            public int nbig = 0;
-            public int nbig2 = 0;
-            public int nbip1 = 0;
-            public int nbip2 = 0;
-            public double x32sml = 0;
-            public double x3sml = 0;
-            public double xbig = 0;
+        return value;
+    }
 
-            public r8AIMPData aimpdata = new r8AIMPData();
+    public class r8BieData
+    {
+        public int nbif;
+        public int nbif2;
+        public int nbig;
+        public int nbig2;
+        public int nbip1;
+        public int nbip2;
+        public double x32sml;
+        public double x3sml;
+        public double xbig;
 
-        }
-        public static double r8_bie(ref r8BieData data, double x)
+        public r8AIMPData aimpdata = new();
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BIE evaluates the exponentially scaled Airy function Bi of an R8 argument.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    15 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument.
-            //
-            //    Output, double R8_BIE, the exponentially scaled Airy function Bi of X.
-            //
-        {
-            const double atr = 8.75069057084843450880771988210148;
-            double[] bif2cs = {
+    }
+    public static double r8_bie(ref r8BieData data, double x)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BIE evaluates the exponentially scaled Airy function Bi of an R8 argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument.
+        //
+        //    Output, double R8_BIE, the exponentially scaled Airy function Bi of X.
+        //
+    {
+        const double atr = 8.75069057084843450880771988210148;
+        double[] bif2cs = {
                 +0.0998457269381604104468284257993,
                 +0.47862497786300553772211467318231,
                 +0.25155211960433011771324415436675E-01,
@@ -3634,7 +3808,7 @@ namespace Burkardt.FullertonFnLib
                 +0.60827497446570666666666666666666E-31
             }
             ;
-            double[] bifcs = {
+        double[] bifcs = {
                 -0.16730216471986649483537423928176E-01,
                 +0.10252335834249445611426362777757,
                 +0.17083092507381516539429650242013E-02,
@@ -3650,7 +3824,7 @@ namespace Burkardt.FullertonFnLib
                 +0.14497565927953066666666666666666E-31
             }
             ;
-            double[] big2cs = {
+        double[] big2cs = {
                 +0.033305662145514340465176188111647,
                 +0.161309215123197067613287532084943,
                 +0.631900730961342869121615634921173E-02,
@@ -3668,7 +3842,7 @@ namespace Burkardt.FullertonFnLib
                 +0.491020674696533333333333333333333E-32
             }
             ;
-            double[] bigcs = {
+        double[] bigcs = {
                 +0.22466223248574522283468220139024E-01,
                 +0.37364775453019545441727561666752E-01,
                 +0.44476218957212285696215294326639E-03,
@@ -3684,7 +3858,7 @@ namespace Burkardt.FullertonFnLib
                 +0.12938919273216000000000000000000E-32
             }
             ;
-            double[] bip1cs = {
+        double[] bip1cs = {
                 -0.83220474779434474687471864707973E-01,
                 +0.11461189273711742889920226128031E-01,
                 +0.42896440718911509494134472566635E-03,
@@ -3734,7 +3908,7 @@ namespace Burkardt.FullertonFnLib
                 -0.10558306941230714314205866666666E-31
             }
             ;
-            double[] bip2cs = {
+        double[] bip2cs = {
                 -0.11359673758598867913797310895527,
                 +0.41381473947881595760052081171444E-02,
                 +0.13534706221193329857696921727508E-03,
@@ -3825,17 +3999,18 @@ namespace Burkardt.FullertonFnLib
                 -0.40391653875428313641045327529856E-32
             }
             ;
-            const double btr = -2.09383632135605431360096498526268;
-            double eta;
-            double sqrtx;
-            double theta = 0;
-            double value;
-            double xm = 0;
-            double z;
+        const double btr = -2.09383632135605431360096498526268;
+        double eta;
+        double sqrtx;
+        double theta = 0;
+        double value = 0;
+        double xm = 0;
+        double z;
 
 
-            if (data.nbif == 0)
-            {
+        switch (data.nbif)
+        {
+            case 0:
                 eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
@@ -3846,173 +4021,200 @@ namespace Burkardt.FullertonFnLib
                 data.x3sml = r8_power(eta, 0.3333);
                 data.x32sml = 1.3104 * data.x3sml * data.x3sml;
                 data.xbig = r8_power(r8_mach(2), 0.6666);
-            }
+                break;
+        }
 
-            if (x < -1.0)
-            {
+        switch (x)
+        {
+            case < -1.0:
                 r8_aimp(ref data.aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Sin(theta);
-            }
-            else if (Math.Abs(x) <= data.x3sml)
+                break;
+            default:
             {
-                z = 0.0;
-                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
-                if (data.x32sml <= x)
+                if (Math.Abs(x) <= data.x3sml)
                 {
-                    value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                    z = 0.0;
+                    value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                                  + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
+                    if (data.x32sml <= x)
+                    {
+                        value *= Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                    }
                 }
-            }
-            else if (x <= 1.0)
-            {
-                z = x * x * x;
-                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
-                if (data.x32sml <= x)
+                else
                 {
-                    value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
-                }
-            }
-            else if (x <= 2.0)
-            {
-                z = (2.0 * x * x * x - 9.0) / 7.0;
-                value = Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0)
-                        * (1.125 + r8_csevl(z, bif2cs, data.nbif2)
-                                 + x * (0.625 + r8_csevl(z, big2cs, data.nbig2)));
-            }
-            else if (x <= 4.0)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = atr / x / sqrtx + btr;
-                value = (0.625 + r8_csevl(z, bip1cs, data.nbip1)) / Math.Sqrt(sqrtx);
-            }
-            else if (x < data.xbig)
-            {
-                sqrtx = Math.Sqrt(x);
-                z = 16.0 / (x * sqrtx) - 1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) / Math.Sqrt(sqrtx);
-            }
-            else
-            {
-                sqrtx = Math.Sqrt(x);
-                z = -1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) / Math.Sqrt(sqrtx);
-            }
+                    switch (x)
+                    {
+                        case <= 1.0:
+                        {
+                            z = x * x * x;
+                            value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                                          + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
+                            if (data.x32sml <= x)
+                            {
+                                value *= Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                            }
 
-            return value;
+                            break;
+                        }
+                        case <= 2.0:
+                            z = (2.0 * x * x * x - 9.0) / 7.0;
+                            value = Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0)
+                                    * (1.125 + r8_csevl(z, bif2cs, data.nbif2)
+                                             + x * (0.625 + r8_csevl(z, big2cs, data.nbig2)));
+                            break;
+                        case <= 4.0:
+                            sqrtx = Math.Sqrt(x);
+                            z = atr / x / sqrtx + btr;
+                            value = (0.625 + r8_csevl(z, bip1cs, data.nbip1)) / Math.Sqrt(sqrtx);
+                            break;
+                        default:
+                        {
+                            if (x < data.xbig)
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = 16.0 / (x * sqrtx) - 1.0;
+                                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) / Math.Sqrt(sqrtx);
+                            }
+                            else
+                            {
+                                sqrtx = Math.Sqrt(x);
+                                z = -1.0;
+                                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) / Math.Sqrt(sqrtx);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+                break;
+            }
         }
 
-        public class r8BinomData
+        return value;
+    }
+
+    public class r8BinomData
+    {
+        public double bilnmx;
+        public double fintmx;
+        public r8LgmcData lgmcdata = new();
+        public r8LnrelData lnreldata = new();
+
+    }
+    public static double r8_binom(ref r8BinomData data, int n, int m)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_BINOM evaluates the binomial coefficient using R8 arithmetic.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 September 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Wayne Fullerton.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Wayne Fullerton,
+        //    Portable Special Function Routines,
+        //    in Portability of Numerical Software,
+        //    edited by Wayne Cowell,
+        //    Lecture Notes in Computer Science, Volume 57,
+        //    Springer 1977,
+        //    ISBN: 978-3-540-08446-4,
+        //    LC: QA297.W65.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, M, the arguments.
+        //
+        //    Output, double R8_BINOM, the binomial coefficient.
+        //
+    {
+        double corr;
+        int i;
+        int k;
+        const double sq2pil = 0.91893853320467274178032973640562;
+        double value = 0;
+        double xk;
+        double xn;
+        double xnk;
+
+        switch (data.bilnmx)
         {
-            public double bilnmx = 0.0;
-            public double fintmx = 0.0;
-            public r8LgmcData lgmcdata = new r8LgmcData();
-            public r8LnrelData lnreldata = new r8LnrelData();
-
-        }
-        public static double r8_binom(ref r8BinomData data, int n, int m)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_BINOM evaluates the binomial coefficient using R8 arithmetic.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 September 2011
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Wayne Fullerton.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Wayne Fullerton,
-            //    Portable Special Function Routines,
-            //    in Portability of Numerical Software,
-            //    edited by Wayne Cowell,
-            //    Lecture Notes in Computer Science, Volume 57,
-            //    Springer 1977,
-            //    ISBN: 978-3-540-08446-4,
-            //    LC: QA297.W65.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, M, the arguments.
-            //
-            //    Output, double R8_BINOM, the binomial coefficient.
-            //
-        {
-            double corr;
-            int i;
-            int k;
-            const double sq2pil = 0.91893853320467274178032973640562;
-            double value;
-            double xk;
-            double xn;
-            double xnk;
-
-            if (data.bilnmx == 0.0)
-            {
+            case 0.0:
                 data.bilnmx = Math.Log(r8_mach(2)) - 0.0001;
                 data.fintmx = 0.9 / r8_mach(3);
-            }
+                break;
+        }
 
-            if (n < 0)
-            {
+        switch (n)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BINOM - Fatal error!");
                 Console.WriteLine("  N < 0.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (m < 0)
-            {
+        switch (m)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("R8_BINOM - Fatal error!");
                 Console.WriteLine("  M < 0.");
-                return (1);
-            }
+                return 1;
+        }
 
-            if (n < m)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("R8_BINOM - Fatal error!");
-                Console.WriteLine("  N < M.");
-                return (1);
-            }
+        if (n < m)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("R8_BINOM - Fatal error!");
+            Console.WriteLine("  N < M.");
+            return 1;
+        }
 
-            k = i4_min(m, n - m);
+        k = i4_min(m, n - m);
 
-            if (k <= 20 &&
-                (double) (k) * Math.Log((double) (i4_max(n, 1))) <= data.bilnmx)
+        switch (k)
+        {
+            case <= 20 when k * Math.Log(i4_max(n, 1)) <= data.bilnmx:
             {
                 value = 1.0;
                 for (i = 1; i <= k; i++)
                 {
-                    value = value * (double) (n - i + 1) / (double) (i);
-                }
-            }
-            else
-            {
-                if (k < 9)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8_BINOM - Fatal error!");
-                    Console.WriteLine("  Result overflows.");
-                    Console.WriteLine("  N or M is too big.");
-                    return (1);
+                    value = value * (n - i + 1) / i;
                 }
 
-                xn = (double) (n + 1);
-                xk = (double) (k + 1);
-                xnk = (double) (n - k + 1);
+                break;
+            }
+            default:
+            {
+                switch (k)
+                {
+                    case < 9:
+                        Console.WriteLine("");
+                        Console.WriteLine("R8_BINOM - Fatal error!");
+                        Console.WriteLine("  Result overflows.");
+                        Console.WriteLine("  N or M is too big.");
+                        return 1;
+                }
+
+                xn = n + 1;
+                xk = k + 1;
+                xnk = n - k + 1;
 
                 corr = r8_lgmc(ref data.lgmcdata, xn) - r8_lgmc(ref data.lgmcdata, xk) - r8_lgmc(ref data.lgmcdata, xnk);
 
@@ -4026,18 +4228,19 @@ namespace Burkardt.FullertonFnLib
                     Console.WriteLine("R8_BINOM - Fatal error!");
                     Console.WriteLine("  Result overflows.");
                     Console.WriteLine("  N or M is too big.");
-                    return (1);
+                    return 1;
                 }
 
                 value = Math.Exp(value);
+                break;
             }
-
-            if (value < data.fintmx)
-            {
-                value = r8_aint(value + 0.5);
-            }
-
-            return value;
         }
+
+        if (value < data.fintmx)
+        {
+            value = r8_aint(value + 0.5);
+        }
+
+        return value;
     }
 }

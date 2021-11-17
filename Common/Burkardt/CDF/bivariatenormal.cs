@@ -1,129 +1,135 @@
 ﻿using System;
 
-namespace Burkardt.CDFLib
+namespace Burkardt.CDFLib;
+
+public static class bivariatenormal
 {
-    public static class bivariatenormal
+    public class BivnorData
     {
-        public class BivnorData
+        public int idig = 15;
+
+    }
+    public static double bivnor( ref BivnorData data, double ah, double ak, double r)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BIVNOR computes the bivariate normal CDF.
+        //
+        //  Discussion:
+        //
+        //    BIVNOR computes the probability for two normal variates X and Y
+        //    whose correlation is R, that AH <= X and AK <= Y.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 April 2012
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Thomas Donnelly.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Thomas Donnelly,
+        //    Algorithm 462: Bivariate Normal Distribution,
+        //    Communications of the ACM,
+        //    October 1973, Volume 16, Number 10, page 638.
+        //
+        //  Parameters:
+        //
+        //    Input, double AH, AK, the lower limits of integration.
+        //
+        //    Input, double R, the correlation between X and Y.
+        //
+        //    Output, double BIVNOR, the bivariate normal CDF.
+        //
+        //  Local Parameters:
+        //
+        //    Local, int IDIG, the number of significant digits
+        //    to the right of the decimal point desired in the answer.
+        //
+    {
+        double a2;
+        double ap;
+        double b;
+        double cn;
+        double con;
+        double conex;
+        double ex;
+        double g2;
+        double gh;
+        double gk;
+        double gw = 0;
+        double h2;
+        double h4;
+        int i;
+        int is_ = 0;
+        double rr;
+        double s1;
+        double s2;
+        double sgn;
+        double sn;
+        double sp;
+        double sqr;
+        double t;
+        double twopi = Math.PI * 2;
+        double w2;
+        double wh = 0;
+        double wk = 0;
+
+        b = 0.0;
+
+        gh = Gauss.gauss(-ah) / 2.0;
+        gk = Gauss.gauss(-ak) / 2.0;
+
+        switch (r)
         {
-            public int idig = 15;
-
-        }
-        public static double bivnor( ref BivnorData data, double ah, double ak, double r)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    BIVNOR computes the bivariate normal CDF.
-            //
-            //  Discussion:
-            //
-            //    BIVNOR computes the probability for two normal variates X and Y
-            //    whose correlation is R, that AH <= X and AK <= Y.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 April 2012
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Thomas Donnelly.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Thomas Donnelly,
-            //    Algorithm 462: Bivariate Normal Distribution,
-            //    Communications of the ACM,
-            //    October 1973, Volume 16, Number 10, page 638.
-            //
-            //  Parameters:
-            //
-            //    Input, double AH, AK, the lower limits of integration.
-            //
-            //    Input, double R, the correlation between X and Y.
-            //
-            //    Output, double BIVNOR, the bivariate normal CDF.
-            //
-            //  Local Parameters:
-            //
-            //    Local, int IDIG, the number of significant digits
-            //    to the right of the decimal point desired in the answer.
-            //
-        {
-            double a2;
-            double ap;
-            double b;
-            double cn;
-            double con;
-            double conex;
-            double ex;
-            double g2;
-            double gh;
-            double gk;
-            double gw = 0;
-            double h2;
-            double h4;
-            int i;
-            int is_ = 0;
-            double rr;
-            double s1;
-            double s2;
-            double sgn;
-            double sn;
-            double sp;
-            double sqr;
-            double t;
-            double twopi = Math.PI * 2;
-            double w2;
-            double wh = 0;
-            double wk = 0;
-
-            b = 0.0;
-
-            gh = Gauss.gauss(-ah) / 2.0;
-            gk = Gauss.gauss(-ak) / 2.0;
-
-            if (r == 0.0)
-            {
+            case 0.0:
                 b = 4.00 * gh * gk;
                 b = Math.Max(b, 0.0);
                 b = Math.Min(b, 1.0);
                 return b;
-            }
+        }
 
-            rr = (1.0 + r) * (1.0 - r);
+        rr = (1.0 + r) * (1.0 - r);
 
-            if (rr < 0.0)
-            {
+        switch (rr)
+        {
+            case < 0.0:
                 Console.WriteLine("");
                 Console.WriteLine("BIVNOR - Fatal error!");
                 Console.WriteLine("  1 < |R|.");
-            }
-
-            if (rr == 0.0)
+                break;
+            case 0.0:
             {
-                if (r < 0.0)
+                switch (r)
                 {
-                    if (ah + ak < 0.0)
+                    case < 0.0:
                     {
-                        b = 2.0 * (gh + gk) - 1.0;
+                        b = (ah + ak) switch
+                        {
+                            < 0.0 => 2.0 * (gh + gk) - 1.0,
+                            _ => b
+                        };
+
+                        break;
                     }
-                }
-                else
-                {
-                    if (ah - ak < 0.0)
+                    default:
                     {
-                        b = 2.0 * gk;
-                    }
-                    else
-                    {
-                        b = 2.0 * gh;
+                        b = (ah - ak) switch
+                        {
+                            < 0.0 => 2.0 * gk,
+                            _ => 2.0 * gh
+                        };
+
+                        break;
                     }
                 }
 
@@ -131,99 +137,115 @@ namespace Burkardt.CDFLib
                 b = Math.Min(b, 1.0);
                 return b;
             }
+        }
 
-            sqr = Math.Sqrt(rr);
+        sqr = Math.Sqrt(rr);
 
-            if (data.idig == 15)
-            {
+        switch (data.idig)
+        {
+            case 15:
                 con = twopi * 1.0E-15 / 2.0;
-            }
-            else
+                break;
+            default:
             {
                 con = twopi / 2.0;
                 for (i = 1; i <= data.idig; i++)
                 {
-                    con = con / 10.0;
+                    con /= 10.0;
                 }
-            }
 
+                break;
+            }
+        }
+
+        switch (ah)
+        {
             //
             //  (0,0)
             //
-            if (ah == 0.0 && ak == 0.0)
-            {
+            case 0.0 when ak == 0.0:
                 b = 0.25 + Math.Asin(r) / twopi;
                 b = Math.Max(b, 0.0);
                 b = Math.Min(b, 1.0);
                 return b;
-            }
-
             //
             //  (0,nonzero)
             //
-            if (ah == 0.0 && ak != 0.0)
-            {
+            case 0.0 when ak != 0.0:
                 b = gk;
                 wh = -ak;
                 wk = (ah / ak - r) / sqr;
                 gw = 2.0 * gk;
                 is_ = 1;
-            }
+                break;
             //
-            //  (nonzero,0)
-            //
-            else if (ah != 0.0 && ak == 0.0)
+            default:
             {
-                b = gh;
-                wh = -ah;
-                wk = (ak / ah - r) / sqr;
-                gw = 2.0 * gh;
-                is_ = -1;
-            }
-            //
-            //  (nonzero,nonzero)
-            //
-            else if (ah != 0.0 && ak != 0.0)
-            {
-                b = gh + gk;
-                if (ah * ak < 0.0)
+                if (ah != 0.0 && ak == 0.0)
                 {
-                    b = b - 0.5;
+                    b = gh;
+                    wh = -ah;
+                    wk = (ak / ah - r) / sqr;
+                    gw = 2.0 * gh;
+                    is_ = -1;
+                }
+                //
+                //  (nonzero,nonzero)
+                //
+                else if (ah != 0.0 && ak != 0.0)
+                {
+                    b = gh + gk;
+                    switch (ah * ak)
+                    {
+                        case < 0.0:
+                            b -= 0.5;
+                            break;
+                    }
+
+                    wh = -ah;
+                    wk = (ak / ah - r) / sqr;
+                    gw = 2.0 * gh;
+                    is_ = -1;
                 }
 
-                wh = -ah;
-                wk = (ak / ah - r) / sqr;
-                gw = 2.0 * gh;
-                is_ = -1;
+                break;
             }
+        }
 
-            for (;;)
+        for (;;)
+        {
+            sgn = -1.0;
+            t = 0.0;
+
+            if (wk != 0.0)
             {
-                sgn = -1.0;
-                t = 0.0;
-
-                if (wk != 0.0)
+                switch (Math.Abs(wk))
                 {
-                    if (Math.Abs(wk) == 1.0)
-                    {
+                    case 1.0:
                         t = wk * gw * (1.0 - gw) / 2.0;
-                        b = b + sgn * t;
-                    }
-                    else
+                        b += sgn * t;
+                        break;
+                    default:
                     {
-                        if (1.0 < Math.Abs(wk))
+                        switch (Math.Abs(wk))
                         {
-                            sgn = -sgn;
-                            wh = wh * wk;
-                            g2 = Gauss.gauss(wh);
-                            wk = 1.0 / wk;
-
-                            if (wk < 0.0)
+                            case > 1.0:
                             {
-                                b = b + 0.5;
-                            }
+                                sgn = -sgn;
+                                wh *= wk;
+                                g2 = Gauss.gauss(wh);
+                                wk = 1.0 / wk;
 
-                            b = b - (gw + g2) / 2.0 + gw * g2;
+                                switch (wk)
+                                {
+                                    case < 0.0:
+                                        b += 0.5;
+                                        break;
+                                }
+
+                                b = b - (gw + g2) / 2.0 + gw * g2;
+                                break;
+                            }
                         }
 
                         h2 = wh * wh;
@@ -241,7 +263,7 @@ namespace Burkardt.CDFLib
                         for (;;)
                         {
                             cn = ap * s2 / (sn + sp);
-                            s1 = s1 + cn;
+                            s1 += cn;
 
                             if (Math.Abs(cn) <= conex)
                             {
@@ -249,37 +271,38 @@ namespace Burkardt.CDFLib
                             }
 
                             sn = sp;
-                            sp = sp + 1.0;
-                            s2 = s2 - w2;
+                            sp += 1.0;
+                            s2 -= w2;
                             w2 = w2 * h4 / sp;
                             ap = -ap * a2;
                         }
 
                         t = (Math.Atan(wk) - wk * s1) / twopi;
-                        b = b + sgn * t;
+                        b += sgn * t;
+                        break;
                     }
                 }
-
-                if (0 <= is_)
-                {
-                    break;
-                }
-
-                if (ak == 0.0)
-                {
-                    break;
-                }
-
-                wh = -ak;
-                wk = (ah / ak - r) / sqr;
-                gw = 2.0 * gk;
-                is_ = 1;
             }
 
-            b = Math.Max(b, 0.0);
-            b = Math.Min(b, 1.0);
+            if (0 <= is_)
+            {
+                break;
+            }
 
-            return b;
+            if (ak == 0.0)
+            {
+                break;
+            }
+
+            wh = -ak;
+            wk = (ah / ak - r) / sqr;
+            gw = 2.0 * gk;
+            is_ = 1;
         }
+
+        b = Math.Max(b, 0.0);
+        b = Math.Min(b, 1.0);
+
+        return b;
     }
 }

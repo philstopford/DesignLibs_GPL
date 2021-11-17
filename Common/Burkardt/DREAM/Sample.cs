@@ -1,14 +1,14 @@
 ﻿using System;
 using Burkardt.PDFLib;
 
-namespace Burkardt.DREAM
+namespace Burkardt.DREAM;
+
+public static class Sample
 {
-    public static class Sample
-    {
-        public static double[] sample_candidate(int chain_index, int chain_num, double[] cr,
-        int cr_index, int cr_num, int gen_index, int gen_num,
-        double[] jumprate_table, int jumpstep, double[] limits, int pair_num,
-        int par_num, double[] z )
+    public static double[] sample_candidate(int chain_index, int chain_num, double[] cr,
+            int cr_index, int cr_num, int gen_index, int gen_num,
+            double[] jumprate_table, int jumpstep, double[] limits, int pair_num,
+            int par_num, double[] z )
 
         //****************************************************************************80
         //
@@ -89,107 +89,107 @@ namespace Burkardt.DREAM
         //
         //    Local, double JUMPRATE, the jump rate.
         //
+    {
+        double av;
+        double b;
+        double[] diff;
+        double[] eps;
+        int i;
+        int[] jump_dim;
+        int jump_num = 0;
+        double jumprate = 0;
+        double[] noise_e;
+        int[] pair = new int[2];
+        int[] r;
+        double r2;
+        double sd;
+        double[] zp;
+        //
+        //  Used to calculate E following a uniform distribution on (-B,+B).
+        //  Because B is currently zero, the noise term is suppressed.
+        //
+        b = 0.0;
+        //
+        //  Pick pairs of other chains for crossover.
+        //
+        r = new int[2 * pair_num];
+
+        for (i = 0; i < pair_num; i++)
         {
-            double av;
-            double b;
-            double[] diff;
-            double[] eps;
-            int i;
-            int[] jump_dim;
-            int jump_num = 0;
-            double jumprate = 0;
-            double[] noise_e;
-            int[] pair = new int[2];
-            int[] r;
-            double r2;
-            double sd;
-            double[] zp;
-            //
-            //  Used to calculate E following a uniform distribution on (-B,+B).
-            //  Because B is currently zero, the noise term is suppressed.
-            //
-            b = 0.0;
-            //
-            //  Pick pairs of other chains for crossover.
-            //
-            r = new int[2 * pair_num];
-
-            for (i = 0; i < pair_num; i++)
+            while (true)
             {
-                while (true)
+                r2 = PDF.r8_uniform_01_sample();
+                pair[0] = (int) (r2 * chain_num);
+                r2 = PDF.r8_uniform_01_sample();
+                pair[1] = (int) (r2 * chain_num);
+
+                if (pair[0] != pair[1] &&
+                    pair[0] != chain_index &&
+                    pair[1] != chain_index)
                 {
-                    r2 = PDF.r8_uniform_01_sample();
-                    pair[0] = (int) (r2 * (double) chain_num);
-                    r2 = PDF.r8_uniform_01_sample();
-                    pair[1] = (int) (r2 * (double) chain_num);
-
-                    if (pair[0] != pair[1] &&
-                        pair[0] != chain_index &&
-                        pair[1] != chain_index)
-                    {
-                        break;
-                    }
+                    break;
                 }
-
-                r[0 + i * 2] = pair[0];
-                r[1 + i * 2] = pair[1];
             }
 
-            //
-            //  Determine the jump rate.
-            //
-            jump_dim = new int[par_num];
-
-            Jump.jumprate_choose(cr, cr_index, cr_num, gen_index, jump_dim, ref jump_num,
-                ref jumprate, jumprate_table, jumpstep, par_num);
-            //
-            //  Calculate E in equation 4 of Vrugt.
-            //
-            noise_e = new double[par_num];
-
-            for (i = 0; i < par_num; i++)
-            {
-                noise_e[i] = b * (2.0 * PDF.r8_uniform_01_sample() - 1.0);
-            }
-
-            //
-            //  Get epsilon value from multinormal distribution                      
-            //
-            eps = new double[par_num];
-
-            av = 0.0;
-            sd = 1.0E-10;
-            for (i = 0; i < par_num; i++)
-            {
-                eps[i] = PDF.r8_normal_sample(av, sd);
-            }
-
-            //
-            //  Generate the candidate sample ZP based on equation 4 of Vrugt.
-            //
-            diff = Diff.diff_compute(chain_num, gen_index, gen_num, jump_dim, jump_num,
-                pair_num, par_num, r, z);
-
-            zp = new double[par_num];
-
-            for (i = 0; i < par_num; i++)
-            {
-                zp[i] = z[i + chain_index * par_num + (gen_index - 1) * par_num * chain_num];
-            }
-
-            for (i = 0; i < par_num; i++)
-            {
-                zp[i] = zp[i] + (1.0 + noise_e[i]) * jumprate * diff[i] + eps[i];
-            }
-
-            //
-            //  Enforce limits on the sample ZP.
-            //
-            sample_limits(limits, par_num, ref zp);
-            return zp;
+            r[0 + i * 2] = pair[0];
+            r[1 + i * 2] = pair[1];
         }
 
-        public static void sample_limits(double[] limits, int par_num, ref double[] zp )
+        //
+        //  Determine the jump rate.
+        //
+        jump_dim = new int[par_num];
+
+        Jump.jumprate_choose(cr, cr_index, cr_num, gen_index, jump_dim, ref jump_num,
+            ref jumprate, jumprate_table, jumpstep, par_num);
+        //
+        //  Calculate E in equation 4 of Vrugt.
+        //
+        noise_e = new double[par_num];
+
+        for (i = 0; i < par_num; i++)
+        {
+            noise_e[i] = b * (2.0 * PDF.r8_uniform_01_sample() - 1.0);
+        }
+
+        //
+        //  Get epsilon value from multinormal distribution                      
+        //
+        eps = new double[par_num];
+
+        av = 0.0;
+        sd = 1.0E-10;
+        for (i = 0; i < par_num; i++)
+        {
+            eps[i] = PDF.r8_normal_sample(av, sd);
+        }
+
+        //
+        //  Generate the candidate sample ZP based on equation 4 of Vrugt.
+        //
+        diff = Diff.diff_compute(chain_num, gen_index, gen_num, jump_dim, jump_num,
+            pair_num, par_num, r, z);
+
+        zp = new double[par_num];
+
+        for (i = 0; i < par_num; i++)
+        {
+            zp[i] = z[i + chain_index * par_num + (gen_index - 1) * par_num * chain_num];
+        }
+
+        for (i = 0; i < par_num; i++)
+        {
+            zp[i] = zp[i] + (1.0 + noise_e[i]) * jumprate * diff[i] + eps[i];
+        }
+
+        //
+        //  Enforce limits on the sample ZP.
+        //
+        sample_limits(limits, par_num, ref zp);
+        return zp;
+    }
+
+    public static void sample_limits(double[] limits, int par_num, ref double[] zp )
 
         //****************************************************************************80
         //
@@ -220,36 +220,37 @@ namespace Burkardt.DREAM
         //    Input/output, double ZP[PAR_NUM], a variable, whose entries,
         //    if necessary, will be "folded" so that they lie within the limits.
         //
+    {
+        int i;
+        double w;
+
+        for (i = 0; i < par_num; i++)
         {
-            int i;
-            double w;
+            w = limits[1 + i * 2] - limits[0 + i * 2];
 
-            for (i = 0; i < par_num; i++)
+            switch (w)
             {
-                w = limits[1 + i * 2] - limits[0 + i * 2];
-
-                if (w == 0.0)
-                {
+                case 0.0:
                     zp[i] = limits[0 + i * 2];
-                }
-                else if (w < 0.0)
-                {
+                    break;
+                case < 0.0:
                     Console.WriteLine("");
                     Console.WriteLine("SAMPLE_LIMITS - Fatal error!");
                     Console.WriteLine("  Upper limit less than lower limit.");
                     return;
-                }
-                else
+                default:
                 {
                     while (zp[i] < limits[0 + i * 2])
                     {
-                        zp[i] = zp[i] + w;
+                        zp[i] += w;
                     }
 
                     while (limits[1 + i * 2] < zp[i])
                     {
-                        zp[i] = zp[i] - w;
+                        zp[i] -= w;
                     }
+
+                    break;
                 }
             }
         }

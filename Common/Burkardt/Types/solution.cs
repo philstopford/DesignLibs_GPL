@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void compare ( int node_num, double[] node_xy, int[] indx, int nunk,
-        double[] f, Func<double, double, ExactResult> exact )
+    public static void compare ( int node_num, double[] node_xy, int[] indx, int nunk,
+            double[] f, Func<double, double, ExactResult> exact )
 
         //****************************************************************************80
         //
@@ -48,45 +48,36 @@ namespace Burkardt.Types
         //    Input, double F[NUNK], the solution vector of the finite
         //    element system.
         //
+    {
+        int node;
+
+        Console.WriteLine("");
+        Console.WriteLine("COMPARE:");
+        Console.WriteLine("  Compare computed and exact solutions at the nodes.");
+        Console.WriteLine("");
+        Console.WriteLine("         X           Y          U           U");
+        Console.WriteLine("                             computed     exact");
+        Console.WriteLine("");
+
+        for ( node = 0; node < node_num; node++ )
         {
-            double dudx;
-            double dudy;
-            int i;
-            int node;
-            double u;
-            double uh;
-            double x;
-            double y;
+            double x = node_xy[0+node*2];
+            double y = node_xy[1+node*2];
 
-            Console.WriteLine("");
-            Console.WriteLine("COMPARE:");
-            Console.WriteLine("  Compare computed and exact solutions at the nodes.");
-            Console.WriteLine("");
-            Console.WriteLine("         X           Y          U           U");
-            Console.WriteLine("                             computed     exact");
-            Console.WriteLine("");
+            ExactResult res = exact ( x, y );
+            double u = res.u;
 
-            for ( node = 0; node < node_num; node++ )
-            {
-                x = node_xy[0+node*2];
-                y = node_xy[1+node*2];
+            int i = indx[node];
+            double uh = f[i-1];
 
-                ExactResult res = exact ( x, y );
-                u = res.u;
-                dudx = res.dudx;
-                dudy = res.dudy;
-
-                i = indx[node];
-                uh = f[i-1];
-
-                Console.WriteLine(x.ToString().PadLeft(12)  + "  "
-                    + y.ToString().PadLeft(12)  + "  "
-                    + uh.ToString().PadLeft(12) + "  "
-                    + u.ToString().PadLeft(12)  + "");
-            }
+            Console.WriteLine(x.ToString().PadLeft(12)  + "  "
+                                                        + y.ToString().PadLeft(12)  + "  "
+                                                        + uh.ToString().PadLeft(12) + "  "
+                                                        + u.ToString().PadLeft(12)  + "");
         }
-        public static void solution_write ( double[] f, int[] indx, int node_num, int nunk,
-        string output_filename, double[] node_xy, Func<double, double, ExactResult> exact )
+    }
+    public static void solution_write ( double[] f, int[] indx, int node_num, int nunk,
+            string output_filename, double[] node_xy, Func<double, double, ExactResult> exact )
 
         //****************************************************************************80
         //
@@ -122,45 +113,41 @@ namespace Burkardt.Types
         //
         //    Input, double NODE_XY[2*NODE_NUM], the X and Y coordinates of nodes.
         //
-        {
-            double dudx;
-            double dudy;
-            int node;
-            List<string> output = new List<string>();
-            double u;
-            double x;
-            double y;
-            
-            for ( node = 0; node < node_num; node++ )
-            {
-                x = node_xy[0+node*2];
-                y = node_xy[1+node*2];
+    {
+        int node;
+        List<string> output = new();
 
-                if ( 0 < indx[node] )
-                {
+        for ( node = 0; node < node_num; node++ )
+        {
+            double x = node_xy[0+node*2];
+            double y = node_xy[1+node*2];
+
+            double u;
+            switch (indx[node])
+            {
+                case > 0:
                     u = f[indx[node]-1];
-                }
-                else
+                    break;
+                default:
                 {
                     ExactResult res = exact ( x, y );
                     u = res.u;
-                    dudx = res.dudx;
-                    dudy = res.dudy;
+                    break;
                 }
-
-                output.Add(u.ToString().PadLeft(14));
             }
 
-            try
-            {
-                File.WriteAllLines(output_filename, output);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("SOLUTION_WRITE - Warning!");
-                Console.WriteLine("  Could not write the solution file.");
-            }
+            output.Add(u.ToString().PadLeft(14));
+        }
+
+        try
+        {
+            File.WriteAllLines(output_filename, output);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("SOLUTION_WRITE - Warning!");
+            Console.WriteLine("  Could not write the solution file.");
         }
     }
 }

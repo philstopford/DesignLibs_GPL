@@ -1,8 +1,8 @@
-﻿namespace Burkardt.CDFLib
+﻿namespace Burkardt.CDFLib;
+
+public static partial class CDF
 {
-    public static partial class CDF
-    {
-        public static double eval_pol ( double[] a, int n, double x )
+    public static double eval_pol ( double[] a, int n, double x )
 
         //****************************************************************************80
         //
@@ -39,18 +39,17 @@
         //
         //    double EVAL_POL, the value of the polynomial at X.
         //
+    {
+        double devlpl,term;
+        int i;
+
+        term = a[n-1];
+        for ( i = n-1-1; i >= 0; i-- )
         {
-            double devlpl,term;
-            int i;
-
-            term = a[n-1];
-            for ( i = n-1-1; i >= 0; i-- )
-            {
-                term = a[i]+term*x;
-            }
-
-            devlpl = term;
-            return devlpl;
+            term = a[i]+term*x;
         }
+
+        devlpl = term;
+        return devlpl;
     }
 }

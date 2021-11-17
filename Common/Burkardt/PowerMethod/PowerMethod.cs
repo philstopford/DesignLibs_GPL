@@ -2,12 +2,12 @@
 using System.Numerics;
 using Burkardt.Types;
 
-namespace Burkardt.PowerMethodNS
+namespace Burkardt.PowerMethodNS;
+
+public static class PowerMethod
 {
-    public static class PowerMethod
-    {
-        public static void power_method(int n, double[] a, double[] y, int it_max, double tol,
-        ref double lambda, ref int it_num )
+    public static void power_method(int n, double[] a, double[] y, int it_max, double tol,
+            ref double lambda, ref int it_num )
 
         //****************************************************************************80
         //
@@ -85,40 +85,85 @@ namespace Burkardt.PowerMethodNS
         //
         //    Output, int *IT_NUM, the number of iterations taken.
         //
+    {
+        double[] ay;
+        double cos_y1y2;
+        bool debug = false;
+        int i;
+        int it;
+        double lambda_old;
+        double norm;
+        double sin_y1y2;
+        double val_dif;
+        double[] y_old;
+
+        ay = new double[n];
+        y_old = new double[n];
+
+        switch (debug)
         {
-            double[] ay;
-            double cos_y1y2;
-            bool debug = false;
-            int i;
-            int it;
-            double lambda_old;
-            double norm;
-            double sin_y1y2;
-            double val_dif;
-            double[] y_old;
-
-            ay = new double[n];
-            y_old = new double[n];
-
-            if (debug)
-            {
+            case true:
                 Console.WriteLine("");
                 Console.WriteLine("     IT      Lambda          Delta-Lambda    Delta-Y");
                 Console.WriteLine("");
-            }
+                break;
+        }
 
-            //
-            //  Force Y to be a vector of unit norm.
-            //
-            norm = typeMethods.r8vec_norm_l2(n, y);
+        //
+        //  Force Y to be a vector of unit norm.
+        //
+        norm = typeMethods.r8vec_norm_l2(n, y);
 
-            for (i = 0; i < n; i++)
+        for (i = 0; i < n; i++)
+        {
+            y[i] /= norm;
+        }
+
+        it = 0;
+
+        for (i = 0; i < n; i++)
+        {
+            y_old[i] = y[i];
+        }
+
+        typeMethods.r8mat_mv(n, n, a, y, ref ay);
+        lambda = typeMethods.r8vec_dot(n, y, ay);
+        norm = typeMethods.r8vec_norm_l2(n, ay);
+        for (i = 0; i < n; i++)
+        {
+            y[i] = ay[i] / norm;
+        }
+
+        switch (lambda)
+        {
+            case < 0.0:
             {
-                y[i] = y[i] / norm;
+                for (i = 0; i < n; i++)
+                {
+                    y[i] = -y[i];
+                }
+
+                break;
             }
+        }
 
-            it = 0;
+        val_dif = 0.0;
+        cos_y1y2 = typeMethods.r8vec_dot(n, y, y_old);
+        sin_y1y2 = Math.Sqrt((1.0 - cos_y1y2) * (1.0 + cos_y1y2));
 
+        switch (debug)
+        {
+            case true:
+                Console.WriteLine("  " + it.ToString().PadLeft(5)
+                                       + "  " + lambda.ToString().PadLeft(14)
+                                       + "  " + val_dif.ToString().PadLeft(14)
+                                       + "  " + sin_y1y2.ToString().PadLeft(14) + "");
+                break;
+        }
+
+        for (it = 1; it <= it_max; it++)
+        {
+            lambda_old = lambda;
             for (i = 0; i < n; i++)
             {
                 y_old[i] = y[i];
@@ -132,78 +177,49 @@ namespace Burkardt.PowerMethodNS
                 y[i] = ay[i] / norm;
             }
 
-            if (lambda < 0.0)
+            switch (lambda)
             {
-                for (i = 0; i < n; i++)
-                {
-                    y[i] = -y[i];
-                }
-            }
-
-            val_dif = 0.0;
-            cos_y1y2 = typeMethods.r8vec_dot(n, y, y_old);
-            sin_y1y2 = Math.Sqrt((1.0 - cos_y1y2) * (1.0 + cos_y1y2));
-
-            if (debug)
-            {
-                Console.WriteLine("  " + it.ToString().PadLeft(5)
-                    + "  " + lambda.ToString().PadLeft(14)
-                    + "  " + val_dif.ToString().PadLeft(14)
-                    + "  " + sin_y1y2.ToString().PadLeft(14) + "");
-            }
-
-            for (it = 1; it <= it_max; it++)
-            {
-                lambda_old = lambda;
-                for (i = 0; i < n; i++)
-                {
-                    y_old[i] = y[i];
-                }
-
-                typeMethods.r8mat_mv(n, n, a, y, ref ay);
-                lambda = typeMethods.r8vec_dot(n, y, ay);
-                norm = typeMethods.r8vec_norm_l2(n, ay);
-                for (i = 0; i < n; i++)
-                {
-                    y[i] = ay[i] / norm;
-                }
-
-                if (lambda < 0.0)
+                case < 0.0:
                 {
                     for (i = 0; i < n; i++)
                     {
                         y[i] = -y[i];
                     }
-                }
 
-                val_dif = Math.Abs(lambda - lambda_old);
-                cos_y1y2 = typeMethods.r8vec_dot(n, y, y_old);
-                sin_y1y2 = Math.Sqrt((1.0 - cos_y1y2) * (1.0 + cos_y1y2));
-
-                if (debug)
-                {
-                    Console.WriteLine("  " + it.ToString().PadLeft(5)
-                        + "  " + lambda.ToString().PadLeft(14)
-                        + "  " + val_dif.ToString().PadLeft(14)
-                        + "  " + sin_y1y2.ToString().PadLeft(14) + "");
-                }
-
-                if (val_dif <= tol)
-                {
                     break;
                 }
             }
 
-            for (i = 0; i < n; i++)
+            val_dif = Math.Abs(lambda - lambda_old);
+            cos_y1y2 = typeMethods.r8vec_dot(n, y, y_old);
+            sin_y1y2 = Math.Sqrt((1.0 - cos_y1y2) * (1.0 + cos_y1y2));
+
+            switch (debug)
             {
-                y[i] = ay[i] / lambda;
+                case true:
+                    Console.WriteLine("  " + it.ToString().PadLeft(5)
+                                           + "  " + lambda.ToString().PadLeft(14)
+                                           + "  " + val_dif.ToString().PadLeft(14)
+                                           + "  " + sin_y1y2.ToString().PadLeft(14) + "");
+                    break;
             }
 
-            it_num = it;
+            if (val_dif <= tol)
+            {
+                break;
+            }
         }
 
-        public static void power_method2(int n, double[] a, double[] x_init, int it_max,
-        double tol, ref Complex lambda, Complex[] v, ref int it_num )
+        for (i = 0; i < n; i++)
+        {
+            y[i] = ay[i] / lambda;
+        }
+
+        it_num = it;
+    }
+
+    public static void power_method2(int n, double[] a, double[] x_init, int it_max,
+            double tol, ref Complex lambda, Complex[] v, ref int it_num )
 
         //****************************************************************************80
         //
@@ -250,99 +266,98 @@ namespace Burkardt.PowerMethodNS
         //
         //    Output, int *IT_NUM, the number of iterations taken.
         //
+    {
+        double alpha;
+        double beta;
+        double gamma;
+        int i;
+        int it;
+        double lambda_imag;
+        double lambda_real;
+        double pi_xx;
+        double pi_xy;
+        double pi_xz;
+        double pi_yy;
+        double pi_yz;
+        double pi_zz;
+        double[] x;
+        double[] y;
+        double[] z;
+
+        x = new double[n];
+        y = new double[n];
+        z = new double[n];
+
+        it_num = 0;
+        //
+        //  Compute data necessary to start the iteration.
+        //
+        typeMethods.r8vec_copy(n, x_init, ref x);
+
+        pi_xx = typeMethods.r8vec_dot(n, x, x);
+
+        typeMethods.r8vec_divide(n, ref x, pi_xx);
+
+        typeMethods.r8mat_mv(n, n, a, x, ref y);
+
+        pi_xy = typeMethods.r8vec_dot(n, x, y);
+        pi_yy = typeMethods.r8vec_dot(n, y, y);
+
+        for (it = 1; it <= it_max; it++)
         {
-            double alpha;
-            double beta;
-            double gamma;
-            int i;
-            int it;
-            double lambda_imag;
-            double lambda_real;
-            double pi_xx;
-            double pi_xy;
-            double pi_xz;
-            double pi_yy;
-            double pi_yz;
-            double pi_zz;
-            double[] x;
-            double[] y;
-            double[] z;
-
-            x = new double[n];
-            y = new double[n];
-            z = new double[n];
-
-            it_num = 0;
-            //
-            //  Compute data necessary to start the iteration.
-            //
-            typeMethods.r8vec_copy(n, x_init, ref x);
-
-            pi_xx = typeMethods.r8vec_dot(n, x, x);
-
-            typeMethods.r8vec_divide(n, ref x, pi_xx);
-
-            typeMethods.r8mat_mv(n, n, a, x, ref y);
-
-            pi_xy = typeMethods.r8vec_dot(n, x, y);
-            pi_yy = typeMethods.r8vec_dot(n, y, y);
-
-            for (it = 1; it <= it_max; it++)
+            if (pi_yy - pi_xy * pi_xy < tol * tol * pi_yy)
             {
-                if (pi_yy - pi_xy * pi_xy < tol * tol * pi_yy)
+                lambda = new Complex(pi_xy, 0.0);
+                for (i = 0; i < n; i++)
                 {
-                    lambda = new Complex(pi_xy, 0.0);
-                    for (i = 0; i < n; i++)
-                    {
-                        v[i] = new Complex(y[i], 0.0) / pi_yy;
-                    }
-
-                    return;
+                    v[i] = new Complex(y[i], 0.0) / pi_yy;
                 }
 
-                typeMethods.r8mat_mv(n, n, a, y, ref z);
-
-                pi_xz = typeMethods.r8vec_dot(n, x, z);
-                pi_yz = typeMethods.r8vec_dot(n, y, z);
-                pi_zz = typeMethods.r8vec_dot(n, z, z);
-
-                alpha = -(pi_yz - pi_xy * pi_xz) / (pi_yy - pi_xy * pi_xy);
-
-                beta = (pi_xy * pi_yz - pi_yy * pi_xz) / (pi_yy - pi_xy * pi_xy);
-
-                gamma = pi_zz + alpha * alpha * pi_yy + beta * beta
-                        + 2.0 * (alpha * pi_yz + beta * pi_xz + alpha * beta * pi_xy);
-
-                if (gamma < tol * tol * pi_zz && alpha * alpha < 4.0 * beta)
-                {
-                    lambda_real = -alpha / 2.0;
-                    lambda_imag = Math.Sqrt(4.0 * beta - alpha * alpha) / 2.0;
-                    lambda = new Complex(lambda_real, lambda_imag);
-
-                    for (i = 0; i < n; i++)
-                    {
-                        v[i] = (lambda * y[i] - z[i])
-                               / Math.Sqrt(beta * pi_yy + alpha * pi_yz + pi_zz);
-                    }
-
-                    return;
-                }
-
-                typeMethods.r8vec_copy(n, y, ref x);
-                typeMethods.r8vec_divide(n, ref x, Math.Sqrt(pi_yy));
-
-                typeMethods.r8vec_copy(n, z, ref y);
-                typeMethods.r8vec_divide(n, ref y, Math.Sqrt(pi_yy));
-
-                pi_xy = pi_yz / pi_yy;
-                pi_yy = pi_zz / pi_yy;
-
-                it_num = it;
+                return;
             }
 
-            Console.WriteLine("");
-            Console.WriteLine("POWER_METHOD2 - Fatal error!");
-            Console.WriteLine("  Convergence was not reached.");
+            typeMethods.r8mat_mv(n, n, a, y, ref z);
+
+            pi_xz = typeMethods.r8vec_dot(n, x, z);
+            pi_yz = typeMethods.r8vec_dot(n, y, z);
+            pi_zz = typeMethods.r8vec_dot(n, z, z);
+
+            alpha = -(pi_yz - pi_xy * pi_xz) / (pi_yy - pi_xy * pi_xy);
+
+            beta = (pi_xy * pi_yz - pi_yy * pi_xz) / (pi_yy - pi_xy * pi_xy);
+
+            gamma = pi_zz + alpha * alpha * pi_yy + beta * beta
+                    + 2.0 * (alpha * pi_yz + beta * pi_xz + alpha * beta * pi_xy);
+
+            if (gamma < tol * tol * pi_zz && alpha * alpha < 4.0 * beta)
+            {
+                lambda_real = -alpha / 2.0;
+                lambda_imag = Math.Sqrt(4.0 * beta - alpha * alpha) / 2.0;
+                lambda = new Complex(lambda_real, lambda_imag);
+
+                for (i = 0; i < n; i++)
+                {
+                    v[i] = (lambda * y[i] - z[i])
+                           / Math.Sqrt(beta * pi_yy + alpha * pi_yz + pi_zz);
+                }
+
+                return;
+            }
+
+            typeMethods.r8vec_copy(n, y, ref x);
+            typeMethods.r8vec_divide(n, ref x, Math.Sqrt(pi_yy));
+
+            typeMethods.r8vec_copy(n, z, ref y);
+            typeMethods.r8vec_divide(n, ref y, Math.Sqrt(pi_yy));
+
+            pi_xy = pi_yz / pi_yy;
+            pi_yy = pi_zz / pi_yy;
+
+            it_num = it;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("POWER_METHOD2 - Fatal error!");
+        Console.WriteLine("  Convergence was not reached.");
     }
 }

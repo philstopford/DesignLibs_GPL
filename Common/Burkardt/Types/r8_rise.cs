@@ -1,81 +1,87 @@
-﻿namespace Burkardt.Types
+﻿namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
+    public static double r8_rise(double x, int n)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_RISE computes the rising factorial function [X]^N.
+        //
+        //  Discussion:
+        //
+        //    [X}^N = X * ( X + 1 ) * ( X + 2 ) * ... * ( X + N - 1 ).
+        //
+        //    Note that the number of ways of arranging N objects in M ordered
+        //    boxes is [M}^N.  (Here, the ordering in each box matters).  Thus,
+        //    2 objects in 2 boxes have the following 6 possible arrangements:
+        //
+        //      -/12, 1/2, 12/-, -/21, 2/1, 21/-.
+        //
+        //    Moreover, the number of non-decreasing maps from a set of
+        //    N to a set of M ordered elements is [M]^N / N!.  Thus the set of
+        //    nondecreasing maps from (1,2,3) to (a,b,c,d) is the 20 elements:
+        //
+        //      aaa, abb, acc, add, aab, abc, acd, aac, abd, aad
+        //      bbb, bcc, bdd, bbc, bcd, bbd, ccc, cdd, ccd, ddd.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    08 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument of the rising factorial function.
+        //
+        //    Input, int N, the order of the rising factorial function.
+        //    If N = 0, RISE = 1, if N = 1, RISE = X.  Note that if N is
+        //    negative, a "falling" factorial will be computed.
+        //
+        //    Output, double R8_RISE, the value of the rising factorial function.
+        //
     {
-        public static double r8_rise(double x, int n)
+        int i;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_RISE computes the rising factorial function [X]^N.
-            //
-            //  Discussion:
-            //
-            //    [X}^N = X * ( X + 1 ) * ( X + 2 ) * ... * ( X + N - 1 ).
-            //
-            //    Note that the number of ways of arranging N objects in M ordered
-            //    boxes is [M}^N.  (Here, the ordering in each box matters).  Thus,
-            //    2 objects in 2 boxes have the following 6 possible arrangements:
-            //
-            //      -/12, 1/2, 12/-, -/21, 2/1, 21/-.
-            //
-            //    Moreover, the number of non-decreasing maps from a set of
-            //    N to a set of M ordered elements is [M]^N / N!.  Thus the set of
-            //    nondecreasing maps from (1,2,3) to (a,b,c,d) is the 20 elements:
-            //
-            //      aaa, abb, acc, add, aab, abc, acd, aac, abd, aad
-            //      bbb, bcc, bdd, bbc, bcd, bbd, ccc, cdd, ccd, ddd.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    08 May 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the argument of the rising factorial function.
-            //
-            //    Input, int N, the order of the rising factorial function.
-            //    If N = 0, RISE = 1, if N = 1, RISE = X.  Note that if N is
-            //    negative, a "falling" factorial will be computed.
-            //
-            //    Output, double R8_RISE, the value of the rising factorial function.
-            //
+        double value = 1.0;
+
+        switch (n)
         {
-            int i;
-            double value;
-
-            value = 1.0;
-
-            if (0 < n)
+            case > 0:
             {
                 for (i = 1; i <= n; i++)
                 {
-                    value = value * x;
-                    x = x + 1.0;
+                    value *= x;
+                    x += 1.0;
                 }
+
+                break;
             }
-            else if (n < 0)
+            case < 0:
             {
                 for (i = -1; n <= i; i--)
                 {
-                    value = value * x;
-                    x = x - 1.0;
+                    value *= x;
+                    x -= 1.0;
                 }
-            }
 
-            return value;
+                break;
+            }
         }
 
-        public static void r8_rise_values(ref int n_data, ref double x, ref int n, ref double f )
+        return value;
+    }
+
+    public static void r8_rise_values(ref int n_data, ref double x, ref int n, ref double f )
 
         //****************************************************************************80
         //
@@ -131,10 +137,10 @@
         //
         //    Output, double &F, the value of the function.
         //
-        {
-            int N_MAX = 15;
+    {
+        const int N_MAX = 15;
 
-            double[] f_vec =
+        double[] f_vec =
             {
                 1680.000000000000,
                 1962.597656250000,
@@ -154,7 +160,7 @@
             }
             ;
 
-            int[] n_vec =
+        int[] n_vec =
             {
                 4,
                 4,
@@ -174,7 +180,7 @@
             }
             ;
 
-            double[] x_vec =
+        double[] x_vec =
             {
                 5.00,
                 5.25,
@@ -194,27 +200,27 @@
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                n = 0;
-                f = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                n = n_vec[n_data - 1];
-                f = f_vec[n_data - 1];
-            }
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            n = 0;
+            f = 0.0;
         }
-
+        else
+        {
+            x = x_vec[n_data - 1];
+            n = n_vec[n_data - 1];
+            f = f_vec[n_data - 1];
+        }
     }
+
 }

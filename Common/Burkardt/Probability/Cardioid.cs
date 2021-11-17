@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Cardioid
 {
-    public static class Cardioid
-    {
-        public static double cardioid_cdf(double x, double a, double b)
+    public static double cardioid_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -37,27 +37,27 @@ namespace Burkardt.Probability
         //
         //    Output, double CDF, the value of the PDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
             
 
-            if (x <= a - Math.PI)
-            {
-                cdf = 0.0;
-            }
-            else if (x < a + Math.PI)
-            {
-                cdf = (Math.PI + x - a + 2.0 * b * Math.Sin(x - a)) / (2.0 * Math.PI);
-            }
-            else
-            {
-                cdf = 1.0;
-            }
-
-            return cdf;
+        if (x <= a - Math.PI)
+        {
+            cdf = 0.0;
+        }
+        else if (x < a + Math.PI)
+        {
+            cdf = (Math.PI + x - a + 2.0 * b * Math.Sin(x - a)) / (2.0 * Math.PI);
+        }
+        else
+        {
+            cdf = 1.0;
         }
 
-        public static double cardioid_cdf_inv(double cdf, double a, double b)
+        return cdf;
+    }
+
+    public static double cardioid_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -87,16 +87,17 @@ namespace Burkardt.Probability
         //    Output, double CARDIOD_CDF_INV, the argument with the given CDF.
         //    A - PI <= X <= A + PI.
         //
-        {
+    {
             
-            double tol = 0.000001;
-            double x;
+        double tol = 0.000001;
+        double x;
 
-            if (cdf <= 0.0)
-            {
+        switch (cdf)
+        {
+            case <= 0.0:
                 x = a - Math.PI;
-            }
-            else if (cdf < 1.0)
+                break;
+            case < 1.0:
             {
                 x = a;
 
@@ -111,32 +112,35 @@ namespace Burkardt.Probability
                         break;
                     }
 
-                    if (10 < it)
+                    switch (it)
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine("CARDIOID_CDF_INV - Fatal error!");
-                        Console.WriteLine("  Too many iterations.");
-                        return 1;
+                        case > 10:
+                            Console.WriteLine("");
+                            Console.WriteLine("CARDIOID_CDF_INV - Fatal error!");
+                            Console.WriteLine("  Too many iterations.");
+                            return 1;
                     }
 
                     double fp = -(1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * Math.PI);
 
-                    x = x - fx / fp;
+                    x -= fx / fp;
                     x = Math.Max(x, a - Math.PI);
                     x = Math.Min(x, a + Math.PI);
 
-                    it = it + 1;
+                    it += 1;
                 }
-            }
-            else
-            {
-                x = a + Math.PI;
-            }
 
-            return x;
+                break;
+            }
+            default:
+                x = a + Math.PI;
+                break;
         }
 
-        public static bool cardioid_check(double a, double b)
+        return x;
+    }
+
+    public static bool cardioid_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -162,21 +166,24 @@ namespace Burkardt.Probability
         //
         //    Output, bool CARDIOID_CHECK, is true if the parameters are legal.
         //
-        {
-            bool value = true;
+    {
+        bool value = true;
 
-            if (b < -0.5 || 0.5 < b)
-            {
+        switch (b)
+        {
+            case < -0.5:
+            case > 0.5:
                 Console.WriteLine("");
                 Console.WriteLine("CARDIOID_CHECK - Warning!");
                 Console.WriteLine("  B < -0.5 or 0.5 < B.");
                 value = false;
-            }
-
-            return value;
+                break;
         }
 
-        public static double cardioid_mean(double a, double b)
+        return value;
+    }
+
+    public static double cardioid_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -202,13 +209,13 @@ namespace Burkardt.Probability
         //
         //    Output, double MEAN, the mean of the PDF.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double cardioid_pdf(double x, double a, double b)
+    public static double cardioid_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -250,15 +257,15 @@ namespace Burkardt.Probability
         //
         //    Output, double CARDIOID_PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double pdf = (1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * Math.PI);
+        double pdf = (1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * Math.PI);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double cardioid_sample(double a, double b, ref int seed)
+    public static double cardioid_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -287,15 +294,15 @@ namespace Burkardt.Probability
         //    Output, double CARDIOD_SAMPLE, a sample of the PDF.
         //    A - PI <= X <= A + PI.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = cardioid_cdf_inv(cdf, a, b);
+        double x = cardioid_cdf_inv(cdf, a, b);
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double cardioid_variance(double a, double b)
+    public static double cardioid_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -321,10 +328,9 @@ namespace Burkardt.Probability
         //
         //    Output, double VARIANCE, the variance of the PDF.
         //
-        {
-            double variance = 0.0;
+    {
+        double variance = 0.0;
 
-            return variance;
-        }
+        return variance;
     }
 }

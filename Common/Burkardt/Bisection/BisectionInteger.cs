@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Bisection
+namespace Burkardt.Bisection;
+
+public static class Integer
 {
-    public static class Integer
-    {
-        public static void bisection_integer(Func<int,int> f, ref int a, ref int b, ref int c, ref int fc )
+    public static void bisection_integer(Func<int,int> f, ref int a, ref int b, ref int c, ref int fc )
 
         //****************************************************************************80
         //
@@ -70,87 +70,106 @@ namespace Burkardt.Bisection
         //   then the procedure did not find a root in the interval, and C is only
         //   an "approximate" root.
         //
-        {
-            int fa;
-            int fb;
-            int t;
-            //
-            //  Ensure that F(A) < 0 < F(B).
-            //
-            fa = f(a);
-            fb = f(b);
+    {
+        int fa;
+        int fb;
+        int t;
+        //
+        //  Ensure that F(A) < 0 < F(B).
+        //
+        fa = f(a);
+        fb = f(b);
 
-            if (fa == 0)
-            {
+        switch (fa)
+        {
+            case 0:
                 c = a;
                 fc = fa;
-            }
-            else if (fb == 0)
+                break;
+            default:
             {
-                c = b;
-                fc = fb;
-            }
-            else if (fa < 0 && 0 < fb)
-            {
-            }
-            else if (fb < 0 && 0 < fa)
-            {
-                t = a;
-                a = b;
-                b = t;
-                t = fa;
-                fa = fb;
-                fb = t;
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("BISECTION_INTEGER - Fatal error!");
-                Console.WriteLine("  No change of sign interval supplied.");
-                Console.WriteLine("  F(" + a + ") = " + fa + "");
-                Console.WriteLine("  F(" + b + ") = " + fb + "");
-                return;
-            }
-
-            //
-            //  Bisection.
-            //
-            while (1 < Math.Abs(b - a))
-            {
-                c = (a + b) / 2;
-                fc = f(c);
-
-                if (fc == 0)
+                switch (fb)
                 {
-                    return;
+                    case 0:
+                        c = b;
+                        fc = fb;
+                        break;
+                    default:
+                    {
+                        switch (fa)
+                        {
+                            case < 0 when 0 < fb:
+                                break;
+                            default:
+                            {
+                                switch (fb)
+                                {
+                                    case < 0 when 0 < fa:
+                                        t = a;
+                                        a = b;
+                                        b = t;
+                                        t = fa;
+                                        fa = fb;
+                                        fb = t;
+                                        break;
+                                    default:
+                                        Console.WriteLine("");
+                                        Console.WriteLine("BISECTION_INTEGER - Fatal error!");
+                                        Console.WriteLine("  No change of sign interval supplied.");
+                                        Console.WriteLine("  F(" + a + ") = " + fa + "");
+                                        Console.WriteLine("  F(" + b + ") = " + fb + "");
+                                        return;
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
                 }
-                else if (fc < 0)
-                {
+
+                break;
+            }
+        }
+
+        //
+        //  Bisection.
+        //
+        while (1 < Math.Abs(b - a))
+        {
+            c = (a + b) / 2;
+            fc = f(c);
+
+            switch (fc)
+            {
+                case 0:
+                    return;
+                case < 0:
                     a = c;
                     fa = fc;
-                }
-                else if (0 < fc)
-                {
+                    break;
+                case > 0:
                     b = c;
                     fb = fc;
-                }
+                    break;
             }
+        }
 
-            //
-            //  Interval is empty, with FA < 0 and 0 < FB.
-            //  Bisection did not produce an integer solution.
-            //  Return the argument with smallest function norm.
-            //
-            if (-fa < fb)
-            {
-                c = a;
-                fc = fa;
-            }
-            else
-            {
-                c = b;
-                fc = fb;
-            }
+        //
+        //  Interval is empty, with FA < 0 and 0 < FB.
+        //  Bisection did not produce an integer solution.
+        //  Return the argument with smallest function norm.
+        //
+        if (-fa < fb)
+        {
+            c = a;
+            fc = fa;
+        }
+        else
+        {
+            c = b;
+            fc = fb;
         }
     }
 }

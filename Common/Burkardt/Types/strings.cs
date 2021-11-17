@@ -1,122 +1,125 @@
 ﻿using System;
-using System.Linq;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
+    public class WordData
     {
-        public class WordData
-        {
-            public int lenc =
-                0;
-            public int next =
-                0;
+        public int lenc;
+        public int next;
 
-        }
-        public static string word_next_read(ref WordData data, string s, ref bool done)
+    }
+    public static string word_next_read(ref WordData data, string s, ref bool done)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    WORD_NEXT_READ "reads" words from a string, one at a time.
-            //
-            //  Discussion:
-            //
-            //    This routine was written to process tokens in a file.
-            //    A token is considered to be an alphanumeric string delimited
-            //    by whitespace, or any of various "brackets".
-            //
-            //    The following characters are considered to be a single word,
-            //    whether surrounded by spaces or not:
-            //
-            //      " ( ) { } [ ]
-            //
-            //    Also, if there is a trailing comma on the word, it is stripped off.
-            //    This is to facilitate the reading of lists.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    20 October 2010
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string S, a string, presumably containing words
-            //    separated by spaces.
-            //
-            //    Input/output, bool *DONE.
-            //    On input with a fresh string, set DONE to TRUE.
-            //    On output, the routine sets DONE:
-            //      FALSE if another word was read,
-            //      TRUE if no more words could be read.
-            //
-            //    Output, string WORD_NEXT_READ.
-            //    If DONE is FALSE, then WORD contains the "next" word read.
-            //    If DONE is TRUE, then WORD is NULL, because there was no more to read.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    WORD_NEXT_READ "reads" words from a string, one at a time.
+        //
+        //  Discussion:
+        //
+        //    This routine was written to process tokens in a file.
+        //    A token is considered to be an alphanumeric string delimited
+        //    by whitespace, or any of various "brackets".
+        //
+        //    The following characters are considered to be a single word,
+        //    whether surrounded by spaces or not:
+        //
+        //      " ( ) { } [ ]
+        //
+        //    Also, if there is a trailing comma on the word, it is stripped off.
+        //    This is to facilitate the reading of lists.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    20 October 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string S, a string, presumably containing words
+        //    separated by spaces.
+        //
+        //    Input/output, bool *DONE.
+        //    On input with a fresh string, set DONE to TRUE.
+        //    On output, the routine sets DONE:
+        //      FALSE if another word was read,
+        //      TRUE if no more words could be read.
+        //
+        //    Output, string WORD_NEXT_READ.
+        //    If DONE is FALSE, then WORD contains the "next" word read.
+        //    If DONE is TRUE, then WORD is NULL, because there was no more to read.
+        //
+    {
+        int i;
+        int j;
+        const char TAB = '9';
+        string word;
+        char[] word_chstar;
+        switch (done)
         {
-            int i;
-            int ilo;
-            int j;
-            char TAB = '9';
-            string word;
-            char[] word_chstar;
             //
             //  We "remember" LENC and NEXT from the previous call.
             //
             //  An input value of DONE = TRUE signals a new line of text to examine.
             //
-            if (done)
+            case true:
             {
                 data.next = 0;
                 done = false;
                 data.lenc = s.Length;
-                if (data.lenc <= 0)
+                switch (data.lenc)
                 {
-                    done = true;
-                    word = "\n";
-                    ;
-                    return word;
+                    case <= 0:
+                        done = true;
+                        word = "\n";
+                        return word;
                 }
-            }
 
-            //
-            //  Beginning at index NEXT, search the string for the next nonblank,
-            //  which signals the beginning of a word.
-            //
-            ilo = data.next;
-            //
-            //  ...S(NEXT:) is blank.  Return with WORD = ' ' and DONE = TRUE.
-            //
-            for (;;)
+                break;
+            }
+        }
+
+        //
+        //  Beginning at index NEXT, search the string for the next nonblank,
+        //  which signals the beginning of a word.
+        //
+        int ilo = data.next;
+        //
+        //  ...S(NEXT:) is blank.  Return with WORD = ' ' and DONE = TRUE.
+        //
+        for (;;)
+        {
+            if (data.lenc < ilo)
             {
-                if (data.lenc < ilo)
-                {
-                    word = "\n";
-                    done = true;
-                    data.next = data.lenc + 1;
-                    return word;
-                }
-
-                //
-                //  If the current character is blank, skip to the next one.
-                //
-                if (s[ilo] != ' ' && s[ilo] != TAB)
-                {
-                    break;
-                }
-
-                ilo = ilo + 1;
+                word = "\n";
+                done = true;
+                data.next = data.lenc + 1;
+                return word;
             }
 
+            //
+            //  If the current character is blank, skip to the next one.
+            //
+            if (s[ilo] != ' ' && s[ilo] != TAB)
+            {
+                break;
+            }
+
+            ilo += 1;
+        }
+
+        switch (s[ilo])
+        {
             //
             //  ILO is the index of the next nonblank character in the string.
             //
@@ -124,344 +127,328 @@ namespace Burkardt.Types
             //  then that's the whole word as far as we're concerned,
             //  so return immediately.
             //
-            if (s[ilo] == '"')
-            {
+            case '"':
                 word = "\"\"";
                 data.next = ilo + 1;
                 return word;
-            }
-            else if (s[ilo] == '(')
-            {
+            case '(':
                 word = "(";
                 data.next = ilo + 1;
                 return word;
-            }
-            else if (s[ilo] == ')')
-            {
+            case ')':
                 word = ")";
                 data.next = ilo + 1;
                 return word;
-            }
-            else if (s[ilo] == '{')
-            {
+            case '{':
                 word = "{";
                 data.next = ilo + 1;
                 return word;
-            }
-            else if (s[ilo] == '}')
-            {
+            case '}':
                 word = "}";
                 data.next = ilo + 1;
                 return word;
-            }
-            else if (s[ilo] == '[')
-            {
+            case '[':
                 word = "[";
                 data.next = ilo + 1;
                 return word;
-            }
-            else if (s[ilo] == ']')
-            {
+            case ']':
                 word = "]";
                 data.next = ilo + 1;
                 return word;
-            }
+        }
 
-            //
-            //  Now search for the last contiguous character that is not a
-            //  blank, TAB, or special character.
-            //
-            data.next = ilo + 1;
+        //
+        //  Now search for the last contiguous character that is not a
+        //  blank, TAB, or special character.
+        //
+        data.next = ilo + 1;
 
-            while (data.next <= data.lenc)
+        while (data.next <= data.lenc)
+        {
+            if (s[data.next] == ' ')
             {
-                if (s[data.next] == ' ')
-                {
-                    break;
-                }
-                else if (s[data.next] == TAB)
-                {
-                    break;
-                }
-                else if (s[data.next] == '"')
-                {
-                    break;
-                }
-                else if (s[data.next] == '(')
-                {
-                    break;
-                }
-                else if (s[data.next] == ')')
-                {
-                    break;
-                }
-                else if (s[data.next] == '{')
-                {
-                    break;
-                }
-                else if (s[data.next] == '}')
-                {
-                    break;
-                }
-                else if (s[data.next] == '[')
-                {
-                    break;
-                }
-                else if (s[data.next] == ']')
-                {
-                    break;
-                }
-
-                data.next = data.next + 1;
+                break;
             }
 
+            if (s[data.next] == TAB)
+            {
+                break;
+            }
+            if (s[data.next] == '"')
+            {
+                break;
+            }
+            if (s[data.next] == '(')
+            {
+                break;
+            }
+            if (s[data.next] == ')')
+            {
+                break;
+            }
+            if (s[data.next] == '{')
+            {
+                break;
+            }
+            if (s[data.next] == '}')
+            {
+                break;
+            }
+            if (s[data.next] == '[')
+            {
+                break;
+            }
+            if (s[data.next] == ']')
+            {
+                break;
+            }
+
+            data.next += 1;
+        }
+
+        switch (s[data.next - 1])
+        {
             //
             //  Allocate WORD, copy characters, and return.
             //
-            if (s[data.next - 1] == ',')
+            case ',':
             {
                 word_chstar = new char[data.next - ilo];
                 i = 0;
                 for (j = ilo; j <= data.next - 2; j++)
                 {
                     word_chstar[i] = s[j];
-                    i = i + 1;
+                    i += 1;
                 }
 
                 word_chstar[i] = '\0';
                 word = new string( word_chstar );
+                break;
             }
-            else
+            default:
             {
                 word_chstar = new char[data.next + 1 - ilo];
                 i = 0;
                 for (j = ilo; j <= data.next - 1; j++)
                 {
                     word_chstar[i] = s[j];
-                    i = i + 1;
+                    i += 1;
                 }
 
                 word_chstar[i] = '\0';
                 word = new string(word_chstar);
+                break;
             }
-
-            return word;
         }
 
-        public static char[] s_substring ( char[] s, int a, int b )
+        return word;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    S_SUBSTRING returns a substring of a given string.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 April 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char *S, a pointer to a string.
-            //
-            //    Input, int A, B, the indices of the first and last character of S to copy.
-            //    These are 1-based indices!  B should be 
-            //
-            //    Output, char *S_SUBSTRING, a pointer to the substring.
-            //
+    public static char[] s_substring ( char[] s, int a, int b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_SUBSTRING returns a substring of a given string.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 April 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char *S, a pointer to a string.
+        //
+        //    Input, int A, B, the indices of the first and last character of S to copy.
+        //    These are 1-based indices!  B should be 
+        //
+        //    Output, char *S_SUBSTRING, a pointer to the substring.
+        //
+    {
+        int i;
+
+        char[] t = new char[b+2-a];
+
+        int j = 0;
+        for ( i = a; i <= b; i++ )
         {
-            int i;
-            int j;
-            char[] t;
-
-            t = new char[b+2-a];
-
-            j = 0;
-            for ( i = a; i <= b; i++ )
-            {
-                t[j] = s[i-1];
-                j = j + 1;
-            }
-            t[j] = '\0';
-
-            return t;
+            t[j] = s[i-1];
+            j += 1;
         }
+        t[j] = '\0';
 
-        public static void s_to_format(char[] s, ref int r, ref char code, ref int w, ref int m)
+        return t;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    S_TO_FORMAT reads a FORTRAN format from a string.
-            //
-            //  Discussion:
-            //
-            //    This routine will read as many characters as possible until it reaches
-            //    the end of the string, or encounters a character which cannot be
-            //    part of the format.  This routine is limited in its ability to
-            //    recognize FORTRAN formats.  In particular, we are only expecting
-            //    a single format specification, and cannot handle extra features
-            //    such as 'ES' and 'EN' codes, '5X' spacing, and so on.
-            //
-            //    Legal input is:
-            //
-            //       0 nothing
-            //       1 blanks
-            //       2 optional '('
-            //       3 blanks
-            //       4 optional repeat factor R
-            //       5 blanks
-            //       6 CODE ( 'A', 'B', 'E', 'F', 'G', 'I', 'L', 'O', 'Z', '*' )
-            //       7 blanks
-            //       8 width W
-            //       9 optional decimal point
-            //      10 optional mantissa M
-            //      11 blanks
-            //      12 optional ')'
-            //      13 blanks
-            //
-            //  Example:
-            //
-            //    S                 R   CODE   W    M
-            //
-            //    'I12              1   I      12   0
-            //    'E8.0'            1   E       8   0
-            //    'F10.5'           1   F      10   5
-            //    '2G14.6'          2   G      14   6
-            //    '*'               1   *      -1  -1
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 April 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char *S, the string containing the
-            //    data to be read.  Reading will begin at position 1 and
-            //    terminate at the end of the string, or when no more
-            //    characters can be read.
-            //
-            //    Output, int *R, the repetition factor, which defaults to 1.
-            //
-            //    Output, char *CODE, the format code.
-            //
-            //    Output, int *W, the field width.
-            //
-            //    Output, int *M, the mantissa width.
-            //
+    public static void s_to_format(char[] s, ref int r, ref char code, ref int w, ref int m)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_TO_FORMAT reads a FORTRAN format from a string.
+        //
+        //  Discussion:
+        //
+        //    This routine will read as many characters as possible until it reaches
+        //    the end of the string, or encounters a character which cannot be
+        //    part of the format.  This routine is limited in its ability to
+        //    recognize FORTRAN formats.  In particular, we are only expecting
+        //    a single format specification, and cannot handle extra features
+        //    such as 'ES' and 'EN' codes, '5X' spacing, and so on.
+        //
+        //    Legal input is:
+        //
+        //       0 nothing
+        //       1 blanks
+        //       2 optional '('
+        //       3 blanks
+        //       4 optional repeat factor R
+        //       5 blanks
+        //       6 CODE ( 'A', 'B', 'E', 'F', 'G', 'I', 'L', 'O', 'Z', '*' )
+        //       7 blanks
+        //       8 width W
+        //       9 optional decimal point
+        //      10 optional mantissa M
+        //      11 blanks
+        //      12 optional ')'
+        //      13 blanks
+        //
+        //  Example:
+        //
+        //    S                 R   CODE   W    M
+        //
+        //    'I12              1   I      12   0
+        //    'E8.0'            1   E       8   0
+        //    'F10.5'           1   F      10   5
+        //    '2G14.6'          2   G      14   6
+        //    '*'               1   *      -1  -1
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 April 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char *S, the string containing the
+        //    data to be read.  Reading will begin at position 1 and
+        //    terminate at the end of the string, or when no more
+        //    characters can be read.
+        //
+        //    Output, int *R, the repetition factor, which defaults to 1.
+        //
+        //    Output, char *CODE, the format code.
+        //
+        //    Output, int *W, the field width.
+        //
+        //    Output, int *M, the mantissa width.
+        //
+    {
+        const bool debug = true;
+        const int LEFT = 1;
+        const int RIGHT = -1;
+
+        int state = 0;
+        int paren_sum = 0;
+        int pos = 0;
+        int s_length = s_len_trim(s);
+
+        r = 0;
+        w = 0;
+        code = '?';
+        m = 0;
+
+        while (pos < s_length)
         {
-            char c;
-            int d;
-            bool debug = true;
-            int LEFT = 1;
-            int paren_sum;
-            int pos;
-            int RIGHT = -1;
-            int s_length;
-            int state;
-
-            state = 0;
-            paren_sum = 0;
-            pos = 0;
-            s_length = s_len_trim(s);
-
-            r = 0;
-            w = 0;
-            code = '?';
-            m = 0;
-
-            while (pos < s_length)
+            char c = s[pos];
+            pos += 1;
+            //
+            //  BLANK character:
+            //
+            if (c == ' ')
             {
-                c = s[pos];
-                pos = pos + 1;
-                //
-                //  BLANK character:
-                //
-                if (c == ' ')
+                state = state switch
                 {
-                    if (state == 4)
-                    {
-                        state = 5;
-                    }
-                    else if (state == 6)
-                    {
-                        state = 7;
-                    }
-                    else if (state == 10)
-                    {
-                        state = 11;
-                    }
-                    else if (state == 12)
-                    {
-                        state = 13;
-                    }
+                    4 => 5,
+                    6 => 7,
+                    10 => 11,
+                    12 => 13,
+                    _ => state
+                };
+            }
+            //
+            //  LEFT PAREN
+            //
+            else if (c == '(')
+            {
+                if (state < 2)
+                {
+                    paren_sum += LEFT;
                 }
-                //
-                //  LEFT PAREN
-                //
-                else if (c == '(')
+                else
                 {
-                    if (state < 2)
+                    switch (debug)
                     {
-                        paren_sum = paren_sum + LEFT;
-                    }
-                    else
-                    {
-                        if (debug)
-                        {
+                        case true:
                             Console.WriteLine("");
                             Console.WriteLine("S_TO_FORMAT - Fatal error!");
                             Console.WriteLine("  Current state = " + state + "");
                             Console.WriteLine("  Input character = '" + c + "'.");
-                        }
+                            break;
+                    }
 
-                        state = -1;
-                        break;
-                    }
+                    state = -1;
+                    break;
                 }
-                //
-                //  DIGIT (R, F, or W)
-                //
-                else if (ch_is_digit(c))
+            }
+            //
+            //  DIGIT (R, F, or W)
+            //
+            else if (ch_is_digit(c))
+            {
+                if (state <= 3)
                 {
-                    if (state <= 3)
-                    {
-                        state = 4;
-                        r = ch_to_digit(c);
-                    }
-                    else if (state == 4)
+                    state = 4;
+                    r = ch_to_digit(c);
+                }
+                else
+                {
+                    int d;
+                    if (state == 4)
                     {
                         d = ch_to_digit(c);
-                        r = 10 * (r) + d;
+                        r = 10 * r + d;
                     }
                     else if (state == 6 || state == 7)
                     {
                         if (code == '*')
                         {
-                            if (debug)
+                            switch (debug)
                             {
-                                Console.WriteLine("");
-                                Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                                Console.WriteLine("  Current state = " + state + "");
-                                Console.WriteLine("  Current code = '" + code + "'.");
-                                Console.WriteLine("  Input character = '" + c + "'.");
+                                case true:
+                                    Console.WriteLine("");
+                                    Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                                    Console.WriteLine("  Current state = " + state + "");
+                                    Console.WriteLine("  Current code = '" + code + "'.");
+                                    Console.WriteLine("  Input character = '" + c + "'.");
+                                    break;
                             }
 
                             state = -1;
@@ -474,7 +461,7 @@ namespace Burkardt.Types
                     else if (state == 8)
                     {
                         d = ch_to_digit(c);
-                        w = 10 * (w) + d;
+                        w = 10 * w + d;
                     }
                     else if (state == 9)
                     {
@@ -484,242 +471,261 @@ namespace Burkardt.Types
                     else if (state == 10)
                     {
                         d = ch_to_digit(c);
-                        m = 10 * (m) + d;
+                        m = 10 * m + d;
                     }
                     else
                     {
-                        if (debug)
+                        switch (debug)
                         {
-                            Console.WriteLine("");
-                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                            Console.WriteLine("  Current state = " + state + "");
-                            Console.WriteLine("  Input character = '" + c + "'.");
+                            case true:
+                                Console.WriteLine("");
+                                Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                                Console.WriteLine("  Current state = " + state + "");
+                                Console.WriteLine("  Input character = '" + c + "'.");
+                                break;
                         }
 
                         state = -1;
                         break;
                     }
                 }
-                //
-                //  DECIMAL POINT
-                //
-                else if (c == '.')
+            }
+            //
+            //  DECIMAL POINT
+            //
+            else if (c == '.')
+            {
+                if (state == 8)
                 {
-                    if (state == 8)
-                    {
-                        state = 9;
-                    }
-                    else
-                    {
-                        if (debug)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                            Console.WriteLine("  Current state = " + state + "");
-                            Console.WriteLine("  Input character = '" + c + "'.");
-                        }
-
-                        state = -1;
-                        break;
-                    }
+                    state = 9;
                 }
-                //
-                //  RIGHT PAREN
-                //
-                else if (c == ')')
-                {
-                    paren_sum = paren_sum + RIGHT;
-
-                    if (paren_sum != 0)
-                    {
-                        if (debug)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                            Console.WriteLine("  Current paren sum = " + paren_sum + "");
-                            Console.WriteLine("  Input character = '" + c + "'.");
-                        }
-
-                        state = -1;
-                        break;
-                    }
-
-                    if (state == 6 && code == '*')
-                    {
-                        state = 12;
-                    }
-                    else if (6 <= state)
-                    {
-                        state = 12;
-                    }
-                    else
-                    {
-                        if (debug)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                            Console.WriteLine("  Current state = " + state + "");
-                            Console.WriteLine("  Input character = '" + c + "'.");
-                        }
-
-                        state = -1;
-                        break;
-                    }
-                }
-                //
-                //  Code
-                //
-                else if (ch_is_format_code(c))
-                {
-                    if (state < 6)
-                    {
-                        state = 6;
-                        code = c;
-                    }
-                    else
-                    {
-                        if (debug)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                            Console.WriteLine("  Current state = " + state + "");
-                            Console.WriteLine("  Input character = '" + c + "'.");
-                        }
-
-                        state = -1;
-                        break;
-                    }
-                }
-                //
-                //  Unexpected character
-                //
                 else
                 {
-                    if (debug)
+                    switch (debug)
                     {
-                        Console.WriteLine("");
-                        Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                        Console.WriteLine("  Current state = " + state + "");
-                        Console.WriteLine("  Input character = '" + c + "'.");
+                        case true:
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                            break;
                     }
 
                     state = -1;
                     break;
                 }
             }
-
-            if (paren_sum != 0)
+            //
+            //  RIGHT PAREN
+            //
+            else if (c == ')')
             {
-                Console.WriteLine("");
-                Console.WriteLine("S_TO_FORMAT - Fatal error!");
-                Console.WriteLine("  Parentheses mismatch.");
-                return;
+                paren_sum += RIGHT;
+
+                if (paren_sum != 0)
+                {
+                    switch (debug)
+                    {
+                        case true:
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current paren sum = " + paren_sum + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                            break;
+                    }
+
+                    state = -1;
+                    break;
+                }
+
+                if (state == 6 && code == '*')
+                {
+                    state = 12;
+                }
+                else if (6 <= state)
+                {
+                    state = 12;
+                }
+                else
+                {
+                    switch (debug)
+                    {
+                        case true:
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                            break;
+                    }
+
+                    state = -1;
+                    break;
+                }
             }
-
-            if (state < 0)
+            //
+            //  Code
+            //
+            else if (ch_is_format_code(c))
             {
+                if (state < 6)
+                {
+                    state = 6;
+                    code = c;
+                }
+                else
+                {
+                    switch (debug)
+                    {
+                        case true:
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                            break;
+                    }
+
+                    state = -1;
+                    break;
+                }
+            }
+            //
+            //  Unexpected character
+            //
+            else
+            {
+                switch (debug)
+                {
+                    case true:
+                        Console.WriteLine("");
+                        Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                        Console.WriteLine("  Current state = " + state + "");
+                        Console.WriteLine("  Input character = '" + c + "'.");
+                        break;
+                }
+
+                state = -1;
+                break;
+            }
+        }
+
+        if (paren_sum != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+            Console.WriteLine("  Parentheses mismatch.");
+            return;
+        }
+
+        switch (state)
+        {
+            case < 0:
                 Console.WriteLine("");
                 Console.WriteLine("S_TO_FORMAT - Fatal error!");
                 Console.WriteLine("  Parsing error.");
                 return;
-            }
-
-            if (r == 0)
-            {
-                r = 1;
-            }
-
-            return;
         }
 
-        public static void s_trim ( ref char[] s )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    S_TRIM promotes the final null forward through trailing blanks.
-            //
-            //  Discussion:
-            //
-            //    What we're trying to say is that we reposition the null character
-            //    so that trailing blanks are no longer visible.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 April 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input/output, char *S, the string to be trimmed.
-            //
+        r = r switch
         {
-            s = String.Join("",s).TrimEnd().ToCharArray();
-        }
+            0 => 1,
+            _ => r
+        };
+    }
+
+    public static void s_trim ( ref char[] s )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_TRIM promotes the final null forward through trailing blanks.
+        //
+        //  Discussion:
+        //
+        //    What we're trying to say is that we reposition the null character
+        //    so that trailing blanks are no longer visible.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 April 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input/output, char *S, the string to be trimmed.
+        //
+    {
+        s = string.Join("",s).TrimEnd().ToCharArray();
+    }
         
-        public static int s_word_count ( string s )
+    public static int s_word_count ( string s )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    S_WORD_COUNT counts the number of "words" in a string.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 July 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string S, the string to be examined.
-            //
-            //    Output, int S_WORD_COUNT, the number of "words" in the string.
-            //    Words are presumed to be separated by one or more blanks.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_WORD_COUNT counts the number of "words" in a string.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 July 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string S, the string to be examined.
+        //
+        //    Output, int S_WORD_COUNT, the number of "words" in the string.
+        //    Words are presumed to be separated by one or more blanks.
+        //
+    {
+        int i;
+
+        int word_count = 0;
+        bool blank = true;
+
+        int char_count = s.Length;
+
+        for ( i = 0; i < char_count; i++ )
         {
-            bool blank;
-            int char_count;
-            int i;
-            int word_count;
-
-            word_count = 0;
-            blank = true;
-
-            char_count = s.Length;
-
-            for ( i = 0; i < char_count; i++ )
+            switch (s[i])
             {
-                if ( ( s[i] == ' ' ) )
-                {
+                case ' ':
                     blank = true;
-                }
-                else if ( blank )
+                    break;
+                default:
                 {
-                    word_count = word_count + 1;
-                    blank = false;
+                    switch (blank)
+                    {
+                        case true:
+                            word_count += 1;
+                            blank = false;
+                            break;
+                    }
+
+                    break;
                 }
             }
-
-            return word_count;
         }
+
+        return word_count;
+    }
         
-        public static void s_word_extract_first ( string s, ref string s1, ref string s2 )
+    public static void s_word_extract_first ( string s, ref string s1, ref string s2 )
 
         //****************************************************************************80
         //
@@ -753,101 +759,110 @@ namespace Burkardt.Types
         //    Output, string &S2, the remainder of the string, after removing
         //    the first word (initial blanks removed).
         //
+    {
+        int i;
+
+        int s_len = s.Length;
+        s1 = "";
+        s2 = "";
+        int mode = 1;
+
+        for ( i = 0; i < s_len; i++ )
         {
-            int i;
-            int mode;
-            int s_len;
-
-            s_len = s.Length;
-            s1 = "";
-            s2 = "";
-            mode = 1;
-
-            for ( i = 0; i < s_len; i++ )
+            switch (mode)
             {
-                if ( mode == 1 )
+                case 1:
                 {
                     if ( s[i] != ' ' )
                     {
                         mode = 2;
                     }
+
+                    break;
                 }
-                else if ( mode == 2 )
+                case 2:
                 {
-                    if ( s[i] == ' ' )
+                    mode = s[i] switch
                     {
-                        mode = 3;
-                    }
+                        ' ' => 3,
+                        _ => mode
+                    };
+
+                    break;
                 }
-                else if ( mode == 3 )
+                case 3:
                 {
                     if ( s[i] != ' ' )
                     {
                         mode = 4;
                     }
-                }
-                if ( mode == 2 )
-                {
-                    s1 = s1 + s[i];
-                }
-                else if ( mode == 4 )
-                {
-                    s2 = s2 + s[i];
+
+                    break;
                 }
             }
-        }
-        public static bool s_eqi(string a, string b)
-        {
-            return a.ToLower() == b.ToLower();
-        }
 
-        public static int s_len_trim ( char[] s )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    S_LEN_TRIM returns the length of a string to the last nonblank.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    26 April 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char *S, a pointer to a string.
-            //
-            //    Output, int S_LEN_TRIM, the length of the string to the last nonblank.
-            //    If S_LEN_TRIM is 0, then the string is entirely blank.
-            //
-        {
-            int n;
-            int t;
-
-            n =  ( s.Length );
-            t = n  - 1;
-
-            while ( 0 < n ) 
+            switch (mode)
             {
-                if ( s[t] != ' ' )
-                {
-                    return n;
-                }
-                t--;
-                n--;
+                case 2:
+                    s1 += s[i];
+                    break;
+                case 4:
+                    s2 += s[i];
+                    break;
             }
-
-            return n;
         }
-        public static int s_len_trim(string line)
+    }
+    public static bool s_eqi(string a, string b)
+    {
+        return a.ToLower() == b.ToLower();
+    }
+
+    public static int s_len_trim ( char[] s )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_LEN_TRIM returns the length of a string to the last nonblank.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    26 April 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char *S, a pointer to a string.
+        //
+        //    Output, int S_LEN_TRIM, the length of the string to the last nonblank.
+        //    If S_LEN_TRIM is 0, then the string is entirely blank.
+        //
+    {
+        int n = s.Length;
+        int t = n  - 1;
+
+        while ( 0 < n ) 
+        {
+            if ( s[t] != ' ' )
+            {
+                return n;
+            }
+            t--;
+            n--;
+        }
+
+        return n;
+    }
+    public static int s_len_trim(string line)
+    {
+        switch (line)
         {
             //****************************************************************************80
             //
@@ -874,247 +889,234 @@ namespace Burkardt.Types
             //    Output, int S_LEN_TRIM, the length of the string to the last nonblank.
             //    If S_LEN_TRIM is 0, then the string is entirely blank.
             //
-            if (line == "")
-            {
+            case "":
                 return 0;
-            }
-
-            string tmp = line.TrimEnd();
-            tmp = line.TrimStart();
-
-            int index = tmp.Length;
-
-            /*
-            int index = line.Length - 1;
-            while ((index >= 0) && (line[index] == ' '))
-            {
-            index--;
-            }
-            */
-            return index;
         }
 
-        public static bool ch_is_digit ( char c )
+        string tmp = line.TrimEnd();
+        tmp = line.TrimStart();
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CH_IS_DIGIT returns TRUE if a character is a decimal digit.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 December 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char C, the character to be analyzed.
-            //
-            //    Output, bool CH_IS_DIGIT, is TRUE if C is a digit.
-            //
+        int index = tmp.Length;
+
+        /*
+        int index = line.Length - 1;
+        while ((index >= 0) && (line[index] == ' '))
         {
-            if ( '0' <= c && c <= '9' )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+        index--;
         }
-        public static int ch_to_digit(char ch)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CH_TO_DIGIT returns the integer value of a base 10 digit.
-            //
-            //  Example:
-            //
-            //     CH  DIGIT
-            //    ---  -----
-            //    '0'    0
-            //    '1'    1
-            //    ...  ...
-            //    '9'    9
-            //    ' '    0
-            //    'X'   -1
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 June 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char CH, the decimal digit, '0' through '9' or blank are legal.
-            //
-            //    Output, int CH_TO_DIGIT, the corresponding integer value.  If the
-            //    character was 'illegal', then DIGIT is -1.
-            //
+        */
+        return index;
+    }
+
+    public static bool ch_is_digit ( char c )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CH_IS_DIGIT returns TRUE if a character is a decimal digit.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 December 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char C, the character to be analyzed.
+        //
+        //    Output, bool CH_IS_DIGIT, is TRUE if C is a digit.
+        //
+    {
+        return c switch
         {
-            int digit;
+            >= '0' and <= '9' => true,
+            _ => false
+        };
+    }
+    public static int ch_to_digit(char ch)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CH_TO_DIGIT returns the integer value of a base 10 digit.
+        //
+        //  Example:
+        //
+        //     CH  DIGIT
+        //    ---  -----
+        //    '0'    0
+        //    '1'    1
+        //    ...  ...
+        //    '9'    9
+        //    ' '    0
+        //    'X'   -1
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char CH, the decimal digit, '0' through '9' or blank are legal.
+        //
+        //    Output, int CH_TO_DIGIT, the corresponding integer value.  If the
+        //    character was 'illegal', then DIGIT is -1.
+        //
+    {
+        int digit = ch switch
+        {
+            >= '0' and <= '9' => ch - '0',
+            ' ' => 0,
+            _ => -1
+        };
 
-            if ('0' <= ch && ch <= '9')
-            {
-                digit = ch - '0';
-            }
-            else if (ch == ' ')
-            {
-                digit = 0;
-            }
-            else
-            {
-                digit = -1;
-            }
-
-            return digit;
-        }
+        return digit;
+    }
         
-        public static bool ch_is_format_code ( char c )
+    public static bool ch_is_format_code ( char c )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CH_IS_FORMAT_CODE returns TRUE if a character is a FORTRAN format code.
-            //
-            //  Discussion:
-            //
-            //    The format codes accepted here are not the only legal format
-            //    codes in FORTRAN90.  However, they are more than sufficient
-            //    for my needs!
-            //
-            //  Table:
-            //
-            //    A  Character
-            //    B  Binary digits
-            //    D  Real number, exponential representation
-            //    E  Real number, exponential representation
-            //    F  Real number, fixed point
-            //    G  General format
-            //    I  Integer
-            //    L  Logical variable
-            //    O  Octal digits
-            //    Z  Hexadecimal digits
-            //    *  Free format
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    21 November 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char C, the character to be analyzed.
-            //
-            //    Output, bool CH_IS_FORMAT_CODE, is TRUE if C is a FORTRAN format code.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CH_IS_FORMAT_CODE returns TRUE if a character is a FORTRAN format code.
+        //
+        //  Discussion:
+        //
+        //    The format codes accepted here are not the only legal format
+        //    codes in FORTRAN90.  However, they are more than sufficient
+        //    for my needs!
+        //
+        //  Table:
+        //
+        //    A  Character
+        //    B  Binary digits
+        //    D  Real number, exponential representation
+        //    E  Real number, exponential representation
+        //    F  Real number, fixed point
+        //    G  General format
+        //    I  Integer
+        //    L  Logical variable
+        //    O  Octal digits
+        //    Z  Hexadecimal digits
+        //    *  Free format
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    21 November 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char C, the character to be analyzed.
+        //
+        //    Output, bool CH_IS_FORMAT_CODE, is TRUE if C is a FORTRAN format code.
+        //
+    {
+        if ( ch_eqi ( c, 'A' ) ) 
         {
-            if ( ch_eqi ( c, 'A' ) ) 
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'B' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'D' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'E' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'F' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'G' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'I' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'L' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'O' ) )
-            {
-                return true;
-            }
-            else if ( ch_eqi ( c, 'Z' ) )
-            {
-                return true;
-            }
-            else if ( c == '*' )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return true;
         }
+
+        if ( ch_eqi ( c, 'B' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'D' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'E' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'F' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'G' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'I' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'L' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'O' ) )
+        {
+            return true;
+        }
+        if ( ch_eqi ( c, 'Z' ) )
+        {
+            return true;
+        }
+
+        return c switch
+        {
+            '*' => true,
+            _ => false
+        };
+    }
         
-        public static bool ch_eqi ( char c1, char c2 )
+    public static bool ch_eqi ( char c1, char c2 )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CH_EQI is true if two characters are equal, disregarding case.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    13 June 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, char C1, C2, the characters to compare.
-            //
-            //    Output, bool CH_EQI, is true if the two characters are equal,
-            //    disregarding case.
-            //
-        {
-            return ( c1.ToString().ToLower() == c2.ToString().ToLower() );
-        }
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CH_EQI is true if two characters are equal, disregarding case.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 June 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, char C1, C2, the characters to compare.
+        //
+        //    Output, bool CH_EQI, is true if the two characters are equal,
+        //    disregarding case.
+        //
+    {
+        return c1.ToString().ToLower() == c2.ToString().ToLower();
+    }
 
-        public static int s_to_i4(string st, ref int last, ref bool error )
+    public static int s_to_i4(string st, ref int last, ref bool error )
 
         //****************************************************************************80
         //
@@ -1145,117 +1147,93 @@ namespace Burkardt.Types
         //    Output, int *S_TO_I4, the integer value read from the string.
         //    If the string is blank, then IVAL will be returned 0.
         //
+    {
+        error = false;
+        int istate = 0;
+        int isgn = 1;
+        int i = 0;
+        int ival = 0;
+
+        char[] s = st.ToCharArray();
+
+        for (;;)
         {
             char c;
-            int i;
-            int isgn;
-            int istate;
-            int ival;
-
-            error = false;
-            istate = 0;
-            isgn = 1;
-            i = 0;
-            ival = 0;
-
-            char[] s = st.ToCharArray();
-
-            for (;;)
+            try
             {
-                try
-                {
-                    c = s[i];
-                }
-                catch (Exception e)
-                {
-                    break;
-                }
-                i = i + 1;
+                c = s[i];
+            }
+            catch (Exception)
+            {
+                break;
+            }
+            i += 1;
+            switch (istate)
+            {
                 //
                 //  Haven't read anything.
                 //
-                if (istate == 0)
-                {
-                    if (c == ' ')
-                    {
-                    }
-                    else if (c == '-')
-                    {
-                        istate = 1;
-                        isgn = -1;
-                    }
-                    else if (c == '+')
-                    {
-                        istate = 1;
-                        isgn = +1;
-                    }
-                    else if ('0' <= c && c <= '9')
-                    {
-                        istate = 2;
-                        ival = c - '0';
-                    }
-                    else
-                    {
-                        error = true;
-                        return ival;
-                    }
-                }
+                case 0 when c == ' ':
+                    break;
+                case 0 when c == '-':
+                    istate = 1;
+                    isgn = -1;
+                    break;
+                case 0 when c == '+':
+                    istate = 1;
+                    isgn = +1;
+                    break;
+                case 0 when '0' <= c && c <= '9':
+                    istate = 2;
+                    ival = c - '0';
+                    break;
+                case 0:
+                    error = true;
+                    return ival;
                 //
                 //  Have read the sign, expecting digits.
                 //
-                else if (istate == 1)
-                {
-                    if (c == ' ')
-                    {
-                    }
-                    else if ('0' <= c && c <= '9')
-                    {
-                        istate = 2;
-                        ival = c - '0';
-                    }
-                    else
-                    {
-                        error = true;
-                        return ival;
-                    }
-                }
+                case 1 when c == ' ':
+                    break;
+                case 1 when '0' <= c && c <= '9':
+                    istate = 2;
+                    ival = c - '0';
+                    break;
+                case 1:
+                    error = true;
+                    return ival;
                 //
                 //  Have read at least one digit, expecting more.
                 //
-                else if (istate == 2)
-                {
-                    if ('0' <= c && c <= '9')
-                    {
-                        ival = 10 * ival + c - '0';
-                    }
-                    else
-                    {
-                        ival = isgn * ival;
-                        last = i - 1;
-                        return ival;
-                    }
-
-                }
+                case 2 when '0' <= c && c <= '9':
+                    ival = 10 * ival + c - '0';
+                    break;
+                case 2:
+                    ival = isgn * ival;
+                    last = i - 1;
+                    return ival;
             }
+        }
 
+        switch (istate)
+        {
             //
             //  If we read all the characters in the string, see if we're OK.
             //
-            if (istate == 2)
-            {
+            case 2:
                 ival = isgn * ival;
                 last = s_len_trim(st);
-            }
-            else
-            {
+                break;
+            default:
                 error = true;
                 last = 0;
-            }
-
-            return ival;
+                break;
         }
 
-        public static double s_to_r8(string s, ref int lchar, ref bool error )
+        return ival;
+    }
+
+    public static double s_to_r8(string s, ref int lchar, ref bool error )
 
         //****************************************************************************80
         //
@@ -1335,338 +1313,328 @@ namespace Burkardt.Types
         //
         //    Output, double S_TO_R8, the real value that was read from the string.
         //
+    {
+        double rexp;
+        const int TAB = 9;
+
+        int nchar = s_len_trim(s);
+        error = false;
+        double r = 0.0;
+        lchar = -1;
+        int isgn = 1;
+        double rtop = 0.0;
+        double rbot = 1.0;
+        int jsgn = 1;
+        int jtop = 0;
+        int jbot = 1;
+        int ihave = 1;
+        int iterm = 0;
+
+        for (;;)
         {
-            char c;
-            int ihave;
-            int isgn;
-            int iterm;
-            int jbot;
-            int jsgn;
-            int jtop;
-            int nchar;
-            int ndig;
-            double r;
-            double rbot;
-            double rexp;
-            double rtop;
-            int TAB = 9;
-
-            nchar = s_len_trim(s);
-            error = false;
-            r = 0.0;
-            lchar = -1;
-            isgn = 1;
-            rtop = 0.0;
-            rbot = 1.0;
-            jsgn = 1;
-            jtop = 0;
-            jbot = 1;
-            ihave = 1;
-            iterm = 0;
-
-            for (;;)
+            char c = s[lchar + 1];
+            lchar += 1;
+            //
+            //  Blank or TAB character.
+            //
+            if (c == ' ' || c == TAB)
             {
-                c = s[lchar + 1];
-                lchar = lchar + 1;
-                //
-                //  Blank or TAB character.
-                //
-                if (c == ' ' || c == TAB)
+                switch (ihave)
                 {
-                    if (ihave == 2)
-                    {
-                    }
-                    else if (ihave == 6 || ihave == 7)
-                    {
+                    case 2:
+                        break;
+                    case 6:
+                    case 7:
                         iterm = 1;
-                    }
-                    else if (1 < ihave)
-                    {
+                        break;
+                    case > 1:
                         ihave = 11;
-                    }
+                        break;
                 }
-                //
-                //  Comma.
-                //
-                else if (c == ',' || c == ';')
+            }
+            else
+            {
+                switch (c)
                 {
-                    if (ihave != 1)
+                    //
+                    //  Comma.
+                    //
+                    case ',':
+                    case ';':
                     {
-                        iterm = 1;
-                        ihave = 12;
-                        lchar = lchar + 1;
+                        if (ihave != 1)
+                        {
+                            iterm = 1;
+                            ihave = 12;
+                            lchar += 1;
+                        }
+
+                        break;
                     }
-                }
-                //
-                //  Minus sign.
-                //
-                else if (c == '-')
-                {
-                    if (ihave == 1)
-                    {
+                    //
+                    //  Minus sign.
+                    //
+                    case '-' when ihave == 1:
                         ihave = 2;
                         isgn = -1;
-                    }
-                    else if (ihave == 6)
-                    {
+                        break;
+                    case '-' when ihave == 6:
                         ihave = 7;
                         jsgn = -1;
-                    }
-                    else
-                    {
+                        break;
+                    case '-':
                         iterm = 1;
-                    }
-                }
-                //
-                //  Plus sign.
-                //
-                else if (c == '+')
-                {
-                    if (ihave == 1)
-                    {
+                        break;
+                    //
+                    //  Plus sign.
+                    //
+                    case '+' when ihave == 1:
                         ihave = 2;
-                    }
-                    else if (ihave == 6)
-                    {
+                        break;
+                    case '+' when ihave == 6:
                         ihave = 7;
-                    }
-                    else
-                    {
+                        break;
+                    case '+':
                         iterm = 1;
-                    }
-                }
-                //
-                //  Decimal point.
-                //
-                else if (c == '.')
-                {
-                    if (ihave < 4)
-                    {
+                        break;
+                    //
+                    //  Decimal point.
+                    //
+                    case '.' when ihave < 4:
                         ihave = 4;
-                    }
-                    else if (6 <= ihave && ihave <= 8)
-                    {
+                        break;
+                    case '.' when 6 <= ihave && ihave <= 8:
                         ihave = 9;
-                    }
-                    else
-                    {
+                        break;
+                    case '.':
                         iterm = 1;
+                        break;
+                    //
+                    //  Exponent marker.
+                    //
+                    case 'E':
+                    case 'D':
+                    {
+                        switch (ihave)
+                        {
+                            case < 6:
+                                ihave = 6;
+                                break;
+                            default:
+                                iterm = 1;
+                                break;
+                        }
+
+                        break;
+                    }
+                    //
+                    default:
+                    {
+                        switch (ihave)
+                        {
+                            case < 11 when '0' <= c && c <= '9':
+                                switch (ihave)
+                                {
+                                    case <= 2:
+                                        ihave = 3;
+                                        break;
+                                    case 4:
+                                        ihave = 5;
+                                        break;
+                                    case 6:
+                                    case 7:
+                                        ihave = 8;
+                                        break;
+                                    case 9:
+                                        ihave = 10;
+                                        break;
+                                }
+
+                                int ndig = ch_to_digit(c);
+
+                                switch (ihave)
+                                {
+                                    case 3:
+                                        rtop = 10.0 * rtop + ndig;
+                                        break;
+                                    case 5:
+                                        rtop = 10.0 * rtop + ndig;
+                                        rbot = 10.0 * rbot;
+                                        break;
+                                    case 8:
+                                        jtop = 10 * jtop + ndig;
+                                        break;
+                                    case 10:
+                                        jtop = 10 * jtop + ndig;
+                                        jbot = 10 * jbot;
+                                        break;
+                                }
+
+                                break;
+                            //
+                            default:
+                                iterm = 1;
+                                break;
+                        }
+
+                        break;
                     }
                 }
-                //
-                //  Exponent marker.
-                //
-                else if ((c == 'E') || (c == 'D'))
-                {
-                    if (ihave < 6)
-                    {
-                        ihave = 6;
-                    }
-                    else
-                    {
-                        iterm = 1;
-                    }
-                }
-                //
-                //  Digit.
-                //
-                else if (ihave < 11 && '0' <= c && c <= '9')
-                {
-                    if (ihave <= 2)
-                    {
-                        ihave = 3;
-                    }
-                    else if (ihave == 4)
-                    {
-                        ihave = 5;
-                    }
-                    else if (ihave == 6 || ihave == 7)
-                    {
-                        ihave = 8;
-                    }
-                    else if (ihave == 9)
-                    {
-                        ihave = 10;
-                    }
-
-                    ndig = ch_to_digit(c);
-
-                    if (ihave == 3)
-                    {
-                        rtop = 10.0 * rtop + (double) ndig;
-                    }
-                    else if (ihave == 5)
-                    {
-                        rtop = 10.0 * rtop + (double) ndig;
-                        rbot = 10.0 * rbot;
-                    }
-                    else if (ihave == 8)
-                    {
-                        jtop = 10 * jtop + ndig;
-                    }
-                    else if (ihave == 10)
-                    {
-                        jtop = 10 * jtop + ndig;
-                        jbot = 10 * jbot;
-                    }
-
-                }
-                //
-                //  Anything else is regarded as a terminator.
-                //
-                else
-                {
-                    iterm = 1;
-                }
-
-                //
-                //  If we haven't seen a terminator, and we haven't examined the
-                //  entire string, go get the next character.
-                //
-                if (iterm == 1 || nchar <= lchar + 1)
-                {
-                    break;
-                }
-
             }
 
             //
-            //  If we haven't seen a terminator, and we have examined the
-            //  entire string, then we're done, and LCHAR is equal to NCHAR.
+            //  If we haven't seen a terminator, and we haven't examined the
+            //  entire string, go get the next character.
             //
-            if (iterm != 1 && lchar + 1 == nchar)
+            if (iterm == 1 || nchar <= lchar + 1)
             {
-                lchar = nchar;
+                break;
             }
 
+        }
+
+        //
+        //  If we haven't seen a terminator, and we have examined the
+        //  entire string, then we're done, and LCHAR is equal to NCHAR.
+        //
+        if (iterm != 1 && lchar + 1 == nchar)
+        {
+            lchar = nchar;
+        }
+
+        switch (ihave)
+        {
             //
             //  Number seems to have terminated.  Have we got a legal number?
             //  Not if we terminated in states 1, 2, 6 or 7!
             //
-            if (ihave == 1 || ihave == 2 || ihave == 6 || ihave == 7)
-            {
+            case 1:
+            case 2:
+            case 6:
+            case 7:
                 error = true;
                 return r;
-            }
+        }
 
+        switch (jtop)
+        {
             //
             //  Number seems OK.  Form it.
             //
-            if (jtop == 0)
-            {
+            case 0:
                 rexp = 1.0;
-            }
-            else
+                break;
+            default:
             {
-                if (jbot == 1)
+                switch (jbot)
                 {
-                    rexp = Math.Pow(10.0, jsgn * jtop);
-                }
-                else
-                {
-                    rexp = jsgn * jtop;
-                    rexp = rexp / jbot;
-                    rexp = Math.Pow(10.0, rexp);
+                    case 1:
+                        rexp = Math.Pow(10.0, jsgn * jtop);
+                        break;
+                    default:
+                        rexp = jsgn * jtop;
+                        rexp /= jbot;
+                        rexp = Math.Pow(10.0, rexp);
+                        break;
                 }
 
+                break;
             }
-
-            r = isgn * rexp * rtop / rbot;
-
-            return r;
-        }
-        
-        public static string s_escape_tex ( string s1 )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    S_ESCAPE_TEX de-escapes TeX escape sequences.
-            //
-            //  Discussion:
-            //
-            //    In particular, every occurrence of the characters '\', '_',
-            //    '^', '{' and '}' will be replaced by '\\', '\_', '\^',
-            //    '\{' and '\}'.  A TeX interpreter, on seeing these character
-            //    strings, is then likely to return the original characters.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    29 August 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string S1, the string to be de-escaped.
-            //
-            //    Output, string S_ESCAPE_TEX, a copy of the string,
-            //    modified to avoid TeX escapes.
-            //
-        {
-            char ch;
-            int s1_length;
-            int s1_pos;
-            char[] s2;
-            int s2_pos;
-            string s3;
-            int slash_count;
-
-            s1_length = s1.Length;
-
-            slash_count = 0;
-            for ( s1_pos = 0; s1_pos < s1_length; s1_pos++ )
-            {
-                ch = s1[s1_pos];
-
-                if ( ch == '\\' ||
-                     ch == '_' ||
-                     ch == '^' ||
-                     ch == '{' ||
-                     ch == '}' )
-                {
-                    slash_count = slash_count + 1;
-                }
-            }
-            s2 = new char[s1_length + slash_count + 1];
-            //
-            //  Now copy S1 into S2.
-            //
-            s1_pos = 0;
-            s2_pos = 0;
-
-            for ( s1_pos = 0; s1_pos < s1_length; s1_pos++ )
-            {
-                ch = s1[s1_pos];
-
-                if ( ch == '\\' ||
-                     ch == '_' ||
-                     ch == '^' ||
-                     ch == '{' ||
-                     ch == '}' )
-                {
-                    s2[s2_pos] = '\\';
-                    s2_pos = s2_pos + 1;
-                }
-
-                s2[s2_pos] = ch;
-                s2_pos = s2_pos + 1;
-            }
-
-            s2[s2_pos] = '\0';
-            s2_pos = s2_pos + 1;
-
-            s3 = s2.ToString();
-
-            return s3;
         }
 
+        r = isgn * rexp * rtop / rbot;
+
+        return r;
     }
+        
+    public static string s_escape_tex ( string s1 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_ESCAPE_TEX de-escapes TeX escape sequences.
+        //
+        //  Discussion:
+        //
+        //    In particular, every occurrence of the characters '\', '_',
+        //    '^', '{' and '}' will be replaced by '\\', '\_', '\^',
+        //    '\{' and '\}'.  A TeX interpreter, on seeing these character
+        //    strings, is then likely to return the original characters.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 August 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string S1, the string to be de-escaped.
+        //
+        //    Output, string S_ESCAPE_TEX, a copy of the string,
+        //    modified to avoid TeX escapes.
+        //
+    {
+        char ch;
+        int s1_pos;
+
+        int s1_length = s1.Length;
+
+        int slash_count = 0;
+        for ( s1_pos = 0; s1_pos < s1_length; s1_pos++ )
+        {
+            ch = s1[s1_pos];
+
+            switch (ch)
+            {
+                case '\\':
+                case '_':
+                case '^':
+                case '{':
+                case '}':
+                    slash_count += 1;
+                    break;
+            }
+        }
+        char[] s2 = new char[s1_length + slash_count + 1];
+        //
+        //  Now copy S1 into S2.
+        //
+        s1_pos = 0;
+        int s2_pos = 0;
+
+        for ( s1_pos = 0; s1_pos < s1_length; s1_pos++ )
+        {
+            ch = s1[s1_pos];
+
+            switch (ch)
+            {
+                case '\\':
+                case '_':
+                case '^':
+                case '{':
+                case '}':
+                    s2[s2_pos] = '\\';
+                    s2_pos += 1;
+                    break;
+            }
+
+            s2[s2_pos] = ch;
+            s2_pos += 1;
+        }
+
+        s2[s2_pos] = '\0';
+
+        string s3 = s2.ToString();
+
+        return s3;
+    }
+
 }

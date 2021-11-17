@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace FEM1DNonlinearTest
+namespace FEM1DNonlinearTest;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
 //****************************************************************************80
 //
 //  Purpose:
@@ -183,116 +183,120 @@ namespace FEM1DNonlinearTest
 //    XR is the right endpoint of the interval over which the
 //    differential equation is being solved.
 //
-        {
-            int N = 10;
-            int NL = 2;
+    {
+        int N = 10;
+        int NL = 2;
 
-            double[] adiag = new double[N + 1];
-            double[] aleft = new double[N + 1];
-            double[] arite = new double[N + 1];
-            double[] f = new double[N + 1];
-            double[] fold = new double[N + 1];
-            double[] h = new double[N];
-            int ibc = 0;
-            int imax = 0;
-            int[] indx = new int[N + 1];
-            int[] node = new int[NL * N];
-            int nprint = 0;
-            int nquad = 0;
-            int nu = 0;
-            int problem = 0;
-            double ul = 0;
-            double ur = 0;
-            double xl = 0;
-            double[] xn = new double[N + 1];
-            double[] xquad = new double[N];
-            double xr = 0;
+        double[] adiag = new double[N + 1];
+        double[] aleft = new double[N + 1];
+        double[] arite = new double[N + 1];
+        double[] f = new double[N + 1];
+        double[] fold = new double[N + 1];
+        double[] h = new double[N];
+        int ibc = 0;
+        int imax = 0;
+        int[] indx = new int[N + 1];
+        int[] node = new int[NL * N];
+        int nprint = 0;
+        int nquad = 0;
+        int nu = 0;
+        int problem = 0;
+        double ul = 0;
+        double ur = 0;
+        double xl = 0;
+        double[] xn = new double[N + 1];
+        double[] xquad = new double[N];
+        double xr = 0;
 
-            Console.WriteLine("");
-            Console.WriteLine("FEM1D_NONLINEAR");
-            Console.WriteLine("");
-            Console.WriteLine("  Solve a nonlinear boundary value problem:");
-            Console.WriteLine("");
-            Console.WriteLine("    -d/dx (p(x) du/dx) + q(x)*u + u*u' = f(x)");
-            Console.WriteLine("");
-            Console.WriteLine("  on an interval [xl,xr], with the values of");
-            Console.WriteLine("  u or u' specified at xl and xr.");
-            Console.WriteLine("");
-            Console.WriteLine("  The interval [XL,XR] is broken into N = "
-                 + N + " subintervals");
-            Console.WriteLine("  Number of basis functions per element is NL = "
-                 + NL + "");
+        Console.WriteLine("");
+        Console.WriteLine("FEM1D_NONLINEAR");
+        Console.WriteLine("");
+        Console.WriteLine("  Solve a nonlinear boundary value problem:");
+        Console.WriteLine("");
+        Console.WriteLine("    -d/dx (p(x) du/dx) + q(x)*u + u*u' = f(x)");
+        Console.WriteLine("");
+        Console.WriteLine("  on an interval [xl,xr], with the values of");
+        Console.WriteLine("  u or u' specified at xl and xr.");
+        Console.WriteLine("");
+        Console.WriteLine("  The interval [XL,XR] is broken into N = "
+                          + N + " subintervals");
+        Console.WriteLine("  Number of basis functions per element is NL = "
+                          + NL + "");
 //
 //  Initialize variables that define the problem.
 //
-            FEM_1D_Nonlinear.init(ref ibc, ref imax, ref nprint, ref nquad, ref problem, ref ul, ref ur, ref xl, ref xr);
+        FEM_1D_Nonlinear.init(ref ibc, ref imax, ref nprint, ref nquad, ref problem, ref ul, ref ur, ref xl, ref xr);
 //
 //  Compute the quantities that describe the geometry of the problem.
 //
-            FEM_1D_Nonlinear.geometry(ref h, ibc, ref indx, NL, ref node, N, ref nu, xl, ref xn, ref xquad, xr);
+        FEM_1D_Nonlinear.geometry(ref h, ibc, ref indx, NL, ref node, N, ref nu, xl, ref xn, ref xquad, xr);
 //
 //  Initialize the "previous" solution to 0.
 //
-            for (int i = 0; i < nu; i++)
-            {
-                fold[i] = 0.0;
-            }
+        for (int i = 0; i < nu; i++)
+        {
+            fold[i] = 0.0;
+        }
 
 //
 //  Begin the iteration.
 //
-            for (int i = 1; i <= imax; i++)
+        for (int i = 1; i <= imax; i++)
+        {
+            switch (i)
             {
+    
 //
-//  Is it time for full nonlinear Newton iteration?
-//
-                if (i <= 3)
-                {
+                //  Is it time for full nonlinear Newton iteration?
+                //
+                case <= 3:
                     FEM_1D_Nonlinear.assemble_picard(ref adiag, ref aleft, ref arite, ref f, fold, h, indx, N, NL, node,
                         nquad, nu, problem, ul, ur, xn, xquad);
-                }
-                else
-                {
+                    break;
+default:
                     FEM_1D_Nonlinear.assemble_newton(ref adiag, ref aleft, ref arite, ref f, fold, h, indx, N, NL, node,
                         nquad, nu, problem, ul, ur, xn, xquad);
-                }
+                    break;
+            }
 
+            switch (i)
+            {
+    
 //
-//  Print out the linear system, just once.
-//
-                if (i == 1)
-                {
+                //  Print out the linear system, just once.
+                //
+                case 1:
                     FEM_1D_Nonlinear.prsys(adiag, aleft, arite, f, nu);
-                }
+                    break;
+            }
 
 //
 //  Solve the linear system.
 //
-                FEM_1D_Nonlinear.solve(ref adiag, ref aleft, ref arite, ref f, nu);
+            FEM_1D_Nonlinear.solve(ref adiag, ref aleft, ref arite, ref f, nu);
 //
 //  Print the current solution.
 //
-                FEM_1D_Nonlinear.output(f, ibc, indx, N, nu, ul, ur, xn);
+            FEM_1D_Nonlinear.output(f, ibc, indx, N, nu, ul, ur, xn);
 //
 //  Save a copy of the current solution in FOLD.
 //
-                for (int j = 0; j < nu; j++)
-                {
-                    fold[j] = f[j];
-                }
+            for (int j = 0; j < nu; j++)
+            {
+                fold[j] = f[j];
             }
+        }
 
 //
 //  Compare the solution to the exact solution.
 //
-            FEM_1D_Nonlinear.compare(f, indx, N, NL, node, nprint, nu, problem, ul, ur, xl, xn, xr);
+        FEM_1D_Nonlinear.compare(f, indx, N, NL, node, nprint, nu, problem, ul, ur, xl, xn, xr);
 //
 //  Terminate.
 //
-            Console.WriteLine("");
-            Console.WriteLine("FEM1D_NONLINEAR:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
+        Console.WriteLine("");
+        Console.WriteLine("FEM1D_NONLINEAR:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
     }
 }

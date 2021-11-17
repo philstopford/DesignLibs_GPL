@@ -1,9 +1,9 @@
-﻿namespace Burkardt.FEM
+﻿namespace Burkardt.FEM;
+
+public class Derivative
 {
-    public class Derivative
-    {
-        public static void derivative_average_t3(int node_num, double[] node_xy, int element_num,
-        int[] element_node, double[] c, double[] dcdx, double[] dcdy )
+    public static void derivative_average_t3(int node_num, double[] node_xy, int element_num,
+            int[] element_node, double[] c, double[] dcdx, double[] dcdy )
 
         //****************************************************************************80
         //
@@ -52,82 +52,79 @@
         //    Output, double DCDX[NODE_NUM], DCDY[NODE_NUM], the averaged
         //    values of dCdX and dCdY at the nodes.
         //
+    {
+        int OFFSET = 1;
+
+        int dim;
+        double[] dphidx = new double[3 * 3];
+        double[] dphidy = new double[3 * 3];
+        int element;
+        int j;
+        int node;
+        int[] node_count = new int[node_num];
+        int node_global1;
+        int node_global2;
+        int node_local1;
+        int node_local2;
+        double[] phi = new double[3 * 3];
+        double[] t = new double[2 * 3];
+
+        for (node = 0; node < node_num; node++)
         {
-            int OFFSET = 1;
+            node_count[node] = 0;
+            dcdx[node] = 0.0;
+            dcdy[node] = 0.0;
+        }
 
-            int dim;
-            double[] dphidx = new double[3 * 3];
-            double[] dphidy = new double[3 * 3];
-            int element;
-            int j;
-            int node;
-            int[] node_count = new int[node_num];
-            int node_global1;
-            int node_global2;
-            int node_local1;
-            int node_local2;
-            double[] phi = new double[3 * 3];
-            double[] t = new double[2 * 3];
-
-            for (node = 0; node < node_num; node++)
-            {
-                node_count[node] = 0;
-                dcdx[node] = 0.0;
-                dcdy[node] = 0.0;
-            }
-
+        //
+        //  Consider every element.
+        //
+        for (element = 0; element < element_num; element++)
+        {
             //
-            //  Consider every element.
+            //  Get the coordinates of the nodes of the element.
             //
-            for (element = 0; element < element_num; element++)
+            for (j = 0; j < 3; j++)
             {
-                //
-                //  Get the coordinates of the nodes of the element.
-                //
-                for (j = 0; j < 3; j++)
+                for (dim = 0; dim < 2; dim++)
                 {
-                    for (dim = 0; dim < 2; dim++)
-                    {
-                        t[dim + 2 * j] = node_xy[dim + (element_node[j + element * 3] - OFFSET)];
-                    }
-                }
-
-                //
-                //  Evaluate the X and Y derivatives of the 3 basis functions at the
-                //  3 nodes.
-                //
-                Basis_mn.basis_mn_t3(t, 3, t, ref phi, ref dphidx, ref dphidy);
-                //
-                //  Evaluate dCdX and dCdY at each node in the element, and add
-                //  them to the running totals.
-                //
-                for (node_local1 = 0; node_local1 < 3; node_local1++)
-                {
-                    node_global1 = element_node[node_local1 + element * 3] - OFFSET;
-
-                    for (node_local2 = 0; node_local2 < 3; node_local2++)
-                    {
-                        node_global2 = element_node[node_local2 + element * 3] - OFFSET;
-
-                        dcdx[node_global1] = dcdx[node_global1]
-                                             + c[node_global2] * dphidx[node_local2 + node_local1 * 3];
-
-                        dcdy[node_global1] = dcdy[node_global1]
-                                             + c[node_global2] * dphidy[node_local2 + node_local1 * 3];
-                    }
-
-                    node_count[node_global1] = node_count[node_global1] + 1;
+                    t[dim + 2 * j] = node_xy[dim + (element_node[j + element * 3] - OFFSET)];
                 }
             }
 
             //
-            //  Average the running totals.
+            //  Evaluate the X and Y derivatives of the 3 basis functions at the
+            //  3 nodes.
             //
-            for (node = 0; node < node_num; node++)
+            Basis_mn.basis_mn_t3(t, 3, t, ref phi, ref dphidx, ref dphidy);
+            //
+            //  Evaluate dCdX and dCdY at each node in the element, and add
+            //  them to the running totals.
+            //
+            for (node_local1 = 0; node_local1 < 3; node_local1++)
             {
-                dcdx[node] = dcdx[node] / (double) node_count[node];
-                dcdy[node] = dcdy[node] / (double) node_count[node];
+                node_global1 = element_node[node_local1 + element * 3] - OFFSET;
+
+                for (node_local2 = 0; node_local2 < 3; node_local2++)
+                {
+                    node_global2 = element_node[node_local2 + element * 3] - OFFSET;
+
+                    dcdx[node_global1] += c[node_global2] * dphidx[node_local2 + node_local1 * 3];
+
+                    dcdy[node_global1] += c[node_global2] * dphidy[node_local2 + node_local1 * 3];
+                }
+
+                node_count[node_global1] += 1;
             }
+        }
+
+        //
+        //  Average the running totals.
+        //
+        for (node = 0; node < node_num; node++)
+        {
+            dcdx[node] /= node_count[node];
+            dcdy[node] /= node_count[node];
         }
     }
 }

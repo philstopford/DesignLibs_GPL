@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.AppliedStatistics
+namespace Burkardt.AppliedStatistics;
+
+public static partial class Algorithms
 {
-    public static partial class Algorithms
-    {
-        public static double digamma(double x, ref int ifault)
+    public static double digamma(double x, ref int ifault)
         //****************************************************************************80
         //
         //  Purpose:
@@ -43,65 +43,66 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double DIGAMMA, the value of the digamma function at X.
         //
+    {
+        double c = 8.5;
+        double euler_mascheroni = 0.57721566490153286060;
+        double r;
+        double value = 0;
+        double x2;
+        switch (x)
         {
-            double c = 8.5;
-            double euler_mascheroni = 0.57721566490153286060;
-            double r;
-            double value;
-            double x2;
             //
             //  Check the input.
             //
-            if (x <= 0.0)
-            {
+            case <= 0.0:
                 value = 0.0;
                 ifault = 1;
                 return value;
-            }
+        }
 
-            //
-            //  Initialize.
-            //
-            ifault = 0;
+        //
+        //  Initialize.
+        //
+        ifault = 0;
+        switch (x)
+        {
             //
             //  Use approximation for small argument.
             //
-            if (x <= 0.000001)
-            {
+            case <= 0.000001:
                 value = -euler_mascheroni - 1.0 / x + 1.6449340668482264365 * x;
                 return value;
-            }
-
-            //
-            //  Reduce to DIGAMA(X + N).
-            //
-            value = 0.0;
-            x2 = x;
-            while (x2 < c)
-            {
-                value = value - 1.0 / x2;
-                x2 = x2 + 1.0;
-            }
-
-            //
-            //  Use Stirling's (actually de Moivre's) expansion.
-            //
-            r = 1.0 / x2;
-            value = value + Math.Log(x2) - 0.5 * r;
-
-            r = r * r;
-
-            value = value
-                    - r * (1.0 / 12.0
-                           - r * (1.0 / 120.0
-                                  - r * (1.0 / 252.0
-                                         - r * (1.0 / 240.0
-                                                - r * (1.0 / 132.0)))));
-
-            return value;
         }
 
-        public static void psi_values(ref int n_data, ref double x, ref double fx)
+        //
+        //  Reduce to DIGAMA(X + N).
+        //
+        value = 0.0;
+        x2 = x;
+        while (x2 < c)
+        {
+            value -= 1.0 / x2;
+            x2 += 1.0;
+        }
+
+        //
+        //  Use Stirling's (actually de Moivre's) expansion.
+        //
+        r = 1.0 / x2;
+        value = value + Math.Log(x2) - 0.5 * r;
+
+        r *= r;
+
+        value -= r * (1.0 / 12.0
+                      - r * (1.0 / 120.0
+                             - r * (1.0 / 252.0
+                                    - r * (1.0 / 240.0
+                                           - r * (1.0 / 132.0)))));
+
+        return value;
+    }
+
+    public static void psi_values(ref int n_data, ref double x, ref double fx)
         //****************************************************************************80
         //
         //  Purpose:
@@ -162,10 +163,10 @@ namespace Burkardt.AppliedStatistics
         //
         //    Output, double *FX, the value of the function.
         //
-        {
-            int N_MAX = 11;
+    {
+        const int N_MAX = 11;
 
-            double[] fx_vec =  {
+        double[] fx_vec =  {
                 -0.5772156649015329E+00,
                 -0.4237549404110768E+00,
                 -0.2890398965921883E+00,
@@ -180,7 +181,7 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            double[] x_vec =  {
+        double[] x_vec =  {
                 1.0E+00,
                 1.1E+00,
                 1.2E+00,
@@ -195,25 +196,25 @@ namespace Burkardt.AppliedStatistics
             }
             ;
 
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
+        n_data = n_data switch
+        {
+            < 0 => 0,
+            _ => n_data
+        };
 
-            n_data = n_data + 1;
+        n_data += 1;
 
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-
+        if (N_MAX < n_data)
+        {
+            n_data = 0;
+            x = 0.0;
+            fx = 0.0;
         }
+        else
+        {
+            x = x_vec[n_data - 1];
+            fx = fx_vec[n_data - 1];
+        }
+
     }
 }

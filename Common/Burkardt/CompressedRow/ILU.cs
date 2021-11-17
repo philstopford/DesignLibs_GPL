@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace Burkardt.CompressedRow
+namespace Burkardt.CompressedRow;
+
+public static class ILUCR
 {
-    public static class ILUCR
-    {
-        public static void ilu_cr(int n, int nz_num, int[] ia, int[] ja, double[] a, int[] ua,
-        ref double[] l )
+    public static void ilu_cr(int n, int nz_num, int[] ia, int[] ja, double[] a, int[] ua,
+            ref double[] l )
 
         //****************************************************************************80
         //
@@ -50,91 +50,92 @@ namespace Burkardt.CompressedRow
         //
         //    Output, double L[NZ_NUM], the ILU factorization of A.
         //
-        {
-            int[] iw;
-            int i;
-            int j;
-            int jj;
-            int jrow;
-            int jw;
-            int k;
-            double tl;
+    {
+        int[] iw;
+        int i;
+        int j;
+        int jj;
+        int jrow;
+        int jw;
+        int k;
+        double tl;
 
-            iw = new int[n];
+        iw = new int[n];
+        //
+        //  Copy A.
+        //
+        for (k = 0; k < nz_num; k++)
+        {
+            l[k] = a[k];
+        }
+
+        for (i = 0; i < n; i++)
+        {
             //
-            //  Copy A.
+            //  IW points to the nonzero entries in row I.
             //
-            for (k = 0; k < nz_num; k++)
+            for (j = 0; j < n; j++)
             {
-                l[k] = a[k];
+                iw[j] = -1;
             }
 
-            for (i = 0; i < n; i++)
+            for (k = ia[i]; k <= ia[i + 1] - 1; k++)
             {
-                //
-                //  IW points to the nonzero entries in row I.
-                //
-                for (j = 0; j < n; j++)
+                iw[ja[k]] = k;
+            }
+
+            j = ia[i];
+            do
+            {
+                jrow = ja[j];
+                if (i <= jrow)
                 {
-                    iw[j] = -1;
+                    break;
                 }
 
-                for (k = ia[i]; k <= ia[i + 1] - 1; k++)
+                tl = l[j] * l[ua[jrow]];
+                l[j] = tl;
+                for (jj = ua[jrow] + 1; jj <= ia[jrow + 1] - 1; jj++)
                 {
-                    iw[ja[k]] = k;
-                }
-
-                j = ia[i];
-                do
-                {
-                    jrow = ja[j];
-                    if (i <= jrow)
+                    jw = iw[ja[jj]];
+                    if (jw != -1)
                     {
-                        break;
+                        l[jw] -= tl * l[jj];
                     }
-
-                    tl = l[j] * l[ua[jrow]];
-                    l[j] = tl;
-                    for (jj = ua[jrow] + 1; jj <= ia[jrow + 1] - 1; jj++)
-                    {
-                        jw = iw[ja[jj]];
-                        if (jw != -1)
-                        {
-                            l[jw] = l[jw] - tl * l[jj];
-                        }
-                    }
-
-                    j = j + 1;
-                } while (j <= ia[i + 1] - 1);
-
-                ua[i] = j;
-
-                if (jrow != i)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("ILU_CR - Fatal error!");
-                    Console.WriteLine("  JROW != I");
-                    Console.WriteLine("  JROW = " + jrow + "");
-                    Console.WriteLine("  I    = " + i + "");
-                    return;
                 }
 
-                if (l[j] == 0.0)
-                {
+                j += 1;
+            } while (j <= ia[i + 1] - 1);
+
+            ua[i] = j;
+
+            if (jrow != i)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("ILU_CR - Fatal error!");
+                Console.WriteLine("  JROW != I");
+                Console.WriteLine("  JROW = " + jrow + "");
+                Console.WriteLine("  I    = " + i + "");
+                return;
+            }
+
+            switch (l[j])
+            {
+                case 0.0:
                     Console.WriteLine("");
                     Console.WriteLine("ILU_CR - Fatal error!");
                     Console.WriteLine("  Zero pivot on step I = " + i + "");
                     Console.WriteLine("  L[" + j + "] = 0.0");
                     return;
-                }
-
-                l[j] = 1.0 / l[j];
+                default:
+                    l[j] = 1.0 / l[j];
+                    break;
             }
+        }
 
-            for (k = 0; k < n; k++)
-            {
-                l[ua[k]] = 1.0 / l[ua[k]];
-            }
+        for (k = 0; k < n; k++)
+        {
+            l[ua[k]] = 1.0 / l[ua[k]];
         }
     }
 }

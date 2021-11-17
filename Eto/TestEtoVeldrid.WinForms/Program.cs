@@ -1,17 +1,17 @@
 ﻿using Eto.Forms;
 using Eto.Veldrid;
 using System;
+using Eto.WinForms;
 
-namespace TestEtoVeldrid.WinForms
+namespace TestEtoVeldrid.WinForms;
+
+public static class Program
 {
-	public static class Program
+	[STAThread]
+	public static void Main(string[] args)
 	{
-		[STAThread]
-		public static void Main(string[] args)
-		{
-			var platform = new Eto.WinForms.Platform();
+		Platform platform = new();
 
-			new Application(platform).Run(new MainForm());
-		}
+		new Application(platform).Run(new MainForm());
 	}
 }

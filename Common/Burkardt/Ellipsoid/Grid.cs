@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Ellipsoid
+namespace Burkardt.Ellipsoid;
+
+public static class Grid
 {
-    public static class Grid
-    {
-        public static double[] ellipsoid_grid(int n, double[] r, double[] c, int ng )
+    public static double[] ellipsoid_grid(int n, double[] r, double[] c, int ng )
 
         //****************************************************************************80
         //
@@ -48,83 +48,85 @@ namespace Burkardt.Ellipsoid
         //
         //    Output, double XYZ[3*NG], the grid point coordinates.
         //
+    {
+        double h;
+        int ii;
+        int i;
+        int j;
+        int k;
+        int m;
+        int ng2;
+        int ni;
+        int nj;
+        int nk;
+        int np;
+        double[] p = new double[3 * 8];
+        double rmin;
+        double x;
+        double[] xyz;
+        double y;
+        double z;
+
+        ng2 = 0;
+
+        xyz = new double[3 * ng];
+
+        rmin = typeMethods.r8vec_min(3, r);
+
+        if (r[0] == rmin)
         {
-            double h;
-            int ii;
-            int i;
-            int j;
-            int k;
-            int m;
-            int ng2;
-            int ni;
-            int nj;
-            int nk;
-            int np;
-            double[] p = new double[3 * 8];
-            double rmin;
-            double x;
-            double[] xyz;
-            double y;
-            double z;
+            h = 2.0 * r[0] / (2 * n + 1);
+            ni = n;
+            nj = (int)(Math.Ceiling(r[1] / r[0]) * n);
+            nk = (int)(Math.Ceiling(r[2] / r[0]) * n);
+        }
+        else if (r[1] == rmin)
+        {
+            h = 2.0 * r[1] / (2 * n + 1);
+            nj = n;
+            ni = (int)(Math.Ceiling(r[0] / r[1]) * n);
+            nk = (int)(Math.Ceiling(r[2] / r[1]) * n);
+        }
+        else
+        {
+            h = 2.0 * r[2] / (2 * n + 1);
+            nk = n;
+            ni = (int)(Math.Ceiling(r[0] / r[2]) * n);
+            nj = (int)(Math.Ceiling(r[1] / r[2]) * n);
+        }
 
-            ng2 = 0;
-
-            xyz = new double[3 * ng];
-
-            rmin = typeMethods.r8vec_min(3, r);
-
-            if (r[0] == rmin)
+        for (k = 0; k <= nk; k++)
+        {
+            z = c[2] + k * h;
+            for (j = 0; j <= nj; j++)
             {
-                h = 2.0 * r[0] / (double) (2 * n + 1);
-                ni = n;
-                nj = (int)(Math.Ceiling(r[1] / r[0]) * (double) (n));
-                nk = (int)(Math.Ceiling(r[2] / r[0]) * (double) (n));
-            }
-            else if (r[1] == rmin)
-            {
-                h = 2.0 * r[1] / (double) (2 * n + 1);
-                nj = n;
-                ni = (int)(Math.Ceiling(r[0] / r[1]) * (double) (n));
-                nk = (int)(Math.Ceiling(r[2] / r[1]) * (double) (n));
-            }
-            else
-            {
-                h = 2.0 * r[2] / (double) (2 * n + 1);
-                nk = n;
-                ni = (int)(Math.Ceiling(r[0] / r[2]) * (double) (n));
-                nj = (int)(Math.Ceiling(r[1] / r[2]) * (double) (n));
-            }
-
-            for (k = 0; k <= nk; k++)
-            {
-                z = c[2] + (double) (k) * h;
-                for (j = 0; j <= nj; j++)
+                y = c[1] + j * h;
+                for (i = 0; i <= ni; i++)
                 {
-                    y = c[1] + (double) (j) * h;
-                    for (i = 0; i <= ni; i++)
+                    x = c[0] + i * h;
+                    //
+                    //  If we have left the ellipsoid, the I loop is completed.
+                    //
+                    if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
+                        + Math.Pow((y - c[1]) / r[1], 2)
+                        + Math.Pow((z - c[2]) / r[2], 2))
                     {
-                        x = c[0] + (double) (i) * h;
-                        //
-                        //  If we have left the ellipsoid, the I loop is completed.
-                        //
-                        if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
-                            + Math.Pow((y - c[1]) / r[1], 2)
-                            + Math.Pow((z - c[2]) / r[2], 2))
-                        {
-                            break;
-                        }
+                        break;
+                    }
 
-                        //
-                        //  At least one point is generated, but more possible by symmetry.
-                        //
-                        np = 0;
-                        p[0 + np * 3] = x;
-                        p[1 + np * 3] = y;
-                        p[2 + np * 3] = z;
+                    //
+                    //  At least one point is generated, but more possible by symmetry.
+                    //
+                    np = 0;
+                    p[0 + np * 3] = x;
+                    p[1 + np * 3] = y;
+                    p[2 + np * 3] = z;
 
-                        np = 1;
+                    np = 1;
 
-                        if (0 < i)
+                    switch (i)
+                    {
+                        case > 0:
                         {
                             for (m = 0; m < np; m++)
                             {
@@ -134,9 +136,13 @@ namespace Burkardt.Ellipsoid
                             }
 
                             np = 2 * np;
+                            break;
                         }
+                    }
 
-                        if (0 < j)
+                    switch (j)
+                    {
+                        case > 0:
                         {
                             for (m = 0; m < np; m++)
                             {
@@ -146,9 +152,13 @@ namespace Burkardt.Ellipsoid
                             }
 
                             np = 2 * np;
+                            break;
                         }
+                    }
 
-                        if (0 < k)
+                    switch (k)
+                    {
+                        case > 0:
                         {
                             for (m = 0; m < np; m++)
                             {
@@ -158,25 +168,27 @@ namespace Burkardt.Ellipsoid
                             }
 
                             np = 2 * np;
+                            break;
                         }
-
-                        for (m = 0; m < np; m++)
-                        {
-                            for (ii = 0; ii < 3; ii++)
-                            {
-                                xyz[ii + (ng2 + m) * 3] = p[ii + m * 3];
-                            }
-                        }
-
-                        ng2 = ng2 + np;
                     }
+
+                    for (m = 0; m < np; m++)
+                    {
+                        for (ii = 0; ii < 3; ii++)
+                        {
+                            xyz[ii + (ng2 + m) * 3] = p[ii + m * 3];
+                        }
+                    }
+
+                    ng2 += np;
                 }
             }
-
-            return xyz;
         }
 
-        public static int ellipsoid_grid_count(int n, double[] r, double[] c )
+        return xyz;
+    }
+
+    public static int ellipsoid_grid_count(int n, double[] r, double[] c )
 
         //****************************************************************************80
         //
@@ -215,91 +227,88 @@ namespace Burkardt.Ellipsoid
         //
         //    Output, int ELLIPSOID_GRID_COUNT, the number of grid points.
         //
+    {
+        double h;
+        int i;
+        int j;
+        int k;
+        int ng;
+        int ni;
+        int nj;
+        int nk;
+        int np = 0;
+        double rmin;
+        double x;
+        double y;
+        double z;
+
+        ng = 0;
+
+        rmin = typeMethods.r8vec_min(3, r);
+
+        if (r[0] == rmin)
         {
-            double h;
-            int i;
-            int j;
-            int k;
-            int ng;
-            int ni;
-            int nj;
-            int nk;
-            int np;
-            double rmin;
-            double x;
-            double y;
-            double z;
+            h = 2.0 * r[0] / (2 * n + 1);
+            ni = n;
+            nj = (int)(Math.Ceiling(r[1] / r[0]) * n);
+            nk = (int)(Math.Ceiling(r[2] / r[0]) * n);
+        }
+        else if (r[1] == rmin)
+        {
+            h = 2.0 * r[1] / (2 * n + 1);
+            nj = n;
+            ni = (int)(Math.Ceiling(r[0] / r[1]) * n);
+            nk = (int)(Math.Ceiling(r[2] / r[1]) * n);
+        }
+        else
+        {
+            h = 2.0 * r[2] / (2 * n + 1);
+            nk = n;
+            ni = (int)(Math.Ceiling(r[0] / r[2]) * n);
+            nj = (int)(Math.Ceiling(r[1] / r[2]) * n);
+        }
 
-            ng = 0;
-
-            rmin = typeMethods.r8vec_min(3, r);
-
-            if (r[0] == rmin)
+        for (k = 0; k <= nk; k++)
+        {
+            z = c[2] + k * h;
+            for (j = 0; j <= nj; j++)
             {
-                h = 2.0 * r[0] / (double) (2 * n + 1);
-                ni = n;
-                nj = (int)(Math.Ceiling(r[1] / r[0]) * (double) (n));
-                nk = (int)(Math.Ceiling(r[2] / r[0]) * (double) (n));
-            }
-            else if (r[1] == rmin)
-            {
-                h = 2.0 * r[1] / (double) (2 * n + 1);
-                nj = n;
-                ni = (int)(Math.Ceiling(r[0] / r[1]) * (double) (n));
-                nk = (int)(Math.Ceiling(r[2] / r[1]) * (double) (n));
-            }
-            else
-            {
-                h = 2.0 * r[2] / (double) (2 * n + 1);
-                nk = n;
-                ni = (int)(Math.Ceiling(r[0] / r[2]) * (double) (n));
-                nj = (int)(Math.Ceiling(r[1] / r[2]) * (double) (n));
-            }
-
-            for (k = 0; k <= nk; k++)
-            {
-                z = c[2] + (double) (k) * h;
-                for (j = 0; j <= nj; j++)
+                y = c[1] + j * h;
+                for (i = 0; i <= ni; i++)
                 {
-                    y = c[1] + (double) (j) * h;
-                    for (i = 0; i <= ni; i++)
+                    x = c[0] + i * h;
+                    //
+                    //  If we have left the ellipsoid, the I loop is completed.
+                    //
+                    if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
+                        + Math.Pow((y - c[1]) / r[1], 2)
+                        + Math.Pow((z - c[2]) / r[2], 2))
                     {
-                        x = c[0] + (double) (i) * h;
-                        //
-                        //  If we have left the ellipsoid, the I loop is completed.
-                        //
-                        if (1.0 < Math.Pow((x - c[0]) / r[0], 2)
-                            + Math.Pow((y - c[1]) / r[1], 2)
-                            + Math.Pow((z - c[2]) / r[2], 2))
-                        {
-                            break;
-                        }
-
-                        //
-                        //  At least one point is generated, but more possible by symmetry.
-                        //
-                        np = 1;
-                        if (0 < i)
-                        {
-                            np = 2 * np;
-                        }
-
-                        if (0 < j)
-                        {
-                            np = 2 * np;
-                        }
-
-                        if (0 < k)
-                        {
-                            np = 2 * np;
-                        }
-
-                        ng = ng + np;
+                        break;
                     }
+
+                    np = k switch
+                    {
+                        > 0 => 2 * np,
+                        _ => j switch
+                        {
+                            > 0 => 2 * np,
+                            _ => i switch
+                            {
+                                > 0 => 2 * np,
+                                //
+                                //  At least one point is generated, but more possible by symmetry.
+                                //
+                                _ => 1
+                            }
+                        }
+                    };
+
+                    ng += np;
                 }
             }
-
-            return ng;
         }
+
+        return ng;
     }
 }

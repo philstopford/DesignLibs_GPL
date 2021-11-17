@@ -1,9 +1,9 @@
-﻿namespace Burkardt.SparseTripletNS
+﻿namespace Burkardt.SparseTripletNS;
+
+public static class AXST
 {
-    public static class AXST
-    {
-        public static void ax_st(int n, int nz_num, int[] ia, int[] ja, double[] a, double[] x,
-        ref double[] w, int aIndex = 0, int xIndex = 0, int wIndex = 0 )
+    public static void ax_st(int n, int nz_num, int[] ia, int[] ja, double[] a, double[] x,
+            ref double[] w, int aIndex = 0, int xIndex = 0, int wIndex = 0 )
 
         //****************************************************************************80
         //
@@ -73,23 +73,22 @@
         //
         //    Output, double W[N], the value of A*X.
         //
+    {
+        int i;
+        int j;
+        int k;
+
+        for (i = 0; i < n; i++)
         {
-            int i;
-            int j;
-            int k;
-
-            for (i = 0; i < n; i++)
-            {
-                w[wIndex + i] = 0.0;
-            }
-
-            for (k = 0; k < nz_num; k++)
-            {
-                i = ia[k];
-                j = ja[k];
-                w[wIndex + i] = w[wIndex + i] + a[aIndex + k] * x[xIndex + j];
-            }
+            w[wIndex + i] = 0.0;
         }
 
+        for (k = 0; k < nz_num; k++)
+        {
+            i = ia[k];
+            j = ja[k];
+            w[wIndex + i] += a[aIndex + k] * x[xIndex + j];
+        }
     }
+
 }

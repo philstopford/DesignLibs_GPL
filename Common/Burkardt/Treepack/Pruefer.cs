@@ -1,300 +1,305 @@
 ﻿using System;
 
-namespace Burkardt.Treepack
+namespace Burkardt.Treepack;
+
+public static class Pruefer
 {
-    public static class Pruefer
+    public static void pruefer_to_tree_arc(int nnode, int[] iarray, ref int[] inode, ref int[] jnode)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PRUEFER_TO_TREE_ARC is given a Pruefer code, and computes the tree.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 August 2013
+        //
+        //  Reference:
+        //
+        //    Dennis Stanton, Dennis White,
+        //    Constructive Combinatorics,
+        //    Springer Verlag, New York, 1986.
+        //
+        //  Parameters:
+        //
+        //    Input, int NNODE, the number of nodes.
+        //
+        //    Input, int IARRAY[NNODE-2], the Pruefer code of the tree.
+        //
+        //    Output, int INODE[NNODE-1], JNODE[NNODE-1], the edge
+        //    array of the tree.  The I-th edge joins nodes INODE(I) and JNODE(I).
+        //
     {
-        public static void pruefer_to_tree_arc(int nnode, int[] iarray, ref int[] inode, ref int[] jnode)
+        int i;
+        int ii;
+        int[] iwork;
+        int j;
+        //
+        //  Initialize IWORK(I) to count the number of neighbors of node I.
+        //  The Pruefer code uses each node one less time than its total
+        //  number of neighbors.
+        //
+        iwork = new int[nnode];
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    PRUEFER_TO_TREE_ARC is given a Pruefer code, and computes the tree.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 August 2013
-            //
-            //  Reference:
-            //
-            //    Dennis Stanton, Dennis White,
-            //    Constructive Combinatorics,
-            //    Springer Verlag, New York, 1986.
-            //
-            //  Parameters:
-            //
-            //    Input, int NNODE, the number of nodes.
-            //
-            //    Input, int IARRAY[NNODE-2], the Pruefer code of the tree.
-            //
-            //    Output, int INODE[NNODE-1], JNODE[NNODE-1], the edge
-            //    array of the tree.  The I-th edge joins nodes INODE(I) and JNODE(I).
-            //
+        for (i = 0; i < nnode; i++)
         {
-            int i;
-            int ii;
-            int[] iwork;
-            int j;
-            //
-            //  Initialize IWORK(I) to count the number of neighbors of node I.
-            //  The Pruefer code uses each node one less time than its total
-            //  number of neighbors.
-            //
-            iwork = new int[nnode];
-
-            for (i = 0; i < nnode; i++)
-            {
-                iwork[i] = 1;
-            }
-
-            for (i = 0; i < nnode - 2; i++)
-            {
-                iwork[iarray[i] - 1] = iwork[iarray[i] - 1] + 1;
-            }
-
-            for (i = 0; i < nnode - 1; i++)
-            {
-                inode[i] = -1;
-                jnode[i] = -1;
-            }
-
-            //
-            //  Now process each entry in the Pruefer code.
-            //
-            for (i = 0; i < nnode - 2; i++)
-            {
-                ii = -1;
-                for (j = 0; j < nnode; j++)
-                {
-                    if (iwork[j] == 1)
-                    {
-                        ii = j;
-                    }
-                }
-
-                inode[i] = ii + 1;
-                jnode[i] = iarray[i];
-                iwork[ii] = 0;
-                iwork[iarray[i] - 1] = iwork[iarray[i] - 1] - 1;
-            }
-
-            inode[nnode - 2] = iarray[nnode - 3];
-
-            if (iarray[nnode - 3] != 1)
-            {
-                jnode[nnode - 2] = 1;
-            }
-            else
-            {
-                jnode[nnode - 2] = 2;
-            }
+            iwork[i] = 1;
         }
 
-        public static void pruefer_to_tree_2(int nnode, int[] iarray, ref int[] itree)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    PRUEFER_TO_TREE_2 produces the edge list of a tree from its Pruefer code.
-            //
-            //  Discussion:
-            //
-            //    One can thus exhibit all trees on N nodes, produce
-            //    one at random, find the M-th one on the list, etc, by
-            //    manipulating the Pruefer codes.
-            //
-            //    For every labeled tree on N nodes, there is a unique N-2 tuple
-            //    of integers A1 through AN-2, with each A between 1 and N.  There
-            //    are N^(N-2) such sequences, and each one is associated with exactly
-            //    one tree.
-            //
-            //    This routine apparently assumes that the Pruefer code is
-            //    generated by taking the LOWEST labeled terminal node each time.
-            //    This is not consistent with PRUEFER_TO_TREE and TREE_TO_PRUEFER.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 August 2013
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis. Herbert Wilf,
-            //    Combinatorial Algorithms,
-            //    Academic Press, 1978, second edition,
-            //    ISBN 0-12-519260-6.
-            //
-            //  Parameters:
-            //
-            //    Input, int NNODE, number of nodes in desired tree.
-            //
-            //    Input, int IARRAY[NNODE].  IARRAY(I), I = 1, NNODE-2 
-            //    is the Pruefer code for the tree.
-            //
-            //    Output, int ITREE[NNODE]; the I-th edge of the tree
-            //    joins nodes I and ITREE(I).
-            //
+        for (i = 0; i < nnode - 2; i++)
         {
-            int i;
-            int ir;
-            int j;
-            int k;
-            int kp;
-            int l;
+            iwork[iarray[i] - 1] += 1;
+        }
 
-            for (i = 0; i < nnode; i++)
+        for (i = 0; i < nnode - 1; i++)
+        {
+            inode[i] = -1;
+            jnode[i] = -1;
+        }
+
+        //
+        //  Now process each entry in the Pruefer code.
+        //
+        for (i = 0; i < nnode - 2; i++)
+        {
+            ii = -1;
+            for (j = 0; j < nnode; j++)
             {
-                itree[i] = 0;
+                ii = iwork[j] switch
+                {
+                    1 => j,
+                    _ => ii
+                };
             }
 
-            for (i = nnode - 2; 1 <= i; i--)
-            {
-                l = iarray[i - 1];
+            inode[i] = ii + 1;
+            jnode[i] = iarray[i];
+            iwork[ii] = 0;
+            iwork[iarray[i] - 1] -= 1;
+        }
 
-                if (itree[l - 1] == 0)
-                {
+        inode[nnode - 2] = iarray[nnode - 3];
+
+        if (iarray[nnode - 3] != 1)
+        {
+            jnode[nnode - 2] = 1;
+        }
+        else
+        {
+            jnode[nnode - 2] = 2;
+        }
+    }
+
+    public static void pruefer_to_tree_2(int nnode, int[] iarray, ref int[] itree)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PRUEFER_TO_TREE_2 produces the edge list of a tree from its Pruefer code.
+        //
+        //  Discussion:
+        //
+        //    One can thus exhibit all trees on N nodes, produce
+        //    one at random, find the M-th one on the list, etc, by
+        //    manipulating the Pruefer codes.
+        //
+        //    For every labeled tree on N nodes, there is a unique N-2 tuple
+        //    of integers A1 through AN-2, with each A between 1 and N.  There
+        //    are N^(N-2) such sequences, and each one is associated with exactly
+        //    one tree.
+        //
+        //    This routine apparently assumes that the Pruefer code is
+        //    generated by taking the LOWEST labeled terminal node each time.
+        //    This is not consistent with PRUEFER_TO_TREE and TREE_TO_PRUEFER.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 August 2013
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis. Herbert Wilf,
+        //    Combinatorial Algorithms,
+        //    Academic Press, 1978, second edition,
+        //    ISBN 0-12-519260-6.
+        //
+        //  Parameters:
+        //
+        //    Input, int NNODE, number of nodes in desired tree.
+        //
+        //    Input, int IARRAY[NNODE].  IARRAY(I), I = 1, NNODE-2 
+        //    is the Pruefer code for the tree.
+        //
+        //    Output, int ITREE[NNODE]; the I-th edge of the tree
+        //    joins nodes I and ITREE(I).
+        //
+    {
+        int i;
+        int ir;
+        int j;
+        int k;
+        int kp;
+        int l;
+
+        for (i = 0; i < nnode; i++)
+        {
+            itree[i] = 0;
+        }
+
+        for (i = nnode - 2; 1 <= i; i--)
+        {
+            l = iarray[i - 1];
+
+            switch (itree[l - 1])
+            {
+                case 0:
                     iarray[i - 1] = -l;
                     itree[l - 1] = -1;
-                }
-            }
-
-            iarray[nnode - 2] = nnode;
-            //
-            //  Find next index K so that ITREE(K) is 0.
-            //
-            k = 1;
-
-
-            while (itree[k - 1] != 0)
-            {
-                k = k + 1;
-            }
-
-            j = 0;
-            kp = k;
-
-            for (;;)
-            {
-                j = j + 1;
-                ir = Math.Abs(iarray[j - 1]);
-                itree[kp - 1] = ir;
-
-                if (j == nnode - 1)
-                {
                     break;
-                }
-
-                if (0 < iarray[j - 1])
-                {
-                    while (itree[k - 1] != 0)
-                    {
-                        k = k + 1;
-                    }
-
-                    kp = k;
-                    continue;
-                }
-
-                if (k < ir)
-                {
-                    itree[ir - 1] = 0;
-                    while (itree[k - 1] != 0)
-                    {
-                        k = k + 1;
-                    }
-
-                    kp = k;
-                    continue;
-                }
-
-                kp = ir;
             }
-
-            //
-            //  Restore the signs of IARRAY.
-            //
-            for (i = 0; i < nnode - 2; i++)
-            {
-                iarray[i] = Math.Abs(iarray[i]);
-            }
-
         }
 
-        public static int[] pruefer_to_tree_2_new(int nnode, int[] iarray)
+        iarray[nnode - 2] = nnode;
+        //
+        //  Find next index K so that ITREE(K) is 0.
+        //
+        k = 1;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    PRUEFER_TO_TREE_2_NEW produces the edge list of a tree from its Pruefer code.
-            //
-            //  Discussion:
-            //
-            //    One can thus exhibit all trees on N nodes, produce
-            //    one at random, find the M-th one on the list, etc, by
-            //    manipulating the Pruefer codes.
-            //
-            //    For every labeled tree on N nodes, there is a unique N-2 tuple
-            //    of integers A1 through AN-2, with each A between 1 and N.  There
-            //    are N^(N-2) such sequences, and each one is associated with exactly
-            //    one tree.
-            //
-            //    This routine apparently assumes that the Pruefer code is
-            //    generated by taking the LOWEST labeled terminal node each time.
-            //    This is not consistent with PRUEFER_TO_TREE and TREE_TO_PRUEFER.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    05 August 2013
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis. Herbert Wilf,
-            //    Combinatorial Algorithms,
-            //    Academic Press, 1978, second edition,
-            //    ISBN 0-12-519260-6.
-            //
-            //  Parameters:
-            //
-            //    Input, int NNODE, number of nodes in desired tree.
-            //
-            //    Input, int IARRAY[NNODE].  IARRAY(I), I = 1, NNODE-2 
-            //    is the Pruefer code for the tree.
-            //
-            //    Output, int PRUEFER_TO_TREE_2_NEW[NNODE]; the I-th edge of the tree
-            //    joins nodes I and ITREE(I).
-            //
+
+        while (itree[k - 1] != 0)
         {
-            int[] itree;
-
-            itree = new int[nnode];
-
-            pruefer_to_tree_2(nnode, iarray, ref itree);
-
-            return itree;
+            k += 1;
         }
+
+        j = 0;
+        kp = k;
+
+        for (;;)
+        {
+            j += 1;
+            ir = Math.Abs(iarray[j - 1]);
+            itree[kp - 1] = ir;
+
+            if (j == nnode - 1)
+            {
+                break;
+            }
+
+            switch (iarray[j - 1])
+            {
+                case > 0:
+                {
+                    while (itree[k - 1] != 0)
+                    {
+                        k += 1;
+                    }
+
+                    kp = k;
+                    continue;
+                }
+            }
+
+            if (k < ir)
+            {
+                itree[ir - 1] = 0;
+                while (itree[k - 1] != 0)
+                {
+                    k += 1;
+                }
+
+                kp = k;
+                continue;
+            }
+
+            kp = ir;
+        }
+
+        //
+        //  Restore the signs of IARRAY.
+        //
+        for (i = 0; i < nnode - 2; i++)
+        {
+            iarray[i] = Math.Abs(iarray[i]);
+        }
+
+    }
+
+    public static int[] pruefer_to_tree_2_new(int nnode, int[] iarray)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PRUEFER_TO_TREE_2_NEW produces the edge list of a tree from its Pruefer code.
+        //
+        //  Discussion:
+        //
+        //    One can thus exhibit all trees on N nodes, produce
+        //    one at random, find the M-th one on the list, etc, by
+        //    manipulating the Pruefer codes.
+        //
+        //    For every labeled tree on N nodes, there is a unique N-2 tuple
+        //    of integers A1 through AN-2, with each A between 1 and N.  There
+        //    are N^(N-2) such sequences, and each one is associated with exactly
+        //    one tree.
+        //
+        //    This routine apparently assumes that the Pruefer code is
+        //    generated by taking the LOWEST labeled terminal node each time.
+        //    This is not consistent with PRUEFER_TO_TREE and TREE_TO_PRUEFER.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 August 2013
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis. Herbert Wilf,
+        //    Combinatorial Algorithms,
+        //    Academic Press, 1978, second edition,
+        //    ISBN 0-12-519260-6.
+        //
+        //  Parameters:
+        //
+        //    Input, int NNODE, number of nodes in desired tree.
+        //
+        //    Input, int IARRAY[NNODE].  IARRAY(I), I = 1, NNODE-2 
+        //    is the Pruefer code for the tree.
+        //
+        //    Output, int PRUEFER_TO_TREE_2_NEW[NNODE]; the I-th edge of the tree
+        //    joins nodes I and ITREE(I).
+        //
+    {
+        int[] itree;
+
+        itree = new int[nnode];
+
+        pruefer_to_tree_2(nnode, iarray, ref itree);
+
+        return itree;
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Ellipse
+namespace Burkardt.Ellipse;
+
+public static class MonteCarlo
 {
-    public static class MonteCarlo
-    {
-        public static double ellipse_area1(double[] a, double r )
+    public static double ellipse_area1(double[] a, double r )
 
         //****************************************************************************80
         //
@@ -40,58 +40,58 @@ namespace Burkardt.Ellipse
         //
         //    Output, double ELLIPSE_AREA1, the area of the ellipse.
         //
-        {
+    {
             
-            double value;
+        double value = 0;
 
-            value = r * r * Math.PI / Math.Sqrt(a[0 + 0 * 2] * a[1 + 1 * 2] - a[1 + 0 * 2] * a[0 + 1 * 2]);
+        value = r * r * Math.PI / Math.Sqrt(a[0 + 0 * 2] * a[1 + 1 * 2] - a[1 + 0 * 2] * a[0 + 1 * 2]);
 
-            return value;
-        }
+        return value;
+    }
 
-        public static double ellipse_area2(double a, double b, double c, double d)
+    public static double ellipse_area2(double a, double b, double c, double d)
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    ELLIPSE_AREA2 returns the area of an ellipse defined by an equation.
-            //
-            //  Discussion:
-            //
-            //    The ellipse is described by the formula
-            //      a x^2 + b xy + c y^2 = d
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    08 November 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double A, B, C, coefficients on the left hand side.
-            //
-            //    Input, double D, the right hand side.
-            //
-            //    Output, double ELLIPSE_AREA2, the area of the ellipse.
-            //
-        {
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELLIPSE_AREA2 returns the area of an ellipse defined by an equation.
+        //
+        //  Discussion:
+        //
+        //    The ellipse is described by the formula
+        //      a x^2 + b xy + c y^2 = d
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    08 November 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A, B, C, coefficients on the left hand side.
+        //
+        //    Input, double D, the right hand side.
+        //
+        //    Output, double ELLIPSE_AREA2, the area of the ellipse.
+        //
+    {
             
-            double value;
+        double value = 0;
 
-            value = 2.0 * d * d * Math.PI / Math.Sqrt(4.0 * a * c - b * b);
+        value = 2.0 * d * d * Math.PI / Math.Sqrt(4.0 * a * c - b * b);
 
-            return value;
-        }
+        return value;
+    }
 
-        public static double[] ellipse_sample(int n, double[] a, double r, ref typeMethods.r8vecNormalData data, ref int seed )
+    public static double[] ellipse_sample(int n, double[] a, double r, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -144,59 +144,58 @@ namespace Burkardt.Ellipse
         //
         //    Output, double ELLIPSE_SAMPLE[2*N], the points.
         //
+    {
+        int i;
+        int info;
+        int j;
+        int m = 2;
+        double[] u;
+        double[] x;
+        //
+        //  Get the upper triangular Cholesky factor U of A.
+        //
+        u = new double[m * m];
+
+        for (j = 0; j < m; j++)
         {
-            int i;
-            int info;
-            int j;
-            int m = 2;
-            double[] u;
-            double[] x;
-            //
-            //  Get the upper triangular Cholesky factor U of A.
-            //
-            u = new double[m * m];
-
-            for (j = 0; j < m; j++)
+            for (i = 0; i < m; i++)
             {
-                for (i = 0; i < m; i++)
-                {
-                    u[i + j * m] = a[i + j * m];
-                }
+                u[i + j * m] = a[i + j * m];
             }
-
-            info = typeMethods.r8po_fa(ref u, m, m);
-
-            if (info != 0)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("ELLIPSE_SAMPLE - Fatal error!");
-                Console.WriteLine("  R8PO_FA reports that the matrix A");
-                Console.WriteLine("  is not positive definite symmetric.");
-                return null;
-            }
-
-            //
-            //  Get the points Y that satisfy Y' * Y <= R * R.
-            //
-            x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
-
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i < m; i++)
-                {
-                    x[i + j * m] = r * x[i + j * m];
-                }
-            }
-
-            //
-            //  Solve U * X = Y.
-            //
-            for (j = 0; j < n; j++)
-            {
-                typeMethods.r8po_sl(u, m, m, ref x, bIndex: + j * m);
-            }
-            
-            return x;
         }
+
+        info = typeMethods.r8po_fa(ref u, m, m);
+
+        if (info != 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("ELLIPSE_SAMPLE - Fatal error!");
+            Console.WriteLine("  R8PO_FA reports that the matrix A");
+            Console.WriteLine("  is not positive definite symmetric.");
+            return null;
+        }
+
+        //
+        //  Get the points Y that satisfy Y' * Y <= R * R.
+        //
+        x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
+
+        for (j = 0; j < n; j++)
+        {
+            for (i = 0; i < m; i++)
+            {
+                x[i + j * m] = r * x[i + j * m];
+            }
+        }
+
+        //
+        //  Solve U * X = Y.
+        //
+        for (j = 0; j < n; j++)
+        {
+            typeMethods.r8po_sl(u, m, m, ref x, bIndex: + j * m);
+        }
+            
+        return x;
     }
 }

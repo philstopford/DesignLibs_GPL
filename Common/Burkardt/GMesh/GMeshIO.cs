@@ -3,383 +3,381 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt.Types;
 
-namespace Burkardt.GMesh
+namespace Burkardt.GMesh;
+
+public static class IO
 {
-    public static class IO
+    public static void gmsh_data_read(string gmsh_filename, int node_dim, int node_num,
+            double[] node_x, int element_order, int element_num, int[] element_node)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GMSH_DATA_READ reads data from a GMSH file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    21 October 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, character *GMSH_FILENAME, the GMSH filename.
+        //
+        //    Input, int NODE_DIM, the spatial dimension.
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, double NODE_X[NODE_DIM*NODE_NUM], the node coordinates.
+        //
+        //    Input, int ELEMENT_ORDER, the order of the elements.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
+        //    the nodes that make up each element.
+        //
     {
-        public static void gmsh_data_read(string gmsh_filename, int node_dim, int node_num,
-                double[] node_x, int element_order, int element_num, int[] element_node)
+        int i;
+        bool ierror = false;
+        string[] input;
+        int j = 0;
+        int k;
+        int length = 0;
+        int level;
+        double x;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GMSH_DATA_READ reads data from a GMSH file.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    21 October 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, character *GMSH_FILENAME, the GMSH filename.
-            //
-            //    Input, int NODE_DIM, the spatial dimension.
-            //
-            //    Input, int NODE_NUM, the number of nodes.
-            //
-            //    Input, double NODE_X[NODE_DIM*NODE_NUM], the node coordinates.
-            //
-            //    Input, int ELEMENT_ORDER, the order of the elements.
-            //
-            //    Input, int ELEMENT_NUM, the number of elements.
-            //
-            //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
-            //    the nodes that make up each element.
-            //
+        try
         {
-            int i;
-            bool ierror = false;
-            string[] input;
-            int j = 0;
-            int k;
-            int length = 0;
-            int level;
-            double x;
-
-            try
-            {
-                input = File.ReadAllLines(gmsh_filename);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("GMSH_DATA_READ - Fatal error!");
-                Console.WriteLine("  Could not open input file \"" + gmsh_filename + "\"");
-                throw;
-            }
-
-            level = 0;
-
-            int index = 0;
-
-            string text = "";
-            while (true)
-            {
-                try
-                {
-                    text = input[index];
-                    index++;
-                }
-                catch
-                {
-                    break;
-                }
-
-                if (level == 0)
-                {
-                    if (text.StartsWith("$Nodes"))
-                    {
-                        level = 1;
-                    }
-                }
-                else if (level == 1)
-                {
-                    typeMethods.s_to_i4(text, ref length, ref ierror);
-                    level = 2;
-                    j = 0;
-                }
-                else if (level == 2)
-                {
-                    if (text.StartsWith("$EndNodes"))
-                    {
-                        break;
-                    }
-
-                    typeMethods.s_to_i4(text, ref length, ref ierror);
-                    text = text.Substring(length);
-                    for (i = 0; i < node_dim; i++)
-                    {
-                        x = typeMethods.s_to_r8(text, ref length, ref ierror);
-                        text = text.Substring(length);
-                        node_x[i + j * node_dim] = x;
-                    }
-
-                    j = j + 1;
-                }
-            }
-
-            //
-            //  Now read element information.
-            //
-            level = 0;
-            while (true)
-            {
-                try
-                {
-                    text = input[index];
-                    index++;
-                }
-                catch
-                {
-                    break;
-                }
-
-                if (level == 0)
-                {
-                    if (text.StartsWith("$Elements"))
-                    {
-                        level = 1;
-                    }
-                }
-                else if (level == 1)
-                {
-                    typeMethods.s_to_i4(text, ref length, ref ierror);
-                    level = 2;
-                    j = 0;
-                }
-                else if (level == 2)
-                {
-                    if (text.StartsWith("$EndElements"))
-                    {
-                        break;
-                    }
-
-                    for (k = 1; k <= 5; k++)
-                    {
-                        typeMethods.s_to_i4(text, ref length, ref ierror);
-                        text = text.Substring(length);
-                    }
-
-                    for (i = 0; i < element_order; i++)
-                    {
-                        k = typeMethods.s_to_i4(text, ref length, ref ierror);
-                        text = text.Substring(length);
-                        element_node[i + j * element_order] = k;
-                    }
-
-                    j = j + 1;
-                }
-            }
+            input = File.ReadAllLines(gmsh_filename);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("GMSH_DATA_READ - Fatal error!");
+            Console.WriteLine("  Could not open input file \"" + gmsh_filename + "\"");
+            throw;
         }
 
-        public static void gmsh_size_read(string gmsh_filename, ref int node_num, ref int node_dim,
-                ref int element_num, ref int element_order)
+        level = 0;
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GMSH_SIZE_READ reads sizes from a GMSH file.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    21 October 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, string GMSH_FILENAME, the GMSH filename.
-            //
-            //    Output, int &NODE_NUM, the number of nodes.
-            //
-            //    Output, int &NODE_DIM, the spatial dimension.
-            //
-            //    Output, int &ELEMENT_NUM, the number of elements.
-            //
-            //    Output, int &ELEMENT_ORDER, the order of the elements.
-            //
+        int index = 0;
+
+        string text = "";
+        while (true)
         {
-            bool ierror = false;
-            string[] input;
-            int k;
-            int length = 0;
-            int level;
-            const double r8_big = 1.0E+30;
-            double x;
-            double x_max;
-            double x_min;
-            double y;
-            double y_max;
-            double y_min;
-            double z;
-            double z_max;
-            double z_min;
-
-            node_num = 0;
-            node_dim = 0;
-
-            x_max = -r8_big;
-            x_min = +r8_big;
-            y_max = -r8_big;
-            y_min = +r8_big;
-            z_max = -r8_big;
-            z_min = +r8_big;
-
             try
             {
-                input = File.ReadAllLines(gmsh_filename);
+                text = input[index];
+                index++;
             }
             catch
             {
-                Console.WriteLine("");
-                Console.WriteLine("GMSH_SIZE_READ - Fatal error!");
-                Console.WriteLine("  Could not open input file \"" + gmsh_filename + "\"");
-                throw;
+                break;
             }
 
-            level = 0;
-            int index = 0;
-            string text = "";
-
-            while (true)
+            if (level == 0)
             {
-                try
+                if (text.StartsWith("$Nodes"))
                 {
-                    text = input[index];
-                    index++;
+                    level = 1;
                 }
-                catch
+            }
+            else if (level == 1)
+            {
+                typeMethods.s_to_i4(text, ref length, ref ierror);
+                level = 2;
+                j = 0;
+            }
+            else if (level == 2)
+            {
+                if (text.StartsWith("$EndNodes"))
                 {
                     break;
                 }
 
-                if (level == 0)
+                typeMethods.s_to_i4(text, ref length, ref ierror);
+                text = text.Substring(length);
+                for (i = 0; i < node_dim; i++)
                 {
-                    if (text.StartsWith("$Nodes"))
-                    {
-                        level = 1;
-                    }
-                }
-                else if (level == 1)
-                {
-                    node_num = typeMethods.s_to_i4(text, ref length, ref ierror);
-                    level = 2;
-                }
-                else if (level == 2)
-                {
-                    if (text.StartsWith("$EndNodes"))
-                    {
-                        break;
-                    }
-
-                    typeMethods.s_to_i4(text, ref length, ref ierror);
-                    text = text.Substring(length);
-
                     x = typeMethods.s_to_r8(text, ref length, ref ierror);
-                    x_min = Math.Min(x_min, x);
-                    x_max = Math.Max(x_max, x);
                     text = text.Substring(length);
-
-                    y = typeMethods.s_to_r8(text, ref length, ref ierror);
-                    y_min = Math.Min(y_min, y);
-                    y_max = Math.Max(y_max, y);
-                    text = text.Substring(length);
-
-                    z = typeMethods.s_to_r8(text, ref length, ref ierror);
-                    z_min = Math.Min(z_min, z);
-                    z_max = Math.Max(z_max, z);
-                    text = text.Substring(length);
-                }
-            }
-
-            //
-            //  Make a very simple guess as to the dimensionality of the data.
-            //
-            node_dim = 3;
-            if (z_max == z_min)
-            {
-                node_dim = 2;
-                if (y_max == y_min)
-                {
-                    node_dim = 1;
-                }
-            }
-
-            //
-            //  Now read element information.
-            //
-            level = 0;
-
-            while (true)
-            {
-                try
-                {
-                    text = input[index];
-                    index++;
-                }
-                catch
-                {
-                    break;
+                    node_x[i + j * node_dim] = x;
                 }
 
-                if (level == 0)
-                {
-                    if (text.StartsWith("$Elements"))
-                    {
-                        level = 1;
-                    }
-                }
-                else if (level == 1)
-                {
-                    element_num = typeMethods.s_to_i4(text, ref length, ref ierror);
-                    level = 2;
-                }
-                else if (level == 2)
-                {
-                    if (text.StartsWith("$EndElements"))
-                    {
-                        break;
-                    }
-
-                    k = 0;
-                    /*
-                    for (;;)
-                    {
-                        typeMethods.s_to_i4(text, ref length, ref ierror);
-                        text = text.Substring(length);
-                        if (ierror)
-                        {
-                            break;
-                        }
-
-                        k = k + 1;
-                    }
-
-                    element_order = k - 5;
-                    */
-
-                    string[] tokens = text.Split(' ');
-                    for (int ti = 0; ti < tokens.Length; ti++)
-                    {
-                        if (tokens[ti] != "")
-                        {
-                            element_order++;
-                        }
-                    }
-
-                    element_order -= 5;
-                    break;
-                }
+                j += 1;
             }
         }
 
-        public static void gmsh_write(string gmsh_filename, int dim_num, int node_num,
+        //
+        //  Now read element information.
+        //
+        level = 0;
+        while (true)
+        {
+            try
+            {
+                text = input[index];
+                index++;
+            }
+            catch
+            {
+                break;
+            }
+
+            if (level == 0)
+            {
+                if (text.StartsWith("$Elements"))
+                {
+                    level = 1;
+                }
+            }
+            else if (level == 1)
+            {
+                typeMethods.s_to_i4(text, ref length, ref ierror);
+                level = 2;
+                j = 0;
+            }
+            else if (level == 2)
+            {
+                if (text.StartsWith("$EndElements"))
+                {
+                    break;
+                }
+
+                for (k = 1; k <= 5; k++)
+                {
+                    typeMethods.s_to_i4(text, ref length, ref ierror);
+                    text = text.Substring(length);
+                }
+
+                for (i = 0; i < element_order; i++)
+                {
+                    k = typeMethods.s_to_i4(text, ref length, ref ierror);
+                    text = text.Substring(length);
+                    element_node[i + j * element_order] = k;
+                }
+
+                j += 1;
+            }
+        }
+    }
+
+    public static void gmsh_size_read(string gmsh_filename, ref int node_num, ref int node_dim,
+            ref int element_num, ref int element_order)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GMSH_SIZE_READ reads sizes from a GMSH file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    21 October 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string GMSH_FILENAME, the GMSH filename.
+        //
+        //    Output, int &NODE_NUM, the number of nodes.
+        //
+        //    Output, int &NODE_DIM, the spatial dimension.
+        //
+        //    Output, int &ELEMENT_NUM, the number of elements.
+        //
+        //    Output, int &ELEMENT_ORDER, the order of the elements.
+        //
+    {
+        bool ierror = false;
+        string[] input;
+        int length = 0;
+        int level;
+        const double r8_big = 1.0E+30;
+        double x;
+        double x_max;
+        double x_min;
+        double y;
+        double y_max;
+        double y_min;
+        double z;
+        double z_max;
+        double z_min;
+
+        node_num = 0;
+        node_dim = 0;
+
+        x_max = -r8_big;
+        x_min = +r8_big;
+        y_max = -r8_big;
+        y_min = +r8_big;
+        z_max = -r8_big;
+        z_min = +r8_big;
+
+        try
+        {
+            input = File.ReadAllLines(gmsh_filename);
+        }
+        catch
+        {
+            Console.WriteLine("");
+            Console.WriteLine("GMSH_SIZE_READ - Fatal error!");
+            Console.WriteLine("  Could not open input file \"" + gmsh_filename + "\"");
+            throw;
+        }
+
+        level = 0;
+        int index = 0;
+        string text = "";
+
+        while (true)
+        {
+            try
+            {
+                text = input[index];
+                index++;
+            }
+            catch
+            {
+                break;
+            }
+
+            if (level == 0)
+            {
+                if (text.StartsWith("$Nodes"))
+                {
+                    level = 1;
+                }
+            }
+            else if (level == 1)
+            {
+                node_num = typeMethods.s_to_i4(text, ref length, ref ierror);
+                level = 2;
+            }
+            else if (level == 2)
+            {
+                if (text.StartsWith("$EndNodes"))
+                {
+                    break;
+                }
+
+                typeMethods.s_to_i4(text, ref length, ref ierror);
+                text = text.Substring(length);
+
+                x = typeMethods.s_to_r8(text, ref length, ref ierror);
+                x_min = Math.Min(x_min, x);
+                x_max = Math.Max(x_max, x);
+                text = text.Substring(length);
+
+                y = typeMethods.s_to_r8(text, ref length, ref ierror);
+                y_min = Math.Min(y_min, y);
+                y_max = Math.Max(y_max, y);
+                text = text.Substring(length);
+
+                z = typeMethods.s_to_r8(text, ref length, ref ierror);
+                z_min = Math.Min(z_min, z);
+                z_max = Math.Max(z_max, z);
+                text = text.Substring(length);
+            }
+        }
+
+        //
+        //  Make a very simple guess as to the dimensionality of the data.
+        //
+        node_dim = 3;
+        if (z_max == z_min)
+        {
+            node_dim = 2;
+            if (y_max == y_min)
+            {
+                node_dim = 1;
+            }
+        }
+
+        //
+        //  Now read element information.
+        //
+        level = 0;
+
+        while (true)
+        {
+            try
+            {
+                text = input[index];
+                index++;
+            }
+            catch
+            {
+                break;
+            }
+
+            if (level == 0)
+            {
+                if (text.StartsWith("$Elements"))
+                {
+                    level = 1;
+                }
+            }
+            else if (level == 1)
+            {
+                element_num = typeMethods.s_to_i4(text, ref length, ref ierror);
+                level = 2;
+            }
+            else if (level == 2)
+            {
+                if (text.StartsWith("$EndElements"))
+                {
+                    break;
+                }
+
+                /*
+                for (;;)
+                {
+                    typeMethods.s_to_i4(text, ref length, ref ierror);
+                    text = text.Substring(length);
+                    if (ierror)
+                    {
+                        break;
+                    }
+
+                    k = k + 1;
+                }
+
+                element_order = k - 5;
+                */
+
+                string[] tokens = text.Split(' ');
+                for (int ti = 0; ti < tokens.Length; ti++)
+                {
+                    if (tokens[ti] != "")
+                    {
+                        element_order++;
+                    }
+                }
+
+                element_order -= 5;
+                break;
+            }
+        }
+    }
+
+    public static void gmsh_write(string gmsh_filename, int dim_num, int node_num,
             double[] node_xyz, int element_order, int element_num, int[] element_node )
 
         //****************************************************************************80
@@ -480,64 +478,61 @@ namespace Burkardt.GMesh
         //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
         //    the nodes that make up each element.
         //
-        {
-            int element;
-            int element_type = 0;
-            List<string> gmsh = new List<string>();
-            int i;
-            int i2;
-            int[] leo_to_gmsh =  {
+    {
+        int element;
+        int element_type = 0;
+        List<string> gmsh = new();
+        int i;
+        int i2;
+        int[] leo_to_gmsh =  {
                 0, 1, 2, 3, 4,
                 6, 9, 10, 7, 5,
                 11, 17, 18, 12, 19,
                 13, 8, 14, 15, 16
             }
             ;
-            int node;
-            int tag_num;
-            int tag1;
+        int node;
+        int tag_num;
+        int tag1;
 
-            gmsh.Add("$MeshFormat");
-            gmsh.Add("2.2 0 8");
-            gmsh.Add("$EndMeshFormat");
+        gmsh.Add("$MeshFormat");
+        gmsh.Add("2.2 0 8");
+        gmsh.Add("$EndMeshFormat");
 
-            gmsh.Add("$Nodes");
-            gmsh.Add(node_num + "");
-            for (node = 0; node < node_num; node++)
-            {
-                gmsh.Add((node + 1)
-                     + "  " + node_xyz[0 + node * 3]
-                     + "  " + node_xyz[1 + node * 3]
-                     + "  " + node_xyz[2 + node * 3] + "");
-            }
+        gmsh.Add("$Nodes");
+        gmsh.Add(node_num + "");
+        for (node = 0; node < node_num; node++)
+        {
+            gmsh.Add(node + 1
+                          + "  " + node_xyz[0 + node * 3]
+                          + "  " + node_xyz[1 + node * 3]
+                          + "  " + node_xyz[2 + node * 3] + "");
+        }
 
-            gmsh.Add("$EndNodes");
+        gmsh.Add("$EndNodes");
 
-            if (element_order == 4)
-            {
-                element_type = 4;
-            }
-            else if (element_order == 10)
-            {
-                element_type = 11;
-            }
-            else if (element_order == 20)
-            {
-                element_type = 29;
-            }
+        element_type = element_order switch
+        {
+            4 => 4,
+            10 => 11,
+            20 => 29,
+            _ => element_type
+        };
 
-            tag_num = 2;
-            tag1 = 0;
-            gmsh.Add("$Elements");
-            gmsh.Add(element_num + "");
-            for (element = 0; element < element_num; element++)
+        tag_num = 2;
+        tag1 = 0;
+        gmsh.Add("$Elements");
+        gmsh.Add(element_num + "");
+        for (element = 0; element < element_num; element++)
+        {
+            string tmp = element + 1
+                                 + "  " + element_type
+                                 + "  " + tag_num
+                                 + "  " + tag1
+                                 + "  " + (element + 1);
+            switch (element_order)
             {
-                string tmp = (element + 1)
-                     + "  " + element_type
-                     + "  " + tag_num
-                     + "  " + tag1
-                     + "  " + (element + 1);
-                if (element_order == 20)
+                case 20:
                 {
                     for (i = 0; i < element_order; i++)
                     {
@@ -546,8 +541,9 @@ namespace Burkardt.GMesh
                     }
 
                     gmsh.Add(tmp);
+                    break;
                 }
-                else
+                default:
                 {
                     for (i = 0; i < element_order; i++)
                     {
@@ -555,12 +551,13 @@ namespace Burkardt.GMesh
                     }
 
                     gmsh.Add(tmp);
+                    break;
                 }
             }
-
-            gmsh.Add("$EndElements");
-
-            File.WriteAllLines(gmsh_filename, gmsh);
         }
+
+        gmsh.Add("$EndElements");
+
+        File.WriteAllLines(gmsh_filename, gmsh);
     }
 }

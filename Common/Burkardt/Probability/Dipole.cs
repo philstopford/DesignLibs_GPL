@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Dipole
 {
-    public static class Dipole
-    {
-        public static double dipole_cdf(double x, double a, double b)
+    public static double dipole_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -33,17 +33,17 @@ namespace Burkardt.Probability
         //
         //    Output, double DIPOLE_CDF, the value of the CDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
             
 
-            cdf = 0.5 + (1.0 / Math.PI) * Math.Atan(x) + b * b * (x * Math.Cos(2.0 * a)
-                                                           - Math.Sin(2.0 * a)) / (Math.PI * (1.0 + x * x));
+        cdf = 0.5 + 1.0 / Math.PI * Math.Atan(x) + b * b * (x * Math.Cos(2.0 * a)
+                                                            - Math.Sin(2.0 * a)) / (Math.PI * (1.0 + x * x));
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double dipole_cdf_inv(double cdf, double a, double b)
+    public static double dipole_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -75,107 +75,104 @@ namespace Burkardt.Probability
         //
         //    Output, double DIPOLE_CDF_INV, the corresponding argument of the CDF.
         //
-        {
-            double cdf1;
-            double cdf2;
-            int it_max = 100;
-            const double r8_huge = 1.0E+30;
-            double tol = 0.0001;
-            double x;
+    {
+        double cdf1;
+        double cdf2;
+        int it_max = 100;
+        const double r8_huge = 1.0E+30;
+        double tol = 0.0001;
+        double x;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("DIPOLE_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return (1);
-            }
-
-            if (cdf == 0.0)
-            {
+                return 1;
+            case 0.0:
                 x = -r8_huge;
                 return x;
-            }
-            else if (1.0 == cdf)
-            {
+            case 1.0:
                 x = r8_huge;
                 return x;
-            }
-
-            //
-            //  Seek X1 < X < X2.
-            //
-            double x1 = -1.0;
-
-            for (;;)
-            {
-                cdf1 = dipole_cdf(x1, a, b);
-
-                if (cdf1 <= cdf)
-                {
-                    break;
-                }
-
-                x1 = 2.0 * x1;
-            }
-
-            double x2 = 1.0;
-
-            for (;;)
-            {
-                cdf2 = dipole_cdf(x2, a, b);
-
-                if (cdf <= cdf2)
-                {
-                    break;
-                }
-
-                x2 = 2.0 * x2;
-            }
-
-            //
-            //  Now use bisection.
-            //
-            int it = 0;
-
-            for (;;)
-            {
-                it = it + 1;
-
-                double x3 = 0.5 * (x1 + x2);
-                double cdf3 = dipole_cdf(x3, a, b);
-
-                if (Math.Abs(cdf3 - cdf) < tol)
-                {
-                    x = x3;
-                    break;
-                }
-
-                if (it_max < it)
-                {
-                    Console.WriteLine(" ");
-                    Console.WriteLine("DIPOLE_CDF_INV - Fatal error!");
-                    Console.WriteLine("  Iteration limit exceeded.");
-                    return (1);
-                }
-
-                if ((cdf3 <= cdf && cdf1 <= cdf) || (cdf <= cdf3 && cdf <= cdf1))
-                {
-                    x1 = x3;
-                    cdf1 = cdf3;
-                }
-                else
-                {
-                    x2 = x3;
-                    cdf2 = cdf3;
-                }
-
-            }
-
-            return x;
         }
 
-        public static bool dipole_check(double a, double b)
+        //
+        //  Seek X1 < X < X2.
+        //
+        double x1 = -1.0;
+
+        for (;;)
+        {
+            cdf1 = dipole_cdf(x1, a, b);
+
+            if (cdf1 <= cdf)
+            {
+                break;
+            }
+
+            x1 = 2.0 * x1;
+        }
+
+        double x2 = 1.0;
+
+        for (;;)
+        {
+            cdf2 = dipole_cdf(x2, a, b);
+
+            if (cdf <= cdf2)
+            {
+                break;
+            }
+
+            x2 = 2.0 * x2;
+        }
+
+        //
+        //  Now use bisection.
+        //
+        int it = 0;
+
+        for (;;)
+        {
+            it += 1;
+
+            double x3 = 0.5 * (x1 + x2);
+            double cdf3 = dipole_cdf(x3, a, b);
+
+            if (Math.Abs(cdf3 - cdf) < tol)
+            {
+                x = x3;
+                break;
+            }
+
+            if (it_max < it)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("DIPOLE_CDF_INV - Fatal error!");
+                Console.WriteLine("  Iteration limit exceeded.");
+                return 1;
+            }
+
+            if (cdf3 <= cdf && cdf1 <= cdf || cdf <= cdf3 && cdf <= cdf1)
+            {
+                x1 = x3;
+                cdf1 = cdf3;
+            }
+            else
+            {
+                x2 = x3;
+                cdf2 = cdf3;
+            }
+
+        }
+
+        return x;
+    }
+
+    public static bool dipole_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -202,20 +199,22 @@ namespace Burkardt.Probability
         //
         //    Output, bool DIPOLE_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b < -1.0 || 1.0 < b)
-            {
+            case < -1.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("DIPOLE_CHECK - Warning!");
                 Console.WriteLine("  -1.0 <= B <= 1.0 is required.");
                 Console.WriteLine("  The input B = " + b + "");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double dipole_pdf(double x, double a, double b)
+    public static double dipole_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -264,19 +263,19 @@ namespace Burkardt.Probability
         //
         //    Output, double DIPOLE_PDF, the value of the PDF.
         //
-        {
-            double pdf;
+    {
+        double pdf;
             
 
-            pdf = 1.0 / (Math.PI * (1.0 + x * x))
-                  + b * b * ((1.0 - x * x) * Math.Cos(2.0 * a)
-                             + 2.0 * x * Math.Sin(2.0 * x))
-                  / (Math.PI * (1.0 + x * x) * (1.0 + x * x));
+        pdf = 1.0 / (Math.PI * (1.0 + x * x))
+              + b * b * ((1.0 - x * x) * Math.Cos(2.0 * a)
+                         + 2.0 * x * Math.Sin(2.0 * x))
+              / (Math.PI * (1.0 + x * x) * (1.0 + x * x));
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double dipole_sample(double a, double b, ref int seed)
+    public static double dipole_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -312,26 +311,25 @@ namespace Burkardt.Probability
         //
         //    Output, double DIPOLE_SAMPLE, a sample of the PDF.
         //
-        {
-            double a2;
-            double b2;
-            double c2;
-            double x;
-            double[] xc;
-            //
-            //  Find (X1,X2) at random in a circle.
-            //
-            a2 = b * Math.Sin(a);
-            b2 = b * Math.Cos(a);
-            c2 = 1.0;
+    {
+        double a2;
+        double b2;
+        double c2;
+        double x;
+        double[] xc;
+        //
+        //  Find (X1,X2) at random in a circle.
+        //
+        a2 = b * Math.Sin(a);
+        b2 = b * Math.Cos(a);
+        c2 = 1.0;
 
-            xc = Disk.disk_sample(a2, b2, c2, ref seed);
-            //
-            //  The dipole variate is the ratio X1 / X2.
-            //
-            x = xc[0] / xc[1];
+        xc = Disk.disk_sample(a2, b2, c2, ref seed);
+        //
+        //  The dipole variate is the ratio X1 / X2.
+        //
+        x = xc[0] / xc[1];
 
-            return x;
-        }
+        return x;
     }
 }

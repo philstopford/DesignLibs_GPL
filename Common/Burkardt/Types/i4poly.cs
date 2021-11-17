@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Burkardt.Types
+namespace Burkardt.Types;
+
+public static partial class typeMethods
 {
-    public static partial class typeMethods
-    {
-        public static void i4poly(int n, ref int[] a, int x0, int iopt, ref int val )
+    public static void i4poly(int n, ref int[] a, int x0, int iopt, ref int val )
 
         //****************************************************************************80
         //
@@ -77,54 +77,58 @@ namespace Burkardt.Types
         //    Output, int &VAL, for IOPT = -1 or 0, the value of the
         //    polynomial at the point X0.
         //
+    {
+        int eps;
+        int i;
+        int m;
+        int n1;
+        int w;
+        int z;
+
+        n1 = Math.Min(n, iopt);
+
+        n1 = iopt switch
         {
-            int eps;
-            int i;
-            int m;
-            int n1;
-            int w;
-            int z;
+            < -1 => n,
+            _ => Math.Max(1, n1)
+        };
 
-            n1 = Math.Min(n, iopt);
-            n1 = Math.Max(1, n1);
+        eps = Math.Max(-iopt, 0) % 2;
 
-            if (iopt < -1)
-            {
-                n1 = n;
-            }
+        w = -n * eps;
 
-            eps = Math.Max(-iopt, 0) % 2;
-
-            w = -n * eps;
-
-            if (-2 < iopt)
-            {
-                w = w + x0;
-            }
-
-            for (m = 1; m <= n1; m++)
-            {
-                val = 0;
-                z = w;
-
-                for (i = m; i <= n; i++)
-                {
-                    z = z + eps;
-                    val = a[n + m - i - 1] + z * val;
-                    if (iopt != 0 && iopt != -1)
-                    {
-                        a[n + m - i - 1] = val;
-                    }
-                }
-
-                if (iopt < 0)
-                {
-                    w = w + 1;
-                }
-            }
+        switch (iopt)
+        {
+            case > -2:
+                w += x0;
+                break;
         }
 
-        public static int[] i4poly_add(int na, int[] a, int nb, int[] b )
+        for (m = 1; m <= n1; m++)
+        {
+            val = 0;
+            z = w;
+
+            for (i = m; i <= n; i++)
+            {
+                z += eps;
+                val = a[n + m - i - 1] + z * val;
+                if (iopt != 0 && iopt != -1)
+                {
+                    a[n + m - i - 1] = val;
+                }
+            }
+
+            switch (iopt)
+            {
+                case < 0:
+                    w += 1;
+                    break;
+            }
+        }
+    }
+
+    public static int[] i4poly_add(int na, int[] a, int nb, int[] b )
 
         //****************************************************************************80
         //
@@ -166,160 +170,162 @@ namespace Burkardt.Types
         //
         //    Output, int C[max(NA,NB)+1], the coefficients of A + B.
         //
+    {
+        int i;
+        int[] c;
+
+        c = new int[Math.Max(na, nb) + 1];
+
+        if (nb == na)
         {
-            int i;
-            int[] c;
-
-            c = new int[Math.Max(na, nb) + 1];
-
-            if (nb == na)
+            for (i = 0; i <= na; i++)
             {
-                for (i = 0; i <= na; i++)
-                {
-                    c[i] = a[i] + b[i];
-                }
+                c[i] = a[i] + b[i];
             }
-            else if (nb < na)
+        }
+        else if (nb < na)
+        {
+            for (i = 0; i <= nb; i++)
             {
-                for (i = 0; i <= nb; i++)
-                {
-                    c[i] = a[i] + b[i];
-                }
-
-                for (i = nb + 1; i <= na; i++)
-                {
-                    c[i] = a[i];
-                }
-            }
-            else if (na < nb)
-            {
-                for (i = 0; i <= na; i++)
-                {
-                    c[i] = a[i] + b[i];
-                }
-
-                for (i = na + 1; i <= nb; i++)
-                {
-                    c[i] = b[i];
-                }
+                c[i] = a[i] + b[i];
             }
 
-            return c;
+            for (i = nb + 1; i <= na; i++)
+            {
+                c[i] = a[i];
+            }
+        }
+        else if (na < nb)
+        {
+            for (i = 0; i <= na; i++)
+            {
+                c[i] = a[i] + b[i];
+            }
+
+            for (i = na + 1; i <= nb; i++)
+            {
+                c[i] = b[i];
+            }
         }
 
-        public static void i4poly_cyclo(int n, int[] phi)
+        return c;
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I4POLY_CYCLO computes a cyclotomic I4POLY.
-            //
-            //  Discussion:
-            //
-            //    For 1 <= N, let
-            //
-            //      I = SQRT ( - 1 )
-            //      L = EXP ( 2 * PI * I / N )
-            //
-            //    Then the N-th cyclotomic polynomial is defined by
-            //
-            //      PHI(N;X) = Product ( 1 <= K <= N and GCD(K,N) = 1 ) ( X - L^K )
-            //
-            //    We can use the Moebius MU function to write
-            //
-            //      PHI(N;X) = Product ( mod ( D, N ) = 0 ) ( X^D - 1 )^MU(N/D)
-            //
-            //    There is a sort of inversion formula:
-            //
-            //      X^N - 1 = Product ( mod ( D, N ) = 0 ) PHI(D;X)
-            //
-            //  Example:
-            //
-            //     N  PHI
-            //
-            //     0  1
-            //     1  X - 1
-            //     2  X + 1
-            //     3  X^2 + X + 1
-            //     4  X^2 + 1
-            //     5  X^4 + X^3 + X^2 + X + 1
-            //     6  X^2 - X + 1
-            //     7  X^6 + X^5 + X^4 + X^3 + X^2 + X + 1
-            //     8  X^4 + 1
-            //     9  X^6 + X^3 + 1
-            //    10  X^4 - X^3 + X^2 - X + 1
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    30 May 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Raymond Seroul,
-            //    Programming for Mathematicians,
-            //    Springer Verlag, 2000, page 269.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the index of the cyclotomic polynomial desired.
-            //
-            //    Output, int PHI[N+1], the N-th cyclotomic polynomial.
-            //
+    public static void i4poly_cyclo(int n, int[] phi)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4POLY_CYCLO computes a cyclotomic I4POLY.
+        //
+        //  Discussion:
+        //
+        //    For 1 <= N, let
+        //
+        //      I = SQRT ( - 1 )
+        //      L = EXP ( 2 * PI * I / N )
+        //
+        //    Then the N-th cyclotomic polynomial is defined by
+        //
+        //      PHI(N;X) = Product ( 1 <= K <= N and GCD(K,N) = 1 ) ( X - L^K )
+        //
+        //    We can use the Moebius MU function to write
+        //
+        //      PHI(N;X) = Product ( mod ( D, N ) = 0 ) ( X^D - 1 )^MU(N/D)
+        //
+        //    There is a sort of inversion formula:
+        //
+        //      X^N - 1 = Product ( mod ( D, N ) = 0 ) PHI(D;X)
+        //
+        //  Example:
+        //
+        //     N  PHI
+        //
+        //     0  1
+        //     1  X - 1
+        //     2  X + 1
+        //     3  X^2 + X + 1
+        //     4  X^2 + 1
+        //     5  X^4 + X^3 + X^2 + X + 1
+        //     6  X^2 - X + 1
+        //     7  X^6 + X^5 + X^4 + X^3 + X^2 + X + 1
+        //     8  X^4 + 1
+        //     9  X^6 + X^3 + 1
+        //    10  X^4 - X^3 + X^2 - X + 1
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    30 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Raymond Seroul,
+        //    Programming for Mathematicians,
+        //    Springer Verlag, 2000, page 269.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the index of the cyclotomic polynomial desired.
+        //
+        //    Output, int PHI[N+1], the N-th cyclotomic polynomial.
+        //
+    {
+        int POLY_MAX = 100;
+
+        int d = 0;
+        int[] den = new int[POLY_MAX + 1];
+        int den_n;
+        int[] factor;
+        int i = 0;
+        int j = 0;
+        int mu = 0;
+        int nq = 0;
+        int nr = 0;
+        int[] num = new int[POLY_MAX + 1];
+        int num_n = 0;
+        int[] rem;
+
+        factor = new int[n + 1];
+        rem = new int[n + 1];
+
+        num[0] = 1;
+        for (i = 1; i <= POLY_MAX; i++)
         {
-            int POLY_MAX = 100;
+            num[i] = 0;
+        }
 
-            int d = 0;
-            int[] den = new int[POLY_MAX + 1];
-            int den_n;
-            int[] factor;
-            int i = 0;
-            int j = 0;
-            int mu = 0;
-            int nq = 0;
-            int nr = 0;
-            int[] num = new int[POLY_MAX + 1];
-            int num_n = 0;
-            int[] rem;
+        num_n = 0;
 
-            factor = new int[n + 1];
-            rem = new int[n + 1];
+        den[0] = 1;
+        for (i = 1; i <= POLY_MAX; i++)
+        {
+            den[i] = 0;
+        }
 
-            num[0] = 1;
-            for (i = 1; i <= POLY_MAX; i++)
-            {
-                num[i] = 0;
-            }
+        den_n = 0;
 
-            num_n = 0;
+        for (i = 0; i <= n; i++)
+        {
+            phi[i] = 0;
+        }
 
-            den[0] = 1;
-            for (i = 1; i <= POLY_MAX; i++)
-            {
-                den[i] = 0;
-            }
-
-            den_n = 0;
-
-            for (i = 0; i <= n; i++)
-            {
-                phi[i] = 0;
-            }
-
-            for (d = 1; d <= n; d++)
+        for (d = 1; d <= n; d++)
+        {
+            switch (n % d)
             {
                 //
                 //  For each divisor D of N, ...
                 //
-                if ((n % d) == 0)
+                case 0:
                 {
                     mu = i4_moebius(n / d);
                     //
@@ -333,99 +339,97 @@ namespace Burkardt.Types
 
                     factor[d] = 1;
 
-                    if (mu == +1)
+                    switch (mu)
                     {
-                        if (POLY_MAX < num_n + d)
-                        {
+                        case +1 when POLY_MAX < num_n + d:
                             Console.WriteLine("");
                             Console.WriteLine("I4POLY_CYCLO - Fatal error!");
                             Console.WriteLine("  Numerator polynomial degree too high.");
                             return;
-                        }
+                        case +1:
+                            i4poly_mul(num_n, num, d, factor, ref num);
 
-                        i4poly_mul(num_n, num, d, factor, ref num);
-
-                        num_n = num_n + d;
-                    }
-                    else if (mu == -1)
-                    {
-                        if (POLY_MAX < den_n + d)
-                        {
+                            num_n += d;
+                            break;
+                        case -1 when POLY_MAX < den_n + d:
                             Console.WriteLine("");
                             Console.WriteLine("I4POLY_CYCLO - Fatal error!");
                             Console.WriteLine("  Denominator polynomial degree too high.");
                             return;
-                        }
+                        case -1:
+                            i4poly_mul(den_n, den, d, factor, ref den);
 
-                        i4poly_mul(den_n, den, d, factor, ref den);
-
-                        den_n = den_n + d;
+                            den_n += d;
+                            break;
                     }
+
+                    break;
                 }
             }
-
-            //
-            //  PHI = NUM / DEN
-            //
-            i4poly_div(num_n, num, den_n, den, ref nq, ref phi, ref nr, ref rem);
         }
 
-        public static int i4poly_degree(int na, int[] a)
+        //
+        //  PHI = NUM / DEN
+        //
+        i4poly_div(num_n, num, den_n, den, ref nq, ref phi, ref nr, ref rem);
+    }
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I4POLY_DEGREE returns the degree of an I4POLY.
-            //
-            //  Discussion:
-            //
-            //    The degree of a polynomial is the index of the highest power
-            //    of X with a nonzero coefficient.
-            //
-            //    The degree of a constant polynomial is 0.  The degree of the
-            //    zero polynomial is debatable, but this routine returns the
-            //    degree as 0.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    10 May 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int NA, the dimension of A.
-            //
-            //    Input, int A[NA+1], the coefficients of the polynomials.
-            //
-            //    Output, int I4POLY_DEGREE, the degree of the polynomial.
-            //
+    public static int i4poly_degree(int na, int[] a)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4POLY_DEGREE returns the degree of an I4POLY.
+        //
+        //  Discussion:
+        //
+        //    The degree of a polynomial is the index of the highest power
+        //    of X with a nonzero coefficient.
+        //
+        //    The degree of a constant polynomial is 0.  The degree of the
+        //    zero polynomial is debatable, but this routine returns the
+        //    degree as 0.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    10 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NA, the dimension of A.
+        //
+        //    Input, int A[NA+1], the coefficients of the polynomials.
+        //
+        //    Output, int I4POLY_DEGREE, the degree of the polynomial.
+        //
+    {
+        int degree;
+
+        degree = na;
+
+        while (0 < degree)
         {
-            int degree;
-
-            degree = na;
-
-            while (0 < degree)
+            if (a[degree] != 0)
             {
-                if (a[degree] != 0)
-                {
-                    return degree;
-                }
-
-                degree = degree - 1;
+                return degree;
             }
 
-            return degree;
+            degree -= 1;
         }
 
-        public static int[] i4poly_dif(int na, int[] a, int d )
+        return degree;
+    }
+
+    public static int[] i4poly_dif(int na, int[] a, int d )
 
         //****************************************************************************80
         //
@@ -465,28 +469,28 @@ namespace Burkardt.Types
         //    Output, int I4POLY_DIF[NA-D+1], the coefficients of the
         //    differentiated polynomial.
         //
+    {
+        int[] b;
+        int i;
+
+        if (na < d)
         {
-            int[] b;
-            int i;
-
-            if (na < d)
-            {
-                b = new int[1];
-                b[0] = 0;
-                return b;
-            }
-
-            b = new int[na - d + 1];
-            for (i = 0; i <= na - d; i++)
-            {
-                b[i] = a[i + d] * i4_fall(i + d, d);
-            }
-
+            b = new int[1];
+            b[0] = 0;
             return b;
         }
 
-        public static void i4poly_div(int na, int[] a, int nb, int[] b, ref int nq, ref int[] q,
-        ref int nr, ref int[] r )
+        b = new int[na - d + 1];
+        for (i = 0; i <= na - d; i++)
+        {
+            b[i] = a[i + d] * i4_fall(i + d, d);
+        }
+
+        return b;
+    }
+
+    public static void i4poly_div(int na, int[] a, int nb, int[] b, ref int nq, ref int[] q,
+            ref int nr, ref int[] r )
 
         //****************************************************************************80
         //
@@ -542,51 +546,52 @@ namespace Burkardt.Types
         //    If B has full degree, R should be dimensioned R(0:NB-1).
         //    Otherwise, R will actually require less space.
         //
+    {
+        int[] a2;
+        int i;
+        int j;
+        int na2;
+        int nb2;
+
+        na2 = i4poly_degree(na, a);
+
+        nb2 = i4poly_degree(nb, b);
+
+        switch (b[nb2])
         {
-            int[] a2;
-            int i;
-            int j;
-            int na2;
-            int nb2;
-
-            na2 = i4poly_degree(na, a);
-
-            nb2 = i4poly_degree(nb, b);
-
-            if (b[nb2] == 0)
-            {
+            case 0:
                 nq = -1;
                 nr = -1;
                 return;
-            }
+        }
 
-            a2 = new int[na + 1];
+        a2 = new int[na + 1];
 
-            for (i = 0; i <= na2; i++)
+        for (i = 0; i <= na2; i++)
+        {
+            a2[i] = a[i];
+        }
+
+        nq = na2 - nb2;
+        nr = nb2 - 1;
+
+        for (i = nq; 0 <= i; i--)
+        {
+            q[i] = a2[i + nb2] / b[nb2];
+            a2[i + nb2] = 0;
+            for (j = 0; j < nb2; j++)
             {
-                a2[i] = a[i];
-            }
-
-            nq = na2 - nb2;
-            nr = nb2 - 1;
-
-            for (i = nq; 0 <= i; i--)
-            {
-                q[i] = a2[i + nb2] / b[nb2];
-                a2[i + nb2] = 0;
-                for (j = 0; j < nb2; j++)
-                {
-                    a2[i + j] = a2[i + j] - q[i] * b[j];
-                }
-            }
-
-            for (i = 0; i <= nr; i++)
-            {
-                r[i] = a2[i];
+                a2[i + j] -= q[i] * b[j];
             }
         }
 
-        public static void i4poly_mul(int na, int[] a, int nb, int[] b, ref int[] c )
+        for (i = 0; i <= nr; i++)
+        {
+            r[i] = a2[i];
+        }
+    }
+
+    public static void i4poly_mul(int na, int[] a, int nb, int[] b, ref int[] c )
 
         //****************************************************************************80
         //
@@ -626,33 +631,33 @@ namespace Burkardt.Types
         //
         //    Output, int C[NA+NB+1], the coefficients of A * B.
         //
+    {
+        int[] d;
+        int i;
+        int j;
+
+        d = new int[na + nb + 1];
+
+        for (i = 0; i <= na + nb; i++)
         {
-            int[] d;
-            int i;
-            int j;
+            d[i] = 0;
+        }
 
-            d = new int[na + nb + 1];
-
-            for (i = 0; i <= na + nb; i++)
+        for (i = 0; i <= na; i++)
+        {
+            for (j = 0; j <= nb; j++)
             {
-                d[i] = 0;
-            }
-
-            for (i = 0; i <= na; i++)
-            {
-                for (j = 0; j <= nb; j++)
-                {
-                    d[i + j] = d[i + j] + a[i] * b[j];
-                }
-            }
-
-            for (i = 0; i <= na + nb; i++)
-            {
-                c[i] = d[i];
+                d[i + j] += a[i] * b[j];
             }
         }
 
-        public static void i4poly_print(int n, int[] a, string title )
+        for (i = 0; i <= na + nb; i++)
+        {
+            c[i] = d[i];
+        }
+    }
+
+    public static void i4poly_print(int n, int[] a, string title )
 
         //****************************************************************************80
         //
@@ -688,76 +693,75 @@ namespace Burkardt.Types
         //
         //    Input, string TITLE, a title.
         //
-        {
-            int i;
-            int mag;
-            int n2;
-            char plus_minus;
+    {
+        int i;
+        int mag;
+        int n2;
+        char plus_minus;
 
-            if (0 < title.Length)
-            {
+        switch (title.Length)
+        {
+            case > 0:
                 Console.WriteLine("");
                 Console.WriteLine(title + "");
-            }
+                break;
+        }
 
-            n2 = i4poly_degree(n, a);
+        n2 = i4poly_degree(n, a);
 
-            if (a[n2] < 0)
+        plus_minus = a[n2] switch
+        {
+            < 0 => '-',
+            _ => ' '
+        };
+
+        mag = Math.Abs(a[n2]);
+
+        switch (n2)
+        {
+            case >= 2:
+                Console.WriteLine("p(x) = " + plus_minus + mag + " * x^" + n2 + "");
+                break;
+            case 1:
+                Console.WriteLine("p(x) = " + plus_minus + mag + " * x" + "");
+                break;
+            case 0:
+                Console.WriteLine("p(x) = " + plus_minus + mag + "");
+                break;
+        }
+
+        for (i = n2 - 1; 0 <= i; i--)
+        {
+            if (a[i] < 0.0)
             {
                 plus_minus = '-';
             }
             else
             {
-                plus_minus = ' ';
+                plus_minus = '+';
             }
 
-            mag = Math.Abs(a[n2]);
+            mag = Math.Abs(a[i]);
 
-            if (2 <= n2)
+            if (mag != 0)
             {
-                Console.WriteLine("p(x) = " + plus_minus + mag + " * x^" + n2 + "");
-            }
-            else if (n2 == 1)
-            {
-                Console.WriteLine("p(x) = " + plus_minus + mag + " * x" + "");
-            }
-            else if (n2 == 0)
-            {
-                Console.WriteLine("p(x) = " + plus_minus + mag + "");
-            }
-
-            for (i = n2 - 1; 0 <= i; i--)
-            {
-                if (a[i] < 0.0)
+                switch (i)
                 {
-                    plus_minus = '-';
-                }
-                else
-                {
-                    plus_minus = '+';
-                }
-
-                mag = Math.Abs(a[i]);
-
-                if (mag != 0)
-                {
-                    if (2 <= i)
-                    {
+                    case >= 2:
                         Console.WriteLine("       " + plus_minus + mag + " * x^" + i + "");
-                    }
-                    else if (i == 1)
-                    {
+                        break;
+                    case 1:
                         Console.WriteLine("       " + plus_minus + mag + " * x" + "");
-                    }
-                    else if (i == 0)
-                    {
+                        break;
+                    case 0:
                         Console.WriteLine("       " + plus_minus + mag + "");
-                    }
+                        break;
                 }
             }
         }
+    }
 
-        public static int i4poly_to_i4(int n, int[] a, int x )
+    public static int i4poly_to_i4(int n, int[] a, int x )
 
         //****************************************************************************80
         //
@@ -795,18 +799,17 @@ namespace Burkardt.Types
         //
         //    Output, int I4POLY_TO_I4, the value of the polynomial.
         //
+    {
+        int i;
+        int value;
+
+        value = 0;
+
+        for (i = n; 0 <= i; i--)
         {
-            int i;
-            int value;
-
-            value = 0;
-
-            for (i = n; 0 <= i; i--)
-            {
-                value = value * x + a[i];
-            }
-
-            return value;
+            value = value * x + a[i];
         }
+
+        return value;
     }
 }

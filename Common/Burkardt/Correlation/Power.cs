@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.FullertonFnLib;
 
-namespace Burkardt.CorrelationNS
+namespace Burkardt.CorrelationNS;
+
+public static partial class Correlation
 {
-    public static partial class Correlation
-    {
-        public static CorrelationResult correlation_power (FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
+    public static CorrelationResult correlation_power (FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -53,29 +53,25 @@ namespace Burkardt.CorrelationNS
         //
         //    Output, double C[N], the correlations.
         //
+    {
+        double[] c;
+        double e;
+        int i;
+        double rhohat;
+
+        e = 2.0;
+
+        c = new double[n];
+
+        for ( i = 0; i < n; i++ )
         {
-            double[] c;
-            double e;
-            int i;
-            double rhohat;
-
-            e = 2.0;
-
-            c = new double[n];
-
-            for ( i = 0; i < n; i++ )
+            rhohat = Math.Abs ( rho[i] ) / rho0;
+            c[i] = rhohat switch
             {
-                rhohat = Math.Abs ( rho[i] ) / rho0;
-                if ( rhohat <= 1.0 )
-                {
-                    c[i] = Math.Pow ( 1.0 - rhohat, e );
-                }
-                else
-                {
-                    c[i] = 0.0;
-                }
-            }
-            return new CorrelationResult(){result = c, data = globaldata};
+                <= 1.0 => Math.Pow(1.0 - rhohat, e),
+                _ => 0.0
+            };
         }
+        return new CorrelationResult(){result = c, data = globaldata};
     }
 }

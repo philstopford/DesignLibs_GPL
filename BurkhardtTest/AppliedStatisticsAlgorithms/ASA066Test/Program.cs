@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
 
-namespace ASA066Test
+namespace ASA066Test;
+
+internal class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -28,22 +28,22 @@ namespace ASA066Test
         //
         //    John Burkardt
         //
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ASA066_TEST:");
-            Console.WriteLine("  Test the ASA066 library.");
+    {
+        Console.WriteLine("");
+        Console.WriteLine("ASA066_TEST:");
+        Console.WriteLine("  Test the ASA066 library.");
 
-            test01 ( );
-            test02 ( );
-            test03 ( );
+        test01 ( );
+        test02 ( );
+        test03 ( );
 
-            Console.WriteLine("");
-            Console.WriteLine("ASA066_TEST:");
-            Console.WriteLine("  Normal end of execution.");
-            Console.WriteLine("");
-        }
-        
-        static void test01 ( )
+        Console.WriteLine("");
+        Console.WriteLine("ASA066_TEST:");
+        Console.WriteLine("  Normal end of execution.");
+        Console.WriteLine("");
+    }
+
+    private static void test01 ( )
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,46 +62,46 @@ namespace ASA066Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        double fx2 = 0;
+        int n_data = 0;
+        bool upper = false;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST01:");
+        Console.WriteLine("  Compare tabulated values of the normal");
+        Console.WriteLine("  Cumulative Density Function against values");
+        Console.WriteLine("  computed by ALNORM.");
+        Console.WriteLine("");
+        Console.WriteLine("         X        CDF                       CDF"
+                          + "                    DIFF");
+        Console.WriteLine("               (tabulated)                 (ALNORM)");
+        Console.WriteLine("");
+
+        n_data = 0;
+
+        for ( ; ; )
         {
-            double fx = 0;
-            double fx2 = 0;
-            int n_data = 0;
-            bool upper = false;
-            double x = 0;
+            Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST01:");
-            Console.WriteLine("  Compare tabulated values of the normal");
-            Console.WriteLine("  Cumulative Density Function against values");
-            Console.WriteLine("  computed by ALNORM.");
-            Console.WriteLine("");
-            Console.WriteLine("         X        CDF                       CDF"
-                + "                    DIFF");
-            Console.WriteLine("               (tabulated)                 (ALNORM)");
-            Console.WriteLine("");
-
-            n_data = 0;
-
-            for ( ; ; )
+            if ( n_data == 0 )
             {
-                Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
-
-                if ( n_data == 0 )
-                {
-                    break;
-                }
-
-                fx2 = Algorithms.alnorm ( x, upper );
-
-                Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
-                                       + "  " + fx.ToString("0.################").PadLeft(24)
-                                       + "  " + fx2.ToString("0.################").PadLeft(24)
-                                       + "  " + Math.Abs( ( fx - fx2 ) ).ToString("0.####").PadLeft(10) + "");
+                break;
             }
+
+            fx2 = Algorithms.alnorm ( x, upper );
+
+            Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
+                                   + "  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + fx2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs( fx - fx2 ).ToString("0.####").PadLeft(10) + "");
         }
+    }
 
 
-        static void test02()
+    private static void test02()
         //****************************************************************************80
         //
         //  Purpose:
@@ -119,50 +119,48 @@ namespace ASA066Test
         //  Author:
         //
         //    John Burkardt
+    {
+        double fx = 0;
+        double fx2 = 0;
+        int n_data = 0;
+        double p = 0;
+        double pdf = 0;
+        double q = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST02:");
+        Console.WriteLine("  Compare tabulated values of the normal");
+        Console.WriteLine("  Cumulative Density Function against values");
+        Console.WriteLine("  computed by NORMP.");
+        Console.WriteLine("");
+        Console.WriteLine("         X        CDF                       CDF"
+                          + "                    DIFF");
+        Console.WriteLine("               (tabulated)                 (NORMP)");
+        Console.WriteLine("");
+
+        n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            double fx2 = 0;
-            int n_data = 0;
-            double p = 0;
-            double pdf = 0;
-            double q = 0;
-            double x = 0;
+            Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST02:");
-            Console.WriteLine("  Compare tabulated values of the normal");
-            Console.WriteLine("  Cumulative Density Function against values");
-            Console.WriteLine("  computed by NORMP.");
-            Console.WriteLine("");
-            Console.WriteLine("         X        CDF                       CDF"
-                + "                    DIFF");
-            Console.WriteLine("               (tabulated)                 (NORMP)");
-            Console.WriteLine("");
-
-            n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                Algorithms.normp(x, ref p, ref q, ref pdf);
-                fx2 = p;
-
-                Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
-                                       + "  " + fx.ToString("0.################").PadLeft(24)
-                                       + "  " + fx2.ToString("0.################").PadLeft(24)
-                                       + "  " + Math.Abs( ( fx - fx2 ) ).ToString("0.####").PadLeft(10) + "");
+                break;
             }
 
-            return;
-        }
+            Algorithms.normp(x, ref p, ref q, ref pdf);
+            fx2 = p;
 
-        static void test03()
+            Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
+                                   + "  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + fx2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs( fx - fx2 ).ToString("0.####").PadLeft(10) + "");
+        }
+    }
+
+    private static void test03()
         //****************************************************************************80
         //
         //  Purpose:
@@ -181,47 +179,44 @@ namespace ASA066Test
         //
         //    John Burkardt
         //
+    {
+        double fx = 0;
+        int n_data = 0;
+        double p = 0;
+        double pdf = 0;
+        double q = 0;
+        double x = 0;
+
+        Console.WriteLine("");
+        Console.WriteLine("TEST03");
+        Console.WriteLine("  Compare tabulated values of the normal");
+        Console.WriteLine("  Cumulative Density Function against values");
+        Console.WriteLine("  computed by NPROBP.");
+        Console.WriteLine("");
+        Console.WriteLine("         X        CDF                       CDF"
+                          + "                    DIFF");
+        Console.WriteLine("               (tabulated)                 (NPROB)");
+        Console.WriteLine("");
+
+        n_data = 0;
+
+        for (;;)
         {
-            double fx = 0;
-            int n_data = 0;
-            double p = 0;
-            double pdf = 0;
-            double q = 0;
-            double x = 0;
+            Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
 
-            Console.WriteLine("");
-            Console.WriteLine("TEST03");
-            Console.WriteLine("  Compare tabulated values of the normal");
-            Console.WriteLine("  Cumulative Density Function against values");
-            Console.WriteLine("  computed by NPROBP.");
-            Console.WriteLine("");
-            Console.WriteLine("         X        CDF                       CDF"
-                + "                    DIFF");
-            Console.WriteLine("               (tabulated)                 (NPROB)");
-            Console.WriteLine("");
-
-            n_data = 0;
-
-            for (;;)
+            if (n_data == 0)
             {
-                Algorithms.normal_01_cdf_values ( ref n_data, ref x, ref fx );
-
-                if (n_data == 0)
-                {
-                    break;
-                }
-
-                Algorithms.nprob(x, ref p, ref q, ref pdf);
-                double fx2 = p;
-
-                Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
-                                       + "  " + fx.ToString("0.################").PadLeft(24)
-                                       + "  " + fx2.ToString("0.################").PadLeft(24)
-                                       + "  " + Math.Abs( ( fx - fx2 ) ).ToString("0.####").PadLeft(10) + "");
+                break;
             }
 
-            return;
-        }
+            Algorithms.nprob(x, ref p, ref q, ref pdf);
+            double fx2 = p;
 
+            Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
+                                   + "  " + fx.ToString("0.################").PadLeft(24)
+                                   + "  " + fx2.ToString("0.################").PadLeft(24)
+                                   + "  " + Math.Abs( fx - fx2 ).ToString("0.####").PadLeft(10) + "");
+        }
     }
+
 }

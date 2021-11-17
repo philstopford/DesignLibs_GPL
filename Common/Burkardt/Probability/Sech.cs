@@ -1,11 +1,11 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Probability
+namespace Burkardt.Probability;
+
+public static class Sech
 {
-    public static class Sech
-    {
-        public static double sech(double x)
+    public static double sech(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -38,13 +38,13 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH, the hyperbolic secant of X.
         //
-        {
-            double value = 1.0 / Math.Cosh(x);
+    {
+        double value = 1.0 / Math.Cosh(x);
 
-            return value;
-        }
+        return value;
+    }
 
-        public static double sech_cdf(double x, double a, double b)
+    public static double sech_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -72,19 +72,19 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH_CDF, the value of the CDF.
         //
-        {
-            double cdf;
+    {
+        double cdf;
             
-            double y;
+        double y;
 
-            y = (x - a) / b;
+        y = (x - a) / b;
 
-            cdf = 2.0 * Math.Atan(Math.Exp(y)) / Math.PI;
+        cdf = 2.0 * Math.Atan(Math.Exp(y)) / Math.PI;
 
-            return cdf;
-        }
+        return cdf;
+    }
 
-        public static double sech_cdf_inv(double cdf, double a, double b)
+    public static double sech_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -112,36 +112,34 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH_CDF_INV, the corresponding argument of the CDF.
         //
-        {
-            const double r8_huge = 1.0E+30;
+    {
+        const double r8_huge = 1.0E+30;
             
-            double x = 0;
+        double x = 0;
 
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
+        switch (cdf)
+        {
+            case < 0.0:
+            case > 1.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("SECH_CDF_INV - Fatal error!");
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return(1);
-            }
-
-            if (cdf == 0.0)
-            {
+                return 1;
+            case 0.0:
                 x = -r8_huge;
-            }
-            else if (cdf < 1.0)
-            {
+                break;
+            case < 1.0:
                 x = a + b * Math.Log(Math.Tan(0.5 * Math.PI * cdf));
-            }
-            else if (1.0 == cdf)
-            {
+                break;
+            case 1.0:
                 x = r8_huge;
-            }
-
-            return x;
+                break;
         }
 
-        public static bool sech_check(double a, double b)
+        return x;
+    }
+
+    public static bool sech_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -167,19 +165,20 @@ namespace Burkardt.Probability
         //
         //    Output, bool SECH_CHECK, is true if the parameters are legal.
         //
+    {
+        switch (b)
         {
-            if (b <= 0.0)
-            {
+            case <= 0.0:
                 Console.WriteLine(" ");
                 Console.WriteLine("SECH_CHECK - Warning!");
                 Console.WriteLine("  B <= 0.0");
                 return false;
-            }
-
-            return true;
+            default:
+                return true;
         }
+    }
 
-        public static double sech_mean(double a, double b)
+    public static double sech_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -205,13 +204,13 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH_MEAN, the mean of the PDF.
         //
-        {
-            double mean = a;
+    {
+        double mean = a;
 
-            return mean;
-        }
+        return mean;
+    }
 
-        public static double sech_pdf(double x, double a, double b)
+    public static double sech_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -243,17 +242,17 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH_PDF, the value of the PDF.
         //
-        {
+    {
             
 
-            double y = (x - a) / b;
+        double y = (x - a) / b;
 
-            double pdf = sech(y) / (Math.PI * b);
+        double pdf = sech(y) / (Math.PI * b);
 
-            return pdf;
-        }
+        return pdf;
+    }
 
-        public static double sech_sample(double a, double b, ref int seed)
+    public static double sech_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -281,15 +280,15 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH_SAMPLE, a sample of the PDF.
         //
-        {
-            double cdf = UniformRNG.r8_uniform_01(ref seed);
+    {
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = a + b * Math.Log(Math.Tan(0.5 * Math.PI * cdf));
+        double x = a + b * Math.Log(Math.Tan(0.5 * Math.PI * cdf));
 
-            return x;
-        }
+        return x;
+    }
 
-        public static double sech_variance(double a, double b)
+    public static double sech_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -315,12 +314,11 @@ namespace Burkardt.Probability
         //
         //    Output, double SECH_VARIANCE, the variance of the PDF.
         //
-        {
+    {
             
 
-            double variance = 0.25 * Math.PI * Math.PI * b * b;
+        double variance = 0.25 * Math.PI * Math.PI * b * b;
 
-            return variance;
-        }
+        return variance;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Numerics;
-using Burkardt;
 using Burkardt.MatrixNS;
 using Burkardt.PowerMethodNS;
 using Burkardt.Types;

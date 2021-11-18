@@ -967,7 +967,7 @@ public static class Chi
 
         int n = (int) a;
 
-        if (n == a && n <= it_max)
+        if (Math.Abs(n - a) <= double.Epsilon && n <= it_max)
         {
             x = 0.0;
             for (i = 1; i <= n; i++)

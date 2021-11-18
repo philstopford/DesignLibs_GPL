@@ -441,18 +441,15 @@ public static class PBMB
                 }
             }
 
-            if (step == 2)
+            typeMethods.s_word_extract_first(line, ref word, ref rest);
+
+            if (typeMethods.s_len_trim(word) <= 0)
             {
-                typeMethods.s_word_extract_first(line, ref word, ref rest);
-
-                if (typeMethods.s_len_trim(word) <= 0)
-                {
-                    continue;
-                }
-
-                ysize = Convert.ToInt32(word);
-                break;
+                continue;
             }
+
+            ysize = Convert.ToInt32(word);
+            break;
 
         }
         return false;

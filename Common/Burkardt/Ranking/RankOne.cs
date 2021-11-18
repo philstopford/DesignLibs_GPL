@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.RankingNS;
@@ -172,9 +173,9 @@ public static partial class Ranking
 
             dif_norm = typeMethods.r8mat_dif_fro(m, n, a, usvt);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(8)
-                                   + "  " + dif_norm.ToString().PadLeft(14)
-                                   + "  " + (dif_norm / a_norm).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dif_norm.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (dif_norm / a_norm).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }

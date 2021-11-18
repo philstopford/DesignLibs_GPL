@@ -85,7 +85,7 @@ public static class tests3
 
                     for (k2 = klo; k2 <= khi; k2++)
                     {
-                        cout += qa[k2].ToString().PadLeft(14);
+                        cout += qa[k2].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -97,7 +97,7 @@ public static class tests3
                     cout = "  " + "       ";
                     for (k2 = klo; k2 <= khi; k2++)
                     {
-                        cout += qb[k2].ToString().PadLeft(14);
+                        cout += qb[k2].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -164,11 +164,11 @@ public static class tests3
             p = Ellipse.ellipse_circumference_2d(r1, r2);
             area = Ellipse.ellipse_area_2d(r1, r2);
 
-            Console.WriteLine("  " + r1.ToString().PadLeft(10)
-                                   + "  " + r2.ToString().PadLeft(10)
-                                   + "  " + e.ToString().PadLeft(10)
-                                   + "  " + p.ToString().PadLeft(10)
-                                   + "  " + area.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + r1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -514,7 +514,7 @@ public static class tests3
             string cout = "  Rule:   ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += rule.ToString().PadLeft(6);
+                cout += rule.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -543,7 +543,7 @@ public static class tests3
                         ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
                 }
 
@@ -610,12 +610,12 @@ public static class tests3
             for (order = 2; order <= 16; order += 2)
             {
                 value = Lens.lens_half_2d(functions.f_1_2d, center, r, theta1, theta2, order);
-                Console.WriteLine(r.ToString().PadLeft(14)
-                                  + theta1.ToString().PadLeft(14)
-                                  + theta2.ToString().PadLeft(14)
-                                  + area.ToString().PadLeft(14)
-                                  + order.ToString().PadLeft(8)
-                                  + value.ToString().PadLeft(14) + "");
+                Console.WriteLine(r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                  + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -639,12 +639,12 @@ public static class tests3
             for (order = 2; order <= 16; order += 2)
             {
                 value = Lens.lens_half_2d(functions.f_x_2d, center, r, theta1, theta2, order);
-                Console.WriteLine(r.ToString().PadLeft(14)
-                                  + theta1.ToString().PadLeft(14)
-                                  + theta2.ToString().PadLeft(14)
-                                  + area.ToString().PadLeft(14)
-                                  + order.ToString().PadLeft(8)
-                                  + value.ToString().PadLeft(14) + "");
+                Console.WriteLine(r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                  + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -668,12 +668,12 @@ public static class tests3
             for (order = 2; order <= 16; order += 2)
             {
                 value = Lens.lens_half_2d(functions.f_r_2d, center, r, theta1, theta2, order);
-                Console.WriteLine(r.ToString().PadLeft(14)
-                                  + theta1.ToString().PadLeft(14)
-                                  + theta2.ToString().PadLeft(14)
-                                  + area.ToString().PadLeft(14)
-                                  + order.ToString().PadLeft(8)
-                                  + value.ToString().PadLeft(14) + "");
+                Console.WriteLine(r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                  + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -727,7 +727,7 @@ public static class tests3
             for (n = 1; n <= n_max; n++)
             {
                 result = Octahedron.octahedron_unit_nd(function_nd_index, functions.function_nd, n);
-                cout += result.ToString().PadLeft(14);
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -785,7 +785,7 @@ public static class tests3
                 string cout = "";
                 for (j = 0; j < n + 1; j++)
                 {
-                    cout += v[i + j * n].ToString().PadLeft(14);
+                    cout += v[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -922,92 +922,92 @@ public static class tests3
 
             Console.WriteLine(cout);
             Console.WriteLine("");
-            cout = "  " + order[0].ToString().PadLeft(5);
+            cout = "  " + order[0].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o01_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o01_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[1].ToString().PadLeft(5);
+            cout = order[1].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o05_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o05_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[2].ToString().PadLeft(5);
+            cout = order[2].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o06_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o06_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[3].ToString().PadLeft(5);
+            cout = order[3].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o08_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o08_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[4].ToString().PadLeft(5);
+            cout = order[4].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o08b_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o08b_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[5].ToString().PadLeft(5);
+            cout = order[5].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o09_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o09_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[6].ToString().PadLeft(5);
+            cout = order[6].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o13_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o13_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[7].ToString().PadLeft(5);
+            cout = order[7].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o18_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o18_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[8].ToString().PadLeft(5);
+            cout = order[8].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o27_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o27_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
             Console.WriteLine(cout);
-            cout = order[9].ToString().PadLeft(5);
+            cout = order[9].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             for (j = jlo; j <= jhi; j++)
             {
                 function_3d_index = j;
-                cout += Pyramid.pyramid_unit_o48_3d(function_3d_index, functions.function_3d).ToString()
+                cout += Pyramid.pyramid_unit_o48_3d(function_3d_index, functions.function_3d).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
@@ -1061,10 +1061,10 @@ public static class tests3
                 {
                     value = Pyramid.pyramid_unit_monomial_3d(alpha, beta, gamma);
 
-                    Console.WriteLine("  " + alpha.ToString().PadLeft(8)
-                                           + "  " + beta.ToString().PadLeft(8)
-                                           + "  " + gamma.ToString().PadLeft(8)
-                                           + "  " + value.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + gamma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -1122,7 +1122,7 @@ public static class tests3
 
             result = QMult.qmult_1d(function_1d_index, functions.function_1d, a, b);
             Console.WriteLine("  " + name
-                                   + "  " + result.ToString().PadLeft(14) + "");
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1180,7 +1180,7 @@ public static class tests3
                 string cout = "";
                 for (j = 0; j < n + 1; j++)
                 {
-                    cout += v[i + j * n].ToString().PadLeft(4);
+                    cout += v[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -1200,7 +1200,7 @@ public static class tests3
 
                 result = Simplex.simplex_nd(function_nd_index, functions.function_nd, n, ref v);
                 Console.WriteLine("  " + name
-                                       + "  " + result.ToString().PadLeft(14) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -1329,12 +1329,12 @@ public static class tests3
 
                 volume = Simplex.simplex_unit_volume_nd(n);
 
-                Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + volume.ToString().PadLeft(13)
-                                       + "  " + result1.ToString().PadLeft(13)
-                                       + "  " + result2.ToString().PadLeft(13)
-                                       + "  " + result3.ToString().PadLeft(13)
-                                       + "  " + result4.ToString().PadLeft(13) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                       + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                       + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                       + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                       + "  " + result4.ToString(CultureInfo.InvariantCulture).PadLeft(13) + "");
             }
         }
     }

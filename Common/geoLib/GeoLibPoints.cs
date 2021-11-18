@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace geoLib;
+﻿namespace geoLib;
 
 public class GeoLibPointF
 {

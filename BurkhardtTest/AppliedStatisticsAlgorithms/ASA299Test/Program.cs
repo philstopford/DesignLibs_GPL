@@ -92,11 +92,11 @@ internal class Program
 
             i += 1;
 
-            string cout = "  " + i.ToString().PadLeft(8);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             cout += "  ";
             for ( j = 0; j < N; j++ )
             {
-                cout += x[j].ToString().PadLeft(8);
+                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
             Console.WriteLine(cout);
 

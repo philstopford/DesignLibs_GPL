@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.FEM;
 
@@ -232,10 +233,10 @@ public static class FEM_1D_PMethod
                 up += phii * f[j];
             }
 
-            Console.WriteLine("  " + x.ToString().PadLeft(8)
-                                   + "  " + up.ToString().PadLeft(12)
-                                   + "  " + ue.ToString().PadLeft(12)
-                                   + "  " + (ue - up).ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + up.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + ue.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + (ue - up).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
 //
@@ -417,9 +418,9 @@ public static class FEM_1D_PMethod
             Console.WriteLine("");
             for (int j = 0; j <= np; j++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + j.ToString().PadLeft(6)
-                                       + "  " + (b[i + j * (np + 1)] / a[i]).ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + (b[i + j * (np + 1)] / a[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }
@@ -474,8 +475,8 @@ public static class FEM_1D_PMethod
         Console.WriteLine("");
         for (int i = 0; i <= np; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + f[i].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -492,8 +493,8 @@ public static class FEM_1D_PMethod
                 up += phii * f[i];
             }
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + up.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + up.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");

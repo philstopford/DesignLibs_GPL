@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 
 namespace Burkardt.Types;
@@ -261,11 +262,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < c8_abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < c8_abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = c8_abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = c8_abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -318,19 +321,21 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
                 }
             }
         }
@@ -421,11 +426,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < c8_abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < c8_abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = c8_abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = c8_abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -478,19 +485,21 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
                 }
             }
         }
@@ -1149,7 +1158,7 @@ public static partial class typeMethods
             for (j = jlo; j <= j2hi; j++)
             {
                 j2 = j + 1 - jlo;
-                cout += "     " + j.ToString().PadLeft(10) + "     ";
+                cout += "     " + j.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "     ";
             }
 
             Console.WriteLine(cout);
@@ -1173,7 +1182,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(5) + ":";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 //
                 //  Print out (up to) INCX entries in row I, that lie in the current strip.
                 //
@@ -1181,8 +1190,8 @@ public static partial class typeMethods
                 {
                     j = jlo - 1 + j2;
                     Complex c = a[i - 1 + (j - 1) * m];
-                    cout += "  " + c.Real.ToString().PadLeft(8)
-                                 + "  " + c.Imaginary.ToString().PadLeft(8);
+                    cout += "  " + c.Real.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                 + "  " + c.Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);

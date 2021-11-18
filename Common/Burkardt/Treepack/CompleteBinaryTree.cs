@@ -97,7 +97,7 @@ public static class CompleteBinaryTree
                 }
                 else
                 {
-                    cout = "  (  " + k.ToString().PadLeft(4) + "  ";
+                    cout = "  (  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                     for (i = 0; i < p; i++)
                     {
                         cout += b[i];
@@ -128,7 +128,7 @@ public static class CompleteBinaryTree
                 }
                 else
                 {
-                    cout = "  )  " + k.ToString().PadLeft(4) + "  ";
+                    cout = "  )  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                     for (i = 0; i < p; i++)
                     {
                         cout += b[i];

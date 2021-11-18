@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Burkardt.Types;
 
 namespace Burkardt.Table;
 
-public static partial class TableMisc
+public static class TableMisc
 {
     public static void readHeader(string input_filename, ref int m, ref int n)
     {

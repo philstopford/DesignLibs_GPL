@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
-using Burkardt.Uniform;
 
 namespace Burkardt.Types;
 
@@ -257,20 +256,17 @@ public static partial class typeMethods
         //
     {
         int i;
-        bool value;
 
         for ( i = 0; i < n; i++ )
         {
             switch (a[i])
             {
                 case > 0.0:
-                    value = false;
-                    return value;
+                    return false;
             }
         }
-        value = true;
 
-        return value;
+        return true;
     }
 
     public static double r8vec_angle_3d ( double[] u, double[] v )
@@ -799,7 +795,7 @@ public static partial class typeMethods
             int i;
             for ( i = ilo; i < ihi; i++ )
             {
-                cout += "  " + a[i].ToString().PadLeft(12);
+                cout += "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
             Console.WriteLine(cout);
         }
@@ -951,7 +947,7 @@ public static partial class typeMethods
                 a[startIndexA + (r - 1)] = a[startIndexA + l];
                 a[startIndexA + l] = temp;
             }
-            else if (a[startIndexA + l] == key)
+            else if (Math.Abs(a[startIndexA + l] - key) <double.Epsilon)
             {
                 m += 1;
                 temp = a[startIndexA + (m - 1)];
@@ -1200,12 +1196,14 @@ public static partial class typeMethods
                     j -= 1;
                 }
 
-                if (i <= j)
+                if (i > j)
                 {
-                    (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
-                    i += 1;
-                    j -= 1;
+                    continue;
                 }
+
+                (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
+                i += 1;
+                j -= 1;
             }
         }
 
@@ -1833,7 +1831,7 @@ public static partial class typeMethods
 
         for ( i = 0; i < n; i++ )
         {
-            output.Add("  " + r[i].ToString().PadLeft(16) + "");
+            output.Add("  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
         try
@@ -2180,7 +2178,7 @@ public static partial class typeMethods
         {
             int mid = (low + high) / 2;
 
-            if (a[mid - 1] == aval)
+            if (Math.Abs(a[mid - 1] - aval) <= double.Epsilon)
             {
                 indx = mid;
                 break;
@@ -2505,7 +2503,7 @@ public static partial class typeMethods
         {
             Console.WriteLine("");
             Console.WriteLine("R8VEC_INSERT - Fatal error!");
-            Console.WriteLine("  Illegal insertion position = " + pos + "");;
+            Console.WriteLine("  Illegal insertion position = " + pos + "");
         }
         else
         {

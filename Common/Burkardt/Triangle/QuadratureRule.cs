@@ -50,12 +50,10 @@ public static class QuadratureRule
         //
     {
         int i;
-        int k;
-        double value = 0;
         //
         //  The first computation ends with VALUE = 1.0;
         //
-        value = 1.0;
+        double value = 1.0;
 
         // k = 0;
         //
@@ -67,7 +65,7 @@ public static class QuadratureRule
         //   value = value * ( double ) ( i ) / ( double ) ( k );
         // }
 
-        k = expon[0];
+        int k = expon[0];
 
         for (i = 1; i <= expon[1]; i++)
         {
@@ -128,7 +126,7 @@ public static class QuadratureRule
         //    Output, double XY[2*1], the abscissas.
         //
     {
-        int order = 1;
+        const int order = 1;
 
         double[] w_save =  {
                 1.0
@@ -140,7 +138,7 @@ public static class QuadratureRule
             ;
 
         typeMethods.r8vec_copy(order, w_save, ref w);
-        typeMethods.r8vec_copy(2 * order, xy_save, ref xy);
+        typeMethods.r8vec_copy(2, xy_save, ref xy);
     }
 
     public static void triangle_unit_o03(ref double[] w, ref double[] xy )
@@ -187,7 +185,7 @@ public static class QuadratureRule
         //    Output, double XY[2*3], the abscissas.
         //
     {
-        int order = 3;
+        const int order = 3;
 
         double[] w_save =  {
                 0.33333333333333333333,
@@ -250,7 +248,7 @@ public static class QuadratureRule
         //    Output, double XY[2*3], the abscissas.
         //
     {
-        int order = 3;
+        const int order = 3;
 
         double[] w_save =  {
                 0.33333333333333333333,
@@ -313,7 +311,7 @@ public static class QuadratureRule
         //    Output, double XY[2*6], the abscissas.
         //
     {
-        int order = 6;
+        const int order = 6;
 
         double[] w_save =  {
                 0.22338158967801146570,
@@ -382,7 +380,7 @@ public static class QuadratureRule
         //    Output, double XY[2*6], the abscissas.
         //
     {
-        int order = 6;
+        const int order = 6;
 
         double[] w_save =  {
                 0.30000000000000000000,
@@ -451,7 +449,7 @@ public static class QuadratureRule
         //    Output, double XY[2*7], the abscissas.
         //
     {
-        int order = 7;
+        const int order = 7;
 
         double[] w_save =  {
                 0.12593918054482715260,
@@ -522,7 +520,7 @@ public static class QuadratureRule
         //    Output, double XY[2*12], the abscissas.
         //
     {
-        int order = 12;
+        const int order = 12;
 
         double[] w_save =  {
                 0.050844906370206816921,
@@ -594,7 +592,7 @@ public static class QuadratureRule
         //    Output, double TRIANGLE_UNIT_VOLUME, the volume.
         //
     {
-        double volume = 1.0 / 2.0;
+        const double volume = 1.0 / 2.0;
 
         return volume;
     }

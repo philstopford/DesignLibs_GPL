@@ -58,11 +58,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -115,19 +117,21 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
                 }
             }
         }
@@ -212,11 +216,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -269,19 +275,21 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
                 }
             }
         }

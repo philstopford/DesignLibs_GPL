@@ -527,7 +527,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// A UTF-16 string (System.String) representing the same 
     /// character data as this UTF-32 string.
     /// </returns>
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         int surrogates = 0;
         // Count surrogates to start with

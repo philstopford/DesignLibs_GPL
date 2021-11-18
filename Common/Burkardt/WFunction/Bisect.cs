@@ -82,7 +82,6 @@ public static class Bisect
         double r;
         double tol;
         double u;
-        double x;
 
         double value = 0.0;
         ner = 0;
@@ -93,7 +92,7 @@ public static class Bisect
             _ => data.nbits
         };
 
-        x = l switch
+        double x = l switch
         {
             1 => xx - Math.Exp(-1.0),
             _ => xx

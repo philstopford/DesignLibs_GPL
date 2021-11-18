@@ -205,7 +205,7 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < order; i++)
         {
-            Console.WriteLine("  w[" + i.ToString().PadLeft(2)
+            Console.WriteLine("  w[" + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                      + "] = " + w[i].ToString("0.################").PadLeft(24) + "");
         }
 
@@ -214,7 +214,7 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < order; i++)
         {
-            Console.WriteLine("  x[" + i.ToString().PadLeft(2)
+            Console.WriteLine("  x[" + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                      + "] = " + x[i].ToString("0.################").PadLeft(24) + "");
         }
 
@@ -224,7 +224,7 @@ internal class Program
 
         for (i = 0; i < 2; i++)
         {
-            Console.WriteLine("  r[" + i.ToString().PadLeft(2)
+            Console.WriteLine("  r[" + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                      + "] = " + r[i].ToString("0.################").PadLeft(24) + "");
         }
 
@@ -258,7 +258,7 @@ internal class Program
             quad_error = MonomialQuadrature.monomial_quadrature(degree, order, w, x);
 
             Console.WriteLine("  " + quad_error.ToString("0.################").PadLeft(24)
-                                   + "  " + degree.ToString().PadLeft(2) + "");
+                                   + "  " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
 
         Console.WriteLine("");

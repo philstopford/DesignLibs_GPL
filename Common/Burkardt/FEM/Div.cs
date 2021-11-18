@@ -136,7 +136,7 @@ public class Div
                 return;
         }
 
-        if (xhi == xlo)
+        if (Math.Abs(xhi - xlo) <= double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("DIV_Q4 - Fatal error!");
@@ -146,7 +146,7 @@ public class Div
             return;
         }
 
-        if (yhi == ylo)
+        if (Math.Abs(yhi - ylo) <= double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("DIV_Q4 - Fatal error!");

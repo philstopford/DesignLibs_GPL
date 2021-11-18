@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Sequence;
 
 namespace SubsetTestNS;
@@ -42,7 +41,7 @@ public static class Thuetest
 
         n = 1;
         thue[0] = 0;
-        string cout = n.ToString().PadLeft(4) + "    ";
+        string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
         for (i = 0; i < n; i++)
         {
             cout += thue[i];
@@ -54,7 +53,7 @@ public static class Thuetest
         {
             Thue.thue_binary_next(ref n, ref thue);
 
-            cout = n.ToString().PadLeft(4) + "    ";
+            cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
             for (j = 0; j < n; j++)
             {
                 cout += thue[j];
@@ -100,7 +99,7 @@ public static class Thuetest
 
         n = 1;
         thue[0] = 1;
-        string cout = n.ToString().PadLeft(4) + "    ";
+        string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
         for (i = 0; i < n; i++)
         {
             cout += thue[i];
@@ -112,7 +111,7 @@ public static class Thuetest
         {
             Thue.thue_ternary_next(ref n, ref thue);
 
-            cout = n.ToString().PadLeft(4) + "    ";
+            cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
             for (j = 0; j < n; j++)
             {
                 cout += thue[j];

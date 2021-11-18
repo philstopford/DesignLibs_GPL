@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.SortNS;
 
@@ -174,7 +175,6 @@ public static partial class typeMethods
 
                 i4 ti = s_to_i4(tokens[0]);
                 i4 tj = s_to_i4(tokens[1]);
-                r8 taij = s_to_r8(tokens[2]);
 
                 int i = ti.val;
                 int j = tj.val;
@@ -244,10 +244,10 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (int k = 0; k < nst; k++)
         {
-            Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                                                      + ist[k].ToString().PadLeft(4) + "  "
-                                                      + jst[k].ToString().PadLeft(4) + "  "
-                                                      + ast[k].ToString().PadLeft(16) + "");
+            Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + ist[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + jst[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + ast[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
     }
 
@@ -298,10 +298,10 @@ public static partial class typeMethods
             if (i_min <= ist[k] && ist[k] <= i_max &&
                 j_min <= jst[k] && jst[k] <= j_max)
             {
-                Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                                                          + ist[k].ToString().PadLeft(4) + "  "
-                                                          + jst[k].ToString().PadLeft(4) + "  "
-                                                          + ast[k].ToString().PadLeft(16) + "");
+                Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                          + ist[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                          + jst[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                          + ast[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
             }
         }
     }
@@ -393,7 +393,7 @@ public static partial class typeMethods
                     isgn = +1;
                 }
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }

@@ -218,37 +218,37 @@ internal class Program
         theta = u * DEG2RAD;
         psi = w * DEG2RAD;
 
-        if (u == umin)
+        if (Math.Abs(u - umin) <= double.Epsilon)
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (u == umax)
+        else if (Math.Abs(u - umax) <= double.Epsilon)
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (v == vmin)
+        else if (Math.Abs(v - vmin) <= double.Epsilon)
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (v == vmax)
+        else if (Math.Abs(v - vmax) <= double.Epsilon)
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (w == wmin)
+        else if (Math.Abs(w - wmin) <= double.Epsilon)
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (w == wmax)
+        else if (Math.Abs(w - wmax) <= double.Epsilon)
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);

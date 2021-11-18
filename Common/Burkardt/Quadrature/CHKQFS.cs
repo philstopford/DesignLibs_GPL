@@ -204,9 +204,9 @@ public static class CHKQFS
                 k = Math.Abs(ndx[i - 1]);
                 if (k != 0)
                 {
-                    Console.WriteLine(i.ToString().PadLeft(4)
+                    Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                       + t[i - 1].ToString("0.#################").PadLeft(26)
-                                      + mlt[i - 1].ToString().PadLeft(4)
+                                      + mlt[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                       + wts[k - 1].ToString("0.#################").PadLeft(26) + "");
                     for (j = k + 1; j <= k + mlt[i - 1] - 1; j++)
                     {
@@ -341,7 +341,7 @@ public static class CHKQFS
                 Console.WriteLine("");
                 for (j = 1; j <= mx; j++)
                 {
-                    Console.WriteLine(j.ToString().PadLeft(4)
+                    Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                       + w[j - 1].ToString("0.##########").PadLeft(19)
                                       + qm[j - 1].ToString("0.##########").PadLeft(19)
                                       + e[j - 1].ToString("0.###").PadLeft(12)
@@ -351,7 +351,7 @@ public static class CHKQFS
                 Console.WriteLine("");
                 for (j = m; j <= mex; j++)
                 {
-                    Console.WriteLine(j.ToString().PadLeft(4)
+                    Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                       + w[j - 1].ToString("0.##########").PadLeft(19)
                                       + qm[j - 1].ToString("0.##########").PadLeft(19)
                                       + e[j - 1].ToString("0.###").PadLeft(12)

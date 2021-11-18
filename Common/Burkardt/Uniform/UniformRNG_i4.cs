@@ -68,11 +68,6 @@ public static partial class UniformRNG
         //    Output, int I4_UNIFORM, a number between A and B.
         //
     {
-        int c;
-        int k;
-        float r;
-        int value;
-
         switch (seed)
         {
             case 0:
@@ -87,12 +82,10 @@ public static partial class UniformRNG
         //
         if (b < a)
         {
-            c = a;
-            a = b;
-            b = c;
+            (a, b) = (b, a);
         }
 
-        k = seed / 127773;
+        int k = seed / 127773;
 
         seed = 16807 * (seed - k * 127773) - k * 2836;
 
@@ -103,7 +96,7 @@ public static partial class UniformRNG
                 break;
         }
 
-        r = seed * (float) 4.656612875E-10;
+        float r = seed * (float) 4.656612875E-10;
         //
         //  Scale R to lie between A-0.5 and B+0.5.
         //
@@ -112,7 +105,7 @@ public static partial class UniformRNG
         //
         //  Use rounding to convert R to an integer between A and B.
         //
-        value = typeMethods.r4_nint(r);
+        int value = typeMethods.r4_nint(r);
         //
         //  Guarantee A <= VALUE <= B.
         //
@@ -292,16 +285,13 @@ public static partial class UniformRNG
         //    between A and B.
         //
     {
-        int c;
-        int k;
-
         switch (seed)
         {
             case 0:
                 Console.WriteLine("");
                 Console.WriteLine("I4VEC_UNIFORM_AB_NEW - Fatal error!");
                 Console.WriteLine("  Input value of SEED = 0.");
-                return new int[0];
+                return Array.Empty<int>();
         }
 
         //
@@ -309,16 +299,14 @@ public static partial class UniformRNG
         //
         if (b < a)
         {
-            c = a;
-            a = b;
-            b = c;
+            (a, b) = (b, a);
         }
 
         int[] x = new int[n];
 
         for (int i = 0; i < n; i++)
         {
-            k = seed / 127773;
+            int k = seed / 127773;
 
             seed = 16807 * (seed - k * 127773) - k * 2836;
 
@@ -420,10 +408,6 @@ public static partial class UniformRNG
         //
     {
         int i;
-        int k;
-        float r;
-        int value;
-        int[] x;
 
         switch (seed)
         {
@@ -434,11 +418,11 @@ public static partial class UniformRNG
                 return null;
         }
 
-        x = new int[n];
+        int[] x = new int[n];
 
         for (i = 0; i < n; i++)
         {
-            k = seed / 127773;
+            int k = seed / 127773;
 
             seed = 16807 * (seed - k * 127773) - k * 2836;
 
@@ -449,7 +433,7 @@ public static partial class UniformRNG
                     break;
             }
 
-            r = seed * 4.656612875E-10f;
+            float r = seed * 4.656612875E-10f;
             //
             //  Scale R to lie between A-0.5 and B+0.5.
             //
@@ -458,7 +442,7 @@ public static partial class UniformRNG
             //
             //  Use rounding to convert R to an integer between A and B.
             //
-            value = (int)r;
+            int value = (int)r;
 
             value = Math.Max(value, Math.Min(a, b));
             value = Math.Min(value, Math.Max(a, b));

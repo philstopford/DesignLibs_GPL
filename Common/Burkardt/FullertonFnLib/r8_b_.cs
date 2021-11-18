@@ -2873,7 +2873,7 @@ public static partial class FullertonLib
                 value = Math.Exp(xb);
             }
 
-            if (y != x || p != pin)
+            if (Math.Abs(y - x) > double.Epsilon || Math.Abs(p - pin) > double.Epsilon)
             {
                 value = 1.0 - value;
             }
@@ -2899,7 +2899,7 @@ public static partial class FullertonLib
         {
             value = Math.Exp(xb);
             term = value * p;
-            if (ps != 1.0)
+            if (Math.Abs(ps - 1.0) > double.Epsilon)
             {
                 n = (int) r8_max(data.alneps / Math.Log(y), 4.0);
                 for (i = 1; i <= n; i++)
@@ -2924,7 +2924,7 @@ public static partial class FullertonLib
 
                 finsum = 0.0;
                 n = (int) q;
-                if (q == n)
+                if (Math.Abs(q - n) <= double.Epsilon)
                 {
                     n -= 1;
                 }
@@ -2960,7 +2960,7 @@ public static partial class FullertonLib
             }
         }
 
-        if (y != x || p != pin)
+        if (Math.Abs(y - x) > double.Epsilon || Math.Abs(p - pin) > double.Epsilon)
         {
             value = 1.0 - value;
         }

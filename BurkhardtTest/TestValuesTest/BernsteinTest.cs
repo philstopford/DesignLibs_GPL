@@ -46,10 +46,10 @@ public static class BernsteinTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + k.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

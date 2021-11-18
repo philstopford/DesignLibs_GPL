@@ -53,11 +53,11 @@ public static class bernsteinTest
 
             BernsteinPolynomial.bernstein_poly ( n, x, ref bvec );
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + k.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(7)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + bvec[k].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + bvec[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -110,8 +110,8 @@ public static class bernsteinTest
 
         for ( i = 0; i <= N; i++ )
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)      
-                                   + "  " + bern[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)      
+                                   + "  " + bern[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

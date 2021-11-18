@@ -65,11 +65,13 @@ public static partial class typeMethods
                 return isgn;
             }
 
-            if (b[(k + bIndex) % b.Length] < a[(k + aIndex) % a.Length])
+            if (!(b[(k + bIndex) % b.Length] < a[(k + aIndex) % a.Length]))
             {
-                isgn = +1;
-                return isgn;
+                continue;
             }
+
+            isgn = +1;
+            return isgn;
         }
 
         return isgn;

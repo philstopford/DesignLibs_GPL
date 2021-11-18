@@ -58,42 +58,37 @@ public class Triangle
         //    augmenting triangles and vertices at infinity that were created.
         //
     {
-        bool found;
-        int i;
-        int i2;
-        int ip1;
-        int s;
-        int s2;
-        int t;
-        int t2;
         int v;
-        int v_inf;
-        int v2;
 
-        v_inf = 0;
+        int v_inf = 0;
 
         for (v = 0; v < v_num; v++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
-                s = nodtri[i + v * 3];
-                ip1 = typeMethods.i4_wrap(i + 1, 0, 2);
-                t = nodtri[ip1 + v * 3];
+                int s = nodtri[i + v * 3];
+                int ip1 = typeMethods.i4_wrap(i + 1, 0, 2);
+                int t = nodtri[ip1 + v * 3];
 
-                found = false;
+                bool found = false;
 
+                int v2;
                 for (v2 = 0; v2 < v_num; v2++)
                 {
+                    int i2;
                     for (i2 = 0; i2 < 3; i2++)
                     {
-                        s2 = nodtri[i2 + v2 * 3];
+                        int s2 = nodtri[i2 + v2 * 3];
                         ip1 = typeMethods.i4_wrap(i2 + 1, 0, 2);
-                        t2 = nodtri[ip1 + v2 * 3];
-                        if (s == t2 && t == s2)
+                        int t2 = nodtri[ip1 + v2 * 3];
+                        if (s != t2 || t != s2)
                         {
-                            found = true;
-                            break;
+                            continue;
                         }
+
+                        found = true;
+                        break;
                     }
 
                     if (found)
@@ -177,9 +172,7 @@ public class Triangle
         //    Output, int TRIANGLE_NUM, the N-th triangular number.
         //
     {
-        int value;
-
-        value = n * ( n + 1 ) / 2;
+        int value = n * ( n + 1 ) / 2;
 
         return value;
     }
@@ -304,15 +297,10 @@ public class Triangle
         double w6;
         double w7;
         double w8;
-        double w9;
         double[] weight1 = new double[8];
         double[] weight2 = new double[8];
-        double wx;
-        double x;
         double[] xtab1 = new double[8];
         double[] xtab2 = new double[8];
-        double y;
-        double z;
         switch (rule)
         {
             //
@@ -651,7 +639,7 @@ public class Triangle
                 a = 1.0 / 3.0;
                 b = 1.0;
                 c = 0.5;
-                z = 0.0;
+                const double z = 0.0;
 
                 u = 27.0 / 60.0;
                 v = 3.0 / 60.0;
@@ -998,8 +986,8 @@ public class Triangle
                 u = 0.04484167758913055;
                 v = 0.27722066752827925;
                 w = 0.8588702812826364;
-                x = 0.0;
-                y = 0.1411297187173636;
+                double x = 0.0;
+                double y = 0.1411297187173636;
 
                 w1 = 0.08797730116222190;
                 w2 = 0.008744311553736190;
@@ -1117,8 +1105,8 @@ public class Triangle
                 w6 = 0.010791612736631273623178240136;
                 w7 = 0.032195534242431618819414482205;
                 w8 = 0.015445834210701583817692900053;
-                w9 = 0.017822989923178661888748319485;
-                wx = 0.037038683681384627918546472190;
+                double w9 = 0.017822989923178661888748319485;
+                double wx = 0.037038683681384627918546472190;
 
                 xtab[0] = a;
                 xtab[1] = b;

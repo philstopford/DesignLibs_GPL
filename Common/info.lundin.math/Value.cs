@@ -27,7 +27,7 @@ public abstract class Value
 {
     public ValueType Type { get; internal set; }
 
-    public override abstract string ToString();
+    public override abstract string ToString(CultureInfo.InvariantCulture);
 
     public abstract string ToString(IFormatProvider format);
 

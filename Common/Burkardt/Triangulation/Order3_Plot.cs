@@ -58,37 +58,28 @@ public static partial class Plot
         //    2, show triangles and label them.
         //
     {
-        double ave_x;
-        double ave_y;
-        int circle_size;
         int delta;
         int e;
         List<string> file_unit = new();
         int i;
         int node;
         int triangle;
-        double x_max;
-        double x_min;
         int x_ps;
         int x_ps_max = 576;
         int x_ps_max_clip = 594;
         int x_ps_min = 36;
         int x_ps_min_clip = 18;
-        double x_scale;
-        double y_max;
-        double y_min;
         int y_ps;
         int y_ps_max = 666;
         int y_ps_max_clip = 684;
         int y_ps_min = 126;
         int y_ps_min_clip = 108;
-        double y_scale;
         //
         //  We need to do some figuring here, so that we can determine
         //  the range of the data, and hence the height and width
         //  of the piece of paper.
         //
-        x_max = -typeMethods.r8_huge();
+        double x_max = -typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (x_max < node_xy[0 + node * 2])
@@ -97,7 +88,7 @@ public static partial class Plot
             }
         }
 
-        x_min = typeMethods.r8_huge();
+        double x_min = typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[0 + node * 2] < x_min)
@@ -106,13 +97,13 @@ public static partial class Plot
             }
         }
 
-        x_scale = x_max - x_min;
+        double x_scale = x_max - x_min;
 
         x_max += 0.05 * x_scale;
         x_min -= 0.05 * x_scale;
         x_scale = x_max - x_min;
 
-        y_max = -typeMethods.r8_huge();
+        double y_max = -typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (y_max < node_xy[1 + node * 2])
@@ -121,7 +112,7 @@ public static partial class Plot
             }
         }
 
-        y_min = typeMethods.r8_huge();
+        double y_min = typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[1 + node * 2] < y_min)
@@ -130,7 +121,7 @@ public static partial class Plot
             }
         }
 
-        y_scale = y_max - y_min;
+        double y_scale = y_max - y_min;
 
         y_max += 0.05 * y_scale;
         y_min -= 0.05 * y_scale;
@@ -146,8 +137,6 @@ public static partial class Plot
 
             x_ps_max_clip -= delta;
             x_ps_min_clip += delta;
-
-            x_scale = y_scale;
         }
         else if (y_scale < x_scale)
         {
@@ -159,8 +148,6 @@ public static partial class Plot
 
             y_ps_max_clip -= delta;
             y_ps_min_clip += delta;
-
-            y_scale = x_scale;
         }
 
         file_unit.Add("%!PS-Adobe-3.0 EPSF-3.0");
@@ -234,7 +221,7 @@ public static partial class Plot
         file_unit.Add(x_ps_min_clip + "  "
                                     + y_ps_min_clip + "  lineto");
         file_unit.Add("clip newpath");
-        circle_size = node_num switch
+        int circle_size = node_num switch
         {
             //
             //  Draw the nodes.
@@ -394,8 +381,8 @@ public static partial class Plot
 
                 for (triangle = 0; triangle < triangle_num; triangle++)
                 {
-                    ave_x = 0.0;
-                    ave_y = 0.0;
+                    double ave_x = 0.0;
+                    double ave_y = 0.0;
 
                     for (i = 1; i <= 3; i++)
                     {

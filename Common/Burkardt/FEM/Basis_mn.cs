@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -164,8 +165,8 @@ public class Basis_mn
         for (i = 0; i < NODE_NUM; i++)
         {
             Console.WriteLine("  "
-                              + q[0 + i * 2].ToString().PadLeft(10) + "  "
-                              + q[1 + i * 2].ToString().PadLeft(10) + "");
+                              + q[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + q[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         basis_mn_q4(q, NODE_NUM, q, ref phi, ref dphidx, ref dphidy);
@@ -180,7 +181,7 @@ public class Basis_mn
             string cout = "";
             for (j = 0; j < NODE_NUM; j++)
             {
-                cout += "  " + phi[i + j * NODE_NUM].ToString().PadLeft(10);
+                cout += "  " + phi[i + j * NODE_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -207,8 +208,8 @@ public class Basis_mn
             }
 
             Console.WriteLine("  "
-                              + sum_x.ToString().PadLeft(10) + "  "
-                              + sum_y.ToString().PadLeft(10) + "");
+                              + sum_x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + sum_y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -379,8 +380,8 @@ public class Basis_mn
         for (j = 0; j < NODE_NUM; j++)
         {
             Console.WriteLine("  "
-                              + t[0 + j * 2].ToString().PadLeft(10) + "  "
-                              + t[1 + j * 2].ToString().PadLeft(10) + "");
+                              + t[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + t[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -395,7 +396,7 @@ public class Basis_mn
             string cout = "";
             for (i = 0; i < NODE_NUM; i++)
             {
-                cout += "  " + phi[i + j * NODE_NUM].ToString().PadLeft(10);
+                cout += "  " + phi[i + j * NODE_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -418,8 +419,8 @@ public class Basis_mn
             }
 
             Console.WriteLine("  "
-                              + sum_x.ToString().PadLeft(10) + "  "
-                              + sum_y.ToString().PadLeft(10) + "");
+                              + sum_x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + sum_y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -614,8 +615,8 @@ public class Basis_mn
         for (j = 0; j < NODE_NUM; j++)
         {
             Console.WriteLine("  "
-                              + t[0 + j * 2].ToString().PadLeft(10) + "  "
-                              + t[1 + j * 2].ToString().PadLeft(10) + "");
+                              + t[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + t[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -630,7 +631,7 @@ public class Basis_mn
             string cout = "";
             for (i = 0; i < NODE_NUM; i++)
             {
-                cout += "  " + phi[i + j * NODE_NUM].ToString().PadLeft(10);
+                cout += "  " + phi[i + j * NODE_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -653,8 +654,8 @@ public class Basis_mn
             }
 
             Console.WriteLine("  "
-                              + sum_x.ToString().PadLeft(10) + "  "
-                              + sum_y.ToString().PadLeft(10) + "");
+                              + sum_x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + sum_y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -910,9 +911,9 @@ public class Basis_mn
         for (j = 0; j < NODE_NUM; j++)
         {
             Console.WriteLine("  "
-                              + j.ToString().PadLeft(6) + "  "
-                              + t[0 + j * 2].ToString().PadLeft(7) + "  "
-                              + t[1 + j * 2].ToString().PadLeft(7) + "");
+                              + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + t[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "  "
+                              + t[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -927,7 +928,7 @@ public class Basis_mn
             string cout = "";
             for (j = 0; j < NODE_NUM; j++)
             {
-                cout += "  " + phi[i + j * NODE_NUM].ToString().PadLeft(7);
+                cout += "  " + phi[i + j * NODE_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -953,8 +954,8 @@ public class Basis_mn
             }
 
             Console.WriteLine("  "
-                              + sum_x.ToString().PadLeft(14) + "  "
-                              + sum_y.ToString().PadLeft(14) + "");
+                              + sum_x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + sum_y.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1192,8 +1193,8 @@ public class Basis_mn
         for (j = 0; j < NODE_NUM; j++)
         {
             Console.WriteLine("  "
-                              + t[0 + j * 3].ToString().PadLeft(10) + "  "
-                              + t[1 + j * 3].ToString().PadLeft(10) + "");
+                              + t[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + t[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -1238,14 +1239,14 @@ public class Basis_mn
 
             phi1_sum = typeMethods.r8vec_sum(NODE_NUM, phi1);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + p[2].ToString().PadLeft(8)
-                                   + "  " + phi1[0].ToString().PadLeft(8)
-                                   + "  " + phi1[1].ToString().PadLeft(8)
-                                   + "  " + phi1[2].ToString().PadLeft(8)
-                                   + "  " + phi1[3].ToString().PadLeft(8)
-                                   + "  " + phi1_sum.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1383,10 +1384,10 @@ public class Basis_mn
         Console.WriteLine("");
         for (j = 0; j < 4; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(8) 
-                                   + "  " + t[0 + j * 3].ToString().PadLeft(14) 
-                                   + "  " + t[1 + j * 3].ToString().PadLeft(14)
-                                   + "  " + t[2 + j * 3].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) 
+                                   + "  " + t[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) 
+                                   + "  " + t[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + t[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -1445,20 +1446,20 @@ public class Basis_mn
             basis_mn_tet10(t, 1, p, ref phi1);
             phi1_sum = typeMethods.r8vec_sum(10, phi1);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + p[2].ToString().PadLeft(8)
-                                   + "  " + phi1[0].ToString().PadLeft(8) 
-                                   + "  " + phi1[1].ToString().PadLeft(8)
-                                   + "  " + phi1[2].ToString().PadLeft(8)
-                                   + "  " + phi1[3].ToString().PadLeft(8)
-                                   + "  " + phi1[4].ToString().PadLeft(8)
-                                   + "  " + phi1[5].ToString().PadLeft(8)
-                                   + "  " + phi1[6].ToString().PadLeft(8)
-                                   + "  " + phi1[7].ToString().PadLeft(8)
-                                   + "  " + phi1[8].ToString().PadLeft(8)
-                                   + "  " + phi1[9].ToString().PadLeft(8)
-                                   + "  " + phi1_sum.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) 
+                                   + "  " + phi1[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[4].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[5].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[6].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[7].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[8].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1[9].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi1_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 }

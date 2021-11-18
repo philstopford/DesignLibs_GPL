@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
@@ -38,8 +39,8 @@ public static class XY
 
         for (j = 0; j < point_num; j++)
         {
-            Console.WriteLine(xy[0 + 2 * j].ToString().PadLeft(10) + "  "
-                                                                   + xy[1 + 2 * j].ToString().PadLeft(10) + "");
+            Console.WriteLine(xy[0 + 2 * j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                   + xy[1 + 2 * j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -75,8 +76,6 @@ public static class XY
     {
         string[] input;
         int j;
-        string text;
-        double[] temp = new double[2];
 
         try
         {
@@ -95,6 +94,7 @@ public static class XY
 
         while (j < point_num)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -164,8 +164,8 @@ public static class XY
 
         for (j = 0; j < point_num; j++)
         {
-            output_unit.Add(xy[0 + 2 * j].ToString().PadLeft(10) + "  "
-                                                                 + xy[1 + 2 * j].ToString().PadLeft(10) + "");
+            output_unit.Add(xy[0 + 2 * j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                 + xy[1 + 2 * j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -567,9 +567,9 @@ public static class XY
 
         for (face = 0; face < face_num; face++)
         {
-            Console.WriteLine("  " + face.ToString().PadLeft(4)
-                                   + "  " + face_pointer[face].ToString().PadLeft(8)
-                                   + "  " + (face_pointer[face + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + face_pointer[face].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (face_pointer[face + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -1163,9 +1163,9 @@ public static class XY
 
         for (line = 0; line < line_num; line++)
         {
-            Console.WriteLine("  " + line.ToString().PadLeft(4)
-                                   + "  " + line_pointer[line].ToString().PadLeft(8)
-                                   + "  " + (line_pointer[line + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + line_pointer[line].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (line_pointer[line + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");

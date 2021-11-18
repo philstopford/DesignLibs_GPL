@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -505,14 +506,14 @@ internal class Program
             if (j != k)
             {
                 Console.WriteLine(" ");
-                cout = "  " + j.ToString().PadLeft(4);
+                cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 for (i = 0; i < m; i++)
                 {
                     cout += "  " + a[i + j * m];
                 }
 
                 Console.WriteLine(cout);
-                cout = "  " + k.ToString().PadLeft(4);
+                cout = "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 for (i = 0; i < m; i++)
                 {
                     cout += "  " + a[i + k * m];
@@ -526,7 +527,7 @@ internal class Program
                 }
 
                 dist = Math.Sqrt(dist);
-                Console.WriteLine("          " + dist.ToString().PadLeft(10) + "");
+                Console.WriteLine("          " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
 
@@ -552,14 +553,14 @@ internal class Program
             if (j != k)
             {
                 Console.WriteLine(" ");
-                cout = "  " + j.ToString().PadLeft(4);
+                cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 for (i = 0; i < m; i++)
                 {
                     cout += "  " + a[i + j * m];
                 }
 
                 Console.WriteLine(cout);
-                cout = "  " + k.ToString().PadLeft(4);
+                cout = "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 for (i = 0; i < m; i++)
                 {
                     cout += "  " + a[i + k * m];
@@ -573,7 +574,7 @@ internal class Program
                 }
 
                 dist = Math.Sqrt(dist);
-                Console.WriteLine("          " + dist.ToString().PadLeft(10) + "");
+                Console.WriteLine("          " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
     }

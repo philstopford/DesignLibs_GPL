@@ -44,7 +44,7 @@ public static class EulerTest
             string cout = "";
             for ( i = 0; i <= n; i++ )
             {
-                cout += ieuler[i].ToString().PadLeft(7) + "  ";
+                cout += ieuler[i].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "  ";
             }
             Console.WriteLine(cout);
         }

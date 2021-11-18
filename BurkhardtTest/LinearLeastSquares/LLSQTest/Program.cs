@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 
 namespace LLSQTest;
@@ -99,11 +98,11 @@ internal class Program
         error = 0.0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(7)
-                                   + "  " + y[i].ToString().PadLeft(7)
-                                   + "  " + (b + a * x[i]).ToString().PadLeft(7)
-                                   + "  " + (b + a * x[i] - y[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (b + a * x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (b + a * x[i] - y[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
             error += Math.Pow(b + a * x[i] - y[i], 2);
         }
 
@@ -167,7 +166,7 @@ internal class Program
         error = 0.0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                    + "  " + x[i]
                                    + "  " + y[i]
                                    + "  " + a * x[i]

@@ -302,11 +302,13 @@ public static partial class typeMethods
                 int i;
                 for (i = 2; i <= n; i++)
                 {
-                    if (amax < Math.Abs(a[i - 1]))
+                    if (!(amax < Math.Abs(a[i - 1])))
                     {
-                        amax_index = i;
-                        amax = Math.Abs(a[i - 1]);
+                        continue;
                     }
+
+                    amax_index = i;
+                    amax = Math.Abs(a[i - 1]);
                 }
 
                 break;
@@ -412,11 +414,13 @@ public static partial class typeMethods
                 int i;
                 for (i = 2; i <= n; i++)
                 {
-                    if (Math.Abs(a[i - 1]) < amin)
+                    if (!(Math.Abs(a[i - 1]) < amin))
                     {
-                        amin_index = i;
-                        amin = Math.Abs(a[i - 1]);
+                        continue;
                     }
+
+                    amin_index = i;
+                    amin = Math.Abs(a[i - 1]);
                 }
 
                 break;

@@ -50,10 +50,10 @@ internal partial class Program
 
             n2 = Birthday.birthday_cdf_inv(cdf);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + n2.ToString().PadLeft(8)+ "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(8)+ "");
         }
     }
 
@@ -104,9 +104,9 @@ internal partial class Program
 
             mean = typeMethods.i4vec_mean(nsample, x);
             pdf = Birthday.birthday_pdf(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + mean.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + mean.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

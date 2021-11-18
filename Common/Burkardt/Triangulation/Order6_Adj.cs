@@ -161,20 +161,11 @@ public static partial class Adjacency
         //    in entries ADJ_COL(J) through ADJ_COL(J+1)-1 of ADJ.
         //
     {
-        int adj_num;
         int i;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
         int node;
         int triangle;
-        int triangle_order = 6;
-        int triangle2;
+        const int triangle_order = 6;
 
-        adj_num = 0;
         //
         //  Set every node to be adjacent to itself.
         //
@@ -188,12 +179,12 @@ public static partial class Adjacency
         //
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            n1 = triangle_node[0 + triangle * triangle_order];
-            n2 = triangle_node[1 + triangle * triangle_order];
-            n3 = triangle_node[2 + triangle * triangle_order];
-            n4 = triangle_node[3 + triangle * triangle_order];
-            n5 = triangle_node[4 + triangle * triangle_order];
-            n6 = triangle_node[5 + triangle * triangle_order];
+            int n1 = triangle_node[0 + triangle * triangle_order];
+            int n2 = triangle_node[1 + triangle * triangle_order];
+            int n3 = triangle_node[2 + triangle * triangle_order];
+            int n4 = triangle_node[3 + triangle * triangle_order];
+            int n5 = triangle_node[4 + triangle * triangle_order];
+            int n6 = triangle_node[5 + triangle * triangle_order];
             //
             //  For sure, we add the adjacencies:
             //    43 / (34)
@@ -226,7 +217,7 @@ public static partial class Adjacency
             //    41 / 14
             //    42 / 24
             //
-            triangle2 = triangle_neighbor[0 + triangle * 3];
+            int triangle2 = triangle_neighbor[0 + triangle * 3];
 
             if (triangle2 < 0 || triangle < triangle2)
             {
@@ -290,7 +281,7 @@ public static partial class Adjacency
             adj_col[i] = adj_col[i - 1] + adj_col[i];
         }
 
-        adj_num = adj_col[node_num] - 1;
+        int adj_num = adj_col[node_num] - 1;
 
         return adj_num;
     }
@@ -459,29 +450,18 @@ public static partial class Adjacency
         //    information.
         //
     {
-        int[] adj;
-        int[] adj_copy;
         int k;
-        int k1;
-        int k2;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
         int node;
         int triangle;
-        int triangle2;
-        int triangle_order = 6;
+        const int triangle_order = 6;
 
-        adj = new int[adj_num];
+        int[] adj = new int[adj_num];
         for (k = 0; k < adj_num; k++)
         {
             adj[k] = -1;
         }
 
-        adj_copy = new int[node_num];
+        int[] adj_copy = new int[node_num];
         for (node = 0; node < node_num; node++)
         {
             adj_copy[node] = adj_col[node];
@@ -501,12 +481,12 @@ public static partial class Adjacency
         //
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            n1 = triangle_node[0 + triangle * triangle_order];
-            n2 = triangle_node[1 + triangle * triangle_order];
-            n3 = triangle_node[2 + triangle * triangle_order];
-            n4 = triangle_node[3 + triangle * triangle_order];
-            n5 = triangle_node[4 + triangle * triangle_order];
-            n6 = triangle_node[5 + triangle * triangle_order];
+            int n1 = triangle_node[0 + triangle * triangle_order];
+            int n2 = triangle_node[1 + triangle * triangle_order];
+            int n3 = triangle_node[2 + triangle * triangle_order];
+            int n4 = triangle_node[3 + triangle * triangle_order];
+            int n5 = triangle_node[4 + triangle * triangle_order];
+            int n6 = triangle_node[5 + triangle * triangle_order];
             //
             //  For sure, we add the adjacencies:
             //    43 / (34)
@@ -556,7 +536,7 @@ public static partial class Adjacency
             //    41 / 14
             //    42 / 24
             //
-            triangle2 = triangle_neighbor[0 + triangle * 3];
+            int triangle2 = triangle_neighbor[0 + triangle * 3];
 
             if (triangle2 < 0 || triangle < triangle2)
             {
@@ -606,21 +586,23 @@ public static partial class Adjacency
             //
             triangle2 = triangle_neighbor[2 + triangle * 3];
 
-            if (triangle2 < 0 || triangle < triangle2)
+            if (triangle2 >= 0 && triangle >= triangle2)
             {
-                adj[adj_copy[n1 - 1] - 1] = n3;
-                adj_copy[n1 - 1] += 1;
-                adj[adj_copy[n3 - 1] - 1] = n1;
-                adj_copy[n3 - 1] += 1;
-                adj[adj_copy[n1 - 1] - 1] = n6;
-                adj_copy[n1 - 1] += 1;
-                adj[adj_copy[n6 - 1] - 1] = n1;
-                adj_copy[n6 - 1] += 1;
-                adj[adj_copy[n3 - 1] - 1] = n6;
-                adj_copy[n3 - 1] += 1;
-                adj[adj_copy[n6 - 1] - 1] = n3;
-                adj_copy[n6 - 1] += 1;
+                continue;
             }
+
+            adj[adj_copy[n1 - 1] - 1] = n3;
+            adj_copy[n1 - 1] += 1;
+            adj[adj_copy[n3 - 1] - 1] = n1;
+            adj_copy[n3 - 1] += 1;
+            adj[adj_copy[n1 - 1] - 1] = n6;
+            adj_copy[n1 - 1] += 1;
+            adj[adj_copy[n6 - 1] - 1] = n1;
+            adj_copy[n6 - 1] += 1;
+            adj[adj_copy[n3 - 1] - 1] = n6;
+            adj_copy[n3 - 1] += 1;
+            adj[adj_copy[n6 - 1] - 1] = n3;
+            adj_copy[n6 - 1] += 1;
         }
 
         //
@@ -628,8 +610,8 @@ public static partial class Adjacency
         //
         for (node = 1; node <= node_num; node++)
         {
-            k1 = adj_col[node - 1];
-            k2 = adj_col[node] - 1;
+            int k1 = adj_col[node - 1];
+            int k2 = adj_col[node] - 1;
             typeMethods.i4vec_sort_heap_a(k2 + 1 - k1, ref adj, aIndex: + k1 - 1);
         }
 

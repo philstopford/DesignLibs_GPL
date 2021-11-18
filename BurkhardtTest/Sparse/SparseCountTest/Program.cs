@@ -231,7 +231,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -241,11 +241,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.cc_se_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -294,7 +294,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -304,11 +304,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.cfn_e_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -354,7 +354,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -364,11 +364,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.f2_se_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -414,7 +414,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -424,11 +424,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.gp_se_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -478,7 +478,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -488,11 +488,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.ofn_e_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -543,7 +543,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -553,11 +553,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.onn_e_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -608,7 +608,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -618,11 +618,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.onn_l_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -672,7 +672,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -682,11 +682,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.own_e_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -736,7 +736,7 @@ internal class Program
         string cout = "   DIM: ";
         for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -746,11 +746,11 @@ internal class Program
 
         for (int level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout =  "    " + level_max.ToString().PadLeft(4);
+            cout =  "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 int point_num = SparseCount.own_l2_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -804,7 +804,7 @@ internal class Program
         string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(10);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -814,11 +814,11 @@ internal class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 point_num = SparseCount.own_o_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(10);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);

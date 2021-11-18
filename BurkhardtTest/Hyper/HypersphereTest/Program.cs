@@ -109,8 +109,8 @@ internal class Program
                 Hypersphere.cartesian_to_hypersphere(m, n, c, x, ref r, ref theta);
                 x2 = Hypersphere.hypersphere_to_cartesian(m, n, c, r, theta);
                 err = typeMethods.r8mat_norm_fro_affine(m, n, x, x2);
-                Console.WriteLine("  " + m.ToString().PadLeft(2)
-                                       + "  " + err.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -209,9 +209,9 @@ internal class Program
 
             area2 = Hypersphere.hypersphere_01_area(m);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(6)
-                                   + "  " + area.ToString().PadLeft(10)
-                                   + "  " + area2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -264,9 +264,9 @@ internal class Program
 
             volume2 = Hypersphere.hypersphere_01_volume(m);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(6)
-                                   + "  " + volume.ToString().PadLeft(10)
-                                   + "  " + volume2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -315,10 +315,10 @@ internal class Program
         {
             area = Hypersphere.hypersphere_area(m, r);
             volume = Hypersphere.hypersphere_volume(m, r);
-            Console.WriteLine("  " + m.ToString().PadLeft(3)
-                                   + "  " + area.ToString().PadLeft(14)
-                                   + "  " + volume.ToString().PadLeft(14)
-                                   + "  " + (area / volume).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (area / volume).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -378,8 +378,8 @@ internal class Program
                 x2 = Hypersphere.hypersphere_stereograph(m, n, x1);
                 x3 = Hypersphere.hypersphere_stereograph_inverse(m, n, x2);
                 err = typeMethods.r8mat_norm_fro_affine(m, n, x1, x3);
-                Console.WriteLine("  " + m.ToString().PadLeft(2)
-                                       + "  " + err.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MonomialNS;
 using Burkardt.Polygon;
 using Burkardt.Types;
@@ -115,7 +114,7 @@ internal class Program
         {
             x = MonteCarlo.polygon_sample(nv, v, n, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
 
             for (j = 0; j < 7; j++)
             {
@@ -125,7 +124,7 @@ internal class Program
                 value = Monomial.monomial_value(2, n, e, x);
 
                 result = MonteCarlo.polygon_area(nv, v) * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -142,7 +141,7 @@ internal class Program
             e[1] = e_test[1 + j * 2];
 
             result = MonteCarlo.polygon_monomial_integral(nv, v, e);
-            cout += "  " + result.ToString().PadLeft(14);
+            cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);

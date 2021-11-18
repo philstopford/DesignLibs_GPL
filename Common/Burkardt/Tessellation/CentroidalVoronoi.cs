@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.Sequence;
 using Burkardt.Types;
@@ -159,8 +160,8 @@ public static class CentroidalVoronoi
         {
             case true:
                 Console.WriteLine("  "
-                                  + it_num.ToString().PadLeft(4) + "  "
-                                  + seed_init.ToString().PadLeft(12) + "");
+                                  + it_num.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                  + seed_init.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                 break;
         }
 
@@ -210,10 +211,10 @@ public static class CentroidalVoronoi
             {
                 case true:
                     Console.WriteLine("  "
-                                      + it_num.ToString().PadLeft(4) + "  "
-                                      + seed_init.ToString().PadLeft(12) + "  "
-                                      + it_diff.ToString().PadLeft(14) + "  "
-                                      + energy.ToString().PadLeft(14) + "");
+                                      + it_num.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                      + seed_init.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                      + it_diff.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                      + energy.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }

@@ -63,12 +63,12 @@ internal partial class Program
             {
                 case 1:
                     sums[0] += a1[i];
-                    Console.WriteLine("  " + a1[i].ToString().PadLeft(4) + "");
+                    Console.WriteLine("  " + a1[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
                     break;
                 default:
                     sums[1] += a1[i];
                     Console.WriteLine("  " + "    "
-                                           + "  " + a1[i].ToString().PadLeft(4) + "");
+                                           + "  " + a1[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
                     break;
             }
         }
@@ -76,8 +76,8 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("Sums:");
         Console.WriteLine("");
-        Console.WriteLine("  " + sums[0].ToString().PadLeft(4)
-                               + "  " + sums[1].ToString().PadLeft(4) + "");
+        Console.WriteLine("  " + sums[0].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                               + "  " + sums[1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             
         indx = Ranking.partition_greedy(n, ref a2);
 
@@ -95,12 +95,12 @@ internal partial class Program
             {
                 case 1:
                     sums[0] += a2[i];
-                    Console.WriteLine("  " + a2[i].ToString().PadLeft(4) + "");
+                    Console.WriteLine("  " + a2[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
                     break;
                 default:
                     sums[1] += a2[i];
                     Console.WriteLine("  " + "    "
-                                           + "  " + a2[i].ToString().PadLeft(4) + "");
+                                           + "  " + a2[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
                     break;
             }
         }
@@ -108,8 +108,8 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("Sums:");
         Console.WriteLine("");
-        Console.WriteLine("  " + sums[0].ToString().PadLeft(4)
-                               + "  " + sums[1].ToString().PadLeft(4) + "");
+        Console.WriteLine("  " + sums[0].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                               + "  " + sums[1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
     }
 
     private static void partn_enum_test()
@@ -145,10 +145,10 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            string cout = "  " + n.ToString().PadLeft(2) + ":  ";
+            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":  ";
             for (nmax = 1; nmax <= Math.Min(n, 6); nmax++)
             {
-                cout += "  " + Ranking.partn_enum(n, nmax).ToString().PadLeft(6);
+                cout += "  " + Ranking.partn_enum(n, nmax).ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -335,10 +335,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString().PadLeft(4);
+            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (i = 0; i < npart; i++)
             {
-                cout += "  " + t[i].ToString().PadLeft(4);
+                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -368,10 +368,10 @@ internal partial class Program
 
             typeMethods.i4vec_reverse(npart2, ref b);
 
-            string cout = "  " + rank.ToString().PadLeft(4);
+            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (i = 0; i < npart2; i++)
             {
-                cout += "  " + b[i].ToString().PadLeft(4);
+                cout += "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

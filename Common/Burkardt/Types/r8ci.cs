@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.Uniform;
 
@@ -223,7 +224,7 @@ public static partial class typeMethods
 
         int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        int i = 1;
+        const int i = 1;
 
         for (j = 1; j <= n; j++)
         {
@@ -442,7 +443,6 @@ public static partial class typeMethods
     {
         const int INCX = 5;
 
-        int j;
         int j2lo;
 
         Console.WriteLine("");
@@ -458,9 +458,10 @@ public static partial class typeMethods
 
             Console.WriteLine("");
             string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -478,17 +479,17 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
 
                 for (j = j2lo; j <= j2hi; j++)
                 {
                     if (i <= j)
                     {
-                        cout += a[j - i].ToString().PadLeft(12) + "  ";
+                        cout += a[j - i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else
                     {
-                        cout += a[n + j - i].ToString().PadLeft(12) + "  ";
+                        cout += a[n + j - i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                 }
 

@@ -46,8 +46,8 @@ public class SecVirTest
             }
 
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + vir.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + vir.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

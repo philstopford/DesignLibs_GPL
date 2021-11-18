@@ -207,7 +207,7 @@ public class Histo
     /// [bn-2,bn-1]: cn
     /// Number larger : number larger</remarks>
     /// <returns>Fomatted string.</returns>
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         StringBuilder buff = new();
         char closing;
@@ -231,7 +231,7 @@ public class Histo
                 buff.AppendFormat("Number larger: {0}\n", numLarger_);
                 break;
         }
-        return buff.ToString();
+        return buff.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -312,7 +312,7 @@ public class Histo
                 buff.AppendFormat("Number larger: {0}\n", numLarger_);
                 break;
         }
-        return buff.ToString();
+        return buff.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>

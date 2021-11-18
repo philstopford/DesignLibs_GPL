@@ -597,14 +597,14 @@ internal class Program
             k = g_start[j] - 1;
             Console.WriteLine("");
             Console.WriteLine("  "
-                              + (j + 1).ToString().PadLeft(4) + "  "
-                              + (k + 1).ToString().PadLeft(4) + "  "
-                              + g_face[k].ToString().PadLeft(4) + "");
+                              + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + (k + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + g_face[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             for (i = 1; i < g_degree[j]; i++)
             {
                 k += 1;
                 Console.WriteLine("              "
-                                  + g_face[k].ToString().PadLeft(4) + "");
+                                  + g_face[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
         }
 

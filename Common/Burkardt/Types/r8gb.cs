@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -519,12 +520,14 @@ public static partial class typeMethods
 
                     k = pivot[j - 1];
 
-                    if (k != j)
+                    if (k == j)
                     {
-                        temp = b[k - 1];
-                        b[k - 1] = b[j - 1];
-                        b[j - 1] = temp;
+                        continue;
                     }
+
+                    temp = b[k - 1];
+                    b[k - 1] = b[j - 1];
+                    b[j - 1] = temp;
                 }
 
                 break;
@@ -692,12 +695,14 @@ public static partial class typeMethods
 
                     k = pivot[j - 1];
 
-                    if (k != j)
+                    if (k == j)
                     {
-                        t = b[k - 1];
-                        b[k - 1] = b[j - 1];
-                        b[j - 1] = t;
+                        continue;
                     }
+
+                    t = b[k - 1];
+                    b[k - 1] = b[j - 1];
+                    b[j - 1] = t;
                 }
 
                 break;
@@ -1111,7 +1116,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -1132,7 +1137,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                 for (j = j2lo; j <= j2hi; j++)
                 {
                     if (mu < j - i || ml < i - j)
@@ -1141,7 +1146,7 @@ public static partial class typeMethods
                     }
                     else
                     {
-                        cout += a[i - j + ml + mu + (j - 1) * col].ToString().PadLeft(10) + "  ";
+                        cout += a[i - j + ml + mu + (j - 1) * col].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                 }
 
@@ -1414,12 +1419,14 @@ public static partial class typeMethods
 
                             l = pivot[k - 1];
 
-                            if (l != k)
+                            if (l == k)
                             {
-                                t = x[l - 1];
-                                x[l - 1] = x[k - 1];
-                                x[k - 1] = t;
+                                continue;
                             }
+
+                            t = x[l - 1];
+                            x[l - 1] = x[k - 1];
+                            x[k - 1] = t;
                         }
 
                         break;
@@ -1956,13 +1963,15 @@ public static partial class typeMethods
 
                             for (k = 0; k < nrhs; k++)
                             {
-                                if (x[j - 1 + k * n] != 0.0)
+                                if (x[j - 1 + k * n] == 0.0)
                                 {
-                                    for (i = 1; i <= lm; i++)
-                                    {
-                                        x[j + i - 1 + k * n] -= a[kd + i - 1 + (j - 1) * (2 * ml + mu + 1)] *
-                                                                x[j - 1 + k * n];
-                                    }
+                                    continue;
+                                }
+
+                                for (i = 1; i <= lm; i++)
+                                {
+                                    x[j + i - 1 + k * n] -= a[kd + i - 1 + (j - 1) * (2 * ml + mu + 1)] *
+                                                            x[j - 1 + k * n];
                                 }
                             }
                         }

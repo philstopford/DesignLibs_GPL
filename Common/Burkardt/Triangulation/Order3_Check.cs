@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.TriangulationNS;
 
-public static partial class Check
+public static class Check
 {
     public static int triangulation_order3_check(int node_num, int triangle_num,
             int[] triangle_node)
@@ -46,11 +46,8 @@ public static partial class Check
         //    nonzero, an error occurred, the triangulation is not valid.
         //
     {
-        int boundary_num;
-        int euler;
         int i;
         int j;
-        int[] used;
         switch (node_num)
         {
             //
@@ -98,13 +95,15 @@ public static partial class Check
         {
             for (i = 0; i < 3; i++)
             {
-                if (node_num < triangle_node[i + j * 3])
+                if (node_num >= triangle_node[i + j * 3])
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
-                    Console.WriteLine("  Some vertices are greater than node_num!");
-                    return 4;
+                    continue;
                 }
+
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
+                Console.WriteLine("  Some vertices are greater than node_num!");
+                return 4;
             }
         }
 
@@ -112,7 +111,7 @@ public static partial class Check
         //  Check 5:
         //  Verify that every node is used at least once.
         //
-        used = new int[node_num];
+        int[] used = new int[node_num];
 
         for (i = 0; i < node_num; i++)
         {
@@ -146,15 +145,17 @@ public static partial class Check
         //
         for (j = 0; j < triangle_num; j++)
         {
-            if (triangle_node[0 + j * 3] == triangle_node[1 + j * 3] ||
-                triangle_node[1 + j * 3] == triangle_node[2 + j * 3] ||
-                triangle_node[2 + j * 3] == triangle_node[0 + j * 3])
+            if (triangle_node[0 + j * 3] != triangle_node[1 + j * 3] &&
+                triangle_node[1 + j * 3] != triangle_node[2 + j * 3] &&
+                triangle_node[2 + j * 3] != triangle_node[0 + j * 3])
             {
-                Console.WriteLine("");
-                Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
-                Console.WriteLine("  A triangle contains a null edge!");
-                return 6;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
+            Console.WriteLine("  A triangle contains a null edge!");
+            return 6;
         }
 
         //
@@ -162,7 +163,7 @@ public static partial class Check
         //  Verify that no edge is repeated, and that repeated edges occur in
         //  negated pairs.
         //
-        boundary_num = triangulation_order3_edge_check(triangle_num,
+        int boundary_num = triangulation_order3_edge_check(triangle_num,
             triangle_node);
 
         switch (boundary_num)
@@ -180,17 +181,18 @@ public static partial class Check
         //  If not, then the triangulation is not proper.  (For instance, there
         //  might be a hole in the interior.)
         //
-        euler = boundary_num + triangle_num + 2 - 2 * node_num;
+        int euler = boundary_num + triangle_num + 2 - 2 * node_num;
 
-        if (euler != 0)
+        if (euler == 0)
         {
-            Console.WriteLine("");
-            Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
-            Console.WriteLine("  The triangulation does not satisfy Euler's criterion!");
-            return 8;
+            return 0;
         }
 
-        return 0;
+        Console.WriteLine("");
+        Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
+        Console.WriteLine("  The triangulation does not satisfy Euler's criterion!");
+        return 8;
+
     }
 
     public static int triangulation_order3_edge_check(int triangle_num, int[] triangle_node)
@@ -228,13 +230,9 @@ public static partial class Check
         //    detected; otherwise, it is the number of edges that lie on the boundary.
         //
     {
-        int boundary_num;
         int i;
-        int j;
-        int k;
-        int[] col;
         int tri;
-        int triangle_order = 3;
+        const int triangle_order = 3;
         //
         //  Step 1.
         //  From the list of nodes for triangle T, of the form: (I,J,K)
@@ -246,13 +244,13 @@ public static partial class Check
         //
         //  where we choose (I,J,+1) if I < J, or else (J,I,-1) and so on.
         //
-        col = new int[3 * 3 * triangle_num];
+        int[] col = new int[3 * 3 * triangle_num];
 
         for (tri = 0; tri < triangle_num; tri++)
         {
             i = triangle_node[0 + tri * triangle_order];
-            j = triangle_node[1 + tri * triangle_order];
-            k = triangle_node[2 + tri * triangle_order];
+            int j = triangle_node[1 + tri * triangle_order];
+            int k = triangle_node[2 + tri * triangle_order];
 
             if (i < j)
             {
@@ -305,7 +303,7 @@ public static partial class Check
         //  Unpaired records lie on the convex hull.
         //
         i = 0;
-        boundary_num = 0;
+        int boundary_num = 0;
 
         while (i < 3 * triangle_num)
         {

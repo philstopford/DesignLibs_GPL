@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.TetrahedronNS;
 using Burkardt.Types;
@@ -123,10 +124,10 @@ public static class TetrahedronTest
 
             inside = Geometry.tetrahedron_contains_point_3d(tetra, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12)
-                                   + "  " + p[2].ToString().PadLeft(12)
-                                   + "  " + inside.ToString().PadLeft(1) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + inside.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
 
     }
@@ -324,7 +325,7 @@ public static class TetrahedronTest
         cout = "  C =       ";
         for (i = 0; i < n; i++)
         {
-            cout += "  " + c[i].ToString().PadLeft(4);
+            cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -349,10 +350,10 @@ public static class TetrahedronTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(4);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + v[j].ToString().PadLeft(4);
+                    cout += "  " + v[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -415,7 +416,7 @@ public static class TetrahedronTest
         cout = "  C = ";
         for (i = 0; i < n + 1; i++)
         {
-            cout += "  " + c[i].ToString().PadLeft(4);
+            cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -433,10 +434,10 @@ public static class TetrahedronTest
             }
 
             i += 1;
-            cout = "  " + i.ToString().PadLeft(4);
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (j = 0; j < n; j++)
             {
-                cout += "  " + v[j].ToString().PadLeft(4);
+                cout += "  " + v[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -797,17 +798,17 @@ public static class TetrahedronTest
         {
             Geometry.tetrahedron_sample_3d(t, 1, ref seed, ref p);
 
-            string cout = "  " + p[0].ToString().PadLeft(8)
-                               + "  " + p[1].ToString().PadLeft(8)
-                               + "  " + p[2].ToString().PadLeft(8);
+            string cout = "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
 
             xsi = Geometry.tetrahedron_barycentric_3d(t, p);
 
             Console.WriteLine(cout + "    "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8)
-                                   + "  " + xsi[3].ToString().PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[3].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 

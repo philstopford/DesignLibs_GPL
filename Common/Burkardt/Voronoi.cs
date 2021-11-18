@@ -272,8 +272,8 @@ public static class Voronoi
         double area = voronoi_polygon_area(node, neighbor_num, neighbor_index,
             node_num, node_xy);
 
-        centroid[0] /= (6.0 * area);
-        centroid[1] /= (6.0 * area);
+        centroid[0] /= 6.0 * area;
+        centroid[1] /= 6.0 * area;
 
         return centroid;
     }

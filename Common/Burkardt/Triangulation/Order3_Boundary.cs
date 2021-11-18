@@ -52,22 +52,14 @@ public static partial class Boundary
         //    of boundary edges.
         //
     {
-        int boundary_edge_num;
-        int e1;
-        int e2;
-        int[] edge;
-        int interior_edge_num;
         int j;
-        int m;
-        int n;
-        int unique_num;
 
-        m = 2;
-        n = 3 * triangle_num;
+        const int m = 2;
+        int n = 3 * triangle_num;
         //
         //  Set up the edge array.
         //
-        edge = new int[m * n];
+        int[] edge = new int[m * n];
 
         for (j = 0; j < triangle_num; j++)
         {
@@ -84,8 +76,8 @@ public static partial class Boundary
         //
         for (j = 0; j < n; j++)
         {
-            e1 = Math.Min(edge[0 + j * m], edge[1 + j * m]);
-            e2 = Math.Max(edge[0 + j * m], edge[1 + j * m]);
+            int e1 = Math.Min(edge[0 + j * m], edge[1 + j * m]);
+            int e2 = Math.Max(edge[0 + j * m], edge[1 + j * m]);
             edge[0 + j * m] = e1;
             edge[1 + j * m] = e2;
         }
@@ -97,11 +89,11 @@ public static partial class Boundary
         //
         //  Get the number of unique columns in EDGE.
         //
-        unique_num = typeMethods.i4col_sorted_unique_count(m, n, edge);
+        int unique_num = typeMethods.i4col_sorted_unique_count(m, n, edge);
 
-        interior_edge_num = 3 * triangle_num - unique_num;
+        int interior_edge_num = 3 * triangle_num - unique_num;
 
-        boundary_edge_num = 3 * triangle_num - 2 * interior_edge_num;
+        int boundary_edge_num = 3 * triangle_num - 2 * interior_edge_num;
 
         return boundary_edge_num;
     }
@@ -232,22 +224,15 @@ public static partial class Boundary
         //    is TRUE if the node is on a boundary edge.
         //
     {
-        int e1;
-        int e2;
-        int[] edge;
-        bool equal;
         int i;
         int j;
-        int m;
-        int n;
-        bool[] node_boundary;
 
-        m = 2;
-        n = 3 * triangle_num;
+        const int m = 2;
+        int n = 3 * triangle_num;
         //
         //  Set up the edge array.
         //
-        edge = new int[m * n];
+        int[] edge = new int[m * n];
 
         for (j = 0; j < triangle_num; j++)
         {
@@ -264,8 +249,8 @@ public static partial class Boundary
         //
         for (j = 0; j < n; j++)
         {
-            e1 = Math.Min(edge[0 + j * m], edge[1 + j * m]);
-            e2 = Math.Max(edge[0 + j * m], edge[1 + j * m]);
+            int e1 = Math.Min(edge[0 + j * m], edge[1 + j * m]);
+            int e2 = Math.Max(edge[0 + j * m], edge[1 + j * m]);
             edge[0 + j * m] = e1;
             edge[1 + j * m] = e2;
         }
@@ -277,7 +262,7 @@ public static partial class Boundary
         //
         //  Records which appear twice are internal edges and can be ignored.
         //
-        node_boundary = new bool[node_num];
+        bool[] node_boundary = new bool[node_num];
 
         for (i = 0; i < node_num; i++)
         {
@@ -300,7 +285,7 @@ public static partial class Boundary
                 break;
             }
 
-            equal = true;
+            bool equal = true;
 
             for (i = 0; i < m; i++)
             {

@@ -1,6 +1,4 @@
-﻿using Burkardt.ChebyshevNS;
-using Burkardt.Table;
-using Burkardt.Types;
+﻿using Burkardt.Types;
 
 namespace Burkardt.SolveNS;
 

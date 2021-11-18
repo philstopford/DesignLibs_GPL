@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 
 namespace SubsetTestNS;
@@ -56,10 +55,10 @@ public static class RestrictedGrowthTest
 
             rank += 1;
             string cout = "  "
-                          + rank.ToString().PadLeft(3) + "  ";
+                          + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += v[i].ToString().PadLeft(1) + "  ";
+                cout += v[i].ToString(CultureInfo.InvariantCulture).PadLeft(1) + "  ";
             }
 
             Console.WriteLine(cout);

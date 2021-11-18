@@ -71,18 +71,15 @@ public static partial class Triangulation
         double[] b = new double[2];
         double[] c = new double[2];
         double[] d = new double[2];
-        double det;
         double[] dx = new double[2];
         double[] e = new double[2];
         double[] f = new double[2];
         double[] fun = new double[2];
-        double fun_norm;
         int i;
-        int it;
         int j;
         double[] jac = new double[2 * 2];
-        int it_max = 10;
-        double it_tol = 0.000001;
+        const int it_max = 10;
+        const double it_tol = 0.000001;
         //
         //  Set iteration parameters.
         //
@@ -107,6 +104,7 @@ public static partial class Triangulation
         //
         for (j = 0; j < n; j++)
         {
+            int it;
             for (it = 0; it < it_max; it++)
             {
                 for (i = 0; i < 2; i++)
@@ -128,7 +126,7 @@ public static partial class Triangulation
                              - phy[i + j * 2];
                 }
 
-                fun_norm = Math.Sqrt(Math.Pow(fun[0], 2) + Math.Pow(fun[1], 2));
+                double fun_norm = Math.Sqrt(Math.Pow(fun[0], 2) + Math.Pow(fun[1], 2));
 
                 if (fun_norm <= it_tol)
                 {
@@ -148,7 +146,7 @@ public static partial class Triangulation
                     0 + j * 2] +2.0 * c[1] * ref_[
                     1 + j * 2] +e[1];
 
-                det = jac[0 + 0 * 2] * jac[1 + 1 * 2] - jac[0 + 1 * 2] * jac[1 + 0 * 2];
+                double det = jac[0 + 0 * 2] * jac[1 + 1 * 2] - jac[0 + 1 * 2] * jac[1 + 0 * 2];
 
                 switch (det)
                 {

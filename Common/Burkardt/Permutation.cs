@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -212,11 +213,13 @@ public static class Permutation
 
             for (j = 1; j <= length; j++)
             {
-                if (a[i - 1] <= a[top[j - 1] - 1])
+                if (a[i - 1] > a[top[j - 1] - 1])
                 {
-                    k = j;
-                    break;
+                    continue;
                 }
+
+                k = j;
+                break;
             }
 
             switch (k)
@@ -1094,14 +1097,14 @@ public static class Permutation
                 string cout = "  ";
                 for (i = ilo; i < ihi; i++)
                 {
-                    cout += i.ToString().PadLeft(4);
+                    cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
                 cout = "  ";
                 for (i = ilo; i < ihi; i++)
                 {
-                    cout += p[i].ToString().PadLeft(4);
+                    cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -1120,7 +1123,7 @@ public static class Permutation
                 string cout = "  ";
                 for (i = ilo; i < ihi; i++)
                 {
-                    cout += p[i].ToString().PadLeft(4);
+                    cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -1975,20 +1978,24 @@ public static class Permutation
             int location;
             for (location = 0; location < n; location++)
             {
-                if (p[location] == value)
+                if (p[location] != value)
                 {
-                    check = true;
-                    break;
+                    continue;
                 }
-            }
 
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PERM0_CHECK - Warning!");
-                Console.WriteLine("  Permutation is missing value " + value + "");
+                check = true;
                 break;
             }
+
+            if (check)
+            {
+                continue;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("PERM0_CHECK - Warning!");
+            Console.WriteLine("  Permutation is missing value " + value + "");
+            break;
 
         }
 
@@ -2286,7 +2293,7 @@ public static class Permutation
                                         string cout = "";
                                         for (i = 0; i < npart; i++)
                                         {
-                                            cout += ipart[i].ToString().PadLeft(2) + "  ";
+                                            cout += ipart[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
                                         }
 
                                         Console.WriteLine(cout);
@@ -2893,11 +2900,13 @@ public static class Permutation
 
                     is_ = id + is_;
 
-                    if (id != i * ( is_  % 2) )
+                    if (id == i * (is_ % 2))
                     {
-                        more = true;
-                        break;
+                        continue;
                     }
+
+                    more = true;
+                    break;
                 }
 
                 switch (more)
@@ -3194,17 +3203,19 @@ public static class Permutation
 
                     m2 /= n2;
                     n2 -= 1;
-                    if (n2 == 0)
+                    if (n2 != 0)
                     {
-                        for (i = 0; i < n; i++)
-                        {
-                            p[i] = i;
-                        }
-
-                        more = false;
-                        rank = 1;
-                        break;
+                        continue;
                     }
+
+                    for (i = 0; i < n; i++)
+                    {
+                        p[i] = i;
+                    }
+
+                    more = false;
+                    rank = 1;
+                    break;
                 }
 
                 if (n2 != 0)
@@ -3296,14 +3307,14 @@ public static class Permutation
                     cout = "  ";
                     for (i = ilo; i < ihi; i++)
                     {
-                        cout += i.ToString().PadLeft(4);
+                        cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
                     cout = "  ";
                     for (i = ilo; i < ihi; i++)
                     {
-                        cout += p[i].ToString().PadLeft(4);
+                        cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
@@ -3324,7 +3335,7 @@ public static class Permutation
                     cout = "  ";
                     for (i = ilo; i < ihi; i++)
                     {
-                        cout += p[i].ToString().PadLeft(4);
+                        cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
@@ -3658,12 +3669,14 @@ public static class Permutation
         {
             int j = typeMethods.i4vec_index(n, q, i);
 
-            if (j != i - 1)
+            if (j == i - 1)
             {
-                (q[i - 1], q[j]) = (q[j], q[i - 1]);
-
-                p_sign = -p_sign;
+                continue;
             }
+
+            (q[i - 1], q[j]) = (q[j], q[i - 1]);
+
+            p_sign = -p_sign;
         }
             
         return p_sign;
@@ -3960,15 +3973,17 @@ public static class Permutation
                 int compare;
                 for (compare = put_value + 1; compare <= n; compare++)
                 {
-                    if (a[compare - 1] == put_row)
+                    if (a[compare - 1] != put_row)
                     {
-                        another = true;
-                        a[put_value - 1] = put_row;
-                        a[compare - 1] = 0;
-                        put_value = compare;
-                        put_row += 1;
-                        break;
+                        continue;
                     }
+
+                    another = true;
+                    a[put_value - 1] = put_row;
+                    a[compare - 1] = 0;
+                    put_value = compare;
+                    put_row += 1;
+                    break;
                 }
 
                 if (!another)
@@ -4157,11 +4172,13 @@ public static class Permutation
 
         for (i = 0; i < n; i++)
         {
-            if (p2[i] < pmin)
+            if (p2[i] >= pmin)
             {
-                pmin = p2[i];
-                p2[i] = -p2[i];
+                continue;
             }
+
+            pmin = p2[i];
+            p2[i] = -p2[i];
         }
     }
 
@@ -4212,20 +4229,24 @@ public static class Permutation
             int location;
             for (location = 0; location < n; location++)
             {
-                if (p[location] == value)
+                if (p[location] != value)
                 {
-                    check = true;
-                    break;
+                    continue;
                 }
-            }
 
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PERM1_CHECK - Warning!");
-                Console.WriteLine("  Permutation is missing value " + value + "");
+                check = true;
                 break;
             }
+
+            if (check)
+            {
+                continue;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("PERM1_CHECK - Warning!");
+            Console.WriteLine("  Permutation is missing value " + value + "");
+            break;
 
         }
 
@@ -4349,11 +4370,13 @@ public static class Permutation
 
             for (i = nlo + 1; i <= nhi; i++)
             {
-                if (p2[i - 1] < pmin[ncycle - 1])
+                if (p2[i - 1] >= pmin[ncycle - 1])
                 {
-                    pmin[ncycle - 1] = p2[i - 1];
-                    nmin = i;
+                    continue;
                 }
+
+                pmin[ncycle - 1] = p2[i - 1];
+                nmin = i;
             }
 
             //
@@ -4649,14 +4672,14 @@ public static class Permutation
                     cout = "  ";
                     for (i = ilo; i < ihi; i++)
                     {
-                        cout += (i + 1).ToString().PadLeft(4);
+                        cout += (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
                     cout = "  ";
                     for (i = ilo; i < ihi; i++)
                     {
-                        cout += p[i].ToString().PadLeft(4);
+                        cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
@@ -4677,7 +4700,7 @@ public static class Permutation
                     cout = "  ";
                     for (i = ilo; i < ihi; i++)
                     {
-                        cout += p[i].ToString().PadLeft(4);
+                        cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);

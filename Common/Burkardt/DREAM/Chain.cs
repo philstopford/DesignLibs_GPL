@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.IO;
 using Burkardt.Types;
@@ -131,7 +132,7 @@ public static class Chain
             string cout = "";
             for (i = 0; i < par_num; i++)
             {
-                cout += "  " + z[i + j * par_num + 0 * par_num * chain_num].ToString().PadLeft(14);
+                cout += "  " + z[i + j * par_num + 0 * par_num * chain_num].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 if ((i + 1) % 5 == 0 || i == par_num - 1)
                 {
                     Console.WriteLine(cout);

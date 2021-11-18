@@ -1248,7 +1248,6 @@ public static class Mesh
         typeMethods.i4vec_zero(hexahedrons, ref hexahedron_label);
         typeMethods.i4vec_zero(8 * hexahedrons, ref hexahedron_vertex);
         typeMethods.i4vec_zero(quadrilaterals, ref quadrilateral_label);
-        ;
         typeMethods.i4vec_zero(4 * quadrilaterals, ref quadrilateral_vertex);
         typeMethods.i4vec_zero(tetrahedrons, ref tetrahedron_label);
         typeMethods.i4vec_zero(4 * tetrahedrons, ref tetrahedron_vertex);

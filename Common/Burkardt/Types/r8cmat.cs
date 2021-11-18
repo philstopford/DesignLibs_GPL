@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -214,7 +215,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += (j - 1).ToString().PadLeft(7) + "       ";
+                cout += (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine("");
@@ -230,14 +231,7 @@ public static partial class typeMethods
             };
 
             int i2hi;
-            if (ihi < m)
-            {
-                i2hi = ihi;
-            }
-            else
-            {
-                i2hi = m;
-            }
+            i2hi = ihi < m ? ihi : m;
 
             int i;
             for (i = i2lo; i <= i2hi; i++)
@@ -245,10 +239,10 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = (i - 1).ToString().PadLeft(5) + ": ";
+                cout = (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ": ";
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    cout += a[j - 1][i - 1].ToString().PadLeft(12) + "  ";
+                    cout += a[j - 1][i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);

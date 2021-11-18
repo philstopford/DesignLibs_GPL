@@ -1,8 +1,5 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Grid;
-using Burkardt.PDFLib;
-using Burkardt.Probability;
 using Burkardt.RandomNS;
 using Burkardt.Sequence;
 using Burkardt.Types;
@@ -240,9 +237,9 @@ internal class Program
             x = typeMethods.r8_normal_01(ref data, ref seed);
 
             Console.WriteLine("  "
-                              + seed_in.ToString().PadLeft(12) + "  "
-                              + seed.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "");
+                              + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -287,9 +284,9 @@ internal class Program
             x = UniformRNG.r8_uniform_01(ref seed);
 
             Console.WriteLine("  "
-                              + seed_in.ToString().PadLeft(12) + "  "
-                              + seed.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "");
+                              + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

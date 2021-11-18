@@ -251,7 +251,7 @@ public static partial class FullertonLib
         //
         tmp = a + one - a - one;
 
-        while (tmp == zero)
+        while (Math.Abs(tmp - zero) <= double.Epsilon)
         {
             a += a;
             tmp = a + one;
@@ -278,7 +278,7 @@ public static partial class FullertonLib
         b = one;
         tmp = b + one - b - one;
 
-        while (tmp == zero)
+        while (Math.Abs(tmp - zero) <= double.Epsilon)
         {
             it += 1;
             b *= beta;
@@ -292,7 +292,7 @@ public static partial class FullertonLib
         tmp = a + betah;
         tmp1 = tmp - a;
 
-        if (tmp1 != zero)
+        if (Math.Abs(tmp1 - zero) > double.Epsilon)
         {
             irnd = 1;
         }
@@ -302,7 +302,7 @@ public static partial class FullertonLib
 
         irnd = irnd switch
         {
-            0 when tmp - tmpa != zero => 2,
+            0 when Math.Abs(tmp - tmpa - zero) > double.Epsilon => 2,
             _ => irnd
         };
 
@@ -322,7 +322,7 @@ public static partial class FullertonLib
         tmp = one - a;
         tmp -= one;
 
-        while (tmp == zero)
+        while (Math.Abs(tmp - zero) <= double.Epsilon)
         {
             a *= beta;
             negep -= 1;
@@ -340,7 +340,7 @@ public static partial class FullertonLib
         a = b;
         tmp = one + a;
 
-        while (tmp - one == zero)
+        while (Math.Abs(tmp - one - zero) <= double.Epsilon)
         {
             a *= beta;
             machep += 1;
@@ -357,7 +357,7 @@ public static partial class FullertonLib
 
         ngrd = irnd switch
         {
-            0 when tmp - one != zero => 1,
+            0 when Math.Abs(tmp - one - zero) > double.Epsilon => 1,
             _ => ngrd
         };
         //
@@ -384,14 +384,14 @@ public static partial class FullertonLib
             a = z * one;
             tmp = z * t;
 
-            if (a + a == zero || Math.Abs(z) > y)
+            if (Math.Abs(a + a - zero) <= double.Epsilon || Math.Abs(z) > y)
             {
                 break;
             }
 
             tmp1 = tmp * betain;
 
-            if (tmp1 * beta == z)
+            if (Math.Abs(tmp1 * beta - z) <= double.Epsilon)
             {
                 break;
             }
@@ -438,7 +438,7 @@ public static partial class FullertonLib
             tmp = y * t;
             tmp1 = a + a;
 
-            if (tmp1 == zero || Math.Abs(y) >= xmin)
+            if (Math.Abs(tmp1 - zero) <= double.Epsilon || Math.Abs(y) >= xmin)
             {
                 break;
             }
@@ -447,7 +447,7 @@ public static partial class FullertonLib
             tmp1 = tmp * betain;
             tmp1 *= beta;
 
-            if (tmp1 == y && tmp != y)
+            if (Math.Abs(tmp1 - y) <= double.Epsilon && Math.Abs(tmp - y) > double.Epsilon)
             {
                 nxres = 3;
                 xmin = y;
@@ -502,7 +502,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        if (a != y)
+        if (Math.Abs(a - y) > double.Epsilon)
         {
             maxexp -= 2;
         }
@@ -510,7 +510,7 @@ public static partial class FullertonLib
         xmax = one - epsneg;
         tmp = xmax * one;
 
-        if (tmp != xmax)
+        if (Math.Abs(tmp - xmax) > double.Epsilon)
         {
             xmax = one - beta * epsneg;
         }

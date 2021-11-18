@@ -120,7 +120,7 @@ public static partial class Ranking
                 profit = typeMethods.r8vec_dot_product(n, p, x);
                 mass = typeMethods.r8vec_dot_product(n, w, x);
 
-                if (profit_best < profit || profit == profit_best && mass < mass_best)
+                if (profit_best < profit || Math.Abs(profit - profit_best) <= double.Epsilon && mass < mass_best)
                 {
                     profit_best = profit;
                     mass_best = mass;

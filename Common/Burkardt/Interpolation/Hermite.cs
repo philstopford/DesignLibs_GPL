@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
@@ -259,10 +260,10 @@ public static class Hermite
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(10)
-                                   + "  " + y[i].ToString().PadLeft(10)
-                                   + "  " + yp[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         nd = 2 * n;
@@ -282,9 +283,9 @@ public static class Hermite
 
         for (i = 0; i < nd; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xd[i].ToString().PadLeft(10)
-                                   + "  " + yd[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xd[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yd[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -293,9 +294,9 @@ public static class Hermite
         Console.WriteLine("");
         for (i = 0; i < nd - 1; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xdp[i].ToString().PadLeft(10)
-                                   + "  " + ydp[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xdp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ydp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         cd = new double[2 * n];
@@ -324,12 +325,12 @@ public static class Hermite
         Console.WriteLine("");
         for (i = 0; i < nv; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xv[i].ToString().PadLeft(10)
-                                   + "  " + y[i].ToString().PadLeft(10)
-                                   + "  " + yv[i].ToString().PadLeft(10)
-                                   + "  " + yp[i].ToString().PadLeft(10)
-                                   + "  " + yvp[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xv[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yv[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yvp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace NextAfterNS;
 
@@ -21,7 +22,7 @@ public static class NextAfter
             return x + y;
         }
 
-        if (x == y)
+        if (Math.Abs(x - y) <= double.Epsilon)
         {
             return y;  // nextafter(0, -0) = -0
         }
@@ -65,7 +66,7 @@ public static class NextAfter
             return x + y;
         }
 
-        if (x == y)
+        if (Math.Abs(x - y) <= double.Epsilon)
         {
             return y;  // nextafter(0, -0) = -0
         }

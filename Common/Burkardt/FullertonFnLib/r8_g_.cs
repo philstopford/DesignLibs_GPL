@@ -882,7 +882,7 @@ public static partial class FullertonLib
 
         switch (x)
         {
-            case <= 0.0 when r8_aint(x) == x:
+            case <= 0.0 when Math.Abs(r8_aint(x) - x) <= double.Epsilon:
                 value = 0.0;
                 break;
             default:

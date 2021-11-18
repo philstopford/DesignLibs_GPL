@@ -45,12 +45,10 @@ public static class NodeOrder
         //    each node.
         //
     {
-        int i;
         int node;
-        int[] node_order;
         int triangle;
 
-        node_order = new int[node_num];
+        int[] node_order = new int[node_num];
 
         for ( node = 0; node < node_num; node++ )
         {
@@ -59,6 +57,7 @@ public static class NodeOrder
 
         for ( triangle = 0; triangle < triangle_num; triangle++ )
         {
+            int i;
             for ( i = 0; i < triangle_order; i++ )
             {
                 node = triangle_node[i+triangle*triangle_order];
@@ -68,7 +67,6 @@ public static class NodeOrder
                     Console.WriteLine("");
                     Console.WriteLine("TRIANGULATION_NODE_ORDER - Fatal error!");
                     Console.WriteLine("  Illegal entry in TRIANGLE_NODE.");
-                    node_order = null;
                     return null;
                 }
 

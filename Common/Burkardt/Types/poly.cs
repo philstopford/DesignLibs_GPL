@@ -45,7 +45,7 @@ public static partial class typeMethods
         //  a constant term.
         //
         int d2 = 0;
-        int m2 = (d2 + 1) * (d2 + 2) / 2;
+        int m2 = (1) * (2) / 2;
         double[] p2 = new double[m2];
         p2[0] = 1.0;
         //
@@ -438,8 +438,8 @@ public static partial class typeMethods
 
         area /= 2.0;
 
-        centroid[0] /= (6.0 * area);
-        centroid[1] /= (6.0 * area);
+        centroid[0] /= 6.0 * area;
+        centroid[1] /= 6.0 * area;
 
         return centroid;
     }

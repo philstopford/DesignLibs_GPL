@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -84,7 +85,7 @@ public static partial class typeMethods
 
         int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        int i = 1;
+        const int i = 1;
         int k = 0;
         for (j = 1; j <= n; j++)
         {
@@ -415,7 +416,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -430,23 +431,16 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(4) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
                     double aij;
-                    if (i <= j)
-                    {
-                        aij = a[j - i];
-                    }
-                    else
-                    {
-                        aij = a[i - j];
-                    }
+                    aij = i <= j ? a[j - i] : a[i - j];
 
-                    cout += aij.ToString().PadLeft(12) + "  ";
+                    cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -601,20 +595,22 @@ public static partial class typeMethods
                 x[i - 1] += x[k] * y[k - i];
             }
 
-            if (k < n - 1)
+            if (k >= n - 1)
             {
-                y[k] = -a[k + 1];
-                for (i = 1; i <= k; i++)
-                {
-                    y[k] -= a[i] * y[k - i];
-                }
+                continue;
+            }
 
-                y[k] /= beta;
+            y[k] = -a[k + 1];
+            for (i = 1; i <= k; i++)
+            {
+                y[k] -= a[i] * y[k - i];
+            }
 
-                for (i = 1; i <= k; i++)
-                {
-                    y[i - 1] += y[k] * y[k - i];
-                }
+            y[k] /= beta;
+
+            for (i = 1; i <= k; i++)
+            {
+                y[i - 1] += y[k] * y[k - i];
             }
         }
 

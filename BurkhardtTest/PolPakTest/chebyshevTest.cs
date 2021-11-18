@@ -56,10 +56,10 @@ public static class chebyshevTest
             x_vec[0] = x;
             fx2 = Polynomial.cheby_t_poly(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -106,9 +106,9 @@ public static class chebyshevTest
             fx = Polynomial.cheby_t_poly(n, n, z);
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -161,14 +161,14 @@ public static class chebyshevTest
                     switch (j)
                     {
                         case 0:
-                            Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + "");
+                            Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                             ;
                             break;
                         case 1:
-                            Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + " * x");
+                            Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                             break;
                         default:
-                            Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                            Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                             break;
                     }
                 }
@@ -227,10 +227,10 @@ public static class chebyshevTest
             x_vec[0] = x;
             fx2 = Polynomial.cheby_u_poly(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
 
         }
@@ -283,13 +283,13 @@ public static class chebyshevTest
                     switch (j)
                     {
                         case 0:
-                            Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + "");
+                            Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                             break;
                         case 1:
-                            Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x");
+                            Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                             break;
                         default:
-                            Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                            Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                             break;
                     }
                 }
@@ -339,9 +339,9 @@ public static class chebyshevTest
             fx = Polynomial.cheby_u_poly(n, n, z);
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -397,10 +397,10 @@ public static class chebyshevTest
             Console.WriteLine("");
             for (i = 0; i <= 5; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + m.ToString().PadLeft(8)
-                                       + "  " + x.ToString().PadLeft(8)
-                                       + "  " + value[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + value[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 

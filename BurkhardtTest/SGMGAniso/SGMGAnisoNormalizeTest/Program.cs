@@ -142,7 +142,7 @@ internal class Program
         string cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -154,7 +154,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight2[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight2[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -270,7 +270,7 @@ internal class Program
         string cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -285,7 +285,7 @@ internal class Program
             cout = "";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_weight[dim].ToString().PadLeft(12);
+                cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -407,7 +407,7 @@ internal class Program
         string cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(12);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -418,7 +418,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);

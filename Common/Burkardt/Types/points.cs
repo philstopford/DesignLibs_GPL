@@ -74,11 +74,13 @@ public static partial class typeMethods
             int i;
             for ( i = 0; i < m; i++ )
             {
-                if ( Math.Abs(a[i+unique_index*m] - a[i+indx[j]*m]) > double.Epsilon )
+                if (!(Math.Abs(a[i + unique_index * m] - a[i + indx[j] * m]) > double.Epsilon))
                 {
-                    unique_num += 1;
-                    unique_index = indx[j];
+                    continue;
                 }
+
+                unique_num += 1;
+                unique_index = indx[j];
             }
         }
             
@@ -123,7 +125,7 @@ public static partial class typeMethods
         //    barely visible.
         //
     {
-        int circle_size = 3;
+        const int circle_size = 3;
         int delta;
         List<string> file_unit = new();
         int node;

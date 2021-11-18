@@ -79,25 +79,15 @@ public static partial class Refine
         int edge;
         int i;
         int j;
-        int l1 = 0;
         int l2 = 0;
-        int l3 = 0;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
-        int node;
         int t1;
         int t2;
         int t3;
         int t4;
         int triangle1;
         int v1 = 0;
-        int v2 = 0;
-        int v3 = 0;
         int v4 = 0;
         int v5 = 0;
-        int v6 = 0;
         //
         //  Step 1:
         //  Copy the old nodes.
@@ -151,18 +141,18 @@ public static partial class Refine
         //  generate two new nodes, then assign them (usually) to the four subtriangles
         //  of the two triangles that share that edge.
         //
-        node = node_num1;
+        int node = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 3 * triangle_num1; edge++)
         {
-            n1 = edge_data[0 + edge * 5] - 1;
-            n2 = edge_data[1 + edge * 5] - 1;
+            int n1 = edge_data[0 + edge * 5] - 1;
+            int n2 = edge_data[1 + edge * 5] - 1;
 
-            l1 = edge_data[2 + edge * 5];
-            l3 = edge_data[3 + edge * 5];
+            int l1 = edge_data[2 + edge * 5];
+            int l3 = edge_data[3 + edge * 5];
 
             l2 = l1 switch
             {
@@ -183,8 +173,8 @@ public static partial class Refine
                 n2_old = n2;
 
                 v1 = triangle_node1[l1 - 1 + triangle1 * 6];
-                v2 = triangle_node1[l2 - 1 + triangle1 * 6];
-                v3 = triangle_node1[l3 - 1 + triangle1 * 6];
+                int v2 = triangle_node1[l2 - 1 + triangle1 * 6];
+                int v3 = triangle_node1[l3 - 1 + triangle1 * 6];
 
                 for (i = 0; i < 2; i++)
                 {
@@ -268,7 +258,7 @@ public static partial class Refine
         {
             v4 = triangle_node1[3 + triangle1 * 6];
             v5 = triangle_node1[4 + triangle1 * 6];
-            v6 = triangle_node1[5 + triangle1 * 6];
+            int v6 = triangle_node1[5 + triangle1 * 6];
 
             t1 = triangle1 * 4 + 0;
             t2 = triangle1 * 4 + 1;
@@ -363,16 +353,7 @@ public static partial class Refine
         //    be needed by TRIANGULATION_ORDER6_REFINE_COMPUTE.
         //
     {
-        int a;
-        int b;
         int edge;
-        int i;
-        int j;
-        int k;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
         int triangle1;
         //
         //  Step 1.
@@ -388,12 +369,12 @@ public static partial class Refine
         //
         for (triangle1 = 0; triangle1 < triangle_num1; triangle1++)
         {
-            i = triangle_node1[0 + triangle1 * 6];
-            j = triangle_node1[1 + triangle1 * 6];
-            k = triangle_node1[2 + triangle1 * 6];
+            int i = triangle_node1[0 + triangle1 * 6];
+            int j = triangle_node1[1 + triangle1 * 6];
+            int k = triangle_node1[2 + triangle1 * 6];
 
-            a = Math.Min(i, j);
-            b = Math.Max(i, j);
+            int a = Math.Min(i, j);
+            int b = Math.Max(i, j);
 
             edge_data[0 + 5 * (3 * triangle1 + 0)] = a;
             edge_data[1 + 5 * (3 * triangle1 + 0)] = b;
@@ -437,19 +418,21 @@ public static partial class Refine
         //
         node_num2 = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 3 * triangle_num1; edge++)
         {
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
-            if (n1 != n1_old || n2 != n2_old)
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
+            if (n1 == n1_old && n2 == n2_old)
             {
-                node_num2 += 2;
-                n1_old = n1;
-                n2_old = n2;
+                continue;
             }
+
+            node_num2 += 2;
+            n1_old = n1;
+            n2_old = n2;
         }
 
         node_num2 += 3 * triangle_num1;

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;
@@ -233,13 +232,13 @@ internal class Program
                 quad_error = QuadratureRule.tet01_monomial_quadrature(dim_num, expon, point_num, x_ref,
                     w);
 
-                string cout = "  " + quad_error.ToString().PadLeft(12)
-                                   + "     " + degree.ToString().PadLeft(2)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "     " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                    + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += expon[dim].ToString().PadLeft(3);
+                    cout += expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);

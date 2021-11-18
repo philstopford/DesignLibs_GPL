@@ -40,23 +40,18 @@ public static class Interpolate
         //    of the quantity at P.
         //
     {
-        double abc;
-        double apc;
-        double abp;
-        int i;
         int j;
-        double pbc;
-        double[] v;
 
-        v = new double[m*n];
+        double[] v = new double[m*n];
 
-        abc = triangle_area ( p1[0], p1[1], p2[0], p2[1], p3[0], p3[1] );
+        double abc = triangle_area ( p1[0], p1[1], p2[0], p2[1], p3[0], p3[1] );
 
         for ( j = 0; j < n; j++ )
         {
-            pbc = triangle_area ( p[0+j*2], p[1+j*2], p2[0],    p2[1],    p3[0],    p3[1] );
-            apc = triangle_area ( p1[0],    p1[1],    p[0+j*2], p[1+j*2], p3[0],    p3[1] );
-            abp = triangle_area ( p1[0],    p1[1],    p2[0],    p2[1],    p[0+j*2], p[1+j*2] );
+            double pbc = triangle_area ( p[0+j*2], p[1+j*2], p2[0],    p2[1],    p3[0],    p3[1] );
+            double apc = triangle_area ( p1[0],    p1[1],    p[0+j*2], p[1+j*2], p3[0],    p3[1] );
+            double abp = triangle_area ( p1[0],    p1[1],    p2[0],    p2[1],    p[0+j*2], p[1+j*2] );
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 v[i+j*m] =
@@ -112,13 +107,11 @@ public static class Interpolate
         //    Output, double TRIANGLE_AREA, the area of the triangle.
         //
     {
-        double area;
-
-        area = 0.5 * ( 
+        double area = 0.5 * ( 
             p1x * ( p2y - p3y ) + 
             p2x * ( p3y - p1y ) + 
             p3x * ( p1y - p2y ) );
- 
+
         return area;
     }
 }

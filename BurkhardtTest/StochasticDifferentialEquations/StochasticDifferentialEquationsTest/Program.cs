@@ -489,11 +489,11 @@ internal class Program
         {
             Integrals.stochastic_integral_ito(n, ref data, ref seed, ref estimate, ref exact, ref error);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(16)
-                                   + "  " + estimate.ToString().PadLeft(16)
-                                   + "  " + error.ToString().PadLeft(16)
-                                   + "  " + (error / exact).ToString().PadLeft(16) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + estimate.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + (error / exact).ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
 
             n *= 4;
         }
@@ -543,11 +543,11 @@ internal class Program
         {
             Integrals.stochastic_integral_strat(n, ref data, ref seed, ref estimate, ref exact, ref error);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(16)
-                                   + "  " + estimate.ToString().PadLeft(16)
-                                   + "  " + error.ToString().PadLeft(16)
-                                   + "  " + (error / exact).ToString().PadLeft(16) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + estimate.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + (error / exact).ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
 
             n *= 4;
         }

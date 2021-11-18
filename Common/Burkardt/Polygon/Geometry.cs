@@ -822,12 +822,12 @@ public static class Geometry
                 {
                     if (p[0] <= Math.Max(px1, px2))
                     {
-                        if (py1 != py2)
+                        if (Math.Abs(py1 - py2) > double.Epsilon)
                         {
                             xints = (p[1] - py1) * (px2 - px1) / (py2 - py1) + px1;
                         }
 
-                        if (px1 == px2 || p[0] <= xints)
+                        if (Math.Abs(px1 - px2) <= double.Epsilon || p[0] <= xints)
                         {
                             value = !value;
                         }

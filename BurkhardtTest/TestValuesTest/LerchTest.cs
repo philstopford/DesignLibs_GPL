@@ -48,8 +48,8 @@ public class LerchTest
 
             Console.WriteLine("  "
                               + z.ToString("0.################").PadLeft(24) + "  "
-                              + s.ToString().PadLeft(6) + "  "
-                              + a.ToString().PadLeft(12) + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

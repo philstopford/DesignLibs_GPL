@@ -45,55 +45,42 @@ public static partial class Plot
         //    of the element.
         //
     {
-        int i;
-        int i4;
         int i4_max;
-        int i4_min;
-        int ii;
         int j;
-        int j4;
         int j4_max;
-        int j4_min;
-        int node;
         int[] order6 = {0, 3, 1, 4, 2, 5};
         List<string> output = new();
-        double x_max;
-        double x_min;
-        double x_scale;
-        double y_max;
-        double y_min;
-        double y_scale;
         //
         //  Determine SCALE, the maximum data range.
         //
-        x_max = node_xy[0 + 0 * 2];
-        x_min = node_xy[0 + 0 * 2];
+        double x_max = node_xy[0 + 0 * 2];
+        double x_min = node_xy[0 + 0 * 2];
         for (j = 0; j < node_num; j++)
         {
             x_max = Math.Max(x_max, node_xy[0 + j * 2]);
             x_min = Math.Min(x_min, node_xy[0 + j * 2]);
         }
 
-        x_scale = x_max - x_min;
+        double x_scale = x_max - x_min;
         x_max += 0.05 * x_scale;
         x_min -= 0.05 * x_scale;
         x_scale = x_max - x_min;
 
-        y_max = node_xy[1 + 0 * 2];
-        y_min = node_xy[1 + 0 * 2];
+        double y_max = node_xy[1 + 0 * 2];
+        double y_min = node_xy[1 + 0 * 2];
         for (j = 0; j < node_num; j++)
         {
             y_max = Math.Max(y_max, node_xy[1 + j * 2]);
             y_min = Math.Min(y_min, node_xy[1 + j * 2]);
         }
 
-        y_scale = y_max - y_min;
+        double y_scale = y_max - y_min;
         y_max += 0.05 * y_scale;
         y_min -= 0.05 * y_scale;
         y_scale = y_max - y_min;
 
-        i4_min = 1;
-        j4_min = 1;
+        int i4_min = 1;
+        const int j4_min = 1;
         if (x_scale < y_scale)
         {
             i4_max = (int) (0.5 + 500.0 * x_scale / y_scale);
@@ -134,6 +121,10 @@ public static partial class Plot
             output.Add("    stroke-width=\"2\"");
             output.Add("    points=\"");
 
+            int i;
+            int i4;
+            int node;
+            int j4;
             switch (element_order)
             {
                 case 3:
@@ -164,7 +155,7 @@ public static partial class Plot
                 {
                     for (i = 0; i < 6; i++)
                     {
-                        ii = order6[i];
+                        int ii = order6[i];
                         node = element_node[ii + j * element_order];
                         i4 = typeMethods.r8_to_i4(x_min, x_max, node_xy[0 + node * 2], i4_min, i4_max);
                         j4 = typeMethods.r8_to_i4(y_max, y_min, node_xy[1 + node * 2], j4_min, j4_max);

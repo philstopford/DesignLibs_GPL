@@ -39,8 +39,8 @@ public static class hailTest
         for ( i = 1; i <= 20; i++ )
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4)          + "  "
-                              + Hail.hail ( i ).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)          + "  "
+                              + Hail.hail ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }

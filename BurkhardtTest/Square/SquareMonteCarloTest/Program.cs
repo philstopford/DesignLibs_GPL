@@ -106,7 +106,7 @@ internal class Program
         while (n <= 65536)
         {
             x = MonteCarlo.square01_sample(n, ref seed);
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -117,7 +117,7 @@ internal class Program
                 value = Monomial.monomial_value(2, n, e, x);
 
                 result = MonteCarlo.square01_area() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -136,7 +136,7 @@ internal class Program
             }
 
             exact = MonteCarlo.square01_monomial_integral(e);
-            cout += "  " + exact.ToString().PadLeft(14);
+            cout += "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);

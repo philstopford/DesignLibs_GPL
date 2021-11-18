@@ -222,7 +222,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(14);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -230,7 +230,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(14);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -277,11 +277,11 @@ internal class Program
 
             Console.WriteLine("");
             Console.WriteLine("     I               Q       Coef1       Coef2   X");
-            cout = "   MIN" + "  " + q_min.ToString().PadLeft(14)
+            cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                    + "                        ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
+                cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -321,29 +321,29 @@ internal class Program
                 coef1_sum += coef1;
                 coef2_sum += coef2;
 
-                cout = "  " + i.ToString().PadLeft(4)
-                            + "  " + q.ToString().PadLeft(14)
-                            + "  " + coef1.ToString().PadLeft(10)
-                            + "  " + coef2.ToString().PadLeft(10);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                            + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                            + "  " + coef1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                            + "  " + coef2.ToString(CultureInfo.InvariantCulture).PadLeft(10);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + level_1d[dim].ToString().PadLeft(2);
+                    cout += "  " + level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
                 }
 
                 Console.WriteLine(cout);
             }
 
-            cout = "   MAX" + "  " + q_max.ToString().PadLeft(14)
+            cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                    + "                        ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
+                cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
             Console.WriteLine("   SUM                "
-                              + "  " + coef1_sum.ToString().PadLeft(10)
-                              + "  " + coef2_sum.ToString().PadLeft(10) + "");
+                              + "  " + coef1_sum.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + coef2_sum.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

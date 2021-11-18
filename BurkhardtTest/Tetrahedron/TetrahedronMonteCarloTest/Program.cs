@@ -114,10 +114,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -186,10 +186,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -257,10 +257,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -328,10 +328,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -400,10 +400,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -473,10 +473,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -546,10 +546,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -619,10 +619,10 @@ internal class Program
             result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Burkardt.Types;
@@ -190,7 +191,7 @@ public static class HB
                             jhi = Math.Min(jlo + r - 1, nrow * nrhs);
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += exact[j - 1].ToString().PadLeft(w);
+                                cout += exact[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -863,7 +864,7 @@ public static class HB
 
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += guess[j - 1].ToString().PadLeft(w);
+                                cout += guess[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -1334,7 +1335,7 @@ public static class HB
                    + string.Join("", key).PadRight(8)
                    + "");
 
-        output.Add(totcrd.ToString().PadRight(14)
+        output.Add(totcrd.ToString(CultureInfo.InvariantCulture).PadRight(14)
                    + string.Join("", ptrcrd).PadRight(14)
                    + string.Join("", indcrd).PadRight(14)
                    + string.Join("", valcrd).PadRight(14)
@@ -1896,7 +1897,7 @@ public static class HB
 
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += rhsval[j - 1].ToString().PadLeft(w);
+                                cout += rhsval[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -1922,7 +1923,7 @@ public static class HB
 
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += rhsptr[j - 1].ToString().PadLeft(w);
+                                cout += rhsptr[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -1940,7 +1941,7 @@ public static class HB
 
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += rhsind[j - 1].ToString().PadLeft(w);
+                                cout += rhsind[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -1958,7 +1959,7 @@ public static class HB
 
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += rhsvec[j - 1].ToString().PadLeft(w);
+                                cout += rhsvec[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -1983,7 +1984,7 @@ public static class HB
 
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += rhsval[j - 1].ToString().PadLeft(w);
+                                cout += rhsval[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                             }
 
                             output.Add(cout);
@@ -2082,7 +2083,7 @@ public static class HB
                 {
                     if (colptr[j] - 1 < colptr[j - 1])
                     {
-                        Console.WriteLine(j.ToString().PadLeft(6) + "   EMPTY");
+                        Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "   EMPTY");
                     }
                     else
                     {
@@ -2092,14 +2093,14 @@ public static class HB
                             khi = Math.Min(klo + 9, colptr[j] - 1);
                             if (klo == colptr[j - 1])
                             {
-                                cout += j.ToString().PadLeft(6)
-                                        + colptr[j - 1].ToString().PadLeft(6)
-                                        + (colptr[j] - 1).ToString().PadLeft(6) + "   ";
+                                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                        + colptr[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                        + (colptr[j] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "   ";
                             }
 
                             for (k = klo; k <= khi; k++)
                             {
-                                cout += rowind[k - 1].ToString().PadLeft(4);
+                                cout += rowind[k - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                             }
 
                             Console.WriteLine(cout);
@@ -2395,7 +2396,7 @@ public static class HB
         string cout = "";
         for (j = 1; j <= ncol + 1; j++)
         {
-            cout += colptr[j - 1].ToString().PadLeft(w);
+            cout += colptr[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
             switch (j % r)
             {
                 case 0:
@@ -2419,7 +2420,7 @@ public static class HB
             {
                 for (j = 1; j <= nnzero; j++)
                 {
-                    cout += rowind[j - 1].ToString().PadLeft(w);
+                    cout += rowind[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                     switch (j % r)
                     {
                         case 0:
@@ -2443,7 +2444,7 @@ public static class HB
                 cout = "";
                 for (j = 1; j <= number; j++)
                 {
-                    cout += rowind[j - 1].ToString().PadLeft(w);
+                    cout += rowind[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                     switch (j % r)
                     {
                         case 0:
@@ -2616,7 +2617,7 @@ public static class HB
 
                     if (colptr[j] - 1 < colptr[j - 1])
                     {
-                        Console.WriteLine(j.ToString().PadLeft(6) + "   EMPTY");
+                        Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "   EMPTY");
                     }
                     else
                     {
@@ -2626,14 +2627,14 @@ public static class HB
                             khi = Math.Min(klo + 4, colptr[j] - 1);
                             if (klo == colptr[j - 1])
                             {
-                                cout += j.ToString().PadLeft(5)
-                                        + colptr[j - 1].ToString().PadLeft(5)
-                                        + (colptr[j] - 1).ToString().PadLeft(5) + "   ";
+                                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                        + colptr[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                        + (colptr[j] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + "   ";
                             }
 
                             for (k = klo; k <= khi; k++)
                             {
-                                cout += values[k - 1].ToString().PadLeft(12);
+                                cout += values[k - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                             }
 
                             Console.WriteLine(cout);
@@ -2905,7 +2906,7 @@ public static class HB
 
                     for (j = jlo; j <= jhi; j++)
                     {
-                        cout += values[j - 1].ToString().PadLeft(w);
+                        cout += values[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
                     }
 
                     output.Add(cout);

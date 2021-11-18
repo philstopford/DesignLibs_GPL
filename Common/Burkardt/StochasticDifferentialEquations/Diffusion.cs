@@ -727,7 +727,7 @@ public static class Diffusion
 
         for (i = 2; i <= m; i++)
         {
-            ihalf_r8 = i / 2;
+            ihalf_r8 = (double)i / 2;
             zeta_arg = -Math.Pow(ihalf_r8 * Math.PI * l, 2) / 8.0;
             zeta = Math.Sqrt(Math.Sqrt(Math.PI) * l) * Math.Exp(zeta_arg);
 

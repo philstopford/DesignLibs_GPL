@@ -1,5 +1,4 @@
-﻿using System;
-using geoLib;
+﻿using geoLib;
 
 namespace PartitionTestGeometrySource;
 
@@ -10,13 +9,13 @@ public static partial class TestGeometry
         // L
         GeoLibPoint[] L = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 0),
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 10, 50),
-            new GeoLibPoint( 10, 20),
-            new GeoLibPoint( 60, 20),
-            new GeoLibPoint( 60, 0),
-            new GeoLibPoint( 0, 0)
+            new( 0, 0),
+            new( 0, 50),
+            new( 10, 50),
+            new( 10, 20),
+            new( 60, 20),
+            new( 60, 0),
+            new( 0, 0)
 
         };
 
@@ -27,13 +26,13 @@ public static partial class TestGeometry
     {
         GeoLibPoint[] rL = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 0),
-            new GeoLibPoint( 0, 20),
-            new GeoLibPoint( 10, 20),
-            new GeoLibPoint( 10, 50),
-            new GeoLibPoint( 60, 50),
-            new GeoLibPoint( 60, 0),
-            new GeoLibPoint( 0, 0)
+            new( 0, 0),
+            new( 0, 20),
+            new( 10, 20),
+            new( 10, 50),
+            new( 60, 50),
+            new( 60, 0),
+            new( 0, 0)
 
         };
 
@@ -44,15 +43,15 @@ public static partial class TestGeometry
     {
         GeoLibPoint[] U = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 0),
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 10, 50),
-            new GeoLibPoint( 10, 20),
-            new GeoLibPoint( 60, 20),
-            new GeoLibPoint( 60, 80),
-            new GeoLibPoint( 120, 80),
-            new GeoLibPoint( 120, 0),
-            new GeoLibPoint( 0, 0)
+            new( 0, 0),
+            new( 0, 50),
+            new( 10, 50),
+            new( 10, 20),
+            new( 60, 20),
+            new( 60, 80),
+            new( 120, 80),
+            new( 120, 0),
+            new( 0, 0)
 
         };
 
@@ -63,15 +62,15 @@ public static partial class TestGeometry
     {
         GeoLibPoint[] T = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 0, 80),
-            new GeoLibPoint( 80, 80),
-            new GeoLibPoint( 80, 50),
-            new GeoLibPoint( 60, 50),
-            new GeoLibPoint( 60, 0),
-            new GeoLibPoint( 40, 0),
-            new GeoLibPoint( 40, 50),
-            new GeoLibPoint( 0, 50)
+            new( 0, 50),
+            new( 0, 80),
+            new( 80, 80),
+            new( 80, 50),
+            new( 60, 50),
+            new( 60, 0),
+            new( 40, 0),
+            new( 40, 50),
+            new( 0, 50)
 
         };
 
@@ -82,19 +81,19 @@ public static partial class TestGeometry
     {
         GeoLibPoint[] X = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 0, 80),
-            new GeoLibPoint( 60, 80),
-            new GeoLibPoint( 60, 100),
-            new GeoLibPoint( 80, 100),
-            new GeoLibPoint( 80, 80),
-            new GeoLibPoint( 100, 80),
-            new GeoLibPoint( 100, 50),
-            new GeoLibPoint( 80, 50),
-            new GeoLibPoint( 80, 20),
-            new GeoLibPoint( 60, 20),
-            new GeoLibPoint( 60, 50),
-            new GeoLibPoint( 0, 50)
+            new( 0, 50),
+            new( 0, 80),
+            new( 60, 80),
+            new( 60, 100),
+            new( 80, 100),
+            new( 80, 80),
+            new( 100, 80),
+            new( 100, 50),
+            new( 80, 50),
+            new( 80, 20),
+            new( 60, 20),
+            new( 60, 50),
+            new( 0, 50)
 
         };
 
@@ -105,19 +104,19 @@ public static partial class TestGeometry
     {
         GeoLibPoint[] S = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 0),
-            new GeoLibPoint( 0, 20),
-            new GeoLibPoint( 20, 20),
-            new GeoLibPoint( 20, 50),
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 0, 110),
-            new GeoLibPoint( 100, 110),
-            new GeoLibPoint( 100, 80),
-            new GeoLibPoint( 80, 80),
-            new GeoLibPoint( 80, 60),
-            new GeoLibPoint( 100, 60),
-            new GeoLibPoint( 100, 0),
-            new GeoLibPoint( 0, 0)
+            new( 0, 0),
+            new( 0, 20),
+            new( 20, 20),
+            new( 20, 50),
+            new( 0, 50),
+            new( 0, 110),
+            new( 100, 110),
+            new( 100, 80),
+            new( 80, 80),
+            new( 80, 60),
+            new( 100, 60),
+            new( 100, 0),
+            new( 0, 0)
 
         };
 
@@ -128,19 +127,19 @@ public static partial class TestGeometry
     {
         GeoLibPoint[] S = new GeoLibPoint[] {
 
-            new GeoLibPoint( 0, 0),
-            new GeoLibPoint( 0, 20),
-            new GeoLibPoint( 20, 20),
-            new GeoLibPoint( 20, 50),
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 0, 110),
-            new GeoLibPoint( 100, 110),
-            new GeoLibPoint( 100, 80),
-            new GeoLibPoint( 80, 80),
-            new GeoLibPoint( 80, 60),
-            new GeoLibPoint( 100, 60),
-            new GeoLibPoint( 100, 0),
-            new GeoLibPoint( 0, 0)
+            new( 0, 0),
+            new( 0, 20),
+            new( 20, 20),
+            new( 20, 50),
+            new( 0, 50),
+            new( 0, 110),
+            new( 100, 110),
+            new( 100, 80),
+            new( 80, 80),
+            new( 80, 60),
+            new( 100, 60),
+            new( 100, 0),
+            new( 0, 0)
 
         };
 

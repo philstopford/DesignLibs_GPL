@@ -39,8 +39,8 @@ public static class benfordTest
         for ( i = 1; i <= 9; i++ )
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4)              + "  "
-                              + Benford.benford_pdf ( i ).ToString().PadLeft(10) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)              + "  "
+                              + Benford.benford_pdf ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

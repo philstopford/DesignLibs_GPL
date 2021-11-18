@@ -47,9 +47,9 @@ public class ViscosityTest
             }
 
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + eta.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + eta.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

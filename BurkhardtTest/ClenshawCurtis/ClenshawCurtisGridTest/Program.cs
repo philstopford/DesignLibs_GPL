@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.ClenshawCurtisNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -112,10 +111,10 @@ internal class Program
 
             for (j = 0; j < order_nd; j++)
             {
-                string cout = "  " + (j + 1).ToString().PadLeft(8);
+                string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 for (dim = 0; dim < DIM_NUM; dim++)
                 {
-                    cout += "  " + grid_point[dim + j * DIM_NUM].ToString().PadLeft(12);
+                    cout += "  " + grid_point[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);
@@ -188,11 +187,11 @@ internal class Program
         Console.WriteLine("         I         Q          Grid orders:");
         Console.WriteLine("");
 
-        string cout = "  " + j.ToString().PadLeft(8)
-                           + "  " + q.ToString().PadLeft(8);
+        string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                           + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         for (dim = 0; dim < DIM_NUM; dim++)
         {
-            cout += "  " + order_1d[dim].ToString().PadLeft(8);
+            cout += "  " + order_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -203,10 +202,10 @@ internal class Program
 
         for (j = 0; j < order_nd; j++)
         {
-            cout = "  " + (j + 1).ToString().PadLeft(8);
+            cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_point[dim + j * DIM_NUM].ToString().PadLeft(12);
+                cout += "  " + grid_point[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -277,11 +276,11 @@ internal class Program
         Console.WriteLine("         I         Q          Grid orders:");
         Console.WriteLine("");
 
-        string cout = "  " + j.ToString().PadLeft(8)
-                           + "  " + q.ToString().PadLeft(8) + "  ";
+        string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                           + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         for (dim = 0; dim < DIM_NUM; dim++)
         {
-            cout += "  " + order_1d[dim].ToString().PadLeft(4);
+            cout += "  " + order_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -292,10 +291,10 @@ internal class Program
 
         for (j = 0; j < order_nd; j++)
         {
-            cout = "  " + (j + 1).ToString().PadLeft(8) + "            ";
+            cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "            ";
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_index[dim + j * DIM_NUM].ToString().PadLeft(4);
+                cout += "  " + grid_index[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -374,11 +373,11 @@ internal class Program
                 q += grid_order[dim + j * DIM_NUM];
             }
 
-            string cout = "  " + (j + 1).ToString().PadLeft(8)
-                               + "  " + q.ToString().PadLeft(8);
+            string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_order[dim + j * DIM_NUM].ToString().PadLeft(8);
+                cout += "  " + grid_order[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -390,10 +389,10 @@ internal class Program
 
         for (j = 0; j < point_num; j++)
         {
-            string cout = "  " + (j + 1).ToString().PadLeft(8);
+            string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_point[dim + j * DIM_NUM].ToString().PadLeft(12);
+                cout += "  " + grid_point[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -495,16 +494,16 @@ internal class Program
                     level += grid_level[dim + j * DIM_NUM];
                 }
 
-                string cout = "  " + (j + 1).ToString().PadLeft(8)
-                                   + "  " + level.ToString().PadLeft(8);
+                string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 for (dim = 0; dim < DIM_NUM; dim++)
                 {
-                    cout += "  " + grid_level[dim + j * DIM_NUM].ToString().PadLeft(8);
+                    cout += "  " + grid_level[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 for (dim = 0; dim < DIM_NUM; dim++)
                 {
-                    cout += "  " + grid_order[dim + j * DIM_NUM].ToString().PadLeft(8);
+                    cout += "  " + grid_order[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -516,10 +515,10 @@ internal class Program
 
             for (j = 0; j < point_num; j++)
             {
-                string cout = "  " + (j + 1).ToString().PadLeft(8);
+                string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 for (dim = 0; dim < DIM_NUM; dim++)
                 {
-                    cout += "  " + grid_point[dim + j * DIM_NUM].ToString().PadLeft(12);
+                    cout += "  " + grid_point[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);
@@ -601,10 +600,10 @@ internal class Program
 
         for (dim = 0; dim < DIM_NUM; dim++)
         {
-            Console.WriteLine("  " + (dim + 1).ToString().PadLeft(8)
-                                   + "  " + order_min[dim].ToString().PadLeft(8)
-                                   + "  " + order_max[dim].ToString().PadLeft(8)
-                                   + "  " + alpha[dim].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (dim + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + alpha[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         ClenshawCurtisGrid.cc_grids_constrained_size(DIM_NUM, q_max, alpha,
@@ -635,11 +634,11 @@ internal class Program
                 q += alpha[dim] * grid_order[dim + j * DIM_NUM];
             }
 
-            string cout = "  " + (j + 1).ToString().PadLeft(8)
-                               + "  " + q.ToString().PadLeft(14);
+            string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_order[dim + j * DIM_NUM].ToString().PadLeft(8);
+                cout += "  " + grid_order[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -650,10 +649,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < point_num; j++)
         {
-            string cout = "  " + (j + 1).ToString().PadLeft(8);
+            string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_point[dim + j * DIM_NUM].ToString().PadLeft(12);
+                cout += "  " + grid_point[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -736,10 +735,10 @@ internal class Program
 
         for (dim = 0; dim < DIM_NUM; dim++)
         {
-            Console.WriteLine("  " + (dim + 1).ToString().PadLeft(8)
-                                   + "  " + level_min[dim].ToString().PadLeft(8)
-                                   + "  " + level_max[dim].ToString().PadLeft(8)
-                                   + "  " + alpha[dim].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (dim + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + level_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + level_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + alpha[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         ClenshawCurtisGrid.cc_levels_constrained_size(DIM_NUM, q_max, alpha,
@@ -770,11 +769,11 @@ internal class Program
                 q += alpha[dim] * grid_level[dim + j * DIM_NUM];
             }
 
-            string cout = "  " + (j + 1).ToString().PadLeft(8)
-                               + "  " + q.ToString().PadLeft(14);
+            string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_level[dim + j * DIM_NUM].ToString().PadLeft(8);
+                cout += "  " + grid_level[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -785,10 +784,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < point_num; j++)
         {
-            string cout = "  " + (j + 1).ToString().PadLeft(8);
+            string cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + grid_point[dim + j * DIM_NUM].ToString().PadLeft(12);
+                cout += "  " + grid_point[dim + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -838,13 +837,13 @@ internal class Program
             ClenshawCurtis.clenshaw_curtis_compute(order, ref x, ref w);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + order.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
             for (i = 0; i < order; i++)
             {
                 Console.WriteLine("          "
-                                  + "  " + w[i].ToString().PadLeft(14)
-                                  + "  " + x[i].ToString().PadLeft(14) + "");
+                                  + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -886,7 +885,7 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("     Order       W               X");
         Console.WriteLine("");
-        Console.WriteLine("  " + order.ToString().PadLeft(8) + "");
+        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         for (i = 1; i <= order; i++)
         {
@@ -894,8 +893,8 @@ internal class Program
             w = ClenshawCurtisGrid.cc_weight(order, i);
 
             Console.WriteLine("          "
-                              + "  " + w.ToString().PadLeft(14)
-                              + "  " + x.ToString().PadLeft(14) + "");
+                              + "  " + w.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -962,10 +961,10 @@ internal class Program
                 result[2] += weight[i] * f3(xtab[i]);
             }
 
-            string cout = "  " + order.ToString().PadLeft(6);
+            string cout = "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (j = 0; j < 3; j++)
             {
-                cout += "  " + result[j].ToString().PadLeft(14);
+                cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -980,7 +979,7 @@ internal class Program
         string cout2 = "  " + "Exact ";
         for (j = 0; j < 3; j++)
         {
-            cout2 += "  " + result[j].ToString().PadLeft(14);
+            cout2 += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout2);
@@ -1049,10 +1048,10 @@ internal class Program
                 result[2] += weight[i] * f3(xtab[i]);
             }
 
-            string cout = "  " + order.ToString().PadLeft(6);
+            string cout = "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (j = 0; j < 3; j++)
             {
-                cout += "  " + result[j].ToString().PadLeft(14);
+                cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1068,7 +1067,7 @@ internal class Program
         string cout2 = "  " + "Exact ";
         for (j = 0; j < 3; j++)
         {
-            cout2 += "  " + result[j].ToString().PadLeft(14);
+            cout2 += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout2);
@@ -1206,10 +1205,10 @@ internal class Program
 
         for (order = 0; order < order_nd; order++)
         {
-            string cout2 = "  " + weight[order].ToString().PadLeft(14);
+            string cout2 = "  " + weight[order].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout2 += "  " + point[dim + order * dim_num].ToString().PadLeft(14);
+                cout2 += "  " + point[dim + order * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout2);
@@ -1218,7 +1217,7 @@ internal class Program
         weight_sum = typeMethods.r8vec_sum(order_nd, weight);
 
         Console.WriteLine("");
-        Console.WriteLine("  " + weight_sum.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
     }
 
     private static void test09()
@@ -1294,10 +1293,10 @@ internal class Program
 
         for (order = 0; order < order_nd; order++)
         {
-            string cout2 = "  " + weight[order].ToString().PadLeft(14);
+            string cout2 = "  " + weight[order].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout2 += "  " + point[dim + order * dim_num].ToString().PadLeft(14);
+                cout2 += "  " + point[dim + order * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout2);
@@ -1306,7 +1305,7 @@ internal class Program
         weight_sum = typeMethods.r8vec_sum(order_nd, weight);
 
         Console.WriteLine("");
-        Console.WriteLine("  " + weight_sum.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
     }
 
     private static void test10()
@@ -1457,8 +1456,8 @@ internal class Program
 
         for (i = 0; i < test_num; i++)
         {
-            Console.WriteLine("  " + test_val[i].ToString().PadLeft(8)
-                                   + "  " + test_level[i].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + test_val[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + test_level[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1517,9 +1516,9 @@ internal class Program
 
         for (i = 0; i < test_num; i++)
         {
-            Console.WriteLine("  " + test_val[i].ToString().PadLeft(8)
-                                   + "  " + (test_val[i] % order).ToString().PadLeft(8)
-                                   + "  " + test_level[i].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + test_val[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (test_val[i] % order).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + test_level[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1594,9 +1593,9 @@ internal class Program
 
         for (k = 0; k < test_num; k++)
         {
-            Console.WriteLine("  " + test_val[0 + k * dim_num].ToString().PadLeft(8)
-                                   + "  " + test_val[1 + k * dim_num].ToString().PadLeft(8)
-                                   + "  " + test_level[k].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + test_val[0 + k * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + test_val[1 + k * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + test_level[k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 

@@ -849,7 +849,7 @@ public static class Element
             string cout = "";
             for ( i = 0; i < nnodes; i++ )
             {
-                cout += element_node[i+element*nnodes].ToString().PadLeft(8);
+                cout += element_node[i+element*nnodes].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
             output.Add(cout);
         }

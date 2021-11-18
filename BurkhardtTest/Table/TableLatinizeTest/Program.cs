@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Burkardt.IO;
 using Burkardt.Table;
 using Burkardt.Types;

@@ -58,28 +58,12 @@ public static partial class typeMethods
 
         for (i = 1; i <= m; i++)
         {
-            int ihi;
-            if (i < m)
-            {
-                ihi = mfat;
-            }
-            else
-            {
-                ihi = 0;
-            }
+            int ihi = i < m ? mfat : 0;
 
             int j;
             for (j = 1; j <= n; j++)
             {
-                int jhi;
-                if (j < n)
-                {
-                    jhi = nfat;
-                }
-                else
-                {
-                    jhi = 0;
-                }
+                int jhi = j < n ? nfat : 0;
 
                 int ip1;
                 if (i < m)

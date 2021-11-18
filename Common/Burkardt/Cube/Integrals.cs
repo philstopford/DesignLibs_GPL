@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Cube;
@@ -139,10 +140,10 @@ public class Integrals
 
                     value = cube_monomial(a, b, expon);
 
-                    Console.WriteLine("  " + expon[0].ToString().PadLeft(8)
-                                           + "  " + expon[1].ToString().PadLeft(8)
-                                           + "  " + expon[2].ToString().PadLeft(8)
-                                           + "  " + value.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Burkardt;
 using Burkardt.Function;
 using Burkardt.IO;
 using Burkardt.Types;
@@ -86,8 +85,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i <= 255; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + g_histo[i].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + g_histo[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         e = NEWS.news(m, n, g);

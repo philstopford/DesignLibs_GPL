@@ -3835,7 +3835,6 @@ public static class LebedevRule
         v = 0.1766854454542662e-3;
         n += gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.1108335359204799;
-        ;
         v = 0.2083153161230153e-3;
         n += gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.1476517054388567;

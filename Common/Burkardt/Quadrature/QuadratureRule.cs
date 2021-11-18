@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.SortNS;
 using Burkardt.Types;
@@ -186,8 +187,8 @@ public static class QuadratureRule
         Console.WriteLine("*********************************************");
         Console.WriteLine("*                                           *");
         Console.WriteLine("*  ERRORS:                                  *");
-        Console.WriteLine("*    L2 error =          " + el2.ToString().PadLeft(14) + "     *");
-        Console.WriteLine("*    H1-seminorm error = " + eh1.ToString().PadLeft(14) + "     *");
+        Console.WriteLine("*    L2 error =          " + el2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "     *");
+        Console.WriteLine("*    H1-seminorm error = " + eh1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "     *");
         Console.WriteLine("*                                           *");
         Console.WriteLine("*********************************************");
 
@@ -727,8 +728,8 @@ public static class QuadratureRule
 
         for ( j = 0; j < n; j++ )
         {
-            string cout = "  " + j.ToString().PadLeft(2)
-                               + "  " + w[j].ToString().PadLeft(10) + " * f (";
+            string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + " * f (";
             for ( i = 0; i < m; i++ )
             {
                 cout += x[i+j*m];

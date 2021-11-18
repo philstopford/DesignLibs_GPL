@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -617,7 +618,7 @@ public static partial class typeMethods
         {
             int digit = mantissa / mantissa_10;
             mantissa %= mantissa_10;
-            s[pos] = digit.ToString()[0];
+            s[pos] = digit.ToString(CultureInfo.InvariantCulture)[0];
             pos += 1;
             mantissa_10 /= 10;
             mantissa_exponent_copy -= 1;

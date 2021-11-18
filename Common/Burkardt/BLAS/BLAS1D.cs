@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.BLAS;
 
-public static partial class BLAS1D
+public static class BLAS1D
 {
     public static double dasum(int n, double[] x, int incx, int index = 0)
 
@@ -1268,7 +1268,7 @@ public static partial class BLAS1D
                 test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
                 ztest = test + Math.Abs(e[l - 1]);
 
-                if (ztest == test)
+                if (Math.Abs(ztest - test) <= double.Epsilon)
                 {
                     e[l - 1] = 0.0;
                     break;
@@ -1305,7 +1305,7 @@ public static partial class BLAS1D
 
                     ztest = test + Math.Abs(s[ls - 1]);
 
-                    if (ztest == test)
+                    if (Math.Abs(ztest - test) <= double.Epsilon)
                     {
                         s[ls - 1] = 0.0;
                         break;

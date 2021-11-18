@@ -225,7 +225,7 @@ internal class Program
 
         Console.WriteLine("  BOX_ND:         "
                           + result.ToString("0.############").PadLeft(20)
-                          + "  " + eval_num.ToString().PadLeft(8) + "");
+                          + "  " + eval_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
     }
 
@@ -283,7 +283,7 @@ internal class Program
 
         Console.WriteLine("  P5_ND:          "
                           + result.ToString("0.############").PadLeft(20)
-                          + "  " + eval_num.ToString().PadLeft(8) + "");
+                          + "  " + eval_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
     }
 
@@ -353,7 +353,7 @@ internal class Program
 
         Console.WriteLine("  ROMBERG_ND:     "
                           + result.ToString("0.############").PadLeft(20)
-                          + "  " + eval_num.ToString().PadLeft(8) + "");
+                          + "  " + eval_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
     }
 
@@ -403,7 +403,7 @@ internal class Program
 
         Console.WriteLine("  SAMPLE_ND:      "
                           + est2[K2 - 1].ToString("0.############").PadLeft(20)
-                          + "  " + eval_num.ToString().PadLeft(8) + "");
+                          + "  " + eval_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
     }
 
 
@@ -517,7 +517,7 @@ internal class Program
 
             Console.WriteLine("  P5_ND+:         "
                               + result_total.ToString("0.############").PadLeft(20)
-                              + "  " + eval_total.ToString().PadLeft(8) + "");
+                              + "  " + eval_total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -585,7 +585,7 @@ internal class Program
 
             Console.WriteLine("  MONTE_CARLO_ND: "
                               + result.ToString("0.################").PadLeft(20)
-                              + "  " + eval_num.ToString().PadLeft(8) + "");
+                              + "  " + eval_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 

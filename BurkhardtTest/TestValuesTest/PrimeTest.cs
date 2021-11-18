@@ -44,8 +44,8 @@ public class PrimeTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

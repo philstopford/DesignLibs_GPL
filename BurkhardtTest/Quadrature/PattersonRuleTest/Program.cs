@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.ClenshawCurtisNS;
 using Burkardt.OrderNS;
 using Burkardt.Quadrature;

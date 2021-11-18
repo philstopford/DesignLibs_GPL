@@ -241,31 +241,26 @@ public static partial class LynessRule
         //    Output, double X[2*ORDER], the points.
         //
     {
-        int k;
-        int o;
         int s;
-        int[] suborder;
-        int suborder_num;
-        double[] sub_w;
-        double[] sub_xyz;
         //
         //  Get the suborder information.
         //
-        suborder_num = lyness_suborder_num(rule);
+        int suborder_num = lyness_suborder_num(rule);
 
-        suborder = lyness_suborder(rule, suborder_num);
+        int[] suborder = lyness_suborder(rule, suborder_num);
 
-        sub_xyz = new double[3 * suborder_num];
-        sub_w = new double[suborder_num];
+        double[] sub_xyz = new double[3 * suborder_num];
+        double[] sub_w = new double[suborder_num];
 
         lyness_subrule(rule, suborder_num, ref sub_xyz, ref sub_w);
         //
         //  Expand the suborder information to a full order rule.
         //
-        o = 0;
+        int o = 0;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int k;
             switch (suborder[s])
             {
                 case 1:
@@ -347,9 +342,7 @@ public static partial class LynessRule
         //    Output, int LYNESS_RULE_NUM, the number of rules.
         //
     {
-        int rule_num;
-
-        rule_num = 21;
+        const int rule_num = 21;
 
         return rule_num;
     }

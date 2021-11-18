@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MonomialNS;
 using Burkardt.PyramidNS;
 using Burkardt.Types;
@@ -115,12 +114,12 @@ internal class Program
                     exact = Integrals.pyramid01_monomial_integral(expon);
                     error = Math.Abs(q - exact);
 
-                    Console.WriteLine("  " + expon[0].ToString().PadLeft(2)
-                                           + "  " + expon[1].ToString().PadLeft(2)
-                                           + "  " + expon[2].ToString().PadLeft(2)
-                                           + "  " + q.ToString().PadLeft(14)
-                                           + "  " + exact.ToString().PadLeft(14)
-                                           + "  " + error.ToString().PadLeft(12) + "");
+                    Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
                 }
             }

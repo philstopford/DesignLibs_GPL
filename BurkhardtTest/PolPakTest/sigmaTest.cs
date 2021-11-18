@@ -49,9 +49,9 @@ public static class sigmaTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c.ToString().PadLeft(10) + "  "
-                              + Sigma.sigma(n).ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + Sigma.sigma(n).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

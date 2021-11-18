@@ -178,9 +178,9 @@ public static class SineTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + a + "  "
-                              + b.ToString().PadLeft(8) + b + "  "
-                              + n.ToString().PadLeft(6) + n + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + a + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + b + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + n + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Burkardt.Types;
@@ -70,10 +71,10 @@ public static partial class typeMethods
             int i = indx[node];
             double uh = f[i-1];
 
-            Console.WriteLine(x.ToString().PadLeft(12)  + "  "
-                                                        + y.ToString().PadLeft(12)  + "  "
-                                                        + uh.ToString().PadLeft(12) + "  "
-                                                        + u.ToString().PadLeft(12)  + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "  "
+                                                                        + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "  "
+                                                                        + uh.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                        + u.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "");
         }
     }
     public static void solution_write ( double[] f, int[] indx, int node_num, int nunk,
@@ -136,7 +137,7 @@ public static partial class typeMethods
                 }
             }
 
-            output.Add(u.ToString().PadLeft(14));
+            output.Add(u.ToString(CultureInfo.InvariantCulture).PadLeft(14));
         }
 
         try

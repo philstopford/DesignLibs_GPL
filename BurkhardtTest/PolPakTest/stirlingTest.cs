@@ -42,10 +42,10 @@ public static class stirlingTest
 
         for ( i = 0; i < m; i++ )
         {
-            string cout = (i+1).ToString().PadLeft(6) + "  ";
+            string cout = (i+1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for ( j = 0; j < n; j++ )
             {
-                cout += s1[i+j*m].ToString().PadLeft(6) + "  ";
+                cout += s1[i+j*m].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
             Console.WriteLine(cout);
         }
@@ -90,10 +90,10 @@ public static class stirlingTest
 
         for ( i = 0; i < M; i++ )
         {
-            string cout = (i+1).ToString().PadLeft(6) + "  ";
+            string cout = (i+1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for ( j = 0; j < N; j++ )
             {
-                cout += s2[i+j*M].ToString().PadLeft(6) + "  ";
+                cout += s2[i+j*M].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
             Console.WriteLine(cout);
         }

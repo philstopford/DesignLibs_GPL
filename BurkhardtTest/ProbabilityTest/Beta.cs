@@ -68,12 +68,12 @@ internal partial class Program
             cdf = Beta.beta_cdf(x, a, b);
             x2 = Beta.beta_cdf_inv(cdf, a, b);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(12)
-                                   + "  " + b.ToString().PadLeft(12)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -126,11 +126,11 @@ internal partial class Program
             double fx2 = Beta.beta_inc(a, b, x);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + b.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(16) + "  "
-                              + fx2.ToString().PadLeft(16) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
     }
@@ -281,10 +281,10 @@ internal partial class Program
             x2 = Beta.beta_binomial_cdf_inv(cdf, a, b, c);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.AppliedStatistics;
 using Burkardt.BLAS;
 using Burkardt.Types;
 
@@ -447,7 +446,7 @@ public static class DSVDC
                 test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
                 ztest = test + Math.Abs(e[l - 1]);
 
-                if (ztest == test)
+                if (Math.Abs(ztest - test) <= double.Epsilon)
                 {
                     e[l - 1] = 0.0;
                     break;
@@ -482,7 +481,7 @@ public static class DSVDC
 
                     ztest = test + Math.Abs(s[ls - 1]);
 
-                    if (ztest == test)
+                    if (Math.Abs(ztest - test) <= double.Epsilon)
                     {
                         s[ls - 1] = 0.0;
                         break;

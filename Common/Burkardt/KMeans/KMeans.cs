@@ -1137,8 +1137,6 @@ public static class KMeans
                 }
             }
         }
-
-        return;
     }
 
     public static void kmeans_03(int dim_num, int point_num, int cluster_num, int it_max,

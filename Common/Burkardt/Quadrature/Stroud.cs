@@ -3718,7 +3718,6 @@ using Burkardt.Types;
                           for (i1 = 0; i1 < n; i1++)
                           {
                                x[i1 + k * n] = x[i1 + (k - 2) * n];
-                               ;
                           }
 
                           x[i + k * n] = Math.Abs(x[i + k * n]);

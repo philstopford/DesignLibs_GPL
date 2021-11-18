@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Probability;
 using Burkardt.SolveNS;
 using Burkardt.Types;
@@ -136,14 +135,14 @@ internal class Program
 
             if (flag != 0)
             {
-                Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                       + "  " + m.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(4)
-                                       + "  " + b_norm.ToString().PadLeft(12)
+                Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + "------------"
-                                       + "  " + x1_norm.ToString().PadLeft(12)
+                                       + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + "------------"
-                                       + "  " + r1_norm.ToString().PadLeft(12)
+                                       + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + "------------" + "");
             }
             else
@@ -163,15 +162,15 @@ internal class Program
                 //
                 //  Report results for this problem.
                 //
-                Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                       + "  " + m.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(4)
-                                       + "  " + b_norm.ToString().PadLeft(12)
-                                       + "  " + x_diff_norm.ToString().PadLeft(12)
-                                       + "  " + x1_norm.ToString().PadLeft(12)
-                                       + "  " + x2_norm.ToString().PadLeft(12)
-                                       + "  " + r1_norm.ToString().PadLeft(12)
-                                       + "  " + r2_norm.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + x_diff_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + x2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + r2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
 
@@ -275,15 +274,15 @@ internal class Program
             //
             //  Report results for this problem.
             //
-            Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + n.ToString().PadLeft(4)
-                                   + "  " + b_norm.ToString().PadLeft(12)
-                                   + "  " + x_diff_norm.ToString().PadLeft(12)
-                                   + "  " + x1_norm.ToString().PadLeft(12)
-                                   + "  " + x2_norm.ToString().PadLeft(12)
-                                   + "  " + r1_norm.ToString().PadLeft(12)
-                                   + "  " + r2_norm.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x_diff_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -383,15 +382,15 @@ internal class Program
             //
             //  Report results for this problem.
             //
-            Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + n.ToString().PadLeft(4)
-                                   + "  " + b_norm.ToString().PadLeft(12)
-                                   + "  " + x_diff_norm.ToString().PadLeft(12)
-                                   + "  " + x1_norm.ToString().PadLeft(12)
-                                   + "  " + x2_norm.ToString().PadLeft(12)
-                                   + "  " + r1_norm.ToString().PadLeft(12)
-                                   + "  " + r2_norm.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x_diff_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

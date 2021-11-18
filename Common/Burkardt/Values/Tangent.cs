@@ -169,7 +169,7 @@ public static class Tangent
         //    Output, ref double FX, the value of the function.
         //
     {
-        int N_MAX = 18;
+        const int N_MAX = 18;
 
         double[] fx_vec =
         {

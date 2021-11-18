@@ -240,7 +240,7 @@ public static class Monomial
         for ( dim = 0; dim < dim_num; dim++ )
         {
             value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( Math.PI ) 
-                    / (int)Math.Pow ( 2, expon[dim] / 2 );
+                    / (int)Math.Pow ( 2, (double)expon[dim] / 2 );
         }
 
         return value;
@@ -296,7 +296,7 @@ public static class Monomial
                 value = (expon % 2) switch
                 {
                     1 => 0.0,
-                    _ => typeMethods.r8_factorial2(expon - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, expon / 2)
+                    _ => typeMethods.r8_factorial2(expon - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, (double)expon / 2)
                 };
 
                 break;

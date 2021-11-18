@@ -64,10 +64,10 @@ public static partial class Triangulation
         //
     {
         int i;
-        int j;
 
         for ( i = 0; i < 2; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 phy[i+j*2] = t[i+0*2] * ( 1.0 - ref_[0+j*2] - ref_[1+j*2] )

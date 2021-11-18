@@ -188,8 +188,8 @@ internal partial class Program
         for (n = 1; n <= 6; n++)
         {
             npart = Ranking.setpart_enum(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + npart.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + npart.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -243,7 +243,7 @@ internal partial class Program
             string cout = "";
             for (j = jlo; j <= index[i - 1]; j++)
             {
-                cout += "  " + s[j - 1].ToString().PadLeft(4);
+                cout += "  " + s[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

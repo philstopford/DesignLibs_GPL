@@ -67,9 +67,9 @@ internal partial class Program
             cdf = FProb.f_cdf(x, m, n);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

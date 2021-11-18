@@ -46,7 +46,6 @@ public static partial class typeMethods
         //
     {
         string[] input;
-        int j;
 
         try
         {
@@ -62,7 +61,7 @@ public static partial class typeMethods
 
         double[] table = new double[m*n];
             
-        j = 0;
+        int j = 0;
 
         int index = 0;
 

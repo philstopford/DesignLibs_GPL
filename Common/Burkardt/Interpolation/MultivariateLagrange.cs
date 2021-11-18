@@ -191,7 +191,6 @@ public static class MultivariateLagrange
         int k;
         int l;
         int o;
-        ;
         int oj;
         int ok = 0;
         double[] qc;
@@ -542,7 +541,6 @@ public static class MultivariateLagrange
         int k;
         int l;
         int o;
-        ;
         int oj;
         int ok = 0;
         double[] qc;

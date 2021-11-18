@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace Burkardt.BLAS;
 
-public static partial class BLAS0
+public static class BLAS0
 {
     public static Complex c4_uniform_01(ref int seed)
 

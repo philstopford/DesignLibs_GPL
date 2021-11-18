@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace Burkardt.Types;
@@ -128,8 +129,8 @@ public static partial class typeMethods
         Console.WriteLine("");
         for ( i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + ": " + a[i].ToString().PadLeft(24)  + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(24)  + "");
         }
     }
 

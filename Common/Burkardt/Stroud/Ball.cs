@@ -121,7 +121,6 @@ public static class Ball
 
         t = Math.Sqrt(2.0 * (n + 1) / (n + 2))
             / (n * temp);
-        ;
 
         y = (1.0 + 2.0 / (n * temp)) / (n + 2);
         v = Math.Sqrt(y - t);

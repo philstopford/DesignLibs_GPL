@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.FEM;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;
 using Burkardt.Types;

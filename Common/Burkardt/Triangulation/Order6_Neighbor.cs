@@ -56,21 +56,13 @@ public static partial class Neighbor
         //    on the boundary of the triangulation.
         //
     {
-        int[] col;
         int i;
-        int icol;
         int j;
-        int k;
-        int side1;
-        int side2;
         int tri;
-        int triangle_order = 6;
-        int tri1;
-        int tri2;
-        int[] triangle_neighbor;
+        const int triangle_order = 6;
 
-        triangle_neighbor = new int[3 * triangle_num];
-        col = new int[4 * 3 * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] col = new int[4 * 3 * triangle_num];
         //
         //  Step 1.
         //  From the list of nodes for triangle T, of the form: (I,J,K)
@@ -86,7 +78,7 @@ public static partial class Neighbor
         {
             i = triangle_node[0 + tri * triangle_order];
             j = triangle_node[1 + tri * triangle_order];
-            k = triangle_node[2 + tri * triangle_order];
+            int k = triangle_node[2 + tri * triangle_order];
 
             if (i < j)
             {
@@ -159,7 +151,7 @@ public static partial class Neighbor
             }
         }
 
-        icol = 1;
+        int icol = 1;
 
         for (;;)
         {
@@ -175,10 +167,10 @@ public static partial class Neighbor
                 continue;
             }
 
-            side1 = col[2 + (icol - 1) * 4];
-            tri1 = col[3 + (icol - 1) * 4];
-            side2 = col[2 + icol * 4];
-            tri2 = col[3 + icol * 4];
+            int side1 = col[2 + (icol - 1) * 4];
+            int tri1 = col[3 + (icol - 1) * 4];
+            int side2 = col[2 + icol * 4];
+            int tri2 = col[3 + icol * 4];
 
             triangle_neighbor[side1 - 1 + (tri1 - 1) * 3] = tri2;
             triangle_neighbor[side2 - 1 + (tri2 - 1) * 3] = tri1;
@@ -237,17 +229,10 @@ public static partial class Neighbor
         //
     {
         int i;
-        int irow;
         int j;
-        int k;
-        int[] row;
-        int side1;
-        int side2;
         int tri;
-        int tri1;
-        int tri2;
 
-        row = new int[3 * triangle_num * 4];
+        int[] row = new int[3 * triangle_num * 4];
         //
         //  Step 1.
         //  From the list of nodes for triangle T, of the form: (I,J,K)
@@ -263,7 +248,7 @@ public static partial class Neighbor
         {
             i = triangle_node[0 + tri * 6];
             j = triangle_node[1 + tri * 6];
-            k = triangle_node[2 + tri * 6];
+            int k = triangle_node[2 + tri * 6];
 
             if (i < j)
             {
@@ -336,7 +321,7 @@ public static partial class Neighbor
             }
         }
 
-        irow = 1;
+        int irow = 1;
 
         for (;;)
         {
@@ -352,10 +337,10 @@ public static partial class Neighbor
                 continue;
             }
 
-            side1 = row[irow - 1 + 2 * 3 * triangle_num];
-            tri1 = row[irow - 1 + 3 * 3 * triangle_num];
-            side2 = row[irow + 2 * 3 * triangle_num];
-            tri2 = row[irow + 3 * 3 * triangle_num];
+            int side1 = row[irow - 1 + 2 * 3 * triangle_num];
+            int tri1 = row[irow - 1 + 3 * 3 * triangle_num];
+            int side2 = row[irow + 2 * 3 * triangle_num];
+            int tri2 = row[irow + 3 * 3 * triangle_num];
 
             triangle_neighbor[side1 - 1 + (tri1 - 1) * 3] = tri2;
             triangle_neighbor[side2 - 1 + (tri2 - 1) * 3] = tri1;

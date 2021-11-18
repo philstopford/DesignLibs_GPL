@@ -123,7 +123,7 @@ public static class Zero
             {
                 s = fb / fa;
 
-                if (sa == c)
+                if (Math.Abs(sa - c) <= double.Epsilon)
                 {
                     p = 2.0 * m * s;
                     q = 1.0 - s;

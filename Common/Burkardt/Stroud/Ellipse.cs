@@ -106,7 +106,7 @@ public static class Ellipse
         double term;
         double value = 0;
 
-        if (r1 == r2)
+        if (Math.Abs(r1 - r2) <= double.Epsilon)
         {
             value = 2.0 * Math.PI * r1;
             return value;

@@ -63,13 +63,13 @@ public static class TriangleTest
 
             rank += 1;
 
-            Console.WriteLine("  " + rank.ToString().PadLeft(4) + "  "
-                              + "  " + i1.ToString().PadLeft(2)
-                              + "  " + j1.ToString().PadLeft(2) + "  "
-                              + "  " + i2.ToString().PadLeft(2)
-                              + "  " + j2.ToString().PadLeft(2) + "  "
-                              + "  " + i3.ToString().PadLeft(2)
-                              + "  " + j3.ToString().PadLeft(2) + ""); 
+            Console.WriteLine("  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + "  " + i3.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + j3.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ""); 
 
             if ( !more )
             {

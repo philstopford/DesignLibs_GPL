@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 
 namespace SubsetTestNS;
@@ -44,50 +43,50 @@ public static class JosephusTest
         k = 41;
         x = Josephus.josephus(n, m, k);
 
-        Console.WriteLine(n.ToString().PadLeft(5) + "  "
-                                                  + m.ToString().PadLeft(5) + "  "
-                                                  + k.ToString().PadLeft(5) + "  "
-                                                  + x.ToString().PadLeft(5) + "");
+        Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + m.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
 
         m = -38;
         n = 41;
         k = 41;
         x = Josephus.josephus(n, m, k);
 
-        Console.WriteLine(n.ToString().PadLeft(5) + "  "
-                                                  + m.ToString().PadLeft(5) + "  "
-                                                  + k.ToString().PadLeft(5) + "  "
-                                                  + x.ToString().PadLeft(5) + "");
+        Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + m.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
 
         m = 3;
         n = 41;
         k = 40;
         x = Josephus.josephus(n, m, k);
 
-        Console.WriteLine(n.ToString().PadLeft(5) + "  "
-                                                  + m.ToString().PadLeft(5) + "  "
-                                                  + k.ToString().PadLeft(5) + "  "
-                                                  + x.ToString().PadLeft(5) + "");
+        Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + m.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
 
         m = 2;
         n = 64;
         k = 64;
         x = Josephus.josephus(n, m, k);
 
-        Console.WriteLine(n.ToString().PadLeft(5) + "  "
-                                                  + m.ToString().PadLeft(5) + "  "
-                                                  + k.ToString().PadLeft(5) + "  "
-                                                  + x.ToString().PadLeft(5) + "");
+        Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + m.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
 
         m = 2;
         n = 1000;
         k = 1000;
         x = Josephus.josephus(n, m, k);
 
-        Console.WriteLine(n.ToString().PadLeft(5) + "  "
-                                                  + m.ToString().PadLeft(5) + "  "
-                                                  + k.ToString().PadLeft(5) + "  "
-                                                  + x.ToString().PadLeft(5) + "");
+        Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + m.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
     }
 
 }

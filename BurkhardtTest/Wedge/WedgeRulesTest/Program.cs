@@ -1,10 +1,7 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
-using Burkardt.Wedge;
-
 using QuadratureRule = Burkardt.Wedge.QuadratureRule;
 
 namespace WedgeRulesTest;
@@ -107,10 +104,10 @@ internal class Program
                 {
                     expon[2] = gamma;
                     value = QuadratureRule.wedge_integral(expon);
-                    Console.WriteLine(expon[0].ToString().PadLeft(8) + "  "
-                                                                     + expon[1].ToString().PadLeft(8) + "  "
-                                                                     + expon[2].ToString().PadLeft(8) + "  "
-                                                                     + value.ToString().PadLeft(14) + "");
+                    Console.WriteLine(expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                     + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                     + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                     + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -190,9 +187,9 @@ internal class Program
 
             Console.WriteLine("");
             Console.WriteLine("  Monomial exponents:   "
-                              + expon[0].ToString().PadLeft(2) + "  "
-                              + expon[1].ToString().PadLeft(2) + "  "
-                              + expon[2].ToString().PadLeft(2) + "");
+                              + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             Console.WriteLine("");
 
             for (test = 0; test < test_num; test++)
@@ -207,15 +204,15 @@ internal class Program
                 QuadratureRule.wedge_rule(line_order, triangle_order, ref w, ref xyz);
                 v = Monomial.monomial_value(dim_num, order, expon, xyz);
                 quad = QuadratureRule.wedge_volume() * typeMethods.r8vec_dot_product(order, w, v);
-                Console.WriteLine(triangle_order.ToString().PadLeft(6) + "  "
-                                                                       + line_order.ToString().PadLeft(6) + "  "
-                                                                       + quad.ToString().PadLeft(14) + "");
+                Console.WriteLine(triangle_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                       + line_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                       + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
             quad = QuadratureRule.wedge_integral(expon);
             Console.WriteLine("   Exact        "
-                              + quad.ToString().PadLeft(14) + "");
+                              + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {
@@ -320,10 +317,10 @@ internal class Program
             QuadratureRule.wedge_rule(line_order, triangle_order, ref w, ref x);
             typeMethods.r8mat_write(w_filename, 1, order, w);
             typeMethods.r8mat_write(x_filename, dim_num, order, x);
-            Console.WriteLine(rule.ToString().PadLeft(6) + "  "
-                                                         + triangle_order.ToString().PadLeft(6) + "  "
-                                                         + line_order.ToString().PadLeft(6) + "  "
-                                                         + order.ToString().PadLeft(6) + "  "
+            Console.WriteLine(rule.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + triangle_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + line_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                                                          + w_filename + "  "
                                                          + x_filename + "");
 

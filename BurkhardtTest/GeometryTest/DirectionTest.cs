@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Geometry;
 
 namespace GeometryTest;
@@ -65,9 +66,9 @@ public static class DirectionTest
             for (i = 0; i < 20; i++)
             {
                 vran = Direction.direction_pert_3d(sigma, vbase, ref seed);
-                Console.WriteLine("  " + vran[0].ToString().PadLeft(10)
-                                       + "  " + vran[1].ToString().PadLeft(10)
-                                       + "  " + vran[2].ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + vran[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + vran[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + vran[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -113,9 +114,9 @@ public static class DirectionTest
         for (i = 0; i < 10; i++)
         {
             vran = Direction.direction_uniform_3d(ref seed);
-            Console.WriteLine("  " + vran[0].ToString().PadLeft(10)
-                                   + "  " + vran[1].ToString().PadLeft(10)
-                                   + "  " + vran[2].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + vran[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + vran[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + vran[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -159,7 +160,7 @@ public static class DirectionTest
             string cout = "";
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + vran[j].ToString().PadLeft(8);
+                cout += "  " + vran[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);

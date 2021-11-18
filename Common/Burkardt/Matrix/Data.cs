@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
@@ -238,15 +239,15 @@ public static class Data
         string cout = "        ";
         for (i = 0; i < ntab; i++)
         {
-            cout += xtab[i].ToString().PadLeft(10) + "  ";
+            cout += xtab[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
-        cout = 0.ToString().PadLeft(6) + "  ";
+        cout = 0.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
         for (i = 0; i < ntab; i++)
         {
-            cout += ytab[i].ToString().PadLeft(10) + "  ";
+            cout += ytab[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -263,7 +264,7 @@ public static class Data
         //
         for (i = 1; i <= ntab - 1; i++)
         {
-            cout = i.ToString().PadLeft(6) + "  ";
+            cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (j = ntab - 1; i <= j; j--)
             {
                 diftab[j] = (diftab[j] - diftab[j - 1]) / (xtab[j] - xtab[j - i]);
@@ -271,7 +272,7 @@ public static class Data
 
             for (j = i; j < ntab; j++)
             {
-                cout += diftab[j].ToString().PadLeft(10) + "  ";
+                cout += diftab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);

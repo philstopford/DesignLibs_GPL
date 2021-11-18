@@ -42,7 +42,7 @@ public class DoubleValue : Value
     /// Returns the value as a string
     /// </summary>
     /// <returns>value as string</returns>
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         return ToString(CultureInfo.InvariantCulture);
     }

@@ -56,9 +56,9 @@ public static class zetaTest
 
             z2 = Zeta.zeta_m1(p, tol);
 
-            Console.WriteLine("  " + p.ToString().PadLeft(8)
-                                   + "  " + z1.ToString().PadLeft(20)
-                                   + "  " + z2.ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
 
         }
 
@@ -113,9 +113,9 @@ public static class zetaTest
 
             z2 = Zeta.zeta_naive(n_real);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + z1.ToString().PadLeft(20)
-                                   + "  " + z2.ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 }

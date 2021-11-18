@@ -9,7 +9,7 @@ public static partial class typeMethods
     {
         public int nterf;
         public double sqeps;
-        public double sqrtpi = 1.77245385090551602729816748334115;
+        public const double sqrtpi = 1.77245385090551602729816748334115;
         public double xbig;
 
     }
@@ -83,7 +83,7 @@ public static partial class typeMethods
         {
             case 0:
                 data.nterf = inits(erfcs, 21, 0.1 * r8_mach(3));
-                data.xbig = Math.Sqrt(-Math.Log(data.sqrtpi * r8_mach(3)));
+                data.xbig = Math.Sqrt(-Math.Log(r8ErrorData.sqrtpi * r8_mach(3)));
                 data.sqeps = Math.Sqrt(2.0 * r8_mach(3));
                 break;
         }
@@ -92,7 +92,7 @@ public static partial class typeMethods
 
         if (y <= data.sqeps)
         {
-            value = 2.0 * x / data.sqrtpi;
+            value = 2.0 * x / r8ErrorData.sqrtpi;
         }
         else
         {
@@ -136,7 +136,7 @@ public static partial class typeMethods
         public int nterf;
         public int nterfc;
         public double sqeps;
-        public double sqrtpi = 1.77245385090551602729816748334115;
+        public const double sqrtpi = 1.77245385090551602729816748334115;
         public double xmax;
         public double xsml;
 
@@ -331,8 +331,8 @@ public static partial class typeMethods
                 data.nterfc = inits(erfccs, 59, eta);
                 data.nterc2 = inits(erc2cs, 49, eta);
 
-                data.xsml = -Math.Sqrt(-Math.Log(data.sqrtpi * r8_mach(3)));
-                data.xmax = Math.Sqrt(-Math.Log(data.sqrtpi * r8_mach(1)));
+                data.xsml = -Math.Sqrt(-Math.Log(r8ErrorcData.sqrtpi * r8_mach(3)));
+                data.xmax = Math.Sqrt(-Math.Log(r8ErrorcData.sqrtpi * r8_mach(1)));
                 data.xmax = data.xmax - 0.5 * Math.Log(data.xmax) / data.xmax - 0.01;
                 data.sqeps = Math.Sqrt(2.0 * r8_mach(3));
                 break;
@@ -357,7 +357,7 @@ public static partial class typeMethods
 
         if (y < data.sqeps)
         {
-            value = 1.0 - 2.0 * x / data.sqrtpi;
+            value = 1.0 - 2.0 * x / r8ErrorcData.sqrtpi;
             return value;
         }
 

@@ -94,11 +94,9 @@ public static partial class typeMethods
                                 Console.WriteLine("  SUM2 = " + sum2 + "");
                                 return null;
                             }
-                            else
-                            {
-                                flag = 1;
-                                c[i + j * n] = 0.0;
-                            }
+
+                            flag = 1;
+                            c[i + j * n] = 0.0;
 
                             break;
                         }

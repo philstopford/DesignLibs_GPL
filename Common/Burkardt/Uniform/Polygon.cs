@@ -116,11 +116,13 @@ public static class Polygon
             int k;
             for (k = 0; k < nv; k++)
             {
-                if (u <= area[k])
+                if (!(u <= area[k]))
                 {
-                    triangle = k;
-                    break;
+                    continue;
                 }
+
+                triangle = k;
+                break;
             }
 
             //

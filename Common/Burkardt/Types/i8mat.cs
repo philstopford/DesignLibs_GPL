@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Burkardt.Table;
@@ -269,7 +270,7 @@ public static partial class typeMethods
             int j;
             for ( j = j2lo; j <= j2hi; j++ )
             {
-                cout += j.ToString().PadLeft(6) + "  ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
             Console.WriteLine(cout);
             Console.WriteLine("  Row");
@@ -291,10 +292,10 @@ public static partial class typeMethods
                 //
                 //  Print out (up to INCX) entries in row I, that lie in the current strip.
                 //
-                cout += i.ToString().PadLeft(5) + "  ";
+                cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  ";
                 for ( j = j2lo; j <= j2hi; j++ )
                 {
-                    cout += a[i-1+(j-1)*m].ToString().PadLeft(6) + "  ";
+                    cout += a[i-1+(j-1)*m].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                 }
                 Console.WriteLine(cout);
             }
@@ -341,7 +342,7 @@ public static partial class typeMethods
             string line = "";
             for (int i = 0; i < m; i++ )
             {
-                line += "  " + table[i+j*m].ToString().PadLeft(10);
+                line += "  " + table[i+j*m].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             outData[j] = line;

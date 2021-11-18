@@ -45,10 +45,10 @@ internal partial class Program
             cdf = Benford.benford_cdf(n);
             pdf = Benford.benford_pdf(n);
             cdf2 += pdf;
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + cdf2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -61,10 +61,10 @@ internal partial class Program
             cdf = Benford.benford_cdf(n);
             pdf = Benford.benford_pdf(n);
             cdf2 += pdf;
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + cdf2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -103,8 +103,8 @@ internal partial class Program
         for (n = 1; n <= 9; n++)
         {
             pdf = Benford.benford_pdf(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -114,8 +114,8 @@ internal partial class Program
         for (n = 10; n <= 99; n++)
         {
             pdf = Benford.benford_pdf(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

@@ -98,26 +98,10 @@ public static class Search
         //    -3, outside the convex hull of the triangulation, past edge 3.
         //
     {
-        int a;
-        double alpha;
-        int b;
-        double beta;
-        int c;
-        int count;
-        double det;
-        double dxp;
-        double dxa;
-        double dxb;
-        double dyp;
-        double dya;
-        double dyb;
-        double gamma;
-        int seed;
-
-        count = 0;
+        int count = 0;
         edge = 0;
 
-        seed = RNG.nextint();
+        int seed = RNG.nextint();
 
         triangle = UniformRNG.i4_uniform(1, triangle_num, ref seed);
 
@@ -139,30 +123,30 @@ public static class Search
             //
             //  Get the vertices of triangle TRIANGLE.
             //
-            a = triangle_node[0 + (triangle - 1) * triangle_order] - 1;
-            b = triangle_node[1 + (triangle - 1) * triangle_order] - 1;
-            c = triangle_node[2 + (triangle - 1) * triangle_order] - 1;
+            int a = triangle_node[0 + (triangle - 1) * triangle_order] - 1;
+            int b = triangle_node[1 + (triangle - 1) * triangle_order] - 1;
+            int c = triangle_node[2 + (triangle - 1) * triangle_order] - 1;
             //
             //  Using vertex C as a base, compute the distances to vertices A and B,
             //  and the point (X,Y).
             //
-            dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
-            dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
+            double dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+            double dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
 
-            dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
-            dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
+            double dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+            double dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-            dxp = p[0 + pIndex] - node_xy[0 + c * 2];
-            dyp = p[1 + pIndex] - node_xy[1 + c * 2];
+            double dxp = p[0 + pIndex] - node_xy[0 + c * 2];
+            double dyp = p[1 + pIndex] - node_xy[1 + c * 2];
 
-            det = dxa * dyb - dya * dxb;
+            double det = dxa * dyb - dya * dxb;
             //
             //  Compute the barycentric coordinates of the point (X,Y) with respect
             //  to this triangle.
             //
-            alpha = (dxp * dyb - dyp * dxb) / det;
-            beta = (dxa * dyp - dya * dxp) / det;
-            gamma = 1.0 - alpha - beta;
+            double alpha = (dxp * dyb - dyp * dxb) / det;
+            double beta = (dxa * dyp - dya * dxp) / det;
+            double gamma = 1.0 - alpha - beta;
             //
             //  If the barycentric coordinates are all positive, then the point
             //  is inside the triangle and we're done.
@@ -326,17 +310,6 @@ public static class Search
         //
         //    Output, int *STEP_NUM, the number of steps.
     {
-        int a;
-        int b;
-        int c;
-        double det;
-        double dxp;
-        double dxa;
-        double dxb;
-        double dyp;
-        double dya;
-        double dyb;
-
         step_num = -1;
         edge = 0;
 
@@ -365,23 +338,23 @@ public static class Search
             //
             //  Get the vertices of triangle TRIANGLE.
             //
-            a = triangle_node[0 + triangle_index * triangle_order];
-            b = triangle_node[1 + triangle_index * triangle_order];
-            c = triangle_node[2 + triangle_index * triangle_order];
+            int a = triangle_node[0 + triangle_index * triangle_order];
+            int b = triangle_node[1 + triangle_index * triangle_order];
+            int c = triangle_node[2 + triangle_index * triangle_order];
             //
             //  Using vertex C as a base, compute the distances to vertices A and B,
             //  and the point (X,Y).
             //
-            dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
-            dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
+            double dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+            double dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
 
-            dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
-            dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
+            double dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+            double dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-            dxp = p[(pIndex + 0 + p.Length) % p.Length] - node_xy[(0 + c * 2 + node_xy.Length) % node_xy.Length];
-            dyp = p[(pIndex + 1 + p.Length) % p.Length] - node_xy[(1 + c * 2 + node_xy.Length) % node_xy.Length];
+            double dxp = p[(pIndex + 0 + p.Length) % p.Length] - node_xy[(0 + c * 2 + node_xy.Length) % node_xy.Length];
+            double dyp = p[(pIndex + 1 + p.Length) % p.Length] - node_xy[(1 + c * 2 + node_xy.Length) % node_xy.Length];
 
-            det = dxa * dyb - dya * dxb;
+            double det = dxa * dyb - dya * dxb;
             //
             //  Compute the barycentric coordinates of the point (X,Y) with respect
             //  to this triangle.
@@ -511,64 +484,50 @@ public static class Search
         //    the point.
         //
     {
-        int a;
-        double alpha;
-        int b;
-        double beta;
-        int c;
-        double det;
-        double dxp;
-        double dxa;
-        double dxb;
-        double dyp;
-        double dya;
-        double dyb;
-        double gamma;
         int triangle;
-        int triangle_index;
 
-        triangle_index = -1;
+        int triangle_index = -1;
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
             //
             //  Get the vertices of triangle TRIANGLE.
             //
-            a = triangle_node[0 + triangle * triangle_order];
-            b = triangle_node[1 + triangle * triangle_order];
-            c = triangle_node[2 + triangle * triangle_order];
+            int a = triangle_node[0 + triangle * triangle_order];
+            int b = triangle_node[1 + triangle * triangle_order];
+            int c = triangle_node[2 + triangle * triangle_order];
             //
             //  Using vertex C as a base, compute the distances to vertices A and B,
             //  and the point (X,Y).
             //
-            dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
-            dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
+            double dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+            double dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
 
-            dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
-            dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
+            double dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+            double dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-            dxp = p[(pIndex + 0 + p.Length) % p.Length] - node_xy[(0 + c * 2 + node_xy.Length) % node_xy.Length];
-            dyp = p[(pIndex + 1 + p.Length) % p.Length] - node_xy[(1 + c * 2 + node_xy.Length) % node_xy.Length];
+            double dxp = p[(pIndex + 0 + p.Length) % p.Length] - node_xy[(0 + c * 2 + node_xy.Length) % node_xy.Length];
+            double dyp = p[(pIndex + 1 + p.Length) % p.Length] - node_xy[(1 + c * 2 + node_xy.Length) % node_xy.Length];
 
-            det = dxa * dyb - dya * dxb;
+            double det = dxa * dyb - dya * dxb;
             //
             //  Compute the barycentric coordinates of the point (X,Y) with respect
             //  to this triangle.
             //
-            alpha = (dxp * dyb - dyp * dxb) / det;
-            beta = (dxa * dyp - dya * dxp) / det;
-            gamma = 1.0 - alpha - beta;
+            double alpha = (dxp * dyb - dyp * dxb) / det;
+            double beta = (dxa * dyp - dya * dxp) / det;
+            double gamma = 1.0 - alpha - beta;
             //
             //  If the barycentric coordinates are all positive, then the point
             //  is inside the triangle and we're done.
             //
-            if (0.0 <= alpha &&
-                0.0 <= beta &&
-                0.0 <= gamma)
+            if (!(0.0 <= alpha) || !(0.0 <= beta) || !(0.0 <= gamma))
             {
-                triangle_index = triangle + 1;
-                break;
+                continue;
             }
+
+            triangle_index = triangle + 1;
+            break;
         }
 
         return triangle_index;

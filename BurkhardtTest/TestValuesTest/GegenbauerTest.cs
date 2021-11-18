@@ -47,9 +47,9 @@ public static class GegenbauerTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + a.ToString().PadLeft(10) + "  "
-                              + x.ToString().PadLeft(10) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

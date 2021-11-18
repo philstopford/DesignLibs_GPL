@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using Burkardt.Uniform;
 
@@ -210,17 +211,17 @@ public static partial class typeMethods
     {
         int k;
 
-        bool check = true;
         //
         //  Check 1 <= ROW(*) <= M.
         //
         for (k = 0; k < nz_num; k++)
         {
-            if (row[k] < 0 || m <= row[k])
+            if (row[k] >= 0 && m > row[k])
             {
-                check = false;
-                return check;
+                continue;
             }
+
+            return false;
         }
 
         //
@@ -228,11 +229,12 @@ public static partial class typeMethods
         //
         for (k = 0; k < nz_num; k++)
         {
-            if (col[k] < 0 || n <= col[k])
+            if (col[k] >= 0 && n > col[k])
             {
-                check = false;
-                return check;
+                continue;
             }
+
+            return false;
         }
 
         //
@@ -242,8 +244,7 @@ public static partial class typeMethods
         {
             if (row[k + 1] < row[k])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -256,13 +257,12 @@ public static partial class typeMethods
             {
                 if (col[k + 1] <= col[k])
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
         }
 
-        return check;
+        return true;
     }
 
     public static void r8sp_diagonal(int m, int n, int nz_num, int[] row, int[] col, ref double[] a)
@@ -1050,7 +1050,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout +=  j.ToString().PadLeft(7) + "       ";
+                cout +=  j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -1098,10 +1098,10 @@ public static partial class typeMethods
                 {
                     case true:
                     {
-                        cout = i.ToString().PadLeft(6);
+                        cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                         for (j2 = 0; j2 < inc; j2++)
                         {
-                            cout += aij[j2].ToString().PadLeft(12) + "  ";
+                            cout += aij[j2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                         }
 
                         Console.WriteLine(cout);

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MinpackNS;
 using Burkardt.SolveNS;
 using Burkardt.Types;
@@ -124,7 +123,7 @@ internal class Program
             Console.WriteLine("");
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + x[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             mode = 1;
@@ -139,9 +138,9 @@ internal class Program
             Console.WriteLine("");
             for (i = 0; i < m; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + fvec[i].ToString().PadLeft(14)
-                                       + "  " + fvecp[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fvec[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fvecp[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             iflag = 2;
@@ -165,7 +164,7 @@ internal class Program
             {
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + fjac[i + j * ldfjac].ToString().PadLeft(12);
+                    cout += "  " + fjac[i + j * ldfjac].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);
@@ -181,8 +180,8 @@ internal class Program
             Console.WriteLine("");
             for (i = 0; i < m; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + err[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + err[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }

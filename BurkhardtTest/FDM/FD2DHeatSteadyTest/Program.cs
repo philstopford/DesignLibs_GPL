@@ -102,9 +102,9 @@ internal class Program
         {
             for (i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + umat[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + umat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             data_unit.Add("");

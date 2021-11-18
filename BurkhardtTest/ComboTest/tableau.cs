@@ -132,8 +132,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             tableau_num = Ranking.tableau_enum(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + tableau_num.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + tableau_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 

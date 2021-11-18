@@ -432,7 +432,7 @@ public static class AdjacencyMatrix
                 }
             }
 
-            string cout = "  " + (i + 1).ToString().PadLeft(8) + " ";
+            string cout = "  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + " ";
             for (j = 0; j < node_num; j++)
             {
                 cout += band[j];
@@ -562,7 +562,6 @@ public static class AdjacencyMatrix
         Console.WriteLine("  Sparse adjacency structure:");
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes       = " + node_num + "");
-        ;
         Console.WriteLine("  Number of adjacencies = " + adj_num + "");
         Console.WriteLine("");
         Console.WriteLine("  Node   Min   Max          Nonzeros ");
@@ -575,9 +574,9 @@ public static class AdjacencyMatrix
 
             if (jmax < jmin)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + jmin.ToString().PadLeft(4)
-                                       + "  " + jmax.ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + jmin.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + jmax.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
             else
             {
@@ -587,13 +586,13 @@ public static class AdjacencyMatrix
 
                     if (jlo == jmin)
                     {
-                        string cout = "  " + i.ToString().PadLeft(4)
-                                           + "  " + jmin.ToString().PadLeft(4)
-                                           + "  " + jmax.ToString().PadLeft(4)
+                        string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + jmin.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + jmax.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                            + "   ";
                         for (j = jlo; j <= jhi; j++)
                         {
-                            cout += adj[j % adj.Length].ToString().PadLeft(8);
+                            cout += adj[j % adj.Length].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                         }
 
                         Console.WriteLine(cout);
@@ -603,7 +602,7 @@ public static class AdjacencyMatrix
                         string cout2 = "                     ";
                         for (j = jlo; j <= jhi; j++)
                         {
-                            cout2 += adj[j % adj.Length].ToString().PadLeft(8);
+                            cout2 += adj[j % adj.Length].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                         }
 
                         Console.WriteLine(cout2);
@@ -839,7 +838,7 @@ public static class AdjacencyMatrix
                 band[col] = 'X';
             }
 
-            string cout = "  " + (i + 1).ToString().PadLeft(8) + " ";
+            string cout = "  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + " ";
             for (j = 0; j < node_num; j++)
             {
                 cout += band[j];

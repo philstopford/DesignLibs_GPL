@@ -101,10 +101,10 @@ internal class Program
             exact = Integrals.line01_monomial_integral(e);
             error = Math.Abs(result - exact);
 
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + result.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }

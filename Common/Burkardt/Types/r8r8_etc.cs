@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -104,8 +105,8 @@ public static partial class typeMethods
         //
     {
         string cout = "  " + title + " : ";
-        cout += "  ( " + a1.ToString().PadLeft(12) + 
-                ", " + a2.ToString().PadLeft(12) + " )";
+        cout += "  ( " + a1.ToString(CultureInfo.InvariantCulture).PadLeft(12) + 
+                ", " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + " )";
 
         Console.WriteLine(cout);
     }

@@ -1284,8 +1284,8 @@ public static class Helpers
     {
         string[] lines;
 
-        int n = 2;
-        int m = 100;
+        const int n = 2;
+        const int m = 100;
         double[] a = new double [m*n];
             
         try
@@ -1329,9 +1329,9 @@ public static class Helpers
         -2.71994908488607703910e-9
     };
 
-    public const double TwoSqrtEOverPi = 1.8603827342052657173362492472666631120594218414085755;
-    public const double LogTwoSqrtEOverPi = 0.6207822376352452223455184457816472122518527279025978;
-    public const double LnPi = 1.1447298858494001741434273513530587116472948129153d;
+    private const double TwoSqrtEOverPi = 1.8603827342052657173362492472666631120594218414085755;
+    private const double LogTwoSqrtEOverPi = 0.6207822376352452223455184457816472122518527279025978;
+    private const double LnPi = 1.1447298858494001741434273513530587116472948129153d;
         
     public static double LogGamma(double z)
     {
@@ -1480,7 +1480,7 @@ public static class Helpers
         {
             case <= 0.0:
             {
-                string msg = string.Format("Invalid input argument {0}. Argument must be positive.", x);
+                string msg = $"Invalid input argument {x}. Argument must be positive.";
                 throw new ArgumentOutOfRangeException(msg);
             }
             default:
@@ -1604,7 +1604,7 @@ public static class Helpers
         {
             case <= 0.0:
             {
-                string msg = string.Format("Invalid input argument {0}. Argument must be positive.", x);
+                string msg = $"Invalid input argument {x}. Argument must be positive.";
                 throw new ArgumentOutOfRangeException(msg);
             }
             case < 12.0:
@@ -1636,7 +1636,7 @@ public static class Helpers
         }
         double series = sum/x;
 
-        double halfLogTwoPi = 0.91893853320467274178032973640562;
+        const double halfLogTwoPi = 0.91893853320467274178032973640562;
         double logGamma = (x - 0.5)*Math.Log(x) - x + halfLogTwoPi + series;    
         return logGamma;
     }

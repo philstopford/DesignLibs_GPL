@@ -57,34 +57,26 @@ public static class MonteCarlo
         //    Output, dobule TRIANGLE_MONTE_CARLO[F_NUM], the approximate integrals.
         //
     {
-        double area;
-        double[] fp;
-        double fp_sum;
         int i;
-        int j;
-        double[] p;
-        double[] p2;
-        double[] result;
 
-        area = Integrals.triangle_area(t);
+        double area = Integrals.triangle_area(t);
 
-        tusData data = new();
-            
-        data = triangle_unit_sample(p_num, seed);
+        tusData data = triangle_unit_sample(p_num, seed);
         seed = data.seed;
-        p = data.result;
+        double[] p = data.result;
 
-        p2 = new double[2 * p_num];
+        double[] p2 = new double[2 * p_num];
 
         Reference.reference_to_physical_t3(t, p_num, p, ref p2);
 
-        fp = triangle_integrand(p_num, p2, f_num);
+        double[] fp = triangle_integrand(p_num, p2, f_num);
 
-        result = new double[f_num];
+        double[] result = new double[f_num];
 
         for (i = 0; i < f_num; i++)
         {
-            fp_sum = 0.0;
+            double fp_sum = 0.0;
+            int j;
             for (j = 0; j < p_num; j++)
             {
                 fp_sum += fp[i + j * f_num];
@@ -127,10 +119,9 @@ public static class MonteCarlo
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -171,10 +162,9 @@ public static class MonteCarlo
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -216,10 +206,9 @@ public static class MonteCarlo
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -262,10 +251,9 @@ public static class MonteCarlo
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -309,10 +297,9 @@ public static class MonteCarlo
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -367,20 +354,17 @@ public static class MonteCarlo
         //    Output, double TRIANGLE_UNIT_SAMPLE_01[2*P_NUM], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] x;
 
-        x = new double[2 * p_num];
+        double[] x = new double[2 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(3, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(3, ref seed);
 
-            e_sum = typeMethods.r8vec_sum(3, e);
+            double e_sum = typeMethods.r8vec_sum(3, e);
 
+            int i;
             for (i = 0; i < 2; i++)
             {
                 x[i + j * 2] = e[i] / e_sum;
@@ -441,14 +425,12 @@ public static class MonteCarlo
         //
     {
         int j;
-        double[] r;
-        double[] x;
 
-        x = new double[2 * p_num];
+        double[] x = new double[2 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+            double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
             switch (r[0] + r[1])
             {
@@ -515,22 +497,18 @@ public static class MonteCarlo
         //    Output, double TRIANGLE_UNIT_SAMPLE_03[2*P_NUM], the points.
         //
     {
-        double a;
-        double b;
         int j;
-        double[] r;
-        double[] x;
 
-        x = new double[2 * p_num];
+        double[] x = new double[2 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+            double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
             r[1] = Math.Sqrt(r[1]);
 
-            a = 1.0 - r[1];
-            b = (1.0 - r[0]) * r[1];
+            double a = 1.0 - r[1];
+            double b = (1.0 - r[0]) * r[1];
 
             x[0 + j * 2] = a;
             x[1 + j * 2] = b;
@@ -590,27 +568,24 @@ public static class MonteCarlo
         //    Output, double TRIANGLE_UNIT_SAMPLE_04[2*P_NUM], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] x;
         //
         //  The construction begins by sampling DIM_NUM+1 points from the
         //  exponential distribution with parameter 1.
         //
-        x = new double[2 * p_num];
+        double[] x = new double[2 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(3, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(3, ref seed);
 
+            int i;
             for (i = 0; i <= 2; i++)
             {
                 e[i] = -Math.Log(e[i]);
             }
 
-            e_sum = typeMethods.r8vec_sum(3, e);
+            double e_sum = typeMethods.r8vec_sum(3, e);
 
             for (i = 0; i < 2; i++)
             {

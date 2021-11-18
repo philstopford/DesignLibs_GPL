@@ -177,20 +177,20 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("     Norm. Resid      Resid           MACHEP         X[1]          X[N]");
         Console.WriteLine("");
-        Console.WriteLine(residn.ToString().PadLeft(14) + "  "
-                                                        + resid_max.ToString().PadLeft(14) + "  "
-                                                        + eps.ToString().PadLeft(14) + "  "
-                                                        + b[0].ToString().PadLeft(14) + "  "
-                                                        + b[N - 1].ToString().PadLeft(14) + "");
+        Console.WriteLine(residn.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + resid_max.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + eps.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + b[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + b[N - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         Console.WriteLine("      Factor     Solve      Total     MFLOPS       Unit      Cray-Ratio");
         Console.WriteLine("");
-        Console.WriteLine(time[0].ToString().PadLeft(9) + "  "
-                                                        + time[1].ToString().PadLeft(9) + "  "
-                                                        + time[2].ToString().PadLeft(9) + "  "
-                                                        + time[3].ToString().PadLeft(9) + "  "
-                                                        + time[4].ToString().PadLeft(9) + "  "
-                                                        + time[5].ToString().PadLeft(9) + "");
+        Console.WriteLine(time[0].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[1].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[2].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[3].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[4].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[5].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
 
         Console.WriteLine("");
         Console.WriteLine("LINPACK_BENCH");

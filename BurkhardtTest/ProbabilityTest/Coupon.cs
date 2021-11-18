@@ -49,9 +49,9 @@ internal partial class Program
             {
                 pdf = Coupon.coupon_complete_pdf(type_num, box_num);
                 cdf += pdf;
-                Console.WriteLine("  " + box_num.ToString().PadLeft(8)
-                                       + "  " + pdf.ToString().PadLeft(14)
-                                       + "  " + cdf.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + box_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -107,8 +107,8 @@ internal partial class Program
                 Coupon.coupon_sample(n_type, ref seed, ref coupon, ref n_coupon);
 
                 Console.WriteLine("  "
-                                  + i.ToString().PadLeft(6) + "  "
-                                  + n_coupon.ToString().PadLeft(6) + "");
+                                  + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + n_coupon.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
                 average += n_coupon;
             }

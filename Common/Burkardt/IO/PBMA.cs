@@ -381,19 +381,16 @@ public static class PBMA
                 }
             }
 
-            if (step == 2)
+            typeMethods.s_word_extract_first(line, ref word, ref rest);
+
+            if (typeMethods.s_len_trim(word) == 0)
             {
-                typeMethods.s_word_extract_first(line, ref word, ref rest);
-
-                if (typeMethods.s_len_trim(word) == 0)
-                {
-                    continue;
-                }
-
-                ysize = Convert.ToInt32(word);
-                line = rest;
-                break;
+                continue;
             }
+
+            ysize = Convert.ToInt32(word);
+            line = rest;
+            break;
         }
     }
 

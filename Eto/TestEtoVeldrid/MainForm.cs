@@ -95,7 +95,7 @@ public partial class MainForm : Form
 
 		Driver.SetUpVeldrid();
 
-		Title = $"Veldrid backend: {Surface.Backend.ToString()}";
+		Title = $"Veldrid backend: {Surface.Backend.ToString(CultureInfo.InvariantCulture)}";
 
 		createVPContextMenu();
 

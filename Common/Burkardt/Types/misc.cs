@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.Uniform;
+using System.Globalization;
 using entropyRNG;
 
 namespace Burkardt.Types;
@@ -42,8 +42,8 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + a[i].ToString().PadLeft(1) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
     }
 

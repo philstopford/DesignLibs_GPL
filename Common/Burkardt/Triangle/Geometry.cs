@@ -43,18 +43,14 @@ public static class Geometry
         //    sides P1-P2, P2-P3 and P3-P1, in radians.
         //
     {
-        double a;
-        double b;
-        double c;
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
+                             + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
 
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
-                      + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
+                             + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
 
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
-                      + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
-                      + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
+                             + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
         switch (a)
         {
             //
@@ -132,21 +128,16 @@ public static class Geometry
         //    sides P1-P2, P2-P3 and P3-P1, in radians.
         //
     {
-        double a;
-        double[] angle;
-        double b;
-        double c;
+        double[] angle = new double[3];
 
-        angle = new double[3];
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
+                             + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
 
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
-                      + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
+                             + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
 
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
-                      + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
-                      + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
+                             + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
         switch (a)
         {
             //
@@ -225,23 +216,19 @@ public static class Geometry
         //    sides P1-P2, P2-P3 and P3-P1, in radians.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double b;
-        double c;
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM], 2)
+                             + Math.Pow(t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM], 2)
+                             + Math.Pow(t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM], 2));
 
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM], 2)
-                      + Math.Pow(t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM], 2)
-                      + Math.Pow(t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * DIM_NUM] - t[0 + 1 * DIM_NUM], 2)
+                             + Math.Pow(t[1 + 2 * DIM_NUM] - t[1 + 1 * DIM_NUM], 2)
+                             + Math.Pow(t[2 + 2 * DIM_NUM] - t[2 + 1 * DIM_NUM], 2));
 
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * DIM_NUM] - t[0 + 1 * DIM_NUM], 2)
-                      + Math.Pow(t[1 + 2 * DIM_NUM] - t[1 + 1 * DIM_NUM], 2)
-                      + Math.Pow(t[2 + 2 * DIM_NUM] - t[2 + 1 * DIM_NUM], 2));
-
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * DIM_NUM] - t[0 + 2 * DIM_NUM], 2)
-                      + Math.Pow(t[1 + 0 * DIM_NUM] - t[1 + 2 * DIM_NUM], 2)
-                      + Math.Pow(t[2 + 0 * DIM_NUM] - t[2 + 2 * DIM_NUM], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * DIM_NUM] - t[0 + 2 * DIM_NUM], 2)
+                             + Math.Pow(t[1 + 0 * DIM_NUM] - t[1 + 2 * DIM_NUM], 2)
+                             + Math.Pow(t[2 + 0 * DIM_NUM] - t[2 + 2 * DIM_NUM], 2));
         switch (a)
         {
             //
@@ -319,26 +306,21 @@ public static class Geometry
         //    sides P1-P2, P2-P3 and P3-P1, in radians.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double[] angle;
-        double b;
-        double c;
+        double[] angle = new double[3];
 
-        angle = new double[3];
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM], 2)
+                             + Math.Pow(t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM], 2)
+                             + Math.Pow(t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM], 2));
 
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM], 2)
-                      + Math.Pow(t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM], 2)
-                      + Math.Pow(t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * DIM_NUM] - t[0 + 1 * DIM_NUM], 2)
+                             + Math.Pow(t[1 + 2 * DIM_NUM] - t[1 + 1 * DIM_NUM], 2)
+                             + Math.Pow(t[2 + 2 * DIM_NUM] - t[2 + 1 * DIM_NUM], 2));
 
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * DIM_NUM] - t[0 + 1 * DIM_NUM], 2)
-                      + Math.Pow(t[1 + 2 * DIM_NUM] - t[1 + 1 * DIM_NUM], 2)
-                      + Math.Pow(t[2 + 2 * DIM_NUM] - t[2 + 1 * DIM_NUM], 2));
-
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * DIM_NUM] - t[0 + 2 * DIM_NUM], 2)
-                      + Math.Pow(t[1 + 0 * DIM_NUM] - t[1 + 2 * DIM_NUM], 2)
-                      + Math.Pow(t[2 + 0 * DIM_NUM] - t[2 + 2 * DIM_NUM], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * DIM_NUM] - t[0 + 2 * DIM_NUM], 2)
+                             + Math.Pow(t[1 + 0 * DIM_NUM] - t[1 + 2 * DIM_NUM], 2)
+                             + Math.Pow(t[2 + 0 * DIM_NUM] - t[2 + 2 * DIM_NUM], 2));
         switch (a)
         {
             //
@@ -422,9 +404,7 @@ public static class Geometry
         //    Output, double TRIANGLE_AREA_2D, the area of the triangle.
         //
     {
-        double area;
-
-        area = 0.5 * (
+        double area = 0.5 * (
             t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2]) +
             t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2]) +
             t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]));
@@ -471,15 +451,13 @@ public static class Geometry
         //    Output, double TRIANGLE_AREA_3D, the area of the triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
-        double[] cross;
         int i;
         //
         //  Compute the cross product vector.
         //
-        cross = new double[DIM_NUM];
+        double[] cross = new double[DIM_NUM];
 
         cross[0] = (t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM])
                    * (t[2 + 2 * DIM_NUM] - t[2 + 0 * DIM_NUM])
@@ -496,7 +474,7 @@ public static class Geometry
                    - (t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM])
                    * (t[0 + 2 * DIM_NUM] - t[0 + 0 * DIM_NUM]);
 
-        area = 0.0;
+        double area = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             area += Math.Pow(cross[i], 2);
@@ -539,27 +517,23 @@ public static class Geometry
         //    Output, double TRIANGLE_AREA_3D_2, the area of the triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double alpha;
-        double area;
-        double base_;
-        double dot;
         double height;
         double[] ph = new double[DIM_NUM];
         //
         //  Find the projection of (P3-P1) onto (P2-P1).
         //
-        dot = (t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM])
-              * (t[0 + 2 * DIM_NUM] - t[0 + 0 * DIM_NUM])
-              + (t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM])
-              * (t[1 + 2 * DIM_NUM] - t[1 + 0 * DIM_NUM])
-              + (t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM])
-              * (t[2 + 2 * DIM_NUM] - t[2 + 0 * DIM_NUM]);
+        double dot = (t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM])
+                     * (t[0 + 2 * DIM_NUM] - t[0 + 0 * DIM_NUM])
+                     + (t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM])
+                     * (t[1 + 2 * DIM_NUM] - t[1 + 0 * DIM_NUM])
+                     + (t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM])
+                     * (t[2 + 2 * DIM_NUM] - t[2 + 0 * DIM_NUM]);
 
-        base_ = Math.Sqrt(Math.Pow(t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM], 2)
-                          + Math.Pow(t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM], 2)
-                          + Math.Pow(t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM], 2));
+        double base_ = Math.Sqrt(Math.Pow(t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM], 2)
+                                 + Math.Pow(t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM], 2)
+                                 + Math.Pow(t[2 + 1 * DIM_NUM] - t[2 + 0 * DIM_NUM], 2));
         switch (base_)
         {
             //
@@ -570,7 +544,7 @@ public static class Geometry
                 height = 0.0;
                 break;
             default:
-                alpha = dot / (base_ * base_);
+                double alpha = dot / (base_ * base_);
 
                 ph[0] = t[0 + 0 * DIM_NUM] + alpha * (t[0 + 1 * DIM_NUM] - t[0 + 0 * DIM_NUM]);
                 ph[1] = t[1 + 0 * DIM_NUM] + alpha * (t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM]);
@@ -582,7 +556,7 @@ public static class Geometry
                 break;
         }
 
-        area = 0.5 * base_ * height;
+        double area = 0.5 * base_ * height;
 
         return area;
 
@@ -625,18 +599,16 @@ public static class Geometry
         //    Output, double AREA, the area of the triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
-        int i;
         int j;
-        int jp1;
         double[] s = new double[DIM_NUM];
 
         for (j = 0; j < DIM_NUM; j++)
         {
-            jp1 = (j + 1) % DIM_NUM;
+            int jp1 = (j + 1) % DIM_NUM;
             s[j] = 0.0;
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 s[j] += Math.Pow(t[i + j * DIM_NUM] - t[i + jp1 * DIM_NUM], 2);
@@ -645,10 +617,10 @@ public static class Geometry
             s[j] = Math.Sqrt(s[j]);
         }
 
-        area = (s[0] + s[1] + s[2])
-               * (-s[0] + s[1] + s[2])
-               * (s[0] - s[1] + s[2])
-               * (s[0] + s[1] - s[2]);
+        double area = (s[0] + s[1] + s[2])
+                      * (-s[0] + s[1] + s[2])
+                      * (s[0] - s[1] + s[2])
+                      * (s[0] + s[1] - s[2]);
 
         switch (area)
         {
@@ -695,12 +667,10 @@ public static class Geometry
         //    sides cannot constitute a triangle.
         //
     {
-        double area;
-
-        area = (s[0] + s[1] + s[2])
-               * (-s[0] + s[1] + s[2])
-               * (s[0] - s[1] + s[2])
-               * (s[0] + s[1] - s[2]);
+        double area = (s[0] + s[1] + s[2])
+                      * (-s[0] + s[1] + s[2])
+                      * (s[0] - s[1] + s[2])
+                      * (s[0] + s[1] - s[2]);
 
         switch (area)
         {
@@ -768,13 +738,12 @@ public static class Geometry
         //    Output, double TRIANGLE_AREA_VECTOR_3D[3], the area vector of the triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] cross;
         //
         //  Compute the cross product vector.
         //
-        cross = new double[DIM_NUM];
+        double[] cross = new double[DIM_NUM];
 
         cross[0] = (t[1 + 1 * DIM_NUM] - t[1 + 0 * DIM_NUM])
                    * (t[2 + 2 * DIM_NUM] - t[2 + 0 * DIM_NUM])
@@ -832,12 +801,10 @@ public static class Geometry
         //    to the triangle.
         //
     {
-        int N = 2;
-        int RHS_NUM = 1;
+        const int N = 2;
+        const int RHS_NUM = 1;
 
         double[] a = new double[N * (N + RHS_NUM)];
-        double[] c;
-        int info;
         //
         //  Set up the linear system
         //
@@ -857,7 +824,7 @@ public static class Geometry
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
 
         if (info != 0)
         {
@@ -868,7 +835,7 @@ public static class Geometry
             return null;
         }
 
-        c = new double[3];
+        double[] c = new double[3];
 
         c[0] = a[0 + 2 * N];
         c[1] = a[1 + 2 * N];
@@ -916,11 +883,9 @@ public static class Geometry
         //    Output, double TRIANGLE_CENTROID_2D[2], the coordinates of the centroid of the triangle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double[] centroid;
-
-        centroid = new double[DIM_NUM];
+        double[] centroid = new double[DIM_NUM];
 
         centroid[0] = (t[0 + 0 * DIM_NUM] + t[0 + 1 * DIM_NUM] + t[0 + 2 * DIM_NUM]) / 3.0;
         centroid[1] = (t[1 + 0 * DIM_NUM] + t[1 + 1 * DIM_NUM] + t[1 + 2 * DIM_NUM]) / 3.0;
@@ -966,11 +931,9 @@ public static class Geometry
         //    Output, double TRIANGLE_CENTROID_3D[3], the coordinates of the centroid.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] centroid;
-
-        centroid = new double[DIM_NUM];
+        double[] centroid = new double[DIM_NUM];
 
         centroid[0] = (t[0 + 0 * DIM_NUM] + t[0 + 1 * DIM_NUM] + t[0 + 2 * DIM_NUM]) / 3.0;
         centroid[1] = (t[1 + 0 * DIM_NUM] + t[1 + 1 * DIM_NUM] + t[1 + 2 * DIM_NUM]) / 3.0;
@@ -1024,28 +987,21 @@ public static class Geometry
         //    Output, double *TRIANGLE_CIRCUMCENTER_2D[2], the circumcenter.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double asq;
-        double bot;
-        double[] pc;
-        double csq;
-        double top1;
-        double top2;
+        double[] pc = new double[DIM_NUM];
 
-        pc = new double[DIM_NUM];
+        double asq = (t[0 + 1 * 2] - t[0 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
+                     + (t[1 + 1 * 2] - t[1 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]);
 
-        asq = (t[0 + 1 * 2] - t[0 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
-              + (t[1 + 1 * 2] - t[1 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]);
+        double csq = (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[0 + 2 * 2] - t[0 + 0 * 2])
+                     + (t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[1 + 2 * 2] - t[1 + 0 * 2]);
 
-        csq = (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[0 + 2 * 2] - t[0 + 0 * 2])
-              + (t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[1 + 2 * 2] - t[1 + 0 * 2]);
+        double top1 = (t[1 + 1 * 2] - t[1 + 0 * 2]) * csq - (t[1 + 2 * 2] - t[1 + 0 * 2]) * asq;
+        double top2 = -(t[0 + 1 * 2] - t[0 + 0 * 2]) * csq + (t[0 + 2 * 2] - t[0 + 0 * 2]) * asq;
 
-        top1 = (t[1 + 1 * 2] - t[1 + 0 * 2]) * csq - (t[1 + 2 * 2] - t[1 + 0 * 2]) * asq;
-        top2 = -(t[0 + 1 * 2] - t[0 + 0 * 2]) * csq + (t[0 + 2 * 2] - t[0 + 0 * 2]) * asq;
-
-        bot = (t[1 + 1 * 2] - t[1 + 0 * 2]) * (t[0 + 2 * 2] - t[0 + 0 * 2])
-              - (t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2]);
+        double bot = (t[1 + 1 * 2] - t[1 + 0 * 2]) * (t[0 + 2 * 2] - t[0 + 0 * 2])
+                     - (t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2]);
 
         pc[0] = t[0 + 0 * 2] + 0.5 * top1 / bot;
         pc[1] = t[1 + 0 * 2] + 0.5 * top2 / bot;
@@ -1113,12 +1069,10 @@ public static class Geometry
         //    Output, double *TRIANGLE_CIRCUMCENTER_2D[2], the circumcenter.
         //
     {
-        int N = 2;
-        int RHS_NUM = 1;
+        const int N = 2;
+        const int RHS_NUM = 1;
 
         double[] a = new double[N * (N + RHS_NUM)];
-        double[] pc;
-        int info;
         //
         //  Set up the linear system.
         //
@@ -1134,11 +1088,11 @@ public static class Geometry
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
         //
         //  Compute the center.
         //
-        pc = new double[2];
+        double[] pc = new double[2];
 
         if (info != 0)
         {
@@ -1195,24 +1149,17 @@ public static class Geometry
         //    Output, double TRIANGLE_CIRCUMCENTER[N], the circumcenter.
         //
     {
-        double a;
-        double abp;
-        double apc;
-        double b;
-        double c;
         int i;
-        double[] p;
-        double pbc;
 
-        a = typeMethods.r8vec_normsq_affine(n, t, t, +1 * n, +2 * n);
-        b = typeMethods.r8vec_normsq_affine(n, t, t, +2 * n, +0 * n);
-        c = typeMethods.r8vec_normsq_affine(n, t, t, +0 * n, +1 * n);
+        double a = typeMethods.r8vec_normsq_affine(n, t, t, +1 * n, +2 * n);
+        double b = typeMethods.r8vec_normsq_affine(n, t, t, +2 * n, +0 * n);
+        double c = typeMethods.r8vec_normsq_affine(n, t, t, +0 * n, +1 * n);
 
-        pbc = a * (-a + b + c);
-        apc = b * (a - b + c);
-        abp = c * (a + b - c);
+        double pbc = a * (-a + b + c);
+        double apc = b * (a - b + c);
+        double abp = c * (a + b - c);
 
-        p = new double[n];
+        double[] p = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1268,20 +1215,14 @@ public static class Geometry
         //    circumcenter of the triangle.
         //
     {
-        double a;
-        double b;
-        double bot;
-        double c;
-        double top1;
-        double top2;
         //
         //  Circumradius.
         //
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2) + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2) + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2) + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2) + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2) + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2) + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
 
-        bot = (a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c);
+        double bot = (a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c);
 
         switch (bot)
         {
@@ -1296,8 +1237,8 @@ public static class Geometry
         //
         //  Circumcenter.
         //
-        top1 = (t[1 + 1 * 2] - t[1 + 0 * 2]) * c * c - (t[1 + 2 * 2] - t[1 + 0 * 2]) * a * a;
-        top2 = (t[0 + 1 * 2] - t[0 + 0 * 2]) * c * c - (t[0 + 2 * 2] - t[0 + 0 * 2]) * a * a;
+        double top1 = (t[1 + 1 * 2] - t[1 + 0 * 2]) * c * c - (t[1 + 2 * 2] - t[1 + 0 * 2]) * a * a;
+        double top2 = (t[0 + 1 * 2] - t[0 + 0 * 2]) * c * c - (t[0 + 2 * 2] - t[0 + 0 * 2]) * a * a;
         bot = (t[1 + 1 * 2] - t[1 + 0 * 2]) * (t[0 + 2 * 2] - t[0 + 0 * 2])
               - (t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2]);
 
@@ -1359,11 +1300,10 @@ public static class Geometry
         //    singular, then R = -1, PC = 0.
         //
     {
-        int N = 2;
-        int RHS_NUM = 1;
+        const int N = 2;
+        const int RHS_NUM = 1;
 
         double[] a = new double[N * (N + RHS_NUM)];
-        int info;
         //
         //  Set up the linear system.
         //
@@ -1378,7 +1318,7 @@ public static class Geometry
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
         //
         //  If the system was singular, return a consolation prize.
         //
@@ -1436,17 +1376,13 @@ public static class Geometry
         //    circumscribed circle.
         //
     {
-        double a;
-        double b;
-        double bot;
-        double c;
         double r;
 
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2) + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2) + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2) + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2) + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2) + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2) + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
 
-        bot = (a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c);
+        double bot = (a + b + c) * (-a + b + c) * (a - b + c) * (a + b - c);
 
         switch (bot)
         {
@@ -1516,13 +1452,11 @@ public static class Geometry
         //    intersects the plane of the triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
-        int ival;
         double[] normal = new double[DIM_NUM];
         double[] normal2 = new double[DIM_NUM];
-        double temp;
         double[] v1 = new double[DIM_NUM];
         double[] v2 = new double[DIM_NUM];
         //
@@ -1565,7 +1499,7 @@ public static class Geometry
         normal[1] = v1[2] * v2[0] - v1[0] * v2[2];
         normal[2] = v1[0] * v2[1] - v1[1] * v2[0];
 
-        temp = 0.0;
+        double temp = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             temp += Math.Pow(normal[i], 2);
@@ -1581,7 +1515,7 @@ public static class Geometry
         //
         //  Find the intersection of the plane and the line.
         //
-        ival = Plane.Geometry.plane_normal_line_exp_int_3d(t, normal, p1, p2, ref pint);
+        int ival = Plane.Geometry.plane_normal_line_exp_int_3d(t, normal, p1, p2, ref pint);
 
         switch (ival)
         {
@@ -1736,21 +1670,10 @@ public static class Geometry
         //    and the plane of the triangle, unless they are parallel.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double angle_sum;
-        double b;
-        double c;
-        double d;
-        double denom;
-        int dim;
         //bool intersect;
-        double norm;
-        double norm1;
-        double norm2;
-        double t_int;
-        double tol = 0.00001;
+        const double tol = 0.00001;
         double[] v1 = new double[DIM_NUM];
         double[] v2 = new double[DIM_NUM];
         double[] v3 = new double[DIM_NUM];
@@ -1758,20 +1681,20 @@ public static class Geometry
         //  Determine the implicit form (A,B,C,D) of the plane containing the
         //  triangle.
         //
-        a = (t[1 + 1 * 3] - t[1 + 0 * 3]) * (t[2 + 2 * 3] - t[2 + 0 * 3])
-            - (t[2 + 1 * 3] - t[2 + 0 * 3]) * (t[1 + 2 * 3] - t[1 + 0 * 3]);
+        double a = (t[1 + 1 * 3] - t[1 + 0 * 3]) * (t[2 + 2 * 3] - t[2 + 0 * 3])
+                   - (t[2 + 1 * 3] - t[2 + 0 * 3]) * (t[1 + 2 * 3] - t[1 + 0 * 3]);
 
-        b = (t[2 + 1 * 3] - t[2 + 0 * 3]) * (t[0 + 2 * 3] - t[0 + 0 * 3])
-            - (t[0 + 1 * 3] - t[0 + 0 * 3]) * (t[2 + 2 * 3] - t[2 + 0 * 3]);
+        double b = (t[2 + 1 * 3] - t[2 + 0 * 3]) * (t[0 + 2 * 3] - t[0 + 0 * 3])
+                   - (t[0 + 1 * 3] - t[0 + 0 * 3]) * (t[2 + 2 * 3] - t[2 + 0 * 3]);
 
-        c = (t[0 + 1 * 3] - t[0 + 0 * 3]) * (t[1 + 2 * 3] - t[1 + 0 * 3])
-            - (t[1 + 1 * 3] - t[1 + 0 * 3]) * (t[0 + 2 * 3] - t[0 + 0 * 3]);
+        double c = (t[0 + 1 * 3] - t[0 + 0 * 3]) * (t[1 + 2 * 3] - t[1 + 0 * 3])
+                   - (t[1 + 1 * 3] - t[1 + 0 * 3]) * (t[0 + 2 * 3] - t[0 + 0 * 3]);
 
-        d = -t[0 + 1 * 3] * a - t[1 + 1 * 3] * b - t[2 + 1 * 3] * c;
+        double d = -t[0 + 1 * 3] * a - t[1 + 1 * 3] * b - t[2 + 1 * 3] * c;
         //
         //  Make sure the plane is well-defined.
         //
-        norm1 = Math.Sqrt(a * a + b * b + c * c);
+        double norm1 = Math.Sqrt(a * a + b * b + c * c);
 
         switch (norm1)
         {
@@ -1787,7 +1710,7 @@ public static class Geometry
         //
         //  Make sure the implicit line is well defined.
         //
-        norm2 = typeMethods.r8vec_norm(DIM_NUM, pd);
+        double norm2 = typeMethods.r8vec_norm(DIM_NUM, pd);
 
         switch (norm2)
         {
@@ -1805,7 +1728,7 @@ public static class Geometry
         //  implicit line definition that determines the intersection
         //  point.
         //
-        denom = a * pd[0] + b * pd[1] + c * pd[2];
+        double denom = a * pd[0] + b * pd[1] + c * pd[2];
         //
         //  If DENOM is zero, or very small, the line and the plane may be
         //  parallel or almost so.
@@ -1833,7 +1756,8 @@ public static class Geometry
         //
         else
         {
-            t_int = -(a * p0[0] + b * p0[1] + c * p0[2] + d) / denom;
+            double t_int = -(a * p0[0] + b * p0[1] + c * p0[2] + d) / denom;
+            int dim;
             for (dim = 0; dim < DIM_NUM; dim++)
             {
                 p[dim] = p0[dim] + t_int * pd[dim];
@@ -1860,7 +1784,7 @@ public static class Geometry
                 v3[dim] = t[dim + 2 * 3] - p[dim];
             }
 
-            norm = typeMethods.r8vec_norm(DIM_NUM, v1);
+            double norm = typeMethods.r8vec_norm(DIM_NUM, v1);
 
             switch (norm)
             {
@@ -1902,18 +1826,11 @@ public static class Geometry
                 v3[dim] /= norm;
             }
 
-            angle_sum = typeMethods.r8_acos(typeMethods.r8vec_dot_product(DIM_NUM, v1, v2))
-                        + typeMethods.r8_acos(typeMethods.r8vec_dot_product(DIM_NUM, v2, v3))
-                        + typeMethods.r8_acos(typeMethods.r8vec_dot_product(DIM_NUM, v3, v1));
+            double angle_sum = typeMethods.r8_acos(typeMethods.r8vec_dot_product(DIM_NUM, v1, v2))
+                               + typeMethods.r8_acos(typeMethods.r8vec_dot_product(DIM_NUM, v2, v3))
+                               + typeMethods.r8_acos(typeMethods.r8vec_dot_product(DIM_NUM, v3, v1));
 
-            if (typeMethods.r8_nint(angle_sum / Math.PI) == 2)
-            {
-                inside = true;
-            }
-            else
-            {
-                inside = false;
-            }
+            inside = typeMethods.r8_nint(angle_sum / Math.PI) == 2;
 
         }
 
@@ -1955,13 +1872,11 @@ public static class Geometry
         //    is inside the triangle or on its boundary, and FALSE otherwise.
         //
     {
-        double[] c;
         int i;
-        bool value;
 
-        c = triangle_barycentric_2d(t, p);
+        double[] c = triangle_barycentric_2d(t, p);
 
-        value = true;
+        bool value = true;
 
         for (i = 0; i < 3; i++)
         {
@@ -2018,11 +1933,10 @@ public static class Geometry
         //
     {
         int j;
-        int k;
 
         for (j = 0; j < 3; j++)
         {
-            k = (j + 1) % 3;
+            int k = (j + 1) % 3;
             switch ((p[0] - t[0 + j * 2]) * (t[1 + k * 2] - t[1 + j * 2])
                     - (p[1] - t[1 + j * 2]) * (t[0 + k * 2] - t[0 + j * 2]))
             {
@@ -2081,19 +1995,16 @@ public static class Geometry
         //    the triangle or on its boundary.
         //
     {
-        double dir_new;
-        double dir_old;
         int j;
-        int k;
 
-        dir_old = 0.0;
+        double dir_old = 0.0;
 
         for (j = 0; j < 3; j++)
         {
-            k = (j + 1) % 3;
+            int k = (j + 1) % 3;
 
-            dir_new = (p[0] - t[0 + j * 2]) * (t[1 + k * 2] - t[1 + j * 2])
-                      - (p[1] - t[1 + j * 2]) * (t[0 + k * 2] - t[0 + j * 2]);
+            double dir_new = (p[0] - t[0 + j * 2]) * (t[1 + k * 2] - t[1 + j * 2])
+                             - (p[1] - t[1 + j * 2]) * (t[0 + k * 2] - t[0 + j * 2]);
 
             switch (dir_new * dir_old)
             {
@@ -2145,16 +2056,13 @@ public static class Geometry
         //    Output, double TRIANGLE_DIAMETER_2D, the diameter of the triangle.
         //
     {
-        double a;
-        double b;
-        double c;
         double diam;
         //
         //  Compute the (squares of) the lengths of the sides.
         //
-        a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2) + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
-        b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2) + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-        c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2) + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
+        double a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2) + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double b = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2) + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
+        double c = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2) + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
         switch (a)
         {
             //
@@ -2235,15 +2143,13 @@ public static class Geometry
         //    Output, double TRIANGLE_EDGE_LENGTH[3], the length of the edges.
         //
     {
-        double[] edge_length;
         int j1;
-        int j2;
 
-        edge_length = new double[3];
+        double[] edge_length = new double[3];
 
         for (j1 = 0; j1 < 3; j1++)
         {
-            j2 = typeMethods.i4_wrap(j1 + 1, 0, 2);
+            int j2 = typeMethods.i4_wrap(j1 + 1, 0, 2);
             edge_length[j1] = Math.Sqrt(Math.Pow(t[0 + j2 * 2] - t[0 + j1 * 2], 2)
                                         + Math.Pow(t[1 + j2 * 2] - t[1 + j1 * 2], 2));
         }
@@ -2307,7 +2213,6 @@ public static class Geometry
         //
     {
         int i;
-        int j;
 
         grid_num = 0;
         switch (sub_num)
@@ -2330,6 +2235,7 @@ public static class Geometry
 
         for (i = 0; i <= sub_num; i++)
         {
+            int j;
             for (j = 0; j <= sub_num - i; j++)
             {
                 if (grid_max <= grid_num)
@@ -2401,19 +2307,14 @@ public static class Geometry
         //    inscribed circle.
         //
     {
-        double perim;
-        double s12;
-        double s23;
-        double s31;
+        double s12 = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
+                               + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double s23 = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
+                               + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
+        double s31 = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
+                               + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
 
-        s12 = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
-                        + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
-        s23 = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
-                        + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-        s31 = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
-                        + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
-
-        perim = s12 + s23 + s31;
+        double perim = s12 + s23 + s31;
 
         switch (perim)
         {
@@ -2469,19 +2370,14 @@ public static class Geometry
         //    Output, double PC[2], *R, the center of the inscribed circle, and its radius.
         //
     {
-        double perim;
-        double s12;
-        double s23;
-        double s31;
+        double s12 = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
+                               + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double s23 = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
+                               + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
+        double s31 = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
+                               + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
 
-        s12 = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
-                        + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
-        s23 = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
-                        + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-        s31 = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
-                        + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
-
-        perim = s12 + s23 + s31;
+        double perim = s12 + s23 + s31;
 
         switch (perim)
         {
@@ -2545,22 +2441,16 @@ public static class Geometry
         //    Output, double TRIANGLE_INRADIUS_2D, the inradius.
         //
     {
-        double perim;
-        double r;
-        double s12;
-        double s23;
-        double s31;
+        double s12 = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
+                               + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
+        double s23 = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
+                               + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
+        double s31 = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
+                               + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
 
-        s12 = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
-                        + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
-        s23 = Math.Sqrt(Math.Pow(t[0 + 2 * 2] - t[0 + 1 * 2], 2)
-                        + Math.Pow(t[1 + 2 * 2] - t[1 + 1 * 2], 2));
-        s31 = Math.Sqrt(Math.Pow(t[0 + 0 * 2] - t[0 + 2 * 2], 2)
-                        + Math.Pow(t[1 + 0 * 2] - t[1 + 2 * 2], 2));
+        double perim = s12 + s23 + s31;
 
-        perim = s12 + s23 + s31;
-
-        r = perim switch
+        double r = perim switch
         {
             0.0 => 0.0,
             _ => 0.5 * Math.Sqrt((-s12 + s23 + s31) * (+s12 - s23 + s31) * (+s12 + s23 - s31) / perim)
@@ -2606,12 +2496,9 @@ public static class Geometry
         //    triangle is degenerate.
         //
     {
-        bool value;
-
-        value =
-            typeMethods.r8vec_eq(dim_num, t, t, +0 * dim_num, +1 * dim_num) ||
-            typeMethods.r8vec_eq(dim_num, t, t, +1 * dim_num, +2 * dim_num) ||
-            typeMethods.r8vec_eq(dim_num, t, t, +2 * dim_num, +0 * dim_num);
+        bool value = typeMethods.r8vec_eq(dim_num, t, t, +0 * dim_num, +1 * dim_num) ||
+                     typeMethods.r8vec_eq(dim_num, t, t, +1 * dim_num, +2 * dim_num) ||
+                     typeMethods.r8vec_eq(dim_num, t, t, +2 * dim_num, +0 * dim_num);
 
         return value;
     }
@@ -2675,10 +2562,7 @@ public static class Geometry
         //    and V was reset to 0, and the lattice layer has been exhausted.
         //
     {
-        int c1n;
-        int n = 2;
-        int rhs1;
-        int rhs2;
+        const int n = 2;
         switch (c[n])
         {
             //
@@ -2714,9 +2598,9 @@ public static class Geometry
                 break;
             default:
             {
-                c1n = typeMethods.i4vec_lcm(n, c);
-                rhs1 = c1n * (c[n] - 1);
-                rhs2 = c1n * c[n];
+                int c1n = typeMethods.i4vec_lcm(n, c);
+                int rhs1 = c1n * (c[n] - 1);
+                int rhs2 = c1n * c[n];
 
                 if (c[1] * (v[0] + 1) + c[0] * v[1] <= rhs2)
                 {
@@ -2802,9 +2686,7 @@ public static class Geometry
         //    for this triangle.
         //
     {
-        int c1n;
-        int n = 2;
-        int rhs;
+        const int n = 2;
 
         switch (more)
         {
@@ -2815,8 +2697,8 @@ public static class Geometry
                 break;
             default:
             {
-                c1n = typeMethods.i4vec_lcm(n, c);
-                rhs = c1n * c[n];
+                int c1n = typeMethods.i4vec_lcm(n, c);
+                int rhs = c1n * c[n];
 
                 if (c[1] * (v[0] + 1) + c[0] * v[1] <= rhs)
                 {
@@ -2883,24 +2765,20 @@ public static class Geometry
         //    Output, double PINT[3*3], contains the intersection points.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double a1 = 0;
         double b1 = 0;
         double c1 = 0;
         int ival = 0;
-        int n;
         double[] p = new double[DIM_NUM];
         int r;
-        int s;
-        double test1;
-        double test2;
 
-        n = 0;
+        int n = 0;
 
         for (r = 0; r < 3; r++)
         {
-            s = typeMethods.i4_wrap(r + 1, 0, 2);
+            int s = typeMethods.i4_wrap(r + 1, 0, 2);
             //
             //  Get the implicit form of the line through vertices R and R+1.
             //
@@ -2917,11 +2795,11 @@ public static class Geometry
                 //
                 case 1:
                 {
-                    test1 = (p[0] - t[0 + r * 2]) * (t[0 + s * 2] - t[0 + r * 2])
-                            + (p[1] - t[1 + r * 2]) * (t[1 + s * 2] - t[1 + r * 2]);
+                    double test1 = (p[0] - t[0 + r * 2]) * (t[0 + s * 2] - t[0 + r * 2])
+                                   + (p[1] - t[1 + r * 2]) * (t[1 + s * 2] - t[1 + r * 2]);
 
-                    test2 = (t[0 + s * 2] - t[0 + r * 2]) * (t[0 + s * 2] - t[0 + r * 2])
-                            + (t[1 + s * 2] - t[1 + r * 2]) * (t[1 + s * 2] - t[1 + r * 2]);
+                    double test2 = (t[0 + s * 2] - t[0 + r * 2]) * (t[0 + s * 2] - t[0 + r * 2])
+                                   + (t[1 + s * 2] - t[1 + r * 2]) * (t[1 + s * 2] - t[1 + r * 2]);
 
                     switch (test1)
                     {
@@ -2983,7 +2861,6 @@ public static class Geometry
         //    3, at least two of the points are identical.
         //
     {
-        double det;
         int value = 0;
 
         if (typeMethods.r8vec_eq(2, t, t, +0 * 2, +1 * 2) ||
@@ -2994,8 +2871,8 @@ public static class Geometry
             return value;
         }
 
-        det = (t[0 + 0 * 2] - t[0 + 2 * 2]) * (t[1 + 1 * 2] - t[1 + 2 * 2])
-              - (t[0 + 1 * 2] - t[0 + 2 * 2]) * (t[1 + 0 * 2] - t[1 + 2 * 2]);
+        double det = (t[0 + 0 * 2] - t[0 + 2 * 2]) * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                     - (t[0 + 1 * 2] - t[0 + 2 * 2]) * (t[1 + 0 * 2] - t[1 + 2 * 2]);
 
         value = det switch
         {
@@ -3055,13 +2932,11 @@ public static class Geometry
         //
     {
         int ival = 0;
-        double[] p23;
-        double[] p31;
         //
         //  Determine a point P23 common to the line through P2 and P3 and
         //  its perpendicular through P1.
         //
-        p23 = LineNS.Geometry.line_exp_perp_2d(t, t, t, ref flag, +1 * 2, +2 * 2 + 0 * 2);
+        double[] p23 = LineNS.Geometry.line_exp_perp_2d(t, t, t, ref flag, +1 * 2, +2 * 2 + 0 * 2);
 
         switch (flag)
         {
@@ -3075,7 +2950,7 @@ public static class Geometry
         //  Determine a point P31 common to the line through P3 and P1 and
         //  its perpendicular through P2.
         //
-        p31 = LineNS.Geometry.line_exp_perp_2d(t, t, t, ref flag, +2 * 2, +0 * 2, +1 * 2);
+        double[] p31 = LineNS.Geometry.line_exp_perp_2d(t, t, t, ref flag, +2 * 2, +0 * 2, +1 * 2);
 
         switch (flag)
         {
@@ -3092,12 +2967,14 @@ public static class Geometry
         LineNS.Geometry.lines_exp_int_2d(t, p23, t, p31, ref ival, ref p, p1Index: +0 * 2,
             p3Index: +1 * 2);
 
-        if (ival != 1)
+        if (ival == 1)
         {
-            p[0] = typeMethods.r8_huge();
-            p[1] = typeMethods.r8_huge();
-            flag = true;
+            return;
         }
+
+        p[0] = typeMethods.r8_huge();
+        p[1] = typeMethods.r8_huge();
+        flag = true;
 
     }
 
@@ -3131,12 +3008,9 @@ public static class Geometry
         //    DIST is zero if the point lies exactly on the triangle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double value = 0;
-
-        value =
-            Segments.segment_point_dist_2d(t, t, p,  + 0 * DIM_NUM,  + 1 * DIM_NUM);
+        double value = Segments.segment_point_dist_2d(t, t, p,  + 0 * DIM_NUM,  + 1 * DIM_NUM);
         value = Math.Min(value,
             Segments.segment_point_dist_2d(t, t, p,  + 1 * DIM_NUM,  + 2 * DIM_NUM));
         value = Math.Min(value,
@@ -3181,12 +3055,9 @@ public static class Geometry
         //    to the triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double value = 0;
-
-        value =
-            Segments.segment_point_dist_3d(t, t, p,  + 0 * DIM_NUM,  + 1 * DIM_NUM);
+        double value = Segments.segment_point_dist_3d(t, t, p,  + 0 * DIM_NUM,  + 1 * DIM_NUM);
         value = Math.Min(value,
             Segments.segment_point_dist_3d(t, t, p,  + 1 * DIM_NUM,  + 2 * DIM_NUM));
         value = Math.Min(value,
@@ -3234,16 +3105,13 @@ public static class Geometry
         //    point to the triangle.
         //
     {
-        double dis12;
-        double dis23;
-        double dis31;
-        double value = 0;
+        double value;
         //
         //  Compute the signed line-distances to the point.
         //
-        dis12 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +0 * 2, +1 * 2);
-        dis23 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +1 * 2, +2 * 2);
-        dis31 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +2 * 2, +0 * 2);
+        double dis12 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +0 * 2, +1 * 2);
+        double dis23 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +1 * 2, +2 * 2);
+        double dis31 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +2 * 2, +0 * 2);
         switch (dis12)
         {
             //
@@ -3301,7 +3169,7 @@ public static class Geometry
         //    Output, double *DIST, the distance from the point to the triangle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double dist12 = 0;
         double dist23 = 0;
@@ -3377,19 +3245,15 @@ public static class Geometry
         //    Output, double TRIANGLE_QUALITY_2D, the quality of the triangle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double a;
-        double b;
-        double c;
         int i;
-        double value = 0;
         //
         //  Compute the length of each side.
         //
-        a = 0.0;
-        b = 0.0;
-        c = 0.0;
+        double a = 0.0;
+        double b = 0.0;
+        double c = 0.0;
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -3402,7 +3266,7 @@ public static class Geometry
         b = Math.Sqrt(b);
         c = Math.Sqrt(c);
 
-        value = (a * b * c) switch
+        double value = (a * b * c) switch
         {
             0.0 => 0.0,
             _ => (-a + b + c) * (a - b + c) * (a + b - c) / (a * b * c)
@@ -3452,9 +3316,7 @@ public static class Geometry
         //    Output, int N, the number of lattice points.
         //
     {
-        int n;
-
-        n = ((a + 1) * (b + 1) + typeMethods.i4_gcd(a, b) + 1) / 2;
+        int n = ((a + 1) * (b + 1) + typeMethods.i4_gcd(a, b) + 1) / 2;
 
         return n;
     }
@@ -3490,18 +3352,15 @@ public static class Geometry
         //    Output, double P[2*N], a random point in the triangle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double alpha;
-        double beta;
         int j;
-        double r;
         double[] p12 = new double[DIM_NUM];
         double[] p13 = new double[DIM_NUM];
 
         for (j = 0; j < n; j++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
             //
             //  Interpret R as a percentage of the triangle's area.
             //
@@ -3511,7 +3370,7 @@ public static class Geometry
             //  The line L will intersect sides 2 and 3 at a fraction
             //  ALPHA = Math.Sqrt ( R ) of the distance from vertex 1 to vertices 2 and 3.
             //
-            alpha = Math.Sqrt(r);
+            double alpha = Math.Sqrt(r);
             //
             //  Determine the coordinates of the points on sides 2 and 3 intersected
             //  by line L.
@@ -3520,13 +3379,11 @@ public static class Geometry
             p12[1] = (1.0 - alpha) * t[1 + 0 * 2] + alpha * t[1 + 1 * 2];
 
             p13[0] = (1.0 - alpha) * t[0 + 0 * 2] + alpha * t[0 + 2 * 2];
-            ;
             p13[1] = (1.0 - alpha) * t[1 + 0 * 2] + alpha * t[1 + 2 * 2];
-            ;
             //
             //  Now choose, uniformly at random, a point on the line L.
             //
-            beta = UniformRNG.r8_uniform_01(ref seed);
+            double beta = UniformRNG.r8_uniform_01(ref seed);
 
             p[0 + j * 2] = (1.0 - beta) * p12[0] + beta * p13[0];
             p[1 + j * 2] = (1.0 - beta) * p12[1] + beta * p13[1];
@@ -3582,9 +3439,7 @@ public static class Geometry
         //    Output, int TRIANGLE_UNIT_LATTICE_POINT_NUM_2D, the number of lattice points.
         //
     {
-        int n;
-
-        n = (s + 2) * (s + 1) / 2;
+        int n = (s + 2) * (s + 1) / 2;
 
         return n;
     }
@@ -3652,10 +3507,8 @@ public static class Geometry
         //    Output, double XSI[3], the barycentric coordinates of the point.
         //
     {
-        double det;
-
-        det = (t[0 + 0 * 2] - t[0 + 2 * 2]) * (t[1 + 1 * 2] - t[1 + 2 * 2])
-              - (t[0 + 1 * 2] - t[0 + 2 * 2]) * (t[1 + 0 * 2] - t[1 + 2 * 2]);
+        double det = (t[0 + 0 * 2] - t[0 + 2 * 2]) * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                     - (t[0 + 1 * 2] - t[0 + 2 * 2]) * (t[1 + 0 * 2] - t[1 + 2 * 2]);
 
         xsi[0] = ((t[1 + 1 * 2] - t[1 + 2 * 2]) * (p[0] - t[0 + 2 * 2])
                   - (t[0 + 1 * 2] - t[0 + 2 * 2]) * (p[1] - t[1 + 2 * 2])) / det;

@@ -42,8 +42,8 @@ public static class hofStadterTest
             f = Hofstadter.f_hofstadter(i);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + f.ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }
@@ -82,8 +82,8 @@ public static class hofStadterTest
         for (i = 0; i <= 30; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + Hofstadter.g_hofstadter(i).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + Hofstadter.g_hofstadter(i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }
@@ -123,8 +123,8 @@ public static class hofStadterTest
         for (i = 0; i <= 30; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + Hofstadter.h_hofstadter(i).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + Hofstadter.h_hofstadter(i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }
@@ -162,8 +162,8 @@ public static class hofStadterTest
 
         for (i = 0; i <= 30; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + Hofstadter.v_hofstadter(i).ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + Hofstadter.v_hofstadter(i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }

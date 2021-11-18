@@ -94,7 +94,7 @@ public struct ContourVertex
         Data = data;
     }
 
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         return string.Format("{0}, {1}", Position, Data);
     }

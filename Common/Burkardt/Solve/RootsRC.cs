@@ -125,12 +125,12 @@ public static class RootsRC
                         q[2 * n + (i - 1) * lda] = typeMethods.r8_huge();
                     }
 
-                    if (q[2 * n + 1 + (jsus - 1) * lda] < (n + 3) / 2)
+                    if (q[2 * n + 1 + (jsus - 1) * lda] < (double)(n + 3) / 2)
                     {
                         jsus = i;
                     }
 
-                    if ((n + 3) / 2 <= q[2 * n + 1 + (i - 1) * lda] &&
+                    if ((double)(n + 3) / 2 <= q[2 * n + 1 + (i - 1) * lda] &&
                         q[2 * n + (jsus - 1) * lda] < q[2 * n + (i - 1) * lda])
                     {
                         jsus = i;

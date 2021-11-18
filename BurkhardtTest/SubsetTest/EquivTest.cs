@@ -44,7 +44,7 @@ public static class EquivTest
         string cout = "      ";
         for (i = 1; i <= N; i++)
         {
-            cout += i.ToString().PadLeft(2) + "  ";
+            cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -60,10 +60,10 @@ public static class EquivTest
             rank += 1;
 
             cout = "  "
-                   + rank.ToString().PadLeft(2) + "  ";
+                   + rank.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(2) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -113,7 +113,7 @@ public static class EquivTest
         string cout = "      ";
         for (i = 1; i <= N; i++)
         {
-            cout += i.ToString().PadLeft(2) + "  ";
+            cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -134,10 +134,10 @@ public static class EquivTest
             rank += 1;
 
             cout = "  "
-                   + rank.ToString().PadLeft(2) + "  ";
+                   + rank.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(2) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             }
 
             Console.WriteLine(cout);

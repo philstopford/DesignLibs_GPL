@@ -1,4 +1,6 @@
-﻿namespace Burkardt.Function;
+﻿using System;
+
+namespace Burkardt.Function;
 
 public static class NBITS
 {
@@ -64,7 +66,7 @@ public static class NBITS
             b /= 2.0;
             v = b + 1.0;
 
-            if ( v == 1.0 )
+            if ( Math.Abs(v - 1.0) <= double.Epsilon )
             {
                 break;
             }

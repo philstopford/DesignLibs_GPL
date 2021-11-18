@@ -69,7 +69,7 @@ public static class Cube
         double volume;
         double[] x;
 
-        if (r1 == r2)
+        if (Math.Abs(r1 - r2) <= double.Epsilon)
         {
             result = 0.0;
             return result;

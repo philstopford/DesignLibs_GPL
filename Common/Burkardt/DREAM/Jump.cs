@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PDFLib;
 
 namespace Burkardt.DREAM;
@@ -203,8 +204,8 @@ public static class Jump
         Console.WriteLine("");
         for (i = 0; i < par_num; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + jumprate_table[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + jumprate_table[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

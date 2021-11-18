@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.RationalNS;
@@ -1094,8 +1095,8 @@ public static class Rational
                 break;
             default:
             {
-                string sa = a.ToString();
-                string sb = b.ToString();
+                string sa = a.ToString(CultureInfo.InvariantCulture);
+                string sb = b.ToString(CultureInfo.InvariantCulture);
                 s = sa + "/" + sb;
                 break;
             }
@@ -1378,7 +1379,7 @@ public static class Rational
             {
                 for (j = jmin; j <= jmax; j++)
                 {
-                    cout += a[i + j * m].ToString().PadLeft(kmax) + "  ";
+                    cout += a[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(kmax) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -1403,7 +1404,7 @@ public static class Rational
                     {
                         for (j = jmin; j <= jmax; j++)
                         {
-                            cout += b[i + j * m].ToString().PadLeft(kmax) + "  ";
+                            cout += b[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(kmax) + "  ";
                         }
 
                         Console.WriteLine(cout);

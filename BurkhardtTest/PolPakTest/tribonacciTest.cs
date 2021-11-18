@@ -40,8 +40,8 @@ public static class tribonacciTest
         for (i = 1; i <= n; i++)
         {
             t = Tribonacci.tribonacci_direct(i);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + t.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -82,8 +82,8 @@ public static class tribonacciTest
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + (i - 1).ToString().PadLeft(6)
-                                   + "  " + f[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

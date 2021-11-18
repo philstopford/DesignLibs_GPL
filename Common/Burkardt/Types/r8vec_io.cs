@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace Burkardt.Types;
@@ -74,7 +75,7 @@ public static partial class typeMethods
         string[] x_ = new string[n];
         for (int i = 0; i < n; i++)
         {
-            x_[i] = x[i].ToString();
+            x_[i] = x[i].ToString(CultureInfo.InvariantCulture);
         }
         File.WriteAllLines(output_filename, x_);
     }

@@ -112,10 +112,10 @@ internal class Program
             {
                 q = s - p;
                 nu_pq = Integrals.moment(n, x, y, p, q);
-                Console.WriteLine("  " + p.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + nu_pq.ToString().PadLeft(14)
-                                       + "  " + nu_exact[k].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + nu_pq.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + nu_exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
@@ -131,10 +131,10 @@ internal class Program
             {
                 q = s - p;
                 alpha_pq = Integrals.moment_normalized(n, x, y, p, q);
-                Console.WriteLine("  " + p.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + alpha_pq.ToString().PadLeft(14)
-                                       + "  " + alpha_exact[k].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + alpha_pq.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + alpha_exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
@@ -150,10 +150,10 @@ internal class Program
             {
                 q = s - p;
                 mu_pq = Integrals.moment_central(n, x, y, p, q);
-                Console.WriteLine("  " + p.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + mu_pq.ToString().PadLeft(14)
-                                       + "  " + mu_exact[k].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + mu_pq.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + mu_exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }

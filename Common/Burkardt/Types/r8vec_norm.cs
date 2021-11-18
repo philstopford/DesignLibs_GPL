@@ -326,14 +326,13 @@ public static partial class typeMethods
         //    Output, double R8VEC_NORM_RMS, the RMS norm of A.
         //
     {
-        int i;
-
         double v = 0.0;
 
         switch (n)
         {
             case > 0:
             {
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     v += a[i] * a[i];
@@ -495,7 +494,7 @@ public static partial class typeMethods
         //
         //  Record the range of X we need to fill in.
         //
-        int x_lo = 1;
+        const int x_lo = 1;
         int x_hi = n;
         switch (x_hi - x_lo + 1)
         {
@@ -823,20 +822,22 @@ public static partial class typeMethods
 
         for (i = 0; i < dim_num; i++)
         {
-            if (Math.Abs(vk) < Math.Abs(v1[i]) || k == -1)
+            if (!(Math.Abs(vk) < Math.Abs(v1[i])) && k != -1)
             {
-                if (Math.Abs(vj) < Math.Abs(v1[i]) || j == -1)
-                {
-                    k = j;
-                    vk = vj;
-                    j = i;
-                    vj = v1[i];
-                }
-                else
-                {
-                    k = i;
-                    vk = v1[i];
-                }
+                continue;
+            }
+
+            if (Math.Abs(vj) < Math.Abs(v1[i]) || j == -1)
+            {
+                k = j;
+                vk = vj;
+                j = i;
+                vj = v1[i];
+            }
+            else
+            {
+                k = i;
+                vk = v1[i];
             }
         }
 
@@ -906,7 +907,7 @@ public static partial class typeMethods
         //
         //  Record the range of X we need to fill in.
         //
-        int x_lo = 1;
+        const int x_lo = 1;
         int x_hi = n;
         switch (x_hi - x_lo + 1)
         {

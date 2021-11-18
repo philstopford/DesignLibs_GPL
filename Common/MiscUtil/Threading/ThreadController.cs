@@ -207,7 +207,7 @@ public class ThreadController
             {
                 throw new InvalidOperationException("Thread has already been created");
             }
-            thread = new Thread(new ThreadStart(RunTask));
+            thread = new Thread(RunTask);
         }
     }
 
@@ -228,7 +228,7 @@ public class ThreadController
 
             thread = thread switch
             {
-                null => new Thread(new ThreadStart(RunTask)),
+                null => new Thread(RunTask),
                 _ => thread
             };
             thread.Start();

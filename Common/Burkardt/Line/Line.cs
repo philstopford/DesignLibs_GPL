@@ -109,7 +109,7 @@ public class Line
             {
                 case 0.0:
                 {
-                    if (b2 * c1 == c2 * b1)
+                    if (Math.Abs(b2 * c1 - c2 * b1) <= double.Epsilon)
                     {
                         ival = 2;
                     }
@@ -118,7 +118,7 @@ public class Line
                 }
                 default:
                 {
-                    if (a2 * c1 == c2 * a1)
+                    if (Math.Abs(a2 * c1 - c2 * a1) <= double.Epsilon)
                     {
                         ival = 2;
                     }
@@ -553,7 +553,7 @@ public class Line
             }
             case true:
             {
-                if (a2 * p1[0] + b2 * p1[1] == c2)
+                if (Math.Abs(a2 * p1[0] + b2 * p1[1] - c2) <= double.Epsilon)
                 {
                     ival = 1;
                     typeMethods.r8vec_copy(2, p1, ref p);
@@ -567,7 +567,7 @@ public class Line
                 {
                     case true:
                     {
-                        if (a1 * p3[0] + b1 * p3[1] == c1)
+                        if (Math.Abs(a1 * p3[0] + b1 * p3[1] - c1) <= double.Epsilon)
                         {
                             ival = 1;
                             typeMethods.r8vec_copy(2, p3, ref p);
@@ -695,7 +695,7 @@ public class Line
             }
             case true:
             {
-                if (a2 * p1[0] + b2 * p1[1] == c2)
+                if (Math.Abs(a2 * p1[0] + b2 * p1[1] - c2) <= double.Epsilon)
                 {
                     ival = 1;
                     typeMethods.r8vec_copy(2, p1, ref p, p1Index);
@@ -709,7 +709,7 @@ public class Line
                 {
                     case true:
                     {
-                        if (a1 * p3[0] + b1 * p3[1] == c1)
+                        if (Math.Abs(a1 * p3[0] + b1 * p3[1] - c1) <= double.Epsilon)
                         {
                             ival = 1;
                             typeMethods.r8vec_copy(2, p3, ref p, p3Index);
@@ -831,7 +831,7 @@ public class Line
             {
                 case 0.0:
                 {
-                    if (b2 * c1 == c2 * b1)
+                    if (Math.Abs(b2 * c1 - c2 * b1) <= double.Epsilon)
                     {
                         ival = 2;
                     }
@@ -840,7 +840,7 @@ public class Line
                 }
                 default:
                 {
-                    if (a2 * c1 == c2 * a1)
+                    if (Math.Abs(a2 * c1 - c2 * a1) <= double.Epsilon)
                     {
                         ival = 2;
                     }

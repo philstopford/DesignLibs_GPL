@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.Table;
@@ -68,18 +66,18 @@ public static class TableSummary
                 string cout = "      ";
                 for (int j = jlo; j <= jhi; j++ )
                 {
-                    cout += j.ToString().PadLeft(7) + "       ";
+                    cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
                 }
                 Console.WriteLine(cout);
                 Console.WriteLine();
                 cout = "";
                 for (int i = 1; i <= l; i++ )
                 {
-                    string t = i.ToString().PadLeft(4);
+                    string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     cout += "  " + t;
                     for (int j = jlo; j <= jhi; j++ )
                     {
-                        t = a[i-1+(j-1)*l+(k-1)*l*m].ToString().PadLeft(12);
+                        t = a[i-1+(j-1)*l+(k-1)*l*m].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                         cout += "  " +t;
                     }
                     Console.WriteLine(cout);

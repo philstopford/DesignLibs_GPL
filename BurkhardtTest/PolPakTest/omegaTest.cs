@@ -49,9 +49,9 @@ public static class omegaTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(12) + "  "
-                              + c.ToString().PadLeft(10) + "  "
-                              + Omega.omega(n).ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + Omega.omega(n).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
 

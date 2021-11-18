@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.TriangulationNS;
@@ -249,12 +248,12 @@ internal class Program
                 k1 = element_node2[i + (element - 1) * 6] + 1;
                 k2 = element_node2[ip1 + (element - 1) * 6] + 1;
 
-                string cout = "  " + node_num2.ToString().PadLeft(8);
+                string cout = "  " + node_num2.ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 for (ii = 0; ii < 2; ii++)
                 {
                     node_xy2[(node_xy2.Length + ii + node_num2 * m) % node_xy2.Length] = 0.5
                         * (node_xy1[(ii + (k1 - 1) * m + node_xy1.Length) % node_xy1.Length] + node_xy1[(ii + (k2 - 1) * m + node_xy1.Length) % node_xy1.Length]);
-                    cout += "  " + node_xy2[(ii + node_num2 * m + node_xy2.Length) % node_xy2.Length].ToString().PadLeft(12);
+                    cout += "  " + node_xy2[(ii + node_num2 * m + node_xy2.Length) % node_xy2.Length].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.SubsetNS;
 using Burkardt.Types;
@@ -63,10 +62,10 @@ public static class KsubTest
 
             rank += 1;
 
-            string cout = rank.ToString().PadLeft(4) + "    ";
+            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
             for (i = 0; i < k; i++)
             {
-                cout += a[i].ToString().PadLeft(4);
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -131,15 +130,15 @@ public static class KsubTest
         for (;;)
         {
             rank += 1;
-            string cout = rank.ToString().PadLeft(2) + "  ";
+            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (i = 0; i < K; i++)
             {
-                cout += a[i].ToString().PadLeft(2) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             }
 
             cout += "   ";
-            cout += i_in.ToString().PadLeft(2) + "  ";
-            Console.WriteLine(cout + i_out.ToString().PadLeft(2) + "");
+            cout += i_in.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
+            Console.WriteLine(cout + i_out.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
 
             Ksub.ksub_next2(n, K, ref a, ref i_in, ref i_out);
 
@@ -208,15 +207,15 @@ public static class KsubTest
             Ksub.ksub_next3(n, K, ref a, ref more, ref i_in, ref i_out);
 
             rank += 1;
-            string cout = rank.ToString().PadLeft(4) + "  ";
+            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (i = 0; i < K; i++)
             {
-                cout += a[i].ToString().PadLeft(2) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             }
 
             cout += "   ";
-            cout += i_in.ToString().PadLeft(2) + "  ";
-            Console.WriteLine(cout + i_out.ToString().PadLeft(2) + "");
+            cout += i_in.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
+            Console.WriteLine(cout + i_out.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
 
             if (!more)
             {
@@ -277,11 +276,11 @@ public static class KsubTest
             }
 
             rank += 1;
-            string cout = rank.ToString().PadLeft(4) + "  ";
+            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             cout += "  ";
             for (i = 0; i < K; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -333,7 +332,7 @@ public static class KsubTest
             Ksub.ksub_random(n, K, ref seed, ref a);
             for (j = 0; j < K; j++)
             {
-                cout += "  " + a[j].ToString().PadLeft(3);
+                cout += "  " + a[j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);
@@ -384,7 +383,7 @@ public static class KsubTest
             Ksub.ksub_random2(n, K, ref seed, ref a);
             for (j = 0; j < K; j++)
             {
-                cout += "  " + a[j].ToString().PadLeft(3);
+                cout += "  " + a[j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);
@@ -435,7 +434,7 @@ public static class KsubTest
             Ksub.ksub_random3(N, K, ref seed, ref a);
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[j].ToString().PadLeft(3);
+                cout += "  " + a[j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);
@@ -486,7 +485,7 @@ public static class KsubTest
             Ksub.ksub_random4(N, K, ref seed, ref a);
             for (j = 0; j < K; j++)
             {
-                cout += "  " + a[j].ToString().PadLeft(3);
+                cout += "  " + a[j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);
@@ -536,7 +535,7 @@ public static class KsubTest
             a = Ksub.ksub_random5(n, k, ref seed);
             for (j = 0; j < k; j++)
             {
-                cout += "  " + a[j].ToString().PadLeft(3);
+                cout += "  " + a[j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);
@@ -583,7 +582,7 @@ public static class KsubTest
         string cout = "";
         for (i = 0; i < K; i++)
         {
-            cout += a[i].ToString().PadLeft(4);
+            cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -641,7 +640,7 @@ public static class KsubTest
             string cout = "  COMP:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString().PadLeft(4);
+                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -650,7 +649,7 @@ public static class KsubTest
             cout = "  KSUB:";
             for (j = 0; j < ks; j++)
             {
-                cout += as_[j].ToString().PadLeft(4);
+                cout += as_[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -659,7 +658,7 @@ public static class KsubTest
             cout = "  COMP:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString().PadLeft(4);
+                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -714,7 +713,7 @@ public static class KsubTest
             string cout = "  COMPNZ:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString().PadLeft(4);
+                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -723,7 +722,7 @@ public static class KsubTest
             cout = "  KSUB:  ";
             for (j = 0; j < ks; j++)
             {
-                cout += as_[j].ToString().PadLeft(4);
+                cout += as_[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -732,7 +731,7 @@ public static class KsubTest
             cout = "  COMPNZ:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString().PadLeft(4);
+                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -787,7 +786,7 @@ public static class KsubTest
         string cout = "";
         for (i = 0; i < K; i++)
         {
-            cout += a[i].ToString().PadLeft(4);
+            cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);

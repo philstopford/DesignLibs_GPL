@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.FEM;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -98,10 +97,10 @@ internal class Program
                 e3 += w[i] / (1.0 + 25.0 * x[i] * x[i]);
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + e1.ToString().PadLeft(14)
-                                   + "  " + e2.ToString().PadLeft(14)
-                                   + "  " + e3.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -160,11 +159,11 @@ internal class Program
 
         for (i = 0; i < ni; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(2)
-                               + "  " + xi[i].ToString().PadLeft(10);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + xi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             for (j = 0; j < nd; j++)
             {
-                cout += "  " + li[i + j * ni].ToString().PadLeft(10);
+                cout += "  " + li[i + j * ni].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -225,11 +224,11 @@ internal class Program
 
         for (i = 0; i < ni; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(2)
-                               + "  " +xi[i].ToString().PadLeft(10);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " +xi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             for (j = 0; j < nd; j++)
             {
-                cout += lpi[i + j * ni].ToString().PadLeft(10);
+                cout += lpi[i + j * ni].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -344,11 +343,11 @@ internal class Program
 
         for (i = 0; i < x_num; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + u_e[i].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - u_e[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + u_e[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - u_e[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

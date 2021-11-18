@@ -123,13 +123,12 @@ public static class Lambert
         const double c2 = 7.0 / 3.0;
         const double c3 = 5.0 / 6.0;
         const double c4 = 2.0 / 3.0;
-        double wn;
         //
         //  Initial guess.
         //
         double f = Math.Log(x);
 
-        wn = x switch
+        double wn = x switch
         {
             <= 0.7385 => x * (1.0 + c1 * x) / (1.0 + x * (c2 + c3 * x)),
             _ => f - 24.0 * ((f + 2.0) * f - 3.0) / ((0.7 * f + 58.0) * f + 127.0)

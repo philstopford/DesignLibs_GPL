@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
@@ -474,10 +475,10 @@ public static class STL_ASCII
 
         for (face = 0; face < face_num; face++)
         {
-            string cout = "  " + (face + offset).ToString().PadLeft(6);
+            string cout = "  " + (face + offset).ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (vertex = 0; vertex < 3; vertex++)
             {
-                cout += "  " + face_node[vertex + face * 3].ToString().PadLeft(6);
+                cout += "  " + face_node[vertex + face * 3].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -633,10 +634,10 @@ public static class STL_ASCII
 
         for (face = 0; face < face_num; face++)
         {
-            string cout = "  " + face.ToString().PadLeft(6);
+            string cout = "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + face_normal[i + face * 3].ToString().PadLeft(14);
+                cout += "  " + face_normal[i + face * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -685,10 +686,10 @@ public static class STL_ASCII
 
         for (node = 0; node < node_num; node++)
         {
-            string cout = "  " + node.ToString().PadLeft(6);
+            string cout = "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + node_xyz[i + node * 3].ToString().PadLeft(14);
+                cout += "  " + node_xyz[i + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1636,7 +1637,7 @@ public static class STL_ASCII
             string cout = "  facet normal";
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + face_normal[i + face * 3].ToString().PadLeft(10);
+                cout += "  " + face_normal[i + face * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             output_unit.Add(cout);
@@ -1647,7 +1648,7 @@ public static class STL_ASCII
                 cout = "      vertex  ";
                 for (i = 0; i < 3; i++)
                 {
-                    cout += "  " + node_xyz[i + node * 3].ToString().PadLeft(10);
+                    cout += "  " + node_xyz[i + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                 }
 
                 output_unit.Add(cout);

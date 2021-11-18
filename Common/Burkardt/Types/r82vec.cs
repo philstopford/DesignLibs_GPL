@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -622,9 +622,9 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (i = 0; i <= n - 1; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + a[2 * i + 0].ToString().PadLeft(14) + "  "
-                                                      + a[2 * i + 1].ToString().PadLeft(14) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + a[2 * i + 0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + a[2 * i + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -983,9 +983,9 @@ public static partial class typeMethods
         {
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + a[0 + i * 2].ToString().PadLeft(14)
-                                       + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
         else
@@ -996,31 +996,31 @@ public static partial class typeMethods
                 {
                     for (i = 0; i < max_print - 2; i++)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                               + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     }
 
                     Console.WriteLine("  ........  ..............  ..............");
                     i = n - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                           + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 }
                 default:
                 {
                     for (i = 0; i < max_print - 1; i++)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                               + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     }
 
                     i = max_print - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                           + "  " + a[1 + i * 2].ToString().PadLeft(14)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                            + "  " + "...more entries...");
                     break;
                 }

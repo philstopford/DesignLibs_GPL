@@ -1,7 +1,5 @@
 ﻿using System;
-using Burkardt.FullertonFnLib;
 using Burkardt.Quadrature;
-using Burkardt.Types;
 
 namespace Burkardt.NavierStokesNS;
 

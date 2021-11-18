@@ -125,11 +125,11 @@ internal class Program
 
             e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -181,14 +181,14 @@ internal class Program
                         switch (j)
                         {
                             case 0:
-                                Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + "");
+                                Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                                 ;
                                 break;
                             case 1:
-                                Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x");
+                                Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                                 break;
                             default:
-                                Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                                Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                                 break;
                         }
 
@@ -320,9 +320,9 @@ internal class Program
 
             q = typeMethods.r8vec_dot_product(n, w, f);
             q_exact = Laguerre.l_integral(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -385,12 +385,12 @@ internal class Program
 
             e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -445,14 +445,14 @@ internal class Program
                             switch (j)
                             {
                                 case 0:
-                                    Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + "");
+                                    Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                                     ;
                                     break;
                                 case 1:
-                                    Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x");
+                                    Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                                     break;
                                 default:
-                                    Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                                    Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                                     break;
                             }
 

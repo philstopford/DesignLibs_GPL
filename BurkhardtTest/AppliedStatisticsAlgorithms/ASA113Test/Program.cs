@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using Burkardt;
 using Burkardt.AppliedStatistics;
-using Burkardt.Types;
 
 namespace ASA113Test;
 
@@ -95,10 +93,10 @@ internal class Program
 
         for (int i = 1; i <= 5; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(8);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (int j = 1; j <= n; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * m].ToString().PadLeft(14);
+                cout += "  " + a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -241,15 +239,15 @@ internal class Program
 
         for (int i = 1; i <= k; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + c_size[i - 1].ToString().PadLeft(8)
-                                   + "  " + wss[i - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + c_size[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + wss[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("     Total"
-                          + "  " + m.ToString().PadLeft(8)
-                          + "  " + critvl.ToString().PadLeft(14) + "");
+                          + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + critvl.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

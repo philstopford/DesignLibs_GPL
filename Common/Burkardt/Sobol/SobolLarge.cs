@@ -164,7 +164,7 @@ public static partial class SobolSampler
             //
             if ( dim_num < 1 || SobolConfigLarge.DIM_MAX2 < dim_num )
             {
-                Console.WriteLine();;
+                Console.WriteLine();
                 Console.WriteLine("I8_SOBOL - Fatal error!");
                 Console.WriteLine("  The spatial dimension DIM_NUM should satisfy:");
                 Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfigLarge.DIM_MAX2);

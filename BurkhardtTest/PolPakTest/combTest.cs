@@ -40,10 +40,10 @@ public static class combTest
         for ( n = 0; n <= N_MAX; n++ )
         {
             Comb.comb_row_next ( n, ref c );
-            string cout = "  " + n.ToString().PadLeft(2) + "  ";
+            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for ( i = 0; i <= n; i++ )
             {
-                cout += c[i].ToString().PadLeft(6);
+                cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
             Console.WriteLine(cout);
         }

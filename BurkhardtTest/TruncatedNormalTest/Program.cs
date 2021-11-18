@@ -143,8 +143,8 @@ internal class Program
         {
             j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + j.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -196,9 +196,9 @@ internal class Program
 
             cdf2 = CDF.normal_01_cdf(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf1.ToString().PadLeft(24)
-                                   + "  " + cdf2.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -250,9 +250,9 @@ internal class Program
 
             x2 = CDF.normal_01_cdf_inv(cdf);
 
-            Console.WriteLine("  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x1.ToString().PadLeft(24)
-                                   + "  " + x2.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -351,8 +351,8 @@ internal class Program
         {
             moment = Normal.normal_01_moment(order);
 
-            Console.WriteLine("  " + order.ToString().PadLeft(14)
-                                   + "  " + moment.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -395,8 +395,8 @@ internal class Program
 
             pdf = Normal.normal_01_pdf(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -437,8 +437,8 @@ internal class Program
         for (i = 1; i <= 10; i++)
         {
             x = Normal.normal_01_sample(ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -542,8 +542,8 @@ internal class Program
         {
             x = mu + sigma * i / 10.0;
             cdf = CDF.normal_ms_cdf(x, mu, sigma);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -596,9 +596,9 @@ internal class Program
             x = mu + sigma * i / 10.0;
             cdf = CDF.normal_ms_cdf(x, mu, sigma);
             x2 = CDF.normal_ms_cdf_inv(cdf, mu, sigma);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -719,9 +719,9 @@ internal class Program
             {
                 moment1 = Normal.normal_ms_moment(order, mu, sigma);
                 moment2 = Normal.normal_ms_moment_values(order, mu, sigma);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment1.ToString().PadLeft(14)
-                                       + "  " + moment2.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + moment2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -776,9 +776,9 @@ internal class Program
             {
                 moment1 = Normal.normal_ms_moment_central(order, mu, sigma);
                 moment2 = Normal.normal_ms_moment_central_values(order, mu, sigma);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment1.ToString().PadLeft(14)
-                                       + "  " + moment2.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + moment2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -830,8 +830,8 @@ internal class Program
         {
             x = mu + sigma * i / 10.0;
             pdf = Normal.normal_ms_pdf(mu, sigma, x);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -881,8 +881,8 @@ internal class Program
         for (i = 1; i <= 10; i++)
         {
             x = Normal.normal_ms_sample(mu, sigma, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -986,9 +986,9 @@ internal class Program
             for (k = 0; k <= n; k++)
             {
                 cnk = typeMethods.r8_choose(n, k);
-                Console.WriteLine(n.ToString().PadLeft(10) + "  "
-                                                           + k.ToString().PadLeft(8) + "  "
-                                                           + cnk.ToString().PadLeft(14) + "");
+                Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                           + k.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                           + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -1041,7 +1041,7 @@ internal class Program
             f2 = typeMethods.r8_factorial2(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
                               + f1.ToString("0.################").PadLeft(24) + "  "
                               + f2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1091,8 +1091,8 @@ internal class Program
             i4 = UniformRNG.i4_uniform_ab(i4_min, i4_max, ref seed);
             r8 = typeMethods.r8_mop(i4);
             Console.WriteLine("  "
-                              + i4.ToString().PadLeft(4) + "  "
-                              + r8.ToString().PadLeft(4) + "");
+                              + i4.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + r8.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
     }
@@ -1144,8 +1144,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < 10; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         min = typeMethods.r8vec_min(N, x);
@@ -1241,9 +1241,9 @@ internal class Program
         for (i = 0; i < n; i++)
         {
             p = typeMethods.r8poly_value_horner(m, c, x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + p.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
 
@@ -1371,10 +1371,10 @@ internal class Program
 
             cdf2 = CDF.truncated_normal_a_cdf(x, mu, sigma, a);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + cdf1.ToString("0.################").PadLeft(24)
                                    + "  " + cdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1435,10 +1435,10 @@ internal class Program
             x = Truncated.truncated_normal_a_sample(mu, sigma, a, ref seed);
             cdf = CDF.truncated_normal_a_cdf(x, mu, sigma, a);
             x2 = CDF.truncated_normal_a_cdf_inv(cdf, mu, sigma, a);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1579,8 +1579,8 @@ internal class Program
             for (order = 0; order <= 8; order++)
             {
                 moment = Truncated.truncated_normal_a_moment(order, mu, sigma, a);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -1636,10 +1636,10 @@ internal class Program
 
             pdf2 = Truncated.truncated_normal_a_pdf(x, mu, sigma, a);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + pdf1.ToString("0.################").PadLeft(24)
                                    + "  " + pdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1694,8 +1694,8 @@ internal class Program
         for (i = 0; i < sample_num; i++)
         {
             x = Truncated.truncated_normal_a_sample(mu, sigma, a, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1819,11 +1819,11 @@ internal class Program
 
             cdf2 = CDF.truncated_normal_ab_cdf(x, mu, sigma, a, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + cdf1.ToString("0.################").PadLeft(24)
                                    + "  " + cdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1886,10 +1886,10 @@ internal class Program
             x = Truncated.truncated_normal_ab_sample(mu, sigma, a, b, ref seed);
             cdf = CDF.truncated_normal_ab_cdf(x, mu, sigma, a, b);
             x2 = CDF.truncated_normal_ab_cdf_inv(cdf, mu, sigma, a, b);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2039,8 +2039,8 @@ internal class Program
             for (order = 0; order <= 8; order++)
             {
                 moment = Truncated.truncated_normal_ab_moment(order, mu, sigma, a, b);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -2097,11 +2097,11 @@ internal class Program
 
             pdf2 = Truncated.truncated_normal_ab_pdf(x, mu, sigma, a, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + pdf1.ToString("0.################").PadLeft(24)
                                    + "  " + pdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -2158,8 +2158,8 @@ internal class Program
         for (i = 0; i < sample_num; i++)
         {
             x = Truncated.truncated_normal_ab_sample(mu, sigma, a, b, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2284,10 +2284,10 @@ internal class Program
 
             cdf2 = CDF.truncated_normal_b_cdf(x, mu, sigma, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + cdf1.ToString("0.################").PadLeft(24)
                                    + "  " + cdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -2348,10 +2348,10 @@ internal class Program
             x = Truncated.truncated_normal_b_sample(mu, sigma, b, ref seed);
             cdf = CDF.truncated_normal_b_cdf(x, mu, sigma, b);
             x2 = CDF.truncated_normal_b_cdf_inv(cdf, mu, sigma, b);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2492,8 +2492,8 @@ internal class Program
             for (order = 0; order <= 8; order++)
             {
                 moment = Truncated.truncated_normal_b_moment(order, mu, sigma, b);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -2549,10 +2549,10 @@ internal class Program
 
             pdf2 = Truncated.truncated_normal_b_pdf(x, mu, sigma, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + pdf1.ToString("0.################").PadLeft(24)
                                    + "  " + pdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -2607,8 +2607,8 @@ internal class Program
         for (i = 0; i < sample_num; i++)
         {
             x = Truncated.truncated_normal_b_sample(mu, sigma, b, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

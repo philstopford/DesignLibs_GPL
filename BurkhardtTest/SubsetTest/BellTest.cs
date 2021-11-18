@@ -54,9 +54,9 @@ public static class BellTest
             Bell.bell ( n, ref c2 );
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c.ToString().PadLeft(8) + "  "
-                              + c2[n].ToString().PadLeft(8) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + c2[n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }

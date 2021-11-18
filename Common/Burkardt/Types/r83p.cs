@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -291,7 +292,7 @@ public static partial class typeMethods
 
         int i = n;
         int j = 1;
-        a[0 + (j - 1) * 3] = fac * i + j;
+        a[0] = fac * i + j;
         for (j = 2; j <= n; j++)
         {
             i = j - 1;
@@ -310,9 +311,8 @@ public static partial class typeMethods
             a[2 + (j - 1) * 3] = fac * i + j;
         }
 
-        i = 1;
         j = n;
-        a[2 + (j - 1) * 3] = fac * i + j;
+        a[2 + (j - 1) * 3] = fac + j;
 
         return a;
     }
@@ -656,7 +656,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -685,7 +685,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(4) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
                 int j2;
                 for (j2 = 1; j2 <= inc; j2++)
@@ -694,14 +694,14 @@ public static partial class typeMethods
 
                     if (i == n && j == 1)
                     {
-                        cout += a[0 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        cout += a[0 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else
                     {
                         switch (i)
                         {
                             case 1 when j == n:
-                                cout += a[2 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                                cout += a[2 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                                 break;
                             default:
                             {
@@ -711,15 +711,15 @@ public static partial class typeMethods
                                 }
                                 else if (j == i + 1)
                                 {
-                                    cout += a[0 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                                    cout += a[0 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                                 }
                                 else if (j == i)
                                 {
-                                    cout += a[1 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                                    cout += a[1 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                                 }
                                 else if (j == i - 1)
                                 {
-                                    cout += a[2 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                                    cout += a[2 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                                 }
 
                                 break;

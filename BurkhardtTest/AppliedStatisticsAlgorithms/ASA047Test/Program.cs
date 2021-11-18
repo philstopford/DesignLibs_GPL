@@ -94,7 +94,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = rosenbrock ( start );
@@ -112,7 +112,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -219,7 +219,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = powell ( start );
@@ -237,7 +237,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -349,7 +349,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = helical ( start );
@@ -367,7 +367,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -487,7 +487,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = quartic ( start );
@@ -505,7 +505,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");

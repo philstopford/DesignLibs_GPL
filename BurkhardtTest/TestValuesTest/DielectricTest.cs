@@ -45,9 +45,9 @@ public static class DielectricTest
                 break;
             }
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12)  + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + eps.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + eps.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

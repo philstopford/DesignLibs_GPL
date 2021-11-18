@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MatrixNS;
 
 namespace SubsetTestNS;
@@ -38,8 +37,8 @@ public static class YoungTableauTest
 
         for (n = 0; n <= 10; n++)
         {
-            Console.WriteLine(n.ToString().PadLeft(4) + "  "
-                                                      + YoungTableau.ytb_enum(n).ToString().PadLeft(10) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + YoungTableau.ytb_enum(n).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

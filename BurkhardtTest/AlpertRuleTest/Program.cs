@@ -156,15 +156,15 @@ internal class Program
 
                 v1 = h * (s1 + s2 + s3);
 
-                Console.WriteLine("  " + rule.ToString().PadLeft(2)
-                                       + "  " + order_l.ToString().PadLeft(4)
-                                       + "  " + j_l.ToString().PadLeft(2)
-                                       + "  " + a_l.ToString().PadLeft(2)
-                                       + "  " + n.ToString().PadLeft(7)
-                                       + "  " + (n + j_l + j_r).ToString().PadLeft(7)
-                                       + "  " + h.ToString().PadLeft(14)
-                                       + "  " + v1.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + order_l.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j_l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + a_l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + (n + j_l + j_r).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
 
@@ -174,7 +174,7 @@ internal class Program
 
         Console.WriteLine("");
         Console.WriteLine("                                                Exact:"
-                          + v2.ToString().PadLeft(14) + "");
+                          + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -289,15 +289,15 @@ internal class Program
 
                 v1 = h * (s1 + s2 + s3);
 
-                Console.WriteLine("  " + rule.ToString().PadLeft(2)
-                                       + "  " + order_p.ToString().PadLeft(4)
-                                       + "  " + j_p.ToString().PadLeft(2)
-                                       + "  " + a_p.ToString().PadLeft(2)
-                                       + "  " + n.ToString().PadLeft(7)
-                                       + "  " + (n + j_p + j_r).ToString().PadLeft(7)
-                                       + "  " + h.ToString().PadLeft(14)
-                                       + "  " + v1.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + order_p.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j_p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + a_p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + (n + j_p + j_r).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -305,7 +305,7 @@ internal class Program
 
         Console.WriteLine("");
         Console.WriteLine("                                                Exact:"
-                          + v2.ToString().PadLeft(14) + "");
+                          + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -406,15 +406,15 @@ internal class Program
 
                 v1 = h * (s1 + s2 + s3);
 
-                Console.WriteLine("  " + rule.ToString().PadLeft(2)
-                                       + "  " + order.ToString().PadLeft(4)
-                                       + "  " + j.ToString().PadLeft(2)
-                                       + "  " + a.ToString().PadLeft(2)
-                                       + "  " + n.ToString().PadLeft(7)
-                                       + "  " + (n + 2 * j).ToString().PadLeft(7)
-                                       + "  " + h.ToString().PadLeft(14)
-                                       + "  " + v1.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + (n + 2 * j).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -422,7 +422,7 @@ internal class Program
 
         Console.WriteLine("");
         Console.WriteLine("                                                Exact:"
-                          + v2.ToString().PadLeft(14) + "");
+                          + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -476,13 +476,13 @@ internal class Program
             x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             f = AlpertRule.integrand_log(n, x);
             v1 = h * typeMethods.r8vec_sum(n, f);
-            Console.WriteLine("  " + n.ToString().PadLeft(9)
-                                   + "  " + v1.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
-        Console.WriteLine("      Exact: " + v2.ToString().PadLeft(14) + "");
+        Console.WriteLine("      Exact: " + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -536,13 +536,13 @@ internal class Program
             x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             f = AlpertRule.integrand_power(n, x);
             v1 = h * typeMethods.r8vec_sum(n, f);
-            Console.WriteLine("  " + n.ToString().PadLeft(9)
-                                   + "  " + v1.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
-        Console.WriteLine("      Exact: " + v2.ToString().PadLeft(14) + "");
+        Console.WriteLine("      Exact: " + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -596,13 +596,13 @@ internal class Program
             x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             f = AlpertRule.integrand_regular(n, x);
             v1 = h * typeMethods.r8vec_sum(n, f);
-            Console.WriteLine("  " + n.ToString().PadLeft(9)
-                                   + "  " + v1.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
-        Console.WriteLine("      Exact: " + v2.ToString().PadLeft(14) + "");
+        Console.WriteLine("      Exact: " + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -654,13 +654,13 @@ internal class Program
             x[0] = 0.5 * (x[0] + x[1]);
             f = AlpertRule.integrand_log(n, x);
             v1 = h * (typeMethods.r8vec_sum(n, f) - 0.5 * (f[0] + f[n - 1]));
-            Console.WriteLine("  " + n.ToString().PadLeft(7)
-                                   + "  " + v1.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
-        Console.WriteLine("    Exact: " + v2.ToString().PadLeft(14) + "");
+        Console.WriteLine("    Exact: " + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -712,13 +712,13 @@ internal class Program
             x[0] = 0.5 * (x[0] + x[1]);
             f = AlpertRule.integrand_power(n, x);
             v1 = h * (typeMethods.r8vec_sum(n, f) - 0.5 * (f[0] + f[n - 1]));
-            Console.WriteLine("  " + n.ToString().PadLeft(7)
-                                   + "  " + v1.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
-        Console.WriteLine("    Exact: " + v2.ToString().PadLeft(14) + "");
+        Console.WriteLine("    Exact: " + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -769,13 +769,13 @@ internal class Program
             x = typeMethods.r8vec_linspace_new(n, 0.0, 1.0);
             f = AlpertRule.integrand_regular(n, x);
             v1 = h * (typeMethods.r8vec_sum(n, f) - 0.5 * (f[0] + f[n - 1]));
-            Console.WriteLine("  " + n.ToString().PadLeft(7)
-                                   + "  " + v1.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(v1 - v2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + v1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(v1 - v2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
-        Console.WriteLine("    Exact: " + v2.ToString().PadLeft(14) + "");
+        Console.WriteLine("    Exact: " + v2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

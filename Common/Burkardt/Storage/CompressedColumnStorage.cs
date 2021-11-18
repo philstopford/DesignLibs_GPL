@@ -1,6 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
+using System.Globalization;
 using Burkardt.Table;
 using Burkardt.Types;
 
@@ -165,10 +164,10 @@ public static class CompressedColumnStorage
                         j += 1;
                     }
 
-                    Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                                                              + i.ToString().PadLeft(4) + "  "
-                                                              + j.ToString().PadLeft(4) + "  "
-                                                              + acc[k].ToString().PadLeft(16) + "");
+                    Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                              + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                              + acc[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
                 }
 
                 break;
@@ -184,10 +183,10 @@ public static class CompressedColumnStorage
                         j += 1;
                     }
 
-                    Console.WriteLine((k + 1).ToString().PadLeft(4) + "  "
-                                                                    + i.ToString().PadLeft(4) + "  "
-                                                                    + j.ToString().PadLeft(4) + "  "
-                                                                    + acc[k].ToString().PadLeft(16) + "");
+                    Console.WriteLine((k + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                    + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                    + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                    + acc[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
                 }
 
                 break;
@@ -262,10 +261,10 @@ public static class CompressedColumnStorage
                     if (i_min <= i && i <= i_max &&
                         j_min <= j && j <= j_max)
                     {
-                        Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                                                                  + i.ToString().PadLeft(4) + "  "
-                                                                  + j.ToString().PadLeft(4) + "  "
-                                                                  + acc[k].ToString().PadLeft(16) + "");
+                        Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + acc[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
                     }
                 }
 
@@ -285,10 +284,10 @@ public static class CompressedColumnStorage
                     if (i_min <= i && i <= i_max &&
                         j_min <= j && j <= j_max)
                     {
-                        Console.WriteLine((k + 1).ToString().PadLeft(4) + "  "
-                                                                        + i.ToString().PadLeft(4) + "  "
-                                                                        + j.ToString().PadLeft(4) + "  "
-                                                                        + acc[k].ToString().PadLeft(16) + "");
+                        Console.WriteLine((k + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                        + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                        + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                        + acc[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
                     }
                 }
 

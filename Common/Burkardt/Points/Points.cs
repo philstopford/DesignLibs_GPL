@@ -77,7 +77,7 @@ public static partial class Points
                 hull[hull_num] = 1;
                 hull_num += 1;
 
-                if (node_xy[0 + 0 * 2] != node_xy[0 + 1 * 2] || node_xy[1 + 0 * 2] != node_xy[1 + 1 * 2])
+                if (Math.Abs(node_xy[0 + 0 * 2] - node_xy[0 + 1 * 2]) > double.Epsilon || Math.Abs(node_xy[1 + 0 * 2] - node_xy[1 + 1 * 2]) > double.Epsilon)
                 {
                     hull[hull_num] = 2;
                     hull_num += 1;
@@ -95,7 +95,7 @@ public static partial class Points
         for (i = 2; i <= node_num; i++)
         {
             if (node_xy[0 + (i - 1) * 2] < node_xy[0 + (q - 1) * 2] ||
-                node_xy[0 + (i - 1) * 2] == node_xy[0 + (q - 1) * 2] &&
+                Math.Abs(node_xy[0 + (i - 1) * 2] - node_xy[0 + (q - 1) * 2]) <= double.Epsilon &&
                 node_xy[1 + (i - 1) * 2] < node_xy[1 + (q - 1) * 2])
             {
                 q = i;
@@ -129,7 +129,7 @@ public static partial class Points
 
             for (i = 1; i <= node_num; i++)
             {
-                if (i != q && (node_xy[0 + (i - 1) * 2] != q_xy[0] || node_xy[1 + (i - 1) * 2] != q_xy[1]))
+                if (i != q && (Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > double.Epsilon || Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > double.Epsilon))
                 {
                     angle = Helpers.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
 
@@ -143,7 +143,7 @@ public static partial class Points
                     //
                     //  In case of ties, choose the nearer point.
                     //
-                    else if (r != 0 && angle == angle_max)
+                    else if (Math.Abs(angle - angle_max) <= double.Epsilon)
                     {
                         di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
                                        + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));

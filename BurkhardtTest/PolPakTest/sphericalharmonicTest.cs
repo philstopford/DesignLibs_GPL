@@ -66,20 +66,20 @@ public static class sphericalharmonicTest
             yi2 = s[l];
 
             Console.WriteLine("  "
-                              + l.ToString().PadLeft(8) + "  "
-                              + m.ToString().PadLeft(8) + "  "
-                              + theta.ToString().PadLeft(8) + "  "
-                              + phi.ToString().PadLeft(8) + "  "
-                              + yr.ToString().PadLeft(14) + "  "
-                              + yi.ToString().PadLeft(14) + "");
+                              + l.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + theta.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + phi.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + yr.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + yi.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("  "
                               + "        " + "  "
                               + "        " + "  "
                               + "        " + "  "
                               + "        " + "  "
-                              + yr2.ToString().PadLeft(14) + "  "
-                              + yi2.ToString().PadLeft(14) + "");
+                              + yr2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + yi2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

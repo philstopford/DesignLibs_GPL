@@ -86,26 +86,28 @@ public static partial class typeMethods
 
             det *= b[k - 1 + (k - 1) * n];
 
-            if (b[k - 1 + (k - 1) * n] != 0.0)
+            if (b[k - 1 + (k - 1) * n] == 0.0)
             {
-                for (i = k + 1; i <= n; i++)
+                continue;
+            }
+
+            for (i = k + 1; i <= n; i++)
+            {
+                b[i - 1 + (k - 1) * n] = -b[i - 1 + (k - 1) * n] / b[k - 1 + (k - 1) * n];
+            }
+
+            for (j = k + 1; j <= n; j++)
+            {
+                if (m != k)
                 {
-                    b[i - 1 + (k - 1) * n] = -b[i - 1 + (k - 1) * n] / b[k - 1 + (k - 1) * n];
+                    temp = b[m - 1 + (j - 1) * n];
+                    b[m - 1 + (j - 1) * n] = b[k - 1 + (j - 1) * n];
+                    b[k - 1 + (j - 1) * n] = temp;
                 }
 
-                for (j = k + 1; j <= n; j++)
+                for (i = k + 1; i <= n; i++)
                 {
-                    if (m != k)
-                    {
-                        temp = b[m - 1 + (j - 1) * n];
-                        b[m - 1 + (j - 1) * n] = b[k - 1 + (j - 1) * n];
-                        b[k - 1 + (j - 1) * n] = temp;
-                    }
-
-                    for (i = k + 1; i <= n; i++)
-                    {
-                        b[i - 1 + (j - 1) * n] += b[i - 1 + (k - 1) * n] * b[k - 1 + (j - 1) * n];
-                    }
+                    b[i - 1 + (j - 1) * n] += b[i - 1 + (k - 1) * n] * b[k - 1 + (j - 1) * n];
                 }
             }
         }
@@ -303,14 +305,7 @@ public static partial class typeMethods
                 for (j = 0; j < 4; j++)
                 {
                     int inc;
-                    if (j < k)
-                    {
-                        inc = 0;
-                    }
-                    else
-                    {
-                        inc = 1;
-                    }
+                    inc = j < k ? 0 : 1;
 
                     b[i + j * 4] = a[i + 1 + (j + inc) * 5];
                 }

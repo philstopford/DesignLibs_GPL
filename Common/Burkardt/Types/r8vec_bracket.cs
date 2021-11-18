@@ -59,12 +59,14 @@ public static partial class typeMethods
 
         for ( i = 2; i <= n - 1; i++ )
         {
-            if ( xval < x[i-1] )
+            if (!(xval < x[i - 1]))
             {
-                left = i - 1;
-                right = i;
-                return;
+                continue;
             }
+
+            left = i - 1;
+            right = i;
+            return;
 
         }
 
@@ -127,12 +129,14 @@ public static partial class typeMethods
 
         for (i = 2; i <= n - 1; i++)
         {
-            if (xval < x[i - 1 + xindex])
+            if (!(xval < x[i - 1 + xindex]))
             {
-                left = i - 1;
-                right = i;
-                return;
+                continue;
             }
+
+            left = i - 1;
+            right = i;
+            return;
 
         }
 
@@ -493,54 +497,56 @@ public static partial class typeMethods
         //  Search for TVAL in (T[I],T[I+1]) for intervals I = *LEFT+1 to N-2.
         //
 
-        if (t[left + 1] < tval)
+        if (!(t[left + 1] < tval))
         {
-            if (left == n - 2)
+            return;
+        }
+
+        if (left == n - 2)
+        {
+            return;
+        }
+
+        if (left == n - 3)
+        {
+            left += 1;
+            return;
+        }
+        if (tval <= t[left + 2])
+        {
+            left += 1;
+            return;
+        }
+        if (t[n - 2] <= tval)
+        {
+            left = n - 2;
+            return;
+        }
+
+        // 
+        //  ...Binary search for TVAL in (T[I],T[I+1]) for intervals I = *LEFT+2 to N-3.
+        //
+        low = left + 2;
+        high = n - 3;
+
+        for (;;)
+        {
+
+            if (low == high)
             {
+                left = low;
                 return;
             }
 
-            if (left == n - 3)
+            mid = (low + high + 1) / 2;
+
+            if (t[mid] <= tval)
             {
-                left += 1;
-                return;
+                low = mid;
             }
-            if (tval <= t[left + 2])
+            else
             {
-                left += 1;
-                return;
-            }
-            if (t[n - 2] <= tval)
-            {
-                left = n - 2;
-                return;
-            }
-
-            // 
-            //  ...Binary search for TVAL in (T[I],T[I+1]) for intervals I = *LEFT+2 to N-3.
-            //
-            low = left + 2;
-            high = n - 3;
-
-            for (;;)
-            {
-
-                if (low == high)
-                {
-                    left = low;
-                    return;
-                }
-
-                mid = (low + high + 1) / 2;
-
-                if (t[mid] <= tval)
-                {
-                    low = mid;
-                }
-                else
-                {
-                    high = mid - 1;
-                }
+                high = mid - 1;
             }
         }
         //

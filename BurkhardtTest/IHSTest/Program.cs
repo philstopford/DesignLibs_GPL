@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.IHSNS;
-using Burkardt.Table;
 using Burkardt.Types;
 
 namespace IHSTest;

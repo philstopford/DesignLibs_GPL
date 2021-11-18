@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.RankingNS;
-using Burkardt.Types;
 
 namespace ComboTest;
 
@@ -40,11 +39,11 @@ internal partial class Program
 
         for ( y = 0; y <= n; y++ )
         {
-            string cout = "  " + y.ToString().PadLeft(2) + "   ";
+            string cout = "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "   ";
 
             for ( x = 0; x <= 2 * n; x++ )
             {
-                cout += "  " + Ranking.mountain ( n, x, y ).ToString().PadLeft(4);
+                cout += "  " + Ranking.mountain ( n, x, y ).ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
             Console.WriteLine(cout);
         }

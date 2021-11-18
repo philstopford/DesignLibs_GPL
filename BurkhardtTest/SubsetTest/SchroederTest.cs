@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Sequence;
 
 namespace SubsetTestNS;
@@ -45,8 +44,8 @@ public static class SchroederTest
         for ( i = 0; i < N; i++ )
         {
             Console.WriteLine("  "
-                              + (i+1).ToString().PadLeft(4)  + "  "
-                              + s[i].ToString().PadLeft(6) + "");
+                              + (i+1).ToString(CultureInfo.InvariantCulture).PadLeft(4)  + "  "
+                              + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 

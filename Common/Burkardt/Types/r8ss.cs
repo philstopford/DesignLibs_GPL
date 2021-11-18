@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -156,22 +157,25 @@ public static partial class typeMethods
 
         for (i = 0; i < n - 1; i++)
         {
-            if (diag[i + 1] <= diag[i])
+            if (diag[i + 1] > diag[i])
             {
-                Console.WriteLine("");
-                Console.WriteLine("R8SS_ERROR - DIAG[I+1] <= DIAG[I].");
-                return true;
+                continue;
             }
-        }
 
-        if (na < diag[n - 1])
-        {
             Console.WriteLine("");
-            Console.WriteLine("R8SS_ERROR - NA < DIAG[N-1].");
+            Console.WriteLine("R8SS_ERROR - DIAG[I+1] <= DIAG[I].");
             return true;
         }
 
-        return false;
+        if (na >= diag[n - 1])
+        {
+            return false;
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("R8SS_ERROR - NA < DIAG[N-1].");
+        return true;
+
     }
 
     public static double[] r8ss_indicator(int n, ref int na, ref int[] diag)
@@ -463,7 +467,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -478,7 +482,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(4) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
@@ -522,7 +526,7 @@ public static partial class typeMethods
                         }
                     }
 
-                    cout += aij.ToString().PadLeft(12) + "  ";
+                    cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);

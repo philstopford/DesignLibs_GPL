@@ -202,8 +202,8 @@ public static class Triangle
                 y1 = y2;
                 x2 = x3;
                 y2 = y3;
-                temp1 = (j + 1) / 2 / (double)nsub;
-                temp2 = (i - 1 - j / 2) / (double)nsub;
+                temp1 = (double)(j + 1) / 2 / nsub;
+                temp2 = (double)(i - 1 - j / 2) / nsub;
 
                 x3 = xval[1] + temp1 * (xval[2] - xval[1])
                              + temp2 * (xval[0] - xval[1]);

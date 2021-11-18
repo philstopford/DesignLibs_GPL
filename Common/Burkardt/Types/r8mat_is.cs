@@ -133,11 +133,13 @@ public static partial class typeMethods
             int i;
             for (i = 0; i < m; i++)
             {
-                if (x[i + j * m] != 0.0 && Math.Abs(x[i + j * m] - 1.0) > double.Epsilon)
+                if (x[i + j * m] == 0.0 || !(Math.Abs(x[i + j * m] - 1.0) > double.Epsilon))
                 {
-                    value = false;
-                    break;
+                    continue;
                 }
+
+                value = false;
+                break;
             }
         }
 

@@ -185,7 +185,7 @@ public static class ZeroRC
         {
             s = data.fb / data.fa;
 
-            if (data.sa == data.c)
+            if (Math.Abs(data.sa - data.c) <= double.Epsilon)
             {
                 p = 2.0 * m * s;
                 q = 1.0 - s;

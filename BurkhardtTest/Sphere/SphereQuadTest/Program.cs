@@ -230,19 +230,19 @@ internal class Program
                 switch (i)
                 {
                     case 0:
-                        Console.WriteLine("  " + h.ToString().PadLeft(12)
-                                               + "  " + n_mc.ToString().PadLeft(12)
-                                               + "  " + n_llc.ToString().PadLeft(12)
-                                               + "  " + n_llm.ToString().PadLeft(12)
-                                               + "  " + n_llv.ToString().PadLeft(12) + "");
+                        Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + n_mc.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + n_llc.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + n_llm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + n_llv.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         break;
                     default:
-                        Console.WriteLine("  " + h.ToString().PadLeft(12)
-                                               + "  " + result_mc.ToString().PadLeft(12)
-                                               + "  " + result_llc.ToString().PadLeft(12)
-                                               + "  " + result_llm.ToString().PadLeft(12)
-                                               + "  " + result_llv.ToString().PadLeft(12)
-                                               + "  " + exact.ToString().PadLeft(12) + "");
+                        Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_mc.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_llc.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_llm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_llv.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         break;
                 }
             }
@@ -391,11 +391,11 @@ internal class Program
 
                 error = Math.Abs(exact - result);
 
-                Console.WriteLine("  " + factor.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -543,11 +543,11 @@ internal class Program
 
                 error = Math.Abs(exact - result);
 
-                Console.WriteLine("  " + factor.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -695,11 +695,11 @@ internal class Program
 
                 error = Math.Abs(exact - result);
 
-                Console.WriteLine("  " + factor.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -847,11 +847,11 @@ internal class Program
 
                 error = Math.Abs(exact - result);
 
-                Console.WriteLine("  " + factor.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }

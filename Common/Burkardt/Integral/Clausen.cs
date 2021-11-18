@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Chebyshev;
 using Burkardt.CorrelationNS;
 using Burkardt.Types;
 

@@ -161,9 +161,9 @@ internal class Program
                         }
 
                         error = Math.Sqrt(fnm1 * error);
-                        cout += "  " + n.ToString().PadLeft(12)
-                                     + "  " + nits.ToString().PadLeft(8)
-                                     + "  " + error.ToString().PadLeft(12);
+                        cout += "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                     + "  " + nits.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                     + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(12);
                         first = false;
                         break;
                     }
@@ -185,9 +185,9 @@ internal class Program
 
                         mflops = flops / 1.0E+06 / ctime.TotalSeconds;
 
-                        Console.WriteLine(cout + "  " + ctime.ToString().PadLeft(12)
-                                          + "  " + (ctime / (2 * nits)).ToString().PadLeft(12)
-                                          + "  " + mflops.ToString().PadLeft(12) + "");
+                        Console.WriteLine(cout + "  " + ctime.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                          + "  " + (ctime / (2 * nits)).ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                          + "  " + mflops.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         cout = "";
                         break;
                     }

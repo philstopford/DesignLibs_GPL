@@ -47,8 +47,8 @@
                     break;
                 }
 
-                Console.WriteLine("  " + u.ToString().PadLeft(10)
-                                       + "  " + m.ToString().PadLeft(10)
+                Console.WriteLine("  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                        + "  " + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
@@ -95,8 +95,8 @@
                     break;
                 }
 
-                Console.WriteLine("  " + u.ToString().PadLeft(10)
-                                       + "  " + m.ToString().PadLeft(10)
+                Console.WriteLine("  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                        + "  " + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
@@ -144,10 +144,10 @@
                 }
 
                 Console.WriteLine("  "
-                                  + n.ToString().PadLeft(6) + "  "
-                                  + a.ToString().PadLeft(8) + "  "
-                                  + b.ToString().PadLeft(8) + "  "
-                                  + x.ToString().PadLeft(10) + "  "
+                                  + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                  + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
                                   + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
@@ -194,8 +194,8 @@
                     break;
                 }
 
-                Console.WriteLine("  " + u.ToString().PadLeft(10)
-                                       + "  " + m.ToString().PadLeft(10)
+                Console.WriteLine("  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                        + "  " + fx.ToString("0.################").PadLeft(24) + "");
             }
         }

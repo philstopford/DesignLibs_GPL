@@ -42,7 +42,7 @@ public class Future<T> : IFuture<T>
     /// Returns a string representation of the value if available, null otherwise
     /// </summary>
     /// <returns>A string representation of the value if available, null otherwise</returns>
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         return valueSet ? Convert.ToString(value) : null;
     }

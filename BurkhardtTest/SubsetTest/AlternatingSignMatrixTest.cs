@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MatrixNS;
 
 namespace SubsetTestNS;
@@ -38,8 +37,8 @@ public static class AlternatingSignMatrixTest
 
         for ( n = 0; n <= 7; n++ )
         {
-            Console.WriteLine(n.ToString().PadLeft(4) + "  "
-                                                      + AlternatingSignMatrix.asm_enum ( n ).ToString().PadLeft(6) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + AlternatingSignMatrix.asm_enum ( n ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -79,10 +78,10 @@ public static class AlternatingSignMatrixTest
         for ( n = 0; n <= N_MAX; n++ )
         {
             AlternatingSignMatrix.asm_triangle ( n, ref a );
-            string cout = n.ToString().PadLeft(4) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for ( i = 0; i <= n; i++ )
             {
-                cout += a[i].ToString().PadLeft(8) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             }
             Console.WriteLine(cout);
         }

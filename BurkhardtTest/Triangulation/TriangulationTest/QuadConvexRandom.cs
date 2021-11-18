@@ -1,6 +1,4 @@
-﻿using Burkardt;
-using Burkardt.PointsNS;
-using Burkardt.Types;
+﻿using Burkardt.PointsNS;
 using Burkardt.Uniform;
 
 namespace TriangulationTest;

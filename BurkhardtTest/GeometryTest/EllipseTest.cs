@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Ellipse;
 using Burkardt.Types;
 
@@ -202,9 +203,9 @@ public static class EllipseTest
 
             dist = Geometry.ellipse_point_dist_2d(r1, r2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -264,10 +265,10 @@ public static class EllipseTest
 
             pn = Geometry.ellipse_point_near_2d(r1, r2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + pn[0].ToString().PadLeft(8)
-                                   + "  " + pn[1].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 
@@ -340,8 +341,8 @@ public static class EllipseTest
             v = new double[DIM_NUM * n];
             Geometry.ellipse_points_2d(pc, r1, r2, psi, n, ref v);
             result = Burkardt.Polygon.Geometry.polygon_area_2d(n, v);
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + result.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

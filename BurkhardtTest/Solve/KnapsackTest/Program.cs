@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 
 namespace KnapsackTest;
@@ -94,9 +93,9 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                      + s[i].ToString().PadLeft(1) + "  "
-                                                      + w[i].ToString().PadLeft(4) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(1) + "  "
+                                                      + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
         t = 0;

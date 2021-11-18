@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.TriangulationNS;
@@ -61,18 +62,15 @@ public static partial class Neighbor
         //    is shared with triangle T1, or -1 if there is no such neighbor.
         //
     {
-        int n1;
-        int n2;
-        int s;
-        int ss;
         int t;
 
-        n1 = triangle_node[s1 - 1 + (t1 - 1) * 3];
-        ss = typeMethods.i4_wrap(s1 + 1, 1, 3);
-        n2 = triangle_node[ss - 1 + (t1 - 1) * 3];
+        int n1 = triangle_node[s1 - 1 + (t1 - 1) * 3];
+        int ss = typeMethods.i4_wrap(s1 + 1, 1, 3);
+        int n2 = triangle_node[ss - 1 + (t1 - 1) * 3];
 
         for (t = 0; t < triangle_num; t++)
         {
+            int s;
             for (s = 0; s < 3; s++)
             {
                 if (triangle_node[s + t * 3] == n1)
@@ -191,27 +189,22 @@ public static partial class Neighbor
         //
     {
         int i;
-        int i_current;
-        int j;
-        int k;
-        int n;
         int nabe;
-        int[] nabes1;
         int tri;
 
         nabes = new int[nabes_max];
-        nabes1 = new int[nabes_max];
+        int[] nabes1 = new int[nabes_max];
         //
         //  Step 1.  From the triangle list (I,J,K)
         //  construct the neighbor relations: (I,J), (J,K), (K,I), (J,I), (K,J), (I,K).
         //
-        n = 0;
+        int n = 0;
 
         for (tri = 0; tri < triangle_num; tri++)
         {
             i = triangle_node[0 + tri * 3];
-            j = triangle_node[1 + tri * 3];
-            k = triangle_node[2 + tri * 3];
+            int j = triangle_node[1 + tri * 3];
+            int k = triangle_node[2 + tri * 3];
             nabes1[n] = i;
             nabes1[n + 1] = i;
             nabes1[n + 2] = j;
@@ -251,7 +244,7 @@ public static partial class Neighbor
             nabes_first[i] = 0;
         }
 
-        i_current = 0;
+        int i_current = 0;
 
         for (nabe = 1; nabe <= n; nabe++)
         {
@@ -308,8 +301,6 @@ public static partial class Neighbor
         //
     {
         int i;
-        int j;
-        int k;
 
         Console.WriteLine("");
         Console.WriteLine("  Node Nabes Index  List");
@@ -318,11 +309,12 @@ public static partial class Neighbor
 
         for (i = 0; i < node_num; i++)
         {
-            cout = i.ToString().PadLeft(4) + "  "
-                                           + nabes_num[i].ToString().PadLeft(4) + "  "
-                                           + nabes_first[i].ToString().PadLeft(4) + "  ";
+            cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                           + nabes_num[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                           + nabes_first[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
-            k = 0;
+            int k = 0;
+            int j;
             for (j = nabes_first[i] - 1; j < nabes_first[i] + nabes_num[i]; j++)
             {
                 switch (k)
@@ -334,7 +326,7 @@ public static partial class Neighbor
                         break;
                 }
 
-                cout += nabes[j].ToString().PadLeft(4) + "  ";
+                cout += nabes[j].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                 k += 1;
             }
         }
@@ -439,21 +431,13 @@ public static partial class Neighbor
         //    on the boundary of the triangulation.
         //
     {
-        int[] col;
         int i;
-        int icol;
         int j;
-        int k;
-        int side1;
-        int side2;
         int tri;
-        int triangle_order = 3;
-        int tri1;
-        int tri2;
-        int[] triangle_neighbor;
+        const int triangle_order = 3;
 
-        triangle_neighbor = new int[3 * triangle_num];
-        col = new int[4 * 3 * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] col = new int[4 * 3 * triangle_num];
         //
         //  Step 1.
         //  From the list of nodes for triangle T, of the form: (I,J,K)
@@ -469,7 +453,7 @@ public static partial class Neighbor
         {
             i = triangle_node[0 + tri * triangle_order];
             j = triangle_node[1 + tri * triangle_order];
-            k = triangle_node[2 + tri * triangle_order];
+            int k = triangle_node[2 + tri * triangle_order];
 
             if (i < j)
             {
@@ -542,7 +526,7 @@ public static partial class Neighbor
             }
         }
 
-        icol = 1;
+        int icol = 1;
 
         for (;;)
         {
@@ -558,10 +542,10 @@ public static partial class Neighbor
                 continue;
             }
 
-            side1 = col[2 + (icol - 1) * 4];
-            tri1 = col[3 + (icol - 1) * 4];
-            side2 = col[2 + icol * 4];
-            tri2 = col[3 + icol * 4];
+            int side1 = col[2 + (icol - 1) * 4];
+            int tri1 = col[3 + (icol - 1) * 4];
+            int side2 = col[2 + icol * 4];
+            int tri2 = col[3 + icol * 4];
 
             triangle_neighbor[side1 - 1 + (tri1 - 1) * 3] = tri2;
             triangle_neighbor[side2 - 1 + (tri2 - 1) * 3] = tri1;
@@ -667,20 +651,13 @@ public static partial class Neighbor
         //
     {
         int i;
-        int irow;
         int j;
-        int k;
-        int[] row;
-        int side1;
-        int side2;
         int tri;
-        int triangle_order = 3;
-        int tri1;
-        int tri2;
+        const int triangle_order = 3;
 
         triangle_neighbor = new int[triangle_num * 3];
 
-        row = new int[triangle_order * triangle_num * 4];
+        int[] row = new int[triangle_order * triangle_num * 4];
         //
         //  Step 1.
         //  From the list of nodes for triangle T, of the form: (I,J,K)
@@ -696,7 +673,7 @@ public static partial class Neighbor
         {
             i = triangle_node[0 + tri * triangle_order];
             j = triangle_node[1 + tri * triangle_order];
-            k = triangle_node[2 + tri * triangle_order];
+            int k = triangle_node[2 + tri * triangle_order];
 
             if (i < j)
             {
@@ -769,7 +746,7 @@ public static partial class Neighbor
             }
         }
 
-        irow = 1;
+        int irow = 1;
 
         for (;;)
         {
@@ -785,10 +762,10 @@ public static partial class Neighbor
                 continue;
             }
 
-            side1 = row[irow - 1 + 2 * 3 * triangle_num];
-            tri1 = row[irow - 1 + 3 * 3 * triangle_num];
-            side2 = row[irow + 2 * 3 * triangle_num];
-            tri2 = row[irow + 3 * 3 * triangle_num];
+            int side1 = row[irow - 1 + 2 * 3 * triangle_num];
+            int tri1 = row[irow - 1 + 3 * 3 * triangle_num];
+            int side2 = row[irow + 2 * 3 * triangle_num];
+            int tri2 = row[irow + 3 * 3 * triangle_num];
 
             triangle_neighbor[side1 - 1 + (tri1 - 1) * 3] = tri2;
             triangle_neighbor[side2 - 1 + (tri2 - 1) * 3] = tri1;

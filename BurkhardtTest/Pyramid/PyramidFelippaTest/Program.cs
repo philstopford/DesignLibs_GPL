@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.PyramidNS;
@@ -106,10 +105,10 @@ internal class Program
 
                     value = FelippaRule.pyramid_unit_monomial(expon);
 
-                    Console.WriteLine("  " + expon[0].ToString().PadLeft(8)
-                                           + "  " + expon[1].ToString().PadLeft(8)
-                                           + "  " + expon[2].ToString().PadLeft(8)
-                                           + "  " + value.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -187,7 +186,7 @@ internal class Program
             string cout = "  Monomial exponents: ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + expon[dim].ToString().PadLeft(2);
+                cout += "  " + expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -199,8 +198,8 @@ internal class Program
             FelippaRule.pyramid_unit_o01(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 5;
             w = new double[order];
@@ -208,8 +207,8 @@ internal class Program
             FelippaRule.pyramid_unit_o05(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 6;
             w = new double[order];
@@ -217,8 +216,8 @@ internal class Program
             FelippaRule.pyramid_unit_o06(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 8;
             w = new double[order];
@@ -226,8 +225,8 @@ internal class Program
             FelippaRule.pyramid_unit_o08(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 8;
             w = new double[order];
@@ -235,8 +234,8 @@ internal class Program
             FelippaRule.pyramid_unit_o08b(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 9;
             w = new double[order];
@@ -244,8 +243,8 @@ internal class Program
             FelippaRule.pyramid_unit_o09(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 13;
             w = new double[order];
@@ -253,8 +252,8 @@ internal class Program
             FelippaRule.pyramid_unit_o13(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 18;
             w = new double[order];
@@ -262,8 +261,8 @@ internal class Program
             FelippaRule.pyramid_unit_o18(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 27;
             w = new double[order];
@@ -271,8 +270,8 @@ internal class Program
             FelippaRule.pyramid_unit_o27(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 48;
             w = new double[order];
@@ -280,13 +279,13 @@ internal class Program
             FelippaRule.pyramid_unit_o48(ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = FelippaRule.pyramid_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("");
             quad = FelippaRule.pyramid_unit_monomial(expon);
             Console.WriteLine("  " + " Exact"
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {

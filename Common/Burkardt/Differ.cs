@@ -66,7 +66,7 @@ public static class Differ
 
         b[o] = 1.0;
 
-        int job = 0;
+        const int job = 0;
         typeMethods.r8vm_sl(n, x, b, job, c, ref info);
 
         if (info != 0)
@@ -145,7 +145,7 @@ public static class Differ
 
         b[o] = 1.0;
 
-        int job = 0;
+        const int job = 0;
         typeMethods.r8vm_sl(n, x, b, job, c, ref info);
 
         if (info != 0)
@@ -223,7 +223,7 @@ public static class Differ
 
         b[o] = 1.0;
 
-        int job = 0;
+        const int job = 0;
         typeMethods.r8vm_sl(n, x, b, job, c, ref info);
 
         if (info != 0)
@@ -514,7 +514,7 @@ public static class Differ
 
         b[o] = 1.0;
 
-        int job = 0;
+        const int job = 0;
         typeMethods.r8vm_sl(n, dx, b, job, c, ref info);
 
         if (info != 0)

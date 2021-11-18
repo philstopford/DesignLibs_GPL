@@ -52,9 +52,9 @@ public static class gudermannianTest
             fx2 = Gudermannian.gud ( x );
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(10)   + "  "
-                              + fx.ToString().PadLeft(10)  + "  "
-                              + fx2.ToString().PadLeft(10) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)   + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(10)  + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -98,9 +98,9 @@ public static class gudermannianTest
             g = Gudermannian.gud ( x );
             x2 = Gudermannian.agud ( g );
 
-            Console.WriteLine("  " + x.ToString().PadLeft(10)
-                                   + "  " + g.ToString().PadLeft(10)
-                                   + "  " + x2.ToString().PadLeft(10)    + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + g.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)    + "");
         }
 
     }

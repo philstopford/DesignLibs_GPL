@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel.Design;
-using System.Linq;
+using System.Globalization;
 using Burkardt.CDFLib;
-using Burkardt.Probability;
 
 namespace Burkardt.Types;
 
@@ -1025,7 +1023,7 @@ public static partial class typeMethods
             //
             //  Blank or TAB character.
             //
-            if (c == ' ' || c == TAB)
+            if (c is ' ' or TAB)
             {
                 switch (ihave)
                 {
@@ -1091,7 +1089,7 @@ public static partial class typeMethods
                     case '.' when ihave < 4:
                         ihave = 4;
                         break;
-                    case '.' when 6 <= ihave && ihave <= 8:
+                    case '.' when ihave is >= 6 and <= 8:
                         ihave = 9;
                         break;
                     case '.':
@@ -1122,7 +1120,7 @@ public static partial class typeMethods
                             {
                                 switch (ihave)
                                 {
-                                    case < 11 when '0' <= c && c <= '9':
+                                    case < 11 when c is >= '0' and <= '9':
                                     {
                                         switch (ihave)
                                         {
@@ -1437,7 +1435,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -1452,16 +1450,15 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    double aij;
-                    aij = i <= j ? a[i - 1 + j * (j - 1) / 2] : 0.0;
+                    double aij = i <= j ? a[i - 1 + j * (j - 1) / 2] : 0.0;
 
-                    cout += aij.ToString().PadLeft(12) + "  ";
+                    cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -1500,7 +1497,7 @@ public static partial class typeMethods
         //    Output, double R8_HUGE, a "huge" R8 value.
         //
     {
-        double value = 1.0E+30;
+        const double value = 1.0E+30;
 
         return value;
     }
@@ -1547,7 +1544,6 @@ public static partial class typeMethods
         //    Zeta function.
         //
     {
-        int n;
         double value;
 
         switch (p)
@@ -1615,7 +1611,7 @@ public static partial class typeMethods
             default:
             {
                 double zsum = 0.0;
-                n = 0;
+                int n = 0;
 
                 for (;;)
                 {
@@ -1722,7 +1718,7 @@ public static partial class typeMethods
         //    Output, double R8_BIG, a "big" R8 value.
         //
     {
-        double value = 1.0E+30;
+        const double value = 1.0E+30;
 
         return value;
     }
@@ -2380,8 +2376,12 @@ public static partial class typeMethods
 
     public class r8EpsilonData
     {
-        public double value = 0;
-            
+        public double value;
+
+        public r8EpsilonData()
+        {
+            value = 0;
+        }
     }
         
     public static double r8_epsilon_compute(ref r8EpsilonData data)
@@ -3176,7 +3176,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] x;
 
         switch (r)
         {
@@ -3201,7 +3200,7 @@ public static partial class typeMethods
             }
         }
 
-        x = new double[n + 1];
+        double[] x = new double[n + 1];
 
         double r_copy = Math.Abs(r);
 
@@ -4032,7 +4031,7 @@ public static partial class typeMethods
             int j;
             for (j = jlo; j <= jhi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -4040,12 +4039,12 @@ public static partial class typeMethods
             int i;
             for (i = jlo + 1; i <= m; i++)
             {
-                cout = i.ToString().PadLeft(5) + ":";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 jhi = Math.Min(jlo + nn - 1, Math.Min(i - 1, jmax));
                 for (j = jlo; j <= jhi; j++)
                 {
                     int indx = (j - 1) * m + i - j * (j + 1) / 2;
-                    cout += " " + a[indx - 1].ToString().PadLeft(12);
+                    cout += " " + a[indx - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);

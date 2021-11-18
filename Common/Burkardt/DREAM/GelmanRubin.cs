@@ -260,7 +260,7 @@ public static class GelmanRubin
 
         for (j = 0; j < gr_num; j++)
         {
-            string tmp = (printstep * (j + 1) - 1).ToString();
+            string tmp = (printstep * (j + 1) - 1).ToString(CultureInfo.InvariantCulture);
             for (i = 0; i < par_num; i++)
             {
                 tmp += "  " + gr[i + j * par_num];

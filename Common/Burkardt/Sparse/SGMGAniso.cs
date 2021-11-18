@@ -896,7 +896,7 @@ public static class SGMGAniso
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                if (sparse_point[dim + point * dim_num] == -typeMethods.r8_huge())
+                if (Math.Abs(sparse_point[dim + point * dim_num] - (-typeMethods.r8_huge())) <= double.Epsilon)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("SGMGA_POINT - Fatal error!");

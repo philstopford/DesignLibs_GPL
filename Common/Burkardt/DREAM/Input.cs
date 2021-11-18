@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.DREAM;
 
@@ -91,9 +92,9 @@ public static class Input
         Console.WriteLine("");
         for (j = 0; j < par_num; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(5)
-                                   + "  " + limits[0 + j * 2].ToString().PadLeft(14)
-                                   + "  " + limits[1 + j * 2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + limits[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + limits[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");

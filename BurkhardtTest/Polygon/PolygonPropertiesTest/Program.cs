@@ -1,7 +1,6 @@
 ﻿using System;
 using Burkardt.Polygon;
 using Burkardt.Types;
-using Burkardt.Uniform;
 
 namespace PolygonPropertiesTest;
 
@@ -124,8 +123,8 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(8) + "  "
-                                                      + typeMethods.r8_degrees(angle[i]).ToString().PadLeft(14) +
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + typeMethods.r8_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) +
                                                       "");
         }
     }
@@ -405,8 +404,8 @@ internal class Program
 
             inside = Properties.polygon_contains_point(n, v, p);
 
-            Console.WriteLine(p[0].ToString().PadLeft(14) + "  "
-                                                          + p[1].ToString().PadLeft(14) + "  "
+            Console.WriteLine(p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                          + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
                                                           + inside + "");
         }
 
@@ -471,8 +470,8 @@ internal class Program
 
             inside = Properties.polygon_contains_point_2(n, v, p);
 
-            Console.WriteLine(p[0].ToString().PadLeft(14) + "  "
-                                                          + p[1].ToString().PadLeft(14) + "  "
+            Console.WriteLine(p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                          + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
                                                           + inside + "");
         }
     }
@@ -1500,9 +1499,9 @@ internal class Program
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
             dist = Properties.polygon_point_dist(n, v, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(14)
-                                   + "  " + p[1].ToString().PadLeft(14)
-                                   + "  " + dist.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1559,10 +1558,10 @@ internal class Program
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
             pn = Properties.polygon_point_near(n, v, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(14)
-                                   + "  " + p[1].ToString().PadLeft(14)
-                                   + "  " + pn[0].ToString().PadLeft(14)
-                                   + "  " + pn[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1711,10 +1710,10 @@ internal class Program
 
         for (j = 0; j < n - 2; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(2) + ":  "
-                              + "  " + triangles[0 + j * 3].ToString().PadLeft(2)
-                              + "  " + triangles[1 + j * 3].ToString().PadLeft(2)
-                              + "  " + triangles[2 + j * 3].ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":  "
+                              + "  " + triangles[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + triangles[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + triangles[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
     }
 }

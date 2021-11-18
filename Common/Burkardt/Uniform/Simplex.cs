@@ -172,11 +172,13 @@ public static class Simplex
 
             double r = UniformRNG.r8_uniform_01(ref seed);
 
-            if (area1 / (area1 + area2) < r)
+            if (!(area1 / (area1 + area2) < r))
             {
-                i = UniformRNG.i4_uniform_ab(0, dim_num - 1, ref seed);
-                x[i + j * dim_num] = 0.0;
+                continue;
             }
+
+            i = UniformRNG.i4_uniform_ab(0, dim_num - 1, ref seed);
+            x[i + j * dim_num] = 0.0;
 
         }
 

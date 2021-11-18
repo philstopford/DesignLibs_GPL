@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.MatrixNS;
 using Burkardt.PolynomialNS;
@@ -649,7 +650,7 @@ public static partial class typeMethods
         double wval = 1.0;
         for (i = 0; i < npol; i++)
         {
-            wval *= (xval - xpol[i]);
+            wval *= xval - xpol[i];
         }
 
         return wval;
@@ -708,7 +709,7 @@ public static partial class typeMethods
         for (i = 0; i < npol; i++)
         {
             dwdx = w + (xval - xpol[i]) * dwdx;
-            w *= (xval - xpol[i]);
+            w *= xval - xpol[i];
         }
 
         return dwdx;
@@ -776,20 +777,22 @@ public static partial class typeMethods
             int j;
             for (j = 0; j < npol; j++)
             {
-                if (j != k)
+                if (j == k)
                 {
-                    double term = 1.0;
-                    int i;
-                    for (i = 0; i < npol; i++)
-                    {
-                        if (i != j && i != k)
-                        {
-                            term *= (xval - xpol[i]);
-                        }
-                    }
-
-                    dw2dx2 += term;
+                    continue;
                 }
+
+                double term = 1.0;
+                int i;
+                for (i = 0; i < npol; i++)
+                {
+                    if (i != j && i != k)
+                    {
+                        term *= xval - xpol[i];
+                    }
+                }
+
+                dw2dx2 += term;
             }
         }
 
@@ -980,7 +983,7 @@ public static partial class typeMethods
         wval = 1.0;
         for (i = 0; i < npol; i++)
         {
-            wval *= (xval - xpol[i]);
+            wval *= xval - xpol[i];
         }
 
         dwdx = 0.0;
@@ -994,7 +997,7 @@ public static partial class typeMethods
             {
                 if (i != j)
                 {
-                    term *= (xval - xpol[j]);
+                    term *= xval - xpol[j];
                 }
             }
 
@@ -1072,15 +1075,17 @@ public static partial class typeMethods
         {
             for (j = 0; j < i; j++)
             {
-                if (xpol[i] == xpol[j])
+                if (!(Math.Abs(xpol[i] - xpol[j]) <= double.Epsilon))
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8POLY_LAGRANGE_VAL - Fatal error!");
-                    Console.WriteLine("  Two entries of XPOL are equal:");
-                    Console.WriteLine("  XPOL(" + i + ") = " + xpol[i] + ".");
-                    Console.WriteLine("  XPOL(" + j + ") = " + xpol[j] + ".");
-                    return 1;
+                    continue;
                 }
+
+                Console.WriteLine("");
+                Console.WriteLine("R8POLY_LAGRANGE_VAL - Fatal error!");
+                Console.WriteLine("  Two entries of XPOL are equal:");
+                Console.WriteLine("  XPOL(" + i + ") = " + xpol[i] + ".");
+                Console.WriteLine("  XPOL(" + j + ") = " + xpol[j] + ".");
+                return 1;
             }
         }
 
@@ -1116,7 +1121,7 @@ public static partial class typeMethods
             {
                 if (j == i)
                 {
-                    p2 /= (xpol[ipol] - xpol[j]);
+                    p2 /= xpol[ipol] - xpol[j];
                 }
                 else if (j != ipol)
                 {
@@ -1248,15 +1253,15 @@ public static partial class typeMethods
         {
             case >= 2:
                 Console.WriteLine("  p(x) = " + plus_minus
-                                              + mag.ToString().PadLeft(14) + " * x ^ " + n + "");
+                                              + mag.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x ^ " + n + "");
                 break;
             case 1:
                 Console.WriteLine("  p(x) = " + plus_minus
-                                              + mag.ToString().PadLeft(14) + " * x");
+                                              + mag.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                 break;
             case 0:
                 Console.WriteLine("  p(x) = " + plus_minus
-                                              + mag.ToString().PadLeft(14) + "");
+                                              + mag.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 break;
         }
 
@@ -1276,15 +1281,15 @@ public static partial class typeMethods
                 {
                     case >= 2:
                         Console.WriteLine("         " + plus_minus
-                                                      + mag.ToString().PadLeft(14) + " * x ^ " + i + "");
+                                                      + mag.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x ^ " + i + "");
                         break;
                     case 1:
                         Console.WriteLine("         " + plus_minus
-                                                      + mag.ToString().PadLeft(14) + " * x");
+                                                      + mag.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                         break;
                     case 0:
                         Console.WriteLine("         " + plus_minus
-                                                      + mag.ToString().PadLeft(14) + "");
+                                                      + mag.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         break;
                 }
             }
@@ -1490,10 +1495,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         for (i = n; 1 <= i; i--)
         {
+            int j;
             for (j = i; j <= n - 1; j++)
             {
                 a[j - 1] -= a[j] * x;
@@ -2508,12 +2513,12 @@ public static partial class typeMethods
         x = 0.0;
         y = 0.0;
 
-        if (x1 == x2 || x2 == x3 || x3 == x1)
+        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
         {
             return 1;
         }
 
-        if (y1 == y2 && y2 == y3 && y3 == y1)
+        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
         {
             x = x1;
             y = y1;
@@ -2738,13 +2743,11 @@ public static partial class typeMethods
                     Console.WriteLine("  X1 = X3 =/= X2.");
                     return;
                 }
-                else if (Math.Abs(x2 - x3) <= double.Epsilon)
+
+                if (Math.Abs(x2 - x3) <= double.Epsilon)
                 {
                     distinct = 2;
-                    double temp = x1;
-                    x1 = x3;
-                    x3 = temp;
-                    temp = y1;
+                    (x1, x3) = (x3, x1);
                     y1 = y2;
                     y2 = y3;
                     y3 = y1;
@@ -3011,7 +3014,7 @@ public static partial class typeMethods
         //
         //  Set the coefficients of the resolvent cubic equation.
         //
-        double a3 = 1.0;
+        const double a3 = 1.0;
         double b3 = -b4;
         double c3 = a4 * c4 - 4.0 * d4;
         double d3 = -a4 * a4 * d4 + 4.0 * b4 * d4 - c4 * c4;

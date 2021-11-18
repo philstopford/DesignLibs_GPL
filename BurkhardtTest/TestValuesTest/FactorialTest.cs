@@ -46,8 +46,8 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -91,8 +91,8 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -137,9 +137,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fmn.ToString().PadLeft(12) + "");
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fmn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -184,9 +184,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fmn.ToString().PadLeft(12) + "");
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fmn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -230,7 +230,7 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fn.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -276,7 +276,7 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fn.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -321,7 +321,7 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + f.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -367,9 +367,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + f.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -414,9 +414,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + f.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -460,8 +460,8 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -323,8 +324,7 @@ public static partial class typeMethods
         else if (n < m)
         {
             i = mn;
-            j = 0;
-            a[i + j * m] = -1.0;
+            a[i] = -1.0;
         }
 
         return a;
@@ -750,15 +750,12 @@ public static partial class typeMethods
         {
             case 1:
             {
-                i = 0;
-                int j = 1;
-                b[0] = a[i + j * m] * x[0];
+                b[0] = a[m] * x[0];
                 switch (m)
                 {
                     case > 1:
                         i = 1;
-                        j = 0;
-                        b[1] = a[i + j * m] * x[0];
+                        b[1] = a[i] * x[0];
                         break;
                 }
 
@@ -783,7 +780,7 @@ public static partial class typeMethods
 
         if (n < m)
         {
-            b[mn] += a[mn + 0 * m] * x[mn - 1];
+            b[mn] += a[mn] * x[mn - 1];
         }
         else if (m < n)
         {
@@ -942,7 +939,7 @@ public static partial class typeMethods
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -963,7 +960,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(6);
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6);
 
                 for (j2 = 1; j2 <= inc; j2++)
                 {
@@ -976,7 +973,7 @@ public static partial class typeMethods
                             cout += "              ";
                             break;
                         default:
-                            cout += "  " + a[i + k * m].ToString().PadLeft(12);
+                            cout += "  " + a[i + k * m].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                             break;
                     }
                 }

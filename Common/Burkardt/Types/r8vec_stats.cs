@@ -168,12 +168,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, x.Length);
 
-        if (n == x.Length)
-        {
-            return x.Average();
-        }
-
-        return x.Take(n).Average();
+        return n == x.Length ? x.Average() : x.Take(n).Average();
     }
         
     public static double r8vec_mean_geometric ( int n, double[] x )

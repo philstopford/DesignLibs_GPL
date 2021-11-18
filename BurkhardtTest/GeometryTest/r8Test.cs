@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -59,8 +60,8 @@ public static class r8Test
 
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                       + "  " + x2[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + x2[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -112,9 +113,9 @@ public static class r8Test
             temp1 = typeMethods.r8_acos(x);
             temp2 = Helpers.radians_to_degrees(temp1);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -164,9 +165,9 @@ public static class r8Test
             temp1 = typeMethods.r8_asin(x);
             temp2 = Helpers.radians_to_degrees(temp1);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -226,11 +227,11 @@ public static class r8Test
             temp2 = Math.Atan2(y, x);
             temp3 = typeMethods.r8_atan(y, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12)
-                                   + "  " + temp3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -254,11 +255,11 @@ public static class r8Test
             temp2 = Helpers.radians_to_degrees(Math.Atan2(y, x));
             temp3 = Helpers.radians_to_degrees(typeMethods.r8_atan(y, x));
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12)
-                                   + "  " + temp3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -311,10 +312,10 @@ public static class r8Test
             v2 = typeMethods.r8vec_any_normal(DIM_NUM, v1);
             v2_norm = typeMethods.r8vec_norm(DIM_NUM, v2);
             v1v2_dot = typeMethods.r8vec_dot_product(DIM_NUM, v1, v2);
-            Console.WriteLine("  " + test.ToString().PadLeft(6)
-                                   + "  " + v1_norm.ToString().PadLeft(10)
-                                   + "  " + v2_norm.ToString().PadLeft(10)
-                                   + "  " + v1v2_dot.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + v1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v1v2_dot.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -371,8 +372,8 @@ public static class r8Test
             x = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
             for (j = 0; j < n; j++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + x[j].ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
 
@@ -397,8 +398,8 @@ public static class r8Test
             x = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
             for (j = 0; j < n; j++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + x[j].ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
 
@@ -424,8 +425,8 @@ public static class r8Test
         for (j = 0; j < n; j++)
         {
             i += 1;
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -450,8 +451,8 @@ public static class r8Test
         for (j = 0; j < n; j++)
         {
             i += 1;
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         n = 1;
@@ -460,8 +461,8 @@ public static class r8Test
         for (j = 0; j < n; j++)
         {
             i += 1;
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         n = 2;
@@ -470,8 +471,8 @@ public static class r8Test
         for (j = 0; j < n; j++)
         {
             i += 1;
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -562,7 +563,7 @@ public static class r8Test
             string cout = "";
             for (j = N; j < N + RHS_NUM; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(10);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -608,9 +609,9 @@ public static class r8Test
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + a[i + 0 * 3].ToString().PadLeft(10)
-                                   + "  " + a[i + 1 * 3].ToString().PadLeft(10)
-                                   + "  " + a[i + 2 * 3].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + a[i + 0 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 1 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 2 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         b = typeMethods.r8mat_inverse_3d(a);
@@ -620,12 +621,9 @@ public static class r8Test
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 3].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 3].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 3].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
-
-
-
 }

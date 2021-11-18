@@ -486,9 +486,9 @@ public static class GenRCM
 
             if (jmax < jmin)
             {
-                Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                       + "  " + jmin.ToString().PadLeft(4)
-                                       + "  " + jmax.ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + jmin.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + jmax.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
             else
             {
@@ -498,13 +498,13 @@ public static class GenRCM
 
                     if (jlo == jmin)
                     {
-                        cout = "  " + (i + 1).ToString().PadLeft(4)
-                                    + "  " + jmin.ToString().PadLeft(4)
-                                    + "  " + jmax.ToString().PadLeft(4)
+                        cout = "  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                    + "  " + jmin.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                    + "  " + jmax.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                     + "   ";
                         for (j = jlo; j <= jhi; j++)
                         {
-                            cout += level[j - 1].ToString().PadLeft(8);
+                            cout += level[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                         }
 
                         Console.WriteLine(cout);
@@ -514,7 +514,7 @@ public static class GenRCM
                         cout = "                     ";
                         for (j = jlo; j <= jhi; j++)
                         {
-                            cout += level[j - 1].ToString().PadLeft(8);
+                            cout += level[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                         }
 
                         Console.WriteLine(cout);

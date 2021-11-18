@@ -916,8 +916,8 @@ public static class Sphere
     {
         double value = (n % 2) switch
         {
-            0 => Math.Pow(2.0 * Math.PI, n / 2),
-            _ => 2.0 * Math.Pow(2.0 * Math.PI, (n - 1) / 2)
+            0 => Math.Pow(2.0 * Math.PI, (double)n / 2),
+            _ => 2.0 * Math.Pow(2.0 * Math.PI, (double)(n - 1) / 2)
         };
 
         value /= typeMethods.i4_factorial2(n - 2);
@@ -1123,7 +1123,7 @@ public static class Sphere
         double w;
         double[] x;
 
-        if (r1 == r2)
+        if (Math.Abs(r1 - r2) <= double.Epsilon)
         {
             result = 0.0;
             return result;

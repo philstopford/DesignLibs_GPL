@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.BLAS;
-using Burkardt.Types;
 
 namespace Burkardt.MatrixNS;
 

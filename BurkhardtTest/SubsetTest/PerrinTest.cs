@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Sequence;
 
 namespace SubsetTestNS;
@@ -46,8 +45,8 @@ public static class PerrinTest
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4) + "  "
-                              + p[i].ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 }

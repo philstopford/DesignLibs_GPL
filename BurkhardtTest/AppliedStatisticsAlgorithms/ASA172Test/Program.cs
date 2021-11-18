@@ -126,10 +126,10 @@ internal class Program
                 {
                     ivec[2] = k;
                     jsub += 1;
-                    Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
-                                      + "  " + i.ToString().PadLeft(8)
-                                      + "  " + j.ToString().PadLeft(8)
-                                      + "  " + k.ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + jsub.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "    "
+                                      + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 }
             }
         }
@@ -160,10 +160,10 @@ internal class Program
                 Console.WriteLine("  simdo returns nonzero ifault.");
             }
 
-            Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
-                              + "  " + ivec[0].ToString().PadLeft(8)
-                              + "  " + ivec[1].ToString().PadLeft(8)
-                              + "  " + ivec[2].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + jsub.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "    "
+                              + "  " + ivec[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + "  " + ivec[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + "  " + ivec[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
@@ -189,10 +189,10 @@ internal class Program
                 {
                     ivec[2] = k;
                     ifault = Algorithms.simdo(qind, qfor, iprod, kdim, ref jsub, ref ivec);
-                    Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
-                                      + "  " + i.ToString().PadLeft(8)
-                                      + "  " + j.ToString().PadLeft(8)
-                                      + "  " + k.ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + jsub.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "    "
+                                      + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 }
             }
         }
@@ -278,10 +278,10 @@ internal class Program
                 {
                     ivec[0] = k;
                     jsub += 1;
-                    Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
-                                      + "  " + k.ToString().PadLeft(8)
-                                      + "  " + j.ToString().PadLeft(8)
-                                      + "  " + i.ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + jsub.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "    "
+                                      + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 }
             }
         }
@@ -312,10 +312,10 @@ internal class Program
                 Console.WriteLine("  simdo returns nonzero ifault.");
             }
 
-            Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
-                              + "  " + ivec[0].ToString().PadLeft(8)
-                              + "  " + ivec[1].ToString().PadLeft(8)
-                              + "  " + ivec[2].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + jsub.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "    "
+                              + "  " + ivec[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + "  " + ivec[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + "  " + ivec[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
@@ -341,10 +341,10 @@ internal class Program
                 {
                     ivec[0] = k;
                     ifault = Algorithms.simdo(qind, qfor, iprod, kdim, ref jsub, ref ivec);
-                    Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
-                                      + "  " + k.ToString().PadLeft(8)
-                                      + "  " + j.ToString().PadLeft(8)
-                                      + "  " + i.ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + jsub.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "    "
+                                      + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                      + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 }
             }
         }

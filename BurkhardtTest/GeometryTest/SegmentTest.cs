@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Geometry;
 using Burkardt.Uniform;
@@ -70,9 +71,9 @@ public static class SegmentTest
 
             curvature = Segments.segments_curvature_2d(p1, p2, p3);
 
-            Console.WriteLine("  " + test.ToString().PadLeft(4)
-                                   + "  " + theta_degrees.ToString().PadLeft(5)
-                                   + "  " + curvature.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + theta_degrees.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + curvature.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -225,27 +226,27 @@ public static class SegmentTest
             cout = "  P1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString().PadLeft(12);
+                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString().PadLeft(12);
+                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString().PadLeft(12);
+                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString().PadLeft(12);
+                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -340,8 +341,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 1.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 5.0 + "");
+        Console.WriteLine("  " + 1.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 5.0 + "");
         //
         //  Case 2, parallel, coincident, overlapping.
         //
@@ -367,8 +368,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 2.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 0.0 + "");
+        Console.WriteLine("  " + 2.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 0.0 + "");
         //
         //  Case 3, parallel, coincident, disjoint.
         //
@@ -394,8 +395,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 3.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 3.0 + "");
+        Console.WriteLine("  " + 3.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 3.0 + "");
         //
         //  Case 4, nonparallel, could intersect, and does intersect.
         //
@@ -422,8 +423,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 4.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 0.0 + "");
+        Console.WriteLine("  " + 4.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 0.0 + "");
         //
         //  Case 5, nonparallel, could intersect, and does not intersect.
         //
@@ -450,8 +451,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 5.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 1.0 + "");
+        Console.WriteLine("  " + 5.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 1.0 + "");
         //
         //  Case 6, nonparallel, can not intersect, "end-to-end".
         //
@@ -477,8 +478,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 6.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 3.0 + "");
+        Console.WriteLine("  " + 6.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 3.0 + "");
         //
         //  Case 7, nonparallel, can not intersect, "end-to-mid".
         //
@@ -504,8 +505,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 7.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 1.0 + "");
+        Console.WriteLine("  " + 7.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 1.0 + "");
         //
         //  Case 8, nonparallel, can not intersect, "mid-to-mid".
         //
@@ -531,8 +532,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 8.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 10.0 + "");
+        Console.WriteLine("  " + 8.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 10.0 + "");
         //
         //  Case 9, nonparallel, can not intersect, "mid-to-end".
         //
@@ -558,8 +559,8 @@ public static class SegmentTest
 
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
-        Console.WriteLine("  " + 9.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 4.0 + "");
+        Console.WriteLine("  " + 9.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 4.0 + "");
 
     }
 
@@ -618,14 +619,14 @@ public static class SegmentTest
 
             dist = Segments.segments_int_1d(p1, p2, q1, q2, ref r1, ref r2);
 
-            Console.WriteLine("  " + test.ToString().PadLeft(2)
-                                   + "  " + p1.ToString().PadLeft(8)
-                                   + "  " + p2.ToString().PadLeft(8)
-                                   + "  " + q1.ToString().PadLeft(8)
-                                   + "  " + q2.ToString().PadLeft(8)
-                                   + "  " + r1.ToString().PadLeft(8)
-                                   + "  " + r2.ToString().PadLeft(8)
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + q1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + q2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -687,14 +688,14 @@ public static class SegmentTest
         cout = "  P1:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(12);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P2:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(12);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -709,14 +710,14 @@ public static class SegmentTest
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString().PadLeft(12);
+                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString().PadLeft(12);
+                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -735,7 +736,7 @@ public static class SegmentTest
                     cout = "  The line segments intersect at:";
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + r[i].ToString().PadLeft(12);
+                        cout += "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                     }
 
                     Console.WriteLine(cout);
@@ -793,10 +794,10 @@ public static class SegmentTest
 
             Segments.segment_contains_point_1d(p1, p2, p, ref t);
 
-            Console.WriteLine("  " + p1.ToString().PadLeft(7)
-                                   + "  " + p2.ToString().PadLeft(7)
-                                   + "  " + p.ToString().PadLeft(7)
-                                   + "  " + t.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + p1.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p2.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -847,29 +848,29 @@ public static class SegmentTest
             dist = Segments.segment_point_dist_2d(p1, p2, p);
 
             Console.WriteLine("");
-            Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
+            Console.WriteLine("  TEST = " + test.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             string cout = "  P1 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -920,29 +921,29 @@ public static class SegmentTest
             dist = Segments.segment_point_dist_3d(p1, p2, p);
 
             Console.WriteLine("");
-            Console.WriteLine("  TEST = " + test.ToString().PadLeft(12) + "");
+            Console.WriteLine("  TEST = " + test.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             string cout = "  P1 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -995,37 +996,37 @@ public static class SegmentTest
             Segments.segment_point_near_2d(p1, p2, p, ref pn, ref dist, ref t);
 
             Console.WriteLine("");
-            Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
+            Console.WriteLine("  TEST = " + test.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             string cout = "  P1 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  PN =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += pn[i].ToString().PadLeft(12);
+                cout += pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
-            Console.WriteLine("  T =    " + t.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  T =    " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1078,37 +1079,37 @@ public static class SegmentTest
             Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
             Console.WriteLine("");
-            Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
+            Console.WriteLine("  TEST = " + test.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             string cout = "  P1 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  PN =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += pn[i].ToString().PadLeft(12);
+                cout += pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
-            Console.WriteLine("  T    = " + t.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  T    = " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1171,12 +1172,12 @@ public static class SegmentTest
 
         Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
-        Console.WriteLine("  " + 1.ToString().PadLeft(6)
-                               + "  " + t.ToString().PadLeft(10)
-                               + "  " + dist.ToString().PadLeft(10)
-                               + "  " + pn[0].ToString().PadLeft(10)
-                               + "  " + pn[1].ToString().PadLeft(10)
-                               + "  " + pn[2].ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + 1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         //
         //  Case 2, point is nearest interior point of segment.
         //
@@ -1198,12 +1199,12 @@ public static class SegmentTest
 
         Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
-        Console.WriteLine("  " + 2.ToString().PadLeft(6)
-                               + "  " + t.ToString().PadLeft(10)
-                               + "  " + dist.ToString().PadLeft(10)
-                               + "  " + pn[0].ToString().PadLeft(10)
-                               + "  " + pn[1].ToString().PadLeft(10)
-                               + "  " + pn[2].ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + 2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         //
         //  Case 3, point is on the line.
         //
@@ -1225,12 +1226,12 @@ public static class SegmentTest
 
         Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
-        Console.WriteLine("  " + 3.ToString().PadLeft(6)
-                               + "  " + t.ToString().PadLeft(10)
-                               + "  " + dist.ToString().PadLeft(10)
-                               + "  " + pn[0].ToString().PadLeft(10)
-                               + "  " + pn[1].ToString().PadLeft(10)
-                               + "  " + pn[2].ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + 3.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
     }
 
@@ -1304,11 +1305,11 @@ public static class SegmentTest
         Console.WriteLine("");
         for ( i = 0; i < VEC_NUM; i++ )
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p1[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p1[1+i*2].ToString().PadLeft(10)
-                                   + "  " + p2[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p1[1+i*2].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p1[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p1[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p2[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p1[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Segments.string_2d ( VEC_NUM, p1, p2, ref string_num, ref order, ref string_ );
@@ -1328,12 +1329,12 @@ public static class SegmentTest
                 Console.WriteLine("");
                 jstrng += 1;
             }
-            Console.WriteLine("  " + string_[i].ToString().PadLeft(3)
-                                   + "  " + order[i].ToString().PadLeft(3)
-                                   + "  " + p1[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p1[1+i*2].ToString().PadLeft(10)
-                                   + "  " + p2[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p2[1+i*2].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + string_[i].ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + order[i].ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + p1[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p1[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p2[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p2[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

@@ -83,7 +83,6 @@ public static partial class Ranking
         }
 
         return check;
-        ;
     }
 
     public static int ksubset_colex_rank(int k, int n, int[] t)

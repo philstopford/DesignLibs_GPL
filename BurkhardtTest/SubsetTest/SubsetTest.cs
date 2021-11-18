@@ -58,7 +58,7 @@ public static class SubsetTest
 
             rank += 1;
 
-            string cout = rank.ToString().PadLeft(4) + "  ";
+            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
             switch (subsize)
             {
@@ -66,7 +66,7 @@ public static class SubsetTest
                 {
                     for (i = 0; i < subsize; i++)
                     {
-                        cout += a[i].ToString().PadLeft(2) + "  ";
+                        cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
                     }
 
                     Console.WriteLine(cout);
@@ -138,7 +138,7 @@ public static class SubsetTest
                     string cout = "  ";
                     for (i = 0; i < k; i++)
                     {
-                        cout += a[i].ToString().PadLeft(2) + "  ";
+                        cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
                     }
 
                     Console.WriteLine(cout);
@@ -260,10 +260,10 @@ public static class SubsetTest
         {
             a = Subset.subset_random(N, ref seed);
 
-            string cout = j.ToString().PadLeft(4) + "    ";
+            string cout = j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(2);
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -360,10 +360,10 @@ public static class SubsetTest
             Ranking.subset_gray_unrank(rank, N, ref a);
 
             string cout = "  "
-                          + rank.ToString().PadLeft(4) + "  ";
+                          + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(2);
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);

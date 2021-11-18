@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Polygon;
 using Burkardt.Types;
 
@@ -59,7 +60,7 @@ public static class PolyloopTest
             j2 = typeMethods.i4_wrap(j, 0, N - 1);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i + j2 * DIM_NUM].ToString().PadLeft(12);
+                cout += "  " + p[i + j2 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout + "  " + s[j2] + "");

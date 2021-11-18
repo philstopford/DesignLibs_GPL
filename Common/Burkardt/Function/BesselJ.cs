@@ -475,7 +475,7 @@ public static class BesselJ
                             _ => zero
                         };
 
-                        if (alpha != zero)
+                        if (Math.Abs(alpha - zero) > double.Epsilon)
                         {
                             tempa = Math.Pow(halfx, alpha) / (alpha * Helpers.Gamma(alpha));
                         }
@@ -488,7 +488,7 @@ public static class BesselJ
 
                         b[0] = tempa + tempa * tempb / alpem;
 
-                        if (x != zero && b[0] == zero)
+                        if (Math.Abs(x - zero) > double.Epsilon && Math.Abs(b[0] - zero) <= double.Epsilon)
                         {
                             ncalc = 0;
                         }
@@ -511,7 +511,7 @@ public static class BesselJ
                                 {
                                     tempc = halfx;
 
-                                    if (tempb != zero)
+                                    if (Math.Abs(tempb - zero) > double.Epsilon)
                                     {
                                         tover = enmten / tempb;
                                     }
@@ -785,7 +785,7 @@ public static class BesselJ
                         tempa = one / p;
                         m = 2 * n - 4 * (n / 2);
                         sum = zero;
-                        em = n / 2;
+                        em = (double)n / 2;
                         alpem = em - one + alpha;
                         alp2em = em + em + alpha;
                         if (m != 0)
@@ -851,7 +851,7 @@ public static class BesselJ
 
                                 sum += b[0] * alp2em;
 
-                                if (alpha + one != one)
+                                if (Math.Abs(alpha + one - one) > double.Epsilon)
                                 {
                                     sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                                 }
@@ -901,7 +901,7 @@ public static class BesselJ
                                         //
                                         //  Normalize.  Divide all B by sum.
                                         //
-                                        if (alpha + one != one)
+                                        if (Math.Abs(alpha + one - one) > double.Epsilon)
                                         {
                                             sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                                         }
@@ -992,7 +992,7 @@ public static class BesselJ
                         //
                         //  Normalize.  Divide all B by sum.
                         //
-                        if (alpha + one != one)
+                        if (Math.Abs(alpha + one - one) > double.Epsilon)
                         {
                             sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                         }

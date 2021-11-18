@@ -210,8 +210,6 @@ public static partial class PDF
                         f *= (g / ix - r);
                     }
                 }
-
-                break;
             }
         }
 
@@ -388,8 +386,6 @@ public static partial class PDF
                 }
             }
         }
-
-        return value;
     }
 
     public static int i4_uniform_sample(int a, int b)

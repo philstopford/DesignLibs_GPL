@@ -1,4 +1,5 @@
-﻿using Burkardt.SolveNS;
+﻿using System;
+using Burkardt.SolveNS;
 using Burkardt.Types;
 
 namespace Burkardt.Lagrange;
@@ -319,7 +320,7 @@ public static class Lagrange1D
 
         yi = 1.0;
 
-        if ( xi != xd[i] )
+        if ( Math.Abs(xi - xd[i]) > double.Epsilon )
         {
             for ( j = 0; j < mx + 1; j++ )
             {

@@ -127,7 +127,7 @@ public struct Vec3
         return i;
     }
 
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         return string.Format("{0}, {1}, {2}", X, Y, Z);
     }

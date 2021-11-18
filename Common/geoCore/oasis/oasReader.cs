@@ -310,9 +310,6 @@ internal partial class oasReader
                                 i = readUnsignedInteger();
                                 readUnsignedInteger();
                                 break;
-                            default:
-                                //"Error in layername/textlayername"
-                                break;
                         }
                         int l = i;
                         //datatype
@@ -333,9 +330,6 @@ internal partial class oasReader
                             case 4:
                                 i = readUnsignedInteger();
                                 readUnsignedInteger();
-                                break;
-                            default:
-                                // "Error in layername/textlayername"
                                 break;
                         }
                         try

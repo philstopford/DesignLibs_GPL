@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Sampling;
 using Burkardt.Types;
@@ -136,8 +137,8 @@ public static class LatinCentroidalVoronoi
             switch (verbose)
             {
                 case true:
-                    Console.WriteLine(it.ToString().PadLeft(4) + "  "
-                                                               + change_l2.ToString().PadLeft(12) + "");
+                    Console.WriteLine(it.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                               + change_l2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                     break;
             }
         }
@@ -446,7 +447,7 @@ public static class LatinCentroidalVoronoi
             string cout = "";
             for (i = 0; i < dim_num; i++)
             {
-                cout += cell_generator[i + j * dim_num].ToString().PadLeft(10) + "  ";
+                cout += cell_generator[i + j * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             file_out.Add(cout);
@@ -556,7 +557,7 @@ public static class LatinCentroidalVoronoi
         int j;
         string s;
             
-        s = DateTime.Now.ToString();
+        s = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
         switch (comment)
         {
@@ -589,7 +590,7 @@ public static class LatinCentroidalVoronoi
             string cout = "";
             for (i = 0; i < dim_num; i++)
             {
-                cout += r[i + j * dim_num].ToString().PadLeft(10) + "  ";
+                cout += r[i + j * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             file_out.Add(cout);

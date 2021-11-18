@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Burkardt.SortNS;
@@ -796,12 +797,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, x.Length);
 
-        if (n == x.Length)
-        {
-            return x.Average();
-        }
-
-        return x.Take(n).Average();
+        return n == x.Length ? x.Average() : x.Take(n).Average();
     }
 
     public static int i4vec_lcm ( int n, int[] v )
@@ -1531,8 +1527,8 @@ public static partial class typeMethods
         {
             for ( i = 0; i < n; i++ )
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + a[i].ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
         else
@@ -1543,25 +1539,25 @@ public static partial class typeMethods
                 {
                     for ( i = 0; i < max_print - 2; i++ )
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + ": " + a[i].ToString().PadLeft(8) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     }
                     Console.WriteLine("  ........  ........");
                     i = n - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + ": " + a[i].ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     break;
                 }
                 default:
                 {
                     for ( i= 0; i < max_print - 1; i++ )
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + ": " + a[i].ToString().PadLeft(8) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     }
                     i = max_print - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + ": " + a[i].ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + "...more entries...");
                     break;
                 }
@@ -1609,8 +1605,8 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + ": " + a[i].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
         
@@ -1650,9 +1646,9 @@ public static partial class typeMethods
         Console.WriteLine("");
         for ( i = 0; i <= n - 1; i++ )
         {
-            Console.WriteLine(i.ToString().PadLeft(6)     + ": "
-                                                          + a1[i].ToString().PadLeft(8) + "  "
-                                                          + a2[i].ToString().PadLeft(8) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6)     + ": "
+                                                          + a1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                          + a2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -2527,7 +2523,7 @@ public static partial class typeMethods
 
             for (int j = 0; j < n; j++)
             {
-                output.Add(table[j].ToString());
+                output.Add(table[j].ToString(CultureInfo.InvariantCulture));
             }
 
             File.WriteAllLines(output_filename, output);
@@ -2659,12 +2655,14 @@ public static partial class typeMethods
 
         for (i1 = 1; i1 < n1; i1++)
         {
-            if (a1[i1] != a2[i2] || b1[i1] != b2[i2])
+            if (a1[i1] == a2[i2] && b1[i1] == b2[i2])
             {
-                i2 += 1;
-                a2[i2] = a1[i1];
-                b2[i2] = b1[i1];
+                continue;
             }
+
+            i2 += 1;
+            a2[i2] = a1[i1];
+            b2[i2] = b1[i1];
         }
     }
 
@@ -2788,7 +2786,7 @@ public static partial class typeMethods
 
                     for (i = ilo; i <= ihi; i++)
                     {
-                        cout += a[i - 1].ToString().PadLeft(12);
+                        cout += a[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                     }
 
                     Console.WriteLine(cout);
@@ -2804,7 +2802,7 @@ public static partial class typeMethods
                     ihi = Math.Min(ilo + 5 - 1, n);
                     for (i = ilo; i <= ihi; i++)
                     {
-                        cout += a[i - 1].ToString().PadLeft(12);
+                        cout += a[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                     }
 
                     Console.WriteLine(cout);
@@ -2856,8 +2854,8 @@ public static partial class typeMethods
 
         for ( i = 0; i <= n-1; i++ ) 
         {
-            Console.WriteLine(i.ToString().PadLeft(6)    + "  " 
-                                                         + a[i].ToString().PadLeft(8));
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6)    + "  " 
+                                                         + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8));
         }
     }
 
@@ -2903,8 +2901,8 @@ public static partial class typeMethods
         for ( i = 0; i <= n-1; i++ ) 
         {
             Console.WriteLine("  "
-                              + (i+1).ToString().PadLeft(6)  + "  " 
-                              + a[i].ToString().PadLeft(8));
+                              + (i+1).ToString(CultureInfo.InvariantCulture).PadLeft(6)  + "  " 
+                              + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8));
         }
 
     }

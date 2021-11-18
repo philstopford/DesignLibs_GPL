@@ -242,8 +242,6 @@ public class RandomGenerator<TAlgo> : IRandomGenerator
                         // bit types. Relatively slow.
                         return (uint)GetUnbiasedBits(32);
                 }
-
-                break;
         }
     }
 
@@ -531,7 +529,7 @@ public class RandomGenerator<TAlgo> : IRandomGenerator
             sb.Append(alphabet[NextInt(0, alphabet.Length)]);
         }
 
-        return sb.ToString();
+        return sb.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -707,7 +705,9 @@ public class RandomGenerator<TAlgo> : IRandomGenerator
         }
 
         int bits = 64;
-        while (x >> --bits == 0) ;
+        while (x >> --bits == 0)
+        {
+        }
 
         return bits + 1;
 

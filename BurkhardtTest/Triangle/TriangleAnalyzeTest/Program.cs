@@ -132,8 +132,8 @@ internal class Program
 
         Console.WriteLine("");
         Console.WriteLine("  CENTROID: "
-                          + "  " + centroid[0].ToString().PadLeft(14)
-                          + "  " + centroid[1].ToString().PadLeft(14) + "");
+                          + "  " + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  CIRCUM_CIRCLE
         //
@@ -142,8 +142,8 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  CIRCUM_RADIUS: " + circum_radius + "");
         Console.WriteLine("  CIRCUM_CENTER: "
-                          + "  " + circum_center[0].ToString().PadLeft(14)
-                          + "  " + circum_center[1].ToString().PadLeft(14) + "");
+                          + "  " + circum_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + circum_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  EDGE LENGTHS
         //
@@ -158,8 +158,8 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  IN_RADIUS: " + in_radius + "");
         Console.WriteLine("  IN_CENTER: "
-                          + "  " + in_center[0].ToString().PadLeft(14)
-                          + "  " + in_center[1].ToString().PadLeft(14) + "");
+                          + "  " + in_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + in_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  ORIENTATION
         //
@@ -196,8 +196,8 @@ internal class Program
             default:
                 Console.WriteLine("");
                 Console.WriteLine("  ORTHO_CENTER: "
-                                  + "  " + ortho_center[0].ToString().PadLeft(14)
-                                  + "  " + ortho_center[1].ToString().PadLeft(14) + "");
+                                  + "  " + ortho_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + "  " + ortho_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 break;
         }
 

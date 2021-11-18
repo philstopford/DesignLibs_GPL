@@ -578,7 +578,7 @@ public static class BernsteinPolynomial
         int i;
         int j;
 
-        if (b == a)
+        if (Math.Abs(b - a) <= double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("BERNSTEIN_POLY_AB - Fatal error!");
@@ -786,7 +786,7 @@ public static class BernsteinPolynomial
         int i;
         int j;
 
-        if (b == a)
+        if (Math.Abs(b - a) <= double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("BPAB - Fatal error!");

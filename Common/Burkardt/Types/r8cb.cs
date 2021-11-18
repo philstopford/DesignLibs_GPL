@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -397,7 +398,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         double[] b = r8vec_zeros_new(n);
 
@@ -405,6 +405,7 @@ public static partial class typeMethods
         {
             int jlo = Math.Max(0, i - ml);
             int jhi = Math.Min(n - 1, i + mu);
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[j] += x[i] * a[i - j + mu + j * (ml + mu + 1)];
@@ -854,7 +855,6 @@ public static partial class typeMethods
     {
         const int INCX = 5;
 
-        int j;
         int j2lo;
 
         Console.WriteLine("");
@@ -871,9 +871,10 @@ public static partial class typeMethods
             Console.WriteLine("");
             string cout = "  Col: ";
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -890,7 +891,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(4) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
@@ -902,7 +903,7 @@ public static partial class typeMethods
                     }
                     else
                     {
-                        cout += a[i - j + mu + (j - 1) * (ml + mu + 1)].ToString().PadLeft(12) + "  ";
+                        cout += a[i - j + mu + (j - 1) * (ml + mu + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                 }
 

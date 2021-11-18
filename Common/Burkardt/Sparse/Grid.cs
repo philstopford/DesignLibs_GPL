@@ -2592,11 +2592,14 @@ public static class Grid
                                 point3 = point2;
                                 for (dim = 0; dim < dim_num; dim++)
                                 {
-                                    if (grid_point[dim + point2 * dim_num] != grid_point_temp[dim])
+                                    if (!(Math.Abs(grid_point[dim + point2 * dim_num] - grid_point_temp[dim]) >
+                                          double.Epsilon))
                                     {
-                                        point3 = -1;
-                                        break;
+                                        continue;
                                     }
+
+                                    point3 = -1;
+                                    break;
                                 }
 
                                 if (point3 == point2)
@@ -3573,7 +3576,7 @@ public static class Grid
                             string cout = "";
                             for (dim = 0; dim < dim_num; dim++)
                             {
-                                cout += level_1d[dim].ToString().PadLeft(6);
+                                cout += level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(6);
                             }
 
                             Console.WriteLine(cout);
@@ -3582,7 +3585,7 @@ public static class Grid
                             cout = "";
                             for (dim = 0; dim < dim_num; dim++)
                             {
-                                cout += order_1d[dim].ToString().PadLeft(6);
+                                cout += order_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(6);
                             }
 
                             Console.WriteLine(cout);
@@ -3591,7 +3594,7 @@ public static class Grid
                             cout = "";
                             for (dim = 0; dim < dim_num; dim++)
                             {
-                                cout += grid_index2[dim + point2 * dim_num].ToString().PadLeft(6);
+                                cout += grid_index2[dim + point2 * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(6);
                             }
 
                             Console.WriteLine(cout);

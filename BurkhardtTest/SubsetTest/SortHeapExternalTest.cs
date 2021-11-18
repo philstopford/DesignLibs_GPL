@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SortNS;
 using Burkardt.Types;
 using Burkardt.Uniform;

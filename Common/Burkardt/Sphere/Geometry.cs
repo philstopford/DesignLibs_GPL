@@ -2258,8 +2258,8 @@ public static class Geometry
     {
         double value = (dim_num % 2) switch
         {
-            0 => Math.Pow(2.0 * Math.PI, dim_num / 2),
-            _ => 2.0 * Math.Pow(2.0 * Math.PI, (dim_num - 1) / 2)
+            0 => Math.Pow(2.0 * Math.PI, (double)dim_num / 2),
+            _ => 2.0 * Math.Pow(2.0 * Math.PI, (double)(dim_num - 1) / 2)
         };
 
         value /= typeMethods.i4_factorial2(dim_num - 2);
@@ -3700,7 +3700,7 @@ public static class Geometry
                     break;
             }
 
-            if (lam1 != lam2)
+            if (Math.Abs(lam1 - lam2) > double.Epsilon)
             {
                 hav_a = Helpers.haversine(beta2 - beta1)
                         + cos_b1 * cos_b2 * Helpers.haversine(lam2 - lam1);

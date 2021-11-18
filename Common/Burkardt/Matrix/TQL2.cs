@@ -136,7 +136,7 @@ public static class TQL2
             for (m = l; m < n; m++)
             {
                 tst2 = tst1 + Math.Abs(e[m]);
-                if (tst2 == tst1)
+                if (Math.Abs(tst2 - tst1) <= double.Epsilon)
                 {
                     break;
                 }

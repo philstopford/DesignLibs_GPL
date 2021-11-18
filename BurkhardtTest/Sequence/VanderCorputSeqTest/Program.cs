@@ -81,10 +81,10 @@ internal class Program
             r2 = VanDerCorput.vdc_base(i, 2);
             r3 = VanDerCorput.vdc_base(i, 3);
             r5 = VanDerCorput.vdc_base(i, 5);
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "        " + r2.ToString().PadLeft(14)
-                                   + "  " + r3.ToString().PadLeft(14)
-                                   + "  " + r5.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "        " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + r3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + r5.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -125,9 +125,9 @@ internal class Program
         {
             r = VanDerCorput.vdc(i);
             i2 = VanDerCorput.vdc_inverse(r);
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + i2.ToString().PadLeft(3) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
     }
@@ -234,8 +234,8 @@ internal class Program
         for (i = -10; i <= 10; i++)
         {
             r = VanDerCorput.vdc(i);
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + r.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

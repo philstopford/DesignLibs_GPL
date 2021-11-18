@@ -42,7 +42,7 @@ public static class Triangle
         }
         else if (x <= b)
         {
-            if (a == b)
+            if (Math.Abs(a - b) <= double.Epsilon)
             {
                 cdf = 0.0;
             }
@@ -164,7 +164,7 @@ public static class Triangle
             return false;
         }
 
-        if (a == c)
+        if (Math.Abs(a - c) <= double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("TRIANGLE_CHECK - Warning!");
@@ -254,7 +254,7 @@ public static class Triangle
         }
         else if (x <= b)
         {
-            if (a == b)
+            if (Math.Abs(a - b) <= double.Epsilon)
             {
                 pdf = 0.0;
             }
@@ -265,7 +265,7 @@ public static class Triangle
         }
         else if (x <= c)
         {
-            if (b == c)
+            if (Math.Abs(b - c) <= double.Epsilon)
             {
                 pdf = 0.0;
             }

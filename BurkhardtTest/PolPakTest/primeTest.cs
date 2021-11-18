@@ -44,15 +44,15 @@ public static class primeTest
         for ( i = 1; i <= 10; i++ )
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4) + "  "
-                              + Prime.prime ( i ).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + Prime.prime ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
         Console.WriteLine("");
         for ( i = prime_max - 10; i <= prime_max; i++ )
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4) + "  "
-                              + Prime.prime ( i ).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + Prime.prime ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }
@@ -101,9 +101,9 @@ public static class primeTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c.ToString().PadLeft(10) + "  "
-                              + Prime.phi(n).ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + Prime.phi(n).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
 

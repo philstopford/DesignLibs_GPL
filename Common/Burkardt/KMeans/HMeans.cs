@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -489,8 +490,8 @@ public static class HMeans
             switch (debug)
             {
                 case true:
-                    Console.WriteLine("  " + it_num.ToString().PadLeft(3)
-                                           + "  " + typeMethods.r8vec_sum(cluster_num, cluster_energy).ToString()
+                    Console.WriteLine("  " + it_num.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                           + "  " + typeMethods.r8vec_sum(cluster_num, cluster_energy).ToString(CultureInfo.InvariantCulture)
                                                .PadLeft(14) + "");
                     break;
             }
@@ -812,8 +813,8 @@ public static class HMeans
                 energy += weight[j] * point_energy;
             }
 
-            Console.WriteLine("  " + it_num.ToString().PadLeft(4)
-                                   + "  " + energy.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + it_num.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + energy.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             //
             //  #2:
             //  Determine the centroids of the clusters, and set the 

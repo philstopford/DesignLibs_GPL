@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
 namespace Burkardt.NiederreiterNS;
 
-public static partial class Niederreiter
+public static class Niederreiter
 {
     //
     //  GLOBAL DATA "/FIELD/"
@@ -918,7 +919,7 @@ public static partial class Niederreiter
             string cout = "";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim + j * dim_num].ToString().PadLeft(10);
+                cout += "  " + r[dim + j * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             output.Add(cout);

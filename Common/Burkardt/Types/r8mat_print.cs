@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -84,7 +85,7 @@ public static partial class typeMethods
                 string cout = "  Col   ";
                 for (j = jlo; j <= jhi; j++)
                 {
-                    cout += j.ToString().PadLeft(6);
+                    cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                 }
 
                 Console.WriteLine(cout);
@@ -97,10 +98,10 @@ public static partial class typeMethods
                         indx[j - jlo] = (j - 1) * m + i - j * (j - 1) / 2;
                     }
 
-                    cout = "  " + i.ToString().PadLeft(6);
+                    cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                     for (j = 0; j <= jhi - jlo; j++)
                     {
-                        cout += a[indx[j] - 1].ToString().PadLeft(6);
+                        cout += a[indx[j] - 1].ToString(CultureInfo.InvariantCulture).PadLeft(6);
                     }
 
                     Console.WriteLine(cout);
@@ -117,7 +118,7 @@ public static partial class typeMethods
                 string cout = "  Col   ";
                 for (j = jlo; j <= jhi; j++)
                 {
-                    cout += j.ToString().PadLeft(14);
+                    cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -130,10 +131,10 @@ public static partial class typeMethods
                         indx[j - jlo] = (j - 1) * m + i - j * (j - 1) / 2;
                     }
 
-                    cout += "  " + i.ToString().PadLeft(6);
+                    cout += "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                     for (j = 0; j <= jhi - jlo; j++)
                     {
-                        cout += a[indx[j] - 1].ToString().PadLeft(14);
+                        cout += a[indx[j] - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -151,7 +152,7 @@ public static partial class typeMethods
                 string cout = "  Col ";
                 for (j = jlo; j <= jhi; j++)
                 {
-                    cout += j.ToString().PadLeft(7) + "       ";
+                    cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
                 }
 
                 Console.WriteLine(cout);
@@ -164,10 +165,10 @@ public static partial class typeMethods
                         indx[j - jlo] = (j - 1) * m + i - j * (j - 1) / 2;
                     }
 
-                    cout = i.ToString().PadLeft(6);
+                    cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                     for (j = 0; j <= jhi - jlo; j++)
                     {
-                        cout += a[indx[j] - 1].ToString().PadLeft(14);
+                        cout += a[indx[j] - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -293,7 +294,7 @@ public static partial class typeMethods
             string cout = "  Col:    ";
             for (int j = j2lo; j <= j2hi; j++)
             {
-                cout += (j - 1).ToString().PadLeft(7) + "       ";
+                cout += (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -304,25 +305,23 @@ public static partial class typeMethods
             //  Determine the range of the rows in this strip.
             //
 
-            int i2hi;
-
             int i2lo = ilo switch
             {
                 > 1 => ilo,
                 _ => 1
             };
 
-            i2hi = ihi < m ? ihi : m;
+            int i2hi = ihi < m ? ihi : m;
 
             for (int i = i2lo; i <= i2hi; i++)
             {
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = (i - 1).ToString().PadLeft(5) + ": ";
+                cout = (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ": ";
                 for (int j = j2lo; j <= j2hi; j++)
                 {
-                    cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(12) + "  ";
+                    cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);

@@ -1680,7 +1680,7 @@ public static class Geometry
                     break;
             }
         }
-        else if (dist23 == dist)
+        else if (Math.Abs(dist23 - dist) <= double.Epsilon)
         {
             typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
             near_num += 1;

@@ -46,8 +46,8 @@ public class OwenTest
             }
 
             Console.WriteLine("  "
-                              + h.ToString().PadLeft(12) + "  "
-                              + a.ToString().PadLeft(12) + "  "
+                              + h.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + t.ToString("0.################").PadLeft(24) + "");
         }
     }

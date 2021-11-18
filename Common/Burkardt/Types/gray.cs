@@ -557,11 +557,13 @@ public static partial class typeMethods
             {
                 for (i = 1; i <= n; i++)
                 {
-                    if (data.a[i - 1] == 1)
+                    if (data.a[i - 1] != 1)
                     {
-                        change = i + 1;
-                        break;
+                        continue;
                     }
+
+                    change = i + 1;
+                    break;
                 }
 
                 break;

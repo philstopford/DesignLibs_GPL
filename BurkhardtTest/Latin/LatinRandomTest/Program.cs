@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Table;
 using Burkardt.Types;
 using Random = Burkardt.Latin.Random;
 

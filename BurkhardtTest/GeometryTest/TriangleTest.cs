@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt;
 using Burkardt.TriangleNS;
@@ -55,8 +56,8 @@ public static class TriangleTest
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + angle[i].ToString().PadLeft(12)
-                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + angle[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -107,8 +108,8 @@ public static class TriangleTest
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + angle[i].ToString().PadLeft(12)
-                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + angle[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -338,12 +339,12 @@ public static class TriangleTest
 
             xsi = Geometry.triangle_barycentric_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 
@@ -1023,11 +1024,11 @@ public static class TriangleTest
             inside2 = Geometry.triangle_contains_point_2d_2(t, p);
             inside3 = Geometry.triangle_contains_point_2d_3(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "    " + inside1.ToString().PadLeft(1)
-                                   + "    " + inside2.ToString().PadLeft(1)
-                                   + "    " + inside3.ToString().PadLeft(1) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "    " + inside1.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                                   + "    " + inside2.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                                   + "    " + inside3.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
 
         //
@@ -1057,11 +1058,11 @@ public static class TriangleTest
             inside2 = Geometry.triangle_contains_point_2d_2(t2, p);
             inside3 = Geometry.triangle_contains_point_2d_3(t2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "    " + inside1.ToString().PadLeft(1)
-                                   + "    " + inside2.ToString().PadLeft(1)
-                                   + "    " + inside3.ToString().PadLeft(1) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "    " + inside1.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                                   + "    " + inside2.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                                   + "    " + inside3.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
 
     }
@@ -1375,7 +1376,7 @@ public static class TriangleTest
         cout = "  C =       ";
         for (i = 0; i < n; i++)
         {
-            cout += "  " + c[i].ToString().PadLeft(4);
+            cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -1400,10 +1401,10 @@ public static class TriangleTest
                 }
 
                 i += 1;
-                cout += "  " + i.ToString().PadLeft(4);
+                cout += "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + v[j].ToString().PadLeft(4);
+                    cout += "  " + v[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -1467,7 +1468,7 @@ public static class TriangleTest
         cout = "  C = ";
         for (i = 0; i < n + 1; i++)
         {
-            cout += "  " + c[i].ToString().PadLeft(4);
+            cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -1485,10 +1486,10 @@ public static class TriangleTest
             }
 
             i += 1;
-            cout += "  " + i.ToString().PadLeft(4);
+            cout += "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (j = 0; j < n; j++)
             {
-                cout += "  " + v[j].ToString().PadLeft(4);
+                cout += "  " + v[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -1697,9 +1698,9 @@ public static class TriangleTest
 
             dist = Geometry.triangle_point_dist_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -1766,9 +1767,9 @@ public static class TriangleTest
 
             dist_signed = Geometry.triangle_point_dist_signed_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + dist_signed.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist_signed.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -1831,10 +1832,10 @@ public static class TriangleTest
 
             dist = Geometry.triangle_point_dist_3d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(10)
-                                   + "  " + p[1].ToString().PadLeft(10)
-                                   + "  " + p[2].ToString().PadLeft(10)
-                                   + "  " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1902,10 +1903,10 @@ public static class TriangleTest
 
             Geometry.triangle_point_near_2d(t, p, ref pn, ref dist);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(10)
-                                   + "  " + p[1].ToString().PadLeft(10)
-                                   + "  " + pn[0].ToString().PadLeft(10)
-                                   + "  " + pn[1].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -2025,11 +2026,11 @@ public static class TriangleTest
             Geometry.triangle_sample(t, 1, ref seed, ref p);
             Geometry.triangle_xy_to_xsi_2d(t, p, xsi);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + xsi[0].ToString().PadLeft(8).ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -2120,13 +2121,13 @@ public static class TriangleTest
             Geometry.triangle_xsi_to_xy_2d(t, xsi, ref p2);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
-            Console.WriteLine("  " + p2[0].ToString().PadLeft(8)
-                                   + "  " + p2[1].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }

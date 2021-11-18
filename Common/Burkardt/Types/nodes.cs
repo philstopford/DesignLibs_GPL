@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Burkardt.Types;
@@ -329,8 +330,8 @@ public static partial class typeMethods
             double x = node_xy[0 + node * 2];
             double y = node_xy[1 + node * 2];
 
-            output.Add(x.ToString().PadLeft(8) + "  "
-                                               + y.ToString().PadLeft(8) + "");
+            output.Add(x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                           + y.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
 

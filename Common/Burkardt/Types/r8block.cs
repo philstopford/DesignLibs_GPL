@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -294,7 +295,7 @@ public static partial class typeMethods
                 int j;
                 for (j = jlo; j <= jhi; j++)
                 {
-                    cout += j.ToString().PadLeft(7) + "       ";
+                    cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
                 }
 
                 Console.WriteLine("");
@@ -302,10 +303,10 @@ public static partial class typeMethods
                 int i;
                 for (i = 1; i <= l; i++)
                 {
-                    cout += i.ToString().PadLeft(5) + ":";
+                    cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                     for (j = jlo; j <= jhi; j++)
                     {
-                        cout += "  " + a[i - 1 + (j - 1) * l + (k - 1) * l * m].ToString().PadLeft(12);
+                        cout += "  " + a[i - 1 + (j - 1) * l + (k - 1) * l * m].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                     }
 
                     Console.WriteLine(cout);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
@@ -367,7 +368,7 @@ public static class Lobatto
 
         for (i = 0; i < x_num; i++)
         {
-            string tmp = x[i].ToString();
+            string tmp = x[i].ToString(CultureInfo.InvariantCulture);
             for (j = 0; j < ndx_num; j++)
             {
                 tmp += "  " + y[i + j * x_num];
@@ -433,7 +434,7 @@ public static class Lobatto
 
         for (i = 0; i < x_num; i++)
         {
-            string tmp = x[i].ToString();
+            string tmp = x[i].ToString(CultureInfo.InvariantCulture);
             for (j = 0; j < ndx_num; j++)
             {
                 tmp += "  " + yp[i + j * x_num];

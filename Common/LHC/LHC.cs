@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using entropyRNG;
 using utility;
 
@@ -46,7 +45,7 @@ public class LHCSampler
             
         for (int i = 0; i < samples; i++)
         {
-            intervals.Add(new LHCPoint() {x = 0, y = 1});
+            intervals.Add(new LHCPoint {x = 0, y = 1});
         }
     }
 
@@ -59,11 +58,11 @@ public class LHCSampler
         for (int i = 0; i < samples; i++)
         {
             double rnd = RNG.nextdouble();
-            bool ok = rnd >= 0 && rnd <= 1;
+            bool ok = rnd is >= 0 and <= 1;
             while (!ok)
             {
                 rnd = RNG.nextdouble();
-                ok = rnd >= 0 && rnd <= 1;
+                ok = rnd is >= 0 and <= 1;
             }
             ret.points.Add(intervals[dim].x + rnd * i * dx);
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.PiecewiseLinear;
 using Burkardt.Probability;
 using Burkardt.Types;

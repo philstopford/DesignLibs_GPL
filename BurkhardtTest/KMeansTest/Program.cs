@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Means;
 using Burkardt.SolveNS;
 using Burkardt.Table;

@@ -47,9 +47,9 @@ public static class BivariateTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + y.ToString().PadLeft(12) + "  "
-                              + r.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fxy.ToString("0.################").PadLeft(24) + fxy + "");
         }
     }

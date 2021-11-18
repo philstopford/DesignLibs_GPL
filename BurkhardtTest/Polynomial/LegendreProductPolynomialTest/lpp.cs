@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.PolynomialNS;
 using Burkardt.Uniform;
@@ -157,12 +156,12 @@ public static class lppTest
             //
             //  Compare results.
             //
-            Console.WriteLine(rank.ToString().PadLeft(6) + "  "
-                                                         + l[0].ToString().PadLeft(2) + "  "
-                                                         + l[1].ToString().PadLeft(2) + "  "
-                                                         + l[2].ToString().PadLeft(2) + "  "
-                                                         + v1[0].ToString().PadLeft(14) + "  "
-                                                         + v2[0].ToString().PadLeft(14) + "");
+            Console.WriteLine(rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + l[0].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                                                         + l[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                                                         + l[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                                                         + v1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                         + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

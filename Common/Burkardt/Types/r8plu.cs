@@ -152,14 +152,16 @@ public static partial class typeMethods
                 }
             }
 
-            if (pivot[k - 1] != k)
+            if (pivot[k - 1] == k)
             {
-                for (i = 1; i <= n; i++)
-                {
-                    temp = a_inverse[i - 1 + (k - 1) * n];
-                    a_inverse[i - 1 + (k - 1) * n] = a_inverse[i - 1 + (pivot[k - 1] - 1) * n];
-                    a_inverse[i - 1 + (pivot[k - 1] - 1) * n] = temp;
-                }
+                continue;
+            }
+
+            for (i = 1; i <= n; i++)
+            {
+                temp = a_inverse[i - 1 + (k - 1) * n];
+                a_inverse[i - 1 + (k - 1) * n] = a_inverse[i - 1 + (pivot[k - 1] - 1) * n];
+                a_inverse[i - 1 + (pivot[k - 1] - 1) * n] = temp;
             }
         }
     }

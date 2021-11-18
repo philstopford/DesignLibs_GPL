@@ -60,15 +60,15 @@ public static class AngleTest
         dist = 1.0;
 
         Console.WriteLine("");
-        Console.WriteLine("  DIST " + dist.ToString().PadLeft(14) + "");
-        Console.WriteLine("  P1:  " + p1[0].ToString().PadLeft(14) + "  " + p1[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P2:  " + p2[0].ToString().PadLeft(14) + "  " + p2[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P3:  " + p3[0].ToString().PadLeft(14) + "  " + p3[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  DIST " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P1:  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P2:  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P3:  " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Angle.angle_box_2d(dist, p1, p2, p3, ref p4, ref p5);
 
-        Console.WriteLine("  P4:  " + p4[0].ToString().PadLeft(14) + "  " + p4[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P5:  " + p5[0].ToString().PadLeft(14) + "  " + p5[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  P4:  " + p4[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p4[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P5:  " + p5[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p5[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  These points define the lines
         //    y = 0
@@ -84,15 +84,15 @@ public static class AngleTest
         dist = 1.0;
 
         Console.WriteLine("");
-        Console.WriteLine("  DIST " + dist.ToString().PadLeft(14) + "");
-        Console.WriteLine("  P1:  " + p1[0].ToString().PadLeft(14) + "  " + p1[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P2:  " + p2[0].ToString().PadLeft(14) + "  " + p2[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P3:  " + p3[0].ToString().PadLeft(14) + "  " + p3[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  DIST " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P1:  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P2:  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P3:  " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Angle.angle_box_2d(dist, p1, p2, p3, ref p4, ref p5);
 
-        Console.WriteLine("  P4:  " + p4[0].ToString().PadLeft(14) + "  " + p4[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P5:  " + p5[0].ToString().PadLeft(14) + "  " + p5[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  P4:  " + p4[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p4[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P5:  " + p5[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p5[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  By setting P1 = P2, we are asking to extend the line
         //    y = 2x-6
@@ -107,15 +107,15 @@ public static class AngleTest
         dist = 1.0;
 
         Console.WriteLine("");
-        Console.WriteLine("  DIST " + dist.ToString().PadLeft(14) + "");
-        Console.WriteLine("  P1:  " + p1[0].ToString().PadLeft(14) + "  " + p1[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P2:  " + p2[0].ToString().PadLeft(14) + "  " + p2[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P3:  " + p3[0].ToString().PadLeft(14) + "  " + p3[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  DIST " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P1:  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P2:  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P3:  " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Angle.angle_box_2d(dist, p1, p2, p3, ref p4, ref p5);
 
-        Console.WriteLine("  P4:  " + p4[0].ToString().PadLeft(14) + "  " + p4[1].ToString().PadLeft(14) + "");
-        Console.WriteLine("  P5:  " + p5[0].ToString().PadLeft(14) + "  " + p5[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  P4:  " + p4[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p4[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  P5:  " + p5[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  " + p5[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -239,8 +239,8 @@ public static class AngleTest
 
                 inside = Angle.angle_contains_ray_2d(p1, p2, p3, p);
 
-                Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                       + "  " + p[1].ToString().PadLeft(12)
+                Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + inside + "");
             }
 
@@ -304,11 +304,11 @@ public static class AngleTest
 
             temp2 = Angle.angle_deg_2d(v1, v3, v2);
 
-            Console.WriteLine("  " + v2[0].ToString().PadLeft(10)
-                                   + "  " + v2[1].ToString().PadLeft(10)
-                                   + "  " + thetad.ToString().PadLeft(10)
-                                   + "  " + temp1.ToString().PadLeft(10)
-                                   + "  " + temp2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + thetad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -552,11 +552,11 @@ public static class AngleTest
             string cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString().PadLeft(10);
+                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
-            Console.WriteLine(cout + "  " + temp1.ToString().PadLeft(10)
-                              + "  " + temp2.ToString().PadLeft(10) + "");
+            Console.WriteLine(cout + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -614,11 +614,11 @@ public static class AngleTest
 
             temp2 = Angle.angle_rad_nd(DIM_NUM, v1, v2);
 
-            Console.WriteLine("  " + v2[0].ToString().PadLeft(10)
-                                   + "  " + v2[1].ToString().PadLeft(10)
-                                   + "  " + thetad.ToString().PadLeft(10)
-                                   + "  " + temp1.ToString().PadLeft(10)
-                                   + "  " + temp2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + thetad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -686,9 +686,9 @@ public static class AngleTest
 
             turn = Angle.angle_turn_2d(p1, p2, p3);
 
-            Console.WriteLine("  " + test.ToString().PadLeft(4)
-                                   + "  " + theta_degrees.ToString().PadLeft(5)
-                                   + "  " + turn.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + theta_degrees.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + turn.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

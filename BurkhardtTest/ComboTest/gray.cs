@@ -58,12 +58,12 @@ internal partial class Program
             }
 
             check = typeMethods.gray_code_check(n, t3);
-            string cout = "      " + check.ToString().PadLeft(1)
-                                   + "  " + n.ToString().PadLeft(2)
+            string cout = "      " + check.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                    + ":  ";
             for (i = 0; i < n; i++)
             {
-                cout += "  " + t[i].ToString().PadLeft(2);
+                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -103,8 +103,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             ngray = typeMethods.gray_code_enum(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + ngray.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + ngray.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -194,10 +194,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString().PadLeft(4);
+            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (i = 0; i < n; i++)
             {
-                cout += "  " + t[i].ToString().PadLeft(4);
+                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -247,7 +247,7 @@ internal partial class Program
         string cout = "";
         for (i = 0; i < n; i++)
         {
-            cout += "  " + t[i].ToString().PadLeft(4);
+            cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);

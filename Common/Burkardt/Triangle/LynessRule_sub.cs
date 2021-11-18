@@ -43,7 +43,6 @@ public static partial class LynessRule
         //    of the rule.
         //
     {
-        int[] suborder;
         int[] suborder_00 = {1};
         int[] suborder_01 = {3};
         int[] suborder_02 = {1, 3};
@@ -67,7 +66,7 @@ public static partial class LynessRule
         int[] suborder_20 = {3, 3, 3, 3, 3, 6, 6};
         int[] suborder_21 = {1, 3, 3, 3, 3, 3, 6, 6};
 
-        suborder = new int[suborder_num];
+        int[] suborder;
 
         switch (rule)
         {

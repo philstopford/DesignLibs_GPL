@@ -50,11 +50,11 @@ public static class zernikeTest
             for (m = 0; m <= n; m++)
             {
                 c = Zernike.zernike_poly_coef(m, n);
-                string cout = "  " + n.ToString().PadLeft(2)
-                                   + "  " + m.ToString().PadLeft(2);
+                string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2);
                 for (i = 0; i <= n; i++)
                 {
-                    cout += c[i].ToString().PadLeft(7);
+                    cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(7);
                 }
 
                 Console.WriteLine(cout);
@@ -80,10 +80,10 @@ public static class zernikeTest
                 z1 = typeMethods.r8poly_value_horner(n, c, rho);
 
                 z2 = Zernike.zernike_poly(m, n, rho);
-                Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + m.ToString().PadLeft(2)
-                                       + "  " + z1.ToString().PadLeft(16)
-                                       + "  " + z2.ToString().PadLeft(16) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                       + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
 
             }
         }

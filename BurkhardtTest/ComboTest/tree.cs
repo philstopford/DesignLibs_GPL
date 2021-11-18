@@ -83,7 +83,7 @@ internal partial class Program
             }
 
             check = Ranking.tree_check(n, t);
-            Console.WriteLine("       " + check.ToString().PadLeft(2) + "");
+            Console.WriteLine("       " + check.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             typeMethods.i4mat_print(2, n - 1, t, "  Tree:");
         }
     }
@@ -119,8 +119,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             tree_num = Ranking.tree_enum(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + tree_num.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + tree_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -214,17 +214,17 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString().PadLeft(4);
+            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (j = 0; j < n - 1; j++)
             {
-                cout += "  " + t[0 + j * 2].ToString().PadLeft(4);
+                cout += "  " + t[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
             string cout2 = "  " + "    ";
             for (j = 0; j < n - 1; j++)
             {
-                cout2 += "  " + t[1 + j * 2].ToString().PadLeft(4);
+                cout2 += "  " + t[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout2);
@@ -295,9 +295,9 @@ internal partial class Program
             Console.WriteLine("");
             for (j = 0; j < n - 1; j++)
             {
-                Console.WriteLine("  " + j.ToString().PadLeft(2)
-                                       + "  " + t[0 + j * 2].ToString().PadLeft(4)
-                                       + "  " + t[1 + j * 2].ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + t[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + t[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             //

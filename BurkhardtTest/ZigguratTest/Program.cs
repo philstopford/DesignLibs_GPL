@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Ziggurat;
 
 namespace ZigguratTest;
@@ -108,17 +109,17 @@ internal class Program
             };
 
             Console.WriteLine("");
-            Console.WriteLine("  " + 0.ToString().PadLeft(6)
-                                   + "  " + seed.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
 
             for (i = 1; i <= 10; i++)
             {
                 value = SHR3.shr3_seeded(ref seed);
 
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }
@@ -163,17 +164,17 @@ internal class Program
             };
 
             Console.WriteLine("");
-            Console.WriteLine("  " + 0.ToString().PadLeft(6)
-                                   + "  " + seed.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
 
             for (i = 1; i <= 10; i++)
             {
                 value = r4.r4_uni(ref seed);
 
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -223,17 +224,17 @@ internal class Program
             };
 
             Console.WriteLine("");
-            Console.WriteLine("  " + 0.ToString().PadLeft(6)
-                                   + "  " + seed.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
 
             for (i = 1; i <= 10; i++)
             {
                 value = r4.r4_nor(ref seed, kn, fn, wn);
 
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -283,17 +284,17 @@ internal class Program
             };
 
             Console.WriteLine("");
-            Console.WriteLine("  " + 0.ToString().PadLeft(6)
-                                   + "  " + seed.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
 
             for (i = 1; i <= 10; i++)
             {
                 value = r4.r4_exp(ref seed, ke, fe, we);
 
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -539,9 +540,9 @@ internal class Program
             jcong_old = jcong_new;
             jcong_in = jcong_new;
             jcong_new = Congruential.cong_seeded(ref jcong_in);
-            Console.WriteLine("  " + jcong_old.ToString().PadLeft(12)
-                                   + "  " + jcong_in.ToString().PadLeft(12)
-                                   + "  " + jcong_new.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + jcong_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + jcong_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + jcong_new.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -598,16 +599,16 @@ internal class Program
             z_old = z_in;
             value = KISS.kiss_seeded(ref jcong_in, ref jsr_in, ref w_in, ref z_in);
             Console.WriteLine("  In "
-                              + "  " + jcong_old.ToString().PadLeft(12)
-                              + "  " + jsr_old.ToString().PadLeft(12)
-                              + "  " + w_old.ToString().PadLeft(12)
-                              + "  " + z_old.ToString().PadLeft(12) + "");
+                              + "  " + jcong_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + jsr_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + w_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + z_old.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("  Out"
-                              + "  " + jcong_in.ToString().PadLeft(12)
-                              + "  " + jsr_in.ToString().PadLeft(12)
-                              + "  " + w_in.ToString().PadLeft(12)
-                              + "  " + z_in.ToString().PadLeft(12)
-                              + "  " + value.ToString().PadLeft(12) + "");
+                              + "  " + jcong_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + jsr_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + w_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + z_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                              + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -655,11 +656,11 @@ internal class Program
             w_old = w_in;
             z_old = z_in;
             value = MultiplyWithCarry.mwc_seeded(ref w_in, ref z_in);
-            Console.WriteLine("  " + w_old.ToString().PadLeft(12)
-                                   + "  " + z_old.ToString().PadLeft(12)
-                                   + "  " + w_in.ToString().PadLeft(12)
-                                   + "  " + z_in.ToString().PadLeft(12)
-                                   + "  " + value.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + w_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + z_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + w_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + z_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -704,9 +705,9 @@ internal class Program
             jsr_old = jsr_new;
             jsr_in = jsr_new;
             jsr_new = SHR3.shr3_seeded(ref jsr_in);
-            Console.WriteLine("  " + jsr_old.ToString().PadLeft(12)
-                                   + "  " + jsr_in.ToString().PadLeft(12)
-                                   + "  " + jsr_new.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + jsr_old.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + jsr_in.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + jsr_new.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

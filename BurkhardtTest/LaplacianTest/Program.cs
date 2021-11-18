@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.CholeskyNS;
 using Burkardt.Error;
 using Burkardt.Laplacian;

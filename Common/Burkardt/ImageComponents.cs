@@ -222,11 +222,13 @@ public static class ImageComponents
         i = 0;
         for (component = 1; component <= component_num; component++)
         {
-            if (p[component] == component)
+            if (p[component] != component)
             {
-                i += 1;
-                q[component] = i;
+                continue;
             }
+
+            i += 1;
+            q[component] = i;
         }
 
         component_num = i;

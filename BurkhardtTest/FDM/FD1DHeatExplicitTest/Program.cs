@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.FDM;
 using Burkardt.Types;
 

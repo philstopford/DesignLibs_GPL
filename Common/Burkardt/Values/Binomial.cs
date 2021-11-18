@@ -49,12 +49,9 @@ public static class Binomial
         //    things taken K at a time.
         //
     {
-        int i;
-        int mn;
-        int mx;
         int value;
 
-        mn = Math.Min ( k, n - k );
+        int mn = Math.Min ( k, n - k );
 
         switch (mn)
         {
@@ -66,9 +63,10 @@ public static class Binomial
                 break;
             default:
             {
-                mx = Math.Max ( k, n - k );
+                int mx = Math.Max ( k, n - k );
                 value = mx + 1;
 
+                int i;
                 for ( i = 2; i <= mn; i++ )
                 {
                     value = value * ( mx + i ) / i;

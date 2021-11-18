@@ -88,8 +88,8 @@ internal class Program
             for (n = 0; n <= 5; n++)
             {
                 ng = Grid.polygon_grid_count(n, nv);
-                Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + ng.ToString().PadLeft(5) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + ng.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
             }
         }
     }

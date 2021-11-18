@@ -105,9 +105,9 @@ internal class Program
 
                 value = QuadratureRule.triangle_unit_monomial(expon);
 
-                Console.WriteLine("  " + expon[0].ToString().PadLeft(8)
-                                       + "  " + expon[1].ToString().PadLeft(8)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -176,7 +176,7 @@ internal class Program
             string cout = "  Monomial exponents: ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + expon[dim].ToString().PadLeft(2);
+                cout += "  " + expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -188,8 +188,8 @@ internal class Program
             QuadratureRule.triangle_unit_o01(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 3;
             w = new double[order];
@@ -197,8 +197,8 @@ internal class Program
             QuadratureRule.triangle_unit_o03(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 3;
             w = new double[order];
@@ -206,8 +206,8 @@ internal class Program
             QuadratureRule.triangle_unit_o03b(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 6;
             w = new double[order];
@@ -215,8 +215,8 @@ internal class Program
             QuadratureRule.triangle_unit_o06(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 6;
             w = new double[order];
@@ -224,8 +224,8 @@ internal class Program
             QuadratureRule.triangle_unit_o06b(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 7;
             w = new double[order];
@@ -233,8 +233,8 @@ internal class Program
             QuadratureRule.triangle_unit_o07(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 12;
             w = new double[order];
@@ -242,13 +242,13 @@ internal class Program
             QuadratureRule.triangle_unit_o12(ref w, ref xy);
             v = Monomial.monomial_value(dim_num, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("");
             quad = QuadratureRule.triangle_unit_monomial(expon);
             Console.WriteLine("  " + " Exact"
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {

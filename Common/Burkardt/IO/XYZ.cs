@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
@@ -39,9 +40,9 @@ public static class XYZ
         Console.WriteLine("");
         for (j = 0; j < point_num; j++)
         {
-            Console.WriteLine(xyz[0 + j * 3].ToString().PadLeft(10) + "  "
-                                                                    + xyz[1 + j * 3].ToString().PadLeft(10) + "  "
-                                                                    + xyz[2 + j * 3].ToString().PadLeft(10) + "");
+            Console.WriteLine(xyz[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                    + xyz[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                    + xyz[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -77,8 +78,6 @@ public static class XYZ
     {
         string[] input;
         int j;
-        string text;
-        double[] temp = new double[3];
 
         try
         {
@@ -98,6 +97,7 @@ public static class XYZ
 
         while (j < point_num)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -167,9 +167,9 @@ public static class XYZ
 
         for (j = 0; j < point_num; j++)
         {
-            output_unit.Add(xyz[0 + j * 3].ToString().PadLeft(10) + "  "
-                                                                  + xyz[1 + j * 3].ToString().PadLeft(10) + "  "
-                                                                  + xyz[2 + j * 3].ToString().PadLeft(10) + "");
+            output_unit.Add(xyz[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                  + xyz[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                  + xyz[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -615,18 +615,18 @@ public static class XYZ
         Console.WriteLine("");
         for (face = 0; face < face_num; face++)
         {
-            Console.WriteLine("  " + face.ToString().PadLeft(4) + "  "
-                              + "  " + face_pointer[face].ToString().PadLeft(8)
-                              + "  " + (face_pointer[face + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + "  " + face_pointer[face].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + "  " + (face_pointer[face + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");
         for (face = 0; face < face_num; face++)
         {
-            string cout = "  " + face.ToString().PadLeft(4) + "  ";
+            string cout = "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (i = face_pointer[face]; i < face_pointer[face + 1]; i++)
             {
-                cout += "  " + face_data[i].ToString().PadLeft(4);
+                cout += "  " + face_data[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -1192,18 +1192,18 @@ public static class XYZ
         Console.WriteLine("");
         for (line = 0; line < line_num; line++)
         {
-            Console.WriteLine("  " + line.ToString().PadLeft(4) + "  "
-                              + "  " + line_pointer[line].ToString().PadLeft(8)
-                              + "  " + (line_pointer[line + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + "  " + line_pointer[line].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + "  " + (line_pointer[line + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");
         for (line = 0; line < line_num; line++)
         {
-            string cout = "  " + line.ToString().PadLeft(4) + "  ";
+            string cout = "  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (i = line_pointer[line]; i < line_pointer[line + 1]; i++)
             {
-                cout += "  " + line_data[i].ToString().PadLeft(4);
+                cout += "  " + line_data[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

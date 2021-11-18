@@ -4,11 +4,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace utility;
 
-public static partial class Utils
+public static class Utils
 {
     public static string friendlyNumber(int number)
     {

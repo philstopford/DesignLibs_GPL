@@ -1530,7 +1530,7 @@ public class VeldridDriver
 	{
 		byte[] bytes;
 
-		string name = $"VertexColor-{stage.ToString().ToLower()}.450.glsl";
+		string name = $"VertexColor-{stage.ToString(CultureInfo.InvariantCulture).ToLower()}.450.glsl";
 		string full = Path.Combine(ExecutableDirectory, ShaderSubdirectory, name);
 
 		// Precompiled SPIR-V bytecode can speed up program start by saving

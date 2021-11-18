@@ -160,10 +160,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString().PadLeft(4);
+            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (i = 0; i < n; i++)
             {
-                cout += "  " + t[i].ToString().PadLeft(4);
+                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -326,8 +326,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             subset_num = Subset.subset_enum(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + subset_num.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + subset_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -466,10 +466,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString().PadLeft(4);
+            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (i = 0; i < n; i++)
             {
-                cout += "  " + t[i].ToString().PadLeft(4);
+                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -734,8 +734,8 @@ internal partial class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + a[i].ToString().PadLeft(5)
-                                   + "  " + index[i].ToString().PadLeft(5) + "");
+            Console.WriteLine("  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + index[i].ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
         }
 
         Console.WriteLine("");

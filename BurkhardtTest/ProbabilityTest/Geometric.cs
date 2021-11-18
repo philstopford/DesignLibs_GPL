@@ -66,10 +66,10 @@ internal partial class Program
             x2 = Geometric.geometric_cdf_inv(cdf, a);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

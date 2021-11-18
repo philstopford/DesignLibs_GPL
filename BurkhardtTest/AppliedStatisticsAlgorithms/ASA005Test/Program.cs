@@ -97,7 +97,7 @@ internal class Program
 
                 string cout = "  " + x.ToString("0.##").PadLeft(6);
                 cout += "  " + lambda.ToString("0.##").PadLeft(6);
-                cout += "  " + df.ToString().PadLeft(2);
+                cout += "  " + df.ToString(CultureInfo.InvariantCulture).PadLeft(2);
                 cout += "  " + fx.ToString("0.################").PadLeft(24);
                 cout += "  " + fx2.ToString("0.################").PadLeft(24);
                 cout += "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10);

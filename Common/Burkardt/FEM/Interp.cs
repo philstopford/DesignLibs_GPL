@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.OrderNS;
 using Burkardt.PolynomialNS;
 
@@ -183,9 +184,9 @@ public class Interp
 
                 node_u[node] = r_factor * s_factor;
                 Console.WriteLine("  (R,S,U):     "
-                                  + "  " + r.ToString().PadLeft(12)
-                                  + "  " + s.ToString().PadLeft(12)
-                                  + "  " + node_u[node].ToString().PadLeft(12) + "");
+                                  + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + s.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + node_u[node].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             //
@@ -199,8 +200,8 @@ public class Interp
 
                 Console.WriteLine("");
                 Console.WriteLine("  (R,S):"
-                                  + "  " + r.ToString().PadLeft(12)
-                                  + "  " + s.ToString().PadLeft(12) + "");
+                                  + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + s.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
                 u_exact = Math.Pow(r, rexp[i]) * Math.Pow(s, sexp[i]);
 
@@ -213,19 +214,19 @@ public class Interp
                 interp(code, element_order, r, s, node_u, ref u, ref dudr, ref duds);
 
                 Console.WriteLine("  (U ,U* ,Error): "
-                                  + "  " + u_exact.ToString().PadLeft(12)
-                                  + "  " + u.ToString().PadLeft(12)
-                                  + "  " + Math.Abs(u_exact - u).ToString().PadLeft(12) + "");
+                                  + "  " + u_exact.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + Math.Abs(u_exact - u).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
                 Console.WriteLine("  (Ur,Ur*,Error): "
-                                  + "  " + dudr_exact.ToString().PadLeft(12)
-                                  + "  " + dudr.ToString().PadLeft(12)
-                                  + "  " + Math.Abs(dudr_exact - dudr).ToString().PadLeft(12) + "");
+                                  + "  " + dudr_exact.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + dudr.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + Math.Abs(dudr_exact - dudr).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
                 Console.WriteLine("  (Us,Us*,Error): "
-                                  + "  " + duds_exact.ToString().PadLeft(12)
-                                  + "  " + duds.ToString().PadLeft(12)
-                                  + "  " + Math.Abs(duds_exact - duds).ToString().PadLeft(12) + "");
+                                  + "  " + duds_exact.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + duds.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                  + "  " + Math.Abs(duds_exact - duds).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }

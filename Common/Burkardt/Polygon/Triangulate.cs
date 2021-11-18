@@ -82,7 +82,7 @@ public static class Triangulate
         node_m1 = n - 1;
         for (node = 0; node < n; node++)
         {
-            if (x[node_m1] == x[node] && y[node_m1] == y[node])
+            if (Math.Abs(x[node_m1] - x[node]) <= double.Epsilon && Math.Abs(y[node_m1] - y[node]) <= double.Epsilon)
             {
                 Console.WriteLine("");
                 Console.WriteLine("POLYGON_TRIANGULATE - Fatal error!");

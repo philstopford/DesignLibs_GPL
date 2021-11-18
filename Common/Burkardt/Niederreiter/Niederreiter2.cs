@@ -2,7 +2,7 @@
 
 namespace Burkardt.NiederreiterNS;
 
-public static partial class Niederreiter2
+public static class Niederreiter2
 {
     private static int MAXDEG = 50;
     private static int DIM_MAX = 20;

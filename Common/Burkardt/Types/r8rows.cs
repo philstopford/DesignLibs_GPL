@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SortNS;
 
 namespace Burkardt.Types;
@@ -464,7 +465,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += (j - 1).ToString().PadLeft(7) + "       ";
+                cout += (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -480,14 +481,7 @@ public static partial class typeMethods
             };
 
             int i2hi;
-            if (ihi < m)
-            {
-                i2hi = ihi;
-            }
-            else
-            {
-                i2hi = m;
-            }
+            i2hi = ihi < m ? ihi : m;
 
             int i;
             for (i = i2lo; i <= i2hi; i++)
@@ -495,10 +489,10 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = (i - 1).ToString().PadLeft(5) + ": ";
+                cout = (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ": ";
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(12) + "  ";
+                    cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -671,7 +665,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         double[] s = new double[m * (n + 1)];
         //
@@ -680,6 +673,7 @@ public static partial class typeMethods
         for (i = 0; i < m; i++)
         {
             s[i + 0 * m] = 0.0;
+            int j;
             for (j = 1; j < n + 1; j++)
             {
                 s[i + j * m] = s[i + (j - 1) * m] + v[i + (j - 1) * m];
@@ -774,7 +768,7 @@ public static partial class typeMethods
             {
                 isgn = r8row_compare(m, n, a, i - 1, j - 1);
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -1062,14 +1056,7 @@ public static partial class typeMethods
             _ => ilo
         };
 
-        if (ihi < m)
-        {
-            i2lo_hi = m;
-        }
-        else
-        {
-            i2lo_hi = ihi;
-        }
+        i2lo_hi = ihi < m ? m : ihi;
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
@@ -1092,7 +1079,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout += (i - 1).ToString().PadLeft(7) + "       ";
+                cout += (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -1106,24 +1093,17 @@ public static partial class typeMethods
             };
 
             int j2hi;
-            if (n < jhi)
-            {
-                j2hi = n;
-            }
-            else
-            {
-                j2hi = jhi;
-            }
+            j2hi = n < jhi ? n : jhi;
 
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout = (j - 1).ToString().PadLeft(5) + ":";
+                cout = (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {
                     i = i2lo - 1 + i2;
-                    cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(14);
+                    cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);

@@ -110,13 +110,13 @@ internal class Program
             fx2 = fx2_vec[0 + n * 1];
             e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + a.ToString().PadLeft(6)
-                                   + "  " + b.ToString().PadLeft(6)
-                                   + "  " + x.ToString().PadLeft(6)
-                                   + "  " + fx1.ToString().PadLeft(24)
-                                   + "  " + fx2.ToString().PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -172,13 +172,13 @@ internal class Program
             for (degree = 1; degree <= 5; degree++)
             {
                 z = Polynomial.j_polynomial_zeros(degree, a, b);
-                title = "Zeros for J(" + degree.ToString() + ","
-                        + a.ToString() + "," + b.ToString() + ")";
+                title = "Zeros for J(" + degree.ToString(CultureInfo.InvariantCulture) + ","
+                        + a.ToString(CultureInfo.InvariantCulture) + "," + b.ToString(CultureInfo.InvariantCulture) + ")";
                 typeMethods.r8vec_print(degree, z, title);
 
                 hz = Polynomial.j_polynomial(degree, degree, a, b, z);
-                title = "Evaluate J(" + degree.ToString() + ","
-                        + a.ToString() + "," + b.ToString() + ")";
+                title = "Evaluate J(" + degree.ToString(CultureInfo.InvariantCulture) + ","
+                        + a.ToString(CultureInfo.InvariantCulture) + "," + b.ToString(CultureInfo.InvariantCulture) + ")";
                 typeMethods.r8vec_print(degree, hz, title, aIndex:  + degree * degree);
             }
         }
@@ -255,10 +255,10 @@ internal class Program
                 }
 
                 q_exact = Integral.j_double_product_integral(i, j, a, b);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + j.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(14)
-                                       + "  " + q_exact.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -309,9 +309,9 @@ internal class Program
             for (j = i; j <= 5; j++)
             {
                 q = Integral.j_double_product_integral(i, j, a, b);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + j.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }

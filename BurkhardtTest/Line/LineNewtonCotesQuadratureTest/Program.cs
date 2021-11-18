@@ -93,13 +93,13 @@ internal class Program
             w_sum = 0.0;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + x[i].ToString().PadLeft(14)
-                                       + "  " + w[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 w_sum += Math.Abs(w[i]);
             }
 
-            Console.WriteLine("        Sum(|W)|) =  " + w_sum.ToString().PadLeft(14) + "");
+            Console.WriteLine("        Sum(|W)|) =  " + w_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -164,9 +164,9 @@ internal class Program
             }
 
             error = Math.Abs(exact - q);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

@@ -101,7 +101,7 @@ internal class Program
         while (n <= 65536)
         {
             x = MonteCarlo.sphere01_sample(n, ref seed);
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 3; i++)

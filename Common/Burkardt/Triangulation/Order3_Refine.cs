@@ -72,14 +72,7 @@ public static partial class Refine
         int edge;
         int i;
         int j;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
-        int node;
         int triangle1;
-        int v1;
-        int v2;
         //
         //  Copy the old nodes.
         //
@@ -109,15 +102,15 @@ public static partial class Refine
             triangle_node2[2 + (triangle1 * 4 + 2) * 3] = triangle_node1[2 + triangle1 * 3];
         }
 
-        node = node_num1;
+        int node = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 3 * triangle_num1; edge++)
         {
-            n1 = edge_data[0 + edge * 5] - 1;
-            n2 = edge_data[1 + edge * 5] - 1;
+            int n1 = edge_data[0 + edge * 5] - 1;
+            int n2 = edge_data[1 + edge * 5] - 1;
             //
             //  If this edge is new, create the coordinates and index for this node.
             //
@@ -146,8 +139,8 @@ public static partial class Refine
             //
             //  Assign the node to triangles.
             //
-            v1 = edge_data[2 + edge * 5];
-            v2 = edge_data[3 + edge * 5];
+            int v1 = edge_data[2 + edge * 5];
+            int v2 = edge_data[3 + edge * 5];
             triangle1 = edge_data[4 + edge * 5];
 
             switch (v1)
@@ -241,16 +234,7 @@ public static partial class Refine
         //    be needed by TRIANGULATION_ORDER3_REFINE_COMPUTE.
         //
     {
-        int a;
-        int b;
         int edge;
-        int i;
-        int j;
-        int k;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
         int triangle;
         //
         //  Step 1.
@@ -266,12 +250,12 @@ public static partial class Refine
         //
         for (triangle = 0; triangle < triangle_num1; triangle++)
         {
-            i = triangle_node1[0 + triangle * 3];
-            j = triangle_node1[1 + triangle * 3];
-            k = triangle_node1[2 + triangle * 3];
+            int i = triangle_node1[0 + triangle * 3];
+            int j = triangle_node1[1 + triangle * 3];
+            int k = triangle_node1[2 + triangle * 3];
 
-            a = Math.Min(i, j);
-            b = Math.Max(i, j);
+            int a = Math.Min(i, j);
+            int b = Math.Max(i, j);
 
             edge_data[0 + 5 * (3 * triangle + 0)] = a;
             edge_data[1 + 5 * (3 * triangle + 0)] = b;
@@ -315,13 +299,13 @@ public static partial class Refine
         //
         node_num2 = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 3 * triangle_num1; edge++)
         {
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
             if (n1 != n1_old || n2 != n2_old)
             {
                 node_num2 += 1;

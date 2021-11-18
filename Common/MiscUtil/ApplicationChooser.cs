@@ -38,7 +38,15 @@ public class ApplicationChooser
             }
         }
 
-        entryPoints.Sort(delegate (MethodBase x, MethodBase y) { return x.DeclaringType.Name.CompareTo(y.DeclaringType.Name); });
+        entryPoints.Sort((x, y) =>
+        {
+            if (x.DeclaringType == null)
+            {
+                return 0;
+            }
+
+            return y.DeclaringType != null ? string.Compare(x.DeclaringType.Name, y.DeclaringType.Name, StringComparison.Ordinal) : 0;
+        });
 
         switch (entryPoints.Count)
         {

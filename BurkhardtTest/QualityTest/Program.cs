@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.IO;
 using Burkardt.Pointset;
 using Burkardt.Sampling;
 using Burkardt.Stroud;

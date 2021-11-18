@@ -154,23 +154,23 @@ internal class Program
                     {
                         case 0:
                             Console.WriteLine("*Data"
-                                              + "  " + x1.ToString().PadLeft(10)
-                                              + "  " + f1.ToString().PadLeft(10)
-                                              + "  " + d1.ToString().PadLeft(10) + "");
+                                              + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                              + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                              + "  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                             break;
                     }
 
-                    Console.WriteLine("  " + j.ToString().PadLeft(3)
-                                           + "  " + x[0].ToString().PadLeft(10)
-                                           + "  " + f[0].ToString().PadLeft(10)
-                                           + "  " + d[0].ToString().PadLeft(10) + "");
+                    Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                           + "  " + x[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + f[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + d[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                     switch (j)
                     {
                         case 10:
                             Console.WriteLine("*Data"
-                                              + "  " + x2.ToString().PadLeft(10)
-                                              + "  " + f2.ToString().PadLeft(10)
-                                              + "  " + d2.ToString().PadLeft(10) + "");
+                                              + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                              + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                              + "  " + d2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                             break;
                     }
                 }
@@ -266,31 +266,31 @@ internal class Program
                 {
                     case 0:
                         Console.WriteLine("*Data"
-                                          + "  " + x1.ToString().PadLeft(10)
-                                          + "  " + f1.ToString().PadLeft(10)
-                                          + "  " + d1.ToString().PadLeft(10) + "");
+                                          + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                         break;
                 }
 
                 Console.WriteLine("Exact"
-                                  + "  " + x[0].ToString().PadLeft(10)
-                                  + "  " + fc.ToString().PadLeft(10)
-                                  + "  " + dc.ToString().PadLeft(10)
-                                  + "  " + sc.ToString().PadLeft(10)
-                                  + "  " + tc.ToString().PadLeft(10) + "");
-                Console.WriteLine("  " + j.ToString().PadLeft(3)
-                                       + "  " + x[0].ToString().PadLeft(10)
-                                       + "  " + f[0].ToString().PadLeft(10)
-                                       + "  " + d[0].ToString().PadLeft(10)
-                                       + "  " + s[0].ToString().PadLeft(10)
-                                       + "  " + t[0].ToString().PadLeft(10) + "");
+                                  + "  " + x[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                  + "  " + fc.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                  + "  " + dc.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                  + "  " + sc.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                  + "  " + tc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                       + "  " + x[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + f[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + d[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + s[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 switch (j)
                 {
                     case 10:
                         Console.WriteLine("*Data"
-                                          + "  " + x2.ToString().PadLeft(10)
-                                          + "  " + f2.ToString().PadLeft(10)
-                                          + "  " + d2.ToString().PadLeft(10) + "");
+                                          + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + d2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                         break;
                 }
             }
@@ -378,11 +378,11 @@ internal class Program
 
                 q_computed = HermiteCubic.hermite_cubic_integrate(x1, f1, d1, x2, f2, d2, a, b);
 
-                Console.WriteLine("  " + j.ToString().PadLeft(3)
-                                       + "  " + a.ToString().PadLeft(10)
-                                       + "  " + b.ToString().PadLeft(10)
-                                       + "  " + q_exact.ToString().PadLeft(14)
-                                       + "  " + q_computed.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                       + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + q_computed.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -457,11 +457,11 @@ internal class Program
         {
             u = Math.Sin(x[i]);
             v = Math.Abs(f[i] - u);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(10)
-                                   + "  " + f[i].ToString().PadLeft(10)
-                                   + "  " + u.ToString().PadLeft(10)
-                                   + "  " + v.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -472,11 +472,11 @@ internal class Program
         {
             u = Math.Cos(x[i]);
             v = Math.Abs(d[i] - u);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(10)
-                                   + "  " + d[i].ToString().PadLeft(10)
-                                   + "  " + u.ToString().PadLeft(10)
-                                   + "  " + v.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + d[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -544,12 +544,12 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  Hermite data:");
         Console.WriteLine("");
-        Console.WriteLine("  X1, F1, D1:" + x1.ToString().PadLeft(10)
-                                          + "  " + f1.ToString().PadLeft(10)
-                                          + "  " + d1.ToString().PadLeft(10) + "");
-        Console.WriteLine("  X2, F2, D2:" + x2.ToString().PadLeft(10)
-                                          + "  " + f2.ToString().PadLeft(10)
-                                          + "  " + d2.ToString().PadLeft(10) + "");
+        Console.WriteLine("  X1, F1, D1:" + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+        Console.WriteLine("  X2, F2, D2:" + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                          + "  " + d2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         HermiteCubic.hermite_cubic_to_power_cubic(x1, f1, d1, x2, f2, d2, ref c0, ref c1, ref c2, ref c3);
 
@@ -571,9 +571,9 @@ internal class Program
 
             fp = c0 + x[0] * (c1 + x[0] * (c2 + x[0] * c3));
 
-            Console.WriteLine("  " + x[0].ToString().PadLeft(10)
-                                   + "  " + f[0].ToString().PadLeft(10)
-                                   + "  " + fp.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + x[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + fp.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         HermiteCubic.power_cubic_to_hermite_cubic(c0, c1, c2, c3, x1, x2, ref f1r, ref d1r,
@@ -585,14 +585,14 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("         Original   Recovered");
         Console.WriteLine("");
-        Console.WriteLine("  F1:  " + "  " + f1.ToString().PadLeft(10)
-                          + "  " + f1r.ToString().PadLeft(10) + "");
-        Console.WriteLine("  D1:  " + "  " + d1.ToString().PadLeft(10)
-                          + "  " + d1r.ToString().PadLeft(10) + "");
-        Console.WriteLine("  F2:  " + "  " + f2.ToString().PadLeft(10)
-                          + "  " + f2r.ToString().PadLeft(10) + "");
-        Console.WriteLine("  D2:  " + "  " + d2.ToString().PadLeft(10)
-                          + "  " + d2r.ToString().PadLeft(10) + "");
+        Console.WriteLine("  F1:  " + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + f1r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+        Console.WriteLine("  D1:  " + "  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + d1r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+        Console.WriteLine("  F2:  " + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + f2r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+        Console.WriteLine("  D2:  " + "  " + d2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + d2r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
     }
 
     private static void test06()
@@ -660,11 +660,11 @@ internal class Program
 
             q_computed = HermiteCubic.hermite_cubic_integrate(x1, f1, d1, x2, f2, d2, a, b);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + a.ToString().PadLeft(10)
-                                   + "  " + b.ToString().PadLeft(10)
-                                   + "  " + q_exact.ToString().PadLeft(14)
-                                   + "  " + q_computed.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_computed.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -737,10 +737,10 @@ internal class Program
 
             q_computed = HermiteCubic.hermite_cubic_integral(x1, f1, d1, x2, f2, d2);
 
-            Console.WriteLine("  " + x1.ToString().PadLeft(10)
-                                   + "  " + x2.ToString().PadLeft(10)
-                                   + "  " + q_exact.ToString().PadLeft(14)
-                                   + "  " + q_computed.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_computed.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -853,10 +853,10 @@ internal class Program
 
             q_computed = HermiteCubic.hermite_cubic_spline_integral(nn, xn, fn, dn);
 
-            Console.WriteLine("  " + xn[0].ToString().PadLeft(10)
-                                   + "  " + xn[nn - 1].ToString().PadLeft(10)
-                                   + "  " + q_exact.ToString().PadLeft(14)
-                                   + "  " + q_computed.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xn[nn - 1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_computed.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -936,11 +936,11 @@ internal class Program
         {
             q_exact = cubic_integrate(a[i], b[i]);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + a[i].ToString().PadLeft(10)
-                                   + "  " + b[i].ToString().PadLeft(10)
-                                   + "  " + q_exact.ToString().PadLeft(10)
-                                   + "  " + q[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1093,10 +1093,10 @@ internal class Program
 
             q_computed = HermiteCubic.hermite_cubic_spline_integral(nn, xn, fn, dn);
 
-            Console.WriteLine("  " + xn[0].ToString().PadLeft(10)
-                                   + "  " + xn[nn - 1].ToString().PadLeft(10)
-                                   + "  " + q_exact.ToString().PadLeft(14)
-                                   + "  " + q_computed.ToString().PadLeft(14)
+            Console.WriteLine("  " + xn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xn[nn - 1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_computed.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + comment + "");
         }
     }
@@ -1162,12 +1162,12 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                   + "  " + x[j].ToString().PadLeft(10)
-                                   + "  " + f[0 + j * 4].ToString().PadLeft(10)
-                                   + "  " + f[1 + j * 4].ToString().PadLeft(10)
-                                   + "  " + f[2 + j * 4].ToString().PadLeft(10)
-                                   + "  " + f[3 + j * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f[0 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f[1 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f[2 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f[3 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -1177,12 +1177,12 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                   + "  " + x[j].ToString().PadLeft(10)
-                                   + "  " + d[0 + j * 4].ToString().PadLeft(10)
-                                   + "  " + d[1 + j * 4].ToString().PadLeft(10)
-                                   + "  " + d[2 + j * 4].ToString().PadLeft(10)
-                                   + "  " + d[3 + j * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + d[0 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + d[1 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + d[2 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + d[3 + j * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1232,12 +1232,12 @@ internal class Program
         {
             x1 = i;
             q = HermiteCubic.hermite_cubic_lagrange_integral(x1, x2);
-            Console.WriteLine("  " + x1.ToString().PadLeft(10)
-                                   + "  " + x2.ToString().PadLeft(10)
-                                   + "  " + q[0].ToString().PadLeft(10)
-                                   + "  " + q[1].ToString().PadLeft(10)
-                                   + "  " + q[2].ToString().PadLeft(10)
-                                   + "  " + q[3].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1324,18 +1324,18 @@ internal class Program
 
             q = HermiteCubic.hermite_cubic_lagrange_integrate(x1, x2, a, b);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(10)
-                                   + "  " + b.ToString().PadLeft(10)
-                                   + "  " + p[0].ToString().PadLeft(10)
-                                   + "  " + p[1].ToString().PadLeft(10)
-                                   + "  " + p[2].ToString().PadLeft(10)
-                                   + "  " + p[3].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  " + "          "
                                    + "  " + "          "
-                                   + "  " + q[0].ToString().PadLeft(10)
-                                   + "  " + q[1].ToString().PadLeft(10)
-                                   + "  " + q[2].ToString().PadLeft(10)
-                                   + "  " + q[3].ToString().PadLeft(10) + "");
+                                   + "  " + q[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + q[3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1442,11 +1442,11 @@ internal class Program
 
                     q = HermiteCubic.hermite_cubic_spline_integral(n, x, fn, dn);
 
-                    Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                           + "  " + j.ToString().PadLeft(2)
-                                           + "  " + x[j].ToString().PadLeft(10)
-                                           + "  " + q.ToString().PadLeft(14)
-                                           + "  " + w[i + j * 2].ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + w[i + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Cylinder;
 using Burkardt.Types;
@@ -59,13 +60,13 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
@@ -73,16 +74,16 @@ public static class CylinderTest
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
             dist = Geometry.cylinder_point_dist_3d(p1, p2, r, p);
 
             Console.WriteLine("  Distance (computed) ="
-                              + "  " + dist.ToString().PadLeft(10) + "");
+                              + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  Distance (exact)    ="
-                              + "  " + dist_test[test].ToString().PadLeft(10) + "");
+                              + "  " + dist_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -138,13 +139,13 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
@@ -152,16 +153,16 @@ public static class CylinderTest
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
             dist = Geometry.cylinder_point_dist_signed_3d(p1, p2, r, p);
 
             Console.WriteLine("  Signed distance (computed) ="
-                              + "  " + dist.ToString().PadLeft(10) + "");
+                              + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  Signed distance (exact)    ="
-                              + "  " + dist_test[test].ToString().PadLeft(10) + "");
+                              + "  " + dist_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -217,13 +218,13 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
@@ -231,16 +232,16 @@ public static class CylinderTest
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
             inside = Geometry.cylinder_point_inside_3d(p1, p2, r, p);
 
             Console.WriteLine("  INSIDE (computed) ="
-                              + "  " + inside.ToString().PadLeft(1) + "");
+                              + "  " + inside.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
             Console.WriteLine("  INSIDE (exact)    ="
-                              + "  " + inside_test[test].ToString().PadLeft(1) + "");
+                              + "  " + inside_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
     }
 
@@ -301,13 +302,13 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
@@ -315,20 +316,20 @@ public static class CylinderTest
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
             pn = Geometry.cylinder_point_near_3d(p1, p2, r, p);
 
             Console.WriteLine("  PN (computed) ="
-                              + "  " + pn[0].ToString().PadLeft(10)
-                              + "  " + pn[1].ToString().PadLeft(10)
-                              + "  " + pn[2].ToString().PadLeft(10) + "");
+                              + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  PN (exact)    ="
-                              + "  " + pn_test[0 + test * DIM_NUM].ToString().PadLeft(10)
-                              + "  " + pn_test[1 + test * DIM_NUM].ToString().PadLeft(10)
-                              + "  " + pn_test[2 + test * DIM_NUM].ToString().PadLeft(10) + "");
+                              + "  " + pn_test[0 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn_test[1 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn_test[2 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -374,13 +375,13 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         p = Geometry.cylinder_sample_3d(p1, p2, r, N, ref seed);
 
@@ -422,13 +423,13 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         volume = Geometry.cylinder_volume_3d(p1, p2, r);
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.BoxBehnkenNS;
-using Burkardt.Table;
 using Burkardt.Types;
 
 namespace BoxBehnkenTest;

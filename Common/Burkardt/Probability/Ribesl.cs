@@ -587,7 +587,7 @@ public static class Ribesl
             //
             //  Normalize.  Divide all B(N) by TOTAL.
             //
-            if (alpha != zero)
+            if (Math.Abs(alpha - zero) > double.Epsilon)
             {
                 total = total * Helpers.Gamma(one + alpha) * Math.Pow(x * half, -alpha);
             }
@@ -633,7 +633,7 @@ public static class Ribesl
             halfx = half * x;
         }
 
-        if (alpha != zero)
+        if (Math.Abs(alpha - zero) > double.Epsilon)
         {
             tempa = Math.Pow(halfx, alpha) / Helpers.Gamma(empal);
         }
@@ -654,14 +654,14 @@ public static class Ribesl
 
         b[0] = tempa + tempa * tempb / empal;
 
-        if (x != zero && b[0] == zero)
+        if (Math.Abs(x - zero) > double.Epsilon && Math.Abs(b[0] - zero) <= double.Epsilon)
         {
             ncalc = 0;
         }
 
         switch (nb)
         {
-            case > 1 when x == zero:
+            case > 1 when Math.Abs(x - zero) <= double.Epsilon:
             {
                 for (i = 1; i < nb; i++)
                 {
@@ -678,7 +678,7 @@ public static class Ribesl
                 tempc = halfx;
                 tover = (enmten + enmten) / x;
 
-                if (tempb != zero)
+                if (Math.Abs(tempb - zero) > double.Epsilon)
                 {
                     tover = enmten / tempb;
                 }
@@ -696,7 +696,7 @@ public static class Ribesl
 
                     b[n - 1] = tempa + tempa * tempb / empal;
 
-                    if (b[n - 1] == zero && n < ncalc)
+                    if (Math.Abs(b[n - 1] - zero) <= double.Epsilon && n < ncalc)
                     {
                         ncalc = n - 1;
                     }

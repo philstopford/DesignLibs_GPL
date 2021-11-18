@@ -358,14 +358,14 @@ internal class Program
             {
                 w = Helpers.exact(x[k], y[k]);
 
-                Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                       + "  " + i.ToString().PadLeft(4)
-                                       + "  " + j.ToString().PadLeft(4)
-                                       + "  " + x[k].ToString().PadLeft(10)
-                                       + "  " + y[k].ToString().PadLeft(10)
-                                       + "  " + c[k].ToString().PadLeft(14)
-                                       + "  " + w.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(w - c[k]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + y[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + c[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(w - c[k]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 k += 1;
             }

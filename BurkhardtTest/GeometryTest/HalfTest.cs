@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Types;
 
@@ -75,12 +76,12 @@ public static class HalfTest
             temp = Burkardt.Geometry.Half.halfplane_contains_point_2d(p1, p2, p);
 
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
-                                        + "  " + p1[1].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
-                                        + "  " + p2[1].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P = " + p[0].ToString().PadLeft(12)
-                                       + "  " + p[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P = " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("  Contains? = " + temp
                                                + "  Correct = " + expected[test] + "");
         }
@@ -239,10 +240,10 @@ public static class HalfTest
                 {
                     for (j = 0; j < int_num; j++)
                     {
-                        Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                               + "  " + p[0 + j * DIM_NUM].ToString().PadLeft(10)
-                                               + "  " + p[1 + j * DIM_NUM].ToString().PadLeft(10)
-                                               + "  " + p[2 + j * DIM_NUM].ToString().PadLeft(10) + "");
+                        Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                               + "  " + p[0 + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[1 + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[2 + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                     }
 
                     break;
@@ -393,10 +394,10 @@ public static class HalfTest
                 {
                     for (j = 0; j < int_num; j++)
                     {
-                        Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                               + "  " + p[0 + j * 3].ToString().PadLeft(10)
-                                               + "  " + p[1 + j * 3].ToString().PadLeft(10)
-                                               + "  " + p[2 + j * 3].ToString().PadLeft(10) + "");
+                        Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                               + "  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                     }
 
                     break;

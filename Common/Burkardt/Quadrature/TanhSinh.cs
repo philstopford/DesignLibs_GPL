@@ -164,7 +164,6 @@ public static class TanhSinh
             ct = Math.Cosh(t);
             st = Math.Sinh(t);
             ct2 = Math.Cosh(0.5 * Math.PI * st);
-            ;
 
             w[i] = 0.5 * Math.PI * h * ct / ct2 / ct2;
         }

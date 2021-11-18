@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.RankingNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -80,17 +79,17 @@ internal partial class Program
             if (indx == 1)
             {
                 found_num += 1;
-                string cout = "  " + found_num.ToString().PadLeft(2) + "   ";
+                string cout = "  " + found_num.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "   ";
 
                 total = typeMethods.i4vec_dot_product(n, w, x);
-                cout += "  " + total.ToString().PadLeft(3) + ":  ";
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ":  ";
 
                 for (i = 0; i < n; i++)
                 {
                     switch (x[i])
                     {
                         case 1:
-                            cout += "  " + w[i].ToString().PadLeft(2);
+                            cout += "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
                             break;
                     }
                 }

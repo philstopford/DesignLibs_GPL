@@ -44,17 +44,17 @@ public static class alignTest
         string cout = "      ";
         for ( j = 0; j <= 5; j++ )
         {
-            cout += j.ToString().PadLeft(8) + "  ";
+            cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         }
         Console.WriteLine(cout);
         Console.WriteLine("");
 
         for ( i = 0; i <= M_MAX; i++ )
         {
-            cout = "  " + i.ToString().PadLeft(2) + "  ";
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for ( j = 0; j <= 5; j++ )
             {
-                cout += Align.align_enum ( i, j ).ToString().PadLeft(8) + "  ";
+                cout += Align.align_enum ( i, j ).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             }
             Console.WriteLine(cout);
         }
@@ -63,17 +63,17 @@ public static class alignTest
         cout = "      ";
         for ( j = 6; j <= N_MAX; j++ )
         {
-            cout += j.ToString().PadLeft(8) + "  ";
+            cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         }
         Console.WriteLine(cout);
         Console.WriteLine("");
 
         for ( i = 0; i <= M_MAX; i++ )
         {
-            cout = "  " + i.ToString().PadLeft(2) + "  ";
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for ( j = 6; j <= N_MAX; j++ )
             {
-                cout += Align.align_enum ( i, j ).ToString().PadLeft(8) + "  ";
+                cout += Align.align_enum ( i, j ).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             }
             Console.WriteLine(cout);
         }

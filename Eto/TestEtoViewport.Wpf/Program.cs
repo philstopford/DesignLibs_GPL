@@ -1,9 +1,6 @@
 ﻿using Eto.OpenTK;
 using Eto.Forms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Eto.Wpf;
 
 namespace TestEtoGl.WPF_WinformsHost;

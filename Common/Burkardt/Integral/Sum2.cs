@@ -142,7 +142,5 @@ public static class Sum2
 
             iwork[k - 1] += 1;
         }
-
-        return result;
     }
 }

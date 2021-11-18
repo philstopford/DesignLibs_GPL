@@ -46,9 +46,9 @@ public static class ConstPressureTest
                 break;
             }
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + cp.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cp.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

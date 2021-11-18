@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 
 namespace GeometryTest;
@@ -51,11 +52,11 @@ public static class dmsradTest
 
             angle_rad2 = Helpers.dms_to_radians ( angle_deg, angle_min, angle_sec );
 
-            Console.WriteLine("  " + angle_rad.ToString().PadLeft(10)
-                                   + "  " + angle_deg.ToString().PadLeft(4)
-                                   + "  " + angle_min.ToString().PadLeft(3)
-                                   + "  " + angle_sec.ToString().PadLeft(3)
-                                   + "  " + angle_rad2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + angle_rad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + angle_deg.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + angle_min.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + angle_sec.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + angle_rad2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Function;
 using Burkardt.RationalNS;
 using Burkardt.Types;
@@ -67,10 +66,10 @@ public static class FractionTest
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(3) + "  "
-                                                      + p[i].ToString().PadLeft(6) + "  "
-                                                      + q[i].ToString().PadLeft(6) + "  "
-                                                      + (p[i] / (double)q[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
+                                                      + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + (p[i] / (double)q[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -129,7 +128,7 @@ public static class FractionTest
         cout = "  P:  ";
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(12);
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -137,7 +136,7 @@ public static class FractionTest
         cout = "  Q:  ";
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(12);
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -160,7 +159,7 @@ public static class FractionTest
         cout = "  P:  ";
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(12);
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -168,7 +167,7 @@ public static class FractionTest
         cout = "  Q:  ";
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(12);
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -234,7 +233,7 @@ public static class FractionTest
 
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(14) + "  ";
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -243,7 +242,7 @@ public static class FractionTest
 
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(14) + "  ";
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -258,7 +257,7 @@ public static class FractionTest
 
         for (i = 0; i < m; i++)
         {
-            cout += r[i].ToString().PadLeft(14) + "  ";
+            cout += r[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -267,7 +266,7 @@ public static class FractionTest
 
         for (i = 0; i < m; i++)
         {
-            cout += s[i].ToString().PadLeft(14) + "  ";
+            cout += s[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -282,7 +281,7 @@ public static class FractionTest
 
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(14) + "  ";
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -291,7 +290,7 @@ public static class FractionTest
 
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(14) + "  ";
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -351,7 +350,7 @@ public static class FractionTest
         string cout = "  P:  ";
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(12);
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -359,7 +358,7 @@ public static class FractionTest
         cout = "  Q:  ";
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(12);
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -382,7 +381,7 @@ public static class FractionTest
         cout = "  P:  ";
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(12);
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -390,7 +389,7 @@ public static class FractionTest
         cout = "  Q:  ";
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(12);
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -455,7 +454,7 @@ public static class FractionTest
         string cout = "";
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(14) + "  ";
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -463,7 +462,7 @@ public static class FractionTest
         cout = "";
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(14) + "  ";
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -477,14 +476,14 @@ public static class FractionTest
         cout = "";
         for (i = 0; i < m; i++)
         {
-            cout += r[i].ToString().PadLeft(14) + "  ";
+            cout += r[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < m; i++)
         {
-            cout += s[i].ToString().PadLeft(14) + "  ";
+            cout += s[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -498,7 +497,7 @@ public static class FractionTest
         cout = "";
         for (i = 0; i < m; i++)
         {
-            cout += p[i].ToString().PadLeft(14) + "  ";
+            cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -506,7 +505,7 @@ public static class FractionTest
         cout = "";
         for (i = 0; i < m + 1; i++)
         {
-            cout += q[i].ToString().PadLeft(14) + "  ";
+            cout += q[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
         }
 
         Console.WriteLine(cout);

@@ -5,7 +5,6 @@ using Burkardt.IntegralNS;
 using Burkardt.Interpolation;
 using Burkardt.PointsNS;
 using Burkardt.Quadrature;
-using Burkardt.Sequence;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -226,8 +225,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -280,7 +279,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -380,8 +379,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -434,7 +433,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -542,8 +541,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -596,7 +595,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft((8))
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft((8))
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -704,8 +703,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -758,7 +757,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -867,9 +866,9 @@ namespace SandiaRulesTest
 
                         error = typeMethods.r8_abs(exact - estimate);
 
-                        Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                               + "  " + n.ToString().PadLeft(8)
-                                               + "  " + alpha.ToString().PadLeft(14)
+                        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                                + "  " + estimate.ToString("0.######").PadLeft(14)
                                                + "  " + exact.ToString("0.######").PadLeft(14)
                                                + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -933,7 +932,7 @@ namespace SandiaRulesTest
 
                     for (i = 0; i < order; i += 1)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
                                                + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                     }
@@ -1043,8 +1042,8 @@ namespace SandiaRulesTest
 
                         error = typeMethods.r8_abs(exact - estimate);
 
-                        Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                               + "  " + n.ToString().PadLeft(8)
+                        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + alpha.ToString("0.######").PadLeft(14)
                                                + "  " + estimate.ToString("0.######").PadLeft(14)
                                                + "  " + exact.ToString("0.######").PadLeft(14)
@@ -1109,7 +1108,7 @@ namespace SandiaRulesTest
 
                     for (i = 0; i < order; i += 1)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
                                                + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                     }
@@ -1219,8 +1218,8 @@ namespace SandiaRulesTest
 
                         error = typeMethods.r8_abs(exact - estimate);
 
-                        Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                               + "  " + n.ToString().PadLeft(8)
+                        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + alpha.ToString("0.######").PadLeft(14)
                                                + "  " + estimate.ToString("0.######").PadLeft(14)
                                                + "  " + exact.ToString("0.######").PadLeft(14)
@@ -1285,7 +1284,7 @@ namespace SandiaRulesTest
 
                     for (i = 0; i < order; i += 1)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
                                                + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                     }
@@ -1386,8 +1385,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                           + "  " + d.ToString().PadLeft(8)
+                    Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -1440,7 +1439,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -1557,8 +1556,8 @@ namespace SandiaRulesTest
 
                             error = typeMethods.r8_abs(exact - estimate);
 
-                            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                                   + "  " + n.ToString().PadLeft(8)
+                            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                    + "  " + alpha.ToString("0.######").PadLeft(14)
                                                    + "  " + beta.ToString("0.######").PadLeft(14)
                                                    + "  " + estimate.ToString("0.######").PadLeft(14)
@@ -1633,7 +1632,7 @@ namespace SandiaRulesTest
 
                         for (i = 0; i < n; i++)
                         {
-                            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                    + "  " + x[i].ToString("0.################").PadLeft(24)
                                                    + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                         }
@@ -1735,8 +1734,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -1789,7 +1788,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -1889,8 +1888,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -1943,7 +1942,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i++)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -2047,8 +2046,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -2105,7 +2104,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -2209,8 +2208,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -2268,7 +2267,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -2381,8 +2380,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -2440,7 +2439,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -2553,8 +2552,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -2612,7 +2611,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -2727,9 +2726,9 @@ namespace SandiaRulesTest
 
                         error = typeMethods.r8_abs(exact - estimate);
 
-                        Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                               + "  " + n.ToString().PadLeft(8)
-                                               + "  " + alpha.ToString().PadLeft(14)
+                        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                                + "  " + estimate.ToString("0.######").PadLeft(14)
                                                + "  " + exact.ToString("0.######").PadLeft(14)
                                                + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -2798,7 +2797,7 @@ namespace SandiaRulesTest
 
                     for (i = 0; i < order; i += 1)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
                                                + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                     }
@@ -2913,8 +2912,8 @@ namespace SandiaRulesTest
 
                         error = typeMethods.r8_abs(exact - estimate);
 
-                        Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                               + "  " + n.ToString().PadLeft(8)
+                        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + alpha.ToString("0.######").PadLeft(14)
                                                + "  " + estimate.ToString("0.######").PadLeft(14)
                                                + "  " + exact.ToString("0.######").PadLeft(14)
@@ -2984,7 +2983,7 @@ namespace SandiaRulesTest
 
                     for (i = 0; i < order; i += 1)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
                                                + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                     }
@@ -3099,8 +3098,8 @@ namespace SandiaRulesTest
 
                         error = typeMethods.r8_abs(exact - estimate);
 
-                        Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                               + "  " + n.ToString().PadLeft(8)
+                        Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + alpha.ToString("0.######").PadLeft(14)
                                                + "  " + estimate.ToString("0.######").PadLeft(14)
                                                + "  " + exact.ToString("0.######").PadLeft(14)
@@ -3170,7 +3169,7 @@ namespace SandiaRulesTest
 
                     for (i = 0; i < order; i += 1)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                + "  " + x[i].ToString("0.################").PadLeft(24)
                                                + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                     }
@@ -3275,8 +3274,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -3334,7 +3333,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -3458,8 +3457,8 @@ namespace SandiaRulesTest
 
                             error = typeMethods.r8_abs(exact - estimate);
 
-                            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                                   + "  " + n.ToString().PadLeft(8)
+                            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                    + "  " + alpha.ToString("0.######").PadLeft(14)
                                                    + "  " + beta.ToString("0.######").PadLeft(14)
                                                    + "  " + estimate.ToString("0.######").PadLeft(14)
@@ -3540,7 +3539,7 @@ namespace SandiaRulesTest
 
                         for (i = 0; i < order; i += 1)
                         {
-                            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                    + "  " + x[i].ToString("0.################").PadLeft(24)
                                                    + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                         }
@@ -3646,8 +3645,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -3705,7 +3704,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -3810,8 +3809,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -3869,7 +3868,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }
@@ -3961,11 +3960,11 @@ namespace SandiaRulesTest
 
                 LevelToOrder.level_growth_to_order(dim_num, level, rule, growth, ref order);
 
-                string cout = "  " + g.ToString().PadLeft(4) + "  ";
+                string cout = "  " + g.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + order[dim].ToString().PadLeft(4);
+                    cout += "  " + order[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -4027,11 +4026,11 @@ namespace SandiaRulesTest
 
                 LevelToOrder.level_to_order_default(dim_num, level, rule, ref order);
 
-                string cout = "  " + r.ToString().PadLeft(4) + "  ";
+                string cout = "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + order[dim].ToString().PadLeft(4);
+                    cout += "  " + order[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -4092,11 +4091,11 @@ namespace SandiaRulesTest
 
                 LevelToOrder.level_to_order_exponential(dim_num, level, rule, ref order);
 
-                string cout = "  " + r.ToString().PadLeft(4) + "  ";
+                string cout = "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + order[dim].ToString().PadLeft(4);
+                    cout += "  " + order[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -4160,11 +4159,11 @@ namespace SandiaRulesTest
 
                 LevelToOrder.level_to_order_exponential_slow(dim_num, level, rule, ref order);
 
-                string cout = "  " + r.ToString().PadLeft(4) + "  ";
+                string cout = "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + order[dim].ToString().PadLeft(4);
+                    cout += "  " + order[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -4225,11 +4224,11 @@ namespace SandiaRulesTest
 
                 LevelToOrder.level_to_order_linear(dim_num, level, rule, ref order);
 
-                string cout = "  " + r.ToString().PadLeft(4) + "  ";
+                string cout = "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + order[dim].ToString().PadLeft(4);
+                    cout += "  " + order[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -4346,8 +4345,8 @@ namespace SandiaRulesTest
 
                     error = typeMethods.r8_abs(exact - estimate);
 
-                    Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -4475,9 +4474,9 @@ namespace SandiaRulesTest
             for (i1 = 0; i1 < n1; i1++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i1.ToString().PadLeft(4)
-                                       + "  " + xdnu1[i1].ToString().PadLeft(4)
-                                       + "  " + undx1[xdnu1[i1]].ToString().PadLeft(4) + "");
+                                       + "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + xdnu1[i1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx1[xdnu1[i1]].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             Console.WriteLine("");
@@ -4488,10 +4487,10 @@ namespace SandiaRulesTest
             for (i1 = 0; i1 < unique_num1; i1++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i1.ToString().PadLeft(4)
-                                       + "  " + undx1[i1].ToString().PadLeft(4)
-                                       + "  " + a1[0 + undx1[i1] * m].ToString().PadLeft(12)
-                                       + "  " + a1[1 + undx1[i1] * m].ToString().PadLeft(12) + "");
+                                       + "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx1[i1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + a1[0 + undx1[i1] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a1[1 + undx1[i1] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -4502,11 +4501,11 @@ namespace SandiaRulesTest
             for (i1 = 0; i1 < n1; i1++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i1.ToString().PadLeft(4)
-                                       + "  " + unique1[i1].ToString().PadLeft(4)
-                                       + "  " + r1[i1].ToString().PadLeft(12)
-                                       + "  " + a1[0 + i1 * m].ToString().PadLeft(12)
-                                       + "  " + a1[1 + i1 * m].ToString().PadLeft(12) + "");
+                                       + "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + unique1[i1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + r1[i1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a1[0 + i1 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a1[1 + i1 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -4515,9 +4514,9 @@ namespace SandiaRulesTest
             for (i1 = 0; i1 < n1; i1++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i1.ToString().PadLeft(4)
-                                       + "  " + indx1[i1].ToString().PadLeft(4)
-                                       + "  " + r1[indx1[i1]].ToString().PadLeft(12) + "");
+                                       + "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + indx1[i1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + r1[indx1[i1]].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             //
@@ -4555,10 +4554,10 @@ namespace SandiaRulesTest
                     undx_value = undx2[xdnu2[i2] - unique_num1];
                 }
 
-                Console.WriteLine("  " + i2.ToString().PadLeft(4)
-                                       + "  " + (i2 + n1).ToString().PadLeft(4)
-                                       + "  " + xdnu2[i2].ToString().PadLeft(4)
-                                       + "  " + undx_value.ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + (i2 + n1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + xdnu2[i2].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx_value.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             Console.WriteLine("");
@@ -4570,11 +4569,11 @@ namespace SandiaRulesTest
             Console.WriteLine("");
             for (i2 = 0; i2 < unique_num2; i2++)
             {
-                Console.WriteLine("  " + i2.ToString().PadLeft(4)
-                                       + "  " + (i2 + unique_num1).ToString().PadLeft(4)
-                                       + "  " + undx2[i2].ToString().PadLeft(4)
-                                       + "  " + a2[0 + (undx2[i2] - n1) * m].ToString().PadLeft(12)
-                                       + "  " + a2[1 + (undx2[i2] - n1) * m].ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + (i2 + unique_num1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx2[i2].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + a2[0 + (undx2[i2] - n1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a2[1 + (undx2[i2] - n1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             //
@@ -4607,9 +4606,9 @@ namespace SandiaRulesTest
             for (i3 = 0; i3 < n3; i3++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i3.ToString().PadLeft(4)
-                                       + "  " + xdnu3[i3].ToString().PadLeft(4)
-                                       + "  " + undx3[xdnu3[i3]].ToString().PadLeft(4) + "");
+                                       + "  " + i3.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + xdnu3[i3].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx3[xdnu3[i3]].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             Console.WriteLine("");
@@ -4620,10 +4619,10 @@ namespace SandiaRulesTest
             for (i3 = 0; i3 < unique_num3; i3++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i3.ToString().PadLeft(4)
-                                       + "  " + undx3[i3].ToString().PadLeft(4)
-                                       + "  " + a3[0 + undx3[i3] * m].ToString().PadLeft(12)
-                                       + "  " + a3[1 + undx3[i3] * m].ToString().PadLeft(12) + "");
+                                       + "  " + i3.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx3[i3].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + a3[0 + undx3[i3] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a3[1 + undx3[i3] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -4634,11 +4633,11 @@ namespace SandiaRulesTest
             for (i3 = 0; i3 < n3; i3++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i3.ToString().PadLeft(4)
-                                       + "  " + unique3[i3].ToString().PadLeft(4)
-                                       + "  " + r3[i3].ToString().PadLeft(12)
-                                       + "  " + a3[0 + i3 * m].ToString().PadLeft(12)
-                                       + "  " + a3[1 + i3 * m].ToString().PadLeft(12) + "");
+                                       + "  " + i3.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + unique3[i3].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + r3[i3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a3[0 + i3 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + a3[1 + i3 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -4647,9 +4646,9 @@ namespace SandiaRulesTest
             for (i3 = 0; i3 < n3; i3++)
             {
                 Console.WriteLine("  " + "    "
-                                       + "  " + i3.ToString().PadLeft(4)
-                                       + "  " + indx3[i3].ToString().PadLeft(4)
-                                       + "  " + r3[indx3[i3]].ToString().PadLeft(12) + "");
+                                       + "  " + i3.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + indx3[i3].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + r3[indx3[i3]].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -4745,15 +4744,15 @@ namespace SandiaRulesTest
             Console.WriteLine("");
             for (i = 0; i < n_unique; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + xdnu[i].ToString().PadLeft(4)
-                                       + "  " + undx[i].ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + xdnu[i].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + undx[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             for (i = n_unique; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + xdnu[i].ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + xdnu[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             for (j = 0; j < n_unique; j++)
@@ -4870,9 +4869,9 @@ namespace SandiaRulesTest
 
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(10)
-                                       + "  " + w[i].ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -4924,9 +4923,9 @@ namespace SandiaRulesTest
 
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(10)
-                                       + "  " + w[i].ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -5108,8 +5107,8 @@ namespace SandiaRulesTest
                     max_dif = Math.Max(max_dif, typeMethods.r8_abs(ys[i] - yt));
                 }
 
-                Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                       + "  " + max_dif.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + max_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
         }
@@ -5210,8 +5209,8 @@ namespace SandiaRulesTest
                     max_dif = Math.Max(max_dif, typeMethods.r8_abs(ys[i] - yt));
                 }
 
-                Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                       + "  " + max_dif.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + max_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
         }
@@ -5276,10 +5275,10 @@ namespace SandiaRulesTest
                 k = 0;
                 for (i = 0; i < n; i++)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                           + "  " + x[i].ToString().PadLeft(14)
-                                           + "  " + w[k].ToString().PadLeft(14)
-                                           + "  " + w[k + 1].ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     k += 2;
                 }
             }
@@ -5305,10 +5304,10 @@ namespace SandiaRulesTest
             k = 0;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(14)
-                                       + "  " + w[k].ToString().PadLeft(14)
-                                       + "  " + w[k + 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 2;
             }
 
@@ -5375,10 +5374,10 @@ namespace SandiaRulesTest
             k = 0;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(14)
-                                       + "  " + w[k].ToString().PadLeft(14)
-                                       + "  " + w[k + 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 2;
             }
 
@@ -5445,10 +5444,10 @@ namespace SandiaRulesTest
             k = 0;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(14)
-                                       + "  " + w[k].ToString().PadLeft(14)
-                                       + "  " + w[k + 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 2;
             }
 
@@ -5524,9 +5523,9 @@ namespace SandiaRulesTest
 
                 exact = Math.Atan(b) - Math.Atan(a);
                 error = typeMethods.r8_abs(q - exact);
-                Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                       + "  " + q.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
 
@@ -5571,10 +5570,10 @@ namespace SandiaRulesTest
                     }
 
                     exact = (Math.Pow(b, e + 1) - Math.Pow(a, e + 1)) / (double) (e + 1);
-                    Console.WriteLine("  X^" + e.ToString().PadLeft(7)
-                                             + "  " + exact.ToString().PadLeft(14)
-                                             + "  " + q.ToString().PadLeft(14)
-                                             + "  " + typeMethods.r8_abs(exact - q).ToString().PadLeft(14) + "");
+                    Console.WriteLine("  X^" + e.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                             + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                             + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                             + "  " + typeMethods.r8_abs(exact - q).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
 
                 q = 0.0;
@@ -5588,9 +5587,9 @@ namespace SandiaRulesTest
 
                 exact = Math.Atan(b) - Math.Atan(a);
                 Console.WriteLine("  1/(1+x^2)"
-                                  + "  " + exact.ToString().PadLeft(14)
-                                  + "  " + q.ToString().PadLeft(14)
-                                  + "  " + typeMethods.r8_abs(exact - q).ToString().PadLeft(14) + "");
+                                  + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + "  " + typeMethods.r8_abs(exact - q).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
         }
@@ -5644,8 +5643,8 @@ namespace SandiaRulesTest
 
                 s = typeMethods.r8vec_sum(o, w);
 
-                Console.WriteLine("  " + rule.ToString().PadLeft(4)
-                                       + "  " + o.ToString().PadLeft(8)
+                Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + s.ToString("0.######").PadLeft(14) + "");
 
             }
@@ -5740,12 +5739,12 @@ namespace SandiaRulesTest
             Console.WriteLine("");
             for (i = 0; i < ns; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + xs[i].ToString().PadLeft(14)
-                                       + "  " + Math.Sin(xs[i]).ToString().PadLeft(14)
-                                       + "  " + ys[i].ToString().PadLeft(14)
-                                       + "  " + Math.Cos(xs[i]).ToString().PadLeft(14)
-                                       + "  " + ysp[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + xs[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Sin(xs[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + ys[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Cos(xs[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + ysp[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -5793,11 +5792,11 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
+                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (growth = 0; growth <= 2; growth++)
                 {
                     order = LevelToOrder.level_to_order_exp_cc(level, growth);
-                    cout += "  " + order.ToString().PadLeft(5);
+                    cout += "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
 
                 Console.WriteLine(cout);
@@ -5814,11 +5813,11 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
+                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (growth = 0; growth <= 2; growth++)
                 {
                     order = LevelToOrder.level_to_order_exp_f2(level, growth);
-                    cout += "  " + order.ToString().PadLeft(5);
+                    cout += "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
 
                 Console.WriteLine(cout);
@@ -5835,11 +5834,11 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
+                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (growth = 0; growth <= 2; growth++)
                 {
                     order = LevelToOrder.level_to_order_exp_gauss(level, growth);
-                    cout += "  " + order.ToString().PadLeft(5);
+                    cout += "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
 
                 Console.WriteLine(cout);
@@ -5856,11 +5855,11 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
+                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (growth = 0; growth <= 2; growth++)
                 {
                     order = LevelToOrder.level_to_order_exp_gp(level, growth);
-                    cout += "  " + order.ToString().PadLeft(5);
+                    cout += "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
 
                 Console.WriteLine(cout);
@@ -5903,11 +5902,11 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
+                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (growth = 0; growth <= 1; growth++)
                 {
                     order = LevelToOrder.level_to_order_linear_nn(level, growth);
-                    cout += "  " + order.ToString().PadLeft(5);
+                    cout += "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
 
                 Console.WriteLine(cout);
@@ -5924,11 +5923,11 @@ namespace SandiaRulesTest
 
             for (level = 0; level <= 8; level++)
             {
-                string cout = "  " + level.ToString().PadLeft(5);
+                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (growth = 0; growth <= 1; growth++)
                 {
                     order = LevelToOrder.level_to_order_linear_wn(level, growth);
-                    cout += "  " + order.ToString().PadLeft(5);
+                    cout += "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
 
                 Console.WriteLine(cout);

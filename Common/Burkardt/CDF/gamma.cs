@@ -231,13 +231,13 @@ public static partial class CDF
 
         twoa = a + a;
         m = (int)Math.Truncate(twoa);
-        if (twoa != m)
+        if (Math.Abs(twoa - m) > double.Epsilon)
         {
             goto S20;
         }
 
         i = m / 2;
-        if (a == i)
+        if (Math.Abs(a - i) <= double.Epsilon)
         {
             goto S210;
         }

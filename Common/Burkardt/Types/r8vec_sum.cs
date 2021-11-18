@@ -187,11 +187,13 @@ public static partial class typeMethods
                 int i;
                 for ( i = 2; i <= n; i++ )
                 {
-                    if ( sum_max < a[i-1] + b[i-1] )
+                    if (!(sum_max < a[i - 1] + b[i - 1]))
                     {
-                        sum_max = a[i-1] + b[i-1];
-                        sum_max_index = i;
+                        continue;
                     }
+
+                    sum_max = a[i-1] + b[i-1];
+                    sum_max_index = i;
                 }
 
                 break;

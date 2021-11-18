@@ -1,6 +1,4 @@
 ﻿using System;
-using Burkardt;
-using Burkardt.FEM;
 using Burkardt.IO;
 using Burkardt.Types;
 

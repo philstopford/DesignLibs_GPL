@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.FullertonFnLib;
 using Burkardt.SubsetNS;
 using Burkardt.Types;
@@ -101,10 +100,10 @@ internal class Program
         for (l = 1; l <= lmax; l++)
         {
             c = Comb.comb(n, k, l);
-            string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            string cout = "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(4) + ":  ";
             for (i = 0; i < k; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(4);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -168,10 +167,10 @@ internal class Program
         {
             l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
             c = Comb.comb(n, k, l);
-            string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            string cout = "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(4) + ":  ";
             for (i = 0; i < k; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(4);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -235,10 +234,10 @@ internal class Program
         {
             l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
             c = Comb.comb(n, k, l);
-            string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            string cout = "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(4) + ":  ";
             for (i = 0; i < k; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(4);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -302,10 +301,10 @@ internal class Program
         {
             l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
             c = Comb.comb(n, k, l);
-            string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            string cout = "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(4) + ":  ";
             for (i = 0; i < k; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(4);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -377,10 +376,10 @@ internal class Program
         {
             l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
             c = Comb.comb(n, k, l);
-            string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            string cout = "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(4) + ":  ";
             for (i = 0; i < k; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(4);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

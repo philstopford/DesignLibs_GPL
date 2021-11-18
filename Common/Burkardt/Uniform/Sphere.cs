@@ -477,7 +477,7 @@ public static class Sphere
         //  Compute the sides, angles, and area of the spherical triangle;
         //  for now, we assume R = 1.
         //
-        double r = 1.0;
+        const double r = 1.0;
 
         Stri.stri_vertices_to_sides(r, v1, v2, v3, ref a, ref b, ref c);
 

@@ -562,7 +562,7 @@ public static class Stochastic
 
         for (int i = 2; i <= m; i++)
         {
-            double ihalf_r8 = i / 2;
+            double ihalf_r8 = (double)i / 2;
             double zeta_arg = -Math.Pow(ihalf_r8 * Math.PI * l, 2) / 8.0;
             double zeta = Math.Sqrt(Math.Sqrt(Math.PI) * l) * Math.Exp(zeta_arg);
 

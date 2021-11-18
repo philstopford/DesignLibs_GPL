@@ -46,10 +46,10 @@ public static class DedekindTest
                 break;
             }
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(6) + "  "
-                              + q.ToString().PadLeft(6) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + d.ToString().PadLeft(6) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + d.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 }

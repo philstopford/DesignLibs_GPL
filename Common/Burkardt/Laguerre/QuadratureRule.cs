@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace Burkardt.Laguerre;
 
-public static partial class QuadratureRule
+public static class QuadratureRule
 {
     public static void laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
             ref double[] w )

@@ -122,8 +122,8 @@ internal class Program
         //
         //  Write it to a file.
         //
-        m_ostring = m.ToString();
-        n_ostring = n.ToString();
+        m_ostring = m.ToString(CultureInfo.InvariantCulture);
+        n_ostring = n.ToString(CultureInfo.InvariantCulture);
 
         output_filename = "uniform_" + m_ostring + "_"
                           + n_ostring + ".txt";

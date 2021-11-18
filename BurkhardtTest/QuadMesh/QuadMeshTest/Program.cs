@@ -117,9 +117,9 @@ internal class Program
         Console.WriteLine("");
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(8)
-                                   + "  " + adj_col[node].ToString().PadLeft(8)
-                                   + "  " + (adj_col[node + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + adj_col[node].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (adj_col[node + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -663,10 +663,10 @@ internal class Program
 
         for (sample = 0; sample < sample_num; sample++)
         {
-            Console.WriteLine("  " + sample.ToString().PadLeft(8)
-                                   + "  " + sample_xy[0 + sample * 2].ToString().PadLeft(8)
-                                   + "  " + sample_xy[1 + sample * 2].ToString().PadLeft(8)
-                                   + "  " + sample_element[sample].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + sample.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sample_xy[0 + sample * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sample_xy[1 + sample * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sample_element[sample].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 

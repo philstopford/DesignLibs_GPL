@@ -391,7 +391,7 @@ public class Grid
         string cout = "    #   ";
         for (i = 0; i < element_order; i++)
         {
-            cout += i.ToString().PadLeft(3);
+            cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
         }
 
         Console.WriteLine(cout);
@@ -399,13 +399,13 @@ public class Grid
 
         for (element = 0; element < element_num; element++)
         {
-            string cout1 = "  " +element.ToString().PadLeft(3) + "   ";
+            string cout1 = "  " +element.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "   ";
             for (i = 0; i < element_order; i++)
             {
-                cout += element_node[i + element * element_order].ToString().PadLeft(3);
+                cout1 += element_node[i + element * element_order].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
-            Console.WriteLine(cout);
+            Console.WriteLine(cout1);
         }
     }
 
@@ -1651,7 +1651,7 @@ public class Grid
 
         for (i = 1; i < n; i++)
         {
-            if (a[i] != a[0])
+            if (Math.Abs(a[i] - a[0]) > double.Epsilon)
             {
                 break;
             }

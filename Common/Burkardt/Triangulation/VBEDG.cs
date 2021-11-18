@@ -1,5 +1,4 @@
-﻿using System;
-using Burkardt.Types;
+﻿using Burkardt.Types;
 
 namespace Burkardt.TriangulationNS;
 
@@ -82,7 +81,6 @@ public static class VBEDG
         double by;
         bool done;
         int e;
-        int l;
         int lr;
         int t;
         switch (ltri)
@@ -105,7 +103,7 @@ public static class VBEDG
         {
             try
             {
-                l = -triangle_neighbor[3 * (rtri - 1) + redg - 1];
+                int l = -triangle_neighbor[3 * (rtri - 1) + redg - 1];
                 t = l / 3;
                 e = 1 + l % 3;
                 a = triangle_node[3 * (t - 1) + e - 1];

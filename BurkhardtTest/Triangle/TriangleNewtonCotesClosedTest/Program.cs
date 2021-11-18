@@ -90,9 +90,9 @@ internal class Program
         {
             order_num = NewtonCotesClosed.triangle_ncc_order_num(rule);
             degree = NewtonCotesClosed.triangle_ncc_degree(rule);
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + degree.ToString().PadLeft(8)
-                                   + "  " + order_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -158,9 +158,9 @@ internal class Program
                 wtab_sum += wtab[order];
             }
 
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + order_num.ToString().PadLeft(8)
-                                   + "  " + wtab_sum.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + wtab_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -218,8 +218,8 @@ internal class Program
             NewtonCotesClosed.triangle_ncc_subrule(rule, suborder_num, ref suborder_xyz, ref suborder_w);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + suborder_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
             for (suborder = 0; suborder < suborder_num; suborder++)
             {
@@ -350,9 +350,9 @@ internal class Program
                     exact = 1.0;
                     err = Math.Abs(exact - quad);
 
-                    Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                           + "  " + quad.ToString().PadLeft(14)
-                                           + "  " + err.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -443,10 +443,10 @@ internal class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xy[0 + order * 2].ToString().PadLeft(14)
-                                   + "  " + xy[1 + order * 2].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xy[0 + order * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xy[1 + order * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -462,9 +462,9 @@ internal class Program
 
         for (node = 0; node < NODE_NUM; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xy2[0 + node * 2].ToString().PadLeft(14)
-                                   + "  " + node_xy2[1 + node * 2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_xy2[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xy2[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         area2 = Integrals.triangle_area(node_xy2);
@@ -478,10 +478,10 @@ internal class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xy2[0 + order * 2].ToString().PadLeft(14)
-                                   + "  " + xy2[1 + order * 2].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xy2[0 + order * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xy2[1 + order * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

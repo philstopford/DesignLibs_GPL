@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
@@ -111,11 +110,11 @@ internal class Program
                 Console.WriteLine("");
             }
 
-            cout = rank.ToString().PadLeft(6) + "  "
-                                              + x_sum.ToString().PadLeft(6);
+            cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                              + x_sum.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < k; i++)
             {
-                cout += x[i].ToString().PadLeft(4);
+                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -143,11 +142,11 @@ internal class Program
             rank = UniformRNG.i4_uniform_ab(1, 20, ref seed);
             x = Comp.comp_unrank_grlex(k, rank);
             x_sum = typeMethods.i4vec_sum(k, x);
-            cout = rank.ToString().PadLeft(6) + "  "
-                                              + x_sum.ToString().PadLeft(6);
+            cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                              + x_sum.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < k; i++)
             {
-                cout += x[i].ToString().PadLeft(4);
+                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -168,11 +167,11 @@ internal class Program
         {
             x = Comp.comp_random_grlex(k, rank1, rank2, ref seed, ref rank);
             x_sum = typeMethods.i4vec_sum(k, x);
-            cout = rank.ToString().PadLeft(6) + "  "
-                                              + x_sum.ToString().PadLeft(6);
+            cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                              + x_sum.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < k; i++)
             {
-                cout += x[i].ToString().PadLeft(4);
+                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -190,11 +189,11 @@ internal class Program
         x[1] = 0;
         rank = Comp.comp_rank_grlex(k, x);
         x_sum = typeMethods.i4vec_sum(k, x);
-        cout = rank.ToString().PadLeft(6) + "  "
-                                          + x_sum.ToString().PadLeft(6);
+        cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                          + x_sum.ToString(CultureInfo.InvariantCulture).PadLeft(6);
         for (i = 0; i < k; i++)
         {
-            cout += x[i].ToString().PadLeft(4);
+            cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -204,11 +203,11 @@ internal class Program
         x[1] = 5;
         rank = Comp.comp_rank_grlex(k, x);
         x_sum = typeMethods.i4vec_sum(k, x);
-        cout = rank.ToString().PadLeft(6) + "  "
-                                          + x_sum.ToString().PadLeft(6);
+        cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                          + x_sum.ToString(CultureInfo.InvariantCulture).PadLeft(6);
         for (i = 0; i < k; i++)
         {
-            cout += x[i].ToString().PadLeft(4);
+            cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -332,11 +331,11 @@ internal class Program
 
             e = fx1 - fx2[0];
 
-            Console.WriteLine(o.ToString().PadLeft(6) + "  "
-                                                      + x.ToString().PadLeft(12) + "  "
-                                                      + fx1.ToString().PadLeft(24) + "  "
-                                                      + fx2[0].ToString().PadLeft(24) + "  "
-                                                      + e.ToString().PadLeft(8) + "");
+            Console.WriteLine(o.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + fx2[0].ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -427,12 +426,12 @@ internal class Program
             //
             //  Compare results.
             //
-            Console.WriteLine(rank.ToString().PadLeft(6) + "  "
-                                                         + l[0].ToString().PadLeft(2) + "  "
-                                                         + l[1].ToString().PadLeft(2) + "  "
-                                                         + l[2].ToString().PadLeft(2) + "  "
-                                                         + v1[0].ToString().PadLeft(14) + "  "
-                                                         + v2[0].ToString().PadLeft(14) + "");
+            Console.WriteLine(rank.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + l[0].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                                                         + l[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                                                         + l[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                                                         + v1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                         + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

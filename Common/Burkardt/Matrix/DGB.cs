@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.MatrixNS;
 
@@ -168,7 +169,7 @@ public static partial class Matrix
             string cout = "  Col: ";
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -188,7 +189,7 @@ public static partial class Matrix
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                 for (j = j2lo; j <= j2hi; j++)
                 {
                     if (i < j - mu - ml || j + ml < i)
@@ -197,7 +198,7 @@ public static partial class Matrix
                     }
                     else
                     {
-                        cout += a[i - j + ml + mu + (j - 1) * col].ToString().PadLeft(10) + "  ";
+                        cout += a[i - j + ml + mu + (j - 1) * col].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                 }
 

@@ -34,7 +34,7 @@ namespace MiscUtil.Linq.Extensions
                     sb.Append(argumentTypes[i].Name);
                 }
                 sb.Append(')');
-                throw new InvalidOperationException(sb.ToString());
+                throw new InvalidOperationException(sb.ToString(CultureInfo.InvariantCulture));
             }
             return ci;
         }

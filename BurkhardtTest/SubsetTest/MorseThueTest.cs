@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Function;
 
 namespace SubsetTestNS;
@@ -50,7 +49,7 @@ public static class MorseThueTest
             ihi = Math.Min ( ilo + 9, N );
             for ( i = ilo; i <= ihi; i++ )
             {
-                cout += s[i].ToString().PadLeft(1);
+                cout += s[i].ToString(CultureInfo.InvariantCulture).PadLeft(1);
             }
             Console.WriteLine(cout);
         }

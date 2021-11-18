@@ -32,7 +32,7 @@ public static partial class typeMethods
         //    Output, Complex CARTESIAN_TO_C8, the complex number.
         //
     {
-        Complex c = new Complex(x, y);
+        Complex c = new(x, y);
 
         return c;
     }
@@ -64,7 +64,7 @@ public static partial class typeMethods
         //    Output, Complex POLAR_TO_C8, the complex number.
         //
     {
-        Complex c = new Complex(r * Math.Cos(theta), r * Math.Sin(theta));
+        Complex c = new(r * Math.Cos(theta), r * Math.Sin(theta));
 
         return c;
     }

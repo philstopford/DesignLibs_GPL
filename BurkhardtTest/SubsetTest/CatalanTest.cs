@@ -54,9 +54,9 @@ public static class CatalanTest
             c2 = Catalan.catalan(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c.ToString().PadLeft(8) + "  "
-                              + c2[n].ToString().PadLeft(8) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + c2[n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -100,10 +100,10 @@ public static class CatalanTest
         n = 7;
         Catalan.catalan_row_next(next, n, ref c);
 
-        cout = n.ToString().PadLeft(4) + "  ";
+        cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
         for (i = 0; i <= n; i++)
         {
-            cout += c[i].ToString().PadLeft(8) + "  ";
+            cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -119,10 +119,10 @@ public static class CatalanTest
             Catalan.catalan_row_next(next, n, ref c);
             next = true;
 
-            cout = n.ToString().PadLeft(4) + "  ";
+            cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (i = 0; i <= n; i++)
             {
-                cout += c[i].ToString().PadLeft(6) + "  ";
+                cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
 
             Console.WriteLine("");

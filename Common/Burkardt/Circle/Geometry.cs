@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.CircleNS;
@@ -2104,11 +2105,11 @@ public static class Geometry
         Console.WriteLine("");
         Console.WriteLine("  Circular sector definition:");
         Console.WriteLine("");
-        Console.WriteLine("    Radius = " + r.ToString().PadLeft(12) + "");
-        Console.WriteLine("    Center = " + pc[0].ToString().PadLeft(12)
-                                          + "  " + pc[1].ToString().PadLeft(12) + "");
-        Console.WriteLine("    Theta  = " + theta1.ToString().PadLeft(12)
-                                          + "  " + theta2.ToString().PadLeft(12) + "");
+        Console.WriteLine("    Radius = " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    Center = " + pc[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                          + "  " + pc[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    Theta  = " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                          + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
     }
 

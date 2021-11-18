@@ -140,7 +140,7 @@ public static partial class TOMS
         temp = ib;
         ps = q - ib;
 
-        if (q == temp)
+        if (Math.Abs(q - temp) <= double.Epsilon)
         {
             ps = 1.0;
         }

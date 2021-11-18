@@ -107,9 +107,9 @@ internal class Program
         //
         for (i = 0; i < n; i++)
         {
-            data_unit.Add("  " + t[i].ToString().PadLeft(14)
-                               + "  " + x[i].ToString().PadLeft(14)
-                               + "  " + v[i].ToString().PadLeft(14) + "");
+            data_unit.Add("  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);

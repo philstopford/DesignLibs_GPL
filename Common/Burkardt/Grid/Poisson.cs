@@ -199,7 +199,7 @@ public static class Poisson
         //
         k = (int) Math.Log2(n);
 
-        if (n != Math.Pow(2, k))
+        if (Math.Abs(n - Math.Pow(2, k)) > double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("MULTIGRID_POISSON_1D - Fatal error!");

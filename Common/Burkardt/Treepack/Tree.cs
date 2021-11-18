@@ -1783,7 +1783,6 @@ public static class Tree
         {
             case <= 0:
                 Console.WriteLine("");
-                ;
                 Console.WriteLine("TREE_ROOTED_RANDOM - Fatal error!");
                 Console.WriteLine("  NNODE = " + nnode + "");
                 Console.WriteLine("  but NNODE must be at least 1.");
@@ -1896,7 +1895,5 @@ public static class Tree
                 l = ll;
             }
         }
-
-        return itree;
     }
 }

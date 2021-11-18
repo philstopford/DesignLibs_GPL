@@ -358,11 +358,11 @@ public static class Lattice
 
         for (i = 0; i <= m - 1; i++)
         {
-            string cout = (i + 1).ToString().PadLeft(4) + "    ";
+            string cout = (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
             for (dim = 0; dim < dim_num; dim++)
             {
                 y[dim] = i * z[dim] % m;
-                cout += y[dim].ToString().PadLeft(4);
+                cout += y[dim].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

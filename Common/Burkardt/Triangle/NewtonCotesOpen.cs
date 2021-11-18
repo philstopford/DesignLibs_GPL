@@ -94,15 +94,12 @@ public static partial class NewtonCotesOpen
         //
     {
         int order;
-        int order_num;
-        int[] suborder;
-        int suborder_num;
 
-        suborder_num = triangle_nco_suborder_num(rule);
+        int suborder_num = triangle_nco_suborder_num(rule);
 
-        suborder = triangle_nco_suborder(rule, suborder_num);
+        int[] suborder = triangle_nco_suborder(rule, suborder_num);
 
-        order_num = 0;
+        int order_num = 0;
         for (order = 0; order < suborder_num; order++)
         {
             order_num += suborder[order];
@@ -149,31 +146,26 @@ public static partial class NewtonCotesOpen
         //    Output, double W[ORDER_NUM], the weights of the rule.
         //
     {
-        int k;
-        int o;
         int s;
-        int[] suborder;
-        int suborder_num;
-        double[] suborder_w;
-        double[] suborder_xyz;
         //
         //  Get the suborder information.
         //
-        suborder_num = triangle_nco_suborder_num(rule);
+        int suborder_num = triangle_nco_suborder_num(rule);
 
-        suborder_xyz = new double[3 * suborder_num];
-        suborder_w = new double[suborder_num];
+        double[] suborder_xyz = new double[3 * suborder_num];
+        double[] suborder_w = new double[suborder_num];
 
-        suborder = triangle_nco_suborder(rule, suborder_num);
+        int[] suborder = triangle_nco_suborder(rule, suborder_num);
 
         triangle_nco_subrule(rule, suborder_num, ref suborder_xyz, ref suborder_w);
         //
         //  Expand the suborder information to a full order rule.
         //
-        o = 0;
+        int o = 0;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int k;
             switch (suborder[s])
             {
                 case 1:
@@ -255,9 +247,7 @@ public static partial class NewtonCotesOpen
         //    Output, int TRIANGLE_NCO_RULE_NUM, the number of rules available.
         //
     {
-        int rule_num;
-
-        rule_num = 9;
+        const int rule_num = 9;
 
         return rule_num;
     }

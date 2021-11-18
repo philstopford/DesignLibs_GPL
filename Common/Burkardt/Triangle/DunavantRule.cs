@@ -105,15 +105,12 @@ public static class DunavantRule
         //
     {
         int order;
-        int order_num;
-        int[] suborder;
-        int suborder_num;
 
-        suborder_num = dunavant_suborder_num(rule);
+        int suborder_num = dunavant_suborder_num(rule);
 
-        suborder = dunavant_suborder(rule, suborder_num);
+        int[] suborder = dunavant_suborder(rule, suborder_num);
 
-        order_num = 0;
+        int order_num = 0;
         for (order = 0; order < suborder_num; order++)
         {
             order_num += suborder[order];
@@ -166,31 +163,26 @@ public static class DunavantRule
         //    Output, double W[ORDER_NUM], the weights of the rule.
         //
     {
-        int k;
-        int o;
         int s;
-        int[] suborder;
-        int suborder_num;
-        double[] suborder_w;
-        double[] suborder_xyz;
         //
         //  Get the suborder information.
         //
-        suborder_num = dunavant_suborder_num(rule);
+        int suborder_num = dunavant_suborder_num(rule);
 
-        suborder_xyz = new double[3 * suborder_num];
-        suborder_w = new double[suborder_num];
+        double[] suborder_xyz = new double[3 * suborder_num];
+        double[] suborder_w = new double[suborder_num];
 
-        suborder = dunavant_suborder(rule, suborder_num);
+        int[] suborder = dunavant_suborder(rule, suborder_num);
 
         dunavant_subrule(rule, suborder_num, ref suborder_xyz, ref suborder_w);
         //
         //  Expand the suborder information to a full order rule.
         //
-        o = 0;
+        int o = 0;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int k;
             switch (suborder[s])
             {
                 case 1:
@@ -278,9 +270,7 @@ public static class DunavantRule
         //    Output, int DUNAVANT_RULE_NUM, the number of rules available.
         //
     {
-        int rule_num;
-
-        rule_num = 20;
+        const int rule_num = 20;
 
         return rule_num;
     }

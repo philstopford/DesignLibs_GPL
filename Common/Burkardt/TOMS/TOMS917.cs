@@ -132,7 +132,7 @@ public static class WrightOmega
         //
         //  NaN output for NaN input.
         //
-        if (x == double.NaN || y == double.NaN)
+        if (double.IsNaN(x) || double.IsNaN(y))
         {
             w = new Complex(0.0 / 0.0, 0.0 / 0.0);
             e = new Complex(0.0, 0.0);
@@ -167,7 +167,7 @@ public static class WrightOmega
         //
         //  Asymptotic for large z.
         //
-        if (x == double.NegativeInfinity || x == double.PositiveInfinity || y == double.NegativeInfinity || y == double.PositiveInfinity)
+        if (double.IsNegativeInfinity(x) || double.IsPositiveInfinity(x) || double.IsNegativeInfinity(y) || double.IsPositiveInfinity(y))
         {
             w = new Complex(x, y);
             e = new Complex(0.0, 0.0);
@@ -180,7 +180,7 @@ public static class WrightOmega
             //
             //  Test if exactly on the singular points.
             //
-            case -1.0 when Complex.Abs(y) == Math.PI:
+            case -1.0 when Math.Abs(Complex.Abs(y) - Math.PI) <= double.Epsilon:
                 w = new Complex(-1.0, 0.0);
                 e = new Complex(0.0, 0.0);
                 r = new Complex(0.0, 0.0);
@@ -272,7 +272,7 @@ public static class WrightOmega
 
         //
         //  Regularize if near branch cuts.
-        ///
+        //
         if (x <= -1.0 + near && (Complex.Abs(ympi) <= near || Complex.Abs(yppi) <= near))
         {
             s = -1.0;

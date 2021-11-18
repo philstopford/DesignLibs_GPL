@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.OrderNS;
 using Burkardt.Types;
 
@@ -982,7 +983,7 @@ public class Shape
             string cout = "";
             for (j = 0; j < element_order; j++)
             {
-                cout += "  " + t[j].ToString().PadLeft(7);
+                cout += "  " + t[j].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -1008,8 +1009,8 @@ public class Shape
                 ssum += dtds[j];
             }
 
-            Console.WriteLine("  " + rsum.ToString().PadLeft(14)
-                                   + "  " + ssum.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + rsum.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ssum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

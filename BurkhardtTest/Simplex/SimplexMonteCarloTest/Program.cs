@@ -109,7 +109,7 @@ internal class Program
         {
             x = MonteCarlo.simplex_unit_sample(m, n, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 10; j++)
             {
                 for (i = 0; i < m; i++)
@@ -122,7 +122,7 @@ internal class Program
                 result = MonteCarlo.simplex_unit_volume(m) * typeMethods.r8vec_sum(n, value)
                          / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -143,7 +143,7 @@ internal class Program
             }
 
             result = MonteCarlo.simplex_unit_monomial_integral(m, e);
-            cout += "  " + result.ToString().PadLeft(14);
+            cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -215,7 +215,7 @@ internal class Program
         {
             x = MonteCarlo.simplex_unit_sample(m, n, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -228,7 +228,7 @@ internal class Program
                 result = MonteCarlo.simplex_unit_volume(m) * typeMethods.r8vec_sum(n, value)
                          / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -248,7 +248,7 @@ internal class Program
             }
 
             result = MonteCarlo.simplex_unit_monomial_integral(m, e);
-            cout += "  " + result.ToString().PadLeft(14);
+            cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -319,7 +319,7 @@ internal class Program
             cout = "";
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + t[i + j * 3].ToString().PadLeft(14);
+                cout += "  " + t[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -339,7 +339,7 @@ internal class Program
         {
             x = MonteCarlo.simplex_general_sample(m, n, t, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 10; j++)
             {
                 for (i = 0; i < m; i++)
@@ -352,7 +352,7 @@ internal class Program
                 result = MonteCarlo.simplex_general_volume(m, t) * typeMethods.r8vec_sum(n, value)
                          / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

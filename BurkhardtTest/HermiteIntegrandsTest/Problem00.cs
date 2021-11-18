@@ -1,7 +1,4 @@
 ﻿using System;
-using Burkardt;
-using Burkardt.PDFLib;
-using Burkardt.Probability;
 using Burkardt.Quadrature;
 using Burkardt.Types;
 

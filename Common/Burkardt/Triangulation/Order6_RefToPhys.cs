@@ -71,7 +71,6 @@ public static partial class Triangulation
         double[] e = new double[2];
         double[] f = new double[2];
         int i;
-        int j;
 
         for (i = 0; i < 2; i++)
         {
@@ -95,6 +94,7 @@ public static partial class Triangulation
 
         for (i = 0; i < 2; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 phy[i + j * 2] = a[i] * ref_[

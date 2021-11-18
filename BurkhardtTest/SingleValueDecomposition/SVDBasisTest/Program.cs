@@ -418,9 +418,9 @@ internal class Program
                     file_out.Add("#  created by routine BASIS_WRITE.C" + "");
                     file_out.Add("#  part of SVD_BASIS.C." + "");
                     file_out.Add("#");
-                    file_out.Add("#  Number of components M =  " + m.ToString().PadLeft(12) + "");
-                    file_out.Add("#  Number of items N =       " + n.ToString().PadLeft(12) + "");
-                    file_out.Add("#  Singular value S =        " + s.ToString().PadLeft(14) + "");
+                    file_out.Add("#  Number of components M =  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                    file_out.Add("#  Number of items N =       " + n.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                    file_out.Add("#  Singular value S =        " + s.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     file_out.Add("#  EPSILON (unit roundoff) = " + typeMethods.r8_epsilon() + "");
                     file_out.Add("#");
                     break;
@@ -431,7 +431,7 @@ internal class Program
                 string cout = "";
                 for (i = 0; i < m; i++)
                 {
-                    cout += u[i + j * m].ToString().PadLeft(10) + "  ";
+                    cout += u[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                 }
 
                 file_out.Add(cout);

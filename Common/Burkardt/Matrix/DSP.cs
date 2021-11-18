@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FEM;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -446,7 +447,7 @@ public static class DSP
             string cout = "  Col:  ";
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -491,10 +492,10 @@ public static class DSP
                 {
                     case true:
                     {
-                        cout = i.ToString().PadLeft(6);
+                        cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                         for (j2 = 0; j2 < inc; j2++)
                         {
-                            cout += aij[j2].ToString().PadLeft(12) + "  ";
+                            cout += aij[j2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                         }
 
                         Console.WriteLine(cout);

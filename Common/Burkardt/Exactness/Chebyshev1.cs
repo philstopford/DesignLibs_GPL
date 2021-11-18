@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 using Burkardt.Types;
 
@@ -70,8 +71,8 @@ public static partial class Exactness
                 _ => Math.Abs(q - s) / Math.Abs(s)
             };
 
-            Console.WriteLine(p.ToString().PadLeft(6) + "  "
-                                                      + e.ToString().PadLeft(24) + "");
+            Console.WriteLine(p.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + e.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 }

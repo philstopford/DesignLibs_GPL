@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Burkardt.Table;
@@ -49,8 +50,6 @@ public static partial class typeMethods
         const int INCX = 5;
 
         int i2lo;
-        int i2lo_hi;
-        int j;
 
         Console.WriteLine();
         Console.WriteLine(title);
@@ -68,7 +67,7 @@ public static partial class typeMethods
             _ => ilo
         };
 
-        i2lo_hi = ihi < m ? m : ihi;
+        int i2lo_hi = ihi < m ? m : ihi;
 
         for ( i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX )
         {
@@ -95,7 +94,7 @@ public static partial class typeMethods
             int i;
             for ( i = i2lo; i <= i2hi; i++ )
             {
-                cout += (i - 1).ToString().PadLeft(7) + "       ";
+                cout += (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
             Console.WriteLine(cout);
             Console.WriteLine("  Col");
@@ -110,9 +109,10 @@ public static partial class typeMethods
             int j2hi;
             j2hi = n < jhi ? n : jhi;
 
+            int j;
             for ( j = j2lo; j <= j2hi; j++ )
             {
-                cout = (j - 1).ToString().PadLeft(5) + ":";
+                cout = (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 int i2;
                 for ( i2 = 1; i2 <= inc; i2++ )
                 {

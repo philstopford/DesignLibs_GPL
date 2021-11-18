@@ -60,10 +60,10 @@ public static class Order3_Example
         //    Negative values indicate edges that lie on the exterior.
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM = 25;
-        int TRIANGLE_NUM = 32;
-        int TRIANGLE_ORDER = 3;
+        const int DIM_NUM = 2;
+        const int NODE_NUM = 25;
+        const int TRIANGLE_NUM = 32;
+        const int TRIANGLE_ORDER = 3;
 
         int i;
         int[] triangle_neighbor_save =

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Linq;
 using Burkardt.Types;
 
 namespace Burkardt.IO;
@@ -60,9 +60,9 @@ public static class Grf
         Console.WriteLine("");
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(4)
-                                   + "  " + edge_pointer[node].ToString().PadLeft(8)
-                                   + "  " + (edge_pointer[node + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + edge_pointer[node].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (edge_pointer[node + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -73,10 +73,10 @@ public static class Grf
 
         for (node = 0; node < node_num; node++)
         {
-            string tmp = "  " + node.ToString().PadLeft(4);
+            string tmp = "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (edge = edge_pointer[node]; edge <= edge_pointer[node + 1] - 1; edge++)
             {
-                tmp += "  " + edge_data[edge].ToString().PadLeft(8);
+                tmp += "  " + edge_data[edge].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(tmp);
@@ -88,9 +88,9 @@ public static class Grf
 
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(4)
-                                   + "  " + xy[0 + node * 2].ToString().PadLeft(10)
-                                   + "  " + xy[1 + node * 2].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -283,12 +283,12 @@ public static class Grf
 
         for (node = 0; node < node_num; node++)
         {
-            string tmp = "  " + (node + 1).ToString().PadLeft(4)
-                              + "  " + xy[0 + node * 2].ToString().PadLeft(10)
-                              + "  " + xy[1 + node * 2].ToString().PadLeft(10);
+            string tmp = "  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                              + "  " + xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             for (edge = edge_pointer[node]; edge <= edge_pointer[node + 1] - 1; edge++)
             {
-                tmp += "  " + edge_data[edge].ToString().PadLeft(8);
+                tmp += "  " + edge_data[edge].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             output_unit.Add(tmp);

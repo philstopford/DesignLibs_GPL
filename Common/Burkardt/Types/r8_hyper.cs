@@ -240,10 +240,8 @@ public static partial class typeMethods
 
                         double f0 = 1.0;
                         r0 = 1.0;
-                        ;
                         r1 = 1.0;
                         double sp0 = 0.0;
-                        ;
                         double sp = 0.0;
 
                         double f1;

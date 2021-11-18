@@ -1182,14 +1182,7 @@ public static partial class typeMethods
                     constraint += (x[j] - 1) * (x_prod / x_max[j]);
                 }
 
-                if (x_prod < constraint)
-                {
-                    more = false;
-                }
-                else
-                {
-                    more = true;
-                }
+                more = x_prod >= constraint;
 
                 break;
             }
@@ -1219,11 +1212,13 @@ public static partial class typeMethods
 
                     i += 1;
 
-                    if (n <= i)
+                    if (n > i)
                     {
-                        more = false;
-                        break;
+                        continue;
                     }
+
+                    more = false;
+                    break;
                 }
 
                 break;
@@ -1340,14 +1335,7 @@ public static partial class typeMethods
                     constraint += x[j] * (x_prod / x_max[j]);
                 }
 
-                if (x_prod < constraint)
-                {
-                    more = false;
-                }
-                else
-                {
-                    more = true;
-                }
+                more = x_prod >= constraint;
 
                 break;
             }
@@ -1377,11 +1365,13 @@ public static partial class typeMethods
 
                     i += 1;
 
-                    if (n <= i)
+                    if (n > i)
                     {
-                        more = false;
-                        break;
+                        continue;
                     }
+
+                    more = false;
+                    break;
                 }
 
                 break;
@@ -1524,11 +1514,13 @@ public static partial class typeMethods
 
                     i += 1;
 
-                    if (n <= i)
+                    if (n > i)
                     {
-                        more = false;
-                        break;
+                        continue;
                     }
+
+                    more = false;
+                    break;
                 }
 
                 break;
@@ -1635,14 +1627,7 @@ public static partial class typeMethods
                     total += alpha[j] * x[j];
                 }
 
-                if (q < total)
-                {
-                    more = false;
-                }
-                else
-                {
-                    more = true;
-                }
+                more = !(q < total);
 
                 break;
             }
@@ -1672,11 +1657,13 @@ public static partial class typeMethods
 
                     i += 1;
 
-                    if (n <= i)
+                    if (n > i)
                     {
-                        more = false;
-                        break;
+                        continue;
                     }
+
+                    more = false;
+                    break;
                 }
 
                 break;

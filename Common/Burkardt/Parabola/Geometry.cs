@@ -1,4 +1,5 @@
-﻿using Burkardt.Types;
+﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.ParabolaNS;
 
@@ -41,24 +42,22 @@ public static class Geometry
         //    3, the data lies on a horizontal line; every point is "extremal".
         //
     {
-        double bot;
-
         x = 0.0;
         y = 0.0;
 
-        if (x1 == x2 || x2 == x3 || x3 == x1)
+        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
         {
             return 1;
         }
 
-        if (y1 == y2 && y2 == y3 && y3 == y1)
+        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
         {
             x = x1;
             y = y1;
             return 3;
         }
 
-        bot = (x2 - x3) * y1 - (x1 - x3) * y2 + (x1 - x2) * y3;
+        double bot = (x2 - x3) * y1 - (x1 - x3) * y2 + (x1 - x2) * y3;
 
         switch (bot)
         {
@@ -129,12 +128,12 @@ public static class Geometry
         x = 0.0;
         y = 0.0;
 
-        if (x1 == x2 || x2 == x3 || x3 == x1)
+        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
         {
             return 1;
         }
 
-        if (y1 == y2 && y2 == y3 && y3 == y1)
+        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
         {
             x = x1;
             y = y1;

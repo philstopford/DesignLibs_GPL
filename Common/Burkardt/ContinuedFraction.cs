@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt;
@@ -128,9 +129,9 @@ public static class ContinuedFraction
         for (i = 0; i <= n; i++)
         {
             double t = p[i] / (double) q[i];
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + p[i].ToString().PadLeft(20)
-                                   + "  " + q[i].ToString().PadLeft(20)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
                                    + "  " + t.ToString("0.################").PadLeft(24) + "");
         }
 
@@ -253,9 +254,9 @@ public static class ContinuedFraction
         for (i = 0; i <= n; i++)
         {
             double t = p[i] / (double) q[i];
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + p[i].ToString().PadLeft(20)
-                                   + "  " + q[i].ToString().PadLeft(20)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
                                    + "  " + t.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -300,8 +301,8 @@ public static class ContinuedFraction
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + ": " + a[i].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + ": " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -430,9 +431,9 @@ public static class ContinuedFraction
         for (i = 0; i <= n; i++)
         {
             double t = p[i] / (double) q[i];
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + p[i].ToString().PadLeft(20)
-                                   + "  " + q[i].ToString().PadLeft(20)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
                                    + "  " + t.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -555,9 +556,9 @@ public static class ContinuedFraction
         for (i = 0; i <= n; i++)
         {
             double t = p[i] / (double) q[i];
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + p[i].ToString().PadLeft(20)
-                                   + "  " + q[i].ToString().PadLeft(20)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
                                    + "  " + t.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -657,7 +658,7 @@ public static class ContinuedFraction
         Console.WriteLine("");
         Console.WriteLine("R8_TO_I4SCF_TEST:");
 
-        double r = Math.PI;
+        const double r = Math.PI;
 
         int[] a = new int[n + 1];
 
@@ -677,9 +678,9 @@ public static class ContinuedFraction
         for (i = 0; i <= n; i++)
         {
             double t = p[i] / (double) q[i];
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + p[i].ToString().PadLeft(20)
-                                   + "  " + q[i].ToString().PadLeft(20)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
                                    + "  " + t.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -779,7 +780,7 @@ public static class ContinuedFraction
         Console.WriteLine("");
         Console.WriteLine("R8_TO_I8SCF_TEST:");
 
-        double r = Math.PI;
+        const double r = Math.PI;
 
         long[] a = new long[n + 1];
 
@@ -799,9 +800,9 @@ public static class ContinuedFraction
         for (i = 0; i <= n; i++)
         {
             double t = p[i] / (double) q[i];
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + p[i].ToString().PadLeft(20)
-                                   + "  " + q[i].ToString().PadLeft(20)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
                                    + "  " + t.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -921,7 +922,7 @@ public static class ContinuedFraction
 
         for (i = 0; i <= n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                    + "  " + p[i].ToString("0.################").PadLeft(24)
                                    + "  " + q[i].ToString("0.################").PadLeft(24)
                                    + "  " + (p[i] / q[i]).ToString("0.################").PadLeft(24) + "");
@@ -1037,7 +1038,7 @@ public static class ContinuedFraction
 
         for (i = 0; i <= n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                    + "  " + p[i].ToString("0.################").PadLeft(24)
                                    + "  " + q[i].ToString("0.################").PadLeft(24)
                                    + "  " + (p[i] / q[i]).ToString("0.################").PadLeft(24) + "");

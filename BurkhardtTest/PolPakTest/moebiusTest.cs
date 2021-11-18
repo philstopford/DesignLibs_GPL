@@ -49,9 +49,9 @@ public static class moebiusTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + c.ToString().PadLeft(10) + "  "
-                              + Moebius.moebius(n).ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + Moebius.moebius(n).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

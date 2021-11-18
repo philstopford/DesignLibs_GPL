@@ -41,9 +41,9 @@ public static class polynomialTest
             Console.WriteLine("");
             for ( degree = 0; degree <= 5; degree++ )
             {
-                Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                       + "  " + degree.ToString().PadLeft(8)
-                                       + "  " + Polynomial.poly_coef_count ( dim, degree ).ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + Polynomial.poly_coef_count ( dim, degree ).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
 
@@ -91,10 +91,10 @@ public static class polynomialTest
                 for ( i = 0; i <= 4; i++ )
                 {
                     t = Trinomial.trinomial ( i, j, k );
-                    Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                           + "  " + j.ToString().PadLeft(4)
-                                           + "  " + k.ToString().PadLeft(4)
-                                           + "  " + t.ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 }
             }
         }

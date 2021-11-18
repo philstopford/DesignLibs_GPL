@@ -1,7 +1,6 @@
 ﻿using System;
 using Burkardt.Function;
 using Burkardt.PolynomialNS;
-using Burkardt.Types;
 
 namespace Burkardt.RandomNS;
 

@@ -46,11 +46,11 @@ public static class compSymmPolyTest
 
         for ( nn = 0; nn <= n; nn++ )
         {
-            string cout = "  " + nn.ToString().PadLeft(2);
+            string cout = "  " + nn.ToString(CultureInfo.InvariantCulture).PadLeft(2);
             for ( rr = 0; rr <= 5; rr++ )
             {
                 value = CompleteSymmetric.complete_symmetric_poly ( nn, rr, x );
-                cout += "  " + value.ToString().PadLeft(6);
+                cout += "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
             Console.WriteLine(cout);
         }

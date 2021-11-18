@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.IO;
 using Burkardt.Types;
 
@@ -513,8 +512,8 @@ internal class Program
                 case true:
                 {
                     solution_num += 1;
-                    string cout = "  " + solution_num.ToString().PadLeft(2)
-                                       + "  " + i.ToString().PadLeft(10);
+                    string cout = "  " + solution_num.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(10);
                     for (j = 0; j < v_num; j++)
                     {
 

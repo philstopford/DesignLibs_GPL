@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Function;
 
 namespace BesselJTest;
@@ -92,8 +91,8 @@ internal class Program
             int nb = n + 1;
             double[] b = new double[nb];
             BesselJ.rjbesl(x, alpha, nb, ref b, ref ncalc);
-            Console.WriteLine("  " + order.ToString().PadLeft(12)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx.ToString("0.################").PadLeft(12)
                                    + "  " + b[n].ToString("0.################").PadLeft(12) + "");
         }

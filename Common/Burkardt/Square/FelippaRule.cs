@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
@@ -130,9 +131,9 @@ public static class FelippaRule
 
                 value = square_monomial(a, b, expon);
 
-                Console.WriteLine("  " + expon[0].ToString().PadLeft(8)
-                                       + "  " + expon[1].ToString().PadLeft(8)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -195,7 +196,7 @@ public static class FelippaRule
             string cout = "  Monomial exponents: ";
             for (i = 0; i < 2; i++)
             {
-                cout += "  " + expon[i].ToString().PadLeft(2);
+                cout += "  " + expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -214,9 +215,9 @@ public static class FelippaRule
                 square_rule(a, b, order_1d, ref w, ref xy);
                 v = Monomial.monomial_value(2, order, expon, xy);
                 quad = typeMethods.r8vec_dot_product(order, w, v);
-                Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
-                                       + "  " + order_1d[1].ToString().PadLeft(6)
-                                       + "  " + quad.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + order_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             //
@@ -230,15 +231,15 @@ public static class FelippaRule
             square_rule(a, b, order_1d, ref w, ref xy);
             v = Monomial.monomial_value(2, order, expon, xy);
             quad = typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
-                                   + "  " + order_1d[1].ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + order_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("");
             quad = square_monomial(a, b, expon);
             Console.WriteLine("  " + " Exact"
                                    + "  " + "      "
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {

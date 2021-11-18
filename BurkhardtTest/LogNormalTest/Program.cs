@@ -107,10 +107,10 @@ internal class Program
             x2 = CDF.log_normal_cdf_inv(cdf, mu, sigma);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

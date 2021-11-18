@@ -54,9 +54,9 @@ public static class eulerTest
             Sequence.euler_number(n, ref c2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c1.ToString().PadLeft(12) + "  "
-                              + c2[n].ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c1.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + c2[n].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -109,9 +109,9 @@ public static class eulerTest
             c2 = Sequence.euler_number2(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c1.ToString().PadLeft(12) + "  "
-                              + c2.ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c1.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + c2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -157,9 +157,9 @@ public static class eulerTest
             f = Polynomial.euler_poly(i, x);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(2) + "  "
-                              + x.ToString().PadLeft(14) + "  "
-                              + f.ToString().PadLeft(14) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -203,7 +203,7 @@ public static class eulerTest
             string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += e[i + j * N].ToString().PadLeft(6) + "  ";
+                cout += e[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);

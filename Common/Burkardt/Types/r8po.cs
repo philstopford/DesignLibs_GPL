@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.BLAS;
 using Burkardt.Uniform;
 
@@ -181,12 +182,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         double[] a = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j == i)
@@ -446,7 +447,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         double[] a = new double[n * n];
 
@@ -454,6 +454,7 @@ public static partial class typeMethods
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= i - 1; j++)
             {
                 a[i - 1 + (j - 1) * n] = 0.0;
@@ -712,25 +713,9 @@ public static partial class typeMethods
                 int k;
                 for (k = 1; k <= n; k++)
                 {
-                    double aik;
-                    if (i <= k)
-                    {
-                        aik = a[i - 1 + (k - 1) * n];
-                    }
-                    else
-                    {
-                        aik = a[k - 1 + (i - 1) * n];
-                    }
+                    double aik = i <= k ? a[i - 1 + (k - 1) * n] : a[k - 1 + (i - 1) * n];
 
-                    double bkj;
-                    if (k <= j)
-                    {
-                        bkj = b[k - 1 + (j - 1) * n];
-                    }
-                    else
-                    {
-                        bkj = b[j - 1 + (k - 1) * n];
-                    }
+                    double bkj = k <= j ? b[k - 1 + (j - 1) * n] : b[j - 1 + (k - 1) * n];
 
                     c[i - 1 + (j - 1) * n] += aik * bkj;
 
@@ -922,7 +907,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -940,16 +925,16 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(5) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  ";
                 for (j = j2lo; j <= j2hi; j++)
                 {
                     if (i <= j)
                     {
-                        cout += a[i - 1 + (j - 1) * n].ToString().PadLeft(12) + "  ";
+                        cout += a[i - 1 + (j - 1) * n].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else
                     {
-                        cout += a[j - 1 + (i - 1) * n].ToString().PadLeft(12) + "  ";
+                        cout += a[j - 1 + (i - 1) * n].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -83,8 +84,8 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        Console.WriteLine("  " + title + " : " + ": ( " + a[0].ToString().PadLeft(12)
-                          + ", " + a[1].ToString().PadLeft(12) + " )");
+        Console.WriteLine("  " + title + " : " + ": ( " + a[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                          + ", " + a[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + " )");
     }
 
     public static void r82_uniform_ab(double b, double c, ref int seed, ref double[] r)

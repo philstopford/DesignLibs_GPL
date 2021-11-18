@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
-using Burkardt.Table;
 using Burkardt.Types;
 
 namespace ASA314Test;

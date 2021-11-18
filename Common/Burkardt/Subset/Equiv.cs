@@ -299,11 +299,11 @@ public static class Equiv
                 case > 0:
                 {
                     string cout = "  "
-                                  + s.ToString().PadLeft(4) + "  "
-                                  + k.ToString().PadLeft(4) + " :: ";
+                                  + s.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + " :: ";
                     for (kk = 0; kk < k; kk++)
                     {
-                        cout += karray[kk].ToString().PadLeft(4) + "  ";
+                        cout += karray[kk].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                     }
 
                     Console.WriteLine(cout);

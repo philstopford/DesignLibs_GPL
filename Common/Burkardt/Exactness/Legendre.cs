@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 using Burkardt.Types;
 
@@ -70,8 +71,8 @@ public static partial class Exactness
                 _ => Math.Abs(q - s) / Math.Abs(s)
             };
 
-            Console.WriteLine(p.ToString().PadLeft(6) + "  "
-                                                      + e.ToString().PadLeft(24) + "");
+            Console.WriteLine(p.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + e.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -133,7 +134,7 @@ public static partial class Exactness
 
         for (tt = 0; tt <= t; tt++)
         {
-            Console.WriteLine(tt.ToString().PadLeft(4) + "");
+            Console.WriteLine(tt.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
 
             for (k = 0; k <= tt; k++)
             {
@@ -160,10 +161,10 @@ public static partial class Exactness
                         _ => Math.Abs(q - s) / Math.Abs(s)
                     };
 
-                    Console.WriteLine(p[0].ToString().PadLeft(6) + "  "
-                                                                 + p[1].ToString().PadLeft(6) + "  "
-                                                                 + p[2].ToString().PadLeft(6) + "  "
-                                                                 + e.ToString().PadLeft(24) + "");
+                    Console.WriteLine(p[0].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                 + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                 + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                 + e.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
                 }
             }
         }

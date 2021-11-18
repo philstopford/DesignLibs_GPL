@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -130,7 +131,7 @@ public class BasisBrick
             string cout = "  ";
             for (i = 0; i < node_num; i++)
             {
-                cout += phi[i + j * node_num].ToString().PadLeft(7);
+                cout += phi[i + j * node_num].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -153,10 +154,10 @@ public class BasisBrick
         for (j = 0; j < n; j++)
         {
             phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
-            Console.WriteLine("  " + p[0 + j * 3].ToString().PadLeft(8)
-                                   + "  " + p[1 + j * 3].ToString().PadLeft(8)
-                                   + "  " + p[2 + j * 3].ToString().PadLeft(8)
-                                   + "  " + phi_sum.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -322,7 +323,7 @@ public class BasisBrick
             string cout = "  ";
             for (i = 0; i < node_num; i++)
             {
-                cout += phi[i + j * node_num].ToString().PadLeft(7);
+                cout += phi[i + j * node_num].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -345,10 +346,10 @@ public class BasisBrick
         for (j = 0; j < n; j++)
         {
             phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
-            Console.WriteLine("  " + p[0 + j * 3].ToString().PadLeft(8)
-                                   + "  " + p[1 + j * 3].ToString().PadLeft(8)
-                                   + "  " + p[2 + j * 3].ToString().PadLeft(8)
-                                   + "  " + phi_sum.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -522,7 +523,7 @@ public class BasisBrick
             string cout = "  ";
             for (i = 0; i < node_num; i++)
             {
-                cout += phi[i + j * node_num].ToString().PadLeft(7);
+                cout += phi[i + j * node_num].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -545,10 +546,10 @@ public class BasisBrick
         for (j = 0; j < n; j++)
         {
             phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
-            Console.WriteLine("  " + p[0 + j * 3].ToString().PadLeft(8)
-                                   + "  " + p[1 + j * 3].ToString().PadLeft(8)
-                                   + "  " + p[2 + j * 3].ToString().PadLeft(8)
-                                   + "  " + phi_sum.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phi_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 }

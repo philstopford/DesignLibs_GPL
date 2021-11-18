@@ -42,7 +42,7 @@ public class StringValue : Value
     /// Returns the string value
     /// </summary>
     /// <returns>the string value</returns>
-    public override string ToString()
+    public override string ToString(CultureInfo.InvariantCulture)
     {
         return ToString(CultureInfo.InvariantCulture);
     }

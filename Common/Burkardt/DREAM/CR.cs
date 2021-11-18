@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.PDFLib;
-using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace Burkardt.DREAM;

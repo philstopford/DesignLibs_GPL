@@ -110,7 +110,6 @@ public static class Sine
         double[] f2;
         double fa;
         double fb;
-        ;
         int i;
         int j;
             

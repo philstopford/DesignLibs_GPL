@@ -117,12 +117,12 @@ internal class Program
         Console.WriteLine("FLAG             T          Y         Y'          Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         ;
 
         for (i_step = 1; i_step <= n_step; i_step++)
@@ -138,12 +138,12 @@ internal class Program
             flag = RungeKuttaFehlberg.r4_rkf45(ref data, r4_f1, neqn, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + yp[0].ToString().PadLeft(12) + "  "
-                                                         + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                         + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -220,10 +220,10 @@ internal class Program
         Console.WriteLine("FLAG             T          Y(1)       Y(2)");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + y[1].ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -238,10 +238,10 @@ internal class Program
             flag = RungeKuttaFehlberg.r4_rkf45(ref data, r4_f2, neqn, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + y[1].ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -309,12 +309,12 @@ internal class Program
         Console.WriteLine("FLAG             T          Y         Y'        Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         ;
 
         for (i_step = 1; i_step <= n_step; i_step++)
@@ -332,12 +332,12 @@ internal class Program
                 flag = RungeKuttaFehlberg.r4_rkf45(ref data, r4_f1, NEQN, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                     flag);
 
-                Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                             + t.ToString().PadLeft(12) + "  "
-                                                             + y[0].ToString().PadLeft(12) + "  "
-                                                             + yp[0].ToString().PadLeft(12) + "  "
-                                                             + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                             + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
+                Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                             + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             flag = -2;
@@ -408,12 +408,12 @@ internal class Program
         Console.WriteLine("FLAG             T          Y         Y'          Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         ;
 
         for (i_step = 1; i_step <= n_step; i_step++)
@@ -429,12 +429,12 @@ internal class Program
             flag = RungeKuttaFehlberg.r8_rkf45(ref data, r8_f1, NEQN, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + yp[0].ToString().PadLeft(12) + "  "
-                                                         + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                                         + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -504,10 +504,10 @@ internal class Program
         Console.WriteLine("FLAG             T          Y(1)       Y(2)");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + y[1].ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -522,10 +522,10 @@ internal class Program
             flag = RungeKuttaFehlberg.r8_rkf45(ref data, r8_f2, NEQN, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + y[1].ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -593,12 +593,12 @@ internal class Program
         Console.WriteLine("FLAG             T          Y         Y'        Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         ;
 
         for (i_step = 1; i_step <= n_step; i_step++)
@@ -617,11 +617,11 @@ internal class Program
                     flag);
 
                 Console.WriteLine(flag + "  "
-                                       + t.ToString().PadLeft(12) + "  "
-                                       + y[0].ToString().PadLeft(12) + "  "
-                                       + yp[0].ToString().PadLeft(12) + "  "
-                                       + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                       + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
+                                       + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             flag = -2;

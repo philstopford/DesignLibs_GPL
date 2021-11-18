@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.FEM;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
@@ -138,13 +137,13 @@ internal class Program
                     for (i = 0; i < nx; i += inc)
                     {
                         uexact = exact1(x[i], y[j]);
-                        Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                                  + j.ToString().PadLeft(4) + "  "
-                                                                  + x[i].ToString().PadLeft(8) + "  "
-                                                                  + y[j].ToString().PadLeft(8) + "  "
-                                                                  + u[k].ToString().PadLeft(14) + "  "
-                                                                  + uexact.ToString().PadLeft(14) + "  "
-                                                                  + Math.Abs(u[k] - uexact).ToString().PadLeft(14) + "");
+                        Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + y[j].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + u[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + Math.Abs(u[k] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         k += 1;
                     }
                 }
@@ -462,15 +461,15 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < 8; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + vx[i].ToString().PadLeft(10) + "  "
-                                                      + vy[i].ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + vx[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + vy[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  Sum:  "
-                          + typeMethods.r8vec_sum(8, vx).ToString().PadLeft(10) + "  "
-                          + typeMethods.r8vec_sum(8, vy).ToString().PadLeft(10) + "");
+                          + typeMethods.r8vec_sum(8, vx).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + typeMethods.r8vec_sum(8, vy).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
     }
 
     private static void test03()
@@ -568,13 +567,13 @@ internal class Program
                     for (i = 0; i < nx; i += inc)
                     {
                         uexact = exact3(x[i], y[j]);
-                        Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                                  + j.ToString().PadLeft(4) + "  "
-                                                                  + x[i].ToString().PadLeft(8) + "  "
-                                                                  + y[j].ToString().PadLeft(8) + "  "
-                                                                  + u[k].ToString().PadLeft(14) + "  "
-                                                                  + uexact.ToString().PadLeft(14) + "  "
-                                                                  + Math.Abs(u[k] - uexact).ToString().PadLeft(14) + "");
+                        Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + y[j].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + u[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + Math.Abs(u[k] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         k += 1;
                     }
                 }

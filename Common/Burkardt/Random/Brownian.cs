@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace Burkardt.RandomNS;

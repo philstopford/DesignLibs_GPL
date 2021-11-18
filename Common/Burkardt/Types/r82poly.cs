@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -30,13 +31,13 @@ public static partial class typeMethods
         //    Input, double A, B, C, D, E, F, the coefficients.
         //
     {
-        Console.WriteLine("  " + a.ToString().PadLeft(8)
-                               + " * x^2 + " + b.ToString().PadLeft(8)
-                               + " * y^2 + " + c.ToString().PadLeft(8)
+        Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + " * x^2 + " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + " * y^2 + " + c.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                + " * xy  + " + "");
-        Console.WriteLine("  " + d.ToString().PadLeft(8)
-                               + " * x   + " + e.ToString().PadLeft(8)
-                               + " * y   + " + f.ToString().PadLeft(8) + "");
+        Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + " * x   + " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + " * y   + " + f.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
     }
 

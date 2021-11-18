@@ -105,8 +105,6 @@ public static class TWBRule
         //
     {
         int i;
-        int n;
-        double[] w;
 
         double[] w1 =
         {
@@ -848,9 +846,9 @@ public static class TWBRule
             0.0371924811018
         };
 
-        n = twb_rule_n(strength);
+        int n = twb_rule_n(strength);
 
-        w = strength switch
+        double[] w = strength switch
         {
             1 => typeMethods.r8vec_copy_new(n, w1),
             2 => typeMethods.r8vec_copy_new(n, w2),
@@ -872,7 +870,10 @@ public static class TWBRule
 
         for (i = 0; i < n; i++)
         {
-            w[i] /= 4.0;
+            if (w != null)
+            {
+                w[i] /= 4.0;
+            }
         }
 
         return w;
@@ -914,8 +915,6 @@ public static class TWBRule
         //    Otherwise, a NULL is returned.
         //
     {
-        int n;
-        double[] x;
         double[] x1 =
         {
             0.3333333333333
@@ -1642,9 +1641,9 @@ public static class TWBRule
             0.3361523347440
         };
 
-        n = twb_rule_n(strength);
+        int n = twb_rule_n(strength);
 
-        x = strength switch
+        double[] x = strength switch
         {
             1 => typeMethods.r8vec_copy_new(n, x1),
             2 => typeMethods.r8vec_copy_new(n, x2),
@@ -1703,8 +1702,6 @@ public static class TWBRule
         //    Otherwise, a NULL is returned.
         //
     {
-        int n;
-        double[] y;
         double[] y1 =
         {
             0.3333333333333
@@ -2431,9 +2428,9 @@ public static class TWBRule
             0.2778500044356
         };
 
-        n = twb_rule_n(strength);
+        int n = twb_rule_n(strength);
 
-        y = strength switch
+        double[] y = strength switch
         {
             1 => typeMethods.r8vec_copy_new(n, y1),
             2 => typeMethods.r8vec_copy_new(n, y2),

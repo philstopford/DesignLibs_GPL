@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.Types;
-using Burkardt.Uniform;
 
 namespace Burkardt.Probability;
 

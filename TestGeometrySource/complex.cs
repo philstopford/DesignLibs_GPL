@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using geoLib;
+﻿using geoLib;
 using geoWrangler;
 
 namespace PartitionTestGeometrySource

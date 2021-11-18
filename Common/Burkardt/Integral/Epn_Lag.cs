@@ -1,5 +1,4 @@
-﻿using System;
-using Burkardt.Types;
+﻿using Burkardt.Types;
 
 namespace Burkardt.IntegralNS;
 

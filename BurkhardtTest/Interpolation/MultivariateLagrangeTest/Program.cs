@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Interpolation;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
@@ -102,18 +101,18 @@ internal class Program
         string cout = "   N2:";
         for (n2 = 0; n2 <= 8; n2++)
         {
-            cout += "  " + n2.ToString().PadLeft(4);
+            cout += "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("  N1 +------------------------------------------------------");
         for (n1 = 0; n1 <= 8; n1++)
         {
-            cout = "  " + n1.ToString().PadLeft(2) + " |";
+            cout = "  " + n1.ToString(CultureInfo.InvariantCulture).PadLeft(2) + " |";
             for (n2 = 0; n2 <= 8; n2++)
             {
                 v = Monomial.mono_between_enum(d, n1, n2);
-                cout += "  " + v.ToString().PadLeft(4);
+                cout += "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -154,18 +153,18 @@ internal class Program
         string cout = "    N:";
         for (n = 0; n <= 8; n++)
         {
-            cout += n.ToString().PadLeft(4);
+            cout += n.ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("   D +------------------------------------------------------");
         for (d = 1; d <= 8; d++)
         {
-            cout = "  " + d.ToString().PadLeft(2) + " |";
+            cout = "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2) + " |";
             for (n = 0; n <= 8; n++)
             {
                 v = Monomial.mono_total_enum(d, n);
-                cout += "  " + v.ToString().PadLeft(4);
+                cout += "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -206,18 +205,18 @@ internal class Program
         string cout = "    N:";
         for (n = 0; n <= 8; n++)
         {
-            cout += "  " + n.ToString().PadLeft(4);
+            cout += "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("   D +------------------------------------------------------");
         for (d = 1; d <= 8; d++)
         {
-            cout = "  " + d.ToString().PadLeft(2) + " |";
+            cout = "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2) + " |";
             for (n = 0; n <= 8; n++)
             {
                 v = Monomial.mono_upto_enum(d, n);
-                cout += " " + v.ToString().PadLeft(5);
+                cout += " " + v.ToString(CultureInfo.InvariantCulture).PadLeft(5);
             }
 
             Console.WriteLine(cout);
@@ -278,10 +277,10 @@ internal class Program
 
         for (;;)
         {
-            string cout = "  " + j.ToString().PadLeft(2) + ":";
+            string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":";
             for (i = 0; i < d; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(1);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(1);
             }
 
             Console.WriteLine(cout);

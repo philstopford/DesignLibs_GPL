@@ -43,7 +43,7 @@ public class ZetaTest
             {
                 break;
             }
-            Console.WriteLine(n.ToString().PadLeft(6)                 + "  "
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6)                 + "  "
                                                                       + zeta.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -85,7 +85,7 @@ public class ZetaTest
             {
                 break;
             }
-            Console.WriteLine(p.ToString().PadLeft(6)                         + "  "
+            Console.WriteLine(p.ToString(CultureInfo.InvariantCulture).PadLeft(6)                         + "  "
                                                                               + zeta_m1.ToString("0.################").PadLeft(24) + "");
         }
     }

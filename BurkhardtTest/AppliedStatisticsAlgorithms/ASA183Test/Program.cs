@@ -90,17 +90,17 @@ internal class Program
         Console.WriteLine("      R                 S1        S2        S3");
         Console.WriteLine("");
         Console.WriteLine("                "
-                          + "  " + s1.ToString().PadLeft(8)
-                          + "  " + s2.ToString().PadLeft(8)
-                          + "  " + s3.ToString().PadLeft(8) + "");
+                          + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         for (int i = 0; i < 10; i++)
         {
             float r = Algorithms.r4_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(8)
-                                   + "  " + s2.ToString().PadLeft(8)
-                                   + "  " + s3.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -219,11 +219,11 @@ internal class Program
         for (int i = 1; i <= 10; i++)
         {
             r = Algorithms.r4_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12)
-                                   + "  " + s3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             switch (i)
             {
@@ -253,11 +253,11 @@ internal class Program
         for (int i = 1; i <= 10; i++)
         {
             r = Algorithms.r4_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12)
-                                   + "  " + s3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -298,15 +298,15 @@ internal class Program
         Console.WriteLine("      R                 S1        S2");
         Console.WriteLine("");
         Console.WriteLine("                "
-                          + "  " + s1.ToString().PadLeft(8)
-                          + "  " + s2.ToString().PadLeft(8) + "");
+                          + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         for (i = 0; i < 10; i++)
         {
             r = Algorithms.r4_uni(ref s1, ref s2);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(8)
-                                   + "  " + s2.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -417,10 +417,10 @@ internal class Program
         for (int i = 1; i <= 10; i++)
         {
             float r = Algorithms.r4_uni(ref s1, ref s2);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             switch (i)
             {
@@ -447,10 +447,10 @@ internal class Program
         for (int i = 1; i <= 10; i++)
         {
             float r = Algorithms.r4_uni(ref s1, ref s2);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
     }
@@ -491,17 +491,17 @@ internal class Program
         Console.WriteLine("      R                 S1        S2        S3");
         Console.WriteLine("");
         Console.WriteLine("                "
-                          + "  " + s1.ToString().PadLeft(8)
-                          + "  " + s2.ToString().PadLeft(8)
-                          + "  " + s3.ToString().PadLeft(8) + "");
+                          + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         for (i = 0; i < 10; i++)
         {
             r = Algorithms.r8_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(8)
-                                   + "  " + s2.ToString().PadLeft(8)
-                                   + "  " + s3.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -617,11 +617,11 @@ internal class Program
         for (int i = 1; i <= 10; i++)
         {
             double r = Algorithms.r8_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12)
-                                   + "  " + s3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             switch (i)
             {
@@ -651,11 +651,11 @@ internal class Program
         for (int i = 1; i <= 10; i++)
         {
             double r = Algorithms.r8_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12)
-                                   + "  " + s3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -691,15 +691,15 @@ internal class Program
         Console.WriteLine("      R                 S1        S2");
         Console.WriteLine("");
         Console.WriteLine("                "
-                          + "  " + s1.ToString().PadLeft(8)
-                          + "  " + s2.ToString().PadLeft(8) + "");
+                          + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                          + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         for (int i = 0; i < 10; i++)
         {
             double r = Algorithms.r8_uni(ref s1, ref s2);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(8)
-                                   + "  " + s2.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -814,10 +814,10 @@ internal class Program
         for (i = 1; i <= 10; i++)
         {
             r = Algorithms.r8_uni(ref s1, ref s2);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             switch (i)
             {
@@ -844,10 +844,10 @@ internal class Program
         for (i = 1; i <= 10; i++)
         {
             r = Algorithms.r8_uni(ref s1, ref s2);
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + s1.ToString().PadLeft(12)
-                                   + "  " + s2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

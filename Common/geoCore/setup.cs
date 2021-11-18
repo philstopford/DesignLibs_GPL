@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace geoCoreLib;
+﻿namespace geoCoreLib;
 
 public static class GCSetup
 {

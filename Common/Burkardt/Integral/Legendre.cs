@@ -82,8 +82,8 @@ public static partial class Integral
                     0.0 => Math.Abs(q),
                     _ => Math.Abs(q - s) / Math.Abs(s)
                 };
-                Console.WriteLine(p[0].ToString().PadLeft(6) + "  "
-                                                             + p[1].ToString().PadLeft(6) + "  "
+                Console.WriteLine(p[0].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                             + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                                                              + e.ToString("0.################").PadLeft(24) + "");
             }
         }

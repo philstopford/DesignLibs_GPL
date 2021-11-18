@@ -369,7 +369,7 @@ public static class English
 
                     cdf /= pdf_sum;
                 }
-                else if (SENTENCE_LENGTH_MAX <= x)
+                else
                 {
                     cdf = 1.0;
                 }
@@ -1044,7 +1044,7 @@ public static class English
 
                     cdf /= pdf_sum;
                 }
-                else if (WORD_LENGTH_MAX <= x)
+                else
                 {
                     cdf = 1.0;
                 }

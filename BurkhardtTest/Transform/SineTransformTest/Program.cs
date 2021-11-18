@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.Transform;
-using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace SineTransformTest;
@@ -98,10 +97,10 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + r[i].ToString().PadLeft(10)
-                                   + "  " + s[i].ToString().PadLeft(10)
-                                   + "  " + t[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -184,32 +183,32 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("     I      X(I)      F(X(I))       S           F1          F2          F1+F2");
         Console.WriteLine("");
-        Console.WriteLine("  " + 0.ToString().PadLeft(4)
-                               + "  " + a.ToString().PadLeft(10)
-                               + "  " + poly5(a).ToString().PadLeft(10)
-                               + "  " + 0.0.ToString().PadLeft(10)
-                               + "  " + fa.ToString().PadLeft(10)
-                               + "  " + 0.0.ToString().PadLeft(10)
-                               + "  " + fa.ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                               + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + poly5(a).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 0.0.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + fa.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 0.0.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + fa.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(10)
-                                   + "  " + poly5(x[i]).ToString().PadLeft(10)
-                                   + "  " + s[i].ToString().PadLeft(10)
-                                   + "  " + f1[i].ToString().PadLeft(10)
-                                   + "  " + f2[i].ToString().PadLeft(10)
-                                   + "  " + f1[i] + f2[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + poly5(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f1[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f2[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f1[i] + f2[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
-        Console.WriteLine("  " + (n + 1).ToString().PadLeft(10)
-                               + "  " + b.ToString().PadLeft(10)
-                               + "  " + poly5(b).ToString().PadLeft(10)
-                               + "  " + 0.0.ToString().PadLeft(10)
-                               + "  " + fb.ToString().PadLeft(10)
-                               + "  " + 0.0.ToString().PadLeft(10)
-                               + "  " + fb.ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + (n + 1).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + poly5(b).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 0.0.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 0.0.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
     }
 
     private static void sine_transform_test03()
@@ -287,10 +286,10 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(10)
-                                   + "  " + poly5(x[i]).ToString().PadLeft(10)
-                                   + "  " + s[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + poly5(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -319,10 +318,10 @@ internal class Program
 
         for (i = 0; i < n2; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x2[i].ToString().PadLeft(10)
-                                   + "  " + poly5(x2[i]).ToString().PadLeft(10)
-                                   + "  " + f2[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x2[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + poly5(x2[i]).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f2[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -420,10 +419,10 @@ internal class Program
 
         for (i = 0; i < n2; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x2[i].ToString().PadLeft(10)
-                                   + "  " + cosine_sum(x2[i]).ToString().PadLeft(10)
-                                   + "  " + f2[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x2[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + cosine_sum(x2[i]).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + f2[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

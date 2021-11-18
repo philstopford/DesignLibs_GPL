@@ -176,10 +176,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < m; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(12)
-                                   + "  " + d[i].ToString().PadLeft(12)
-                                   + "  " + d2[i].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -253,8 +253,8 @@ internal class Program
         for (int e = 0; e <= 10; e++)
         {
             double value = ChebyshevPolynomial.t_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -312,10 +312,10 @@ internal class Program
             x_vec[0] = x;
             double[] fx2 = ChebyshevPolynomial.t_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -421,10 +421,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.t_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
     //****************************************************************************80
@@ -560,10 +560,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.t_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -607,9 +607,9 @@ internal class Program
             fx = ChebyshevPolynomial.t_polynomial(n, n, z);
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -686,9 +686,9 @@ internal class Program
 
             double q = typeMethods.r8vec_dot_product(n, w, f);
             double q_exact = ChebyshevPolynomial.t_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -949,8 +949,8 @@ internal class Program
                 r = Math.Max(r, Math.Abs(v[i] - Math.Exp(x[i])));
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + r.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1012,8 +1012,8 @@ internal class Program
                 r = Math.Max(r, Math.Abs(v[i] - Math.Exp(x[i])));
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + r.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1068,13 +1068,13 @@ internal class Program
             j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
             tj = ChebyshevPolynomial.t_polynomial_value(j, x);
             titj = ChebyshevPolynomial.tt_product(i, j, x);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + ti.ToString().PadLeft(14)
-                                   + "  " + tj.ToString().PadLeft(14)
-                                   + "  " + (ti * tj).ToString().PadLeft(14)
-                                   + "  " + titj.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ti.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + tj.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (ti * tj).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + titj.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1199,11 +1199,11 @@ internal class Program
                 fx2 += w[l] * ti * tj * tk;
             }
 
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(2)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1258,13 +1258,13 @@ internal class Program
             j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
             uj = ChebyshevPolynomial.u_polynomial_value(j, x);
             tiuj = ChebyshevPolynomial.tu_product(i, j, x);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + ti.ToString().PadLeft(14)
-                                   + "  " + uj.ToString().PadLeft(14)
-                                   + "  " + (ti * uj).ToString().PadLeft(14)
-                                   + "  " + tiuj.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ti.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uj.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (ti * uj).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + tiuj.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1341,8 +1341,8 @@ internal class Program
         for (e = 0; e <= 10; e++)
         {
             value = ChebyshevPolynomial.u_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1401,10 +1401,10 @@ internal class Program
             x_vec[0] = x;
             fx2 = ChebyshevPolynomial.u_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1509,10 +1509,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.u_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1651,10 +1651,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.u_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1698,9 +1698,9 @@ internal class Program
             fx = ChebyshevPolynomial.u_polynomial(n, n, z);
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -1786,9 +1786,9 @@ internal class Program
 
             q = typeMethods.r8vec_dot_product(n, w, f);
             q_exact = ChebyshevPolynomial.u_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1843,13 +1843,13 @@ internal class Program
             j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
             uj = ChebyshevPolynomial.u_polynomial_value(j, x);
             uiuj = ChebyshevPolynomial.uu_product(i, j, x);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + ui.ToString().PadLeft(14)
-                                   + "  " + uj.ToString().PadLeft(14)
-                                   + "  " + (ui * uj).ToString().PadLeft(14)
-                                   + "  " + uiuj.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ui.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uj.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (ui * uj).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uiuj.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1978,8 +1978,8 @@ internal class Program
         for (e = 0; e <= 10; e++)
         {
             value = ChebyshevPolynomial.v_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2037,10 +2037,10 @@ internal class Program
             x_vec[0] = x;
             double[] fx2 = ChebyshevPolynomial.v_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -2145,10 +2145,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.v_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2280,10 +2280,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.v_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2323,9 +2323,9 @@ internal class Program
             double[] fx = ChebyshevPolynomial.v_polynomial(n, n, z);
             for (int i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -2402,9 +2402,9 @@ internal class Program
 
             double q = typeMethods.r8vec_dot_product(n, w, f);
             double q_exact = ChebyshevPolynomial.v_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2532,8 +2532,8 @@ internal class Program
         for (e = 0; e <= 10; e++)
         {
             value = ChebyshevPolynomial.w_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2591,10 +2591,10 @@ internal class Program
             x_vec[0] = x;
             double[] fx2 = ChebyshevPolynomial.w_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2698,10 +2698,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.w_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2834,10 +2834,10 @@ internal class Program
 
             double fx2 = ChebyshevPolynomial.w_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2879,9 +2879,9 @@ internal class Program
             double[] fx = ChebyshevPolynomial.w_polynomial(n, n, z);
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -2958,9 +2958,9 @@ internal class Program
 
             double q = typeMethods.r8vec_dot_product(n, w, f);
             double q_exact = ChebyshevPolynomial.w_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

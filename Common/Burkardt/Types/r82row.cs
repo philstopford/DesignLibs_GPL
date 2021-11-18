@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -196,17 +197,19 @@ public static partial class typeMethods
                 break;
             }
 
-            if (a[0 + i * 2] < a[0 + 0 * 2] ||
-                Math.Abs(a[0 + i * 2] - a[0 + 0 * 2]) <= double.Epsilon && a[1 + i * 2] < a[1 + 0 * 2])
+            if (!(a[0 + i * 2] < a[0 + 0 * 2]) && (!(Math.Abs(a[0 + i * 2] - a[0 + 0 * 2]) <= double.Epsilon) ||
+                                                   !(a[1 + i * 2] < a[1 + 0 * 2])))
             {
-                order = i switch
-                {
-                    2 => 4,
-                    _ => 3
-                };
-
-                break;
+                continue;
             }
+
+            order = i switch
+            {
+                2 => 4,
+                _ => 3
+            };
+
+            break;
         }
 
         //
@@ -222,12 +225,15 @@ public static partial class typeMethods
 
             if (order == 1)
             {
-                if (a[0 + i * 2] < a[0 + (i - 1) * 2] ||
-                    Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= double.Epsilon && a[1 + i * 2] < a[1 + (i - 1) * 2])
+                if (!(a[0 + i * 2] < a[0 + (i - 1) * 2]) &&
+                    (!(Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= double.Epsilon) ||
+                     !(a[1 + i * 2] < a[1 + (i - 1) * 2])))
                 {
-                    order = -1;
-                    break;
+                    continue;
                 }
+
+                order = -1;
+                break;
             }
             else if (order == 2)
             {
@@ -245,12 +251,15 @@ public static partial class typeMethods
             }
             else if (order == 3)
             {
-                if (a[0 + (i - 1) * 2] < a[0 + i * 2] ||
-                    Math.Abs(a[0 + (i - 1) * 2] - a[0 + i * 2]) <= double.Epsilon && a[1 + (i - 1) * 2] < a[1 + i * 2])
+                if (!(a[0 + (i - 1) * 2] < a[0 + i * 2]) &&
+                    (!(Math.Abs(a[0 + (i - 1) * 2] - a[0 + i * 2]) <= double.Epsilon) ||
+                     !(a[1 + (i - 1) * 2] < a[1 + i * 2])))
                 {
-                    order = -1;
-                    break;
+                    continue;
                 }
+
+                order = -1;
+                break;
             }
             else
             {
@@ -591,9 +600,9 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(8)
-                                   + ": " + a[0 + j * 2].ToString().PadLeft(14)
-                                   + "  " + a[1 + j * 2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + ": " + a[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + a[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -664,9 +673,9 @@ public static partial class typeMethods
         {
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + a[0 + i * 2].ToString().PadLeft(14)
-                                       + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
         else
@@ -677,31 +686,31 @@ public static partial class typeMethods
                 {
                     for (i = 0; i < max_print - 2; i++)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                               + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     }
 
                     Console.WriteLine("  ........  ..............  ..............");
                     i = n - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                           + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 }
                 default:
                 {
                     for (i = 0; i < max_print - 1; i++)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                               + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     }
 
                     i = max_print - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + ": " + a[0 + i * 2].ToString().PadLeft(14)
-                                           + "  " + a[1 + i * 2].ToString().PadLeft(14)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + ": " + a[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                            + "  " + "...more entries...");
                     break;
                 }
@@ -878,12 +887,9 @@ public static partial class typeMethods
         //    On output, the array has been sorted.
         //
     {
-        int LEVEL_MAX = 30;
+        const int LEVEL_MAX = 30;
 
-        int base_;
         int l_segment = 0;
-        int level;
-        int n_segment;
         int[] rsave = new int[LEVEL_MAX];
         int r_segment = 0;
 
@@ -898,10 +904,10 @@ public static partial class typeMethods
                 return;
         }
 
-        level = 1;
+        int level = 1;
         rsave[level - 1] = n + 1;
-        base_ = 1;
-        n_segment = n;
+        int base_ = 1;
+        int n_segment = n;
 
         while (0 < n_segment)
         {

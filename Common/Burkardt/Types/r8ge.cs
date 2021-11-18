@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -1050,12 +1051,14 @@ public static partial class typeMethods
                 {
                     k = pivot[j - 1];
 
-                    if (k != j)
+                    if (k == j)
                     {
-                        temp = b[k - 1];
-                        b[k - 1] = b[j - 1];
-                        b[j - 1] = temp;
+                        continue;
                     }
+
+                    temp = b[k - 1];
+                    b[k - 1] = b[j - 1];
+                    b[j - 1] = temp;
                 }
 
                 break;
@@ -1073,12 +1076,14 @@ public static partial class typeMethods
                 {
                     k = pivot[i - 1];
 
-                    if (k != i)
+                    if (k == i)
                     {
-                        temp = x[k - 1];
-                        x[k - 1] = x[i - 1];
-                        x[i - 1] = temp;
+                        continue;
                     }
+
+                    temp = x[k - 1];
+                    x[k - 1] = x[i - 1];
+                    x[i - 1] = temp;
                 }
 
                 for (i = 0; i < n; i++)
@@ -1127,12 +1132,14 @@ public static partial class typeMethods
                 {
                     k = pivot[i - 1];
 
-                    if (k != i)
+                    if (k == i)
                     {
-                        temp = x[k - 1];
-                        x[k - 1] = x[i - 1];
-                        x[i - 1] = temp;
+                        continue;
                     }
+
+                    temp = x[k - 1];
+                    x[k - 1] = x[i - 1];
+                    x[i - 1] = temp;
                 }
 
                 break;
@@ -1411,12 +1418,14 @@ public static partial class typeMethods
 
                     k = pivot[j - 1];
 
-                    if (k != j)
+                    if (k == j)
                     {
-                        temp = b[k - 1];
-                        b[k - 1] = b[j - 1];
-                        b[j - 1] = temp;
+                        continue;
                     }
+
+                    temp = b[k - 1];
+                    b[k - 1] = b[j - 1];
+                    b[j - 1] = temp;
                 }
 
                 break;
@@ -1649,11 +1658,13 @@ public static partial class typeMethods
             int i;
             for (i = j; i < m; i++)
             {
-                if (pivot_value < Math.Abs(u[i + j * m]))
+                if (!(pivot_value < Math.Abs(u[i + j * m])))
                 {
-                    pivot_value = Math.Abs(u[i + j * m]);
-                    pivot_row = i;
+                    continue;
                 }
+
+                pivot_value = Math.Abs(u[i + j * m]);
+                pivot_row = i;
             }
 
             //
@@ -1931,7 +1942,7 @@ public static partial class typeMethods
             string cout = "  Col:    ";
             for (int j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -1948,10 +1959,10 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(5) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  ";
                 for (int j = j2lo; j <= j2hi; j++)
                 {
-                    cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(12) + "  ";
+                    cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -2293,12 +2304,14 @@ public static partial class typeMethods
 
                     l = pivot[k - 1];
 
-                    if (l != k)
+                    if (l == k)
                     {
-                        t = x[l - 1];
-                        x[l - 1] = x[k - 1];
-                        x[k - 1] = t;
+                        continue;
                     }
+
+                    t = x[l - 1];
+                    x[l - 1] = x[k - 1];
+                    x[k - 1] = t;
                 }
 
                 break;
@@ -2380,11 +2393,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -2437,19 +2452,21 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
                 }
             }
         }
@@ -3052,13 +3069,14 @@ public static partial class typeMethods
                 }
             }
 
-            if (pivot[k - 1] != k)
+            if (pivot[k - 1] == k)
             {
-                for (i = 1; i <= n; i++)
-                {
-                    (b[i - 1 + (k - 1) * n], b[i - 1 + (pivot[k - 1] - 1) * n]) = (b[i - 1 + (pivot[k - 1] - 1) * n], b[i - 1 + (k - 1) * n]);
-                }
+                continue;
+            }
 
+            for (i = 1; i <= n; i++)
+            {
+                (b[i - 1 + (k - 1) * n], b[i - 1 + (pivot[k - 1] - 1) * n]) = (b[i - 1 + (pivot[k - 1] - 1) * n], b[i - 1 + (k - 1) * n]);
             }
 
         }
@@ -3126,11 +3144,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -3177,17 +3197,19 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
-
-                    x[i - 1] += t * x[jcol - 1];
+                    continue;
                 }
+
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                x[i - 1] += t * x[jcol - 1];
             }
         }
 
@@ -3271,11 +3293,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -3322,17 +3346,19 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
-
-                    x[i - 1] += t * x[jcol - 1];
+                    continue;
                 }
+
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                x[i - 1] += t * x[jcol - 1];
             }
         }
 
@@ -3413,11 +3439,13 @@ public static partial class typeMethods
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -3470,19 +3498,21 @@ public static partial class typeMethods
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        b[i - 1 + j * n] += t * b[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    b[i - 1 + j * n] += t * b[jcol - 1 + j * n];
                 }
             }
         }
@@ -3719,12 +3749,14 @@ public static partial class typeMethods
 
                     l = pivot[(k - 1 + pivotIndex) % pivot.Length];
 
-                    if (l != k)
+                    if (l == k)
                     {
-                        t = x[l - 1];
-                        x[l - 1] = x[k - 1];
-                        x[k - 1] = t;
+                        continue;
                     }
+
+                    t = x[l - 1];
+                    x[l - 1] = x[k - 1];
+                    x[k - 1] = t;
 
                 }
 
@@ -4067,30 +4099,34 @@ public static partial class typeMethods
         {
             for (j = 0; j < n; j++)
             {
-                if (i != j)
+                if (i == j)
                 {
-                    if (a[i + j * n] != 0.0)
-                    {
-                        k += 1;
-                        switch (ija[i])
-                        {
-                            case 0:
-                            {
-                                int l;
-                                for (l = im; l <= i; l++)
-                                {
-                                    ija[l] = k;
-                                }
+                    continue;
+                }
 
-                                im = i + 1;
-                                break;
-                            }
+                if (a[i + j * n] == 0.0)
+                {
+                    continue;
+                }
+
+                k += 1;
+                switch (ija[i])
+                {
+                    case 0:
+                    {
+                        int l;
+                        for (l = im; l <= i; l++)
+                        {
+                            ija[l] = k;
                         }
 
-                        ija[k] = j;
-                        sa[k] = a[i + j * n];
+                        im = i + 1;
+                        break;
                     }
                 }
+
+                ija[k] = j;
+                sa[k] = a[i + j * n];
             }
         }
 
@@ -4151,12 +4187,14 @@ public static partial class typeMethods
             int j;
             for (j = 0; j < n; j++)
             {
-                if (i != j)
+                if (i == j)
                 {
-                    if (a[i + j * n] != 0.0)
-                    {
-                        nz += 1;
-                    }
+                    continue;
+                }
+
+                if (a[i + j * n] != 0.0)
+                {
+                    nz += 1;
                 }
             }
         }
@@ -4329,7 +4367,7 @@ public static partial class typeMethods
 
         double[] a_vm = new double[n];
 
-        int i = 1;
+        const int i = 1;
         for (j = 0; j < n; j++)
         {
             a_vm[j] = a_ge[i + j * m];
@@ -4507,7 +4545,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout += (i - 1).ToString().PadLeft(7) + "       ";
+                cout += (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -4525,12 +4563,12 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout = (j - 1).ToString().PadLeft(5) + ":";
+                cout = (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {
                     i = i2lo - 1 + i2;
-                    cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(14);
+                    cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -4640,11 +4678,13 @@ public static partial class typeMethods
             int i;
             for (i = j + 1; i <= m; i++)
             {
-                if (temp < Math.Abs(a[i - 1 + (j - 1) * m]))
+                if (!(temp < Math.Abs(a[i - 1 + (j - 1) * m])))
                 {
-                    temp = Math.Abs(a[i - 1 + (j - 1) * m]);
-                    jp = i;
+                    continue;
                 }
+
+                temp = Math.Abs(a[i - 1 + (j - 1) * m]);
+                jp = i;
             }
 
             pivot[j - 1] = jp;

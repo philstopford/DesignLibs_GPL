@@ -174,7 +174,7 @@ public static class Fejer2
             switch (order)
             {
                 case > 2:
-                    p = 2.0 * ((order + 1) / 2) - 1.0;
+                    p = 2.0 * ((double)(order + 1) / 2) - 1.0;
                     w[i - 1] -= Math.Cos((p + 1.0) * theta[i - 1]) / p;
                     break;
             }
@@ -319,7 +319,7 @@ public static class Fejer2
                         w[i] -= 2.0 *  Math.Cos ( 2.0 * j * theta )
                                 / (4 * j * j - 1);
                     }
-                    p = 2.0 * (( n + 1 ) / 2) - 1.0;
+                    p = 2.0 * ((double)( n + 1 ) / 2) - 1.0;
                     w[i] -= Math.Cos ( ( p + 1.0 ) * theta ) / p;
                 }
                 for ( i = 0; i < n; i++ )
@@ -526,7 +526,7 @@ public static class Fejer2
                                     / (4 * j * j - 1);
                     }
 
-                    p = 2.0 * ((n + 1) / 2) - 1.0;
+                    p = 2.0 * ((double)(n + 1) / 2) - 1.0;
                     w[i - 1] -= Math.Cos((p + 1.0) * theta) / p;
                 }
 

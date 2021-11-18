@@ -1,7 +1,6 @@
 ﻿using System;
 using Burkardt.PDFLib;
 using Burkardt.Types;
-using Burkardt.Uniform;
 
 namespace Burkardt.DREAM;
 

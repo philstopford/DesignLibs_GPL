@@ -1250,7 +1250,7 @@ public static partial class typeMethods
             {
                 isgn = r8vec2_compare(n, a1, a2, i, j);
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -1326,7 +1326,7 @@ public static partial class typeMethods
             {
                 isgn = -r8vec2_compare(n, a1, a2, i, j);
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -1454,14 +1454,14 @@ public static partial class typeMethods
                 if (j < ir)
                 {
                     if (x[indx[j - 1]] < x[indx[j]] ||
-                        x[indx[j - 1]] == x[indx[j]] && y[indx[j - 1]] < y[indx[j]])
+                        Math.Abs(x[indx[j - 1]] - x[indx[j]]) <= double.Epsilon && y[indx[j - 1]] < y[indx[j]])
                     {
                         j += 1;
                     }
                 }
 
                 if (xval < x[indx[j - 1]] ||
-                    xval == x[indx[j - 1]] && yval < y[indx[j - 1]])
+                    Math.Abs(xval - x[indx[j - 1]]) <= double.Epsilon && yval < y[indx[j - 1]])
                 {
                     indx[i - 1] = indx[j - 1];
                     i = j;
@@ -1537,13 +1537,15 @@ public static partial class typeMethods
 
         for (itest = 1; itest < n; itest++)
         {
-            if (a1[itest] != a1[unique_num - 1] ||
-                a2[itest] != a2[unique_num - 1])
+            if (!(Math.Abs(a1[itest] - a1[unique_num - 1]) > double.Epsilon) &&
+                !(Math.Abs(a2[itest] - a2[unique_num - 1]) > double.Epsilon))
             {
-                a1[unique_num] = a1[itest];
-                a2[unique_num] = a2[itest];
-                unique_num += 1;
+                continue;
             }
+
+            a1[unique_num] = a1[itest];
+            a2[unique_num] = a2[itest];
+            unique_num += 1;
         }
     }
 
@@ -1612,11 +1614,14 @@ public static partial class typeMethods
 
         for (itest = 2; itest <= n; itest++)
         {
-            if (a1[itest - 2] != a1[itest - 1] || a2[itest - 2] != a2[itest - 1])
+            if (!(Math.Abs(a1[itest - 2] - a1[itest - 1]) > double.Epsilon) &&
+                !(Math.Abs(a2[itest - 2] - a2[itest - 1]) > double.Epsilon))
             {
-                unique_num += 1;
-                indx[unique_num - 1] = itest;
+                continue;
             }
+
+            unique_num += 1;
+            indx[unique_num - 1] = itest;
         }
     }
 
@@ -2155,12 +2160,7 @@ public static partial class typeMethods
             //
             //  Take the nearest.
             //
-            if (Math.Abs(value - a[lo - 1]) < Math.Abs(value - a[hi - 1]))
-            {
-                return lo;
-            }
-
-            return hi;
+            return Math.Abs(value - a[lo - 1]) < Math.Abs(value - a[hi - 1]) ? lo : hi;
         }
         //
         //  A descending sorted vector A.
@@ -2204,12 +2204,7 @@ public static partial class typeMethods
         //
         //  Take the nearest.
         //
-        if (Math.Abs(value - a[lo - 1]) < Math.Abs(value - a[hi - 1]))
-        {
-            return lo;
-        }
-
-        return hi;
+        return Math.Abs(value - a[lo - 1]) < Math.Abs(value - a[hi - 1]) ? lo : hi;
     }
 
     public static void r8vec_sorted_range(int n, double[] r, double r_lo, double r_hi,
@@ -2305,7 +2300,7 @@ public static partial class typeMethods
             //
             j1 = 0;
             j2 = n - 1;
-            i1 = (j1 + j2 - 1) / 2;
+            i1 = (j2 - 1) / 2;
             i2 = i1 + 1;
 
             for (;;)
@@ -2382,15 +2377,17 @@ public static partial class typeMethods
             }
         }
 
-        if (r_hi < r[i_hi])
+        if (!(r_hi < r[i_hi]))
         {
-            i_hi -= 1;
-            i_lo = i_hi switch
-            {
-                < 0 => i_hi + 1,
-                _ => i_lo
-            };
+            return;
         }
+
+        i_hi -= 1;
+        i_lo = i_hi switch
+        {
+            < 0 => i_hi + 1,
+            _ => i_lo
+        };
     }
 
     public static void r8vec_sorted_split(int n, double[] a, double split, ref int i_lt,
@@ -2495,11 +2492,13 @@ public static partial class typeMethods
 
         for (i = i_lt + 1; i <= n; i++)
         {
-            if (split < a[i - 1])
+            if (!(split < a[i - 1]))
             {
-                i_gt = i;
-                return;
+                continue;
             }
+
+            i_gt = i;
+            return;
         }
 
         i_gt = n + 1;

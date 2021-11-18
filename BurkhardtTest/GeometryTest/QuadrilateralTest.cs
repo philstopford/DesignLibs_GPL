@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Quadrilateral;
 using Burkardt.Types;
@@ -204,11 +205,11 @@ public static class QuadrilateralTest
 
             dist = Geometry.quad_point_dist_2d(q, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12)
-                                   + "  " + inside.ToString().PadLeft(1)
-                                   + "  " + dist_signed.ToString().PadLeft(12)
-                                   + "  " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + inside.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                                   + "  " + dist_signed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

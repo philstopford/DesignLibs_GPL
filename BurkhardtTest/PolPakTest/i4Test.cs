@@ -44,9 +44,9 @@ public static class i4Test
                 cnk = typeMethods.i4_choose(n, k);
 
                 Console.WriteLine("  "
-                                  + n.ToString().PadLeft(6) + "  "
-                                  + k.ToString().PadLeft(6) + "  "
-                                  + cnk.ToString().PadLeft(6) + "");
+                                  + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
             }
         }
 
@@ -153,9 +153,9 @@ public static class i4Test
             fn2 = typeMethods.i4_factorial(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + fn.ToString().PadLeft(12) + "  "
-                              + fn2.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fn2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -208,9 +208,9 @@ public static class i4Test
             fn2 = typeMethods.i4_factorial2(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + fn.ToString().PadLeft(8) + "  "
-                              + fn2.ToString().PadLeft(8) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fn2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -254,8 +254,8 @@ public static class i4Test
             i4 = i4_test[i];
             l = typeMethods.i4_is_fibonacci(i4);
 
-            Console.WriteLine(" " + i4.ToString().PadLeft(4)
-                                  + "  " + l.ToString().PadLeft(1) + "");
+            Console.WriteLine(" " + i4.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                  + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
 
     }
@@ -296,8 +296,8 @@ public static class i4Test
         {
             l = typeMethods.i4_is_triangular(i);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + l.ToString().PadLeft(1) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
 
     }
@@ -357,9 +357,9 @@ public static class i4Test
             c2 = typeMethods.i4_partition_distinct_count(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(10) + "  "
-                              + c.ToString().PadLeft(10) + "  "
-                              + c2.ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + c2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
 
@@ -402,9 +402,9 @@ public static class i4Test
         {
             typeMethods.i4_to_triangle_lower(k, ref i, ref j);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "  " + i.ToString().PadLeft(4)
-                                   + "  " + j.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
     }

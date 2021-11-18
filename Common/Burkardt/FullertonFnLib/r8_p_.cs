@@ -190,9 +190,9 @@ public static partial class FullertonLib
 
         switch (ax)
         {
-            case <= 0.0 when r8_aint(ax) == ax:
+            case <= 0.0 when Math.Abs(r8_aint(ax) - ax) <= double.Epsilon:
             {
-                if (0.0 < a || r8_aint(a) != a)
+                if (0.0 < a || Math.Abs(r8_aint(a) - a) > double.Epsilon)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8_POCH - Fatal error!");
@@ -240,7 +240,7 @@ public static partial class FullertonLib
             //
             //  A + X is not zero or a negative integer.
             //
-            case <= 0.0 when r8_aint(a) == a:
+            case <= 0.0 when Math.Abs(r8_aint(a) - a) <= double.Epsilon:
                 value = 0.0;
                 return value;
         }
@@ -249,7 +249,7 @@ public static partial class FullertonLib
         //
         //  x is a small non-positive integer, presummably a common case.
         //
-        if (n == x && n <= 20)
+        if (Math.Abs(n - x) <= double.Epsilon && n <= 20)
         {
             value = 1.0;
             for (i = 1; i <= n; i++)
@@ -526,7 +526,7 @@ public static partial class FullertonLib
             value = (value - binv) / (1.0 + x * binv);
         }
 
-        if (bp == a)
+        if (Math.Abs(bp - a) <= double.Epsilon)
         {
             return value;
         }

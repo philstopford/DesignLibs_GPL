@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.Latin;
-using Burkardt.Table;
 using Burkardt.Types;
 
 namespace LatinCoverTest;

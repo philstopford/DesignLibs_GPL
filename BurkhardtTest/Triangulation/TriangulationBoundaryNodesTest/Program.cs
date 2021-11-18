@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.TriangulationNS;
@@ -187,10 +186,10 @@ internal class Program
                     switch (node_boundary[node])
                     {
                         case true:
-                            Console.WriteLine("  " + node2.ToString().PadLeft(8)
-                                                   + "  " + node.ToString().PadLeft(8)
-                                                   + "  " + node_xy[0 + node * 2].ToString().PadLeft(14)
-                                                   + "  " + node_xy[1 + node * 2].ToString().PadLeft(14) + "");
+                            Console.WriteLine("  " + node2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                                   + "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                                   + "  " + node_xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                                   + "  " + node_xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                             node2 += 1;
                             break;
                     }

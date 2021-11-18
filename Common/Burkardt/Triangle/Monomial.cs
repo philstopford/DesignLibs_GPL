@@ -48,11 +48,9 @@ public static class Monomial
         //
     {
         int i;
-        int k;
-        double value = 0;
 
-        value = 1.0;
-        k = ex;
+        double value = 1.0;
+        int k = ex;
 
         for ( i = 1; i <= ey; i++ )
         {

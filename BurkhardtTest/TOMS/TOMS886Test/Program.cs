@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TOMS886Test;
+﻿namespace TOMS886Test;
 
 internal class Program
 {

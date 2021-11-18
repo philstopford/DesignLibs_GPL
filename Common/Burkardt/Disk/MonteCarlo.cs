@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.PDFLib;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

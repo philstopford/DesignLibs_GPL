@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.TriangulationNS;
 
-public static partial class Conversion
+public static class Conversion
 {
     public static int[] triangulation_order6_to_order3(int triangle_num1, int[] triangle_node1)
 
@@ -57,30 +57,21 @@ public static partial class Conversion
         //    triangulation.  Here, TRIANGLE_NUM2 = 4 * TRIANGLE_NUM1.
         //
     {
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
-        int triangle_num2;
         int tri1;
-        int tri2;
-        int[] triangle_node2;
 
-        triangle_num2 = 4 * triangle_num1;
-        triangle_node2 = new int[3 * triangle_num2];
+        int triangle_num2 = 4 * triangle_num1;
+        int[] triangle_node2 = new int[3 * triangle_num2];
 
-        tri2 = 0;
+        int tri2 = 0;
 
         for (tri1 = 0; tri1 < triangle_num1; tri1++)
         {
-            n1 = triangle_node1[0 + tri1 * 6];
-            n2 = triangle_node1[1 + tri1 * 6];
-            n3 = triangle_node1[2 + tri1 * 6];
-            n4 = triangle_node1[3 + tri1 * 6];
-            n5 = triangle_node1[4 + tri1 * 6];
-            n6 = triangle_node1[5 + tri1 * 6];
+            int n1 = triangle_node1[0 + tri1 * 6];
+            int n2 = triangle_node1[1 + tri1 * 6];
+            int n3 = triangle_node1[2 + tri1 * 6];
+            int n4 = triangle_node1[3 + tri1 * 6];
+            int n5 = triangle_node1[4 + tri1 * 6];
+            int n6 = triangle_node1[5 + tri1 * 6];
 
             triangle_node2[0 + tri2 * 3] = n1;
             triangle_node2[1 + tri2 * 3] = n4;

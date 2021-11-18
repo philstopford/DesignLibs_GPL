@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Uniform;
 
 namespace Burkardt.AppliedStatistics;
 

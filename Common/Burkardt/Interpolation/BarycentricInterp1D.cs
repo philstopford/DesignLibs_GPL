@@ -87,7 +87,7 @@ public static class BarycentricInterp1D
 
             for (i = 0; i < ni; i++)
             {
-                if (xi[i] == xd[j])
+                if (Math.Abs(xi[i] - xd[j]) <= double.Epsilon)
                 {
                     exact[i] = j;
                     numer[i] = yd[j];
@@ -197,7 +197,7 @@ public static class BarycentricInterp1D
 
             for (i = 0; i < ni; i++)
             {
-                if (xi[i] == xd[j])
+                if (Math.Abs(xi[i] - xd[j]) <= double.Epsilon)
                 {
                     exact[i] = j;
                     numer[i] = yd[j];
@@ -305,7 +305,7 @@ public static class BarycentricInterp1D
 
             for (i = 0; i < ni; i++)
             {
-                if (xi[i] == xd[j])
+                if (Math.Abs(xi[i] - xd[j]) <= double.Epsilon)
                 {
                     exact[i] = j;
                     numer[i] = yd[j];

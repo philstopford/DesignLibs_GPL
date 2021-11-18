@@ -40,24 +40,21 @@ public static partial class Triangulation
         //
     {
         int element;
-        double element_area;
         double[] element_xy = new double[2 * 3];
-        int j;
-        int nj;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (element = 0; element < element_num; element++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
-                nj = element_node[j + element * element_order];
+                int nj = element_node[j + element * element_order];
                 element_xy[0 + j * 2] = node_xy[0 + nj * 2];
                 element_xy[1 + j * 2] = node_xy[1 + nj * 2];
             }
 
-            element_area = 0.5 * (
+            double element_area = 0.5 * (
                 element_xy[0 + 0 * 2] * (element_xy[1 + 1 * 2] - element_xy[1 + 2 * 2]) +
                 element_xy[0 + 1 * 2] * (element_xy[1 + 2 * 2] - element_xy[1 + 0 * 2]) +
                 element_xy[0 + 2 * 2] * (element_xy[1 + 0 * 2] - element_xy[1 + 1 * 2]));
@@ -111,19 +108,17 @@ public static partial class Triangulation
         //    Output, double TRIANGULATION_AREAS, the area of the triangulation.
         //
     {
-        int j;
-        int nj;
         double[] t_xy = new double[2 * 3];
         int triangle;
-        double triangulation_area;
 
-        triangulation_area = 0.0;
+        double triangulation_area = 0.0;
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
-                nj = triangle_node[j + triangle * triangle_order];
+                int nj = triangle_node[j + triangle * triangle_order];
                 t_xy[0 + j * 2] = node_xy[0 + nj * 2];
                 t_xy[1 + j * 2] = node_xy[1 + nj * 2];
             }

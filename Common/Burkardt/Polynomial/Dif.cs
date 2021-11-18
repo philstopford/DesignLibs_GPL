@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
@@ -809,13 +810,13 @@ public static class Dif
         Console.WriteLine(title + "");
         Console.WriteLine("");
         Console.WriteLine("  p(x) =                       "
-                          + diftab[0].ToString().PadLeft(14) + "");
+                          + diftab[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         for (i = 1; i < ntab; i++)
         {
             Console.WriteLine("       + ( x - "
-                              + xtab[i - 1].ToString().PadLeft(10) + ") * ( "
-                              + diftab[i].ToString().PadLeft(14) + "");
+                              + xtab[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + ") * ( "
+                              + diftab[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         string cout = "        ";

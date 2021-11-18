@@ -86,7 +86,7 @@ internal class Program
         {
             title = Problem00.p00_title(problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  \"" + title + "\".");
         }
     }
@@ -135,7 +135,7 @@ internal class Program
         {
             exact = Problem00.p00_exact(ref data, problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + exact.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -199,8 +199,8 @@ internal class Program
 
                 error = Math.Abs(exact - estimate);
 
-                Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                       + "  " + order.ToString().PadLeft(8)
+                Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + exact.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -283,9 +283,9 @@ internal class Program
 
                     error = Math.Abs(exact - estimate);
 
-                    Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                           + "  " + h.ToString().PadLeft(10)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -350,11 +350,11 @@ internal class Program
 
                 error = Math.Abs(exact - estimate);
 
-                Console.WriteLine("  " + m.ToString().PadLeft(8)
-                                       + "  " + order.ToString().PadLeft(8)
-                                       + "  " + estimate.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + estimate.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -418,8 +418,8 @@ internal class Program
 
                 error = Math.Abs(exact - estimate);
 
-                Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                       + "  " + order.ToString().PadLeft(8)
+                Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + exact.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");

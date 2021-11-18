@@ -1,9 +1,4 @@
-﻿using System;
-using Burkardt.DREAM;
-using Burkardt.PDFLib;
-using Burkardt.Types;
-
-namespace DREAMTest;
+﻿namespace DREAMTest;
 
 internal class Program
 {

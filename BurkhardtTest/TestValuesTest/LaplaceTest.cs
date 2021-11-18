@@ -47,9 +47,9 @@ public static class LaplaceTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(8) + "  "
-                              + beta.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

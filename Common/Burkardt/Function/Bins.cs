@@ -363,7 +363,7 @@ public static class Bins
                 return bin;
         }
 
-        if (b == a)
+        if (Math.Abs(b - a) <= double.Epsilon)
         {
             bin = 1;
             return bin;
@@ -580,7 +580,7 @@ public static class Bins
                 return;
         }
 
-        if (b == a)
+        if (Math.Abs(b - a) <= double.Epsilon)
         {
             cmin = -typeMethods.r8_huge();
             cmax = typeMethods.r8_huge();

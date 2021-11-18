@@ -114,11 +114,13 @@ public static partial class typeMethods
 
         for (get = 1; get <= n2; get++)
         {
-            if (Math.Abs(x2[get - 1] - xval) > double.Epsilon)
+            if (!(Math.Abs(x2[get - 1] - xval) > double.Epsilon))
             {
-                put += 1;
-                x2[put - 1] = x2[get - 1];
+                continue;
             }
+
+            put += 1;
+            x2[put - 1] = x2[get - 1];
         }
 
         //
@@ -219,7 +221,7 @@ public static partial class typeMethods
 
             switch (i)
             {
-                case > 1 when x[indx[i - 1] - 1] == x3[n3 - 1]:
+                case > 1 when Math.Abs(x[indx[i - 1] - 1] - x3[n3 - 1]) <= double.Epsilon:
                     continue;
                 default:
                     n3 += 1;
@@ -302,30 +304,32 @@ public static partial class typeMethods
 
         r8vec_index_search(n2, x2, indx2, xval, ref less, ref equal, ref more);
 
-        if (equal != 0)
+        if (equal == 0)
         {
-            int j = indx2[equal - 1];
-            int i;
-            for (i = j; i <= n2 - 1; i++)
-            {
-                x2[i - 1] = x[i];
-            }
-
-            for (i = equal; i <= n2 - 1; i++)
-            {
-                indx2[i - 1] = indx2[i];
-            }
-
-            for (i = 1; i <= n2 - 1; i++)
-            {
-                if (j < indx2[i - 1])
-                {
-                    indx2[i - 1] -= 1;
-                }
-            }
-
-            n2 -= 1;
+            return;
         }
+
+        int j = indx2[equal - 1];
+        int i;
+        for (i = j; i <= n2 - 1; i++)
+        {
+            x2[i - 1] = x[i];
+        }
+
+        for (i = equal; i <= n2 - 1; i++)
+        {
+            indx2[i - 1] = indx2[i];
+        }
+
+        for (i = 1; i <= n2 - 1; i++)
+        {
+            if (j < indx2[i - 1])
+            {
+                indx2[i - 1] -= 1;
+            }
+        }
+
+        n2 -= 1;
     }
 
     public static void r8vec_index_insert(ref int n, double[] x, int[] indx, double xval)
@@ -791,7 +795,7 @@ public static partial class typeMethods
             //
             j1 = 0;
             j2 = n - 1;
-            i1 = (j1 + j2 - 1) / 2;
+            i1 = (j2 - 1) / 2;
             i2 = i1 + 1;
 
             for (;;)
@@ -868,15 +872,17 @@ public static partial class typeMethods
             }
         }
 
-        if (r_hi < r[indx[i_hi]])
+        if (!(r_hi < r[indx[i_hi]]))
         {
-            i_hi -= 1;
-            i_lo = i_hi switch
-            {
-                < 0 => i_hi + 1,
-                _ => i_lo
-            };
+            return;
         }
+
+        i_hi -= 1;
+        i_lo = i_hi switch
+        {
+            < 0 => i_hi + 1,
+            _ => i_lo
+        };
     }
 
     public static void r8vec_indexed_heap_d(int n, double[] a, ref int[] indx)

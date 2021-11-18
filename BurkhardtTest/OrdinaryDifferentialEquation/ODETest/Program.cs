@@ -95,9 +95,9 @@ internal class Program
         y[0] = 1.0;
         y[1] = 0.0;
 
-        Console.WriteLine("  " + t.ToString().PadLeft(8)
-                               + "  " + y[0].ToString().PadLeft(14)
-                               + "  " + y[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         work = new double[100 + 21 * neqn];
 
@@ -115,9 +115,9 @@ internal class Program
                 break;
             }
 
-            Console.WriteLine("  " + t.ToString().PadLeft(8)
-                                   + "  " + y[0].ToString().PadLeft(14)
-                                   + "  " + y[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -176,9 +176,9 @@ internal class Program
         y[0] = 1.0;
         y[1] = 0.0;
 
-        Console.WriteLine("  " + t.ToString().PadLeft(8)
-                               + "  " + y[0].ToString().PadLeft(14)
-                               + "  " + y[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         work = new double[100 + 21 * neqn];
 
@@ -196,9 +196,9 @@ internal class Program
                 break;
             }
 
-            Console.WriteLine("  " + t.ToString().PadLeft(8)
-                                   + "  " + y[0].ToString().PadLeft(14)
-                                   + "  " + y[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

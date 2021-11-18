@@ -292,7 +292,7 @@ public static class Shape
         Console.WriteLine("");
         for (j = 0; j < point_num; j++)
         {
-            cout = "  " + (j + 1).ToString().PadLeft(8) + "  ";
+            cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             for (i = 0; i < DIM_NUM; i++)
             {
                 cout += point_coord[i + j * DIM_NUM].ToString("0.########").PadLeft(16);
@@ -309,7 +309,7 @@ public static class Shape
         cout = "";
         for (j = 1; j <= face_order_max; j++)
         {
-            cout += j.ToString().PadLeft(8);
+            cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -319,12 +319,12 @@ public static class Shape
 
         for (j = 0; j < face_num; j++)
         {
-            cout = "  " + (j + 1).ToString().PadLeft(8)
-                        + "  " + face_order[j].ToString().PadLeft(8)
+            cout = "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                        + "  " + face_order[j].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                         + "  ";
             for (i = 0; i < face_order[j]; i++)
             {
-                cout += face_point[i + j * face_order_max].ToString().PadLeft(8);
+                cout += face_point[i + j * face_order_max].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);

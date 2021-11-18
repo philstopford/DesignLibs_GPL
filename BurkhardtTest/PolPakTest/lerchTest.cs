@@ -55,11 +55,11 @@ public static class lerchTest
             fx2 = Lerch.lerch ( z, s, a );
 
             Console.WriteLine("  "
-                              + z.ToString().PadLeft(8)   + "  "
-                              + s.ToString().PadLeft(4)   + "  "
-                              + a.ToString().PadLeft(8)   + "  "
-                              + fx.ToString().PadLeft(14)  + "  "
-                              + fx2.ToString().PadLeft(14) + "");
+                              + z.ToString(CultureInfo.InvariantCulture).PadLeft(8)   + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(4)   + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)   + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)  + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

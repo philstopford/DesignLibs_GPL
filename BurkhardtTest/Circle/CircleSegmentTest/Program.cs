@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Burkardt;
 using Burkardt.CircleNS;
 using Burkardt.IO;
 using Burkardt.PolynomialNS;
@@ -98,9 +97,9 @@ internal class Program
         for (i = 0; i <= 10; i++)
         {
             area = Segment.circle_segment_area_from_height(r, h);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
-                                   + "  " + h.ToString().PadLeft(14)
-                                   + "  " + area.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             h /= 2.0;
         }
     }
@@ -154,10 +153,10 @@ internal class Program
             h = 2.0 * r * UniformRNG.r8_uniform_01(ref seed);
             a = Segment.circle_segment_area_from_height(r, h);
             h2 = Segment.circle_segment_height_from_area(r, a);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + a.ToString().PadLeft(12)
-                                   + "  " + h2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -170,10 +169,10 @@ internal class Program
             a = Math.PI * r * r * UniformRNG.r8_uniform_01(ref seed);
             h = Segment.circle_segment_height_from_area(r, a);
             a2 = Segment.circle_segment_area_from_height(r, h);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + a.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + a2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -261,8 +260,8 @@ internal class Program
             Files.filename_inc(ref boundary_filename);
             for (i = 0; i <= an_num; i++)
             {
-                boundary_unit.Add("  " + boundary_x[i].ToString().PadLeft(14)
-                                       + "  " + boundary_y[i].ToString().PadLeft(14) + "");
+                boundary_unit.Add("  " + boundary_x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + boundary_y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             File.WriteAllLines(boundary_filename, boundary_unit);
@@ -279,8 +278,8 @@ internal class Program
             Files.filename_inc(ref data_filename);
             for (i = 0; i < data_num; i++)
             {
-                data_unit.Add( "  " + data_x[i].ToString().PadLeft(14)
-                                    + "  " + data_y[i].ToString().PadLeft(14) + "");
+                data_unit.Add( "  " + data_x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                    + "  " + data_y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             File.WriteAllLines(data_filename, data_unit);
@@ -367,10 +366,10 @@ internal class Program
             h = 2.0 * r * UniformRNG.r8_uniform_01(ref seed);
             t = Segment.circle_segment_angle_from_height(r, h);
             h2 = Segment.circle_segment_height_from_angle(r, t);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + t.ToString().PadLeft(12)
-                                   + "  " + h2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -382,10 +381,10 @@ internal class Program
             t = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
             h = Segment.circle_segment_height_from_angle(r, t);
             t2 = Segment.circle_segment_angle_from_height(r, h);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + t.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + t2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + t2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -472,11 +471,11 @@ internal class Program
             area = Segment.circle_segment_area_from_angle(r, theta);
             area_est = 4.0 * typeMethods.i4vec_sum(n, inout) / n;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + omega1.ToString().PadLeft(14)
-                                   + "  " + omega2.ToString().PadLeft(14)
-                                   + "  " + area.ToString().PadLeft(14)
-                                   + "  " + area_est.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + omega1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + omega2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area_est.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -551,25 +550,25 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("         Area          CentroidX    CentroidY");
         Console.WriteLine("");
-        Console.WriteLine("  " + a1.ToString().PadLeft(14)
-                               + "  " + d1[0].ToString().PadLeft(14)
-                               + "  " + d1[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  This only works because the centroid of the height-based circle segment 
         //  is easily transformed to the centroid of the chord based circle segment.
         //
         a2 = Segment.circle_segment_area_from_height(r, h);
         d2 = Segment.circle_segment_centroid_from_height(r, h);
-        Console.WriteLine("  " + a2.ToString().PadLeft(14)
-                               + "  " + d2[1].ToString().PadLeft(14)
-                               + "  " + (-d2[0]).ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + (-d2[0]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         n = 10000;
         a3 = Segment.circle_segment_area_from_sample(r, c, p1, p2, n, ref seed);
         d3 = Segment.circle_segment_centroid_from_sample(r, c, p1, p2, n, ref seed);
-        Console.WriteLine("  " + a3.ToString().PadLeft(14)
-                               + "  " + d3[0].ToString().PadLeft(14)
-                               + "  " + d3[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -635,7 +634,7 @@ internal class Program
             rho1 = i * Math.PI / 6.0;
             p1[0] = c[0] + r * Math.Cos(rho1);
             p1[1] = c[1] + r * Math.Sin(rho1);
-            string cout = i.ToString().PadLeft(2);
+            string cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(2);
             for (j = 0; j <= 12; j++)
             {
                 rho2 = j * Math.PI / 6.0;
@@ -643,7 +642,7 @@ internal class Program
                 p2[1] = c[1] + r * Math.Sin(rho2);
                 alpha = Segment.circle_segment_rotation_from_chord(r, c, p1, p2);
                 t = 6.0 * alpha / Math.PI;
-                cout += "  " + t.ToString().PadLeft(4);
+                cout += "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -724,8 +723,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -757,8 +756,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -790,8 +789,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -861,8 +860,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -884,8 +883,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -907,8 +906,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -930,8 +929,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

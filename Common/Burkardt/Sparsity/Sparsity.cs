@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using Burkardt.Types;
 
 namespace Burkardt.SparsityNS;
@@ -142,7 +141,7 @@ public static class Sparsity
             {
                 if (a[i + j * m] != 0.0)
                 {
-                    data_unit.Add(j.ToString() + "  " + i.ToString());
+                    data_unit.Add(j.ToString(CultureInfo.InvariantCulture) + "  " + i.ToString(CultureInfo.InvariantCulture));
                     nz_num += 1;
                 }
             }
@@ -176,8 +175,8 @@ public static class Sparsity
         command_unit.Add("set title '" + nz_num + " nonzeros for \""
                          + header + "\"'");
         command_unit.Add("set timestamp");
-        command_unit.Add("plot [y=0:" + (n - 1).ToString() + "] [x="
-                         + (m - 1).ToString() + ":0] '"
+        command_unit.Add("plot [y=0:" + (n - 1).ToString(CultureInfo.InvariantCulture) + "] [x="
+                         + (m - 1).ToString(CultureInfo.InvariantCulture) + ":0] '"
                          + data_filename + "' with points pt 5");
 
         File.WriteAllLines(command_filename, command_unit);

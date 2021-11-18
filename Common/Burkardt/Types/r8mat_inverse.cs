@@ -50,12 +50,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         double[] b = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (i < j)

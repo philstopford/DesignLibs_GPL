@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
@@ -169,7 +170,6 @@ public static class QuadratureRule
         vertex_filename = header + "_vertices.txt";
         vertex_unit.Add("-1.0, -1.0, -1.0");
         vertex_unit.Add("+1.0  -1.0  -1.0");
-        ;
         vertex_unit.Add("+1.0  +1.0 -1.0");
         vertex_unit.Add("-1.0  +1.0  -1.0");
         vertex_unit.Add("-1.0  -1.0  -1.0");
@@ -3273,7 +3273,7 @@ public static class QuadratureRule
             string cout = "  Monomial exponents: ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + expon[dim].ToString().PadLeft(2);
+                cout += "  " + expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -3292,10 +3292,10 @@ public static class QuadratureRule
                 cube_rule(a, b, order_1d, ref w, ref xyz);
                 v = Monomial.monomial_value(dim_num, order, expon, xyz);
                 quad = typeMethods.r8vec_dot_product(order, w, v);
-                Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
-                                       + "  " + order_1d[1].ToString().PadLeft(6)
-                                       + "  " + order_1d[2].ToString().PadLeft(6)
-                                       + "  " + quad.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + order_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + order_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + order_1d[2].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             //
@@ -3310,17 +3310,17 @@ public static class QuadratureRule
             cube_rule(a, b, order_1d, ref w, ref xyz);
             v = Monomial.monomial_value(dim_num, order, expon, xyz);
             quad = typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
-                                   + "  " + order_1d[1].ToString().PadLeft(6)
-                                   + "  " + order_1d[2].ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + order_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + order_1d[2].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("");
             quad = Integrals.cube_monomial(a, b, expon);
             Console.WriteLine("  " + " Exact"
                                    + "  " + "      "
                                    + "  " + "      "
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {

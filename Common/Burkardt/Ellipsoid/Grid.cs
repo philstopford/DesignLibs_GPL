@@ -73,14 +73,14 @@ public static class Grid
 
         rmin = typeMethods.r8vec_min(3, r);
 
-        if (r[0] == rmin)
+        if (Math.Abs(r[0] - rmin) <= double.Epsilon)
         {
             h = 2.0 * r[0] / (2 * n + 1);
             ni = n;
             nj = (int)(Math.Ceiling(r[1] / r[0]) * n);
             nk = (int)(Math.Ceiling(r[2] / r[0]) * n);
         }
-        else if (r[1] == rmin)
+        else if (Math.Abs(r[1] - rmin) <= double.Epsilon)
         {
             h = 2.0 * r[1] / (2 * n + 1);
             nj = n;
@@ -246,14 +246,14 @@ public static class Grid
 
         rmin = typeMethods.r8vec_min(3, r);
 
-        if (r[0] == rmin)
+        if (Math.Abs(r[0] - rmin) <= double.Epsilon)
         {
             h = 2.0 * r[0] / (2 * n + 1);
             ni = n;
             nj = (int)(Math.Ceiling(r[1] / r[0]) * n);
             nk = (int)(Math.Ceiling(r[2] / r[0]) * n);
         }
-        else if (r[1] == rmin)
+        else if (Math.Abs(r[1] - rmin) <= double.Epsilon)
         {
             h = 2.0 * r[1] / (2 * n + 1);
             nj = n;

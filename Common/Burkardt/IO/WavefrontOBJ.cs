@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
@@ -54,11 +55,11 @@ public static class WavefrontOBJ
         {
             string cout = "";
             order = face_order[face];
-            cout += "  " + face.ToString().PadLeft(6)
-                         + "  " + order.ToString().PadLeft(6);
+            cout += "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                         + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < order; i++)
             {
-                cout += "  " + face_node[i + face * order_max].ToString().PadLeft(6);
+                cout += "  " + face_node[i + face * order_max].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -102,10 +103,10 @@ public static class WavefrontOBJ
         for (normal = 0; normal < normal_num; normal++)
         {
             string cout = "";
-            cout += "  " + normal.ToString().PadLeft(6);
+            cout += "  " + normal.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + normal_vector[i + normal * 3].ToString().PadLeft(14);
+                cout += "  " + normal_vector[i + normal * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -150,10 +151,10 @@ public static class WavefrontOBJ
         for (node = 0; node < node_num; node++)
         {
             string cout = "";
-            cout += "  " + node.ToString().PadLeft(6);
+            cout += "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + node_xyz[i + node * 3].ToString().PadLeft(14);
+                cout += "  " + node_xyz[i + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -382,12 +383,12 @@ public static class WavefrontOBJ
         {
             string cout = "";
             order = face_order[face];
-            cout += "  " + face.ToString().PadLeft(6)
-                         + "  " + order.ToString().PadLeft(6)
+            cout += "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                         + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                          + "  ";
             for (i = 0; i < order; i++)
             {
-                cout += "  " + vertex_normal[i + face * order_max].ToString().PadLeft(6);
+                cout += "  " + vertex_normal[i + face * order_max].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);

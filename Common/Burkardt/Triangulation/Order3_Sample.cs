@@ -3,7 +3,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.TriangulationNS;
 
-public static partial class Sample
+public static class Sample
 {
     public static void triangulation_order3_sample(int node_num, double[] node_xy,
             int triangle_num, int[] triangle_node, int num_ran, ref int seed,
@@ -55,14 +55,11 @@ public static partial class Sample
         //    belongs.
         //
     {
-        double[] area_cum;
-        double area_total;
         int i;
         int i1;
         int i2;
         int i3;
         int left = 0;
-        double r;
         int right = 0;
         double[] t = new double[2 * 3];
         //
@@ -70,7 +67,7 @@ public static partial class Sample
         //  Build a cumulative area vector.
         //  Convert it to a relative cumulative area vector.
         //
-        area_cum = new double[triangle_num + 1];
+        double[] area_cum = new double[triangle_num + 1];
         area_cum[0] = 0.0;
 
         for (i = 0; i < triangle_num; i++)
@@ -90,7 +87,7 @@ public static partial class Sample
             area_cum[i + 1] = area_cum[i] + typeMethods.triangle_area_2d(t);
         }
 
-        area_total = area_cum[triangle_num];
+        double area_total = area_cum[triangle_num];
 
         for (i = 0; i <= triangle_num; i++)
         {
@@ -108,7 +105,7 @@ public static partial class Sample
         //
         for (i = 0; i < num_ran; i++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             typeMethods.r8vec_bracket(triangle_num + 1, area_cum, r, ref left, ref right);
 

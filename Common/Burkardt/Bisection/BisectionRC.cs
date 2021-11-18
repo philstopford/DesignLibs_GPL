@@ -86,7 +86,7 @@ public static class RC
                     {
                         data.fb = fx;
 
-                        if (typeMethods.r8_sign(data.fa) == typeMethods.r8_sign(data.fb))
+                        if (Math.Abs(typeMethods.r8_sign(data.fa) - typeMethods.r8_sign(data.fb)) <= double.Epsilon)
                         {
                             Console.WriteLine("");
                             Console.WriteLine("BISECTION_RC - Fatal error!");
@@ -100,7 +100,7 @@ public static class RC
                     }
                     default:
                     {
-                        if (typeMethods.r8_sign(fx) == typeMethods.r8_sign(data.fa))
+                        if (Math.Abs(typeMethods.r8_sign(fx) - typeMethods.r8_sign(data.fa)) <= double.Epsilon)
                         {
                             a = data.x_local;
                             data.fa = fx;

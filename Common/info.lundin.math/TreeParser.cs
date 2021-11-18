@@ -313,7 +313,7 @@ public class TreeParser
             tmp = null;
         }
 
-        return str.ToString();
+        return str.ToString(CultureInfo.InvariantCulture);
     }
 
 
@@ -366,7 +366,7 @@ public class TreeParser
             i++;
         }
 
-        return newstr.ToString();
+        return newstr.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -669,7 +669,7 @@ public class TreeParser
             i++;
         }
 
-        return nstr.ToString();
+        return nstr.ToString(CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -782,9 +782,9 @@ public class TreeParser
                     if ((op = getOp(exp, i)) != null)
                     {
                         // (_operator != null && _operator.Equals("&&") && op.Equals("||") ) || 
-                        if (str.Length != 0 && !isTwoArgOp(backTrack(str.ToString())) && operators[op].Precedence >= prec)
+                        if (str.Length != 0 && !isTwoArgOp(backTrack(str.ToString(CultureInfo.InvariantCulture))) && operators[op].Precedence >= prec)
                         {
-                            return str.ToString();
+                            return str.ToString(CultureInfo.InvariantCulture);
                         }
                         str.Append(op);
                         i += op.Length;
@@ -800,7 +800,7 @@ public class TreeParser
             }
         }
 
-        return str.ToString();
+        return str.ToString(CultureInfo.InvariantCulture);
     }
 
 

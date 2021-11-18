@@ -402,18 +402,15 @@ public static class PGMA
                 }
             }
 
-            if (step == 3)
+            typeMethods.s_word_extract_first(line, ref word, ref rest);
+
+            if (typeMethods.s_len_trim(word) == 0)
             {
-                typeMethods.s_word_extract_first(line, ref word, ref rest);
-
-                if (typeMethods.s_len_trim(word) == 0)
-                {
-                    continue;
-                }
-
-                maxg = Convert.ToInt32(word);
-                break;
+                continue;
             }
+
+            maxg = Convert.ToInt32(word);
+            break;
 
         }
     }
@@ -601,7 +598,7 @@ public static class PGMA
         {
             for (i = 0; i < xsize; i++)
             {
-                cout += indexg[gIndex].ToString();
+                cout += indexg[gIndex].ToString(CultureInfo.InvariantCulture);
                 numval++;
                 gIndex++;
 

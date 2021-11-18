@@ -109,11 +109,13 @@ public static partial class typeMethods
             int j;
             for (j = 0; j < i; j++)
             {
-                if (Math.Abs(a[i] - a[j]) <= tol)
+                if (!(Math.Abs(a[i] - a[j]) <= tol))
                 {
-                    unique_num -= 1;
-                    break;
+                    continue;
                 }
+
+                unique_num -= 1;
+                break;
             }
         }
 

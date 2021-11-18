@@ -106,14 +106,14 @@ internal class Program
                 y = TWBRule.twb_rule_y(strength);
                 v = Burkardt.MonomialNS.Monomial.monomial_value_2d(n, ex, ey, x, y);
                 q = typeMethods.r8vec_dot_product(n, w, v);
-                Console.WriteLine("  " + strength.ToString().PadLeft(6)
-                                       + "  " + n.ToString().PadLeft(6)
-                                       + "  " + q.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + strength.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
 
             q = TriMonomial.triangle_unit_monomial(ex, ey);
-            Console.WriteLine("   Exact          " + q.ToString().PadLeft(14) + "");
+            Console.WriteLine("   Exact          " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (ex < degree)
             {

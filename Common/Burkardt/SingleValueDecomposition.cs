@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
@@ -223,7 +224,6 @@ public static class SingleValueDecomposition
             Console.WriteLine("");
             Console.WriteLine("SINGULAR_VECTORS - Warning:");
             Console.WriteLine("  DSVDC returned nonzero INFO = " + info + "");
-            ;
             return;
         }
 
@@ -239,8 +239,8 @@ public static class SingleValueDecomposition
         for (i = 0; i < basis_num; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString().PadLeft(4) + "  "
-                              + sval[i].ToString().PadLeft(16) + "");
+                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + sval[i].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
     }

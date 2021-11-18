@@ -101,10 +101,10 @@ internal class Program
             integral = ProductIntegral.pwl_product_integral(a, b, f_num, f_x, f_v, g_num,
                 g_x, g_v);
             exact = (b * b * b - a * a * a) / 3.0;
-            Console.WriteLine("  " + a.ToString().PadLeft(10)
-                                   + "  " + b.ToString().PadLeft(10)
-                                   + "  " + integral.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + integral.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -165,10 +165,10 @@ internal class Program
             integral = ProductIntegral.pwl_product_integral(a, b, f_num, f_x, f_v, g_num,
                 g_x, g_v);
             exact = (b * b * b - a * a * a) / 3.0;
-            Console.WriteLine("  " + a.ToString().PadLeft(10)
-                                   + "  " + b.ToString().PadLeft(10)
-                                   + "  " + integral.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + integral.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -262,11 +262,11 @@ internal class Program
             quad_num = 2000;
             quad = ProductIntegral.pwl_product_quad(a, b, f_num, f_x, f_v, g_num,
                 g_x, g_v, quad_num);
-            Console.WriteLine("  " + a.ToString().PadLeft(10)
-                                   + "  " + b.ToString().PadLeft(10)
-                                   + "  " + integral.ToString().PadLeft(14)
-                                   + "  " + quad.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + integral.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

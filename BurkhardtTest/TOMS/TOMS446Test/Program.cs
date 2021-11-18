@@ -89,7 +89,7 @@ internal class Program
             string cout = "";
             for (j = 0; j < nf; j++)
             {
-                cout += "  " + x[i + j * npl].ToString().PadLeft(14);
+                cout += "  " + x[i + j * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -158,7 +158,7 @@ internal class Program
             string cout = "";
             for (j = 0; j < nf; j++)
             {
-                cout += "  " + x[i + j * npl].ToString().PadLeft(14);
+                cout += "  " + x[i + j * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -244,9 +244,9 @@ internal class Program
 
                 fval = ChebyshevSeries.echeb(xval, x2, npl);
 
-                Console.WriteLine("  " + xval.ToString().PadLeft(14)
-                                       + "  " + fxj[j].ToString().PadLeft(14)
-                                       + "  " + fval.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + xval.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fxj[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fval.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -330,9 +330,9 @@ internal class Program
 
                 fval = ChebyshevSeries.edcheb(xval, x2, npl);
 
-                Console.WriteLine("  " + xval.ToString().PadLeft(14)
-                                       + "  " + fxj[j].ToString().PadLeft(14)
-                                       + "  " + fval.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + xval.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fxj[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fval.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -393,10 +393,10 @@ internal class Program
 
         for (i = 0; i < npl; i++)
         {
-            Console.WriteLine("  " + x[i + 0 * npl].ToString().PadLeft(14)
-                                   + "  " + x[i + 1 * npl].ToString().PadLeft(14)
-                                   + "  " + x[i + 2 * npl].ToString().PadLeft(14)
-                                   + "  " + x3[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i + 0 * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x[i + 1 * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x[i + 2 * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x3[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -462,7 +462,7 @@ internal class Program
             string cout = "";
             for (j = 0; j < nf; j++)
             {
-                cout += "  " + x[i + j * npl].ToString().PadLeft(14);
+                cout += "  " + x[i + j * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

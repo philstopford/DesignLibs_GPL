@@ -91,7 +91,7 @@ public static class Filon
         double value = 0;
         double[] x;
 
-        if (a == b)
+        if (Math.Abs(a - b) <= double.Epsilon)
         {
             value = 0.0;
             return value;
@@ -274,7 +274,7 @@ public static class Filon
         double value = 0;
         double[] x;
 
-        if (a == b)
+        if (Math.Abs(a - b) <= double.Epsilon)
         {
             value = 0.0;
             return value;
@@ -454,7 +454,7 @@ public static class Filon
         double value = 0;
         double[] x;
 
-        if (a == b)
+        if (Math.Abs(a - b) <= double.Epsilon)
         {
             value = 0.0;
             return value;
@@ -637,7 +637,7 @@ public static class Filon
         double value = 0;
         double[] x;
 
-        if (a == b)
+        if (Math.Abs(a - b) <= double.Epsilon)
         {
             value = 0.0;
             return value;

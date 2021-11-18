@@ -44,7 +44,7 @@ public static class BernoulliTest
             {
                 break;
             }
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + c.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -88,9 +88,9 @@ public static class BernoulliTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

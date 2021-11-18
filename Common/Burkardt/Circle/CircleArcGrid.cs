@@ -2,7 +2,7 @@
 
 namespace Burkardt.CircleNS;
 
-public static partial class Circle
+public static class Circle
 {
     public static double[] circle_arc_grid ( double r, double[] c, double[] a, int n )
 

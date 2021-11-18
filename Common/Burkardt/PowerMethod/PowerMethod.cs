@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.Types;
 
@@ -154,10 +155,10 @@ public static class PowerMethod
         switch (debug)
         {
             case true:
-                Console.WriteLine("  " + it.ToString().PadLeft(5)
-                                       + "  " + lambda.ToString().PadLeft(14)
-                                       + "  " + val_dif.ToString().PadLeft(14)
-                                       + "  " + sin_y1y2.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + val_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + sin_y1y2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 break;
         }
 
@@ -197,10 +198,10 @@ public static class PowerMethod
             switch (debug)
             {
                 case true:
-                    Console.WriteLine("  " + it.ToString().PadLeft(5)
-                                           + "  " + lambda.ToString().PadLeft(14)
-                                           + "  " + val_dif.ToString().PadLeft(14)
-                                           + "  " + sin_y1y2.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                           + "  " + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + val_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + sin_y1y2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 

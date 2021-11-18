@@ -1,6 +1,4 @@
 ﻿using System;
-using Burkardt.AppliedStatistics;
-using Burkardt.RankingNS;
 using Burkardt.Types;
 
 namespace ComboTest;
@@ -44,9 +42,9 @@ internal partial class Program
             for ( k = 0; k <= n; k++ )
             {
                 cnk = typeMethods.r8_choose ( n, k );
-                Console.WriteLine(n.ToString().PadLeft(10) + "  "
-                                                           + k.ToString().PadLeft(8) + "  "
-                                                           + cnk.ToString().PadLeft(14) + "");
+                Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                           + k.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                           + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -96,7 +94,7 @@ internal partial class Program
                 break;
             }
             fx2 = typeMethods.r8_gamma_log ( x );
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24) + "");
         }

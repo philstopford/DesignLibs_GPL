@@ -256,7 +256,7 @@ internal class Program
         string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(8);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -266,11 +266,11 @@ internal class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
                 point_num = Grid_GaussLegendre.sparse_grid_gl_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(8);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -349,17 +349,17 @@ internal class Program
         string cout = "";
         for (point = 0; point < point_num; point++)
         {
-            cout = "  " + point.ToString().PadLeft(4) + "  ";
+            cout = "  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += grid_index[dim + point * dim_num].ToString().PadLeft(6);
+                cout += grid_index[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
             cout = "        ";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += grid_base[dim + point * dim_num].ToString().PadLeft(6);
+                cout += grid_base[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -434,7 +434,7 @@ internal class Program
         Console.WriteLine("");
         for (point = 0; point < point_num; point++)
         {
-            Console.WriteLine("  " + point.ToString().PadLeft(4)
+            Console.WriteLine("  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                    + "  "
                                    + grid_weight[point].ToString("0.######").PadLeft(10) + "");
         }
@@ -444,7 +444,7 @@ internal class Program
         Console.WriteLine("");
         for (point = 0; point < point_num; point++)
         {
-            string cout = "  " + point.ToString().PadLeft(4);
+            string cout = "  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += "  "
@@ -537,9 +537,9 @@ internal class Program
         Console.WriteLine("    Weight sum     Exact sum    Difference");
         Console.WriteLine("");
         Console.WriteLine(
-            "  " + weight_sum.ToString().PadLeft(14)
-                 + "  " + weight_sum_exact.ToString().PadLeft(14)
-                 + "  " + weight_sum_error.ToString().PadLeft(14) + "");
+            "  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                 + "  " + weight_sum_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                 + "  " + weight_sum_error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -669,12 +669,12 @@ internal class Program
                     grid_weight, grid_point);
 
                 string cout = "  " + quad_error.ToString("0.#").PadLeft(12)
-                                   + "     " + degree.ToString().PadLeft(2)
+                                   + "     " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                    + "      ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += expon[dim].ToString().PadLeft(3);
+                    cout += expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);

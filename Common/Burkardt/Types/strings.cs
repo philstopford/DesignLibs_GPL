@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -436,7 +437,7 @@ public static partial class typeMethods
                         d = ch_to_digit(c);
                         r = 10 * r + d;
                     }
-                    else if (state == 6 || state == 7)
+                    else if (state is 6 or 7)
                     {
                         if (code == '*')
                         {
@@ -814,7 +815,7 @@ public static partial class typeMethods
     }
     public static bool s_eqi(string a, string b)
     {
-        return a.ToLower() == b.ToLower();
+        return string.Equals(a, b, StringComparison.CurrentCultureIgnoreCase);
     }
 
     public static int s_len_trim ( char[] s )
@@ -1113,7 +1114,7 @@ public static partial class typeMethods
         //    disregarding case.
         //
     {
-        return c1.ToString().ToLower() == c2.ToString().ToLower();
+        return string.Equals(c1.ToString(CultureInfo.InvariantCulture), c2.ToString(CultureInfo.InvariantCulture), StringComparison.CurrentCultureIgnoreCase);
     }
 
     public static int s_to_i4(string st, ref int last, ref bool error )
@@ -1183,7 +1184,7 @@ public static partial class typeMethods
                     istate = 1;
                     isgn = +1;
                     break;
-                case 0 when '0' <= c && c <= '9':
+                case 0 when c is >= '0' and <= '9':
                     istate = 2;
                     ival = c - '0';
                     break;
@@ -1195,7 +1196,7 @@ public static partial class typeMethods
                 //
                 case 1 when c == ' ':
                     break;
-                case 1 when '0' <= c && c <= '9':
+                case 1 when c is >= '0' and <= '9':
                     istate = 2;
                     ival = c - '0';
                     break;
@@ -1205,7 +1206,7 @@ public static partial class typeMethods
                 //
                 //  Have read at least one digit, expecting more.
                 //
-                case 2 when '0' <= c && c <= '9':
+                case 2 when c is >= '0' and <= '9':
                     ival = 10 * ival + c - '0';
                     break;
                 case 2:
@@ -1403,7 +1404,7 @@ public static partial class typeMethods
                     case '.' when ihave < 4:
                         ihave = 4;
                         break;
-                    case '.' when 6 <= ihave && ihave <= 8:
+                    case '.' when ihave is >= 6 and <= 8:
                         ihave = 9;
                         break;
                     case '.':
@@ -1432,7 +1433,7 @@ public static partial class typeMethods
                     {
                         switch (ihave)
                         {
-                            case < 11 when '0' <= c && c <= '9':
+                            case < 11 when c is >= '0' and <= '9':
                                 switch (ihave)
                                 {
                                     case <= 2:

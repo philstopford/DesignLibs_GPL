@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.TriangulationNS;
@@ -210,20 +209,20 @@ internal class Program
         Console.WriteLine("");
         for (element = 0; element < element_num; element++)
         {
-            Console.WriteLine("  " + element.ToString().PadLeft(8)
-                                   + "  " + element_area[element].ToString().PadLeft(14)
-                                   + "  " + element_hit[element].ToString().PadLeft(8)
-                                   + "  " + (element_area[element] / triangulation_area).ToString().PadLeft(14)
+            Console.WriteLine("  " + element.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + element_area[element].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + element_hit[element].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (element_area[element] / triangulation_area).ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + (element_hit[element]
-                                             / (double) triangulation_hit).ToString().PadLeft(14) + "");
+                                             / (double) triangulation_hit).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  " + "   Total"
-                               + "  " + triangulation_area.ToString().PadLeft(14)
-                               + "  " + triangulation_hit.ToString().PadLeft(8)
-                               + "  " + 1.0.ToString().PadLeft(14)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+                               + "  " + triangulation_area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + triangulation_hit.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_HISTOGRAM:");

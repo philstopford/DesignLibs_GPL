@@ -84,10 +84,10 @@ internal partial class Program
 
                 pdf = Fisher.fisher_pdf(x, kappa, mu);
 
-                Console.WriteLine("  " + x[0].ToString().PadLeft(10)
-                                       + "  " + x[1].ToString().PadLeft(10)
-                                       + "  " + x[2].ToString().PadLeft(10)
-                                       + "  " + pdf.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + x[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + x[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + x[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
 
             }

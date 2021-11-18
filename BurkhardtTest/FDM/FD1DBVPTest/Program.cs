@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.FDM;
-using Burkardt.Table;
 using Burkardt.Types;
 
 namespace FDM1DBVPTest;
@@ -108,11 +107,11 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -135,11 +134,11 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -222,11 +221,11 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -309,11 +308,11 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -397,11 +396,11 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -490,11 +489,11 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //

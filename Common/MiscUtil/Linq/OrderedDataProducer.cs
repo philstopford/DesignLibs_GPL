@@ -42,8 +42,8 @@ internal class OrderedDataProducer<T> : IOrderedDataProducer<T>
         this.baseProducer = baseProducer;
         this.comparer = comparer ?? Comparer<T>.Default;
 
-        baseProducer.DataProduced += new Action<T>(OriginalDataProduced);
-        baseProducer.EndOfData += new Action(EndOfOriginalData);
+        baseProducer.DataProduced += OriginalDataProduced;
+        baseProducer.EndOfData += EndOfOriginalData;
     }
 
 

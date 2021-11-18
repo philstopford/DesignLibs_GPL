@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Parallelogram;
 using Burkardt.Types;
@@ -150,7 +151,7 @@ public static class ParallelogramTest
             string cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout + "  " + inside + "");
@@ -290,7 +291,7 @@ public static class ParallelogramTest
             string cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout + "  " + inside + "");

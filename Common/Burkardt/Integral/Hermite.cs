@@ -216,7 +216,7 @@ public static partial class Integral
         for ( dim = 0; dim < dim_num; dim++ )
         {
             value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( Math.PI ) 
-                    / Math.Pow ( 2, expon[dim] / 2 );
+                    / Math.Pow ( 2, (double)expon[dim] / 2 );
         }
 
         return value;
@@ -256,7 +256,7 @@ public static partial class Integral
     {
         double value = (p % 2) switch
         {
-            0 => typeMethods.r8_factorial2(p - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, p / 2),
+            0 => typeMethods.r8_factorial2(p - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, (double)p / 2),
             _ => 0.0
         };
         return value;
@@ -301,7 +301,7 @@ public static partial class Integral
         double value = (n % 2) switch
         {
             1 => 0.0,
-            _ => typeMethods.r8_factorial2(n - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, n / 2)
+            _ => typeMethods.r8_factorial2(n - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, (double)n / 2)
         };
 
         return value;

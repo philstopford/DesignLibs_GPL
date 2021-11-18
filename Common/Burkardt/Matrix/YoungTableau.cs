@@ -304,7 +304,7 @@ public static class YoungTableau
                 
             for (j = 0; j < row_length; j++)
             {
-                cout += (jarray[j] + 1).ToString().PadLeft(6) + "  ";
+                cout += (jarray[j] + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);

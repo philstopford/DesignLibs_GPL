@@ -150,7 +150,7 @@ public static partial class typeMethods
             //
             //  Argument < EPS.
             //
-            case < eps when xminin <= y:
+            case < eps and >= xminin:
                 res = one / y;
                 break;
             case < eps:
@@ -374,14 +374,7 @@ public static partial class typeMethods
 
             arg += Math.Log(value);
 
-            if (exp_arg_min <= arg)
-            {
-                value = Math.Exp(arg);
-            }
-            else
-            {
-                value = 0.0;
-            }
+            value = exp_arg_min <= arg ? Math.Exp(arg) : 0.0;
         }
         //
         //  Use a continued fraction expansion.
@@ -600,7 +593,7 @@ public static partial class typeMethods
 
         switch (y)
         {
-            case > 0.0 when y <= xbig:
+            case > 0.0 and <= xbig:
             {
                 if (y <= r8_epsilon())
                 {

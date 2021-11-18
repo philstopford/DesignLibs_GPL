@@ -40,9 +40,7 @@ public static partial class FeketeRule
         //    Output, int FEKETE_SUBORDER[SUBORDER_NUM], the suborders of the rule.
         //
     {
-        int[] suborder;
-
-        suborder = new int[suborder_num];
+        int[] suborder = new int[suborder_num];
 
         switch (rule)
         {
@@ -1023,7 +1021,5 @@ public static partial class FeketeRule
         {
             suborder_w[s] = suborder_w_rule_7[s];
         }
-
-        ;
     }
 }

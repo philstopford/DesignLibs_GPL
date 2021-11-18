@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.LineNS;
@@ -113,8 +114,8 @@ public static class Felippa
         {
             value = line_monomial(a, b, expon);
 
-            Console.WriteLine("  " + expon.ToString().PadLeft(8)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + expon.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -183,13 +184,13 @@ public static class Felippa
                 }
 
                 quad = typeMethods.r8vec_dot_product(order, w, v);
-                Console.WriteLine(order.ToString().PadLeft(8) + "  "
-                                                              + quad.ToString().PadLeft(14) + "");
+                Console.WriteLine(order.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                              + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
             quad = line_monomial(a, b, expon);
-            Console.WriteLine("   Exact  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("   Exact  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

@@ -1,9 +1,7 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.IntegralNS;
 using Burkardt.MatrixNS;
 using Burkardt.PolynomialNS;
-using Burkardt.Probability;
 using Burkardt.Quadrature;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -92,8 +90,8 @@ internal class Program
         {
             alpha = UniformRNG.r8_uniform_ab(-5.0, +5.0, ref seed);
             check = GegenbauerPolynomial.gegenbauer_alpha_check(alpha);
-            Console.WriteLine("  " + alpha.ToString().PadLeft(10)
-                                   + "       " + check.ToString().PadLeft(1) + "");
+            Console.WriteLine("  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "       " + check.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
         }
     }
 
@@ -503,8 +501,8 @@ internal class Program
         for (i = 0; i < 10; i++)
         {
             a = UniformRNG.r8_uniform_ab(b, c, ref seed);
-            Console.WriteLine(i.ToString().PadLeft(6) + " "
-                                                      + a.ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
+                                                      + a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

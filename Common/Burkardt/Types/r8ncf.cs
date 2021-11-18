@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -195,12 +196,14 @@ public static partial class typeMethods
             }
 
             j = i + 1;
-            if (j < n)
+            if (j >= n)
             {
-                rowcol[0 + k * 2] = i;
-                rowcol[1 + k * 2] = j;
-                k += 1;
+                continue;
             }
+
+            rowcol[0 + k * 2] = i;
+            rowcol[1 + k * 2] = j;
+            k += 1;
 
         }
 
@@ -504,7 +507,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -519,21 +522,23 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(5);
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 for (j = j2lo; j <= j2hi; j++)
                 {
                     double aij = 0.0;
                     int k;
                     for (k = 0; k < nz_num; k++)
                     {
-                        if (rowcol[0 + k * 2] == i && rowcol[1 + k * 2] == j)
+                        if (rowcol[0 + k * 2] != i || rowcol[1 + k * 2] != j)
                         {
-                            aij = a[k];
-                            break;
+                            continue;
                         }
+
+                        aij = a[k];
+                        break;
                     }
 
-                    cout += "  " + aij.ToString().PadLeft(12);
+                    cout += "  " + aij.ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);

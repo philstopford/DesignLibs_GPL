@@ -1,5 +1,4 @@
-﻿using System;
-using Burkardt.BLAS;
+﻿using Burkardt.BLAS;
 
 namespace Burkardt.Linpack;
 

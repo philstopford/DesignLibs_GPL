@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Burkardt.IO;
@@ -49,7 +50,7 @@ public static class DTable
             string cout = "";
             for (i = 0; i < m; i++)
             {
-                cout += table[i + j * m].ToString().PadLeft(10) + "  ";
+                cout += table[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             output.Add(cout);

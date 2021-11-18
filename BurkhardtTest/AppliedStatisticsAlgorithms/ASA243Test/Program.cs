@@ -97,7 +97,7 @@ internal class Program
 
             Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
                                    + "  " + delta.ToString("0.####").PadLeft(10)
-                                   + "  " +                      df.ToString().PadLeft(8)
+                                   + "  " +                      df.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
                                    + "  " + Math.Abs ( fx - fx2 ).ToString("0.####").PadLeft(10) + "");

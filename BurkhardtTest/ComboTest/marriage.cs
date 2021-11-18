@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.RankingNS;
-using Burkardt.Types;
 
 namespace ComboTest;
 
@@ -61,9 +60,9 @@ internal partial class Program
         Console.WriteLine("");
         for ( i = 1; i <= n; i++ )
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + next[i-1].ToString().PadLeft(4)
-                                   + "  " + prefer[i-1+(next[i-1]-1)*n].ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + next[i-1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + prefer[i-1+(next[i-1]-1)*n].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
         Console.WriteLine("");
@@ -71,9 +70,9 @@ internal partial class Program
         Console.WriteLine("");
         for ( i = 1; i <= n; i++ )
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + rank[i-1+(fiancee[i-1]-1)*n].ToString().PadLeft(4)
-                                   + "  " + fiancee[i-1].ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + rank[i-1+(fiancee[i-1]-1)*n].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + fiancee[i-1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
         Console.WriteLine("");

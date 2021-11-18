@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.FEM;
 
@@ -917,11 +918,11 @@ public class FEM_1D_Adaptive
             double uex = uexact(xn[i]);
             double error = u - uex;
 
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xn[i].ToString().PadLeft(12)
-                                   + "  " + u.ToString().PadLeft(12)
-                                   + "  " + uex.ToString().PadLeft(12)
-                                   + "  " + error.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uex.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1106,24 +1107,24 @@ public class FEM_1D_Adaptive
 
         for (int i = 0; i < nu; i++)
         {
-            string cout = (i + 1).ToString().PadLeft(4);
+            string cout = (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4);
             cout += i switch
             {
                 0 => "              ",
-                _ => "  " + aleft[i].ToString().PadLeft(12)
+                _ => "  " + aleft[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
             };
 
-            cout += "  " + adiag[i].ToString().PadLeft(12);
+            cout += "  " + adiag[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             if (i < nu - 1)
             {
-                cout += "  " + arite[i].ToString().PadLeft(12);
+                cout += "  " + arite[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
             else
             {
                 cout += "              ";
             }
 
-            cout += "  " + f[i].ToString().PadLeft(12) + "";
+            cout += "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "";
 
             Console.WriteLine(cout);
         }
@@ -1849,7 +1850,7 @@ public class FEM_1D_Adaptive
         Console.WriteLine("");
         for (int j = 0; j < n; j++)
         {
-            Console.WriteLine(eta[j].ToString().PadLeft(12) + "");
+            Console.WriteLine(eta[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

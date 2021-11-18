@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.Globalization;
 using Burkardt.Function;
 
 namespace Burkardt.Types;
@@ -75,7 +75,7 @@ public static partial class typeMethods
                     istate = 1;
                     isgn = +1;
                     break;
-                case 0 when '0' <= c && c <= '9':
+                case 0 when c is >= '0' and <= '9':
                     istate = 2;
                     ival.val = c - '0';
                     break;
@@ -87,7 +87,7 @@ public static partial class typeMethods
                 //
                 case 1 when c == ' ':
                     break;
-                case 1 when '0' <= c && c <= '9':
+                case 1 when c is >= '0' and <= '9':
                     istate = 2;
                     ival.val = c - '0';
                     break;
@@ -97,7 +97,7 @@ public static partial class typeMethods
                 //
                 //  Have read at least one digit, expecting more.
                 //
-                case 2 when '0' <= c && c <= '9':
+                case 2 when c is >= '0' and <= '9':
                     ival.val = 10 * ival.val + c - '0';
                     break;
                 case 2:
@@ -630,17 +630,17 @@ public static partial class typeMethods
                 string cout = "        J:";
                 for (int j = jlo; j < jhi; j++)
                 {
-                    cout += "  " + j.ToString().PadLeft(6);
+                    cout += "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(6);
                 }
 
                 Console.WriteLine(cout);
                 Console.WriteLine("       I:");
                 for (int i = 0; i < l; i++)
                 {
-                    cout = "  " + i.ToString().PadLeft(6) + ": ";
+                    cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + ": ";
                     for (int j = jlo; j < jhi; j++)
                     {
-                        cout += "  " + a[i + j * l + k * l * m].ToString().PadLeft(6);
+                        cout += "  " + a[i + j * l + k * l * m].ToString(CultureInfo.InvariantCulture).PadLeft(6);
                     }
 
                     Console.WriteLine(cout);
@@ -681,12 +681,10 @@ public static partial class typeMethods
         //    Output, bool I4_IS_FIBONACCI, is TRUE if I4 is a Fibonacci number.
         //
     {
-        bool value = false;
-
         switch (i4)
         {
             case <= 0:
-                return value;
+                return false;
         }
 
         int t1 = 5 * i4 * i4 + 4;
@@ -694,21 +692,13 @@ public static partial class typeMethods
         int t3 = (int)Math.Floor ( t2 + 0.5 );
         if ( t3 * t3 == t1 )
         {
-            value = true;
-            return value;
+            return true;
         }
 
         t1 = 5 * i4 * i4 - 4;
         t2 = Math.Sqrt ( t1 );
         t3 = (int)Math.Floor ( t2 + 0.5 );
-        if (t3 * t3 != t1)
-        {
-            return value;
-        }
-
-        value = true;
-        return value;
-
+        return t3 * t3 == t1;
     }
 
 
@@ -742,29 +732,23 @@ public static partial class typeMethods
         //    Output, bool I4_IS_POWER_OF_10, is TRUE if N is a power of 10.
         //
     {
-        bool value;
-
         switch (n)
         {
             case <= 0:
-                value = false;
-                return value;
+                return false;
         }
 
         while (1 < n)
         {
             if (n % 10 != 0)
             {
-                value = false;
-                return value;
+                return false;
             }
 
             n /= 10;
         }
 
-        value = true;
-
-        return value;
+        return true;
     }
 
     public static int i4_choose(int n, int k)
@@ -2041,30 +2025,34 @@ public static partial class typeMethods
         {
             int p = Prime.prime(i);
 
-            if (Math.Abs(nleft) % p == 0)
+            if (Math.Abs(nleft) % p != 0)
             {
-                if (nfactor < maxfactor)
+                continue;
+            }
+
+            if (nfactor >= maxfactor)
+            {
+                continue;
+            }
+
+            nfactor += 1;
+            factor[nfactor - 1] = p;
+            exponent[nfactor - 1] = 0;
+
+            for (;;)
+            {
+                exponent[nfactor - 1] += 1;
+                nleft /= p;
+
+                if (Math.Abs(nleft) % p != 0)
                 {
-                    nfactor += 1;
-                    factor[nfactor - 1] = p;
-                    exponent[nfactor - 1] = 0;
-
-                    for (;;)
-                    {
-                        exponent[nfactor - 1] += 1;
-                        nleft /= p;
-
-                        if (Math.Abs(nleft) % p != 0)
-                        {
-                            break;
-                        }
-                    }
-
-                    if (Math.Abs(nleft) == 1)
-                    {
-                        break;
-                    }
+                    break;
                 }
+            }
+
+            if (Math.Abs(nleft) == 1)
+            {
+                break;
             }
         }
     }
@@ -3106,12 +3094,7 @@ public static partial class typeMethods
             {
                 i4_to_triangle_lower ( i, ref j, ref k );
 
-                if ( j == k )
-                {
-                    return true;
-                }
-
-                return false;
+                return j == k;
             }
         }
 

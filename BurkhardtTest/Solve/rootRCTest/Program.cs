@@ -65,15 +65,15 @@ internal class Program
             switch (it)
             {
                 case 0:
-                    Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                            + "  " + "              "
-                                           + "  " + fx.ToString().PadLeft(14) + "");
+                                           + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 default:
-                    Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                           + "  " + xerr.ToString().PadLeft(14)
-                                           + "  " + fx.ToString().PadLeft(14)
-                                           + "  " + ferr.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + xerr.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + ferr.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 

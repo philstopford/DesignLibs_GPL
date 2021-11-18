@@ -151,9 +151,9 @@ internal class Program
         {
             i = ((29 - k) * 0 + k * (xsize - 1)) / 29;
             j = ((29 - k) * 0 + k * (ysize - 1)) / 29;
-            Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                      + j.ToString().PadLeft(4) + "  "
-                                                      + b[i * ysize + j].ToString().PadLeft(6) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + b[i * ysize + j].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 }

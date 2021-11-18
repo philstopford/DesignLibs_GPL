@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -105,7 +106,7 @@ public static partial class typeMethods
                 int khi = Math.Min(klo + 5, k2);
                 if (klo == k1)
                 {
-                    cout += i.ToString().PadLeft(5);
+                    cout += i.ToString(CultureInfo.InvariantCulture).PadLeft(5);
                 }
                 else
                 {
@@ -116,7 +117,7 @@ public static partial class typeMethods
                 int k;
                 for (k = klo; k < khi; k++)
                 {
-                    cout += a[k].ToString().PadLeft(14);
+                    cout += a[k].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);

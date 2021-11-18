@@ -47,10 +47,10 @@ public static class InverseTest
             {
                 y = Helpers.inverse_mod_n ( b, n );
                 z = b * y % n;
-                Console.WriteLine("  " + b.ToString().PadLeft(2)
-                                       + "  " + n.ToString().PadLeft(2)
-                                       + "  " + y.ToString().PadLeft(2)
-                                       + "  " + z.ToString().PadLeft(2) + "");
+                Console.WriteLine("  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + z.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             }
         }
     }

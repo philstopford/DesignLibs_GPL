@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -556,7 +557,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -577,7 +578,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
 
                 int j2;
                 for (j2 = 1; j2 <= inc; j2++)
@@ -590,23 +591,23 @@ public static partial class typeMethods
                     }
                     else if (j == i + 2)
                     {
-                        cout += a[0 + (j - 1) * 5].ToString().PadLeft(10) + "  ";
+                        cout += a[0 + (j - 1) * 5].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                     else if (j == i + 1)
                     {
-                        cout += a[1 + (j - 1) * 5].ToString().PadLeft(10) + "  ";
+                        cout += a[1 + (j - 1) * 5].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                     else if (j == i)
                     {
-                        cout += a[2 + (j - 1) * 5].ToString().PadLeft(10) + "  ";
+                        cout += a[2 + (j - 1) * 5].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                     else if (j == i - 1)
                     {
-                        cout += a[3 + (j - 1) * 5].ToString().PadLeft(10) + "  ";
+                        cout += a[3 + (j - 1) * 5].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                     else if (j == i - 2)
                     {
-                        cout += a[4 + (j - 1) * 5].ToString().PadLeft(10) + "  ";
+                        cout += a[4 + (j - 1) * 5].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                     }
                 }
 

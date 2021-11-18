@@ -82,9 +82,9 @@ public static class LinearSystem
                     x = new double[ncol * nsys];
                     b = new double[nrow * nsys];
 
-                    a[0 + 0 * nrow] = 1.0;
-                    a[1 + 0 * nrow] = 0.0;
-                    a[2 + 0 * nrow] = 0.0;
+                    a[0] = 1.0;
+                    a[1] = 0.0;
+                    a[2] = 0.0;
                     a[0 + 1 * nrow] = 0.0;
                     a[1 + 1 * nrow] = 2.0;
                     a[2 + 1 * nrow] = 0.0;
@@ -92,16 +92,16 @@ public static class LinearSystem
                     a[1 + 2 * nrow] = 0.0;
                     a[2 + 2 * nrow] = 3.0;
 
-                    x[0 + 0 * ncol] = 1.0;
-                    x[1 + 0 * ncol] = 0.0;
-                    x[2 + 0 * ncol] = 0.0;
+                    x[0] = 1.0;
+                    x[1] = 0.0;
+                    x[2] = 0.0;
                     x[0 + 1 * ncol] = 1.0;
                     x[1 + 1 * ncol] = 1.0;
                     x[2 + 1 * ncol] = 1.0;
 
-                    b[0 + 0 * nrow] = 1.0;
-                    b[1 + 0 * nrow] = 0.0;
-                    b[2 + 0 * nrow] = 0.0;
+                    b[0] = 1.0;
+                    b[1] = 0.0;
+                    b[2] = 0.0;
                     b[0 + 1 * nrow] = 1.0;
                     b[1 + 1 * nrow] = 2.0;
                     b[2 + 1 * nrow] = 3.0;
@@ -115,9 +115,9 @@ public static class LinearSystem
                     x = new double[ncol * nsys];
                     b = new double[nrow * nsys];
 
-                    a[0 + 0 * nrow] = 1.0;
-                    a[1 + 0 * nrow] = 2.0;
-                    a[2 + 0 * nrow] = 3.0;
+                    a[0] = 1.0;
+                    a[1] = 2.0;
+                    a[2] = 3.0;
                     a[0 + 1 * nrow] = 2.0;
                     a[1 + 1 * nrow] = 2.0;
                     a[2 + 1 * nrow] = 3.0;
@@ -125,16 +125,16 @@ public static class LinearSystem
                     a[1 + 2 * nrow] = 3.0;
                     a[2 + 2 * nrow] = 3.0;
 
-                    x[0 + 0 * ncol] = 1.0;
-                    x[1 + 0 * ncol] = 1.0;
-                    x[2 + 0 * ncol] = 1.0;
+                    x[0] = 1.0;
+                    x[1] = 1.0;
+                    x[2] = 1.0;
                     x[0 + 1 * ncol] = 1.0;
                     x[1 + 1 * ncol] = 2.0;
                     x[2 + 1 * ncol] = 3.0;
 
-                    b[0 + 0 * nrow] = 6.0;
-                    b[1 + 0 * nrow] = 7.0;
-                    b[2 + 0 * nrow] = 9.0;
+                    b[0] = 6.0;
+                    b[1] = 7.0;
+                    b[2] = 9.0;
                     b[0 + 1 * nrow] = 14.0;
                     b[1 + 1 * nrow] = 15.0;
                     b[2 + 1 * nrow] = 18.0;
@@ -148,11 +148,11 @@ public static class LinearSystem
                     x = new double[ncol * nsys];
                     b = new double[nrow * nsys];
 
-                    a[0 + 0 * nrow] = 1.0;
-                    a[1 + 0 * nrow] = 2.0;
-                    a[2 + 0 * nrow] = 3.0;
-                    a[3 + 0 * nrow] = 4.0;
-                    a[4 + 0 * nrow] = 5.0;
+                    a[0] = 1.0;
+                    a[1] = 2.0;
+                    a[2] = 3.0;
+                    a[3] = 4.0;
+                    a[4] = 5.0;
                     a[0 + 1 * nrow] = 2.0;
                     a[1 + 1 * nrow] = 3.0;
                     a[2 + 1 * nrow] = 4.0;
@@ -174,22 +174,22 @@ public static class LinearSystem
                     a[3 + 4 * nrow] = 3.0;
                     a[4 + 4 * nrow] = 4.0;
 
-                    x[0 + 0 * ncol] = 0.066667;
-                    x[1 + 0 * ncol] = 0.066667;
-                    x[2 + 0 * ncol] = 0.066667;
-                    x[3 + 0 * ncol] = 0.066667;
-                    x[4 + 0 * ncol] = 0.066667;
+                    x[0] = 0.066667;
+                    x[1] = 0.066667;
+                    x[2] = 0.066667;
+                    x[3] = 0.066667;
+                    x[4] = 0.066667;
                     x[0 + 1 * ncol] = 1.0;
                     x[1 + 1 * ncol] = 0.0;
                     x[2 + 1 * ncol] = 0.0;
                     x[3 + 1 * ncol] = 0.0;
                     x[4 + 1 * ncol] = 0.0;
 
-                    b[0 + 0 * nrow] = 1.0;
-                    b[1 + 0 * nrow] = 1.0;
-                    b[2 + 0 * nrow] = 1.0;
-                    b[3 + 0 * nrow] = 1.0;
-                    b[4 + 0 * nrow] = 1.0;
+                    b[0] = 1.0;
+                    b[1] = 1.0;
+                    b[2] = 1.0;
+                    b[3] = 1.0;
+                    b[4] = 1.0;
                     b[0 + 1 * nrow] = 1.0;
                     b[1 + 1 * nrow] = 2.0;
                     b[2 + 1 * nrow] = 3.0;
@@ -205,11 +205,11 @@ public static class LinearSystem
                     x = new double[ncol * nsys];
                     b = new double[nrow * nsys];
 
-                    a[0 + 0 * nrow] = 1.4;
-                    a[1 + 0 * nrow] = 1.6;
-                    a[2 + 0 * nrow] = 3.8;
-                    a[3 + 0 * nrow] = 4.6;
-                    a[4 + 0 * nrow] = 2.6;
+                    a[0] = 1.4;
+                    a[1] = 1.6;
+                    a[2] = 3.8;
+                    a[3] = 4.6;
+                    a[4] = 2.6;
                     a[0 + 1 * nrow] = 2.1;
                     a[1 + 1 * nrow] = 1.5;
                     a[2 + 1 * nrow] = 8.0;
@@ -231,22 +231,22 @@ public static class LinearSystem
                     a[3 + 4 * nrow] = 8.0;
                     a[4 + 4 * nrow] = 7.7;
 
-                    x[0 + 0 * ncol] = -5.313077;
-                    x[1 + 0 * ncol] = 5.735670;
-                    x[2 + 0 * ncol] = -2.507606;
-                    x[3 + 0 * ncol] = -1.058741;
-                    x[4 + 0 * ncol] = 0.999381;
+                    x[0] = -5.313077;
+                    x[1] = 5.735670;
+                    x[2] = -2.507606;
+                    x[3] = -1.058741;
+                    x[4] = 0.999381;
                     x[0 + 1 * ncol] = 31.601006;
                     x[1 + 1 * ncol] = -28.594793;
                     x[2 + 1 * ncol] = 13.389395;
                     x[3 + 1 * ncol] = 2.780322;
                     x[4 + 1 * ncol] = -3.008797;
 
-                    b[0 + 0 * nrow] = 1.1;
-                    b[1 + 0 * nrow] = 1.6;
-                    b[2 + 0 * nrow] = 4.7;
-                    b[3 + 0 * nrow] = 9.1;
-                    b[4 + 0 * nrow] = 0.1;
+                    b[0] = 1.1;
+                    b[1] = 1.6;
+                    b[2] = 4.7;
+                    b[3] = 9.1;
+                    b[4] = 0.1;
                     b[0 + 1 * nrow] = 4.0;
                     b[1 + 1 * nrow] = 9.3;
                     b[2 + 1 * nrow] = 8.4;

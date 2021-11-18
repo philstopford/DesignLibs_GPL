@@ -59,11 +59,11 @@ public static class gegenbauerTest
             fx2 = c[n];
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6)   + "  "
-                              + a.ToString().PadLeft(10)   + "  "
-                              + x.ToString().PadLeft(10)   + "  "
-                              + fx.ToString().PadLeft(14)  + "  "
-                              + fx2.ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)   + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)   + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)   + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)  + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 

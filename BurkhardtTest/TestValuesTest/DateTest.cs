@@ -46,10 +46,10 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + y.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + d.ToString().PadLeft(4)
-                                   + "  " + date_num.ToString().PadLeft(11) + "");
+            Console.WriteLine("  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + date_num.ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
         }
     }
 
@@ -93,9 +93,9 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + m.ToString().PadLeft(2)
-                                   + "  " + y.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -139,9 +139,9 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + m.ToString().PadLeft(2)
-                                   + "  " + y.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -188,11 +188,11 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + jed.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(6)
-                                   + "  " + m.ToString().PadLeft(2)
-                                   + "  " + d.ToString().PadLeft(2)
-                                   + "  " + f.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + f.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -237,8 +237,8 @@ public static class DateTest
             }
 
             Console.WriteLine("  "
-                              + jed.ToString().PadLeft(12) + "  "
-                              + mjd.ToString().PadLeft(12) + "");
+                              + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + mjd.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -283,8 +283,8 @@ public static class DateTest
             }
 
             Console.WriteLine("  "
-                              + jed.ToString().PadLeft(12) + "  "
-                              + rd.ToString().PadLeft(12) + "");
+                              + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + rd.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -334,8 +334,8 @@ public static class DateTest
             }
 
             Console.WriteLine("  "
-                              + jed.ToString().PadLeft(12) + "  "
-                              + weekday.ToString().PadLeft(1) + "  "
+                              + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + weekday.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "  "
                               + weekday_name[weekday - 1] + "");
         }
     }
@@ -380,10 +380,10 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + y.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + d.ToString().PadLeft(4)
-                                   + "  " + w.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + w.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 }

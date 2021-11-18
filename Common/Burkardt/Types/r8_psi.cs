@@ -102,7 +102,7 @@ public static partial class typeMethods
         };
         const double three = 3.0;
         double upper;
-        double value = 0;
+        double value;
         const double x01 = 187.0E+00;
         const double x01d = 128.0E+00;
         const double x02 = 6.9464496836234126266E-04;
@@ -206,40 +206,43 @@ public static partial class typeMethods
             }
         }
 
-        //
-        //  0.5 <= X <= 3.0.
-        //
-        if (x <= three)
+        switch (x)
         {
-            den = x;
-            upper = p1[0] * x;
-            for (int i = 0; i < 7; i++)
+            //
+            //  0.5 <= X <= 3.0.
+            //
+            case <= three:
             {
-                den = (den + q1[i]) * x;
-                upper = (upper + p1[i + 1]) * x;
+                den = x;
+                upper = p1[0] * x;
+                for (int i = 0; i < 7; i++)
+                {
+                    den = (den + q1[i]) * x;
+                    upper = (upper + p1[i + 1]) * x;
+                }
+
+                den = (upper + p1[8]) / (den + q1[7]);
+                x = x - x01 / x01d - x02;
+                value = den * x + aug;
+                return value;
             }
-
-            den = (upper + p1[8]) / (den + q1[7]);
-            x = x - x01 / x01d - x02;
-            value = den * x + aug;
-            return value;
-        }
-
-        //
-        //  3.0 < X.
-        //
-        if (x < xlarge)
-        {
-            w = 1.0 / (x * x);
-            den = w;
-            upper = p2[0] * w;
-            for (int i = 0; i < 5; i++)
+            //
+            //  3.0 < X.
+            //
+            case < xlarge:
             {
-                den = (den + q2[i]) * w;
-                upper = (upper + p2[i + 1]) * w;
-            }
+                w = 1.0 / (x * x);
+                den = w;
+                upper = p2[0] * w;
+                for (int i = 0; i < 5; i++)
+                {
+                    den = (den + q2[i]) * w;
+                    upper = (upper + p2[i + 1]) * w;
+                }
 
-            aug = (upper + p2[6]) / (den + q2[5]) - 0.5 / x + aug;
+                aug = (upper + p2[6]) / (den + q2[5]) - 0.5 / x + aug;
+                break;
+            }
         }
 
         value = aug + Math.Log(x);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -171,7 +172,6 @@ public static class SparseTriplet
 
                 i4 ti = typeMethods.s_to_i4(tokens[0]);
                 i4 tj = typeMethods.s_to_i4(tokens[1]);
-                r8 taij = typeMethods.s_to_r8(tokens[2]);
 
                 i = ti.val;
                 j = tj.val;
@@ -287,10 +287,10 @@ public static class SparseTriplet
         Console.WriteLine("");
         for (int k = 0; k < nst; k++)
         {
-            Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                                                      + ist[k].ToString().PadLeft(4) + "  "
-                                                      + jst[k].ToString().PadLeft(4) + "  "
-                                                      + ast[k].ToString().PadLeft(16) + "");
+            Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + ist[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + jst[k].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + ast[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
     }
 

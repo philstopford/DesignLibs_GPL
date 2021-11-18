@@ -47,9 +47,9 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -96,9 +96,9 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -144,8 +144,8 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + y.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fxy.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -194,10 +194,10 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + lambda.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -245,9 +245,9 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(12) + "  "
-                              + beta.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -292,8 +292,8 @@ public class BetaTest
                 break;
             }
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fxy.ToString("0.################").PadLeft(24) + "");
         }
     }

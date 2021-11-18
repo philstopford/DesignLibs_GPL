@@ -512,7 +512,7 @@ public class ZSVDC
                 test = Complex.Abs(s[l - 1]) + Complex.Abs(s[l]);
                 ztest = test + Complex.Abs(e[l - 1]);
 
-                if (ztest == test)
+                if (Math.Abs(ztest - test) <= double.Epsilon)
                 {
                     e[l - 1] = new Complex(0.0, 0.0);
                     break;
@@ -551,7 +551,7 @@ public class ZSVDC
 
                     ztest = test + Complex.Abs(s[ls - 1]);
 
-                    if (ztest == test)
+                    if (Math.Abs(ztest - test) <= double.Epsilon)
                     {
                         s[ls - 1] = new Complex(0.0, 0.0);
                         break;

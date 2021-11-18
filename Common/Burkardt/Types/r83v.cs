@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -189,7 +190,7 @@ public static partial class typeMethods
         Console.WriteLine("R83_CG_TEST");
         Console.WriteLine("  R83_CG applies CG to an R83 matrix.");
 
-        int n = 10;
+        const int n = 10;
         //
         //  Let A be the -1 2 -1 matrix.
         //
@@ -1023,7 +1024,7 @@ public static partial class typeMethods
                 return null;
             case 1:
             {
-                x = new double[n * nb];
+                x = new double[nb];
                 for (j = 0; j < nb; j++)
                 {
                     x[0 + j * n] = a_cr[1 + 0 * 3] * b[0 + j * n];
@@ -1184,12 +1185,10 @@ public static partial class typeMethods
             }
         }
 
-        j = 0;
-        b[n - 1 + j * n] = n + 1;
+        b[n - 1] = n + 1;
 
-        j = 1;
-        b[0 + j * n] = 1.0;
-        b[n - 1 + j * n] = 1.0;
+        b[n] = 1.0;
+        b[n - 1 + n] = 1.0;
 
         r8ge_print(n, nb, b, "  RHS:");
         //
@@ -2687,7 +2686,7 @@ public static partial class typeMethods
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -2708,7 +2707,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
 
                 for (j2 = 1; j2 <= inc; j2++)
                 {
@@ -2724,15 +2723,15 @@ public static partial class typeMethods
                         {
                             if (j == i - 1)
                             {
-                                cout += "  " + a[i - 2].ToString().PadLeft(12);
+                                cout += "  " + a[i - 2].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                             }
                             else if (j == i)
                             {
-                                cout += "  " + b[i - 1].ToString().PadLeft(12);
+                                cout += "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                             }
                             else if (j == i + 1)
                             {
-                                cout += "  " + c[i - 1].ToString().PadLeft(12);
+                                cout += "  " + c[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                             }
 
                             break;
@@ -3311,11 +3310,13 @@ public static partial class typeMethods
                 k += 1;
             }
 
-            if (j < m - 1)
+            if (j >= m - 1)
             {
-                a[k] = a1[j];
-                k += 1;
+                continue;
             }
+
+            a[k] = a1[j];
+            k += 1;
         }
 
         return a;

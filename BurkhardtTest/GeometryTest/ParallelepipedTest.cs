@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Parallelepiped;
 
@@ -71,28 +72,28 @@ public static class ParallelepipedTest
         string cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(12);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(12);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p3[i].ToString().PadLeft(12);
+            cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p4[i].ToString().PadLeft(12);
+            cout += "  " + p4[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -106,13 +107,13 @@ public static class ParallelepipedTest
 
             dist = Geometry.parallelepiped_point_dist_3d(p1, p2, p3, p4, p);
 
-            cout = "  " + test.ToString().PadLeft(3);
+            cout = "  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(3);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(8);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
-            Console.WriteLine(cout + "  " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine(cout + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
     }

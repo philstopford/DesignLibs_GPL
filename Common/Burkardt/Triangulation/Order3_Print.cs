@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.TriangulationNS;
@@ -56,21 +57,11 @@ public static partial class Print
         //    information encoded in the negative values.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        int boundary_num;
         int i;
-        int j;
-        int k;
-        int n1;
-        int n2;
         int s;
-        int s1;
-        int s2;
-        bool skip;
         int t;
-        int[] vertex_list;
-        int vertex_num;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_ORDER3_PRINT");
@@ -101,9 +92,9 @@ public static partial class Print
         //
         //  Determine VERTEX_NUM, the number of vertices.
         //
-        vertex_list = new int[3 * triangle_num];
+        int[] vertex_list = new int[3 * triangle_num];
 
-        k = 0;
+        int k = 0;
         for (t = 0; t < triangle_num; t++)
         {
             for (s = 0; s < 3; s++)
@@ -115,12 +106,12 @@ public static partial class Print
 
         typeMethods.i4vec_sort_heap_a(3 * triangle_num, ref vertex_list);
 
-        vertex_num = typeMethods.i4vec_sorted_unique(3 * triangle_num, ref vertex_list);
+        int vertex_num = typeMethods.i4vec_sorted_unique(3 * triangle_num, ref vertex_list);
 
         //
         //  Determine the number of boundary points.
         //
-        boundary_num = 2 * vertex_num - triangle_num - 2;
+        int boundary_num = 2 * vertex_num - triangle_num - 2;
 
         Console.WriteLine("");
         Console.WriteLine("  The number of boundary points is " + boundary_num + "");
@@ -132,12 +123,13 @@ public static partial class Print
         Console.WriteLine("     #   Tri  Side    N1    N2");
         Console.WriteLine("");
 
-        skip = false;
+        bool skip = false;
 
         k = 0;
 
         for (i = 0; i < triangle_num; i++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
                 if (triangle_neighbor[j + i * 3] < 0)
@@ -154,17 +146,17 @@ public static partial class Print
                         break;
                     }
 
-                    s1 = s % 3 + 1;
-                    s2 = typeMethods.i4_wrap(s1 + 1, 1, 3);
+                    int s1 = s % 3 + 1;
+                    int s2 = typeMethods.i4_wrap(s1 + 1, 1, 3);
                     k += 1;
-                    n1 = triangle_node[s1 - 1 + (t - 1) * 3];
-                    n2 = triangle_node[s2 - 1 + (t - 1) * 3];
+                    int n1 = triangle_node[s1 - 1 + (t - 1) * 3];
+                    int n2 = triangle_node[s2 - 1 + (t - 1) * 3];
                     Console.WriteLine("  "
-                                      + k.ToString().PadLeft(4) + "  "
-                                      + t.ToString().PadLeft(4) + "  "
-                                      + s1.ToString().PadLeft(4) + "  "
-                                      + n1.ToString().PadLeft(4) + "  "
-                                      + n2.ToString().PadLeft(4) + "");
+                                      + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                      + t.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                      + s1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                      + n1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                      + n2.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
                 }
             }
 

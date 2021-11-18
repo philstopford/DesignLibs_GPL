@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace Burkardt.AppliedStatistics;
@@ -1103,7 +1102,6 @@ public static partial class Algorithms
         {
             term = term * temp * rx / (pp + ai);
             value += term;
-            ;
             temp = Math.Abs(term);
 
             if (temp <= acu && temp <= acu * value)

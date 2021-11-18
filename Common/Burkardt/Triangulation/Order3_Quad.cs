@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.TriangulationNS;
 
-public static partial class Quad
+public static class Quad
 {
     public static void triangulation_order3_quad(int node_num, double[] node_xy,
             int triangle_order, int triangle_num, int[] triangle_node,
@@ -78,40 +78,36 @@ public static partial class Quad
         //    Output, double *REGION_AREA, the area of the region.
         //
     {
-        int i;
-        int j;
-        int quad;
-        double[] quad_f;
-        double[] quad2_xy;
-        double temp;
         int triangle;
-        double triangle_area;
         double[] triangle_xy = new double[2 * 3];
 
-        quad_f = new double[quad_num];
-        quad2_xy = new double[2 * quad_num];
+        double[] quad_f = new double[quad_num];
+        double[] quad2_xy = new double[2 * quad_num];
 
         quad_value = 0.0;
         region_area = 0.0;
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     triangle_xy[i + j * 2] = node_xy[i + (triangle_node[j + triangle * 3] - 1) * 2];
                 }
             }
 
-            triangle_area = typeMethods.triangle_area_2d(triangle_xy);
+            double triangle_area = typeMethods.triangle_area_2d(triangle_xy);
 
             Triangulation.triangle_order3_reference_to_physical(triangle_xy,
                 quad_num, quad_xy, ref quad2_xy);
 
             quad_fun(quad_num, quad2_xy, quad_f);
 
-            temp = 0.0;
+            double temp = 0.0;
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
                 temp += quad_w[quad] * quad_f[quad];

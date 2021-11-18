@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.PolynomialNS;
 using Burkardt.SolveNS;
 using Burkardt.Types;

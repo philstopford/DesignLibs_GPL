@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MatrixNS;
 using Burkardt.SolveNS;
 using Burkardt.Types;
@@ -269,10 +268,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + x_exact[i].ToString().PadLeft(14)
-                                   + "  " + b[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x_exact[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -471,10 +470,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + x_exact[i].ToString().PadLeft(14)
-                                   + "  " + b[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x_exact[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

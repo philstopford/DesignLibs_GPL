@@ -86,9 +86,7 @@ public static class SymmetricQuadrature
         //    Input, int NUMNODES, the number of nodes.
         //
     {
-        int itype;
-
-        itype = 0;
+        int itype = 0;
 
         Quae.quaequad(itype, n, ref rnodes, ref weights, numnodes);
 
@@ -138,18 +136,14 @@ public static class SymmetricQuadrature
         //    the files created.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
         int j;
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
-        string vertex_filename;
         List<string> vertex_unit = new();
         //
         //  Create the vertex file.
         //
-        vertex_filename = header + "_vertices.txt";
+        string vertex_filename = header + "_vertices.txt";
         vertex_unit.Add(vert1[0] + "  "
                                  + vert1[1] + "");
         vertex_unit.Add(vert2[0] + "  "
@@ -165,7 +159,7 @@ public static class SymmetricQuadrature
         //
         //  Create node file.
         //
-        node_filename = header + "_nodes.txt";
+        string node_filename = header + "_nodes.txt";
         for (j = 0; j < numnodes; j++)
         {
             node_unit.Add(rnodes[0 + j * 2] + "  "
@@ -177,14 +171,14 @@ public static class SymmetricQuadrature
         //
         //  Create graphics command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
         command_unit.Add("#  gnuplot < " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("set term png");
-        plot_filename = header + ".png";
+        string plot_filename = header + ".png";
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
         command_unit.Add("set ylabel '<--- Y --->'");

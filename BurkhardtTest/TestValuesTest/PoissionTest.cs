@@ -46,8 +46,8 @@ public class PoissionTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + a + "  "
-                              + x.ToString().PadLeft(4) + x + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + a + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(4) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

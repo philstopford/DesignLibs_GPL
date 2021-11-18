@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Burkardt.Table;
@@ -169,7 +170,7 @@ public static partial class typeMethods
             int i;
             for ( i = 0; i < m; i++ )
             {
-                cout += "  " + table[i+j*m].ToString().PadLeft(10);
+                cout += "  " + table[i+j*m].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
             output.Add(cout);
         }

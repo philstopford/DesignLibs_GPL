@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.AppliedStatistics;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -45,7 +44,7 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +x.ToString().PadLeft(12) + x + "  "
+                              +x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -92,8 +91,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(12) + alpha + "  "
-                              + x.ToString().PadLeft(12) + x + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12) + alpha + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -140,9 +139,9 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(12) + mu + "  "
-                              + sigma.ToString().PadLeft(12) + sigma + "  "
-                              + x.ToString().PadLeft(12) + x + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + mu + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + sigma + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -188,8 +187,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + a + "  "
-                              + x.ToString().PadLeft(12) + x + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + a + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -235,8 +234,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -282,8 +281,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -329,8 +328,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -375,7 +374,7 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +x.ToString().PadLeft(12) + x + "  "
+                              +x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -423,9 +422,9 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              + beta.ToString().PadLeft(12) + "  "
-                              + alpha.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -471,10 +470,10 @@ public static class GammaTest
                 break;
             }
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(8) + "  "
-                              + beta.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

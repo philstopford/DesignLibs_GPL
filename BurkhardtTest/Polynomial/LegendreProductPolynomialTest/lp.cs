@@ -117,11 +117,11 @@ public static class lpTest
 
             e = fx1 - fx2[0];
 
-            Console.WriteLine(o.ToString().PadLeft(6) + "  "
-                                                      + x.ToString().PadLeft(12) + "  "
-                                                      + fx1.ToString().PadLeft(24) + "  "
-                                                      + fx2[0].ToString().PadLeft(24) + "  "
-                                                      + e.ToString().PadLeft(8) + "");
+            Console.WriteLine(o.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + fx2[0].ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -172,9 +172,9 @@ public static class lpTest
                 break;
             }
 
-            Console.WriteLine(o.ToString().PadLeft(6) + "  "
-                                                      + x.ToString().PadLeft(12) + "  "
-                                                      + fx.ToString().PadLeft(24) + "");
+            Console.WriteLine(o.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + fx.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 }

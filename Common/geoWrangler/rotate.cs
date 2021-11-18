@@ -228,7 +228,7 @@ public static partial class GeoWrangler
         switch (H ^ V)
         {
             case true:
-                ret.Reverse(); // preserve ordering.
+                ret = ret.Reverse().ToArray(); // preserve ordering.
                 break;
         }
 

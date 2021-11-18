@@ -184,11 +184,14 @@ public static class Grid_Hermite
                             point3 = point2;
                             for (dim = 0; dim < dim_num; dim++)
                             {
-                                if (grid_point[dim + point2 * dim_num] != grid_point_temp[dim])
+                                if (!(Math.Abs(grid_point[dim + point2 * dim_num] - grid_point_temp[dim]) >
+                                      double.Epsilon))
                                 {
-                                    point3 = -1;
-                                    break;
+                                    continue;
                                 }
+
+                                point3 = -1;
+                                break;
                             }
 
                             if (point3 == point2)

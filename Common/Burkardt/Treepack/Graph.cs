@@ -525,9 +525,9 @@ public static class Graph
 
         for (i = 0; i < nedge; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + inode[i].ToString().PadLeft(6)
-                                   + "  " + jnode[i].ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + inode[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + jnode[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace geoLib;
+﻿namespace geoLib;
 
 public enum typeDirection { left1, right1, up1, down1, tilt1 };
 public enum typeVertex { corner, center };

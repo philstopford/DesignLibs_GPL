@@ -50,20 +50,11 @@ public static class Geometry
         //    form one side of the tube, and P2 the other.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double a;
-        double b;
-        double c;
-        double dis1;
-        double dis2;
         int j;
-        double[] pi;
-        double[] pim1;
-        double[] pip1;
         double[] p4 = new double[DIM_NUM];
         double[] p5 = new double[DIM_NUM];
-        double temp;
         switch (n)
         {
             //
@@ -82,35 +73,31 @@ public static class Geometry
         //
         for (j = 0; j < n - 1; j++)
         {
-            if (typeMethods.r8vec_eq(DIM_NUM, p, p, startIndexA1: +j * DIM_NUM, startIndexA2: +(j + 1) * DIM_NUM))
+            if (!typeMethods.r8vec_eq(DIM_NUM, p, p, startIndexA1: +j * DIM_NUM, startIndexA2: +(j + 1) * DIM_NUM))
             {
-                Console.WriteLine("");
-                Console.WriteLine("TUBE_2D - Fatal error!");
-                Console.WriteLine("  P[1:2,J] = P[1:2,J+1] for J = " + j + "");
-                Console.WriteLine("  P[0,J] = " + p[0 + j * DIM_NUM] + "");
-                Console.WriteLine("  P[1,J] = " + p[1 + j * DIM_NUM] + "");
-                return;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("TUBE_2D - Fatal error!");
+            Console.WriteLine("  P[1:2,J] = P[1:2,J+1] for J = " + j + "");
+            Console.WriteLine("  P[0,J] = " + p[0 + j * DIM_NUM] + "");
+            Console.WriteLine("  P[1,J] = " + p[1 + j * DIM_NUM] + "");
+            return;
         }
 
         for (j = 1; j <= n; j++)
         {
-            pim1 = j switch
+            double[] pim1 = j switch
             {
                 1 => p.Skip(+(j - 1) * DIM_NUM).ToArray(),
                 _ => p.Skip(+(j - 2) * DIM_NUM).ToArray()
             };
 
-            pi = p.Skip(+(j - 1) * DIM_NUM).ToArray();
+            double[] pi = p.Skip(+(j - 1) * DIM_NUM).ToArray();
 
-            if (j < n)
-            {
-                pip1 = p.Skip(+j * DIM_NUM).ToArray();
-            }
-            else
-            {
-                pip1 = p.Skip(+(j - 1) * DIM_NUM).ToArray();
-            }
+            double[] pip1;
+            pip1 = j < n ? p.Skip(+j * DIM_NUM).ToArray() : p.Skip(+(j - 1) * DIM_NUM).ToArray();
 
             Angle.angle_box_2d(dist, pim1, pi, pip1, ref p4, ref p5);
 
@@ -118,6 +105,7 @@ public static class Geometry
             p1[1 + (j - 1) * DIM_NUM] = p4[1];
             p2[0 + (j - 1) * DIM_NUM] = p5[0];
             p2[1 + (j - 1) * DIM_NUM] = p5[1];
+            double temp;
             switch (j)
             {
                 //
@@ -159,18 +147,18 @@ public static class Geometry
                 //
                 case > 1:
                 {
-                    a = p[1 + (j - 2) * DIM_NUM] - p[1 + (j - 1) * DIM_NUM];
-                    b = p[0 + (j - 1) * DIM_NUM] - p[0 + (j - 2) * DIM_NUM];
-                    c = p[0 + (j - 2) * DIM_NUM] * p[1 + (j - 1) * DIM_NUM]
-                        - p[0 + (j - 1) * DIM_NUM] * p[1 + (j - 2) * DIM_NUM];
+                    double a = p[1 + (j - 2) * DIM_NUM] - p[1 + (j - 1) * DIM_NUM];
+                    double b = p[0 + (j - 1) * DIM_NUM] - p[0 + (j - 2) * DIM_NUM];
+                    double c = p[0 + (j - 2) * DIM_NUM] * p[1 + (j - 1) * DIM_NUM]
+                               - p[0 + (j - 1) * DIM_NUM] * p[1 + (j - 2) * DIM_NUM];
 
-                    dis1 = (a * p1[0 + (j - 2) * DIM_NUM] + b * p1[1 + (j - 2) * DIM_NUM] + c)
-                           / Math.Sqrt(a * a + b * b);
+                    double dis1 = (a * p1[0 + (j - 2) * DIM_NUM] + b * p1[1 + (j - 2) * DIM_NUM] + c)
+                                  / Math.Sqrt(a * a + b * b);
 
-                    dis2 = (a * p1[0 + (j - 1) * DIM_NUM] + b * p1[1 + (j - 1) * DIM_NUM] + c)
-                           / Math.Sqrt(a * a + b * b);
+                    double dis2 = (a * p1[0 + (j - 1) * DIM_NUM] + b * p1[1 + (j - 1) * DIM_NUM] + c)
+                                  / Math.Sqrt(a * a + b * b);
 
-                    if (typeMethods.r8_sign(dis1) != typeMethods.r8_sign(dis2))
+                    if (Math.Abs(typeMethods.r8_sign(dis1) - typeMethods.r8_sign(dis2)) > double.Epsilon)
                     {
                         temp = p1[0 + (j - 1) * DIM_NUM];
                         p1[0 + (j - 1) * DIM_NUM] = p2[0 + (j - 1) * DIM_NUM];

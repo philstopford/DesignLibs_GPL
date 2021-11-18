@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 using Burkardt.Types;
 
@@ -127,12 +126,12 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("           A                 X             B");
         Console.WriteLine("         F(A)              F(X)          F(B)");
-        Console.WriteLine("  " + a.ToString().PadLeft(14)
-                               + "  " + x.ToString().PadLeft(14)
-                               + "  " + b.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  " + fa
-                               + "  " + fx.ToString().PadLeft(14)
-                               + "  " + fb.ToString().PadLeft(14) + "");
+                               + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Number of calls to F = " + calls + "");
     }
 

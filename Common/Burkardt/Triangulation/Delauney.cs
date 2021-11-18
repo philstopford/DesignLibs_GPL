@@ -69,61 +69,47 @@ public static class Delauney
         //
         //    Output, int DTRIS2, is 0 for no error.
     {
-        double cmax;
-        int e;
-        int error;
         int i;
-        int[] indx;
         int j;
-        int k;
-        int l;
         int ledg;
         int lr;
         int ltri;
         int m;
-        int m1;
-        int m2;
-        int n;
-        int redg;
-        int rtri;
-        int[] stack;
-        int t;
-        double tol;
-        int top;
 
-        stack = new int[point_num];
+        int[] stack = new int[point_num];
 
-        tol = 100.0 * typeMethods.r8_epsilon();
+        double tol = 100.0 * typeMethods.r8_epsilon();
         //
         //  Sort the vertices by increasing (x,y).
         //
-        indx = typeMethods.r82vec_sort_heap_index_a(point_num, base_, point_xy);
+        int[] indx = typeMethods.r82vec_sort_heap_index_a(point_num, base_, point_xy);
 
         typeMethods.r82vec_permute(point_num, indx, base_, ref point_xy);
         //
         //  Make sure that the data points are "reasonably" distinct.
         //
-        m1 = 1;
+        int m1 = 1;
 
         for (i = 2; i <= point_num; i++)
         {
             m = m1;
             m1 = i;
 
-            k = -1;
+            int k = -1;
 
             for (j = 0; j <= 1; j++)
             {
-                cmax = Math.Max(Math.Abs(point_xy[2 * (m - 1) + j]),
+                double cmax = Math.Max(Math.Abs(point_xy[2 * (m - 1) + j]),
                     Math.Abs(point_xy[2 * (m1 - 1) + j]));
 
-                if (tol * (cmax + 1.0)
-                    < Math.Abs(point_xy[2 * (m - 1) + j] - point_xy[2 * (m1 - 1) + j]))
+                if (!(tol * (cmax + 1.0)
+                      < Math.Abs(point_xy[2 * (m - 1) + j] - point_xy[2 * (m1 - 1) + j])))
                 {
-                    k = j;
-                    break;
+                    continue;
                 }
 
+                k = j;
+                break;
             }
 
             switch (k)
@@ -148,7 +134,7 @@ public static class Delauney
         //  makes a "healthy" triangle (M1,M2,M)
         //
         m1 = 1;
-        m2 = 2;
+        int m2 = 2;
         j = 3;
 
         for (;;)
@@ -241,7 +227,7 @@ public static class Delauney
         //  determine visible boundary edges, and apply diagonal edge swaps until
         //  Delaunay triangulation of vertices (so far) is obtained.
         //
-        top = 0;
+        int top = 0;
 
         for (i = j + 1; i <= point_num; i++)
         {
@@ -258,6 +244,9 @@ public static class Delauney
                 point_xy[2 * (m1 - 1) + 0], point_xy[2 * (m1 - 1) + 1],
                 point_xy[2 * (m2 - 1) + 0], point_xy[2 * (m2 - 1) + 1], 0.0);
 
+            int l;
+            int redg;
+            int rtri;
             switch (lr)
             {
                 case > 0:
@@ -275,13 +264,13 @@ public static class Delauney
             VBEDG.vbedg(point_xy[2 * (m - 1) + 0], point_xy[2 * (m - 1) + 1], point_num,
                 point_xy, tri_num, tri_vert, tri_nabe, ref ltri, ref ledg, ref rtri, ref redg);
 
-            n = tri_num + 1;
+            int n = tri_num + 1;
             l = -tri_nabe[3 * (ltri - 1) + ledg - 1];
 
             for (;;)
             {
-                t = l / 3;
-                e = l % 3 + 1;
+                int t = l / 3;
+                int e = l % 3 + 1;
                 l = -tri_nabe[3 * (t - 1) + e - 1];
                 m2 = tri_vert[3 * (t - 1) + e - 1];
 
@@ -324,16 +313,18 @@ public static class Delauney
             ltri = n;
             ledg = 2;
 
-            error = typeMethods.swapec(m, ref top, ref ltri, ref ledg, point_num, point_xy, tri_num,
+            int error = typeMethods.swapec(m, ref top, ref ltri, ref ledg, point_num, point_xy, tri_num,
                 ref tri_vert, ref tri_nabe, stack);
 
-            if (error != 0)
+            if (error == 0)
             {
-                Console.WriteLine("");
-                Console.WriteLine("DTRIS2 - Fatal error!");
-                Console.WriteLine("  Error return from SWAPEC.");
-                return error;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("DTRIS2 - Fatal error!");
+            Console.WriteLine("  Error return from SWAPEC.");
+            return error;
 
         }
 
@@ -476,31 +467,14 @@ public static class Delauney
         //    NEGATIVE indicates the triangulation is not Delaunay.
         //
     {
-        double angle_min1;
-        double angle_min2;
-        double[] angles1;
-        double[] angles2;
-        int i;
-        int i1;
-        int i2;
-        int i3;
-        int i4;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int neighbor;
-            
         double[] t = new double[2 * 3];
         int triangle1;
-        int triangle2;
-        double value = 0;
 
         angle_max = 0.0;
         angle_max_triangle = -1;
         angle_min = Math.PI;
         angle_min_triangle = -1;
-        value = 0.0;
+        double value = 0.0;
         //
         //  Consider triangle TRIANGLE1
         //
@@ -509,9 +483,10 @@ public static class Delauney
             //
             //  Consider the side opposite vertex NEIGHBOR.
             //
+            int neighbor;
             for (neighbor = 0; neighbor < 3; neighbor++)
             {
-                triangle2 = triangle_neighbor[neighbor + triangle1 * 3];
+                int triangle2 = triangle_neighbor[neighbor + triangle1 * 3];
                 switch (triangle2)
                 {
                     //
@@ -536,27 +511,30 @@ public static class Delauney
                 //  We rely on a property of the TRIANGLE_NEIGHBOR array, namely, that
                 //  neighbor #1 is on the side opposite to vertex #1, and so on.
                 //
-                i1 = typeMethods.i4_wrap(neighbor + 2, 0, 2);
-                i2 = typeMethods.i4_wrap(neighbor, 0, 2);
-                i3 = typeMethods.i4_wrap(neighbor + 1, 0, 2);
+                int i1 = typeMethods.i4_wrap(neighbor + 2, 0, 2);
+                int i2 = typeMethods.i4_wrap(neighbor, 0, 2);
+                int i3 = typeMethods.i4_wrap(neighbor + 1, 0, 2);
 
-                n1 = triangle_node[i1 + triangle1 * triangle_order];
-                n2 = triangle_node[i2 + triangle1 * triangle_order];
-                n3 = triangle_node[i3 + triangle1 * triangle_order];
+                int n1 = triangle_node[i1 + triangle1 * triangle_order];
+                int n2 = triangle_node[i2 + triangle1 * triangle_order];
+                int n3 = triangle_node[i3 + triangle1 * triangle_order];
                 //
                 //  The "odd" or "opposing" node of the neighboring triangle
                 //  is the one which follows common node I3.
                 //
-                n4 = -1;
+                int n4 = -1;
+                int i;
                 for (i = 0; i < 3; i++)
                 {
-                    if (triangle_node[i + triangle2 * triangle_order] == n3)
+                    if (triangle_node[i + triangle2 * triangle_order] != n3)
                     {
-                        i4 = i + 1;
-                        i4 = typeMethods.i4_wrap(i4, 0, 2);
-                        n4 = triangle_node[i4 + triangle2 * triangle_order];
-                        break;
+                        continue;
                     }
+
+                    int i4 = i + 1;
+                    i4 = typeMethods.i4_wrap(i4, 0, 2);
+                    n4 = triangle_node[i4 + triangle2 * triangle_order];
+                    break;
                 }
 
                 switch (n4)
@@ -613,7 +591,7 @@ public static class Delauney
                 t[1 + 1 * 2] = node_xy[1 + n2 * 2];
                 t[0 + 2 * 2] = node_xy[0 + n3 * 2];
                 t[1 + 2 * 2] = node_xy[1 + n3 * 2];
-                angles1 = typeMethods.triangle_angles_2d_new(t);
+                double[] angles1 = typeMethods.triangle_angles_2d_new(t);
 
                 t[0 + 0 * 2] = node_xy[0 + n1 * 2];
                 t[1 + 0 * 2] = node_xy[1 + n1 * 2];
@@ -621,10 +599,9 @@ public static class Delauney
                 t[1 + 1 * 2] = node_xy[1 + n3 * 2];
                 t[0 + 2 * 2] = node_xy[0 + n4 * 2];
                 t[1 + 2 * 2] = node_xy[1 + n4 * 2];
-                angles2 = typeMethods.triangle_angles_2d_new(t);
+                double[] angles2 = typeMethods.triangle_angles_2d_new(t);
 
-                angle_min1 =
-                    Math.Min(typeMethods.r8vec_min(3, angles1), typeMethods.r8vec_min(3, angles2));
+                double angle_min1 = Math.Min(typeMethods.r8vec_min(3, angles1), typeMethods.r8vec_min(3, angles2));
 
                 if (angle_max < typeMethods.r8vec_max(3, angles1))
                 {
@@ -669,8 +646,7 @@ public static class Delauney
                 t[1 + 2 * 2] = node_xy[1 + n4 * 2];
                 angles2 = typeMethods.triangle_angles_2d_new(t);
 
-                angle_min2 =
-                    Math.Min(typeMethods.r8vec_min(3, angles1), typeMethods.r8vec_min(3, angles2));
+                double angle_min2 = Math.Min(typeMethods.r8vec_min(3, angles1), typeMethods.r8vec_min(3, angles2));
 
                 //
                 //  Compare this value to the current minimum.
@@ -749,55 +725,39 @@ public static class Delauney
         //
         //    Output, int R8TRIS2, is 0 for no error.
     {
-        int base_;
-        double cmax;
-        int e;
-        int error;
         int i;
-        int[] indx;
         int j;
-        int k;
-        int l;
         int ledg;
         int lr;
         int ltri;
         int m;
-        int m1;
-        int m2;
-        int n;
-        int redg;
-        int rtri;
-        int[] stack;
-        int t;
-        double tol;
-        int top;
 
-        stack = new int[node_num];
+        int[] stack = new int[node_num];
 
-        tol = 100.0 * typeMethods.r8_epsilon();
+        double tol = 100.0 * typeMethods.r8_epsilon();
         //
         //  Sort the vertices by increasing (x,y).
         //
-        base_ = 0;
+        const int base_ = 0;
 
-        indx = typeMethods.r82vec_sort_heap_index_a(node_num, base_, node_xy);
+        int[] indx = typeMethods.r82vec_sort_heap_index_a(node_num, base_, node_xy);
 
         typeMethods.r82vec_permute(node_num, indx, base_, ref node_xy);
         //
         //  Make sure that the nodes are "reasonably" distinct.
         //
-        m1 = 1;
+        int m1 = 1;
 
         for (i = 2; i <= node_num; i++)
         {
             m = m1;
             m1 = i;
 
-            k = -1;
+            int k = -1;
 
             for (j = 0; j <= 1; j++)
             {
-                cmax = Math.Max(Math.Abs(node_xy[2 * (m - 1) + j]),
+                double cmax = Math.Max(Math.Abs(node_xy[2 * (m - 1) + j]),
                     Math.Abs(node_xy[2 * (m1 - 1) + j]));
 
                 if (tol * (cmax + 1.0)
@@ -806,7 +766,6 @@ public static class Delauney
                     k = j;
                     break;
                 }
-
             }
 
             switch (k)
@@ -831,7 +790,7 @@ public static class Delauney
         //  makes a "healthy" triangle (M1,M2,M)
         //
         m1 = 1;
-        m2 = 2;
+        int m2 = 2;
         j = 3;
 
         for (;;)
@@ -924,7 +883,7 @@ public static class Delauney
         //  determine visible boundary edges, and apply diagonal edge swaps until
         //  Delaunay triangulation of vertices (so far) is obtained.
         //
-        top = 0;
+        int top = 0;
 
         for (i = j + 1; i <= node_num; i++)
         {
@@ -941,6 +900,9 @@ public static class Delauney
                 node_xy[2 * (m1 - 1) + 0], node_xy[2 * (m1 - 1) + 1],
                 node_xy[2 * (m2 - 1) + 0], node_xy[2 * (m2 - 1) + 1], 0.0);
 
+            int rtri;
+            int l;
+            int redg;
             switch (lr)
             {
                 case > 0:
@@ -959,15 +921,15 @@ public static class Delauney
                 node_xy, triangle_num, triangle_node, triangle_neighbor,
                 ref ltri, ref ledg, ref rtri, ref redg);
 
-            n = triangle_num + 1;
+            int n = triangle_num + 1;
             l = -triangle_neighbor[3 * (ltri - 1) + ledg - 1];
 
             for (;;)
             {
                 try
                 {
-                    t = l / 3;
-                    e = l % 3 + 1;
+                    int t = l / 3;
+                    int e = l % 3 + 1;
                     l = -triangle_neighbor[3 * (t - 1) + e - 1];
                     m2 = triangle_node[3 * (t - 1) + e - 1];
 
@@ -1015,16 +977,18 @@ public static class Delauney
             ltri = n;
             ledg = 2;
 
-            error = typeMethods.swapec(m, ref top, ref ltri, ref ledg, node_num, node_xy, triangle_num,
+            int error = typeMethods.swapec(m, ref top, ref ltri, ref ledg, node_num, node_xy, triangle_num,
                 ref triangle_node, ref triangle_neighbor, stack);
 
-            if (error != 0)
+            if (error == 0)
             {
-                Console.WriteLine("");
-                Console.WriteLine("R8TRIS2 - Fatal error!");
-                Console.WriteLine("  Error return from SWAPEC.");
-                return error;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("R8TRIS2 - Fatal error!");
+            Console.WriteLine("  Error return from SWAPEC.");
+            return error;
 
         }
 
@@ -1094,34 +1058,22 @@ public static class Delauney
         //    are to replace triangles [0+2,3) and [0+3,4).
         //
     {
-        double a;
-        double b;
-        double c;
-        double d;
         bool swap;
-        double x13;
-        double x14;
-        double x23;
-        double x24;
-        double y13;
-        double y14;
-        double y23;
-        double y24;
 
-        x13 = xy[0 + 0 * 2] - xy[0 + 2 * 2];
-        x14 = xy[0 + 0 * 2] - xy[0 + 3 * 2];
-        x23 = xy[0 + 1 * 2] - xy[0 + 2 * 2];
-        x24 = xy[0 + 1 * 2] - xy[0 + 3 * 2];
+        double x13 = xy[0 + 0 * 2] - xy[0 + 2 * 2];
+        double x14 = xy[0 + 0 * 2] - xy[0 + 3 * 2];
+        double x23 = xy[0 + 1 * 2] - xy[0 + 2 * 2];
+        double x24 = xy[0 + 1 * 2] - xy[0 + 3 * 2];
 
-        y13 = xy[1 + 0 * 2] - xy[1 + 2 * 2];
-        y14 = xy[1 + 0 * 2] - xy[1 + 3 * 2];
-        y23 = xy[1 + 1 * 2] - xy[1 + 2 * 2];
-        y24 = xy[1 + 1 * 2] - xy[1 + 3 * 2];
+        double y13 = xy[1 + 0 * 2] - xy[1 + 2 * 2];
+        double y14 = xy[1 + 0 * 2] - xy[1 + 3 * 2];
+        double y23 = xy[1 + 1 * 2] - xy[1 + 2 * 2];
+        double y24 = xy[1 + 1 * 2] - xy[1 + 3 * 2];
 
-        a = x13 * x23 + y13 * y23;
-        b = x24 * y14 - x14 * y24;
-        c = x23 * y13 - x13 * y23;
-        d = x24 * x14 + y14 * y24;
+        double a = x13 * x23 + y13 * y23;
+        double b = x24 * y14 - x14 * y24;
+        double c = x23 * y13 - x13 * y23;
+        double d = x24 * x14 + y14 * y24;
         //
         //  The reference gives two initial tests before the
         //  main one.  However, there seems to be an error
@@ -1140,14 +1092,7 @@ public static class Delauney
         //  }
         //  else if ...
 
-        if (a * b < c * d)
-        {
-            swap = true;
-        }
-        else
-        {
-            swap = false;
-        }
+        swap = a * b < c * d;
 
         return swap;
     }

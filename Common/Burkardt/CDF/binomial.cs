@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Burkardt.CDFLib;
+﻿namespace Burkardt.CDFLib;
 
 public static partial class CDF
 {

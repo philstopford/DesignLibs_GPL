@@ -446,57 +446,57 @@ internal class Program
                 case 3:
                 case 4:
                 case 5:
-                    Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                           + "  " + rule[dim].ToString().PadLeft(8)
-                                           + "  " + growth[dim].ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     break;
                 case 6:
                     alpha = p[p_index];
                     p_index += 1;
-                    Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                           + "  " + rule[dim].ToString().PadLeft(8)
-                                           + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 7:
-                    Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                           + "  " + rule[dim].ToString().PadLeft(8)
-                                           + "  " + growth[dim].ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     break;
                 case 8:
                     alpha = p[p_index];
                     p_index += 1;
-                    Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                           + "  " + rule[dim].ToString().PadLeft(8)
-                                           + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 9:
                     alpha = p[p_index];
                     p_index += 1;
                     beta = p[p_index];
                     p_index += 1;
-                    Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                           + "  " + rule[dim].ToString().PadLeft(8)
-                                           + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14)
-                                           + "  " + beta.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 10:
-                    Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                           + "  " + rule[dim].ToString().PadLeft(8)
-                                           + "  " + growth[dim].ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     break;
                 case 11:
                 {
-                    string cout = "  " + dim.ToString().PadLeft(8)
-                                       + "  " + rule[dim].ToString().PadLeft(8)
-                                       + "  " + growth[dim].ToString().PadLeft(8);
+                    string cout = "  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                     for (i = 0; i < np[dim]; i++)
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -504,14 +504,14 @@ internal class Program
                 }
                 case 12:
                 {
-                    string cout = "  " + dim.ToString().PadLeft(8)
-                                       + "  " + rule[dim].ToString().PadLeft(8)
-                                       + "  " + growth[dim].ToString().PadLeft(8);
+                    string cout = "  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + rule[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + growth[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                     for (i = 0; i < np[dim]; i++)
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -551,11 +551,11 @@ internal class Program
             Console.WriteLine("");
             for (point = 0; point < point_num; point++)
             {
-                string cout = "  " + point.ToString().PadLeft(4) + "  ";
+                string cout = "  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + sparse_index[dim + point * dim_num].ToString().PadLeft(3)
-                                 + " /" + sparse_order[dim + point * dim_num].ToString().PadLeft(3);
+                    cout += "  " + sparse_index[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                 + " /" + sparse_order[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);

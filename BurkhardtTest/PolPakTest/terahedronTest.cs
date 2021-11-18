@@ -36,8 +36,8 @@ public static class terahedronTest
         for (n = 1; n <= 10; n++)
         {
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + Tetrahedron.tetrahedron_num(n).ToString().PadLeft(6) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + Tetrahedron.tetrahedron_num(n).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }

@@ -204,12 +204,12 @@ internal class Program
                                     w_exact = 1.0;
                                     wt = 1.0;
                                     steps_ave = 0;
-                                    Console.WriteLine("  " + x.ToString().PadLeft(10)
-                                                           + "  " + y.ToString().PadLeft(10)
-                                                           + "  " + wt.ToString().PadLeft(10)
-                                                           + "  " + w_exact.ToString().PadLeft(10)
-                                                           + "  " + Math.Abs(w_exact - wt).ToString().PadLeft(10)
-                                                           + "  " + steps_ave.ToString().PadLeft(8) + "");
+                                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + wt.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + w_exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + Math.Abs(w_exact - wt).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + steps_ave.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                                     continue;
                         }
 
@@ -314,12 +314,12 @@ internal class Program
                         //
                         err += Math.Pow(w_exact - wt, 2);
 
-                        Console.WriteLine("  " + x.ToString().PadLeft(10)
-                                               + "  " + y.ToString().PadLeft(10)
-                                               + "  " + wt.ToString().PadLeft(10)
-                                               + "  " + w_exact.ToString().PadLeft(10)
-                                               + "  " + Math.Abs(w_exact - wt).ToString().PadLeft(10)
-                                               + "  " + steps_ave.ToString().PadLeft(8) + "");
+                        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + wt.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + w_exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + Math.Abs(w_exact - wt).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + steps_ave.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                   }
             }
 

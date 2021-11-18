@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Interpolation;
 using Burkardt.Types;
 using InterpTest;

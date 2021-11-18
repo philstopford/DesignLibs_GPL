@@ -79,8 +79,8 @@ internal class Program
         for (n = 0; n <= 10; n++)
         {
             ng = Grid.pyramid_grid_size(n);
-            Console.WriteLine(n.ToString().PadLeft(4) + "  "
-                                                      + ng.ToString().PadLeft(6) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + ng.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 

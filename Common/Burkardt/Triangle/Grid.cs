@@ -55,31 +55,23 @@ public static class Grid
         //
     {
         int i;
-        double ir;
-        int j;
-        double jr;
-        int k;
-        double kr;
-        int l;
-        int ng;
-        double nr;
-        int p;
-        double[] tg;
 
-        ng = ( n + 1 ) * ( n + 2 ) / 2;
-        tg = new double[2*ng];
+        int ng = ( n + 1 ) * ( n + 2 ) / 2;
+        double[] tg = new double[2*ng];
 
-        p = 0;
-        nr = n;
+        int p = 0;
+        double nr = n;
 
         for ( i = 0; i <= n; i++ )
         {
-            ir = i;
+            double ir = i;
+            int j;
             for ( j = 0; j <= n - i; j++ )
             {
-                jr = j;
-                k = n - i - j;
-                kr = k;
+                double jr = j;
+                int k = n - i - j;
+                double kr = k;
+                int l;
                 for ( l = 0; l < 2; l++ )
                 {
                     tg[l+p*2] = ( ir * t[l+0*2] + jr * t[l+1*2] + kr * t[l+2*2] ) / nr;

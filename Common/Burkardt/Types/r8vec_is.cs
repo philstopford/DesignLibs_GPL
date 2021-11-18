@@ -167,7 +167,7 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (x[i] == 0.0 || x[i] == 1.0)
+            if (x[i] == 0.0 || Math.Abs(x[i] - 1.0) <= double.Epsilon)
             {
                 continue;
             }
@@ -221,11 +221,13 @@ public static partial class typeMethods
             int j;
             for (j = 0; j < i; j++)
             {
-                if (x[i] == x[j])
+                if (!(Math.Abs(x[i] - x[j]) <= double.Epsilon))
                 {
-                    value = false;
-                    break;
+                    continue;
                 }
+
+                value = false;
+                break;
             }
         }
 
@@ -534,11 +536,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (a[i] < 0.0)
+            if (!(a[i] < 0.0))
             {
-                value = true;
-                break;
+                continue;
             }
+
+            value = true;
+            break;
         }
 
         return value;
@@ -582,11 +586,13 @@ public static partial class typeMethods
         bool value = true;
         for (i = 0; i < n; i++)
         {
-            if (x[i] < 0.0)
+            if (!(x[i] < 0.0))
             {
-                value = false;
-                break;
+                continue;
             }
+
+            value = false;
+            break;
         }
 
         return value;
@@ -632,11 +638,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (0.0 < a[i])
+            if (!(0.0 < a[i]))
             {
-                value = false;
-                break;
+                continue;
             }
+
+            value = false;
+            break;
         }
 
         return value;
@@ -681,11 +689,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (a[i] != 0.0)
+            if (a[i] == 0.0)
             {
-                value = true;
-                break;
+                continue;
             }
+
+            value = true;
+            break;
         }
 
         return value;
@@ -730,11 +740,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (x[i] != 1.0)
+            if (!(Math.Abs(x[i] - 1.0) > double.Epsilon))
             {
-                value = false;
-                break;
+                continue;
             }
+
+            value = false;
+            break;
         }
 
         return value;
@@ -780,11 +792,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (a[i] <= 0.0)
+            if (!(a[i] <= 0.0))
             {
-                value = false;
-                break;
+                continue;
             }
+
+            value = false;
+            break;
         }
 
         return value;
@@ -829,11 +843,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (x[i] != 0.0)
+            if (x[i] == 0.0)
             {
-                value = false;
-                break;
+                continue;
             }
+
+            value = false;
+            break;
         }
 
         return value;

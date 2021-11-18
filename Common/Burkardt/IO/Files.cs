@@ -53,13 +53,12 @@ public static class Files
         //    Output, string FILE_NAME_EXT_SWAP, the file name with the new extension.
         //
     {
-        string filename2;
         //
         //  Look for the LAST occurrence of a period.
         //
-        int i = filename.LastIndexOf( "." );
+        int i = filename.LastIndexOf( ".", StringComparison.Ordinal);
 
-        filename2 = i switch
+        string filename2 = i switch
         {
             -1 => filename + "." + ext,
             _ => filename.Substring(0, i + 1) + ext
@@ -248,7 +247,7 @@ public static class Files
                             {
                                 [i] = c
                             };
-                            filename = sb.ToString();
+                            filename = sb.ToString(CultureInfo.InvariantCulture);
                             break;
                         }
                         default:
@@ -258,7 +257,7 @@ public static class Files
                             {
                                 [i] = c
                             };
-                            filename = sb.ToString();
+                            filename = sb.ToString(CultureInfo.InvariantCulture);
                             return;
                         }
                     }
@@ -280,7 +279,7 @@ public static class Files
                 {
                     sb[i] = ' ';
                 }
-                filename = sb.ToString();
+                filename = sb.ToString(CultureInfo.InvariantCulture);
                 break;
             }
         }

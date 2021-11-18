@@ -2,7 +2,7 @@
 
 namespace Burkardt.TriangulationNS;
 
-public static partial class VertexCount
+public static class VertexCount
 {
     public static int triangulation_order6_vertex_count(int tri_num, int[] triangle_node)
 
@@ -84,10 +84,8 @@ public static partial class VertexCount
         //
     {
         int j;
-        int vertex_num;
-        int[] vertices;
 
-        vertices = new int[3 * tri_num];
+        int[] vertices = new int[3 * tri_num];
 
         for (j = 0; j < tri_num; j++)
         {
@@ -106,7 +104,7 @@ public static partial class VertexCount
 
         typeMethods.i4vec_sort_heap_a(3 * tri_num, ref vertices);
 
-        vertex_num = typeMethods.i4vec_sorted_unique(3 * tri_num, ref vertices);
+        int vertex_num = typeMethods.i4vec_sorted_unique(3 * tri_num, ref vertices);
             
         return vertex_num;
     }

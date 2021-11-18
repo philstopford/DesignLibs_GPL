@@ -162,7 +162,7 @@ internal class Program
             {
                 x = Triangle.sphere01_triangle_sample(n, v1, v2, v3, ref seed);
 
-                string cout = "  " + n.ToString().PadLeft(8);
+                string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 for (j = 0; j < 7; j++)
                 {
                     for (i = 0; i < m; i++)
@@ -173,7 +173,7 @@ internal class Program
                     value = Monomial.monomial_value(m, n, e, x);
 
                     result = area * typeMethods.r8vec_sum(n, value) / n;
-                    cout += "  " + result.ToString().PadLeft(14);
+                    cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);

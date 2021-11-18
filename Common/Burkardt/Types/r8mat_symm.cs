@@ -123,37 +123,39 @@ public static partial class typeMethods
             {
                 for (j = 0; j < i; j++)
                 {
-                    if (eps * norm_fro < Math.Abs(a[i + j * n]) + Math.Abs(a[j + i * n]))
+                    if (!(eps * norm_fro < Math.Abs(a[i + j * n]) + Math.Abs(a[j + i * n])))
                     {
-                        double u = (a[j + j * n] - a[i + i * n]) / (a[i + j * n] + a[j + i * n]);
+                        continue;
+                    }
 
-                        double t = r8_sign(u) / (Math.Abs(u) + Math.Sqrt(u * u + 1.0));
-                        double c = 1.0 / Math.Sqrt(t * t + 1.0);
-                        double s = t * c;
-                        //
-                        //  A -> A * Q.
-                        //
-                        int k;
-                        double t1;
-                        double t2;
-                        for (k = 0; k < n; k++)
-                        {
-                            t1 = a[i + k * n];
-                            t2 = a[j + k * n];
-                            a[i + k * n] = t1 * c - t2 * s;
-                            a[j + k * n] = t1 * s + t2 * c;
-                        }
+                    double u = (a[j + j * n] - a[i + i * n]) / (a[i + j * n] + a[j + i * n]);
 
-                        //
-                        //  A -> QT * A
-                        //
-                        for (k = 0; k < n; k++)
-                        {
-                            t1 = a[k + i * n];
-                            t2 = a[k + j * n];
-                            a[k + i * n] = c * t1 - s * t2;
-                            a[k + j * n] = s * t1 + c * t2;
-                        }
+                    double t = r8_sign(u) / (Math.Abs(u) + Math.Sqrt(u * u + 1.0));
+                    double c = 1.0 / Math.Sqrt(t * t + 1.0);
+                    double s = t * c;
+                    //
+                    //  A -> A * Q.
+                    //
+                    int k;
+                    double t1;
+                    double t2;
+                    for (k = 0; k < n; k++)
+                    {
+                        t1 = a[i + k * n];
+                        t2 = a[j + k * n];
+                        a[i + k * n] = t1 * c - t2 * s;
+                        a[j + k * n] = t1 * s + t2 * c;
+                    }
+
+                    //
+                    //  A -> QT * A
+                    //
+                    for (k = 0; k < n; k++)
+                    {
+                        t1 = a[k + i * n];
+                        t2 = a[k + j * n];
+                        a[k + i * n] = c * t1 - s * t2;
+                        a[k + j * n] = s * t1 + c * t2;
                     }
                 }
             }

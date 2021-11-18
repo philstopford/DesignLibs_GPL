@@ -45,7 +45,7 @@ public class SphereTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -90,7 +90,7 @@ public class SphereTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -446,7 +446,7 @@ public static class FelippaRule
         //  Purpose:
         //
         //    PYRAMID__UNIT_O09 returns a 9 point quadrature rule for the unit pyramid.
-        ///
+        //
         //  Discussion:
         //
         //    The integration region is:

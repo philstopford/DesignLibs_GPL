@@ -62,11 +62,11 @@ public static class meixnerTest
 
                 for ( i = 0; i <= n; i++ )
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + "  " + beta.ToString().PadLeft(8)
-                                           + "  " + c.ToString().PadLeft(8)
-                                           + "  " + x.ToString().PadLeft(8)
-                                           + "  " + v[i].ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }

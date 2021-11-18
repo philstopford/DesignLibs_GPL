@@ -217,11 +217,11 @@ internal class Program
         for (k = 0; k < ni; k++)
         {
             ze = xyi[0 + k * 2] + 2.0 * xyi[1 + k * 2];
-            Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "  " + xyi[0 + k * 2].ToString().PadLeft(10)
-                                   + "  " + xyi[1 + k * 2].ToString().PadLeft(10)
-                                   + "  " + zi[k].ToString().PadLeft(10)
-                                   + "  " + ze.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xyi[0 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xyi[1 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + zi[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ze.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -361,11 +361,11 @@ internal class Program
 
         for (k = 0; k < ni; k++)
         {
-            Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "  " + xyi[0 + k * 2].ToString().PadLeft(10)
-                                   + "  " + xyi[1 + k * 2].ToString().PadLeft(10)
-                                   + "  " + zi[k].ToString().PadLeft(10)
-                                   + "  " + ze[k].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xyi[0 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xyi[1 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + zi[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ze[k].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

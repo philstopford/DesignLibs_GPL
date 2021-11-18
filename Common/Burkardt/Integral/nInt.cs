@@ -1102,7 +1102,5 @@ public static class nInt
 
             iwork[k - 1] += 1;
         }
-
-        return result;
     }
 }

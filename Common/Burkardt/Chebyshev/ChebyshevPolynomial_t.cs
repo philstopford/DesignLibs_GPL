@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.MatrixNS;
 using Burkardt.SolveNS;
@@ -777,7 +778,7 @@ public static partial class ChebyshevPolynomial
 
         for (i = 0; i < m; i++)
         {
-            string line = x[i].ToString();
+            string line = x[i].ToString(CultureInfo.InvariantCulture);
             for (j = 0; j < n_num; j++)
             {
                 n = n_val[j];

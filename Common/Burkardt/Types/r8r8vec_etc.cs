@@ -232,8 +232,6 @@ public static partial class typeMethods
                     break;
             }
         }
-
-        return;
     }
 
     public static void r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,

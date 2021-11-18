@@ -205,7 +205,7 @@ public static class RestartedGeneralizedMinimumResidual
                 h[k + (k - 1) * (mr + 1)] =
                     Math.Sqrt(typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +k * n));
 
-                if (av + delta * h[k + (k - 1) * (mr + 1)] == av)
+                if (Math.Abs(av + delta * h[k + (k - 1) * (mr + 1)] - av) <= double.Epsilon)
                 {
                     for (j = 1; j <= k; j++)
                     {
@@ -512,7 +512,7 @@ public static class RestartedGeneralizedMinimumResidual
 
                 h[k + (k - 1) * (mr + 1)] = Math.Sqrt(typeMethods.r8vec_dot(n, v, v, a1Index: + k * n, a2Index: + k * n));
 
-                if (av + delta * h[k + (k - 1) * (mr + 1)] == av)
+                if (Math.Abs(av + delta * h[k + (k - 1) * (mr + 1)] - av) <= double.Epsilon)
                 {
                     for (j = 1; j <= k; j++)
                     {
@@ -837,7 +837,7 @@ public static class RestartedGeneralizedMinimumResidual
 
                 h[(k + 1) * mr + k] = Math.Sqrt(typeMethods.r8vec_dot(n, v, v, a1Index: + (k + 1) * n, a2Index: + (k + 1) * n));
 
-                if (av + delta * h[(k + 1) * mr + k] == av)
+                if (Math.Abs(av + delta * h[(k + 1) * mr + k] - av) <= double.Epsilon)
                 {
                     for (j = 0; j < k + 1; j++)
                     {
@@ -939,7 +939,6 @@ public static class RestartedGeneralizedMinimumResidual
         {
             case true:
                 Console.WriteLine("");
-                ;
                 Console.WriteLine("PMGMRES_ILU_CR:");
                 Console.WriteLine("  Iterations = " + itr_used + "");
                 Console.WriteLine("  Final residual = " + rho + "");

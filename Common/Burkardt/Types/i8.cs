@@ -348,7 +348,7 @@ public static partial class typeMethods
         //    Output, long long int I8_HUGE, a "huge" I8.
         //
     {
-        long value = 9223372036854775807;
+        const long value = 9223372036854775807;
 
         return value;
     }
@@ -387,7 +387,7 @@ public static partial class typeMethods
         //    for I8_HUGE.
         //
     {
-        double value = 1.084202172485504434007E-19;
+        const double value = 1.084202172485504434007E-19;
 
         return value;
     }

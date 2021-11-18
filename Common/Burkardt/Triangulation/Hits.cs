@@ -51,31 +51,26 @@ public static class Hits
         //    the triangulation.
         //
     {
-        int d;
-        bool inside;
-        int j;
-        int k;
-        int nj;
-        int nk;
         int triangle;
-        int triangulation_hit;
 
-        triangulation_hit = 0;
+        int triangulation_hit = 0;
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
             triangle_hit[triangle] = 0;
 
+            int d;
             for (d = 0; d < data_num; d++)
             {
-                inside = true;
+                bool inside = true;
 
+                int j;
                 for (j = 0; j < 3; j++)
                 {
-                    k = (j + 1) % 3;
+                    int k = (j + 1) % 3;
 
-                    nj = triangle_node[j + triangle * triangle_order];
-                    nk = triangle_node[k + triangle * triangle_order];
+                    int nj = triangle_node[j + triangle * triangle_order];
+                    int nk = triangle_node[k + triangle * triangle_order];
 
                     if (0.0 < (data_xy[0 + d * 2] - node_xy[0 + nj * 2])
                         * (node_xy[1 + nk * 2] - node_xy[1 + nj * 2])

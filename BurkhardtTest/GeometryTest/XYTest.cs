@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Geometry;
 using Burkardt.Uniform;
 
@@ -55,15 +56,15 @@ public static class XYTest
             XY.xyz_to_rtp ( xyz1, ref r, ref theta, ref phi );
             XY.rtp_to_xyz ( r, theta, phi, ref xyz2 );
 
-            Console.WriteLine("  " + xyz1[0].ToString().PadLeft(7)
-                                   + "  " + xyz1[1].ToString().PadLeft(7)
-                                   + "  " + xyz1[1].ToString().PadLeft(7)
-                                   + "  " + r.ToString().PadLeft(7)
-                                   + "  " + theta.ToString().PadLeft(7)
-                                   + "  " + phi.ToString().PadLeft(7)
-                                   + "  " + xyz2[0].ToString().PadLeft(7)
-                                   + "  " + xyz2[1].ToString().PadLeft(7)
-                                   + "  " + xyz2[2].ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + xyz1[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + xyz1[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + xyz1[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + theta.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + phi.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + xyz2[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + xyz2[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + xyz2[2].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
 
         }
     }

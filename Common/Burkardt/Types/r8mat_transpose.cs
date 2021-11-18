@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Types;
 
@@ -194,14 +195,7 @@ public static partial class typeMethods
             _ => ilo
         };
 
-        if (ihi < m)
-        {
-            i2lo_hi = m;
-        }
-        else
-        {
-            i2lo_hi = ihi;
-        }
+        i2lo_hi = ihi < m ? m : ihi;
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
@@ -230,7 +224,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout += (i - 1).ToString().PadLeft(7) + "       ";
+                cout += (i - 1).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -244,19 +238,12 @@ public static partial class typeMethods
             };
 
             int j2hi;
-            if (n < jhi)
-            {
-                j2hi = n;
-            }
-            else
-            {
-                j2hi = jhi;
-            }
+            j2hi = n < jhi ? n : jhi;
 
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout = (j - 1).ToString().PadLeft(5) + ":";
+                cout = (j - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {

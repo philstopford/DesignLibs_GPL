@@ -49,11 +49,11 @@ internal partial class Program
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     "
-                          + mean[0].ToString().PadLeft(12) + "  "
-                          + mean[1].ToString().PadLeft(12) + "");
+                          + mean[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + mean[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  PDF variance = "
-                          + variance[0].ToString().PadLeft(12) + "  "
-                          + variance[1].ToString().PadLeft(12) + "");
+                          + variance[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + variance[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (j = 0; j < SAMPLE_NUM; j++)
         {
@@ -70,17 +70,17 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
         Console.WriteLine("  Sample mean =     "
-                          + mean[0].ToString().PadLeft(12) + "  "
-                          + mean[1].ToString().PadLeft(12) + "");
+                          + mean[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + mean[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample variance = "
-                          + variance[0].ToString().PadLeft(12) + "  "
-                          + variance[1].ToString().PadLeft(12) + "");
+                          + variance[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + variance[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample maximum =  "
-                          + xmax[0].ToString().PadLeft(12) + "  "
-                          + xmax[1].ToString().PadLeft(12) + "");
+                          + xmax[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + xmax[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample minimum =  "
-                          + xmin[0].ToString().PadLeft(12) + "  "
-                          + xmin[1].ToString().PadLeft(12) + "");
+                          + xmin[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + xmin[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
     }
 
@@ -133,11 +133,11 @@ internal partial class Program
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     "
-                          + mean[0].ToString().PadLeft(12) + "  "
-                          + mean[1].ToString().PadLeft(12) + "");
+                          + mean[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + mean[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  PDF variance = "
-                          + variance[0].ToString().PadLeft(12) + "  "
-                          + variance[1].ToString().PadLeft(12) + "");
+                          + variance[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + variance[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (j = 0; j < SAMPLE_NUM; j++)
         {
@@ -154,17 +154,17 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
         Console.WriteLine("  Sample mean =     "
-                          + mean[0].ToString().PadLeft(12) + "  "
-                          + mean[1].ToString().PadLeft(12) + "");
+                          + mean[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + mean[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample variance = "
-                          + variance[0].ToString().PadLeft(12) + "  "
-                          + variance[1].ToString().PadLeft(12) + "");
+                          + variance[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + variance[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample maximum =  "
-                          + xmax[0].ToString().PadLeft(12) + "  "
-                          + xmax[1].ToString().PadLeft(12) + "");
+                          + xmax[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + xmax[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample minimum =  "
-                          + xmin[0].ToString().PadLeft(12) + "  "
-                          + xmin[1].ToString().PadLeft(12) + "");
+                          + xmin[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + xmin[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
     }
 

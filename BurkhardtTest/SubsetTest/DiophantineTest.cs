@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 
 namespace SubsetTestNS;
@@ -79,19 +78,19 @@ public static class DiophantineTest
             switch (error)
             {
                 case true:
-                    Console.WriteLine(a.ToString().PadLeft(10) + "  "
-                                                               + b.ToString().PadLeft(10) + "  "
-                                                               + c.ToString().PadLeft(10) + "  "
+                    Console.WriteLine(a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
                                                                + "(Error occurred!)" + "");
                     break;
                 default:
                     r = a * x + b * y - c;
-                    Console.WriteLine(a.ToString().PadLeft(10) + "  "
-                                                               + b.ToString().PadLeft(10) + "  "
-                                                               + c.ToString().PadLeft(10) + "  "
-                                                               + x.ToString().PadLeft(10) + "  "
-                                                               + y.ToString().PadLeft(10) + "  "
-                                                               + r.ToString().PadLeft(10) + "");
+                    Console.WriteLine(a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                               + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                     break;
             }
 
@@ -139,14 +138,14 @@ public static class DiophantineTest
 
         Console.WriteLine("");
         Console.WriteLine("  Coefficients:");
-        Console.WriteLine("    A = " + a.ToString().PadLeft(12) + "");
-        Console.WriteLine("    B = " + b.ToString().PadLeft(12) + "");
-        Console.WriteLine("    C = " + c.ToString().PadLeft(12) + "");
+        Console.WriteLine("    A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    C = " + c.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Solution:");
-        Console.WriteLine("    X = " + x.ToString().PadLeft(12) + "");
-        Console.WriteLine("    Y = " + y.ToString().PadLeft(12) + "");
+        Console.WriteLine("    X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    Y = " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Residual R = A * X + B * Y - C:");
-        Console.WriteLine("    R = " + r.ToString().PadLeft(12) + "");
+        Console.WriteLine("    R = " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         Diophantine.diophantine_solution_minimize(a, b, ref x, ref y);
 
@@ -155,10 +154,10 @@ public static class DiophantineTest
         Console.WriteLine("");
         Console.WriteLine("  DIOPHANTINE_SOLUTION_MINIMIZE returns");
         Console.WriteLine("  the minimized solution:");
-        Console.WriteLine("    X = " + x.ToString().PadLeft(12) + "");
-        Console.WriteLine("    Y = " + y.ToString().PadLeft(12) + "");
+        Console.WriteLine("    X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    Y = " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Residual R = A * X + B * Y - C:");
-        Console.WriteLine("    R = " + r.ToString().PadLeft(12) + "");
+        Console.WriteLine("    R = " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         x = 15621;
         y = 4092;
@@ -167,10 +166,10 @@ public static class DiophantineTest
 
         Console.WriteLine("");
         Console.WriteLine("  Here is the minimal positive solution:");
-        Console.WriteLine("    X = " + x.ToString().PadLeft(12) + "");
-        Console.WriteLine("    Y = " + y.ToString().PadLeft(12) + "");
+        Console.WriteLine("    X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("    Y = " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Residual R = A * X + B * Y - C:");
-        Console.WriteLine("    R = " + r.ToString().PadLeft(12) + "");
+        Console.WriteLine("    R = " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
     }
 

@@ -358,14 +358,14 @@ internal class Program
                 ExactResult res = exact(x[k], y[k]);
                 u = res.u;
 
-                Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                       + "  " + i.ToString().PadLeft(4)
-                                       + "  " + j.ToString().PadLeft(4)
-                                       + "  " + x[k].ToString().PadLeft(10)
-                                       + "  " + y[k].ToString().PadLeft(10)
-                                       + "  " + u.ToString().PadLeft(14)
-                                       + "  " + c[k].ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u - c[k]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + y[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + c[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u - c[k]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 k += 1;
             }

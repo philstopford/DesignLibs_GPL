@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 
 namespace Burkardt.Types;
@@ -109,7 +110,7 @@ public static partial class typeMethods
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
-                cout += "     " + j.ToString().PadLeft(10) + "     ";
+                cout += "     " + j.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "     ";
             }
 
             Console.WriteLine(cout);
@@ -124,7 +125,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(5) + ":";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + ":";
                 //
                 //  Print out (up to) INCX entries in row I, that lie in the current strip.
                 //
@@ -132,8 +133,8 @@ public static partial class typeMethods
                 {
                     j = j2lo - 1 + j2;
                     Complex c = a[i - 1 + (j - 1) * m];
-                    cout += "  " + c.Real.ToString().PadLeft(8)
-                                 + "  " + c.Imaginary.ToString().PadLeft(8);
+                    cout += "  " + c.Real.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                 + "  " + c.Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);

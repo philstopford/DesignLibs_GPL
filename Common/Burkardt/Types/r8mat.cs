@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
+using System.Globalization;
 using Burkardt.SubsetNS;
-using Burkardt.Table;
 
 namespace Burkardt.Types;
 
@@ -881,50 +879,56 @@ public static partial class typeMethods
 
             for (i = j; i < m; i++)
             {
-                if (pivot < Math.Abs(u[i + j * m]))
+                if (!(pivot < Math.Abs(u[i + j * m])))
                 {
-                    pivot = Math.Abs(u[i + j * m]);
-                    ipiv = i;
+                    continue;
                 }
+
+                pivot = Math.Abs(u[i + j * m]);
+                ipiv = i;
             }
 
             //
             //  Unless IPIV is zero, swap rows J and IPIV.
             //
-            if (ipiv != -1)
+            if (ipiv == -1)
             {
-                int k;
-                for (k = 0; k < n; k++)
+                continue;
+            }
+
+            int k;
+            for (k = 0; k < n; k++)
+            {
+                double t = u[j + k * m];
+                u[j + k * m] = u[ipiv + j * m];
+                u[ipiv + k * m] = t;
+
+                t = l[j + k * m];
+                l[j + k * m] = l[ipiv + j * m];
+                l[ipiv + k * m] = t;
+
+                t = p[j + k * m];
+                p[j + k * m] = p[ipiv + j * m];
+                p[ipiv + k * m] = t;
+            }
+
+            //
+            //  Zero out the entries in column J, from row J+1 to M.
+            //
+            for (i = j + 1; i < m; i++)
+            {
+                if (u[i + j * m] == 0.0)
                 {
-                    double t = u[j + k * m];
-                    u[j + k * m] = u[ipiv + j * m];
-                    u[ipiv + k * m] = t;
-
-                    t = l[j + k * m];
-                    l[j + k * m] = l[ipiv + j * m];
-                    l[ipiv + k * m] = t;
-
-                    t = p[j + k * m];
-                    p[j + k * m] = p[ipiv + j * m];
-                    p[ipiv + k * m] = t;
+                    continue;
                 }
 
-                //
-                //  Zero out the entries in column J, from row J+1 to M.
-                //
-                for (i = j + 1; i < m; i++)
+                l[i + j * m] = u[i + j * m] / u[j + j * m];
+
+                u[i + j * m] = 0.0;
+
+                for (k = j + 1; k < n; k++)
                 {
-                    if (u[i + j * m] != 0.0)
-                    {
-                        l[i + j * m] = u[i + j * m] / u[j + j * m];
-
-                        u[i + j * m] = 0.0;
-
-                        for (k = j + 1; k < n; k++)
-                        {
-                            u[i + k * m] -= l[i + j * m] * u[j + k * m];
-                        }
-                    }
+                    u[i + k * m] -= l[i + j * m] * u[j + k * m];
                 }
             }
         }
@@ -1358,11 +1362,13 @@ public static partial class typeMethods
             int j;
             for (j = 0; j < n; j++)
             {
-                if (Math.Abs(rref[i + j * m] - 1.0) <= double.Epsilon)
+                if (!(Math.Abs(rref[i + j * m] - 1.0) <= double.Epsilon))
                 {
-                    leading += 1;
-                    break;
+                    continue;
                 }
+
+                leading += 1;
+                break;
             }
         }
 
@@ -1997,7 +2003,7 @@ public static partial class typeMethods
             int i;
             for (i = 1; i <= m; i++)
             {
-                cout = i.ToString().PadLeft(6) + "    ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "    ";
                 for (j = jlo; j <= jhi; j++)
                 {
                     cout += r8mat_plot_symbol(a[i - 1 + (j - 1) * m]);
@@ -2464,16 +2470,20 @@ public static partial class typeMethods
             {
                 i += 1;
 
-                if (m - 1 < i)
+                if (m - 1 >= i)
                 {
-                    i = r;
-                    lead += 1;
-                    if (n - 1 < lead)
-                    {
-                        lead = -1;
-                        break;
-                    }
+                    continue;
                 }
+
+                i = r;
+                lead += 1;
+                if (n - 1 >= lead)
+                {
+                    continue;
+                }
+
+                lead = -1;
+                break;
             }
 
             if (lead < 0)
@@ -2672,16 +2682,20 @@ public static partial class typeMethods
             {
                 i += 1;
 
-                if (m - 1 < i)
+                if (m - 1 >= i)
                 {
-                    i = r;
-                    lead += 1;
-                    if (n - 1 < lead)
-                    {
-                        lead = -1;
-                        break;
-                    }
+                    continue;
                 }
+
+                i = r;
+                lead += 1;
+                if (n - 1 >= lead)
+                {
+                    continue;
+                }
+
+                lead = -1;
+                break;
             }
 
             if (lead < 0)
@@ -2707,13 +2721,15 @@ public static partial class typeMethods
 
             for (i = 0; i < m; i++)
             {
-                if (i != r)
+                if (i == r)
                 {
-                    temp = a[i + lead * m];
-                    for (j = 0; j < n; j++)
-                    {
-                        a[i + j * m] -= temp * a[r + j * m];
-                    }
+                    continue;
+                }
+
+                temp = a[i + lead * m];
+                for (j = 0; j < n; j++)
+                {
+                    a[i + j * m] -= temp * a[r + j * m];
                 }
             }
 

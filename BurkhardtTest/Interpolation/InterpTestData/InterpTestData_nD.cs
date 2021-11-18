@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.FullertonFnLib;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

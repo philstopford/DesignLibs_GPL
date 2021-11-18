@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 
@@ -110,7 +109,7 @@ internal class Program
         {
             x = MonteCarlo.hyperball01_sample(m, n, ref data, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -122,7 +121,7 @@ internal class Program
 
                 result[j] = MonteCarlo.hyperball01_volume(m) * typeMethods.r8vec_sum(n, value)
                             / n;
-                cout += "  " + result[j].ToString().PadLeft(14);
+                cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -140,7 +139,7 @@ internal class Program
             }
 
             result[j] = MonteCarlo.hyperball01_monomial_integral(m, e);
-            cout += "  " + result[j].ToString().PadLeft(14);
+            cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -216,7 +215,7 @@ internal class Program
         {
             x = MonteCarlo.hyperball01_sample(m, n, ref data, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -228,7 +227,7 @@ internal class Program
 
                 result[j] = MonteCarlo.hyperball01_volume(m) * typeMethods.r8vec_sum(n, value)
                             / n;
-                cout += "  " + result[j].ToString().PadLeft(14);
+                cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -247,7 +246,7 @@ internal class Program
             }
 
             result[j] = MonteCarlo.hyperball01_monomial_integral(m, e);
-            cout += "  " + result[j].ToString().PadLeft(14);
+            cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);

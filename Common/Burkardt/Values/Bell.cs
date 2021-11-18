@@ -76,13 +76,13 @@ public class Bell
         //
     {
         int i;
-        int j;
 
         b[0] = 1;
 
         for (i = 1; i <= n; i++)
         {
             b[i] = 0;
+            int j;
             for (j = 1; j <= i; j++)
             {
                 b[i] += b[i - j] * typeMethods.i4_choose(i - 1, j - 1);

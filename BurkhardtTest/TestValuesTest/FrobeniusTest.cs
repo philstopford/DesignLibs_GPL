@@ -50,7 +50,7 @@ public static class FrobeniusTest
             string cout = "";
             for (i = 0; i < order; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(8);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -97,8 +97,8 @@ public static class FrobeniusTest
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  " + n_data.ToString().PadLeft(4)
-                                   + "  " + order.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + n_data.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -142,9 +142,9 @@ public static class FrobeniusTest
                 break;
             }
 
-            Console.WriteLine("  " + c1.ToString().PadLeft(8)
-                                   + "  " + c2.ToString().PadLeft(8)
-                                   + "  " + f.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + c1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + c2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + f.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Function;
 
 namespace SubsetTestNS;
@@ -45,15 +44,15 @@ public static class PrimeTest
         for ( i = 1; i <= 10; i++ )
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4) + "  "
-                              + Prime.prime ( i ).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + Prime.prime ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
         Console.WriteLine("");
         for ( i = prime_max - 10; i <= prime_max; i++ )
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4) + "  "
-                              + Prime.prime ( i ).ToString().PadLeft(6) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + Prime.prime ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 }

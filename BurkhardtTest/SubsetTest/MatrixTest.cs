@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 
@@ -47,9 +46,9 @@ public static class MatrixTest
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(5) + "  "
-                                                      + rank[i].ToString().PadLeft(5) + "  "
-                                                      + rank[i + 1].ToString().PadLeft(5) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                      + rank[i].ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                      + rank[i + 1].ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
         }
 
         MatrixProduct.matrix_product_opt(N, rank, ref cost, ref order);

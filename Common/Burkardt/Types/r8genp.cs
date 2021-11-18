@@ -101,8 +101,6 @@ public static partial class typeMethods
         //    nonzero, the factorization failed on the INFO-th step.
         //
     {
-        int i;
-        int j;
         int k;
 
         for (k = 1; k <= n - 1; k++)
@@ -113,11 +111,13 @@ public static partial class typeMethods
                     return k;
             }
 
+            int i;
             for (i = k + 1; i <= n; i++)
             {
                 a[(i - 1 + (k - 1) * n + aIndex ) % a.Length] = -a[(i - 1 + (k - 1) * n + aIndex ) % a.Length] / a[(k - 1 + (k - 1) * n + aIndex ) % a.Length];
             }
 
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 for (i = k + 1; i <= n; i++)
@@ -562,15 +562,17 @@ public static partial class typeMethods
             //
             //  Update the trailing submatrix.
             //
-            if (j < Math.Min(m, n))
+            if (j >= Math.Min(m, n))
             {
-                int ii;
-                for (ii = j + 1; ii <= m; ii++)
+                continue;
+            }
+
+            int ii;
+            for (ii = j + 1; ii <= m; ii++)
+            {
+                for (i = j + 1; i <= n; i++)
                 {
-                    for (i = j + 1; i <= n; i++)
-                    {
-                        a[ii - 1 + (i - 1) * m] -= a[ii - 1 + (j - 1) * m] * a[j - 1 + (i - 1) * m];
-                    }
+                    a[ii - 1 + (i - 1) * m] -= a[ii - 1 + (j - 1) * m] * a[j - 1 + (i - 1) * m];
                 }
             }
         }

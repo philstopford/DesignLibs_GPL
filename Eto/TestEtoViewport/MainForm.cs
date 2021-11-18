@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Eto.Forms;
 using Eto.Drawing;
-using Eto.OpenTK;
 using System.Diagnostics;
 using System.Timers;
 using System.Threading;
@@ -61,7 +60,7 @@ public class MainForm : Form
 
 	private void updateSimUIMT_()
 	{
-		m_timer.Elapsed += new ElapsedEventHandler(updatePreview);
+		m_timer.Elapsed += updatePreview;
 	}
 
 	private void configureProgressBar_(int maxValue)
@@ -84,11 +83,11 @@ public class MainForm : Form
 				{
 					//						try
 					{
-						Application.Instance.Invoke(new Action(() =>
+						Application.Instance.Invoke(() =>
 						{
 							// also sets commonVars.drawing to 'false'
 							previewUpdate();
-						}));
+						});
 					}
 				}
 			}
@@ -219,7 +218,7 @@ public class MainForm : Form
 		}
 		catch (Exception ex)
 		{
-			string err = ex.ToString();
+			string err = ex.ToString(CultureInfo.InvariantCulture);
 		}
 
 		t.Dispose();
@@ -259,7 +258,7 @@ public class MainForm : Form
 
 	public MainForm ()
 	{
-		myList = new List<ObservableCollection<string>> {new ObservableCollection<string> { "First", "Second" }};
+		myList = new List<ObservableCollection<string>> {new() { "First", "Second" }};
 
 		DataContext = new myStuff
 		{
@@ -522,7 +521,7 @@ public class MainForm : Form
 
 	private void adjustList_(object sender, EventArgs e)
 	{
-		myList[0].Add("Entry " + myList[0].Count.ToString());
+		myList[0].Add("Entry " + myList[0].Count.ToString(CultureInfo.InvariantCulture));
 		testComboBox.SelectedIndex = testComboBox.SelectedIndex switch
 		{
 			-1 => 0,

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -454,13 +455,13 @@ static class Program
         {
             c = (test - 6) / (double) 6;
 
-            string cout = c.ToString().PadLeft(14) + "  "
-                                                   + typeMethods.r8_acos(c).ToString().PadLeft(14);
+            string cout = c.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                               + typeMethods.r8_acos(c).ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             switch (c)
             {
                 case >= -1.0 and <= 1.0:
-                    cout += "  " + Math.Acos(c).ToString().PadLeft(14);
+                    cout += "  " + Math.Acos(c).ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     break;
             }
 

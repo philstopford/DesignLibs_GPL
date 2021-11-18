@@ -242,14 +242,14 @@ public static class LocalMinimum
                     sb = u;
                 }
 
-                if (fu <= fw || w == x)
+                if (fu <= fw || Math.Abs(w - x) <= double.Epsilon)
                 {
                     v = w;
                     fv = fw;
                     w = u;
                     fw = fu;
                 }
-                else if (fu <= fv || v == x || v == w)
+                else if (fu <= fv || Math.Abs(v - x) <= double.Epsilon || Math.Abs(v - w) <= double.Epsilon)
                 {
                     v = u;
                     fv = fu;
@@ -441,14 +441,14 @@ public static class LocalMinimum
                         b = data.u;
                     }
 
-                    if ( data.fu <= data.fw || data.w == data.x )
+                    if ( data.fu <= data.fw || Math.Abs(data.w - data.x) <= double.Epsilon )
                     {
                         data.v = data.w;
                         data.fv = data.fw;
                         data.w = data.u;
                         data.fw = data.fu;
                     }
-                    else if ( data.fu <= data.fv || data.v == data.x || data.v == data.w )
+                    else if ( data.fu <= data.fv || Math.Abs(data.v - data.x) <= double.Epsilon || Math.Abs(data.v - data.w) <= double.Epsilon )
                     {
                         data.v = data.u;
                         data.fv = data.fu;

@@ -237,7 +237,6 @@ internal class Program
         Console.WriteLine(" Iteration  Change");
         Console.WriteLine("");
         ctime1 = DateTime.Now;
-        ;
 
         while (epsilon <= diff)
         {
@@ -273,18 +272,17 @@ internal class Program
             iterations++;
             if (iterations == iterations_print)
             {
-                Console.WriteLine("  " + iterations.ToString().PadLeft(8)
+                Console.WriteLine("  " + iterations.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + diff + "");
                 iterations_print = 2 * iterations_print;
             }
         }
 
         ctime2 = DateTime.Now;
-        ;
         ctime = ctime2 - ctime1;
 
         Console.WriteLine("");
-        Console.WriteLine("  " + iterations.ToString().PadLeft(8)
+        Console.WriteLine("  " + iterations.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                + "  " + diff + "");
         Console.WriteLine("");
         Console.WriteLine("  Error tolerance achieved.");

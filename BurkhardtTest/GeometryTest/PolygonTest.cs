@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt;
 using Burkardt.Polygon;
@@ -131,8 +132,8 @@ public static class PolygonTest
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -633,8 +634,8 @@ public static class PolygonTest
 
             inside = Geometry.polygon_contains_point_2d(n, v, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + inside + "");
         }
 
@@ -698,8 +699,8 @@ public static class PolygonTest
         {
             p = p_test.Skip(+dim_num * test).ToArray();
 
-            string cout = "  " + p[0].ToString().PadLeft(12)
-                               + "  " + p[1].ToString().PadLeft(12);
+            string cout = "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
 
             inside = Geometry.polygon_contains_point_2d_2(n, v, p);
 
@@ -765,8 +766,8 @@ public static class PolygonTest
         {
             p = p_test.Skip(+dim_num * test).ToArray();
 
-            string cout = "  " + p[0].ToString().PadLeft(12)
-                               + "  " + p[1].ToString().PadLeft(12);
+            string cout = "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
 
             inside = Geometry.polygon_contains_point_2d_3(n, v, p);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.MatrixNS;
@@ -289,7 +290,7 @@ public static class D3
             for ( j = j2lo; j <= j2hi; j++ )
             {
                 j2 = j + 1 - j2lo;
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -309,7 +310,7 @@ public static class D3
 //
 //  Print out (up to) 5 entries in row I, that lie in the current strip.
 //
-                cout = i.ToString().PadLeft(6) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
 
                 for ( j2 = 1; j2 <= inc; j2++ )
                 {
@@ -321,15 +322,15 @@ public static class D3
                     }
                     else if ( j == i+1 )
                     {
-                        cout += a[0+(j-1)*3].ToString().PadLeft(12) + "  ";
+                        cout += a[0+(j-1)*3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else if ( j == i )
                     {
-                        cout += a[1+(j-1)*3].ToString().PadLeft(12) + "  ";
+                        cout += a[1+(j-1)*3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else if ( j == i-1 )
                     {
-                        cout += a[2+(j-1)*3].ToString().PadLeft(12) + "  ";
+                        cout += a[2+(j-1)*3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
 
                 }

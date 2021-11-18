@@ -46,10 +46,10 @@ public static class zeckendorfTest
         {
             Zeckendorf.zeckendorf(n, M_MAX, ref m, ref i_list, ref f_list);
 
-            string cout = n.ToString().PadLeft(4) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (j = 0; j < m; j++)
             {
-                cout += f_list[j].ToString().PadLeft(4) + "  ";
+                cout += f_list[j].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);

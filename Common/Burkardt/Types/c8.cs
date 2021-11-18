@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.Uniform;
 
@@ -602,7 +603,7 @@ public static partial class typeMethods
         double c3_imag = (c1.Imaginary * c2.Real
                           - c1.Real * c2.Imaginary) / c2_norm / c2_norm;
 
-        Complex c3 = new Complex(c3_real, c3_imag);
+        Complex c3 = new(c3_real, c3_imag);
 
         return c3;
     }
@@ -702,7 +703,7 @@ public static partial class typeMethods
         //    Output, Complex C8_I, the value of complex i.
         //
     {
-        Complex value = new Complex(0.0, 1.0);
+        Complex value = new(0.0, 1.0);
 
         return value;
     }
@@ -930,7 +931,7 @@ public static partial class typeMethods
         double arg = c8_arg(c1);
         double mag = c8_mag(c1);
 
-        Complex c2 = new Complex(Math.Log(mag), arg);
+        Complex c2 = new(Math.Log(mag), arg);
 
         return c2;
     }
@@ -1116,7 +1117,7 @@ public static partial class typeMethods
             y_min = y;
         }
 
-        Complex value = new Complex(x_min, y_min);
+        Complex value = new(x_min, y_min);
 
         return value;
     }
@@ -1285,7 +1286,7 @@ public static partial class typeMethods
         double x_r = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
         double x_c = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
 
-        Complex value = new Complex(x_r, x_c);
+        Complex value = new(x_r, x_c);
 
         return value;
     }
@@ -1315,7 +1316,7 @@ public static partial class typeMethods
         //    Output, Complex C8_ONE, the value of complex 1.
         //
     {
-        Complex value = new Complex(1.0, 0.0);
+        Complex value = new(1.0, 0.0);
 
         return value;
     }
@@ -1352,8 +1353,8 @@ public static partial class typeMethods
         //
     {
         Console.WriteLine(title
-                          + "  ( " + a.Real.ToString().PadLeft(14)
-                          + ", " + a.Imaginary.ToString().PadLeft(14) + " )");
+                          + "  ( " + a.Real.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + ", " + a.Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " )");
     }
 
     public static double c8_real(Complex c)
@@ -1843,7 +1844,7 @@ public static partial class typeMethods
         //    Output, Complex C8_ZERO, the value of complex 0.
         //
     {
-        Complex value = new Complex(0.0, 0.0);
+        Complex value = new(0.0, 0.0);
 
         return value;
     }

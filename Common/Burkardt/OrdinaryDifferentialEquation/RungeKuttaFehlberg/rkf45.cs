@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.ODENS.RungeKuttaFehlberg;
 
-public static partial class RungeKuttaFehlberg
+public static class RungeKuttaFehlberg
 {
     public static void r4_fehl(Func<float, float[], float[], float[]> f, int neqn,
             float[] y, float t, float h, float[] yp, ref float[] f1, ref float[] f2, ref float[] f3,
@@ -406,7 +406,7 @@ public static partial class RungeKuttaFehlberg
         //
         if (mflag != 1)
         {
-            if (t == tout && data.kflag != 3)
+            if (Math.Abs(t - tout) <= double.Epsilon && data.kflag != 3)
             {
                 flag_return = 8;
                 return flag_return;
@@ -553,7 +553,7 @@ public static partial class RungeKuttaFehlberg
                 yp = f(t, y, yp);
                 data.nfe = 1;
 
-                if (t == tout)
+                if (Math.Abs(t - tout) <= double.Epsilon)
                 {
                     flag_return = 2;
                     return flag_return;
@@ -1267,7 +1267,7 @@ public static partial class RungeKuttaFehlberg
         //
         if (mflag != 1)
         {
-            if (t == tout && data.kflag != 3)
+            if (Math.Abs(t - tout) <= double.Epsilon && data.kflag != 3)
             {
                 flag_return = 8;
                 return flag_return;
@@ -1414,7 +1414,7 @@ public static partial class RungeKuttaFehlberg
                 yp = f(t, y, yp);
                 data.nfe = 1;
 
-                if (t == tout)
+                if (Math.Abs(t - tout) <= double.Epsilon)
                 {
                     flag_return = 2;
                     return flag_return;

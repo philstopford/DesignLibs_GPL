@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.RankingNS;
-using Burkardt.Types;
 
 namespace ComboTest;
 
@@ -53,10 +52,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Ranking.knapsack_reorder(n, ref p, ref w);
@@ -68,10 +67,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -85,11 +84,11 @@ internal partial class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7)
-                                   + "  " + x[i].ToString().PadLeft(7)
-                                   + "  " + (x[i] * p[i]).ToString().PadLeft(7)
-                                   + "  " + (x[i] * w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * p[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -144,10 +143,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Ranking.knapsack_reorder(n, ref p, ref w);
@@ -159,10 +158,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -175,10 +174,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7)
-                                   + "  " + (x[i] * p[i]).ToString().PadLeft(7)
-                                   + "  " + (x[i] * w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * p[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -227,10 +226,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Ranking.knapsack_reorder(n, ref p, ref w);
@@ -242,10 +241,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
     }
 }

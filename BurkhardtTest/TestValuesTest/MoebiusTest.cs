@@ -46,8 +46,8 @@ public class MoebiusTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

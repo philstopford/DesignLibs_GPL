@@ -128,7 +128,7 @@ public static partial class Integrands
 
         for (i = 0; i < n; i++)
         {
-            if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, data.beta) == 0.0 || x[i] == 2.0)
+            if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, data.beta) == 0.0 || Math.Abs(x[i] - 2.0) <= double.Epsilon)
             {
                 fx[i] = 0.0;
             }

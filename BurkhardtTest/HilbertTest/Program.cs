@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Function;
 
 namespace HilbertTest;
@@ -76,9 +75,9 @@ internal class Program
         for (d = 0; d < n * n; d++)
         {
             Hilbert.d2xy(m, d, ref x, ref y);
-            Console.WriteLine("  " + d.ToString().PadLeft(3)
-                                   + "  " + x.ToString().PadLeft(3)
-                                   + "  " + y.ToString().PadLeft(3) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
     }
 
@@ -133,12 +132,12 @@ internal class Program
                 x1 = x;
                 y1 = y;
                 Hilbert.rot(n, ref x1, ref y1, rx, ry);
-                Console.WriteLine("  " + x.ToString().PadLeft(2)
-                                       + "  " + y.ToString().PadLeft(2)
-                                       + "  " + x0.ToString().PadLeft(2)
-                                       + "  " + y0.ToString().PadLeft(2)
-                                       + "  " + x1.ToString().PadLeft(2)
-                                       + "  " + y1.ToString().PadLeft(2) + "");
+                Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + x0.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + y0.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + y1.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             }
         }
     }
@@ -177,18 +176,18 @@ internal class Program
         string cout = "        ";
         for (x = 0; x < n; x++)
         {
-            cout += x.ToString().PadLeft(3);
+            cout += x.ToString(CultureInfo.InvariantCulture).PadLeft(3);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         for (y = n - 1; 0 <= y; y--)
         {
-            cout = "  " + y.ToString().PadLeft(3) + ":  ";
+            cout = "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ":  ";
             for (x = 0; x < n; x++)
             {
                 d = Hilbert.xy2d(m, x, y);
-                cout += d.ToString().PadLeft(3);
+                cout += d.ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);

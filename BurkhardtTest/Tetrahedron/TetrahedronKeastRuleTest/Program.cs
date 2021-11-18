@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.TetrahedronNS;
@@ -94,9 +93,9 @@ internal class Program
         {
             order_num = KeastRule.keast_order_num(rule);
             degree = KeastRule.keast_degree(rule);
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + degree.ToString().PadLeft(8)
-                                   + "  " + order_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -162,9 +161,9 @@ internal class Program
                 wtab_sum += wtab[order];
             }
 
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + order_num.ToString().PadLeft(8)
-                                   + "  " + wtab_sum.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + wtab_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -222,8 +221,8 @@ internal class Program
             KeastRule.keast_subrule(rule, suborder_num, ref suborder_xyzz, ref suborder_w);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + suborder_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
             for (suborder = 0; suborder < suborder_num; suborder++)
             {
@@ -308,10 +307,10 @@ internal class Program
 
         for (node = 0; node < NODE_NUM; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xyz[0 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz[1 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz[2 + node * 3].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_xyz[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         volume = Tetrahedron.tetrahedron_volume(node_xyz);
@@ -325,11 +324,11 @@ internal class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xyz[0 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[1 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[2 + order * 3].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xyz[0 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[1 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[2 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -345,10 +344,10 @@ internal class Program
 
         for (node = 0; node < NODE_NUM; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xyz2[0 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz2[1 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz2[2 + node * 3].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_xyz2[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz2[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz2[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         volume2 = Tetrahedron.tetrahedron_volume(node_xyz2);
@@ -362,11 +361,11 @@ internal class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xyz2[0 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz2[1 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz2[2 + order * 3].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xyz2[0 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz2[1 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz2[2 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -448,9 +447,9 @@ internal class Program
 
                     quad = typeMethods.r8vec_dot(order_num, w, mono);
 
-                    Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                           + "  " + order_num.ToString().PadLeft(8)
-                                           + "  " + quad.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + order_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
 
                 if (!more)
@@ -516,11 +515,11 @@ internal class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + w[order].ToString().PadLeft(14)
-                                   + "  " + xyz[0 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[1 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[2 + order * 3].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[0 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[1 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[2 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

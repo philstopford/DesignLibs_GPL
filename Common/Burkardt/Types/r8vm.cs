@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -53,7 +54,7 @@ public static partial class typeMethods
             int i;
             for (i = j + 1; i < n; i++)
             {
-                det *= (a[i] - a[j]);
+                det *= a[i] - a[j];
             }
         }
 
@@ -388,7 +389,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -416,7 +417,7 @@ public static partial class typeMethods
                         _ => Math.Pow(a[j - 1], i - 1)
                     };
 
-                    cout += aij.ToString().PadLeft(12) + "  ";
+                    cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -545,11 +546,13 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (a[i] == a[j])
+                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
                 {
-                    info = 1;
-                    return;
+                    continue;
                 }
+
+                info = 1;
+                return;
             }
         }
 
@@ -574,7 +577,7 @@ public static partial class typeMethods
                 {
                     for (i = j + 1; i <= n; i++)
                     {
-                        x[i - 1] /= (a[i - 1] - a[i - j - 1]);
+                        x[i - 1] /= a[i - 1] - a[i - j - 1];
                     }
 
                     for (i = j; i <= n - 1; i++)
@@ -681,11 +684,13 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (a[i] == a[j])
+                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
                 {
-                    info = 1;
-                    return null;
+                    continue;
                 }
+
+                info = 1;
+                return null;
             }
         }
 
@@ -712,7 +717,7 @@ public static partial class typeMethods
                 {
                     for (i = j + 1; i <= n; i++)
                     {
-                        x[i - 1] /= (a[i - 1] - a[i - j - 1]);
+                        x[i - 1] /= a[i - 1] - a[i - j - 1];
                     }
 
                     for (i = j; i <= n - 1; i++)
@@ -816,11 +821,13 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (a[i] == a[j])
+                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
                 {
-                    info = 1;
-                    return;
+                    continue;
                 }
+
+                info = 1;
+                return;
             }
         }
 
@@ -915,11 +922,13 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (a[i] == a[j])
+                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
                 {
-                    info = 1;
-                    return null;
+                    continue;
                 }
+
+                info = 1;
+                return null;
             }
         }
 

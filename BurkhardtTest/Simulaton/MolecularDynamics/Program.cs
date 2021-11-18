@@ -182,10 +182,10 @@ internal class Program
 
             if (step == step_print)
             {
-                Console.WriteLine("  " + step.ToString().PadLeft(8)
-                                       + "  " + potential.ToString().PadLeft(14)
-                                       + "  " + kinetic.ToString().PadLeft(14)
-                                       + "  " + ((potential + kinetic - e0) / e0).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + potential.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + kinetic.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + ((potential + kinetic - e0) / e0).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 step_print_index += 1;
                 step_print = step_print_index * step_num / step_print_num;
             }

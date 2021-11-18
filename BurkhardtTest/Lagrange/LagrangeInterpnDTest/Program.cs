@@ -140,9 +140,9 @@ internal class Program
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -222,9 +222,9 @@ internal class Program
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -304,9 +304,9 @@ internal class Program
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -397,9 +397,9 @@ internal class Program
 
             e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(5)
-                                   + "  " + nd.ToString().PadLeft(5)
-                                   + "  " + e.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + nd.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -479,9 +479,9 @@ internal class Program
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -561,9 +561,9 @@ internal class Program
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -643,9 +643,9 @@ internal class Program
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -729,9 +729,9 @@ internal class Program
 
             e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(5)
-                                   + "  " + nd.ToString().PadLeft(5)
-                                   + "  " + e.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + nd.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -868,11 +868,11 @@ internal class Program
 
             e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(5)
-                                   + "  " + n_1d[0].ToString().PadLeft(5)
-                                   + "  " + n_1d[1].ToString().PadLeft(5)
-                                   + "  " + n_1d[2].ToString().PadLeft(5)
-                                   + "  " + e.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n_1d[2].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }

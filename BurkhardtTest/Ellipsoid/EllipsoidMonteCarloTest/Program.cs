@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 
@@ -131,7 +130,7 @@ internal class Program
         {
             x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
 
-            string cout = n.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -142,7 +141,7 @@ internal class Program
                 value = Monomial.monomial_value(m, n, e, x);
 
                 result = volume * typeMethods.r8vec_sum(n, value) / n;
-                cout += result.ToString().PadLeft(14) + "  ";
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -233,7 +232,7 @@ internal class Program
         {
             x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
 
-            string cout = n.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -244,7 +243,7 @@ internal class Program
                 value = Monomial.monomial_value(m, n, e, x);
 
                 result = volume * typeMethods.r8vec_sum(n, value) / n;
-                cout += result.ToString().PadLeft(14) + "  ";
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -336,7 +335,7 @@ internal class Program
         {
             x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
 
-            string cout = n.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -347,7 +346,7 @@ internal class Program
                 value = Monomial.monomial_value(m, n, e, x);
 
                 result = volume * typeMethods.r8vec_sum(n, value) / n;
-                cout += result.ToString().PadLeft(14) + "  ";
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
             }
 
             Console.WriteLine(cout);

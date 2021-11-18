@@ -38,13 +38,11 @@ public static class Integrals
         //    Output, double TRIANGLE_AREA, the area of the triangle.
         //
     {
-        double value = 0;
-
-        value = 0.5 *
-                (
-                    (t[0 + 1 * 2] - t[0 + 0 * 2]) * (t[1 + 2 * 2] - t[1 + 0 * 2])
-                    - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2])
-                );
+        double value = 0.5 *
+                       (
+                           (t[0 + 1 * 2] - t[0 + 0 * 2]) * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                           - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2])
+                       );
 
         return value;
     }
@@ -84,21 +82,8 @@ public static class Integrals
         double b = 0;
         double c = 0;
         double d = 0;
-        int d1;
-        int d2;
-        int d3;
-        int d4;
-        int d5;
         double e = 0;
         double f = 0;
-        int m1;
-        int m2;
-        double[] p1;
-        double[] p2;
-        double[] p3;
-        double[] p4;
-        double[] p5;
-        double q;
         //
         //  Get map coefficients from reference RS triangle to general XY triangle.
         //    R = a+b*X+c*Y
@@ -110,16 +95,16 @@ public static class Integrals
         //    P1(R,S) = a+b*R+c*S
         //    P2(R,S) = d+e*R+f*S
         //
-        d1 = 1;
-        m1 = (d1 + 1) * (d1 + 2) / 2;
-        p1 = new double[m1];
+        const int d1 = 1;
+        int m1 = (d1 + 1) * (d1 + 2) / 2;
+        double[] p1 = new double[m1];
         p1[0] = a;
         p1[1] = b;
         p1[2] = c;
 
-        d2 = 1;
-        m2 = (d2 + 1) * (d2 + 2) / 2;
-        p2 = new double[m2];
+        const int d2 = 1;
+        int m2 = (d2 + 1) * (d2 + 2) / 2;
+        double[] p2 = new double[m2];
         p2[0] = d;
         p2[1] = e;
         p2[2] = f;
@@ -128,21 +113,21 @@ public static class Integrals
         //    P3(R,S) = P1(R,S)^i
         //    P4(R,S) = P2(R,S)^j
         //
-        d3 = i * d1;
-        p3 = typeMethods.poly_power_linear(d1, p1, i);
+        int d3 = i * d1;
+        double[] p3 = typeMethods.poly_power_linear(d1, p1, i);
 
-        d4 = j * d2;
-        p4 = typeMethods.poly_power_linear(d2, p2, j);
+        int d4 = j * d2;
+        double[] p4 = typeMethods.poly_power_linear(d2, p2, j);
         //
         //  Compute the product 
         //    P5(R,S) = P3(R,S) * P4(R,S)
         //
-        d5 = d3 + d4;
-        p5 = typeMethods.poly_product(d3, p3, d4, p4);
+        int d5 = d3 + d4;
+        double[] p5 = typeMethods.poly_product(d3, p3, d4, p4);
         //
         //  Compute the integral of P5(R,S) over the reference triangle.
         //
-        q = triangle01_poly_integral(d5, p5);
+        double q = triangle01_poly_integral(d5, p5);
         //
         //  Multiply by the area of the physical triangle T(X,Y) divided by
         //  the area of the reference triangle.
@@ -186,17 +171,14 @@ public static class Integrals
     {
         int i = 0;
         int j = 0;
-        int k;
         int km1;
-        int m;
-        double q;
 
-        m = (d + 1) * (d + 2) / 2;
+        int m = (d + 1) * (d + 2) / 2;
 
-        q = 0.0;
+        double q = 0.0;
         for (km1 = 0; km1 < m; km1++)
         {
-            k = km1 + 1;
+            int k = km1 + 1;
             typeMethods.i4_to_pascal(k, ref i, ref j);
             q += p[km1] * triangle_monomial_integral(i, j, t);
         }
@@ -240,14 +222,6 @@ public static class Integrals
         //    over the triangle.
         //
     {
-        double det;
-        double p00;
-        double p01;
-        double p02;
-        double p10;
-        double p11;
-        double p20;
-        double q;
         //
         //  x = x1 * ( 1.0 - xi - eta )
         //    + x2 *         xi
@@ -283,18 +257,18 @@ public static class Integrals
         //          + xi*eta * ( ( x2 - x1 ) * ( y3 - y1 ) + ( x3 - x1 ) * ( y2 - y1 ) )
         //          + xi^2   * ( x2 - x1 ) * ( y2 - y1 )
         //
-        det = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+        double det = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
 
-        p00 = x1 * y1;
+        double p00 = x1 * y1;
 
-        p01 = x1 * (y3 - y1) + (x3 - x1) * y1;
-        p10 = x1 * (y2 - y1) + (x2 - x1) * y1;
+        double p01 = x1 * (y3 - y1) + (x3 - x1) * y1;
+        double p10 = x1 * (y2 - y1) + (x2 - x1) * y1;
 
-        p02 = (x3 - x1) * (y3 - y1);
-        p11 = (x2 - x1) * (y3 - y1) + (x3 - x1) * (y2 - y1);
-        p20 = (x2 - x1) * (y2 - y1);
+        double p02 = (x3 - x1) * (y3 - y1);
+        double p11 = (x2 - x1) * (y3 - y1) + (x3 - x1) * (y2 - y1);
+        double p20 = (x2 - x1) * (y2 - y1);
 
-        q = 0.0;
+        double q = 0.0;
         q += p00 * triangle01_monomial_integral(0, 0);
         q += p10 * triangle01_monomial_integral(1, 0);
         q += p01 * triangle01_monomial_integral(0, 1);
@@ -335,12 +309,10 @@ public static class Integrals
         //    Output, double TRIANGLE01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        int k;
         int l;
-        double q;
 
-        k = 0;
-        q = 1.0;
+        int k = 0;
+        double q = 1.0;
 
         for (l = 1; l <= i; l++)
         {
@@ -406,14 +378,12 @@ public static class Integrals
         //
     {
         int i;
-        int k;
-        double value = 0;
         //
         //  The first computation ends with VALUE = 1.0;
         //
-        value = 1.0;
+        double value = 1.0;
 
-        k = 0;
+        int k = 0;
 
         for ( i = 1; i <= expon[0]; i++ )
         {
@@ -472,30 +442,24 @@ public static class Integrals
         //    Output, double TRIANGLE01_MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double area;
-        double exact;
-        double quad;
-        double quad_error;
-        double scale;
-        double[] value;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        scale = triangle01_monomial_integral ( dim_num, expon );
+        double scale = triangle01_monomial_integral ( dim_num, expon );
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = MonomialNS.Monomial.monomial_value ( dim_num, point_num, expon, x );
+        double[] value = MonomialNS.Monomial.monomial_value ( dim_num, point_num, expon, x );
         //
         //  Compute the weighted sum and divide by the exact value.
         //
-        area = 0.5;
-        quad = area * typeMethods.r8vec_dot_product ( point_num, weight, value ) / scale;
+        double area = 0.5;
+        double quad = area * typeMethods.r8vec_dot_product ( point_num, weight, value ) / scale;
         //
         //  Error:
         //
-        exact = 1.0;
-        quad_error = Math.Abs ( quad - exact );
+        double exact = 1.0;
+        double quad_error = Math.Abs ( quad - exact );
             
         return quad_error;
     }
@@ -536,17 +500,14 @@ public static class Integrals
     {
         int i = 0;
         int j = 0;
-        int k;
         int km1;
-        int m;
-        double q;
 
-        m = (d + 1) * (d + 2) / 2;
+        int m = (d + 1) * (d + 2) / 2;
 
-        q = 0.0;
+        double q = 0.0;
         for (km1 = 0; km1 < m; km1++)
         {
-            k = km1 + 1;
+            int k = km1 + 1;
             typeMethods.i4_to_pascal(k, ref i, ref j);
             q += p[km1] * triangle01_monomial_integral(i, j);
         }

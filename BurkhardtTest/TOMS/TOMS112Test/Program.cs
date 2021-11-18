@@ -58,8 +58,8 @@ internal class Program
  
             inside = TOMS.point_in_polygon ( n, x, y, x0, y0 );
 
-            Console.WriteLine("  " + x0.ToString().PadLeft(8)
-                                   + "  " + y0.ToString().PadLeft(8)
+            Console.WriteLine("  " + x0.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y0.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "       " + inside + "");
         }
         //

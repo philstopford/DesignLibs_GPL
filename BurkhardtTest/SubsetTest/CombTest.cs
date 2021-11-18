@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SubsetNS;
 using Burkardt.Types;
 
@@ -60,7 +59,7 @@ public static class CombTest
                 string cout = "";
                 for (i = 0; i < k; i++)
                 {
-                    cout += "  " + a[i].ToString().PadLeft(4);
+                    cout += "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                 }
 
                 Console.WriteLine(cout);
@@ -105,10 +104,10 @@ public static class CombTest
         for (n = 0; n <= n_max; n++)
         {
             Comb.comb_row_next(n, ref c);
-            string cout = "  " + n.ToString().PadLeft(2) + "  ";
+            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (i = 0; i <= n; i++)
             {
-                cout += c[i].ToString().PadLeft(5);
+                cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(5);
             }
 
             Console.WriteLine(cout);
@@ -163,10 +162,10 @@ public static class CombTest
         {
             Comb.comb_unrank(m, N, rank, ref a);
             cout = "  "
-                   + rank.ToString().PadLeft(3) + "  ";
+                   + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -175,10 +174,10 @@ public static class CombTest
         for (rank = 6; rank <= 8; rank++)
         {
             Comb.comb_unrank(m, N, rank, ref a);
-            cout = rank.ToString().PadLeft(3) + "  ";
+            cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -187,10 +186,10 @@ public static class CombTest
         for (rank = 250; rank <= 252; rank++)
         {
             Comb.comb_unrank(m, N, rank, ref a);
-            cout = "  " + rank.ToString().PadLeft(3) + "  ";
+            cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);

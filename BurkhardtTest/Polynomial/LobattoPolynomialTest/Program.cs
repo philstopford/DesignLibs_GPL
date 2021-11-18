@@ -101,11 +101,11 @@ internal class Program
 
             e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + fx1.ToString().PadLeft(12)
-                                   + "  " + fx2.ToString().PadLeft(12)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -170,11 +170,11 @@ internal class Program
 
             e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + fx1.ToString().PadLeft(12)
-                                   + "  " + fx2.ToString().PadLeft(12)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 

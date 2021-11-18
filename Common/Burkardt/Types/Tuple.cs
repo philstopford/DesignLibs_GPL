@@ -463,17 +463,19 @@ public static class BTuple
 
         for (i = n - 1; 0 <= i; i--)
         {
-            if (x[i] < m)
+            if (x[i] >= m)
             {
-                x[i] += 1;
-                for (j = i + 1; j < n; j++)
-                {
-                    x[j] = x[i];
-                }
-
-                k += 1;
-                return;
+                continue;
             }
+
+            x[i] += 1;
+            for (j = i + 1; j < n; j++)
+            {
+                x[j] = x[i];
+            }
+
+            k += 1;
+            return;
         }
 
         k = 0;

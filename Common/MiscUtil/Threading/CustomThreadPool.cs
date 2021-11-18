@@ -407,8 +407,9 @@ public class CustomThreadPool
         {
             Delegate[] delegates = eh.GetInvocationList();
             bool handled = false;
-            foreach (ThreadPoolExceptionHandler d in delegates)
+            foreach (var @delegate in delegates)
             {
+                var d = (ThreadPoolExceptionHandler) @delegate;
                 d(this, workItem, e, ref handled);
                 switch (handled)
                 {
@@ -460,8 +461,9 @@ public class CustomThreadPool
         if (delegateToFire != null)
         {
             Delegate[] delegates = delegateToFire.GetInvocationList();
-            foreach (BeforeWorkItemHandler d in delegates)
+            foreach (var @delegate in delegates)
             {
+                var d = (BeforeWorkItemHandler) @delegate;
                 d(this, workItem, ref cancel);
                 switch (cancel)
                 {
@@ -728,7 +730,7 @@ public class CustomThreadPool
             totalThreads++;
             background = workerThreadsAreBackground;
         }
-        Thread thread = new(new ThreadStart(WorkerThreadLoop))
+        Thread thread = new(WorkerThreadLoop)
         {
             Name = Name + " thread " + threadCounter,
             IsBackground = background

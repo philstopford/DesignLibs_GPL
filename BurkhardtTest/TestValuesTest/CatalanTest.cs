@@ -44,8 +44,8 @@ public class CatalanTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + c.ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

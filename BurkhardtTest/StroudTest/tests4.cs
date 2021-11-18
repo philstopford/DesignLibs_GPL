@@ -63,10 +63,10 @@ public static class tests4
             result4 = Sphere.sphere_unit_15_3d(function_3d_index, functions.function_3d);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString().PadLeft(14)
-                                   + "  " + result2.ToString().PadLeft(14)
-                                   + "  " + result3.ToString().PadLeft(14)
-                                   + "  " + result4.ToString().PadLeft(14) + "");
+                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result4.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -139,13 +139,13 @@ public static class tests4
                 result6 = Sphere.sphere_unit_11_nd(function_nd_index, functions.function_nd, n);
 
                 Console.WriteLine("  " + name
-                                       + result1.ToString().PadLeft(14)
-                                       + result2.ToString().PadLeft(14)
-                                       + result3.ToString().PadLeft(14) + "");
+                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 Console.WriteLine("  " + "       "
-                                       + result4.ToString().PadLeft(14)
-                                       + result5.ToString().PadLeft(14)
-                                       + result6.ToString().PadLeft(14) + "");
+                                       + result4.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result5.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result6.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -203,7 +203,7 @@ public static class tests4
             string cout = "";
             for (dim = 0; dim < n; dim++)
             {
-                cout += center[dim].ToString().PadLeft(14);
+                cout += center[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -225,8 +225,8 @@ public static class tests4
                 result2 = Sphere.sphere_07_1_nd(function_nd_index, functions.function_nd, n, center, r);
 
                 Console.WriteLine("  " + name
-                                       + result1.ToString().PadLeft(14)
-                                       + result2.ToString().PadLeft(14) + "");
+                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -288,10 +288,10 @@ public static class tests4
 
             area2 = Sphere.sphere_cap_area_nd(dim_num, r, h);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + area1.ToString().PadLeft(12)
-                                   + "  " + area2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -352,9 +352,9 @@ public static class tests4
 
             volume2 = Sphere.sphere_cap_volume_nd(dim_num, r, h);
 
-            Console.WriteLine("  " + h.ToString().PadLeft(12)
-                                   + "  " + volume1.ToString().PadLeft(12)
-                                   + "  " + volume2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + volume1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -415,9 +415,9 @@ public static class tests4
 
             volume2 = Sphere.sphere_cap_volume_nd(dim_num, r, h);
 
-            Console.WriteLine("  " + h.ToString().PadLeft(12)
-                                   + "  " + volume1.ToString().PadLeft(12)
-                                   + "  " + volume2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + volume1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -482,9 +482,9 @@ public static class tests4
                 h = 2 * i * r / n;
                 area = Sphere.sphere_cap_area_nd(dim_num, r, h);
                 volume = Sphere.sphere_cap_volume_nd(dim_num, r, h);
-                Console.WriteLine("  " + h.ToString().PadLeft(8)
-                                       + "  " + area.ToString().PadLeft(14)
-                                       + "  " + volume.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -566,7 +566,7 @@ public static class tests4
                 string cout = "";
                 for (i = 0; i < n; i++)
                 {
-                    cout += center[i].ToString().PadLeft(10);
+                    cout += center[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                 }
 
                 Console.WriteLine(cout);
@@ -598,9 +598,9 @@ public static class tests4
                     result5 = Ball.ball_f3_nd(function_nd_index, functions.function_nd, n, center, r1);
                     result6 = Ball.ball_f3_nd(function_nd_index, functions.function_nd, n, center, r2);
 
-                    Console.WriteLine(result1.ToString().PadLeft(14)
-                                      + (result4 - result3).ToString().PadLeft(14)
-                                      + (result6 - result5).ToString().PadLeft(14) + "");
+                    Console.WriteLine(result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + (result4 - result3).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + (result6 - result5).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -655,9 +655,9 @@ public static class tests4
 
             area2 = Sphere.sphere_unit_area_nd(dim_num);
 
-            Console.WriteLine("  " + dim_num.ToString().PadLeft(8)
-                                   + "  " + area.ToString().PadLeft(10)
-                                   + "  " + area2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -710,9 +710,9 @@ public static class tests4
 
             volume2 = Sphere.sphere_unit_volume_nd(dim_num);
 
-            Console.WriteLine("  " + dim_num.ToString().PadLeft(8)
-                                   + "  " + volume.ToString().PadLeft(10)
-                                   + "  " + volume2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -762,8 +762,8 @@ public static class tests4
         Console.WriteLine("");
         Console.WriteLine("  The corners of the rectangle are:");
         Console.WriteLine("");
-        Console.WriteLine(xval[0].ToString().PadLeft(14) + yval[0].ToString().PadLeft(14) + "");
-        Console.WriteLine(xval[1].ToString().PadLeft(14) + yval[1].ToString().PadLeft(14) + "");
+        Console.WriteLine(xval[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine(xval[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  Get the quadrature abscissas and weights for a unit square.
         //
@@ -805,9 +805,9 @@ public static class tests4
                     ytab, weight);
 
                 Console.WriteLine("  " + name
-                                       + nsub[0].ToString().PadLeft(4)
-                                       + nsub[1].ToString().PadLeft(4)
-                                       + result.ToString().PadLeft(14) + "");
+                                       + nsub[0].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + nsub[1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -868,7 +868,7 @@ public static class tests4
             cout = "  Rule:";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += "       " + rule.ToString().PadLeft(6);
+                cout += "       " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -898,7 +898,7 @@ public static class tests4
                         ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(13);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(13);
 
                 }
 
@@ -956,7 +956,7 @@ public static class tests4
             cout = "  Rule:   ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += rule.ToString().PadLeft(6);
+                cout += rule.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine("");
@@ -984,7 +984,7 @@ public static class tests4
                     result = Square.square_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(13);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(13);
                 }
 
                 Console.WriteLine(cout);
@@ -1037,9 +1037,9 @@ public static class tests4
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(4)
-                                   + y[i].ToString().PadLeft(4)
-                                   + z[i].ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
         Console.WriteLine("");
@@ -1061,7 +1061,7 @@ public static class tests4
             functions.function_3d_name(function_3d_index, ref name);
             cout = "  " + name;
             result = Tetrahedron.tetra_07(function_3d_index, functions.function_3d, x, y, z);
-            Console.WriteLine(cout + result.ToString().PadLeft(14) + "");
+            Console.WriteLine(cout + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             for (order_lo = 1; order_lo <= order_max; order_lo += 4)
             {
@@ -1070,7 +1070,7 @@ public static class tests4
                 for (order = order_lo; order <= order_hi; order++)
                 {
                     result = Tetrahedron.tetra_tproduct(function_3d_index, functions.function_3d, order, x, y, z);
-                    cout += result.ToString().PadLeft(16);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(16);
                 }
 
                 Console.WriteLine(cout);
@@ -1131,7 +1131,7 @@ public static class tests4
             cout = "  Rule:   ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += rule.ToString().PadLeft(6);
+                cout += rule.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -1161,7 +1161,7 @@ public static class tests4
                         ztab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
                 }
 

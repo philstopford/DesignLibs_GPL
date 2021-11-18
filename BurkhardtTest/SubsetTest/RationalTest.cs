@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Function;
 using Burkardt.RationalNS;
 using Burkardt.Types;
@@ -141,14 +140,14 @@ public static class RationalTest
                 string cout = "";
                 for (i = ilo; i <= ihi; i++)
                 {
-                    cout += a[i].ToString().PadLeft(3);
+                    cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);
                 cout = "";
                 for (i = ilo; i <= ihi; i++)
                 {
-                    cout += b[i].ToString().PadLeft(3);
+                    cout += b[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);
@@ -210,14 +209,14 @@ public static class RationalTest
                 string cout = "";
                 for (i = ilo; i <= ihi; i++)
                 {
-                    cout += a[i].ToString().PadLeft(3);
+                    cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);
                 cout = "";
                 for (i = ilo; i <= ihi; i++)
                 {
-                    cout += b[i].ToString().PadLeft(3);
+                    cout += b[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                 }
 
                 Console.WriteLine(cout);
@@ -313,11 +312,11 @@ public static class RationalTest
             a2 = a1;
             b2 = b1;
             Rational.rat_normalize(ref a2, ref b2);
-            Console.WriteLine("  " + a1.ToString().PadLeft(6)
-                                   + "  " + b1.ToString().PadLeft(6)
+            Console.WriteLine("  " + a1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + b1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  "
-                                   + "  " + a2.ToString().PadLeft(6)
-                                   + "  " + b2.ToString().PadLeft(6) + "");
+                                   + "  " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + b2.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -416,10 +415,10 @@ public static class RationalTest
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(3) + "  "
-                                                      + p[i].ToString().PadLeft(6) + "  "
-                                                      + q[i].ToString().PadLeft(6) + "  "
-                                                      + (p[i] / (double)q[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
+                                                      + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + (p[i] / (double)q[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -540,10 +539,10 @@ public static class RationalTest
             r2 = Rational.rat_to_r8(a, b);
 
             Console.WriteLine("  "
-                              + r.ToString().PadLeft(10) + "  "
-                              + a.ToString().PadLeft(6) + "  "
-                              + b.ToString().PadLeft(6) + "  "
-                              + r2.ToString().PadLeft(10) + "");
+                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + r2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -588,8 +587,8 @@ public static class RationalTest
             a = rat_top[i];
             b = rat_bot[i];
             s = Rational.rat_to_s(a, b);
-            Console.WriteLine("  " + a.ToString().PadLeft(6)
-                                   + "  " + b.ToString().PadLeft(6)
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "      " + s + "");
         }
     }
@@ -647,9 +646,9 @@ public static class RationalTest
             width = Rational.rat_width(a, b);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + b.ToString().PadLeft(8) + "  "
-                              + width.ToString().PadLeft(8) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + width.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 

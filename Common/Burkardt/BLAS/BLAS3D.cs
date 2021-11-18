@@ -224,7 +224,7 @@ public static class BLAS3D
 
         switch (alpha)
         {
-            case 0.0 or 0 when beta == 1.0:
+            case 0.0 or 0 when Math.Abs(beta - 1.0) <= double.Epsilon:
                 return;
             //
             //  And if alpha is 0.0.
@@ -288,7 +288,7 @@ public static class BLAS3D
                         }
                         default:
                         {
-                            if (beta != 1.0)
+                            if (Math.Abs(beta - 1.0) > double.Epsilon)
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -362,7 +362,7 @@ public static class BLAS3D
                                 }
                                 default:
                                 {
-                                    if (beta != 1.0)
+                                    if (Math.Abs(beta - 1.0) > double.Epsilon)
                                     {
                                         for (i = 0; i < m; i++)
                                         {
@@ -852,7 +852,7 @@ public static class BLAS3D
                                             break;
                                     }
 
-                                    if (temp != 1.0)
+                                    if (Math.Abs(temp - 1.0) > double.Epsilon)
                                     {
                                         for (i = 0; i < m; i++)
                                         {
@@ -887,7 +887,7 @@ public static class BLAS3D
                                             break;
                                     }
 
-                                    if (temp != 1.0)
+                                    if (Math.Abs(temp - 1.0) > double.Epsilon)
                                     {
                                         for (i = 0; i < m; i++)
                                         {
@@ -1139,7 +1139,7 @@ public static class BLAS3D
                     {
                         for (j = 0; j < n; j++)
                         {
-                            if (alpha != 1.0)
+                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1172,7 +1172,7 @@ public static class BLAS3D
                     {
                         for (j = 0; j < n; j++)
                         {
-                            if (alpha != 1.0)
+                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1267,7 +1267,7 @@ public static class BLAS3D
                     {
                         for (j = 0; j < n; j++)
                         {
-                            if (alpha != 1.0)
+                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1307,7 +1307,7 @@ public static class BLAS3D
                     {
                         for (j = n - 1; 0 <= j; j--)
                         {
-                            if (alpha != 1.0)
+                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1378,7 +1378,7 @@ public static class BLAS3D
                                         }
                                     }
 
-                                    if (alpha != 1.0)
+                                    if (Math.Abs(alpha - 1.0) > double.Epsilon)
                                     {
                                         for (i = 0; i < m; i++)
                                         {
@@ -1419,7 +1419,7 @@ public static class BLAS3D
                                         }
                                     }
 
-                                    if (alpha != 1.0)
+                                    if (Math.Abs(alpha - 1.0) > double.Epsilon)
                                     {
                                         for (i = 0; i < m; i++)
                                         {

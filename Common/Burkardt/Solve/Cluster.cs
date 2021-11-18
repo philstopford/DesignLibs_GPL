@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sampling;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -657,12 +658,12 @@ public static class Cluster
             ce = cluster_energy[k];
             cep = (int) (ce * 100.0 / ce_total);
             cv = cluster_variance[k];
-            Console.WriteLine("  " + k.ToString().PadLeft(7)
-                                   + "  " + cp.ToString().PadLeft(8)
-                                   + "  " + cpp.ToString().PadLeft(3)
-                                   + "  " + ce.ToString().PadLeft(12)
-                                   + "  " + cep.ToString().PadLeft(3)
-                                   + "  " + cv.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + cp.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + cpp.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + ce.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cep.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + cv.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         cp = typeMethods.i4vec_sum(cluster_num, cluster_population);
@@ -674,11 +675,11 @@ public static class Cluster
 
         Console.WriteLine("");
         Console.WriteLine("  " + "  Total"
-                               + "  " + cp.ToString().PadLeft(8)
-                               + "  " + cpp.ToString().PadLeft(3)
-                               + "  " + ce.ToString().PadLeft(12)
-                               + "  " + cep.ToString().PadLeft(3)
-                               + "  " + cv.ToString().PadLeft(12) + "");
+                               + "  " + cp.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + cpp.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + ce.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + cep.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                               + "  " + cv.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
     }
 
     public static double[] cluster_variance_compute(int dim_num, int point_num, int cluster_num,

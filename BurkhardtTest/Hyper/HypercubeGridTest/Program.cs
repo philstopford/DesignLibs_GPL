@@ -89,11 +89,11 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < m; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + ns[i].ToString().PadLeft(6) + "  "
-                                                      + c[i].ToString().PadLeft(6) + "  "
-                                                      + a[i].ToString().PadLeft(8) + "  "
-                                                      + b[i].ToString().PadLeft(8) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         x = Grid.hypercube_grid(m, n, ns, a, b, c);
@@ -146,11 +146,11 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < m; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + ns[i].ToString().PadLeft(6) + "  "
-                                                      + c[i].ToString().PadLeft(6) + "  "
-                                                      + a[i].ToString().PadLeft(8) + "  "
-                                                      + b[i].ToString().PadLeft(8) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         x = Grid.hypercube_grid(m, n, ns, a, b, c);
@@ -202,11 +202,11 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < m; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + ns[i].ToString().PadLeft(6) + "  "
-                                                      + c[i].ToString().PadLeft(6) + "  "
-                                                      + a[i].ToString().PadLeft(8) + "  "
-                                                      + b[i].ToString().PadLeft(8) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         x = Grid.hypercube_grid(m, n, ns, a, b, c);

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Sampling;
 using Burkardt.Sequence;
 using Burkardt.Types;

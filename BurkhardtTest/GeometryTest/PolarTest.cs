@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Geometry;
 using Burkardt.Uniform;
@@ -59,12 +60,12 @@ public static class PolarTest
             XY.xy_to_polar ( xy1, ref r, ref t );
             Helpers.polar_to_xy ( r, t, ref xy2 );
 
-            Console.WriteLine("  " + xy1[0].ToString().PadLeft(10)
-                                   + "  " + xy1[1].ToString().PadLeft(10)
-                                   + "  " + r.ToString().PadLeft(10)
-                                   + "  " + t.ToString().PadLeft(10)
-                                   + "  " + xy2[0].ToString().PadLeft(10)
-                                   + "  " + xy2[1].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + xy1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

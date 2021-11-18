@@ -44,8 +44,8 @@ public class PhiTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6)  + "  "
-                              + fn.ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)  + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

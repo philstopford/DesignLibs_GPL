@@ -174,7 +174,7 @@ public static class Rectangle
 
         for (i = 0; i < 2; i++)
         {
-            if (a[i] == b[i])
+            if (Math.Abs(a[i] - b[i]) <= double.Epsilon)
             {
                 result = 0.0;
                 return result;

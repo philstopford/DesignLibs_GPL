@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.SolveNS;
 using Burkardt.Types;
 
@@ -286,8 +285,8 @@ internal class Program
         for (i = 0; i < nx - 1; i++)
         {
             s = ((nx - i - 2) * smin + (i + 1) * smax) / (nx - 1);
-            Console.WriteLine("  " + s.ToString().PadLeft(12)
-                                   + "  " + u[i + nt * (nx - 1)].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + s.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + u[i + nt * (nx - 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -866,7 +867,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -883,7 +884,7 @@ public static partial class typeMethods
             int i;
             for (i = i2lo; i <= i2hi; i++)
             {
-                cout = i.ToString().PadLeft(4) + "  ";
+                cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
@@ -895,11 +896,11 @@ public static partial class typeMethods
                     }
                     else if (i <= j && j <= i + mu)
                     {
-                        cout += a[mu + i - j + (j - 1) * (mu + 1)].ToString().PadLeft(12) + "  ";
+                        cout += a[mu + i - j + (j - 1) * (mu + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else if (i - mu <= j && j <= i)
                     {
-                        cout += a[mu + j - i + (i - 1) * (mu + 1)].ToString().PadLeft(12) + "  ";
+                        cout += a[mu + j - i + (i - 1) * (mu + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                 }
 
@@ -1254,8 +1255,6 @@ public static partial class typeMethods
                 return null;
         }
 
-        int itknt = 0;
-
         double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
@@ -1323,12 +1322,6 @@ public static partial class typeMethods
             }
 
         }
-
-        Console.WriteLine("");
-        Console.WriteLine("R8PBU_SOR - Warning!");
-        Console.WriteLine("  The iteration did not converge.");
-
-        return x;
     }
 
     public static double[] r8pbu_to_r8ge(int n, int mu, double[] a)

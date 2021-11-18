@@ -167,12 +167,14 @@ public static partial class typeMethods
             int i;
             for (i = 0; i < m; i++)
             {
-                if (table[i + j * m] == item)
+                if (table[i + j * m] != item)
                 {
-                    row = i + 1;
-                    col = j + 1;
-                    return;
+                    continue;
                 }
+
+                row = i + 1;
+                col = j + 1;
+                return;
             }
         }
 
@@ -234,22 +236,26 @@ public static partial class typeMethods
             int i;
             for (i = 1; i <= m; i++)
             {
-                if (a[i - 1 + (j - 1) * m] == item1)
+                if (a[i - 1 + (j - 1) * m] != item1)
                 {
-                    int i2 = i + 1;
-
-                    if (m < i2)
-                    {
-                        i2 = 1;
-                    }
-
-                    if (a[i2 - 1 + (j - 1) * m] == item2)
-                    {
-                        row = i;
-                        col = j;
-                        return;
-                    }
+                    continue;
                 }
+
+                int i2 = i + 1;
+
+                if (m < i2)
+                {
+                    i2 = 1;
+                }
+
+                if (a[i2 - 1 + (j - 1) * m] != item2)
+                {
+                    continue;
+                }
+
+                row = i;
+                col = j;
+                return;
             }
         }
 

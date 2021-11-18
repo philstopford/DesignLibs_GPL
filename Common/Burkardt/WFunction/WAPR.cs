@@ -243,8 +243,8 @@ public static class WAPR
             double temp = 1.0 + value;
             double temp2 = temp + data.c23 * zn;
             temp2 = 2.0 * temp * temp2;
-            value *= (1.0 + zn / temp * (temp2 - zn)
-                / (temp2 - 2.0 * zn));
+            value *= 1.0 + zn / temp * (temp2 - zn)
+                / (temp2 - 2.0 * zn);
         }
 
         return value;

@@ -243,8 +243,8 @@ public static class QuadMesh
         //  Set x and y coordinates.
         //
         int k = 0;
-        node_xy[0 + k * 2] = 0.0;
-        node_xy[1 + k * 2] = 0.0;
+        node_xy[0] = 0.0;
+        node_xy[1] = 0.0;
 
         for (row = 1; row <= 4; row++)
         {

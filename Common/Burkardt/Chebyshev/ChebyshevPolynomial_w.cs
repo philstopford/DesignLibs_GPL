@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
@@ -620,11 +621,11 @@ public static partial class ChebyshevPolynomial
         data_filename = "w_polynomial_data.txt";
         for (i = 0; i < m; i++)
         {
-            string line = x[i].ToString();
+            string line = x[i].ToString(CultureInfo.InvariantCulture);
             for (j = 0; j < n_num; j++)
             {
                 n = n_val[j];
-                line += "  " + v[i + n * m].ToString();
+                line += "  " + v[i + n * m].ToString(CultureInfo.InvariantCulture);
             }
 
             data_unit.Add(line);

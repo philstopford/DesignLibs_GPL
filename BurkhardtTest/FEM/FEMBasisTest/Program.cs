@@ -68,20 +68,20 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("   I   J        X      L(I,J)(X)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1.ToString().PadLeft(2)
-                               + "  " + j1.ToString().PadLeft(2)
-                               + "  " + x1.ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         for (i2 = 0; i2 <= d; i2++)
         {
             j2 = d - i2;
             x2 = typeMethods.r8_fraction(i2, d);
             lij = FEM_basis.fem_basis_1d(i1, j1, x2);
-            Console.WriteLine("  " + i2.ToString().PadLeft(2)
-                                   + "  " + j2.ToString().PadLeft(2)
-                                   + "  " + x2.ToString().PadLeft(10)
-                                   + "  " + lij.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + lij.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -132,12 +132,12 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("   I   J   K        X           Y      L(I,J,K)(X,Y)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1.ToString().PadLeft(2)
-                               + "  " + j1.ToString().PadLeft(2)
-                               + "  " + k1.ToString().PadLeft(2)
-                               + "  " + x1.ToString().PadLeft(10)
-                               + "  " + y1.ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + k1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + y1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         for (j2 = 0; j2 <= d; j2++)
         {
@@ -147,12 +147,12 @@ internal class Program
                 x2 = typeMethods.r8_fraction(i2, d);
                 y2 =  typeMethods.r8_fraction(j2, d);
                 lijk = FEM_basis.fem_basis_2d(i1, j1, k1, x2, y2);
-                Console.WriteLine("  " + i2.ToString().PadLeft(2)
-                                       + "  " + j2.ToString().PadLeft(2)
-                                       + "  " + k2.ToString().PadLeft(2)
-                                       + "  " + x2.ToString().PadLeft(10)
-                                       + "  " + y2.ToString().PadLeft(10)
-                                       + "  " + lijk.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + k2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + y2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + lijk.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -210,14 +210,14 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("   I   J   K   L        X           Y           Z      L(I,J,K,L)(X,Y,Z)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1.ToString().PadLeft(2)
-                               + "  " + j1.ToString().PadLeft(2)
-                               + "  " + k1.ToString().PadLeft(2)
-                               + "  " + l1.ToString().PadLeft(2)
-                               + "  " + x1.ToString().PadLeft(10)
-                               + "  " + y1.ToString().PadLeft(10)
-                               + "  " + z1.ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + k1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + l1.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + y1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         for (k2 = 0; k2 <= d; k2++)
         {
@@ -230,14 +230,14 @@ internal class Program
                     y2 = typeMethods.r8_fraction(j2, d);
                     z2 = typeMethods.r8_fraction(k2, d);
                     lijkl = FEM_basis.fem_basis_3d(i1, j1, k1, l1, x2, y2, z2);
-                    Console.WriteLine("  " + i2.ToString().PadLeft(2)
-                                           + "  " + j2.ToString().PadLeft(2)
-                                           + "  " + k2.ToString().PadLeft(2)
-                                           + "  " + l2.ToString().PadLeft(2)
-                                           + "  " + x2.ToString().PadLeft(10)
-                                           + "  " + y2.ToString().PadLeft(10)
-                                           + "  " + z2.ToString().PadLeft(10)
-                                           + "  " + lijkl.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + k2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + y2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + lijkl.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -289,10 +289,10 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("   I   J        X      L(I,J)(X)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1[0].ToString().PadLeft(2)
-                               + "  " + i1[1].ToString().PadLeft(2)
-                               + "  " + x1[0].ToString().PadLeft(2)
-                               + "  " + 1.0.ToString().PadLeft(2) + "");
+        Console.WriteLine("  " + i1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + x1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         Console.WriteLine("");
         for (p1 = 0; p1 <= d; p1++)
         {
@@ -304,10 +304,10 @@ internal class Program
             }
 
             l = FEM_basis.fem_basis_md(m, i1, x2);
-            Console.WriteLine("  " + i2[0].ToString().PadLeft(2)
-                                   + "  " + i2[1].ToString().PadLeft(2)
-                                   + "  " + x2[0].ToString().PadLeft(2)
-                                   + "  " + l.ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + i2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + i2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
     }
 
@@ -359,12 +359,12 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("   I   J   K        X           Y      L(I,J,K)(X,Y)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1[0].ToString().PadLeft(2)
-                               + "  " + i1[1].ToString().PadLeft(2)
-                               + "  " + i1[2].ToString().PadLeft(2)
-                               + "  " + x1[0].ToString().PadLeft(10)
-                               + "  " + x1[1].ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + i1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + x1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + x1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         for (p2 = 0; p2 <= d; p2++)
         {
@@ -379,12 +379,12 @@ internal class Program
                 }
 
                 l = FEM_basis.fem_basis_md(m, i1, x2);
-                Console.WriteLine("  " + i2[0].ToString().PadLeft(2)
-                                       + "  " + i2[1].ToString().PadLeft(2)
-                                       + "  " + i2[2].ToString().PadLeft(2)
-                                       + "  " + x2[0].ToString().PadLeft(10)
-                                       + "  " + x2[1].ToString().PadLeft(10)
-                                       + "  " + l.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + i2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + i2[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + x2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + x2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -439,14 +439,14 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("   I   J   K   L        X           Y           Z      L(I,J,K,L)(X,Y,Z)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1[0].ToString().PadLeft(2)
-                               + "  " + i1[1].ToString().PadLeft(2)
-                               + "  " + i1[2].ToString().PadLeft(2)
-                               + "  " + i1[3].ToString().PadLeft(2)
-                               + "  " + x1[0].ToString().PadLeft(10)
-                               + "  " + x1[1].ToString().PadLeft(10)
-                               + "  " + x1[2].ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + i1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + x1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + x1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + x1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         for (p3 = 0; p3 <= d; p3++)
         {
@@ -464,14 +464,14 @@ internal class Program
                     }
 
                     l = FEM_basis.fem_basis_md(m, i1, x2);
-                    Console.WriteLine("  " + i2[0].ToString().PadLeft(2)
-                                           + "  " + i2[1].ToString().PadLeft(2)
-                                           + "  " + i2[2].ToString().PadLeft(2)
-                                           + "  " + i2[3].ToString().PadLeft(2)
-                                           + "  " + x2[0].ToString().PadLeft(10)
-                                           + "  " + x2[1].ToString().PadLeft(10)
-                                           + "  " + x2[2].ToString().PadLeft(10)
-                                           + "  " + l.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + x2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + x2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + x2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -537,15 +537,15 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  I1  I2  I3  J1  J2        X           Y           Z          B(X,Y,Z)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1[0].ToString().PadLeft(2)
-                               + "  " + i1[1].ToString().PadLeft(2)
-                               + "  " + i1[2].ToString().PadLeft(2)
-                               + "  " + j1[0].ToString().PadLeft(2)
-                               + "  " + j1[1].ToString().PadLeft(2)
-                               + "  " + xyz1[0].ToString().PadLeft(10)
-                               + "  " + xyz1[1].ToString().PadLeft(10)
-                               + "  " + xyz1[2].ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + i1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + xyz1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + xyz1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + xyz1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         Console.WriteLine("");
 
@@ -566,15 +566,15 @@ internal class Program
 
                     b = FEM_basis.fem_basis_prism_triangle(i1, j1, xyz2);
 
-                    Console.WriteLine("  " + i2[0].ToString().PadLeft(2)
-                                           + "  " + i2[1].ToString().PadLeft(2)
-                                           + "  " + i2[2].ToString().PadLeft(2)
-                                           + "  " + j2[0].ToString().PadLeft(2)
-                                           + "  " + j2[1].ToString().PadLeft(2)
-                                           + "  " + xyz2[0].ToString().PadLeft(10)
-                                           + "  " + xyz2[1].ToString().PadLeft(10)
-                                           + "  " + xyz2[2].ToString().PadLeft(10)
-                                           + "  " + b.ToString().PadLeft(10) + "");
+                    Console.WriteLine("  " + i2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + j2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + j2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + xyz2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + xyz2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + xyz2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 }
             }
         }
@@ -640,15 +640,15 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  I1  I2  I3  J1  J2        X           Y           Z          B(X,Y,Z)");
         Console.WriteLine("");
-        Console.WriteLine("  " + i1[0].ToString().PadLeft(2)
-                               + "  " + i1[1].ToString().PadLeft(2)
-                               + "  " + i1[2].ToString().PadLeft(2)
-                               + "  " + j1[0].ToString().PadLeft(2)
-                               + "  " + j1[1].ToString().PadLeft(2)
-                               + "  " + xyz1[0].ToString().PadLeft(10)
-                               + "  " + xyz1[1].ToString().PadLeft(10)
-                               + "  " + xyz1[2].ToString().PadLeft(10)
-                               + "  " + 1.0.ToString().PadLeft(10) + "");
+        Console.WriteLine("  " + i1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + i1[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + j1[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + xyz1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + xyz1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + xyz1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("");
 
         for (i_0 = 0; i_0 <= di; i_0++)
@@ -668,15 +668,15 @@ internal class Program
 
                     b = FEM_basis.fem_basis_prism_triangle(i1, j1, xyz2);
 
-                    Console.WriteLine("  " + i2[0].ToString().PadLeft(2)
-                                           + "  " + i2[1].ToString().PadLeft(2)
-                                           + "  " + i2[2].ToString().PadLeft(2)
-                                           + "  " + j2[0].ToString().PadLeft(2)
-                                           + "  " + j2[1].ToString().PadLeft(2)
-                                           + "  " + xyz2[0].ToString().PadLeft(10)
-                                           + "  " + xyz2[1].ToString().PadLeft(10)
-                                           + "  " + xyz2[2].ToString().PadLeft(10)
-                                           + "  " + b.ToString().PadLeft(10) + "");
+                    Console.WriteLine("  " + i2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i2[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + j2[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + j2[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + xyz2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + xyz2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + xyz2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 }
             }
         }

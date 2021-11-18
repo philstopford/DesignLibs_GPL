@@ -2092,7 +2092,7 @@ public static class Geometry
             }
             case true:
             {
-                if (a2 * p1[(0 + p1Index) % p1.Length] + b2 * p1[(1 + p1Index) % p1.Length] == c2)
+                if (Math.Abs(a2 * p1[(0 + p1Index) % p1.Length] + b2 * p1[(1 + p1Index) % p1.Length] - c2) <= double.Epsilon)
                 {
                     ival = 1;
                     typeMethods.r8vec_copy(DIM_NUM, p1, ref p, p1Index);
@@ -2106,7 +2106,7 @@ public static class Geometry
                 {
                     case true:
                     {
-                        if (a1 * p3[(0 + p3Index) % p3.Length] + b1 * p3[(1 + p3Index) % p3.Length] == c1)
+                        if (Math.Abs(a1 * p3[(0 + p3Index) % p3.Length] + b1 * p3[(1 + p3Index) % p3.Length] - c1) <= double.Epsilon)
                         {
                             ival = 1;
                             typeMethods.r8vec_copy(DIM_NUM, p3, ref p, p3Index);
@@ -2543,7 +2543,7 @@ public static class Geometry
         //
         //  If the lines are not parallel, they intersect, and have distance 0.
         //
-        if (a1 * b2 != a2 * b1)
+        if (Math.Abs(a1 * b2 - a2 * b1) > double.Epsilon)
         {
             value = 0.0;
             return value;
@@ -2664,7 +2664,7 @@ public static class Geometry
             {
                 case 0.0:
                 {
-                    if (b2 * c1 == c2 * b1)
+                    if (Math.Abs(b2 * c1 - c2 * b1) <= double.Epsilon)
                     {
                         ival = 2;
                     }
@@ -2673,7 +2673,7 @@ public static class Geometry
                 }
                 default:
                 {
-                    if (a2 * c1 == c2 * a1)
+                    if (Math.Abs(a2 * c1 - c2 * a1) <= double.Epsilon)
                     {
                         ival = 2;
                     }

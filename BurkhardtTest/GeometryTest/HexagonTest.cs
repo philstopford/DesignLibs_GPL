@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Hexagon;
 using Burkardt.Types;
 
@@ -121,9 +122,9 @@ public static class HexagonTest
         {
             angle = i;
             Geometry.hexagon_shape_2d(angle, ref p);
-            Console.WriteLine("  " + angle.ToString().PadLeft(12)
-                                   + "  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + angle.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

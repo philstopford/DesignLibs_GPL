@@ -1115,7 +1115,7 @@ public static class Segment
                 return h;
         }
 
-        if (area == area_circle)
+        if (Math.Abs(area - area_circle) <= double.Epsilon)
         {
             h = 2.0 * r;
             return h;

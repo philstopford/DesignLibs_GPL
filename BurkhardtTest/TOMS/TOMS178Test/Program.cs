@@ -91,8 +91,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + startpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + startpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         value = rosenbrock(startpt, nvars);
@@ -117,8 +117,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + endpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + endpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         value = rosenbrock(endpt, nvars);
@@ -184,8 +184,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + startpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + startpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         value = woods(startpt, nvars);
@@ -210,8 +210,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + endpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + endpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         value = woods(endpt, nvars);

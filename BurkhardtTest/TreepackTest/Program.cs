@@ -110,9 +110,9 @@ internal class Program
 
             c2 = Catalan.catalan(n);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + c.ToString().PadLeft(6)
-                                   + "  " + c2[n].ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + c2[n].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
         }
     }
@@ -292,12 +292,12 @@ internal class Program
             {
                 code[0] = i;
                 Pruefer.pruefer_to_tree_2(nnode, code, ref itree);
-                Console.WriteLine("  " + code[0].ToString().PadLeft(2)
-                                       + "  " + code[1].ToString().PadLeft(2)
+                Console.WriteLine("  " + code[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + code[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                        + "  "
-                                       + "  " + itree[0].ToString().PadLeft(2)
-                                       + "  " + itree[1].ToString().PadLeft(2)
-                                       + "  " + itree[2].ToString().PadLeft(2) + "");
+                                       + "  " + itree[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + itree[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + itree[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             }
         }
     }
@@ -715,8 +715,8 @@ internal class Program
         for (nnode = 0; nnode <= 10; nnode++)
         {
             num = Tree.tree_enum(nnode);
-            Console.WriteLine("  " + nnode.ToString().PadLeft(8)
-                                   + "  " + num.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + nnode.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + num.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -767,9 +767,9 @@ internal class Program
             Console.WriteLine("  " + icode[0]
                                    + "  " + icode[1]
                                    + "            "
-                                   + "  " + itree[0].ToString().PadLeft(2)
-                                   + "  " + itree[1].ToString().PadLeft(2)
-                                   + "  " + itree[2].ToString().PadLeft(2) + "");
+                                   + "  " + itree[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + itree[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + itree[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
 
             if (!more)
             {
@@ -812,8 +812,8 @@ internal class Program
         {
             num = Tree.tree_rb_enum(nnode);
 
-            Console.WriteLine("  " + nnode.ToString().PadLeft(8)
-                                   + "  " + num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + nnode.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -866,7 +866,7 @@ internal class Program
             }
 
             i += 1;
-            string cout = "  " + i.ToString().PadLeft(2) + "  ";
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (j = 0; j < n; j++)
             {
                 cout += a[j];
@@ -930,10 +930,10 @@ internal class Program
             parent = Tree.tree_rb_to_parent(n, a);
 
             i += 1;
-            string cout = "  " + i.ToString().PadLeft(2) + "  ";
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (j = 0; j < n; j++)
             {
-                cout += parent[j].ToString().PadLeft(3);
+                cout += parent[j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
             }
 
             Console.WriteLine(cout);
@@ -992,7 +992,7 @@ internal class Program
             {
                 Tree.tree_rb_yule(ref n, ref seed, a);
 
-                string cout = "  " + n.ToString().PadLeft(2) + "  ";
+                string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
                 for (j = 0; j < n; j++)
                 {
                     cout += a[j];
@@ -1199,7 +1199,7 @@ internal class Program
             string cout = "  ";
             for (j = 1; j < nnode; j++)
             {
-                cout += itree[j].ToString().PadLeft(4);
+                cout += itree[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

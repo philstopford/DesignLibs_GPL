@@ -121,7 +121,7 @@ public static class CNF
         //
         //  Remove the first four characters and shift left.
         //
-        line.Replace("p cnf ", "");
+        line = line.Replace("p cnf ", "");
 
         //
         //  Extract the next word, which is the number of variables.
@@ -262,7 +262,7 @@ public static class CNF
         {
             for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
-                line += " " + l_val[l].ToString().PadLeft(7);
+                line += " " + l_val[l].ToString(CultureInfo.InvariantCulture).PadLeft(7);
                 l += 1;
 
                 switch ((l_c + 1) % 10)
@@ -273,7 +273,7 @@ public static class CNF
                 }
             }
 
-            line += " " + 0.ToString().PadLeft(7);
+            line += " " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(7);
             output_unit.Add(line);
         }
 
@@ -476,7 +476,7 @@ public static class CNF
         //
         //  Remove the first four characters and shift left.
         //
-        line.Replace("p cnf ", "");
+        line = line.Replace("p cnf ", "");
 
         //
         //  Extract the next word, which is the number of variables.
@@ -647,7 +647,7 @@ public static class CNF
                                           + " includes " + l_c_num[c] + " signed literals:");
             for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
-                Console.WriteLine(l_val[l].ToString().PadLeft(4) + "");
+                Console.WriteLine(l_val[l].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
                 l += 1;
             }
         }

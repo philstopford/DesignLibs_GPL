@@ -108,9 +108,9 @@ internal partial class Program
 
             Console.WriteLine("");
             check = Ranking.edge_check(node_num, edge_num, edge_list);
-            Console.WriteLine("      " + check.ToString().PadLeft(2)
-                                       + "     " + node_num.ToString().PadLeft(2)
-                                       + "     " + edge_num.ToString().PadLeft(2) + "");
+            Console.WriteLine("      " + check.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "     " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "     " + edge_num.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             typeMethods.i4mat_print(2, edge_num, edge_list, "  Edge list of graph:");
 
         }
@@ -197,9 +197,9 @@ internal partial class Program
         {
             edge_num = Ranking.edge_enum(node_num);
             Console.WriteLine("       "
-                              + "  " + node_num.ToString().PadLeft(2)
+                              + "  " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                               + "    "
-                              + "  " + edge_num.ToString().PadLeft(6) + "");
+                              + "  " + edge_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 }

@@ -58,7 +58,7 @@ public static class VectorTest
             string cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -106,7 +106,7 @@ public static class VectorTest
         string cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += base_[i].ToString().PadLeft(4) + "  ";
+            cout += base_[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -126,7 +126,7 @@ public static class VectorTest
             cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -174,7 +174,7 @@ public static class VectorTest
         string cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += base_[i].ToString().PadLeft(4) + "  ";
+            cout += base_[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -194,7 +194,7 @@ public static class VectorTest
             cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -253,7 +253,7 @@ public static class VectorTest
         string cout = "  Rank Change     ";
         for (i = 0; i < N; i++)
         {
-            cout += base_[i].ToString().PadLeft(4) + "  ";
+            cout += base_[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -273,11 +273,11 @@ public static class VectorTest
                 break;
             }
 
-            cout = rank.ToString().PadLeft(4)
-                   + change.ToString().PadLeft(4);
+            cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                   + change.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -343,7 +343,7 @@ public static class VectorTest
         string cout = "";
         for (i = 0; i < N; i++)
         {
-            cout += a[i].ToString().PadLeft(4) + "  ";
+            cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -402,7 +402,7 @@ public static class VectorTest
         string cout = "";
         for (i = 0; i < N; i++)
         {
-            cout += a[i].ToString().PadLeft(4) + "  ";
+            cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -457,7 +457,7 @@ public static class VectorTest
             string cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += a[i].ToString().PadLeft(4) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -508,10 +508,10 @@ public static class VectorTest
         for (i = 1; i <= 5; i++)
         {
             typeMethods.vec_random(N, base_, ref seed, ref a);
-            string cout = i.ToString().PadLeft(4) + "    ";
+            string cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
             for (j = 0; j < N; j++)
             {
-                cout += a[j].ToString().PadLeft(4) + "  ";
+                cout += a[j].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -568,7 +568,7 @@ public static class VectorTest
         string cout = "";
         for (j = 0; j < N; j++)
         {
-            cout += "  " + x_min[j].ToString().PadLeft(4);
+            cout += "  " + x_min[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -577,7 +577,7 @@ public static class VectorTest
         cout = "";
         for (j = 0; j < N; j++)
         {
-            cout += x_max[j].ToString().PadLeft(4);
+            cout += x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -604,11 +604,11 @@ public static class VectorTest
             }
 
             i += 1;
-            cout = "  " + i.ToString().PadLeft(8);
-            cout += "  " + constraint.ToString().PadLeft(12);
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout += "  " + constraint.ToString(CultureInfo.InvariantCulture).PadLeft(12);
             for (j = 0; j < N; j++)
             {
-                cout += "  " + x[j].ToString().PadLeft(8);
+                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -668,7 +668,7 @@ public static class VectorTest
             cout = "";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_min[j].ToString().PadLeft(4);
+                cout += "  " + x_min[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -677,7 +677,7 @@ public static class VectorTest
             cout = "";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_max[j].ToString().PadLeft(4);
+                cout += "  " + x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -704,11 +704,11 @@ public static class VectorTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(8);
-                cout += "  " + constraint.ToString().PadLeft(12);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + constraint.ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + x[j].ToString().PadLeft(8);
+                    cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -769,7 +769,7 @@ public static class VectorTest
             cout = "";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_min[j].ToString().PadLeft(4);
+                cout += "  " + x_min[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -778,7 +778,7 @@ public static class VectorTest
             cout = "";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_max[j].ToString().PadLeft(4);
+                cout += "  " + x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -796,11 +796,11 @@ public static class VectorTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(8);
-                cout += "  " + constraint.ToString().PadLeft(12);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + constraint.ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + x[j].ToString().PadLeft(8);
+                    cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -862,24 +862,24 @@ public static class VectorTest
             cout = "  ALPHA:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + alpha[j].ToString().PadLeft(8);
+                cout += "  " + alpha[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  Q:    ";
-            cout += "  " + q.ToString().PadLeft(8);
+            cout += "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             Console.WriteLine(cout);
             cout = "  X_MIN:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_min[j].ToString().PadLeft(4);
+                cout += "  " + x_min[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
             cout = "  X_MAX:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_max[j].ToString().PadLeft(4);
+                cout += "  " + x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -903,11 +903,11 @@ public static class VectorTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(8);
-                cout += "  " + total.ToString().PadLeft(14);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + x[j].ToString().PadLeft(8);
+                    cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -979,10 +979,10 @@ public static class VectorTest
             }
 
             i += 1;
-            string cout = "  " + i.ToString().PadLeft(8);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x[j].ToString().PadLeft(8);
+                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1043,27 +1043,27 @@ public static class VectorTest
             cout = "  ALPHA:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + alpha[j].ToString().PadLeft(8);
+                cout += "  " + alpha[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  Q_MIN:";
-            cout += "  " + q_min.ToString().PadLeft(8);
+            cout += "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             Console.WriteLine(cout);
             cout = "  Q_MAX:";
-            cout += "  " + q_max.ToString().PadLeft(8);
+            cout += "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             Console.WriteLine(cout);
             cout = "  X_MIN:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_min[j].ToString().PadLeft(4);
+                cout += "  " + x_min[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
             cout = "  X_MAX:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_max[j].ToString().PadLeft(4);
+                cout += "  " + x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -1088,11 +1088,11 @@ public static class VectorTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(8);
-                cout += "  " + total.ToString().PadLeft(14);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + x[j].ToString().PadLeft(8);
+                    cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -1154,20 +1154,20 @@ public static class VectorTest
             cout = "  ALPHA:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + alpha[j].ToString().PadLeft(8);
+                cout += "  " + alpha[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  Q_MIN:";
-            cout += "  " + q_min.ToString().PadLeft(8);
+            cout += "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             Console.WriteLine(cout);
             cout = "  Q_MAX:";
-            cout += "  " + q_max.ToString().PadLeft(8);
+            cout += "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             Console.WriteLine(cout);
             cout = "  X_MAX:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_max[j].ToString().PadLeft(4);
+                cout += "  " + x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -1192,11 +1192,11 @@ public static class VectorTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(8);
-                cout += "  " + total.ToString().PadLeft(14);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + x[j].ToString().PadLeft(8);
+                    cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -1251,7 +1251,7 @@ public static class VectorTest
             cout = "    X_MIN:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_min[j].ToString().PadLeft(8);
+                cout += "  " + x_min[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1268,10 +1268,10 @@ public static class VectorTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString().PadLeft(8);
+                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + x[j].ToString().PadLeft(8);
+                    cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -1280,7 +1280,7 @@ public static class VectorTest
             cout = "    X_MAX:";
             for (j = 0; j < n; j++)
             {
-                cout += "  " + x_max[j].ToString().PadLeft(8);
+                cout += "  " + x_max[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);

@@ -255,7 +255,7 @@ public static class ZQRDC
                         tt = 1.0 + 0.05 * tt
                                         * Math.Pow(qraux[j - 1].Real / work[j - 1].Real, 2);
 
-                        if (tt != 1.0)
+                        if (Math.Abs(tt - 1.0) > double.Epsilon)
                         {
                             qraux[j - 1] *= Complex.Sqrt(t);
                         }

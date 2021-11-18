@@ -66,11 +66,11 @@ public static class UnsignTest
             Console.WriteLine("");
 
             Console.WriteLine("  "
-                              + ui1.ToString().PadLeft(5) + "");
+                              + ui1.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
             Console.WriteLine("  "
-                              + ui2.ToString().PadLeft(5) + "");
+                              + ui2.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
             Console.WriteLine("  "
-                              + ui3.ToString().PadLeft(5) + "");
+                              + ui3.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
 
             Console.WriteLine("");
             Console.WriteLine("  I1, I2, I3 in binary:");
@@ -130,13 +130,13 @@ public static class UnsignTest
             uj = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + ui.ToString().PadLeft(8)
-                                   + "  " + uj.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + ui.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + uj.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
             uk = ui + uj;
 
             Console.WriteLine("  Directly:         "
-                              + "  " + uk.ToString().PadLeft(8) + "");
+                              + "  " + uk.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
             typeMethods.ui4_to_ubvec(ui, N, ref bvec1);
             typeMethods.ui4_to_ubvec(uj, N, ref bvec2);
@@ -145,7 +145,7 @@ public static class UnsignTest
             uk = typeMethods.ubvec_to_ui4(N, bvec3);
 
             Console.WriteLine(" UBVEC_ADD          "
-                              + "  " + uk.ToString().PadLeft(8) + "");
+                              + "  " + uk.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -225,14 +225,14 @@ public static class UnsignTest
 
             ui2 = typeMethods.ubvec_to_ui4(N, bvec);
 
-            string cout = ui1.ToString().PadLeft(3) + "  ";
+            string cout = ui1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             for (j = 0; j < N; j++)
             {
-                cout += bvec[j].ToString().PadLeft(1);
+                cout += bvec[j].ToString(CultureInfo.InvariantCulture).PadLeft(1);
             }
 
             cout += "  ";
-            Console.WriteLine(cout + ui2.ToString().PadLeft(3) + "");
+            Console.WriteLine(cout + ui2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
     }
 
@@ -285,9 +285,9 @@ public static class UnsignTest
             typeMethods.ubvec_xor(n, bvec1, bvec2, bvec3);
             uk = typeMethods.ubvec_to_ui4(n, bvec3);
 
-            Console.WriteLine("  " + ui.ToString().PadLeft(8)
-                                   + "  " + uj.ToString().PadLeft(8)
-                                   + "  " + uk.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + ui.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + uj.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + uk.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -333,14 +333,14 @@ public static class UnsignTest
 
             ui2 = typeMethods.ubvec_to_ui4(N, bvec);
 
-            string cout = ui1.ToString().PadLeft(3) + "  ";
+            string cout = ui1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             for (j = 0; j < N; j++)
             {
-                cout += bvec[j].ToString().PadLeft(1);
+                cout += bvec[j].ToString(CultureInfo.InvariantCulture).PadLeft(1);
             }
 
             cout += "  ";
-            Console.WriteLine(cout + ui2.ToString().PadLeft(3) + "");
+            Console.WriteLine(cout + ui2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
     }
 

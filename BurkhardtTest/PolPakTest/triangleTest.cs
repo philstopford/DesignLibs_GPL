@@ -37,8 +37,8 @@ public static class triangleTest
         for (n = 1; n <= 10; n++)
         {
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + Triangle.triangle_num(n).ToString().PadLeft(6) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + Triangle.triangle_num(n).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
             ;
         }
 
@@ -83,9 +83,9 @@ public static class triangleTest
             {
                 k = typeMethods.triangle_lower_to_i4(i, j);
 
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + j.ToString().PadLeft(4)
-                                       + "    " + k.ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "    " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
         }
 

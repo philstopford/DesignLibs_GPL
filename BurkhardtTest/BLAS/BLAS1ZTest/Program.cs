@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Numerics;
 using Burkardt.BLAS;
 using Burkardt.Uniform;
@@ -133,8 +132,8 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < NX; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -153,7 +152,7 @@ internal class Program
             string cout = "";
             for (int j = 0; j < NA; j++)
             {
-                cout += "  " + a[i + j * MA].ToString().PadLeft(12);
+                cout += "  " + a[i + j * MA].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -208,8 +207,8 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(16) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
         int incx = 1;
@@ -262,9 +261,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(16)
-                                   + "  " + BLAS0.zabs1(x[i]).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + BLAS0.zabs1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         int incx = 1;
@@ -324,9 +323,9 @@ internal class Program
 
             double c_norm = BLAS0.zabs1(c);
 
-            Console.WriteLine("  " + c.Real.ToString().PadLeft(10)
-                                   + "  " + c.Imaginary.ToString().PadLeft(10)
-                                   + "  " + c_norm.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + c.Real.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + c.Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + c_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -368,9 +367,9 @@ internal class Program
 
             double c_norm = BLAS0.zabs2(c);
 
-            Console.WriteLine("  " + c.Real.ToString().PadLeft(10)
-                                   + "  " + c.Imaginary.ToString().PadLeft(10)
-                                   + "  " + c_norm.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + c.Real.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + c.Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + c_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
     //****************************************************************************80
@@ -427,9 +426,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         Console.WriteLine("");
@@ -437,9 +436,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         s = new Complex(0.50, -1.00);
@@ -454,9 +453,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -516,9 +515,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         Console.WriteLine("");
@@ -526,9 +525,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         Console.WriteLine("");
@@ -538,8 +537,8 @@ internal class Program
         {
             for (int j = 0; j < N2; j++)
             {
-                Console.WriteLine("  " + a[i + j * N1].Real.ToString().PadLeft(5)
-                                       + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
+                Console.WriteLine("  " + a[i + j * N1].Real.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + a[i + j * N1].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
             }
 
             Console.WriteLine("");
@@ -551,9 +550,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -568,9 +567,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         BLAS1Z.zcopy(5, x, 1, ref a, 1);
@@ -585,8 +584,8 @@ internal class Program
         {
             for (int j = 0; j < N2; j++)
             {
-                Console.WriteLine("  " + a[i + j * N1].Real.ToString().PadLeft(5)
-                                       + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
+                Console.WriteLine("  " + a[i + j * N1].Real.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + a[i + j * N1].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
             }
 
             Console.WriteLine("");
@@ -611,8 +610,8 @@ internal class Program
         {
             for (int j = 0; j < N2; j++)
             {
-                Console.WriteLine("  " + a[i + j * N1].Real.ToString().PadLeft(5)
-                                       + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
+                Console.WriteLine("  " + a[i + j * N1].Real.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + a[i + j * N1].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
             }
 
             Console.WriteLine("");
@@ -673,9 +672,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         x_norm = BLAS1Z.zdotc(N, x, 1, x, 1);
@@ -691,9 +690,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         Console.WriteLine("");
@@ -754,9 +753,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         x_norm = BLAS1Z.zdotu(N, x, 1, x, 1);
@@ -773,9 +772,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + y[i].Real.ToString().PadLeft(6)
-                                   + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         Console.WriteLine("");
@@ -827,9 +826,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(20)
-                                   + "  " + y[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         double c = 0.5;
@@ -840,9 +839,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(20)
-                                   + "  " + y[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -885,9 +884,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         double da = 5.0;
@@ -897,9 +896,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -914,9 +913,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -1049,9 +1048,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         da = new Complex(5.0, 0.0);
@@ -1061,9 +1060,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -1078,9 +1077,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].Real.ToString().PadLeft(6)
-                                   + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -1124,9 +1123,9 @@ internal class Program
             Complex c2 = new Complex(5.0, 0) * UniformRNG.c8_uniform_01(ref seed);
             Complex c3 = BLAS0.zsign1(c1, c2);
 
-            Console.WriteLine("  " + c1.ToString().PadLeft(20)
-                                   + "  " + c2.ToString().PadLeft(20)
-                                   + "  " + c3.ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + c1.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + c2.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + c3.ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -1170,9 +1169,9 @@ internal class Program
             Complex c2 = new Complex(5.0, 0) * UniformRNG.c8_uniform_01(ref seed);
             Complex c3 = BLAS0.zsign2(c1, c2);
 
-            Console.WriteLine("  " + c1.ToString().PadLeft(20)
-                                   + "  " + c2.ToString().PadLeft(20)
-                                   + "  " + c3.ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + c1.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + c2.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + c3.ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -1220,9 +1219,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(20)
-                                   + "  " + y[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         BLAS1Z.zswap(N, ref x, 1, ref y, 1);
@@ -1233,9 +1232,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(20)
-                                   + "  " + y[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -1256,9 +1255,9 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(20)
-                                   + "  " + y[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 }

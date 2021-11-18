@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.Types;
-using Burkardt.Uniform;
 
 namespace Burkardt.PDFLib;
 
@@ -262,7 +261,7 @@ public static partial class PDF
                                     v = beta * Math.Log(u1 / (1.0 - u1));
                                     w = a * Math.Exp(v);
 
-                                    if (aa == a)
+                                    if (Math.Abs(aa - a) <= double.Epsilon)
                                     {
                                         value = w / (b + w);
                                     }
@@ -297,7 +296,7 @@ public static partial class PDF
             }
         }
 
-        if (aa == a)
+        if (Math.Abs(aa - a) <= double.Epsilon)
         {
             value = w / (b + w);
         }

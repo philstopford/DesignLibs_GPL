@@ -508,8 +508,8 @@ internal class Program
                 break;
             }
 
-            Console.WriteLine("  " + order.ToString().PadLeft(4)
-                                   + "  " + number.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -557,8 +557,8 @@ internal class Program
                 break;
             }
 
-            Console.WriteLine("  " + order.ToString().PadLeft(4)
-                                   + "  " + number.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -606,8 +606,8 @@ internal class Program
                 break;
             }
 
-            Console.WriteLine("  " + order.ToString().PadLeft(4)
-                                   + "  " + number.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 

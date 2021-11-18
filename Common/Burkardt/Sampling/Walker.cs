@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.RandomNS;
 
@@ -315,8 +316,8 @@ public static class Walker
         Console.WriteLine("");
         for (i = 1; i <= n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(16) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
         //
@@ -332,8 +333,8 @@ public static class Walker
         Console.WriteLine("");
         for (i = 1; i <= n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(16) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
         //
@@ -351,9 +352,9 @@ public static class Walker
 
         for (i = 1; i <= n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + y[i].ToString().PadLeft(16)
-                                   + "  " + a[i].ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
         //

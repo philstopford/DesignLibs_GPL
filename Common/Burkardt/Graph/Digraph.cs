@@ -268,9 +268,9 @@ public static class Digraph
 
         for (i = 0; i < nedge; i++)
         {
-            Console.WriteLine((i + 1).ToString().PadLeft(6) + "  "
-                                                            + inode[i].ToString().PadLeft(6) + "  "
-                                                            + jnode[i].ToString().PadLeft(6) + "");
+            Console.WriteLine((i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                            + inode[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                            + jnode[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
     }

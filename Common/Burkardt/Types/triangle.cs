@@ -391,9 +391,7 @@ public static partial class typeMethods
             p12[1] = (1.0 - alpha) * t[1 + 0 * 2] + alpha * t[1 + 1 * 2];
 
             p13[0] = (1.0 - alpha) * t[0 + 0 * 2] + alpha * t[0 + 2 * 2];
-            ;
             p13[1] = (1.0 - alpha) * t[1 + 0 * 2] + alpha * t[1 + 2 * 2];
-            ;
             //
             //  Now choose, uniformly at random, a point on the line L.
             //
@@ -1187,12 +1185,14 @@ public static partial class typeMethods
         //
         Line.lines_exp_int_2d(t, p23, t, p31, ref ival, ref p, p1Index: 0 * 2, p3Index: 1 * 2);
 
-        if (ival != 1)
+        if (ival == 1)
         {
-            p[0] = r8_huge();
-            p[1] = r8_huge();
-            flag = true;
+            return;
         }
+
+        p[0] = r8_huge();
+        p[1] = r8_huge();
+        flag = true;
     }
 
     public static double triangle_quality_2d(double[] t)
@@ -2677,8 +2677,8 @@ public static partial class typeMethods
         y_min -= 0.05 * y_scale;
         y_scale = y_max - y_min;
 
-        int i4_min = 1;
-        int j4_min = 1;
+        const int i4_min = 1;
+        const int j4_min = 1;
         if (x_scale < y_scale)
         {
             i4_max = (int) (0.5 + 500.0 * x_scale / y_scale);
@@ -2734,7 +2734,7 @@ public static partial class typeMethods
         {
             i4 = r8_to_i4(x_min, x_max, p[0 + j * 2], i4_min, i4_max);
             j4 = r8_to_i4(y_max, y_min, p[1 + j * 2], j4_min, j4_max);
-            int r = 5;
+            const int r = 5;
 
             output.Add("  <circle");
             output.Add("    cx=\"" + i4 + "\"");
@@ -3467,16 +3467,16 @@ public static partial class typeMethods
         double s3 = Math.Sqrt ( 3.0 );
         double s6 = Math.Sqrt ( 6.0 );
 
-        double a10 = - 0.5;
-        double a11 = 1.0;
+        const double a10 = - 0.5;
+        const double a11 = 1.0;
         double a12 = - 1.0 / s3;
         double a13 = - 1.0 / s6;
 
-        double a20 = - 0.5;
+        const double a20 = - 0.5;
         double a22 = 2.0 / s3;
         double a23 = - 1.0 / s6;
 
-        double a30 = - 0.5;
+        const double a30 = - 0.5;
         double a33 = 0.5 * s6;
 
         double[] u = new double[3];

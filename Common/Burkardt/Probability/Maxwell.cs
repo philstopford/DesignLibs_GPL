@@ -173,7 +173,6 @@ public static class Maxwell
             else
             {
                 x2 = x3;
-                double cdf2 = cdf3;
             }
         }
 

@@ -2725,7 +2725,7 @@ public static class Properties
         //
         //  If the line segment is actually a point, then the answer is easy.
         //
-        if (p1[p1Index + 0] == p2[p2Index + 0] && p1[p1Index + 1] == p2[p2Index + 1])
+        if (Math.Abs(p1[p1Index + 0] - p2[p2Index + 0]) <= double.Epsilon && Math.Abs(p1[p1Index + 1] - p2[p2Index + 1]) <= double.Epsilon)
         {
             t = 0.0;
         }
@@ -2821,7 +2821,7 @@ public static class Properties
         //
         //  If the line segment is actually a point, then the answer is easy.
         //
-        if (p1[p1Index + 0] == p2[p2Index + 0] && p1[p1Index + 1] == p2[p2Index + 1])
+        if (Math.Abs(p1[p1Index + 0] - p2[p2Index + 0]) <= double.Epsilon && Math.Abs(p1[p1Index + 1] - p2[p2Index + 1]) <= double.Epsilon)
         {
             t = 0.0;
         }

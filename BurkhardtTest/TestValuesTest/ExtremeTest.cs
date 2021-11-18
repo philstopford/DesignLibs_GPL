@@ -46,9 +46,9 @@ public static class ExtremeTest
                 break;
             }
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(12)                        + alpha  + "  "
-                              + beta.ToString().PadLeft(12)                        + beta   + "  "
-                              + x.ToString().PadLeft(12)                        + x      + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12)                        + alpha  + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(12)                        + beta   + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)                        + x      + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -694,11 +694,9 @@ public static class E0000E0001
             case 1: goto S10;
             case 2: goto S20;
             case 3: goto S90;
-            case
-                4: goto S130;
+            case 4: goto S130;
             case 5: goto S200;
             case 6: goto S270;
-            default: break;
         }
     }
 
@@ -854,7 +852,7 @@ public static class E0000E0001
                 goto S100;
         }
 
-        switch ((data.e0001vars.c != data.e0001vars.a))
+        switch ((Math.Abs(data.e0001vars.c - data.e0001vars.a) > double.Epsilon))
         {
             case false:
                 goto S90;
@@ -966,7 +964,7 @@ public static class E0000E0001
 
         goto S70;
         S210:
-        switch ((data.e0001vars.w == data.e0001vars.mb))
+        switch ((Math.Abs(data.e0001vars.w - data.e0001vars.mb) <= double.Epsilon))
         {
             case false:
                 goto S220;
@@ -1011,7 +1009,6 @@ public static class E0000E0001
             case 1: goto S10;
             case 2: goto S20;
             case 3: goto S200;
-            default: break;
         }
     }
 

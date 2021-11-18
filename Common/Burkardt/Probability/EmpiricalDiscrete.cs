@@ -208,7 +208,7 @@ public static class EmpiricalDiscrete
         {
             for (int j = i + 1; j < a; j++)
             {
-                if (c[i] == c[j])
+                if (Math.Abs(c[i] - c[j]) <= double.Epsilon)
                 {
                     Console.WriteLine(" ");
                     Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
@@ -327,7 +327,7 @@ public static class EmpiricalDiscrete
 
         for (int i = 0; i <= a; i++)
         {
-            if (x == c[i])
+            if (Math.Abs(x - c[i]) <= double.Epsilon)
             {
                 pdf = b[i] / typeMethods.r8vec_sum(a, b);
                 return pdf;

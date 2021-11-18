@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Burkardt;
 using Burkardt.Function;
 using Burkardt.SortNS;
 using Burkardt.Types;
@@ -100,10 +99,10 @@ internal class Program
             double c = UniformRNG.r8_uniform(rmin, rmax, ref seed);
             int bin = Bins.r8_to_bin_even2(nbin, a, b, c);
             Bins.bin_to_r8_even2(nbin, bin, a, b, ref cmin, ref cmax);
-            Console.WriteLine("  " + c.ToString().PadLeft(10)
-                                   + "  " + bin.ToString().PadLeft(6)
-                                   + "  " + cmin.ToString().PadLeft(10)
-                                   + "  " + cmax.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + bin.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + cmin.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + cmax.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

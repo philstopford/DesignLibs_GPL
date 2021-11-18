@@ -1,5 +1,4 @@
-﻿using Burkardt;
-using Burkardt.Types;
+﻿using Burkardt.Types;
 
 namespace Burkardt.Error;
 

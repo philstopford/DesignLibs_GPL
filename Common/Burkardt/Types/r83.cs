@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace Burkardt.Types;
@@ -126,7 +127,7 @@ public static partial class typeMethods
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -147,7 +148,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                string cout2 = i.ToString().PadLeft(6) + ": ";
+                string cout2 = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + ": ";
 
                 for (j2 = 1; j2 <= inc; j2++)
                 {
@@ -159,15 +160,15 @@ public static partial class typeMethods
                     }
                     else if (j == i + 1)
                     {
-                        cout2 += a[0 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        cout2 += a[0 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else if (j == i)
                     {
-                        cout2 += a[1 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        cout2 += a[1 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
                     else if (j == i - 1)
                     {
-                        cout2 += a[2 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        cout2 += a[2 + (j - 1) * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                     }
 
                 }

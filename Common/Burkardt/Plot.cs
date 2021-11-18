@@ -26,7 +26,7 @@ public static class Plot
         //  Author:
         //
         //    John Burkardt
-        ///
+        //
         //  Parameters:
         //
         //    Input, int M, N, the number of rows and columns.
@@ -81,6 +81,8 @@ public static class Plot
 
         plot_unit.Add("plot 1");
         plot_unit.Add("quit");
+        
+        File.WriteAllLines(plot_filename, plot_unit);
 
         Console.WriteLine("");
         Console.WriteLine("  Created the gnuplot graphics file \"" + plot_filename + "\"");
@@ -296,7 +298,6 @@ public static class Plot
                 case > 0.0:
                     data_unit.Add(it + "  "
                                      + Math.Log(e_plot[it]) + "");
-                    ;
                     break;
             }
         }

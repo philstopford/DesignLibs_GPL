@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.SortNS;
 
@@ -351,12 +352,10 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + ": " + a[i].Real
                                    + "  " + a[i].Imaginary + "");
         }
-
-        ;
     }
 
     public static void c8vec_print_part(int n, Complex[] a, int max_print,
@@ -425,9 +424,9 @@ public static partial class typeMethods
         {
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + a[i].Real.ToString().PadLeft(14)
-                                       + "  " + a[i].Imaginary.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + a[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + a[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
         else
@@ -438,31 +437,31 @@ public static partial class typeMethods
                 {
                     for (i = 0; i < max_print - 2; i++)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + "  " + a[i].Real.ToString().PadLeft(14)
-                                               + "  " + a[i].Imaginary.ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + a[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + a[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     }
 
                     Console.WriteLine("  ........  ..............  ..............");
                     i = n - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + "  " + a[i].Real.ToString().PadLeft(14)
-                                           + "  " + a[i].Imaginary.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + a[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + a[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 }
                 default:
                 {
                     for (i = 0; i < max_print - 1; i++)
                     {
-                        Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                               + "  " + a[i].Real.ToString().PadLeft(14)
-                                               + "  " + a[i].Imaginary.ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + a[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + a[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     }
 
                     i = max_print - 1;
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + "  " + a[i].Real.ToString().PadLeft(14)
-                                           + "  " + a[i].Imaginary.ToString().PadLeft(14)
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + a[i].Real.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + a[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                            + "  " + "...more entries...");
                     break;
                 }
@@ -513,7 +512,7 @@ public static partial class typeMethods
         Console.WriteLine("");
         for (i = i_lo; i <= i_hi; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + ": " + a[i].Real
                                    + "  " + a[i].Imaginary + "");
         }
@@ -584,8 +583,6 @@ public static partial class typeMethods
                 break;
             }
         }
-
-        ;
     }
 
     public static void c8vec_sort_a_l2(int n, ref Complex[] x)

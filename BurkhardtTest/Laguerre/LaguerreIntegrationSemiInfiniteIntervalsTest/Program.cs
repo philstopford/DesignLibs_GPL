@@ -87,7 +87,7 @@ internal class Program
         {
             title = Integrands.p00_title(problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  \"" + title + "\".");
         }
     }
@@ -136,8 +136,8 @@ internal class Program
 
             exact = Integrands.p00_exact(ref data, problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                   + "  " + alpha.ToString().PadLeft(14)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + exact.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -190,7 +190,7 @@ internal class Program
             order = 1;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + exact.ToString("0.######").PadLeft(14) + "");
 
@@ -201,7 +201,7 @@ internal class Program
                 error = Math.Abs(exact - estimate);
 
                 Console.WriteLine("  " + "        "
-                                       + "  " + order.ToString().PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
 
@@ -260,7 +260,7 @@ internal class Program
             order = 1;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + exact.ToString("0.######").PadLeft(14) + "");
 
@@ -271,7 +271,7 @@ internal class Program
                 error = Math.Abs(exact - estimate);
 
                 Console.WriteLine("  " + "        "
-                                       + "  " + order.ToString().PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
 
@@ -330,7 +330,7 @@ internal class Program
             order = 1;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + exact.ToString("0.######").PadLeft(14) + "");
 
@@ -341,7 +341,7 @@ internal class Program
                 error = Math.Abs(exact - estimate);
 
                 Console.WriteLine("  " + "        "
-                                       + "  " + order.ToString().PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
 

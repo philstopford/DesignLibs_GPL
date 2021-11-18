@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.Quadrature;
-using Burkardt.Table;
 using Burkardt.Types;
 
 namespace Burkardt.ClenshawCurtisNS;

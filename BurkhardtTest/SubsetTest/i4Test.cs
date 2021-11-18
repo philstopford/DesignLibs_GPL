@@ -57,8 +57,8 @@ public static class i4Test
             {
                 j = typeMethods.i4_bclr(i4, pos);
 
-                Console.WriteLine("  " + pos.ToString().PadLeft(8)
-                                       + "  " + j.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + pos.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }
@@ -112,8 +112,8 @@ public static class i4Test
             {
                 j = typeMethods.i4_bset(i4, pos);
 
-                Console.WriteLine("  " + pos.ToString().PadLeft(8)
-                                       + "  " + j.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + pos.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }
@@ -166,7 +166,7 @@ public static class i4Test
             {
                 j = typeMethods.i4_btest(i4, pos);
 
-                Console.WriteLine("  " + pos.ToString().PadLeft(8)
+                Console.WriteLine("  " + pos.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + j + "");
             }
         }
@@ -211,9 +211,9 @@ public static class i4Test
                 cnk = typeMethods.i4_choose(n, k);
 
                 Console.WriteLine("  "
-                                  + n.ToString().PadLeft(6) + "  "
-                                  + k.ToString().PadLeft(6) + "  "
-                                  + cnk.ToString().PadLeft(6) + "");
+                                  + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
             }
         }
     }
@@ -263,16 +263,16 @@ public static class i4Test
 
         if (Math.Abs(nleft) != 1)
         {
-            Console.WriteLine("  " + 0.ToString().PadLeft(6)
-                                   + "  " + nleft.ToString().PadLeft(6)
+            Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + nleft.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + "(Unfactored portion)");
         }
 
         for (i = 0; i < factor_num; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(6)
-                                   + "  " + factor[i].ToString().PadLeft(6)
-                                   + "  " + power[i].ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + factor[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + power[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -322,10 +322,10 @@ public static class i4Test
 
             f2 = typeMethods.i4_fall(m, n);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(8)
-                                   + "  " + n.ToString().PadLeft(8)
-                                   + "  " + f1.ToString().PadLeft(8)
-                                   + "  " + f2.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -371,9 +371,9 @@ public static class i4Test
             i = UniformRNG.i4_uniform_ab(-5, 15, ref seed);
             j = UniformRNG.i4_uniform_ab(1, 15, ref seed);
 
-            Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                      + j.ToString().PadLeft(4) + "  "
-                                                      + typeMethods.i4_gcd(i, j).ToString().PadLeft(4) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + typeMethods.i4_gcd(i, j).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -444,8 +444,8 @@ public static class i4Test
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(x[i].ToString().PadLeft(6) + "  "
-                                                         + Math.Log10(x[i]).ToString().PadLeft(6) + "");
+            Console.WriteLine(x[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + Math.Log10(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
         }
     }
@@ -498,10 +498,10 @@ public static class i4Test
             nrem = typeMethods.i4_modp(number[test], ndivid[test]);
             nmult = number[test] / ndivid[test];
 
-            Console.WriteLine("  " + number[test].ToString().PadLeft(10)
-                                   + "  " + ndivid[test].ToString().PadLeft(10)
-                                   + "  " + nmult.ToString().PadLeft(10)
-                                   + "  " + nrem.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + number[test].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ndivid[test].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + nmult.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + nrem.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -513,10 +513,10 @@ public static class i4Test
             nrem = number[test] % ndivid[test];
             nmult = number[test] / ndivid[test];
 
-            Console.WriteLine("  " + number[test].ToString().PadLeft(10)
-                                   + "  " + ndivid[test].ToString().PadLeft(10)
-                                   + "  " + nmult.ToString().PadLeft(10)
-                                   + "  " + nrem.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + number[test].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ndivid[test].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + nmult.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + nrem.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -565,9 +565,9 @@ public static class i4Test
 
             c2 = typeMethods.i4_moebius(n);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + c1.ToString().PadLeft(8)
-                                   + "  " + c2.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + c1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + c2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -672,13 +672,13 @@ public static class i4Test
                 break;
             }
 
-            string cout = n.ToString().PadLeft(4) + "  "
-                                                  + p.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                  + p.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
 
             if (n <= N_MAX)
             {
                 typeMethods.i4_partition_count(n, ref p2);
-                cout += p2[n].ToString().PadLeft(10);
+                cout += p2[n].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -735,15 +735,15 @@ public static class i4Test
             }
 
             string cout = "  "
-                          + n.ToString().PadLeft(4) + "  "
-                          + p.ToString().PadLeft(10) + "  ";
+                          + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                          + p.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
 
             if (n <= N_MAX)
             {
                 p2 = typeMethods.i4_partition_count2(n);
                 cout += "  "
                         + "      "
-                        + p2[n].ToString().PadLeft(10);
+                        + p2[n].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -942,8 +942,8 @@ public static class i4Test
 
         for (j = 0; j < N; j++)
         {
-            Console.WriteLine((j + 1).ToString().PadLeft(6) + "  "
-                                                            + table[j].ToString().PadLeft(6) + "");
+            Console.WriteLine((j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                            + table[j].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
         Console.WriteLine("");
@@ -1000,11 +1000,11 @@ public static class i4Test
         Console.WriteLine("   I Sum    Partition");
         Console.WriteLine("");
         msum = typeMethods.i4vec_sum(s, m);
-        cout = "  " + i.ToString().PadLeft(2)
-                    + "  " + msum.ToString().PadLeft(2) + "    ";
+        cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                    + "  " + msum.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "    ";
         for (j = 0; j < s; j++)
         {
-            cout += m[j].ToString().PadLeft(2);
+            cout += m[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -1013,11 +1013,11 @@ public static class i4Test
         {
             typeMethods.i4_partitions_next(s, ref m);
             msum = typeMethods.i4vec_sum(s, m);
-            cout = "  " + i.ToString().PadLeft(1)
-                        + "  " + msum.ToString().PadLeft(1) + "    ";
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(1)
+                        + "  " + msum.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "    ";
             for (j = 0; j < s; j++)
             {
-                cout += m[j].ToString().PadLeft(2);
+                cout += m[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -1036,11 +1036,11 @@ public static class i4Test
         Console.WriteLine("   I Sum    Partition");
         Console.WriteLine("");
         msum = typeMethods.i4vec_sum(s, m);
-        cout = "  " + i.ToString().PadLeft(2)
-                    + "  " + msum.ToString().PadLeft(2) + "    ";
+        cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                    + "  " + msum.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "    ";
         for (j = 0; j < s; j++)
         {
-            cout += m[j].ToString().PadLeft(2);
+            cout += m[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -1049,11 +1049,11 @@ public static class i4Test
         {
             typeMethods.i4_partitions_next(s, ref m);
             msum = typeMethods.i4vec_sum(s, m);
-            cout = "  " + i.ToString().PadLeft(2)
-                        + "  " + msum.ToString().PadLeft(2) + "    ";
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                        + "  " + msum.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "    ";
             for (j = 0; j < s; j++)
             {
-                cout += m[j].ToString().PadLeft(2);
+                cout += m[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -1106,10 +1106,10 @@ public static class i4Test
 
             f2 = typeMethods.i4_rise(m, n);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(8)
-                                   + "  " + n.ToString().PadLeft(8)
-                                   + "  " + f1.ToString().PadLeft(8)
-                                   + "  " + f2.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1149,9 +1149,9 @@ public static class i4Test
         {
             typeMethods.i4_sqrt(n, ref q, ref r);
 
-            Console.WriteLine(n.ToString().PadLeft(9) + "  "
-                                                      + q.ToString().PadLeft(9) + "  "
-                                                      + r.ToString().PadLeft(9) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                      + q.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                      + r.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
     }
 
@@ -1194,11 +1194,11 @@ public static class i4Test
         for (n = 1; n <= 20; n++)
         {
             typeMethods.i4_sqrt_cf(n, MAX_TERM, ref n_term, ref b);
-            string cout = n.ToString().PadLeft(5) + "  "
-                                                  + n_term.ToString().PadLeft(5) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                                                  + n_term.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  ";
             for (i = 0; i <= n_term; i++)
             {
-                cout += b[i].ToString().PadLeft(5) + "  ";
+                cout += b[i].ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -1248,13 +1248,13 @@ public static class i4Test
 
         i2 = typeMethods.dvec_to_i4(n, ref dvec);
 
-        string cout = "  " + i1.ToString().PadLeft(6) + "  ";
+        string cout = "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
         for (i = n - 1; 0 <= i; i--)
         {
-            cout += dvec[i].ToString().PadLeft(2);
+            cout += dvec[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
         }
 
-        Console.WriteLine(cout + "  " + i2.ToString().PadLeft(6) + "");
+        Console.WriteLine(cout + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
     }
 
     public static void i4_to_i4poly_test()
@@ -1311,12 +1311,12 @@ public static class i4Test
             base_ = base_test[test];
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
             cout = "  "
-                   + intval.ToString().PadLeft(6) + "  "
-                   + base_.ToString().PadLeft(6) + "  "
-                   + degree.ToString().PadLeft(6) + "  ";
+                   + intval.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                   + base_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                   + degree.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (i = 0; i <= degree; i++)
             {
-                cout += a[i].ToString().PadLeft(6) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -1335,8 +1335,8 @@ public static class i4Test
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
             intval2 = typeMethods.i4poly_to_i4(degree, a, base_);
             Console.WriteLine("  "
-                              + intval.ToString().PadLeft(6) + "  "
-                              + intval2.ToString().PadLeft(6) + "");
+                              + intval.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + intval2.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -1377,7 +1377,7 @@ public static class i4Test
         for (j = 1; j <= 5; j++)
         {
             p = Burkardt.Function.Prime.prime(j);
-            cout += p.ToString().PadLeft(10) + "  ";
+            cout += p.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
         }
 
         Console.WriteLine(cout);
@@ -1385,12 +1385,12 @@ public static class i4Test
 
         for (i = 1; i <= 10; i++)
         {
-            cout = i.ToString().PadLeft(4) + "  ";
+            cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
             for (j = 1; j <= 5; j++)
             {
                 p = Burkardt.Function.Prime.prime(j);
                 h = Burkardt.Sequence.VanDerCorput.i4_to_van_der_corput(i, p);
-                cout += h.ToString().PadLeft(10) + "  ";
+                cout += h.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -2162,12 +2162,12 @@ public static class i4Test
             base_ = base_test[test];
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
             string cout = "  "
-                          + intval.ToString().PadLeft(6) + "  "
-                          + base_.ToString().PadLeft(6) + "  "
-                          + degree.ToString().PadLeft(6) + "  ";
+                          + intval.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                          + base_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                          + degree.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (i = 0; i <= degree; i++)
             {
-                cout += a[i].ToString().PadLeft(6) + "  ";
+                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -2186,8 +2186,8 @@ public static class i4Test
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
             intval2 = typeMethods.i4poly_to_i4(degree, a, base_);
             Console.WriteLine("  "
-                              + intval.ToString().PadLeft(6) + "  "
-                              + intval2.ToString().PadLeft(6) + "");
+                              + intval.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + intval2.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -2264,17 +2264,17 @@ public static class i4Test
             if (indx == 1)
             {
                 found_num += 1;
-                string cout = "  " + found_num.ToString().PadLeft(2) + "   ";
+                string cout = "  " + found_num.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "   ";
 
                 total = typeMethods.i4vec_dot_product(n, w, x);
-                cout += "  " + total.ToString().PadLeft(3) + ":  ";
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ":  ";
 
                 for (i = 0; i < n; i++)
                 {
                     switch (x[i])
                     {
                         case 1:
-                            cout += "  " + w[i].ToString().PadLeft(2);
+                            cout += "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
                             break;
                     }
                 }
@@ -2438,8 +2438,8 @@ public static class i4Test
         {
             afrac = typeMethods.i4vec_frac(N, ref a, k);
 
-            Console.WriteLine(k.ToString().PadLeft(6) + "  "
-                                                      + afrac.ToString().PadLeft(6) + "");
+            Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + afrac.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
         }
     }
@@ -2723,9 +2723,9 @@ public static class i4Test
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + indx[i].ToString().PadLeft(6) + "  "
-                                                      + a[indx[i]].ToString().PadLeft(6) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + indx[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + a[indx[i]].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 

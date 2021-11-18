@@ -106,7 +106,8 @@ public static partial class typeMethods
                 order = -1;
                 break;
             }
-            else if (order == 2)
+
+            if (order == 2)
             {
                 if (x[i] < x[i - 1])
                 {
@@ -129,7 +130,7 @@ public static partial class typeMethods
                 order = -1;
                 break;
             }
-            else if (order == 4)
+            else
             {
                 if (x[i - 1] < x[i])
                 {

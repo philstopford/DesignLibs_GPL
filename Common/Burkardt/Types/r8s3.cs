@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Uniform;
 
@@ -712,7 +713,7 @@ public static partial class typeMethods
             int j;
             for (j = j2lo; j <= j2hi; j++)
             {
-                cout += j.ToString().PadLeft(7) + "       ";
+                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);
@@ -745,11 +746,13 @@ public static partial class typeMethods
                     {
                         j2 = col[k] - j2lo + 1;
 
-                        if (a[k] != 0.0)
+                        if (a[k] == 0.0)
                         {
-                            index[j2 - 1] = k;
-                            nonzero = true;
+                            continue;
                         }
+
+                        index[j2 - 1] = k;
+                        nonzero = true;
                     }
                     else
                     {
@@ -775,7 +778,7 @@ public static partial class typeMethods
                 {
                     case true:
                     {
-                        cout = i.ToString().PadLeft(5) + " ";
+                        cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(5) + " ";
                         for (j2 = 0; j2 < inc; j2++)
                         {
                             double aij = index[j2] switch
@@ -784,7 +787,7 @@ public static partial class typeMethods
                                 _ => 0.0
                             };
 
-                            cout += aij.ToString().PadLeft(14);
+                            cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                         }
 
                         Console.WriteLine(cout);
@@ -1245,9 +1248,9 @@ public static partial class typeMethods
 
         for (k = 0; k < nz_num; k++)
         {
-            output.Add("  " + row[k].ToString().PadLeft(8)
-                            + "  " + col[k].ToString().PadLeft(8)
-                            + "  " + a[k].ToString().PadLeft(16) + "");
+            output.Add("  " + row[k].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                            + "  " + col[k].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                            + "  " + a[k].ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
         try

@@ -54,10 +54,9 @@ public static partial class typeMethods
         //    Output, double R83P_DET, the determinant of the matrix.
         //
     {
-        double det;
         int i;
 
-        det = work4;
+        double det = work4;
         for (i = 0; i <= n - 2; i++)
         {
             det *= a_lu[1 + i * 3];
@@ -164,15 +163,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int info;
-        int job;
-        double[] work1;
 
-        work1 = new double[n - 1];
+        double[] work1 = new double[n - 1];
         //
         //  Compute inverse(A1):
         //
-        info = r83_np_fa(n - 1, ref a);
+        int info = r83_np_fa(n - 1, ref a);
 
         if (info != 0)
         {
@@ -196,7 +192,7 @@ public static partial class typeMethods
 
         work2[n - 2] = a[0 + (n - 1) * 3];
 
-        job = 0;
+        int job = 0;
         work1 = r83_np_sl(n - 1, a, work2, job);
         for (i = 0; i < n - 1; i++)
         {
@@ -289,17 +285,12 @@ public static partial class typeMethods
         //    Output, double R83P_INDICATOR[3*N], the R83P indicator matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
-        int j;
+        double[] a = new double[3 * n];
 
-        a = new double[3 * n];
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
-
-        i = n;
-        j = 1;
+        int i = n;
+        int j = 1;
         a[0 + (j - 1) * 3] = fac * i + j;
         for (j = 2; j <= n; j++)
         {
@@ -378,15 +369,13 @@ public static partial class typeMethods
         //    Output, double R83P_ML[N], the result of the multiplication.
         //
     {
-        double[] b;
-        double[] b_short;
         int i;
         //
         //  Multiply A(1:N-1,1:N-1) and X(1:N-1).
         //
-        b_short = r83_np_ml(n - 1, a_lu, x, job);
+        double[] b_short = r83_np_ml(n - 1, a_lu, x, job);
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n - 1; i++)
         {
@@ -465,10 +454,9 @@ public static partial class typeMethods
         //    Output, double R83P_MTV[N], the product X * A.
         //
     {
-        double[] b;
         int i;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         b[0] = a[0 + 0 * 3] * x[n - 1] + a[1 + 0 * 3] * x[0] + a[2 + 0 * 3] * x[1];
 
@@ -530,10 +518,9 @@ public static partial class typeMethods
         //    Output, double R83P_MV[N], the product A * x.
         //
     {
-        double[] b;
         int i;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         b[0] = a[2 + (n - 1) * 3] * x[n - 1] + a[1 + 0 * 3] * x[0] + a[0 + 1 * 3] * x[1];
 
@@ -647,17 +634,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -666,14 +645,15 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -685,20 +665,21 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
 
             if (1 < i2lo || j2hi < n)
             {
                 i2lo = Math.Max(i2lo, j2lo - 1);
             }
 
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
 
             if (i2hi < n || 1 < j2lo)
             {
                 i2hi = Math.Min(i2hi, j2hi + 1);
             }
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -706,6 +687,7 @@ public static partial class typeMethods
                 //
                 cout = i.ToString().PadLeft(4) + "  ";
 
+                int j2;
                 for (j2 = 1; j2 <= inc; j2++)
                 {
                     j = j2lo - 1 + j2;
@@ -797,9 +779,7 @@ public static partial class typeMethods
         //    Output, double R83P_RANDOM[3*N], the R83P matrix.
         //
     {
-        double[] a;
-
-        a = UniformRNG.r8mat_uniform_01_new(3, n, ref seed);
+        double[] a = UniformRNG.r8mat_uniform_01_new(3, n, ref seed);
 
         return a;
     }
@@ -860,10 +840,9 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] x;
         double[] xnm1;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -981,14 +960,13 @@ public static partial class typeMethods
         //    Output, double R83P_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 if (i == j)
@@ -1075,14 +1053,13 @@ public static partial class typeMethods
         //    Output, double S3P[3*N], the R83P matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[3 * n];
+        double[] a = new double[3 * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a[i + j * 3] = 0.0;

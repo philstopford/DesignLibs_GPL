@@ -68,9 +68,6 @@ public static partial class typeMethods
         int i;
         int j;
         double[] key = new double[2];
-        int ll;
-        int m;
-        int rr;
         switch (n)
         {
             //
@@ -87,12 +84,12 @@ public static partial class typeMethods
 
         key[0] = a[startIndexA + 2 * 0 + 0];
         key[1] = a[startIndexA + 2 * 0 + 1];
-        m = 1;
+        int m = 1;
         //
         //  The elements of unknown size have indices between L+1 and R-1.
         //
-        ll = 1;
-        rr = n + 1;
+        int ll = 1;
+        int rr = n + 1;
 
         for (i = 2; i <= n; i++)
         {
@@ -197,8 +194,6 @@ public static partial class typeMethods
     {
         double[] a_temp = new double[2];
         int i;
-        int iget;
-        int iput;
         int istart;
 
         if (!perm_check(n, p))
@@ -230,13 +225,13 @@ public static partial class typeMethods
                     {
                         a_temp[0] = a[0 + (istart - 1) * 2];
                         a_temp[1] = a[1 + (istart - 1) * 2];
-                        iget = istart;
+                        int iget = istart;
                         //
                         //  Copy the new value into the vacated entry.
                         //
                         for (;;)
                         {
-                            iput = iget;
+                            int iput = iget;
                             iget = p[iget - 1];
 
                             p[iput - 1] = -p[iput - 1];
@@ -338,8 +333,6 @@ public static partial class typeMethods
     {
         double[] a_temp = new double[2];
         int i;
-        int iget;
-        int iput;
         int istart;
 
         if (!perm_check2(n, p, base_))
@@ -379,13 +372,13 @@ public static partial class typeMethods
                     {
                         a_temp[0] = a[0 + (istart - 1) * 2];
                         a_temp[1] = a[1 + (istart - 1) * 2];
-                        iget = istart;
+                        int iget = istart;
                         //
                         //  Copy the new value into the vacated entry.
                         //
                         for (;;)
                         {
-                            iput = iget;
+                            int iput = iget;
                             iget = p[iget - 1];
 
                             p[iput - 1] = -p[iput - 1];
@@ -491,11 +484,6 @@ public static partial class typeMethods
     {
         double[] aval = new double[2];
         int i;
-        int[] indx;
-        int indxt;
-        int ir;
-        int j;
-        int l;
 
         switch (n)
         {
@@ -503,7 +491,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        indx = new int[n];
+        int[] indx = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -517,11 +505,12 @@ public static partial class typeMethods
                 return indx;
         }
 
-        l = n / 2 + 1;
-        ir = n;
+        int l = n / 2 + 1;
+        int ir = n;
 
         for (;;)
         {
+            int indxt;
             if (1 < l)
             {
                 l -= 1;
@@ -545,14 +534,14 @@ public static partial class typeMethods
             }
 
             i = l;
-            j = l + l;
+            int j = l + l;
 
             while (j <= ir)
             {
                 if (j < ir)
                 {
                     if (a[0 + indx[j - 1] * 2] < a[0 + indx[j] * 2] ||
-                        a[0 + indx[j - 1] * 2] == a[0 + indx[j] * 2] &&
+                        Math.Abs(a[0 + indx[j - 1] * 2] - a[0 + indx[j] * 2]) <= double.Epsilon &&
                         a[1 + indx[j - 1] * 2] < a[1 + indx[j] * 2])
                     {
                         j += 1;
@@ -560,7 +549,7 @@ public static partial class typeMethods
                 }
 
                 if (aval[0] < a[0 + indx[j - 1] * 2] ||
-                    aval[0] == a[0 + indx[j - 1] * 2] &&
+                    Math.Abs(aval[0] - a[0 + indx[j - 1] * 2]) <= double.Epsilon &&
                     aval[1] < a[1 + indx[j - 1] * 2])
                 {
                     indx[i - 1] = indx[j - 1];
@@ -688,12 +677,7 @@ public static partial class typeMethods
         //
     {
         double[] aval = new double[2];
-        int i;
         int[] indx;
-        int indxt;
-        int ir;
-        int j;
-        int l;
         switch (n)
         {
             //
@@ -707,11 +691,12 @@ public static partial class typeMethods
 
         indx = i4vec_indicator(n);
 
-        l = n / 2 + 1;
-        ir = n;
+        int l = n / 2 + 1;
+        int ir = n;
 
         for (;;)
         {
+            int indxt;
             if (1 < l)
             {
                 l -= 1;
@@ -735,15 +720,15 @@ public static partial class typeMethods
 
             }
 
-            i = l;
-            j = l + l;
+            int i = l;
+            int j = l + l;
 
             while (j <= ir)
             {
                 if (j < ir)
                 {
                     if (a[0 + (indx[j - 1] - 1) * 2] < a[0 + (indx[j] - 1) * 2] ||
-                        a[0 + (indx[j - 1] - 1) * 2] == a[0 + (indx[j] - 1) * 2] &&
+                        Math.Abs(a[0 + (indx[j - 1] - 1) * 2] - a[0 + (indx[j] - 1) * 2]) <= double.Epsilon &&
                         a[1 + (indx[j - 1] - 1) * 2] < a[1 + (indx[j] - 1) * 2])
                     {
                         j += 1;
@@ -751,7 +736,7 @@ public static partial class typeMethods
                 }
 
                 if (aval[0] < a[0 + (indx[j - 1] - 1) * 2] ||
-                    aval[0] == a[0 + (indx[j - 1] - 1) * 2] &&
+                    Math.Abs(aval[0] - a[0 + (indx[j - 1] - 1) * 2]) <= double.Epsilon &&
                     aval[1] < a[1 + (indx[j - 1] - 1) * 2])
                 {
                     indx[i - 1] = indx[j - 1];
@@ -804,12 +789,9 @@ public static partial class typeMethods
         //    On output, the array has been sorted.
         //
     {
-        int LEVEL_MAX = 25;
+        const int LEVEL_MAX = 25;
 
-        int base_;
         int l_segment = 0;
-        int level;
-        int n_segment;
         int[] rsave = new int[LEVEL_MAX];
         int r_segment = 0;
 
@@ -824,10 +806,10 @@ public static partial class typeMethods
                 return;
         }
 
-        level = 1;
+        int level = 1;
         rsave[level - 1] = n + 1;
-        base_ = 1;
-        n_segment = n;
+        int base_ = 1;
+        int n_segment = n;
 
         while (0 < n_segment)
         {

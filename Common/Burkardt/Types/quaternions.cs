@@ -43,9 +43,7 @@ public static partial class typeMethods
         //    Output, double Q8_CONJUGATE[4], the conjugated quaternion.
         //
     {
-        double[] q2;
-
-        q2 = new double[4];
+        double[] q2 = new double[4];
 
         q2[0] = q1[0];
         q2[1] = -q1[1];
@@ -94,12 +92,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] q2;
-        double v_norm;
 
-        v_norm = Math.Sqrt(q1[1] * q1[1] + q1[2] * q1[2] + q1[3] * q1[3]);
+        double v_norm = Math.Sqrt(q1[1] * q1[1] + q1[2] * q1[2] + q1[3] * q1[3]);
 
-        q2 = new double[4];
+        double[] q2 = new double[4];
         q2[0] = Math.Cos(v_norm);
         if (v_norm != 0.0)
         {
@@ -162,15 +158,12 @@ public static partial class typeMethods
         //    Output, double QUAT_INVERSE[4], the inverse of the input quaternion.
         //
     {
-        double norm;
-        double[] q2;
+        double[] q2 = new double[4];
 
-        q2 = new double[4];
-
-        norm = q[0] * q[0]
-               + q[1] * q[1]
-               + q[2] * q[2]
-               + q[3] * q[3];
+        double norm = q[0] * q[0]
+                      + q[1] * q[1]
+                      + q[2] * q[2]
+                      + q[3] * q[3];
 
         q2[0] = q[0] / norm;
         q2[1] = -q[1] / norm;
@@ -221,9 +214,7 @@ public static partial class typeMethods
         //    Output, double Q8_MULTIPLY[4], the product of the two quaternions.
         //
     {
-        double[] q3;
-
-        q3 = new double[4];
+        double[] q3 = new double[4];
 
         q3[0] = q1[0] * q2[0] - q1[1] * q2[1] - q1[2] * q2[2] - q1[3] * q2[3];
         q3[1] = q1[0] * q2[1] + q1[1] * q2[0] + q1[2] * q2[3] - q1[3] * q2[2];
@@ -274,7 +265,6 @@ public static partial class typeMethods
         //    Output, double Q8_MULTIPLY2[4], the product of the two quaternions.
         //
     {
-        double[] q3;
         //
         //  The matrix entries are listed by column, not row.
         //
@@ -286,7 +276,7 @@ public static partial class typeMethods
             -q1[3], +q1[2], -q1[1], +q1[0]
         };
 
-        q3 = r8mat_mv_new(4, 4, qm, q2);
+        double[] q3 = r8mat_mv_new(4, 4, qm, q2);
 
         return q3;
     }
@@ -329,9 +319,7 @@ public static partial class typeMethods
         //    Output, double Q8_NORM, the norm of the quaternion.
         //
     {
-        double norm;
-
-        norm = r8vec_norm(4, q);
+        double norm = r8vec_norm(4, q);
 
         return norm;
     }
@@ -368,12 +356,9 @@ public static partial class typeMethods
         //    Output, double[] Q8_NORMAL_01[4], the sampled quaternion.
         //
     {
-        double[] q;
-        double[] r;
+        double[] r = UniformRNG.r8vec_uniform_01_new(4, ref seed);
 
-        r = UniformRNG.r8vec_uniform_01_new(4, ref seed);
-
-        q = new double[4];
+        double[] q = new double[4];
 
         q[0] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * Math.PI * r[1]);
         q[1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Sin(2.0 * Math.PI * r[1]);

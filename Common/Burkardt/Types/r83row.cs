@@ -37,11 +37,9 @@ public static partial class typeMethods
         //    Output, double R83ROW_MAX[3]; the largest entries in each row.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] amax;
         int i;
-        int j;
 
         switch (n)
         {
@@ -49,11 +47,12 @@ public static partial class typeMethods
                 return null;
         }
 
-        amax = new double[DIM_NUM];
+        double[] amax = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
         {
             amax[i] = a[i + 0 * DIM_NUM];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (amax[i] < a[i + j * DIM_NUM])
@@ -99,11 +98,9 @@ public static partial class typeMethods
         //    Output, double R83ROW_MIN[3]; the smallest entries in each row.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] amin;
         int i;
-        int j;
 
         switch (n)
         {
@@ -111,11 +108,12 @@ public static partial class typeMethods
                 return null;
         }
 
-        amin = new double[DIM_NUM];
+        double[] amin = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
         {
             amin[i] = a[i + 0 * DIM_NUM];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (a[i + j * DIM_NUM] < amin[i])
@@ -173,9 +171,7 @@ public static partial class typeMethods
         int i;
         int j;
         double[] key = new double[3];
-        int ll;
         int m;
-        int rr;
 
         switch (n)
         {
@@ -197,8 +193,8 @@ public static partial class typeMethods
         //
         //  The elements of unknown size have indices between L+1 and R-1.
         //
-        ll = 1;
-        rr = n + 1;
+        int ll = 1;
+        int rr = n + 1;
 
         for (i = 2; i <= n; i++)
         {
@@ -394,12 +390,9 @@ public static partial class typeMethods
         //    On output, the array has been sorted.
         //
     {
-        int LEVEL_MAX = 30;
+        const int LEVEL_MAX = 30;
 
-        int base_;
         int l_segment = 0;
-        int level;
-        int n_segment;
         int[] rsave = new int[LEVEL_MAX];
         int r_segment = 0;
 
@@ -414,10 +407,10 @@ public static partial class typeMethods
                 return;
         }
 
-        level = 1;
+        int level = 1;
         rsave[level - 1] = n + 1;
-        base_ = 1;
-        n_segment = n;
+        int base_ = 1;
+        int n_segment = n;
 
         while (0 < n_segment)
         {

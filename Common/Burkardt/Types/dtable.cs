@@ -52,11 +52,6 @@ public static partial class typeMethods
         //
     {
         string[] input;
-        int i;
-        int j;
-        string line;
-        double[] table;
-        double[] x;
 
         try
         {
@@ -70,15 +65,16 @@ public static partial class typeMethods
             return null;
         }
 
-        table = new double[m * n];
+        double[] table = new double[m * n];
 
-        x = new double[m];
+        double[] x = new double[m];
 
-        j = 0;
+        int j = 0;
         int index = 0;
 
         while (j < n)
         {
+            string line;
             try
             {
                 line = input[index];
@@ -104,6 +100,7 @@ public static partial class typeMethods
 
             x = res.rvec;
 
+            int i;
             for (i = 0; i < m; i++)
             {
                 table[i + j * m] = x[i];
@@ -205,8 +202,6 @@ public static partial class typeMethods
         //    Input, double TABLE[M*N], the table data.
         //
     {
-        int i;
-        int j;
         List<string> output = new();
 
         try
@@ -217,9 +212,11 @@ public static partial class typeMethods
             //
             //    output << "  " << setw(24) << setprecision(16) << table[i+j*m];
             //
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 string cout = "";
+                int i;
                 for ( i = 0; i < m; i++ )
                 {
                     cout += "  " + table[i+j*m].ToString("0.################").PadLeft(24);

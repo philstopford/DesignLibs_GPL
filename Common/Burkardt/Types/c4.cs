@@ -180,16 +180,10 @@ public static partial class typeMethods
         //    Output, float CMACH, the requested value.
         //
     {
-        float eps;
-        float huge;
         float s;
-        Complex temp1;
-        Complex temp2;
-        Complex temp3;
         float tiny;
-        float value;
 
-        eps = 1.0f;
+        float eps = 1.0f;
 
         for (;;)
         {
@@ -226,13 +220,13 @@ public static partial class typeMethods
         {
             case true:
             {
-                temp1 = new Complex(1.0, 0.0);
-                temp2 = new Complex(tiny, 0.0);
-                temp3 = temp1 / temp2;
+                Complex temp1 = new Complex(1.0, 0.0);
+                Complex temp2 = new Complex(tiny, 0.0);
+                Complex temp3 = temp1 / temp2;
 
                 s = (float)temp3.Real;
 
-                if (s != 1.0 / tiny)
+                if (Math.Abs(s - 1.0 / tiny) > double.Epsilon)
                 {
                     tiny = (float)Math.Sqrt(tiny);
                 }
@@ -241,9 +235,9 @@ public static partial class typeMethods
             }
         }
 
-        huge = 1.0f / tiny;
+        float huge = 1.0f / tiny;
 
-        value = job switch
+        float value = job switch
         {
             1 => eps,
             2 => tiny,
@@ -572,7 +566,6 @@ public static partial class typeMethods
     {
         double s;
         double tiny;
-        double value = 0;
 
         double eps = 1.0;
 
@@ -617,7 +610,7 @@ public static partial class typeMethods
 
                 s = temp3.Real;
 
-                if (s != 1.0 / tiny)
+                if (Math.Abs(s - 1.0 / tiny) > double.Epsilon)
                 {
                     tiny = Math.Sqrt(tiny);
                 }
@@ -628,7 +621,7 @@ public static partial class typeMethods
 
         double huge = 1.0 / tiny;
 
-        value = job switch
+        double value = job switch
         {
             1 => eps,
             2 => tiny,

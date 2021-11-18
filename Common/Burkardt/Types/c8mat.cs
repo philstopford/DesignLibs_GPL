@@ -46,11 +46,11 @@ public static partial class typeMethods
         //    Output, Complex C[M*N], the result.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 c[i + j * m] = alpha * a[i + j * m] + beta * b[i + j * m];
@@ -99,11 +99,11 @@ public static partial class typeMethods
         //    Output, Complex C[M*N], the result.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 c[i + j * m] = alpha * a[i + j * m] + beta * b[i + j * m];
@@ -145,11 +145,11 @@ public static partial class typeMethods
         //    Output, Complex A2[M*N], the copy of A1.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
@@ -191,14 +191,13 @@ public static partial class typeMethods
         //    Output, Complex C8MAT_COPY_NEW[M*N], the copy of A1.
         //
     {
-        Complex[] a2;
-        int i;
         int j;
 
-        a2 = new Complex[m * n];
+        Complex[] a2 = new Complex[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
@@ -250,19 +249,16 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        Complex t;
 
         for (jcol = 1; jcol <= n; jcol++)
         {
             //
             //  Find the maximum element in column I.
             //
-            piv = c8_abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = c8_abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < c8_abs(a[i - 1 + (jcol - 1) * n]))
@@ -284,6 +280,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            Complex t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -402,14 +399,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        Complex t;
-        Complex[] x;
 
-        x = new Complex[n * nb];
+        Complex[] x = new Complex[n * nb];
 
         for (j = 0; j < nb; j++)
         {
@@ -424,8 +417,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = c8_abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = c8_abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < c8_abs(a[i - 1 + (jcol - 1) * n]))
@@ -447,6 +440,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            Complex t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -545,14 +539,13 @@ public static partial class typeMethods
         //    Output, Complex C8MAT_IDENTITY_NEW[N*N], the matrix.
         //
     {
-        Complex[] a;
-        int i;
         int j;
 
-        a = new Complex [n * n];
+        Complex[] a = new Complex [n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)
@@ -596,14 +589,13 @@ public static partial class typeMethods
         //    Output, Complex C8MAT_INDICATOR_NEW[M*N], the matrix.
         //
     {
-        Complex[] a;
-        int i;
         int j;
 
-        a = new Complex [m * n];
+        Complex[] a = new Complex [m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = new Complex(i + 1, j + 1);
@@ -648,9 +640,7 @@ public static partial class typeMethods
         //    C = inverse(A) * B.
         //
     {
-        Complex[] alu;
-
-        alu = c8mat_copy_new(n1, n1, a);
+        Complex[] alu = c8mat_copy_new(n1, n1, a);
 
         c8mat_copy(n1, n2, b, ref c);
 
@@ -692,11 +682,8 @@ public static partial class typeMethods
         //    C = inverse(A) * B.
         //
     {
-        Complex[] alu;
-        Complex[] c;
-
-        alu = c8mat_copy_new(n1, n1, a);
-        c = c8mat_fss_new(n1, ref alu, n2, b);
+        Complex[] alu = c8mat_copy_new(n1, n1, a);
+        Complex[] c = c8mat_fss_new(n1, ref alu, n2, b);
 
         return c;
     }
@@ -739,18 +726,17 @@ public static partial class typeMethods
         //    Output, Complex C[N1*N3], the product matrix C = A * B.
         //
     {
-        Complex[] c1;
         int i;
-        int j;
-        int k;
 
-        c1 = new Complex [n1 * n3];
+        Complex[] c1 = new Complex [n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c1[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c1[i + j * n1] += a[i + k * n1] * b[k + j * n2];
@@ -799,18 +785,17 @@ public static partial class typeMethods
         //    Output, Complex C8MAT_MM_NEW[N1*N3], the product matrix C = A * B.
         //
     {
-        Complex[] c;
         int i;
-        int j;
-        int k;
 
-        c = new Complex [n1 * n3];
+        Complex[] c = new Complex [n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c[i + j * n1] += a[i + k * n1] * b[k + j * n2];
@@ -852,11 +837,11 @@ public static partial class typeMethods
         //    Input/output, Complex A[M*N], the matrix to be NINT'ed.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = c8_nint(a[i + j * m]);
@@ -907,13 +892,12 @@ public static partial class typeMethods
         //    Output, double C8MAT_NORM_FRO, the Frobenius norm of A.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value = value + Math.Pow(a[i + j * m].Real, 2)
@@ -971,16 +955,14 @@ public static partial class typeMethods
         //    Output, double C8MAT_NORM_L1, the L1 norm of A.
         //
     {
-        double col_sum;
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (j = 0; j < n; j++)
         {
-            col_sum = 0.0;
+            double col_sum = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 col_sum += c8_abs(a[i + j * m]);
@@ -1038,15 +1020,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double row_sum;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (i = 0; i < m; i++)
         {
-            row_sum = 0.0;
+            double row_sum = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 row_sum += c8_abs(a[i + j * m]);
@@ -1131,17 +1111,8 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        Complex c;
-        int i;
-        int i2hi;
         int i2lo = 0;
-        int inc;
-        int incx = 4;
-        int j;
-        int j2;
-        int j2hi;
-        int j2lo;
-        string cout;
+        const int incx = 4;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -1156,10 +1127,9 @@ public static partial class typeMethods
         //
         //  Print the columns of the matrix, in strips of INCX.
         //
-        j2lo = jlo;
         // for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + incx)
         {
-            j2hi = j2lo + incx - 1;
+            int j2hi = jlo + incx - 1;
             if (n < j2hi)
             {
                 j2hi = n;
@@ -1170,13 +1140,15 @@ public static partial class typeMethods
                 j2hi = jhi;
             }
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - jlo;
 
             Console.WriteLine("");
-            cout = "  Col: ";
-            for (j = j2lo; j <= j2hi; j++)
+            string cout = "  Col: ";
+            int j;
+            int j2;
+            for (j = jlo; j <= j2hi; j++)
             {
-                j2 = j + 1 - j2lo;
+                j2 = j + 1 - jlo;
                 cout += "     " + j.ToString().PadLeft(10) + "     ";
             }
 
@@ -1192,12 +1164,13 @@ public static partial class typeMethods
                 _ => ilo
             };
 
-            i2hi = ihi;
+            int i2hi = ihi;
             if (m < i2hi)
             {
                 i2hi = m;
             }
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(5) + ":";
@@ -1206,8 +1179,8 @@ public static partial class typeMethods
                 //
                 for (j2 = 1; j2 <= inc; j2++)
                 {
-                    j = j2lo - 1 + j2;
-                    c = a[i - 1 + (j - 1) * m];
+                    j = jlo - 1 + j2;
+                    Complex c = a[i - 1 + (j - 1) * m];
                     cout += "  " + c.Real.ToString().PadLeft(8)
                                  + "  " + c.Imaginary.ToString().PadLeft(8);
                 }
@@ -1252,11 +1225,11 @@ public static partial class typeMethods
         //    Input/output, Complex A[M*N], the matrix to be scaled.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] *= alpha;
@@ -1298,11 +1271,11 @@ public static partial class typeMethods
         //    Input/output, Complex A[M*N], the matrix to be scaled.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] *= alpha;
@@ -1349,13 +1322,7 @@ public static partial class typeMethods
         //    Output, Complex C[M*N], the pseudorandom complex matrix.
         //
     {
-        int i;
-        const int i4_huge = 2147483647;
         int j;
-        double r;
-        int k;
-            
-        double theta;
 
         switch (seed)
         {
@@ -1368,8 +1335,22 @@ public static partial class typeMethods
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
+                int k = seed / 127773;
+
+                seed = 16807 * (seed - k * 127773) - k * 2836;
+
+                switch (seed)
+                {
+                    case < 0:
+                        seed += i4_huge();
+                        break;
+                }
+
+                double r = Math.Sqrt(seed * 4.656612875E-10);
+
                 k = seed / 127773;
 
                 seed = 16807 * (seed - k * 127773) - k * 2836;
@@ -1377,24 +1358,11 @@ public static partial class typeMethods
                 switch (seed)
                 {
                     case < 0:
-                        seed += typeMethods.i4_huge();
+                        seed += i4_huge();
                         break;
                 }
 
-                r = Math.Sqrt(seed * 4.656612875E-10);
-
-                k = seed / 127773;
-
-                seed = 16807 * (seed - k * 127773) - k * 2836;
-
-                switch (seed)
-                {
-                    case < 0:
-                        seed += typeMethods.i4_huge();
-                        break;
-                }
-
-                theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
+                double theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
 
                 c[i + j * m] = r * new Complex(Math.Cos(theta), Math.Sin(theta));
             }
@@ -1441,20 +1409,28 @@ public static partial class typeMethods
         //    complex matrix.
         //
     {
-        Complex[] c;
-        int i;
         int j;
-        double r;
-        int k;
-            
-        double theta;
 
-        c = new Complex [m * n];
+        Complex[] c = new Complex [m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
+                int k = seed / 127773;
+
+                seed = 16807 * (seed - k * 127773) - k * 2836;
+
+                switch (seed)
+                {
+                    case < 0:
+                        seed += 2147483647;
+                        break;
+                }
+
+                double r = Math.Sqrt(seed * 4.656612875E-10);
+
                 k = seed / 127773;
 
                 seed = 16807 * (seed - k * 127773) - k * 2836;
@@ -1466,20 +1442,7 @@ public static partial class typeMethods
                         break;
                 }
 
-                r = Math.Sqrt(seed * 4.656612875E-10);
-
-                k = seed / 127773;
-
-                seed = 16807 * (seed - k * 127773) - k * 2836;
-
-                switch (seed)
-                {
-                    case < 0:
-                        seed += 2147483647;
-                        break;
-                }
-
-                theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
+                double theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
 
                 c[i + j * m] = r * new Complex(Math.Cos(theta), Math.Sin(theta));
             }
@@ -1520,14 +1483,13 @@ public static partial class typeMethods
         //    Output, Complex C8MAT_ZERO_NEW[M*N], the zeroed matrix.
         //
     {
-        Complex[] a;
-        int i;
         int j;
 
-        a = new Complex[m * n];
+        Complex[] a = new Complex[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;

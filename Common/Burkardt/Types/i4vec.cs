@@ -97,9 +97,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int product;
 
-        product = 1;
+        int product = 1;
         for (i = 0; i < n; i++)
         {
             product *= a[i + aIndex];
@@ -214,10 +213,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_INDICATOR0_NEW[N], the array.
         //
     {
-        int[] a;
         int i;
 
-        a = new int[n];
+        int[] a = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -258,10 +256,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_INDICATOR1_NEW[N], the array.
         //
     {
-        int[] a;
         int i;
 
-        a = new int[n];
+        int[] a = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -325,10 +322,7 @@ public static partial class typeMethods
         //    Input/output, int A[N], the array to be permuted.
         //
     {
-        int a_temp;
         int i;
-        int iget;
-        int iput;
         int istart;
 
         if (!perm0_check(n, p))
@@ -366,14 +360,14 @@ public static partial class typeMethods
                     }
                     else
                     {
-                        a_temp = a[istart - 1];
-                        iget = istart;
+                        int a_temp = a[istart - 1];
+                        int iget = istart;
                         //
                         //  Copy the new value into the vacated entry.
                         //
                         for (;;)
                         {
-                            iput = iget;
+                            int iput = iget;
                             iget = p[iget - 1];
 
                             p[iput - 1] = -p[iput - 1];
@@ -492,8 +486,6 @@ public static partial class typeMethods
         //    Output, double I4VEC_STD, the standard deviation of the vector entries.
         //
     {
-        int i;
-        double mean;
         double std;
 
         switch (n)
@@ -503,7 +495,8 @@ public static partial class typeMethods
                 break;
             default:
             {
-                mean = 0.0;
+                double mean = 0.0;
+                int i;
                 for ( i = 0; i < n; i++ )
                 {
                     mean += x[i];
@@ -621,11 +614,13 @@ public static partial class typeMethods
 
         for (int i = 0; i < n; i++)
         {
-            if (i == 0 || a[i] != test)
+            if (i != 0 && a[i] == test)
             {
-                run_count += 1;
-                test = a[i];
+                continue;
             }
+
+            run_count += 1;
+            test = a[i];
         }
 
         return run_count;
@@ -674,11 +669,13 @@ public static partial class typeMethods
 
             for (int j = 0; j < i; j++)
             {
-                if (a[i] == a[j])
+                if (a[i] != a[j])
                 {
-                    unique_num -= 1;
-                    break;
+                    continue;
                 }
+
+                unique_num -= 1;
+                break;
             }
         }
 
@@ -771,19 +768,19 @@ public static partial class typeMethods
         //
     {
         int i;
-        int index;
-        int value;
 
-        index = 0;
-        value = x[xIndex + 0];
+        int index = 0;
+        int value = x[xIndex + 0];
 
         for ( i = 1; i < n; i++ )
         {
-            if ( value <= x[xIndex + i] )
+            if (value > x[xIndex + i])
             {
-                index = i;
-                value = x[xIndex + i];
+                continue;
             }
+
+            index = i;
+            value = x[xIndex + i];
         }
         return index;
     }
@@ -848,9 +845,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int lcm;
 
-        lcm = 1;
+        int lcm = 1;
 
         for ( i = 0; i < n; i++ )
         {
@@ -874,12 +870,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, ivec.Length);
 
-        if (n == ivec.Length)
-        {
-            return ivec.Max();
-        }
-
-        return ivec.Take(n).Max();
+        return n == ivec.Length ? ivec.Max() : ivec.Take(n).Max();
     }
 
     public static int i4vec_min(int n, int[] ivec)
@@ -893,12 +884,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, ivec.Length);
 
-        if (n == ivec.Length)
-        {
-            return ivec.Min();
-        }
-
-        return ivec.Take(n).Min();
+        return n == ivec.Length ? ivec.Min() : ivec.Take(n).Min();
     }
 
     public static void i4vec_negone ( int n, ref int[] a )
@@ -971,10 +957,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_NEGONE_NEW[N], a vector of -1's.
         //
     {
-        int[] a;
         int i;
 
-        a = new int[n];
+        int[] a = new int[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -1058,10 +1043,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_ZEROS_NEW[N], a vector of zeroes.
         //
     {
-        int[] a;
         int i;
 
-        a = new int[n];
+        int[] a = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1110,12 +1094,6 @@ public static partial class typeMethods
         //
     {
         int frac;
-        int i;
-        int iryt;
-        int j;
-        int left;
-        int temp;
-        int x;
 
         switch (n)
         {
@@ -1143,8 +1121,8 @@ public static partial class typeMethods
             return 1;
         }
 
-        left = 1;
-        iryt = n;
+        int left = 1;
+        int iryt = n;
 
         for (;;)
         {
@@ -1154,9 +1132,9 @@ public static partial class typeMethods
                 break;
             }
 
-            x = a[k - 1];
-            i = left;
-            j = iryt;
+            int x = a[k - 1];
+            int i = left;
+            int j = iryt;
 
             for (;;)
             {
@@ -1191,14 +1169,14 @@ public static partial class typeMethods
                     j -= 1;
                 }
 
-                if (i <= j)
+                if (i > j)
                 {
-                    temp = a[i - 1];
-                    a[i - 1] = a[j - 1];
-                    a[j - 1] = temp;
-                    i += 1;
-                    j -= 1;
+                    continue;
                 }
+
+                (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
+                i += 1;
+                j -= 1;
             }
         }
 
@@ -1242,12 +1220,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_MEDIAN, the value of the median of A.
         //
     {
-        int k;
-        int median;
+        int k = (n + 1) / 2;
 
-        k = (n + 1) / 2;
-
-        median = i4vec_frac(n, ref a, k);
+        int median = i4vec_frac(n, ref a, k);
 
         return median;
     }
@@ -1307,9 +1282,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ifree;
-        int key;
-        int m;
         //
         //  Only nodes (N/2)-1 down to 0 can be "parent" nodes.
         //
@@ -1319,8 +1291,8 @@ public static partial class typeMethods
             //  Copy the value out of the parent node.
             //  Position IFREE is now "open".
             //
-            key = a[aIndex + i];
-            ifree = i;
+            int key = a[aIndex + i];
+            int ifree = i;
 
             for (;;)
             {
@@ -1328,7 +1300,7 @@ public static partial class typeMethods
                 //  Positions 2*IFREE + 1 and 2*IFREE + 2 are the descendants of position
                 //  IFREE.  (One or both may not exist because they equal or exceed N.)
                 //
-                m = 2 * ifree + 1;
+                int m = 2 * ifree + 1;
                 //
                 //  Does the first position exist?
                 //
@@ -1482,10 +1454,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_INDICATOR(N), the initialized array.
         //
     {
-        int[] a;
         int i;
 
-        a = new int[n];
+        int[] a = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1735,13 +1706,7 @@ public static partial class typeMethods
         //    I-th element of the sorted array is A(INDX(I)).
         //
     {
-        int aval;
         int i;
-        int[] indx;
-        int indxt;
-        int ir;
-        int j;
-        int l;
 
         switch (n)
         {
@@ -1749,7 +1714,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        indx = new int[n];
+        int[] indx = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1763,12 +1728,13 @@ public static partial class typeMethods
                 return indx;
         }
 
-        l = n / 2 + 1;
-        ir = n;
+        int l = n / 2 + 1;
+        int ir = n;
 
         for (;;)
         {
-
+            int aval;
+            int indxt;
             if (1 < l)
             {
                 l -= 1;
@@ -1790,7 +1756,7 @@ public static partial class typeMethods
             }
 
             i = l;
-            j = l + l;
+            int j = l + l;
 
             while (j <= ir)
             {
@@ -1850,18 +1816,15 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int k;
 
         for ( i = 0; i < n-1; i++ )
         {
+            int j;
             for ( j = i+1; j < n; j++ )
             {
                 if ( a[j] < a[i] )
                 {
-                    k = a[i];
-                    a[i] = a[j];
-                    a[j] = k;
+                    (a[i], a[j]) = (a[j], a[i]);
                 }
             }
         }
@@ -1904,7 +1867,6 @@ public static partial class typeMethods
         //
     {
         int n1;
-        int temp;
 
         switch (n)
         {
@@ -1922,7 +1884,7 @@ public static partial class typeMethods
         //  The largest object in the heap is in A[0].
         //  Move it to position A[N-1].
         //
-        temp = a[aIndex + 0];
+        int temp = a[aIndex + 0];
         a[aIndex + 0] = a[aIndex + n - 1];
         a[aIndex + n - 1] = temp;
         //
@@ -1979,9 +1941,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int unique_num;
 
-        unique_num = 0;
+        int unique_num = 0;
 
         switch (n)
         {
@@ -1993,11 +1954,13 @@ public static partial class typeMethods
 
         for (i = 1; i < n; i++)
         {
-            if (a[i] != a[unique_num - 1])
+            if (a[i] == a[unique_num - 1])
             {
-                unique_num += 1;
-                a[unique_num - 1] = a[i];
+                continue;
             }
+
+            unique_num += 1;
+            a[unique_num - 1] = a[i];
         }
 
         return unique_num;
@@ -2039,9 +2002,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int unique_num;
 
-        unique_num = 0;
+        int unique_num = 0;
 
         switch (n)
         {
@@ -2097,9 +2059,7 @@ public static partial class typeMethods
         //    +1, item J < item I.
         //
     {
-        int isgn;
-
-        isgn = 0;
+        int isgn = 0;
 
         if (a1[i - 1] < a1[j - 1])
         {
@@ -2160,18 +2120,13 @@ public static partial class typeMethods
         //    Input/output, int A1[N], A2[N], the data to be sorted..
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        int temp;
         //
         //  Initialize.
         //
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         //
         //  Call the external heap sorter.
         //
@@ -2184,7 +2139,7 @@ public static partial class typeMethods
             //
             if (0 < indx)
             {
-                temp = a1[i - 1];
+                int temp = a1[i - 1];
                 a1[i - 1] = a1[j - 1];
                 a1[j - 1] = temp;
 
@@ -2199,11 +2154,10 @@ public static partial class typeMethods
             {
                 isgn = i4vec2_compare(n, a1, a2, i, j);
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
-
         }
     }
 
@@ -2262,13 +2216,14 @@ public static partial class typeMethods
 
         for (itest = 1; itest < n; itest++)
         {
-            if (a1[itest] != a1[nuniq - 1] ||
-                a2[itest] != a2[nuniq - 1])
+            if (a1[itest] == a1[nuniq - 1] && a2[itest] == a2[nuniq - 1])
             {
-                a1[nuniq] = a1[itest];
-                a2[nuniq] = a2[itest];
-                nuniq += 1;
+                continue;
             }
+
+            a1[nuniq] = a1[itest];
+            a2[nuniq] = a2[itest];
+            nuniq += 1;
         }
     }
 
@@ -2347,10 +2302,9 @@ public static partial class typeMethods
         //    entries of A with the values of 0 through HISTO_NUM.
         //
     {
-        int[] histo_gram;
         int i;
 
-        histo_gram = new int[histo_num+1];
+        int[] histo_gram = new int[histo_num+1];
 
         for ( i = 0; i <= histo_num; i++ )
         {
@@ -2450,10 +2404,9 @@ public static partial class typeMethods
         //    Output, int I4VEC_CUM[N], the cumulative sum of the entries of A.
         //
     {
-        int[] a_cum;
         int i;
 
-        a_cum = new int[n+1];
+        int[] a_cum = new int[n+1];
 
         a_cum[0] = a[0];
 
@@ -2624,10 +2577,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int iu;
-        int unique_num;
 
-        unique_num = 0;
+        int unique_num = 0;
 
         switch (n)
         {
@@ -2635,17 +2586,18 @@ public static partial class typeMethods
                 return unique_num;
         }
 
-        iu = 0;
+        int iu = 0;
         unique_num = 1;
 
         for (i = 1; i < n; i++)
         {
-            if (a1[i] != a1[iu] ||
-                a2[i] != a2[iu])
+            if (a1[i] == a1[iu] && a2[i] == a2[iu])
             {
-                iu = i;
-                unique_num += 1;
+                continue;
             }
+
+            iu = i;
+            unique_num += 1;
         }
 
         return unique_num;
@@ -2693,11 +2645,8 @@ public static partial class typeMethods
         //    Input, int A2[N2], B2[N2], the output array of unique items.
         //
     {
-        int i1;
-        int i2;
-
-        i1 = 0;
-        i2 = 0;
+        int i1 = 0;
+        int i2 = 0;
 
         switch (n1)
         {
@@ -2808,7 +2757,6 @@ public static partial class typeMethods
         int i;
         int ihi;
         int ilo;
-        int title_len;
 
         int slt = s_len_trim(title);
             
@@ -2816,7 +2764,7 @@ public static partial class typeMethods
         {
             case > 0:
             {
-                title_len = title.Length;
+                int title_len = title.Length;
 
                 for (ilo = 1; ilo <= n; ilo += 5)
                 {
@@ -3139,11 +3087,13 @@ public static partial class typeMethods
 
             k -= 1;
 
-            if (k <= 0)
+            if (k > 0)
             {
-                indx = 3;
-                break;
+                continue;
             }
+
+            indx = 3;
+            break;
         }
     }
         
@@ -3183,10 +3133,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         for ( i = 0; i < n; i++ )
         {
+            int j;
             for ( j = i+1; j < n; j++ )
             {
                 if ( i4_gcd ( a[i], a[j] ) != 1 ) 
@@ -3242,7 +3192,6 @@ public static partial class typeMethods
         // 
     {
         int i;
-        int[] x;
 
         if (npart < 1 || n < npart)
         {
@@ -3252,7 +3201,7 @@ public static partial class typeMethods
             return null;
         }
 
-        x = new int[npart];
+        int[] x = new int[npart];
 
         x[0] = n + 1 - npart;
         for (i = 1; i < npart; i++)
@@ -3408,9 +3357,7 @@ public static partial class typeMethods
         //    as N, and the "largest" entries occur first.
         // 
     {
-        int[] x;
-
-        x = new int[npart];
+        int[] x = new int[npart];
 
         i4vec_part2(n, npart, ref x);
 
@@ -3460,11 +3407,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         for (i = 0; i < n / 2; i++)
         {
-            j = a[aIndex + i];
+            int j = a[aIndex + i];
             a[(aIndex + i + a.Length) % a.Length] = a[(aIndex + (n - 1 - i) + a.Length) % a.Length];
             a[(aIndex + (n - 1 - i) + a.Length) % a.Length] = j;
         }
@@ -3517,10 +3463,6 @@ public static partial class typeMethods
         //    I, A[I] = B.
         //
     {
-        int high;
-        int index;
-        int low;
-        int mid;
         switch (n)
         {
             //
@@ -3533,14 +3475,14 @@ public static partial class typeMethods
                 return 1;
         }
 
-        index = -1;
+        int index = -1;
 
-        low = 1;
-        high = n;
+        int low = 1;
+        int high = n;
 
         while (low <= high)
         {
-            mid = (low + high) / 2;
+            int mid = (low + high) / 2;
 
             if (a[(mid - 1 + aIndex ) % a.Length] == b)
             {
@@ -3608,10 +3550,6 @@ public static partial class typeMethods
         //    I, A[I] = B.
         //
     {
-        int high;
-        int index;
-        int low;
-        int mid;
         switch (n)
         {
             //
@@ -3624,14 +3562,14 @@ public static partial class typeMethods
                 return 1;
         }
 
-        index = -1;
+        int index = -1;
 
-        low = 1;
-        high = n;
+        int low = 1;
+        int high = n;
 
         while (low <= high)
         {
-            mid = (low + high) / 2;
+            int mid = (low + high) / 2;
 
             if (a[mid - 1] == b)
             {
@@ -3696,21 +3634,16 @@ public static partial class typeMethods
         //    I-th element of the sorted array is A(INDX(I)).
         //
     {
-        int aval;
-        int i;
-        int[] indx;
-        int indxt;
-        int ir;
-        int j;
-        int l;
+        int[] indx = i4vec_indicator1_new(n);
 
-        indx = i4vec_indicator1_new(n);
-
-        l = n / 2 + 1;
-        ir = n;
+        int l = n / 2 + 1;
+        int ir = n;
 
         for (;;)
         {
+            int aval;
+            int i;
+            int indxt;
             switch (l)
             {
                 case > 1:
@@ -3744,7 +3677,7 @@ public static partial class typeMethods
             }
 
             i = l;
-            j = l + l;
+            int j = l + l;
 
             while (j <= ir)
             {
@@ -3816,14 +3749,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int x;
 
         for (i = 1; i < n; i++)
         {
-            x = a[i];
+            int x = a[i];
 
-            j = i;
+            int j = i;
 
             while (1 <= j && x < a[j - 1])
             {
@@ -3877,13 +3808,11 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int x;
 
         for (i = 1; i < n; i++)
         {
-            x = a[i];
-            j = i;
+            int x = a[i];
+            int j = i;
 
             while (1 <= j && a[j - 1] < x)
             {
@@ -4046,9 +3975,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int value;
 
-        value = 0;
+        int value = 0;
         for ( i = 0; i < n; i++ )
         {
             value += x[i] * y[i];

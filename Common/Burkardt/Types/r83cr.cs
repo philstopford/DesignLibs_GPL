@@ -107,16 +107,6 @@ public static partial class typeMethods
         //    needed by R83_CR_SL.
         //
     {
-        double[] a_cr;
-        int iful;
-        int ifulp;
-        int ihaf;
-        int il;
-        int ilp;
-        int inc;
-        int incr;
-        int ipnt;
-        int ipntp;
         int j;
 
         switch (n)
@@ -128,7 +118,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        a_cr = new double[3 * (2 * n + 1)];
+        double[] a_cr = new double[3 * (2 * n + 1)];
 
         switch (n)
         {
@@ -182,28 +172,29 @@ public static partial class typeMethods
             a_cr[2 + j * 3] = 0.0;
         }
 
-        il = n;
-        ipntp = 0;
+        int il = n;
+        int ipntp = 0;
 
         while (1 < il)
         {
-            ipnt = ipntp;
+            int ipnt = ipntp;
             ipntp += il;
-            inc = (il % 2) switch
+            int inc = (il % 2) switch
             {
                 1 => il + 1,
                 _ => il
             };
 
-            incr = inc / 2;
+            int incr = inc / 2;
             il /= 2;
-            ihaf = ipntp + incr + 1;
-            ifulp = ipnt + inc + 2;
+            int ihaf = ipntp + incr + 1;
+            int ifulp = ipnt + inc + 2;
 
+            int ilp;
             for (ilp = incr; 1 <= ilp; ilp--)
             {
                 ifulp -= 2;
-                iful = ifulp - 1;
+                int iful = ifulp - 1;
                 ihaf -= 1;
 
                 a_cr[1 + iful * 3] = 1.0 / a_cr[1 + iful * 3];
@@ -286,13 +277,8 @@ public static partial class typeMethods
     {
         int i;
         int iful;
-        int ifulm;
         int ihaf = 0;
-        int il;
         int ipnt;
-        int ipntp;
-        int ndiv;
-        double[] rhs;
         double[] x;
 
         switch (n)
@@ -311,7 +297,7 @@ public static partial class typeMethods
         //
         //  Set up RHS.
         //
-        rhs = new double[2 * n + 1];
+        double[] rhs = new double[2 * n + 1];
 
         rhs[0] = 0.0;
         for (i = 1; i <= n; i++)
@@ -324,9 +310,9 @@ public static partial class typeMethods
             rhs[i] = 0.0;
         }
 
-        il = n;
-        ndiv = 1;
-        ipntp = 0;
+        int il = n;
+        int ndiv = 1;
+        int ipntp = 0;
 
         while (1 < il)
         {
@@ -356,6 +342,7 @@ public static partial class typeMethods
             ipnt -= il;
             ihaf = ipntp;
 
+            int ifulm;
             for (ifulm = ipnt + 1; ifulm <= ipntp; ifulm += 2)
             {
                 iful = ifulm + 1;
@@ -444,14 +431,9 @@ public static partial class typeMethods
     {
         int i;
         int iful;
-        int ifulm;
         int ihaf = 0;
-        int il;
         int ipnt;
-        int ipntp;
         int j;
-        int ndiv;
-        double[] rhs;
         double[] x;
 
         switch (n)
@@ -476,7 +458,7 @@ public static partial class typeMethods
         //
         //  Set up RHS.
         //
-        rhs = new double[(2 * n + 1) * nb];
+        double[] rhs = new double[(2 * n + 1) * nb];
 
         for (j = 0; j < nb; j++)
         {
@@ -492,9 +474,9 @@ public static partial class typeMethods
             }
         }
 
-        il = n;
-        ndiv = 1;
-        ipntp = 0;
+        int il = n;
+        int ndiv = 1;
+        int ipntp = 0;
 
         while (1 < il)
         {
@@ -533,6 +515,7 @@ public static partial class typeMethods
             for (j = 0; j < nb; j++)
             {
                 ihaf = ipntp;
+                int ifulm;
                 for (ifulm = ipnt + 1; ifulm <= ipntp; ifulm += 2)
                 {
                     iful = ifulm + 1;

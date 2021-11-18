@@ -39,19 +39,14 @@ public static partial class typeMethods
         //    M2 = ((D2+1)*(D2+2))/2.
         //
     {
-        int d2;
-        int d3;
         int i;
-        int m2;
-        double[] p2;
-        double[] p3;
         //
         //  Set D2 to 0, to indicate that P2 currently contains only
         //  a constant term.
         //
-        d2 = 0;
-        m2 = (d2 + 1) * (d2 + 2) / 2;
-        p2 = new double[m2];
+        int d2 = 0;
+        int m2 = (d2 + 1) * (d2 + 2) / 2;
+        double[] p2 = new double[m2];
         p2[0] = 1.0;
         //
         //  Iterate N times:
@@ -60,8 +55,8 @@ public static partial class typeMethods
         //
         for (i = 1; i <= n; i++)
         {
-            d3 = d1 + d2;
-            p3 = poly_product(d1, p1, d2, p2);
+            int d3 = d1 + d2;
+            double[] p3 = poly_product(d1, p1, d2, p2);
                 
             d2 = d3;
             p2 = p3;
@@ -106,13 +101,7 @@ public static partial class typeMethods
         //    M2 = ( (D2+1)*(D2+2) ) / 2.
         //
     {
-        int d2;
         int i;
-        int j;
-        int k;
-        int l;
-        int m2;
-        double[] p2;
 
         switch (d1)
         {
@@ -132,9 +121,9 @@ public static partial class typeMethods
                 return null;
         }
 
-        d2 = n * d1;
-        m2 = (d2 + 1) * (d2 + 2) / 2;
-        p2 = new double[m2];
+        int d2 = n * d1;
+        int m2 = (d2 + 1) * (d2 + 2) / 2;
+        double[] p2 = new double[m2];
 
         switch (d1)
         {
@@ -155,14 +144,16 @@ public static partial class typeMethods
         //
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n - i; j++)
             {
+                int k;
                 for (k = 0; k <= n - i - j; k++)
                 {
                     //
                     //  We store X^J Y^K in location L.
                     //
-                    l = pascal_to_i4(j, k);
+                    int l = pascal_to_i4(j, k);
                     p2[l - 1] = Trinomial.trinomial(i, j, k)
                                 * Math.Pow(p1[0], i) * Math.Pow(p1[1], j) * Math.Pow(p1[2], k);
                 }
@@ -203,11 +194,9 @@ public static partial class typeMethods
     {
         int i = 0;
         int j = 0;
-        int k;
         int km1;
-        int m;
 
-        m = (d + 1) * (d + 2) / 2;
+        int m = (d + 1) * (d + 2) / 2;
 
         for (km1 = 0; km1 < m; km1++)
         {
@@ -224,50 +213,52 @@ public static partial class typeMethods
 
         for (km1 = 0; km1 < m; km1++)
         {
-            k = km1 + 1;
+            int k = km1 + 1;
             i4_to_pascal(k, ref i, ref j);
 
             string cout = "";
 
-            if (p[km1] != 0.0)
+            if (p[km1] == 0.0)
             {
-                cout += p[km1] switch
-                {
-                    < 0.0 => "  -" + Math.Abs(p[km1]),
-                    _ => "  +" + p[km1]
-                };
-
-                if (i + j != 0)
-                {
-                    cout += " ";
-                }
-
-                switch (i)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        cout += "x";
-                        break;
-                    default:
-                        cout += "x^" + i;
-                        break;
-                }
-
-                switch (j)
-                {
-                    case 0:
-                        break;
-                    case 1:
-                        cout += "y";
-                        break;
-                    default:
-                        cout += "y^" + j;
-                        break;
-                }
-
-                Console.WriteLine(cout);
+                continue;
             }
+
+            cout += p[km1] switch
+            {
+                < 0.0 => "  -" + Math.Abs(p[km1]),
+                _ => "  +" + p[km1]
+            };
+
+            if (i + j != 0)
+            {
+                cout += " ";
+            }
+
+            switch (i)
+            {
+                case 0:
+                    break;
+                case 1:
+                    cout += "x";
+                    break;
+                default:
+                    cout += "x^" + i;
+                    break;
+            }
+
+            switch (j)
+            {
+                case 0:
+                    break;
+                case 1:
+                    cout += "y";
+                    break;
+                default:
+                    cout += "y^" + j;
+                    break;
+            }
+
+            Console.WriteLine(cout);
         }
     }
 
@@ -308,26 +299,15 @@ public static partial class typeMethods
         //    M3 = ((D3+1)*(D3+2))/2.
         //
     {
-        int d3;
         int i1 = 0;
         int i2 = 0;
-        int i3;
         int j1 = 0;
         int j2 = 0;
-        int j3;
-        int k1;
         int k1m1;
-        int k2;
-        int k2m1;
-        int k3;
         int k3m1;
-        int m1;
-        int m2;
-        int m3;
-        double[] p3;
 
-        m1 = (d1 + 1) * (d1 + 2) / 2;
-        m2 = (d2 + 1) * (d2 + 2) / 2;
+        int m1 = (d1 + 1) * (d1 + 2) / 2;
+        int m2 = (d2 + 1) * (d2 + 2) / 2;
         //
         //  Consider each entry in P1:
         //    P1(K1) * X^I1 * Y^J1
@@ -336,9 +316,9 @@ public static partial class typeMethods
         //  getting 
         //    P3(K3) = P3(K3) + P1(K1) * P2(X2) * X^(I1+I2) * Y(J1+J2)
         //
-        d3 = d1 + d2;
-        m3 = (d3 + 1) * (d3 + 2) / 2;
-        p3 = new double[m3];
+        int d3 = d1 + d2;
+        int m3 = (d3 + 1) * (d3 + 2) / 2;
+        double[] p3 = new double[m3];
 
         for (k3m1 = 0; k3m1 < m3; k3m1++)
         {
@@ -347,15 +327,16 @@ public static partial class typeMethods
 
         for (k1m1 = 0; k1m1 < m1; k1m1++)
         {
-            k1 = k1m1 + 1;
+            int k1 = k1m1 + 1;
             i4_to_pascal(k1, ref i1, ref j1);
+            int k2m1;
             for (k2m1 = 0; k2m1 < m2; k2m1++)
             {
-                k2 = k2m1 + 1;
+                int k2 = k2m1 + 1;
                 i4_to_pascal(k2, ref i2, ref j2);
-                i3 = i1 + i2;
-                j3 = j1 + j2;
-                k3 = pascal_to_i4(i3, j3);
+                int i3 = i1 + i2;
+                int j3 = j1 + j2;
+                int k3 = pascal_to_i4(i3, j3);
                 k3m1 = k3 - 1;
                 p3[k3m1] += p1[k1m1] * p2[k2m1];
             }
@@ -427,19 +408,16 @@ public static partial class typeMethods
         //    centroid of the shape.
         //
     {
-        double area;
-        double[] centroid;
         int i;
-        int ip1;
-        double temp;
         //
-        area = 0.0;
-        centroid = new double[2];
+        double area = 0.0;
+        double[] centroid = new double[2];
         centroid[0] = 0.0;
         centroid[1] = 0.0;
 
         for (i = 0; i < n; i++)
         {
+            int ip1;
             if (i < n - 1)
             {
                 ip1 = i + 1;
@@ -449,7 +427,7 @@ public static partial class typeMethods
                 ip1 = 0;
             }
 
-            temp = v[0 + i * 2] * v[1 + ip1 * 2] - v[0 + ip1 * 2] * v[1 + i * 2];
+            double temp = v[0 + i * 2] * v[1 + ip1 * 2] - v[0 + ip1 * 2] * v[1 + i * 2];
 
             area += temp;
 

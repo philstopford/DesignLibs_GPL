@@ -106,9 +106,6 @@ public static partial class typeMethods
         //    Output, int TYPE, indicates the type of the solution set.
         //
     {
-        double delta;
-        double j;
-        double k;
         int type = 0;
         switch (a)
         {
@@ -138,14 +135,13 @@ public static partial class typeMethods
             }
         }
 
-        delta =
-            8.0 * a * b * f
-            + 2.0 * c * e * d
-            - 2.0 * a * e * e
-            - 2.0 * b * d * d
-            - 2.0 * f * c * c;
+        double delta = 8.0 * a * b * f
+                       + 2.0 * c * e * d
+                       - 2.0 * a * e * e
+                       - 2.0 * b * d * d
+                       - 2.0 * f * c * c;
 
-        j = 4.0 * a * b - c * c;
+        double j = 4.0 * a * b - c * c;
 
         if (delta != 0.0)
         {
@@ -157,12 +153,12 @@ public static partial class typeMethods
                 case 0.0:
                     type = 2;
                     break;
-                case > 0.0 when r8_sign(delta) != r8_sign(a + b):
+                case > 0.0 when Math.Abs(r8_sign(delta) - r8_sign(a + b)) > double.Epsilon:
                     type = 3;
                     break;
                 case > 0.0:
                 {
-                    if (r8_sign(delta) == r8_sign(a + b))
+                    if (Math.Abs(r8_sign(delta) - r8_sign(a + b)) <= double.Epsilon)
                     {
                         type = 4;
                     }
@@ -186,7 +182,7 @@ public static partial class typeMethods
                             break;
                         case 0.0:
                         {
-                            k = 4.0 * (a + b) * f - d * d - e * e;
+                            double k = 4.0 * (a + b) * f - d * d - e * e;
 
                             type = k switch
                             {

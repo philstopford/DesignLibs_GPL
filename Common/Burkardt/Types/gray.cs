@@ -50,11 +50,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (t[i] != 0 && t[i] != 1)
+            if (t[i] == 0 || t[i] == 1)
             {
-                check = false;
-                return check;
+                continue;
             }
+
+            check = false;
+            return check;
         }
 
         return check;
@@ -153,9 +155,7 @@ public static partial class typeMethods
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
-        int weight;
         switch (rank)
         {
             // 
@@ -176,7 +176,7 @@ public static partial class typeMethods
         // 
         //  Check.
         // 
-        check = gray_code_check(n, t);
+        bool check = gray_code_check(n, t);
 
         switch (check)
         {
@@ -187,7 +187,7 @@ public static partial class typeMethods
                 return;
         }
 
-        weight = i4vec_sum(n, t);
+        int weight = i4vec_sum(n, t);
 
         switch (weight % 2)
         {
@@ -376,11 +376,13 @@ public static partial class typeMethods
             {
                 for (i = 1; i <= data.n_save; i++)
                 {
-                    if (data.a[i - 1] == 1)
+                    if (data.a[i - 1] != 1)
                     {
-                        change = i + 1;
-                        break;
+                        continue;
                     }
+
+                    change = i + 1;
+                    break;
                 }
 
                 break;
@@ -416,12 +418,14 @@ public static partial class typeMethods
         //
         //  If the output CHANGE = -N_SAVE, then we're done.
         //
-        if (change == -data.n_save)
+        if (change != -data.n_save)
         {
-            data.a = null;
-            data.n_save = 0;
-            data.k = 0;
+            return;
         }
+
+        data.a = null;
+        data.n_save = 0;
+        data.k = 0;
 
     }
 

@@ -39,18 +39,14 @@ public static partial class typeMethods
         //    Output, int J1, J2, the sorted values.
         //
     {
-        int k1;
-        int k2;
         //
         //  Copy arguments, so that the user can make "reasonable" calls like:
         //
         //    i4i4_sort_a ( i1, i2, &i1, &i2 );
         //
-        k1 = i1;
-        k2 = i2;
 
-        j1 = Math.Min(k1, k2);
-        j2 = Math.Max(k1, k2);
+        j1 = Math.Min(i1, i2);
+        j2 = Math.Max(i1, i2);
     }
 
     public static void i4i4i4_sort_a(int i1, int i2, int i3, ref int j1, ref int j2, ref int j3)
@@ -88,21 +84,15 @@ public static partial class typeMethods
         //    Output, int *J1, *J2, *J3, the sorted values.
         //
     {
-        int k1;
-        int k2;
-        int k3;
         //
         //  Copy arguments, so that the user can make "reasonable" calls like:
         //
         //    i4i4i4_sort_a ( i1, i2, i3, &i1, &i2, &i3 );
         //
-        k1 = i1;
-        k2 = i2;
-        k3 = i3;
 
-        j1 = Math.Min(Math.Min(k1, k2), Math.Min(k2, k3));
-        j2 = Math.Min(Math.Max(k1, k2),
-            Math.Min(Math.Max(k2, k3), Math.Max(k3, k1)));
-        j3 = Math.Max(Math.Max(k1, k2), Math.Max(k2, k3));
+        j1 = Math.Min(Math.Min(i1, i2), Math.Min(i2, i3));
+        j2 = Math.Min(Math.Max(i1, i2),
+            Math.Min(Math.Max(i2, i3), Math.Max(i3, i1)));
+        j3 = Math.Max(Math.Max(i1, i2), Math.Max(i2, i3));
     }
 }

@@ -86,7 +86,7 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 10;
+        const int INCX = 10;
 
         Console.WriteLine();
         Console.WriteLine(title);
@@ -238,13 +238,8 @@ public static partial class typeMethods
         //
         //    Input, string TITLE, a title.
     {
-        int INCX = 10;
+        const int INCX = 10;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
 
         Console.WriteLine();
@@ -254,7 +249,7 @@ public static partial class typeMethods
         //
         for ( j2lo = jlo; j2lo <= jhi; j2lo += INCX )
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             if ( n < j2hi )
             {
                 j2hi = n;
@@ -271,6 +266,7 @@ public static partial class typeMethods
             //  Write the header.
             //
             string cout = "  Col: ";
+            int j;
             for ( j = j2lo; j <= j2hi; j++ )
             {
                 cout += j.ToString().PadLeft(6) + "  ";
@@ -278,7 +274,7 @@ public static partial class typeMethods
             Console.WriteLine(cout);
             Console.WriteLine("  Row");
             Console.WriteLine("  ---");
-            i2lo = ilo switch
+            int i2lo = ilo switch
             {
                 //
                 //  Determine the range of the rows in this strip.
@@ -286,16 +282,10 @@ public static partial class typeMethods
                 > 1 => 1,
                 _ => ilo
             };
-            if ( ihi < m )
-            {
-                i2hi = ihi;
-            }
-            else
-            {
-                i2hi = m;
-            }
+            int i2hi = ihi < m ? ihi : m;
 
             cout = "";
+            int i;
             for ( i = i2lo; i <= i2hi; i++ )
             {
                 //

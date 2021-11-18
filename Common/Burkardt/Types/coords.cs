@@ -36,9 +36,7 @@ public static partial class typeMethods
         //    Output, double TP_TO_XYZ[3], the XYZ coordinates.
         //
     {
-        double[] v;
-
-        v = new double[3];
+        double[] v = new double[3];
 
         v[0] = Math.Cos ( theta ) * Math.Sin ( phi );
         v[1] = Math.Sin ( theta ) * Math.Sin ( phi );

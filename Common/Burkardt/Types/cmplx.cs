@@ -32,9 +32,7 @@ public static partial class typeMethods
         //    Output, Complex CARTESIAN_TO_C8, the complex number.
         //
     {
-        Complex c;
-
-        c = new Complex(x, y);
+        Complex c = new Complex(x, y);
 
         return c;
     }
@@ -66,9 +64,7 @@ public static partial class typeMethods
         //    Output, Complex POLAR_TO_C8, the complex number.
         //
     {
-        Complex c;
-
-        c = new Complex(r * Math.Cos(theta), r * Math.Sin(theta));
+        Complex c = new Complex(r * Math.Cos(theta), r * Math.Sin(theta));
 
         return c;
     }
@@ -102,8 +98,6 @@ public static partial class typeMethods
     {
         double argument = 0;
         double magnitude = 1;
-            
-        Complex value;
 
         switch (x)
         {
@@ -124,7 +118,7 @@ public static partial class typeMethods
         magnitude = Math.Sqrt(magnitude);
         argument /= 2.0;
 
-        value = magnitude * new Complex(Math.Cos(argument), Math.Sin(argument));
+        Complex value = magnitude * new Complex(Math.Cos(argument), Math.Sin(argument));
 
         return value;
     }

@@ -102,15 +102,8 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
 
         Console.WriteLine("");
@@ -120,14 +113,16 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
             string cout = "  Col: ";
+            int j2;
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
@@ -140,12 +135,13 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo - 1);
 
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
             i2hi = Math.Min(i2hi, j2hi + 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -248,31 +244,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r83_mv(n, n, a, x);
+        double[] ap = r83_mv(n, n, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -294,15 +282,15 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = r8vec_dot_product(n, p, ap);
-            pr = r8vec_dot_product(n, p, r);
+            double pap = r8vec_dot_product(n, p, ap);
+            double pr = r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -324,9 +312,9 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = r8vec_dot_product(n, r, ap);
+            double rap = r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -473,22 +461,20 @@ public static partial class typeMethods
         //    Output, double A[3*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
-        int mn;
 
-        a = new double[3 * n];
+        double[] a = new double[3 * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a[i + j * 3] = 0.0;
             }
         }
 
-        mn = Math.Min(m, n);
+        int mn = Math.Min(m, n);
 
         for (j = 1; j < mn; j++)
         {
@@ -568,21 +554,17 @@ public static partial class typeMethods
         //    Output, double R83_INDICATOR[3*N], the R83 indicator matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
-        int i_hi;
-        int i_lo;
         int j;
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        a = r8ge_zeros_new(3, n);
+        double[] a = r8ge_zeros_new(3, n);
 
         for (j = 0; j < n; j++)
         {
-            i_lo = Math.Max(0, j - 1);
-            i_hi = Math.Min(m - 1, j + 1);
+            int i_lo = Math.Max(0, j - 1);
+            int i_hi = Math.Min(m - 1, j + 1);
+            int i;
             for (i = i_lo; i <= i_hi; i++)
             {
                 a[i - j + 1 + j * 3] = fac * (i + 1) + j + 1;
@@ -662,9 +644,8 @@ public static partial class typeMethods
     {
         int i;
         int it_num;
-        double[] xnew;
 
-        xnew = new double[n];
+        double[] xnew = new double[n];
         //
         //  No diagonal matrix entry can be zero.
         //
@@ -762,13 +743,10 @@ public static partial class typeMethods
         //    Output, double R83_MTV[N], the product A' * x.
         //
     {
-        double[] b;
         int i;
-        int i_hi;
-        int i_lo;
         int j;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -777,8 +755,8 @@ public static partial class typeMethods
 
         for (j = 0; j < n; j++)
         {
-            i_lo = Math.Max(0, j - 1);
-            i_hi = Math.Min(m - 1, j + 1);
+            int i_lo = Math.Max(0, j - 1);
+            int i_hi = Math.Min(m - 1, j + 1);
             for (i = i_lo; i <= i_hi; i++)
             {
                 b[j] += x[i] * a[i - j + 1 + j * 3];
@@ -834,18 +812,16 @@ public static partial class typeMethods
         //    Output, double R83_MV[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int mn;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {
             b[i] = 0.0;
         }
 
-        mn = Math.Min(m, n);
+        int mn = Math.Min(m, n);
 
         for (i = 0; i < mn; i++)
         {
@@ -931,18 +907,15 @@ public static partial class typeMethods
         //    Output, double R83_RANDOM[3*N], the R83 matrix.
         //
     {
-        double[] a;
-        int i;
-        int i_hi;
-        int i_lo;
         int j;
 
-        a = r8ge_zeros_new(3, n);
+        double[] a = r8ge_zeros_new(3, n);
 
         for (j = 0; j < n; j++)
         {
-            i_lo = Math.Max(0, j - 1);
-            i_hi = Math.Min(m - 1, j + 1);
+            int i_lo = Math.Max(0, j - 1);
+            int i_hi = Math.Min(m - 1, j + 1);
+            int i;
             for (i = i_lo; i <= i_hi; i++)
             {
                 a[i - j + 1 + j * 3] = UniformRNG.r8_uniform_01(ref seed);
@@ -990,9 +963,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] r;
 
-        r = r83_mv(m, n, a, x);
+        double[] r = r83_mv(m, n, a, x);
 
         for (i = 0; i < m; i++)
         {
@@ -1033,9 +1005,7 @@ public static partial class typeMethods
         //    Output, double R83_NORM, the norm of the vector.
         //
     {
-        double value = 0;
-
-        value = Math.Sqrt(x * x + y * y + z * z);
+        double value = Math.Sqrt(x * x + y * y + z * z);
 
         return value;
     }
@@ -1097,18 +1067,15 @@ public static partial class typeMethods
         //    Output, double R83_TO_R8GE[M*N], the R8GE matrix.
         //
     {
-        double[] b;
-        int i;
-        int i_hi;
-        int i_lo;
         int j;
 
-        b = r8ge_zeros_new(m, n);
+        double[] b = r8ge_zeros_new(m, n);
 
         for (j = 0; j < n; j++)
         {
-            i_lo = Math.Max(0, j - 1);
-            i_hi = Math.Min(m - 1, j + 1);
+            int i_lo = Math.Max(0, j - 1);
+            int i_hi = Math.Min(m - 1, j + 1);
+            int i;
             for (i = i_lo; i <= i_hi; i++)
             {
                 b[i + j * m] = a[i - j + 1 + j * 3];
@@ -1173,9 +1140,7 @@ public static partial class typeMethods
         //    Output, double R83_ZERO[3*N], the R83 matrix.
         //
     {
-        double[] a;
-
-        a = r8ge_zeros_new(3, n);
+        double[] a = r8ge_zeros_new(3, n);
 
         return a;
     }

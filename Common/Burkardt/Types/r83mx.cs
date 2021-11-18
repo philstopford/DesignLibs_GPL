@@ -48,10 +48,9 @@ public static partial class typeMethods
         //    Output, double R83_MXV_NEW[N], the product A * x.
         //
     {
-        double[] b;
         int i;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {

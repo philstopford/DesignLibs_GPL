@@ -51,18 +51,14 @@ public static partial class typeMethods
         //
     {
         i4 ival = new() {val = 0};
-        char c;
-        int i;
-        int isgn;
-        int istate;
 
-        istate = 0;
-        isgn = 1;
-        i = 0;
+        int istate = 0;
+        int isgn = 1;
+        int i = 0;
 
         while (i < s.Length)
         {
-            c = s[i];
+            char c = s[i];
             i += 1;
             switch (istate)
             {
@@ -211,11 +207,10 @@ public static partial class typeMethods
         //    Output, int DVEC[N], the signed decimal representation.
         //
     {
-        int base_ = 10;
+        const int base_ = 10;
         int i;
-        int i4_copy;
 
-        i4_copy = Math.Abs ( i4 );
+        int i4_copy = Math.Abs ( i4 );
 
         for ( i = 0; i < n-1; i++ )
         {
@@ -283,14 +278,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         for ( i = 0; i <= degree_max; i++ )
         {
             a[i] = 0;
         }
 
-        j = Math.Abs ( intval );
+        int j = Math.Abs ( intval );
 
         degree = 0;
 
@@ -392,9 +386,6 @@ public static partial class typeMethods
         //    Output, int &I, &J, the row and column indices.
         //
     {
-        int c;
-        int r;
-
         switch (k)
         {
             case < 0:
@@ -412,7 +403,7 @@ public static partial class typeMethods
         //
         //   ( N - 1 )^2 + ( N - 1 ) < 2 * K <= N^2 + N
         //
-        r = (int)Math.Sqrt(2 * (k + 1));
+        int r = (int)Math.Sqrt(2 * (k + 1));
 
         if (r * r + r < 2 * (k + 1))
         {
@@ -421,7 +412,7 @@ public static partial class typeMethods
 
         r -= 1;
 
-        c = k - r * (r + 1) / 2;
+        int c = k - r * (r + 1) / 2;
 
         i = r;
         j = c;
@@ -494,9 +485,6 @@ public static partial class typeMethods
         //    Output, int &I, &J, the row and column indices.
         //
     {
-        int c;
-        int r;
-
         switch (k)
         {
             case < 0:
@@ -514,7 +502,7 @@ public static partial class typeMethods
         //
         //   ( N - 1 )^2 + ( N - 1 ) < 2 * K <= N^2 + N
         //
-        r = (int)Math.Sqrt(2 * (k + 1));
+        int r = (int)Math.Sqrt(2 * (k + 1));
 
         if (r * r + r < 2 * (k + 1))
         {
@@ -523,7 +511,7 @@ public static partial class typeMethods
 
         r -= 1;
 
-        c = k - r * (r + 1) / 2;
+        int c = k - r * (r + 1) / 2;
 
         j = r;
         i = c;
@@ -582,14 +570,12 @@ public static partial class typeMethods
         //    Output, int I4_WRAP, a "wrapped" version of IVAL.
         //
     {
-        int value;
-
         int jlo = Math.Min(ilo, ihi);
         int jhi = Math.Max(ilo, ihi);
 
         int wide = jhi + 1 - jlo;
 
-        value = wide switch
+        int value = wide switch
         {
             1 => jlo,
             _ => jlo + i4_modp(ival - jlo, wide)
@@ -695,12 +681,7 @@ public static partial class typeMethods
         //    Output, bool I4_IS_FIBONACCI, is TRUE if I4 is a Fibonacci number.
         //
     {
-        int t1;
-        double t2;
-        int t3;
-        bool value;
-
-        value = false;
+        bool value = false;
 
         switch (i4)
         {
@@ -708,9 +689,9 @@ public static partial class typeMethods
                 return value;
         }
 
-        t1 = 5 * i4 * i4 + 4;
-        t2 = Math.Sqrt ( t1 );
-        t3 = (int)Math.Floor ( t2 + 0.5 );
+        int t1 = 5 * i4 * i4 + 4;
+        double t2 = Math.Sqrt ( t1 );
+        int t3 = (int)Math.Floor ( t2 + 0.5 );
         if ( t3 * t3 == t1 )
         {
             value = true;
@@ -720,13 +701,14 @@ public static partial class typeMethods
         t1 = 5 * i4 * i4 - 4;
         t2 = Math.Sqrt ( t1 );
         t3 = (int)Math.Floor ( t2 + 0.5 );
-        if ( t3 * t3 == t1 )
+        if (t3 * t3 != t1)
         {
-            value = true;
             return value;
         }
 
+        value = true;
         return value;
+
     }
 
 
@@ -1104,8 +1086,6 @@ public static partial class typeMethods
         //    coefficients for indices 0 through N_TERM.
         //
     {
-        int p;
-        int q;
         int r = 0;
         int s = 0;
 
@@ -1118,8 +1098,8 @@ public static partial class typeMethods
         {
             case > 0:
             {
-                p = 0;
-                q = 1;
+                int p = 0;
+                int q = 1;
 
                 for (;;)
                 {
@@ -1171,11 +1151,7 @@ public static partial class typeMethods
         //    J have been interchanged.
         //
     {
-        int k;
-
-        k = i;
-        i = j;
-        j = k;
+        (i, j) = (j, i);
     }
 
     public static int i4_and(int i, int j)
@@ -1205,18 +1181,13 @@ public static partial class typeMethods
         //    Output, unsigned int I4_AND, the AND of I and J.
         //
     {
-        int i2;
-        int j2;
-        int k;
-        int l;
-
-        k = 0;
-        l = 1;
+        int k = 0;
+        int l = 1;
 
         while (i != 0 || j != 0)
         {
-            i2 = i / 2;
-            j2 = j / 2;
+            int i2 = i / 2;
+            int j2 = j / 2;
 
             if (i != 2 * i2 && j != 2 * j2)
             {
@@ -1267,13 +1238,7 @@ public static partial class typeMethods
         //    set to 0.
         //
     {
-        const int i4_huge = 2147483647;
-        int j;
-        int k;
-        int sub;
-        int value;
-
-        value = i4;
+        int value = i4;
 
         switch (pos)
         {
@@ -1281,14 +1246,15 @@ public static partial class typeMethods
                 break;
             case < 31:
             {
-                sub = 1;
+                int sub = 1;
 
-                j = i4 switch
+                int j = i4 switch
                 {
                     >= 0 => i4,
-                    _ => i4_huge + i4 + 1
+                    _ => i4_huge() + i4 + 1
                 };
 
+                int k;
                 for (k = 1; k <= pos; k++)
                 {
                     j /= 2;
@@ -1307,7 +1273,7 @@ public static partial class typeMethods
             {
                 value = i4 switch
                 {
-                    < 0 => i4_huge + i4 + 1,
+                    < 0 => i4_huge() + i4 + 1,
                     _ => value
                 };
 
@@ -1376,9 +1342,7 @@ public static partial class typeMethods
         //    Output, int I4_BIT_HI1, the location of the high order bit.
         //
     {
-        int bit;
-
-        bit = 0;
+        int bit = 0;
 
         while (0 < n)
         {
@@ -1443,15 +1407,12 @@ public static partial class typeMethods
         //    Output, int I4_BIT_LO0, the position of the low 1 bit.
         //
     {
-        int bit;
-        int n2;
-
-        bit = 0;
+        int bit = 0;
 
         while (true)
         {
             bit += 1;
-            n2 = n / 2;
+            int n2 = n / 2;
 
             if (n == 2 * n2)
             {
@@ -1519,18 +1480,13 @@ public static partial class typeMethods
         //    Output, int I4_BIT_LO1, the position of the low 1 bit.
         //
     {
-
-        int bit;
-        int i;
-        int i2;
-
-        bit = 0;
-        i = n;
+        int bit = 0;
+        int i = n;
 
         for (;;)
         {
             bit += 1;
-            i2 = i / 2;
+            int i2 = i / 2;
 
             if (i != 2 * i2)
             {
@@ -1595,8 +1551,6 @@ public static partial class typeMethods
         //    Output, int I4_BIT_REVERSE, the bit reversed value.
         //
     {
-        int b;
-        int j;
         int value;
 
         switch (i)
@@ -1613,8 +1567,8 @@ public static partial class typeMethods
                         break;
                     default:
                     {
-                        b = (int) Math.Pow(2, n);
-                        j = i % b;
+                        int b = (int) Math.Pow(2, n);
+                        int j = i % b;
 
                         value = 0;
 
@@ -1686,13 +1640,7 @@ public static partial class typeMethods
         //    set to 1.
         //
     {
-        int add;
-        const int i4_huge = 2147483647;
-        int j;
-        int k;
-        int value;
-
-        value = i4;
+        int value = i4;
 
         switch (pos)
         {
@@ -1700,14 +1648,15 @@ public static partial class typeMethods
                 break;
             case < 31:
             {
-                add = 1;
+                int add = 1;
 
-                j = i4 switch
+                int j = i4 switch
                 {
                     >= 0 => i4,
-                    _ => i4_huge + i4 + 1
+                    _ => i4_huge() + i4 + 1
                 };
 
+                int k;
                 for (k = 1; k <= pos; k++)
                 {
                     j /= 2;
@@ -1726,7 +1675,7 @@ public static partial class typeMethods
             {
                 value = i4 switch
                 {
-                    > 0 => -(i4_huge - i4) - 1,
+                    > 0 => -(i4_huge() - i4) - 1,
                     _ => value
                 };
 
@@ -1775,12 +1724,7 @@ public static partial class typeMethods
         //    Output, bool I4_BTEST, is TRUE if the POS-th bit of I4 is 1.
         //
     {
-        const int i4_huge = 2147483647;
-        int j;
-        int k;
-        bool value;
-
-        value = true;
+        bool value = true;
 
         switch (pos)
         {
@@ -1791,12 +1735,13 @@ public static partial class typeMethods
                 return false;
             case < 31:
             {
-                j = i4 switch
+                int j = i4 switch
                 {
                     >= 0 => i4,
-                    _ => i4_huge + i4 + 1
+                    _ => i4_huge() + i4 + 1
                 };
 
+                int k;
                 for (k = 1; k <= pos; k++)
                 {
                     j /= 2;
@@ -1867,7 +1812,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int i_maximum;
 
         switch (q)
         {
@@ -1883,7 +1827,7 @@ public static partial class typeMethods
         //  but that entails storing a table of primes and limiting the
         //  size of Q.  Simplicity and flexibility for now//
         //
-        i_maximum = (int) Math.Sqrt(q) + 1;
+        int i_maximum = (int) Math.Sqrt(q) + 1;
 
         for (i = 2; i <= i_maximum; i++)
         {
@@ -1940,19 +1884,13 @@ public static partial class typeMethods
         //    FALSE, otherwise.
         //
     {
-        bool check;
-        double choose_nk_log;
-        const int i4_huge = 2147483647;
-        double i4_huge_log;
+        double i4_huge_log = Math.Log(i4_huge());
 
-        i4_huge_log = Math.Log(i4_huge);
+        double choose_nk_log = r8_gamma_log(n + 1)
+                               - r8_gamma_log(k + 1)
+                               - r8_gamma_log(n - k + 1);
 
-        choose_nk_log =
-            r8_gamma_log(n + 1)
-            - r8_gamma_log(k + 1)
-            - r8_gamma_log(n - k + 1);
-
-        check = choose_nk_log < i4_huge_log;
+        bool check = choose_nk_log < i4_huge_log;
 
         return check;
     }
@@ -2062,8 +2000,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int maxprime;
-        int p;
 
         nfactor = 0;
 
@@ -2097,13 +2033,13 @@ public static partial class typeMethods
         //
         //  Find out how many primes we stored.
         //
-        maxprime = Prime.prime(-1);
+        int maxprime = Prime.prime(-1);
         //
         //  Try dividing the remainder by each prime.
         //
         for (i = 1; i <= maxprime; i++)
         {
-            p = Prime.prime(i);
+            int p = Prime.prime(i);
 
             if (Math.Abs(nleft) % p == 0)
             {
@@ -2378,7 +2314,6 @@ public static partial class typeMethods
         //    Output, int I4_FACTORIAL2, the value of the double factorial function.
         //
     {
-        int n_copy;
         int value;
 
         switch (n)
@@ -2388,7 +2323,7 @@ public static partial class typeMethods
                 return value;
         }
 
-        n_copy = n;
+        int n_copy = n;
         value = 1;
 
         while (1 < n_copy)
@@ -2578,9 +2513,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int value;
 
-        value = 1;
+        int value = 1;
 
         switch (n)
         {
@@ -2765,13 +2699,10 @@ public static partial class typeMethods
         //
         //    Output, int K, the value of the ratio.
     {
-        int k;
-
-        k = i / j;
+        int k = i / j;
 
         return k;
     }
-    //****************************************************************************80
 
     public static int i4_gcd(int i, int j)
 
@@ -2812,9 +2743,7 @@ public static partial class typeMethods
         //    Output, int I4_GCD, the greatest common divisor of I and J.
         //
     {
-        int p;
         int q;
-        int r;
         switch (i)
         {
             //
@@ -2836,14 +2765,14 @@ public static partial class typeMethods
         //  Set IP to the larger of I and J, IQ to the smaller.
         //  This way, we can alter IP and IQ as we go.
         //
-        p = Math.Max(Math.Abs(i), Math.Abs(j));
+        int p = Math.Max(Math.Abs(i), Math.Abs(j));
         q = Math.Min(Math.Abs(i), Math.Abs(j));
         //
         //  Carry out the Euclidean algorithm.
         //
         for (;;)
         {
-            r = p % q;
+            int r = p % q;
 
             if (r == 0)
             {
@@ -2907,8 +2836,6 @@ public static partial class typeMethods
         //
     {
         int value;
-
-        value = 1;
         switch (i)
         {
             //
@@ -3095,7 +3022,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int nhi;
 
         switch (n)
         {
@@ -3106,7 +3032,7 @@ public static partial class typeMethods
                 return true;
         }
 
-        nhi = (int) Math.Sqrt(n);
+        int nhi = (int) Math.Sqrt(n);
 
         for (i = 2; i <= nhi; i++)
         {
@@ -3227,9 +3153,7 @@ public static partial class typeMethods
         //    I4_LCM is never negative.  I4_LCM is 0 if either I or J is zero.
         //
     {
-        int value;
-
-        value = Math.Abs(i * (j / i4_gcd(i, j)));
+        int value = Math.Abs(i * (j / i4_gcd(i, j)));
 
         return value;
     }
@@ -3278,15 +3202,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int mult;
-        int value;
 
-        value = 1;
+        int value = 1;
 
         for (i = 2; i <= n; i++)
         {
-            mult = i;
+            int mult = i;
+            int j;
             for (j = 1; j < i; j++)
             {
                 switch (mult % (i - j))
@@ -3476,26 +3398,19 @@ public static partial class typeMethods
         //    inverse does not exist, Y is returned as 0.
         //
     {
-        int b0;
-        int n0;
-        int q;
-        int r;
-        int t;
-        int t0;
-        int temp;
         int y = 0;
 
-        n0 = n;
-        b0 = Math.Abs(b);
-        t0 = 0;
-        t = 1;
+        int n0 = n;
+        int b0 = Math.Abs(b);
+        int t0 = 0;
+        int t = 1;
 
-        q = n0 / b0;
-        r = n0 - q * b0;
+        int q = n0 / b0;
+        int r = n0 - q * b0;
 
         while (0 < r)
         {
-            temp = t0 - q * t;
+            int temp = t0 - q * t;
 
             switch (temp)
             {
@@ -3740,7 +3655,7 @@ public static partial class typeMethods
         //    is returned as -3.
         //
     {
-        int FACTOR_MAX = 20;
+        const int FACTOR_MAX = 20;
 
         int[] exponent = new int[FACTOR_MAX];
         int[] factor = new int[FACTOR_MAX];
@@ -3859,18 +3774,13 @@ public static partial class typeMethods
         //    Output, unsigned int I4_NOT, the NOT of I with respect to J.
         //
     {
-        int i2;
-        int j2;
-        int k;
-        int l;
-
-        k = 0;
-        l = 1;
+        int k = 0;
+        int l = 1;
 
         while (j != 0)
         {
-            i2 = i / 2;
-            j2 = j / 2;
+            int i2 = i / 2;
+            int j2 = j / 2;
 
             if (i == 2 * i2)
             {
@@ -3912,18 +3822,13 @@ public static partial class typeMethods
         //    Output, unsigned int I4_OR, the inclusive OR of I and J.
         //
     {
-        int i2;
-        int j2;
-        int k;
-        int l;
-
-        k = 0;
-        l = 1;
+        int k = 0;
+        int l = 1;
 
         while (i != 0 || j != 0)
         {
-            i2 = i / 2;
-            j2 = j / 2;
+            int i2 = i / 2;
+            int j2 = j / 2;
 
             if (i != 2 * i2 || j != 2 * j2)
             {
@@ -3999,14 +3904,9 @@ public static partial class typeMethods
         //    of the integer into distinct parts.
         //
     {
-        int[] c;
         int i;
-        int k;
-        int k2;
-        int k_sign;
-        int value;
 
-        c = new int[n + 1];
+        int[] c = new int[n + 1];
 
         c[0] = 1;
 
@@ -4021,9 +3921,10 @@ public static partial class typeMethods
                 c[i] = 0;
             }
 
-            k = 0;
-            k_sign = -1;
+            int k = 0;
+            int k_sign = -1;
 
+            int k2;
             for (;;)
             {
                 k += 1;
@@ -4059,7 +3960,7 @@ public static partial class typeMethods
 
         }
 
-        value = c[n];
+        int value = c[n];
 
         return value;
     }
@@ -4113,9 +4014,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int value;
 
-        value = 1;
+        int value = 1;
 
         switch (n)
         {
@@ -4319,9 +4219,7 @@ public static partial class typeMethods
         //    have been interchanged.
         //
     {
-        int l;
-
-        l = i;
+        int l = i;
         i = j;
         j = k;
         k = l;

@@ -72,10 +72,9 @@ public static partial class typeMethods
         //    Output, Complex C8VEC_COPY_NEW[N], the copy of A1.
         //
     {
-        Complex[] a2;
         int i;
 
-        a2 = new Complex[n];
+        Complex[] a2 = new Complex[n];
 
         for (i = 0; i < n; i++)
         {
@@ -118,10 +117,9 @@ public static partial class typeMethods
         //    Output, Complex C8VEC_INDICATOR_NEW[N], the array.
         //
     {
-        Complex[] a;
         int i;
 
-        a = new Complex [n];
+        Complex[] a = new Complex [n];
 
         for (i = 0; i < n; i++)
         {
@@ -206,9 +204,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (i = 0; i < n; i++)
         {
             value += c8_abs(a[i]);
@@ -253,9 +250,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (i = 0; i < n; i++)
         {
             value = value
@@ -304,9 +300,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (i = 0; i < n; i++)
         {
             value = Math.Max(value, c8_abs(a[i]));
@@ -558,16 +553,10 @@ public static partial class typeMethods
         //    On output, X has been sorted.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        Complex temp;
-
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
 
         SortHeapExternalData data = new();
             
@@ -577,9 +566,7 @@ public static partial class typeMethods
 
             if (0 < indx)
             {
-                temp = x[i - 1];
-                x[i - 1] = x[j - 1];
-                x[j - 1] = temp;
+                (x[i - 1], x[j - 1]) = (x[j - 1], x[i - 1]);
             }
             else if (indx < 0)
             {
@@ -592,7 +579,7 @@ public static partial class typeMethods
                     isgn = +1;
                 }
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -634,18 +621,10 @@ public static partial class typeMethods
         //    On output, X has been sorted.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        double normsq_i;
-        double normsq_j;
-        Complex temp;
-
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         SortHeapExternalData data = new();
 
         for (;;)
@@ -654,17 +633,15 @@ public static partial class typeMethods
 
             if (0 < indx)
             {
-                temp = x[i - 1];
-                x[i - 1] = x[j - 1];
-                x[j - 1] = temp;
+                (x[i - 1], x[j - 1]) = (x[j - 1], x[i - 1]);
             }
             else if (indx < 0)
             {
-                normsq_i = Math.Pow(x[i - 1].Real, 2)
-                           + Math.Pow(x[i - 1].Imaginary, 2);
+                double normsq_i = Math.Pow(x[i - 1].Real, 2)
+                                  + Math.Pow(x[i - 1].Imaginary, 2);
 
-                normsq_j = Math.Pow(x[j - 1].Real, 2)
-                           + Math.Pow(x[j - 1].Imaginary, 2);
+                double normsq_j = Math.Pow(x[j - 1].Real, 2)
+                                  + Math.Pow(x[j - 1].Imaginary, 2);
 
                 if (normsq_i < normsq_j)
                 {
@@ -675,7 +652,7 @@ public static partial class typeMethods
                     isgn = +1;
                 }
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -716,16 +693,10 @@ public static partial class typeMethods
         //    On output, X has been sorted.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        Complex temp;
-
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
 
         SortHeapExternalData data = new();
             
@@ -735,9 +706,7 @@ public static partial class typeMethods
 
             if (0 < indx)
             {
-                temp = x[i - 1];
-                x[i - 1] = x[j - 1];
-                x[j - 1] = temp;
+                (x[i - 1], x[j - 1]) = (x[j - 1], x[i - 1]);
             }
             else if (indx < 0)
             {
@@ -750,7 +719,7 @@ public static partial class typeMethods
                     isgn = +1;
                 }
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -808,23 +777,15 @@ public static partial class typeMethods
         //    Output, Complex C8VEC_SPIRAL_NEW[N], the points.
         //
     {
-        Complex[] c;
         int i;
-        double r1;
-        double r2;
-        double ri;
-            
-        double t1;
-        double t2;
-        double ti;
 
-        c = new Complex[n];
+        Complex[] c = new Complex[n];
 
-        r1 = c8_abs(c1);
-        r2 = c8_abs(c2);
+        double r1 = c8_abs(c1);
+        double r2 = c8_abs(c2);
 
-        t1 = c8_arg(c1);
-        t2 = c8_arg(c2);
+        double t1 = c8_arg(c1);
+        double t2 = c8_arg(c2);
 
         switch (m)
         {
@@ -861,13 +822,13 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            ri = ((n - i - 1) * r1
-                  + i * r2)
-                 / (n - 1);
+            double ri = ((n - i - 1) * r1
+                         + i * r2)
+                        / (n - 1);
 
-            ti = ((n - i - 1) * t1
-                  + i * t2)
-                 / (n - 1);
+            double ti = ((n - i - 1) * t1
+                         + i * t2)
+                        / (n - 1);
 
             c[i] = polar_to_c8(ri, ti);
         }
@@ -915,17 +876,25 @@ public static partial class typeMethods
         //    complex vector.
         //
     {
-        Complex[] c;
         int i;
-        double r;
-        int k;
-            
-        double theta;
 
-        c = new Complex [n];
+        Complex[] c = new Complex [n];
 
         for (i = 0; i < n; i++)
         {
+            int k = seed / 127773;
+
+            seed = 16807 * (seed - k * 127773) - k * 2836;
+
+            switch (seed)
+            {
+                case < 0:
+                    seed += 2147483647;
+                    break;
+            }
+
+            double r = Math.Sqrt(seed * 4.656612875E-10);
+
             k = seed / 127773;
 
             seed = 16807 * (seed - k * 127773) - k * 2836;
@@ -937,20 +906,7 @@ public static partial class typeMethods
                     break;
             }
 
-            r = Math.Sqrt(seed * 4.656612875E-10);
-
-            k = seed / 127773;
-
-            seed = 16807 * (seed - k * 127773) - k * 2836;
-
-            switch (seed)
-            {
-                case < 0:
-                    seed += 2147483647;
-                    break;
-            }
-
-            theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
+            double theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
 
             c[i] = r * new Complex(Math.Cos(theta), Math.Sin(theta));
         }
@@ -993,16 +949,13 @@ public static partial class typeMethods
         //    Output, Complex C8VEC_UNITY_NEW[N], the N roots of unity.
         //
     {
-        Complex[] a;
         int i;
-            
-        double theta;
 
-        a = new Complex [n];
+        Complex[] a = new Complex [n];
 
         for (i = 0; i < n; i++)
         {
-            theta = Math.PI * (2 * i) / n;
+            double theta = Math.PI * (2 * i) / n;
             a[i] = new Complex(Math.Cos(theta), Math.Sin(theta));
         }
 

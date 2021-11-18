@@ -38,30 +38,33 @@ public static partial class typeMethods
         //    Input, int P[N], the array to check.
         //
     {
-        int ierror;
-        int location;
         int value;
 
         for (value = 0; value < n; value++)
         {
-            ierror = 1;
+            int ierror = 1;
 
+            int location;
             for (location = 0; location < n; location++)
             {
-                if (p[location] == value)
+                if (p[location] != value)
                 {
-                    ierror = 0;
-                    break;
+                    continue;
                 }
+
+                ierror = 0;
+                break;
             }
 
-            if (ierror != 0)
+            if (ierror == 0)
             {
-                Console.WriteLine("");
-                Console.WriteLine("PERM_CHECK0 - Fatal error!");
-                Console.WriteLine("  Permutation is missing value " + value + "");
-                return;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("PERM_CHECK0 - Fatal error!");
+            Console.WriteLine("  Permutation is missing value " + value + "");
+            return;
 
         }
     }
@@ -114,9 +117,7 @@ public static partial class typeMethods
         for (int i = 0; i < n; i++)
         {
             int j = UniformRNG.i4_uniform(i, n - 1, ref seed);
-            int k = p[i];
-            p[i] = p[j];
-            p[j] = k;
+            (p[i], p[j]) = (p[j], p[i]);
         }
 
         return p;
@@ -170,9 +171,7 @@ public static partial class typeMethods
         for (int i = 0; i < n; i++)
         {
             int j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
-            int k = p[i];
-            p[i] = p[j];
-            p[j] = k;
+            (p[i], p[j]) = (p[j], p[i]);
         }
 
         return p;
@@ -212,21 +211,22 @@ public static partial class typeMethods
         //    Output, bool PERM_CHECK, is TRUE if the permutation is OK.
         //
     {
-        bool found;
-        int i;
         int seek;
 
         for (seek = base_; seek < base_ + n; seek++)
         {
-            found = false;
+            bool found = false;
 
+            int i;
             for (i = 0; i < n; i++)
             {
-                if (p[i] == seek)
+                if (p[i] != seek)
                 {
-                    found = true;
-                    break;
+                    continue;
                 }
+
+                found = true;
+                break;
             }
 
             switch (found)
@@ -273,9 +273,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int[] perm_inv;
 
-        perm_inv = new int[n];
+        int[] perm_inv = new int[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -357,21 +356,22 @@ public static partial class typeMethods
         //    Input, int P[N], the permutation, in standard index form.
         //
     {
-        bool error;
-        int ifind;
         int iseek;
 
         for (iseek = 1; iseek <= n; iseek++)
         {
-            error = true;
+            bool error = true;
 
+            int ifind;
             for (ifind = 1; ifind <= n; ifind++)
             {
-                if (p[ifind - 1] == iseek)
+                if (p[ifind - 1] != iseek)
                 {
-                    error = false;
-                    break;
+                    continue;
                 }
+
+                error = false;
+                break;
             }
 
             switch (error)
@@ -431,7 +431,7 @@ public static partial class typeMethods
         //    If no title is supplied, then only the permutation is printed.
         //
     {
-        int inc = 20;
+        const int inc = 20;
 
         if (s_len_trim(title) != 0)
         {
@@ -523,32 +523,35 @@ public static partial class typeMethods
         //    FALSE if P is not a legal permuation of 0,...,N-1.
         //
     {
-        bool check;
-        int location;
         int value;
 
-        check = true;
+        bool check = true;
 
         for (value = 0; value < n; value++)
         {
             check = false;
 
+            int location;
             for (location = 0; location < n; location++)
             {
-                if (p[location] == value)
+                if (p[location] != value)
                 {
-                    check = true;
-                    break;
+                    continue;
                 }
-            }
 
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PERM0_CHECK - Fatal error!");
-                Console.WriteLine("  Permutation is missing value " + value + "");
+                check = true;
                 break;
             }
+
+            if (check)
+            {
+                continue;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("PERM0_CHECK - Fatal error!");
+            Console.WriteLine("  Permutation is missing value " + value + "");
+            break;
 
         }
 
@@ -593,11 +596,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int k;
-        int[] p;
 
-        p = new int[n];
+        int[] p = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -606,10 +606,8 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
-            k = p[i];
-            p[i] = p[j];
-            p[j] = k;
+            int j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
+            (p[i], p[j]) = (p[j], p[i]);
         }
 
         return p;
@@ -651,32 +649,35 @@ public static partial class typeMethods
         //    FALSE if P is not a legal permuation of 1,...,N.
         //
     {
-        bool check;
-        int location;
         int value;
 
-        check = true;
+        bool check = true;
 
         for (value = 1; value <= n; value++)
         {
             check = false;
 
+            int location;
             for (location = 0; location < n; location++)
             {
-                if (p[location] == value)
+                if (p[location] != value)
                 {
-                    check = true;
-                    break;
+                    continue;
                 }
-            }
 
-            if (!check)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PERM1_CHECK - Fatal error!");
-                Console.WriteLine("  Permutation is missing value " + value + "");
+                check = true;
                 break;
             }
+
+            if (check)
+            {
+                continue;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("PERM1_CHECK - Fatal error!");
+            Console.WriteLine("  Permutation is missing value " + value + "");
+            break;
 
         }
 
@@ -721,11 +722,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int k;
-        int[] p;
 
-        p = new int[n];
+        int[] p = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -734,10 +732,8 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
-            k = p[i];
-            p[i] = p[j];
-            p[j] = k;
+            int j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
+            (p[i], p[j]) = (p[j], p[i]);
         }
 
         return p;
@@ -782,21 +778,22 @@ public static partial class typeMethods
         //    Output, bool PERM_CHECK2, is TRUE if the permutation is OK.
         //
     {
-        bool found;
-        int i;
         int seek;
 
         for (seek = base_; seek < base_ + n; seek++)
         {
-            found = false;
+            bool found = false;
 
+            int i;
             for (i = 0; i < n; i++)
             {
-                if (p[i] == seek)
+                if (p[i] != seek)
                 {
-                    found = true;
-                    break;
+                    continue;
                 }
+
+                found = true;
+                break;
             }
 
             switch (found)
@@ -846,13 +843,9 @@ public static partial class typeMethods
         //    On output, P describes the inverse permutation
         //
     {
-        int base_;
         int i;
-        int i0;
         int i1;
         int i2;
-        int is_;
-        int p_min;
 
         switch (n)
         {
@@ -866,8 +859,8 @@ public static partial class typeMethods
         //
         //  Find the least value, and shift data so it begins at 1.
         //
-        p_min = i4vec_min(n, p);
-        base_ = 1;
+        int p_min = i4vec_min(n, p);
+        const int base_ = 1;
 
         for (i = 0; i < n; i++)
         {
@@ -887,7 +880,6 @@ public static partial class typeMethods
         //
         //  Now we can invert the permutation.
         //
-        is_ = 1;
 
         for (i = 1; i <= n; i++)
         {
@@ -900,7 +892,7 @@ public static partial class typeMethods
                 i1 = i2;
             }
 
-            is_ = -i4_sign(p[i - 1]);
+            int is_ = -i4_sign(p[i - 1]);
             p[i - 1] = i4_sign( is_ ) *Math.Abs(p[i - 1]);
         }
 
@@ -912,7 +904,7 @@ public static partial class typeMethods
             {
                 case >= 0:
                 {
-                    i0 = i;
+                    int i0 = i;
 
                     for (;;)
                     {

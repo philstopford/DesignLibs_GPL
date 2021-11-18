@@ -78,14 +78,9 @@ public static partial class typeMethods
         //    polynomial at the point X0.
         //
     {
-        int eps;
-        int i;
         int m;
-        int n1;
-        int w;
-        int z;
 
-        n1 = Math.Min(n, iopt);
+        int n1 = Math.Min(n, iopt);
 
         n1 = iopt switch
         {
@@ -93,9 +88,9 @@ public static partial class typeMethods
             _ => Math.Max(1, n1)
         };
 
-        eps = Math.Max(-iopt, 0) % 2;
+        int eps = Math.Max(-iopt, 0) % 2;
 
-        w = -n * eps;
+        int w = -n * eps;
 
         switch (iopt)
         {
@@ -107,8 +102,9 @@ public static partial class typeMethods
         for (m = 1; m <= n1; m++)
         {
             val = 0;
-            z = w;
+            int z = w;
 
+            int i;
             for (i = m; i <= n; i++)
             {
                 z += eps;
@@ -172,9 +168,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int[] c;
 
-        c = new int[Math.Max(na, nb) + 1];
+        int[] c = new int[Math.Max(na, nb) + 1];
 
         if (nb == na)
         {
@@ -279,23 +274,17 @@ public static partial class typeMethods
         //    Output, int PHI[N+1], the N-th cyclotomic polynomial.
         //
     {
-        int POLY_MAX = 100;
+        const int POLY_MAX = 100;
 
-        int d = 0;
+        int d;
         int[] den = new int[POLY_MAX + 1];
-        int den_n;
-        int[] factor;
-        int i = 0;
-        int j = 0;
-        int mu = 0;
+        int i;
         int nq = 0;
         int nr = 0;
         int[] num = new int[POLY_MAX + 1];
-        int num_n = 0;
-        int[] rem;
 
-        factor = new int[n + 1];
-        rem = new int[n + 1];
+        int[] factor = new int[n + 1];
+        int[] rem = new int[n + 1];
 
         num[0] = 1;
         for (i = 1; i <= POLY_MAX; i++)
@@ -303,7 +292,7 @@ public static partial class typeMethods
             num[i] = 0;
         }
 
-        num_n = 0;
+        int num_n = 0;
 
         den[0] = 1;
         for (i = 1; i <= POLY_MAX; i++)
@@ -311,7 +300,7 @@ public static partial class typeMethods
             den[i] = 0;
         }
 
-        den_n = 0;
+        int den_n = 0;
 
         for (i = 0; i <= n; i++)
         {
@@ -327,11 +316,12 @@ public static partial class typeMethods
                 //
                 case 0:
                 {
-                    mu = i4_moebius(n / d);
+                    int mu = i4_moebius(n / d);
                     //
                     //  ...multiply the numerator or denominator by (X^D-1).
                     //
                     factor[0] = -1;
+                    int j;
                     for (j = 1; j <= d - 1; j++)
                     {
                         factor[j] = 0;
@@ -412,9 +402,7 @@ public static partial class typeMethods
         //    Output, int I4POLY_DEGREE, the degree of the polynomial.
         //
     {
-        int degree;
-
-        degree = na;
+        int degree = na;
 
         while (0 < degree)
         {
@@ -547,15 +535,11 @@ public static partial class typeMethods
         //    Otherwise, R will actually require less space.
         //
     {
-        int[] a2;
         int i;
-        int j;
-        int na2;
-        int nb2;
 
-        na2 = i4poly_degree(na, a);
+        int na2 = i4poly_degree(na, a);
 
-        nb2 = i4poly_degree(nb, b);
+        int nb2 = i4poly_degree(nb, b);
 
         switch (b[nb2])
         {
@@ -565,7 +549,7 @@ public static partial class typeMethods
                 return;
         }
 
-        a2 = new int[na + 1];
+        int[] a2 = new int[na + 1];
 
         for (i = 0; i <= na2; i++)
         {
@@ -579,6 +563,7 @@ public static partial class typeMethods
         {
             q[i] = a2[i + nb2] / b[nb2];
             a2[i + nb2] = 0;
+            int j;
             for (j = 0; j < nb2; j++)
             {
                 a2[i + j] -= q[i] * b[j];
@@ -632,11 +617,9 @@ public static partial class typeMethods
         //    Output, int C[NA+NB+1], the coefficients of A * B.
         //
     {
-        int[] d;
         int i;
-        int j;
 
-        d = new int[na + nb + 1];
+        int[] d = new int[na + nb + 1];
 
         for (i = 0; i <= na + nb; i++)
         {
@@ -645,6 +628,7 @@ public static partial class typeMethods
 
         for (i = 0; i <= na; i++)
         {
+            int j;
             for (j = 0; j <= nb; j++)
             {
                 d[i + j] += a[i] * b[j];
@@ -695,9 +679,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int mag;
-        int n2;
-        char plus_minus;
 
         switch (title.Length)
         {
@@ -707,15 +688,15 @@ public static partial class typeMethods
                 break;
         }
 
-        n2 = i4poly_degree(n, a);
+        int n2 = i4poly_degree(n, a);
 
-        plus_minus = a[n2] switch
+        char plus_minus = a[n2] switch
         {
             < 0 => '-',
             _ => ' '
         };
 
-        mag = Math.Abs(a[n2]);
+        int mag = Math.Abs(a[n2]);
 
         switch (n2)
         {
@@ -732,14 +713,7 @@ public static partial class typeMethods
 
         for (i = n2 - 1; 0 <= i; i--)
         {
-            if (a[i] < 0.0)
-            {
-                plus_minus = '-';
-            }
-            else
-            {
-                plus_minus = '+';
-            }
+            plus_minus = a[i] < 0.0 ? '-' : '+';
 
             mag = Math.Abs(a[i]);
 
@@ -801,9 +775,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         for (i = n; 0 <= i; i--)
         {

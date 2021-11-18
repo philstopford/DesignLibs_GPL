@@ -165,8 +165,6 @@ public static partial class typeMethods
         //    principal value (that is, the positive value of the two ) is returned.
         //
     {
-        double value = 0;
-
         switch (x)
         {
             case < 1.0:
@@ -176,7 +174,7 @@ public static partial class typeMethods
                 Console.WriteLine("  The input X = " + x + "");
                 return 1;
             default:
-                value = 2.0 * Math.Log(
+                double value = 2.0 * Math.Log(
                     Math.Sqrt(0.5 * (x + 1.0)) + Math.Sqrt(0.5 * (x - 1.0)));
 
                 return value;
@@ -210,9 +208,7 @@ public static partial class typeMethods
         //    Output, double R8_ADD, the sum of X and Y.
         //
     {
-        double value = 0;
-
-        value = x + y;
+        double value = x + y;
 
         return value;
     }
@@ -254,12 +250,10 @@ public static partial class typeMethods
         //    Output, double R8_ATANH, the inverse hyperbolic tangent of X.
         //
     {
-        const double r8_huge = 1.79769313486231571E+308;
-
         double value = x switch
         {
-            <= -1.0 => -r8_huge,
-            >= 1.0 => +r8_huge,
+            <= -1.0 => -r8_huge(),
+            >= 1.0 => +r8_huge(),
             _ => 0.5 * Math.Log((1.0 + x) / (1.0 - x))
         };
 
@@ -322,14 +316,9 @@ public static partial class typeMethods
         //    Output, double R8_AGM, the arithmetic-geometric mean of A and B.
         //
     {
-        double a1;
         double a2;
-        double b1;
-        double b2;
-        int it;
-        int it_max = 1000;
-        double tol;
-        double value = 0;
+        const int it_max = 1000;
+        double value;
 
         switch (a)
         {
@@ -355,24 +344,24 @@ public static partial class typeMethods
             return value;
         }
 
-        if (a == b)
+        if (Math.Abs(a - b) <= double.Epsilon)
         {
             value = a;
             return value;
         }
 
-        a1 = a;
-        b1 = b;
+        double a1 = a;
+        double b1 = b;
 
-        it = 0;
-        tol = 100.0 * r8_epsilon();
+        int it = 0;
+        double tol = 100.0 * r8_epsilon();
 
         for (;;)
         {
             it += 1;
 
             a2 = (a1 + b1) / 2.0;
-            b2 = Math.Sqrt(a1 * b1);
+            double b2 = Math.Sqrt(a1 * b1);
 
             if (Math.Abs(a2 - b2) <= tol * (a2 + b2))
             {
@@ -510,9 +499,7 @@ public static partial class typeMethods
         //    Output, double R8_ASINH, the inverse hyperbolic sine of X.
         //
     {
-        double value = 0;
-
-        value = Math.Log(x + Math.Sqrt(x * x + 1.0));
+        double value = Math.Log(x + Math.Sqrt(x * x + 1.0));
 
         return value;
     }
@@ -544,10 +531,7 @@ public static partial class typeMethods
         //    Output, double R8_RADIANS, the angle measurement in radians.
         //
     {
-            
-        double value = 0;
-
-        value = degrees * Math.PI / 180.0;
+        double value = degrees * Math.PI / 180.0;
 
         return value;
     }
@@ -653,13 +637,9 @@ public static partial class typeMethods
         //    Output, double R8_SECD, the secant of the angle.
         //
     {
-            
-        double radians;
-        double value = 0;
+        double radians = Math.PI * (degrees / 180.0);
 
-        radians = Math.PI * (degrees / 180.0);
-
-        value = 1.0 / Math.Cos(radians);
+        double value = 1.0 / Math.Cos(radians);
 
         return value;
     }
@@ -746,9 +726,7 @@ public static partial class typeMethods
         //    double r8_sigmoid, the value.
         //
     {
-        double value = 0;
-
-        value = l / (1.0 + Math.Exp(-m * (x - b)));
+        double value = l / (1.0 + Math.Exp(-m * (x - b)));
 
         return value;
     }
@@ -791,8 +769,6 @@ public static partial class typeMethods
         //    sine or for cosine.
         //
     {
-            
-
         d = Math.Sqrt(a * a + b * b);
         e = Math.Atan2(b, a);
         f = Math.Atan2(b, a) - Math.PI / 2.0E+00;
@@ -831,13 +807,9 @@ public static partial class typeMethods
         //    Output, double R8_SIND, the sine of the angle.
         //
     {
-            
-        double radians;
-        double value = 0;
+        double radians = Math.PI * (degrees / 180.0);
 
-        radians = Math.PI * (degrees / 180.0);
-
-        value = Math.Sin(radians);
+        double value = Math.Sin(radians);
 
         return value;
     }
@@ -912,9 +884,7 @@ public static partial class typeMethods
         //    Output, double R8_SQRT_I4, the value of sqrt(I).
         //
     {
-        double value = 0;
-
-        value = Math.Sqrt(i);
+        double value = Math.Sqrt(i);
 
         return value;
     }
@@ -1036,7 +1006,7 @@ public static partial class typeMethods
     {
         r8 ret = new() {lchar = -1};
         double rexp;
-        char TAB = (char) 9;
+        const char TAB = (char) 9;
 
         int nchar = s_len_trim(s);
         int isgn = 1;
@@ -1304,8 +1274,6 @@ public static partial class typeMethods
         //    Output, bool S_TO_R8VEC, is true if an error occurred.
         //
     {
-        int length = s.Length;
-
         r8vec ret = new() {rvec = new double[n]};
 
         string[] tokens = Helpers.splitStringByWhitespace(s);
@@ -1449,14 +1417,8 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        double aij;
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
 
         Console.WriteLine("");
@@ -1466,12 +1428,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
             string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -1483,9 +1446,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, n);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, n);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(6) + "  ";
@@ -1494,14 +1458,8 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    if (i <= j)
-                    {
-                        aij = a[i - 1 + j * (j - 1) / 2];
-                    }
-                    else
-                    {
-                        aij = 0.0;
-                    }
+                    double aij;
+                    aij = i <= j ? a[i - 1 + j * (j - 1) / 2] : 0.0;
 
                     cout += aij.ToString().PadLeft(12) + "  ";
                 }
@@ -1542,9 +1500,7 @@ public static partial class typeMethods
         //    Output, double R8_HUGE, a "huge" R8 value.
         //
     {
-        double value = 0;
-
-        value = 1.0E+30;
+        double value = 1.0E+30;
 
         return value;
     }
@@ -1592,13 +1548,12 @@ public static partial class typeMethods
         //
     {
         int n;
-        const double r8_huge = 1.0E+30;
-        double value = 0;
+        double value;
 
         switch (p)
         {
             case <= 1.0:
-                value = r8_huge;
+                value = r8_huge();
                 break;
             case 2.0:
                 value = Math.Pow(Math.PI, 2) / 6.0;
@@ -1767,9 +1722,7 @@ public static partial class typeMethods
         //    Output, double R8_BIG, a "big" R8 value.
         //
     {
-        double value = 0;
-
-        value = 1.0E+30;
+        double value = 1.0E+30;
 
         return value;
     }
@@ -1822,13 +1775,9 @@ public static partial class typeMethods
         //    Output, double R8_CHOP, the chopped number.
         //
     {
-        double fac;
-        int temp;
-        double value = 0;
-
-        temp = (int) r8_log_2(x);
-        fac = Math.Pow(2.0, temp - place + 1);
-        value = (int) (x / fac) * fac;
+        int temp = (int) r8_log_2(x);
+        double fac = Math.Pow(2.0, temp - place + 1);
+        double value = (int) (x / fac) * fac;
 
         return value;
     }
@@ -1860,13 +1809,9 @@ public static partial class typeMethods
         //    Output, double R8_COSD, the cosine of the angle.
         //
     {
-            
-        double radians;
-        double value = 0;
+        double radians = Math.PI * (degrees / 180.0);
 
-        radians = Math.PI * (degrees / 180.0);
-
-        value = Math.Cos(radians);
+        double value = Math.Cos(radians);
 
         return value;
     }
@@ -1902,9 +1847,7 @@ public static partial class typeMethods
         //    Output, double R8_COT, the cotangent of the angle.
         //
     {
-        double value = 0;
-
-        value = Math.Cos(angle) / Math.Sin(angle);
+        double value = Math.Cos(angle) / Math.Sin(angle);
 
         return value;
     }
@@ -1936,13 +1879,9 @@ public static partial class typeMethods
         //    Output, double R8_COTD, the cotangent of the angle.
         //
     {
-            
-        double radians;
-        double value = 0;
+        double radians = Math.PI * (degrees / 180.0);
 
-        radians = Math.PI * (degrees / 180.0);
-
-        value = Math.Cos(radians) / Math.Sin(radians);
+        double value = Math.Cos(radians) / Math.Sin(radians);
 
         return value;
     }
@@ -2097,13 +2036,9 @@ public static partial class typeMethods
         //    Output, double R8_CSCD, the cosecant of the angle.
         //
     {
-            
-        double radians;
-        double value = 0;
+        double radians = Math.PI * (degrees / 180.0);
 
-        radians = Math.PI * (degrees / 180.0);
-
-        value = 1.0 / Math.Sin(radians);
+        double value = 1.0 / Math.Sin(radians);
 
         return value;
     }
@@ -2177,10 +2112,7 @@ public static partial class typeMethods
         //    Output, double R8_DEGREES, the angle measurement in degrees.
         //
     {
-            
-        double value = 0;
-
-        value = radians * 180.0 / Math.PI;
+        double value = radians * 180.0 / Math.PI;
 
         return value;
     }
@@ -2226,30 +2158,26 @@ public static partial class typeMethods
         //    Output, double R8_DIFF, the value of X-Y.
         //
     {
-        double cx;
-        double cy;
-        double pow2;
-        double size;
-        double value = 0;
+        double value;
 
-        if (x == y)
+        if (Math.Abs(x - y) <= double.Epsilon)
         {
             value = 0.0;
             return value;
         }
 
-        pow2 = Math.Pow(2.0, n);
+        double pow2 = Math.Pow(2.0, n);
         //
         //  Compute the magnitude of X and Y, and take the larger of the
         //  two.  At least one of the two values is not zero//
         //
-        size = Math.Max(Math.Abs(x), Math.Abs(y));
+        double size = Math.Max(Math.Abs(x), Math.Abs(y));
         //
         //  Make normalized copies of X and Y.  One of the two values will
         //  actually be equal to 1.
         //
-        cx = x / size;
-        cy = y / size;
+        double cx = x / size;
+        double cy = y / size;
         //
         //  Here's where rounding comes in.  We know that the larger of the
         //  the two values equals 1.  We multiply both values by 2^N,
@@ -2373,9 +2301,7 @@ public static partial class typeMethods
         //    Output, double R8_DIVIDE_I4, the value of (I/J).
         //
     {
-        double value = 0;
-
-        value = i / (double) j;
+        double value = i / (double) j;
 
         return value;
     }
@@ -2410,9 +2336,8 @@ public static partial class typeMethods
         //
     {
         const double r8_e_save = 2.718281828459045235360287;
-        double value = 0;
 
-        value = r8_e_save;
+        double value = r8_e_save;
 
         return value;
     }
@@ -2492,19 +2417,15 @@ public static partial class typeMethods
         //    Output, double R8_EPSILON_COMPUTE, the R8 round-off unit.
         //
     {
-        double one;
-        double temp;
-        double test;
-
         switch (data.value)
         {
             case 0.0:
             {
-                one = 1;
+                const double one = 1;
 
                 data.value = one;
-                temp = data.value / 2.0;
-                test = r8_add(one, temp);
+                double temp = data.value / 2.0;
+                double test = r8_add(one, temp);
 
                 while (one < test)
                 {
@@ -2593,7 +2514,6 @@ public static partial class typeMethods
                 1.23033935480374942E+03
             }
             ;
-        double del;
         double erfx;
         int i;
         double[] p =  {
@@ -2613,16 +2533,15 @@ public static partial class typeMethods
                 2.33520497626869185E-03
             }
             ;
-        double sqrpi = 0.56418958354775628695;
-        double thresh = 0.46875;
-        double xbig = 26.543;
-        double xabs;
+        const double sqrpi = 0.56418958354775628695;
+        const double thresh = 0.46875;
+        const double xbig = 26.543;
         double xden;
         double xnum;
-        double xsmall = 1.11E-16;
+        const double xsmall = 1.11E-16;
         double xsq;
 
-        xabs = Math.Abs(x);
+        double xabs = Math.Abs(x);
         //
         //  Evaluate ERF(X) for |X| <= 0.46875.
         //
@@ -2649,6 +2568,7 @@ public static partial class typeMethods
         }
         else
         {
+            double del;
             switch (xabs)
             {
                 //
@@ -2748,15 +2668,11 @@ public static partial class typeMethods
         //    Output, double R8_ERF_INVERSE, the value X such that ERF(X) = Y.
         //
     {
-        double value = 0;
-        double x;
-        double z;
+        double z = (y + 1.0) / 2.0;
 
-        z = (y + 1.0) / 2.0;
+        double x = CDF.normal_01_cdf_inv(z);
 
-        x = CDF.normal_01_cdf_inv(z);
-
-        value = x / Math.Sqrt(2.0);
+        double value = x / Math.Sqrt(2.0);
 
         return value;
     }
@@ -2949,7 +2865,7 @@ public static partial class typeMethods
         //    Output, double R8_MACH, the value of the chosen parameter.
         //
     {
-        double value = 0;
+        double value;
 
         switch (i)
         {
@@ -3019,9 +2935,7 @@ public static partial class typeMethods
         //    plus or minus the square root of 2.
         //
     {
-        double value = 0;
-
-        value = Math.Cos(x) + Math.Sin(x);
+        double value = Math.Cos(x) + Math.Sin(x);
 
         return value;
     }
@@ -3070,9 +2984,7 @@ public static partial class typeMethods
         //    Output, double R8_CEILING, the ceiling of X.
         //
     {
-        double value = 0;
-
-        value = (int) x;
+        double value = (int) x;
 
         if (value < x)
         {
@@ -3128,7 +3040,6 @@ public static partial class typeMethods
         //    things taken K at a time.
         //
     {
-        int i;
         int mn;
         int mx;
         double value = 0;
@@ -3156,6 +3067,7 @@ public static partial class typeMethods
             {
                 value = mx + 1;
 
+                int i;
                 for (i = 2; i <= mn; i++)
                 {
                     value = value * (mx + i) / i;
@@ -3264,7 +3176,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        double r_copy;
         double[] x;
 
         switch (r)
@@ -3292,7 +3203,7 @@ public static partial class typeMethods
 
         x = new double[n + 1];
 
-        r_copy = Math.Abs(r);
+        double r_copy = Math.Abs(r);
 
         p[0] = 1;
         q[0] = 0;
@@ -3365,9 +3276,6 @@ public static partial class typeMethods
         //    representation of DVAL.
         //
     {
-        double mantissa_double;
-        double ten1;
-        double ten2;
         switch (dval)
         {
             //
@@ -3382,14 +3290,14 @@ public static partial class typeMethods
         //
         //  Factor DVAL = MANTISSA_DOUBLE * 10^EXPONENT
         //
-        mantissa_double = dval;
+        double mantissa_double = dval;
         exponent = 0;
         //
         //  Now normalize so that 
         //  10^(DEC_DIGIT-1) <= ABS(MANTISSA_DOUBLE) < 10^(DEC_DIGIT)
         //
-        ten1 = Math.Pow(10.0, dec_digit - 1);
-        ten2 = 10.0 * ten1;
+        double ten1 = Math.Pow(10.0, dec_digit - 1);
+        double ten2 = 10.0 * ten1;
 
         while (Math.Abs(mantissa_double) < ten1)
         {
@@ -3410,13 +3318,15 @@ public static partial class typeMethods
         //
         //  Now divide out any factors of ten from MANTISSA.
         //
-        if (mantissa != 0)
+        if (mantissa == 0)
         {
-            while (10 * (mantissa / 10) == mantissa)
-            {
-                mantissa /= 10;
-                exponent += 1;
-            }
+            return;
+        }
+
+        while (10 * (mantissa / 10) == mantissa)
+        {
+            mantissa /= 10;
+            exponent += 1;
         }
 
     }
@@ -3457,11 +3367,9 @@ public static partial class typeMethods
         //    of the rational value that approximates A.
         //
     {
-        double factor;
         int i;
-        int itemp;
 
-        factor = Math.Pow(10.0, ndig);
+        double factor = Math.Pow(10.0, ndig);
 
         switch (ndig)
         {
@@ -3493,7 +3401,7 @@ public static partial class typeMethods
         //
         //  Factor out the greatest common factor.
         //
-        itemp = i4_gcd(iatop, iabot);
+        int itemp = i4_gcd(iatop, iabot);
 
         iatop /= itemp;
         iabot /= itemp;
@@ -3606,10 +3514,7 @@ public static partial class typeMethods
         //    corresponds to X.
         //
     {
-        int ix;
-        double temp;
-
-        if (xmax == xmin)
+        if (Math.Abs(xmax - xmin) <= double.Epsilon)
         {
             Console.WriteLine("");
             Console.WriteLine("R8_TO_I4 - Fatal error!");
@@ -3619,10 +3524,9 @@ public static partial class typeMethods
             return 1;
         }
 
-        temp =
-            ((xmax - x) * ixmin
-             + (x - xmin) * ixmax)
-            / (xmax - xmin);
+        double temp = ((xmax - x) * ixmin
+                       + (x - xmin) * ixmax)
+                      / (xmax - xmin);
 
         switch (temp)
         {
@@ -3634,7 +3538,7 @@ public static partial class typeMethods
                 break;
         }
 
-        ix = (int) temp;
+        int ix = (int) temp;
 
         return ix;
     }
@@ -3666,9 +3570,7 @@ public static partial class typeMethods
         //    Output, double R8_SUM, the sum of X and Y.
         //
     {
-        double value = 0;
-
-        value = x + y;
+        double value = x + y;
 
         return value;
     }
@@ -3699,11 +3601,7 @@ public static partial class typeMethods
         //    Y have been interchanged.
         //
     {
-        double z;
-
-        z = x;
-        x = y;
-        y = z;
+        (x, y) = (y, x);
     }
 
     public static void r8_swap3(ref double x, ref double y, ref double z)
@@ -3741,9 +3639,7 @@ public static partial class typeMethods
         //    Input/output, double &X, &Y, &Z, three values to be swapped.
         //
     {
-        double w;
-
-        w = x;
+        double w = x;
         x = y;
         y = z;
         z = w;
@@ -3776,13 +3672,9 @@ public static partial class typeMethods
         //    Output, double R8_TAND, the tangent of the angle.
         //
     {
-            
-        double radians;
-        double value = 0;
+        double radians = Math.PI * (degrees / 180.0);
 
-        radians = Math.PI * (degrees / 180.0);
-
-        value = Math.Sin(radians) / Math.Cos(radians);
+        double value = Math.Sin(radians) / Math.Cos(radians);
 
         return value;
     }
@@ -3897,7 +3789,7 @@ public static partial class typeMethods
                 return bin;
         }
 
-        if (b == a)
+        if (Math.Abs(b - a) <= double.Epsilon)
         {
             bin = 0;
             return bin;
@@ -3927,11 +3819,11 @@ public static partial class typeMethods
         {
             bin = 1;
         }
-        else if (c == a2)
+        else if (Math.Abs(c - a2) <= double.Epsilon)
         {
             bin = 2;
         }
-        else if (c == b2)
+        else if (Math.Abs(c - b2) <= double.Epsilon)
         {
             bin = nbin - 1;
         }
@@ -4005,7 +3897,6 @@ public static partial class typeMethods
         //    Output, double RD, the corresponding discrete value.
         //
     {
-        int f;
         double rd;
         switch (nr)
         {
@@ -4023,13 +3914,13 @@ public static partial class typeMethods
                 return rd;
         }
 
-        if (rmax == rmin)
+        if (Math.Abs(rmax - rmin) <= double.Epsilon)
         {
             rd = rmax;
             return rd;
         }
 
-        f = (int)(nr * (rmax - r) / (rmax - rmin));
+        int f = (int)(nr * (rmax - r) / (rmax - rmin));
         f = Math.Max(f, 0);
         f = Math.Min(f, nr);
 
@@ -4075,9 +3966,7 @@ public static partial class typeMethods
         //    Input/output, double &X, &Y, &Z, three values to be swapped.
         //
     {
-        double w;
-
-        w = z;
+        double w = z;
         z = y;
         y = x;
         x = w;
@@ -4126,26 +4015,21 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int i;
-        int indx;
-        int j;
-        int jhi;
         int jlo;
-        int jmax;
-        int nn;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
 
-        jmax = Math.Min(n, m - 1);
+        int jmax = Math.Min(n, m - 1);
 
-        nn = 5;
+        const int nn = 5;
 
         for (jlo = 1; jlo <= jmax; jlo += nn)
         {
-            jhi = Math.Min(jlo + nn - 1, Math.Min(m - 1, jmax));
+            int jhi = Math.Min(jlo + nn - 1, Math.Min(m - 1, jmax));
             Console.WriteLine("");
             string cout = "  Col   ";
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -4153,13 +4037,14 @@ public static partial class typeMethods
 
             Console.WriteLine(cout);
             Console.WriteLine("  Row");
+            int i;
             for (i = jlo + 1; i <= m; i++)
             {
                 cout = i.ToString().PadLeft(5) + ":";
                 jhi = Math.Min(jlo + nn - 1, Math.Min(i - 1, jmax));
                 for (j = jlo; j <= jhi; j++)
                 {
-                    indx = (j - 1) * m + i - j * (j + 1) / 2;
+                    int indx = (j - 1) * m + i - j * (j + 1) / 2;
                     cout += " " + a[indx - 1].ToString().PadLeft(12);
                 }
 
@@ -4281,9 +4166,7 @@ public static partial class typeMethods
         //    Output, double R8_FRACTIONAL, the fractional part of X.
         //
     {
-        double value = 0;
-
-        value = Math.Abs(x) - (int) Math.Abs(x);
+        double value = Math.Abs(x) - (int) Math.Abs(x);
 
         return value;
     }
@@ -4321,9 +4204,7 @@ public static partial class typeMethods
         //    Output, double R8_HAVERSINE, the haversine of the angle.
         //
     {
-        double value = 0;
-
-        value = (1.0 - Math.Cos(a)) / 2.0;
+        double value = (1.0 - Math.Cos(a)) / 2.0;
 
         return value;
     }
@@ -4398,7 +4279,6 @@ public static partial class typeMethods
     {
         double a;
         double b;
-        double value = 0;
 
         if (Math.Abs(x) < Math.Abs(y))
         {
@@ -4411,7 +4291,7 @@ public static partial class typeMethods
             b = Math.Abs(y);
         }
 
-        value = a switch
+        double value = a switch
         {
             //
             //  A contains the larger value.
@@ -4461,8 +4341,6 @@ public static partial class typeMethods
         //    Output, double R8_WALSH_1D, the value of the Walsh function.
         //
     {
-        int n;
-        double value = 0;
         //
         //  Hide the effect of the sign of X.
         //
@@ -4477,8 +4355,8 @@ public static partial class typeMethods
         //  Because it's positive, and we're using INT, we don't change the
         //  units digit.
         //
-        n = ( int ) x;
-        value = (n % 2) switch
+        int n = ( int ) x;
+        double value = (n % 2) switch
         {
             //
             //  Is the units digit odd or even?
@@ -4547,11 +4425,9 @@ public static partial class typeMethods
         //    Output, double R8_WRAP, a "wrapped" version of the value.
         //
     {
-        int n;
         double rhi2;
         double rlo2;
-        double rwide;
-        double value = 0;
+        double value;
         //
         //  Guarantee RLO2 < RHI2.
         //
@@ -4569,7 +4445,7 @@ public static partial class typeMethods
         //
         //  Find the width.
         //
-        rwide = rhi2 - rlo2;
+        double rwide = rhi2 - rlo2;
         switch (rwide)
         {
             //
@@ -4581,11 +4457,12 @@ public static partial class typeMethods
                 break;
             default:
             {
+                int n;
                 if (r < rlo2)
                 {
                     n = (int) ((rlo2 - r) / rwide) + 1;
                     value = r + n * rwide;
-                    if (value == rhi)
+                    if (Math.Abs(value - rhi) <= double.Epsilon)
                     {
                         value = rlo;
                     }
@@ -4594,7 +4471,7 @@ public static partial class typeMethods
                 {
                     n = (int) ((r - rlo2) / rwide);
                     value = r - n * rwide;
-                    if (value == rlo)
+                    if (Math.Abs(value - rlo) <= double.Epsilon)
                     {
                         value = rhi;
                     }
@@ -4652,10 +4529,7 @@ public static partial class typeMethods
         //    of its cosine and sine match those of X and Y.
         //
     {
-        double abs_x;
-        double abs_y;
         double theta = 0;
-        double theta_0;
         switch (x)
         {
             //
@@ -4686,10 +4560,10 @@ public static partial class typeMethods
                         break;
                     //
                     default:
-                        abs_y = Math.Abs(y);
-                        abs_x = Math.Abs(x);
+                        double abs_y = Math.Abs(y);
+                        double abs_x = Math.Abs(x);
 
-                        theta_0 = Math.Atan2(abs_y, abs_x);
+                        double theta_0 = Math.Atan2(abs_y, abs_x);
 
                         theta = x switch
                         {
@@ -4745,7 +4619,6 @@ public static partial class typeMethods
         //    Output, real VALUE, the Nth root of X.
         //
     {
-        double e;
         double value = 0;
         switch (x)
         {
@@ -4792,7 +4665,7 @@ public static partial class typeMethods
                 break;
             default:
             {
-                e = 1.0 / Math.Abs ( n );
+                double e = 1.0 / Math.Abs ( n );
 
                 value = n switch
                 {
@@ -4929,28 +4802,23 @@ public static partial class typeMethods
         //    Output, double R8_RANDOM, the next pseudorandom number.
         //
     {
-        int ipw2 = 4096;
-        int it1;
-        int it2;
-        int it3;
-        int it4;
-        int m1 = 494;
-        int m2 = 322;
-        int m3 = 2508;
-        int m4 = 2549;
-        double r = 1.0 / 4096.0;
-        double value = 0;
+        const int ipw2 = 4096;
+        const int m1 = 494;
+        const int m2 = 322;
+        const int m3 = 2508;
+        const int m4 = 2549;
+        const double r = 1.0 / 4096.0;
         //
         //  Multiply the seed by the multiplier modulo 2^48.
         //
-        it4 = iseed[3] * m4;
-        it3 = it4 / ipw2;
+        int it4 = iseed[3] * m4;
+        int it3 = it4 / ipw2;
         it4 -= ipw2 * it3;
         it3 = it3 + iseed[2] * m4 + iseed[3] * m3;
-        it2 = it3 / ipw2;
+        int it2 = it3 / ipw2;
         it3 -= ipw2 * it2;
         it2 = it2 + iseed[1] * m4 + iseed[2] * m3 + iseed[3] * m2;
-        it1 = it2 / ipw2;
+        int it1 = it2 / ipw2;
         it2 -= ipw2 * it1;
         it1 = it1 + iseed[0] * m4 + iseed[1] * m3 + iseed[2] * m2 + iseed[3] * m1;
         it1 %= ipw2;
@@ -4964,11 +4832,10 @@ public static partial class typeMethods
         //
         //  Convert 48-bit integer to a real number in the interval (0,1)
         //
-        value =
-            r * (it1
-                 + r * (it2
-                        + r * (it3
-                               + r * it4)));
+        double value = r * (it1
+                            + r * (it2
+                                   + r * (it3
+                                          + r * it4)));
 
         return value;
     }

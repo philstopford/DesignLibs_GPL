@@ -40,10 +40,8 @@ public static partial class typeMethods
         //    Output, double R82_DIST_L2, the L2 norm of A1 - A2.
         //
     {
-        double value = 0;
-
-        value = Math.Sqrt(Math.Pow(a1[0] - a2[0], 2)
-                          + Math.Pow(a1[1] - a2[1], 2));
+        double value = Math.Sqrt(Math.Pow(a1[0] - a2[0], 2)
+                                 + Math.Pow(a1[1] - a2[1], 2));
 
         return value;
     }

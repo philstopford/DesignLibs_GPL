@@ -38,32 +38,25 @@ public static partial class typeMethods
         //    Input, bool NODE_LABEL, is TRUE if the nodes are to be labeled.
         //
     {
-        int circle_size;
         int delta;
         List<string> file_unit = new();
         int node;
-        double x_max;
-        double x_min;
         int x_ps;
         int x_ps_max = 576;
         int x_ps_max_clip = 594;
         int x_ps_min = 36;
         int x_ps_min_clip = 18;
-        double x_scale;
-        double y_max;
-        double y_min;
         int y_ps;
         int y_ps_max = 666;
         int y_ps_max_clip = 684;
         int y_ps_min = 126;
         int y_ps_min_clip = 108;
-        double y_scale;
         //
         //  We need to do some figuring here, so that we can determine
         //  the range of the data, and hence the height and width
         //  of the piece of paper.
         //
-        x_max = -r8_huge();
+        double x_max = -r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (x_max < node_xy[0 + node * 2])
@@ -72,7 +65,7 @@ public static partial class typeMethods
             }
         }
 
-        x_min = r8_huge();
+        double x_min = r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[0 + node * 2] < x_min)
@@ -81,13 +74,13 @@ public static partial class typeMethods
             }
         }
 
-        x_scale = x_max - x_min;
+        double x_scale = x_max - x_min;
 
         x_max += 0.05 * x_scale;
         x_min -= 0.05 * x_scale;
         x_scale = x_max - x_min;
 
-        y_max = -r8_huge();
+        double y_max = -r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (y_max < node_xy[1 + node * 2])
@@ -96,7 +89,7 @@ public static partial class typeMethods
             }
         }
 
-        y_min = r8_huge();
+        double y_min = r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[1 + node * 2] < y_min)
@@ -105,7 +98,7 @@ public static partial class typeMethods
             }
         }
 
-        y_scale = y_max - y_min;
+        double y_scale = y_max - y_min;
 
         y_max += 0.05 * y_scale;
         y_min -= 0.05 * y_scale;
@@ -206,7 +199,7 @@ public static partial class typeMethods
         file_unit.Add(x_ps_min_clip + "  "
                                     + y_ps_min_clip + "  lineto");
         file_unit.Add("clip newpath");
-        circle_size = node_num switch
+        int circle_size = node_num switch
         {
             //
             //  Draw the nodes.
@@ -330,13 +323,11 @@ public static partial class typeMethods
     {
         int node;
         List<string> output = new();
-        double x;
-        double y;
 
         for (node = 0; node < node_num; node++)
         {
-            x = node_xy[0 + node * 2];
-            y = node_xy[1 + node * 2];
+            double x = node_xy[0 + node * 2];
+            double y = node_xy[1 + node * 2];
 
             output.Add(x.ToString().PadLeft(8) + "  "
                                                + y.ToString().PadLeft(8) + "");

@@ -16,12 +16,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, dvec.Length);
 
-        if (n == dvec.Length)
-        {
-            return dvec.Max();
-        }
-            
-        return dvec.Take(n).Max();
+        return n == dvec.Length ? dvec.Max() : dvec.Take(n).Max();
     }
 
     public static float r4vec_mean ( int n, float[] x )
@@ -35,12 +30,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, x.Length);
 
-        if (n == x.Length)
-        {
-            return x.Average();
-        }
-                    
-        return x.Take(n).Average();
+        return n == x.Length ? x.Average() : x.Take(n).Average();
     }
 
     public static float r4vec_min ( int n, float[] dvec )
@@ -54,12 +44,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, dvec.Length);
 
-        if (n == dvec.Length)
-        {
-            return dvec.Min();
-        }
-                    
-        return dvec.Take(n).Min();
+        return n == dvec.Length ? dvec.Min() : dvec.Take(n).Min();
     }
 
     public static float r4vec_variance ( int n, float[] x )

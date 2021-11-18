@@ -37,9 +37,7 @@ public static partial class typeMethods
         //    Output, double C8_ABS, the magnitude of X.
         //
     {
-        double value = 0;
-
-        value = Math.Sqrt(Math.Pow(x.Real, 2) + Math.Pow(x.Imaginary, 2));
+        double value = Math.Sqrt(Math.Pow(x.Real, 2) + Math.Pow(x.Imaginary, 2));
 
         return value;
     }
@@ -77,14 +75,10 @@ public static partial class typeMethods
         //    Output, Complex C8_ACOS, the function value.
         //
     {
-        Complex c2;
-        double c2_imag;
-        double c2_real;
+        Complex c2 = c8_asin(c1);
 
-        c2 = c8_asin(c1);
-
-        c2_real = Math.PI * 0.5 - c2.Real;
-        c2_imag = -c2.Imaginary;
+        double c2_real = Math.PI * 0.5 - c2.Real;
+        double c2_imag = -c2.Imaginary;
 
         c2 = new Complex(c2_real, c2_imag);
 
@@ -124,9 +118,7 @@ public static partial class typeMethods
         //    Output, Complex C8_ACOSH, the function value.
         //
     {
-        Complex c2;
-
-        c2 = c8_i() * c8_acos(c1);
+        Complex c2 = c8_i() * c8_acos(c1);
 
         return c2;
     }
@@ -158,9 +150,7 @@ public static partial class typeMethods
         //    Output, Complex C8_ADD, the sum of C1 and C2.
         //
     {
-        Complex c3;
-
-        c3 = c1 + c2;
+        Complex c3 = c1 + c2;
 
         return c3;
     }
@@ -240,15 +230,10 @@ public static partial class typeMethods
         //    Output, Complex C8_ASIN, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex ce;
-
-        c2 = c8_i();
-        c3 = Complex.Sqrt(1.0 - c1 * c1);
-        c4 = c8_log(c3 + c2 * c1);
-        ce = -c2 * c4;
+        Complex c2 = c8_i();
+        Complex c3 = Complex.Sqrt(1.0 - c1 * c1);
+        Complex c4 = c8_log(c3 + c2 * c1);
+        Complex ce = -c2 * c4;
 
         return ce;
     }
@@ -286,17 +271,11 @@ public static partial class typeMethods
         //    Output, Complex C8_ASINH, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
-
-        c2 = c8_i();
-        c3 = c2 * c1;
-        c4 = c8_asin(c3);
-        c5 = c2 * c4;
-        c6 = -c5;
+        Complex c2 = c8_i();
+        Complex c3 = c2 * c1;
+        Complex c4 = c8_asin(c3);
+        Complex c5 = c2 * c4;
+        Complex c6 = -c5;
 
         return c6;
     }
@@ -334,26 +313,16 @@ public static partial class typeMethods
         //    Output, Complex C8_ATAN, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
-        Complex c7;
-        Complex c8;
-        Complex c9;
-        Complex cx;
+        Complex c2 = c8_i();
+        Complex c3 = c8_one();
+        Complex c4 = c8_mul(c2, c1);
+        Complex c5 = c8_sub(c3, c4);
+        Complex c6 = c8_add(c3, c4);
+        Complex c7 = c8_div(c5, c6);
 
-        c2 = c8_i();
-        c3 = c8_one();
-        c4 = c8_mul(c2, c1);
-        c5 = c8_sub(c3, c4);
-        c6 = c8_add(c3, c4);
-        c7 = c8_div(c5, c6);
-
-        c8 = c8_log(c7);
-        c9 = c8_mul(c2, c8);
-        cx = c9 / 2.0;
+        Complex c8 = c8_log(c7);
+        Complex c9 = c8_mul(c2, c8);
+        Complex cx = c9 / 2.0;
 
         return cx;
     }
@@ -391,18 +360,12 @@ public static partial class typeMethods
         //    Output, Complex C8_ATANH, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
+        Complex c2 = c8_i();
 
-        c2 = c8_i();
-
-        c3 = c8_mul(c2, c1);
-        c4 = c8_atan(c3);
-        c5 = c8_mul(c2, c4);
-        c6 = c8_neg(c5);
+        Complex c3 = c8_mul(c2, c1);
+        Complex c4 = c8_atan(c3);
+        Complex c5 = c8_mul(c2, c4);
+        Complex c6 = c8_neg(c5);
 
         return c6;
     }
@@ -434,9 +397,7 @@ public static partial class typeMethods
         //    Output, Complex C8_CONJ, the function value.
         //
     {
-        Complex c2;
-
-        c2 = Complex.Conjugate(c1);
+        Complex c2 = Complex.Conjugate(c1);
 
         return c2;
     }
@@ -516,9 +477,7 @@ public static partial class typeMethods
         //    Output, Complex C8_COS, the function value.
         //
     {
-        Complex c2;
-
-        c2 = (Complex.Exp(c1 * c8_i()) + Complex.Exp(-c1 * c8_i())) / 2.0;
+        Complex c2 = (Complex.Exp(c1 * c8_i()) + Complex.Exp(-c1 * c8_i())) / 2.0;
 
         return c2;
     }
@@ -554,19 +513,13 @@ public static partial class typeMethods
         //    Output, Complex C8_COSH, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
+        Complex c2 = c8_exp(c1);
 
-        c2 = c8_exp(c1);
+        Complex c3 = c8_neg(c1);
+        Complex c4 = c8_exp(c3);
 
-        c3 = c8_neg(c1);
-        c4 = c8_exp(c3);
-
-        c5 = c8_add(c2, c4);
-        c6 = c8_div_r8(c5, 2.0);
+        Complex c5 = c8_add(c2, c4);
+        Complex c6 = c8_div_r8(c5, 2.0);
 
         return c6;
     }
@@ -602,14 +555,10 @@ public static partial class typeMethods
         //    Output, Complex C8_CUBE_ROOT, the cube root of X.
         //
     {
-        double argument;
-        double magnitude;
-        Complex value;
+        double argument = c8_arg(x);
+        double magnitude = c8_mag(x);
 
-        argument = c8_arg(x);
-        magnitude = c8_mag(x);
-
-        value = magnitude switch
+        Complex value = magnitude switch
         {
             0.0 => new Complex(0.0, 0.0),
             _ => Math.Pow(magnitude, 1.0 / 3.0) * new Complex(Math.Cos(argument / 3.0), Math.Sin(argument / 3.0))
@@ -645,20 +594,15 @@ public static partial class typeMethods
         //    Output, Complex C8_DIV, the function value.
         //
     {
-        double c2_norm;
-        Complex c3;
-        double c3_imag;
-        double c3_real;
+        double c2_norm = c8_abs(c2);
 
-        c2_norm = c8_abs(c2);
+        double c3_real = (c1.Real * c2.Real
+                          + c1.Imaginary * c2.Imaginary) / c2_norm / c2_norm;
 
-        c3_real = (c1.Real * c2.Real
-                   + c1.Imaginary * c2.Imaginary) / c2_norm / c2_norm;
+        double c3_imag = (c1.Imaginary * c2.Real
+                          - c1.Real * c2.Imaginary) / c2_norm / c2_norm;
 
-        c3_imag = (c1.Imaginary * c2.Real
-                   - c1.Real * c2.Imaginary) / c2_norm / c2_norm;
-
-        c3 = new Complex(c3_real, c3_imag);
+        Complex c3 = new Complex(c3_real, c3_imag);
 
         return c3;
     }
@@ -692,9 +636,7 @@ public static partial class typeMethods
         //    Output, Complex C8_DIV_R8, the function value.
         //
     {
-        Complex c2;
-
-        c2 = c1 / r;
+        Complex c2 = c1 / r;
 
         return c2;
     }
@@ -726,9 +668,7 @@ public static partial class typeMethods
         //    Output, Complex C8_EXP, the function value.
         //
     {
-        Complex c2;
-
-        c2 = Complex.Exp(c1);
+        Complex c2 = Complex.Exp(c1);
 
         return c2;
     }
@@ -762,9 +702,7 @@ public static partial class typeMethods
         //    Output, Complex C8_I, the value of complex i.
         //
     {
-        Complex value;
-
-        value = new Complex(0.0, 1.0);
+        Complex value = new Complex(0.0, 1.0);
 
         return value;
     }
@@ -796,9 +734,7 @@ public static partial class typeMethods
         //    Output, double C8_IMAG, the function value.
         //
     {
-        double value = 0;
-
-        value = c.Imaginary;
+        double value = c.Imaginary;
 
         return value;
     }
@@ -830,9 +766,7 @@ public static partial class typeMethods
         //    Output, Complex C8_INV, the function value;
         //
     {
-        Complex c2;
-
-        c2 = 1.0 / c1;
+        Complex c2 = 1.0 / c1;
 
         return c2;
     }
@@ -872,17 +806,8 @@ public static partial class typeMethods
         //    Output, bool C8_LE_L1, is TRUE if X <= Y.
         //
     {
-        bool value;
-
-        if (Math.Abs(x.Real) + Math.Abs(x.Imaginary) <=
-            Math.Abs(y.Real) + Math.Abs(y.Imaginary))
-        {
-            value = true;
-        }
-        else
-        {
-            value = false;
-        }
+        bool value = Math.Abs(x.Real) + Math.Abs(x.Imaginary) <=
+                     Math.Abs(y.Real) + Math.Abs(y.Imaginary);
 
         return value;
     }
@@ -922,17 +847,8 @@ public static partial class typeMethods
         //    Output, bool C8_LE_L2, is TRUE if X <= Y.
         //
     {
-        bool value;
-
-        if (Math.Pow(x.Real, 2) + Math.Pow(x.Imaginary, 2) <=
-            Math.Pow(y.Real, 2) + Math.Pow(y.Imaginary, 2))
-        {
-            value = true;
-        }
-        else
-        {
-            value = false;
-        }
+        bool value = Math.Pow(x.Real, 2) + Math.Pow(x.Imaginary, 2) <=
+                     Math.Pow(y.Real, 2) + Math.Pow(y.Imaginary, 2);
 
         return value;
     }
@@ -972,17 +888,8 @@ public static partial class typeMethods
         //    Output, bool C8_LE_LI, is TRUE if X <= Y.
         //
     {
-        bool value;
-
-        if (Math.Max(Math.Abs(x.Real), Math.Abs(x.Imaginary)) <=
-            Math.Max(Math.Abs(y.Real), Math.Abs(y.Imaginary)))
-        {
-            value = true;
-        }
-        else
-        {
-            value = false;
-        }
+        bool value = Math.Max(Math.Abs(x.Real), Math.Abs(x.Imaginary)) <=
+                     Math.Max(Math.Abs(y.Real), Math.Abs(y.Imaginary));
 
         return value;
     }
@@ -1020,14 +927,10 @@ public static partial class typeMethods
         //    Output, Complex C8_LOG, the function value.
         //
     {
-        double arg;
-        Complex c2;
-        double mag;
+        double arg = c8_arg(c1);
+        double mag = c8_mag(c1);
 
-        arg = c8_arg(c1);
-        mag = c8_mag(c1);
-
-        c2 = new Complex(Math.Log(mag), arg);
+        Complex c2 = new Complex(Math.Log(mag), arg);
 
         return c2;
     }
@@ -1063,9 +966,7 @@ public static partial class typeMethods
         //    Output, double C8_MAG, the magnitude of X.
         //
     {
-        double magnitude;
-
-        magnitude = Math.Sqrt(Math.Pow(x.Real, 2) + Math.Pow(x.Imaginary, 2));
+        double magnitude = Math.Sqrt(Math.Pow(x.Real, 2) + Math.Pow(x.Imaginary, 2));
 
         return magnitude;
     }
@@ -1097,9 +998,7 @@ public static partial class typeMethods
         //    Output, Complex C8_MUL, the function value.
         //
     {
-        Complex c3;
-
-        c3 = c1 * c2;
+        Complex c3 = c1 * c2;
 
         return c3;
     }
@@ -1131,9 +1030,7 @@ public static partial class typeMethods
         //    Output, Complex C8_NEG, the function value.
         //
     {
-        Complex c2;
-
-        c2 = -c1;
+        Complex c2 = -c1;
 
         return c2;
     }
@@ -1169,27 +1066,17 @@ public static partial class typeMethods
         //    Output, Complex C8_NINT, the NINT'ed value.
         //
     {
-        double r;
-        double r_min;
-        double x;
-        double x_min;
-        double xc;
-        double y;
-        double y_min;
-        double yc;
-        Complex value;
-
-        xc = c1.Real;
-        yc = c1.Imaginary;
+        double xc = c1.Real;
+        double yc = c1.Imaginary;
         //
         //  Lower left.
         //
-        x = Math.Floor(c1.Real);
-        y = Math.Floor(c1.Imaginary);
-        r = Math.Pow(x - xc, 2) + Math.Pow(y - yc, 2);
-        r_min = r;
-        x_min = x;
-        y_min = y;
+        double x = Math.Floor(c1.Real);
+        double y = Math.Floor(c1.Imaginary);
+        double r = Math.Pow(x - xc, 2) + Math.Pow(y - yc, 2);
+        double r_min = r;
+        double x_min = x;
+        double y_min = y;
         //
         //  Lower right.
         //
@@ -1229,7 +1116,7 @@ public static partial class typeMethods
             y_min = y;
         }
 
-        value = new Complex(x_min, y_min);
+        Complex value = new Complex(x_min, y_min);
 
         return value;
     }
@@ -1271,9 +1158,7 @@ public static partial class typeMethods
         //    Output, double C8_NORM_L1, the norm of X.
         //
     {
-        double value = 0;
-
-        value = Math.Abs(x.Real) + Math.Abs(x.Imaginary);
+        double value = Math.Abs(x.Real) + Math.Abs(x.Imaginary);
 
         return value;
     }
@@ -1315,10 +1200,8 @@ public static partial class typeMethods
         //    Output, double C8_NORM_L2, the 2-norm of X.
         //
     {
-        double value = 0;
-
-        value = Math.Sqrt(Math.Pow(x.Real, 2)
-                          + Math.Pow(x.Imaginary, 2));
+        double value = Math.Sqrt(Math.Pow(x.Real, 2)
+                                 + Math.Pow(x.Imaginary, 2));
 
         return value;
     }
@@ -1360,9 +1243,7 @@ public static partial class typeMethods
         //    Output, double C8_NORM_LI, the L-oo norm of X.
         //
     {
-        double value = 0;
-
-        value = Math.Max(Math.Abs(x.Real), Math.Abs(x.Imaginary));
+        double value = Math.Max(Math.Abs(x.Real), Math.Abs(x.Imaginary));
 
         return value;
     }
@@ -1398,20 +1279,13 @@ public static partial class typeMethods
         //    Output, Complex C8_NORMAL_01, a unit pseudornormal value.
         //
     {
-            
-        double v1;
-        double v2;
-        double x_c;
-        double x_r;
-        Complex value;
+        double v1 = UniformRNG.r8_uniform_01(ref seed);
+        double v2 = UniformRNG.r8_uniform_01(ref seed);
 
-        v1 = UniformRNG.r8_uniform_01(ref seed);
-        v2 = UniformRNG.r8_uniform_01(ref seed);
+        double x_r = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
+        double x_c = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
 
-        x_r = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
-        x_c = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
-
-        value = new Complex(x_r, x_c);
+        Complex value = new Complex(x_r, x_c);
 
         return value;
     }
@@ -1441,9 +1315,7 @@ public static partial class typeMethods
         //    Output, Complex C8_ONE, the value of complex 1.
         //
     {
-        Complex value;
-
-        value = new Complex(1.0, 0.0);
+        Complex value = new Complex(1.0, 0.0);
 
         return value;
     }
@@ -1511,9 +1383,7 @@ public static partial class typeMethods
         //    Output, double C8_REAL, the function value.
         //
     {
-        double value = 0;
-
-        value = c.Real;
+        double value = c.Real;
 
         return value;
     }
@@ -1551,31 +1421,20 @@ public static partial class typeMethods
         //    Output, Complex C8_SIN, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
-        Complex c7;
-        Complex c8;
-        Complex c9;
-        Complex cx;
-        double r;
+        Complex c2 = c8_i();
 
-        c2 = c8_i();
+        Complex c3 = c8_mul(c2, c1);
+        Complex c4 = c8_exp(c3);
 
-        c3 = c8_mul(c2, c1);
-        c4 = c8_exp(c3);
+        Complex c5 = c8_neg(c3);
+        Complex c6 = c8_exp(c5);
 
-        c5 = c8_neg(c3);
-        c6 = c8_exp(c5);
+        Complex c7 = c8_sub(c4, c6);
 
-        c7 = c8_sub(c4, c6);
-
-        r = 2.0;
-        c8 = c8_div_r8(c7, r);
-        c9 = c8_mul(c8, c2);
-        cx = c8_neg(c9);
+        const double r = 2.0;
+        Complex c8 = c8_div_r8(c7, r);
+        Complex c9 = c8_mul(c8, c2);
+        Complex cx = c8_neg(c9);
 
         return cx;
     }
@@ -1613,22 +1472,15 @@ public static partial class typeMethods
         //    Output, Complex C8_SINH, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
-        double r;
+        Complex c2 = c8_exp(c1);
 
-        c2 = c8_exp(c1);
+        Complex c3 = c8_neg(c1);
+        Complex c4 = c8_exp(c3);
 
-        c3 = c8_neg(c1);
-        c4 = c8_exp(c3);
+        Complex c5 = c8_sub(c2, c4);
 
-        c5 = c8_sub(c2, c4);
-
-        r = 2.0;
-        c6 = c8_div_r8(c5, r);
+        const double r = 2.0;
+        Complex c6 = c8_div_r8(c5, r);
 
         return c6;
     }
@@ -1664,14 +1516,10 @@ public static partial class typeMethods
         //    Output, Complex C8_SQRT, the square root of X.
         //
     {
-        double argument;
-        double magnitude;
-        Complex value;
+        double argument = c8_arg(x);
+        double magnitude = c8_mag(x);
 
-        argument = c8_arg(x);
-        magnitude = c8_mag(x);
-
-        value = magnitude switch
+        Complex value = magnitude switch
         {
             0.0 => new Complex(0.0, 0.0),
             _ => Math.Sqrt(magnitude) * new Complex(Math.Cos(argument / 2.0), Math.Sin(argument / 2.0))
@@ -1707,9 +1555,7 @@ public static partial class typeMethods
         //    Output, Complex C8_SUB, the function value.
         //
     {
-        Complex c3;
-
-        c3 = c1 - c2;
+        Complex c3 = c1 - c2;
 
         return c3;
     }
@@ -1744,11 +1590,7 @@ public static partial class typeMethods
         //    Y have been interchanged.
         //
     {
-        Complex z;
-
-        z = x;
-        x = y;
-        y = z;
+        (x, y) = (y, x);
     }
 
     public static Complex c8_tan(Complex c1)
@@ -1785,30 +1627,19 @@ public static partial class typeMethods
         //    Output, Complex C8_TAN, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
-        Complex c7;
-        Complex c8;
-        Complex c9;
-        Complex cx;
-        Complex ce;
+        Complex c2 = c8_i();
+        Complex c3 = c8_mul(c2, c1);
+        Complex c4 = c8_neg(c3);
 
-        c2 = c8_i();
-        c3 = c8_mul(c2, c1);
-        c4 = c8_neg(c3);
+        Complex c5 = c8_exp(c3);
+        Complex c6 = c8_exp(c4);
 
-        c5 = c8_exp(c3);
-        c6 = c8_exp(c4);
+        Complex c7 = c8_sub(c5, c6);
+        Complex c8 = c8_add(c5, c6);
 
-        c7 = c8_sub(c5, c6);
-        c8 = c8_add(c5, c6);
-
-        c9 = c8_div(c7, c8);
-        cx = c8_mul(c2, c9);
-        ce = c8_neg(cx);
+        Complex c9 = c8_div(c7, c8);
+        Complex cx = c8_mul(c2, c9);
+        Complex ce = c8_neg(cx);
 
         return ce;
     }
@@ -1840,22 +1671,15 @@ public static partial class typeMethods
         //    Output, Complex C8_TANH, the function value.
         //
     {
-        Complex c2;
-        Complex c3;
-        Complex c4;
-        Complex c5;
-        Complex c6;
-        Complex c7;
+        Complex c2 = c8_exp(c1);
 
-        c2 = c8_exp(c1);
+        Complex c3 = c8_neg(c1);
+        Complex c4 = c8_exp(c3);
 
-        c3 = c8_neg(c1);
-        c4 = c8_exp(c3);
+        Complex c5 = c8_sub(c2, c4);
+        Complex c6 = c8_add(c2, c4);
 
-        c5 = c8_sub(c2, c4);
-        c6 = c8_add(c2, c4);
-
-        c7 = c8_div(c5, c6);
+        Complex c7 = c8_div(c5, c6);
 
         return c7;
     }
@@ -1959,11 +1783,18 @@ public static partial class typeMethods
         //    Output, Complex C8_UNIFORM_01, a pseudorandom complex value.
         //
     {
-        double r;
-        int k;
-            
-        double theta;
-        Complex value;
+        int k = seed / 127773;
+
+        seed = 16807 * (seed - k * 127773) - k * 2836;
+
+        switch (seed)
+        {
+            case < 0:
+                seed += 2147483647;
+                break;
+        }
+
+        double r = Math.Sqrt(seed * 4.656612875E-10);
 
         k = seed / 127773;
 
@@ -1976,22 +1807,9 @@ public static partial class typeMethods
                 break;
         }
 
-        r = Math.Sqrt(seed * 4.656612875E-10);
+        double theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
 
-        k = seed / 127773;
-
-        seed = 16807 * (seed - k * 127773) - k * 2836;
-
-        switch (seed)
-        {
-            case < 0:
-                seed += 2147483647;
-                break;
-        }
-
-        theta = 2.0 * Math.PI * (seed * 4.656612875E-10);
-
-        value = r * new Complex(Math.Cos(theta), Math.Sin(theta));
+        Complex value = r * new Complex(Math.Cos(theta), Math.Sin(theta));
 
         return value;
     }
@@ -2025,9 +1843,7 @@ public static partial class typeMethods
         //    Output, Complex C8_ZERO, the value of complex 0.
         //
     {
-        Complex value;
-
-        value = new Complex(0.0, 0.0);
+        Complex value = new Complex(0.0, 0.0);
 
         return value;
     }

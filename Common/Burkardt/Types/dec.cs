@@ -139,7 +139,6 @@ public static partial class typeMethods
         //    Output, bool &ERROR is true if an error occurred.
         //
     {
-        double dval;
         int exponent3 = 0;
         int mantissa3 = 0;
 
@@ -200,7 +199,7 @@ public static partial class typeMethods
         //
         //  General case.
         //
-        dval = mantissa1 / (double)mantissa2;
+        double dval = mantissa1 / (double)mantissa2;
 
         r8_to_dec(dval, dec_digit, ref mantissa3, ref exponent3);
 
@@ -252,10 +251,8 @@ public static partial class typeMethods
         //    Output, int &MANTISSA, &EXPONENT, the product.
         //
     {
-        double dval;
         int exponent3 = 0;
         int mantissa3 = 0;
-        double temp;
         //
         //  The result is zero if either MANTISSA1 or MANTISSA2 is zero.
         //
@@ -276,8 +273,8 @@ public static partial class typeMethods
             return;
         }
 
-        temp = Math.Log(Math.Abs(mantissa1))
-               + Math.Log(Math.Abs(mantissa2));
+        double temp = Math.Log(Math.Abs(mantissa1))
+                      + Math.Log(Math.Abs(mantissa2));
 
         if (temp < Math.Log(i4_huge()))
         {
@@ -286,7 +283,7 @@ public static partial class typeMethods
         }
         else
         {
-            dval = mantissa1 * (double)mantissa2;
+            double dval = mantissa1 * (double)mantissa2;
 
             r8_to_dec(dval, dec_digit, ref mantissa3, ref exponent3);
 
@@ -338,8 +335,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int limit;
-        int sgn;
 
         mantissa2 = mantissa1;
         exponent2 = exponent1;
@@ -356,7 +351,7 @@ public static partial class typeMethods
         //
         //  Record the sign of MANTISSA.
         //
-        sgn = 1;
+        int sgn = 1;
         switch (mantissa2)
         {
             case < 0:
@@ -368,7 +363,7 @@ public static partial class typeMethods
         //
         //  If MANTISSA is too big, knock it down.
         //
-        limit = 1;
+        int limit = 1;
         for (i = 1; i <= dec_digit; i++)
         {
             limit *= 10;
@@ -432,9 +427,7 @@ public static partial class typeMethods
         //    Output, double DEC_TO_R8, the real value of the decimal.
         //
     {
-        double value = 0;
-
-        value = mantissa * Math.Pow(10.0, exponent);
+        double value = mantissa * Math.Pow(10.0, exponent);
 
         return value;
     }
@@ -472,7 +465,6 @@ public static partial class typeMethods
         //    Output, int &RAT_TOP, &RAT_BOT, the rational value.
         //
     {
-        int gcd;
         int i;
 
         switch (exponent)
@@ -501,7 +493,7 @@ public static partial class typeMethods
                     rat_bot *= 10;
                 }
 
-                gcd = i4_gcd(rat_top, rat_bot);
+                int gcd = i4_gcd(rat_top, rat_bot);
                 rat_top /= gcd;
                 rat_bot /= gcd;
                 break;
@@ -562,18 +554,11 @@ public static partial class typeMethods
         //    Output, char *S, the representation of the value.
         //
     {
-        int digit;
         int i;
-        int mantissa_exponent;
-        int mantissa_exponent_copy;
-        int mantissa_10;
-        int pos;
-        char[] s;
-        int s_length;
 
-        s_length = dec_width(mantissa, exponent) + 1;
+        int s_length = dec_width(mantissa, exponent) + 1;
 
-        s = new char[s_length];
+        char[] s = new char[s_length];
 
         for (i = 0; i < s_length - 1; i++)
         {
@@ -588,7 +573,7 @@ public static partial class typeMethods
                 return string.Join("",s);
         }
 
-        pos = 0;
+        int pos = 0;
 
         switch (mantissa)
         {
@@ -599,8 +584,8 @@ public static partial class typeMethods
                 break;
         }
 
-        mantissa_exponent = (int)Math.Log10(mantissa) + 1;
-        mantissa_10 = (int)Math.Pow(10, mantissa_exponent - 1);
+        int mantissa_exponent = (int)Math.Log10(mantissa) + 1;
+        int mantissa_10 = (int)Math.Pow(10, mantissa_exponent - 1);
         switch (mantissa_exponent + exponent)
         {
             //
@@ -626,11 +611,11 @@ public static partial class typeMethods
         //
         //  Print the digits of the mantissa.
         //
-        mantissa_exponent_copy = mantissa_exponent;
+        int mantissa_exponent_copy = mantissa_exponent;
 
         for (i = 0; i < mantissa_exponent; i++)
         {
-            digit = mantissa / mantissa_10;
+            int digit = mantissa / mantissa_10;
             mantissa %= mantissa_10;
             s[pos] = digit.ToString()[0];
             pos += 1;
@@ -729,13 +714,10 @@ public static partial class typeMethods
         //    Output, int DEC_WIDTH, the "width" of the decimal number.
         //
     {
-        int mantissa_abs;
-        int ten_pow;
-        int value;
         //
         //  Special case of 0.
         //
-        value = 1;
+        int value = 1;
 
         switch (mantissa)
         {
@@ -748,8 +730,8 @@ public static partial class typeMethods
         //  The exponent of that power of 10 is our first estimate for 
         //  the number of places.
         //
-        ten_pow = 10;
-        mantissa_abs = Math.Abs(mantissa);
+        int ten_pow = 10;
+        int mantissa_abs = Math.Abs(mantissa);
 
         while (ten_pow <= mantissa_abs)
         {

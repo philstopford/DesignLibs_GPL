@@ -60,7 +60,7 @@ public static partial class typeMethods
                     istate = 1;
                     isgn = + 1;
                     break;
-                case 0 when '0' <= c && c <= '9':
+                case 0 when c is >= '0' and <= '9':
                     istate = 2;
                     ival.val = c - '0';
                     break;
@@ -72,7 +72,7 @@ public static partial class typeMethods
                 //
                 case 1 when c == ' ':
                     break;
-                case 1 when '0' <= c && c <= '9':
+                case 1 when c is >= '0' and <= '9':
                     istate = 2;
                     ival.val = c - '0';
                     break;
@@ -82,7 +82,7 @@ public static partial class typeMethods
                 //
                 //  Have read at least one digit, expecting more.
                 //
-                case 2 when '0' <= c && c <= '9':
+                case 2 when c is >= '0' and <= '9':
                     ival.val = 10 * ival.val + c - '0';
                     break;
                 case 2:

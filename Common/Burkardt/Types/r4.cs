@@ -135,7 +135,7 @@ public static partial class typeMethods
     {
         r4 ret = new() {lchar = -1};
         float rexp;
-        char TAB = (char) 9;
+        const char TAB = (char) 9;
 
         int nchar = s_len_trim ( s );
         int isgn = 1;
@@ -154,7 +154,7 @@ public static partial class typeMethods
             //
             //  Blank or TAB character.
             //
-            if ( c == ' ' || c == TAB )
+            if ( c is ' ' or TAB )
             {
                 switch (ihave)
                 {
@@ -220,7 +220,7 @@ public static partial class typeMethods
                     case '.' when ihave < 4:
                         ihave = 4;
                         break;
-                    case '.' when 6 <= ihave && ihave <= 8:
+                    case '.' when ihave is >= 6 and <= 8:
                         ihave = 9;
                         break;
                     case '.':
@@ -251,7 +251,7 @@ public static partial class typeMethods
                             {
                                 switch (ihave)
                                 {
-                                    case < 11 when '0' <= c && c <= '9':
+                                    case < 11 when c is >= '0' and <= '9':
                                     {
                                         switch (ihave)
                                         {

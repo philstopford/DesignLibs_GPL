@@ -65,8 +65,6 @@ public static partial class typeMethods
         //    Output, int &I, &J, the Pascal indices.
         //
     {
-        int d;
-
         switch (k)
         {
             case <= 0:
@@ -76,7 +74,7 @@ public static partial class typeMethods
                 return;
         }
 
-        d = i4_to_pascal_degree(k);
+        int d = i4_to_pascal_degree(k);
 
         j = k - d * (d + 1) / 2 - 1;
         i = d - j;
@@ -167,9 +165,6 @@ public static partial class typeMethods
         //     Pascal indices.
         //
     {
-        double arg;
-        int d;
-
         switch (k)
         {
             case <= 0:
@@ -179,9 +174,9 @@ public static partial class typeMethods
                 return 1;
         }
 
-        arg = 1 + 8 * (k - 1);
+        double arg = 1 + 8 * (k - 1);
 
-        d = (int) (0.5 * (-1.0 + Math.Sqrt(arg)));
+        int d = (int) (0.5 * (-1.0 + Math.Sqrt(arg)));
 
         return d;
     }
@@ -247,9 +242,6 @@ public static partial class typeMethods
         //    Output, int PASCAL_TO_I4, the linear index of the (I,J) element.
         //
     {
-        int d;
-        int k;
-
         switch (i)
         {
             case < 0:
@@ -270,9 +262,9 @@ public static partial class typeMethods
                 return 1;
         }
 
-        d = i + j;
+        int d = i + j;
 
-        k = d * (d + 1) / 2 + j + 1;
+        int k = d * (d + 1) / 2 + j + 1;
 
         return k;
     }

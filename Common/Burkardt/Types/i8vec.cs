@@ -71,12 +71,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, ivec.Length);
 
-        if (n == ivec.Length)
-        {
-            return ivec.Max();
-        }
-            
-        return ivec.Take(n).Max();
+        return n == ivec.Length ? ivec.Max() : ivec.Take(n).Max();
     }
         
     public static long i8vec_min ( int n, long[] ivec )
@@ -90,12 +85,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, ivec.Length);
 
-        if (n == ivec.Length)
-        {
-            return ivec.Min();
-        }
-                    
-        return ivec.Take(n).Min();
+        return n == ivec.Length ? ivec.Min() : ivec.Take(n).Min();
     }
         
     public static void i8vec_print ( int n, long[] a, string title )
@@ -203,12 +193,7 @@ public static partial class typeMethods
         // Limit to the number of items in the array as a maximum
         n = Math.Min(n, x.Length);
 
-        if (n == x.Length)
-        {
-            return x.Average();
-        }
-                    
-        return x.Take(n).Average();
+        return n == x.Length ? x.Average() : x.Take(n).Average();
     }
 
 }

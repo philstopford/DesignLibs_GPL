@@ -167,13 +167,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         int[] amax = new int[m];
 
         for (i = 0; i < m; i++)
         {
             amax[i] = a[i + 0 * m];
 
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (amax[i] < a[i + j * m])
@@ -225,12 +225,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         double[] mean = new double[m];
 
         for (i = 0; i < m; i++)
         {
             mean[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 mean[i] += a[i + j * m];
@@ -281,12 +281,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         int[] amin = new int[m];
 
         for (i = 0; i < m; i++)
         {
             amin[i] = a[i + 0 * m];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (a[i + j * m] < amin[i])
@@ -366,17 +366,13 @@ public static partial class typeMethods
         //    lexicographic order.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
         //
         //  Initialize.
         //
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         //
         //  Call the external heap sorter.
         //
@@ -399,11 +395,10 @@ public static partial class typeMethods
             {
                 isgn = i4row_compare ( m, n, a, i, j );
             }
-            else if ( indx == 0 )
+            else
             {
                 break;
             }
-
         }
     }
         
@@ -446,10 +441,9 @@ public static partial class typeMethods
         //    These indices should be between 1 and M.
         //
     {
-        int OFFSET = 1;
+        const int OFFSET = 1;
 
         int j;
-        int t;
         //
         //  Check.
         //
@@ -475,9 +469,7 @@ public static partial class typeMethods
         }
         for ( j = 0; j < n; j++ )
         {
-            t                   = a[irow1-OFFSET+j*m];
-            a[irow1-OFFSET+j*m] = a[irow2-OFFSET+j*m];
-            a[irow2-OFFSET+j*m] = t;
+            (a[irow1-OFFSET+j*m], a[irow2-OFFSET+j*m]) = (a[irow2-OFFSET+j*m], a[irow1-OFFSET+j*m]);
         }
     }
         
@@ -510,13 +502,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double mean;
         double[] variance = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 mean += a[i + j * m];
@@ -577,14 +568,13 @@ public static partial class typeMethods
         //    Output, int I4ROWS_COPY_NEW[M*N], the copy of A1.
         //
     {
-        int[] a2;
         int i;
-        int j;
 
-        a2 = new int[m*n];
+        int[] a2 = new int[m*n];
 
         for ( i = 0; i < m; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 a2[i*n+j] = a1[i*n+j];
@@ -625,14 +615,13 @@ public static partial class typeMethods
         //    Output, int I4ROWS_ZEROS_NEW[M*N], the new zeroed matrix.
         //
     {
-        int[] a;
         int i;
-        int j;
 
-        a = new int[m*n];
+        int[] a = new int[m*n];
 
         for ( i = 0; i < m; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 a[i*n+j] = 0;

@@ -61,10 +61,9 @@ public static partial class typeMethods
         //    Output, double R83_NP_DET, the determinant of the matrix.
         //
     {
-        double det;
         int j;
 
-        det = 1.0;
+        double det = 1.0;
         for ( j = 0; j < n; j++ )
         {
             det *= a_lu[1+j*3];
@@ -229,8 +228,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] x;
-        double xmult;
         //
         //  Check.
         //
@@ -243,7 +240,7 @@ public static partial class typeMethods
             }
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -252,7 +249,7 @@ public static partial class typeMethods
 
         for (i = 1; i < n; i++)
         {
-            xmult = a[2 + (i - 1) * 3] / a[1 + (i - 1) * 3];
+            double xmult = a[2 + (i - 1) * 3] / a[1 + (i - 1) * 3];
             a[1 + i * 3] -= xmult * a[0 + i * 3];
             x[i] -= xmult * x[i - 1];
         }
@@ -330,10 +327,9 @@ public static partial class typeMethods
         //    nonzero, compute A' * x.
         //
     {
-        double[] b;
         int i;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {

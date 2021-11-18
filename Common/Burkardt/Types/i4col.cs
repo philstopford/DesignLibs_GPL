@@ -55,7 +55,6 @@ public static partial class typeMethods
         //    +1, column J < column I.
         //
     {
-        int k;
         switch (i)
         {
             //
@@ -98,7 +97,7 @@ public static partial class typeMethods
             return 0;
         }
 
-        k = 1;
+        int k = 1;
 
         while (k <= m)
         {
@@ -161,11 +160,11 @@ public static partial class typeMethods
         //    ROW = COL = -1.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (table[i + j * m] == item)
@@ -228,17 +227,16 @@ public static partial class typeMethods
         //    by ITEM2.
         //
     {
-        int i;
-        int i2;
         int j;
 
         for (j = 1; j <= n; j++)
         {
+            int i;
             for (i = 1; i <= m; i++)
             {
                 if (a[i - 1 + (j - 1) * m] == item1)
                 {
-                    i2 = i + 1;
+                    int i2 = i + 1;
 
                     if (m < i2)
                     {
@@ -293,11 +291,6 @@ public static partial class typeMethods
         //
     {
         int col;
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        int temp;
 
         SortHeapExternalData data = new();
 
@@ -317,10 +310,10 @@ public static partial class typeMethods
         //
         for ( col = 0; col < n; col++ )
         {
-            i = 0;
-            indx = 0;
-            isgn = 0;
-            j = 0;
+            int i = 0;
+            int indx = 0;
+            int isgn = 0;
+            int j = 0;
             //
             //  Call the external heap sorter.
             //
@@ -332,9 +325,7 @@ public static partial class typeMethods
                 //
                 if ( 0 < indx )
                 {
-                    temp         = a[i-1+col*m];
-                    a[i-1+col*m] = a[j-1+col*m];
-                    a[j-1+col*m] = temp;
+                    (a[i-1+col*m], a[j-1+col*m]) = (a[j-1+col*m], a[i-1+col*m]);
                 }
                 //
                 //  Compare the I and J objects.
@@ -350,7 +341,7 @@ public static partial class typeMethods
                         isgn = -1;
                     }
                 }
-                else if ( indx == 0 )
+                else
                 {
                     break;
                 }
@@ -402,17 +393,13 @@ public static partial class typeMethods
         //    lexicographic order.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
         //
         //  Initialize.
         //
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         //
         //  Call the external heap sorter.
         //
@@ -434,11 +421,10 @@ public static partial class typeMethods
             {
                 isgn = i4col_compare(m, n, a, i, j);
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
-
         }
     }
 
@@ -476,8 +462,6 @@ public static partial class typeMethods
         //    Output, int I4COL_SORTED_UNIQUE_COUNT, the number of unique columns.
         //
     {
-        int i;
-        int j1;
         int j2;
         int unique_num;
 
@@ -489,18 +473,21 @@ public static partial class typeMethods
         }
 
         unique_num = 1;
-        j1 = 0;
+        int j1 = 0;
 
         for (j2 = 1; j2 < n; j2++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
-                if (a[i + j1 * m] != a[i + j2 * m])
+                if (a[i + j1 * m] == a[i + j2 * m])
                 {
-                    unique_num += 1;
-                    j1 = j2;
-                    break;
+                    continue;
                 }
+
+                unique_num += 1;
+                j1 = j2;
+                break;
             }
         }
 
@@ -546,10 +533,9 @@ public static partial class typeMethods
         //    These indices should be between 1 and N.
         //
     {
-        int OFFSET = 1;
+        const int OFFSET = 1;
 
         int i;
-        int t;
         //
         //  Check.
         //
@@ -576,9 +562,7 @@ public static partial class typeMethods
 
         for (i = 0; i < m; i++)
         {
-            t = a[i + (icol1 - OFFSET) * m];
-            a[i + (icol1 - OFFSET) * m] = a[i + (icol2 - OFFSET) * m];
-            a[i + (icol2 - OFFSET) * m] = t;
+            (a[i + (icol1 - OFFSET) * m], a[i + (icol2 - OFFSET) * m]) = (a[i + (icol2 - OFFSET) * m], a[i + (icol1 - OFFSET) * m]);
         }
     }
 }

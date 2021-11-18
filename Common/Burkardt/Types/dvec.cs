@@ -60,15 +60,10 @@ public static partial class typeMethods
         //    one vector with all elements positive and summing to NORM.
         //
     {
-        int a;
-        int c;
-        int[] fs;
         int i;
-        int row;
-        int[] seq;
 
-        seq = new int[d];
-        fs = new int[seq_num * d];
+        int[] seq = new int[d];
+        int[] fs = new int[seq_num * d];
 
         if (norm < d)
         {
@@ -88,16 +83,16 @@ public static partial class typeMethods
         //  allowed to be zero.  So we subtract D from NORM at the beginning and
         //  then increment the result vectors by 1 at the end!
         //
-        a = norm - d;
+        int a = norm - d;
         seq[0] = a;
 
-        row = 0;
+        int row = 0;
         for (i = 0; i < d; i++)
         {
             fs[row + i * seq_num] = seq[i] + 1;
         }
 
-        c = 0;
+        int c = 0;
 
         while (seq[d - 1] < a)
         {
@@ -186,7 +181,7 @@ public static partial class typeMethods
         //    Output, int DVEC3[N], the sum of the two input vectors.
         //
     {
-        int base_ = 10;
+        const int base_ = 10;
         int i;
 
         for (i = 0; i < n; i++)
@@ -249,13 +244,11 @@ public static partial class typeMethods
         //    Output, int DVEC2[N], the complemented vector.
         //
     {
-        int base_ = 10;
-        int[] dvec3;
-        int[] dvec4;
+        const int base_ = 10;
         int i;
 
-        dvec3 = new int[n];
-        dvec4 = new int[n];
+        int[] dvec3 = new int[n];
+        int[] dvec4 = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -316,18 +309,12 @@ public static partial class typeMethods
         //    Output, int DVEC3[N], the product of the two input vectors.
         //
     {
-        int base_ = 10;
-        int carry;
-        int[] dveca;
-        int[] dvecb;
-        int[] dvecc;
+        const int base_ = 10;
         int i;
-        int j;
-        int product_sign;
 
-        dveca = new int[n];
-        dvecb = new int[n];
-        dvecc = new int[n];
+        int[] dveca = new int[n];
+        int[] dvecb = new int[n];
+        int[] dvecc = new int[n];
         //
         //  Copy the input.
         //
@@ -345,7 +332,7 @@ public static partial class typeMethods
         //  Record the sign of the product.
         //  Make the factors positive.
         //
-        product_sign = 1;
+        int product_sign = 1;
 
         if (dveca[n - 1] != 0)
         {
@@ -369,6 +356,7 @@ public static partial class typeMethods
         //
         for (i = 1; i <= n - 1; i++)
         {
+            int j;
             for (j = i; j <= n - 1; j++)
             {
                 dvecc[j - 1] += dveca[i - 1] * dvecb[j - i];
@@ -382,7 +370,7 @@ public static partial class typeMethods
         //
         for (i = 0; i < n - 1; i++)
         {
-            carry = dvecc[i] / base_;
+            int carry = dvecc[i] / base_;
             dvecc[i] -= carry * base_;
 
             if (i < n - 2)
@@ -564,20 +552,17 @@ public static partial class typeMethods
         //    Output, int DVEC_TO_I4, the integer.
         //
     {
-        int base_ = 10;
-        int[] dvec2;
+        const int base_ = 10;
         int i;
-        int i_sign;
-        int i4;
 
-        dvec2 = new int[n];
+        int[] dvec2 = new int[n];
 
         for (i = 0; i < n; i++)
         {
             dvec2[i] = dvec[i];
         }
 
-        i_sign = 1;
+        int i_sign = 1;
 
         if (dvec2[n - 1] == base_ - 1)
         {
@@ -585,7 +570,7 @@ public static partial class typeMethods
             dvec_complementx(n - 1, dvec2, ref dvec2);
         }
 
-        i4 = 0;
+        int i4 = 0;
         for (i = n - 2; 0 <= i; i--)
         {
             i4 = base_ * i4 + dvec2[i];

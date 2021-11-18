@@ -78,15 +78,7 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        Complex c;
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int incx = 4;
-        int j;
-        int j2;
-        int j2hi;
+        const int incx = 4;
         int j2lo;
 
         Console.WriteLine("");
@@ -104,14 +96,16 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= Math.Min(jhi, n); j2lo += incx)
         {
-            j2hi = j2lo + incx - 1;
+            int j2hi = j2lo + incx - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
             string cout = "  Col: ";
+            int j2;
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
@@ -124,9 +118,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, m);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, m);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(5) + ":";
@@ -136,7 +131,7 @@ public static partial class typeMethods
                 for (j2 = 1; j2 <= inc; j2++)
                 {
                     j = j2lo - 1 + j2;
-                    c = a[i - 1 + (j - 1) * m];
+                    Complex c = a[i - 1 + (j - 1) * m];
                     cout += "  " + c.Real.ToString().PadLeft(8)
                                  + "  " + c.Imaginary.ToString().PadLeft(8);
                 }

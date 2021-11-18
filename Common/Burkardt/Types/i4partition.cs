@@ -85,8 +85,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int itemp;
-        int itest;
 
         for (i = 0; i < n; i++)
         {
@@ -100,13 +98,13 @@ public static partial class typeMethods
 
         npart2 = 0;
 
-        itest = 0;
+        int itest = 0;
 
         for (;;)
         {
             itest += 1;
 
-            itemp = 0;
+            int itemp = 0;
 
             for (i = 0; i < npart1; i++)
             {
@@ -206,9 +204,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int pj;
-        int sgn;
 
         p[0] = 1;
 
@@ -216,9 +211,10 @@ public static partial class typeMethods
         {
             p[i] = 0;
 
-            j = 0;
-            sgn = 1;
+            int j = 0;
+            int sgn = 1;
 
+            int pj;
             for (;;)
             {
                 j += 1;
@@ -308,11 +304,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int[] p;
-        int s;
-        int t;
-        int total;
 
         switch (n)
         {
@@ -320,7 +311,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        p = new int[n + 1];
+        int[] p = new int[n + 1];
 
         p[0] = 1;
 
@@ -334,12 +325,13 @@ public static partial class typeMethods
 
         for (i = 2; i <= n; i++)
         {
-            total = 0;
+            int total = 0;
 
+            int t;
             for (t = 1; t <= i; t++)
             {
-                s = 0;
-                j = i;
+                int s = 0;
+                int j = i;
 
                 for (;;)
                 {
@@ -551,14 +543,6 @@ public static partial class typeMethods
         //    Output, int &NPART, the number of "parts" in the partition.
         //
     {
-        int i;
-        int is_;
-        int iu;
-        int iv;
-        int iw;
-        int k;
-        int k1;
-
         switch (n)
         {
             case <= 0:
@@ -574,6 +558,7 @@ public static partial class typeMethods
             case true:
             {
                 a[0] = n;
+                int i;
                 for (i = 1; i < n; i++)
                 {
                     a[i] = 0;
@@ -595,6 +580,8 @@ public static partial class typeMethods
                 {
                     done = false;
 
+                    int is_;
+                    int k;
                     switch (a[npart - 1])
                     {
                         case 1:
@@ -607,12 +594,12 @@ public static partial class typeMethods
                             break;
                     }
 
-                    iw = a[k - 1] - 1;
-                    iu = is_ / iw;
-                    iv = is_ % iw;
+                    int iw = a[k - 1] - 1;
+                    int iu = is_ / iw;
+                    int iv = is_ % iw;
                     mult[k - 1] -= 1;
 
-                    k1 = mult[k - 1] switch
+                    int k1 = mult[k - 1] switch
                     {
                         0 => k,
                         _ => k + 1
@@ -698,10 +685,6 @@ public static partial class typeMethods
         //    is returned FALSE
         //
     {
-        int iff;
-        int is_;
-        int isum;
-
         switch (more)
         {
             case false:
@@ -712,7 +695,7 @@ public static partial class typeMethods
                 return;
         }
 
-        isum = 1;
+        int isum = 1;
 
         switch (a[npart - 1])
         {
@@ -722,7 +705,7 @@ public static partial class typeMethods
                 break;
         }
 
-        iff = a[npart - 1] - 1;
+        int iff = a[npart - 1] - 1;
 
         if (mult[npart - 1] != 1)
         {
@@ -732,7 +715,7 @@ public static partial class typeMethods
 
         a[npart - 1] = iff;
         mult[npart - 1] = 1 + isum / iff;
-        is_ = isum % iff;
+        int is_ = isum % iff;
 
         switch (is_)
         {
@@ -874,13 +857,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int i1;
-        int id;
-        int j;
-        int m;
-        double z;
 
-        m = n;
+        int m = n;
         npart = 0;
         for (i = 0; i < n; i++)
         {
@@ -889,11 +867,11 @@ public static partial class typeMethods
 
         while (0 < m)
         {
-            z = UniformRNG.r8_uniform_01(ref seed);
+            double z = UniformRNG.r8_uniform_01(ref seed);
             z = m * table[m - 1] * z;
-            id = 1;
-            i1 = m;
-            j = 0;
+            int id = 1;
+            int i1 = m;
+            int j = 0;
 
             for (;;)
             {
@@ -924,13 +902,10 @@ public static partial class typeMethods
                     break;
                 }
 
-                if (0 < i1)
+                z -= id * table[i1 - 1];
+                if (z <= 0.0)
                 {
-                    z -= id * table[i1 - 1];
-                    if (z <= 0.0)
-                    {
-                        break;
-                    }
+                    break;
                 }
             }
 
@@ -947,12 +922,14 @@ public static partial class typeMethods
 
         for (i = 1; i <= n; i++)
         {
-            if (mult[i - 1] != 0)
+            if (mult[i - 1] == 0)
             {
-                npart += 1;
-                a[npart - 1] = i;
-                mult[npart - 1] = mult[i - 1];
+                continue;
             }
+
+            npart += 1;
+            a[npart - 1] = i;
+            mult[npart - 1] = mult[i - 1];
         }
 
         for (i = npart + 1; i <= n; i++)
@@ -1038,10 +1015,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int msum;
 
-        msum = m[0];
+        int msum = m[0];
 
         for (i = 1; i < s; i++)
         {
@@ -1054,6 +1029,7 @@ public static partial class typeMethods
             else
             {
                 m[0] = msum - i * (m[i] + 1);
+                int j;
                 for (j = 1; j <= i; j++)
                 {
                     m[j] = m[i] + 1;

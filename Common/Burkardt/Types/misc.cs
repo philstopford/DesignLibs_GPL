@@ -165,7 +165,6 @@ public static partial class typeMethods
         //    to ensure the requested accuracy.
         //
     {
-        double err;
         int i;
         int value;
 
@@ -178,16 +177,18 @@ public static partial class typeMethods
                 return 1;
         }
 
-        err = 0.0;
+        double err = 0.0;
 
         for (i = nos - 1; 0 <= i; i--)
         {
             err += Math.Abs(dos[i]);
-            if (eta < err)
+            if (!(eta < err))
             {
-                value = i + 1;
-                return value;
+                continue;
             }
+
+            value = i + 1;
+            return value;
         }
 
         value = i;
@@ -236,12 +237,8 @@ public static partial class typeMethods
         //    Output, double CSEVL, the Chebyshev series evaluated at X.
         //
     {
-        double b0;
-        double b1;
         double b2 = 0;
         int i;
-        double twox;
-        double value = 0;
 
         switch (n)
         {
@@ -267,9 +264,9 @@ public static partial class typeMethods
                 return 1;
         }
 
-        twox = 2.0 * x;
-        b1 = 0.0;
-        b0 = 0.0;
+        double twox = 2.0 * x;
+        double b1 = 0.0;
+        double b0 = 0.0;
 
         for (i = n - 1; 0 <= i; i--)
         {
@@ -278,7 +275,7 @@ public static partial class typeMethods
             b0 = twox * b1 - b2 + a[i];
         }
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -327,43 +324,29 @@ public static partial class typeMethods
         //     0, if the four vertices are cocircular.
         //
     {
-        double ca;
-        double cb;
-        double dx10;
-        double dx12;
-        double dx30;
-        double dx32;
-        double dy10;
-        double dy12;
-        double dy30;
-        double dy32;
-        double s;
-        double tol;
-        double tola;
-        double tolb;
         int value;
 
-        tol = 100.0 * r8_epsilon();
+        double tol = 100.0 * r8_epsilon();
 
-        dx10 = x1 - x0;
-        dy10 = y1 - y0;
-        dx12 = x1 - x2;
-        dy12 = y1 - y2;
-        dx30 = x3 - x0;
-        dy30 = y3 - y0;
-        dx32 = x3 - x2;
-        dy32 = y3 - y2;
+        double dx10 = x1 - x0;
+        double dy10 = y1 - y0;
+        double dx12 = x1 - x2;
+        double dy12 = y1 - y2;
+        double dx30 = x3 - x0;
+        double dy30 = y3 - y0;
+        double dx32 = x3 - x2;
+        double dy32 = y3 - y2;
 
-        tola = tol * Math.Max(Math.Abs(dx10),
+        double tola = tol * Math.Max(Math.Abs(dx10),
             Math.Max(Math.Abs(dy10),
                 Math.Max(Math.Abs(dx30), Math.Abs(dy30))));
 
-        tolb = tol * Math.Max(Math.Abs(dx12),
+        double tolb = tol * Math.Max(Math.Abs(dx12),
             Math.Max(Math.Abs(dy12),
                 Math.Max(Math.Abs(dx32), Math.Abs(dy32))));
 
-        ca = dx10 * dx30 + dy10 * dy30;
-        cb = dx12 * dx32 + dy12 * dy32;
+        double ca = dx10 * dx30 + dy10 * dy30;
+        double cb = dx12 * dx32 + dy12 * dy32;
 
         if (tola < ca && tolb < cb)
         {
@@ -376,8 +359,8 @@ public static partial class typeMethods
         else
         {
             tola = Math.Max(tola, tolb);
-            s = (dx10 * dy30 - dx30 * dy10) * cb
-                + (dx32 * dy12 - dx12 * dy32) * ca;
+            double s = (dx10 * dy30 - dx30 * dy10) * cb
+                       + (dx32 * dy12 - dx12 * dy32) * ca;
 
             if (tola < s)
             {
@@ -469,31 +452,12 @@ public static partial class typeMethods
         //    Output, int SWAPEC, is set to 8 for abnormal return.
         //
     {
-        int a;
-        int b;
-        int c;
-        int e;
-        int ee;
-        int em1;
-        int ep1;
-        int f;
-        int fm1;
-        int fp1;
-        int l;
-        int r;
-        int s;
-        int swap;
-        int t;
-        int tt;
-        int u;
-        double x;
-        double y;
         //
         //  Determine whether triangles in stack are Delaunay, and swap
         //  diagonal edge of convex quadrilateral if not.
         //
-        x = node_xy[2 * (i - 1) + 0];
-        y = node_xy[2 * (i - 1) + 1];
+        double x = node_xy[2 * (i - 1) + 0];
+        double y = node_xy[2 * (i - 1) + 1];
 
         for (;;)
         {
@@ -502,9 +466,11 @@ public static partial class typeMethods
                 break;
             }
 
-            t = stack[top - 1];
+            int t = stack[top - 1];
             top -= 1;
 
+            int b;
+            int e;
             if (triangle_node[3 * (t - 1) + 0] == i)
             {
                 e = 2;
@@ -521,9 +487,11 @@ public static partial class typeMethods
                 b = triangle_node[3 * (t - 1) + 1];
             }
 
-            a = triangle_node[3 * (t - 1) + e - 1];
-            u = triangle_neighbor[3 * (t - 1) + e - 1];
+            int a = triangle_node[3 * (t - 1) + e - 1];
+            int u = triangle_neighbor[3 * (t - 1) + e - 1];
 
+            int c;
+            int f;
             if (triangle_neighbor[3 * (u - 1) + 0] == t)
             {
                 f = 1;
@@ -540,7 +508,7 @@ public static partial class typeMethods
                 c = triangle_node[3 * (u - 1) + 1];
             }
 
-            swap = diaedg(x, y,
+            int swap = diaedg(x, y,
                 node_xy[2 * (a - 1) + 0], node_xy[2 * (a - 1) + 1],
                 node_xy[2 * (c - 1) + 0], node_xy[2 * (c - 1) + 1],
                 node_xy[2 * (b - 1) + 0], node_xy[2 * (b - 1) + 1]);
@@ -549,15 +517,15 @@ public static partial class typeMethods
             {
                 case 1:
                 {
-                    em1 = i4_wrap(e - 1, 1, 3);
-                    ep1 = i4_wrap(e + 1, 1, 3);
-                    fm1 = i4_wrap(f - 1, 1, 3);
-                    fp1 = i4_wrap(f + 1, 1, 3);
+                    int em1 = i4_wrap(e - 1, 1, 3);
+                    int ep1 = i4_wrap(e + 1, 1, 3);
+                    int fm1 = i4_wrap(f - 1, 1, 3);
+                    int fp1 = i4_wrap(f + 1, 1, 3);
 
                     triangle_node[3 * (t - 1) + ep1 - 1] = c;
                     triangle_node[3 * (u - 1) + fp1 - 1] = i;
-                    r = triangle_neighbor[3 * (t - 1) + ep1 - 1];
-                    s = triangle_neighbor[3 * (u - 1) + fp1 - 1];
+                    int r = triangle_neighbor[3 * (t - 1) + ep1 - 1];
+                    int s = triangle_neighbor[3 * (u - 1) + fp1 - 1];
                     triangle_neighbor[3 * (t - 1) + ep1 - 1] = u;
                     triangle_neighbor[3 * (u - 1) + fp1 - 1] = t;
                     triangle_neighbor[3 * (t - 1) + e - 1] = s;
@@ -571,6 +539,9 @@ public static partial class typeMethods
                             break;
                     }
 
+                    int l;
+                    int ee;
+                    int tt;
                     switch (s)
                     {
                         case > 0:

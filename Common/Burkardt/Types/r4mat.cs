@@ -46,18 +46,11 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2;
-        int i2hi;
         int i2lo;
         int i2lo_hi;
-        int i2lo_lo;
-        int inc;
         int j;
-        int j2hi;
-        int j2lo;
 
         Console.WriteLine();
         Console.WriteLine(title);
@@ -69,20 +62,13 @@ public static partial class typeMethods
             return;
         }
 
-        i2lo_lo = ilo switch
+        int i2lo_lo = ilo switch
         {
             < 1 => 1,
             _ => ilo
         };
 
-        if ( ihi < m )
-        {
-            i2lo_hi = m;
-        }
-        else
-        {
-            i2lo_hi = ihi;
-        }
+        i2lo_hi = ihi < m ? m : ihi;
 
         for ( i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX )
         {
@@ -91,7 +77,7 @@ public static partial class typeMethods
             {
                 break;
             }
-            i2hi = i2lo + INCX - 1;
+            int i2hi = i2lo + INCX - 1;
 
             if ( m < i2hi )
             {
@@ -102,10 +88,11 @@ public static partial class typeMethods
                 i2hi = ihi;
             }
 
-            inc = i2hi + 1 - i2lo;
+            int inc = i2hi + 1 - i2lo;
 
             Console.WriteLine();
             string cout = "  Row: ";
+            int i;
             for ( i = i2lo; i <= i2hi; i++ )
             {
                 cout += (i - 1).ToString().PadLeft(7) + "       ";
@@ -114,24 +101,19 @@ public static partial class typeMethods
             Console.WriteLine("  Col");
             Console.WriteLine();
 
-            j2lo = jlo switch
+            int j2lo = jlo switch
             {
                 < 1 => 1,
                 _ => jlo
             };
 
-            if ( n < jhi )
-            {
-                j2hi = n;
-            }
-            else
-            {
-                j2hi = jhi;
-            }
+            int j2hi;
+            j2hi = n < jhi ? n : jhi;
 
             for ( j = j2lo; j <= j2hi; j++ )
             {
                 cout = (j - 1).ToString().PadLeft(5) + ":";
+                int i2;
                 for ( i2 = 1; i2 <= inc; i2++ )
                 {
                     i = i2lo - 1 + i2;

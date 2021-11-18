@@ -48,10 +48,7 @@ public static partial class typeMethods
         //    Output, int POINT_UNIQUE_COUNT, the number of unique points.
         //
     {
-        int i;
-        int[] indx;
         int j;
-        int unique_index;
         int unique_num;
 
         switch (n)
@@ -63,20 +60,21 @@ public static partial class typeMethods
         //
         //  Implicitly sort the array.
         //
-        indx = r8col_sort_heap_index_a ( m, n, a );
+        int[] indx = r8col_sort_heap_index_a ( m, n, a );
         //
         //  Two points are considered equal only if they exactly match.
         //  In that case, equal points can only occur as consecutive items
         //  in the sorted list.   This makes counting easy.
         //
         unique_num = 1;
-        unique_index = indx[0];
+        int unique_index = indx[0];
 
         for ( j = 1; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
-                if ( a[i+unique_index*m] != a[i+indx[j]*m] )
+                if ( Math.Abs(a[i+unique_index*m] - a[i+indx[j]*m]) > double.Epsilon )
                 {
                     unique_num += 1;
                     unique_index = indx[j];
@@ -129,29 +127,23 @@ public static partial class typeMethods
         int delta;
         List<string> file_unit = new();
         int node;
-        double x_max;
-        double x_min;
         int x_ps;
         int x_ps_max = 576;
         int x_ps_max_clip = 594;
         int x_ps_min = 36;
         int x_ps_min_clip = 18;
-        double x_scale;
-        double y_max;
-        double y_min;
         int y_ps;
         int y_ps_max = 666;
         int y_ps_max_clip = 684;
         int y_ps_min = 126;
         int y_ps_min_clip = 108;
-        double y_scale;
 
         //
         //  We need to do some figuring here, so that we can determine
         //  the range of the data, and hence the height and width
         //  of the piece of paper.
         //
-        x_max = -r8_huge();
+        double x_max = -r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (x_max < node_xy[0 + node * 2])
@@ -160,7 +152,7 @@ public static partial class typeMethods
             }
         }
 
-        x_min = r8_huge();
+        double x_min = r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[0 + node * 2] < x_min)
@@ -169,13 +161,13 @@ public static partial class typeMethods
             }
         }
 
-        x_scale = x_max - x_min;
+        double x_scale = x_max - x_min;
 
         x_max += 0.05 * x_scale;
         x_min -= 0.05 * x_scale;
         x_scale = x_max - x_min;
 
-        y_max = -r8_huge();
+        double y_max = -r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (y_max < node_xy[1 + node * 2])
@@ -184,7 +176,7 @@ public static partial class typeMethods
             }
         }
 
-        y_min = r8_huge();
+        double y_min = r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[1 + node * 2] < y_min)
@@ -193,7 +185,7 @@ public static partial class typeMethods
             }
         }
 
-        y_scale = y_max - y_min;
+        double y_scale = y_max - y_min;
 
         y_max += 0.05 * y_scale;
         y_min -= 0.05 * y_scale;
@@ -426,18 +418,9 @@ public static partial class typeMethods
         //    unique points.
         //
     {
-        double dist;
-        int hi;
         int i;
-        int[] indx;
         int j;
-        int k;
-        double[] r;
-        bool[] unique;
         int unique_num;
-        double[] w;
-        double w_sum;
-        double[] z;
 
         switch (n)
         {
@@ -449,14 +432,14 @@ public static partial class typeMethods
         //
         //  Assign a base point Z randomly in the convex hull.
         //
-        w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-        w_sum = r8vec_sum(n, w);
+        double[] w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double w_sum = r8vec_sum(n, w);
         for (j = 0; j < n; j++)
         {
             w[j] /= w_sum;
         }
 
-        z = new double[m];
+        double[] z = new double[m];
         for (i = 0; i < m; i++)
         {
             z[i] = 0.0;
@@ -469,7 +452,7 @@ public static partial class typeMethods
         //
         //  Compute the radial distance R of each point to Z.
         //
-        r = new double[n];
+        double[] r = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -485,14 +468,14 @@ public static partial class typeMethods
         //
         //  Implicitly sort the R array.
         //
-        indx = r8vec_sort_heap_index_a_new(n, r);
+        int[] indx = r8vec_sort_heap_index_a_new(n, r);
         //
         //  To determine if a point I is tolerably unique, we only have to check
         //  whether it is distinct from all points J such that R(I) <= R(J) <= R(J)+TOL.
         //
         unique_num = 0;
 
-        unique = new bool[n];
+        bool[] unique = new bool[n];
         for (i = 0; i < n; i++)
         {
             unique[i] = true;
@@ -512,7 +495,7 @@ public static partial class typeMethods
                     //  Look for later points which are close to point INDX(I)
                     //  in terms of R.
                     //
-                    hi = i;
+                    int hi = i;
 
                     while (hi < n - 1)
                     {
@@ -534,7 +517,8 @@ public static partial class typeMethods
                         {
                             case true:
                             {
-                                dist = 0.0;
+                                double dist = 0.0;
+                                int k;
                                 for (k = 0; k < m; k++)
                                 {
                                     dist += Math.Pow(a[k + indx[i] * m] - a[k + indx[j] * m], 2);
@@ -627,18 +611,13 @@ public static partial class typeMethods
         //    unique permanent points.
         //
     {
-        double dist;
-        int hi;
         int i;
         int j1;
-        int k1;
-        double[] w;
-        double w_sum;
         //
         //  Assign a base point Z randomly in the convex hull of the permanent points.
         //
-        w = UniformRNG.r8vec_uniform_01_new(n1, ref seed);
-        w_sum = r8vec_sum(n1, w);
+        double[] w = UniformRNG.r8vec_uniform_01_new(n1, ref seed);
+        double w_sum = r8vec_sum(n1, w);
         for (j1 = 0; j1 < n1; j1++)
         {
             w[j1] /= w_sum;
@@ -687,7 +666,7 @@ public static partial class typeMethods
                 {
                     unique_num1 += 1;
 
-                    hi = j1;
+                    int hi = j1;
 
                     while (hi < n1 - 1)
                     {
@@ -699,13 +678,14 @@ public static partial class typeMethods
                         hi += 1;
                     }
 
+                    int k1;
                     for (k1 = j1 + 1; k1 <= hi; k1++)
                     {
                         switch (unique1[indx1[k1]])
                         {
                             case true:
                             {
-                                dist = 0.0;
+                                double dist = 0.0;
                                 for (i = 0; i < m; i++)
                                 {
                                     dist += Math.Pow(a1[i + indx1[j1] * m] - a1[i + indx1[k1] * m], 2);
@@ -799,22 +779,15 @@ public static partial class typeMethods
         //
     {
         double dist;
-        int hi;
         int i;
-        int[] indx2;
         int j1;
         int j2;
         int j2_hi = 0;
         int j2_lo = 0;
-        int k2;
-        double r_hi;
-        double r_lo;
-        double[] r2;
-        bool[] unique2;
         //
         //  Initialize the temporary point data.
         //
-        r2 = new double[n2];
+        double[] r2 = new double[n2];
         for (j2 = 0; j2 < n2; j2++)
         {
             r2[j2] = 0.0;
@@ -826,10 +799,9 @@ public static partial class typeMethods
             r2[j2] = Math.Sqrt(r2[j2]);
         }
 
-        indx2 = new int[n2];
-        indx2 = r8vec_sort_heap_index_a(n2, r2);
+        int[] indx2 = r8vec_sort_heap_index_a(n2, r2);
 
-        unique2 = new bool[n2];
+        bool[] unique2 = new bool[n2];
         for (j2 = 0; j2 < n2; j2++)
         {
             unique2[j2] = true;
@@ -846,8 +818,8 @@ public static partial class typeMethods
             {
                 case true:
                 {
-                    r_lo = r1[indx1[j1]] - tol;
-                    r_hi = r1[indx1[j1]] + tol;
+                    double r_lo = r1[indx1[j1]] - tol;
+                    double r_hi = r1[indx1[j1]] + tol;
 
                     r8vec_index_sorted_range(n2, r2, indx2, r_lo, r_hi,
                         ref j2_lo, ref j2_hi);
@@ -893,7 +865,7 @@ public static partial class typeMethods
                 {
                     unique_num2 += 1;
 
-                    hi = j2;
+                    int hi = j2;
 
                     while (hi < n2 - 1)
                     {
@@ -905,6 +877,7 @@ public static partial class typeMethods
                         hi += 1;
                     }
 
+                    int k2;
                     for (k2 = j2 + 1; k2 <= hi; k2++)
                     {
                         switch (unique2[indx2[k2]])
@@ -982,18 +955,9 @@ public static partial class typeMethods
         //
     {
         bool equal = false;
-        int hi;
         int i;
-        int[] indx;
         int j;
-        int j1;
-        int j2;
-        int lo;
-        double[] r;
         int unique_num;
-        double[] w;
-        double w_sum;
-        double[] z;
 
         switch (n)
         {
@@ -1005,14 +969,14 @@ public static partial class typeMethods
         //
         //  Assign a base point Z randomly in the convex hull.
         //
-        w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-        w_sum = r8vec_sum(n, w);
+        double[] w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double w_sum = r8vec_sum(n, w);
         for (j = 0; j < n; j++)
         {
             w[j] /= w_sum;
         }
 
-        z = new double[m];
+        double[] z = new double[m];
         for (i = 0; i < m; i++)
         {
             z[i] = 0.0;
@@ -1025,7 +989,7 @@ public static partial class typeMethods
         //
         //  Compute the radial distance R of each point to Z.
         //
-        r = new double[n];
+        double[] r = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -1041,21 +1005,21 @@ public static partial class typeMethods
         //
         //  Implicitly sort the R array.
         //
-        indx = r8vec_sort_heap_index_a(n, r);
+        int[] indx = r8vec_sort_heap_index_a(n, r);
         //
         //  To determine if a point is unique, we only have to check
         //  whether it is distinct from all points with the same
         //  R value and lower ordering.
         //
         unique_num = 0;
-        hi = -1;
+        int hi = -1;
 
         while (hi < n - 1)
         {
             //
             //  Advance LO.
             //
-            lo = hi + 1;
+            int lo = hi + 1;
             //
             //  Extend HI.
             //
@@ -1063,7 +1027,7 @@ public static partial class typeMethods
 
             while (hi < n - 1)
             {
-                if (r[indx[hi + 1]] == r[indx[lo]])
+                if (Math.Abs(r[indx[hi + 1]] - r[indx[lo]]) <= double.Epsilon)
                 {
                     hi += 1;
                 }
@@ -1080,18 +1044,22 @@ public static partial class typeMethods
             //
             unique_num += 1;
 
+            int j1;
             for (j1 = lo + 1; j1 <= hi; j1++)
             {
+                int j2;
                 for (j2 = lo; j2 < j1; j2++)
                 {
                     equal = true;
                     for (i = 0; i < m; i++)
                     {
-                        if (a[i + indx[j2] * m] != a[i + indx[j1] * m])
+                        if (!(Math.Abs(a[i + indx[j2] * m] - a[i + indx[j1] * m]) > double.Epsilon))
                         {
-                            equal = false;
-                            break;
+                            continue;
                         }
+
+                        equal = false;
+                        break;
                     }
 
                     if (equal)
@@ -1157,42 +1125,43 @@ public static partial class typeMethods
         //    Output, int POINT_TOL_UNIQUE_COUNT, the number of unique points.
         //
     {
-        double dist;
         int i;
-        int j;
-        int k;
-        bool[] unique;
-        int unique_num;
 
-        unique = new bool[n];
+        bool[] unique = new bool[n];
 
         for (i = 0; i < n; i++)
         {
             unique[i] = true;
         }
 
-        unique_num = n;
+        int unique_num = n;
 
         for (i = 1; i < n; i++)
         {
+            int j;
             for (j = 0; j < i; j++)
             {
-                if (unique[j])
+                if (!unique[j])
                 {
-                    dist = 0.0;
-                    for (k = 0; k < m; k++)
-                    {
-                        dist += Math.Pow(a[k + i * m] - a[k + j * m], 2);
-                    }
-
-                    dist = Math.Sqrt(dist);
-                    if (dist <= tol)
-                    {
-                        unique[i] = false;
-                        unique_num -= 1;
-                        break;
-                    }
+                    continue;
                 }
+
+                double dist = 0.0;
+                int k;
+                for (k = 0; k < m; k++)
+                {
+                    dist += Math.Pow(a[k + i * m] - a[k + j * m], 2);
+                }
+
+                dist = Math.Sqrt(dist);
+                if (!(dist <= tol))
+                {
+                    continue;
+                }
+
+                unique[i] = false;
+                unique_num -= 1;
+                break;
             }
         }
 
@@ -1240,14 +1209,9 @@ public static partial class typeMethods
         //    unique points.
         //
     {
-        double dist;
         int i;
-        int j;
-        int k;
-        bool[] unique;
-        int unique_num;
 
-        unique = new bool[n];
+        bool[] unique = new bool[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -1257,31 +1221,37 @@ public static partial class typeMethods
         {
             xdnu[i] = i;
         }
-        unique_num = n;
+        int unique_num = n;
 
         i = 0;
         xdnu[0] = 0;
 
         for ( i = 1; i < n; i++ )
         {
+            int j;
             for ( j = 0; j < i; j++ )
             {
-                if ( unique[j] )
+                if (!unique[j])
                 {
-                    dist = 0.0;
-                    for ( k = 0; k < m; k++ )
-                    {
-                        dist += Math.Pow ( a[k+i*m] - a[k+j*m], 2 );
-                    }
-                    dist = Math.Sqrt ( dist );
-                    if ( dist <= tol )
-                    {
-                        unique[i] = false;
-                        unique_num -= 1;
-                        xdnu[i] = j;
-                        break;
-                    }
+                    continue;
                 }
+
+                double dist = 0.0;
+                int k;
+                for ( k = 0; k < m; k++ )
+                {
+                    dist += Math.Pow ( a[k+i*m] - a[k+j*m], 2 );
+                }
+                dist = Math.Sqrt ( dist );
+                if (!(dist <= tol))
+                {
+                    continue;
+                }
+
+                unique[i] = false;
+                unique_num -= 1;
+                xdnu[i] = j;
+                break;
             }
         }
             
@@ -1343,18 +1313,9 @@ public static partial class typeMethods
         //    unique points.
         //
     {
-        double dist;
-        int hi;
         int i;
-        int[] indx;
         int j;
-        int k;
-        double[] r;
-        bool[] unique;
         int unique_num;
-        double[] w;
-        double w_sum;
-        double[] z;
 
         switch (n)
         {
@@ -1366,14 +1327,14 @@ public static partial class typeMethods
         //
         //  Assign a base point Z randomly in the convex hull.
         //
-        w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-        w_sum = r8vec_sum(n, w);
+        double[] w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double w_sum = r8vec_sum(n, w);
         for (j = 0; j < n; j++)
         {
             w[j] /= w_sum;
         }
 
-        z = new double[m];
+        double[] z = new double[m];
         for (i = 0; i < m; i++)
         {
             z[i] = 0.0;
@@ -1386,7 +1347,7 @@ public static partial class typeMethods
         //
         //  Compute the radial distance R of each point to Z.
         //
-        r = new double[n];
+        double[] r = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -1402,14 +1363,14 @@ public static partial class typeMethods
         //
         //  Implicitly sort the R array.
         //
-        indx = r8vec_sort_heap_index_a_new(n, r);
+        int[] indx = r8vec_sort_heap_index_a_new(n, r);
         //
         //  To determine if a point I is tolerably unique, we only have to check
         //  whether it is distinct from all points J such that R(I) <= R(J) <= R(J)+TOL.
         //
         unique_num = 0;
 
-        unique = new bool[n];
+        bool[] unique = new bool[n];
         for (i = 0; i < n; i++)
         {
             unique[i] = true;
@@ -1431,7 +1392,7 @@ public static partial class typeMethods
                     //  Look for later points which are close to point INDX(I)
                     //  in terms of R.
                     //
-                    hi = i;
+                    int hi = i;
 
                     while (hi < n - 1)
                     {
@@ -1453,7 +1414,8 @@ public static partial class typeMethods
                         {
                             case true:
                             {
-                                dist = 0.0;
+                                double dist = 0.0;
+                                int k;
                                 for (k = 0; k < m; k++)
                                 {
                                     dist += Math.Pow(a[k + indx[i] * m] - a[k + indx[j] * m], 2);
@@ -1548,18 +1510,13 @@ public static partial class typeMethods
         //    point that "represents" this point.
         //
     {
-        double dist;
-        int hi;
         int i;
         int j1;
-        int k1;
-        double[] w;
-        double w_sum;
         //
         //  Assign a base point Z randomly in the convex hull of the permanent points.
         //
-        w = UniformRNG.r8vec_uniform_01_new(n1, ref seed);
-        w_sum = r8vec_sum(n1, w);
+        double[] w = UniformRNG.r8vec_uniform_01_new(n1, ref seed);
+        double w_sum = r8vec_sum(n1, w);
         for (j1 = 0; j1 < n1; j1++)
         {
             w[j1] /= w_sum;
@@ -1610,7 +1567,7 @@ public static partial class typeMethods
                     undx1[unique_num1] = indx1[j1];
                     unique_num1 += 1;
 
-                    hi = j1;
+                    int hi = j1;
 
                     while (hi < n1 - 1)
                     {
@@ -1622,13 +1579,14 @@ public static partial class typeMethods
                         hi += 1;
                     }
 
+                    int k1;
                     for (k1 = j1 + 1; k1 <= hi; k1++)
                     {
                         switch (unique1[indx1[k1]])
                         {
                             case true:
                             {
-                                dist = 0.0;
+                                double dist = 0.0;
                                 for (i = 0; i < m; i++)
                                 {
                                     dist += Math.Pow(a1[i + indx1[j1] * m] - a1[i + indx1[k1] * m], 2);
@@ -1745,15 +1703,11 @@ public static partial class typeMethods
         //
     {
         double dist;
-        int hi;
         int i;
         int j1;
         int j2;
         int j2_hi = 0;
         int j2_lo = 0;
-        int k2;
-        double r_hi;
-        double r_lo;
         //
         //  Initialize the temporary point data.
         //
@@ -1786,8 +1740,8 @@ public static partial class typeMethods
             {
                 case true:
                 {
-                    r_lo = r1[indx1[j1]] - tol;
-                    r_hi = r1[indx1[j1]] + tol;
+                    double r_lo = r1[indx1[j1]] - tol;
+                    double r_hi = r1[indx1[j1]] + tol;
 
                     r8vec_index_sorted_range(n2, r2, indx2, r_lo, r_hi,
                         ref j2_lo, ref j2_hi);
@@ -1836,7 +1790,7 @@ public static partial class typeMethods
                     undx2[unique_num2] = indx2[j2] + n1;
                     unique_num2 += 1;
 
-                    hi = j2;
+                    int hi = j2;
 
                     while (hi < n2 - 1)
                     {
@@ -1848,6 +1802,7 @@ public static partial class typeMethods
                         hi += 1;
                     }
 
+                    int k2;
                     for (k2 = j2 + 1; k2 <= hi; k2++)
                     {
                         switch (unique2[indx2[k2]])
@@ -1986,8 +1941,6 @@ public static partial class typeMethods
         int i1;
         int i2;
         int i3;
-        double v1;
-        double v2;
 
         n3 = n1 + n2;
 
@@ -2028,23 +1981,9 @@ public static partial class typeMethods
 
         for (i3 = 0; i3 < n3; i3++)
         {
-            if (i1 < n1)
-            {
-                v1 = r1[indx1[i1]];
-            }
-            else
-            {
-                v1 = r8_huge();
-            }
+            double v1 = i1 < n1 ? r1[indx1[i1]] : r8_huge();
 
-            if (i2 < n2)
-            {
-                v2 = r2[indx2[i2]];
-            }
-            else
-            {
-                v2 = r8_huge();
-            }
+            double v2 = i2 < n2 ? r2[indx2[i2]] : r8_huge();
 
             if (v1 <= v2)
             {
@@ -2203,28 +2142,24 @@ public static partial class typeMethods
         //    Output, int XDNU[N], the XDNU vector.
         //
     {
-        double diff;
-        int i;
-        int[] indx;
-        int j;
-        int k;
         //
         //  Implicitly sort the array.
         //
-        indx = r8col_sort_heap_index_a(m, n, a);
+        int[] indx = r8col_sort_heap_index_a(m, n, a);
         //
         //  Walk through the implicitly sorted array.
         //
-        i = 0;
+        int i = 0;
 
-        j = 0;
+        int j = 0;
         undx[j] = indx[i];
 
         xdnu[indx[i]] = j;
 
         for (i = 1; i < n; i++)
         {
-            diff = 0.0;
+            double diff = 0.0;
+            int k;
             for (k = 0; k < m; k++)
             {
                 diff = Math.Max(diff,

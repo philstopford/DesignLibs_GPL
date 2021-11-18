@@ -169,9 +169,6 @@ public static partial class typeMethods
         int i;
         int j;
         double[] key = new double[3];
-        int ll;
-        int m;
-        int rr;
 
         switch (n)
         {
@@ -189,12 +186,12 @@ public static partial class typeMethods
         key[0] = a[startIndexA + 3 * 0 + 0];
         key[1] = a[startIndexA + 3 * 0 + 1];
         key[2] = a[startIndexA + 3 * 0 + 2];
-        m = 1;
+        int m = 1;
         //
         //  The elements of unknown size have indices between L+1 and R-1.
         //
-        ll = 1;
-        rr = n + 1;
+        int ll = 1;
+        int rr = n + 1;
 
         for (i = 2; i <= n; i++)
         {
@@ -276,12 +273,9 @@ public static partial class typeMethods
         //    On output, the array has been sorted.
         //
     {
-        int LEVEL_MAX = 25;
+        const int LEVEL_MAX = 25;
 
-        int base_;
         int l_segment = 0;
-        int level;
-        int n_segment;
         int[] rsave = new int[LEVEL_MAX];
         int r_segment = 0;
 
@@ -296,10 +290,10 @@ public static partial class typeMethods
                 return;
         }
 
-        level = 1;
+        int level = 1;
         rsave[level - 1] = n + 1;
-        base_ = 1;
-        n_segment = n;
+        int base_ = 1;
+        int n_segment = n;
 
         while (0 < n_segment)
         {

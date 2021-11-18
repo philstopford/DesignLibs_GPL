@@ -60,10 +60,9 @@ public static partial class typeMethods
         //    Output, double R8BUT_DET, the determinant of A.
         //
     {
-        double det;
         int j;
 
-        det = 1.0;
+        double det = 1.0;
         for (j = 1; j <= n; j++)
         {
             det *= a[mu + 1 - 1 + (j - 1) * (mu + 1)];
@@ -131,14 +130,12 @@ public static partial class typeMethods
         //    Output, double A[(MU+1)*N], the R8BUT matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
         int j;
 
-        a = new double[(mu + 1) * n];
+        double[] a = new double[(mu + 1) * n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= n; i++)
         {
@@ -216,16 +213,14 @@ public static partial class typeMethods
         //    Output, double R8BUT_MTV(N), the product X*A.
         //
     {
-        double[] b;
         int i;
-        int ilo;
         int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 1; i <= n; i++)
         {
-            ilo = Math.Max(1, i - mu);
+            int ilo = Math.Max(1, i - mu);
             for (j = ilo; j <= i; j++)
             {
                 b[i - 1] += x[j - 1] * a[j - i + mu + (i - 1) * (mu + 1)];
@@ -292,14 +287,13 @@ public static partial class typeMethods
         //    Output, double R8BUT_MV[N], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = i; j <= Math.Min(n, i + mu); j++)
             {
                 b[i - 1] += a[i - j + mu + 1 - 1 + (j - 1) * (mu + 1)] * x[j - 1];
@@ -426,17 +420,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -445,15 +431,16 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -465,11 +452,12 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo);
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
             i2hi = Math.Min(i2hi, j2hi + mu);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
 
@@ -477,6 +465,7 @@ public static partial class typeMethods
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
+                int j2;
                 for (j2 = 1; j2 <= inc; j2++)
                 {
                     j = j2lo - 1 + j2;
@@ -554,14 +543,13 @@ public static partial class typeMethods
         //    Output, double R8BUT_RANDOM[(MU+1)*N], the R8BUT matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
 
-        a = new double[(mu + 1) * n];
+        double[] a = new double[(mu + 1) * n];
 
         for (i = 1; i <= mu + 1; i++)
         {
+            int j;
             for (j = 1; j <= mu + 1 - i; j++)
             {
                 a[i - 1 + (j - 1) * (mu + 1)] = 0.0;
@@ -636,10 +624,8 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        int jlo;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -649,7 +635,7 @@ public static partial class typeMethods
         for (j = n; 1 <= j; j--)
         {
             x[j - 1] /= a[j - j + mu + (j - 1) * (mu + 1)];
-            jlo = Math.Max(1, j - mu);
+            int jlo = Math.Max(1, j - mu);
             for (i = jlo; i <= j - 1; i++)
             {
                 x[i - 1] -= a[i - j + mu + (j - 1) * (mu + 1)] * x[j - 1];
@@ -717,11 +703,9 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ihi;
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -731,7 +715,7 @@ public static partial class typeMethods
         for (j = 1; j <= n; j++)
         {
             x[j - 1] /= a[j - j + mu + (j - 1) * (mu + 1)];
-            ihi = Math.Min(n, j + mu);
+            int ihi = Math.Min(n, j + mu);
             for (i = j + 1; i <= ihi; i++)
             {
                 x[i - 1] -= a[j - i + mu + (i - 1) * (mu + 1)] * x[j - 1];
@@ -786,14 +770,13 @@ public static partial class typeMethods
         //    Output, double R8BUT_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 if (i <= j && j <= i + mu)
@@ -863,14 +846,13 @@ public static partial class typeMethods
         //    Output, double R8BUT_ZEROS[(MU+1)*N], the R8BUT matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
 
-        a = new double[(mu + 1) * n];
+        double[] a = new double[(mu + 1) * n];
 
         for (i = 0; i < mu + 1; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 a[i + j * (mu + 1)] = 0.0;

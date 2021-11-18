@@ -38,9 +38,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int[] roff;
 
-        roff = new int[m + 1];
+        int[] roff = new int[m + 1];
 
         roff[0] = 0;
         for (i = 0; i < m; i++)
@@ -89,11 +88,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int k;
-        int k1;
-        int k2;
-        int khi;
-        int klo;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -101,13 +95,14 @@ public static partial class typeMethods
 
         for (i = 0; i < m; i++)
         {
-            k1 = roff[i];
-            k2 = roff[i + 1];
+            int k1 = roff[i];
+            int k2 = roff[i + 1];
 
+            int klo;
             for (klo = k1; klo < k2; klo += 5)
             {
                 string cout = "";
-                khi = Math.Min(klo + 5, k2);
+                int khi = Math.Min(klo + 5, k2);
                 if (klo == k1)
                 {
                     cout += i.ToString().PadLeft(5);
@@ -118,6 +113,7 @@ public static partial class typeMethods
                 }
 
                 cout += "  ";
+                int k;
                 for (k = klo; k < khi; k++)
                 {
                     cout += a[k].ToString().PadLeft(14);
@@ -168,16 +164,12 @@ public static partial class typeMethods
         //    Output, double R8CVV_RGET_NEW[NR[I]], the value of A(I,*).
         //
     {
-        double[] ai;
         int j;
-        int k1;
-        int k2;
-        int nv;
 
-        k1 = roff[i];
-        k2 = roff[i + 1];
-        nv = k2 - k1;
-        ai = new double[nv];
+        int k1 = roff[i];
+        int k2 = roff[i + 1];
+        int nv = k2 - k1;
+        double[] ai = new double[nv];
         for (j = 0; j < nv; j++)
         {
             ai[j] = a[k1 + j];
@@ -227,13 +219,10 @@ public static partial class typeMethods
         //
     {
         int j;
-        int k1;
-        int k2;
-        int nv;
 
-        k1 = roff[i];
-        k2 = roff[i + 1];
-        nv = k2 - k1;
+        int k1 = roff[i];
+        int k2 = roff[i + 1];
+        int nv = k2 - k1;
         for (j = 0; j < nv; j++)
         {
             a[k1 + j] = ai[j];

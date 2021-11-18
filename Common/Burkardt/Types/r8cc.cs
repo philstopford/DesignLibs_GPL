@@ -65,7 +65,6 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        int k;
         //
         //  Column pointers
         //
@@ -80,7 +79,7 @@ public static partial class typeMethods
         //
         //  Row indices
         //
-        k = 0;
+        int k = 0;
         row[k] = 0;
         k += 1;
         row[k] = 1;
@@ -198,13 +197,11 @@ public static partial class typeMethods
         //    Output, double R8CC_GET, the value of A(I,J).
         //
     {
-        double aij;
-        int k;
         //
         //  Seek sparse index K corresponding to full index (I,J).
         //
-        k = r8cc_ijk(m, n, nz_num, col, row, i, j);
-        aij = k switch
+        int k = r8cc_ijk(m, n, nz_num, col, row, i, j);
+        double aij = k switch
         {
             //
             //  If no K was found, then be merciful, and simply return 0.
@@ -276,19 +273,16 @@ public static partial class typeMethods
         //    (I,J) is stored, or -1 if no such entry exists.
         //
     {
-        int k;
-        int k1;
-        int k2;
         //
         //  Determine the part of ROW containing row indices of entries
         //  in column J.
         //
-        k1 = col[j];
-        k2 = col[j + 1] - 1;
+        int k1 = col[j];
+        int k2 = col[j + 1] - 1;
         //
         //  Seek the location K for which ROW(K) = I.
         //  
-        k = i4vec_search_binary_a(k2 + 1 - k1, row, i, aIndex: +k1);
+        int k = i4vec_search_binary_a(k2 + 1 - k1, row, i, aIndex: +k1);
 
         if (k != -1)
         {
@@ -360,11 +354,10 @@ public static partial class typeMethods
         //    Input, double AIJ, the value to be added to A(I,J).
         //
     {
-        int k;
         //
         //  Seek sparse index K corresponding to full index (I,J).
         //
-        k = r8cc_ijk(m, n, nz_num, col, row, i, j);
+        int k = r8cc_ijk(m, n, nz_num, col, row, i, j);
         switch (k)
         {
             //
@@ -439,21 +432,18 @@ public static partial class typeMethods
         //    Output, double R8CC_INDICATOR[NZ_NUM], the R8CC matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
         int j;
-        int k;
 
-        a = new double[nz_num];
+        double[] a = new double[nz_num];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (j = 0; j < n; j++)
         {
+            int k;
             for (k = col[j]; k <= col[j + 1] - 1; k++)
             {
-                i = row[k];
+                int i = row[k];
                 a[k] = fac * (i + 1) + j + 1;
             }
         }
@@ -523,8 +513,6 @@ public static partial class typeMethods
         //
     {
         int jj;
-        int k1;
-        int k2;
 
         i = -1;
         j = -1;
@@ -543,13 +531,15 @@ public static partial class typeMethods
         //
         for (jj = 0; jj < n; jj++)
         {
-            k1 = col[jj];
-            k2 = col[jj + 1] - 1;
-            if (k1 <= k && k <= k2)
+            int k1 = col[jj];
+            int k2 = col[jj + 1] - 1;
+            if (k1 > k || k > k2)
             {
-                j = jj;
-                break;
+                continue;
             }
+
+            j = jj;
+            break;
         }
 
         switch (j)
@@ -620,18 +610,16 @@ public static partial class typeMethods
         //    Output, double R8CC_MTV[N], the product A' * X.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (j = 0; j < n; j++)
         {
+            int k;
             for (k = col[j]; k <= col[j + 1] - 1; k++)
             {
-                i = row[k];
+                int i = row[k];
                 b[j] += a[k] * x[i];
             }
         }
@@ -700,18 +688,16 @@ public static partial class typeMethods
         //    Output, double R8CC_MV[M], the product A * X.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
 
-        b = r8vec_zeros_new(m);
+        double[] b = r8vec_zeros_new(m);
 
         for (j = 0; j < n; j++)
         {
+            int k;
             for (k = col[j]; k <= col[j + 1] - 1; k++)
             {
-                i = row[k];
+                int i = row[k];
                 b[i] += a[k] * x[j];
             }
         }
@@ -843,17 +829,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        int k;
-        double value = 0;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -862,13 +840,14 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col:  ";
+            string cout = "  Col:  ";
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -881,9 +860,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, m - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, m - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -896,7 +876,8 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    value = 0.0;
+                    double value = 0.0;
+                    int k;
                     for (k = col[j]; k <= col[j + 1] - 1; k++)
                     {
                         if (row[k] == i)
@@ -972,9 +953,7 @@ public static partial class typeMethods
         //    Output, double R8CC_RANDOM[NZ_NUM], the R8CC matrix.
         //
     {
-        double[] a;
-
-        a = UniformRNG.r8vec_uniform_01_new(nz_num, ref seed);
+        double[] a = UniformRNG.r8vec_uniform_01_new(nz_num, ref seed);
 
         return a;
     }
@@ -1165,7 +1144,6 @@ public static partial class typeMethods
     {
         string[] input;
         string[] input2;
-        int row;
         //
         //  Check the COL file first.
         //
@@ -1208,7 +1186,7 @@ public static partial class typeMethods
 
         foreach (string line in input2)
         {
-            row = Convert.ToInt32(line);
+            int row = Convert.ToInt32(line);
 
             nz_num += 1;
             m = Math.Max(m, row);
@@ -1279,11 +1257,10 @@ public static partial class typeMethods
         //    Input, double AIJ, the new value of A(I,J).
         //
     {
-        int k;
         //
         //  Seek sparse index K corresponding to full index (I,J).
         //
-        k = r8cc_ijk(m, n, nz_num, col, row, i, j);
+        int k = r8cc_ijk(m, n, nz_num, col, row, i, j);
         switch (k)
         {
             //
@@ -1361,12 +1338,9 @@ public static partial class typeMethods
         //    Input, double R8CC_TO_R8GE[M*N], the R8GE matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
 
-        b = r8vec_zeros_new(m * n);
+        double[] b = r8vec_zeros_new(m * n);
 
         if (col[0] < 0 || nz_num < col[0])
         {
@@ -1386,9 +1360,10 @@ public static partial class typeMethods
                 return null;
             }
 
+            int k;
             for (k = col[j]; k <= col[j + 1] - 1; k++)
             {
-                i = row[k];
+                int i = row[k];
                 if (i < 0 || m <= i)
                 {
                     Console.WriteLine("");
@@ -1580,9 +1555,7 @@ public static partial class typeMethods
         //    Output, double R8CC_ZERO[NZ_NUM], the R8CC matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(nz_num);
+        double[] a = r8vec_zeros_new(nz_num);
 
         return a;
     }

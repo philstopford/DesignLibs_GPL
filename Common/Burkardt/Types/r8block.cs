@@ -88,75 +88,28 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ihi;
-        int ii;
-        int iii;
-        int ip1;
-        int j;
-        int jhi;
-        int jj;
-        int jjj;
-        int jp1;
-        int k;
-        int khi;
-        int kk;
-        int kkk;
-        int kp1;
-        int l2;
-        int m2;
-        int n2;
-        double r;
-        double s;
-        double t;
-        double x000;
-        double x001;
-        double x010;
-        double x011;
-        double x100;
-        double x101;
-        double x110;
-        double x111;
-        double[] xfat;
 
-        l2 = (l - 1) * (lfat + 1) + 1;
-        m2 = (m - 1) * (mfat + 1) + 1;
-        n2 = (n - 1) * (nfat + 1) + 1;
+        int l2 = (l - 1) * (lfat + 1) + 1;
+        int m2 = (m - 1) * (mfat + 1) + 1;
+        int n2 = (n - 1) * (nfat + 1) + 1;
 
-        xfat = new double[l2 * m2 * n2];
+        double[] xfat = new double[l2 * m2 * n2];
 
         for (i = 1; i <= l; i++)
         {
-            if (i < l)
-            {
-                ihi = lfat;
-            }
-            else
-            {
-                ihi = 0;
-            }
+            int ihi = i < l ? lfat : 0;
 
+            int j;
             for (j = 1; j <= m; j++)
             {
-                if (j < m)
-                {
-                    jhi = mfat;
-                }
-                else
-                {
-                    jhi = 0;
-                }
+                int jhi = j < m ? mfat : 0;
 
+                int k;
                 for (k = 1; k <= n; k++)
                 {
-                    if (k < n)
-                    {
-                        khi = nfat;
-                    }
-                    else
-                    {
-                        khi = 0;
-                    }
+                    int khi = k < n ? nfat : 0;
 
+                    int ip1;
                     if (i < l)
                     {
                         ip1 = i + 1;
@@ -166,6 +119,7 @@ public static partial class typeMethods
                         ip1 = i;
                     }
 
+                    int jp1;
                     if (j < m)
                     {
                         jp1 = j + 1;
@@ -175,6 +129,7 @@ public static partial class typeMethods
                         jp1 = j;
                     }
 
+                    int kp1;
                     if (k < n)
                     {
                         kp1 = k + 1;
@@ -184,30 +139,33 @@ public static partial class typeMethods
                         kp1 = k;
                     }
 
-                    x000 = x[i - 1 + (j - 1) * l + (k - 1) * l * m];
-                    x001 = x[i - 1 + (j - 1) * l + (kp1 - 1) * l * m];
-                    x100 = x[ip1 - 1 + (j - 1) * l + (k - 1) * l * m];
-                    x101 = x[ip1 - 1 + (j - 1) * l + (kp1 - 1) * l * m];
-                    x010 = x[i - 1 + (jp1 - 1) * l + (k - 1) * l * m];
-                    x011 = x[i - 1 + (jp1 - 1) * l + (kp1 - 1) * l * m];
-                    x110 = x[ip1 - 1 + (jp1 - 1) * l + (k - 1) * l * m];
-                    x111 = x[ip1 - 1 + (jp1 - 1) * l + (kp1 - 1) * l * m];
+                    double x000 = x[i - 1 + (j - 1) * l + (k - 1) * l * m];
+                    double x001 = x[i - 1 + (j - 1) * l + (kp1 - 1) * l * m];
+                    double x100 = x[ip1 - 1 + (j - 1) * l + (k - 1) * l * m];
+                    double x101 = x[ip1 - 1 + (j - 1) * l + (kp1 - 1) * l * m];
+                    double x010 = x[i - 1 + (jp1 - 1) * l + (k - 1) * l * m];
+                    double x011 = x[i - 1 + (jp1 - 1) * l + (kp1 - 1) * l * m];
+                    double x110 = x[ip1 - 1 + (jp1 - 1) * l + (k - 1) * l * m];
+                    double x111 = x[ip1 - 1 + (jp1 - 1) * l + (kp1 - 1) * l * m];
 
+                    int ii;
                     for (ii = 0; ii <= ihi; ii++)
                     {
-                        r = ii / (double) (ihi + 1);
+                        double r = ii / (double) (ihi + 1);
 
+                        int jj;
                         for (jj = 0; jj <= jhi; jj++)
                         {
-                            s = jj / (double) (jhi + 1);
+                            double s = jj / (double) (jhi + 1);
 
+                            int kk;
                             for (kk = 0; kk <= khi; kk++)
                             {
-                                t = kk / (double) (khi + 1);
+                                double t = kk / (double) (khi + 1);
 
-                                iii = 1 + (i - 1) * (lfat + 1) + ii;
-                                jjj = 1 + (j - 1) * (mfat + 1) + jj;
-                                kkk = 1 + (k - 1) * (nfat + 1) + kk;
+                                int iii = 1 + (i - 1) * (lfat + 1) + ii;
+                                int jjj = 1 + (j - 1) * (mfat + 1) + jj;
+                                int kkk = 1 + (k - 1) * (nfat + 1) + kk;
 
                                 xfat[iii - 1 + (jjj - 1) * l2 + (kkk - 1) * l2 * m2] =
                                     x000 * (1.0 - r) * (1.0 - s) * (1.0 - t)
@@ -267,11 +225,9 @@ public static partial class typeMethods
         //    Output, double R8BLOCK_NEW[L][M][N], a new block.
         //
     {
-        double[][][] a;
         int i;
-        int j;
 
-        a = new double[l][][];
+        double[][][] a = new double[l][][];
             
         for (i = 0; i < l; i++)
         {
@@ -280,6 +236,7 @@ public static partial class typeMethods
 
         for (i = 0; i < l; i++)
         {
+            int j;
             for (j = 0; j < m; j++)
             {
                 a[i][j] = new double[n];
@@ -318,10 +275,6 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int i;
-        int j;
-        int jhi;
-        int jlo;
         int k;
 
         Console.WriteLine("");
@@ -332,11 +285,13 @@ public static partial class typeMethods
             Console.WriteLine("");
             Console.WriteLine("  K = " + k + "");
             Console.WriteLine("");
+            int jlo;
             for (jlo = 1; jlo <= m; jlo += 5)
             {
-                jhi = Math.Min(jlo + 4, m);
+                int jhi = Math.Min(jlo + 4, m);
                 Console.WriteLine("");
                 string cout = "      ";
+                int j;
                 for (j = jlo; j <= jhi; j++)
                 {
                     cout += j.ToString().PadLeft(7) + "       ";
@@ -344,6 +299,7 @@ public static partial class typeMethods
 
                 Console.WriteLine("");
                 Console.WriteLine("");
+                int i;
                 for (i = 1; i <= l; i++)
                 {
                     cout += i.ToString().PadLeft(5) + ":";
@@ -390,17 +346,16 @@ public static partial class typeMethods
         //    Output, double R8BLOCK_ZEROS_NEW[L*M*N], the new zeroed matrix.
         //
     {
-        double[] a;
-        int i;
-        int j;
         int k;
 
-        a = new double[l * m * n];
+        double[] a = new double[l * m * n];
 
         for (k = 0; k < n; k++)
         {
+            int j;
             for (j = 0; j < m; j++)
             {
+                int i;
                 for (i = 0; i < l; i++)
                 {
                     a[i + j * l + k * l * m] = 0.0;

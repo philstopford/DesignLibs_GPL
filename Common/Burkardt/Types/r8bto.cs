@@ -64,15 +64,12 @@ public static partial class typeMethods
         //    Output, double R8BTO_INDICATOR[M*M*(2*L-1)], the R8BTO matrix.
         //
     {
-        double[] a;
         int i;
-        int i2;
         int j;
-        int j2;
         int k;
         double value = 0;
 
-        a = r8vec_zeros_new(m * m * (2 * l - 1));
+        double[] a = r8vec_zeros_new(m * m * (2 * l - 1));
         //
         //  Blocks 1 to L form the first row.
         //
@@ -87,6 +84,7 @@ public static partial class typeMethods
                 _ => 0.0
             };
 
+            int j2;
             for (j2 = 1; j2 <= m; j2++)
             {
                 j += 1;
@@ -113,6 +111,7 @@ public static partial class typeMethods
                 value = 0.0;
             }
 
+            int i2;
             for (i2 = 1; i2 <= m; i2++)
             {
                 i += 1;
@@ -183,24 +182,20 @@ public static partial class typeMethods
         //    Output, double R8BTO_INDICATOR[M*M*(2*L-1)], the R8BTO matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int i2;
-        int j;
-        int j2;
         int k;
 
-        a = r8vec_zeros_new(m * m * (2 * l - 1));
+        double[] a = r8vec_zeros_new(m * m * (2 * l - 1));
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(m * l) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(m * l) + 1);
         //
         //  Blocks 1 to L form the first row.
         //
-        j = 0;
+        int j = 0;
 
         for (k = 1; k <= l; k++)
         {
+            int j2;
             for (j2 = 1; j2 <= m; j2++)
             {
                 j += 1;
@@ -218,6 +213,7 @@ public static partial class typeMethods
 
         for (k = l + 1; k <= 2 * l - 1; k++)
         {
+            int i2;
             for (i2 = 1; i2 <= m; i2++)
             {
                 i += 1;
@@ -292,18 +288,17 @@ public static partial class typeMethods
         //    Output, double R8BTO_MTV[M*L], the product X * A.
         //
     {
-        double[] b;
-        int i;
-        int i2;
         int j;
-        int k;
 
-        b = r8vec_zeros_new(m * l);
+        double[] b = r8vec_zeros_new(m * l);
         //
         //  Construct the right hand side by blocks.
         //
         for (j = 1; j <= l; j++)
         {
+            int i;
+            int i2;
+            int k;
             for (k = 1; k <= j; k++)
             {
                 for (i = 1; i <= m; i++)
@@ -393,18 +388,17 @@ public static partial class typeMethods
         //    Output, double R8BTO_MV[M*L], the product A * X.
         //
     {
-        double[] b;
-        int i;
-        int i2;
         int j;
-        int k;
 
-        b = r8vec_zeros_new(m * l);
+        double[] b = r8vec_zeros_new(m * l);
         //
         //  Construct the right hand side by blocks.
         //
         for (j = 0; j < l; j++)
         {
+            int i;
+            int i2;
+            int k;
             for (k = 0; k <= j - 1; k++)
             {
                 for (i = 0; i < m; i++)
@@ -522,23 +516,11 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i1;
-        int i2;
-        int i3hi;
-        int i3lo;
-        int inc;
-        int j;
-        int j1;
-        int j2;
-        int j3hi;
         int j3lo;
-        int n;
-        string cout = "";
 
-        n = m * l;
+        int n = m * l;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -547,14 +529,15 @@ public static partial class typeMethods
         //
         for (j3lo = jlo; j3lo <= jhi; j3lo += INCX)
         {
-            j3hi = j3lo + INCX - 1;
+            int j3hi = j3lo + INCX - 1;
             j3hi = Math.Min(j3hi, n);
             j3hi = Math.Min(j3hi, jhi);
 
-            inc = j3hi + 1 - j3lo;
+            int inc = j3hi + 1 - j3lo;
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j3lo; j <= j3hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -566,9 +549,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i3lo = Math.Max(ilo, 1);
-            i3hi = Math.Min(ihi, n);
+            int i3lo = Math.Max(ilo, 1);
+            int i3hi = Math.Min(ihi, n);
 
+            int i;
             for (i = i3lo; i <= i3hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -581,10 +565,10 @@ public static partial class typeMethods
                     //  i = M * ( i1 - 1 ) + i2
                     //  j = M * ( j1 - 1 ) + j2
                     //
-                    i1 = (i - 1) / m + 1;
-                    i2 = i - m * (i1 - 1);
-                    j1 = (j - 1) / m + 1;
-                    j2 = j - m * (j1 - 1);
+                    int i1 = (i - 1) / m + 1;
+                    int i2 = i - m * (i1 - 1);
+                    int j1 = (j - 1) / m + 1;
+                    int j2 = j - m * (j1 - 1);
 
                     if (i1 <= j1)
                     {
@@ -644,17 +628,16 @@ public static partial class typeMethods
         //    Output, double R8BTO_RANDOM[M*M*(2*L-1)], the R8BTO matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int k;
 
-        a = r8vec_zeros_new(m * m * (2 * l - 1));
+        double[] a = r8vec_zeros_new(m * m * (2 * l - 1));
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < m; j++)
             {
+                int k;
                 for (k = 0; k < 2 * l - 1; k++)
                 {
                     a[i + j * m + k * m * m] = UniformRNG.r8_uniform_01(ref seed);
@@ -708,28 +691,22 @@ public static partial class typeMethods
         //    Output, double R8BTO_TO_R8GE[(M*L)*(M*L)], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int i1;
-        int i2;
-        int j;
-        int j1;
-        int j2;
-        int n;
 
-        n = m * l;
+        int n = m * l;
 
-        b = r8vec_zeros_new(n * n);
+        double[] b = r8vec_zeros_new(n * n);
 
         for (i = 1; i <= n; i++)
         {
-            i1 = (i - 1) / m + 1;
-            i2 = i - m * (i1 - 1);
+            int i1 = (i - 1) / m + 1;
+            int i2 = i - m * (i1 - 1);
 
+            int j;
             for (j = 1; j <= n; j++)
             {
-                j1 = (j - 1) / m + 1;
-                j2 = j - m * (j1 - 1);
+                int j1 = (j - 1) / m + 1;
+                int j2 = j - m * (j1 - 1);
 
                 if (i1 <= j1)
                 {
@@ -785,9 +762,7 @@ public static partial class typeMethods
         //    Output, double R8BTO_ZERO[M*M*(2*L-1)], the R8BTO matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(m * m * (2 * l - 1));
+        double[] a = r8vec_zeros_new(m * m * (2 * l - 1));
 
         return a;
     }

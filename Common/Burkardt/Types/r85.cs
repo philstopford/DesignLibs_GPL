@@ -49,10 +49,9 @@ public static partial class typeMethods
         //    Output, double R85_DIF2[5*N], the R85 matrix.
         //
     {
-        double[] a;
         int j;
 
-        a = r8vec_zeros_new(5 * n);
+        double[] a = r8vec_zeros_new(5 * n);
 
         for (j = 2; j <= n; j++)
         {
@@ -125,14 +124,12 @@ public static partial class typeMethods
         //    Output, double R85_INDICATOR[3*N], the R85 indicator matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
         int j;
 
-        a = r8vec_zeros_new(5 * n);
+        double[] a = r8vec_zeros_new(5 * n);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (j = 3; j <= n; j++)
         {
@@ -233,7 +230,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] x;
         double xmult;
 
         for (i = 0; i < n; i++)
@@ -245,7 +241,7 @@ public static partial class typeMethods
             }
         }
 
-        x = r8vec_zeros_new(n);
+        double[] x = r8vec_zeros_new(n);
 
         for (i = 2; i <= n - 1; i++)
         {
@@ -325,10 +321,9 @@ public static partial class typeMethods
         //    Output, double R85_MTV[N], the product A' * x.
         //
     {
-        double[] b;
         int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (j = 0; j < n; j++)
         {
@@ -406,10 +401,9 @@ public static partial class typeMethods
         //    Output, double R85_MV[N], the product A * x.
         //
     {
-        double[] b;
         int i;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
@@ -540,17 +534,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -559,14 +545,15 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
-            cout = "  Col:  ";
+            string cout = "  Col:  ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -578,12 +565,13 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo - 2);
 
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
             i2hi = Math.Min(i2hi, j2hi + 2);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -591,6 +579,7 @@ public static partial class typeMethods
                 //
                 cout = i.ToString().PadLeft(6) + "  ";
 
+                int j2;
                 for (j2 = 1; j2 <= inc; j2++)
                 {
                     j = j2lo - 1 + j2;
@@ -675,13 +664,11 @@ public static partial class typeMethods
         //    Output, double R85_RANDOM[5*N], the pentadiagonal matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = r8vec_zeros_new(5 * n);
+        double[] a = r8vec_zeros_new(5 * n);
 
-        i = 0;
+        int i = 0;
         for (j = 2; j < n; j++)
         {
             a[i + j * 5] = UniformRNG.r8_uniform_01(ref seed);
@@ -761,14 +748,13 @@ public static partial class typeMethods
         //    Output, double R85_TO_R8GE[N*N], the pentadiagonal matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
 
-        b = r8vec_zeros_new(n * n);
+        double[] b = r8vec_zeros_new(n * n);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (j == i - 2)
@@ -845,9 +831,7 @@ public static partial class typeMethods
         //    Output, double R85_ZERO[5*N], the R85 matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(5 * n);
+        double[] a = r8vec_zeros_new(5 * n);
 
         return a;
     }

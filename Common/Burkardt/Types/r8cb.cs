@@ -49,10 +49,9 @@ public static partial class typeMethods
         //    Output, double R8CB_DET, the determinant of the matrix.
         //
     {
-        double det;
         int j;
 
-        det = 1.0;
+        double det = 1.0;
         for (j = 0; j < n; j++)
         {
             det *= a_lu[mu + j * (ml + mu + 1)];
@@ -110,18 +109,16 @@ public static partial class typeMethods
         //    Output, double R8CB_DIF2[(ML+MU+1)*N], the matrix.
         //
     {
-        double[] a;
-        int diag;
-        int i;
         int j;
 
-        a = r8vec_zeros_new((ml + mu + 1) * n);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n);
 
         for (j = 0; j < n; j++)
         {
+            int diag;
             for (diag = 0; diag < ml + mu + 1; diag++)
             {
-                i = diag + j - mu;
+                int i = diag + j - mu;
 
                 if (i == j)
                 {
@@ -186,24 +183,20 @@ public static partial class typeMethods
         //    Output, double R8CB_INDICATOR[(ML+MU+1)*N], the R8CB matrix.
         //
     {
-        double[] a;
         int col = ml + mu + 1;
-        int diag;
-        int fac;
-        int i;
         int j;
-        int k;
 
-        a = r8vec_zeros_new((ml + mu + 1) * n);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
-        k = 0;
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int k = 0;
 
         for (j = 1; j <= n; j++)
         {
+            int diag;
             for (diag = 1; diag <= ml + mu + 1; diag++)
             {
-                i = diag + j - mu - 1;
+                int i = diag + j - mu - 1;
 
                 switch (i)
                 {
@@ -279,15 +272,11 @@ public static partial class typeMethods
         //    Output, double R8CB_ML[N], the result of the multiplication.
         //
     {
-        double[] b;
         int i;
-        int ihi;
-        int ilo;
         int j;
-        int jhi;
         int nrow = ml + mu + 1;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
@@ -303,7 +292,7 @@ public static partial class typeMethods
                 //
                 for (j = 0; j < n; j++)
                 {
-                    ilo = Math.Max(0, j - mu);
+                    int ilo = Math.Max(0, j - mu);
                     for (i = ilo; i < j; i++)
                     {
                         b[i] += a_lu[i - j + mu + j * nrow] * b[j];
@@ -317,7 +306,7 @@ public static partial class typeMethods
                 //
                 for (j = n - 2; 0 <= j; j--)
                 {
-                    ihi = Math.Min(n - 1, j + ml);
+                    int ihi = Math.Min(n - 1, j + ml);
                     for (i = j + 1; i <= ihi; i++)
                     {
                         b[i] -= a_lu[i - j + mu + j * nrow] * b[j];
@@ -331,6 +320,7 @@ public static partial class typeMethods
                 //
                 //  Y = ( PL )' * X.
                 //
+                int jhi;
                 for (j = 0; j < n - 1; j++)
                 {
                     jhi = Math.Min(n - 1, j + ml);
@@ -406,18 +396,15 @@ public static partial class typeMethods
         //    Output, double R8CB_MTV[N], the product X*A.
         //
     {
-        double[] b;
         int i;
         int j;
-        int jhi;
-        int jlo;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < m; i++)
         {
-            jlo = Math.Max(0, i - ml);
-            jhi = Math.Min(n - 1, i + mu);
+            int jlo = Math.Max(0, i - ml);
+            int jhi = Math.Min(n - 1, i + mu);
             for (j = jlo; j <= jhi; j++)
             {
                 b[j] += x[i] * a[i - j + mu + j * (ml + mu + 1)];
@@ -473,18 +460,15 @@ public static partial class typeMethods
         //    Output, double R8CB_MV[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int jhi;
-        int jlo;
 
-        b = r8vec_zeros_new(m);
+        double[] b = r8vec_zeros_new(m);
 
         for (i = 0; i < m; i++)
         {
-            jlo = Math.Max(0, i - ml);
-            jhi = Math.Min(n - 1, i + mu);
+            int jlo = Math.Max(0, i - ml);
+            int jhi = Math.Min(n - 1, i + mu);
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[i] += a[i - j + mu + j * (ml + mu + 1)] * x[j];
@@ -550,18 +534,12 @@ public static partial class typeMethods
         //    nonzero, the factorization failed on the INFO-th step.
         //
     {
-        int i;
-        int j;
-        int ju;
         int k;
-        int lm;
-        int m;
-        int mm;
         //
         //  The value of M is MU + 1 rather than ML + MU + 1.
         //
-        m = mu + 1;
-        ju = 0;
+        int m = mu + 1;
+        int ju = 0;
 
         for (k = 1; k <= n - 1; k++)
         {
@@ -584,7 +562,8 @@ public static partial class typeMethods
             //  Multiply the LM entries below the diagonal by -1/A(K,K), turning
             //  them into the appropriate "multiplier" terms in the L matrix.
             //
-            lm = Math.Min(ml, n - k);
+            int lm = Math.Min(ml, n - k);
+            int i;
             for (i = m + 1; i <= m + lm; i++)
             {
                 a[i - 1 + (k - 1) * (ml + mu + 1)] =
@@ -597,8 +576,9 @@ public static partial class typeMethods
             //
             ju = Math.Max(ju, mu + k);
             ju = Math.Min(ju, n);
-            mm = m;
+            int mm = m;
 
+            int j;
             for (j = k + 1; j <= ju; j++)
             {
                 mm -= 1;
@@ -679,17 +659,15 @@ public static partial class typeMethods
         int la;
         int lb;
         int lm;
-        int m;
-        double[] x;
 
-        x = r8vec_zeros_new(n);
+        double[] x = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
             x[i] = b[i];
         }
 
-        m = mu + 1;
+        int m = mu + 1;
         switch (job)
         {
             //
@@ -874,15 +852,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
         int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -891,12 +864,12 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
 
             for (j = j2lo; j <= j2hi; j++)
             {
@@ -909,11 +882,12 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo - mu);
-            i2hi = Math.Min(ihi, m);
+            int i2hi = Math.Min(ihi, m);
             i2hi = Math.Min(i2hi, j2hi + ml);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -980,21 +954,18 @@ public static partial class typeMethods
         //    Output, double R8CB_RANDOM[(ML+MU+1)*N], the R8CB matrix.
         //
     {
-        double[] a;
-        int i;
-        int ihi;
-        int ilo;
         int j;
 
-        a = r8vec_zeros_new((ml + mu + 1) * n);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n);
         //
         //  Set the entries that correspond to matrix elements.
         //
         for (j = 0; j < n; j++)
         {
-            ilo = Math.Max(0, j - mu);
-            ihi = Math.Min(m - 1, j + ml);
+            int ilo = Math.Max(0, j - mu);
+            int ihi = Math.Min(m - 1, j + ml);
 
+            int i;
             for (i = ilo; i <= ihi; i++)
             {
                 a[i - j + mu + j * (ml + mu + 1)] = UniformRNG.r8_uniform_01(ref seed);
@@ -1041,18 +1012,15 @@ public static partial class typeMethods
         //    Output, double R8CB_TO_R8VEC[(ML+MU+1)*N], the vector.
         //
     {
-        int i;
-        int ihi;
-        int ilo;
         int j;
-        double[] x;
 
-        x = r8vec_zeros_new((ml + mu + 1) * n);
+        double[] x = r8vec_zeros_new((ml + mu + 1) * n);
 
         for (j = 0; j < n; j++)
         {
-            ilo = Math.Max(mu - j, 0);
-            ihi = mu + Math.Min(ml, m - j - 1);
+            int ilo = Math.Max(mu - j, 0);
+            int ihi = mu + Math.Min(ml, m - j - 1);
+            int i;
             for (i = ilo; i <= ihi; i++)
             {
                 x[i + j * (ml + mu + 1)] = a[i + j * (ml + mu + 1)];
@@ -1105,14 +1073,13 @@ public static partial class typeMethods
         //    Output, double R8CB_TO_R8GE[M*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(m * n);
+        double[] b = r8vec_zeros_new(m * n);
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j - mu <= i && i <= j + ml)
@@ -1167,9 +1134,7 @@ public static partial class typeMethods
         //    Output, double R8CB_ZERO[(ML+MU+1)*N), the R8CB matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new((ml + mu + 1) * n);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n);
 
         return a;
     }

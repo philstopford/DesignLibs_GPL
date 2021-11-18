@@ -250,12 +250,11 @@ public static partial class typeMethods
         //    Output, double R8CBB_DIF2[(ML+MU+1)*N1+2*N1*N2+N2*N2], the matrix.
         //
     {
-        double[] a;
         int i;
         int j;
         double value = 0;
 
-        a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
 
         for (i = 1; i < n1 + n2; i++)
         {
@@ -411,19 +410,9 @@ public static partial class typeMethods
         //    nonzero, the factorization failed on the INFO-th step.
         //
     {
-        double[] b1;
-        int i;
-        int ij;
-        int ik;
         int info;
-        int j;
-        int jk;
-        int job;
-        int k;
-        int nband;
-        double[] x1;
 
-        nband = (ml + mu + 1) * n1;
+        int nband = (ml + mu + 1) * n1;
         switch (n1)
         {
             //
@@ -454,6 +443,8 @@ public static partial class typeMethods
                 //
                 //  Set A2 := -inverse(A1) * A2.
                 //
+                int i;
+                int j;
                 for (j = 0; j < n2; j++)
                 {
                     for (i = 0; i < n1; i++)
@@ -462,9 +453,9 @@ public static partial class typeMethods
                     }
                 }
 
-                b1 = r8vec_zeros_new(n1);
-                x1 = r8vec_zeros_new(n1);
-                job = 0;
+                double[] b1 = r8vec_zeros_new(n1);
+                double[] x1 = r8vec_zeros_new(n1);
+                int job = 0;
 
                 for (j = 0; j < n2; j++)
                 {
@@ -487,11 +478,12 @@ public static partial class typeMethods
                 {
                     for (j = 1; j <= n1; j++)
                     {
-                        ij = nband + n1 * n2 + (j - 1) * n2 + i - 1;
+                        int ij = nband + n1 * n2 + (j - 1) * n2 + i - 1;
+                        int k;
                         for (k = 1; k <= n2; k++)
                         {
-                            ik = nband + 2 * n1 * n2 + (k - 1) * n2 + i - 1;
-                            jk = nband + (k - 1) * n1 + j - 1;
+                            int ik = nband + 2 * n1 * n2 + (k - 1) * n2 + i - 1;
+                            int jk = nband + (k - 1) * n1 + j - 1;
                             a[ik] += a[ij] * a[jk];
                         }
                     }
@@ -757,21 +749,18 @@ public static partial class typeMethods
         //    indicator matrix.
         //
     {
-        double[] a;
-        int base_;
-        int fac;
         int i;
         int j;
-        int row;
 
-        a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n1 + n2) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n1 + n2) + 1);
         //
         //  Set the banded matrix A1.
         //
         for (j = 1; j <= n1; j++)
         {
+            int row;
             for (row = 1; row <= ml + mu + 1; row++)
             {
                 i = row + j - mu - 1;
@@ -786,7 +775,7 @@ public static partial class typeMethods
         //
         //  Set the N1 by N2 rectangular strip A2.
         //
-        base_ = (ml + mu + 1) * n1;
+        int base_ = (ml + mu + 1) * n1;
 
         for (i = 1; i <= n1; i++)
         {
@@ -918,23 +907,20 @@ public static partial class typeMethods
         //    Output, double R8CBB_MTV[N1+N2], the product X * A.
         //
     {
-        double[] b;
         int i;
-        int ihi;
         int ij;
-        int ilo;
         int j;
         //
         //  Set B to zero.
         //
-        b = r8vec_zeros_new(n1 + n2);
+        double[] b = r8vec_zeros_new(n1 + n2);
         //
         //  Multiply by A1.
         //
         for (j = 1; j <= n1; j++)
         {
-            ilo = Math.Max(1, j - mu);
-            ihi = Math.Min(n1, j + ml);
+            int ilo = Math.Max(1, j - mu);
+            int ihi = Math.Min(n1, j + ml);
             ij = (j - 1) * (ml + mu + 1) - j + mu + 1;
             for (i = ilo; i <= ihi; i++)
             {
@@ -1062,23 +1048,20 @@ public static partial class typeMethods
         //    Output, double R8CBB_MV[N1+N2], the result of multiplying A by X.
         //
     {
-        double[] b;
         int i;
-        int ihi;
         int ij;
-        int ilo;
         int j;
         //
         //  Set B to zero.
         //
-        b = r8vec_zeros_new(n1 + n2);
+        double[] b = r8vec_zeros_new(n1 + n2);
         //
         //  Multiply by A1.
         //
         for (j = 1; j <= n1; j++)
         {
-            ilo = Math.Max(1, j - mu);
-            ihi = Math.Min(n1, j + ml);
+            int ilo = Math.Max(1, j - mu);
+            int ihi = Math.Min(n1, j + ml);
             ij = (j - 1) * (ml + mu + 1) - j + mu + 1;
             for (i = ilo; i <= ihi; i++)
             {
@@ -1302,16 +1285,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        double aij;
-        int i;
-        int i2hi;
-        int i2lo;
         int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -1320,12 +1297,12 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n1 + n2 - 1);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -1337,9 +1314,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, n1 + n2 - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, n1 + n2 - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -1348,7 +1326,7 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    aij = r8cbb_get(n1, n2, ml, mu, ref a, i, j);
+                    double aij = r8cbb_get(n1, n2, ml, mu, ref a, i, j);
                     cout += aij.ToString().PadLeft(12) + "  ";
                 }
 
@@ -1448,17 +1426,16 @@ public static partial class typeMethods
         //    Output, double R8CBB_RANDOM[(ML+MU+1)*N1 + 2*N1*N2 + N2*N2], the R8CBB matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        int row;
 
-        a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
         //
         //  Randomize the banded matrix A1.
         //
         for (j = 1; j <= n1; j++)
         {
+            int row;
             for (row = 1; row <= ml + mu + 1; row++)
             {
                 i = row + j - mu - 1;
@@ -1744,17 +1721,14 @@ public static partial class typeMethods
         //    Output, double R8CBB_SL[N1+N2], the solution.
         //
     {
-        double[] b2;
         int i;
         int ij;
         int j;
         int job;
-        int nband;
-        double[] x;
         double[] x1 = null;
         double[] x2 = null;
 
-        nband = (ml + mu + 1) * n1;
+        int nband = (ml + mu + 1) * n1;
         switch (n1)
         {
             //
@@ -1770,7 +1744,7 @@ public static partial class typeMethods
         //  Modify the right hand side of the second linear subsystem.
         //  Set B2 = B2-A3*X1.
         //
-        b2 = r8vec_zeros_new(n2);
+        double[] b2 = r8vec_zeros_new(n2);
 
         for (i = 0; i < n2; i++)
         {
@@ -1813,7 +1787,7 @@ public static partial class typeMethods
         //
         //  Collect X1 and X2 into X.
         //
-        x = r8vec_zeros_new(n1 + n2);
+        double[] x = r8vec_zeros_new(n1 + n2);
 
         for (i = 0; i < n1; i++)
         {
@@ -1919,12 +1893,11 @@ public static partial class typeMethods
         //    Output, double R8CBB_TO_R8GE[(N1+N2)*(N1+N2)], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
         int ij;
         int j;
 
-        b = r8vec_zeros_new((n1 + n2) * (n1 + n2));
+        double[] b = r8vec_zeros_new((n1 + n2) * (n1 + n2));
 
         for (i = 1; i <= n1; i++)
         {
@@ -2052,9 +2025,7 @@ public static partial class typeMethods
         //    Output, double R8CBB_ZERO[(ML+MU+1)*N1 + 2*N1*N2 + N2*N2], the matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
+        double[] a = r8vec_zeros_new((ml + mu + 1) * n1 + 2 * n1 * n2 + n2 * n2);
 
         return a;
     }

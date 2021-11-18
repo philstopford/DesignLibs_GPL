@@ -64,31 +64,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r83t_mv(n, n, a, x);
+        double[] ap = r83t_mv(n, n, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -110,15 +102,15 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = r8vec_dot_product(n, p, ap);
-            pr = r8vec_dot_product(n, p, r);
+            double pap = r8vec_dot_product(n, p, ap);
+            double pr = r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -140,9 +132,9 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = r8vec_dot_product(n, r, ap);
+            double rap = r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -289,12 +281,10 @@ public static partial class typeMethods
         //    Output, double A[M*3], the matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        int mn;
 
-        a = new double[m * 3];
+        double[] a = new double[m * 3];
 
         for (j = 0; j < 3; j++)
         {
@@ -304,7 +294,7 @@ public static partial class typeMethods
             }
         }
 
-        mn = Math.Min(m, n);
+        int mn = Math.Min(m, n);
 
         j = 0;
         for (i = 1; i < mn; i++)
@@ -494,21 +484,18 @@ public static partial class typeMethods
         //    Output, double R83T_INDICATOR[M*3], the matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
-        int k;
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        a = new double[m * 3];
+        double[] a = new double[m * 3];
 
         for (i = 0; i < m; i++)
         {
+            int k;
             for (k = 0; k < 3; k++)
             {
-                j = i + k - 1;
+                int j = i + k - 1;
                 a[i + k * m] = j switch
                 {
                     >= 0 when j <= n - 1 => fac * (i + 1) + j + 1,
@@ -586,7 +573,6 @@ public static partial class typeMethods
     {
         int i;
         int it_num;
-        double[] x_new;
         //
         //  No diagonal matrix entry can be zero.
         //
@@ -602,7 +588,7 @@ public static partial class typeMethods
             }
         }
 
-        x_new = new double[n];
+        double[] x_new = new double[n];
 
         for (it_num = 1; it_num <= it_max; it_num++)
         {
@@ -692,12 +678,10 @@ public static partial class typeMethods
         //    Output, double R83T_MTV[N], the product A' * x.
         //
     {
-        double[] b;
         int i;
         int j;
-        int k;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -706,6 +690,7 @@ public static partial class typeMethods
 
         for (i = 0; i < m; i++)
         {
+            int k;
             for (k = 0; k < 3; k++)
             {
                 j = i + k - 1;
@@ -752,12 +737,9 @@ public static partial class typeMethods
         //    Output, double R83T_MV[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int mn;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {
@@ -769,7 +751,7 @@ public static partial class typeMethods
             case 1:
             {
                 i = 0;
-                j = 1;
+                int j = 1;
                 b[0] = a[i + j * m] * x[0];
                 switch (m)
                 {
@@ -784,7 +766,7 @@ public static partial class typeMethods
             }
         }
 
-        mn = Math.Min(m, n);
+        int mn = Math.Min(m, n);
 
         b[0] = a[0 + 1 * m] * x[0]
                + a[0 + 2 * m] * x[1];
@@ -936,18 +918,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        int k;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -956,14 +929,16 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j2;
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
@@ -976,12 +951,13 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
+            int i2lo = Math.Max(ilo, 0);
             i2lo = Math.Max(i2lo, j2lo - 1);
 
-            i2hi = Math.Min(ihi, m - 1);
+            int i2hi = Math.Min(ihi, m - 1);
             i2hi = Math.Min(i2hi, j2hi + 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -992,7 +968,7 @@ public static partial class typeMethods
                 for (j2 = 1; j2 <= inc; j2++)
                 {
                     j = j2lo - 1 + j2;
-                    k = j - i + 1;
+                    int k = j - i + 1;
                     switch (k)
                     {
                         case < 0:
@@ -1072,18 +1048,16 @@ public static partial class typeMethods
         //    Output, double R83T_RANDOM[M*3], the matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int k;
 
-        a = new double[m * 3];
+        double[] a = new double[m * 3];
 
         for (i = 0; i < m; i++)
         {
+            int k;
             for (k = 0; k < 3; k++)
             {
-                j = i + k - 1;
+                int j = i + k - 1;
                 a[i + k * m] = j switch
                 {
                     >= 0 when j <= n - 1 => UniformRNG.r8_uniform_01(ref seed),
@@ -1133,9 +1107,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] r;
 
-        r = r83t_mv(m, n, a, x);
+        double[] r = r83t_mv(m, n, a, x);
 
         for (i = 0; i < m; i++)
         {
@@ -1211,12 +1184,10 @@ public static partial class typeMethods
         //    Output, double R83T_TO_R8GE[M*N], the R8GE matrix.
         //
     {
-        double[] a_r8ge;
         int i;
         int j;
-        int k;
 
-        a_r8ge = new double[m * n];
+        double[] a_r8ge = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
@@ -1228,6 +1199,7 @@ public static partial class typeMethods
 
         for (i = 0; i < m; i++)
         {
+            int k;
             for (k = 0; k < 3; k++)
             {
                 j = i + k - 1;
@@ -1299,13 +1271,12 @@ public static partial class typeMethods
         //    Output, double R83T_ZEROS[M*3], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * 3];
+        double[] a = new double[m * 3];
         for (j = 0; j < 3; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;

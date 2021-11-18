@@ -50,20 +50,17 @@ public static partial class typeMethods
         //    Output, double R8CI_DET, the complex eigenvalues.
         //
     {
-        double det;
-        Complex detc;
         int i;
-        Complex[] lambda;
 
-        lambda = r8ci_eval(n, a);
+        Complex[] lambda = r8ci_eval(n, a);
 
-        detc = 1.0;
+        Complex detc = 1.0;
         for (i = 0; i < n; i++)
         {
             detc *= lambda[i];
         }
 
-        det = detc.Real;
+        double det = detc.Real;
 
         return det;
     }
@@ -106,9 +103,7 @@ public static partial class typeMethods
         //    Output, double R8CI_DIF2[N], the R8CI matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(n);
+        double[] a = r8vec_zeros_new(n);
 
         a[0] = 2.0;
         a[1] = -1.0;
@@ -162,13 +157,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        Complex[] lambda;
-        Complex[] w;
 
-        lambda = new Complex[n];
+        Complex[] lambda = new Complex[n];
 
-        w = c8vec_unity_new(n);
+        Complex[] w = c8vec_unity_new(n);
 
         for (i = 0; i < n; i++)
         {
@@ -177,6 +169,7 @@ public static partial class typeMethods
 
         for (i = n - 2; 0 <= i; i--)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 lambda[j] = lambda[j] * w[j] + a[i];
@@ -224,16 +217,13 @@ public static partial class typeMethods
         //    Output, double R8CI_INDICATOR[N], the R8CI matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
         int j;
 
-        a = new double[n];
+        double[] a = new double[n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        i = 1;
+        int i = 1;
 
         for (j = 1; j <= n; j++)
         {
@@ -283,14 +273,13 @@ public static partial class typeMethods
         //    Output, double R8CI_MTV[N], the product A' * X.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j <= i; j++)
             {
                 b[i] += a[i - j] * x[j];
@@ -345,14 +334,13 @@ public static partial class typeMethods
         //    Output, double R8CI_MV[N], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j <= i - 1; j++)
             {
                 b[i] += a[j - i + n] * x[j];
@@ -452,15 +440,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
         int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -469,12 +452,12 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -486,9 +469,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, n);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, n);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -552,10 +536,9 @@ public static partial class typeMethods
         //    Output, double R8CI_RANDOM[N], the R8CI matrix.
         //
     {
-        double[] a;
         int i;
 
-        a = new double[n];
+        double[] a = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -616,11 +599,9 @@ public static partial class typeMethods
         double r3;
         double r5;
         double r6;
-        double[] work;
-        double[] x;
 
-        work = new double[2 * n - 2];
-        x = new double[n];
+        double[] work = new double[2 * n - 2];
+        double[] x = new double[n];
 
         switch (job)
         {
@@ -826,18 +807,16 @@ public static partial class typeMethods
         //    Output, double R8CI_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
-                k = (j - i) % n;
+                int k = (j - i) % n;
                 b[i + j * n] = a[k];
             }
         }
@@ -882,9 +861,7 @@ public static partial class typeMethods
         //    Output, double R8CI_ZERO[N], the R8CI matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(n);
+        double[] a = r8vec_zeros_new(n);
 
         return a;
     }

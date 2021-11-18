@@ -61,8 +61,6 @@ public static partial class typeMethods
         //    +1, column J < column I.
         //
     {
-        int k;
-        int value;
         //
         //  Check.
         //
@@ -84,14 +82,14 @@ public static partial class typeMethods
             return 1;
         }
 
-        value = 0;
+        int value = 0;
 
         if (i == j)
         {
             return value;
         }
 
-        k = 0;
+        int k = 0;
 
         while (k < m)
         {
@@ -156,11 +154,9 @@ public static partial class typeMethods
         //    Output, double R8COL_DUPLICATES[M*N], the array.
         //
     {
-        double[] a;
         int i;
         int j1;
         int j2;
-        double temp;
 
         if (n_unique < 1 || n < n_unique)
         {
@@ -170,7 +166,7 @@ public static partial class typeMethods
             return null;
         }
 
-        a = UniformRNG.r8col_uniform_01_new(m, n_unique, ref seed);
+        double[] a = UniformRNG.r8col_uniform_01_new(m, n_unique, ref seed);
         //
         //  Randomly copy unique columns.
         //
@@ -191,9 +187,7 @@ public static partial class typeMethods
             j2 = UniformRNG.i4_uniform_ab(j1, n - 1, ref seed);
             for (i = 0; i < m; i++)
             {
-                temp = a[i + j1 * m];
-                a[i + j1 * m] = a[i + j2 * m];
-                a[i + j2 * m] = temp;
+                (a[i + j1 * m], a[i + j2 * m]) = (a[i + j2 * m], a[i + j1 * m]);
             }
         }
 
@@ -259,23 +253,24 @@ public static partial class typeMethods
         //    could be found.
         //
     {
-        int col;
-        int i;
         int j;
 
-        col = -1;
+        int col = -1;
 
         for (j = 1; j <= n; j++)
         {
             col = j;
 
+            int i;
             for (i = 1; i <= m; i++)
             {
-                if (x[i - 1] != a[i - 1 + (j - 1) * m])
+                if (!(Math.Abs(x[i - 1] - a[i - 1 + (j - 1) * m]) > double.Epsilon))
                 {
-                    col = -1;
-                    break;
+                    continue;
                 }
+
+                col = -1;
+                break;
             }
 
             if (col != -1)
@@ -327,13 +322,9 @@ public static partial class typeMethods
         //    Output, int R8COL_FIRST_INDEX[N], the first occurrence index.
         //
     {
-        double diff;
-        int[] first_index;
-        int i;
         int j1;
-        int j2;
 
-        first_index = new int[n];
+        int[] first_index = new int[n];
 
         for (j1 = 0; j1 < n; j1++)
         {
@@ -348,9 +339,11 @@ public static partial class typeMethods
                 {
                     first_index[j1] = j1;
 
+                    int j2;
                     for (j2 = j1 + 1; j2 < n; j2++)
                     {
-                        diff = 0.0;
+                        double diff = 0.0;
+                        int i;
                         for (i = 0; i < m; i++)
                         {
                             diff = Math.Max(diff, Math.Abs(a[i + j1 * m] - a[i + j2 * m]));
@@ -397,18 +390,16 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the array to be flipped.
         //
     {
-        int i;
-        int ihi;
         int j;
-        double t;
 
-        ihi = m / 2;
+        int ihi = m / 2;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < ihi; i++)
             {
-                t = a[i + j * m];
+                double t = a[i + j * m];
                 a[i + j * m] = a[m + 1 - i + j * m];
                 a[m - 1 - j + j * m] = t;
             }
@@ -457,17 +448,15 @@ public static partial class typeMethods
         //    Output, double R8COL_INDICATOR_NEW[M*N], the table.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= m; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 a[i - 1 + (j - 1) * m] = fac * i + j;
@@ -552,12 +541,8 @@ public static partial class typeMethods
         //
     {
         int col;
-        int high;
         int i;
-        int isgn;
         int j;
-        int low;
-        int mid;
         //
         //  Refuse to work if N_MAX <= N.
         //
@@ -578,8 +563,8 @@ public static partial class typeMethods
         //
         //  Do a binary search.
         //
-        low = 1;
-        high = n;
+        int low = 1;
+        int high = n;
 
         for (;;)
         {
@@ -589,9 +574,9 @@ public static partial class typeMethods
                 break;
             }
 
-            mid = (low + high) / 2;
+            int mid = (low + high) / 2;
 
-            isgn = r8col_compare(m, n + 1, a, mid, n + 1);
+            int isgn = r8col_compare(m, n + 1, a, mid, n + 1);
 
             switch (isgn)
             {
@@ -665,15 +650,14 @@ public static partial class typeMethods
         //    Output, double R8COL_MAX[N], the maximums of the columns.
         //
     {
-        double[] amax;
-        int i;
         int j;
 
-        amax = new double[n];
+        double[] amax = new double[n];
 
         for (j = 0; j < n; j++)
         {
             amax[j] = a[0 + j * m];
+            int i;
             for (i = 0; i < m; i++)
             {
                 amax[j] = Math.Max(amax[j], a[i + j * m]);
@@ -718,25 +702,25 @@ public static partial class typeMethods
         //    the maximum for column I occurs.
         //
     {
-        double amax;
-        int i;
-        int[] imax;
         int j;
 
-        imax = new int[n];
+        int[] imax = new int[n];
 
         for (j = 0; j < n; j++)
         {
             imax[j] = 1;
-            amax = a[0 + j * m];
+            double amax = a[0 + j * m];
 
+            int i;
             for (i = 1; i < m; i++)
             {
-                if (amax < a[i + j * m])
+                if (!(amax < a[i + j * m]))
                 {
-                    imax[j] = i + 1;
-                    amax = a[i + j * m];
+                    continue;
                 }
+
+                imax[j] = i + 1;
+                amax = a[i + j * m];
             }
         }
 
@@ -775,14 +759,12 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the array to be rescaled.
         //
     {
-        int i;
-        int i_big;
         int j;
-        double temp;
 
         for (j = 0; j < n; j++)
         {
-            i_big = 0;
+            int i_big = 0;
+            int i;
             for (i = 1; i < m; i++)
             {
                 if (Math.Abs(a[i_big + j * m]) < Math.Abs(a[i + j * m]))
@@ -791,14 +773,16 @@ public static partial class typeMethods
                 }
             }
 
-            temp = a[i_big + j * m];
+            double temp = a[i_big + j * m];
 
-            if (temp != 0.0)
+            if (temp == 0.0)
             {
-                for (i = 0; i < m; i++)
-                {
-                    a[i + j * m] /= temp;
-                }
+                continue;
+            }
+
+            for (i = 0; i < m; i++)
+            {
+                a[i + j * m] /= temp;
             }
         }
     }
@@ -847,10 +831,6 @@ public static partial class typeMethods
         //    On output, the columns of A have been sorted in lexicographic order.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
         SortHeapExternalData data = new();
 
         switch (m)
@@ -867,10 +847,10 @@ public static partial class typeMethods
         //
         //  Initialize.
         //
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         //
         //  Call the external heap sorter.
         //
@@ -891,7 +871,7 @@ public static partial class typeMethods
             {
                 isgn = r8col_compare ( m, n, a, i, j );
             }
-            else if ( indx == 0 )
+            else
             {
                 break;
             }
@@ -949,15 +929,7 @@ public static partial class typeMethods
         //    I-th column of the sorted array is A(*,INDX(I)).
         //
     {
-        double[] column;
         int i;
-        int[] indx;
-        int indxt;
-        int ir;
-        int isgn;
-        int j;
-        int k;
-        int l;
 
         switch (n)
         {
@@ -965,7 +937,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        indx = new int[n];
+        int[] indx = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -979,13 +951,15 @@ public static partial class typeMethods
                 return indx;
         }
 
-        column = new double[m];
+        double[] column = new double[m];
 
-        l = n / 2 + 1;
-        ir = n;
+        int l = n / 2 + 1;
+        int ir = n;
 
         for (;;)
         {
+            int indxt;
+            int k;
             if (1 < l)
             {
                 l -= 1;
@@ -1014,10 +988,11 @@ public static partial class typeMethods
             }
 
             i = l;
-            j = l + l;
+            int j = l + l;
 
             while (j <= ir)
             {
+                int isgn;
                 if (j < ir)
                 {
                     isgn = r8vec_compare(m, a, a, aIndex: + indx[j - 1] * m, bIndex: + indx[j] * m);
@@ -1087,12 +1062,9 @@ public static partial class typeMethods
         //    On output, the array has been sorted.
         //
     {
-        int LEVEL_MAX = 30;
+        const int LEVEL_MAX = 30;
 
-        int base_;
         int l_segment = 0;
-        int level;
-        int n_segment;
         int[] rsave = new int[LEVEL_MAX];
         int r_segment = 0;
 
@@ -1114,10 +1086,10 @@ public static partial class typeMethods
                 return;
         }
 
-        level = 1;
+        int level = 1;
         rsave[level - 1] = n + 1;
-        base_ = 1;
-        n_segment = n;
+        int base_ = 1;
+        int n_segment = n;
 
         for (;;)
         {
@@ -1266,21 +1238,14 @@ public static partial class typeMethods
         //    Output, int XDNU[N], the XDNU vector.
         //
     {
-        double diff;
-        int i;
-        int i2;
-        int i3;
-        int j;
-        int k;
-        bool unique;
         //
         //  Consider entry I = 0.
         //  It is unique, so set the number of unique items to K.
         //  Set the K-th unique item to I.
         //  Set the representative of item I to the K-th unique item.
         //
-        i = 0;
-        k = 0;
+        int i = 0;
+        int k = 0;
         undx[k] = i;
         xdnu[i] = k;
         //
@@ -1294,22 +1259,27 @@ public static partial class typeMethods
         //
         for ( i = 1; i < n; i++ )
         {
-            unique = true;
+            bool unique = true;
 
+            int j;
             for ( j = 0; j <= k; j++ )
             {
-                i2 = undx[j];
-                diff = 0.0;
+                int i2 = undx[j];
+                double diff = 0.0;
+                int i3;
                 for ( i3 = 0; i3 < m; i3++ )
                 {
                     diff = Math.Max ( diff, Math.Abs ( a[i3+i*m] - a[i3+i2*m] ) );
                 }
-                if ( diff <= tol )
+
+                if (!(diff <= tol))
                 {
-                    unique = false;
-                    xdnu[i] = j;
-                    break;
+                    continue;
                 }
+
+                unique = false;
+                xdnu[i] = j;
+                break;
             }
             switch (unique)
             {
@@ -1362,11 +1332,7 @@ public static partial class typeMethods
         //    Output, int R8COL_SORTED_TOL_UNIQUE, the number of unique columns.
         //
     {
-        double diff;
         int i;
-        int j;
-        int k;
-        bool unique;
         int unique_num;
 
         switch (n)
@@ -1380,10 +1346,12 @@ public static partial class typeMethods
 
         for (i = 1; i < n; i++)
         {
-            unique = true;
+            bool unique = true;
+            int k;
+            int j;
             for (j = 0; j < unique_num; j++)
             {
-                diff = 0.0;
+                double diff = 0.0;
                 for (k = 0; k < m; k++)
                 {
                     diff = Math.Max(diff, Math.Abs(a[k + i * m] - a[k + j * m]));
@@ -1465,24 +1433,15 @@ public static partial class typeMethods
         //    Output, int R8COL_SORTED_UNIQUE_COUNT, the number of unique columns.
         //
     {
-        double diff;
-        int i;
-        int i2;
-        int i3;
-        int j;
-        int k;
-        int[] undx;
-        bool unique;
-
-        undx = new int[n];
+        int[] undx = new int[n];
         //
         //  Consider entry I = 0.
         //  It is unique, so set the number of unique items to K.
         //  Set the K-th unique item to I.
         //  Set the representative of item I to the K-th unique item.
         //
-        i = 0;
-        k = 0;
+        int i = 0;
+        int k = 0;
         undx[k] = i;
         //
         //  Consider entry I.
@@ -1495,22 +1454,26 @@ public static partial class typeMethods
         //
         for (i = 1; i < n; i++)
         {
-            unique = true;
+            bool unique = true;
 
+            int j;
             for (j = 0; j <= k; j++)
             {
-                i2 = undx[j];
-                diff = 0.0;
+                int i2 = undx[j];
+                double diff = 0.0;
+                int i3;
                 for (i3 = 0; i3 < m; i3++)
                 {
                     diff = Math.Max(diff, Math.Abs(a[i3 + i * m] - a[i3 + i2 * m]));
                 }
 
-                if (diff <= tol)
+                if (!(diff <= tol))
                 {
-                    unique = false;
-                    break;
+                    continue;
                 }
+
+                unique = false;
+                break;
             }
 
             switch (unique)
@@ -1613,23 +1576,20 @@ public static partial class typeMethods
         //    Output, int XDNU[N], the XDNU vector.
         //
     {
-        double diff;
-        int i;
-        int j;
-        int k;
         //
         //  Walk through the sorted array.
         //
-        i = 0;
+        int i = 0;
 
-        j = 0;
+        int j = 0;
         undx[j] = i;
 
         xdnu[i] = j;
 
         for (i = 1; i < n; i++)
         {
-            diff = 0.0;
+            double diff = 0.0;
+            int k;
             for (k = 0; k < m; k++)
             {
                 diff = Math.Max(diff, Math.Abs(a[k + i * m] - a[k + undx[j] * m]));
@@ -1685,9 +1645,6 @@ public static partial class typeMethods
         //    Output, int UNIQUE_NUM, the number of unique columns.
         //
     {
-        bool equal;
-        int i;
-        int j1;
         int j2;
         int unique_num;
 
@@ -1698,18 +1655,21 @@ public static partial class typeMethods
                 return unique_num;
         }
 
-        j1 = 0;
+        int j1 = 0;
 
         for (j2 = 1; j2 < n; j2++)
         {
-            equal = true;
+            bool equal = true;
+            int i;
             for (i = 0; i < m; i++)
             {
-                if (a[i + j1 * m] != a[i + j2 * m])
+                if (!(Math.Abs(a[i + j1 * m] - a[i + j2 * m]) > double.Epsilon))
                 {
-                    equal = false;
-                    break;
+                    continue;
                 }
+
+                equal = false;
+                break;
             }
 
             switch (equal)
@@ -1769,13 +1729,9 @@ public static partial class typeMethods
         //    Output, int R8COL_SORTED_UNIQUE_COUNT, the number of unique columns.
         //
     {
-        bool equal;
-        int i;
-        int j1;
         int j2;
-        int unique_num;
 
-        unique_num = 0;
+        int unique_num = 0;
 
         switch (n)
         {
@@ -1784,18 +1740,21 @@ public static partial class typeMethods
         }
 
         unique_num = 1;
-        j1 = 0;
+        int j1 = 0;
 
         for (j2 = 1; j2 < n; j2++)
         {
-            equal = true;
+            bool equal = true;
+            int i;
             for (i = 0; i < m; i++)
             {
-                if (a[i + j1 * m] != a[i + j2 * m])
+                if (!(Math.Abs(a[i + j1 * m] - a[i + j2 * m]) > double.Epsilon))
                 {
-                    equal = false;
-                    break;
+                    continue;
                 }
+
+                equal = false;
+                break;
             }
 
             switch (equal)
@@ -1849,12 +1808,6 @@ public static partial class typeMethods
         //    in nondecreasing order.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        int k;
-        double t;
         SortHeapExternalData data = new();
 
         switch (m)
@@ -1876,10 +1829,10 @@ public static partial class typeMethods
         //
         //  Initialize.
         //
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         //
         //  Call the external heap sorter.
         //
@@ -1891,11 +1844,10 @@ public static partial class typeMethods
             //
             if (0 < indx)
             {
+                int k;
                 for (k = 0; k < n; k++)
                 {
-                    t = a[i - 1 + k * m];
-                    a[i - 1 + k * m] = a[j - 1 + k * m];
-                    a[j - 1 + k * m] = t;
+                    (a[i - 1 + k * m], a[j - 1 + k * m]) = (a[j - 1 + k * m], a[i - 1 + k * m]);
                 }
             }
             //
@@ -1912,7 +1864,7 @@ public static partial class typeMethods
                     isgn = +1;
                 }
             }
-            else if (indx == 0)
+            else
             {
                 break;
             }
@@ -1954,15 +1906,14 @@ public static partial class typeMethods
         //    Output, double R8COL_SUM[N], the sums of the columns.
         //
     {
-        double[] colsum;
-        int i;
         int j;
 
-        colsum = new double[n];
+        double[] colsum = new double[n];
 
         for (j = 0; j < n; j++)
         {
             colsum[j] = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 colsum[j] += a[i + j * m];
@@ -2026,7 +1977,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        double temp;
 
         if (j1 < 1 || n < j1 || j2 < 1 || n < j2)
         {
@@ -2046,9 +1996,7 @@ public static partial class typeMethods
 
         for (i = 0; i < m; i++)
         {
-            temp = a[i + (j1 - 1) * m];
-            a[i + (j1 - 1) * m] = a[i + (j2 - 1) * m];
-            a[i + (j2 - 1) * m] = temp;
+            (a[i + (j1 - 1) * m], a[i + (j2 - 1) * m]) = (a[i + (j2 - 1) * m], a[i + (j1 - 1) * m]);
         }
 
     }
@@ -2101,16 +2049,14 @@ public static partial class typeMethods
         //    Output, double X[M*N], a vector containing the N columns of A.
         //
     {
-        int i;
         int j;
-        int k;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 x[k] = a[i + j * m];
@@ -2223,25 +2169,18 @@ public static partial class typeMethods
         //    Output, int XDNU[N], the XDNU vector.
         //
     {
-        double diff;
-        int i;
-        int i2;
-        int[] indx;
-        int j;
-        int k;
-        bool unique;
         //
         //  Implicitly sort the array.
         //
-        indx = r8col_sort_heap_index_a(m, n, a);
+        int[] indx = r8col_sort_heap_index_a(m, n, a);
         //
         //  Consider entry I = 0.
         //  It is unique, so set the number of unique items to K.
         //  Set the K-th unique item to I.
         //  Set the representative of item I to the K-th unique item.
         //
-        i = 0;
-        k = 0;
+        int i = 0;
+        int k = 0;
         undx[k] = indx[i];
         xdnu[indx[i]] = k;
         //
@@ -2255,21 +2194,25 @@ public static partial class typeMethods
         //
         for (i = 1; i < n; i++)
         {
-            unique = true;
+            bool unique = true;
+            int j;
             for (j = 0; j <= k; j++)
             {
-                diff = 0.0;
+                double diff = 0.0;
+                int i2;
                 for (i2 = 0; i2 < m; i2++)
                 {
                     diff = Math.Max(diff, Math.Abs(a[i2 + indx[i] * m] - a[i2 + undx[j] * m]));
                 }
 
-                if (diff <= tol)
+                if (!(diff <= tol))
                 {
-                    unique = false;
-                    xdnu[indx[i]] = j;
-                    break;
+                    continue;
                 }
+
+                unique = false;
+                xdnu[indx[i]] = j;
+                break;
             }
 
             switch (unique)
@@ -2333,28 +2276,19 @@ public static partial class typeMethods
         //    Output, int R8COL_TOL_UNIQUE_COUNT, the number of unique columns.
         //
     {
-        double diff;
-        int i;
-        int i2;
-        int[] indx;
-        int j;
-        int k;
-        bool unique;
-        int[] undx;
-
-        undx = new int[n];
+        int[] undx = new int[n];
         //
         //  Implicitly sort the array.
         //
-        indx = r8col_sort_heap_index_a(m, n, a);
+        int[] indx = r8col_sort_heap_index_a(m, n, a);
         //
         //  Consider entry I = 0.
         //  It is unique, so set the number of unique items to K.
         //  Set the K-th unique item to I.
         //  Set the representative of item I to the K-th unique item.
         //
-        i = 0;
-        k = 0;
+        int i = 0;
+        int k = 0;
         undx[k] = indx[i];
         //
         //  Consider entry I.
@@ -2367,20 +2301,24 @@ public static partial class typeMethods
         //
         for (i = 1; i < n; i++)
         {
-            unique = true;
+            bool unique = true;
+            int j;
             for (j = 0; j <= k; j++)
             {
-                diff = 0.0;
+                double diff = 0.0;
+                int i2;
                 for (i2 = 0; i2 < m; i2++)
                 {
                     diff = Math.Max(diff, Math.Abs(a[i2 + indx[i] * m] - a[i2 + undx[j] * m]));
                 }
 
-                if (diff <= tol)
+                if (!(diff <= tol))
                 {
-                    unique = false;
-                    break;
+                    continue;
                 }
+
+                unique = false;
+                break;
             }
 
             switch (unique)
@@ -2439,21 +2377,16 @@ public static partial class typeMethods
         //    Output, int R8COL_TOL_UNIQUE_INDEX[N], the unique index.
         //
     {
-        double diff;
-        int i;
         int j1;
-        int j2;
-        int[] unique_index;
-        int unique_num;
 
-        unique_index = new int[n];
+        int[] unique_index = new int[n];
 
         for (j1 = 0; j1 < n; j1++)
         {
             unique_index[j1] = -1;
         }
 
-        unique_num = 0;
+        int unique_num = 0;
 
         for (j1 = 0; j1 < n; j1++)
         {
@@ -2463,9 +2396,11 @@ public static partial class typeMethods
                 {
                     unique_index[j1] = unique_num;
 
+                    int j2;
                     for (j2 = j1 + 1; j2 < n; j2++)
                     {
-                        diff = 0.0;
+                        double diff = 0.0;
+                        int i;
                         for (i = 0; i < m; i++)
                         {
                             diff = Math.Max(diff, Math.Abs(a[i + j1 * m] - a[i + j2 * m]));
@@ -2562,19 +2497,11 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2;
-        int i2hi;
         int i2lo;
         int i2lo_hi;
-        int i2lo_lo;
-        int inc;
         int j;
-        int j2hi;
-        int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -2586,7 +2513,7 @@ public static partial class typeMethods
             return;
         }
 
-        i2lo_lo = ilo switch
+        int i2lo_lo = ilo switch
         {
             < 1 => 1,
             _ => ilo
@@ -2603,7 +2530,7 @@ public static partial class typeMethods
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
-            i2hi = i2lo + INCX - 1;
+            int i2hi = i2lo + INCX - 1;
 
             if (m < i2hi)
             {
@@ -2615,10 +2542,11 @@ public static partial class typeMethods
                 i2hi = ihi;
             }
 
-            inc = i2hi + 1 - i2lo;
+            int inc = i2hi + 1 - i2lo;
 
             Console.WriteLine("");
-            cout = "  Row: ";
+            string cout = "  Row: ";
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout += (i - 1).ToString().PadLeft(7) + "       ";
@@ -2628,24 +2556,18 @@ public static partial class typeMethods
             Console.WriteLine("  Col");
             Console.WriteLine("");
 
-            j2lo = jlo switch
+            int j2lo = jlo switch
             {
                 < 1 => 1,
                 _ => jlo
             };
 
-            if (n < jhi)
-            {
-                j2hi = n;
-            }
-            else
-            {
-                j2hi = jhi;
-            }
+            int j2hi = n < jhi ? n : jhi;
 
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout = (j - 1).ToString().PadLeft(5) + ":";
+                int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {
                     i = i2lo - 1 + i2;
@@ -2757,28 +2679,24 @@ public static partial class typeMethods
         //    Output, int XDNU[N], the XDNU vector.
         //
     {
-        double diff;
-        int i;
-        int[] indx;
-        int j;
-        int k;
         //
         //  Implicitly sort the array.
         //
-        indx = r8col_sort_heap_index_a(m, n, a);
+        int[] indx = r8col_sort_heap_index_a(m, n, a);
         //
         //  Walk through the implicitly sorted array.
         //
-        i = 0;
+        int i = 0;
 
-        j = 0;
+        int j = 0;
         undx[j] = indx[i];
 
         xdnu[indx[i]] = j;
 
         for (i = 1; i < n; i++)
         {
-            diff = 0.0;
+            double diff = 0.0;
+            int k;
             for (k = 0; k < m; k++)
             {
                 diff = Math.Max(diff, Math.Abs(a[k + indx[i] * m] - a[k + undx[j] * m]));
@@ -2953,15 +2871,14 @@ public static partial class typeMethods
         //    Output, double R8COL_MIN[N], the minimums of the columns.
         //
     {
-        double[] amin;
-        int i;
         int j;
 
-        amin = new double[n];
+        double[] amin = new double[n];
 
         for ( j = 0; j < n; j++ )
         {
             amin[j] = a[0+j*m];
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 amin[j] = Math.Min ( amin[j], a[i+j*m] );
@@ -3006,25 +2923,25 @@ public static partial class typeMethods
         //    the minimum for column I occurs.
         //
     {
-        double amin;
-        int i;
-        int[] imin;
         int j;
 
-        imin = new int[n];
+        int[] imin = new int[n];
 
         for (j = 0; j < n; j++)
         {
             imin[j] = 1;
-            amin = a[0 + j * m];
+            double amin = a[0 + j * m];
 
+            int i;
             for (i = 1; i < m; i++)
             {
-                if (a[i + j * m] < amin)
+                if (!(a[i + j * m] < amin))
                 {
-                    imin[j] = i + 1;
-                    amin = a[i + j * m];
+                    continue;
                 }
+
+                imin[j] = i + 1;
+                amin = a[i + j * m];
             }
         }
 
@@ -3062,13 +2979,12 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the array to be normalized.
         //
     {
-        double c;
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
-            c = a[0 + j * m];
+            double c = a[0 + j * m];
+            int i;
             for (i = 1; i < m; i++)
             {
                 if (Math.Abs(c) < Math.Abs(a[i + j * m]))
@@ -3077,12 +2993,14 @@ public static partial class typeMethods
                 }
             }
 
-            if (c != 0.0)
+            if (c == 0.0)
             {
-                for (i = 0; i < m; i++)
-                {
-                    a[i + m * j] /= c;
-                }
+                continue;
+            }
+
+            for (i = 0; i < m; i++)
+            {
+                a[i + m * j] /= c;
             }
         }
     }
@@ -3151,8 +3069,6 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        int k;
-        double[] key;
 
         switch (n)
         {
@@ -3167,14 +3083,14 @@ public static partial class typeMethods
                 return;
         }
 
-        key = new double[m];
+        double[] key = new double[m];
 
         for (i = 0; i < m; i++)
         {
             key[i] = a[(i + 0 * m + aIndex ) % a.Length];
         }
 
-        k = 1;
+        int k = 1;
         //
         //  The elements of unknown size have indices between L+1 and R-1.
         //
@@ -3228,8 +3144,6 @@ public static partial class typeMethods
         l -= k;
 
     }
-
-
 
     public static void r8col_permute ( int m, int n, int[] p, int base_, double[] a )
 
@@ -3295,10 +3209,7 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the array to be permuted.
         //
     {
-        double[] a_temp;
         int i;
-        int iget;
-        int iput;
         int istart;
         int j;
 
@@ -3320,7 +3231,7 @@ public static partial class typeMethods
             p[i] = p[i] + 1 - base_;
         }
 
-        a_temp = new double[m];
+        double[] a_temp = new double[m];
         //
         //  Search for the next element of the permutation that has not been used.
         //
@@ -3343,13 +3254,13 @@ public static partial class typeMethods
                             a_temp[i] = a[i + (istart - 1) * m];
                         }
 
-                        iget = istart;
+                        int iget = istart;
                         //
                         //  Copy the new value into the vacated entry.
                         //
                         for (;;)
                         {
-                            iput = iget;
+                            int iput = iget;
                             iget = p[iget - 1];
 
                             p[iput - 1] = -p[iput - 1];
@@ -3464,14 +3375,11 @@ public static partial class typeMethods
         //    fail catastrophically.
         //
     {
-        double[] a_temp;
         int i;
-        int iget;
-        int iput;
         int istart;
         int j;
 
-        a_temp = new double[m];
+        double[] a_temp = new double[m];
         //
         //  Need to increment the entries by 1 in order to use the sign trick.
         //
@@ -3502,13 +3410,13 @@ public static partial class typeMethods
                             a_temp[i] = a[i + (istart - 1) * m];
                         }
 
-                        iget = istart;
+                        int iget = istart;
                         //
                         //  Copy the new value into the vacated entry.
                         //
                         for (;;)
                         {
-                            iput = iget;
+                            int iput = iget;
                             iget = p[iget - 1];
 
                             p[iput - 1] = -p[iput - 1];
@@ -3642,15 +3550,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
         int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -3667,7 +3570,7 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             if (n < j2hi)
             {
                 j2hi = n;
@@ -3684,7 +3587,7 @@ public static partial class typeMethods
             //
             //  Write the header.
             //
-            cout = "  Col:    ";
+            string cout = "  Col:    ";
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += (j - 1).ToString().PadLeft(7) + "       ";
@@ -3693,7 +3596,7 @@ public static partial class typeMethods
             Console.WriteLine(cout);
             Console.WriteLine("  Row");
             Console.WriteLine("");
-            i2lo = ilo switch
+            int i2lo = ilo switch
             {
                 //
                 //  Determine the range of the rows in this strip.
@@ -3702,6 +3605,7 @@ public static partial class typeMethods
                 _ => 1
             };
 
+            int i2hi;
             if (ihi < m)
             {
                 i2hi = ihi;
@@ -3711,6 +3615,7 @@ public static partial class typeMethods
                 i2hi = m;
             }
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -3776,16 +3681,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double t;
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n / 2; j++)
             {
-                t = a[i + j * m];
-                a[i + j * m] = a[i + (n - 1 - j) * m];
-                a[i + (n - 1 - j) * m] = t;
+                (a[i + j * m], a[i + (n - 1 - j) * m]) = (a[i + (n - 1 - j) * m], a[i + j * m]);
             }
         }
     }
@@ -3827,19 +3729,18 @@ public static partial class typeMethods
         //    Output, double &D_MIN, &D_MAX, the minimum and maximum distances.
         //
     {
-        double d;
-        int i;
         int j1;
-        int j2;
 
         d_min = r8_huge();
         d_max = 0.0;
 
         for (j1 = 0; j1 < n; j1++)
         {
+            int j2;
             for (j2 = j1 + 1; j2 < n; j2++)
             {
-                d = 0.0;
+                double d = 0.0;
+                int i;
                 for (i = 0; i < m; i++)
                 {
                     d = Math.Max(d, Math.Abs(a[i + j1 * m] - a[i + j2 * m]));

@@ -44,10 +44,9 @@ public static partial class typeMethods
         //    Output, double R8BLT_DET, the determinant of A.
         //
     {
-        double det;
         int j;
 
-        det = 1.0;
+        double det = 1.0;
         for (j = 0; j < n; j++)
         {
             det *= a[0 + j * (ml + 1)];
@@ -111,19 +110,16 @@ public static partial class typeMethods
         //    Output, double R8BLT_INDICATOR[(ML+1)*N], the R8BLT matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
         int j;
-        int jlo;
 
-        a = new double[(ml + 1) * n];
+        double[] a = new double[(ml + 1) * n];
 
-        fac = (int) Math.Pow(10, Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, Math.Log10(n) + 1);
 
         for (i = 1; i <= n; i++)
         {
-            jlo = Math.Max(1, i - ml);
+            int jlo = Math.Max(1, i - ml);
             for (j = jlo; j <= i; j++)
             {
                 a[i - j + (j - 1) * (ml + 1)] = fac * i + j;
@@ -186,18 +182,15 @@ public static partial class typeMethods
         //    Output, double R8BLT_MTV[N], the product X*A.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int jhi;
-        int jlo;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
-            jlo = Math.Max(0, i - ml);
-            jhi = i;
+            int jlo = Math.Max(0, i - ml);
+            int jhi = i;
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[j] += x[i] * a[i - j + j * (ml + 1)];
@@ -248,18 +241,15 @@ public static partial class typeMethods
         //    Output, double R8BLT_MV[N], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int jhi;
-        int jlo;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
-            jlo = Math.Max(0, i - ml);
-            jhi = i;
+            int jlo = Math.Max(0, i - ml);
+            int jhi = i;
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[i] += a[i - j + j * (ml + 1)] * x[j];
@@ -354,15 +344,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -371,12 +355,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -388,11 +373,12 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo);
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
             i2hi = Math.Min(i2hi, j2hi + ml);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(5) + "  ";
@@ -458,16 +444,14 @@ public static partial class typeMethods
         //    Output, double R8BLT_RANDOM[(ML+1)*N], the R8BLT matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        int jlo;
 
-        a = new double[(ml + 1) * n];
+        double[] a = new double[(ml + 1) * n];
 
         for (i = 0; i < n; i++)
         {
-            jlo = Math.Max(0, i - ml);
+            int jlo = Math.Max(0, i - ml);
             for (j = jlo; j <= i; j++)
             {
                 a[i - j + j * (ml + 1)] = UniformRNG.r8_uniform_01(ref seed);
@@ -533,11 +517,9 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ihi;
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -547,7 +529,7 @@ public static partial class typeMethods
         for (j = 0; j < n; j++)
         {
             x[j] /= a[0 + j * (ml + 1)];
-            ihi = Math.Min(j + ml, n - 1);
+            int ihi = Math.Min(j + ml, n - 1);
             for (i = j + 1; i <= ihi; i++)
             {
                 x[i] -= a[i - j + j * (ml + 1)] * x[j];
@@ -601,11 +583,9 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ilo;
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -615,7 +595,7 @@ public static partial class typeMethods
         for (j = n - 1; 0 <= j; j--)
         {
             x[j] /= a[0 + j * (ml + 1)];
-            ilo = Math.Max(j - ml, 0);
+            int ilo = Math.Max(j - ml, 0);
             for (i = ilo; i <= j - 1; i++)
             {
                 x[i] -= a[j - i + i * (ml + 1)] * x[j];
@@ -678,14 +658,13 @@ public static partial class typeMethods
         //    Output, double R8BLT_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 if (j <= i && i <= j + ml)
@@ -739,14 +718,13 @@ public static partial class typeMethods
         //    Output, double R8BLT_ZERO[(ML+1)*N], the R8BLT matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[(ml + 1) * n];
+        double[] a = new double[(ml + 1) * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < ml + 1; i++)
             {
                 a[i + j * (ml + 1)] = 0.0;

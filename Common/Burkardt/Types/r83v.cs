@@ -80,31 +80,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r83v_mv(n, n, a1, a2, a3, x);
+        double[] ap = r83v_mv(n, n, a1, a2, a3, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -126,15 +118,15 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = r8vec_dot_product(n, p, ap);
-            pr = r8vec_dot_product(n, p, r);
+            double pap = r8vec_dot_product(n, p, ap);
+            double pr = r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -156,9 +148,9 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = r8vec_dot_product(n, r, ap);
+            double rap = r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -191,45 +183,34 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
-        double e_norm;
         int i;
-        int n;
-        double[] r;
-        double r_norm;
-        int seed;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("R83_CG_TEST");
         Console.WriteLine("  R83_CG applies CG to an R83 matrix.");
 
-        n = 10;
+        int n = 10;
         //
         //  Let A be the -1 2 -1 matrix.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         r83v_dif2(n, n, ref a1, ref a2, ref a3);
         //
         //  Choose a random solution.
         //
-        seed = 123456789;
-        x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Compute the corresponding right hand side.
         //
-        b = r83v_mv(n, n, a1, a2, a3, x1);
+        double[] b = r83v_mv(n, n, a1, a2, a3, x1);
         //
         //  Call the CG routine.
         //
-        x2 = new double[n];
+        double[] x2 = new double[n];
         for (i = 0; i < n; i++)
         {
             x2[i] = 1.0;
@@ -239,12 +220,12 @@ public static partial class typeMethods
         //
         //  Compute the residual.
         //
-        r = r83v_res(n, n, a1, a2, a3, x2, b);
-        r_norm = r8vec_norm(n, r);
+        double[] r = r83v_res(n, n, a1, a2, a3, x2, b);
+        double r_norm = r8vec_norm(n, r);
         //
         //  Compute the error.
         //
-        e_norm = r8vec_norm_affine(n, x1, x2);
+        double e_norm = r8vec_norm_affine(n, x1, x2);
         //
         //  Report.
         //
@@ -315,14 +296,11 @@ public static partial class typeMethods
         //    Output, double B1(min(M-1,N)), B2(min(M,N)), B3(min(M,N-1)), the copy.
         //
     {
-        int ahi;
-        int bhi;
-        int chi;
         int i;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (i = 0; i < ahi; i++)
         {
@@ -361,15 +339,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        int ahi;
-        double[] b1;
-        double[] b2;
-        double[] b3;
-        int bhi;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -397,19 +366,19 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a1 = new double[ahi];
-            a2 = new double[bhi];
-            a3 = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a1 = new double[ahi];
+            double[] a2 = new double[bhi];
+            double[] a3 = new double[chi];
 
             r83v_indicator(m, n, ref a1, ref a2, ref a3);
             r83v_print(m, n, a1, a2, a3, "  R83V matrix A:");
 
-            b1 = new double[ahi];
-            b2 = new double[bhi];
-            b3 = new double[chi];
+            double[] b1 = new double[ahi];
+            double[] b2 = new double[bhi];
+            double[] b3 = new double[chi];
             r83v_copy(m, n, a1, a2, a3, ref b1, ref b2, ref b3);
             r83v_print(m, n, b1, b2, b3, "  B = copy of A:");
 
@@ -535,17 +504,6 @@ public static partial class typeMethods
         //    needed by R83V_CR_SL.
         //
     {
-        double[] a_cr;
-        int i;
-        int iful;
-        int ifulp;
-        int ihaf;
-        int il;
-        int ilp;
-        int inc;
-        int incr;
-        int ipnt;
-        int ipntp;
         int j;
 
         switch (n)
@@ -557,10 +515,11 @@ public static partial class typeMethods
                 return null;
         }
 
-        a_cr = new double[3 * (2 * n + 1)];
+        double[] a_cr = new double[3 * (2 * n + 1)];
 
         for (j = 0; j < 2 * n + 1; j++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a_cr[i + j * 3] = 0.0;
@@ -589,28 +548,29 @@ public static partial class typeMethods
             a_cr[2 + j * 3] = a1[j - 1];
         }
 
-        il = n;
-        ipntp = 0;
+        int il = n;
+        int ipntp = 0;
 
         while (1 < il)
         {
-            ipnt = ipntp;
+            int ipnt = ipntp;
             ipntp += il;
-            inc = (il % 2) switch
+            int inc = (il % 2) switch
             {
                 1 => il + 1,
                 _ => il
             };
 
-            incr = inc / 2;
+            int incr = inc / 2;
             il /= 2;
-            ihaf = ipntp + incr + 1;
-            ifulp = ipnt + inc + 2;
+            int ihaf = ipntp + incr + 1;
+            int ifulp = ipnt + inc + 2;
 
+            int ilp;
             for (ilp = incr; 1 <= ilp; ilp--)
             {
                 ifulp -= 2;
-                iful = ifulp - 1;
+                int iful = ifulp - 1;
                 ihaf -= 1;
 
                 a_cr[1 + iful * 3] = 1.0 / a_cr[1 + iful * 3];
@@ -650,15 +610,8 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a_cr;
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
-        int i;
         int j;
-        int n = 10;
-        double[] x;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_CR_FA_TEST:");
@@ -669,12 +622,13 @@ public static partial class typeMethods
         //
         //  Set the matrix values.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = Math.Max(0, j - 1); i <= Math.Min(n - 1, j + 1); i++)
             {
                 if (j == i - 1)
@@ -696,15 +650,15 @@ public static partial class typeMethods
         //
         //  Set the desired solution.
         //
-        x = r8vec_indicator1_new(n);
+        double[] x = r8vec_indicator1_new(n);
         //
         //  Compute the corresponding right hand side.
         //
-        b = r83v_mv(n, n, a1, a2, a3, x);
+        double[] b = r83v_mv(n, n, a1, a2, a3, x);
         //
         //  Factor the matrix.
         //
-        a_cr = r83v_cr_fa(n, a1, a2, a3);
+        double[] a_cr = r83v_cr_fa(n, a1, a2, a3);
         //
         //  Solve the linear system.
         //
@@ -800,13 +754,8 @@ public static partial class typeMethods
     {
         int i;
         int iful;
-        int ifulm;
         int ihaf = 0;
-        int il;
         int ipnt;
-        int ipntp;
-        int ndiv;
-        double[] rhs;
         double[] x;
 
         switch (n)
@@ -825,7 +774,7 @@ public static partial class typeMethods
         //
         //  Set up RHS.
         //
-        rhs = new double[2 * n + 1];
+        double[] rhs = new double[2 * n + 1];
 
         rhs[0] = 0.0;
         for (i = 1; i <= n; i++)
@@ -838,9 +787,9 @@ public static partial class typeMethods
             rhs[i] = 0.0;
         }
 
-        il = n;
-        ndiv = 1;
-        ipntp = 0;
+        int il = n;
+        int ndiv = 1;
+        int ipntp = 0;
 
         while (1 < il)
         {
@@ -871,6 +820,7 @@ public static partial class typeMethods
             ipnt -= il;
             ihaf = ipntp;
 
+            int ifulm;
             for (ifulm = ipnt + 1; ifulm <= ipntp; ifulm += 2)
             {
                 iful = ifulm + 1;
@@ -914,15 +864,8 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a_cr;
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
-        int i;
         int j;
-        int n = 10;
-        double[] x;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_CR_SL_TEST:");
@@ -933,12 +876,13 @@ public static partial class typeMethods
         //
         //  Set the matrix values.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = Math.Max(0, j - 1); i <= Math.Min(n - 1, j + 1); i++)
             {
                 if (j == i - 1)
@@ -960,15 +904,15 @@ public static partial class typeMethods
         //
         //  Set the desired solution.
         //
-        x = r8vec_indicator1_new(n);
+        double[] x = r8vec_indicator1_new(n);
         //
         //  Compute the corresponding right hand side.
         //
-        b = r83v_mv(n, n, a1, a2, a3, x);
+        double[] b = r83v_mv(n, n, a1, a2, a3, x);
         //
         //  Factor the matrix.
         //
-        a_cr = r83v_cr_fa(n, a1, a2, a3);
+        double[] a_cr = r83v_cr_fa(n, a1, a2, a3);
         //
         //  Solve the linear system.
         //
@@ -1065,14 +1009,9 @@ public static partial class typeMethods
     {
         int i;
         int iful;
-        int ifulm;
         int ihaf = 0;
-        int il;
         int ipnt;
-        int ipntp;
         int j;
-        int ndiv;
-        double[] rhs;
         double[] x;
 
         switch (n)
@@ -1097,7 +1036,7 @@ public static partial class typeMethods
         //
         //  Set up RHS.
         //
-        rhs = new double[(2 * n + 1) * nb];
+        double[] rhs = new double[(2 * n + 1) * nb];
 
         for (j = 0; j < nb; j++)
         {
@@ -1113,9 +1052,9 @@ public static partial class typeMethods
             }
         }
 
-        il = n;
-        ndiv = 1;
-        ipntp = 0;
+        int il = n;
+        int ndiv = 1;
+        int ipntp = 0;
 
         while (1 < il)
         {
@@ -1154,6 +1093,7 @@ public static partial class typeMethods
             for (j = 0; j < nb; j++)
             {
                 ihaf = ipntp;
+                int ifulm;
                 for (ifulm = ipnt + 1; ifulm <= ipntp; ifulm += 2)
                 {
                     iful = ifulm + 1;
@@ -1201,16 +1141,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a_cr;
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
-        int i;
         int j;
-        int n = 5;
-        int nb = 2;
-        double[] x;
+        const int n = 5;
+        const int nb = 2;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_CR_SLS_TEST");
@@ -1226,9 +1159,9 @@ public static partial class typeMethods
         //
         //  Set the matrix values.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         r83v_dif2(n, n, ref a1, ref a2, ref a3);
 
@@ -1236,14 +1169,15 @@ public static partial class typeMethods
         //
         //  Factor the matrix once.
         //
-        a_cr = r83v_cr_fa(n, a1, a2, a3);
+        double[] a_cr = r83v_cr_fa(n, a1, a2, a3);
         //
         //  Set up the linear systems.
         //
-        b = new double[n * nb];
+        double[] b = new double[n * nb];
 
         for (j = 0; j < nb; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 b[i + j * n] = 0.0;
@@ -1261,7 +1195,7 @@ public static partial class typeMethods
         //
         //  Solve the linear systems.
         //
-        x = r83v_cr_sls(n, a_cr, nb, b);
+        double[] x = r83v_cr_sls(n, a_cr, nb, b);
 
         r8ge_print(n, nb, x, "  Solutions:");
 
@@ -1393,14 +1327,11 @@ public static partial class typeMethods
         //    Output, double A(min(M-1,N)), B(min(M,N)), C(min(M,N-1)), the matrix.
         //
     {
-        int ahi;
-        int bhi;
-        int chi;
         int i;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (i = 0; i < ahi; i++)
         {
@@ -1439,12 +1370,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -1472,12 +1397,12 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a = new double[ahi];
-            b = new double[bhi];
-            c = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a = new double[ahi];
+            double[] b = new double[bhi];
+            double[] c = new double[chi];
 
             r83v_dif2(m, n, ref a, ref b, ref c);
 
@@ -1560,20 +1485,15 @@ public static partial class typeMethods
         //    Output, double R83V_FS[N], the solution.
         //
     {
-        double[] c;
-        double[] d;
-        double[] e;
         int i;
         int k;
-        double t;
-        double[] x;
         //
         //  Copy the input data.
         //
-        c = new double[n];
-        d = new double[n];
-        e = new double[n];
-        x = new double[n];
+        double[] c = new double[n];
+        double[] d = new double[n];
+        double[] e = new double[n];
+        double[] x = new double[n];
 
         c[0] = 0.0;
         for (i = 1; i < n; i++)
@@ -1615,6 +1535,7 @@ public static partial class typeMethods
                     //
                     //  Find the larger of the two rows.
                     //
+                    double t;
                     if (Math.Abs(c[k - 1]) <= Math.Abs(c[k]))
                     {
                         //
@@ -1707,13 +1628,7 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
-        int n = 10;
-        double[] x1;
-        double[] x2;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_FS_TEST");
@@ -1724,25 +1639,25 @@ public static partial class typeMethods
         //
         //  Set the matrix values.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         r83v_dif2(n, n, ref a1, ref a2, ref a3);
         //
         //  Set the desired solution.
         //
-        x1 = r8vec_indicator1_new(n);
+        double[] x1 = r8vec_indicator1_new(n);
         //
         //  Compute the corresponding right hand side.
         //
-        b = r83v_mv(n, n, a1, a2, a3, x1);
+        double[] b = r83v_mv(n, n, a1, a2, a3, x1);
 
         r8vec_print(n, b, "  The right hand side:");
         //
         //  Solve the linear system.
         //
-        x2 = r83v_fs(n, a1, a2, a3, b);
+        double[] x2 = r83v_fs(n, a1, a2, a3, b);
 
         if (x2 == null || x2.Length == 0)
         {
@@ -1823,7 +1738,6 @@ public static partial class typeMethods
     {
         int i;
         int it_num;
-        double[] x_new;
         //
         //  No diagonal matrix entry can be zero.
         //
@@ -1839,7 +1753,7 @@ public static partial class typeMethods
             }
         }
 
-        x_new = new double[n];
+        double[] x_new = new double[n];
 
         for (it_num = 1; it_num <= it_max; it_num++)
         {
@@ -1880,14 +1794,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
         int i;
-        int maxit = 25;
-        int n = 10;
-        double[] x;
+        const int maxit = 25;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_GS_SL_TEST");
@@ -1899,19 +1808,19 @@ public static partial class typeMethods
         //
         //  Set the matrix values.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         r83v_dif2(n, n, ref a1, ref a2, ref a3);
         //
         //  Set the desired solution.
         //
-        x = r8vec_indicator1_new(n);
+        double[] x = r8vec_indicator1_new(n);
         //
         //  Compute the corresponding right hand side.
         //
-        b = r83v_mv(n, n, a1, a2, a3, x);
+        double[] b = r83v_mv(n, n, a1, a2, a3, x);
 
         r8vec_print(n, b, "  The right hand side:");
         //
@@ -1992,17 +1901,13 @@ public static partial class typeMethods
         //    Output, double A(min(M-1,N)), B(min(M,N)), C(min(M,N-1)), the matrix.
         //
     {
-        int ahi;
-        int bhi;
-        int chi;
-        int fac;
         int i;
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (i = 0; i < ahi; i++)
         {
@@ -2041,12 +1946,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -2074,12 +1973,12 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a = new double[ahi];
-            b = new double[bhi];
-            c = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a = new double[ahi];
+            double[] b = new double[bhi];
+            double[] c = new double[chi];
 
             r83v_indicator(m, n, ref a, ref b, ref c);
 
@@ -2156,9 +2055,8 @@ public static partial class typeMethods
     {
         int i;
         int it_num;
-        double[] x_new;
 
-        x_new = new double[n];
+        double[] x_new = new double[n];
         //
         //  No diagonal matrix entry can be zero.
         //
@@ -2225,14 +2123,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] b;
         int i;
-        int maxit = 25;
-        int n = 10;
-        double[] x;
+        const int maxit = 25;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_JAC_SL_TEST");
@@ -2244,19 +2137,19 @@ public static partial class typeMethods
         //
         //  Set the matrix values.
         //
-        a1 = new double[n - 1];
-        a2 = new double[n];
-        a3 = new double[n - 1];
+        double[] a1 = new double[n - 1];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n - 1];
 
         r83v_dif2(n, n, ref a1, ref a2, ref a3);
         //
         //  Set the desired solution.
         //
-        x = r8vec_indicator1_new(n);
+        double[] x = r8vec_indicator1_new(n);
         //
         //  Compute the corresponding right hand side.
         //
-        b = r83v_mv(n, n, a1, a2, a3, x);
+        double[] b = r83v_mv(n, n, a1, a2, a3, x);
 
         r8vec_print(n, b, "  The right hand side:");
         //
@@ -2341,22 +2234,18 @@ public static partial class typeMethods
         //    Output, double R83V_MTV[N], the product A'*x.
         //
     {
-        int ahi;
-        double[] b;
-        int bhi;
-        int chi;
         int j;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (j = 0; j < n; j++)
         {
             b[j] = 0.0;
         }
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (j = 0; j < ahi; j++)
         {
@@ -2397,20 +2286,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a_ge;
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        int ahi;
-        double[] ax;
-        double[] ax_ge;
-        int bhi;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
-        int seed;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_MTV_TEST");
@@ -2435,21 +2313,21 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
 
-            a1 = new double[ahi];
-            a2 = new double[bhi];
-            a3 = new double[chi];
+            double[] a1 = new double[ahi];
+            double[] a2 = new double[bhi];
+            double[] a3 = new double[chi];
 
-            seed = 123456789;
+            int seed = 123456789;
             r83v_random(m, n, ref seed, ref a1, ref a2, ref a3);
-            x = r8vec_indicator1_new(m);
-            ax = r83v_mtv(m, n, a1, a2, a3, x);
+            double[] x = r8vec_indicator1_new(m);
+            double[] ax = r83v_mtv(m, n, a1, a2, a3, x);
 
-            a_ge = r83v_to_r8ge(m, n, a1, a2, a3);
-            ax_ge = r8ge_mtv(m, n, a_ge, x);
+            double[] a_ge = r83v_to_r8ge(m, n, a1, a2, a3);
+            double[] ax_ge = r8ge_mtv(m, n, a_ge, x);
             r8vec2_print(n, ax, ax_ge, "  Product comparison:");
 
         }
@@ -2517,22 +2395,18 @@ public static partial class typeMethods
         //    Output, double R83V_MV[M], the product A * x.
         //
     {
-        int ahi;
-        double[] ax;
-        int bhi;
-        int chi;
         int i;
 
-        ax = new double[m];
+        double[] ax = new double[m];
 
         for (i = 0; i < m; i++)
         {
             ax[i] = 0.0;
         }
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (i = 0; i < ahi; i++)
         {
@@ -2573,20 +2447,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a_ge;
-        int ahi;
-        double[] ax;
-        double[] ax_ge;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
-        int seed;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_MV_TEST");
@@ -2611,21 +2474,21 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
 
-            a = new double[ahi];
-            b = new double[bhi];
-            c = new double[chi];
+            double[] a = new double[ahi];
+            double[] b = new double[bhi];
+            double[] c = new double[chi];
 
-            seed = 123456789;
+            int seed = 123456789;
             r83v_random(m, n, ref seed, ref a, ref b, ref c);
-            x = r8vec_indicator1_new(n);
-            ax = r83v_mv(m, n, a, b, c, x);
+            double[] x = r8vec_indicator1_new(n);
+            double[] ax = r83v_mv(m, n, a, b, c, x);
 
-            a_ge = r83v_to_r8ge(m, n, a, b, c);
-            ax_ge = r8ge_mv(m, n, a_ge, x);
+            double[] a_ge = r83v_to_r8ge(m, n, a, b, c);
+            double[] ax_ge = r8ge_mv(m, n, a_ge, x);
             r8vec2_print(m, ax, ax_ge, "  Product comparison:");
 
         }
@@ -2716,28 +2579,19 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
-        int m;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("R83V_PRINT_TEST");
         Console.WriteLine("  R83V_PRINT prints an R83V matrix.");
 
-        m = 5;
-        n = 5;
+        const int m = 5;
+        const int n = 5;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
-        a = new double[ahi];
-        b = new double[bhi];
-        c = new double[chi];
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
+        double[] a = new double[ahi];
+        double[] b = new double[bhi];
+        double[] c = new double[chi];
 
         r83v_indicator(m, n, ref a, ref b, ref c);
 
@@ -2809,17 +2663,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -2828,14 +2674,16 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j2;
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
@@ -2848,12 +2696,13 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo - 1);
 
-            i2hi = Math.Min(ihi, m);
+            int i2hi = Math.Min(ihi, m);
             i2hi = Math.Min(i2hi, j2hi + 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -2918,28 +2767,19 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
-        int m;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("R83V_PRINT_SOME_TEST");
         Console.WriteLine("  R83V_PRINT_SOME prints some of an R83V matrix.");
 
-        m = 5;
-        n = 5;
+        const int m = 5;
+        const int n = 5;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
-        a = new double[ahi];
-        b = new double[bhi];
-        c = new double[chi];
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
+        double[] a = new double[ahi];
+        double[] b = new double[bhi];
+        double[] c = new double[chi];
 
         r83v_indicator(m, n, ref a, ref b, ref c);
 
@@ -3007,13 +2847,9 @@ public static partial class typeMethods
         //    Output, double A(min(M-1,N)), B(min(M,N)), C(min(M,N-1)), the matrix.
         //
     {
-        int ahi;
-        int bhi;
-        int chi;
-
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         UniformRNG.r8vec_uniform_01(ahi, ref seed, ref a);
         UniformRNG.r8vec_uniform_01(bhi, ref seed, ref b);
@@ -3042,16 +2878,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_RANDOM_TEST");
@@ -3060,7 +2889,7 @@ public static partial class typeMethods
 
         for (i = 1; i <= 3; i++)
         {
-            seed = 123456789;
+            int seed = 123456789;
 
             switch (i)
             {
@@ -3078,12 +2907,12 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a = new double[ahi];
-            b = new double[bhi];
-            c = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a = new double[ahi];
+            double[] b = new double[bhi];
+            double[] c = new double[chi];
 
             r83v_random(m, n, ref seed, ref a, ref b, ref c);
 
@@ -3161,9 +2990,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] r;
 
-        r = r83v_mv(m, n, a, b, c, x);
+        double[] r = r83v_mv(m, n, a, b, c, x);
 
         for (i = 0; i < m; i++)
         {
@@ -3194,19 +3022,9 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] ax;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
-        double[] r;
-        int seed;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("R83V_RES_TEST");
@@ -3231,18 +3049,18 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a = new double[ahi];
-            b = new double[bhi];
-            c = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a = new double[ahi];
+            double[] b = new double[bhi];
+            double[] c = new double[chi];
 
-            seed = 123456789;
+            int seed = 123456789;
             r83v_random(m, n, ref seed, ref a, ref b, ref c);
-            x = r8vec_indicator1_new(n);
-            ax = r83v_mv(m, n, a, b, c, x);
-            r = r83v_res(m, n, a, b, c, x, ax);
+            double[] x = r8vec_indicator1_new(n);
+            double[] ax = r83v_mv(m, n, a, b, c, x);
+            double[] r = r83v_res(m, n, a, b, c, x, ax);
             r8vec_print(m, r, "  Residual A*x-b:");
 
         }
@@ -3309,27 +3127,23 @@ public static partial class typeMethods
         //    Output, double R83V_TO_R8GE(M,N), the R8GE matrix.
         //
     {
-        double[] a;
-        int ahi;
-        int bhi;
-        int chi;
-        int i;
         int j;
         int k;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;
             }
         }
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (k = 0; k < ahi; k++)
         {
@@ -3370,13 +3184,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        int ahi;
-        int bhi;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -3404,17 +3211,17 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a1 = new double[ahi];
-            a2 = new double[bhi];
-            a3 = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a1 = new double[ahi];
+            double[] a2 = new double[bhi];
+            double[] a3 = new double[chi];
 
             r83v_indicator(m, n, ref a1, ref a2, ref a3);
             r83v_print(m, n, a1, a2, a3, "  R83V matrix A:");
 
-            a = r83v_to_r8ge(m, n, a1, a2, a3);
+            double[] a = r83v_to_r8ge(m, n, a1, a2, a3);
             r8ge_print(m, n, a, "  R8GE version of A:");
 
         }
@@ -3481,20 +3288,15 @@ public static partial class typeMethods
         //    Output, double R83V_TO_R8VEC(min(N-1,M)+min(N,M)+min(N,M-1)), the vector.
         //
     {
-        double[] a;
-        int ahi;
-        int bhi;
-        int chi;
         int j;
-        int k;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
-        a = new double[ahi + bhi + chi];
+        double[] a = new double[ahi + bhi + chi];
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
             if (j < m + 1 && 1 <= j)
@@ -3540,13 +3342,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        int ahi;
-        int bhi;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -3574,17 +3369,17 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a1 = new double[ahi];
-            a2 = new double[bhi];
-            a3 = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a1 = new double[ahi];
+            double[] a2 = new double[bhi];
+            double[] a3 = new double[chi];
 
             r83v_indicator(m, n, ref a1, ref a2, ref a3);
             r83v_print(m, n, a1, a2, a3, "  R83V matrix A:");
 
-            a = r83v_to_r8vec(m, n, a1, a2, a3);
+            double[] a = r83v_to_r8vec(m, n, a1, a2, a3);
             r8vec_print(ahi + bhi + chi, a, "  Vector version of A:");
 
         }
@@ -3652,14 +3447,11 @@ public static partial class typeMethods
         //    Output, double B1(min(N-1,M)), B2(min(N,M)), B3(min(N,M-1)), the copy.
         //
     {
-        int ahi;
-        int bhi;
-        int chi;
         int i;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (i = 0; i < ahi; i++)
         {
@@ -3698,15 +3490,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        int ahi;
-        double[] b1;
-        double[] b2;
-        double[] b3;
-        int bhi;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -3734,19 +3517,19 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a1 = new double[ahi];
-            a2 = new double[bhi];
-            a3 = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a1 = new double[ahi];
+            double[] a2 = new double[bhi];
+            double[] a3 = new double[chi];
 
             r83v_indicator(m, n, ref a1, ref a2, ref a3);
             r83v_print(m, n, a1, a2, a3, "  R83V matrix A:");
 
-            b1 = new double[chi];
-            b2 = new double[bhi];
-            b3 = new double[ahi];
+            double[] b1 = new double[chi];
+            double[] b2 = new double[bhi];
+            double[] b3 = new double[ahi];
             r83v_transpose(m, n, a1, a2, a3, ref b1, ref b2, ref b3);
             r83v_print(n, m, b1, b2, b3, "  B = copy of A:");
 
@@ -3811,14 +3594,11 @@ public static partial class typeMethods
         //    Output, double A(min(M-1,N)), B(min(M,N)), C(min(M,N-1)), the matrix.
         //
     {
-        int ahi;
-        int bhi;
-        int chi;
         int i;
 
-        ahi = Math.Min(m - 1, n);
-        bhi = Math.Min(m, n);
-        chi = Math.Min(m, n - 1);
+        int ahi = Math.Min(m - 1, n);
+        int bhi = Math.Min(m, n);
+        int chi = Math.Min(m, n - 1);
 
         for (i = 0; i < ahi; i++)
         {
@@ -3857,12 +3637,6 @@ public static partial class typeMethods
         //    John Burkardt
         //
     {
-        double[] a;
-        int ahi;
-        double[] b;
-        int bhi;
-        double[] c;
-        int chi;
         int i;
         int m = 0;
         int n = 0;
@@ -3890,12 +3664,12 @@ public static partial class typeMethods
                     break;
             }
 
-            ahi = Math.Min(m - 1, n);
-            bhi = Math.Min(m, n);
-            chi = Math.Min(m, n - 1);
-            a = new double[ahi];
-            b = new double[bhi];
-            c = new double[chi];
+            int ahi = Math.Min(m - 1, n);
+            int bhi = Math.Min(m, n);
+            int chi = Math.Min(m, n - 1);
+            double[] a = new double[ahi];
+            double[] b = new double[bhi];
+            double[] c = new double[chi];
 
             r83v_zeros(m, n, ref a, ref b, ref c);
 

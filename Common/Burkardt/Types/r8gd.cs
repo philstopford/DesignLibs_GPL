@@ -54,10 +54,7 @@ public static partial class typeMethods
         //    Output, double R8GD_DIF2[N*NDIAG], the R8GD matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int jdiag;
 
         switch (ndiag)
         {
@@ -68,13 +65,14 @@ public static partial class typeMethods
                 return null;
         }
 
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
         for (i = 0; i < n; i++)
         {
+            int jdiag;
             for (jdiag = 0; jdiag < ndiag; jdiag++)
             {
-                j = i + offset[jdiag];
+                int j = i + offset[jdiag];
                 switch (j)
                 {
                     case >= 0 when j < n:
@@ -146,21 +144,18 @@ public static partial class typeMethods
         //    Output, double R8GD_INDICATOR[N*NDIAG], the R8GD matrix.
         //
     {
-        double[] a;
-        int diag;
-        int fac;
         int i;
-        int j;
 
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= n; i++)
         {
+            int diag;
             for (diag = 1; diag <= ndiag; diag++)
             {
-                j = i + offset[diag - 1];
+                int j = i + offset[diag - 1];
                 a[i - 1 + (diag - 1) * n] = j switch
                 {
                     >= 1 when j <= n => fac * i + j,
@@ -225,18 +220,16 @@ public static partial class typeMethods
         //    Output, double R8GD_MTV[N], the product X*A.
         //
     {
-        double[] b;
-        int diag;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int diag;
             for (diag = 0; diag < ndiag; diag++)
             {
-                j = i + offset[diag];
+                int j = i + offset[diag];
                 switch (j)
                 {
                     case >= 0 when j < n:
@@ -318,18 +311,16 @@ public static partial class typeMethods
         //    Output, double R8GD_MV[N], the product A * x.
         //
     {
-        double[] b;
-        int diag;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int diag;
             for (diag = 0; diag < ndiag; diag++)
             {
-                j = i + offset[diag];
+                int j = i + offset[diag];
                 switch (j)
                 {
                     case >= 0 when j < n:
@@ -451,18 +442,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        double aij;
-        int diag;
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -471,12 +453,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col:  ";
+            string cout = "  Col:  ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -488,18 +471,21 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, n);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, n);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
+                int j2;
                 for (j2 = j2lo; j2 <= j2hi; j2++)
                 {
-                    aij = 0.0;
+                    double aij = 0.0;
+                    int diag;
                     for (diag = 0; diag < ndiag; diag++)
                     {
                         if (j2 - i == offset[diag])
@@ -567,18 +553,16 @@ public static partial class typeMethods
         //    Output, double R8GD_RANDOM[N*NDIAG], the R8GD matrix.
         //
     {
-        double[] a;
-        int diag;
         int i;
-        int j;
 
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
         for (i = 1; i <= n; i++)
         {
+            int diag;
             for (diag = 0; diag < ndiag; diag++)
             {
-                j = i + offset[diag];
+                int j = i + offset[diag];
                 a[i - 1 + diag * n] = j switch
                 {
                     >= 1 when j <= n => UniformRNG.r8_uniform_01(ref seed),
@@ -641,18 +625,16 @@ public static partial class typeMethods
         //    Output, double R8GD_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
-        int diag;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n * n);
+        double[] b = r8vec_zeros_new(n * n);
 
         for (i = 0; i < n; i++)
         {
+            int diag;
             for (diag = 0; diag < ndiag; diag++)
             {
-                j = i + offset[diag];
+                int j = i + offset[diag];
                 b[i + j * n] = j switch
                 {
                     >= 0 when j <= n - 1 => a[i + diag * n],
@@ -713,9 +695,7 @@ public static partial class typeMethods
         //    Output, double R8GD_ZERO[N*NDIAG], the R8GD matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
         return a;
     }

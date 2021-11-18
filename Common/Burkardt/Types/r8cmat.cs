@@ -77,10 +77,9 @@ public static partial class typeMethods
         //    Output, double **R8CMAT_NEW, a new matrix.
         //
     {
-        double[][] a;
         int j;
 
-        a = new double[n][];
+        double[][] a = new double[n][];
 
         for (j = 0; j < n; j++)
         {
@@ -175,13 +174,8 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
 
         Console.WriteLine("");
@@ -199,7 +193,7 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             if (n < j2hi)
             {
                 j2hi = n;
@@ -217,6 +211,7 @@ public static partial class typeMethods
             //  Write the header.
             //
             string cout = "  Col:    ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += (j - 1).ToString().PadLeft(7) + "       ";
@@ -225,7 +220,7 @@ public static partial class typeMethods
             Console.WriteLine("");
             Console.WriteLine("  Row");
             Console.WriteLine("");
-            i2lo = ilo switch
+            int i2lo = ilo switch
             {
                 //
                 //  Determine the range of the rows in this strip.
@@ -234,6 +229,7 @@ public static partial class typeMethods
                 _ => 1
             };
 
+            int i2hi;
             if (ihi < m)
             {
                 i2hi = ihi;
@@ -243,6 +239,7 @@ public static partial class typeMethods
                 i2hi = m;
             }
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -299,14 +296,13 @@ public static partial class typeMethods
         //    Output, double R8CMAT_TO_R8MAT_NEW[M*N], the data, stored as an R8MAT.
         //
     {
-        double[] b;
-        int i;
         int j;
 
-        b = new double[m * n];
+        double[] b = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[i + j * m] = a[j][i];
@@ -350,11 +346,9 @@ public static partial class typeMethods
         //    Output, double **R8CMAT_ZEROS_NEW, a new matrix.
         //
     {
-        double[][] a;
-        int i;
         int j;
 
-        a = new double[n][];
+        double[][] a = new double[n][];
 
         for (j = 0; j < n; j++)
         {
@@ -363,6 +357,7 @@ public static partial class typeMethods
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[j][i] = 0.0;

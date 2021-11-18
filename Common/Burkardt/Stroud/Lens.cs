@@ -72,43 +72,21 @@ public static class Lens
         //    of the integral of the function over the half lens.
         //
     {
-        double ax;
-        double ay;
-        double bx;
-        double by;
-        double cx;
-        double cy;
-        double dx;
-        double dy;
         int i;
-        int j;
         double quad;
-        double s_length;
-        double sx;
-        double sy;
-        double t_length;
-        double tdirx;
-        double tdiry;
-        double thi;
-        double tx;
-        double ty;
-        double w1;
-        double w2;
-        double[] weight;
-        double[] xtab;
         //
         //  Determine the points A (on the secant) and B (on the circumference)
         //  that will form the "S" direction.
         //
-        ax = center[0] + r * 0.5 * (Math.Cos(theta1) + Math.Cos(theta2));
-        ay = center[1] + r * 0.5 * (Math.Sin(theta1) + Math.Sin(theta2));
+        double ax = center[0] + r * 0.5 * (Math.Cos(theta1) + Math.Cos(theta2));
+        double ay = center[1] + r * 0.5 * (Math.Sin(theta1) + Math.Sin(theta2));
 
-        bx = center[0] + r * Math.Cos(0.5 * (theta1 + theta2));
-        by = center[1] + r * Math.Sin(0.5 * (theta1 + theta2));
+        double bx = center[0] + r * Math.Cos(0.5 * (theta1 + theta2));
+        double @by = center[1] + r * Math.Sin(0.5 * (theta1 + theta2));
         //
         //  Find the length of the line between A and B.
         //
-        s_length = Math.Sqrt(Math.Pow(ax - bx, 2) + Math.Pow(ay - by, 2));
+        double s_length = Math.Sqrt(Math.Pow(ax - bx, 2) + Math.Pow(ay - @by, 2));
 
         switch (s_length)
         {
@@ -120,61 +98,62 @@ public static class Lens
         //
         //  Retrieve the Legendre rule of the given order.
         //
-        xtab = new double[order];
-        weight = new double[order];
+        double[] xtab = new double[order];
+        double[] weight = new double[order];
 
         LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
         //
         //  Determine the unit vector in the T direction.
         //
-        tdirx = (ay - by) / s_length;
-        tdiry = (bx - ax) / s_length;
+        double tdirx = (ay - @by) / s_length;
+        double tdiry = (bx - ax) / s_length;
 
         quad = 0.0;
 
         for (i = 0; i < order; i++)
         {
-            w1 = 0.5 * s_length * weight[i];
+            double w1 = 0.5 * s_length * weight[i];
             //
             //  Map the quadrature point to an S coordinate.
             //
-            sx = ((1.0 - xtab[i]) * ax
-                  + (1.0 + xtab[i]) * bx)
-                 / 2.0;
-            sy = ((1.0 - xtab[i]) * ay
-                  + (1.0 + xtab[i]) * by)
-                 / 2.0;
+            double sx = ((1.0 - xtab[i]) * ax
+                         + (1.0 + xtab[i]) * bx)
+                        / 2.0;
+            double sy = ((1.0 - xtab[i]) * ay
+                         + (1.0 + xtab[i]) * @by)
+                        / 2.0;
             //
             //  Determine the length of the line in the T direction, from the
             //  S axis to the circle circumference.
             //
-            thi = Math.Sqrt((r - 0.25 * (1.0 - xtab[i]) * s_length)
-                            * (1.0 - xtab[i]) * s_length);
+            double thi = Math.Sqrt((r - 0.25 * (1.0 - xtab[i]) * s_length)
+                                   * (1.0 - xtab[i]) * s_length);
             // 
             //  Determine the maximum and minimum T coordinates by going
             //  up and down in the T direction from the S axis.
             //
-            cx = sx + tdirx * thi;
-            cy = sy + tdiry * thi;
-            dx = sx - tdirx * thi;
-            dy = sy - tdiry * thi;
+            double cx = sx + tdirx * thi;
+            double cy = sy + tdiry * thi;
+            double dx = sx - tdirx * thi;
+            double dy = sy - tdiry * thi;
             //
             //  Find the length of the T direction.
             //
-            t_length = Math.Sqrt(Math.Pow(cx - dx, 2) + Math.Pow(cy - dy, 2));
+            double t_length = Math.Sqrt(Math.Pow(cx - dx, 2) + Math.Pow(cy - dy, 2));
 
+            int j;
             for (j = 0; j < order; j++)
             {
-                w2 = 0.5 * t_length * weight[j];
+                double w2 = 0.5 * t_length * weight[j];
                 //
                 //  Map the quadrature point to a T coordinate.
                 //
-                tx = ((1.0 - xtab[j]) * cx
-                      + (1.0 + xtab[j]) * dx)
-                     / 2.0;
-                ty = ((1.0 - xtab[j]) * cy
-                      + (1.0 + xtab[j]) * dy)
-                     / 2.0;
+                double tx = ((1.0 - xtab[j]) * cx
+                             + (1.0 + xtab[j]) * dx)
+                            / 2.0;
+                double ty = ((1.0 - xtab[j]) * cy
+                             + (1.0 + xtab[j]) * dy)
+                            / 2.0;
 
                 quad += w1 * w2 * func(tx, ty);
             }
@@ -218,13 +197,9 @@ public static class Lens
         //    Output, double LENS_HALF_AREA_2D, the area of the half lens.
         //
     {
-        double sector;
-        double triangle;
-        double value = 0;
-
-        sector = Circle.circle_sector_area_2d(r, theta1, theta2);
-        triangle = Circle.circle_triangle_area_2d(r, theta1, theta2);
-        value = sector - triangle;
+        double sector = Circle.circle_sector_area_2d(r, theta1, theta2);
+        double triangle = Circle.circle_triangle_area_2d(r, theta1, theta2);
+        double value = sector - triangle;
 
         return value;
     }
@@ -267,12 +242,7 @@ public static class Lens
         //    Output, double LENS_HALF_H_AREA_2D, the area of the half lens.
         //
     {
-        double angle;
         double area;
-        double half_width;
-            
-        double sector;
-        double triangle;
 
         switch (h)
         {
@@ -287,10 +257,10 @@ public static class Lens
                 }
                 else
                 {
-                    half_width = Math.Sqrt(h * (2.0 * r - h));
-                    angle = 2.0 * Math.Atan2(half_width, r - h);
-                    sector = r * r * angle / 2.0;
-                    triangle = (r - h) * half_width;
+                    double half_width = Math.Sqrt(h * (2.0 * r - h));
+                    double angle = 2.0 * Math.Atan2(half_width, r - h);
+                    double sector = r * r * angle / 2.0;
+                    double triangle = (r - h) * half_width;
                     area = sector - triangle;
                 }
 
@@ -339,13 +309,7 @@ public static class Lens
         //    Output, double LENS_HALF_W_AREA_2D, the area of the half lens.
         //
     {
-        double angle;
         double area;
-        double h;
-        double half_width;
-            
-        double sector;
-        double triangle;
 
         switch (w)
         {
@@ -360,11 +324,11 @@ public static class Lens
                 }
                 else
                 {
-                    half_width = 0.5 * w;
-                    h = r - Math.Sqrt(r * r - half_width * half_width);
-                    angle = 2.0 * Math.Atan2(half_width, r - h);
-                    sector = r * r * angle / 2.0;
-                    triangle = (r - h) * half_width;
+                    double half_width = 0.5 * w;
+                    double h = r - Math.Sqrt(r * r - half_width * half_width);
+                    double angle = 2.0 * Math.Atan2(half_width, r - h);
+                    double sector = r * r * angle / 2.0;
+                    double triangle = (r - h) * half_width;
                     area = sector - triangle;
                 }
 

@@ -96,21 +96,12 @@ public static class TetMesh_Neighbors
         int a = 0;
         int b = 0;
         int c = 0;
-        int face;
-        int face1;
-        int face2;
-        int[] faces;
         int i;
         int j;
-        int k;
-        int l;
         int tetra;
-        int[] tetra_neighbor;
-        int tetra1;
-        int tetra2;
 
-        faces = new int[5 * 4 * tetra_num];
-        tetra_neighbor = new int[4 * tetra_num];
+        int[] faces = new int[5 * 4 * tetra_num];
+        int[] tetra_neighbor = new int[4 * tetra_num];
         //
         //  Step 1.
         //  From the list of nodes for tetrahedron T, of the form: (I,J,K,L)
@@ -128,8 +119,8 @@ public static class TetMesh_Neighbors
         {
             i = tetra_node[0 + tetra * tetra_order];
             j = tetra_node[1 + tetra * tetra_order];
-            k = tetra_node[2 + tetra * tetra_order];
-            l = tetra_node[3 + tetra * tetra_order];
+            int k = tetra_node[2 + tetra * tetra_order];
+            int l = tetra_node[3 + tetra * tetra_order];
 
             typeMethods.i4i4i4_sort_a(j, k, l, ref a, ref b, ref c);
 
@@ -187,7 +178,7 @@ public static class TetMesh_Neighbors
             }
         }
 
-        face = 0;
+        int face = 0;
 
         for (;;)
         {
@@ -200,10 +191,10 @@ public static class TetMesh_Neighbors
                 faces[1 + face * 5] == faces[1 + (face + 1) * 5] &&
                 faces[2 + face * 5] == faces[2 + (face + 1) * 5])
             {
-                face1 = faces[3 + face * 5];
-                tetra1 = faces[4 + face * 5];
-                face2 = faces[3 + (face + 1) * 5];
-                tetra2 = faces[4 + (face + 1) * 5];
+                int face1 = faces[3 + face * 5];
+                int tetra1 = faces[4 + face * 5];
+                int face2 = faces[3 + (face + 1) * 5];
+                int tetra2 = faces[4 + (face + 1) * 5];
                 tetra_neighbor[face1 + tetra1 * 4] = tetra2 + 1;
                 tetra_neighbor[face2 + tetra2 * 4] = tetra1 + 1;
                 face += 2;

@@ -56,29 +56,24 @@ public static class MonteCarlo
         //    Output, dobule TETRAHEDRON_MONTE_CARLO[F_NUM], the approximate integrals.
         //
     {
-        double[] fp;
-        double fp_sum;
         int i;
-        int j;
-        double[] p;
         double[] p2 = new double[1];
-        double[] result;
-        double volume;
 
-        volume = Tetrahedron.tetrahedron_volume(t);
+        double volume = Tetrahedron.tetrahedron_volume(t);
 
         TetrahedronSampleResult tmp = tetrahedron_unit_sample(p_num, seed);
-        p = tmp.result;
+        double[] p = tmp.result;
         seed = tmp.seed;
         p2 = Tetrahedron.reference_to_physical_tet4(t, p_num, p);
 
-        fp = tetrahedron_integrand(p_num, p2, f_num);
+        double[] fp = tetrahedron_integrand(p_num, p2, f_num);
 
-        result = new double[f_num];
+        double[] result = new double[f_num];
 
         for (i = 0; i < f_num; i++)
         {
-            fp_sum = 0.0;
+            double fp_sum = 0.0;
+            int j;
             for (j = 0; j < p_num; j++)
             {
                 fp_sum += fp[i + j * f_num];
@@ -131,20 +126,17 @@ public static class MonteCarlo
         //    Output, double TETRAHEDRON_UNIT_SAMPLE_01[3*P_NUM], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] p;
 
-        p = new double[3 * p_num];
+        double[] p = new double[3 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(4, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(4, ref seed);
 
-            e_sum = typeMethods.r8vec_sum(4, e);
+            double e_sum = typeMethods.r8vec_sum(4, e);
 
+            int i;
             for (i = 0; i < 3; i++)
             {
                 p[i + j * 3] = e[i] / e_sum;
@@ -197,16 +189,13 @@ public static class MonteCarlo
         //    Output, double TETRAHEDRON_UNIT_SAMPLE_02[3*P_NUM], the points.
         //
     {
-        double[] c;
         int j;
-        double[] p;
-        double t;
 
-        p = new double[3 * p_num];
+        double[] p = new double[3 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            c = UniformRNG.r8vec_uniform_01_new(3, ref seed);
+            double[] c = UniformRNG.r8vec_uniform_01_new(3, ref seed);
 
             switch (c[0] + c[1])
             {
@@ -216,6 +205,7 @@ public static class MonteCarlo
                     break;
             }
 
+            double t;
             switch (c[1] + c[2])
             {
                 case > 1.0:
@@ -289,29 +279,21 @@ public static class MonteCarlo
         //    Output, double TETRAHEDRON_UNIT_SAMPLE_01[3*P_NUM], the points.
         //
     {
-        double a;
-        double b;
-        double c;
-        double e;
-        double f;
-        double g;
         int j;
-        double[] p;
-        double[] r;
 
-        p = new double[3 * p_num];
+        double[] p = new double[3 * p_num];
 
         for (j = 0; j < p_num; j++)
         {
-            r = UniformRNG.r8vec_uniform_01_new(3, ref seed);
+            double[] r = UniformRNG.r8vec_uniform_01_new(3, ref seed);
 
-            e = Math.Pow(r[0], 1.0 / 3.0);
-            f = Math.Sqrt(r[1]);
-            g = r[2];
+            double e = Math.Pow(r[0], 1.0 / 3.0);
+            double f = Math.Sqrt(r[1]);
+            double g = r[2];
 
-            a = 1.0 - e;
-            b = (1.0 - f) * e;
-            c = (1.0 - g) * f * e;
+            double a = 1.0 - e;
+            double b = (1.0 - f) * e;
+            double c = (1.0 - g) * f * e;
 
             p[0 + j * 3] = a;
             p[1 + j * 3] = b;
@@ -365,27 +347,24 @@ public static class MonteCarlo
         //    Output, double TETRAHEDRON_UNIT_SAMPLE_01[3*P_NUM], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] p;
 
-        p = new double[3 * p_num];
+        double[] p = new double[3 * p_num];
         //
         //  The construction begins by sampling DIM_NUM+1 points from the
         //  exponential distribution with parameter 1.
         //
         for (j = 0; j < p_num; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(4, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(4, ref seed);
 
+            int i;
             for (i = 0; i < 4; i++)
             {
                 e[i] = -Math.Log(e[i]);
             }
 
-            e_sum = typeMethods.r8vec_sum(4, e);
+            double e_sum = typeMethods.r8vec_sum(4, e);
 
             for (i = 0; i < 3; i++)
             {

@@ -50,14 +50,12 @@ public static class Integrals
         //
     {
         int i;
-        int k;
-        double value = 0;
         //
         //  The first computation ends with VALUE = 1.0;
         //
-        value = 1.0;
+        double value = 1.0;
 
-        k = 0;
+        int k = 0;
 
         for ( i = 1; i <= expon[0]; i++ )
         {
@@ -122,9 +120,6 @@ public static class Integrals
         //
     {
         int i;
-        double integral;
-        int j;
-        int k;
         const int m = 3;
 
         for ( i = 0; i < m; i++ )
@@ -139,11 +134,12 @@ public static class Integrals
             }
         }
 
-        k = 0;
-        integral = 1.0;
+        int k = 0;
+        double integral = 1.0;
 
         for ( i = 0; i < m; i++ )
         {
+            int j;
             for ( j = 1; j <= e[i]; j++ )
             {
                 k += 1;
@@ -199,24 +195,21 @@ public static class Integrals
         //    Output, double TETRAHEDRON01_SAMPLE_01[3*N], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
         const int m = 3;
-        double[] x;
 
-        x = new double[m*n];
+        double[] x = new double[m*n];
 
         for ( j = 0; j < n; j++ )
         {
-            e = UniformRNG.r8vec_uniform_01_new ( m + 1, ref seed );
+            double[] e = UniformRNG.r8vec_uniform_01_new ( m + 1, ref seed );
 
+            int i;
             for ( i = 0; i < m + 1; i++ )
             {
                 e[i] = - Math.Log ( e[i] );
             }
-            e_sum = typeMethods.r8vec_sum ( m + 1, e );
+            double e_sum = typeMethods.r8vec_sum ( m + 1, e );
 
             for ( i = 0; i < m; i++ )
             {
@@ -252,9 +245,7 @@ public static class Integrals
         //    Output, double TETRAHEDRON01_VOLUME, the volume.
         //
     {
-        double volume;
-
-        volume = 1.0 / 6.0;
+        const double volume = 1.0 / 6.0;
 
         return volume;
     }

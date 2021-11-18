@@ -40,29 +40,23 @@ public static class LloydCVT_Line
         //    Input/output, double X[N], the point locations.
         //
     {
-        double e;
-        double[] e_plot;
         int i;
         int it;
-        double[] x_old;
-        double[] x_plot;
-        double xm;
-        double[] xm_plot;
 
-        e_plot = new double[it_num + 1];
+        double[] e_plot = new double[it_num + 1];
 
-        e = line_cvt_energy(n, a, b, x);
+        double e = line_cvt_energy(n, a, b, x);
         e_plot[0] = e;
 
-        x_plot = new double[n * (it_num + 1)];
+        double[] x_plot = new double[n * (it_num + 1)];
         for (i = 0; i < n; i++)
         {
             x_plot[i + 0 * n] = x[i];
         }
 
-        xm_plot = new double[it_num];
+        double[] xm_plot = new double[it_num];
 
-        x_old = new double[n];
+        double[] x_old = new double[n];
 
         for (it = 1; it <= it_num; it++)
         {
@@ -78,7 +72,7 @@ public static class LloydCVT_Line
             e = line_cvt_energy(n, a, b, x);
             e_plot[it] = e;
 
-            xm = 0.0;
+            double xm = 0.0;
             for (i = 0; i < n; i++)
             {
                 xm += Math.Pow(x_old[i] - x[i], 2);
@@ -144,10 +138,7 @@ public static class LloydCVT_Line
         //    Input/output, double X[N], the point locations.
         //
     {
-        int j;
-        double[] x_old;
-
-        x_old = typeMethods.r8vec_copy_new(n, x);
+        double[] x_old = typeMethods.r8vec_copy_new(n, x);
 
         switch (n)
         {
@@ -162,6 +153,7 @@ public static class LloydCVT_Line
             {
                 x[0] = a;
 
+                int j;
                 for (j = 1; j < n - 1; j++)
                 {
                     x[j] = (0.5 * (x_old[j - 1] + x_old[j])
@@ -218,21 +210,19 @@ public static class LloydCVT_Line
         //    Output, double LINE_CVT_ENERGY, the energy of the generator distribution.
         //
     {
-        double e;
         int j;
-        double xl;
-        double xr;
 
-        e = 0.0;
+        double e = 0.0;
 
         for (j = 0; j < n; j++)
         {
-            xl = j switch
+            double xl = j switch
             {
                 0 => a,
                 _ => (x[j - 1] + x[j]) / 2.0
             };
 
+            double xr;
             if (j == n - 1)
             {
                 xr = b;
@@ -282,29 +272,23 @@ public static class LloydCVT_Line
         //    Input/output, double X[N], the point locations.
         //
     {
-        double e;
-        double[] e_plot;
         int i;
         int it;
-        double[] x_old;
-        double[] x_plot;
-        double xm;
-        double[] xm_plot;
 
-        e_plot = new double[it_num + 1];
+        double[] e_plot = new double[it_num + 1];
 
-        e = line_cvt_energy(n, a, b, x);
+        double e = line_cvt_energy(n, a, b, x);
         e_plot[0] = e;
 
-        x_plot = new double[n * (it_num + 1)];
+        double[] x_plot = new double[n * (it_num + 1)];
         for (i = 0; i < n; i++)
         {
             x_plot[i + 0 * n] = x[i];
         }
 
-        xm_plot = new double[it_num];
+        double[] xm_plot = new double[it_num];
 
-        x_old = new double[n];
+        double[] x_old = new double[n];
 
         for (it = 1; it <= it_num; it++)
         {
@@ -320,7 +304,7 @@ public static class LloydCVT_Line
             e = line_cvt_energy(n, a, b, x);
             e_plot[it] = e;
 
-            xm = 0.0;
+            double xm = 0.0;
             for (i = 0; i < n; i++)
             {
                 xm += Math.Pow(x_old[i] - x[i], 2);
@@ -381,10 +365,7 @@ public static class LloydCVT_Line
         //    Input, double X[N], the point locations.
         //
     {
-        int j;
-        double[] x_old;
-
-        x_old = typeMethods.r8vec_copy_new(n, x);
+        double[] x_old = typeMethods.r8vec_copy_new(n, x);
 
         switch (n)
         {
@@ -393,9 +374,9 @@ public static class LloydCVT_Line
                 break;
             default:
             {
-                j = 0;
+                int j = 0;
                 x[j] = (a
-                        + 0.5 * (x_old[j] + x_old[j + 1])) / 2.0;
+                        + 0.5 * (x_old[j] + x_old[1])) / 2.0;
 
                 for (j = 1; j < n - 1; j++)
                 {

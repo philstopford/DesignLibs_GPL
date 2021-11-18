@@ -104,16 +104,12 @@ public static class Legendre
         //    L = -5, not enough factorization space.
         //
     {
-        int FACTOR_MAX = 20;
-        int STACK_MAX = 50;
+        const int FACTOR_MAX = 20;
+        const int STACK_MAX = 50;
 
         int[] factor = new int[FACTOR_MAX];
-        int i;
-        int l;
         int nfactor = 0;
         int nleft = 0;
-        int nmore;
-        int nstack;
         int[] power = new int[FACTOR_MAX];
         int[] pstack = new int[STACK_MAX];
         int[] qstack = new int[STACK_MAX];
@@ -166,8 +162,8 @@ public static class Legendre
             q += p;
         }
 
-        nstack = 0;
-        l = 1;
+        int nstack = 0;
+        int l = 1;
 
         for (;;)
         {
@@ -188,8 +184,9 @@ public static class Legendre
             //
             //  Each factor which is an odd power is added to the stack.
             //
-            nmore = 0;
+            int nmore = 0;
 
+            int i;
             for (i = 0; i < nfactor; i++)
             {
                 switch (power[i] % 2)

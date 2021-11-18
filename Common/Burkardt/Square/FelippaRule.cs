@@ -53,7 +53,6 @@ public static class FelippaRule
         //
     {
         int i;
-        double value = 0;
 
         for (i = 0; i < 2; i++)
         {
@@ -67,7 +66,7 @@ public static class FelippaRule
             }
         }
 
-        value = 1.0;
+        double value = 1.0;
 
         for (i = 0; i < 2; i++)
         {
@@ -107,9 +106,7 @@ public static class FelippaRule
         double[] a = { -1.0, -1.0 };
         int alpha;
         double[] b = { +1.0, +1.0 };
-        int beta;
         int[] expon = new int [2];
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("SQUARE_MONOMIAL_TEST");
@@ -125,11 +122,12 @@ public static class FelippaRule
         for (alpha = 0; alpha <= degree_max; alpha++)
         {
             expon[0] = alpha;
+            int beta;
             for (beta = 0; beta <= degree_max - alpha; beta++)
             {
                 expon[1] = beta;
 
-                value = square_monomial(a, b, expon);
+                double value = square_monomial(a, b, expon);
 
                 Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
@@ -168,16 +166,8 @@ public static class FelippaRule
         double[] b = { +1.0, +1.0 };
         int[] expon = new int[2];
         int h = 0;
-        int i;
-        int k;
-        bool more;
-        int order;
         int[] order_1d = new int[2];
-        double quad;
         int t = 0;
-        double[] v;
-        double[] w;
-        double[] xy;
         SubCompData data = new();
 
         Console.WriteLine("");
@@ -186,7 +176,7 @@ public static class FelippaRule
         Console.WriteLine("  we approximate monomial integrals with:");
         Console.WriteLine("  SQUARE_RULE, which returns M by N point rules..");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -194,6 +184,7 @@ public static class FelippaRule
 
             Console.WriteLine("");
             string cout = "  Monomial exponents: ";
+            int i;
             for (i = 0; i < 2; i++)
             {
                 cout += "  " + expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
@@ -202,6 +193,12 @@ public static class FelippaRule
             Console.WriteLine(cout);
             Console.WriteLine("");
 
+            int k;
+            int order;
+            double[] xy;
+            double[] v;
+            double quad;
+            double[] w;
             for (k = 1; k <= 5; k++)
             {
                 for (i = 0; i < 2; i++)
@@ -295,22 +292,17 @@ public static class FelippaRule
         //
     {
         int i;
-        int j;
-        int o;
-        int order;
-        double[] w_1d;
-        double[] x_1d;
         typeMethods.r8vecDPData data1 = new();
         typeMethods.r8vecDPData data2 = new();
 
-        order = order_1d[0] * order_1d[1];
+        int order = order_1d[0] * order_1d[1];
 
         for (i = 0; i < 2; i++)
         {
-            o = order_1d[i];
+            int o = order_1d[i];
 
-            w_1d = new double[o];
-            x_1d = new double[o];
+            double[] w_1d = new double[o];
+            double[] x_1d = new double[o];
 
             switch (o)
             {
@@ -339,6 +331,7 @@ public static class FelippaRule
             //
             //  Transform from [-1,+1] to [Ai,Bi]
             //
+            int j;
             for (j = 0; j < o; j++)
             {
                 w_1d[j] = w_1d[j] * (b[i] - a[i]) / 2.0;
@@ -390,9 +383,7 @@ public static class FelippaRule
         //    Output, double SQUARE_VOLUME, the volume.
         //
     {
-        double value = 0;
-
-        value = (b[0] - a[0]) * (b[1] - a[1]);
+        double value = (b[0] - a[0]) * (b[1] - a[1]);
 
         return value;
     }

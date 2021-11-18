@@ -168,9 +168,6 @@ public static class Ksub
         //    is not in the output subset.
         //
     {
-        int j;
-        int m;
-
         switch (n)
         {
             case <= 0:
@@ -201,7 +198,7 @@ public static class Ksub
             return;
         }
 
-        j = 0;
+        int j = 0;
 
         for (;;)
         {
@@ -234,7 +231,7 @@ public static class Ksub
             }
 
             j += 1;
-            m = n;
+            int m = n;
 
             if (j < k)
             {
@@ -252,11 +249,13 @@ public static class Ksub
         a[j - 1] = in_;
         iout = in_ - 1;
 
-        if (j != 1)
+        if (j == 1)
         {
-            a[j - 2] = iout;
-            iout = j - 1;
+            return;
         }
+
+        a[j - 2] = iout;
+        iout = j - 1;
     }
 
     public static void ksub_next3(int n, int k, ref int[] a, ref bool more, ref int in_, ref int iout)
@@ -321,9 +320,6 @@ public static class Ksub
         //    the routine returns, and is set to zero.
         //
     {
-        int j;
-        int m;
-
         switch (n)
         {
             case <= 0:
@@ -364,7 +360,7 @@ public static class Ksub
                 return;
         }
 
-        j = 0;
+        int j = 0;
 
         for (;;)
         {
@@ -396,7 +392,7 @@ public static class Ksub
             }
 
             j += 1;
-            m = n;
+            int m = n;
 
             if (j < k)
             {
@@ -497,7 +493,6 @@ public static class Ksub
         //
     {
         int j;
-        int jsave;
 
         switch (k)
         {
@@ -546,7 +541,7 @@ public static class Ksub
                 //
                 else if (a[0] < n - k + 1)
                 {
-                    jsave = k - 1;
+                    int jsave = k - 1;
 
                     for (j = 0; j < k - 1; j++)
                     {
@@ -618,15 +613,11 @@ public static class Ksub
         //    output set.  The elements of A are in order.
         //
     {
-        int i = 0;
-        int ids = 0;
-        int ihi = 0;
-        int ip = 0;
+        int i;
         int ir = 0;
-        int is_ = 0;
-        int ix = 0;
-        int l = 0;
-        int ll = 0;
+        int ix;
+        int l;
+        int ll;
         int m = 0;
         int m0 = 0;
 
@@ -680,8 +671,8 @@ public static class Ksub
 
         }
 
-        ip = 0;
-        is_ = k;
+        int ip = 0;
+        int is_ = k;
 
         for (i = 1; i <= k; i++)
         {
@@ -696,13 +687,13 @@ public static class Ksub
 
         }
 
-        ihi = ip;
+        int ihi = ip;
 
         for (i = 1; i <= ihi; i++)
         {
             ip = ihi + 1 - i;
             l = 1 + (a[ip - 1] * k - 1) / n;
-            ids = a[ip - 1] - (l - 1) * n / k;
+            int ids = a[ip - 1] - (l - 1) * n / k;
             a[ip - 1] = 0;
             a[is_ - 1] = l;
             is_ -= ids;
@@ -788,12 +779,6 @@ public static class Ksub
         //    output set.  The elements of A are in order.
         //
     {
-        int available;
-        int candidate;
-        int have;
-        int need;
-        double r;
-
         if (k < 0 || n < k)
         {
             Console.WriteLine("");
@@ -810,16 +795,16 @@ public static class Ksub
                 return;
         }
 
-        need = k;
-        have = 0;
-        available = n;
-        candidate = 0;
+        int need = k;
+        int have = 0;
+        int available = n;
+        int candidate = 0;
 
         for (;;)
         {
             candidate += 1;
 
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             if (r * available <= need)
             {
@@ -887,7 +872,6 @@ public static class Ksub
         //
     {
         int i;
-        int j;
 
         if (k < 0 || n < k)
         {
@@ -912,7 +896,7 @@ public static class Ksub
 
         for (i = n - k + 1; i <= n; i++)
         {
-            j = UniformRNG.i4_uniform_ab(1, i, ref seed);
+            int j = UniformRNG.i4_uniform_ab(1, i, ref seed);
 
             switch (a[j - 1])
             {
@@ -988,12 +972,7 @@ public static class Ksub
         //    Output, int A[K], contains the indices of the selected items.
         //
     {
-        int i;
-        int j;
-        int next;
-        double r;
-
-        next = 0;
+        int next = 0;
         //
         //  Here, we use a WHILE to suggest that the algorithm
         //  proceeds to the next item, without knowing how many items
@@ -1007,6 +986,7 @@ public static class Ksub
         {
             next += 1;
 
+            int i;
             if (next <= k)
             {
                 i = next;
@@ -1014,22 +994,25 @@ public static class Ksub
             }
             else
             {
-                r = UniformRNG.r8_uniform_01(ref seed);
+                double r = UniformRNG.r8_uniform_01(ref seed);
 
-                if (r * next <= k)
+                if (!(r * next <= k))
                 {
-                    i = UniformRNG.i4_uniform_ab(1, k, ref seed);
-                    //
-                    //  If we slide the current items down, and insert at the end, we preserve order.
-                    //
-                    for (j = i; j < k; j++)
-                    {
-                        a[j - 1] = a[j];
-                    }
-
-                    a[k - 1] = next;
-                    //      a[i-1] = next;
+                    continue;
                 }
+
+                i = UniformRNG.i4_uniform_ab(1, k, ref seed);
+                //
+                //  If we slide the current items down, and insert at the end, we preserve order.
+                //
+                int j;
+                for (j = i; j < k; j++)
+                {
+                    a[j - 1] = a[j];
+                }
+
+                a[k - 1] = next;
+                //      a[i-1] = next;
             }
         }
     }
@@ -1077,16 +1060,12 @@ public static class Ksub
         //    chosen elements.  These are 1-based indices.
         //
     {
-        int[] a;
-        int[] b;
-        int base_ = 1;
+        const int base_ = 1;
         int i;
-        int j;
-        int t;
         //
         //  Let B index the set.
         //
-        b = new int[n];
+        int[] b = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1100,16 +1079,14 @@ public static class Ksub
         //
         for (i = 0; i < k; i++)
         {
-            j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
-            t = b[i];
-            b[i] = b[j];
-            b[j] = t;
+            int j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
+            (b[i], b[j]) = (b[j], b[i]);
         }
 
         //
         //  Copy the first K elements.
         //
-        a = new int[k];
+        int[] a = new int[k];
 
         for (i = 0; i < k; i++)
         {
@@ -1175,15 +1152,14 @@ public static class Ksub
         //
     {
         int i;
-        int iprod;
-        int j;
 
         rank = 0;
 
         for (i = 1; i <= k; i++)
         {
-            iprod = 1;
+            int iprod = 1;
 
+            int j;
             for (j = i + 1; j <= a[i - 1] - 1; j++)
             {
                 iprod *= j;
@@ -1393,16 +1369,13 @@ public static class Ksub
         //
     {
         int i;
-        int ip;
-        int iprod;
-        int jrank;
 
-        jrank = rank - 1;
+        int jrank = rank - 1;
 
         for (i = k; 1 <= i; i--)
         {
-            ip = i - 1;
-            iprod = 1;
+            int ip = i - 1;
+            int iprod = 1;
 
             for (;;)
             {

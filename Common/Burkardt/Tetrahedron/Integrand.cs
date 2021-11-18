@@ -33,10 +33,9 @@ public static class Integrand
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -77,10 +76,9 @@ public static class Integrand
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -123,10 +121,9 @@ public static class Integrand
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -172,10 +169,9 @@ public static class Integrand
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {
@@ -225,10 +221,9 @@ public static class Integrand
         //    Output, double FP[F_NUM*P_NUM], the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {

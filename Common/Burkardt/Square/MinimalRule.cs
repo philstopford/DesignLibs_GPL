@@ -304,36 +304,29 @@ public static partial class MinimalRule
     {
         int d;
         int[] e = new int[2];
-        double err;
-        double error_max;
-        double exact;
-        int i;
-        int j;
-        int k;
-        int order;
-        double s;
-        double[] xyw;
 
-        order = square_minimal_rule_order(degree);
-        xyw = square_minimal_rule(degree);
+        int order = square_minimal_rule_order(degree);
+        double[] xyw = square_minimal_rule(degree);
 
-        error_max = 0.0;
+        double error_max = 0.0;
 
         for (d = 0; d <= degree; d++)
         {
+            int i;
             for (i = 0; i <= d; i++)
             {
-                j = d - i;
+                int j = d - i;
                 e[0] = i;
                 e[1] = j;
-                exact = Integrals.squaresym_monomial_integral(e);
-                s = 0.0;
+                double exact = Integrals.squaresym_monomial_integral(e);
+                double s = 0.0;
+                int k;
                 for (k = 0; k < order; k++)
                 {
                     s += xyw[2 + k * 3] * Math.Pow(xyw[0 + k * 3], i) * Math.Pow(xyw[1 + k * 3], j);
                 }
 
-                err = Math.Abs(exact - s);
+                double err = Math.Abs(exact - s);
                 if (error_max < err)
                 {
                     error_max = err;
@@ -379,8 +372,6 @@ public static partial class MinimalRule
         //    Output, int SQUARE_MINIMAL_RULE_ORDER, the order of the rule.
         //
     {
-        int degree_max;
-        int order;
         int[] order_list = {
             1,    1,    3,    4,    6,
             7,   10,   12,   16,   17,   
@@ -395,27 +386,13 @@ public static partial class MinimalRule
             454,  462,  493,  498,  530,  
             536 };
 
-        degree_max = square_minimal_rule_degree_max ( );
+        int degree_max = square_minimal_rule_degree_max ( );
 
-        switch (degree)
+        int order = degree switch
         {
-            case < 0:
-                order = 0;
-                break;
-            default:
-            {
-                if ( degree_max < degree )
-                {
-                    order = 0;
-                }
-                else
-                {
-                    order = order_list[degree];
-                }
-
-                break;
-            }
-        }
+            < 0 => 0,
+            _ => degree_max < degree ? 0 : order_list[degree]
+        };
 
         return order;
     }

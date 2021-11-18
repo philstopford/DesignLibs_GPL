@@ -82,34 +82,22 @@ public static class EulerMaruyama
         //    Output, double &ERROR, the value of | XEM(T) - XTRUE(T) |.
         //
     {
-        double dt;
-        double dt2;
-        double[] dw;
-        double dw2;
-        int i;
         int j;
-        int l;
-        double lambda;
-        double mu;
-        int r;
-        double tmax;
-        double[] w;
-        double xzero;
         //
         //  Set problem parameters.
         //
-        lambda = 2.0;
-        mu = 1.0;
-        xzero = 1.0;
+        const double lambda = 2.0;
+        const double mu = 1.0;
+        const double xzero = 1.0;
         //
         //  Set stepping parameters.
         //
-        tmax = 1.0;
-        dt = tmax / n;
+        const double tmax = 1.0;
+        double dt = tmax / n;
         //
         //  Define the increments dW.
         //
-        dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
@@ -119,7 +107,7 @@ public static class EulerMaruyama
         //
         //  Sum the Brownian increments.
         //
-        w = new double[n + 1];
+        double[] w = new double[n + 1];
         w[0] = 0.0;
         for (j = 1; j <= n; j++)
         {
@@ -145,9 +133,9 @@ public static class EulerMaruyama
         //  Dt, the EM stepsize,
         //  L, the number of EM steps (we need N to be a multiple of R!)
         //
-        r = 4;
-        dt2 = r * dt;
-        l = n / r;
+        const int r = 4;
+        double dt2 = r * dt;
+        int l = n / r;
 
         for (j = 0; j <= l; j++)
         {
@@ -160,7 +148,8 @@ public static class EulerMaruyama
         xem[0] = xzero;
         for (j = 1; j <= l; j++)
         {
-            dw2 = 0.0;
+            double dw2 = 0.0;
+            int i;
             for (i = r * (j - 1); i < r * j; i++)
             {
                 dw2 += dw[i];
@@ -214,10 +203,10 @@ public static class EulerMaruyama
         //    Input, double XEM[N/4+1], the Euler-Maruyama solution.
         //
     {
-        string command_filename = "em_commands.txt";
+        const string command_filename = "em_commands.txt";
         List<string> command = new();
-        string data1_filename = "em1_data.txt";
-        string data2_filename = "em2_data.txt";
+        const string data1_filename = "em1_data.txt";
+        const string data2_filename = "em2_data.txt";
         List<string> data = new();
         int i;
         //

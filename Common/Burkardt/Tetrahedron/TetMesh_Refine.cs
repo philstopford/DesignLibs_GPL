@@ -101,19 +101,12 @@ public static class TetMesh_Refine
         //    in the refined mesh.
         //
     {
-        int dim_num = 3;
+        const int dim_num = 3;
         int edge;
         int i;
         int j;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
-        int node;
-        int element_order = 4;
+        const int element_order = 4;
         int tetra1;
-        int v1;
-        int v2;
         //
         //  Generate the index and coordinates of the new midside nodes, 
         //  and update the tetradehron-node data.
@@ -145,18 +138,18 @@ public static class TetMesh_Refine
             element_node2[0 + (tetra1 * 8 + 3) * element_order] = element_node1[3 + tetra1 * element_order];
         }
 
-        node = node_num1;
+        int node = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * element_num1; edge++)
         {
             //
             //  Read the data defining the edge.
             //
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
             //
             //  If this edge is new, create the coordinates and index.
             //
@@ -185,8 +178,8 @@ public static class TetMesh_Refine
             //
             //  Assign the node to the tetrahedron.
             //
-            v1 = edge_data[2 + edge * 5];
-            v2 = edge_data[3 + edge * 5];
+            int v1 = edge_data[2 + edge * 5];
+            int v2 = edge_data[3 + edge * 5];
             tetra1 = edge_data[4 + edge * 5];
             switch (v1)
             {
@@ -303,16 +296,8 @@ public static class TetMesh_Refine
         int a = 0;
         int b = 0;
         int edge;
-        int i;
-        int j;
-        int k;
-        int l;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
         int tetra;
-        int element_order = 4;
+        const int element_order = 4;
         //
         //  Step 1.
         //  From the list of nodes for tetrahedron T, of the form: (I,J,K,L)
@@ -330,10 +315,10 @@ public static class TetMesh_Refine
         //
         for (tetra = 0; tetra < element_num1; tetra++)
         {
-            i = element_node1[0 + tetra * element_order];
-            j = element_node1[1 + tetra * element_order];
-            k = element_node1[2 + tetra * element_order];
-            l = element_node1[3 + tetra * element_order];
+            int i = element_node1[0 + tetra * element_order];
+            int j = element_node1[1 + tetra * element_order];
+            int k = element_node1[2 + tetra * element_order];
+            int l = element_node1[3 + tetra * element_order];
 
             typeMethods.i4i4_sort_a(i, j, ref a, ref b);
 
@@ -401,19 +386,21 @@ public static class TetMesh_Refine
         //
         node_num2 = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * element_num1; edge++)
         {
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
-            if (n1 != n1_old || n2 != n2_old)
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
+            if (n1 == n1_old && n2 == n2_old)
             {
-                node_num2 += 1;
-                n1_old = n1;
-                n2_old = n2;
+                continue;
             }
+
+            node_num2 += 1;
+            n1_old = n1;
+            n2_old = n2;
         }
 
         element_num2 = 8 * element_num1;

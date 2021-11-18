@@ -57,17 +57,8 @@ public static class Cube
         //    Output, double CUBE_SHELL_ND, the approximate integral of the function.
         //
     {
-        bool done;
         int i;
-        int j;
-        double quad;
-        double rmax;
-        double rmin;
         double result;
-        double u;
-        double v;
-        double volume;
-        double[] x;
 
         if (Math.Abs(r1 - r2) <= double.Epsilon)
         {
@@ -75,19 +66,20 @@ public static class Cube
             return result;
         }
 
-        rmax = Math.Max(r1, r2);
-        rmin = Math.Min(r1, r2);
+        double rmax = Math.Max(r1, r2);
+        double rmin = Math.Min(r1, r2);
 
-        u = Math.Sqrt(n * (Math.Pow(rmax, n + 2) - Math.Pow(rmin, n + 2))
-                      / ((n + 2) * (Math.Pow(rmax, n) - Math.Pow(rmin, n))));
+        double u = Math.Sqrt(n * (Math.Pow(rmax, n + 2) - Math.Pow(rmin, n + 2))
+                             / ((n + 2) * (Math.Pow(rmax, n) - Math.Pow(rmin, n))));
 
-        v = u / Math.Sqrt(3.0);
+        double v = u / Math.Sqrt(3.0);
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 x[j] = v;
@@ -99,7 +91,7 @@ public static class Cube
             {
                 quad += func(setting, n, x);
 
-                done = typeMethods.r8vec_mirror_next(n, ref x);
+                bool done = typeMethods.r8vec_mirror_next(n, ref x);
 
                 if (done)
                 {
@@ -110,7 +102,7 @@ public static class Cube
 
         quad /= n * (int)Math.Pow(2, n);
 
-        volume = cube_shell_volume_nd(n, r1, r2);
+        double volume = cube_shell_volume_nd(n, r1, r2);
         result = quad * volume;
 
         return result;
@@ -152,10 +144,7 @@ public static class Cube
         //    shell.
         //
     {
-        double value = 0;
-
-
-        value = (Math.Pow(r2, n) - Math.Pow(r1, n)) * (int)Math.Pow(2, n);
+        double value = (Math.Pow(r2, n) - Math.Pow(r1, n)) * (int)Math.Pow(2, n);
 
         return value;
     }
@@ -208,30 +197,21 @@ public static class Cube
         //    Output, double CUBE_UNIT_3D, the approximate integral of the function.
         //
     {
-        double quad;
-        double result;
-        double s;
-        double volume;
-        double w;
-        double x;
-        double y;
-        double z;
+        double s = 1.0 / Math.Sqrt(3.0);
+        const double w = 1.0 / 8.0;
 
-        s = 1.0 / Math.Sqrt(3.0);
-        w = 1.0 / 8.0;
+        double x = s;
+        double y = s;
+        double z = s;
 
-        x = s;
-        y = s;
-        z = s;
-
-        quad = w * (
+        double quad = w * (
             func(settings, x, y, z) + func(settings, x, y, -z)
                                     + func(settings, x, -y, z) + func(settings, x, -y, -z)
                                     + func(settings, -x, y, z) + func(settings, -x, y, -z)
                                     + func(settings, -x, -y, z) + func(settings, -x, -y, -z));
 
-        volume = cube_unit_volume_nd(3);
-        result = quad * volume;
+        double volume = cube_unit_volume_nd(3);
+        double result = quad * volume;
 
         return result;
     }
@@ -297,8 +277,7 @@ public static class Cube
     {
         double[] g = new double[10 * 10];
         int i;
-        int j;
-        int kmax = 10;
+        const int kmax = 10;
 
         g[0 + 0 * 10] = 1.0E+00;
         g[1 + 0 * 10] = -0.3333333333333E+00;
@@ -375,6 +354,7 @@ public static class Cube
         for (i = 1; i < k; i++)
         {
             qb[i] = 0.0;
+            int j;
             for (j = 0; j <= i; j++)
             {
                 qb[i] += g[i + j * 10] * qa[j];
@@ -414,9 +394,7 @@ public static class Cube
         //    cube in ND.
         //
     {
-        double value = 0;
-
-        value = Math.Pow(2.0, n);
+        double value = Math.Pow(2.0, n);
 
         return value;
     }

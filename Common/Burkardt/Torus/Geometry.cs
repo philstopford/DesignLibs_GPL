@@ -37,9 +37,7 @@ public static class Geometry
         //    Output, double TORUS_AREA_3D, the area of the torus.
         //
     {
-        double area;
-
-        area = 4.0 * Math.PI * Math.PI * r1 * r2;
+        double area = 4.0 * Math.PI * Math.PI * r1 * r2;
 
         return area;
     }
@@ -77,9 +75,7 @@ public static class Geometry
         //    Output, double TORUS_VOLUME_3D, the volume of the torus.
         //
     {
-        double volume;
-
-        volume = 2.0 * Math.PI * Math.PI * r1 * r2 * r2;
+        double volume = 2.0 * Math.PI * Math.PI * r1 * r2 * r2;
 
         return volume;
     }

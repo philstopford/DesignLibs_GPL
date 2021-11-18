@@ -45,13 +45,8 @@ public static class TetMesh
         //    definitions.
         //
     {
-        int element;
-        int node_max;
-        int node_min;
-        int order;
-
-        node_min = typeMethods.i4mat_min(element_order, element_num, element_node);
-        node_max = typeMethods.i4mat_max(element_order, element_num, element_node);
+        int node_min = typeMethods.i4mat_min(element_order, element_num, element_node);
+        int node_max = typeMethods.i4mat_max(element_order, element_num, element_node);
 
         switch (node_min)
         {
@@ -67,8 +62,10 @@ public static class TetMesh
                 Console.WriteLine("TET_MESH_BASE_ONE:");
                 Console.WriteLine("  The element indexing appears to be 0-based!");
                 Console.WriteLine("  This will be converted to 1-based.");
+                int element;
                 for (element = 0; element < element_num; element++)
                 {
+                    int order;
                     for (order = 0; order < element_order; order++)
                     {
                         element_node[order + element * element_order] += 1;
@@ -130,20 +127,17 @@ public static class TetMesh
     {
         int base_;
         int element;
-        int node;
-        int node_max;
-        int node_min;
         int order;
         //
         //  If the element information is 1-based, make it 0-based.
         //
-        node_min = node_num + 1;
-        node_max = -1;
+        int node_min = node_num + 1;
+        int node_max = -1;
         for (element = 0; element < element_num; element++)
         {
             for (order = 0; order < element_order; order++)
             {
-                node = element_node[order + element * element_order];
+                int node = element_node[order + element * element_order];
                 node_min = Math.Min(node_min, node);
                 node_max = Math.Max(node_max, node);
             }
@@ -278,21 +272,12 @@ public static class TetMesh
         int a = 0;
         int b = 0;
         int c = 0;
-        int face;
-        int face1;
-        int face2;
-        int[] faces;
         int i;
         int j;
-        int k;
-        int l;
         int tetra;
-        int[] tetra_neighbor;
-        int tetra1;
-        int tetra2;
 
-        faces = new int[5 * 4 * tetra_num];
-        tetra_neighbor = new int[4 * tetra_num];
+        int[] faces = new int[5 * 4 * tetra_num];
+        int[] tetra_neighbor = new int[4 * tetra_num];
         //
         //  Step 1.
         //  From the list of nodes for tetrahedron T, of the form: (I,J,K,L)
@@ -310,8 +295,8 @@ public static class TetMesh
         {
             i = tetra_node[0 + tetra * tetra_order];
             j = tetra_node[1 + tetra * tetra_order];
-            k = tetra_node[2 + tetra * tetra_order];
-            l = tetra_node[3 + tetra * tetra_order];
+            int k = tetra_node[2 + tetra * tetra_order];
+            int l = tetra_node[3 + tetra * tetra_order];
 
             typeMethods.i4i4i4_sort_a(j, k, l, ref a, ref b, ref c);
 
@@ -369,7 +354,7 @@ public static class TetMesh
             }
         }
 
-        face = 0;
+        int face = 0;
 
         for (;;)
         {
@@ -382,10 +367,10 @@ public static class TetMesh
                 faces[1 + face * 5] == faces[1 + (face + 1) * 5] &&
                 faces[2 + face * 5] == faces[2 + (face + 1) * 5])
             {
-                face1 = faces[3 + face * 5];
-                tetra1 = faces[4 + face * 5];
-                face2 = faces[3 + (face + 1) * 5];
-                tetra2 = faces[4 + (face + 1) * 5];
+                int face1 = faces[3 + face * 5];
+                int tetra1 = faces[4 + face * 5];
+                int face2 = faces[3 + (face + 1) * 5];
+                int tetra2 = faces[4 + (face + 1) * 5];
                 tetra_neighbor[face1 + tetra1 * 4] = tetra2;
                 tetra_neighbor[face2 + tetra2 * 4] = tetra1;
                 face += 2;
@@ -438,20 +423,18 @@ public static class TetMesh
         //    Output, int TET_MESH_NODE_ORDER[NODE_NUM], the order of each node.
         //
     {
-        int i;
-        int node;
-        int[] node_order;
         int tetra;
 
-        node_order = new int[node_num];
+        int[] node_order = new int[node_num];
 
         typeMethods.i4vec_zero(node_num, ref node_order);
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
+            int i;
             for (i = 0; i < tetra_order; i++)
             {
-                node = tetra_node[i + tetra * tetra_order];
+                int node = tetra_node[i + tetra * tetra_order];
                 if (node < 0 || node_num <= node)
                 {
                     Console.WriteLine("");
@@ -515,17 +498,13 @@ public static class TetMesh
         //
     {
         int i = 0;
-        int j;
         int k;
         int node;
-        int[] pair;
-        int pair_num;
-        int pair_unique_num;
         int tetra;
         //
         //  Each order 4 tetrahedron defines 6 adjacency pairs.
         //
-        pair = new int[2 * 6 * tetra_num];
+        int[] pair = new int[2 * 6 * tetra_num];
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
@@ -548,7 +527,7 @@ public static class TetMesh
             pair[1 + (5 * tetra_num + tetra) * 2] = tetra_node[3 + tetra * 4];
         }
 
-        pair_num = 6 * tetra_num;
+        int pair_num = 6 * tetra_num;
         //
         //  Force the nodes of each pair to be listed in ascending order.
         //
@@ -566,7 +545,7 @@ public static class TetMesh
         //
         //  Get the number of unique columns.
         //
-        pair_unique_num = typeMethods.i4col_sorted_unique_count(2, pair_num, pair);
+        int pair_unique_num = typeMethods.i4col_sorted_unique_count(2, pair_num, pair);
         //
         //  The number of adjacencies is TWICE this value, plus the number of nodes.
         //
@@ -589,7 +568,7 @@ public static class TetMesh
             }
 
             i = pair[0 + k * 2];
-            j = pair[1 + k * 2];
+            int j = pair[1 + k * 2];
 
             adj_row[(i - 1 + adj_row.Length) % adj_row.Length] += 1;
             adj_row[(j - 1 + adj_row.Length) % adj_row.Length] += 1;
@@ -663,19 +642,14 @@ public static class TetMesh
         //    the adjacency information.
         //
     {
-        int[] adj;
-        int[] adj_row_copy;
         int i;
-        int j;
         int k;
         int node;
-        int[] pair;
-        int pair_num;
         int tetra;
         //
         //  Each order 4 tetrahedron defines 6 adjacency pairs.
         //
-        pair = new int[2 * 6 * element_num];
+        int[] pair = new int[2 * 6 * element_num];
 
         for (tetra = 0; tetra < element_num; tetra++)
         {
@@ -698,7 +672,7 @@ public static class TetMesh
             pair[1 + (5 * element_num + tetra) * 2] = element_node[3 + tetra * 4];
         }
 
-        pair_num = 6 * element_num;
+        int pair_num = 6 * element_num;
         //
         //  Force the nodes of each pair to be listed in ascending order.
         //
@@ -710,7 +684,7 @@ public static class TetMesh
         //
         //  Mark all entries of ADJ so we will know later if we missed one.
         //
-        adj = new int[adj_num];
+        int[] adj = new int[adj_num];
 
         for (i = 0; i < adj_num; i++)
         {
@@ -721,7 +695,7 @@ public static class TetMesh
         //  Copy the ADJ_ROW array and use it to keep track of the next
         //  free entry for each row.
         //
-        adj_row_copy = new int[node_num];
+        int[] adj_row_copy = new int[node_num];
 
         for (node = 0; node < node_num; node++)
         {
@@ -741,7 +715,7 @@ public static class TetMesh
             }
 
             i = pair[0 + k * 2];
-            j = pair[1 + k * 2];
+            int j = pair[1 + k * 2];
 
             adj[adj_row_copy[i % adj_row_copy.Length] % adj.Length] = j;
             adj_row_copy[i % adj_row_copy.Length] += 1;
@@ -797,18 +771,12 @@ public static class TetMesh
         //    boundary faces.
         //
     {
-        int boundary_face_num;
-        int[] face;
-        int face_num;
-        int interior_face_num;
-        int m;
         int tet;
-        int unique_face_num;
 
-        face = new int[3 * 4 * tetra_num];
+        int[] face = new int[3 * 4 * tetra_num];
 
-        m = 3;
-        face_num = 4 * tetra_num;
+        const int m = 3;
+        int face_num = 4 * tetra_num;
         //
         //  Set up the face array:
         //  (Omit node 1)
@@ -846,13 +814,13 @@ public static class TetMesh
         //
         //  Get the number of unique columns.
         //
-        unique_face_num = typeMethods.i4col_sorted_unique_count(m, face_num, face);
+        int unique_face_num = typeMethods.i4col_sorted_unique_count(m, face_num, face);
         //
         //  Determine the number of interior and boundary faces.
         //
-        interior_face_num = 4 * tetra_num - unique_face_num;
+        int interior_face_num = 4 * tetra_num - unique_face_num;
 
-        boundary_face_num = 4 * tetra_num - 2 * interior_face_num;
+        int boundary_face_num = 4 * tetra_num - 2 * interior_face_num;
 
         return boundary_face_num;
     }
@@ -894,16 +862,12 @@ public static class TetMesh
         //    Output, int TET_MESH_ORDER4_EDGE_COUNT, the number of edges.
         //
     {
-        int[] edge;
-        int edge_num;
-        int edge_num_raw;
-        int m;
         int tet;
 
-        edge = new int[2 * 6 * tetra_num];
+        int[] edge = new int[2 * 6 * tetra_num];
 
-        m = 3;
-        edge_num_raw = 6 * tetra_num;
+        const int m = 3;
+        int edge_num_raw = 6 * tetra_num;
         //
         //  Set up the raw edge array:
         //
@@ -939,7 +903,7 @@ public static class TetMesh
         //
         //  Get the number of unique columns.
         //
-        edge_num = typeMethods.i4col_sorted_unique_count(m, edge_num_raw, edge);
+        int edge_num = typeMethods.i4col_sorted_unique_count(m, edge_num_raw, edge);
 
         return edge_num;
     }
@@ -1339,19 +1303,12 @@ public static class TetMesh
         //    in the refined mesh.
         //
     {
-        int dim_num = 3;
+        const int dim_num = 3;
         int edge;
         int i;
         int j;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
-        int node;
-        int tetra_order = 4;
+        const int tetra_order = 4;
         int tetra1;
-        int v1;
-        int v2;
         //
         //  Generate the index and coordinates of the new midside nodes, 
         //  and update the tetradehron-node data.
@@ -1383,18 +1340,18 @@ public static class TetMesh
             tetra_node2[0 + (tetra1 * 8 + 3) * tetra_order] = tetra_node1[3 + tetra1 * tetra_order];
         }
 
-        node = node_num1;
+        int node = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * tetra_num1; edge++)
         {
             //
             //  Read the data defining the edge.
             //
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
             //
             //  If this edge is new, create the coordinates and index.
             //
@@ -1422,8 +1379,8 @@ public static class TetMesh
             //
             //  Assign the node to the tetrahedron.
             //
-            v1 = edge_data[2 + edge * 5];
-            v2 = edge_data[3 + edge * 5];
+            int v1 = edge_data[2 + edge * 5];
+            int v2 = edge_data[3 + edge * 5];
             tetra1 = edge_data[4 + edge * 5];
             switch (v1)
             {
@@ -1540,16 +1497,8 @@ public static class TetMesh
         int a = 0;
         int b = 0;
         int edge;
-        int i;
-        int j;
-        int k;
-        int l;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
         int tetra;
-        int tetra_order = 4;
+        const int tetra_order = 4;
         //
         //  Step 1.
         //  From the list of nodes for tetrahedron T, of the form: (I,J,K,L)
@@ -1567,10 +1516,10 @@ public static class TetMesh
         //
         for (tetra = 0; tetra < tetra_num1; tetra++)
         {
-            i = tetra_node1[0 + tetra * tetra_order];
-            j = tetra_node1[1 + tetra * tetra_order];
-            k = tetra_node1[2 + tetra * tetra_order];
-            l = tetra_node1[3 + tetra * tetra_order];
+            int i = tetra_node1[0 + tetra * tetra_order];
+            int j = tetra_node1[1 + tetra * tetra_order];
+            int k = tetra_node1[2 + tetra * tetra_order];
+            int l = tetra_node1[3 + tetra * tetra_order];
 
             typeMethods.i4i4_sort_a(i, j, ref a, ref b);
 
@@ -1638,13 +1587,13 @@ public static class TetMesh
         //
         node_num2 = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * tetra_num1; edge++)
         {
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
             if (n1 != n1_old || n2 != n2_old)
             {
                 node_num2 += 1;
@@ -1733,21 +1682,13 @@ public static class TetMesh
         //    the nodes that make up the quadratic mesh.
         //
     {
-        int dim_num = 3;
+        const int dim_num = 3;
         int edge;
         int i;
         int j;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
-        int node;
-        int tetra;
-        int tetra_order1 = 4;
-        int tetra_order2 = 10;
+        const int tetra_order1 = 4;
+        const int tetra_order2 = 10;
         int v = 0;
-        int v1;
-        int v2;
         //
         //  Generate the index and coordinates of the new midside nodes, 
         //  and update the tetradehron-node data.
@@ -1768,18 +1709,18 @@ public static class TetMesh
             }
         }
 
-        node = node_num1;
+        int node = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * tetra_num; edge++)
         {
             //
             //  Read the data defining the edge.
             //
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
             //
             //  If this edge is new, create the coordinates and index.
             //
@@ -1807,8 +1748,8 @@ public static class TetMesh
             //
             //  Assign the node to the tetrahedron.
             //
-            v1 = edge_data[2 + edge * 5];
-            v2 = edge_data[3 + edge * 5];
+            int v1 = edge_data[2 + edge * 5];
+            int v2 = edge_data[3 + edge * 5];
             v = v1 switch
             {
                 //
@@ -1823,7 +1764,7 @@ public static class TetMesh
                 _ => v
             };
 
-            tetra = edge_data[4 + edge * 5];
+            int tetra = edge_data[4 + edge * 5];
 
             tetra_node2[v - 1 + tetra * tetra_order2] = node;
         }
@@ -1892,16 +1833,8 @@ public static class TetMesh
         int a = 0;
         int b = 0;
         int edge;
-        int i;
-        int j;
-        int k;
-        int l;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
         int tetra;
-        int tetra_order1 = 4;
+        const int tetra_order1 = 4;
         //
         //  Step 1.
         //  From the list of nodes for tetrahedron T, of the form: (I,J,K,L)
@@ -1919,10 +1852,10 @@ public static class TetMesh
         //
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
-            i = tetra_node1[0 + tetra * tetra_order1];
-            j = tetra_node1[1 + tetra * tetra_order1];
-            k = tetra_node1[2 + tetra * tetra_order1];
-            l = tetra_node1[3 + tetra * tetra_order1];
+            int i = tetra_node1[0 + tetra * tetra_order1];
+            int j = tetra_node1[1 + tetra * tetra_order1];
+            int k = tetra_node1[2 + tetra * tetra_order1];
+            int l = tetra_node1[3 + tetra * tetra_order1];
 
             typeMethods.i4i4_sort_a(i, j, ref a, ref b);
 
@@ -1990,19 +1923,21 @@ public static class TetMesh
         //
         node_num2 = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * tetra_num; edge++)
         {
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
-            if (n1 != n1_old || n2 != n2_old)
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
+            if (n1 == n1_old && n2 == n2_old)
             {
-                node_num2 += 1;
-                n1_old = n1;
-                n2_old = n2;
+                continue;
             }
+
+            node_num2 += 1;
+            n1_old = n1;
+            n2_old = n2;
         }
 
     }
@@ -2056,22 +1991,18 @@ public static class TetMesh
     {
         int i;
         int j;
-        int k;
-        int l;
         int node;
-        int[] pair;
-        int pair_num;
-        int pair_unique_num;
         //
         //  Each order 10 tetrahedron defines 45 adjacency pairs.
         //
-        pair = new int[2 * 45 * tet_num];
+        int[] pair = new int[2 * 45 * tet_num];
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < 9; i++)
         {
             for (j = i + 1; j < 10; j++)
             {
+                int l;
                 for (l = 0; l < tet_num; l++)
                 {
                     pair[0 + (k * tet_num + l) * 2] = tet_node[i + l * 10];
@@ -2085,7 +2016,7 @@ public static class TetMesh
         //
         //  Force the nodes of each pair to be listed in ascending order.
         //
-        pair_num = 45 * tet_num;
+        int pair_num = 45 * tet_num;
 
         typeMethods.i4col_sort2_a(2, pair_num, ref pair);
         //
@@ -2095,7 +2026,7 @@ public static class TetMesh
         //
         //  Get the number of unique columns.
         //
-        pair_unique_num = typeMethods.i4col_sorted_unique_count(2, pair_num, pair);
+        int pair_unique_num = typeMethods.i4col_sorted_unique_count(2, pair_num, pair);
         //
         //  The number of adjacencies is TWICE this value, plus the number of nodes.
         //
@@ -2192,25 +2123,20 @@ public static class TetMesh
         //    the adjacency information.
         //
     {
-        int[] adj;
-        int[] adj_row_copy;
         int i;
         int j;
-        int k;
-        int l;
         int node;
-        int[] pair;
-        int pair_num;
         //
         //  Each order 10 tetrahedron defines 45 adjacency pairs.
         //
-        pair = new int[2 * 45 * tet_num];
+        int[] pair = new int[2 * 45 * tet_num];
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < 9; i++)
         {
             for (j = i + 1; j < 10; j++)
             {
+                int l;
                 for (l = 0; l < tet_num; l++)
                 {
                     pair[0 + (k * tet_num + l) * 2] = tet_node[i + l * 10];
@@ -2224,7 +2150,7 @@ public static class TetMesh
         //
         //  Force the nodes of each pair to be listed in ascending order.
         //
-        pair_num = 45 * tet_num;
+        int pair_num = 45 * tet_num;
 
         typeMethods.i4col_sort2_a(2, pair_num, ref pair);
         //
@@ -2234,7 +2160,7 @@ public static class TetMesh
         //
         //  Mark all entries of ADJ so we will know later if we missed one.
         //
-        adj = new int[adj_num];
+        int[] adj = new int[adj_num];
 
         for (i = 0; i < adj_num; i++)
         {
@@ -2245,7 +2171,7 @@ public static class TetMesh
         //  Copy the ADJ_ROW array and use it to keep track of the next
         //  free entry for each row.
         //
-        adj_row_copy = new int[node_num];
+        int[] adj_row_copy = new int[node_num];
 
         for (node = 0; node < node_num; node++)
         {
@@ -2464,33 +2390,22 @@ public static class TetMesh
         //    that make up the linear mesh.
         //
     {
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
-        int n7;
-        int n8;
-        int n9;
-        int nx;
         int tetra1;
-        int tetra2;
 
-        tetra2 = 0;
+        int tetra2 = 0;
 
         for (tetra1 = 0; tetra1 < tetra_num1; tetra1++)
         {
-            n1 = tetra_node1[0 + tetra1 * 10];
-            n2 = tetra_node1[1 + tetra1 * 10];
-            n3 = tetra_node1[2 + tetra1 * 10];
-            n4 = tetra_node1[3 + tetra1 * 10];
-            n5 = tetra_node1[4 + tetra1 * 10];
-            n6 = tetra_node1[5 + tetra1 * 10];
-            n7 = tetra_node1[6 + tetra1 * 10];
-            n8 = tetra_node1[7 + tetra1 * 10];
-            n9 = tetra_node1[8 + tetra1 * 10];
-            nx = tetra_node1[9 + tetra1 * 10];
+            int n1 = tetra_node1[0 + tetra1 * 10];
+            int n2 = tetra_node1[1 + tetra1 * 10];
+            int n3 = tetra_node1[2 + tetra1 * 10];
+            int n4 = tetra_node1[3 + tetra1 * 10];
+            int n5 = tetra_node1[4 + tetra1 * 10];
+            int n6 = tetra_node1[5 + tetra1 * 10];
+            int n7 = tetra_node1[6 + tetra1 * 10];
+            int n8 = tetra_node1[7 + tetra1 * 10];
+            int n9 = tetra_node1[8 + tetra1 * 10];
+            int nx = tetra_node1[9 + tetra1 * 10];
 
             tetra_node2[0 + tetra2 * 4] = n1;
             tetra_node2[1 + tetra2 * 4] = n5;
@@ -2672,14 +2587,9 @@ public static class TetMesh
         //    Output, double *REGION_VOLUME, the volume of the region.
         //
     {
-        int i;
-        int j;
-        int quad;
         double[] quad_f = new double[quad_num];
         double[] quad2_xyz = new double[3 * quad_num];
-        double temp;
         int tet;
-        double tetra_volume;
         double[] tetra_xyz = new double[3 * 4];
 
         quad_value = 0.0;
@@ -2687,22 +2597,25 @@ public static class TetMesh
 
         for (tet = 0; tet < tetra_num; tet++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
+                int i;
                 for (i = 0; i < 3; i++)
                 {
                     tetra_xyz[i + j * 3] = node_xyz[i + (tetra_node[j + tet * 4] - 1) * 3];
                 }
             }
 
-            tetra_volume = Tetrahedron.tetrahedron_volume(tetra_xyz);
+            double tetra_volume = Tetrahedron.tetrahedron_volume(tetra_xyz);
 
             Tetrahedron.tetrahedron_order4_reference_to_physical(tetra_xyz, quad_num,
                 quad_xyz, ref quad2_xyz);
 
             quad_f = quad_fun(quad_num, quad2_xyz, quad_f);
 
-            temp = 0.0;
+            double temp = 0.0;
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
                 temp += quad_w[quad] * quad_f[quad];
@@ -2762,22 +2675,20 @@ public static class TetMesh
         //    the minimum, mean, maximum and variance of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int i;
         int j;
-        int node;
         int tetra;
         double[] tetrahedron = new double[DIM_NUM * 4];
-        double[] tetrahedron_quality;
 
-        tetrahedron_quality = new double[tetra_num];
+        double[] tetrahedron_quality = new double[tetra_num];
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
             for (j = 0; j < 4; j++)
             {
-                node = tetra_node[j + tetra * tetra_order];
+                int node = tetra_node[j + tetra * tetra_order];
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     tetrahedron[i + j * DIM_NUM] = node_xyz[(i + (node - 1) * DIM_NUM + node_xyz.Length ) % node_xyz.Length];
@@ -2841,22 +2752,20 @@ public static class TetMesh
         //    the minimum, mean, maximum and variance of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int i;
-        int j;
-        int node;
         int tetra;
         double[] tetrahedron = new double[DIM_NUM * 4];
-        double[] tetrahedron_quality;
 
-        tetrahedron_quality = new double[tetra_num];
+        double[] tetrahedron_quality = new double[tetra_num];
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
-                node = tetra_node[j + tetra * tetra_order];
+                int node = tetra_node[j + tetra * tetra_order];
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     tetrahedron[i + j * DIM_NUM] = node_xyz[(i + (node - 1) * DIM_NUM + node_xyz.Length ) % node_xyz.Length];
@@ -2919,22 +2828,20 @@ public static class TetMesh
         //    the minimum, mean, maximum and variance of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int i;
-        int j;
-        int node;
         int tetra;
         double[] tetrahedron = new double[DIM_NUM * 4];
-        double[] tetrahedron_quality;
 
-        tetrahedron_quality = new double[tetra_num];
+        double[] tetrahedron_quality = new double[tetra_num];
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
-                node = tetra_node[j + tetra * tetra_order];
+                int node = tetra_node[j + tetra * tetra_order];
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     tetrahedron[i + j * DIM_NUM] = node_xyz[(i + (node - 1) * DIM_NUM + node_xyz.Length ) % node_xyz.Length];
@@ -2997,22 +2904,20 @@ public static class TetMesh
         //    the minimum, mean, maximum and variance of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int i;
-        int j;
-        int node;
         int tetra;
         double[] tetrahedron = new double[DIM_NUM * 4];
-        double[] tetrahedron_quality;
 
-        tetrahedron_quality = new double[tetra_num];
+        double[] tetrahedron_quality = new double[tetra_num];
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
-                node = tetra_node[j + tetra * tetra_order];
+                int node = tetra_node[j + tetra * tetra_order];
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     tetrahedron[i + j * DIM_NUM] = node_xyz[(i + (node - 1) * DIM_NUM + node_xyz.Length) % node_xyz.Length];
@@ -3074,23 +2979,20 @@ public static class TetMesh
         //    the minimum, mean, maximum and variance of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int i;
-        int j;
-        int node;
         int tetra;
         double[] tetrahedron = new double[DIM_NUM * 4];
-        double[] tetrahedron_quality;
-        double volume_max;
 
-        tetrahedron_quality = new double[tetra_num];
+        double[] tetrahedron_quality = new double[tetra_num];
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
-                node = tetra_node[j + tetra * tetra_order];
+                int node = tetra_node[j + tetra * tetra_order];
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     tetrahedron[i + j * DIM_NUM] = node_xyz[(i + (node - 1) * DIM_NUM + node_xyz.Length) % node_xyz.Length];
@@ -3100,7 +3002,7 @@ public static class TetMesh
             tetrahedron_quality[tetra] = Tetrahedron.tetrahedron_volume(tetrahedron);
         }
 
-        volume_max = typeMethods.r8vec_max(tetra_num, tetrahedron_quality);
+        double volume_max = typeMethods.r8vec_max(tetra_num, tetrahedron_quality);
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
@@ -3201,17 +3103,13 @@ public static class TetMesh
         //    where the search ended.  If a cycle occurred, then -1 is returned.
         //
     {
-        double[] alpha;
-        int i;
-        int j;
-        int k;
         int tet_index;
         double[] tet_xyz = new double[3 * 4];
-        int tet_index_save = -1;
+        const int tet_index_save = -1;
         //
         //  If possible, start with the previous successful value of TET_INDEX.
         //
-        if (tet_index_save < 1 || tet_num < tet_index_save)
+        if ( tet_num < tet_index_save)
         {
             tet_index = (tet_num + 1) / 2;
         }
@@ -3232,21 +3130,22 @@ public static class TetMesh
                 Console.WriteLine("");
                 Console.WriteLine("TET_MESH_SEARCH_DELAUNAY - Fatal error!");
                 Console.WriteLine("  The algorithm seems to be cycling.");
-                tet_index = -1;
                 face = -1;
                 return 1;
             }
 
+            int j;
             for (j = 0; j < 4; j++)
             {
-                k = tet_node[j + tet_index * 4];
+                int k = tet_node[j + tet_index * 4];
+                int i;
                 for (i = 0; i < 3; i++)
                 {
                     tet_xyz[i + j * 3] = node_xyz[i + k * 3];
                 }
             }
 
-            alpha = Tetrahedron.tetrahedron_barycentric(tet_xyz, p);
+            double[] alpha = Tetrahedron.tetrahedron_barycentric(tet_xyz, p);
             //
             //  If the barycentric coordinates are all positive, then the point
             //  is inside the tetrahedron and we're done.
@@ -3317,8 +3216,6 @@ public static class TetMesh
             }
         }
 
-        tet_index_save = tet_index;
-
         return tet_index;
     }
 
@@ -3371,27 +3268,25 @@ public static class TetMesh
         //
         //    Output, int *STEP_NUM, the number of tetrahedrons examined.
     {
-        double[] alpha;
-        int i;
-        int j;
         int tet;
-        int tet_index;
         double[] tet_xyz = new double[3 * 4];
 
-        tet_index = -1;
+        int tet_index = -1;
         step_num = 0;
 
         for (tet = 0; tet < tet_num; tet++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
+                int i;
                 for (i = 0; i < 3; i++)
                 {
                     tet_xyz[i + j * 3] = node_xyz[i + tet_node[j + tet * 4] * 3];
                 }
             }
 
-            alpha = Tetrahedron.tetrahedron_barycentric(tet_xyz, p);
+            double[] alpha = Tetrahedron.tetrahedron_barycentric(tet_xyz, p);
 
             if (typeMethods.r8vec_is_nonnegative(4, alpha))
             {

@@ -93,15 +93,12 @@ public static class NewtonCotesOpen
         //
     {
         int order;
-        int order_num;
-        int[] suborder;
-        int suborder_num;
 
-        suborder_num = tetrahedron_nco_suborder_num(rule);
+        int suborder_num = tetrahedron_nco_suborder_num(rule);
 
-        suborder = tetrahedron_nco_suborder(rule, suborder_num);
+        int[] suborder = tetrahedron_nco_suborder(rule, suborder_num);
 
-        order_num = 0;
+        int order_num = 0;
         for (order = 0; order < suborder_num; order++)
         {
             order_num += suborder[order];
@@ -148,27 +145,22 @@ public static class NewtonCotesOpen
         //    Output, double W[ORDER_NUM], the weights of the rule.
         //
     {
-        int o;
         int s;
-        int[] suborder;
-        int suborder_num;
-        double[] suborder_w;
-        double[] suborder_xyz;
         //
         //  Get the suborder information.
         //
-        suborder_num = tetrahedron_nco_suborder_num(rule);
+        int suborder_num = tetrahedron_nco_suborder_num(rule);
 
-        suborder_xyz = new double[4 * suborder_num];
-        suborder_w = new double[suborder_num];
+        double[] suborder_xyz = new double[4 * suborder_num];
+        double[] suborder_w = new double[suborder_num];
 
-        suborder = tetrahedron_nco_suborder(rule, suborder_num);
+        int[] suborder = tetrahedron_nco_suborder(rule, suborder_num);
 
         tetrahedron_nco_subrule(rule, suborder_num, ref suborder_xyz, ref suborder_w);
         //
         //  Expand the suborder information to a full order rule.
         //
-        o = 0;
+        int o = 0;
 
         for (s = 0; s < suborder_num; s++)
         {
@@ -564,9 +556,7 @@ public static class NewtonCotesOpen
         //    Output, int TETRAHEDRON_NCO_RULE_NUM, the number of rules available.
         //
     {
-        int rule_num;
-
-        rule_num = 7;
+        const int rule_num = 7;
 
         return rule_num;
     }
@@ -608,9 +598,7 @@ public static class NewtonCotesOpen
         //    the suborders of the rule.
         //
     {
-        int[] suborder;
-
-        suborder = new int[suborder_num];
+        int[] suborder = new int[suborder_num];
 
         switch (rule)
         {
@@ -774,15 +762,12 @@ public static class NewtonCotesOpen
         //    Output, double SUBORDER_W[SUBORDER_NUM], the suborder weights.
         //
     {
-        int i;
         int s;
         int suborder_w_d = 0;
-        int[] suborder_w_n;
         int suborder_xyz_d = 0;
-        int[] suborder_xyz_n;
 
-        suborder_xyz_n = new int[4 * suborder_num];
-        suborder_w_n = new int[suborder_num];
+        int[] suborder_xyz_n = new int[4 * suborder_num];
+        int[] suborder_w_n = new int[suborder_num];
 
         switch (rule)
         {
@@ -823,6 +808,7 @@ public static class NewtonCotesOpen
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz[i + s * 4] =
@@ -882,18 +868,18 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_01 =
         {
             0, 0, 0, 0
         };
-        int suborder_xyz_d_01 = 0;
+        const int suborder_xyz_d_01 = 0;
         int[] suborder_w_n_01 = { 1 };
-        int suborder_w_d_01 = 1;
+        const int suborder_w_d_01 = 1;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_01[i + s * 4];
@@ -956,18 +942,18 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_02 =
         {
             0, 0, 0, 1
         };
-        int suborder_xyz_d_02 = 1;
+        const int suborder_xyz_d_02 = 1;
         int[] suborder_w_n_02 = { 1 };
-        int suborder_w_d_02 = 4;
+        const int suborder_w_d_02 = 4;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_02[i + s * 4];
@@ -1030,19 +1016,19 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_03 =
         {
             0, 0, 0, 2,
             1, 1, 0, 0
         };
-        int suborder_xyz_d_03 = 2;
+        const int suborder_xyz_d_03 = 2;
         int[] suborder_w_n_03 = { 11, -4 };
-        int suborder_w_d_03 = 20;
+        const int suborder_w_d_03 = 20;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_03[i + s * 4];
@@ -1105,7 +1091,6 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_04 =
         {
@@ -1113,12 +1098,13 @@ public static class NewtonCotesOpen
             0, 0, 1, 2,
             1, 1, 1, 0
         };
-        int suborder_xyz_d_04 = 3;
+        const int suborder_xyz_d_04 = 3;
         int[] suborder_w_n_04 = { 20, 13, -29 };
-        int suborder_w_d_04 = 120;
+        const int suborder_w_d_04 = 120;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_04[i + s * 4];
@@ -1181,7 +1167,6 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_05 =
         {
@@ -1191,12 +1176,13 @@ public static class NewtonCotesOpen
             1, 1, 0, 2,
             1, 1, 1, 1
         };
-        int suborder_xyz_d_05 = 4;
+        const int suborder_xyz_d_05 = 4;
         int[] suborder_w_n_05 = { 79, -68, 142, -12, 2 };
-        int suborder_w_d_05 = 210;
+        const int suborder_w_d_05 = 210;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_05[i + s * 4];
@@ -1258,7 +1244,6 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_06 =
         {
@@ -1269,12 +1254,13 @@ public static class NewtonCotesOpen
             2, 2, 1, 0,
             1, 1, 1, 2
         };
-        int suborder_xyz_d_06 = 5;
+        const int suborder_xyz_d_06 = 5;
         int[] suborder_w_n_06 = { 277, 97, 223, -713, 505, -53 };
-        int suborder_w_d_06 = 2240;
+        const int suborder_w_d_06 = 2240;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_06[i + s * 4];
@@ -1337,7 +1323,6 @@ public static class NewtonCotesOpen
         //    the denominator of the suborder weights.
         //
     {
-        int i;
         int s;
         int[] suborder_xyz_n_07 =
         {
@@ -1351,12 +1336,13 @@ public static class NewtonCotesOpen
             2, 2, 2, 0,
             2, 2, 1, 1
         };
-        int suborder_xyz_d_07 = 6;
+        const int suborder_xyz_d_07 = 6;
         int[] suborder_w_n_07 = { 430, -587, 1327, 187, -1298, -398, 22, 1537, -38 };
-        int suborder_w_d_07 = 1512;
+        const int suborder_w_d_07 = 1512;
 
         for (s = 0; s < suborder_num; s++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 suborder_xyz_n[i + s * 4] = suborder_xyz_n_07[i + s * 4];

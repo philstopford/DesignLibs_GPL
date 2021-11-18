@@ -105,26 +105,20 @@ public static class WrightOmega
         //    nonzero, the computation failed.        
         //
     {
-        double near;
         Complex pz;
         double s = 1.0;
         Complex t;
-        Complex wp1;
-        double x;
-        double y;
-        double ympi;
-        double yppi;
         // 
         //  Extract real and imaginary parts of Z. 
         //
-        x = z.Real;
-        y = z.Imaginary;
+        double x = z.Real;
+        double y = z.Imaginary;
         // 
         //  Compute if we are near the branch cuts.
         //
-        ympi = y - Math.PI;
-        yppi = y + Math.PI;
-        near = 0.01;
+        double ympi = y - Math.PI;
+        double yppi = y + Math.PI;
+        const double near = 0.01;
         // 
         //  Test for floating point exceptions:
         //
@@ -145,7 +139,7 @@ public static class WrightOmega
 
         switch (x)
         {
-            case (double.NegativeInfinity or double.PositiveInfinity) and < 0.0 when -Math.PI < y && y <= Math.PI:
+            case (double.NegativeInfinity or double.PositiveInfinity) and < 0.0 when y is > -Math.PI and <= Math.PI:
             {
                 w = Math.Abs(y) switch
                 {
@@ -192,7 +186,7 @@ public static class WrightOmega
             //  Region 1: upper branch point.
             //  Series about z=-1+Pi*I.
             //
-            case > -2.0 and <= 1.0 when 1.0 < y && y < 2.0 * Math.PI:
+            case > -2.0 and <= 1.0 when y is > 1.0 and < 2.0 * Math.PI:
                 pz = Complex.Conjugate(Complex.Sqrt(Complex.Conjugate(2.0 * (z + new Complex(1.0, -Math.PI)))));
 
                 w = -1.0
@@ -206,7 +200,7 @@ public static class WrightOmega
             //  Region 2: lower branch point.
             //  Series about z=-1-Pi*I.
             //
-            case > -2.0 and <= 1.0 when -2.0 * Math.PI < y && y < -1.0:
+            case > -2.0 and <= 1.0 when y is > -2.0 * Math.PI and < -1.0:
                 pz = Complex.Conjugate(Complex.Sqrt(Complex.Conjugate(2.0 * (z + 1.0 + new Complex(0.0, Math.PI)))));
 
                 w = -1.0
@@ -219,7 +213,7 @@ public static class WrightOmega
             //  Region 3: between branch cuts.
             //  Series: About -infinity.
             //
-            case <= -2.0 when -Math.PI < y && y <= Math.PI:
+            case <= -2.0 when y is > -Math.PI and <= Math.PI:
                 pz = Complex.Exp(z);
                 w = (1.0
                      + (-1.0
@@ -231,7 +225,7 @@ public static class WrightOmega
             //  Region 4: Mushroom.
             //  Series about z=1.
             //
-            case > -2.0 and <= 1.0 when -1.0 <= y && y <= 1.0:
+            case > -2.0 and <= 1.0 when y is >= -1.0 and <= 1.0:
             case > -2.0 when (x - 1.0) * (x - 1.0) + y * y <= Math.PI * Math.PI:
                 pz = z - 1.0;
                 w = 1.0 / 2.0 + 1.0 / 2.0 * z
@@ -323,7 +317,7 @@ public static class WrightOmega
         //
         w = s * w;
         r = z - s * w - Complex.Log(w);
-        wp1 = s * w + 1.0;
+        Complex wp1 = s * w + 1.0;
         e = r / wp1 * (2.0 * wp1 * (wp1 + 2.0 / 3.0 * r) - r)
             / (2.0 * wp1 * (wp1 + 2.0 / 3.0 * r) - 2.0 * r);
         w *= (1.0 + e);

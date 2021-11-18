@@ -52,22 +52,17 @@ public static class Square
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
-        double x;
-        double y;
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
-            x = center[0] + r * xtab[i];
-            y = center[1] + r * ytab[i];
+            double x = center[0] + r * xtab[i];
+            double y = center[1] + r * ytab[i];
             quad += 0.25 * weight[i] * func(setting, x, y);
         }
 
-        volume = 4.0 * r * r;
-        result = quad * volume;
+        double volume = 4.0 * r * r;
+        double result = quad * volume;
 
         return result;
     }
@@ -135,20 +130,14 @@ public static class Square
         //    Output, double WEIGHT[ORDER], the weights.
         //
     {
-        double a;
         double c;
-        int i;
-        int j;
-        int k;
-        int order2 = 8;
+        const int order2 = 8;
         double r;
         double s;
         double t;
         double w1;
         double w2;
         double w3;
-        double[] weight2;
-        double[] xtab2;
         double z;
 
         switch (rule)
@@ -160,7 +149,7 @@ public static class Square
                 ytab[0] = 0.0;
                 break;
             case 2:
-                a = 1.0;
+                double a = 1.0;
                 s = 1.0 / Math.Sqrt(3.0);
 
                 xtab[0] = -s;
@@ -318,15 +307,17 @@ public static class Square
                 break;
             case 6:
             {
-                xtab2 = new double[order2];
-                weight2 = new double[order2];
+                double[] xtab2 = new double[order2];
+                double[] weight2 = new double[order2];
 
                 LegendreQuadrature.legendre_set(order2, ref xtab2, ref weight2);
 
-                k = 0;
+                int k = 0;
 
+                int i;
                 for (i = 0; i < order2; i++)
                 {
+                    int j;
                     for (j = 0; j < order2; j++)
                     {
                         xtab[k] = xtab2[i];
@@ -455,18 +446,15 @@ public static class Square
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += weight[i] * func(setting, xtab[i], ytab[i]) / 4.0;
         }
 
-        volume = 1.0;
-        result = quad * volume;
+        const double volume = 1.0;
+        double result = quad * volume;
 
         return result;
     }

@@ -92,16 +92,7 @@ public static class Tree
         //    normally 1 or 2.
         //
     {
-        int[] degree;
         int i;
-        int iedge;
-        int ileaf;
-        int j;
-        int[] list;
-        int nedge;
-        int nleaf;
-        int nnode2;
-        int result;
 
         eccent = 0;
         center[0] = 0;
@@ -132,8 +123,8 @@ public static class Tree
         //
         //  Is this graph really a tree?
         //
-        nedge = nnode - 1;
-        result = Graph.graph_arc_is_tree(nedge, inode, jnode, nnode);
+        int nedge = nnode - 1;
+        int result = Graph.graph_arc_is_tree(nedge, inode, jnode, nnode);
 
         switch (result)
         {
@@ -147,12 +138,12 @@ public static class Tree
         //
         //  Compute the degrees.
         //
-        degree = Graph.graph_arc_degree(nnode, nedge, inode, jnode);
+        int[] degree = Graph.graph_arc_degree(nnode, nedge, inode, jnode);
         //
         //  Defoliate the tree.
         //
-        nnode2 = nnode;
-        list = new int[nnode];
+        int nnode2 = nnode;
+        int[] list = new int[nnode];
 
         for (;;)
         {
@@ -160,7 +151,7 @@ public static class Tree
             //
             //  Find and mark the leaves.
             //
-            nleaf = 0;
+            int nleaf = 0;
 
             for (i = 1; i <= nnode; i++)
             {
@@ -176,12 +167,13 @@ public static class Tree
             //
             //  Delete the leaves.
             //
+            int ileaf;
             for (ileaf = 1; ileaf <= nleaf; ileaf++)
             {
                 i = list[ileaf - 1];
 
-                iedge = 0;
-                j = 0;
+                int iedge = 0;
+                int j = 0;
 
                 for (;;)
                 {
@@ -320,15 +312,10 @@ public static class Tree
         tree which are separated by DIAM edges.
         */
     {
-        int[] degree;
         int i;
         int invals;
         int j;
         int k;
-        int kstep;
-        int nabe;
-        int nedge;
-        int result;
 
         for (i = 0; i < nnode; i++)
         {
@@ -353,8 +340,8 @@ public static class Tree
         //
         //  Is this graph really a tree?
         //
-        nedge = nnode - 1;
-        result = Graph.graph_arc_is_tree(nedge, inode, jnode, nnode);
+        int nedge = nnode - 1;
+        int result = Graph.graph_arc_is_tree(nedge, inode, jnode, nnode);
 
         switch (result)
         {
@@ -383,8 +370,8 @@ public static class Tree
         //
         //      The terminal nodes are removed.
         //
-        kstep = 0;
-        degree = new int[nnode];
+        int kstep = 0;
+        int[] degree = new int[nnode];
 
         for (;;)
         {
@@ -457,6 +444,7 @@ public static class Tree
                     {
                         for (j = 1; j <= nedge; j++)
                         {
+                            int nabe;
                             if (inode[j - 1] == k)
                             {
                                 nabe = jnode[j - 1];
@@ -660,20 +648,13 @@ public static class Tree
         //    Output, int TREE_ARC_TO_PRUEFER[NNODE-2], the Pruefer code of the tree.
         //
     {
-        int[] code;
-        int[] degree;
         int i;
-        int i2;
-        int iterm;
-        int j;
         int jsave = 0;
-        int nedge;
-        int result;
         //
         //  Is this graph really a tree?
         //
-        nedge = nnode - 1;
-        result = Graph.graph_arc_is_tree(nedge, inode, jnode, nnode);
+        int nedge = nnode - 1;
+        int result = Graph.graph_arc_is_tree(nedge, inode, jnode, nnode);
 
         switch (result)
         {
@@ -684,12 +665,12 @@ public static class Tree
                 return null;
         }
 
-        code = new int[nnode - 2];
+        int[] code = new int[nnode - 2];
         //
         //  Compute the degree of each node.
         //
         nedge = nnode - 1;
-        degree = Graph.graph_arc_degree(nnode, nedge, inode, jnode);
+        int[] degree = Graph.graph_arc_degree(nnode, nedge, inode, jnode);
         //
         //  Compute the next term of the Pruefer code.
         //
@@ -698,8 +679,9 @@ public static class Tree
             //
             //  Find the terminal node with the highest label.
             //
-            iterm = 0;
+            int iterm = 0;
 
+            int j;
             for (j = 1; j <= nnode; j++)
             {
                 iterm = degree[j - 1] switch
@@ -713,7 +695,7 @@ public static class Tree
             //  Find the edge that includes this node, and note the
             //  index of the other node.
             //
-            i2 = -1;
+            int i2 = -1;
 
             for (j = 1; j <= nnode - 1; j++)
             {
@@ -967,12 +949,14 @@ public static class Tree
 
         for (i = 1; i <= nnode; i++)
         {
-            if (parent[i - 1] != 0)
+            if (parent[i - 1] == 0)
             {
-                nedge += 1;
-                inode[nedge - 1] = i;
-                jnode[nedge - 1] = parent[i - 1];
+                continue;
             }
+
+            nedge += 1;
+            inode[nedge - 1] = i;
+            jnode[nedge - 1] = parent[i - 1];
         }
 
     }
@@ -1006,8 +990,6 @@ public static class Tree
         //    with N nodes.
         //
     {
-        int[] c;
-        int m;
         int num;
 
         switch (n)
@@ -1026,8 +1008,8 @@ public static class Tree
                         num = 0;
                         break;
                     default:
-                        m = (n - 1) / 2;
-                        c = Catalan.catalan(m);
+                        int m = (n - 1) / 2;
+                        int[] c = Catalan.catalan(m);
                         num = c[m];
                         break;
                 }
@@ -1090,9 +1072,6 @@ public static class Tree
         //
     {
         int i;
-        int k;
-        int p;
-        int q;
 
         switch (more)
         {
@@ -1117,13 +1096,13 @@ public static class Tree
         //
         //  Find the last 1 in A.
         //
-        k = n;
+        int k = n;
         while (a[k - 1] == 0)
         {
             k -= 1;
         }
 
-        q = n - k - 1;
+        int q = n - k - 1;
         //
         //  Find the last 0 preceding the last 1 in A.
         //  If there is none, then we are done, because 11...1100..00 
@@ -1146,7 +1125,7 @@ public static class Tree
             k -= 1;
         }
 
-        p = n - k - q - 1;
+        int p = n - k - q - 1;
 
         a[k - 1] = 1;
         for (i = k + 1; i <= n - 2 * p + 1; i++)
@@ -1204,22 +1183,17 @@ public static class Tree
         //    of the tree.
         //
     {
-        int dad;
         int k;
-        int node;
-        int node_num;
-        int[] parent;
-        int[] use;
 
-        parent = new int[n];
-        use = new int[n];
+        int[] parent = new int[n];
+        int[] use = new int[n];
 
-        node = 0;
-        node_num = 0;
+        int node = 0;
+        int node_num = 0;
 
         for (k = 1; k <= n; k++)
         {
-            dad = node;
+            int dad = node;
             node_num += 1;
             node = node_num;
             parent[node - 1] = dad;
@@ -1297,10 +1271,6 @@ public static class Tree
         //
     {
         int i;
-        int ileaf;
-        int j;
-        int jleaf;
-        int nleaf;
 
         switch (n)
         {
@@ -1313,16 +1283,16 @@ public static class Tree
         //
         //  Count the expected number of leaves, which are the 0 values.
         //
-        nleaf = (n + 1) / 2;
+        int nleaf = (n + 1) / 2;
         //
         //  Choose a random number between 1 and NLEAF.
         //
-        ileaf = UniformRNG.i4_uniform_ab(1, nleaf, ref seed);
+        int ileaf = UniformRNG.i4_uniform_ab(1, nleaf, ref seed);
         //
         //  Locate leaf number ILEAF.
         //
-        j = 0;
-        jleaf = 0;
+        int j = 0;
+        int jleaf = 0;
         for (i = 1; i <= n; i++)
         {
             switch (a[i - 1])
@@ -1399,17 +1369,14 @@ public static class Tree
         //    Output, int TREE_ROOTED_CODE[2*NNODE], the code for the tree.
         //
     {
-        int[] code;
-        int father;
         int i;
         int k = 0;
-        int son;
 
-        code = new int[2 * nnode];
+        int[] code = new int[2 * nnode];
         //
         //  Find the root.
         //
-        father = 0;
+        int father = 0;
         for (i = 1; i <= nnode; i++)
         {
             if (parent[i - 1] == 0)
@@ -1434,6 +1401,7 @@ public static class Tree
         {
             k += 1;
             code[k - 1] = 0;
+            int son;
             for (son = 1; son <= nnode; son++)
             {
                 if (parent[son - 1] == father)
@@ -1499,10 +1467,8 @@ public static class Tree
         //
     {
         int i;
-        int ihi;
-        int result;
 
-        result = 0;
+        int result = 0;
 
         switch (npart)
         {
@@ -1510,7 +1476,7 @@ public static class Tree
                 return result;
         }
 
-        ihi = 2 * nnode;
+        int ihi = 2 * nnode;
         if (npart < nnode)
         {
             ihi = 2 * npart;
@@ -1575,12 +1541,10 @@ public static class Tree
         //
     {
         int i;
-        int j;
-        int root;
         //
         //  Find the root.
         //
-        root = -1;
+        int root = -1;
         for (i = 1; i <= nnode; i++)
         {
             if (parent[i - 1] == 0)
@@ -1610,7 +1574,7 @@ public static class Tree
 
         for (i = 1; i <= nnode; i++)
         {
-            j = i;
+            int j = i;
 
             while (j != root)
             {
@@ -1683,27 +1647,23 @@ public static class Tree
         //    rooted, unlabeled trees on I nodes, for I = 1, 2, ... NNODE.
         //
     {
-        int i;
-        int id;
-        int isum;
-        int itd;
-        int j;
         int nlast;
-        int[] ntree;
 
-        ntree = new int[nnode];
+        int[] ntree = new int[nnode];
 
         ntree[0] = 1;
 
         for (nlast = 2; nlast <= nnode; nlast++)
         {
-            isum = 0;
+            int isum = 0;
 
+            int id;
             for (id = 1; id <= nlast - 1; id++)
             {
-                i = nlast;
-                itd = ntree[id - 1] * id;
+                int i = nlast;
+                int itd = ntree[id - 1] * id;
 
+                int j;
                 for (j = 1; j <= nlast - 1; j++)
                 {
                     i -= id;
@@ -1762,23 +1722,6 @@ public static class Tree
         //    of the output tree for I = 2,NNODE.  ITREE(1)=0.
         //
     {
-        int i;
-        int id;
-        int is1;
-        int is2;
-        int itd;
-        int[] itree;
-        int iz;
-        int j;
-        int l;
-        int ll;
-        int ls;
-        int m;
-        int[] ntree;
-        int nval;
-        double r;
-        int[] stack;
-
         switch (nnode)
         {
             case <= 0:
@@ -1789,33 +1732,35 @@ public static class Tree
                 return null;
         }
 
-        itree = new int[nnode];
-        stack = new int[2 * nnode];
+        int[] itree = new int[nnode];
+        int[] stack = new int[2 * nnode];
         //
         //  Compute a table of the number of such trees for a given number of nodes.
         //
-        ntree = tree_rooted_enum(nnode);
+        int[] ntree = tree_rooted_enum(nnode);
         //
         //  Now select one such tree at random.
         //
-        l = 0;
+        int l = 0;
 
-        nval = nnode;
-        is1 = 0;
-        is2 = 0;
+        int nval = nnode;
+        int is1 = 0;
+        int is2 = 0;
 
         for (;;)
         {
+            int m;
+            int j;
             while (2 < nval)
             {
-                r = UniformRNG.r8_uniform_01(ref seed);
+                double r = UniformRNG.r8_uniform_01(ref seed);
 
-                iz = (int) ((nval - 1) * ntree[nval - 1] * r);
+                int iz = (int) ((nval - 1) * ntree[nval - 1] * r);
 
-                id = 0;
+                int id = 0;
 
                 id += 1;
-                itd = id * ntree[id - 1];
+                int itd = id * ntree[id - 1];
                 m = nval;
                 j = 0;
 
@@ -1870,11 +1815,12 @@ public static class Tree
                 j = stack[0 + (is1 - 1) * 2];
                 is1 -= 1;
                 m = is2 - l + 1;
-                ll = itree[l - 1];
-                ls = l + (j - 1) * m - 1;
+                int ll = itree[l - 1];
+                int ls = l + (j - 1) * m - 1;
 
                 if (j != 1)
                 {
+                    int i;
                     for (i = l; i <= ls; i++)
                     {
                         itree[i + m - 1] = ((i - l) % m) switch

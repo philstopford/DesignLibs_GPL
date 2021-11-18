@@ -51,30 +51,24 @@ public static class Octahedron
         //
     {
         int i;
-        int j;
-        double quad;
-        double r;
-        double result;
-        double volume;
-        double w;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        w = 1.0 / (2 * n);
+        double w = 1.0 / (2 * n);
 
-        r = Math.Sqrt(2 * n
-                      / (double)((n + 1) * (n + 2)));
+        double r = Math.Sqrt(2 * n
+                             / (double)((n + 1) * (n + 2)));
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < n; i++)
         {
             x[i] = r;
+            int j;
             for (j = 0; j < 2; j++)
             {
                 quad += w * func(setting, n, x);
@@ -84,8 +78,8 @@ public static class Octahedron
             x[i] = 0.0;
         }
 
-        volume = octahedron_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = octahedron_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -123,9 +117,8 @@ public static class Octahedron
         //
     {
         int i;
-        double volume;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (i = 1; i <= n; i++)
         {
             volume = volume * 2.0 / i;

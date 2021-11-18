@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace Burkardt.Treepack;
@@ -36,13 +37,12 @@ public static class Graph
         //
     {
         int i;
-        int j;
-        int nedge;
 
-        nedge = 0;
+        int nedge = 0;
 
         for (i = 0; i < nnode; i++)
         {
+            int j;
             for (j = 0; j < nnode; j++)
             {
                 if (i == j)
@@ -98,22 +98,14 @@ public static class Graph
         //    1, the graph is nodewise connected.
         //
     {
-        int[] found;
         int i;
-        int ihi;
-        int ii;
-        int ilo;
-        int j;
-        int jhi;
-        int jlo;
-        int[] list;
         int result;
         //
         //  FOUND(I) is 1 if node I has been reached.
         //  LIST(I) contains a list of the nodes as they are reached.
         //
-        list = new int[nnode];
-        found = new int[nnode];
+        int[] list = new int[nnode];
+        int[] found = new int[nnode];
 
         for (i = 0; i < nnode; i++)
         {
@@ -126,21 +118,23 @@ public static class Graph
         //
         found[1 - 1] = 1;
         list[1 - 1] = 1;
-        ilo = 1;
-        ihi = 1;
+        int ilo = 1;
+        int ihi = 1;
         //
         //  From the batch of nodes found last time, LIST(ILO:IHI),
         //  look for unfound neighbors, and store their indices in LIST(JLO:JHI).
         //
         for (;;)
         {
-            jlo = ihi + 1;
-            jhi = ihi;
+            int jlo = ihi + 1;
+            int jhi = ihi;
 
+            int ii;
             for (ii = ilo; ii <= ihi; ii++)
             {
                 i = list[ii - 1];
 
+                int j;
                 for (j = 1; j <= nnode; j++)
                 {
                     if (adj[i - 1 + (j - 1) * nnode] != 0 || adj[j - 1 + (i - 1) * nnode] != 0)
@@ -219,7 +213,6 @@ public static class Graph
         //    1, the graph is a tree.
         //
     {
-        int nedge;
         int result;
 
         switch (nnode)
@@ -243,7 +236,7 @@ public static class Graph
         //
         //  There must be exactly NNODE-1 edges.
         //
-        nedge = graph_adj_edge_count(adj, nnode);
+        int nedge = graph_adj_edge_count(adj, nnode);
 
         if (nedge == nnode - 1)
         {
@@ -294,11 +287,9 @@ public static class Graph
         //    that is, the number of edges that include the node.
         //
     {
-        int[] degree;
         int i;
-        int n;
 
-        degree = new int[nnode];
+        int[] degree = new int[nnode];
 
         for (i = 0; i < nnode; i++)
         {
@@ -307,7 +298,7 @@ public static class Graph
 
         for (i = 0; i < nedge; i++)
         {
-            n = inode[i];
+            int n = inode[i];
 
             switch (n)
             {
@@ -372,12 +363,9 @@ public static class Graph
         //    1, the graph is a tree.
         //
     {
-        int[] adj;
-        int result;
+        int[] adj = graph_arc_to_graph_adj(nedge, inode, jnode);
 
-        adj = graph_arc_to_graph_adj(nedge, inode, jnode);
-
-        result = graph_adj_is_tree(adj, nnode);
+        int result = graph_adj_is_tree(adj, nnode);
 
         return result;
     }
@@ -413,8 +401,6 @@ public static class Graph
         //
     {
         int i;
-        int[] knode;
-        int nnode;
         //
         //  Copy all the node labels into KNODE,
         //  sort KNODE,
@@ -422,7 +408,7 @@ public static class Graph
         //
         //  That's NNODE.
         //
-        knode = new int[2 * nedge];
+        int[] knode = new int[2 * nedge];
 
         for (i = 0; i < nedge; i++)
         {
@@ -432,7 +418,7 @@ public static class Graph
 
         typeMethods.i4vec_sort_heap_a(2 * nedge, ref knode);
 
-        nnode = typeMethods.i4vec_sorted_unique_count(2 * nedge, knode);
+        int nnode = typeMethods.i4vec_sorted_unique_count(2 * nedge, knode);
 
         return nnode;
     }
@@ -468,9 +454,8 @@ public static class Graph
         //
     {
         int i;
-        int node_max;
 
-        node_max = 0;
+        int node_max = 0;
         for (i = 0; i < nedge; i++)
         {
             if (node_max < inode[i])
@@ -561,17 +546,15 @@ public static class Graph
         //    Output, int GRAPH_ARC_TO_GRAPH_ADJ[NNODE*NNODE], the adjacency information.
         //
     {
-        int[] adj;
         int i;
         int j;
         int k;
-        int nnode;
         //
         //  Determine the number of nodes.
         //
-        nnode = graph_arc_node_count(nedge, inode, jnode);
+        int nnode = graph_arc_node_count(nedge, inode, jnode);
 
-        adj = new int[nnode * nnode];
+        int[] adj = new int[nnode * nnode];
 
         for (j = 0; j < nnode; j++)
         {

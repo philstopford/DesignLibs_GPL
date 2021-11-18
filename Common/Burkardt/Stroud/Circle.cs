@@ -54,34 +54,19 @@ public static class Circle
         //    Output, double CIRCLE_ANNULUS, the approximation to the integral.
         //
     {
-        double a;
-        double area;
-        double b;
-        double c;
-        double d;
         int i;
-        int j;
-        int nt;
-            
-        double quad;
-        double[] ra;
-        double result;
-        double[] rw;
-        double t;
-        double tw;
-        double x;
-        double y;
+
         //
         //  Choose radial abscissas and weights.
         //
-        ra = new double[nr];
-        rw = new double[nr];
+        double[] ra = new double[nr];
+        double[] rw = new double[nr];
 
         LegendreQuadrature.legendre_set(nr, ref ra, ref rw);
-        a = -1.0;
-        b = +1.0;
-        c = radius1 * radius1;
-        d = radius2 * radius2;
+        const double a = -1.0;
+        const double b = +1.0;
+        double c = radius1 * radius1;
+        double d = radius2 * radius2;
 
         QuadratureRule.rule_adjust(a, b, c, d, nr, ref ra, ref rw);
 
@@ -98,26 +83,27 @@ public static class Circle
         //
         //  Set angular abscissas and weights.
         //
-        nt = 4 * nr;
+        int nt = 4 * nr;
 
-        tw = 1.0 / nt;
+        double tw = 1.0 / nt;
         //
         //  Approximate the integral.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < nt; i++)
         {
-            t = 2.0 * Math.PI * (i - 1) / nt;
+            double t = 2.0 * Math.PI * (i - 1) / nt;
+            int j;
             for (j = 0; j < nr; j++)
             {
-                x = center[0] + ra[j] * Math.Cos(t);
-                y = center[1] + ra[j] * Math.Sin(t);
+                double x = center[0] + ra[j] * Math.Cos(t);
+                double y = center[1] + ra[j] * Math.Sin(t);
                 quad += tw * rw[j] * func(setting, x, y);
             }
         }
 
-        area = circle_annulus_area_2d(radius1, radius2);
-        result = quad * area;
+        double area = circle_annulus_area_2d(radius1, radius2);
+        double result = quad * area;
 
         return result;
     }
@@ -153,10 +139,7 @@ public static class Circle
         //    Output, double CIRCLE_ANNULUS_AREA_2D, the area of the annulus.
         //
     {
-            
-        double value = 0;
-
-        value = Math.PI * (radius1 + radius2) * (radius2 - radius1);
+        double value = Math.PI * (radius1 + radius2) * (radius2 - radius1);
 
         return value;
     }
@@ -214,34 +197,19 @@ public static class Circle
         //    Output, double CIRCLE_ANNULUS_SECTOR, the approximation to the integral.
         //
     {
-        double a;
-        double area;
-        double b;
-        double c;
-        double d;
         int i;
-        int j;
-        int nt;
-        double quad;
-        double[] ra;
-        double result;
-        double[] rw;
-        double[] ta;
-        double[] tw;
-        double x;
-        double y;
         //
         //  Set the radial abscissas and weights.
         //
-        ra = new double[nr];
-        rw = new double[nr];
+        double[] ra = new double[nr];
+        double[] rw = new double[nr];
 
         LegendreQuadrature.legendre_set(nr, ref ra, ref rw);
 
-        a = -1.0;
-        b = +1.0;
-        c = radius1 * radius1;
-        d = radius2 * radius2;
+        double a = -1.0;
+        double b = +1.0;
+        double c = radius1 * radius1;
+        double d = radius2 * radius2;
 
         QuadratureRule.rule_adjust(a, b, c, d, nr, ref ra, ref rw);
 
@@ -259,10 +227,10 @@ public static class Circle
         //  Pick angles evenly spaced between THETA1 and THETA2, but do not
         //  include the endpoints, and use a half interval for the first and last.
         //
-        nt = 4 * nr;
+        int nt = 4 * nr;
 
-        ta = typeMethods.tvec_even_bracket3(nt, theta1, theta2);
-        tw = new double[nt];
+        double[] ta = typeMethods.tvec_even_bracket3(nt, theta1, theta2);
+        double[] tw = new double[nt];
         for (i = 0; i < nt; i++)
         {
             tw[i] = 1.0 / nt;
@@ -271,20 +239,21 @@ public static class Circle
         //
         //  Approximate the integral.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < nt; i++)
         {
+            int j;
             for (j = 0; j < nr; j++)
             {
-                x = center[0] + ra[j] * Math.Cos(ta[i]);
-                y = center[1] + ra[j] * Math.Sin(ta[i]);
+                double x = center[0] + ra[j] * Math.Cos(ta[i]);
+                double y = center[1] + ra[j] * Math.Sin(ta[i]);
                 quad += tw[i] * rw[j] * func(setting, x, y);
             }
         }
 
-        area = circle_annulus_sector_area_2d(radius1, radius2, theta1, theta2);
+        double area = circle_annulus_sector_area_2d(radius1, radius2, theta1, theta2);
 
-        result = quad * area;
+        double result = quad * area;
 
 
 
@@ -328,10 +297,8 @@ public static class Circle
         //    circular annulus sector.
         //
     {
-        double area;
-
-        area = 0.5 * (radius1 + radius2) * (radius2 - radius1)
-               * (theta2 - theta1);
+        double area = 0.5 * (radius1 + radius2) * (radius2 - radius1)
+                      * (theta2 - theta1);
 
         return area;
     }
@@ -367,10 +334,7 @@ public static class Circle
         //    Output, double CIRCLE_AREA_2D, the area of the circle.
         //
     {
-        double area;
-            
-
-        area = Math.PI * r * r;
+        double area = Math.PI * r * r;
 
         return area;
     }
@@ -414,8 +378,6 @@ public static class Circle
         //
     {
         double area = 0;
-            
-        double theta;
 
         switch (h)
         {
@@ -424,6 +386,7 @@ public static class Circle
                 break;
             default:
             {
+                double theta;
                 if (h <= r)
                 {
                     theta = 2.0 * Math.Asin(Math.Sqrt(h * (2.0 * r - h)) / r);
@@ -499,29 +462,22 @@ public static class Circle
         //    Output, double CIRCLE_CUM, the approximate integral of the function.
         //
     {
-        double angle;
         int i;
-            
-        double quad;
-        double result;
-        double volume;
-        double x;
-        double y;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < order; i++)
         {
-            angle = 2 * i * Math.PI / order;
-            x = center[0] + radius * Math.Cos(angle);
-            y = center[1] + radius * Math.Sin(angle);
+            double angle = 2 * i * Math.PI / order;
+            double x = center[0] + radius * Math.Cos(angle);
+            double y = center[1] + radius * Math.Sin(angle);
             quad += func(setting, x, y);
         }
 
         quad /= order;
 
-        volume = Math.PI * radius * radius;
-        result = quad * volume;
+        double volume = Math.PI * radius * radius;
+        double result = quad * volume;
 
         return result;
     }
@@ -619,7 +575,6 @@ public static class Circle
             
         double u;
         double v;
-        double w;
 
         switch (rule)
         {
@@ -713,7 +668,7 @@ public static class Circle
 
                 u = 8.0 / 27.0;
                 v = (551.0 + 41.0 * Math.Sqrt(29.0)) / 1566.0;
-                w = (551.0 - 41.0 * Math.Sqrt(29.0)) / 1566.0;
+                double w = (551.0 - 41.0 * Math.Sqrt(29.0)) / 1566.0;
 
                 ra[0] = a;
                 ra[1] = b;
@@ -1012,17 +967,11 @@ public static class Circle
         //    Output, double CIRCLE_RT_SUM, the approximate integral of the function.
         //
     {
-        int ir;
         int it;
-        double quad;
-        double rct;
-        double result;
-        double rst;
-        double volume;
         double x;
         double y;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         if (zw != 0.0)
         {
@@ -1033,8 +982,9 @@ public static class Circle
 
         for (it = 0; it < nt; it++)
         {
-            rct = radius * Math.Cos(ta[it]);
-            rst = radius * Math.Sin(ta[it]);
+            double rct = radius * Math.Cos(ta[it]);
+            double rst = radius * Math.Sin(ta[it]);
+            int ir;
             for (ir = 0; ir < nr; ir++)
             {
                 x = center[0] + ra[ir] * rct;
@@ -1043,8 +993,8 @@ public static class Circle
             }
         }
 
-        volume = circle_area_2d(radius);
-        result = quad * volume;
+        double volume = circle_area_2d(radius);
+        double result = quad * volume;
 
         return result;
     }
@@ -1094,34 +1044,19 @@ public static class Circle
         //    Output, double CIRCLE_SECTOR, the approximation to the integral.
         //
     {
-        double a;
-        double area;
-        double b;
-        double c;
-        double d;
         int i;
-        int j;
-        int nt;
-        double quad;
-        double[] ra;
-        double result;
-        double[] rw;
-        double[] ta;
-        double[] tw;
-        double x;
-        double y;
         //
         //  Set the radial abscissas and weights.
         //
-        ra = new double[nr];
-        rw = new double[nr];
+        double[] ra = new double[nr];
+        double[] rw = new double[nr];
 
         LegendreQuadrature.legendre_set(nr, ref ra, ref rw);
 
-        a = -1.0;
-        b = +1.0;
-        c = 0.0;
-        d = radius * radius;
+        const double a = -1.0;
+        const double b = +1.0;
+        const double c = 0.0;
+        double d = radius * radius;
 
         QuadratureRule.rule_adjust(a, b, c, d, nr, ref ra, ref rw);
 
@@ -1139,11 +1074,11 @@ public static class Circle
         //  Pick angles evenly spaced between THETA1 and THETA2, but do not
         //  include the endpoints, and use a half interval for the first and last.
         //
-        nt = 4 * nr;
+        int nt = 4 * nr;
 
-        ta = typeMethods.tvec_even_bracket3(nt, theta1, theta2);
+        double[] ta = typeMethods.tvec_even_bracket3(nt, theta1, theta2);
 
-        tw = new double[nt];
+        double[] tw = new double[nt];
         for (i = 0; i < nt; i++)
         {
             tw[i] = 1.0 / nt;
@@ -1152,19 +1087,20 @@ public static class Circle
         //
         //  Approximate the integral.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < nr; i++)
         {
+            int j;
             for (j = 0; j < nt; j++)
             {
-                x = center[0] + ra[i] * Math.Cos(ta[j]);
-                y = center[1] + ra[i] * Math.Sin(ta[j]);
+                double x = center[0] + ra[i] * Math.Cos(ta[j]);
+                double y = center[1] + ra[i] * Math.Sin(ta[j]);
                 quad += rw[i] * tw[j] * func(setting, x, y);
             }
         }
 
-        area = circle_sector_area_2d(radius, theta1, theta2);
-        result = quad * area;
+        double area = circle_sector_area_2d(radius, theta1, theta2);
+        double result = quad * area;
 
         return result;
     }
@@ -1204,9 +1140,7 @@ public static class Circle
         //    Output, double CIRCLE_SECTOR_AREA_2D, the area of the sector.
         //
     {
-        double value = 0;
-
-        value = 0.5 * r * r * (theta2 - theta1);
+        double value = 0.5 * r * r * (theta2 - theta1);
 
         return value;
     }
@@ -1251,9 +1185,7 @@ public static class Circle
         //    of the triangle.
         //
     {
-        double value = 0;
-
-        value = 0.5 * r * r * Math.Sin(theta2 - theta1);
+        double value = 0.5 * r * r * Math.Sin(theta2 - theta1);
 
         return value;
     }
@@ -1333,29 +1265,12 @@ public static class Circle
         double d;
         double e;
         double f;
-        double g;
-        double h;
         int i;
-        int j;
-        int k;
-        int nr;
-            
-        double r;
-        double[] ra;
-        double[] rw;
-        double s;
-        double u;
-        double v;
-        double w;
+
         double w1;
         double w2;
         double w3;
         double w4;
-        double w5;
-        double w6;
-        double w7;
-        double w8;
-        double w9;
         double z;
 
         switch (rule)
@@ -1562,9 +1477,9 @@ public static class Circle
                 a = Math.Sqrt(3.0) / 2.0;
                 b = Math.Sqrt((27.0 - 3.0 * Math.Sqrt(29.0)) / 104.0);
                 c = Math.Sqrt((27.0 + 3.0 * Math.Sqrt(29.0)) / 104.0);
-                u = 2.0 / 27.0;
-                v = (551.0 + 41.0 * Math.Sqrt(29.0)) / 6264.0;
-                w = (551.0 - 41.0 * Math.Sqrt(29.0)) / 6264.0;
+                double u = 2.0 / 27.0;
+                double v = (551.0 + 41.0 * Math.Sqrt(29.0)) / 6264.0;
+                double w = (551.0 - 41.0 * Math.Sqrt(29.0)) / 6264.0;
                 z = 0.0;
 
                 xtab[0] = a;
@@ -1693,7 +1608,7 @@ public static class Circle
                     weight[i] = (16.0 - Math.Sqrt(6.0)) / 360.0;
                 }
 
-                r = Math.Sqrt((6.0 - Math.Sqrt(6.0)) / 10.0);
+                double r = Math.Sqrt((6.0 - Math.Sqrt(6.0)) / 10.0);
 
                 for (i = 0; i < 10; i++)
                 {
@@ -1724,18 +1639,18 @@ public static class Circle
                 d = Math.Sqrt((35.0 - 2.0 * Math.Sqrt(70.0)) / 252.0);
                 e = Math.Sqrt((35.0 + 2.0 * Math.Sqrt(70.0)) / 84.0);
                 f = Math.Sqrt((35.0 - 2.0 * Math.Sqrt(70.0)) / 84.0);
-                g = Math.Sqrt((35.0 + 2.0 * Math.Sqrt(70.0)) / 63.0);
-                h = Math.Sqrt((35.0 - 2.0 * Math.Sqrt(70.0)) / 63.0);
+                double g = Math.Sqrt((35.0 + 2.0 * Math.Sqrt(70.0)) / 63.0);
+                double h = Math.Sqrt((35.0 - 2.0 * Math.Sqrt(70.0)) / 63.0);
 
                 w1 = 64.0 / 675.0;
                 w2 = 16.0 / 225.0;
                 w3 = 16.0 / 675.0;
                 w4 = (322.0 - 13.0 * Math.Sqrt(70.0)) / 21600.0;
-                w5 = (322.0 + 13.0 * Math.Sqrt(70.0)) / 21600.0;
-                w6 = (322.0 - 13.0 * Math.Sqrt(70.0)) / 7200.0;
-                w7 = (322.0 + 13.0 * Math.Sqrt(70.0)) / 7200.0;
-                w8 = (322.0 - 13.0 * Math.Sqrt(70.0)) / 5400.0;
-                w9 = (322.0 + 13.0 * Math.Sqrt(70.0)) / 5400.0;
+                double w5 = (322.0 + 13.0 * Math.Sqrt(70.0)) / 21600.0;
+                double w6 = (322.0 - 13.0 * Math.Sqrt(70.0)) / 7200.0;
+                double w7 = (322.0 + 13.0 * Math.Sqrt(70.0)) / 7200.0;
+                double w8 = (322.0 - 13.0 * Math.Sqrt(70.0)) / 5400.0;
+                double w9 = (322.0 + 13.0 * Math.Sqrt(70.0)) / 5400.0;
                 z = 0.0;
 
                 xtab[0] = z;
@@ -1818,9 +1733,9 @@ public static class Circle
                 break;
             case 13:
             {
-                nr = 4;
-                ra = new double[nr];
-                rw = new double[nr];
+                int nr = 4;
+                double[] ra = new double[nr];
+                double[] rw = new double[nr];
 
                 LegendreQuadrature.legendre_set(nr, ref ra, ref rw);
 
@@ -1836,11 +1751,13 @@ public static class Circle
                 }
 
                 i = 0;
+                int j;
                 for (j = 0; j < 16; j++)
                 {
                     c = Math.Cos(Math.PI * j / 8.0);
-                    s = Math.Sin(Math.PI * j / 8.0);
+                    double s = Math.Sin(Math.PI * j / 8.0);
 
+                    int k;
                     for (k = 0; k < nr; k++)
                     {
                         xtab[i] = c * ra[k];
@@ -1966,7 +1883,7 @@ public static class Circle
                 Console.WriteLine("");
                 Console.WriteLine("CIRCLE_XY_SIZE - Fatal error!");
                 Console.WriteLine("  There is no rule of index " + rule + "");
-                return 1;
+                break;
         }
 
         return order;
@@ -2019,22 +1936,17 @@ public static class Circle
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
-        double x;
-        double y;
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
-            x = center[0] + r * xtab[i];
-            y = center[1] + r * ytab[i];
+            double x = center[0] + r * xtab[i];
+            double y = center[1] + r * ytab[i];
             quad += weight[i] * func(setting, x, y);
         }
 
-        volume = circle_area_2d(r);
-        result = quad * volume;
+        double volume = circle_area_2d(r);
+        double result = quad * volume;
 
         return result;
     }

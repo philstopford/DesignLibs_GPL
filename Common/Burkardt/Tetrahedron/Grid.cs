@@ -43,24 +43,21 @@ public static class Grid
         //
     {
         int i;
-        int ii;
-        int j;
-        int k;
-        int l;
-        int p;
-        double[] tg;
 
-        tg = new double[3 * ng];
+        double[] tg = new double[3 * ng];
 
-        p = 0;
+        int p = 0;
 
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n - i; j++)
             {
+                int k;
                 for (k = 0; k <= n - i - j; k++)
                 {
-                    l = n - i - j - k;
+                    int l = n - i - j - k;
+                    int ii;
                     for (ii = 0; ii < 3; ii++)
                     {
                         tg[ii + p * 3] = (i * t[ii + 0 * 3]
@@ -104,9 +101,7 @@ public static class Grid
         //    Output, int TETRAHEDRON_GRID_COUNT, the number of grid points.
         //
     {
-        int ng;
-
-        ng = (n + 1) * (n + 2) * (n + 3) / 6;
+        int ng = (n + 1) * (n + 2) * (n + 3) / 6;
 
         return ng;
     }

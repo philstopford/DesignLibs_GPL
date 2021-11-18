@@ -54,10 +54,10 @@ public class Tetrahedron
         //
     {
         int i;
-        int j;
 
         for ( i = 0; i < 3; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 phy[i+j*3] = t[i+0*3] * ( 1.0 - ref_[0+j*3] - ref_[1+j*3] - ref_[2+j*3] ) 
@@ -107,14 +107,13 @@ public class Tetrahedron
         //    physical element.
         //
     {
-        int i;
         int j;
-        double[] phy;
 
-        phy = new double[3 * n];
+        double[] phy = new double[3 * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 phy[i + j * 3] =
@@ -171,12 +170,10 @@ public class Tetrahedron
         //    respect to the tetrahedron.
         //
     {
-        int N = 3;
-        int RHS_NUM = 1;
+        const int N = 3;
+        const int RHS_NUM = 1;
 
         double[] a = new double[N * (N + RHS_NUM)];
-        double[] c;
-        int info;
         //
         //  Set up the linear system
         //
@@ -187,25 +184,25 @@ public class Tetrahedron
         //  which is satisfied by the barycentric coordinates.
         //
 
-        a[0 + 0 * N] = tetra[0 + 1 * 3] - tetra[0 + 0 * 3];
-        a[1 + 0 * N] = tetra[1 + 1 * 3] - tetra[1 + 0 * 3];
-        a[2 + 0 * N] = tetra[2 + 1 * 3] - tetra[2 + 0 * 3];
+        a[0 ] = tetra[0 + 1 * 3] - tetra[0];
+        a[1 ] = tetra[1 + 1 * 3] - tetra[1];
+        a[2 ] = tetra[2 + 1 * 3] - tetra[2];
 
-        a[0 + 1 * N] = tetra[0 + 2 * 3] - tetra[0 + 0 * 3];
-        a[1 + 1 * N] = tetra[1 + 2 * 3] - tetra[1 + 0 * 3];
-        a[2 + 1 * N] = tetra[2 + 2 * 3] - tetra[2 + 0 * 3];
+        a[0 + 1 * N] = tetra[0 + 2 * 3] - tetra[0];
+        a[1 + 1 * N] = tetra[1 + 2 * 3] - tetra[1];
+        a[2 + 1 * N] = tetra[2 + 2 * 3] - tetra[2];
 
-        a[0 + 2 * N] = tetra[0 + 3 * 3] - tetra[0 + 0 * 3];
-        a[1 + 2 * N] = tetra[1 + 3 * 3] - tetra[1 + 0 * 3];
-        a[2 + 2 * N] = tetra[2 + 3 * 3] - tetra[2 + 0 * 3];
+        a[0 + 2 * N] = tetra[0 + 3 * 3] - tetra[0];
+        a[1 + 2 * N] = tetra[1 + 3 * 3] - tetra[1];
+        a[2 + 2 * N] = tetra[2 + 3 * 3] - tetra[2];
 
-        a[0 + 3 * N] = p[0] - tetra[0 + 0 * 3];
-        a[1 + 3 * N] = p[1] - tetra[1 + 0 * 3];
-        a[2 + 3 * N] = p[2] - tetra[2 + 0 * 3];
+        a[0 + 3 * N] = p[0] - tetra[0];
+        a[1 + 3 * N] = p[1] - tetra[1];
+        a[2 + 3 * N] = p[2] - tetra[2];
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
 
         if (info != 0)
         {
@@ -216,7 +213,7 @@ public class Tetrahedron
             return null;
         }
 
-        c = new double[4];
+        double[] c = new double[4];
 
         c[1] = a[0 + 3 * N];
         c[2] = a[1 + 3 * N];
@@ -284,9 +281,7 @@ public class Tetrahedron
         //    Output, int TETRAHEDRON_NUM, the N-th tetrahedron number.
         //
     {
-        int value;
-
-        value = n * ( n + 1 ) * ( n + 2 ) / 6;
+        int value = n * ( n + 1 ) * ( n + 2 ) / 6;
 
         return value;
     }
@@ -342,7 +337,6 @@ public class Tetrahedron
         //
     {
         double[] a = new double[3 * 3];
-        double det;
         int i;
         int j;
         //
@@ -358,9 +352,9 @@ public class Tetrahedron
         //
         //  Compute the determinant.
         //
-        det = a[0 + 0 * 3] * (a[1 + 1 * 3] * a[2 + 2 * 3] - a[1 + 2 * 3] * a[2 + 1 * 3])
-              + a[0 + 1 * 3] * (a[1 + 2 * 3] * a[2 + 0 * 3] - a[1 + 0 * 3] * a[2 + 2 * 3])
-              + a[0 + 2 * 3] * (a[1 + 0 * 3] * a[2 + 1 * 3] - a[1 + 1 * 3] * a[2 + 0 * 3]);
+        double det = a[0 + 0 * 3] * (a[1 + 1 * 3] * a[2 + 2 * 3] - a[1 + 2 * 3] * a[2 + 1 * 3])
+                     + a[0 + 1 * 3] * (a[1 + 2 * 3] * a[2 + 0 * 3] - a[1 + 0 * 3] * a[2 + 2 * 3])
+                     + a[0 + 2 * 3] * (a[1 + 0 * 3] * a[2 + 1 * 3] - a[1 + 1 * 3] * a[2 + 0 * 3]);
         switch (det)
         {
             //
@@ -444,15 +438,11 @@ public class Tetrahedron
         //    Output, double P[3*N], random points in the tetrahedron.
         //
     {
-        double alpha;
-        double beta;
-        double gamma;
         int j;
-        double r;
 
         for (j = 0; j < n; j++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
             //
             //  Interpret R as a percentage of the tetrahedron's volume.
             //
@@ -462,7 +452,7 @@ public class Tetrahedron
             //  The plane will intersect sides 12, 13, and 14 at a fraction
             //  ALPHA = R^1/3 of the distance from vertex 1 to vertices 2, 3, and 4.
             //
-            alpha = Math.Pow(r, 1.0 / 3.0);
+            double alpha = Math.Pow(r, 1.0 / 3.0);
             //
             //  Determine the coordinates of the points on sides 12, 13 and 14 intersected
             //  by the plane, which form a triangle TR.
@@ -479,14 +469,14 @@ public class Tetrahedron
             //  The line L will intersect sides 2 and 3 at a fraction
             //  ALPHA = SQRT ( R ) of the distance from vertex 1 to vertices 2 and 3.
             //
-            beta = Math.Sqrt(r);
+            double beta = Math.Sqrt(r);
             //
             //  Determine the coordinates of the points on sides 2 and 3 intersected
             //  by line L.
             //
             //  Now choose, uniformly at random, a point on the line L.
             //
-            gamma = UniformRNG.r8_uniform_01(ref seed);
+            double gamma = UniformRNG.r8_uniform_01(ref seed);
 
             p[0 + j * 3] = alpha * (1.0 - beta) * gamma;
             p[1 + j * 3] = alpha * beta * (1.0 - gamma);
@@ -523,26 +513,17 @@ public class Tetrahedron
         //    Output, double P[3*N], random points in the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double alpha;
-        double beta;
-        double gamma;
-        int i;
-        int j;
         int k;
-        double[] p12;
-        double[] p13;
-        double r;
-        double[] t;
 
-        p12 = new double[DIM_NUM];
-        p13 = new double[DIM_NUM];
-        t = new double[DIM_NUM * 3];
+        double[] p12 = new double[DIM_NUM];
+        double[] p13 = new double[DIM_NUM];
+        double[] t = new double[DIM_NUM * 3];
 
         for (k = 0; k < n; k++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
             //
             //  Interpret R as a percentage of the tetrahedron's volume.
             //
@@ -552,13 +533,15 @@ public class Tetrahedron
             //  The plane will intersect sides 12, 13, and 14 at a fraction
             //  ALPHA = R^1/3 of the distance from vertex 1 to vertices 2, 3, and 4.
             //
-            alpha = Math.Pow(r, 1.0 / 3.0);
+            double alpha = Math.Pow(r, 1.0 / 3.0);
             //
             //  Determine the coordinates of the points on sides 12, 13 and 14 intersected
             //  by the plane, which form a triangle TR.
             //
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
+                int j;
                 for (j = 0; j < 3; j++)
                 {
                     t[i + j * 3] = (1.0 - alpha) * tetra[i + 0 * 3]
@@ -579,7 +562,7 @@ public class Tetrahedron
             //  The line L will intersect sides 2 and 3 at a fraction
             //  ALPHA = SQRT ( R ) of the distance from vertex 1 to vertices 2 and 3.
             //
-            beta = Math.Sqrt(r);
+            double beta = Math.Sqrt(r);
             //
             //  Determine the coordinates of the points on sides 2 and 3 intersected
             //  by line L.
@@ -596,7 +579,7 @@ public class Tetrahedron
             //
             //  Now choose, uniformly at random, a point on the line L.
             //
-            gamma = UniformRNG.r8_uniform_01(ref seed);
+            double gamma = UniformRNG.r8_uniform_01(ref seed);
 
             for (i = 0; i < DIM_NUM; i++)
             {
@@ -654,10 +637,10 @@ public class Tetrahedron
         //
     {
         int i;
-        int j;
 
         for (i = 0; i < 3; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 phy[i + j * 3] = tetra[i + 0 * 3] * (1.0 - ref_[0 + j * 3] - ref_[1 + j * 3] - ref_[2 + j * 3])
@@ -698,7 +681,6 @@ public class Tetrahedron
         double[] a = new double[4 * 4];
         int i;
         int j;
-        double volume;
 
         for (i = 0; i < 3; i++)
         {
@@ -714,7 +696,7 @@ public class Tetrahedron
             a[i + j * 4] = 1.0;
         }
 
-        volume = Math.Abs(typeMethods.r8mat_det_4d(a)) / 6.0;
+        double volume = Math.Abs(typeMethods.r8mat_det_4d(a)) / 6.0;
 
         return volume;
     }

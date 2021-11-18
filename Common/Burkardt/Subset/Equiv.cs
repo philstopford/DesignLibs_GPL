@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -61,15 +62,12 @@ public static class Equiv
         //    have been computed and returned.
         //
     {
-        int i;
-        int l;
-        int m;
-
         switch (more)
         {
             case false:
             {
                 npart = 1;
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     iarray[i] = 1;
@@ -80,7 +78,7 @@ public static class Equiv
             }
             default:
             {
-                m = n;
+                int m = n;
 
                 while (jarray[iarray[m - 1] - 1] == 1)
                 {
@@ -88,7 +86,7 @@ public static class Equiv
                     m -= 1;
                 }
 
-                l = iarray[m - 1];
+                int l = iarray[m - 1];
                 npart = npart + m - n;
                 jarray[0] = jarray[0] + n - m;
 
@@ -165,9 +163,6 @@ public static class Equiv
         //
     {
         int i;
-        int imax;
-        int j;
-        int jmax;
 
         switch (done)
         {
@@ -188,9 +183,10 @@ public static class Equiv
                 //  This is the element that is not equal to its maximum possible value,
                 //  which is the maximum value of all preceding elements +1.
                 //
-                jmax = iarray[0];
-                imax = 1;
+                int jmax = iarray[0];
+                int imax = 1;
 
+                int j;
                 for (j = 2; j <= n; j++)
                 {
                     if (jmax < iarray[j - 1])
@@ -258,13 +254,7 @@ public static class Equiv
         //    Input, string TITLE, a title.
         //
     {
-        int[] karray;
-        int j;
-        int k;
-        int kk;
         int s;
-        int s_max;
-        int s_min;
 
         switch (title.Length)
         {
@@ -276,15 +266,16 @@ public static class Equiv
 
         Console.WriteLine("  Set    Size  Elements");
 
-        karray = new int[n];
+        int[] karray = new int[n];
 
-        s_min = typeMethods.i4vec_min(n, iarray);
-        s_max = typeMethods.i4vec_max(n, iarray);
+        int s_min = typeMethods.i4vec_min(n, iarray);
+        int s_max = typeMethods.i4vec_max(n, iarray);
 
         for (s = s_min; s <= s_max; s++)
         {
-            k = 0;
+            int k = 0;
 
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (iarray[j] == s)
@@ -301,6 +292,7 @@ public static class Equiv
                     string cout = "  "
                                   + s.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
                                   + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + " :: ";
+                    int kk;
                     for (kk = 0; kk < k; kk++)
                     {
                         cout += karray[kk].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
@@ -365,11 +357,7 @@ public static class Equiv
         //    Input, string TITLE, a title.
         //
     {
-        int i;
         int j;
-        int s_max;
-        int s_min;
-        int size;
 
         switch (title.Length)
         {
@@ -379,14 +367,15 @@ public static class Equiv
                 break;
         }
 
-        s_min = typeMethods.i4vec_min(n, s);
-        s_max = typeMethods.i4vec_max(n, s);
+        int s_min = typeMethods.i4vec_min(n, s);
+        int s_max = typeMethods.i4vec_max(n, s);
 
         string cout = "  ";
         for (j = s_min; j <= s_max; j++)
         {
             cout += "(";
-            size = 0;
+            int size = 0;
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (s[i] == j)
@@ -458,22 +447,17 @@ public static class Equiv
         //    is assigned.
         //
     {
-        double[] b;
         int i;
-        int j;
         int k;
         int l;
-        int m;
-        double sum1;
-        double z;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         b[0] = 1.0;
 
         for (l = 1; l <= n - 1; l++)
         {
-            sum1 = 1.0 / l;
+            double sum1 = 1.0 / l;
             for (k = 1; k <= l - 1; k++)
             {
                 sum1 = (sum1 + b[k - 1]) / (l - k);
@@ -482,12 +466,12 @@ public static class Equiv
             b[l] = (sum1 + b[l - 1]) / (l + 1);
         }
 
-        m = n;
+        int m = n;
         npart = 0;
 
         for (;;)
         {
-            z = UniformRNG.r8_uniform_01(ref seed);
+            double z = UniformRNG.r8_uniform_01(ref seed);
             z = m * b[m - 1] * z;
             k = 0;
             npart += 1;
@@ -518,7 +502,7 @@ public static class Equiv
         //
         for (i = 0; i < n - 1; i++)
         {
-            j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
+            int j = UniformRNG.i4_uniform_ab(i, n - 1, ref seed);
 
             k = a[i];
             a[i] = a[j];

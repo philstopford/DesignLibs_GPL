@@ -53,25 +53,13 @@ public static class Walsh
         double hold;
         int i;
         int ii = 0;
-        int j;
-        int j2;
-        int js;
         int k;
         int l;
-        int m;
-        int mw;
-        int mw1;
-        int nw;
-        int nz;
         int nz2 = 0;
-        int nzi;
-        int nzn;
-        int[] two_power;
-        double z;
 
-        m = (int) Math.Log2(n);
+        int m = (int) Math.Log2(n);
 
-        two_power = new int[m];
+        int[] two_power = new int[m];
 
         for (i = 0; i < m; i++)
         {
@@ -80,9 +68,9 @@ public static class Walsh
 
         for (l = 0; l < m; l++)
         {
-            nz = (int) Math.Pow(2, l);
-            nzi = 2 * nz;
-            nzn = n / nzi;
+            int nz = (int) Math.Pow(2, l);
+            int nzi = 2 * nz;
+            int nzn = n / nzi;
             nz2 = nz2 switch
             {
                 0 => 1,
@@ -91,14 +79,15 @@ public static class Walsh
 
             for (i = 0; i < nzn; i++)
             {
-                js = i * nzi;
-                z = 1.0;
+                int js = i * nzi;
+                double z = 1.0;
                 for (ii = 0; ii < 2; ii++)
                 {
+                    int j;
                     for (j = 0; j < nz2; j++)
                     {
                         js += 1;
-                        j2 = js + nz;
+                        int j2 = js + nz;
                         hold = x[js - 1] + z * x[j2 - 1];
                         z = -z;
                         x[j2 - 1] = x[js - 1] + z * x[j2 - 1];
@@ -119,7 +108,7 @@ public static class Walsh
         //
         //  Bit reversal section.
         //
-        nw = 0;
+        int nw = 0;
         for (k = 0; k < n; k++)
         {
             //
@@ -143,8 +132,8 @@ public static class Walsh
                     break;
                 }
 
-                mw = nw / two_power[i];
-                mw1 = mw / 2;
+                int mw = nw / two_power[i];
+                int mw1 = mw / 2;
                 if (mw <= 2 * mw1)
                 {
                     break;
@@ -208,42 +197,31 @@ public static class Walsh
         //    Input/output, double X[N], the data to be transformed.
         //
     {
-        int i;
-        int j;
-        int j2;
-        int jd;
-        int js;
         int l;
-        int m;
-        int n2;
-        int nx;
-        int ny;
-        int nz;
-        int nzi;
-        int nzn;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
-        n2 = n / 2;
-        m = (int) Math.Log2(n);
+        int n2 = n / 2;
+        int m = (int) Math.Log2(n);
 
         for (l = 1; l <= m; l++)
         {
-            ny = 0;
-            nz = (int) Math.Pow(2, l - 1);
-            nzi = 2 * nz;
-            nzn = n / nzi;
+            int ny = 0;
+            int nz = (int) Math.Pow(2, l - 1);
+            int nzi = 2 * nz;
+            int nzn = n / nzi;
+            int i;
             for (i = 1; i <= nzn; i++)
             {
-                nx = ny + 1;
+                int nx = ny + 1;
                 ny += nz;
-                js = (i - 1) * nzi;
-                jd = js + nzi + 1;
+                int js = (i - 1) * nzi;
+                int jd = js + nzi + 1;
+                int j;
                 for (j = nx; j <= ny; j++)
                 {
                     js += 1;
-                    j2 = j + n2;
+                    int j2 = j + n2;
                     y[js - 1] = x[j - 1] + x[j2 - 1];
                     jd -= 1;
                     y[jd - 1] = x[j - 1] - x[j2 - 1];
@@ -300,37 +278,27 @@ public static class Walsh
         //    Input/output, double X[N], the data to be transformed.
         //
     {
-        double a;
-        int i;
-        int i1;
-        int is_;
         int j;
-        int j1;
-        int l;
-        int m;
-        int n1;
-        int n2;
-        double w;
-        double[] y;
-        double z;
 
-        n2 = n / 2;
-        y = new double[n2];
-        m = (int)Math.Log2 ( n );
-        z = - 1.0;
+        int n2 = n / 2;
+        double[] y = new double[n2];
+        int m = (int)Math.Log2 ( n );
+        const double z = - 1.0;
 
         for ( j = 1; j <= m; j++ )
         {
-            n1 = (int)Math.Pow ( 2, m - j + 1 );
-            j1 = (int)Math.Pow ( 2, j - 1 );
+            int n1 = (int)Math.Pow ( 2, m - j + 1 );
+            int j1 = (int)Math.Pow ( 2, j - 1 );
+            int l;
             for ( l = 1; l <= j1; l++ )
             {
-                is_ = ( l - 1 ) * n1 + 1;
-                i1 = 0;
-                w = z;
+                int is_ = ( l - 1 ) * n1 + 1;
+                int i1 = 0;
+                double w = z;
+                int i;
                 for ( i = is_; i <= is_ + n1 - 1; i += 2 )
                 {
-                    a = x[i-1];
+                    double a = x[i-1];
                     x[is_+i1-1] = a + x[i];
                     i1 += 1;
                     y[i1-1] = ( x[i] - a ) * w;

@@ -36,10 +36,7 @@ public static class Ellipse
         //    Output, double ELLIPSE_AREA_2D, the area of the ellipse.
         //
     {
-            
-        double value = 0;
-
-        value = Math.PI * r1 * r2;
+        double value = Math.PI * r1 * r2;
 
         return value;
     }
@@ -100,11 +97,7 @@ public static class Ellipse
         //    circumference of the ellipse.
         //
     {
-        double e;
-        int i;
-            
-        double term;
-        double value = 0;
+        double value;
 
         if (Math.Abs(r1 - r2) <= double.Epsilon)
         {
@@ -115,11 +108,11 @@ public static class Ellipse
         //
         //  Compute the eccentricity of the ellipse.
         //
-        e = Math.Sqrt(1.0 - Math.Pow(Math.Min(r1, r2) / Math.Max(r1, r2), 2));
+        double e = Math.Sqrt(1.0 - Math.Pow(Math.Min(r1, r2) / Math.Max(r1, r2), 2));
 
         value = 1.0;
-        term = value;
-        i = 0;
+        double term = value;
+        int i = 0;
 
         for (;;)
         {
@@ -172,12 +165,10 @@ public static class Ellipse
         //    of the ellipse.
         //
     {
-        double major;
-        double minor;
-        double value = 0;
+        double value;
 
-        minor = Math.Min(Math.Abs(r1), Math.Abs(r2));
-        major = Math.Max(Math.Abs(r1), Math.Abs(r2));
+        double minor = Math.Min(Math.Abs(r1), Math.Abs(r2));
+        double major = Math.Max(Math.Abs(r1), Math.Abs(r2));
 
         switch (major)
         {
@@ -229,10 +220,7 @@ public static class Ellipse
         //    Output, double ELLIPSOID_VOLUME_3D, the volume of the ellipsoid.
         //
     {
-            
-        double value = 0;
-
-        value = 4.0 / 3.0 * Math.PI * r1 * r2 * r3;
+        double value = 4.0 / 3.0 * Math.PI * r1 * r2 * r3;
 
         return value;
     }

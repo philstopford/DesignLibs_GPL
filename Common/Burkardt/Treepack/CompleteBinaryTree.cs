@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Burkardt.Treepack;
 
@@ -49,15 +50,10 @@ public static class CompleteBinaryTree
         //    Input, int DEPTH, the depth of the tree.
         //
     {
-        int[] b;
-        int direction;
-        int DOWNLEFT = 1;
+        const int DOWNLEFT = 1;
         int i;
-        int k;
-        int p;
-        int UP = 3;
-        int UPDOWNRIGHT = 2;
-        string cout = "";
+        const int UP = 3;
+        const int UPDOWNRIGHT = 2;
 
         switch (depth)
         {
@@ -65,22 +61,23 @@ public static class CompleteBinaryTree
                 return;
         }
 
-        b = new int[depth + 1];
+        int[] b = new int[depth + 1];
 
         for (i = 0; i <= depth; i++)
         {
             b[i] = 0;
         }
 
-        p = 0;
-        direction = DOWNLEFT;
-        k = 0;
+        int p = 0;
+        int direction = DOWNLEFT;
+        int k = 0;
 
         for (;;)
         {
             //
             //  Try going in direction DOWNLEFT.
             //
+            string cout;
             if (direction == DOWNLEFT)
             {
                 p += 1;

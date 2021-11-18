@@ -65,33 +65,22 @@ public static class TetMesh_Q2L
         //    that make up the linear mesh.
         //
     {
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
-        int n7;
-        int n8;
-        int n9;
-        int nx;
         int tetra1;
-        int tetra2;
 
-        tetra2 = 0;
+        int tetra2 = 0;
 
         for (tetra1 = 0; tetra1 < tetra_num1; tetra1++)
         {
-            n1 = tetra_node1[0 + tetra1 * 10];
-            n2 = tetra_node1[1 + tetra1 * 10];
-            n3 = tetra_node1[2 + tetra1 * 10];
-            n4 = tetra_node1[3 + tetra1 * 10];
-            n5 = tetra_node1[4 + tetra1 * 10];
-            n6 = tetra_node1[5 + tetra1 * 10];
-            n7 = tetra_node1[6 + tetra1 * 10];
-            n8 = tetra_node1[7 + tetra1 * 10];
-            n9 = tetra_node1[8 + tetra1 * 10];
-            nx = tetra_node1[9 + tetra1 * 10];
+            int n1 = tetra_node1[0 + tetra1 * 10];
+            int n2 = tetra_node1[1 + tetra1 * 10];
+            int n3 = tetra_node1[2 + tetra1 * 10];
+            int n4 = tetra_node1[3 + tetra1 * 10];
+            int n5 = tetra_node1[4 + tetra1 * 10];
+            int n6 = tetra_node1[5 + tetra1 * 10];
+            int n7 = tetra_node1[6 + tetra1 * 10];
+            int n8 = tetra_node1[7 + tetra1 * 10];
+            int n9 = tetra_node1[8 + tetra1 * 10];
+            int nx = tetra_node1[9 + tetra1 * 10];
 
             tetra_node2[0 + tetra2 * 4] = n1;
             tetra_node2[1 + tetra2 * 4] = n5;

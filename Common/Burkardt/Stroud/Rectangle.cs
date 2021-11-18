@@ -60,35 +60,27 @@ public static class Rectangle
         //
     {
         int i;
-        int j;
-        int k;
-        double quad;
-        double result;
-        double sqr3;
-        double volume;
-        double w;
-        double x;
-        double y;
-        double z;
 
-        sqr3 = 1.0 / Math.Sqrt(3.0);
-        w = 1.0 / 8.0;
+        double sqr3 = 1.0 / Math.Sqrt(3.0);
+        const double w = 1.0 / 8.0;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 1; i <= 2; i++)
         {
-            x = sqr3 * (int)Math.Pow(-1, i);
+            double x = sqr3 * (int)Math.Pow(-1, i);
             x = 0.5 * ((1.0 - x) * b[0] + (1.0 + x) * a[0]);
 
+            int j;
             for (j = 1; j <= 2; j++)
             {
-                y = sqr3 * (int)Math.Pow(-1, j);
+                double y = sqr3 * (int)Math.Pow(-1, j);
                 y = 0.5 * ((1.0 - y) * b[1] + (1.0 + y) * a[1]);
 
+                int k;
                 for (k = 1; k <= 2; k++)
                 {
-                    z = sqr3 * (int)Math.Pow(-1, k);
+                    double z = sqr3 * (int)Math.Pow(-1, k);
                     z = 0.5 * ((1.0 - z) * b[2] + (1.0 + z) * a[2]);
 
                     quad += w * func(settings, x, y, z);
@@ -96,8 +88,8 @@ public static class Rectangle
             }
         }
 
-        volume = (b[0] - a[0]) * (b[1] - a[1]) * (b[2] - a[2]);
-        result = volume * quad;
+        double volume = (b[0] - a[0]) * (b[1] - a[1]) * (b[2] - a[2]);
+        double result = volume * quad;
 
         return result;
     }
@@ -154,18 +146,7 @@ public static class Rectangle
         double[] a = new double[2];
         double[] b = new double[2];
         int i;
-        int j;
-        int k;
-        double quad_sub;
         double result;
-        double result_sub;
-        double volume_sub;
-        double x;
-        double xhi;
-        double xlo;
-        double y;
-        double yhi;
-        double ylo;
 
         a[0] = xval[0];
         a[1] = yval[0];
@@ -174,11 +155,13 @@ public static class Rectangle
 
         for (i = 0; i < 2; i++)
         {
-            if (Math.Abs(a[i] - b[i]) <= double.Epsilon)
+            if (!(Math.Abs(a[i] - b[i]) <= double.Epsilon))
             {
-                result = 0.0;
-                return result;
+                continue;
             }
+
+            result = 0.0;
+            return result;
         }
 
         for (i = 0; i < 2; i++)
@@ -201,27 +184,29 @@ public static class Rectangle
 
         for (i = 1; i <= nsub[0]; i++)
         {
-            xlo = typeMethods.r8vec_even_select(nsub[0] + 1, a[0], b[0], i);
-            xhi = typeMethods.r8vec_even_select(nsub[0] + 1, a[0], b[0], i + 1);
+            double xlo = typeMethods.r8vec_even_select(nsub[0] + 1, a[0], b[0], i);
+            double xhi = typeMethods.r8vec_even_select(nsub[0] + 1, a[0], b[0], i + 1);
             //
             //  Break up the Y interval into NSUB(2) subintervals.
             //
+            int j;
             for (j = 1; j <= nsub[1]; j++)
             {
-                ylo = typeMethods.r8vec_even_select(nsub[1] + 1, a[1], b[1], j);
-                yhi = typeMethods.r8vec_even_select(nsub[1] + 1, a[1], b[1], j + 1);
+                double ylo = typeMethods.r8vec_even_select(nsub[1] + 1, a[1], b[1], j);
+                double yhi = typeMethods.r8vec_even_select(nsub[1] + 1, a[1], b[1], j + 1);
 
-                quad_sub = 0.0;
+                double quad_sub = 0.0;
+                int k;
                 for (k = 0; k < order; k++)
                 {
-                    x = xlo + 0.5 * (xtab[k] + 1.0) * (xhi - xlo);
-                    y = ylo + 0.5 * (ytab[k] + 1.0) * (yhi - ylo);
+                    double x = xlo + 0.5 * (xtab[k] + 1.0) * (xhi - xlo);
+                    double y = ylo + 0.5 * (ytab[k] + 1.0) * (yhi - ylo);
 
                     quad_sub += weight[k] * func(setting, x, y) / 4.0;
                 }
 
-                volume_sub = (xhi - xlo) * (yhi - ylo);
-                result_sub = quad_sub * volume_sub;
+                double volume_sub = (xhi - xlo) * (yhi - ylo);
+                double result_sub = quad_sub * volume_sub;
 
                 result += result_sub;
             }

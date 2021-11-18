@@ -33,19 +33,17 @@ public static class Cosine
         //    Output, double COSINE_TRANSFORM_DATA[N], the transform coefficients.
         //
     {
-        double angle;
-        double[] c;
         int i;
-        int j;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for (i = 0; i < n; i++)
         {
             c[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
-                angle = Math.PI * (i * (2 * j + 1)) / (2 * n);
+                double angle = Math.PI * (i * (2 * j + 1)) / (2 * n);
                 c[i] += Math.Cos(angle) * d[j];
             }
 
@@ -84,20 +82,17 @@ public static class Cosine
         //    Output, double COSINE_TRANSFORM_INVERSE[N], the original data.
         //
     {
-        double angle;
-        double[] d;
         int i;
-        int j;
-            
 
-        d = new double[n];
+        double[] d = new double[n];
 
         for (i = 0; i < n; i++)
         {
             d[i] = c[0] / 2.0;
+            int j;
             for (j = 1; j < n; j++)
             {
-                angle = Math.PI * ((2 * i + 1) * j) / (2 * n);
+                double angle = Math.PI * ((2 * i + 1) * j) / (2 * n);
                 d[i] += Math.Cos(angle) * c[j];
             }
 

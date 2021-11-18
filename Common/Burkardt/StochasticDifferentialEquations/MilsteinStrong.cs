@@ -76,51 +76,30 @@ public static class MilsteinStrong
         //    solution estimate at the final time.
         //
     {
-        double[] a;
-        double beta;
-        double dt;
-        double dtp;
-        double[] dw;
-        double e;
         int i;
-        int i2;
         int j;
-        double k;
-        int l;
-        int m;
-        int n;
         int p;
-        int r;
-        double resid;
-        double[] rhs;
-        double sigma;
-        double[] sol;
-        double tmax;
-        double winc;
-        double[] xref;
-        double[] xtemp;
-        double xzero;
         //
         //  Set problem parameters.
         //
-        sigma = 2.0;
-        k = 1.0;
-        beta = 0.25;
-        xzero = 0.5;
+        const double sigma = 2.0;
+        const double k = 1.0;
+        const double beta = 0.25;
+        const double xzero = 0.5;
         //
         //  Set stepping parameters.
         //
-        tmax = 1.0;
-        n = (int) Math.Pow(2, 11);
-        dt = tmax / n;
+        double tmax = 1.0;
+        int n = (int) Math.Pow(2, 11);
+        double dt = tmax / n;
         //
         //  Number of paths sampled.
         //
-        m = 500;
+        int m = 500;
         //
         //  Define the increments dW.
         //
-        dw = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
+        double[] dw = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -132,7 +111,7 @@ public static class MilsteinStrong
         //
         //  Estimate the reference solution at time T M times.
         //
-        xref = new double[m];
+        double[] xref = new double[m];
 
         for (i = 0; i < m; i++)
         {
@@ -164,12 +143,12 @@ public static class MilsteinStrong
             xerr[p] = 0.0;
         }
 
-        xtemp = new double[m];
+        double[] xtemp = new double[m];
         for (p = 0; p < p_max; p++)
         {
-            r = 8 * (int) Math.Pow(2, p + 1);
-            dtp = dtvals[p];
-            l = n / r;
+            int r = 8 * (int) Math.Pow(2, p + 1);
+            double dtp = dtvals[p];
+            int l = n / r;
             for (i = 0; i < m; i++)
             {
                 xtemp[i] = xzero;
@@ -179,7 +158,8 @@ public static class MilsteinStrong
             {
                 for (i = 0; i < m; i++)
                 {
-                    winc = 0.0;
+                    double winc = 0.0;
+                    int i2;
                     for (i2 = r * j; i2 < r * (j + 1); i2++)
                     {
                         winc += dw[i + i2 * m];
@@ -204,8 +184,8 @@ public static class MilsteinStrong
         //
         //  Least squares fit of error = C * dt^q
         //
-        a = new double[p_max * 2];
-        rhs = new double[p_max];
+        double[] a = new double[p_max * 2];
+        double[] rhs = new double[p_max];
         for (p = 0; p < p_max; p++)
         {
             a[p + 0 * p_max] = 1.0;
@@ -213,7 +193,7 @@ public static class MilsteinStrong
             rhs[p] = Math.Log(xerr[p]);
         }
 
-        sol = QRSolve.qr_solve(p_max, 2, a, rhs);
+        double[] sol = QRSolve.qr_solve(p_max, 2, a, rhs);
 
         Console.WriteLine("");
         Console.WriteLine("MILSTEIN:");
@@ -221,10 +201,10 @@ public static class MilsteinStrong
         Console.WriteLine("  Expecting Q to be about 1.");
         Console.WriteLine("  Computed Q = " + sol[1] + "");
 
-        resid = 0.0;
+        double resid = 0.0;
         for (i = 0; i < p_max; i++)
         {
-            e = a[i + 0 * p_max] * sol[0] + a[i + 1 * p_max] * sol[1] - rhs[i];
+            double e = a[i + 0 * p_max] * sol[0] + a[i + 1 * p_max] * sol[1] - rhs[i];
             resid += e * e;
         }
 
@@ -271,9 +251,9 @@ public static class MilsteinStrong
         //    solution estimate at the final time.
         //
     {
-        string command_filename = "milstrong_commands.txt";
+        const string command_filename = "milstrong_commands.txt";
         List<string> command = new();
-        string data_filename = "milstrong_data.txt";
+        const string data_filename = "milstrong_data.txt";
         List<string> data = new();
         int i;
         for (i = 0; i < p_max; i++)

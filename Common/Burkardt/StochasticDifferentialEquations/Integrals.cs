@@ -55,20 +55,16 @@ public static class Integrals
         //    Output, double &ERROR, the error in the integral estimate.
         //
     {
-        double dt;
-        double[] dw;
         int j;
-        double tmax;
-        double[] w;
         //
         //  Set step parameters.
         //
-        tmax = 1.0;
-        dt = tmax / n;
+        const double tmax = 1.0;
+        double dt = tmax / n;
         //
         //  Define the increments dW.
         //
-        dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
         for (j = 0; j < n; j++)
         {
             dw[j] = Math.Sqrt(dt) * dw[j];
@@ -77,7 +73,7 @@ public static class Integrals
         //
         //  Sum the increments to get the Brownian path.
         //
-        w = new double[n + 1];
+        double[] w = new double[n + 1];
         w[0] = 0.0;
         for (j = 1; j <= n; j++)
         {
@@ -145,22 +141,16 @@ public static class Integrals
         //    Output, double &ERROR, the error in the integral estimate.
         //
     {
-        double dt;
-        double[] dw;
         int j;
-        double tmax;
-        double[] u;
-        double[] v;
-        double[] w;
         //
         //  Set step parameters.
         //
-        tmax = 1.0;
-        dt = tmax / n;
+        const double tmax = 1.0;
+        double dt = tmax / n;
         //
         //  Define the increments dW.
         //
-        dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
@@ -170,7 +160,7 @@ public static class Integrals
         //
         //  Sum the increments to get the Brownian path.
         //
-        w = new double[n + 1];
+        double[] w = new double[n + 1];
         w[0] = 0.0;
         for (j = 1; j <= n; j++)
         {
@@ -180,9 +170,9 @@ public static class Integrals
         //
         //  Approximate the Stratonovich integral.
         //
-        u = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] u = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
-        v = new double[n];
+        double[] v = new double[n];
         for (j = 0; j < n; j++)
         {
             v[j] = 0.5 * (w[j] + w[j + 1]) + 0.5 * Math.Sqrt(dt) * u[j];

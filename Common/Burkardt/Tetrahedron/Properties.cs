@@ -32,10 +32,9 @@ public static class Properties
         //    Output, double TETRAHEDRON_CENTROID[3], the coordinates of the centroid.
         //
     {
-        double[] centroid;
         int i;
 
-        centroid = new double[3];
+        double[] centroid = new double[3];
 
         centroid[0] = tetra[0 + 0 * 3] + tetra[0 + 1 * 3]
                                        + tetra[0 + 2 * 3] + tetra[0 + 3 * 3];
@@ -103,7 +102,6 @@ public static class Properties
         //
     {
         double[] a = new double[3 * 4];
-        int info;
         //
         //  Set up the linear system.
         //
@@ -130,7 +128,7 @@ public static class Properties
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(3, 1, ref a);
+        int info = typeMethods.r8mat_solve(3, 1, ref a);
         //
         //  If the system was singular, return a consolation prize.
         //
@@ -204,11 +202,10 @@ public static class Properties
         //    singular, then R = -1, PC[] = 0.
         //
     {
-        int DIM_NUM = 3;
-        int RHS_NUM = 1;
+        const int DIM_NUM = 3;
+        const int RHS_NUM = 1;
 
         double[] a = new double[DIM_NUM * (DIM_NUM + RHS_NUM)];
-        int info;
         //
         //  Set up the linear system.
         //
@@ -235,7 +232,7 @@ public static class Properties
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(DIM_NUM, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(DIM_NUM, RHS_NUM, ref a);
         //
         //  If the system was singular, return a consolation prize.
         //
@@ -285,27 +282,21 @@ public static class Properties
         //
     {
         double[] ab = new double[3];
-        double[] abc_normal;
-        double[] abd_normal;
         double[] ac = new double[3];
-        double[] acd_normal;
         double[] ad = new double[3];
-        double[] angle;
         double[] bc = new double[3];
-        double[] bcd_normal;
         double[] bd = new double[3];
         double[] cd = new double[3];
         int i;
-            
 
         tetrahedron_edges(tetra, ref ab, ref ac, ref ad, ref bc, ref bd, ref cd);
 
-        abc_normal = typeMethods.r8vec_cross_3d(ac, ab);
-        abd_normal = typeMethods.r8vec_cross_3d(ab, ad);
-        acd_normal = typeMethods.r8vec_cross_3d(ad, ac);
-        bcd_normal = typeMethods.r8vec_cross_3d(bc, bd);
+        double[] abc_normal = typeMethods.r8vec_cross_3d(ac, ab);
+        double[] abd_normal = typeMethods.r8vec_cross_3d(ab, ad);
+        double[] acd_normal = typeMethods.r8vec_cross_3d(ad, ac);
+        double[] bcd_normal = typeMethods.r8vec_cross_3d(bc, bd);
 
-        angle = new double[6];
+        double[] angle = new double[6];
 
         angle[0] = typeMethods.r8vec_angle_3d(abc_normal, abd_normal);
         angle[1] = typeMethods.r8vec_angle_3d(abc_normal, acd_normal);
@@ -349,20 +340,18 @@ public static class Properties
         //    Output, double EDGE_LENGTH[6], the length of the edges.
         //
     {
-        double[] edge_length;
-        int i;
         int j1;
-        int j2;
-        int k;
         double[] v = new double[3];
 
-        edge_length = new double[6];
+        double[] edge_length = new double[6];
 
-        k = 0;
+        int k = 0;
         for (j1 = 0; j1 < 3; j1++)
         {
+            int j2;
             for (j2 = j1 + 1; j2 < 4; j2++)
             {
+                int i;
                 for (i = 0; i < 3; i++)
                 {
                     v[i] = tetra[i + j2 * 3] - tetra[i + j1 * 3];
@@ -403,22 +392,20 @@ public static class Properties
         //    Output, double EDGE_LENGTH[6], the length of the edges.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] edge_length;
-        int i;
         int j1;
-        int j2;
-        int k;
         double[] v = new double[DIM_NUM];
 
-        edge_length = new double[6];
+        double[] edge_length = new double[6];
 
-        k = 0;
+        int k = 0;
         for (j1 = 0; j1 < 3; j1++)
         {
+            int j2;
             for (j2 = j1 + 1; j2 < 4; j2++)
             {
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     v[i] = tetra[i + j2 * DIM_NUM] - tetra[i + j1 * DIM_NUM];
@@ -480,20 +467,11 @@ public static class Properties
         //    of the sphere.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] b = new double[4 * 4];
-        double gamma;
         int i;
         int j;
-        double l123;
-        double l124;
-        double l134;
-        double l234;
-        double[] n123;
-        double[] n124;
-        double[] n134;
-        double[] n234;
         double[] v21 = new double[DIM_NUM];
         double[] v31 = new double[DIM_NUM];
         double[] v41 = new double[DIM_NUM];
@@ -530,15 +508,15 @@ public static class Properties
         //  v43[i] = tetra[i+3*DIM_NUM] - tetra[i+2*DIM_NUM];
         //}
 
-        n123 = typeMethods.r8vec_cross_3d(v21, v31);
-        n124 = typeMethods.r8vec_cross_3d(v41, v21);
-        n134 = typeMethods.r8vec_cross_3d(v31, v41);
-        n234 = typeMethods.r8vec_cross_3d(v42, v32);
+        double[] n123 = typeMethods.r8vec_cross_3d(v21, v31);
+        double[] n124 = typeMethods.r8vec_cross_3d(v41, v21);
+        double[] n134 = typeMethods.r8vec_cross_3d(v31, v41);
+        double[] n234 = typeMethods.r8vec_cross_3d(v42, v32);
 
-        l123 = typeMethods.r8vec_length(DIM_NUM, n123);
-        l124 = typeMethods.r8vec_length(DIM_NUM, n124);
-        l134 = typeMethods.r8vec_length(DIM_NUM, n134);
-        l234 = typeMethods.r8vec_length(DIM_NUM, n234);
+        double l123 = typeMethods.r8vec_length(DIM_NUM, n123);
+        double l124 = typeMethods.r8vec_length(DIM_NUM, n124);
+        double l134 = typeMethods.r8vec_length(DIM_NUM, n134);
+        double l234 = typeMethods.r8vec_length(DIM_NUM, n234);
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -559,7 +537,7 @@ public static class Properties
             b[3 + j * 4] = 1.0;
         }
 
-        gamma = Math.Abs(typeMethods.r8mat_det_4d(b));
+        double gamma = Math.Abs(typeMethods.r8mat_det_4d(b));
 
         r = gamma / (l234 + l134 + l124 + l123);
 
@@ -641,9 +619,7 @@ public static class Properties
         //    Output, double ANGLES[3*4], the face angles.
         //
     {
-        double[] tri;
-
-        tri = new double[3 * 3];
+        double[] tri = new double[3 * 3];
         //
         //  Face 123
         //
@@ -735,9 +711,7 @@ public static class Properties
         //    Output, double AREAS[4], the face areas.
         //
     {
-        double[] tri;
-
-        tri = new double[3 * 3];
+        double[] tri = new double[3 * 3];
         //
         //  Face 123
         //
@@ -846,17 +820,8 @@ public static class Properties
         //
     {
         double[] b = new double[4 * 4];
-        double gamma;
         int i;
         int j;
-        double l123;
-        double l124;
-        double l134;
-        double l234;
-        double[] n123;
-        double[] n124;
-        double[] n134;
-        double[] n234;
         double[] v21 = new double[3];
         double[] v31 = new double[3];
         double[] v41 = new double[3];
@@ -866,15 +831,15 @@ public static class Properties
 
         tetrahedron_edges(tetra, ref v21, ref v31, ref v41, ref v32, ref v42, ref v43);
 
-        n123 = typeMethods.r8vec_cross_3d(v21, v31);
-        n124 = typeMethods.r8vec_cross_3d(v41, v21);
-        n134 = typeMethods.r8vec_cross_3d(v31, v41);
-        n234 = typeMethods.r8vec_cross_3d(v42, v32);
+        double[] n123 = typeMethods.r8vec_cross_3d(v21, v31);
+        double[] n124 = typeMethods.r8vec_cross_3d(v41, v21);
+        double[] n134 = typeMethods.r8vec_cross_3d(v31, v41);
+        double[] n234 = typeMethods.r8vec_cross_3d(v42, v32);
 
-        l123 = typeMethods.r8vec_length(3, n123);
-        l124 = typeMethods.r8vec_length(3, n124);
-        l134 = typeMethods.r8vec_length(3, n134);
-        l234 = typeMethods.r8vec_length(3, n234);
+        double l123 = typeMethods.r8vec_length(3, n123);
+        double l124 = typeMethods.r8vec_length(3, n124);
+        double l134 = typeMethods.r8vec_length(3, n134);
+        double l234 = typeMethods.r8vec_length(3, n234);
 
         for (i = 0; i < 3; i++)
         {
@@ -895,7 +860,7 @@ public static class Properties
             b[3 + j * 4] = 1.0;
         }
 
-        gamma = Math.Abs(typeMethods.r8mat_det_4d(b));
+        double gamma = Math.Abs(typeMethods.r8mat_det_4d(b));
 
         r = gamma / (l234 + l134 + l124 + l123);
 
@@ -936,7 +901,6 @@ public static class Properties
         //
     {
         double[] pc = new double[3];
-        double quality;
         double r_in = 0;
         double r_out = 0;
 
@@ -944,7 +908,7 @@ public static class Properties
 
         tetrahedron_insphere(tetra, ref r_in, ref pc);
 
-        quality = 3.0 * r_in / r_out;
+        double quality = 3.0 * r_in / r_out;
 
         return quality;
     }
@@ -997,19 +961,16 @@ public static class Properties
         //    Output, double TETRAHEDRON_QUALITY2, the quality of the tetrahedron.
         //
     {
-        double[] edge_length;
-        double l_max;
         double[] pc = new double[3];
-        double quality2;
         double r_in = 0;
 
-        edge_length = tetrahedron_edge_length(tetra);
+        double[] edge_length = tetrahedron_edge_length(tetra);
 
-        l_max = typeMethods.r8vec_max(6, edge_length);
+        double l_max = typeMethods.r8vec_max(6, edge_length);
 
         tetrahedron_insphere(tetra, ref r_in, ref pc);
 
-        quality2 = 2.0 * Math.Sqrt(6.0) * r_in / l_max;
+        double quality2 = 2.0 * Math.Sqrt(6.0) * r_in / l_max;
 
         return quality2;
     }
@@ -1069,15 +1030,6 @@ public static class Properties
         double[] bc = new double[3];
         double[] bd = new double[3];
         double[] cd = new double[3];
-        double denom;
-        double lab;
-        double lac;
-        double lad;
-        double lbc;
-        double lbd;
-        double lcd;
-        double quality3;
-        double volume;
         //
         //  Compute the vectors representing the sides of the tetrahedron.
         //
@@ -1085,23 +1037,23 @@ public static class Properties
         //
         //  Compute the squares of the lengths of the sides.
         //
-        lab = Math.Pow(ab[0], 2) + Math.Pow(ab[1], 2) + Math.Pow(ab[2], 2);
-        lac = Math.Pow(ac[0], 2) + Math.Pow(ac[1], 2) + Math.Pow(ac[2], 2);
-        lad = Math.Pow(ad[0], 2) + Math.Pow(ad[1], 2) + Math.Pow(ad[2], 2);
-        lbc = Math.Pow(bc[0], 2) + Math.Pow(bc[1], 2) + Math.Pow(bc[2], 2);
-        lbd = Math.Pow(bd[0], 2) + Math.Pow(bd[1], 2) + Math.Pow(bd[2], 2);
-        lcd = Math.Pow(cd[0], 2) + Math.Pow(cd[1], 2) + Math.Pow(cd[2], 2);
+        double lab = Math.Pow(ab[0], 2) + Math.Pow(ab[1], 2) + Math.Pow(ab[2], 2);
+        double lac = Math.Pow(ac[0], 2) + Math.Pow(ac[1], 2) + Math.Pow(ac[2], 2);
+        double lad = Math.Pow(ad[0], 2) + Math.Pow(ad[1], 2) + Math.Pow(ad[2], 2);
+        double lbc = Math.Pow(bc[0], 2) + Math.Pow(bc[1], 2) + Math.Pow(bc[2], 2);
+        double lbd = Math.Pow(bd[0], 2) + Math.Pow(bd[1], 2) + Math.Pow(bd[2], 2);
+        double lcd = Math.Pow(cd[0], 2) + Math.Pow(cd[1], 2) + Math.Pow(cd[2], 2);
         //
         //  Compute the volume.
         //
-        volume = Math.Abs(
+        double volume = Math.Abs(
             ab[0] * (ac[1] * ad[2] - ac[2] * ad[1])
             + ab[1] * (ac[2] * ad[0] - ac[0] * ad[2])
             + ab[2] * (ac[0] * ad[1] - ac[1] * ad[0])) / 6.0;
 
-        denom = lab + lac + lad + lbc + lbd + lcd;
+        double denom = lab + lac + lad + lbc + lbd + lcd;
 
-        quality3 = denom switch
+        double quality3 = denom switch
         {
             0.0 => 0.0,
             _ => 12.0 * Math.Pow(3.0 * volume, 2.0 / 3.0) / denom
@@ -1157,18 +1109,6 @@ public static class Properties
         double[] bc = new double[3];
         double[] bd = new double[3];
         double[] cd = new double[3];
-        double denom;
-        double l1;
-        double l2;
-        double l3;
-        double lab;
-        double lac;
-        double lad;
-        double lbc;
-        double lbd;
-        double lcd;
-        double quality4;
-        double volume;
         //
         //  Compute the edges.
         //
@@ -1176,29 +1116,29 @@ public static class Properties
         //
         //  Compute the lengths of the sides.
         //
-        lab = typeMethods.r8vec_length(3, ab);
-        lac = typeMethods.r8vec_length(3, ac);
-        lad = typeMethods.r8vec_length(3, ad);
-        lbc = typeMethods.r8vec_length(3, bc);
-        lbd = typeMethods.r8vec_length(3, bd);
-        lcd = typeMethods.r8vec_length(3, cd);
+        double lab = typeMethods.r8vec_length(3, ab);
+        double lac = typeMethods.r8vec_length(3, ac);
+        double lad = typeMethods.r8vec_length(3, ad);
+        double lbc = typeMethods.r8vec_length(3, bc);
+        double lbd = typeMethods.r8vec_length(3, bd);
+        double lcd = typeMethods.r8vec_length(3, cd);
         //
         //  Compute the volume.
         //
-        volume = Math.Abs(
+        double volume = Math.Abs(
             ab[0] * (ac[1] * ad[2] - ac[2] * ad[1])
             + ab[1] * (ac[2] * ad[0] - ac[0] * ad[2])
             + ab[2] * (ac[0] * ad[1] - ac[1] * ad[0])) / 6.0;
 
-        quality4 = 1.0;
+        double quality4 = 1.0;
 
-        l1 = lab + lac;
-        l2 = lab + lad;
-        l3 = lac + lad;
+        double l1 = lab + lac;
+        double l2 = lab + lad;
+        double l3 = lac + lad;
 
-        denom = (l1 + lbc) * (l1 - lbc)
-                           * (l2 + lbd) * (l2 - lbd)
-                           * (l3 + lcd) * (l3 - lcd);
+        double denom = (l1 + lbc) * (l1 - lbc)
+                                  * (l2 + lbd) * (l2 - lbd)
+                                  * (l3 + lcd) * (l3 - lcd);
 
         quality4 = denom switch
         {
@@ -1287,10 +1227,9 @@ public static class Properties
         //    Output, double TETRAHEDRON_QUALITY1_3D, the quality of the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] pc = new double[DIM_NUM];
-        double quality;
         double r_in = 0;
         double r_out = 0;
 
@@ -1298,7 +1237,7 @@ public static class Properties
 
         tetrahedron_insphere_3d(tetra, ref r_in, ref pc);
 
-        quality = 3.0 * r_in / r_out;
+        double quality = 3.0 * r_in / r_out;
 
         return quality;
     }
@@ -1351,21 +1290,18 @@ public static class Properties
         //    Output, double TETRAHEDRON_QUALITY2_3D, the quality of the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] edge_length;
-        double l_max;
         double[] pc = new double[DIM_NUM];
-        double quality2;
         double r_in = 0;
 
-        edge_length = tetrahedron_edge_length_3d(tetra);
+        double[] edge_length = tetrahedron_edge_length_3d(tetra);
 
-        l_max = typeMethods.r8vec_max(6, edge_length);
+        double l_max = typeMethods.r8vec_max(6, edge_length);
 
         tetrahedron_insphere_3d(tetra, ref r_in, ref pc);
 
-        quality2 = 2.0 * Math.Sqrt(6.0) * r_in / l_max;
+        double quality2 = 2.0 * Math.Sqrt(6.0) * r_in / l_max;
 
         return quality2;
     }
@@ -1419,7 +1355,7 @@ public static class Properties
         //    Output, double TETRAHEDRON_QUALITY3_3D, the mean ratio of the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] ab = new double[DIM_NUM];
         double[] ac = new double[DIM_NUM];
@@ -1427,16 +1363,7 @@ public static class Properties
         double[] bc = new double[DIM_NUM];
         double[] bd = new double[DIM_NUM];
         double[] cd = new double[DIM_NUM];
-        double denom;
         int i;
-        double lab;
-        double lac;
-        double lad;
-        double lbc;
-        double lbd;
-        double lcd;
-        double quality3;
-        double volume;
         //
         //  Compute the vectors representing the sides of the tetrahedron.
         //
@@ -1453,23 +1380,23 @@ public static class Properties
         //
         //  Compute the squares of the lengths of the sides.
         //
-        lab = Math.Pow(ab[0], 2) + Math.Pow(ab[1], 2) + Math.Pow(ab[2], 2);
-        lac = Math.Pow(ac[0], 2) + Math.Pow(ac[1], 2) + Math.Pow(ac[2], 2);
-        lad = Math.Pow(ad[0], 2) + Math.Pow(ad[1], 2) + Math.Pow(ad[2], 2);
-        lbc = Math.Pow(bc[0], 2) + Math.Pow(bc[1], 2) + Math.Pow(bc[2], 2);
-        lbd = Math.Pow(bd[0], 2) + Math.Pow(bd[1], 2) + Math.Pow(bd[2], 2);
-        lcd = Math.Pow(cd[0], 2) + Math.Pow(cd[1], 2) + Math.Pow(cd[2], 2);
+        double lab = Math.Pow(ab[0], 2) + Math.Pow(ab[1], 2) + Math.Pow(ab[2], 2);
+        double lac = Math.Pow(ac[0], 2) + Math.Pow(ac[1], 2) + Math.Pow(ac[2], 2);
+        double lad = Math.Pow(ad[0], 2) + Math.Pow(ad[1], 2) + Math.Pow(ad[2], 2);
+        double lbc = Math.Pow(bc[0], 2) + Math.Pow(bc[1], 2) + Math.Pow(bc[2], 2);
+        double lbd = Math.Pow(bd[0], 2) + Math.Pow(bd[1], 2) + Math.Pow(bd[2], 2);
+        double lcd = Math.Pow(cd[0], 2) + Math.Pow(cd[1], 2) + Math.Pow(cd[2], 2);
         //
         //  Compute the volume.
         //
-        volume = Math.Abs(
+        double volume = Math.Abs(
             ab[0] * (ac[1] * ad[2] - ac[2] * ad[1])
             + ab[1] * (ac[2] * ad[0] - ac[0] * ad[2])
             + ab[2] * (ac[0] * ad[1] - ac[1] * ad[0])) / 6.0;
 
-        denom = lab + lac + lad + lbc + lbd + lcd;
+        double denom = lab + lac + lad + lbc + lbd + lcd;
 
-        quality3 = denom switch
+        double quality3 = denom switch
         {
             0.0 => 0.0,
             _ => 12.0 * Math.Pow(3.0 * volume, 2.0 / 3.0) / denom
@@ -1515,7 +1442,7 @@ public static class Properties
         //    Output, double QUALITY4, the value of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] ab = new double[DIM_NUM];
         double[] ac = new double[DIM_NUM];
@@ -1523,19 +1450,7 @@ public static class Properties
         double[] bc = new double[DIM_NUM];
         double[] bd = new double[DIM_NUM];
         double[] cd = new double[DIM_NUM];
-        double denom;
         int i;
-        double l1;
-        double l2;
-        double l3;
-        double lab;
-        double lac;
-        double lad;
-        double lbc;
-        double lbd;
-        double lcd;
-        double quality4;
-        double volume;
         //
         //  Compute the vectors that represent the sides.
         //
@@ -1552,29 +1467,29 @@ public static class Properties
         //
         //  Compute the lengths of the sides.
         //
-        lab = typeMethods.r8vec_length(DIM_NUM, ab);
-        lac = typeMethods.r8vec_length(DIM_NUM, ac);
-        lad = typeMethods.r8vec_length(DIM_NUM, ad);
-        lbc = typeMethods.r8vec_length(DIM_NUM, bc);
-        lbd = typeMethods.r8vec_length(DIM_NUM, bd);
-        lcd = typeMethods.r8vec_length(DIM_NUM, cd);
+        double lab = typeMethods.r8vec_length(DIM_NUM, ab);
+        double lac = typeMethods.r8vec_length(DIM_NUM, ac);
+        double lad = typeMethods.r8vec_length(DIM_NUM, ad);
+        double lbc = typeMethods.r8vec_length(DIM_NUM, bc);
+        double lbd = typeMethods.r8vec_length(DIM_NUM, bd);
+        double lcd = typeMethods.r8vec_length(DIM_NUM, cd);
         //
         //  Compute the volume.
         //
-        volume = Math.Abs(
+        double volume = Math.Abs(
             ab[0] * (ac[1] * ad[2] - ac[2] * ad[1])
             + ab[1] * (ac[2] * ad[0] - ac[0] * ad[2])
             + ab[2] * (ac[0] * ad[1] - ac[1] * ad[0])) / 6.0;
 
-        quality4 = 1.0;
+        double quality4 = 1.0;
 
-        l1 = lab + lac;
-        l2 = lab + lad;
-        l3 = lac + lad;
+        double l1 = lab + lac;
+        double l2 = lab + lad;
+        double l3 = lac + lad;
 
-        denom = (l1 + lbc) * (l1 - lbc)
-                           * (l2 + lbd) * (l2 - lbd)
-                           * (l3 + lcd) * (l3 - lcd);
+        double denom = (l1 + lbc) * (l1 - lbc)
+                                  * (l2 + lbd) * (l2 - lbd)
+                                  * (l3 + lcd) * (l3 - lcd);
 
         quality4 = denom switch
         {
@@ -1656,13 +1571,9 @@ public static class Properties
         //    Output, double TETRAHEDRON_SOLID_ANGLES[4], the solid angles.
         //
     {
-        double[] angle;
-        double[] dihedral_angles;
-            
+        double[] dihedral_angles = tetrahedron_dihedral_angles(tetra);
 
-        dihedral_angles = tetrahedron_dihedral_angles(tetra);
-
-        angle = new double[4];
+        double[] angle = new double[4];
 
         angle[0] = dihedral_angles[0]
             + dihedral_angles[1]

@@ -81,40 +81,20 @@ public static class EulerMaruyamaStrong
         //    solution estimate at the final time.
         //
     {
-        double[] a;
-        double dt;
-        double dt2;
-        double[] dw;
-        double e;
         int i;
-        int j;
-        int k;
-        int l;
-        double lambda;
-        double mu;
         int p;
-        int r;
-        double resid;
-        double[] rhs;
         int s;
-        double[] sol;
-        double tmax;
-        double[] w;
-        double winc;
-        double xtemp;
-        double xtrue;
-        double xzero;
         //
         //  Set problem parameters.
         //
-        lambda = 2.0;
-        mu = 1.0;
-        xzero = 1.0;
+        const double lambda = 2.0;
+        const double mu = 1.0;
+        const double xzero = 1.0;
         //
         //  Set stepping parameters.
         //
-        tmax = 1.0;
-        dt = tmax / n;
+        const double tmax = 1.0;
+        double dt = tmax / n;
 
         for (p = 0; p < p_max; p++)
         {
@@ -134,8 +114,9 @@ public static class EulerMaruyamaStrong
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+            double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
+            int j;
             for (j = 0; j < n; j++)
             {
                 dw[j] = Math.Sqrt(dt) * dw[j];
@@ -144,7 +125,7 @@ public static class EulerMaruyamaStrong
             //
             //  Sum the increments to get the Brownian path.
             //
-            w = new double[n + 1];
+            double[] w = new double[n + 1];
             w[0] = 0.0;
             for (j = 1; j <= n; j++)
             {
@@ -154,20 +135,21 @@ public static class EulerMaruyamaStrong
             //
             //  Determine the true solution.
             //
-            xtrue = xzero * Math.Exp(lambda - 0.5 * mu * mu + mu * w[n]);
+            double xtrue = xzero * Math.Exp(lambda - 0.5 * mu * mu + mu * w[n]);
             //
             //  Use the Euler-Maruyama method with 5 different time steps dt2 = r * dt
             //  to estimate the solution value at time TMAX.
             //
             for (p = 0; p < p_max; p++)
             {
-                dt2 = dtvals[p];
-                r = (int) Math.Pow(2, p);
-                l = n / r;
-                xtemp = xzero;
+                double dt2 = dtvals[p];
+                int r = (int) Math.Pow(2, p);
+                int l = n / r;
+                double xtemp = xzero;
                 for (j = 0; j < l; j++)
                 {
-                    winc = 0.0;
+                    double winc = 0.0;
+                    int k;
                     for (k = r * j; k < r * (j + 1); k++)
                     {
                         winc += dw[k];
@@ -188,8 +170,8 @@ public static class EulerMaruyamaStrong
         //
         //  Least squares fit of error = c * dt^q.
         //
-        a = new double[p_max * 2];
-        rhs = new double[p_max];
+        double[] a = new double[p_max * 2];
+        double[] rhs = new double[p_max];
 
         for (i = 0; i < p_max; i++)
         {
@@ -198,7 +180,7 @@ public static class EulerMaruyamaStrong
             rhs[i] = Math.Log(xerr[i]);
         }
 
-        sol = QRSolve.qr_solve(p_max, 2, a, rhs);
+        double[] sol = QRSolve.qr_solve(p_max, 2, a, rhs);
 
         Console.WriteLine("");
         Console.WriteLine("EMSTRONG:");
@@ -206,10 +188,10 @@ public static class EulerMaruyamaStrong
         Console.WriteLine("  (Expecting Q to be about 1/2.)");
         Console.WriteLine("  Computed Q = " + sol[1] + "");
 
-        resid = 0.0;
+        double resid = 0.0;
         for (i = 0; i < p_max; i++)
         {
-            e = a[i + 0 * p_max] * sol[0] + a[i + 1 * p_max] * sol[1] - rhs[i];
+            double e = a[i + 0 * p_max] * sol[0] + a[i + 1 * p_max] * sol[1] - rhs[i];
             resid += e * e;
         }
 
@@ -256,9 +238,9 @@ public static class EulerMaruyamaStrong
         //    solution estimate at the final time.
         //
     {
-        string command_filename = "emstrong_commands.txt";
+        const string command_filename = "emstrong_commands.txt";
         List<string> command = new();
-        string data_filename = "emstrong_data.txt";
+        const string data_filename = "emstrong_data.txt";
         List<string> data = new();
         int i;
 

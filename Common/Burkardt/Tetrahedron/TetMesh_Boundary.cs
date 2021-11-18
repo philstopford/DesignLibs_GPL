@@ -49,16 +49,9 @@ public static class TetMesh_Boundary
         int b = 0;
         int c= 0;
         int element;
-        int f;
-        int face;
-        int[] faces;
         int i;
-        int j;
-        int jj;
-        int k;
-        int l;
 
-        faces = new int[5 * 4 * element_num];
+        int[] faces = new int[5 * 4 * element_num];
         //
         //  Step 1.
         //  From the list of nodes forming tetrahedron T, of the form: 
@@ -91,13 +84,13 @@ public static class TetMesh_Boundary
         for (element = 0; element < element_num; element++)
         {
             i = element_node[0 + element * element_order];
-            j = element_node[1 + element * element_order];
-            k = element_node[2 + element * element_order];
-            l = element_node[3 + element * element_order];
+            int j = element_node[1 + element * element_order];
+            int k = element_node[2 + element * element_order];
+            int l = element_node[3 + element * element_order];
 
             typeMethods.i4i4i4_sort_a(j, k, l, ref a, ref b, ref c);
 
-            jj = 4 * element;
+            int jj = 4 * element;
             faces[0 + jj * 5] = a;
             faces[1 + jj * 5] = b;
             faces[2 + jj * 5] = c;
@@ -148,7 +141,7 @@ public static class TetMesh_Boundary
         //  a following column that matches the first three entries.
         //
         boundary_element_num = 0;
-        face = 0;
+        int face = 0;
 
         for (i = 0; i < node_num; i++)
         {
@@ -184,7 +177,7 @@ public static class TetMesh_Boundary
                 //  We can determine the global indices from ELEMENT_NODE.
                 //
                 case 10:
-                    f = faces[3 + face * 5];
+                    int f = faces[3 + face * 5];
                     element = faces[4 + face * 5];
 
                     switch (f)
@@ -261,20 +254,10 @@ public static class TetMesh_Boundary
     {
         int a = 0;
         int b = 0;
-        int boundary_element;
-        int[] boundary_element_node;
         int c = 0;
         int element;
-        int f;
-        int face;
-        int[] faces;
-        int i;
-        int j;
-        int jj;
-        int k;
-        int l;
 
-        faces = new int[5 * 4 * element_num];
+        int[] faces = new int[5 * 4 * element_num];
         //
         //  Step 1.
         //  From the list of nodes forming tetrahedron T, of the form: 
@@ -306,14 +289,14 @@ public static class TetMesh_Boundary
         //
         for (element = 0; element < element_num; element++)
         {
-            i = element_node[0 + element * element_order];
-            j = element_node[1 + element * element_order];
-            k = element_node[2 + element * element_order];
-            l = element_node[3 + element * element_order];
+            int i = element_node[0 + element * element_order];
+            int j = element_node[1 + element * element_order];
+            int k = element_node[2 + element * element_order];
+            int l = element_node[3 + element * element_order];
 
             typeMethods.i4i4i4_sort_a(j, k, l, ref a, ref b, ref c);
 
-            jj = 4 * element;
+            int jj = 4 * element;
             faces[0 + jj * 5] = a;
             faces[1 + jj * 5] = b;
             faces[2 + jj * 5] = c;
@@ -363,10 +346,10 @@ public static class TetMesh_Boundary
         //  identical first three entries.  Count columns which don't have
         //  a following column that matches the first three entries.
         //
-        boundary_element = 0;
-        face = 0;
+        int boundary_element = 0;
+        int face = 0;
 
-        boundary_element_node = new int[boundary_element_order * boundary_element_num];
+        int[] boundary_element_node = new int[boundary_element_order * boundary_element_num];
 
         while (face < 4 * element_num)
         {
@@ -381,7 +364,7 @@ public static class TetMesh_Boundary
                 }
             }
 
-            f = faces[3 + face * 5];
+            int f = faces[3 + face * 5];
             element = faces[4 + face * 5];
 
             switch (f)

@@ -33,20 +33,17 @@ public static class Sine
         //    Output, double SINE_TRANSFORM_DATA[N], the sine transform coefficients.
         //
     {
-        double angle;
         int i;
-        int j;
-            
-        double[] s;
 
-        s = new double[n];
+        double[] s = new double[n];
 
         for (i = 0; i < n; i++)
         {
             s[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
-                angle = Math.PI * ((i + 1) * (j + 1)) / (n + 1);
+                double angle = Math.PI * ((i + 1) * (j + 1)) / (n + 1);
                 s[i] += Math.Sin(angle) * d[j];
             }
 
@@ -106,26 +103,18 @@ public static class Sine
         //    Output, SINE_TRANSFORM_FUNCTION[N], the sine transform coefficients.
         //
     {
-        double angle;
-        double[] f2;
-        double fa;
-        double fb;
         int i;
-        int j;
-            
-        double[] s;
-        double x;
 
-        fa = f(a);
-        fb = f(b);
+        double fa = f(a);
+        double fb = f(b);
 
-        f2 = new double[n];
+        double[] f2 = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            x = ((n - i) * a
-                 + (i + 1) * b)
-                / (n + 1);
+            double x = ((n - i) * a
+                        + (i + 1) * b)
+                       / (n + 1);
 
             f2[i] = f(x)
                     - ((b - x) * fa
@@ -133,15 +122,16 @@ public static class Sine
                     / (b - a);
         }
 
-        s = new double[n];
+        double[] s = new double[n];
 
         for (i = 0; i < n; i++)
         {
             s[i] = 0.0;
 
+            int j;
             for (j = 0; j < n; j++)
             {
-                angle = Math.PI * ((i + 1) * (j + 1)) / (n + 1);
+                double angle = Math.PI * ((i + 1) * (j + 1)) / (n + 1);
                 s[i] += Math.Sin(angle) * f2[j];
             }
 
@@ -204,25 +194,20 @@ public static class Sine
         //    Output, double SINE_TRANSFORM_INTERPOLANT[NX], the value of the interpolant.
         //
     {
-        double angle;
-        double f1;
-        double f2;
         int i;
-        int j;
-            
-        double[] value;
 
-        value = new double[nx];
+        double[] value = new double[nx];
 
         for (i = 0; i < nx; i++)
         {
-            f1 = ((b - x[i]) * fa
-                  + (x[i] - a) * fb)
-                 / (b - a);
-            f2 = 0.0;
+            double f1 = ((b - x[i]) * fa
+                         + (x[i] - a) * fb)
+                        / (b - a);
+            double f2 = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
-                angle = (j + 1) * (x[i] - a) * Math.PI / (b - a);
+                double angle = (j + 1) * (x[i] - a) * Math.PI / (b - a);
                 f2 += s[j] * Math.Sin(angle);
             }
 

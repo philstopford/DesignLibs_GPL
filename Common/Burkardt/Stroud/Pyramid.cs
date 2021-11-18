@@ -56,32 +56,25 @@ public static class Pyramid
         //    Output, double RESULT, the approximate integral of the function.
         //
     {
-        double quad;
-        double result;
-        double volume;
-        double w;
-        double x;
-        double y;
-        double z;
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
 
-        x = 0.0;
-        y = 0.0;
-        z = 1.0 / 4.0;
-        w = 1.0;
+        const double x = 0.0;
+        const double y = 0.0;
+        const double z = 1.0 / 4.0;
+        const double w = 1.0;
 
         quad += w * func(setting, x, y, z);
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -138,10 +131,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 5;
-        double quad;
-        double result;
-        double volume;
+        const int order = 5;
         double[] w =
         {
             0.21093750000000000000,
@@ -177,7 +167,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -186,11 +176,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -247,10 +237,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 6;
-        double quad;
-        double result;
-        double volume;
+        const int order = 6;
         double[] w =
         {
             0.21000000000000000000,
@@ -290,7 +277,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -299,11 +286,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -360,10 +347,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 8;
-        double quad;
-        double result;
-        double volume;
+        const int order = 8;
         double[] w =
         {
             0.075589411559869072938,
@@ -411,7 +395,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -420,11 +404,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -481,10 +465,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 8;
-        double quad;
-        double result;
-        double volume;
+        const int order = 8;
         double[] w =
         {
             0.16438287736328777572,
@@ -532,7 +513,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -541,11 +522,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -602,10 +583,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 9;
-        double quad;
-        double result;
-        double volume;
+        const int order = 9;
         double[] w =
         {
             0.13073389672275944791,
@@ -657,7 +635,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -666,11 +644,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -727,10 +705,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 13;
-        double quad;
-        double result;
-        double volume;
+        const int order = 13;
         double[] w =
         {
             0.063061594202898550725,
@@ -798,7 +773,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -807,11 +782,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -868,10 +843,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 18;
-        double quad;
-        double result;
-        double volume;
+        const int order = 18;
         double[] w =
         {
             0.023330065296255886709,
@@ -959,7 +931,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -968,11 +940,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -1029,10 +1001,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 27;
-        double quad;
-        double result;
-        double volume;
+        const int order = 27;
         double[] w =
         {
             0.036374157653908938268,
@@ -1156,7 +1125,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -1165,11 +1134,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -1227,10 +1196,7 @@ public static class Pyramid
         //
     {
         int i;
-        int order = 48;
-        double quad;
-        double result;
-        double volume;
+        const int order = 48;
         double[] w =
         {
             2.01241939442682455E-002,
@@ -1438,7 +1404,7 @@ public static class Pyramid
         //
         //  Quadrature.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * func(setting, x[i], y[i], z[i]);
@@ -1447,11 +1413,11 @@ public static class Pyramid
         //
         //  Volume.
         //
-        volume = pyramid_unit_volume_3d();
+        double volume = pyramid_unit_volume_3d();
         //
         //  Result.
         //
-        result = quad * volume;
+        double result = quad * volume;
 
         return result;
     }
@@ -1503,18 +1469,15 @@ public static class Pyramid
         //    Output, double PYRAMID_UNIT_MONOMIAL_3D, the volume of the pyramid.
         //
     {
-        int i;
-        int i_hi;
-        double value = 0;
-
-        value = 0.0;
+        double value = 0.0;
 
         switch (alpha % 2)
         {
             case 0 when beta % 2 == 0:
             {
-                i_hi = 2 + alpha + beta;
+                int i_hi = 2 + alpha + beta;
 
+                int i;
                 for (i = 0; i <= i_hi; i++)
                 {
                     value += typeMethods.r8_mop(i) * typeMethods.r8_choose(i_hi, i)
@@ -1566,9 +1529,7 @@ public static class Pyramid
         //    Output, double PYRAMID_UNIT_VOLUME_3D, the volume of the pyramid.
         //
     {
-        double volume;
-
-        volume = 4.0 / 3.0;
+        const double volume = 4.0 / 3.0;
 
         return volume;
     }
@@ -1614,9 +1575,7 @@ public static class Pyramid
         //    Output, double PYRAMID_VOLUME_3D, the volume of the pyramid.
         //
     {
-        double value = 0;
-
-        value = 4.0 / 3.0 * h * r * r;
+        double value = 4.0 / 3.0 * h * r * r;
 
         return value;
     }

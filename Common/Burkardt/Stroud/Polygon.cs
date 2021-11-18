@@ -58,10 +58,8 @@ public static class Polygon
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -75,7 +73,7 @@ public static class Polygon
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -137,10 +135,8 @@ public static class Polygon
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -154,7 +150,7 @@ public static class Polygon
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -221,10 +217,8 @@ public static class Polygon
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -238,7 +232,7 @@ public static class Polygon
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -307,10 +301,8 @@ public static class Polygon
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -324,7 +316,7 @@ public static class Polygon
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -392,10 +384,8 @@ public static class Polygon
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -409,7 +399,7 @@ public static class Polygon
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -476,10 +466,8 @@ public static class Polygon
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -493,7 +481,7 @@ public static class Polygon
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1

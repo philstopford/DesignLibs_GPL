@@ -72,17 +72,11 @@ public static class Triang
         //
     {
         int i;
-        bool error;
-        int iq;
-        int ir;
-        int it;
-        int l;
-        int m;
         //
         //  Make sure ZETA represents a partially ordered set.  In other words,
         //  if ZETA(I,J) = 1, then ZETA(J,I) must NOT be 1.
         //
-        error = PartialOrdering.pord_check(n, zeta);
+        bool error = PartialOrdering.pord_check(n, zeta);
 
         switch (error)
         {
@@ -94,15 +88,15 @@ public static class Triang
                 return;
         }
 
-        m = 1;
-        l = 0;
+        int m = 1;
+        int l = 0;
         for (i = 0; i < n; i++)
         {
             p[i] = 0;
         }
 
-        it = m + 1;
-        ir = m + 1;
+        int it = m + 1;
+        int ir = m + 1;
 
         for (;;)
         {
@@ -123,7 +117,7 @@ public static class Triang
             else
             {
                 l += 1;
-                iq = p[m - 1];
+                int iq = p[m - 1];
                 p[m - 1] = l;
 
                 if (iq != 0)

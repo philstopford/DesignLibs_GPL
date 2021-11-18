@@ -46,28 +46,23 @@ public static class Subset
         //    TRUE, the data is legal.
         //    FALSE, the data is not legal.
     {
-        bool check;
         int i;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         for (i = 0; i < n; i++)
         {
             if (t[i] != 0 && t[i] != 1)
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
-        return check;
+        return true;
     }
         
     public static void subset_colex_successor(int n, ref int[] t, ref int rank )
@@ -124,7 +119,6 @@ public static class Subset
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
         switch (rank)
         {
@@ -146,7 +140,7 @@ public static class Subset
         // 
         //  Check.
         // 
-        check = subset_check(n, t);
+        bool check = subset_check(n, t);
 
         switch (check)
         {
@@ -214,13 +208,11 @@ public static class Subset
         //    Output, int SUBSET_COMPLEMENT[N], the complement of A.
         // 
     {
-        int[] b;
-        bool check;
         int i;
         // 
         //  Check.
         // 
-        check = subset_check(n, a);
+        bool check = subset_check(n, a);
 
         switch (check)
         {
@@ -231,7 +223,7 @@ public static class Subset
                 return null;
         }
 
-        b = new int[n];
+        int[] b = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -287,13 +279,11 @@ public static class Subset
         //    in either T1 or T2 but not both.
         // 
     {
-        bool check;
-        int dist;
         int i;
         // 
         //  Check.
         // 
-        check = subset_check(n, t1);
+        bool check = subset_check(n, t1);
 
         switch (check)
         {
@@ -315,7 +305,7 @@ public static class Subset
                 return 1;
         }
 
-        dist = 0;
+        int dist = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -401,13 +391,11 @@ public static class Subset
         //    Output, int SUBSET_INTERSECT[N], the intersection of A and B.
         // 
     {
-        int[] c;
-        bool check;
         int i;
         // 
         //  Check.
         // 
-        check = subset_check(n, a);
+        bool check = subset_check(n, a);
 
         switch (check)
         {
@@ -429,7 +417,7 @@ public static class Subset
                 return null;
         }
 
-        c = new int[n];
+        int[] c = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -493,7 +481,6 @@ public static class Subset
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
         switch (rank)
         {
@@ -515,7 +502,7 @@ public static class Subset
         // 
         //  Check.
         // 
-        check = subset_check(n, t);
+        bool check = subset_check(n, t);
 
         switch (check)
         {
@@ -844,14 +831,11 @@ public static class Subset
         //    beyond entry K.
         //
     {
-        int is_;
-
         switch (k)
         {
             case <= 0 when jmp:
                 return;
             case <= 0:
-                is_ = 0;
                 k = 1;
                 a[0] = 1;
                 break;
@@ -859,7 +843,7 @@ public static class Subset
             {
                 if (a[k - 1] != n)
                 {
-                    is_ = a[k - 1];
+                    int is_ = a[k - 1];
 
                     switch (jmp)
                     {
@@ -949,7 +933,6 @@ public static class Subset
         //    previous subset to generate the current one.  Exception:
         //    the empty set is returned on the first call, and IADD is set to -1.
     {
-        int i;
         switch (more)
         {
             //
@@ -957,6 +940,7 @@ public static class Subset
             //
             case false:
             {
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     a[i] = 0;
@@ -1073,13 +1057,11 @@ public static class Subset
         //    Output, int SUBSET_UNION[N], the union of A and B.
         // 
     {
-        int[] c;
-        bool check;
         int i;
         // 
         //  Check.
         // 
-        check = subset_check(n, a);
+        bool check = subset_check(n, a);
 
         switch (check)
         {
@@ -1101,7 +1083,7 @@ public static class Subset
                 return null;
         }
 
-        c = new int[n];
+        int[] c = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1154,12 +1136,10 @@ public static class Subset
         //    Output, int SUBSET_WEIGHT, the Hamming weight of the subset T.
         // 
     {
-        bool check;
-        int weight;
         // 
         //  Check.
         // 
-        check = subset_check(n, t);
+        bool check = subset_check(n, t);
 
         switch (check)
         {
@@ -1169,7 +1149,7 @@ public static class Subset
                 Console.WriteLine("  The subset is illegal.");
                 return 1;
             default:
-                weight = typeMethods.i4vec_sum(n, t);
+                int weight = typeMethods.i4vec_sum(n, t);
 
                 return weight;
         }
@@ -1215,13 +1195,11 @@ public static class Subset
         //    Output, int SUBSET_XOR[N], the symmetric difference of A and B.
         // 
     {
-        int[] c;
-        bool check;
         int i;
         // 
         //  Check.
         // 
-        check = subset_check(n, a);
+        bool check = subset_check(n, a);
 
         switch (check)
         {
@@ -1243,7 +1221,7 @@ public static class Subset
                 return null;
         }
 
-        c = new int[n];
+        int[] c = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1322,13 +1300,10 @@ public static class Subset
         // 
     {
         int i;
-        int j;
-        int nmove;
-        int sum_achieved;
         // 
         //  Initialize.
         // 
-        sum_achieved = 0;
+        int sum_achieved = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -1342,7 +1317,7 @@ public static class Subset
 
         for (;;)
         {
-            nmove = 0;
+            int nmove = 0;
 
             for (i = 0; i < n; i++)
             {
@@ -1359,6 +1334,7 @@ public static class Subset
                 {
                     case 0:
                     {
+                        int j;
                         for (j = 0; j < n; j++)
                         {
                             if (index[j] == 1)

@@ -39,17 +39,11 @@ public static partial class TOMS
         //    Output, complex <double> TOMS243, the value of the function.
         //
     {
-        double a;
-        double b;
         double c;
         double d;
-        double e;
-        double f;
-            
-        Complex value;
 
-        a = z.Real;
-        b = z.Imaginary;
+        double a = z.Real;
+        double b = z.Imaginary;
         switch (a)
         {
             //
@@ -61,8 +55,8 @@ public static partial class TOMS
                 break;
             default:
             {
-                e = a / 2.0;
-                f = b / 2.0;
+                double e = a / 2.0;
+                double f = b / 2.0;
                 switch (Math.Abs ( e ))
                 {
                     case < 0.5 when Math.Abs ( f ) < 0.5:
@@ -101,7 +95,7 @@ public static partial class TOMS
             }
         }
 
-        value = new Complex ( c, d );
+        Complex value = new Complex ( c, d );
 
         return value;
     }

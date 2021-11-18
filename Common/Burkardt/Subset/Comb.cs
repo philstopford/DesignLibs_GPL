@@ -46,13 +46,9 @@ public static class Comb
         //    Output, int COMB[P], the combination set.
         //
     {
-        int[] c;
         int i;
-        int k;
-        int p1;
-        int r;
 
-        c = new int[p];
+        int[] c = new int[p];
         switch (p)
         {
             //
@@ -65,11 +61,11 @@ public static class Comb
         //
         //  Initialize lower bound index.
         //
-        k = 0;
+        int k = 0;
         //
         //  Select elements in ascending order.
         //
-        p1 = p - 1;
+        int p1 = p - 1;
         c[0] = 0;
 
         for ( i = 1; i <= p1; i++ )
@@ -85,6 +81,7 @@ public static class Comb
             //
             //  Check validity of each entry.
             //
+            int r;
             for ( ; ; )
             {
                 c[i-1] += 1;
@@ -154,9 +151,6 @@ public static class Comb
         //    combinations to compute, and TRUE when the list is exhausted.
         //
     {
-        int i;
-        int j;
-
         switch (done)
         {
             case true when k <= 0:
@@ -174,12 +168,14 @@ public static class Comb
                     return;
                 }
 
+                int i;
                 for (i = k; 2 <= i; i--)
                 {
                     if (a[i - 2] < n - k + i - 1)
                     {
                         a[i - 2] += 1;
 
+                        int j;
                         for (j = i; j <= k; j++)
                         {
                             a[j - 1] = a[i - 2] + j - (i - 1);
@@ -344,12 +340,10 @@ public static class Comb
         //
     {
         int i;
-        int j;
-        int k;
         //
         //  Initialize lower bound index at zero.
         //
-        k = 0;
+        int k = 0;
         //
         //  Loop to select elements in ascending order.
         //
@@ -367,6 +361,7 @@ public static class Comb
             //
             //  Check each element value.
             //
+            int j;
             for (;;)
             {
                 a[i - 1] += 1;

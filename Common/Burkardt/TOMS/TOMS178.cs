@@ -68,14 +68,11 @@ public static partial class TOMS
         //    after checking the nearby neighbors.
         //
     {
-        double ftmp;
         int i;
-        double minf;
-        double[] z;
 
-        z = new double[nvars];
+        double[] z = new double[nvars];
 
-        minf = prevbest;
+        double minf = prevbest;
 
         for (i = 0; i < nvars; i++)
         {
@@ -86,7 +83,7 @@ public static partial class TOMS
         {
             z[i] = point[i] + delta[i];
 
-            ftmp = f(z, nvars);
+            double ftmp = f(z, nvars);
             funevals += 1;
 
             if (ftmp < minf)
@@ -271,29 +268,19 @@ public static partial class TOMS
         //
         //    Input, int ITERMAX, a limit on the number of iterations.
         //
-        ///    Input, F, the name of the function routine,
+        //    Input, F, the name of the function routine,
         //    which should have the form:
         //      double f ( double x[], int n )
         //
         //    Output, int HOOKE, the number of iterations taken.
         //
     {
-        double[] delta;
-        double fbefore;
-        int funevals;
         int i;
-        int iters;
-        int keep;
-        double newf;
-        double[] newx;
-        double steplength;
-        double tmp;
-        bool verbose = false;
-        double[] xbefore;
+        const bool verbose = false;
 
-        delta = new double[nvars];
-        newx = new double[nvars];
-        xbefore = new double[nvars];
+        double[] delta = new double[nvars];
+        double[] newx = new double[nvars];
+        double[] xbefore = new double[nvars];
 
         for (i = 0; i < nvars; i++)
         {
@@ -314,12 +301,11 @@ public static partial class TOMS
             };
         }
 
-        funevals = 0;
-        steplength = rho;
-        iters = 0;
-        fbefore = f(newx, nvars);
+        int funevals = 0;
+        double steplength = rho;
+        int iters = 0;
+        double fbefore = f(newx, nvars);
         funevals += 1;
-        newf = fbefore;
 
         while (iters < itermax && eps < steplength)
         {
@@ -351,11 +337,11 @@ public static partial class TOMS
                 newx[i] = xbefore[i];
             }
 
-            newf = best_nearby(delta, ref newx, fbefore, nvars, f, ref funevals);
+            double newf = best_nearby(delta, ref newx, fbefore, nvars, f, ref funevals);
             //
             //  If we made some improvements, pursue that direction.
             //
-            keep = 1;
+            int keep = 1;
 
             while (newf < fbefore && keep == 1)
             {
@@ -376,7 +362,7 @@ public static partial class TOMS
                     //
                     //  Now, move further in this direction.
                     //
-                    tmp = xbefore[i];
+                    double tmp = xbefore[i];
                     xbefore[i] = newx[i];
                     newx[i] = newx[i] + newx[i] - tmp;
                 }

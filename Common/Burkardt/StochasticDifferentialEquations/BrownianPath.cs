@@ -53,18 +53,14 @@ public static class BrownianPath
         //    Output, double BPATH[N+1], the Brownian path.
         //
     {
-        double dt;
-        double[] dw;
         int j;
-        double tmax;
-        double[] w;
 
-        tmax = 1.0;
-        dt = tmax / n;
+        const double tmax = 1.0;
+        double dt = tmax / n;
         //
         //  Define the increments dW.
         //
-        dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
@@ -74,7 +70,7 @@ public static class BrownianPath
         //
         //  W is the sum of the previous increments.
         //
-        w = new double[n + 1];
+        double[] w = new double[n + 1];
 
         w[0] = 0.0;
         for (j = 1; j < n; j++)
@@ -120,16 +116,15 @@ public static class BrownianPath
         //    Input, double W[N+1], the Brownian path.
         //
     {
-        string command_filename = "bpath_commands.txt";
+        const string command_filename = "bpath_commands.txt";
         List<string> command = new();
-        string data_filename = "bpath_data.txt";
+        const string data_filename = "bpath_data.txt";
         List<string> data = new();
         int i;
-        double t;
 
         for (i = 0; i <= n; i++)
         {
-            t = i / (double) n;
+            double t = i / (double) n;
             data.Add("  " + t
                           + "  " + w[i] + "");
         }
@@ -229,31 +224,26 @@ public static class BrownianPath
         //    averaged path and the exact expected value.
         //
     {
-        double dt;
-        double[] dw;
         int i;
         int j;
-        double[] t;
-        double tmax;
-        double[] w;
 
-        tmax = 1.0;
-        dt = tmax / n;
+        double tmax = 1.0;
+        double dt = tmax / n;
 
-        t = new double[n + 1];
+        double[] t = new double[n + 1];
         for (j = 0; j <= n; j++)
         {
             t[j] = j * tmax / n;
         }
 
-        w = new double[n + 1];
+        double[] w = new double[n + 1];
 
         for (i = 0; i < m; i++)
         {
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+            double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {
@@ -335,18 +325,17 @@ public static class BrownianPath
         //    Input, double UMEAN[N+1], the averaged path.
         //
     {
-        string command_filename = "bpath_average_commands.txt";
+        const string command_filename = "bpath_average_commands.txt";
         List<string> command = new();
-        string data_filename = "bpath_average_data.txt";
+        const string data_filename = "bpath_average_data.txt";
         List<string> data = new();
         int i;
-        int j;
-        double t;
 
         for (i = 0; i <= n; i++)
         {
-            t = i / (double) n;
+            double t = i / (double) n;
             string tmp = "  " + t;
+            int j;
             for (j = 0; j < 5; j++)
             {
                 tmp += "  " + u[j + i * m];

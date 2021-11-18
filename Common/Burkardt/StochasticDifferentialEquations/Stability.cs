@@ -65,28 +65,11 @@ public static class Stability
         //    Input, int P_MAX, the number of time step sizes.
         //
     {
-        string command_filename = "stab_asymptotic_commands.txt";
+        const string command_filename = "stab_asymptotic_commands.txt";
         List<string> command = new();
-        string data_filename;
-        string data_filename0 = "stab_asymptotic0_data.txt";
+        const string data_filename0 = "stab_asymptotic0_data.txt";
         List<string> out_data = new();
-        double dt;
-        double[] dtvals;
-        int i;
-        int j;
-        double lambda;
-        double mu;
-        int nval;
         int p;
-        double t;
-        double test;
-        double tmax;
-        double[] u;
-        double winc;
-        double[] xemabs;
-        double xmin;
-        double xtemp;
-        double xzero;
 
         Console.WriteLine("");
         Console.WriteLine("STAB_ASYMPTOTIC:");
@@ -102,38 +85,39 @@ public static class Stability
         //
         //  Problem parameters.
         //
-        lambda = 0.5;
-        mu = Math.Sqrt(6.0);
-        xzero = 1.0;
+        const double lambda = 0.5;
+        double mu = Math.Sqrt(6.0);
+        const double xzero = 1.0;
         //
         //  Test the SDE.
         //
         Console.WriteLine("");
         Console.WriteLine("  Lambda = " + lambda + "");
         Console.WriteLine("  Mu =     " + mu + "");
-        test = lambda - 0.5 * mu * mu;
+        double test = lambda - 0.5 * mu * mu;
         Console.WriteLine("  SDE asymptotic stability test = " + test + "");
         //
         //  Step parameters.
         //
-        tmax = 500.0;
+        const double tmax = 500.0;
         //
         //  For each stepsize, compute the Euler-Maruyama solution.
         //
-        data_filename = data_filename0;
-        dtvals = new double[p_max];
+        string data_filename = data_filename0;
+        double[] dtvals = new double[p_max];
 
         for (p = 0; p < p_max; p++)
         {
-            nval = n * (int) Math.Pow(2, p);
-            dt = tmax / nval;
+            int nval = n * (int) Math.Pow(2, p);
+            double dt = tmax / nval;
             dtvals[p] = dt;
             //
             //  Test the EM for this DT.
             //
             Console.WriteLine("");
             Console.WriteLine("  dt = " + dt + "");
-            u = typeMethods.r8vec_normal_01_new(1000, ref vdata, ref seed);
+            double[] u = typeMethods.r8vec_normal_01_new(1000, ref vdata, ref seed);
+            int i;
             for (i = 0; i < 1000; i++)
             {
                 u[i] = Math.Log(Math.Abs(1.0 + lambda * dt - Math.Sqrt(dt) * mu * u[i]));
@@ -142,13 +126,14 @@ public static class Stability
             test = typeMethods.r8vec_mean(1000, u);
             Console.WriteLine("  EM asymptotic test = " + test + "");
 
-            xtemp = xzero;
-            xemabs = new double[nval + 1];
+            double xtemp = xzero;
+            double[] xemabs = new double[nval + 1];
             xemabs[0] = xtemp;
 
+            int j;
             for (j = 1; j <= nval; j++)
             {
-                winc = Math.Sqrt(dt) * typeMethods.r8_normal_01(ref data, ref seed);
+                double winc = Math.Sqrt(dt) * typeMethods.r8_normal_01(ref data, ref seed);
                 xtemp = xtemp + dt * lambda * xtemp + mu * xtemp * winc;
                 xemabs[j] = Math.Abs(xtemp);
             }
@@ -162,10 +147,10 @@ public static class Stability
             //  We have to impose a tiny lower bound on the values because we
             //  will end up plotting their logs.
             //
-            xmin = Math.Exp(-200.0);
+            double xmin = Math.Exp(-200.0);
             for (i = 0; i <= nval; i++)
             {
-                t = tmax * i / nval;
+                double t = tmax * i / nval;
                 out_data.Add("  " + t
                                   + "  " + Math.Max(xemabs[i], xmin) + "");
             }
@@ -264,26 +249,11 @@ public static class Stability
         //    In the reference, this value is set to 100.
         //
     {
-        string command_filename = "stab_meansquare_commands.txt";
+        const string command_filename = "stab_meansquare_commands.txt";
         List<string> command = new();
-        string data_filename0 = "stab_meansquare0_data.txt";
-        string data_filename;
+        const string data_filename0 = "stab_meansquare0_data.txt";
         List<string> data = new();
-        double dt;
-        int i;
-        int j;
         int k;
-        double lambda;
-        int m;
-        double mu;
-        int n;
-        double t;
-        double test;
-        double tmax;
-        double[] winc;
-        double[] xms;
-        double[] xtemp;
-        double xzero;
 
         Console.WriteLine("");
         Console.WriteLine("STAB_MEANSQUARE:");
@@ -298,31 +268,31 @@ public static class Stability
         //
         //  Set problem parameters.
         //
-        tmax = 20.0;
-        m = 50000;
-        xzero = 1.0;
+        const double tmax = 20.0;
+        const int m = 50000;
+        const double xzero = 1.0;
         //
         //  Problem parameters.
         //
-        lambda = -3.0;
-        mu = Math.Sqrt(3.0);
+        const double lambda = -3.0;
+        double mu = Math.Sqrt(3.0);
         //
         //  Test the SDE.
         //
         Console.WriteLine("");
         Console.WriteLine("  Lambda = " + lambda + "");
         Console.WriteLine("  Mu =     " + mu + "");
-        test = lambda + 0.5 * mu * mu;
+        double test = lambda + 0.5 * mu * mu;
         Console.WriteLine("  SDE mean square stability test = " + test + "");
         //
         //  XMS is the mean square estimate of M paths.
         //
-        data_filename = data_filename0;
+        string data_filename = data_filename0;
 
         for (k = 0; k < 3; k++)
         {
-            dt = Math.Pow(2.0, -k);
-            n = 20 * (int) Math.Pow(2, k);
+            double dt = Math.Pow(2.0, -k);
+            int n = 20 * (int) Math.Pow(2, k);
             //
             //  Test the EM for this DT.
             //
@@ -331,8 +301,9 @@ public static class Stability
             test = Math.Pow(1.0 + dt * lambda, 2) + dt * mu * mu - 1.0;
             Console.WriteLine("  EM mean square stability test = " + test + "");
 
-            xms = new double[n + 1];
-            xtemp = new double[m];
+            double[] xms = new double[n + 1];
+            double[] xtemp = new double[m];
+            int i;
             for (i = 0; i < m; i++)
             {
                 xtemp[i] = xzero;
@@ -340,9 +311,10 @@ public static class Stability
 
             xms[0] = xzero;
 
+            int j;
             for (j = 0; j <= n; j++)
             {
-                winc = typeMethods.r8vec_normal_01_new(m, ref vdata, ref seed);
+                double[] winc = typeMethods.r8vec_normal_01_new(m, ref vdata, ref seed);
                 for (i = 0; i < m; i++)
                 {
                     winc[i] = Math.Sqrt(dt) * winc[i];
@@ -371,7 +343,7 @@ public static class Stability
 
             for (j = 0; j <= n; j++)
             {
-                t = tmax * j / n;
+                double t = tmax * j / n;
                 data.Add("  " + t
                               + "  " + xms[j] + "");
             }

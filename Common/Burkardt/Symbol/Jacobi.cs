@@ -61,15 +61,13 @@ public class Jacobi
         //    If JACOBI_SYMBOL is -10, an error occurred.
         //
     {
-        int FACTOR_MAX = 20;
+        const int FACTOR_MAX = 20;
 
         int[] factor = new int[FACTOR_MAX];
         int i;
-        int l;
         int nfactor = 0;
         int nleft = 0;
         int[] power = new int[FACTOR_MAX];
-        int value;
         switch (p)
         {
             //
@@ -107,11 +105,11 @@ public class Jacobi
         //  For each prime factor, compute the Legendre symbol, and
         //  multiply the Jacobi symbol by the appropriate factor.
         //
-        value = 1;
+        int value = 1;
 
         for (i = 0; i < nfactor; i++)
         {
-            l = Legendre.legendre_symbol(q, factor[i]);
+            int l = Legendre.legendre_symbol(q, factor[i]);
 
             switch (l)
             {

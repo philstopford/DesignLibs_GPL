@@ -49,12 +49,10 @@ public static class Geometry
         //    respect to the tetrahedron.
         //
     {
-        int N = 3;
-        int RHS_NUM = 1;
+        const int N = 3;
+        const int RHS_NUM = 1;
 
         double[] a = new double[N * (N + RHS_NUM)];
-        double[] c;
-        int info;
         //
         //  Set up the linear system
         //
@@ -65,25 +63,25 @@ public static class Geometry
         //  which is satisfied by the barycentric coordinates.
         //
 
-        a[0 + 0 * N] = tetra[0 + 1 * 3] - tetra[0 + 0 * 3];
-        a[1 + 0 * N] = tetra[1 + 1 * 3] - tetra[1 + 0 * 3];
-        a[2 + 0 * N] = tetra[2 + 1 * 3] - tetra[2 + 0 * 3];
+        a[0 + 0 * N] = tetra[0 + 1 * 3] - tetra[0];
+        a[1 + 0 * N] = tetra[1 + 1 * 3] - tetra[1];
+        a[2 + 0 * N] = tetra[2 + 1 * 3] - tetra[2];
 
-        a[0 + 1 * N] = tetra[0 + 2 * 3] - tetra[0 + 0 * 3];
-        a[1 + 1 * N] = tetra[1 + 2 * 3] - tetra[1 + 0 * 3];
-        a[2 + 1 * N] = tetra[2 + 2 * 3] - tetra[2 + 0 * 3];
+        a[0 + 1 * N] = tetra[0 + 2 * 3] - tetra[0];
+        a[1 + 1 * N] = tetra[1 + 2 * 3] - tetra[1];
+        a[2 + 1 * N] = tetra[2 + 2 * 3] - tetra[2];
 
-        a[0 + 2 * N] = tetra[0 + 3 * 3] - tetra[0 + 0 * 3];
-        a[1 + 2 * N] = tetra[1 + 3 * 3] - tetra[1 + 0 * 3];
-        a[2 + 2 * N] = tetra[2 + 3 * 3] - tetra[2 + 0 * 3];
+        a[0 + 2 * N] = tetra[0 + 3 * 3] - tetra[0];
+        a[1 + 2 * N] = tetra[1 + 3 * 3] - tetra[1];
+        a[2 + 2 * N] = tetra[2 + 3 * 3] - tetra[2];
 
-        a[0 + 3 * N] = p[0] - tetra[0 + 0 * 3];
-        a[1 + 3 * N] = p[1] - tetra[1 + 0 * 3];
-        a[2 + 3 * N] = p[2] - tetra[2 + 0 * 3];
+        a[0 + 3 * N] = p[0] - tetra[0];
+        a[1 + 3 * N] = p[1] - tetra[1];
+        a[2 + 3 * N] = p[2] - tetra[2];
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
 
         if (info != 0)
         {
@@ -94,7 +92,7 @@ public static class Geometry
             return null;
         }
 
-        c = new double[4];
+        double[] c = new double[4];
 
         c[1] = a[0 + 3 * N];
         c[2] = a[1 + 3 * N];
@@ -132,11 +130,9 @@ public static class Geometry
         //    Output, double TETRAHEDRON_CENTROID_3D[3], the coordinates of the centroid.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] centroid;
-
-        centroid = new double[3];
+        double[] centroid = new double[3];
 
         centroid[0] = 0.25 * (tetra[0 + 0 * DIM_NUM] + tetra[0 + 1 * DIM_NUM]
                                                      + tetra[0 + 2 * DIM_NUM] + tetra[0 + 3 * DIM_NUM]);
@@ -198,38 +194,37 @@ public static class Geometry
         //    singular, then R = -1, PC[] = 0.
         //
     {
-        int DIM_NUM = 3;
-        int RHS_NUM = 1;
+        const int DIM_NUM = 3;
+        const int RHS_NUM = 1;
 
         double[] a = new double[DIM_NUM * (DIM_NUM + RHS_NUM)];
-        int info;
         //
         //  Set up the linear system.
         //
-        a[0 + 0 * 3] = tetra[0 + 1 * 3] - tetra[0 + 0 * 3];
-        a[0 + 1 * 3] = tetra[1 + 1 * 3] - tetra[1 + 0 * 3];
-        a[0 + 2 * 3] = tetra[2 + 1 * 3] - tetra[2 + 0 * 3];
-        a[0 + 3 * 3] = Math.Pow(tetra[0 + 1 * 3] - tetra[0 + 0 * 3], 2)
-                       + Math.Pow(tetra[1 + 1 * 3] - tetra[1 + 0 * 3], 2)
-                       + Math.Pow(tetra[2 + 1 * 3] - tetra[2 + 0 * 3], 2);
+        a[0] = tetra[0 + 1 * 3] - tetra[0];
+        a[0 + 1 * 3] = tetra[1 + 1 * 3] - tetra[1];
+        a[0 + 2 * 3] = tetra[2 + 1 * 3] - tetra[2];
+        a[0 + 3 * 3] = Math.Pow(tetra[0 + 1 * 3] - tetra[0], 2)
+                       + Math.Pow(tetra[1 + 1 * 3] - tetra[1], 2)
+                       + Math.Pow(tetra[2 + 1 * 3] - tetra[2], 2);
 
-        a[1 + 0 * 3] = tetra[0 + 2 * 3] - tetra[0 + 0 * 3];
-        a[1 + 1 * 3] = tetra[1 + 2 * 3] - tetra[1 + 0 * 3];
-        a[1 + 2 * 3] = tetra[2 + 2 * 3] - tetra[2 + 0 * 3];
-        a[1 + 3 * 3] = Math.Pow(tetra[0 + 2 * 3] - tetra[0 + 0 * 3], 2)
-                       + Math.Pow(tetra[1 + 2 * 3] - tetra[1 + 0 * 3], 2)
-                       + Math.Pow(tetra[2 + 2 * 3] - tetra[2 + 0 * 3], 2);
+        a[1] = tetra[0 + 2 * 3] - tetra[0];
+        a[1 + 1 * 3] = tetra[1 + 2 * 3] - tetra[1];
+        a[1 + 2 * 3] = tetra[2 + 2 * 3] - tetra[2];
+        a[1 + 3 * 3] = Math.Pow(tetra[0 + 2 * 3] - tetra[0], 2)
+                       + Math.Pow(tetra[1 + 2 * 3] - tetra[1], 2)
+                       + Math.Pow(tetra[2 + 2 * 3] - tetra[2], 2);
 
-        a[2 + 0 * 3] = tetra[0 + 3 * 3] - tetra[0 + 0 * 3];
-        a[2 + 1 * 3] = tetra[1 + 3 * 3] - tetra[1 + 0 * 3];
-        a[2 + 2 * 3] = tetra[2 + 3 * 3] - tetra[2 + 0 * 3];
-        a[2 + 3 * 3] = Math.Pow(tetra[0 + 3 * 3] - tetra[0 + 0 * 3], 2)
-                       + Math.Pow(tetra[1 + 3 * 3] - tetra[1 + 0 * 3], 2)
-                       + Math.Pow(tetra[2 + 3 * 3] - tetra[2 + 0 * 3], 2);
+        a[2] = tetra[0 + 3 * 3] - tetra[0];
+        a[2 + 1 * 3] = tetra[1 + 3 * 3] - tetra[1];
+        a[2 + 2 * 3] = tetra[2 + 3 * 3] - tetra[2];
+        a[2 + 3 * 3] = Math.Pow(tetra[0 + 3 * 3] - tetra[0], 2)
+                       + Math.Pow(tetra[1 + 3 * 3] - tetra[1], 2)
+                       + Math.Pow(tetra[2 + 3 * 3] - tetra[2], 2);
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(DIM_NUM, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(DIM_NUM, RHS_NUM, ref a);
         //
         //  If the system was singular, return a consolation prize.
         //
@@ -248,9 +243,9 @@ public static class Geometry
          + a[1 + 3 * 3] * a[1 + 3 * 3]
          + a[2 + 3 * 3] * a[2 + 3 * 3]);
 
-        pc[0] = tetra[0 + 0 * 3] + 0.5 * a[0 + 3 * 3];
-        pc[1] = tetra[1 + 0 * 3] + 0.5 * a[1 + 3 * 3];
-        pc[2] = tetra[2 + 0 * 3] + 0.5 * a[2 + 3 * 3];
+        pc[0] = tetra[0] + 0.5 * a[0 + 3 * 3];
+        pc[1] = tetra[1] + 0.5 * a[1 + 3 * 3];
+        pc[2] = tetra[2] + 0.5 * a[2 + 3 * 3];
     }
 
     public static bool tetrahedron_contains_point_3d(double[] tetra, double[] p)
@@ -288,18 +283,15 @@ public static class Geometry
         //    the tetrahedron or on its boundary, and FALSE otherwise.
         //
     {
-        double[] c;
-        bool value;
-
-        c = tetrahedron_barycentric_3d(tetra, p);
+        double[] c = tetrahedron_barycentric_3d(tetra, p);
         //
         //  If the point is in the tetrahedron, its barycentric coordinates
         //  must be nonnegative.
         //
-        value = 0.0 <= c[0] &&
-                0.0 <= c[1] &&
-                0.0 <= c[2] &&
-                0.0 <= c[3];
+        bool value = 0.0 <= c[0] &&
+                     0.0 <= c[1] &&
+                     0.0 <= c[2] &&
+                     0.0 <= c[3];
 
         return value;
     }
@@ -334,32 +326,27 @@ public static class Geometry
         //
     {
         double[] ab = new double[3];
-        double[] abc_normal;
-        double[] abd_normal;
         double[] ac = new double[3];
-        double[] acd_normal;
         double[] ad = new double[3];
-        double[] angle;
         double[] bc = new double[3];
-        double[] bcd_normal;
         double[] bd = new double[3];
         int i;
 
         for (i = 0; i < 3; i++)
         {
-            ab[i] = tetra[i + 1 * 3] - tetra[i + 0 * 3];
-            ac[i] = tetra[i + 2 * 3] - tetra[i + 0 * 3];
-            ad[i] = tetra[i + 3 * 3] - tetra[i + 0 * 3];
+            ab[i] = tetra[i + 1 * 3] - tetra[i];
+            ac[i] = tetra[i + 2 * 3] - tetra[i];
+            ad[i] = tetra[i + 3 * 3] - tetra[i];
             bc[i] = tetra[i + 2 * 3] - tetra[i + 1 * 3];
             bd[i] = tetra[i + 3 * 3] - tetra[i + 1 * 3];
         }
 
-        abc_normal = typeMethods.r8vec_cross_product_3d(ac, ab);
-        abd_normal = typeMethods.r8vec_cross_product_3d(ab, ad);
-        acd_normal = typeMethods.r8vec_cross_product_3d(ad, ac);
-        bcd_normal = typeMethods.r8vec_cross_product_3d(bc, bd);
+        double[] abc_normal = typeMethods.r8vec_cross_product_3d(ac, ab);
+        double[] abd_normal = typeMethods.r8vec_cross_product_3d(ab, ad);
+        double[] acd_normal = typeMethods.r8vec_cross_product_3d(ad, ac);
+        double[] bcd_normal = typeMethods.r8vec_cross_product_3d(bc, bd);
 
-        angle = new double[6];
+        double[] angle = new double[6];
 
         angle[0] = typeMethods.r8vec_angle_3d(abc_normal, abd_normal);
         angle[1] = typeMethods.r8vec_angle_3d(abc_normal, acd_normal);
@@ -403,22 +390,20 @@ public static class Geometry
         //    Output, double EDGE_LENGTH[6], the length of the edges.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] edge_length;
-        int i;
         int j1;
-        int j2;
-        int k;
         double[] v = new double[DIM_NUM];
 
-        edge_length = new double[6];
+        double[] edge_length = new double[6];
 
-        k = 0;
+        int k = 0;
         for (j1 = 0; j1 < 3; j1++)
         {
+            int j2;
             for (j2 = j1 + 1; j2 < 4; j2++)
             {
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     v[i] = tetra[i + j2 * DIM_NUM] - tetra[i + j1 * DIM_NUM];
@@ -464,15 +449,13 @@ public static class Geometry
         //    Output, double ANGLES[3*4], the face angles.
         //
     {
-        double[] tri;
-
-        tri = new double[3 * 3];
+        double[] tri = new double[3 * 3];
         //
         //  Face 123
         //
-        tri[0 + 0 * 3] = tetra[0 + 0 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 0 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 0 * 3];
+        tri[0] = tetra[0];
+        tri[1] = tetra[1];
+        tri[2] = tetra[2];
         tri[0 + 1 * 3] = tetra[0 + 1 * 3];
         tri[1 + 1 * 3] = tetra[1 + 1 * 3];
         tri[2 + 1 * 3] = tetra[2 + 1 * 3];
@@ -484,9 +467,9 @@ public static class Geometry
         //
         //  Face 124
         //
-        tri[0 + 0 * 3] = tetra[0 + 0 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 0 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 0 * 3];
+        tri[0] = tetra[0];
+        tri[1] = tetra[1];
+        tri[2] = tetra[2];
         tri[0 + 1 * 3] = tetra[0 + 1 * 3];
         tri[1 + 1 * 3] = tetra[1 + 1 * 3];
         tri[2 + 1 * 3] = tetra[2 + 1 * 3];
@@ -498,9 +481,9 @@ public static class Geometry
         //
         //  Face 134
         //
-        tri[0 + 0 * 3] = tetra[0 + 0 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 0 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 0 * 3];
+        tri[0] = tetra[0];
+        tri[1] = tetra[1];
+        tri[2] = tetra[2];
         tri[0 + 1 * 3] = tetra[0 + 2 * 3];
         tri[1 + 1 * 3] = tetra[1 + 2 * 3];
         tri[2 + 1 * 3] = tetra[2 + 2 * 3];
@@ -512,9 +495,9 @@ public static class Geometry
         //
         //  Face 234
         //
-        tri[0 + 0 * 3] = tetra[0 + 1 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 1 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 1 * 3];
+        tri[0] = tetra[0 + 1 * 3];
+        tri[1] = tetra[1 + 1 * 3];
+        tri[2] = tetra[2 + 1 * 3];
         tri[0 + 1 * 3] = tetra[0 + 2 * 3];
         tri[1 + 1 * 3] = tetra[1 + 2 * 3];
         tri[2 + 1 * 3] = tetra[2 + 2 * 3];
@@ -557,15 +540,13 @@ public static class Geometry
         //    Output, double AREAS[4], the face areas.
         //
     {
-        double[] tri;
-
-        tri = new double[3 * 3];
+        double[] tri = new double[3 * 3];
         //
         //  Face 123
         //
-        tri[0 + 0 * 3] = tetra[0 + 0 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 0 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 0 * 3];
+        tri[0] = tetra[0];
+        tri[1] = tetra[1];
+        tri[2] = tetra[2];
         tri[0 + 1 * 3] = tetra[0 + 1 * 3];
         tri[1 + 1 * 3] = tetra[1 + 1 * 3];
         tri[2 + 1 * 3] = tetra[2 + 1 * 3];
@@ -577,9 +558,9 @@ public static class Geometry
         //
         //  Face 124
         //
-        tri[0 + 0 * 3] = tetra[0 + 0 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 0 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 0 * 3];
+        tri[0] = tetra[0];
+        tri[1] = tetra[1];
+        tri[2] = tetra[2];
         tri[0 + 1 * 3] = tetra[0 + 1 * 3];
         tri[1 + 1 * 3] = tetra[1 + 1 * 3];
         tri[2 + 1 * 3] = tetra[2 + 1 * 3];
@@ -591,9 +572,9 @@ public static class Geometry
         //
         //  Face 134
         //
-        tri[0 + 0 * 3] = tetra[0 + 0 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 0 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 0 * 3];
+        tri[0] = tetra[0];
+        tri[1] = tetra[1];
+        tri[2] = tetra[2];
         tri[0 + 1 * 3] = tetra[0 + 2 * 3];
         tri[1 + 1 * 3] = tetra[1 + 2 * 3];
         tri[2 + 1 * 3] = tetra[2 + 2 * 3];
@@ -605,9 +586,9 @@ public static class Geometry
         //
         //  Face 234
         //
-        tri[0 + 0 * 3] = tetra[0 + 1 * 3];
-        tri[1 + 0 * 3] = tetra[1 + 1 * 3];
-        tri[2 + 0 * 3] = tetra[2 + 1 * 3];
+        tri[0] = tetra[0 + 1 * 3];
+        tri[1] = tetra[1 + 1 * 3];
+        tri[2] = tetra[2 + 1 * 3];
         tri[0 + 1 * 3] = tetra[0 + 2 * 3];
         tri[1 + 1 * 3] = tetra[1 + 2 * 3];
         tri[2 + 1 * 3] = tetra[2 + 2 * 3];
@@ -667,20 +648,11 @@ public static class Geometry
         //    of the sphere.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] b = new double[4 * 4];
-        double gamma;
         int i;
         int j;
-        double l123;
-        double l124;
-        double l134;
-        double l234;
-        double[] n123;
-        double[] n124;
-        double[] n134;
-        double[] n234;
         double[] v21 = new double[DIM_NUM];
         double[] v31 = new double[DIM_NUM];
         double[] v41 = new double[DIM_NUM];
@@ -717,15 +689,15 @@ public static class Geometry
         //  v43[i] = tetra[i+3*DIM_NUM] - tetra[i+2*DIM_NUM];
         //}
 
-        n123 = typeMethods.r8vec_cross_product_3d(v21, v31);
-        n124 = typeMethods.r8vec_cross_product_3d(v41, v21);
-        n134 = typeMethods.r8vec_cross_product_3d(v31, v41);
-        n234 = typeMethods.r8vec_cross_product_3d(v42, v32);
+        double[] n123 = typeMethods.r8vec_cross_product_3d(v21, v31);
+        double[] n124 = typeMethods.r8vec_cross_product_3d(v41, v21);
+        double[] n134 = typeMethods.r8vec_cross_product_3d(v31, v41);
+        double[] n234 = typeMethods.r8vec_cross_product_3d(v42, v32);
 
-        l123 = typeMethods.r8vec_norm(DIM_NUM, n123);
-        l124 = typeMethods.r8vec_norm(DIM_NUM, n124);
-        l134 = typeMethods.r8vec_norm(DIM_NUM, n134);
-        l234 = typeMethods.r8vec_norm(DIM_NUM, n234);
+        double l123 = typeMethods.r8vec_norm(DIM_NUM, n123);
+        double l124 = typeMethods.r8vec_norm(DIM_NUM, n124);
+        double l134 = typeMethods.r8vec_norm(DIM_NUM, n134);
+        double l234 = typeMethods.r8vec_norm(DIM_NUM, n234);
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -746,7 +718,7 @@ public static class Geometry
             b[3 + j * 4] = 1.0;
         }
 
-        gamma = Math.Abs(typeMethods.r8mat_det_4d(b));
+        double gamma = Math.Abs(typeMethods.r8mat_det_4d(b));
 
         r = gamma / (l234 + l134 + l124 + l123);
     }
@@ -804,11 +776,7 @@ public static class Geometry
         //    and V was reset to 0, and the lattice layer has been exhausted.
         //
     {
-        int c1n;
-        int lhs;
-        int n = 3;
-        int rhs1;
-        int rhs2;
+        const int n = 3;
         switch (c[3])
         {
             //
@@ -846,18 +814,18 @@ public static class Geometry
                 break;
             default:
             {
-                c1n = typeMethods.i4vec_lcm(n, c);
+                int c1n = typeMethods.i4vec_lcm(n, c);
 
-                rhs1 = c1n * (c[n] - 1);
-                rhs2 = c1n * c[n];
+                int rhs1 = c1n * (c[n] - 1);
+                int rhs2 = c1n * c[n];
                 //
                 //  Can we simply increase X?
                 //
                 v[0] += 1;
 
-                lhs = c1n / c[0] * v[0]
-                      + c1n / c[1] * v[1]
-                      + c1n / c[2] * v[2];
+                int lhs = c1n / c[0] * v[0]
+                          + c1n / c[1] * v[1]
+                          + c1n / c[2] * v[2];
 
                 if (lhs <= rhs2)
                 {
@@ -984,10 +952,7 @@ public static class Geometry
         //    for this tetrahedron.
         //
     {
-        int c1n;
-        int lhs;
-        int n = 3;
-        int rhs;
+        const int n = 3;
 
         switch (more)
         {
@@ -999,13 +964,13 @@ public static class Geometry
                 break;
             default:
             {
-                c1n = typeMethods.i4vec_lcm(n, c);
+                int c1n = typeMethods.i4vec_lcm(n, c);
 
-                rhs = c1n * c[n];
+                int rhs = c1n * c[n];
 
-                lhs = c[1] * c[2] * v[0]
-                      + c[0] * c[2] * v[1]
-                      + c[0] * c[1] * v[2];
+                int lhs = c[1] * c[2] * v[0]
+                          + c[0] * c[2] * v[1]
+                          + c[0] * c[1] * v[2];
 
                 if (lhs + c1n / c[0] <= rhs)
                 {
@@ -1074,10 +1039,9 @@ public static class Geometry
         //    Output, double TETRAHEDRON_QUALITY1_3D, the quality of the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] pc = new double[DIM_NUM];
-        double quality;
         double r_in = 0;
         double r_out = 0;
 
@@ -1085,7 +1049,7 @@ public static class Geometry
 
         tetrahedron_insphere_3d(tetra, ref r_in, ref pc);
 
-        quality = 3.0 * r_in / r_out;
+        double quality = 3.0 * r_in / r_out;
 
         return quality;
     }
@@ -1138,21 +1102,18 @@ public static class Geometry
         //    Output, double TETRAHEDRON_QUALITY2_3D, the quality of the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] edge_length;
-        double l_max;
         double[] pc = new double[DIM_NUM];
-        double quality2;
         double r_in = 0;
 
-        edge_length = tetrahedron_edge_length_3d(tetra);
+        double[] edge_length = tetrahedron_edge_length_3d(tetra);
 
-        l_max = typeMethods.r8vec_max(6, edge_length);
+        double l_max = typeMethods.r8vec_max(6, edge_length);
 
         tetrahedron_insphere_3d(tetra, ref r_in, ref pc);
 
-        quality2 = 2.0 * Math.Sqrt(6.0) * r_in / l_max;
+        double quality2 = 2.0 * Math.Sqrt(6.0) * r_in / l_max;
 
         return quality2;
     }
@@ -1206,7 +1167,7 @@ public static class Geometry
         //    Output, double TETRAHEDRON_QUALITY3_3D, the mean ratio of the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] ab = new double[DIM_NUM];
         double[] ac = new double[DIM_NUM];
@@ -1214,16 +1175,7 @@ public static class Geometry
         double[] bc = new double[DIM_NUM];
         double[] bd = new double[DIM_NUM];
         double[] cd = new double[DIM_NUM];
-        double denom;
         int i;
-        double lab;
-        double lac;
-        double lad;
-        double lbc;
-        double lbd;
-        double lcd;
-        double quality3;
-        double volume;
         //
         //  Compute the vectors representing the sides of the tetrahedron.
         //
@@ -1240,23 +1192,23 @@ public static class Geometry
         //
         //  Compute the squares of the lengths of the sides.
         //
-        lab = Math.Pow(ab[0], 2) + Math.Pow(ab[1], 2) + Math.Pow(ab[2], 2);
-        lac = Math.Pow(ac[0], 2) + Math.Pow(ac[1], 2) + Math.Pow(ac[2], 2);
-        lad = Math.Pow(ad[0], 2) + Math.Pow(ad[1], 2) + Math.Pow(ad[2], 2);
-        lbc = Math.Pow(bc[0], 2) + Math.Pow(bc[1], 2) + Math.Pow(bc[2], 2);
-        lbd = Math.Pow(bd[0], 2) + Math.Pow(bd[1], 2) + Math.Pow(bd[2], 2);
-        lcd = Math.Pow(cd[0], 2) + Math.Pow(cd[1], 2) + Math.Pow(cd[2], 2);
+        double lab = Math.Pow(ab[0], 2) + Math.Pow(ab[1], 2) + Math.Pow(ab[2], 2);
+        double lac = Math.Pow(ac[0], 2) + Math.Pow(ac[1], 2) + Math.Pow(ac[2], 2);
+        double lad = Math.Pow(ad[0], 2) + Math.Pow(ad[1], 2) + Math.Pow(ad[2], 2);
+        double lbc = Math.Pow(bc[0], 2) + Math.Pow(bc[1], 2) + Math.Pow(bc[2], 2);
+        double lbd = Math.Pow(bd[0], 2) + Math.Pow(bd[1], 2) + Math.Pow(bd[2], 2);
+        double lcd = Math.Pow(cd[0], 2) + Math.Pow(cd[1], 2) + Math.Pow(cd[2], 2);
         //
         //  Compute the volume.
         //
-        volume = Math.Abs(
+        double volume = Math.Abs(
             ab[0] * (ac[1] * ad[2] - ac[2] * ad[1])
             + ab[1] * (ac[2] * ad[0] - ac[0] * ad[2])
             + ab[2] * (ac[0] * ad[1] - ac[1] * ad[0])) / 6.0;
 
-        denom = lab + lac + lad + lbc + lbd + lcd;
+        double denom = lab + lac + lad + lbc + lbd + lcd;
 
-        quality3 = denom switch
+        double quality3 = denom switch
         {
             0.0 => 0.0,
             _ => 12.0 * Math.Pow(3.0 * volume, 2.0 / 3.0) / denom
@@ -1306,7 +1258,7 @@ public static class Geometry
         //    Output, double QUALITY4, the value of the quality measure.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] ab = new double[DIM_NUM];
         double[] ac = new double[DIM_NUM];
@@ -1314,19 +1266,7 @@ public static class Geometry
         double[] bc = new double[DIM_NUM];
         double[] bd = new double[DIM_NUM];
         double[] cd = new double[DIM_NUM];
-        double denom;
         int i;
-        double l1;
-        double l2;
-        double l3;
-        double lab;
-        double lac;
-        double lad;
-        double lbc;
-        double lbd;
-        double lcd;
-        double quality4;
-        double volume;
         //
         //  Compute the vectors that represent the sides.
         //
@@ -1343,29 +1283,29 @@ public static class Geometry
         //
         //  Compute the lengths of the sides.
         //
-        lab = typeMethods.r8vec_norm(DIM_NUM, ab);
-        lac = typeMethods.r8vec_norm(DIM_NUM, ac);
-        lad = typeMethods.r8vec_norm(DIM_NUM, ad);
-        lbc = typeMethods.r8vec_norm(DIM_NUM, bc);
-        lbd = typeMethods.r8vec_norm(DIM_NUM, bd);
-        lcd = typeMethods.r8vec_norm(DIM_NUM, cd);
+        double lab = typeMethods.r8vec_norm(DIM_NUM, ab);
+        double lac = typeMethods.r8vec_norm(DIM_NUM, ac);
+        double lad = typeMethods.r8vec_norm(DIM_NUM, ad);
+        double lbc = typeMethods.r8vec_norm(DIM_NUM, bc);
+        double lbd = typeMethods.r8vec_norm(DIM_NUM, bd);
+        double lcd = typeMethods.r8vec_norm(DIM_NUM, cd);
         //
         //  Compute the volume.
         //
-        volume = Math.Abs(
+        double volume = Math.Abs(
             ab[0] * (ac[1] * ad[2] - ac[2] * ad[1])
             + ab[1] * (ac[2] * ad[0] - ac[0] * ad[2])
             + ab[2] * (ac[0] * ad[1] - ac[1] * ad[0])) / 6.0;
 
-        quality4 = 1.0;
+        double quality4 = 1.0;
 
-        l1 = lab + lac;
-        l2 = lab + lad;
-        l3 = lac + lad;
+        double l1 = lab + lac;
+        double l2 = lab + lad;
+        double l3 = lac + lad;
 
-        denom = (l1 + lbc) * (l1 - lbc)
-                           * (l2 + lbd) * (l2 - lbd)
-                           * (l3 + lcd) * (l3 - lcd);
+        double denom = (l1 + lbc) * (l1 - lbc)
+                                  * (l2 + lbd) * (l2 - lbd)
+                                  * (l3 + lcd) * (l3 - lcd);
 
         quality4 = denom switch
         {
@@ -1477,23 +1417,19 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        double a;
-        double b;
-        double c;
-        double d;
         int face;
-        double z = 0.0;
+        const double z = 0.0;
 
-        a = 1.0 / Math.Sqrt(3.0);
-        b = Math.Sqrt(2.0) / Math.Sqrt(3.0);
-        c = Math.Sqrt(3.0) / 6.0;
-        d = 1.0 / Math.Sqrt(6.0);
+        double a = 1.0 / Math.Sqrt(3.0);
+        double b = Math.Sqrt(2.0) / Math.Sqrt(3.0);
+        double c = Math.Sqrt(3.0) / 6.0;
+        double d = 1.0 / Math.Sqrt(6.0);
         //
         //  Set the point coordinates.
         //
-        point_coord[0 + 0 * 3] = -b;
-        point_coord[1 + 0 * 3] = z;
-        point_coord[2 + 0 * 3] = z;
+        point_coord[0] = -b;
+        point_coord[1] = z;
+        point_coord[2] = z;
 
         point_coord[0 + 1 * 3] = z;
         point_coord[1 + 1 * 3] = -a;
@@ -1541,12 +1477,12 @@ public static class Geometry
         //
         //  Set faces.
         //
-        face_point[0 + 0 * face_order_max] = 1;
-        face_point[1 + 0 * face_order_max] = 5;
-        face_point[2 + 0 * face_order_max] = 2;
-        face_point[3 + 0 * face_order_max] = 9;
-        face_point[4 + 0 * face_order_max] = 4;
-        face_point[5 + 0 * face_order_max] = 7;
+        face_point[0] = 1;
+        face_point[1] = 5;
+        face_point[2] = 2;
+        face_point[3] = 9;
+        face_point[4] = 4;
+        face_point[5] = 7;
 
         face_point[0 + 1 * face_order_max] = 2;
         face_point[1 + 1 * face_order_max] = 8;
@@ -1643,26 +1579,17 @@ public static class Geometry
         //    Output, double P[3*N], random points in the tetrahedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double alpha;
-        double beta;
-        double gamma;
-        int i;
-        int j;
         int k;
-        double[] p12;
-        double[] p13;
-        double r;
-        double[] t;
 
-        p12 = new double[DIM_NUM];
-        p13 = new double[DIM_NUM];
-        t = new double[DIM_NUM * 3];
+        double[] p12 = new double[DIM_NUM];
+        double[] p13 = new double[DIM_NUM];
+        double[] t = new double[DIM_NUM * 3];
 
         for (k = 0; k < n; k++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
             //
             //  Interpret R as a percentage of the tetrahedron's volume.
             //
@@ -1672,16 +1599,18 @@ public static class Geometry
             //  The plane will intersect sides 12, 13, and 14 at a fraction
             //  ALPHA = R^1/3 of the distance from vertex 1 to vertices 2, 3, and 4.
             //
-            alpha = Math.Pow(r, 1.0 / 3.0);
+            double alpha = Math.Pow(r, 1.0 / 3.0);
             //
             //  Determine the coordinates of the points on sides 12, 13 and 14 intersected
             //  by the plane, which form a triangle TR.
             //
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
+                int j;
                 for (j = 0; j < 3; j++)
                 {
-                    t[i + j * 3] = (1.0 - alpha) * tetra[i + 0 * 3]
+                    t[i + j * 3] = (1.0 - alpha) * tetra[i]
                                    + alpha * tetra[i + (j + 1) * 3];
                 }
             }
@@ -1699,24 +1628,24 @@ public static class Geometry
             //  The line L will intersect sides 2 and 3 at a fraction
             //  ALPHA = Math.Sqrt ( R ) of the distance from vertex 1 to vertices 2 and 3.
             //
-            beta = Math.Sqrt(r);
+            double beta = Math.Sqrt(r);
             //
             //  Determine the coordinates of the points on sides 2 and 3 intersected
             //  by line L.
             //
             for (i = 0; i < DIM_NUM; i++)
             {
-                p12[i] = (1.0 - beta) * t[i + 0 * 3]
+                p12[i] = (1.0 - beta) * t[i]
                          + beta * t[i + 1 * 3];
 
-                p13[i] = (1.0 - beta) * t[i + 0 * 3]
+                p13[i] = (1.0 - beta) * t[i]
                          + beta * t[i + 2 * 3];
             }
 
             //
             //  Now choose, uniformly at random, a point on the line L.
             //
-            gamma = UniformRNG.r8_uniform_01(ref seed);
+            double gamma = UniformRNG.r8_uniform_01(ref seed);
 
             for (i = 0; i < DIM_NUM; i++)
             {
@@ -1771,7 +1700,7 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int[] face_order_save =
         {
@@ -1863,12 +1792,9 @@ public static class Geometry
         //    Output, double TETRAHEDRON_SOLID_ANGLES_3D[4], the solid angles.
         //
     {
-        double[] angle;
-        double[] dihedral_angle;
+        double[] dihedral_angle = tetrahedron_dihedral_angles_3d(tetra);
 
-        dihedral_angle = tetrahedron_dihedral_angles_3d(tetra);
-
-        angle = new double[4];
+        double[] angle = new double[4];
 
         angle[0] = dihedral_angle[0] + dihedral_angle[1] + dihedral_angle[2] - Math.PI;
         angle[1] = dihedral_angle[0] + dihedral_angle[3] + dihedral_angle[4] - Math.PI;
@@ -1926,9 +1852,7 @@ public static class Geometry
         //    Output, int TETRAHEDRON_UNIT_LATTICE_POINT_NUM_3D, the number of lattice points.
         //
     {
-        int n;
-
-        n = (s + 3) * (s + 2) * (s + 1) / 6;
+        int n = (s + 3) * (s + 2) * (s + 1) / 6;
 
         return n;
     }
@@ -1963,7 +1887,6 @@ public static class Geometry
         double[] a = new double[4 * 4];
         int i;
         int j;
-        double volume;
 
         for (i = 0; i < 3; i++)
         {
@@ -1979,7 +1902,7 @@ public static class Geometry
             a[i + j * 4] = 1.0;
         }
 
-        volume = Math.Abs(typeMethods.r8mat_det_4d(a)) / 6.0;
+        double volume = Math.Abs(typeMethods.r8mat_det_4d(a)) / 6.0;
 
         return volume;
     }

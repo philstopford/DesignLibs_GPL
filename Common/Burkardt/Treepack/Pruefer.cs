@@ -37,15 +37,12 @@ public static class Pruefer
         //
     {
         int i;
-        int ii;
-        int[] iwork;
-        int j;
         //
         //  Initialize IWORK(I) to count the number of neighbors of node I.
         //  The Pruefer code uses each node one less time than its total
         //  number of neighbors.
         //
-        iwork = new int[nnode];
+        int[] iwork = new int[nnode];
 
         for (i = 0; i < nnode; i++)
         {
@@ -68,7 +65,8 @@ public static class Pruefer
         //
         for (i = 0; i < nnode - 2; i++)
         {
-            ii = -1;
+            int ii = -1;
+            int j;
             for (j = 0; j < nnode; j++)
             {
                 ii = iwork[j] switch
@@ -151,11 +149,6 @@ public static class Pruefer
         //
     {
         int i;
-        int ir;
-        int j;
-        int k;
-        int kp;
-        int l;
 
         for (i = 0; i < nnode; i++)
         {
@@ -164,7 +157,7 @@ public static class Pruefer
 
         for (i = nnode - 2; 1 <= i; i--)
         {
-            l = iarray[i - 1];
+            int l = iarray[i - 1];
 
             switch (itree[l - 1])
             {
@@ -179,7 +172,7 @@ public static class Pruefer
         //
         //  Find next index K so that ITREE(K) is 0.
         //
-        k = 1;
+        int k = 1;
 
 
         while (itree[k - 1] != 0)
@@ -187,13 +180,13 @@ public static class Pruefer
             k += 1;
         }
 
-        j = 0;
-        kp = k;
+        int j = 0;
+        int kp = k;
 
         for (;;)
         {
             j += 1;
-            ir = Math.Abs(iarray[j - 1]);
+            int ir = Math.Abs(iarray[j - 1]);
             itree[kp - 1] = ir;
 
             if (j == nnode - 1)
@@ -294,9 +287,7 @@ public static class Pruefer
         //    joins nodes I and ITREE(I).
         //
     {
-        int[] itree;
-
-        itree = new int[nnode];
+        int[] itree = new int[nnode];
 
         pruefer_to_tree_2(nnode, iarray, ref itree);
 

@@ -59,21 +59,8 @@ public static class Tetrahedron
               //    Output, double TETRAQ_07, the approximate integral of the function.
               //
        {
-              double a;
-              double b;
-              double c;
-              double d;
               int i;
-              int j;
-              int k;
-              int order = 4;
-              double quad;
-              double result;
-              double t;
-              double u;
-              double v;
-              double volume;
-              double w;
+              const int order = 4;
               double[] weight1 = new double[4];
               double[] weight2 =
               {
@@ -92,9 +79,6 @@ public static class Tetrahedron
               {
                      0.0485005495, 0.2386007376, 0.5170472951, 0.7958514179
               };
-              double xval;
-              double yval;
-              double zval;
               //
               //  Get the Gauss-Legendre weights and abscissas for [-1,1].
               //
@@ -102,37 +86,39 @@ public static class Tetrahedron
               //
               //  Adjust the rule for the interval [0,1].
               //
-              a = -1.0;
-              b = +1.0;
+              double a = -1.0;
+              double b = +1.0;
 
-              c = 0.0;
-              d = 1.0;
+              double c = 0.0;
+              double d = 1.0;
 
               QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab1, ref weight1);
               //
               //  Carry out the quadrature.
               //
-              quad = 0.0;
+              double quad = 0.0;
 
               for (i = 0; i < order; i++)
               {
+                     int j;
                      for (j = 0; j < order; j++)
                      {
+                            int k;
                             for (k = 0; k < order; k++)
                             {
                                    //
                                    //  Compute the barycentric coordinates of the point in the unit triangle.
                                    //
-                                   t = xtab3[k];
-                                   u = xtab2[j] * (1.0 - xtab3[k]);
-                                   v = xtab1[i] * (1.0 - xtab2[j]) * (1.0 - xtab3[k]);
-                                   w = 1.0 - t - u - v;
+                                   double t = xtab3[k];
+                                   double u = xtab2[j] * (1.0 - xtab3[k]);
+                                   double v = xtab1[i] * (1.0 - xtab2[j]) * (1.0 - xtab3[k]);
+                                   double w = 1.0 - t - u - v;
                                    //
                                    //  Compute the corresponding point in the triangle.
                                    //
-                                   xval = t * x[0] + u * x[1] + v * x[2] + w * x[3];
-                                   yval = t * y[0] + u * y[1] + v * y[2] + w * y[3];
-                                   zval = t * z[0] + u * z[1] + v * z[2] + w * z[3];
+                                   double xval = t * x[0] + u * x[1] + v * x[2] + w * x[3];
+                                   double yval = t * y[0] + u * y[1] + v * y[2] + w * y[3];
+                                   double zval = t * z[0] + u * z[1] + v * z[2] + w * z[3];
 
                                    quad += 6.0 * weight1[i] * weight2[j] * weight3[k]
                                            * func(setting, xval, yval, zval);
@@ -140,8 +126,8 @@ public static class Tetrahedron
                      }
               }
 
-              volume = tetra_volume(x, y, z);
-              result = quad * volume;
+              double volume = tetra_volume(x, y, z);
+              double result = quad * volume;
 
               return result;
        }
@@ -190,36 +176,30 @@ public static class Tetrahedron
               //
        {
               int i;
-              double quad;
-              double result;
-              double volume;
-              double xval;
-              double yval;
-              double zval;
 
-              quad = 0.0;
+              double quad = 0.0;
               for (i = 0; i < order; i++)
               {
-                     xval = xtab[i] * x[0]
-                            + ytab[i] * x[1]
-                            + ztab[i] * x[2]
-                            + (1.0 - xtab[i] - ytab[i] - ztab[i]) * x[3];
+                     double xval = xtab[i] * x[0]
+                                   + ytab[i] * x[1]
+                                   + ztab[i] * x[2]
+                                   + (1.0 - xtab[i] - ytab[i] - ztab[i]) * x[3];
 
-                     yval = xtab[i] * y[0]
-                            + ytab[i] * y[1]
-                            + ztab[i] * y[2]
-                            + (1.0 - xtab[i] - ytab[i] - ztab[i]) * y[3];
+                     double yval = xtab[i] * y[0]
+                                   + ytab[i] * y[1]
+                                   + ztab[i] * y[2]
+                                   + (1.0 - xtab[i] - ytab[i] - ztab[i]) * y[3];
 
-                     zval = xtab[i] * z[0]
-                            + ytab[i] * z[1]
-                            + ztab[i] * z[2]
-                            + (1.0 - xtab[i] - ytab[i] - ztab[i]) * z[3];
+                     double zval = xtab[i] * z[0]
+                                   + ytab[i] * z[1]
+                                   + ztab[i] * z[2]
+                                   + (1.0 - xtab[i] - ytab[i] - ztab[i]) * z[3];
 
                      quad += weight[i] * func(setting, xval, yval, zval);
               }
 
-              volume = tetra_volume(x, y, z);
-              result = quad * volume;
+              double volume = tetra_volume(x, y, z);
+              double result = quad * volume;
 
               return result;
        }
@@ -281,25 +261,8 @@ public static class Tetrahedron
               //    Output, double TETRA_TPRODUCT, the approximate integral of the function.
               //
        {
-              double a;
-              double b;
-              double c;
-              double d;
               int i;
-              int j;
               int k;
-              double quad;
-              double result;
-              double volume;
-              double[] weight0;
-              double[] weight1;
-              double[] weight2;
-              double[] xtab0;
-              double[] xtab1;
-              double[] xtab2;
-              double xval;
-              double yval;
-              double zval;
 
               switch (order)
               {
@@ -318,12 +281,12 @@ public static class Tetrahedron
               //    X * F(X),
               //    X * X * F(X).
               //
-              xtab0 = new double[order];
-              xtab1 = new double[order];
-              xtab2 = new double[order];
-              weight0 = new double[order];
-              weight1 = new double[order];
-              weight2 = new double[order];
+              double[] xtab0 = new double[order];
+              double[] xtab1 = new double[order];
+              double[] xtab2 = new double[order];
+              double[] weight0 = new double[order];
+              double[] weight1 = new double[order];
+              double[] weight2 = new double[order];
 
               LegendreQuadrature.legendre_set(order, ref xtab0, ref weight0);
               LegendreQuadrature.legendre_set_x1(order, ref xtab1, ref weight1);
@@ -331,10 +294,10 @@ public static class Tetrahedron
               //
               //  Adjust the rules from [-1,1] to [0,1].
               //
-              a = -1.0;
-              b = +1.0;
-              c = 0.0;
-              d = 1.0;
+              double a = -1.0;
+              double b = +1.0;
+              double c = 0.0;
+              double d = 1.0;
 
               QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab0, ref weight0);
 
@@ -358,25 +321,26 @@ public static class Tetrahedron
               //
               //  Carry out the quadrature.
               //
-              quad = 0.0;
+              double quad = 0.0;
 
               for (k = 0; k < order; k++)
               {
+                     int j;
                      for (j = 0; j < order; j++)
                      {
                             for (i = 0; i < order; i++)
                             {
-                                   xval = x[0] + (((x[3] - x[2]) * xtab0[i]
-                                                   + (x[2] - x[1])) * xtab1[j]
-                                                  + (x[1] - x[0])) * xtab2[k];
+                                   double xval = x[0] + (((x[3] - x[2]) * xtab0[i]
+                                                          + (x[2] - x[1])) * xtab1[j]
+                                                         + (x[1] - x[0])) * xtab2[k];
 
-                                   yval = y[0] + (((y[3] - y[2]) * xtab0[i]
-                                                   + (y[2] - y[1])) * xtab1[j]
-                                                  + (y[1] - y[0])) * xtab2[k];
+                                   double yval = y[0] + (((y[3] - y[2]) * xtab0[i]
+                                                          + (y[2] - y[1])) * xtab1[j]
+                                                         + (y[1] - y[0])) * xtab2[k];
 
-                                   zval = z[0] + (((z[3] - z[2]) * xtab0[i]
-                                                   + (z[2] - z[1])) * xtab1[j]
-                                                  + (z[1] - z[0])) * xtab2[k];
+                                   double zval = z[0] + (((z[3] - z[2]) * xtab0[i]
+                                                          + (z[2] - z[1])) * xtab1[j]
+                                                         + (z[1] - z[0])) * xtab2[k];
 
                                    quad += 6.0 * weight0[i] * weight1[j] * weight2[k]
                                            * func(setting, xval, yval, zval);
@@ -387,8 +351,8 @@ public static class Tetrahedron
               //
               //  Compute the volume of the tetrahedron.
               //
-              volume = tetra_volume(x, y, z);
-              result = quad * volume;
+              double volume = tetra_volume(x, y, z);
+              double result = quad * volume;
 
               return result;
        }
@@ -1074,19 +1038,16 @@ public static class Tetrahedron
               //
        {
               int i;
-              double quad;
-              double result;
-              double volume;
 
-              quad = 0.0;
+              double quad = 0.0;
 
               for (i = 0; i < order; i++)
               {
                      quad += weight[i] * func(setting, xtab[i], ytab[i], ztab[i]);
               }
 
-              volume = tetra_unit_volume();
-              result = quad * volume;
+              double volume = tetra_unit_volume();
+              double result = quad * volume;
 
               return result;
        }
@@ -1125,9 +1086,7 @@ public static class Tetrahedron
               //    Output, double TETRA_UNIT_VOLUME, the volume.
               //
        {
-              double volume;
-
-              volume = 1.0 / 6.0;
+              const double volume = 1.0 / 6.0;
 
               return volume;
        }
@@ -1163,9 +1122,7 @@ public static class Tetrahedron
               //    Output, double TETRA_VOLUME, the volume of the tetrahedron.
               //
        {
-              double volume;
-
-              volume = Parallelipiped.parallelipiped_volume_3d(x, y, z);
+              double volume = Parallelipiped.parallelipiped_volume_3d(x, y, z);
 
               volume *= tetra_unit_volume();
 

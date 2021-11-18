@@ -30,9 +30,7 @@ public static class Integrals
         //    Output, double SQUARE01_AREA, the area
         //
     {
-        double area;
-
-        area = 1.0;
+        const double area = 1.0;
 
         return area;
     }
@@ -82,7 +80,6 @@ public static class Integrals
         //
     {
         int i;
-        double integral;
         const int m = 2;
 
         for (i = 0; i < m; i++)
@@ -98,7 +95,7 @@ public static class Integrals
             }
         }
 
-        integral = 1.0;
+        double integral = 1.0;
         for (i = 0; i < m; i++)
         {
             integral /= e[i] + 1;
@@ -152,14 +149,11 @@ public static class Integrals
         //    Output, double SQUARE01_SAMPLE[2*N], the points.
         //
     {
-        double a;
-        double b;
         const int m = 2;
-        double[] x;
 
-        a = 0.0;
-        b = 1.0;
-        x = UniformRNG.r8mat_uniform_ab_new(m, n, a, b, ref seed);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] x = UniformRNG.r8mat_uniform_ab_new(m, n, a, b, ref seed);
 
         return x;
     }
@@ -189,9 +183,7 @@ public static class Integrals
         //    Output, double SQUARESYM_AREA, the area
         //
     {
-        double area;
-
-        area = 4.0;
+        const double area = 4.0;
 
         return area;
     }
@@ -316,13 +308,11 @@ public static class Integrals
         //    Output, double SQUARESYM_SAMPLE[2*N], the points.
         //
     {
-        double a;
-        double b;
         const int m = 2;
         double[] x;
 
-        a = -1.0;
-        b = 1.0;
+        const double a = -1.0;
+        const double b = 1.0;
         x = UniformRNG.r8mat_uniform_ab_new(m, n, a, b, ref seed);
 
         return x;

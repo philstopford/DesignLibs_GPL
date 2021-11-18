@@ -45,8 +45,7 @@ public static partial class MinimalRule
         //    Output, double *SMR27[3*132], the requested rule.
         //
     {
-        int degree = 27;
-        int order;
+        const int degree = 27;
         double[] xw =
         {
             1.886005021782720e-03, 5.828566738691298e-01, 6.979680609052895e-02,
@@ -182,10 +181,9 @@ public static partial class MinimalRule
             9.559123039771233e-01, -9.899623983816039e-01, 2.789025209960568e-03,
             9.931508332329141e-01, -9.454816892922301e-01, 2.641115240694518e-03
         };
-        double[] xw_copy;
 
-        order = square_minimal_rule_order(degree);
-        xw_copy = typeMethods.r8mat_copy_new(3, order, xw);
+        int order = square_minimal_rule_order(degree);
+        double[] xw_copy = typeMethods.r8mat_copy_new(3, order, xw);
 
         return xw_copy;
     }

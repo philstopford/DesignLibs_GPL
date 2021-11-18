@@ -162,9 +162,7 @@ public static class SparseTriplet
 
         try
         {
-            int i;
             string[] input = File.ReadAllLines(input_filename);
-            int j;
 
             for (;;)
             {
@@ -173,8 +171,8 @@ public static class SparseTriplet
                 i4 ti = typeMethods.s_to_i4(tokens[0]);
                 i4 tj = typeMethods.s_to_i4(tokens[1]);
 
-                i = ti.val;
-                j = tj.val;
+                int i = ti.val;
+                int j = tj.val;
 
                 nst += 1;
                 i_min = Math.Min(i_min, i);
@@ -323,14 +321,11 @@ public static class SparseTriplet
         //    Output, int ST_TO_ccs_SIZE, the number of CCS elements.
         //
     {
-        int[] ist2;
-        int[] jst2;
-        int ncc;
         //
         //  Make copies so the sorting doesn't confuse the user.
         //
-        ist2 = typeMethods.i4vec_copy_new(nst, ist);
-        jst2 = typeMethods.i4vec_copy_new(nst, jst);
+        int[] ist2 = typeMethods.i4vec_copy_new(nst, ist);
+        int[] jst2 = typeMethods.i4vec_copy_new(nst, jst);
         //
         //  Sort by column first, then row.
         //
@@ -338,7 +333,7 @@ public static class SparseTriplet
         //
         //  Count the unique pairs.
         //
-        ncc = typeMethods.i4vec2_sorted_unique_count(nst, jst2, ist2);
+        int ncc = typeMethods.i4vec2_sorted_unique_count(nst, jst2, ist2);
 
         return ncc;
     }
@@ -379,18 +374,14 @@ public static class SparseTriplet
         //    Output, int CCC[N+1], the compressed CCS columns.
         //
     {
-        int[] ist2;
         int j;
-        int[] jcc;
         int jhi;
-        int jlo;
-        int[] jst2;
         int k;
         //
         //  Make copies so the sorting doesn't confuse the user.
         //
-        ist2 = typeMethods.i4vec_copy_new(nst, ist);
-        jst2 = typeMethods.i4vec_copy_new(nst, jst);
+        int[] ist2 = typeMethods.i4vec_copy_new(nst, ist);
+        int[] jst2 = typeMethods.i4vec_copy_new(nst, jst);
         //
         //  Sort the elements.
         //
@@ -398,13 +389,13 @@ public static class SparseTriplet
         //
         //  Get the unique elements.
         //
-        jcc = new int[ncc];
+        int[] jcc = new int[ncc];
         typeMethods.i4vec2_sorted_uniquely(nst, jst2, ist2, ncc, ref jcc, ref icc);
         //
         //  Compress the column index.
         //
         ccc[0] = 0;
-        jlo = 0;
+        int jlo = 0;
         for (k = 0; k < ncc; k++)
         {
             jhi = jcc[k];
@@ -466,16 +457,10 @@ public static class SparseTriplet
         //    Output, double ST_TO_ccs_VALUES[NCC], the CCS values.
         //
     {
-        double[] acc;
-        int chi;
-        int clo;
-        bool fail;
         int i;
-        int j;
-        int kcc;
         int kst;
 
-        acc = new double[ncc];
+        double[] acc = new double[ncc];
 
         for (i = 0; i < ncc; i++)
         {
@@ -485,13 +470,14 @@ public static class SparseTriplet
         for (kst = 0; kst < nst; kst++)
         {
             i = ist[kst];
-            j = jst[kst];
+            int j = jst[kst];
 
-            clo = ccc[j];
-            chi = ccc[j + 1];
+            int clo = ccc[j];
+            int chi = ccc[j + 1];
 
-            fail = true;
+            bool fail = true;
 
+            int kcc;
             for (kcc = clo; kcc < chi; kcc++)
             {
                 if (icc[kcc] == i)
@@ -618,7 +604,6 @@ public static class SparseTriplet
         //    Output, double WATHEN_ST[NZ_NUM], the nonzero entries of the matrix.
         //
     {
-        double[] a;
         double[] em = {
                 6.0, -6.0, 2.0, -8.0, 3.0, -8.0, 2.0, -6.0,
                 -6.0, 32.0, -6.0, 20.0, -8.0, 16.0, -8.0, 20.0,
@@ -630,15 +615,11 @@ public static class SparseTriplet
                 -6.0, 20.0, -8.0, 16.0, -8.0, 20.0, -6.0, 32.0
             }
             ;
-        int i;
         int j;
         int k;
-        int kcol;
-        int krow;
         int[] node = new int[8];
-        double rho;
 
-        a = new double[nz_num];
+        double[] a = new double[nz_num];
 
         for (k = 0; k < nz_num; k++)
         {
@@ -651,6 +632,7 @@ public static class SparseTriplet
 
         for (j = 0; j < nx; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
                 node[0] = 3 * (j + 1) * nx + 2 * (j + 1) + 2 * (i + 1);
@@ -662,10 +644,12 @@ public static class SparseTriplet
                 node[6] = node[4] + 2;
                 node[7] = node[3] + 1;
 
-                rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
+                double rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
 
+                int krow;
                 for (krow = 0; krow < 8; krow++)
                 {
+                    int kcol;
                     for (kcol = 0; kcol < 8; kcol++)
                     {
                         row[k] = node[krow];

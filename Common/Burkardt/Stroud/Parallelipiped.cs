@@ -34,9 +34,7 @@ public class Parallelipiped
         //    the parallelipiped.
         //
     {
-        double volume;
-
-        volume = Math.Abs(
+        double volume = Math.Abs(
             (z[1] - z[0]) * (y[3] * x[2] - y[2] * x[3]) +
             (z[2] - z[0]) * (x[3] * y[1] - x[1] * y[3]) +
             (z[3] - z[0]) * (x[1] * y[2] - x[2] * y[1]) +
@@ -78,29 +76,25 @@ public class Parallelipiped
         //    the parallelipiped.
         //
     {
-        double det;
         int i;
-        int info;
-        int j;
-        int[] pivot;
         double volume;
-        double[] w;
         //
         //  Compute the volume of the N-dimensional parallelipiped.
         //
-        w = new double[n * n];
+        double[] w = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 w[i + j * n] = v[i + (j + 1) * n] - v[i + 0 * n];
             }
         }
 
-        pivot = new int[n];
+        int[] pivot = new int[n];
 
-        info = typeMethods.r8ge_fa(n, ref w, ref pivot);
+        int info = typeMethods.r8ge_fa(n, ref w, ref pivot);
 
         if (info != 0)
         {
@@ -108,7 +102,7 @@ public class Parallelipiped
         }
         else
         {
-            det = typeMethods.r8ge_det(n, w, pivot);
+            double det = typeMethods.r8ge_det(n, w, pivot);
 
             volume = Math.Abs(det);
         }

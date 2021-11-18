@@ -58,23 +58,8 @@ public static class Ball
         //
     {
         int i;
-        int ihi;
-        int itemp;
         int j;
-        int k;
-        int khi;
-        int ktemp;
-        double quad;
         double result;
-        double t;
-        double temp;
-        double u;
-        double u2;
-        double v;
-        double volume;
-        double w;
-        double[] x;
-        double y;
 
         switch (r)
         {
@@ -83,28 +68,26 @@ public static class Ball
                 return result;
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        u2 = (1.0 - 2.0 * Math.Sqrt(1.0 / (n + 4)))
-             / (n + 2);
-        u = Math.Sqrt(u2);
+        double u2 = (1.0 - 2.0 * Math.Sqrt(1.0 / (n + 4)))
+                    / (n + 2);
+        double u = Math.Sqrt(u2);
         for (i = 0; i < n; i++)
         {
             x[i] = center[i] - r * u;
         }
 
-        w = 1.0 / ((n + 1) * (int)Math.Pow(2, n));
+        double w = 1.0 / ((n + 1) * (int)Math.Pow(2, n));
 
-        quad = 0.0;
-        ihi = (int)Math.Pow(2, n);
+        double quad = 0.0;
+        int ihi = (int)Math.Pow(2, n);
 
         for (i = 0; i < ihi; i++)
         {
-            itemp = i;
+            int itemp = i;
             for (j = 0; j < n; j++)
             {
-                u = (center[j] - x[j]) / r;
-
                 x[j] = (itemp % 2) switch
                 {
                     1 => center[j] - Math.Abs(x[j] - center[j]),
@@ -117,16 +100,16 @@ public static class Ball
             quad += w * func(setting, n, x);
         }
 
-        temp = Math.Sqrt(n + 4);
+        double temp = Math.Sqrt(n + 4);
 
-        t = Math.Sqrt(2.0 * (n + 1) / (n + 2))
-            / (n * temp);
+        double t = Math.Sqrt(2.0 * (n + 1) / (n + 2))
+                   / (n * temp);
 
-        y = (1.0 + 2.0 / (n * temp)) / (n + 2);
-        v = Math.Sqrt(y - t);
+        double y = (1.0 + 2.0 / (n * temp)) / (n + 2);
+        double v = Math.Sqrt(y - t);
         u = Math.Sqrt(y + (n - 1) * t);
 
-        khi = (int)Math.Pow(2, n);
+        int khi = (int)Math.Pow(2, n);
 
         for (i = 0; i < n; i++)
         {
@@ -137,9 +120,10 @@ public static class Ball
 
             x[i] = center[i] - r * u;
 
+            int k;
             for (k = 0; k < khi; k++)
             {
-                ktemp = k;
+                int ktemp = k;
                 for (j = 0; j < n; j++)
                 {
                     x[j] = (ktemp % 2) switch
@@ -157,7 +141,7 @@ public static class Ball
             x[i] = center[i] - r * v;
         }
 
-        volume = ball_volume_nd(n, r);
+        double volume = ball_volume_nd(n, r);
         result = quad * volume;
 
         return result;
@@ -215,17 +199,7 @@ public static class Ball
         //
     {
         int i;
-        int j;
-        int jhi;
-        int jtemp;
-        int k;
-        double quad;
         double result;
-        double ri;
-        double s;
-        double volume;
-        double weight;
-        double[] x;
 
         switch (r)
         {
@@ -234,9 +208,9 @@ public static class Ball
                 return result;
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  The first point is the center of the ball.
         //
@@ -245,17 +219,18 @@ public static class Ball
             x[i] = center[i];
         }
 
-        weight = 4.0 / (int)Math.Pow(n + 2, 2);
+        double weight = 4.0 / (int)Math.Pow(n + 2, 2);
         quad += weight * func(setting, n, x);
 
-        s = 1.0 / Math.Sqrt(n + 4);
+        double s = 1.0 / Math.Sqrt(n + 4);
 
         for (i = 0; i < n; i++)
         {
-            ri = Math.Sqrt((i + 3) / (double)(n + 4));
+            double ri = Math.Sqrt((i + 3) / (double)(n + 4));
             //
             //  Set up the first point, with (I) zeroes, RI, and then N-I-1 S's.
             //
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j < i)
@@ -277,12 +252,13 @@ public static class Ball
             //
             //  Now go through all sign permutations of the basic point.
             //
-            jhi = (int)Math.Pow(2, n - i);
+            int jhi = (int)Math.Pow(2, n - i);
 
             for (j = 0; j < jhi; j++)
             {
-                jtemp = j;
+                int jtemp = j;
 
+                int k;
                 for (k = i; k < n; k++)
                 {
                     x[k] = (jtemp % 2) switch
@@ -298,7 +274,7 @@ public static class Ball
             }
         }
 
-        volume = ball_volume_nd(n, r);
+        double volume = ball_volume_nd(n, r);
         result = quad * volume;
 
         return result;
@@ -349,16 +325,14 @@ public static class Ball
         //
     {
         int i;
-        double power;
-        double value = 0;
 
-        power = n;
+        double power = n;
         for (i = 0; i < n; i++)
         {
             power += p[i];
         }
 
-        value = Sphere.sphere_unit_monomial_nd(n, p) * Math.Pow(r, power) / power;
+        double value = Sphere.sphere_unit_monomial_nd(n, p) * Math.Pow(r, power) / power;
 
         return value;
     }
@@ -407,17 +381,11 @@ public static class Ball
         //    Output, double BALL_UNIT_07_3D, the approximate integral of the function.
         //
     {
-        int order = 4;
+        const int order = 4;
 
-        double angle;
         int i;
         int j;
-        int k;
-            
-        double quad;
-        double result;
-        double volume;
-        double w;
+
         double[] weight1 =
         {
             0.19455533421780251826,
@@ -427,7 +395,6 @@ public static class Ball
         };
         double[] weight2 = new double[4];
         double[] weight3 = new double[4];
-        double x;
         double[] xtab1 =
         {
             -0.906179845938663992797626878299,
@@ -437,14 +404,12 @@ public static class Ball
         };
         double[] xtab2 = new double[4];
         double[] xtab3 = new double[4];
-        double y;
-        double z;
         //
         //  Set XTAB2 and WEIGHT2.
         //
         for (j = 0; j < order; j++)
         {
-            angle = Math.PI * (2 * j - 1) / (2 * order);
+            double angle = Math.PI * (2 * j - 1) / (2 * order);
             xtab2[j] = Math.Cos(angle);
         }
 
@@ -458,20 +423,21 @@ public static class Ball
         //
         LegendreQuadrature.legendre_set(order, ref xtab3, ref weight3);
 
-        w = 3.0 / 16.0;
+        double w = 3.0 / 16.0;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < order; i++)
         {
             for (j = 0; j < order; j++)
             {
+                int k;
                 for (k = 0; k < order; k++)
                 {
-                    x = xtab1[i] * Math.Sqrt(1.0 - xtab2[j] * xtab2[j])
-                                 * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
-                    y = xtab1[i] * xtab2[j] * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
-                    z = xtab1[i] * xtab3[k];
+                    double x = xtab1[i] * Math.Sqrt(1.0 - xtab2[j] * xtab2[j])
+                                        * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
+                    double y = xtab1[i] * xtab2[j] * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
+                    double z = xtab1[i] * xtab3[k];
 
                     quad += w * weight1[i] * weight2[j] * weight3[k]
                             * func(setting, x, y, z);
@@ -479,8 +445,8 @@ public static class Ball
             }
         }
 
-        volume = ball_unit_volume_3d();
-        result = quad * volume;
+        double volume = ball_unit_volume_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -529,61 +495,51 @@ public static class Ball
         //    Output, double RESULT, the approximate integral of the function.
         //
     {
-        int i;
-        int j;
-        int k;
-        int l;
         int m;
-        int n;
-        double quad;
         double[] r =
         {
             0.968160240, 0.836031107, 0.613371433, 0.324253423
         };
-        double result;
-        double temp;
-        double volume;
-        double w1;
-        double w2;
         double[] weight =
         {
             0.076181268, 0.126263673, 0.098048133, 0.032840260
         };
-        double x;
         double[] xtab =
         {
             -0.151108275, 0.315838353, 0.346307112,
             -0.101808787, -0.409228403
         };
-        double y;
         double[] ytab =
         {
             0.155240600, 0.257049387, 0.666277790,
             0.817386065, 0.501547712
         };
-        double z;
         double[] ztab =
         {
             0.976251323, 0.913330032, 0.660412970,
             0.567022920, 0.762221757
         };
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (m = 0; m < 4; m++)
         {
-            w1 = 125.0 * weight[m] / 3360.0;
-            x = 0.525731112 * r[m];
-            y = 0.850650808 * r[m];
-            z = 0.0;
+            double w1 = 125.0 * weight[m] / 3360.0;
+            double x = 0.525731112 * r[m];
+            double y = 0.850650808 * r[m];
+            double z = 0.0;
 
 
+            int j;
+            double temp;
             for (j = 0; j < 2; j++)
             {
                 x = -x;
+                int k;
                 for (k = 0; k < 2; k++)
                 {
                     y = -y;
+                    int l;
                     for (l = 0; l < 3; l++)
                     {
                         temp = z;
@@ -595,14 +551,16 @@ public static class Ball
                 }
             }
 
-            w2 = 143.0 * weight[m] / 3360.0;
+            double w2 = 143.0 * weight[m] / 3360.0;
 
+            int n;
             for (n = 0; n < 5; n++)
             {
                 x = xtab[n] * r[m];
                 y = ytab[n] * r[m];
                 z = ztab[n] * r[m];
 
+                int i;
                 for (i = 0; i < 3; i++)
                 {
                     temp = x;
@@ -627,8 +585,8 @@ public static class Ball
             }
         }
 
-        volume = ball_unit_volume_3d();
-        result = quad * volume;
+        double volume = ball_unit_volume_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -677,64 +635,51 @@ public static class Ball
         //    Output, double BALL_UNIT_15_3D, the approximate integral of the function.
         //
     {
-        double cj;
-        double ck;
         int i;
-        int j;
-        int k;
-        int order1 = 4;
-        int order2 = 8;
-            
-        double quad;
-        double result;
-        double sj;
-        double sk;
-        double volume;
-        double w;
+        const int order1 = 4;
+        const int order2 = 8;
+
         double[] weight1 =
         {
             0.0328402599, 0.0980481327, 0.1262636728, 0.0761812678
         };
-        double[] weight2;
-        double x;
         double[] xtab1 =
         {
             0.3242534234, 0.6133714327, 0.8360311073, 0.9681602395
         };
-        double[] xtab2;
-        double y;
-        double z;
 
-        xtab2 = new double[order2];
-        weight2 = new double[order2];
+        double[] xtab2 = new double[order2];
+        double[] weight2 = new double[order2];
 
         LegendreQuadrature.legendre_set(order2, ref xtab2, ref weight2);
 
-        w = 3.0 / 32.0;
+        double w = 3.0 / 32.0;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < order1; i++)
         {
+            int j;
             for (j = 0; j < order2; j++)
             {
-                sj = xtab2[j];
-                cj = Math.Sqrt(1.0 - sj * sj);
+                double sj = xtab2[j];
+                double cj = Math.Sqrt(1.0 - sj * sj);
 
+                int k;
                 for (k = 1; k <= 16; k++)
                 {
-                    sk = Math.Sin(k * Math.PI / 8.0);
-                    ck = Math.Cos(k * Math.PI / 8.0);
-                    x = xtab1[i] * cj * ck;
-                    y = xtab1[i] * cj * sk;
-                    z = xtab1[i] * sj;
+                    double sk = Math.Sin(k * Math.PI / 8.0);
+                    double ck = Math.Cos(k * Math.PI / 8.0);
+                    double x = xtab1[i] * cj * ck;
+                    double y = xtab1[i] * cj * sk;
+                    double z = xtab1[i] * sj;
                     quad += w * weight1[i] * weight2[j] * func(setting, x, y, z);
                 }
             }
         }
 
-        volume = ball_unit_volume_3d();
-        result = quad * volume;
+        double volume = ball_unit_volume_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -786,42 +731,26 @@ public static class Ball
         //
     {
         int i;
-        int ihi;
-        int itemp;
         int j;
-        int k;
-        int khi;
-        int ktemp;
-        double quad;
-        double result;
-        double t;
-        double temp;
-        double u;
-        double u2;
-        double v;
-        double volume;
-        double w;
-        double[] x;
-        double y;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        u2 = (1.0 - 2.0 * Math.Sqrt(1.0 / (n + 4)))
-             / (n + 2);
-        u = Math.Sqrt(u2);
+        double u2 = (1.0 - 2.0 * Math.Sqrt(1.0 / (n + 4)))
+                    / (n + 2);
+        double u = Math.Sqrt(u2);
         for (i = 0; i < n; i++)
         {
             x[i] = -u;
         }
 
-        w = 1.0 / ((n + 1) * (int)Math.Pow(2, n));
+        double w = 1.0 / ((n + 1) * (int)Math.Pow(2, n));
 
-        quad = 0.0;
-        ihi = (int)Math.Pow(2, n);
+        double quad = 0.0;
+        int ihi = (int)Math.Pow(2, n);
 
         for (i = 0; i < ihi; i++)
         {
-            itemp = i;
+            int itemp = i;
 
             for (j = 0; j < n; j++)
             {
@@ -837,17 +766,17 @@ public static class Ball
             quad += w * func(setting, n, x);
         }
 
-        temp = Math.Sqrt(n + 4);
+        double temp = Math.Sqrt(n + 4);
 
-        t = Math.Sqrt(2.0 * (n + 1) / (n + 2))
-            / (n * temp);
+        double t = Math.Sqrt(2.0 * (n + 1) / (n + 2))
+                   / (n * temp);
 
-        y = (1.0 + 2.0 / (n * temp))
-            / (n + 2);
-        v = Math.Sqrt(y - t);
+        double y = (1.0 + 2.0 / (n * temp))
+                   / (n + 2);
+        double v = Math.Sqrt(y - t);
         u = Math.Sqrt(y + (n - 1) * t);
 
-        khi = (int)Math.Pow(2, n);
+        int khi = (int)Math.Pow(2, n);
 
         for (i = 0; i < n; i++)
         {
@@ -858,9 +787,10 @@ public static class Ball
 
             x[i] = -u;
 
+            int k;
             for (k = 0; k < khi; k++)
             {
-                ktemp = k;
+                int ktemp = k;
 
                 for (j = 0; j < n; j++)
                 {
@@ -879,8 +809,8 @@ public static class Ball
             x[i] = -v;
         }
 
-        volume = ball_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = ball_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -932,38 +862,29 @@ public static class Ball
         //
     {
         int i;
-        int j;
-        int jtemp;
-        int k;
-        double quad;
-        double result;
-        double ri;
-        double s;
-        double volume;
-        double weight;
-        double[] x;
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  The first point is the center of the ball.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        weight = 4.0 / ((n + 2) * (n + 2));
+        double weight = 4.0 / ((n + 2) * (n + 2));
         quad += weight * func(setting, n, x);
 
-        s = 1.0 / Math.Sqrt(n + 4);
+        double s = 1.0 / Math.Sqrt(n + 4);
 
         for (i = 0; i < n; i++)
         {
-            ri = Math.Sqrt((i + 3) / (double)(n + 4));
+            double ri = Math.Sqrt((i + 3) / (double)(n + 4));
             //
             //  Set up the first point, with (I-1) zeroes, RI, and then N-I S's.
             //
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j < i)
@@ -987,8 +908,9 @@ public static class Ball
             //
             for (j = 0; j < (int)Math.Pow(2, n - i); j++)
             {
-                jtemp = j;
+                int jtemp = j;
 
+                int k;
                 for (k = i; k < n; k++)
                 {
                     x[k] = (jtemp % 2) switch
@@ -1004,8 +926,8 @@ public static class Ball
             }
         }
 
-        volume = ball_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = ball_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -1039,10 +961,7 @@ public static class Ball
         //    Output, double BALL_UNIT_VOLUME_3D, the volume of the ball.
         //
     {
-            
-        double value = 0;
-
-        value = 4.0 / 3.0 * Math.PI;
+        const double value = 4.0 / 3.0 * Math.PI;
 
         return value;
     }
@@ -1154,10 +1073,7 @@ public static class Ball
         //    Output, double BALL_VOLUME_3D, the volume of the ball.
         //
     {
-            
-        double volume;
-
-        volume = 4.0 / 3.0 * Math.PI * r * r * r;
+        double volume = 4.0 / 3.0 * Math.PI * r * r * r;
 
         return volume;
     }
@@ -1206,9 +1122,7 @@ public static class Ball
         //    Output, double BALL_VOLUME_ND, the volume of the ball.
         //
     {
-        double volume;
-
-        volume = ball_unit_volume_nd(n) * Math.Pow(r, n);
+        double volume = ball_unit_volume_nd(n) * Math.Pow(r, n);
 
         return volume;
     }

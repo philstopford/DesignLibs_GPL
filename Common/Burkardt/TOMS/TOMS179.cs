@@ -59,33 +59,19 @@ public static partial class TOMS
         //    Local, double EPS1, the smallest representable number.
         //
     {
-        double aleps = -179.6016;
-        double c;
+        const double aleps = -179.6016;
         double cnt;
-        double d4;
-        double dp;
-        double dq;
-        double eps = 2.2E-16;
-        double eps1 = 1.0E-78;
-        double finsum;
-        int ib;
+        const double eps = 2.2E-16;
+        const double eps1 = 1.0E-78;
         int ifault = 0;
-        double infsum;
         int interval;
-        double p1;
-        double pq;
-        double prob;
-        double ps;
-        double px;
         double temp;
         double wh;
-        double xb;
-        double y;
         //
         //  Check ranges of the arguments.
         //
-        prob = 0.0;
-        y = x;
+        double prob = 0.0;
+        double y = x;
 
         switch (x)
         {
@@ -124,40 +110,39 @@ public static partial class TOMS
             {
                 prob = 0.0;
 
-                if (interval != 0)
+                if (interval == 0)
                 {
-                    prob = 1.0 - prob;
-                    temp = p;
-                    p = q;
-                    q = temp;
+                    return prob;
                 }
+
+                prob = 1.0 - prob;
 
                 return prob;
             }
         }
 
-        ib = (int)q;
+        int ib = (int)q;
         temp = ib;
-        ps = q - ib;
+        double ps = q - ib;
 
         if (Math.Abs(q - temp) <= double.Epsilon)
         {
             ps = 1.0;
         }
 
-        dp = p;
-        dq = q;
-        px = dp * Math.Log(y);
-        pq = Algorithms.alogam(dp + dq, ref ifault);
-        p1 = Algorithms.alogam(dp, ref ifault);
-        c = Algorithms.alogam(dq, ref ifault);
-        d4 = Math.Log(dp);
-        xb = px + Algorithms.alogam(ps + dp, ref ifault) - Algorithms.alogam(ps, ref ifault) - d4 - p1;
+        double dp = p;
+        double dq = q;
+        double px = dp * Math.Log(y);
+        double pq = Algorithms.alogam(dp + dq, ref ifault);
+        double p1 = Algorithms.alogam(dp, ref ifault);
+        double c = Algorithms.alogam(dq, ref ifault);
+        double d4 = Math.Log(dp);
+        double xb = px + Algorithms.alogam(ps + dp, ref ifault) - Algorithms.alogam(ps, ref ifault) - d4 - p1;
         //
         //  Scaling
         //
         ib = (int) (xb / aleps);
-        infsum = 0.0;
+        double infsum = 0.0;
         switch (ib)
         {
             //
@@ -189,7 +174,7 @@ public static partial class TOMS
             }
         }
 
-        finsum = 0.0;
+        double finsum = 0.0;
 
         switch (dq)
         {
@@ -197,13 +182,12 @@ public static partial class TOMS
             {
                 prob = finsum + infsum;
 
-                if (interval != 0)
+                if (interval == 0)
                 {
-                    prob = 1.0 - prob;
-                    temp = p;
-                    p = q;
-                    q = temp;
+                    return prob;
                 }
+
+                prob = 1.0 - prob;
 
                 return prob;
             }
@@ -236,9 +220,6 @@ public static partial class TOMS
                 if (interval != 0)
                 {
                     prob = 1.0 - prob;
-                    temp = p;
-                    p = q;
-                    q = temp;
                 }
 
                 break;
@@ -255,9 +236,6 @@ public static partial class TOMS
                     if (interval != 0)
                     {
                         prob = 1.0 - prob;
-                        temp = p;
-                        p = q;
-                        q = temp;
                     }
 
                     break;

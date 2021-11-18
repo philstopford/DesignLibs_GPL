@@ -54,20 +54,12 @@ public static class Cone
         //    Output, double CONE_UNIT_3D, the approximate integral of the function.
         //
     {
-        double a;
-        double b;
-        double c;
-        double h;
         int i;
-        double quad;
-        double r;
-        double result;
         double[] u =
         {
             0.04850054945, 0.2386007376,
             0.5170472951, 0.7958514179
         };
-        double volume;
         double[] w1 =
         {
             0.1108884156, 0.1434587878,
@@ -78,14 +70,14 @@ public static class Cone
         double y;
         double z;
 
-        a = Math.Sqrt(3.0) / 2.0;
-        b = Math.Sqrt((27.0 - 3.0 * Math.Sqrt(29.0)) / 104.0);
-        c = Math.Sqrt((27.0 + 3.0 * Math.Sqrt(29.0)) / 104.0);
+        double a = Math.Sqrt(3.0) / 2.0;
+        double b = Math.Sqrt((27.0 - 3.0 * Math.Sqrt(29.0)) / 104.0);
+        double c = Math.Sqrt((27.0 + 3.0 * Math.Sqrt(29.0)) / 104.0);
         w2[0] = 2.0 / 9.0;
         w2[1] = 3.0 * (551.0 + 4.0 * Math.Sqrt(29.0)) / 6264.0;
         w2[2] = 3.0 * (551.0 - 4.0 * Math.Sqrt(29.0)) / 6264.0;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < 4; i++)
         {
@@ -154,11 +146,11 @@ public static class Cone
 
         }
 
-        r = 1.0;
-        h = 1.0;
+        double r = 1.0;
+        double h = 1.0;
 
-        volume = cone_volume_3d(r, h);
-        result = quad * volume;
+        double volume = cone_volume_3d(r, h);
+        double result = quad * volume;
 
         return result;
     }
@@ -192,10 +184,7 @@ public static class Cone
         //    Output, double CONE_VOLUME_3D, the volume of the cone.
         //
     {
-            
-        double value = 0;
-
-        value = Math.PI / 3.0 * h * r * r;
+        double value = Math.PI / 3.0 * h * r * r;
 
         return value;
     }

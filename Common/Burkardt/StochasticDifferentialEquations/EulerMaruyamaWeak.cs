@@ -81,28 +81,14 @@ public static class EulerMaruyamaWeak
         //    solution estimate at the final time.
         //
     {
-        double[] a;
-        double dt;
-        double e;
         int i;
-        int j;
-        int l;
-        double lambda;
-        double mu;
         int p;
-        double resid;
-        double[] rhs;
-        double[] sol;
-        double[] winc;
-        double[] xem;
-        double[] xtemp;
-        double xzero;
         //
         //  Problem parameters;
         //
-        lambda = 2.0;
-        mu = 0.1;
-        xzero = 1.0;
+        const double lambda = 2.0;
+        const double mu = 0.1;
+        const double xzero = 1.0;
         //
         //  Stepping parameters.
         //
@@ -115,22 +101,23 @@ public static class EulerMaruyamaWeak
         //  Take various Euler timesteps.
         //  For stepsize dt, we will need to take L Euler steps to reach time TMAX.
         //
-        xtemp = new double[m];
-        xem = new double[p_max];
+        double[] xtemp = new double[m];
+        double[] xem = new double[p_max];
 
         for (p = 0; p < p_max; p++)
         {
-            l = (int) Math.Pow(2, 9 - p);
-            dt = dtvals[p];
+            int l = (int) Math.Pow(2, 9 - p);
+            double dt = dtvals[p];
 
             for (i = 0; i < m; i++)
             {
                 xtemp[i] = xzero;
             }
 
+            int j;
             for (j = 0; j < l; j++)
             {
-                winc = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
+                double[] winc = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
                 switch (method)
                 {
                     case 0:
@@ -177,8 +164,8 @@ public static class EulerMaruyamaWeak
         //
         //  Least squares fit of error = c * dt^q.
         //
-        a = new double[p_max * 2];
-        rhs = new double[p_max];
+        double[] a = new double[p_max * 2];
+        double[] rhs = new double[p_max];
 
         for (i = 0; i < p_max; i++)
         {
@@ -187,7 +174,7 @@ public static class EulerMaruyamaWeak
             rhs[i] = Math.Log(xerr[i]);
         }
 
-        sol = QRSolve.qr_solve(p_max, 2, a, rhs);
+        double[] sol = QRSolve.qr_solve(p_max, 2, a, rhs);
 
         Console.WriteLine("");
         Console.WriteLine("EMWEAK:");
@@ -205,10 +192,10 @@ public static class EulerMaruyamaWeak
         Console.WriteLine("  (Expecting Q to be about 1.)");
         Console.WriteLine("  Computed Q = " + sol[1] + "");
 
-        resid = 0.0;
+        double resid = 0.0;
         for (i = 0; i < p_max; i++)
         {
-            e = a[i + 0 * p_max] * sol[0] + a[i + 1 * p_max] * sol[1] - rhs[i];
+            double e = a[i + 0 * p_max] * sol[0] + a[i + 1 * p_max] * sol[1] - rhs[i];
             resid += e * e;
         }
 
@@ -259,12 +246,10 @@ public static class EulerMaruyamaWeak
         //    1, use the weak Euler-Maruyama method.
         //
     {
-        string command_filename;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
         int i;
-        data_filename = method switch
+        string data_filename = method switch
         {
             //
             //  Create data file.
@@ -282,7 +267,7 @@ public static class EulerMaruyamaWeak
         File.WriteAllLines(data_filename, data);
         Console.WriteLine("");
         Console.WriteLine("  EMWEAK data stored in \"" + data_filename + "\".");
-        command_filename = method switch
+        string command_filename = method switch
         {
             //
             //  Create the command file.

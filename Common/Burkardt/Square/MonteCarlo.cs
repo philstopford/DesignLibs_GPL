@@ -30,9 +30,7 @@ public static class MonteCarlo
         //    Output, double SQUARE01_AREA, the area
         //
     {
-        double area;
-
-        area = 1.0;
+        const double area = 1.0;
 
         return area;
     }
@@ -82,7 +80,6 @@ public static class MonteCarlo
         //
     {
         int i;
-        double integral;
         const int m = 2;
 
         for (i = 0; i < m; i++)
@@ -98,7 +95,7 @@ public static class MonteCarlo
             }
         }
 
-        integral = 1.0;
+        double integral = 1.0;
         for (i = 0; i < m; i++)
         {
             integral /= e[i] + 1;
@@ -153,9 +150,8 @@ public static class MonteCarlo
         //
     {
         const int m = 2;
-        double[] x;
 
-        x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         return x;
     }

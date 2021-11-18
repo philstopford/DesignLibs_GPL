@@ -85,21 +85,13 @@ public static class TetMesh_L2Q
         //    the nodes that make up the quadratic mesh.
         //
     {
-        int dim_num = 3;
+        const int dim_num = 3;
         int edge;
         int i;
         int j;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
-        int node;
-        int tetra;
-        int element_order1 = 4;
-        int element_order2 = 10;
+        const int element_order1 = 4;
+        const int element_order2 = 10;
         int v = 0;
-        int v1;
-        int v2;
         //
         //  Generate the index and coordinates of the new midside nodes,
         //  and update the tetradehron-node data.
@@ -120,18 +112,18 @@ public static class TetMesh_L2Q
             }
         }
 
-        node = node_num1;
+        int node = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * element_num; edge++)
         {
             //
             //  Read the data defining the edge.
             //
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
             //
             //  If this edge is new, we need to create a new node between
             //  the endpoints.
@@ -160,8 +152,8 @@ public static class TetMesh_L2Q
             //
             //  Assign the node to the tetrahedron.
             //
-            v1 = edge_data[2 + edge * 5];
-            v2 = edge_data[3 + edge * 5];
+            int v1 = edge_data[2 + edge * 5];
+            int v2 = edge_data[3 + edge * 5];
             v = v1 switch
             {
                 //
@@ -176,7 +168,7 @@ public static class TetMesh_L2Q
                 _ => v
             };
 
-            tetra = edge_data[4 + edge * 5];
+            int tetra = edge_data[4 + edge * 5];
 
             element_node2[v + tetra * element_order2] = node - 1;
         }
@@ -245,16 +237,8 @@ public static class TetMesh_L2Q
         int a = 0;
         int b = 0;
         int edge;
-        int i;
-        int j;
-        int k;
-        int l;
-        int n1;
-        int n1_old;
-        int n2;
-        int n2_old;
         int tetra;
-        int element_order1 = 4;
+        const int element_order1 = 4;
         //
         //  Step 1.
         //  From the list of nodes for tetrahedron T, of the form: (I,J,K,L)
@@ -272,10 +256,10 @@ public static class TetMesh_L2Q
         //
         for (tetra = 0; tetra < element_num; tetra++)
         {
-            i = element_node1[0 + tetra * element_order1];
-            j = element_node1[1 + tetra * element_order1];
-            k = element_node1[2 + tetra * element_order1];
-            l = element_node1[3 + tetra * element_order1];
+            int i = element_node1[0 + tetra * element_order1];
+            int j = element_node1[1 + tetra * element_order1];
+            int k = element_node1[2 + tetra * element_order1];
+            int l = element_node1[3 + tetra * element_order1];
 
             typeMethods.i4i4_sort_a(i, j, ref a, ref b);
 
@@ -343,19 +327,21 @@ public static class TetMesh_L2Q
         //
         node_num2 = node_num1;
 
-        n1_old = -1;
-        n2_old = -1;
+        int n1_old = -1;
+        int n2_old = -1;
 
         for (edge = 0; edge < 6 * element_num; edge++)
         {
-            n1 = edge_data[0 + edge * 5];
-            n2 = edge_data[1 + edge * 5];
-            if (n1 != n1_old || n2 != n2_old)
+            int n1 = edge_data[0 + edge * 5];
+            int n2 = edge_data[1 + edge * 5];
+            if (n1 == n1_old && n2 == n2_old)
             {
-                node_num2 += 1;
-                n1_old = n1;
-                n2_old = n2;
+                continue;
             }
+
+            node_num2 += 1;
+            n1_old = n1;
+            n2_old = n2;
         }
     }
 }

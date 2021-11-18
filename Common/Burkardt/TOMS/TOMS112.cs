@@ -57,25 +57,24 @@ public static partial class TOMS
         //
     {
         int i;
-        int ip1;
-        double t;
-        bool value;
-  
-        value = false;
+
+        bool value = false;
 
         for ( i = 0; i < n; i++ )
         {
-            ip1 = ( i + 1 ) % n;
+            int ip1 = ( i + 1 ) % n;
 
-            if ( y[ip1] < y0 == y0 <= y[i] )
+            if (y[ip1] < y0 != y0 <= y[i])
             {
-                t = x0 - x[i] - ( y0 - y[i] ) * ( x[ip1] - x[i] ) / ( y[ip1] - y[i] );
-                value = t switch
-                {
-                    < 0.0 => !value,
-                    _ => value
-                };
+                continue;
             }
+
+            double t = x0 - x[i] - ( y0 - y[i] ) * ( x[ip1] - x[i] ) / ( y[ip1] - y[i] );
+            value = t switch
+            {
+                < 0.0 => !value,
+                _ => value
+            };
         }
 
         return value;

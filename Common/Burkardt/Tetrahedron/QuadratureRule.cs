@@ -2959,8 +2959,6 @@ public static class QuadratureRule
         //
     {
         int i;
-        double volume;
-        double w_sum;
 
         switch (degree)
         {
@@ -3016,8 +3014,8 @@ public static class QuadratureRule
                 return;
         }
 
-        w_sum = typeMethods.r8vec_sum(n, w);
-        volume = Math.Sqrt(8.0) / 3.0;
+        double w_sum = typeMethods.r8vec_sum(n, w);
+        double volume = Math.Sqrt(8.0) / 3.0;
 
         for (i = 0; i < n; i++)
         {
@@ -3064,24 +3062,20 @@ public static class QuadratureRule
         //    the files created.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
         int j;
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
         double[] v1 = new double[3];
         double[] v2 = new double[3];
         double[] v3 = new double[3];
         double[] v4 = new double[3];
-        string vertex_filename;
         List<string> vertex_unit = new();
         //
         //  Create the vertex file.
         //
         tetrahedron_ref(ref v1, ref v2, ref v3, ref v4);
 
-        vertex_filename = header + "_vertices.txt";
+        string vertex_filename = header + "_vertices.txt";
         vertex_unit.Add(v1[0] + "  "
                               + v1[1] + "  "
                               + v1[2] + "");
@@ -3122,7 +3116,7 @@ public static class QuadratureRule
         //
         //  Create node file.
         //
-        node_filename = header + "_nodes.txt";
+        string node_filename = header + "_nodes.txt";
         for (j = 0; j < n; j++)
         {
             node_unit.Add(x[0 + j * 3] + "  "
@@ -3136,14 +3130,14 @@ public static class QuadratureRule
         //
         //  Create graphics command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
         command_unit.Add("#  gnuplot < " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("set term png");
-        plot_filename = header + ".png";
+        string plot_filename = header + ".png";
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
         command_unit.Add("set ylabel '<--- Y --->'");
@@ -3199,7 +3193,6 @@ public static class QuadratureRule
         //    corresponding rule.
         //
     {
-        int n;
         int[] n_save =
         {
             1, 4, 6, 11, 14,
@@ -3216,7 +3209,7 @@ public static class QuadratureRule
                 Console.WriteLine("  Illegal value of DEGREE.");
                 return 1;
             default:
-                n = n_save[degree - 1];
+                int n = n_save[degree - 1];
 
                 return n;
         }
@@ -3310,30 +3303,24 @@ public static class QuadratureRule
         //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact;
-        double quad;
-        double quad_error;
-        double scale;
-        double[] value;
-        double volume;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        scale = Integrals.tet01_monomial_integral ( dim_num, expon );
+        double scale = Integrals.tet01_monomial_integral ( dim_num, expon );
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = Monomial.monomial_value ( dim_num, point_num, x, expon );
+        double[] value = Monomial.monomial_value ( dim_num, point_num, x, expon );
         //
         //  Compute the weighted sum and divide by the exact value.
         //
-        volume = 1.0 / 6.0;
-        quad = volume * typeMethods.r8vec_dot ( point_num, weight, value ) / scale;
+        const double volume = 1.0 / 6.0;
+        double quad = volume * typeMethods.r8vec_dot ( point_num, weight, value ) / scale;
         //
         //  Error:
         //
-        exact = 1.0;
-        quad_error = Math.Abs ( quad - exact );
+        const double exact = 1.0;
+        double quad_error = Math.Abs ( quad - exact );
             
         return quad_error;
     }

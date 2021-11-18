@@ -3009,7 +3009,6 @@ public static class Symq
         //
     {
         int i;
-        double w_sum;
 
         switch (degree)
         {
@@ -3080,7 +3079,7 @@ public static class Symq
                 return;
         }
 
-        w_sum = typeMethods.r8vec_sum(n, w);
+        double w_sum = typeMethods.r8vec_sum(n, w);
 
         for (i = 0; i < n; i++)
         {
@@ -3127,18 +3126,14 @@ public static class Symq
         //    the files created.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
         int j;
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
-        string vertex_filename;
         List<string> vertex_unit = new();
         //
         //  Create the vertex file.
         //
-        vertex_filename = header + "_vertices.txt";
+        string vertex_filename = header + "_vertices.txt";
         vertex_unit.Add(-1.0E+00 + "  "
                                  + -1.0E+00 + "");
         vertex_unit.Add(+1.0E+00 + "  "
@@ -3157,7 +3152,7 @@ public static class Symq
         //
         //  Create node file.
         //
-        node_filename = header + "_nodes.txt";
+        string node_filename = header + "_nodes.txt";
         for (j = 0; j < n; j++)
         {
             node_unit.Add(x[0 + j * 2] + "  "
@@ -3169,14 +3164,14 @@ public static class Symq
         //
         //  Create graphics command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
         command_unit.Add("#  gnuplot < " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("set term png");
-        plot_filename = header + ".png";
+        string plot_filename = header + ".png";
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
         command_unit.Add("set ylabel '<--- Y --->'");

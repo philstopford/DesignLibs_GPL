@@ -498,12 +498,10 @@ public static class CompressedColumnStorage
         //    Output, double ccs_MV[M], the product A*X.
         //
     {
-        double[] b;
         int i;
         int j;
-        int k;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for ( i = 0; i < m; i++ )
         {
@@ -512,6 +510,7 @@ public static class CompressedColumnStorage
 
         for ( j = 0; j < n; j++ )
         {
+            int k;
             for ( k = ccc[j]; k < ccc[j+1]; k++ )
             {
                 i = icc[k];

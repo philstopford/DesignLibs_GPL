@@ -37,9 +37,7 @@ public static class Hexagon
         //    Output, double HEXAGON_AREA_2D, the area of the hexagon.
         //
     {
-        double value = 0;
-
-        value = r * r * hexagon_unit_area_2d();
+        double value = r * r * hexagon_unit_area_2d();
 
         return value;
     }
@@ -104,22 +102,17 @@ public static class Hexagon
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
-        double x;
-        double y;
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
-            x = center[0] + r * xtab[i];
-            y = center[1] + r * ytab[i];
+            double x = center[0] + r * xtab[i];
+            double y = center[1] + r * ytab[i];
             quad += weight[i] * func(setting, x, y);
         }
 
-        volume = hexagon_area_2d(r);
-        result = quad * volume;
+        double volume = hexagon_area_2d(r);
+        double result = quad * volume;
 
         return result;
     }
@@ -163,9 +156,7 @@ public static class Hexagon
         //    Output, double HEXAGON_UNIT_AREA_2D, the area of the hexagon.
         //
     {
-        double value = 0;
-
-        value = 3.0 * Math.Sqrt(3.0) / 2.0;
+        double value = 3.0 * Math.Sqrt(3.0) / 2.0;
 
         return value;
     }

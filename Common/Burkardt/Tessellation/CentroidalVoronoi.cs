@@ -111,10 +111,9 @@ public static class CentroidalVoronoi
         //    by the number of sample points.
         //
     {
-        bool DEBUG = true;
+        const bool DEBUG = true;
         bool initialize;
         int seed_base = 0;
-        int seed_init = 0;
 
         switch (batch)
         {
@@ -146,7 +145,7 @@ public static class CentroidalVoronoi
         it_num = 0;
         it_diff = 0.0;
         energy = 0.0;
-        seed_init = seed;
+        int seed_init = seed;
         //
         //  Initialize the data, unless the user has already done that.
         //
@@ -169,14 +168,7 @@ public static class CentroidalVoronoi
         //  If the initialization and sampling steps use the same random number
         //  scheme, then the sampling scheme does not have to be initialized.
         //
-        if (init == sample)
-        {
-            initialize = false;
-        }
-        else
-        {
-            initialize = true;
-        }
+        initialize = init != sample;
 
         //
         //  Carry out the iteration.
@@ -277,23 +269,15 @@ public static class CentroidalVoronoi
         //    Output, double CVT_ENERGY, the estimated CVT energy.
         //
     {
-        double energy;
-        int get;
-        int have;
-        int i;
-        int j;
-        int[] nearest;
-        double[] s;
+        int[] nearest = new int[batch];
+        double[] s = new double [dim_num * batch];
 
-        nearest = new int[batch];
-        s = new double [dim_num * batch];
-
-        have = 0;
-        energy = 0.0;
+        int have = 0;
+        double energy = 0.0;
             
         while (have < sample_num)
         {
-            get = Math.Min(sample_num - have, batch);
+            int get = Math.Min(sample_num - have, batch);
 
             cvt_sample(ref data, dim_num, sample_num, get, sample, initialize, ref seed, ref s);
 
@@ -301,8 +285,10 @@ public static class CentroidalVoronoi
 
             find_closest(dim_num, n, get, s, r, ref nearest);
 
+            int j;
             for (j = 0; j < get; j++)
             {
+                int i;
                 for (i = 0; i < dim_num; i++)
                 {
                     energy += (s[i + j * dim_num] - r[i + nearest[j] * dim_num])
@@ -404,16 +390,8 @@ public static class CentroidalVoronoi
         //    by the number of sample points.
         //
     {
-        int[] count;
-        int get;
-        int have;
         int i;
         int j;
-        int j2;
-        int[] nearest;
-        double[] r2;
-        double[] s;
-        double term;
         //
         //  Take each generator as the first sample point for its region.
         //  This can slightly slow the convergence, but it simplifies the
@@ -421,10 +399,10 @@ public static class CentroidalVoronoi
         //  by the sampling.
         //
         energy = 0.0;
-        r2 = new double[dim_num * n];
-        count = new int[n];
-        nearest = new int[sample_num];
-        s = new double[dim_num * sample_num];
+        double[] r2 = new double[dim_num * n];
+        int[] count = new int[n];
+        int[] nearest = new int[sample_num];
+        double[] s = new double[dim_num * sample_num];
 
         for (j = 0; j < n; j++)
         {
@@ -442,11 +420,11 @@ public static class CentroidalVoronoi
         //
         //  Generate the sampling points S.
         //
-        have = 0;
+        int have = 0;
             
         while (have < sample_num)
         {
-            get = Math.Min(sample_num - have, batch);
+            int get = Math.Min(sample_num - have, batch);
 
             cvt_sample(ref data, dim_num, sample_num, get, sample, initialize, ref seed, ref s);
 
@@ -461,7 +439,7 @@ public static class CentroidalVoronoi
             //
             for (j = 0; j < get; j++)
             {
-                j2 = nearest[j];
+                int j2 = nearest[j];
                 for (i = 0; i < dim_num; i++)
                 {
                     r2[i + j2 * dim_num] += s[i + j * dim_num];
@@ -494,7 +472,7 @@ public static class CentroidalVoronoi
 
         for (j = 0; j < n; j++)
         {
-            term = 0.0;
+            double term = 0.0;
             for (i = 0; i < dim_num; i++)
             {
                 term += (r2[i + j * dim_num] - r[i + j * dim_num])
@@ -580,12 +558,6 @@ public static class CentroidalVoronoi
         //    Output, double R[DIM_NUM*N_NOW], the sample points.
         //
     {
-        double exponent;
-        int halton_step;
-        int i;
-        int j;
-        int rank_max;
-
         switch (n_now)
         {
             case < 1:
@@ -594,6 +566,8 @@ public static class CentroidalVoronoi
                 Console.WriteLine("  N_NOW < 1.");
                 return;
             default:
+                int i;
+                int j;
                 switch (sample)
                 {
                     case -1:
@@ -624,7 +598,7 @@ public static class CentroidalVoronoi
                         data.halton_leap = new int[dim_num];
                         data.halton_base = new int[dim_num];
 
-                        halton_step = seed;
+                        int halton_step = seed;
 
                         for (i = 0; i < dim_num; i++)
                         {
@@ -649,9 +623,9 @@ public static class CentroidalVoronoi
                     }
                     case 2:
                     {
-                        exponent = 1.0 / dim_num;
+                        double exponent = 1.0 / dim_num;
                         data.ngrid = (int) Math.Pow(n, exponent);
-                        rank_max = (int) Math.Pow(data.ngrid, dim_num);
+                        int rank_max = (int) Math.Pow(data.ngrid, dim_num);
                         data.tuple = new int[dim_num];
 
                         if (rank_max < n)
@@ -742,20 +716,18 @@ public static class CentroidalVoronoi
         //    cell generator.
         //
     {
-        double dist_sq_min;
-        double dist_sq;
-        int i;
-        int jr;
         int js;
 
         for ( js = 0; js < sample_num; js++ )
         {
-            dist_sq_min = typeMethods.r8_huge();
+            double dist_sq_min = typeMethods.r8_huge();
             nearest[js] = -1;
 
+            int jr;
             for ( jr = 0; jr < n; jr++ )
             {
-                dist_sq = 0.0;
+                double dist_sq = 0.0;
+                int i;
                 for ( i = 0; i < dim_num; i++ )
                 {
                     dist_sq += ( s[i+js*dim_num] - r[i+jr*dim_num] ) 
@@ -819,14 +791,12 @@ public static class CentroidalVoronoi
         //    Output, double R[DIM_NUM*N], the sample values.
         //
     {
-        double angle;
         int j;
-        double radius;
 
         for ( j = 0; j < n; j++ )
         {
-            angle = 2.0 * Math.PI * RNG.nextdouble();
-            radius = Math.Sqrt ( RNG.nextdouble() );
+            double angle = 2.0 * Math.PI * RNG.nextdouble();
+            double radius = Math.Sqrt ( RNG.nextdouble() );
             r[0+j*2] = radius * Math.Cos ( angle );
             r[1+j*2] = radius * Math.Sin ( angle );
         }

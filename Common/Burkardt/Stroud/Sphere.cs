@@ -61,33 +61,22 @@ public static class Sphere
     {
         int i;
         int iadd = 0;
-        int ihi;
-        int[] ix;
-        bool more;
         int ncard = 0;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double[] x;
-        double x1;
-        double x2;
 
-        x1 = 1.0;
-        x2 = 1.0 / Math.Sqrt(n);
+        const double x1 = 1.0;
+        double x2 = 1.0 / Math.Sqrt(n);
 
-        w1 = 1.0 / (n * (n + 2));
-        w2 = n / (double)((n + 2) * (int)Math.Pow(2, n));
+        double w1 = 1.0 / (n * (n + 2));
+        double w2 = n / (double)((n + 2) * (int)Math.Pow(2, n));
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = center[i];
         }
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < n; i++)
         {
@@ -98,15 +87,15 @@ public static class Sphere
             x[i] = center[i];
         }
 
-        more = false;
-        ihi = (int)Math.Pow(2, n);
+        bool more = false;
+        int ihi = (int)Math.Pow(2, n);
 
         for (i = 0; i < n; i++)
         {
             x[i] = center[i] - r * x2;
         }
 
-        ix = new int[n];
+        int[] ix = new int[n];
 
         for (i = 0; i < ihi; i++)
         {
@@ -120,8 +109,8 @@ public static class Sphere
             quad += w2 * func(setting, n, x);
         }
 
-        volume = sphere_area_nd(n, r);
-        result = quad * volume;
+        double volume = sphere_area_nd(n, r);
+        double result = quad * volume;
 
         return result;
     }
@@ -179,43 +168,30 @@ public static class Sphere
     {
         int i;
         int iadd = 0;
-        int[] ix;
         int j;
-        int jhi;
-        bool more;
         int ncard = 0;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double w3;
-        double[] x;
-        double x1;
-        double x2;
-        double x3;
 
-        ix = new int[n];
-        x = new double[n];
+        int[] ix = new int[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = center[i];
         }
 
-        w1 = (8 - n)
-             / (double)(n * (n + 2) * (n + 4));
+        double w1 = (8 - n)
+                    / (double)(n * (n + 2) * (n + 4));
 
-        w2 = n * n * n
-             / (double)((int)Math.Pow(2, n) * n * (n + 2) * (n + 4));
+        double w2 = n * n * n
+                    / (double)((int)Math.Pow(2, n) * n * (n + 2) * (n + 4));
 
-        w3 = 4.0 / (n * (n + 2) * (n + 4));
+        double w3 = 4.0 / (n * (n + 2) * (n + 4));
 
-        x1 = 1.0;
-        x2 = 1.0 / Math.Sqrt(n);
-        x3 = 1.0 / Math.Sqrt(2.0);
+        const double x1 = 1.0;
+        double x2 = 1.0 / Math.Sqrt(n);
+        double x3 = 1.0 / Math.Sqrt(2.0);
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  First term.
         //
@@ -236,8 +212,8 @@ public static class Sphere
             x[i] = center[i] - r * x2;
         }
 
-        more = false;
-        jhi = (int)Math.Pow(2, n);
+        bool more = false;
+        int jhi = (int)Math.Pow(2, n);
 
         for (j = 0; j < jhi; j++)
         {
@@ -280,8 +256,8 @@ public static class Sphere
             }
         }
 
-        volume = sphere_area_nd(n, r);
-        result = quad * volume;
+        double volume = sphere_area_nd(n, r);
+        double result = quad * volume;
 
         return result;
     }
@@ -317,10 +293,7 @@ public static class Sphere
         //    Output, double SPHERE_AREA_3D, the area of the sphere.
         //
     {
-            
-        double value = 0;
-
-        value = 4.0 * Math.PI * r * r;
+        double value = 4.0 * Math.PI * r * r;
 
         return value;
     }
@@ -369,9 +342,7 @@ public static class Sphere
         //    Output, double SPHERE_AREA_ND, the area of the sphere.
         //
     {
-        double value = 0;
-
-        value = sphere_unit_area_nd(n) * Math.Pow(r, n - 1);
+        double value = sphere_unit_area_nd(n) * Math.Pow(r, n - 1);
 
         return value;
     }
@@ -416,8 +387,6 @@ public static class Sphere
         //
     {
         double area;
-            
-        double theta;
 
         switch (h)
         {
@@ -432,7 +401,7 @@ public static class Sphere
                 }
                 else
                 {
-                    theta = 2.0 * Math.Asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
+                    double theta = 2.0 * Math.Asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
 
                     area = r * theta;
 
@@ -562,12 +531,6 @@ public static class Sphere
         //
     {
         double area;
-        double haver_sine;
-        int i;
-        double theta;
-        double ti;
-        double tj;
-        double tk;
 
         switch (h)
         {
@@ -585,9 +548,9 @@ public static class Sphere
         //
         //  For cases where R < H < 2 * R, work with the complementary region.
         //
-        haver_sine = Math.Sqrt((2.0 * r - h) * h);
+        double haver_sine = Math.Sqrt((2.0 * r - h) * h);
 
-        theta = Math.Asin(haver_sine / r);
+        double theta = Math.Asin(haver_sine / r);
 
         switch (dim_num)
         {
@@ -602,14 +565,15 @@ public static class Sphere
                 break;
             default:
             {
-                ti = theta;
+                double ti = theta;
 
-                tj = ti;
+                double tj = ti;
                 ti = 1.0 - Math.Cos(theta);
 
+                int i;
                 for (i = 2; i <= dim_num - 2; i++)
                 {
-                    tk = tj;
+                    double tk = tj;
                     tj = ti;
                     ti = ((i - 1) * tk
                           - Math.Cos(theta) * Math.Pow(Math.Sin(theta), i - 1))
@@ -670,8 +634,6 @@ public static class Sphere
         //    Output, double VOLUME, the volume (area) of the spherical cap.
         //
     {
-            
-        double theta;
         double volume;
 
         switch (h)
@@ -687,7 +649,7 @@ public static class Sphere
                 }
                 else
                 {
-                    theta = 2.0 * Math.Asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
+                    double theta = 2.0 * Math.Asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
                     volume = r * r * (theta - Math.Sin(theta)) / 2.0;
                     if (r < h)
                     {
@@ -830,11 +792,7 @@ public static class Sphere
         //    Output, double SPHERE_CAP_VOLUME_ND, the volume of the spherical cap.
         //
     {
-        double angle;
-        double factor1;
-        double factor2;
         double volume;
-        double volume2;
 
         switch (h)
         {
@@ -859,17 +817,17 @@ public static class Sphere
                 break;
             default:
             {
-                factor1 = sphere_unit_volume_nd(dim_num - 1);
+                double factor1 = sphere_unit_volume_nd(dim_num - 1);
 
-                angle = Math.Asin(Math.Sqrt((2.0 * r - h) * h / r));
+                double angle = Math.Asin(Math.Sqrt((2.0 * r - h) * h / r));
 
-                factor2 = SinPower.sin_power_int(0.0, angle, dim_num);
+                double factor2 = SinPower.sin_power_int(0.0, angle, dim_num);
 
                 volume = factor1 * factor2 * Math.Pow(r, dim_num);
 
                 if (r < h)
                 {
-                    volume2 = sphere_volume_nd(dim_num, r);
+                    double volume2 = sphere_volume_nd(dim_num, r);
                     volume = volume2 - volume;
                 }
 
@@ -979,14 +937,10 @@ public static class Sphere
         //    Output, double SPHERE_MONOMIAL_INT_ND, the integral.
         //
     {
-        bool all_zero;
-        bool any_odd;
-        int e_sum;
         int i;
-        double integral;
-            
 
-        integral = 0.0;
+
+        double integral;
 
         for (i = 0; i < n; i++)
         {
@@ -1000,7 +954,7 @@ public static class Sphere
             }
         }
 
-        all_zero = true;
+        bool all_zero = true;
         for (i = 0; i < n; i++)
         {
             if (e[i] != 0)
@@ -1010,7 +964,7 @@ public static class Sphere
             }
         }
 
-        any_odd = false;
+        bool any_odd = false;
         for (i = 0; i < n; i++)
         {
             if (e[i] % 2 == 1)
@@ -1020,7 +974,7 @@ public static class Sphere
             }
         }
 
-        e_sum = 0;
+        int e_sum = 0;
         for (i = 0; i < n; i++)
         {
             e_sum += e[i];
@@ -1115,13 +1069,7 @@ public static class Sphere
         //
     {
         int i;
-        double quad;
-        double r;
         double result;
-        double rho;
-        double volume;
-        double w;
-        double[] x;
 
         if (Math.Abs(r1 - r2) <= double.Epsilon)
         {
@@ -1129,21 +1077,21 @@ public static class Sphere
             return result;
         }
 
-        rho = r1 / r2;
+        double rho = r1 / r2;
 
-        r = n * (1.0 - Math.Pow(rho, n + 2))
-            / ((n + 2) * (1.0 - Math.Pow(rho, n)));
+        double r = n * (1.0 - Math.Pow(rho, n + 2))
+                   / ((n + 2) * (1.0 - Math.Pow(rho, n)));
         r = Math.Sqrt(r);
-        w = 1.0 / (2 * n);
+        double w = 1.0 / (2 * n);
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = center[i];
         }
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < n; i++)
         {
             x[i] = center[i] + r * r2;
@@ -1153,7 +1101,7 @@ public static class Sphere
             x[i] = center[i];
         }
 
-        volume = sphere_shell_volume_nd(n, r1, r2);
+        double volume = sphere_shell_volume_nd(n, r1, r2);
         result = quad * volume;
 
         return result;
@@ -1194,9 +1142,7 @@ public static class Sphere
         //    spherical shell.
         //
     {
-        double volume;
-
-        volume = Ball.ball_volume_nd(n, r2) - Ball.ball_volume_nd(n, r1);
+        double volume = Ball.ball_volume_nd(n, r2) - Ball.ball_volume_nd(n, r1);
 
         return volume;
     }
@@ -1248,22 +1194,17 @@ public static class Sphere
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
-        double w;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        w = 1.0 / (2 * n);
+        double w = 1.0 / (2 * n);
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < n; i++)
         {
             x[i] = 1.0;
@@ -1273,8 +1214,8 @@ public static class Sphere
             x[i] = 0.0;
         }
 
-        volume = sphere_unit_area_nd(n);
-        result = quad * volume;
+        double volume = sphere_unit_area_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -1326,25 +1267,17 @@ public static class Sphere
         //
     {
         int i;
-        int j;
-        double quad;
-        double result;
-        double s;
-        double volume;
-        double w1;
-        double w2;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        w1 = (4 - n) / (double)(2 * n * (n + 2));
+        double w1 = (4 - n) / (double)(2 * n * (n + 2));
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < n; i++)
         {
@@ -1355,13 +1288,14 @@ public static class Sphere
             x[i] = 0.0;
         }
 
-        s = 1.0 / Math.Sqrt(2.0);
-        w2 = 1.0 / (n * (n + 2));
+        double s = 1.0 / Math.Sqrt(2.0);
+        double w2 = 1.0 / (n * (n + 2));
 
         for (i = 0; i < n; i++)
         {
             x[i] = s;
 
+            int j;
             for (j = i + 1; j < n; j++)
             {
                 x[j] = s;
@@ -1385,8 +1319,8 @@ public static class Sphere
             x[i] = 0.0;
         }
 
-        volume = sphere_unit_area_nd(n);
-        result = quad * volume;
+        double volume = sphere_unit_area_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -1439,34 +1373,23 @@ public static class Sphere
     {
         int i;
         int iadd = 0;
-        int ihi;
-        int[] ix;
-        bool more;
         int ncard = 0;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double[] x;
-        double x1;
-        double x2;
 
-        x1 = 1.0;
-        x2 = 1.0 / Math.Sqrt(n);
+        const double x1 = 1.0;
+        double x2 = 1.0 / Math.Sqrt(n);
 
-        w1 = 1.0 / (n * (n + 2));
-        w2 = n / (double)((n + 2) * (int)Math.Pow(2, n));
+        double w1 = 1.0 / (n * (n + 2));
+        double w2 = n / (double)((n + 2) * (int)Math.Pow(2, n));
 
-        ix = new int[n];
-        x = new double[n];
+        int[] ix = new int[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < n; i++)
         {
@@ -1477,8 +1400,8 @@ public static class Sphere
             x[i] = 0.0;
         }
 
-        more = false;
-        ihi = (int)Math.Pow(2, n);
+        bool more = false;
+        int ihi = (int)Math.Pow(2, n);
 
         for (i = 0; i < n; i++)
         {
@@ -1497,8 +1420,8 @@ public static class Sphere
             quad += w2 * func(setting, n, x);
         }
 
-        volume = sphere_unit_area_nd(n);
-        result = quad * volume;
+        double volume = sphere_unit_area_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -1547,26 +1470,18 @@ public static class Sphere
         //    Output, double SPHERE_UNIT_07_3D, the approximate integral of the function.
         //
     {
-        double angle;
         int i;
         int j;
-        int k;
-        int order1 = 2;
-        int order2 = 4;
-        int order3 = 4;
-            
-        double quad;
-        double result;
-        double volume;
+        const int order1 = 2;
+        const int order2 = 4;
+        const int order3 = 4;
+
         double[] weight1 = new double[2];
         double[] weight2 = new double[4];
         double[] weight3 = new double[4];
-        double x;
         double[] xtab1 = new double[2];
         double[] xtab2 = new double[4];
         double[] xtab3 = new double[4];
-        double y;
-        double z;
         //
         //  Set XTAB1 and WATE1.
         //
@@ -1579,7 +1494,7 @@ public static class Sphere
         //
         for (j = 0; j < order2; j++)
         {
-            angle = Math.PI * (2 * j + 1) / (2 * order2);
+            double angle = Math.PI * (2 * j + 1) / (2 * order2);
             xtab2[j] = Math.Cos(angle);
         }
 
@@ -1593,25 +1508,26 @@ public static class Sphere
         //
         LegendreQuadrature.legendre_set(order3, ref xtab3, ref weight3);
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order1; i++)
         {
             for (j = 0; j < order2; j++)
             {
+                int k;
                 for (k = 0; k < order3; k++)
                 {
-                    x = xtab1[i] * Math.Sqrt(1.0 - xtab2[j] * xtab2[j])
-                                 * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
-                    y = xtab1[i] * xtab2[j] * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
-                    z = xtab1[i] * xtab3[k];
+                    double x = xtab1[i] * Math.Sqrt(1.0 - xtab2[j] * xtab2[j])
+                                        * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
+                    double y = xtab1[i] * xtab2[j] * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
+                    double z = xtab1[i] * xtab3[k];
 
                     quad += weight1[i] * weight2[j] * weight3[k] * func(setting, x, y, z);
                 }
             }
         }
 
-        volume = sphere_unit_area_3d();
-        result = quad * volume;
+        double volume = sphere_unit_area_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -1664,40 +1580,27 @@ public static class Sphere
     {
         int i;
         int iadd = 0;
-        int[] ix;
         int j;
-        int jhi;
-        bool more;
         int ncard = 0;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double w3;
-        double[] x;
-        double x1;
-        double x2;
-        double x3;
 
-        ix = new int[n];
-        x = new double[n];
+        int[] ix = new int[n];
+        double[] x = new double[n];
 
-        w1 = (8 - n) / (double)(n * (n + 2) * (n + 4));
-        w2 = n * n * n
-             / (double)((int)Math.Pow(2, n) * n * (n + 2) * (n + 4));
-        w3 = 4.0 / (n * (n + 2) * (n + 4));
+        double w1 = (8 - n) / (double)(n * (n + 2) * (n + 4));
+        double w2 = n * n * n
+                    / (double)((int)Math.Pow(2, n) * n * (n + 2) * (n + 4));
+        double w3 = 4.0 / (n * (n + 2) * (n + 4));
 
-        x1 = 1.0;
-        x2 = 1.0 / Math.Sqrt(n);
-        x3 = 1.0 / Math.Sqrt(2.0);
+        double x1 = 1.0;
+        double x2 = 1.0 / Math.Sqrt(n);
+        double x3 = 1.0 / Math.Sqrt(2.0);
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  First term.
         //
@@ -1718,8 +1621,8 @@ public static class Sphere
             x[i] = -x2;
         }
 
-        more = false;
-        jhi = (int)Math.Pow(2, n);
+        bool more = false;
+        int jhi = (int)Math.Pow(2, n);
 
         for (j = 0; j < jhi; j++)
         {
@@ -1763,8 +1666,8 @@ public static class Sphere
             }
         }
 
-        volume = sphere_unit_area_nd(n);
-        result = quad * volume;
+        double volume = sphere_unit_area_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -1819,46 +1722,34 @@ public static class Sphere
     {
         int iadd = 0;
         int i;
-        int[] ix;
         int j;
-        int jhi;
-        bool more;
         int ncard = 0;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double[] x;
-        double x1;
-        double x2;
-        double x3;
 
-        ix = new int[n];
-        x = new double[n];
+        int[] ix = new int[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        w1 = -(double)(n * n)
-             / ((int)Math.Pow(2, n + 3) * (n + 2));
-        w2 = (n + 4) * (n + 4)
-             / (double)((int)Math.Pow(2, n + 3) * n * (n + 2));
-        x1 = 1.0 / Math.Sqrt(n);
-        x2 = Math.Sqrt(5.0 / (n + 4));
-        x3 = 1.0 / Math.Sqrt(n + 4);
+        double w1 = -(double)(n * n)
+                    / ((int)Math.Pow(2, n + 3) * (n + 2));
+        double w2 = (n + 4) * (n + 4)
+                    / (double)((int)Math.Pow(2, n + 3) * n * (n + 2));
+        double x1 = 1.0 / Math.Sqrt(n);
+        double x2 = Math.Sqrt(5.0 / (n + 4));
+        double x3 = 1.0 / Math.Sqrt(n + 4);
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (j = 0; j < n; j++)
         {
             x[j] = -x1;
         }
 
-        more = false;
-        jhi = (int)Math.Pow(2, n);
+        bool more = false;
+        int jhi = (int)Math.Pow(2, n);
 
         for (j = 0; j < jhi; j++)
         {
@@ -1895,8 +1786,8 @@ public static class Sphere
             }
         }
 
-        volume = sphere_unit_area_nd(n);
-        result = quad * volume;
+        double volume = sphere_unit_area_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -1952,24 +1843,13 @@ public static class Sphere
         int i;
         int j;
         int k;
-        int l;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double w3;
-        double w4;
-        double x;
-        double y;
-        double z;
 
-        quad = 0.0;
+        double quad = 0.0;
 
-        w1 = 9216.0 / 725760.0;
-        x = 1.0;
-        y = 0.0;
-        z = 0.0;
+        double w1 = 9216.0 / 725760.0;
+        double x = 1.0;
+        double y = 0.0;
+        double z = 0.0;
 
         for (i = 0; i < 2; i++)
         {
@@ -1981,7 +1861,7 @@ public static class Sphere
             }
         }
 
-        w2 = 16384.0 / 725760.0;
+        double w2 = 16384.0 / 725760.0;
         x = Math.Sqrt(0.5);
         y = Math.Sqrt(0.5);
         z = 0.0;
@@ -2000,7 +1880,7 @@ public static class Sphere
             }
         }
 
-        w3 = 15309.0 / 725760.0;
+        double w3 = 15309.0 / 725760.0;
         x = Math.Sqrt(1.0 / 3.0);
         y = Math.Sqrt(1.0 / 3.0);
         z = Math.Sqrt(1.0 / 3.0);
@@ -2019,7 +1899,7 @@ public static class Sphere
             }
         }
 
-        w4 = 14641.0 / 725760.0;
+        double w4 = 14641.0 / 725760.0;
         x = Math.Sqrt(1.0 / 11.0);
         y = Math.Sqrt(1.0 / 11.0);
         z = 3.0 * Math.Sqrt(1.0 / 11.0);
@@ -2033,6 +1913,7 @@ public static class Sphere
                 for (k = 0; k < 2; k++)
                 {
                     z = -z;
+                    int l;
                     for (l = 0; l < 3; l++)
                     {
                         typeMethods.r8_swap3(ref x, ref y, ref z);
@@ -2042,8 +1923,8 @@ public static class Sphere
             }
         }
 
-        volume = sphere_unit_area_3d();
-        result = quad * volume;
+        double volume = sphere_unit_area_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -2113,7 +1994,6 @@ public static class Sphere
         //    Output, double SPHERE_UNIT_11_ND, the approximate integral.
         //
     {
-        double area;
         double[] coef1 =
         {
             0.0,
@@ -2211,24 +2091,9 @@ public static class Sphere
         };
         int i;
         int iadd = 0;
-        int[] ix;
         int j;
         int k;
-        bool more;
         int ncard = 0;
-        double quad;
-        double r1;
-        double r2;
-        double result;
-        double s1;
-        double s2;
-        double u1;
-        double u2;
-        double v1;
-        double v2;
-        double[] x;
-
-        result = 0.0;
 
         switch (n)
         {
@@ -2241,10 +2106,10 @@ public static class Sphere
                 return 1;
         }
 
-        ix = new int[n];
-        x = new double[n];
+        int[] ix = new int[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  S1
         //
@@ -2253,7 +2118,7 @@ public static class Sphere
             x[i] = 1.0 / Math.Sqrt(n);
         }
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -2275,13 +2140,13 @@ public static class Sphere
         //
         //  S21
         //
-        r1 = (n + 6 - 4.0 * Math.Sqrt(3.0))
-             / (n * n + 12 * n - 12);
+        double r1 = (n + 6 - 4.0 * Math.Sqrt(3.0))
+                    / (n * n + 12 * n - 12);
         r1 = Math.Sqrt(r1);
 
-        s1 = (7 * n - 6
-              + 4 * (n - 1) * Math.Sqrt(3.0))
-             / (n * n + 12 * n - 12);
+        double s1 = (7 * n - 6
+                     + 4 * (n - 1) * Math.Sqrt(3.0))
+                    / (n * n + 12 * n - 12);
         s1 = Math.Sqrt(s1);
 
         for (i = 0; i < n; i++)
@@ -2292,8 +2157,6 @@ public static class Sphere
             }
 
             x[i] = s1;
-
-            more = false;
 
             for (;;)
             {
@@ -2316,13 +2179,13 @@ public static class Sphere
         //
         //  S22
         //
-        r2 = (n + 6 + 4.0 * Math.Sqrt(3.0))
-             / (n * n + 12 * n - 12);
+        double r2 = (n + 6 + 4.0 * Math.Sqrt(3.0))
+                    / (n * n + 12 * n - 12);
         r2 = Math.Sqrt(r2);
 
-        s2 = (7 * n - 6
-                    - 4 * (n - 1) * Math.Sqrt(3.0))
-             / (n * n + 12 * n - 12);
+        double s2 = (7 * n - 6
+                           - 4 * (n - 1) * Math.Sqrt(3.0))
+                    / (n * n + 12 * n - 12);
         s2 = Math.Sqrt(s2);
 
         for (i = 0; i < n; i++)
@@ -2357,13 +2220,13 @@ public static class Sphere
         //
         //  S31
         //
-        u1 = (n + 12 + 8.0 * Math.Sqrt(3.0))
-             / (n * n + 24 * n - 48);
+        double u1 = (n + 12 + 8.0 * Math.Sqrt(3.0))
+                    / (n * n + 24 * n - 48);
         u1 = Math.Sqrt(u1);
 
-        v1 = (7 * n - 12
-                    - (4 * n - 8) * Math.Sqrt(3.0))
-             / (n * n + 24 * n - 48);
+        double v1 = (7 * n - 12
+                           - (4 * n - 8) * Math.Sqrt(3.0))
+                    / (n * n + 24 * n - 48);
         v1 = Math.Sqrt(v1);
 
         for (i = 0; i < n - 1; i++)
@@ -2402,13 +2265,13 @@ public static class Sphere
         //
         //  S32
         //
-        u2 = (n + 12 - 8.0 * Math.Sqrt(3.0))
-             / (n * n + 24 * n - 48);
+        double u2 = (n + 12 - 8.0 * Math.Sqrt(3.0))
+                    / (n * n + 24 * n - 48);
         u2 = Math.Sqrt(u2);
 
-        v2 = (7 * n - 12
-              + (4 * n - 8) * Math.Sqrt(3.0))
-             / (n * n + 24 * n - 48);
+        double v2 = (7 * n - 12
+                     + (4 * n - 8) * Math.Sqrt(3.0))
+                    / (n * n + 24 * n - 48);
         v2 = Math.Sqrt(v2);
 
         for (i = 0; i < n - 1; i++)
@@ -2422,8 +2285,6 @@ public static class Sphere
 
                 x[i] = v2;
                 x[j] = v2;
-
-                more = false;
 
                 for (;;)
                 {
@@ -2444,8 +2305,8 @@ public static class Sphere
             }
         }
 
-        area = sphere_unit_area_nd(n);
-        result = quad * area / Math.Pow(2.0, n);
+        double area = sphere_unit_area_nd(n);
+        double result = quad * area / Math.Pow(2.0, n);
 
         return result;
     }
@@ -2501,34 +2362,25 @@ public static class Sphere
         int i;
         int j;
         int k;
-        double quad;
-        double result;
-        double temp;
-        double volume;
-        double w1;
-        double w2;
-        double x;
         double[] xtab =
         {
             -0.151108275, 0.315838353, 0.346307112, -0.101808787, -0.409228403
         };
-        double y;
         double[] ytab =
         {
             0.155240600, 0.257049387, 0.666277790, 0.817386065, 0.501547712
         };
-        double z;
         double[] ztab =
         {
             0.976251323, 0.913330032, 0.660412970, 0.567022920, 0.762221757
         };
 
-        quad = 0.0;
+        double quad = 0.0;
 
-        w1 = 125.0 / 10080.0;
-        x = 0.525731112;
-        y = 0.850650808;
-        z = 0.0;
+        const double w1 = 125.0 / 10080.0;
+        double x = 0.525731112;
+        double y = 0.850650808;
+        double z = 0.0;
 
         for (i = 0; i < 2; i++)
         {
@@ -2544,7 +2396,7 @@ public static class Sphere
             }
         }
 
-        w2 = 143.0 / 10080.0;
+        const double w2 = 143.0 / 10080.0;
 
         for (i = 0; i < 5; i++)
         {
@@ -2554,7 +2406,7 @@ public static class Sphere
 
             for (j = 0; j < 3; j++)
             {
-                temp = x;
+                double temp = x;
                 x = z;
                 z = -y;
                 y = -temp;
@@ -2571,8 +2423,8 @@ public static class Sphere
             }
         }
 
-        volume = sphere_unit_area_3d();
-        result = quad * volume;
+        double volume = sphere_unit_area_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -2621,23 +2473,12 @@ public static class Sphere
         //    Output, double SPHERE_UNIT_15_3D, the approximate integral of the function.
         //
     {
-        double angle;
         int i;
         int j;
-        int k;
-        int order = 8;
-            
-        double quad;
-        double result;
-        double volume;
-        double[] weight;
-        double x;
-        double[] xtab;
-        double y;
-        double z;
+        const int order = 8;
 
-        weight = new double[order];
-        xtab = new double[order];
+        double[] weight = new double[order];
+        double[] xtab = new double[order];
 
         LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
 
@@ -2646,23 +2487,24 @@ public static class Sphere
             weight[i] /= 32.0;
         }
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (j = 0; j < order; j++)
         {
+            int k;
             for (k = 0; k < 16; k++)
             {
-                angle = k * Math.PI / 8.0;
-                x = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Cos(angle);
-                y = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Sin(angle);
-                z = xtab[j];
+                double angle = k * Math.PI / 8.0;
+                double x = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Cos(angle);
+                double y = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Sin(angle);
+                double z = xtab[j];
 
                 quad += weight[j] * func(setting, x, y, z);
             }
         }
 
-        volume = sphere_unit_area_3d();
-        result = quad * volume;
+        double volume = sphere_unit_area_3d();
+        double result = quad * volume;
 
         return result;
     }
@@ -2696,10 +2538,7 @@ public static class Sphere
         //    Output, double SPHERE_UNIT_AREA_3D, the area of the sphere.
         //
     {
-        double area;
-            
-
-        area = 4.0 * Math.PI;
+        double area = 4.0 * Math.PI;
 
         return area;
     }
@@ -3239,10 +3078,7 @@ public static class Sphere
         //    Output, double SPHERE_VOLUME_2D, the volume of the sphere.
         //
     {
-            
-        double volume;
-
-        volume = Math.PI * r * r;
+        double volume = Math.PI * r * r;
 
         return volume;
     }
@@ -3280,10 +3116,7 @@ public static class Sphere
         //    Output, double SPHERE_VOLUME_3D, the volume of the sphere.
         //
     {
-            
-        double volume;
-
-        volume = 4.0 / 3.0 * Math.PI * r * r * r;
+        double volume = 4.0 / 3.0 * Math.PI * r * r * r;
 
         return volume;
     }
@@ -3336,9 +3169,7 @@ public static class Sphere
         //    Output, double SPHERE_VOLUME_ND, the volume of the sphere.
         //
     {
-        double volume;
-
-        volume = Math.Pow(r, dim_num) * sphere_unit_volume_nd(dim_num);
+        double volume = Math.Pow(r, dim_num) * sphere_unit_volume_nd(dim_num);
 
         return volume;
     }

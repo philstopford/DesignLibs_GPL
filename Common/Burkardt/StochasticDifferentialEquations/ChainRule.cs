@@ -78,30 +78,23 @@ public static class ChainRule
         //    Output, double &DIFF, the maximum value of |sqrt(XEM)-V|.
         //
     {
-        double alpha;
-        double beta;
-        double dt;
-        double dt2;
-        double[] dw;
         int i;
         int j;
-        double tmax;
         //
         //  Set problem parameters.
         //
-        alpha = 2.0;
-        beta = 1.0;
+        const double alpha = 2.0;
+        const double beta = 1.0;
         //
         //  Stepping parameters.
         //  dt2 is the size of the Euler-Maruyama steps.
         //
-        tmax = 1.0;
-        dt = tmax / n;
-        dt2 = dt;
+        const double tmax = 1.0;
+        double dt = tmax / n;
         //
         //  Define the increments dW.
         //
-        dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
         for (i = 0; i < n; i++)
         {
@@ -114,7 +107,7 @@ public static class ChainRule
         xem[0] = 1.0;
         for (j = 1; j <= n; j++)
         {
-            xem[j] = xem[j - 1] + (alpha - xem[j - 1]) * dt2
+            xem[j] = xem[j - 1] + (alpha - xem[j - 1]) * dt
                                 + beta * Math.Sqrt(xem[j - 1]) * dw[j - 1];
         }
 
@@ -126,7 +119,7 @@ public static class ChainRule
         {
             vem[j] = vem[j - 1]
                      + ((4.0 * alpha - beta * beta) / (8.0 * vem[j - 1])
-                        - 0.5 * vem[j - 1]) * dt2
+                        - 0.5 * vem[j - 1]) * dt
                      + 0.5 * beta * dw[j - 1];
         }
 
@@ -177,16 +170,15 @@ public static class ChainRule
         //    Input, double V[N+1], the value of V.
         //
     {
-        string command_filename = "chain_commands.txt";
+        const string command_filename = "chain_commands.txt";
         List<string> command = new();
-        string data_filename = "chain_data.txt";
+        const string data_filename = "chain_data.txt";
         List<string> data = new();
         int i;
-        double t;
 
         for (i = 0; i <= n; i++)
         {
-            t = i / (double) n;
+            double t = i / (double) n;
             data.Add("  " + t
                           + "  " + Math.Sqrt(x[i])
                           + "  " + v[i] + "");

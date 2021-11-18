@@ -57,24 +57,17 @@ public static class Simplex
         //    Output, double SIMPLEX_ND, the approximate integral of the function.
         //
     {
-        double c;
         int i;
         int j;
-        double quad;
-        double result;
-        double s;
-        double volume;
-        double w;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        c = 1.0 / Math.Sqrt(n + 2);
-        w = 1.0 / (n + 1);
+        double c = 1.0 / Math.Sqrt(n + 2);
+        double w = 1.0 / (n + 1);
 
         for (j = 0; j < n; j++)
         {
-            s = 0.0;
+            double s = 0.0;
             for (i = 0; i < n + 1; i++)
             {
                 s += v[i + j * n];
@@ -83,7 +76,7 @@ public static class Simplex
             x[j] = w * (1.0 - c) * s;
         }
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (j = 0; j < n + 1; j++)
         {
@@ -99,8 +92,8 @@ public static class Simplex
             }
         }
 
-        volume = simplex_volume_nd(n, v);
-        result = quad * volume;
+        double volume = simplex_volume_nd(n, v);
+        double result = quad * volume;
 
         return result;
     }
@@ -158,16 +151,12 @@ public static class Simplex
         //    Output, double RESULT, the approximate integral of the function.
         //
     {
-        double coef = 1.0;
+        const double coef = 1.0;
         int i;
-        double quad;
-        double result;
-        double volume;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < n; i++)
         {
@@ -176,8 +165,8 @@ public static class Simplex
 
         quad += coef * func(setting, n, x);
 
-        volume = simplex_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = simplex_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -235,29 +224,22 @@ public static class Simplex
         //    Output, double SIMPLEX_UNIT_03_ND, the approximate integral of the function.
         //
     {
-        double a;
-        double b;
-        double coef;
         int i;
-        double quad;
-        double result;
-        double volume;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < n; i++)
         {
             x[i] = 1.0 / (n + 1);
         }
 
-        coef = -0.25 * ((n + 1) * (n + 1)) / (n + 2);
+        double coef = -0.25 * ((n + 1) * (n + 1)) / (n + 2);
         quad += coef * func(setting, n, x);
 
-        a = 1.0 / (n + 3);
-        b = 3.0 / (n + 3);
+        double a = 1.0 / (n + 3);
+        double b = 3.0 / (n + 3);
 
         for (i = 0; i < n; i++)
         {
@@ -275,8 +257,8 @@ public static class Simplex
             x[i] = a;
         }
 
-        volume = simplex_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = simplex_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -430,20 +412,6 @@ public static class Simplex
         };
         int i;
         int j;
-        double quad;
-        double r1;
-        double r2;
-        double result;
-        double s1;
-        double s2;
-        double u1;
-        double u2;
-        double v1;
-        double v2;
-        double volume;
-        double[] x;
-
-        result = 0.0;
 
         switch (n)
         {
@@ -456,9 +424,9 @@ public static class Simplex
                 return 1;
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  S1
         //
@@ -471,9 +439,9 @@ public static class Simplex
         //
         //  S21
         //
-        r1 = (n + 4 - Math.Sqrt(15.0))
-             / (n * n + 8 * n + 1);
-        s1 = 1.0 - n * r1;
+        double r1 = (n + 4 - Math.Sqrt(15.0))
+                    / (n * n + 8 * n + 1);
+        double s1 = 1.0 - n * r1;
 
         for (i = 0; i < n; i++)
         {
@@ -499,9 +467,9 @@ public static class Simplex
         //
         //  S22
         //
-        r2 = (n + 4 + Math.Sqrt(15.0))
-             / (n * n + 8 * n + 1);
-        s2 = 1.0 - n * r2;
+        double r2 = (n + 4 + Math.Sqrt(15.0))
+                    / (n * n + 8 * n + 1);
+        double s2 = 1.0 - n * r2;
 
         for (i = 0; i < n; i++)
         {
@@ -527,11 +495,11 @@ public static class Simplex
         //
         //  S31
         //
-        u1 = (n + 7 + 2.0 * Math.Sqrt(15.0))
-             / (n * n + 14 * n - 11);
-        v1 = (4 * n - 2
-                    - (n - 1) * Math.Sqrt(15.0))
-             / (n * n + 14 * n - 11);
+        double u1 = (n + 7 + 2.0 * Math.Sqrt(15.0))
+                    / (n * n + 14 * n - 11);
+        double v1 = (4 * n - 2
+                           - (n - 1) * Math.Sqrt(15.0))
+                    / (n * n + 14 * n - 11);
 
         for (i = 0; i < n; i++)
         {
@@ -558,11 +526,11 @@ public static class Simplex
         //
         //  S32
         //
-        u2 = (n + 7 - 2.0 * Math.Sqrt(15.0))
-             / (n * n + 14 * n - 11);
-        v2 = (4 * n - 2
-              + (n - 1) * Math.Sqrt(15.0))
-             / (n * n + 14 * n - 11);
+        double u2 = (n + 7 - 2.0 * Math.Sqrt(15.0))
+                    / (n * n + 14 * n - 11);
+        double v2 = (4 * n - 2
+                     + (n - 1) * Math.Sqrt(15.0))
+                    / (n * n + 14 * n - 11);
 
         for (i = 0; i < n; i++)
         {
@@ -587,8 +555,8 @@ public static class Simplex
             }
         }
 
-        volume = simplex_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = simplex_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -636,19 +604,11 @@ public static class Simplex
         //    Output, double SIMPLEX_UNIT_05_2_ND, the approximate integral of the function.
         //
     {
-        double a;
-        double b;
-        double coef;
         int i;
-        int j;
-        double quad;
-        double result;
-        double volume;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  Group 1
         //
@@ -657,14 +617,14 @@ public static class Simplex
             x[i] = 1.0 / (n + 1);
         }
 
-        coef = (int)Math.Pow(n + 1, 4)
-               / (double)(32 * (n + 2) * (n + 3));
+        double coef = (int)Math.Pow(n + 1, 4)
+                      / (double)(32 * (n + 2) * (n + 3));
         quad += coef * func(setting, n, x);
         //
         //  Group 2
         //
-        a = 1.0 / (n + 3);
-        b = 3.0 / (n + 3);
+        double a = 1.0 / (n + 3);
+        double b = 3.0 / (n + 3);
 
         for (i = 0; i < n; i++)
         {
@@ -715,6 +675,7 @@ public static class Simplex
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 x[j] = a;
@@ -731,8 +692,8 @@ public static class Simplex
             }
         }
 
-        volume = simplex_unit_volume_nd(n);
-        result = quad * volume;
+        double volume = simplex_unit_volume_nd(n);
+        double result = quad * volume;
 
         return result;
     }
@@ -771,9 +732,7 @@ public static class Simplex
         //    unit simplex.
         //
     {
-        double value = 0;
-
-        value = 1.0 / typeMethods.r8_factorial(n);
+        double value = 1.0 / typeMethods.r8_factorial(n);
 
         return value;
     }
@@ -812,27 +771,23 @@ public static class Simplex
         //    the unit simplex.
         //
     {
-        double det;
         int i;
-        int info;
-        int j;
-        int[] pivot;
         double volume;
-        double[] w;
 
-        w = new double[n * n];
+        double[] w = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 w[i + j * n] = v[i + (j + 1) * n] - v[i + 0 * n];
             }
         }
 
-        pivot = new int[n];
+        int[] pivot = new int[n];
 
-        info = typeMethods.r8ge_fa(n, ref w, ref pivot);
+        int info = typeMethods.r8ge_fa(n, ref w, ref pivot);
 
         if (info != 0)
         {
@@ -840,7 +795,7 @@ public static class Simplex
         }
         else
         {
-            det = typeMethods.r8ge_det(n, w, pivot);
+            double det = typeMethods.r8ge_det(n, w, pivot);
             //
             //  Multiply by the volume of the unit simplex, which serves as a
             //  conversion factor between a parallelipiped and the simplex.

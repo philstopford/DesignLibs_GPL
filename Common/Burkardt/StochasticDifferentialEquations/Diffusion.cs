@@ -74,12 +74,11 @@ public static class Diffusion
         //
     {
         int i;
-        int j;
         int kc;
         //
         //  Left boundary.
         //
-        j = 0;
+        int j = 0;
         for (i = 1; i < ny - 1; i++)
         {
             kc = i * nx + j;
@@ -203,15 +202,12 @@ public static class Diffusion
         //    at X.
         //
     {
-        double[] dc;
         int j;
-        int k;
-        double w;
 
-        k = 0;
-        w = 1.0;
+        int k = 0;
+        double w = 1.0;
 
-        dc = new double[n];
+        double[] dc = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -323,11 +319,9 @@ public static class Diffusion
         //    coefficient at (X,Y).
         //
     {
-        double[] arg;
-        double[] dc;
         int j;
 
-        arg = new double[n];
+        double[] arg = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -342,7 +336,7 @@ public static class Diffusion
             arg[j] = Math.Exp(-0.125) * arg[j];
         }
 
-        dc = new double[n];
+        double[] dc = new double[n];
         for (j = 0; j < n; j++)
         {
             dc[j] = dc0 + Math.Exp(arg[j]);
@@ -416,18 +410,14 @@ public static class Diffusion
         //    coefficient at (X,Y).
         //
     {
-        double arg;
-        double dc;
-        double pi = 3.141592653589793;
-
-        arg = omega[0] * Math.Cos(pi * x)
-              + omega[1] * Math.Sin(pi * x)
-              + omega[2] * Math.Cos(pi * y)
-              + omega[3] * Math.Sin(pi * y);
+        double arg = omega[0] * Math.Cos(Math.PI * x)
+                     + omega[1] * Math.Sin(Math.PI * x)
+                     + omega[2] * Math.Cos(Math.PI * y)
+                     + omega[3] * Math.Sin(Math.PI * y);
 
         arg = Math.Exp(-0.125) * arg;
 
-        dc = dc0 + Math.Exp(arg);
+        double dc = dc0 + Math.Exp(arg);
 
         return dc;
     }
@@ -508,24 +498,17 @@ public static class Diffusion
         //    coefficient at X.
         //
     {
-        double[] c_1dx;
-        double[] c_1dy;
-        double[] dc;
         int i;
-        int i1;
-        int i2;
         int j;
         int k;
-        double[] lambda_1d;
-        double[] theta_1d;
         //
         //  Compute THETA.
         //
-        theta_1d = Theta.theta_solve(a, cl, m_1d);
+        double[] theta_1d = Theta.theta_solve(a, cl, m_1d);
         //
         //  Compute LAMBDA_1D.
         //
-        lambda_1d = new double[m_1d];
+        double[] lambda_1d = new double[m_1d];
 
         for (i = 0; i < m_1d; i++)
         {
@@ -535,8 +518,8 @@ public static class Diffusion
         //
         //  Compute C_1DX(1:M1D) and C_1DY(1:M1D) at (X,Y).
         //
-        c_1dx = new double[m_1d * n1 * n2];
-        c_1dy = new double[m_1d * n1 * n2];
+        double[] c_1dx = new double[m_1d * n1 * n2];
+        double[] c_1dy = new double[m_1d * n1 * n2];
 
         for (k = 0; k < n2; k++)
         {
@@ -600,15 +583,17 @@ public static class Diffusion
         //
         //  Evaluate the diffusion coefficient DC at (X,Y).
         //
-        dc = new double[n1 * n2];
+        double[] dc = new double[n1 * n2];
 
         for (k = 0; k < n2; k++)
         {
             for (j = 0; j < n1; j++)
             {
                 dc[j + k * n1] = dc0;
+                int i2;
                 for (i2 = 0; i2 < m_1d; i2++)
                 {
+                    int i1;
                     for (i1 = 0; i1 < m_1d; i1++)
                     {
                         dc[j + k * n1] += Math.Sqrt(lambda_1d[i1] * lambda_1d[i2])
@@ -699,37 +684,28 @@ public static class Diffusion
         //    at (X,Y).
         //
     {
-        double d;
-        double[] dc;
-        double[] dc_arg;
         int i;
-        double ihalf_r8;
         int j;
-        double l;
-        double lp;
-        double[] phi;
-        double zeta;
-        double zeta_arg;
 
-        d = 1.0;
-        lp = Math.Max(d, 2.0 * cl);
-        l = cl / lp;
+        double d = 1.0;
+        double lp = Math.Max(d, 2.0 * cl);
+        double l = cl / lp;
 
-        dc_arg = new double[n];
+        double[] dc_arg = new double[n];
 
         for (j = 0; j < n; j++)
         {
             dc_arg[j] = 1.0 + omega[0] * Math.Sqrt(Math.Sqrt(Math.PI) * l / 2.0);
         }
 
-        dc = new double[n];
-        phi = new double[n];
+        double[] dc = new double[n];
+        double[] phi = new double[n];
 
         for (i = 2; i <= m; i++)
         {
-            ihalf_r8 = (double)i / 2;
-            zeta_arg = -Math.Pow(ihalf_r8 * Math.PI * l, 2) / 8.0;
-            zeta = Math.Sqrt(Math.Sqrt(Math.PI) * l) * Math.Exp(zeta_arg);
+            double ihalf_r8 = (double)i / 2;
+            double zeta_arg = -Math.Pow(ihalf_r8 * Math.PI * l, 2) / 8.0;
+            double zeta = Math.Sqrt(Math.Sqrt(Math.PI) * l) * Math.Exp(zeta_arg);
 
             switch (i % 2)
             {
@@ -833,59 +809,39 @@ public static class Diffusion
         //    entries for the interior nodes filled in.
         //
     {
-        double dc0;
-        double dce;
-        double dcn;
-        double dcs;
-        double dcw;
-        double dx;
-        double dy;
         int ic;
-        int in_;
-        int is_;
-        int jc;
-        int je;
-        int jw;
-        int kc;
-        int ke;
-        int kn;
-        int ks;
-        int kw;
-        double xce;
-        double xcw;
-        double ycn;
-        double ycs;
 
-        dc0 = 1.0;
+        const double dc0 = 1.0;
         //
         //  For now, assume X and Y are equally spaced.
         //
-        dx = x[1] - x[0];
-        dy = y[1] - y[0];
+        double dx = x[1] - x[0];
+        double dy = y[1] - y[0];
 
         for (ic = 1; ic < ny - 1; ic++)
         {
+            int jc;
             for (jc = 1; jc < nx - 1; jc++)
             {
-                in_ = ic + 1;
-                is_ = ic - 1;
-                je = jc + 1;
-                jw = jc - 1;
+                int in_ = ic + 1;
+                int is_ = ic - 1;
+                int je = jc + 1;
+                int jw = jc - 1;
 
-                kc = ic * nx + jc;
-                ke = kc + 1;
-                kw = kc - 1;
-                kn = kc + nx;
-                ks = kc - nx;
+                int kc = ic * nx + jc;
+                int ke = kc + 1;
+                int kw = kc - 1;
+                int kn = kc + nx;
+                int ks = kc - nx;
 
-                xce = 0.5 * (x[jc] + x[je]);
-                dce = diffusivity_2d_bnt(dc0, omega, xce, y[ic]);
-                xcw = 0.5 * (x[jc] + x[jw]);
-                dcw = diffusivity_2d_bnt(dc0, omega, xcw, y[ic]);
-                ycn = 0.5 * (y[ic] + y[in_]);
-                dcn = diffusivity_2d_bnt(dc0, omega, x[jc], ycn);
-                ycs = 0.5 * (y[ic] + y[is_]);
-                dcs = diffusivity_2d_bnt(dc0, omega, x[jc], ycs);
+                double xce = 0.5 * (x[jc] + x[je]);
+                double dce = diffusivity_2d_bnt(dc0, omega, xce, y[ic]);
+                double xcw = 0.5 * (x[jc] + x[jw]);
+                double dcw = diffusivity_2d_bnt(dc0, omega, xcw, y[ic]);
+                double ycn = 0.5 * (y[ic] + y[in_]);
+                double dcn = diffusivity_2d_bnt(dc0, omega, x[jc], ycn);
+                double ycs = 0.5 * (y[ic] + y[is_]);
+                double dcs = diffusivity_2d_bnt(dc0, omega, x[jc], ycs);
 
                 a[kc + kc * n] = (dce + dcw) / dx / dx + (dcn + dcs) / dy / dy;
                 a[kc + ke * n] = -dce / dx / dx;
@@ -967,18 +923,15 @@ public static class Diffusion
         //    the grid points.
         //
     {
-        double[] a;
-        int n;
-        double[] u;
         //
         //  Set the total number of unknowns.
         //
-        n = nx * ny;
+        int n = nx * ny;
         //
         //  Set up the matrix and right hand side.
         //
-        a = new double[n * n];
-        u = new double[n];
+        double[] a = new double[n * n];
+        double[] u = new double[n];
         //
         //  Define the matrix at interior points.
         //

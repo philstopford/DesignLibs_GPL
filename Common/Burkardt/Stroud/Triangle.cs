@@ -64,9 +64,8 @@ public static class Triangle
         //
     {
         int i;
-        double volume;
 
-        volume = triangle_volume(xval, yval);
+        double volume = triangle_volume(xval, yval);
 
         for (i = 0; i < order; i++)
         {
@@ -137,25 +136,10 @@ public static class Triangle
         //
     {
         int i;
-        int j;
-        int k;
-        double quad;
-        double result;
-        double temp1;
-        double temp2;
-        double volume;
-        double x;
-        double x1;
-        double x2;
-        double x3;
-        double y;
-        double y1;
-        double y2;
-        double y3;
         //
         //  Initialize RESULT, the approximate integral.
         //
-        result = 0.0;
+        double result = 0.0;
         switch (nsub)
         {
             //
@@ -168,38 +152,39 @@ public static class Triangle
         //
         //  Initialize QUAD, the quadrature sum.
         //
-        quad = 0.0;
+        double quad = 0.0;
         //
         //  The sub-triangles can be grouped into NSUB strips.
         //
         for (i = 1; i <= nsub; i++)
         {
-            temp1 = 0.0;
-            temp2 = i / (double)nsub;
+            double temp1 = 0.0;
+            double temp2 = i / (double)nsub;
 
-            x2 = xval[1] + temp1 * (xval[2] - xval[1])
-                         + temp2 * (xval[0] - xval[1]);
+            double x2 = xval[1] + temp1 * (xval[2] - xval[1])
+                                + temp2 * (xval[0] - xval[1]);
 
-            y2 = yval[1] + temp1 * (yval[2] - yval[1])
-                         + temp2 * (yval[0] - yval[1]);
+            double y2 = yval[1] + temp1 * (yval[2] - yval[1])
+                                + temp2 * (yval[0] - yval[1]);
 
             temp1 = 0.0;
             temp2 = (i - 1) / (double)nsub;
 
-            x3 = xval[1] + temp1 * (xval[2] - xval[1])
-                         + temp2 * (xval[0] - xval[1]);
+            double x3 = xval[1] + temp1 * (xval[2] - xval[1])
+                                + temp2 * (xval[0] - xval[1]);
 
-            y3 = yval[1] + temp1 * (yval[2] - yval[1])
-                         + temp2 * (yval[0] - yval[1]);
+            double y3 = yval[1] + temp1 * (yval[2] - yval[1])
+                                + temp2 * (yval[0] - yval[1]);
             //
             //  There are 2*I-1 triangles in strip number I.
             //  The next triangle in the strip shares two nodes with the previous one.
             //  Compute its corners, (X1,Y1), (X2,Y2), (X3,Y3).
             //
+            int j;
             for (j = 1; j <= 2 * i - 1; j++)
             {
-                x1 = x2;
-                y1 = y2;
+                double x1 = x2;
+                double y1 = y2;
                 x2 = x3;
                 y2 = y3;
                 temp1 = (double)(j + 1) / 2 / nsub;
@@ -214,16 +199,17 @@ public static class Triangle
                 //  Now integrate over the triangle, mapping the points ( XTAB(K), YTAB(K) )
                 //  into the triangle.
                 //
+                int k;
                 for (k = 0; k < order; k++)
                 {
-                    x = x2 + xtab[k] * (x3 - x2) + ytab[k] * (x1 - x2);
-                    y = y2 + xtab[k] * (y3 - y2) + ytab[k] * (y1 - y2);
+                    double x = x2 + xtab[k] * (x3 - x2) + ytab[k] * (x1 - x2);
+                    double y = y2 + xtab[k] * (y3 - y2) + ytab[k] * (y1 - y2);
                     quad += weight[k] * func(setting, x, y);
                 }
             }
         }
 
-        volume = triangle_volume(xval, yval) / (nsub * nsub);
+        double volume = triangle_volume(xval, yval) / (nsub * nsub);
         result = quad * volume;
 
         return result;
@@ -278,29 +264,24 @@ public static class Triangle
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
-        double x;
-        double y;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < order; i++)
         {
-            x = xtab[i] * xval[0]
-                + ytab[i] * xval[1]
-                + (1.0 - xtab[i] - ytab[i]) * xval[2];
+            double x = xtab[i] * xval[0]
+                       + ytab[i] * xval[1]
+                       + (1.0 - xtab[i] - ytab[i]) * xval[2];
 
-            y = xtab[i] * yval[0]
-                + ytab[i] * yval[1]
-                + (1.0 - xtab[i] - ytab[i]) * yval[2];
+            double y = xtab[i] * yval[0]
+                       + ytab[i] * yval[1]
+                       + (1.0 - xtab[i] - ytab[i]) * yval[2];
 
             quad += weight[i] * func(setting, x, y);
         }
 
-        volume = triangle_volume(xval, yval);
-        result = quad * volume;
+        double volume = triangle_volume(xval, yval);
+        double result = quad * volume;
 
         return result;
     }
@@ -358,9 +339,8 @@ public static class Triangle
         //
     {
         int i;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         for (i = 0; i < order; i++)
         {
@@ -427,41 +407,30 @@ public static class Triangle
         //    Output, double WEIGHT[ORDER], the weights of the rule.
         //
     {
-        double a;
-        double b;
-        double c;
-        double d;
-        int i;
         int j;
-        int k;
-        int order0;
-        int order1;
-        double[] weight0;
-        double[] weight1;
-        double[] xtab0;
-        double[] xtab1;
 
-        weight0 = new double[rule];
-        weight1 = new double[rule];
-        xtab0 = new double[rule];
-        xtab1 = new double[rule];
+        double[] weight0 = new double[rule];
+        double[] weight1 = new double[rule];
+        double[] xtab0 = new double[rule];
+        double[] xtab1 = new double[rule];
 
-        a = -1.0;
-        b = +1.0;
-        c = 0.0;
-        d = +1.0;
+        const double a = -1.0;
+        const double b = +1.0;
+        const double c = 0.0;
+        const double d = +1.0;
 
-        order0 = rule;
+        int order0 = rule;
         LegendreQuadrature.legendre_set(order0, ref xtab0, ref weight0);
         QuadratureRule.rule_adjust(a, b, c, d, order0, ref xtab0, ref weight0);
 
-        order1 = rule;
+        int order1 = rule;
         LegendreQuadrature.legendre_set_x1(order1, ref xtab1, ref weight1);
         QuadratureRule.rule_adjust(a, b, c, d, order1, ref xtab1, ref weight1);
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < order1; j++)
         {
+            int i;
             for (i = 0; i < order0; i++)
             {
                 xtab[k] = 1.0 - xtab1[j];
@@ -517,9 +486,7 @@ public static class Triangle
         //    Input, int TRIANGLE_UNIT_PRODUCT_SIZE, the order of the rule.
         //
     {
-        int order;
-
-        order = rule * rule;
+        int order = rule * rule;
 
         return order;
     }
@@ -673,7 +640,6 @@ public static class Triangle
         double e;
         double f;
         double g;
-        double h;
         int i;
         int j;
         int k;
@@ -694,15 +660,10 @@ public static class Triangle
         double w6;
         double w7;
         double w8;
-        double w9;
         double[] weight1 = new double[8];
         double[] weight2 = new double[8];
-        double wx;
-        double x;
         double[] xtab1 = new double[8];
         double[] xtab2 = new double[8];
-        double y;
-        double z;
 
         switch (rule)
         {
@@ -1061,7 +1022,7 @@ public static class Triangle
             //  last generator point as 0.4869... when it should be 0.04869...
             //
             case 13:
-                h = 1.0 / 3.0;
+                double h = 1.0 / 3.0;
                 a = 0.479308067841923;
                 b = 0.260345966079038;
                 c = 0.869739794195568;
@@ -1124,7 +1085,7 @@ public static class Triangle
                 a = 1.0 / 3.0;
                 b = 1.0;
                 c = 0.5;
-                z = 0.0;
+                double z = 0.0;
 
                 u = 27.0 / 60.0;
                 v = 3.0 / 60.0;
@@ -1472,8 +1433,8 @@ public static class Triangle
                 u = 0.04484167758913055;
                 v = 0.27722066752827925;
                 w = 0.8588702812826364;
-                x = 0.0;
-                y = 0.1411297187173636;
+                double x = 0.0;
+                double y = 0.1411297187173636;
 
                 w1 = 0.08797730116222190;
                 w2 = 0.008744311553736190;
@@ -1591,8 +1552,8 @@ public static class Triangle
                 w6 = 0.010791612736631273623178240136;
                 w7 = 0.032195534242431618819414482205;
                 w8 = 0.015445834210701583817692900053;
-                w9 = 0.017822989923178661888748319485;
-                wx = 0.037038683681384627918546472190;
+                double w9 = 0.017822989923178661888748319485;
+                double wx = 0.037038683681384627918546472190;
 
                 xtab[0] = a;
                 xtab[1] = b;
@@ -1963,18 +1924,15 @@ public static class Triangle
         //
     {
         int i;
-        double quad;
-        double result;
-        double volume;
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += weight[i] * func(setting, xtab[i], ytab[i]);
         }
 
-        volume = triangle_unit_volume();
-        result = quad * volume;
+        double volume = triangle_unit_volume();
+        double result = quad * volume;
 
         return result;
     }
@@ -2017,9 +1975,7 @@ public static class Triangle
         //    triangle.
         //
     {
-        double volume;
-
-        volume = 1.0 / 2.0;
+        const double volume = 1.0 / 2.0;
 
         return volume;
     }
@@ -2051,9 +2007,7 @@ public static class Triangle
         //    Output, double TRIANGLE_VOLUME, the volume of the triangle.
         //
     {
-        double value = 0;
-
-        value = 0.5 * Math.Abs(
+        double value = 0.5 * Math.Abs(
             x[0] * (y[1] - y[2]) +
             x[1] * (y[2] - y[0]) +
             x[2] * (y[0] - y[1]));

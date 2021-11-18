@@ -104,15 +104,14 @@ public static class LatinCentroidalVoronoi
     {
         double change_l2 = 0;
         int it;
-        bool reset;
-        bool verbose = true;
+        const bool verbose = true;
 
         //
         //  Initialize the generators.
         //
         if (sample_function_init != 3)
         {
-            reset = true;
+            const bool reset = true;
 
             Region.region_sampler(ref data.data, m, n, n, ref generator, sample_function_init, reset, ref seed);
         }
@@ -205,30 +204,25 @@ public static class LatinCentroidalVoronoi
         //    the input and output data.
         //
     {
-        double[] generator2;
-        int[] count;
         int i;
         int j;
         int k;
-        int nearest;
-        bool reset;
-        double[] x;
         //
-        generator2 = new double[m * n];
+        double[] generator2 = new double[m * n];
         for (k = 0; k < m * n; k++)
         {
             generator2[k] = 0.0;
         }
 
-        count = new int[n];
+        int[] count = new int[n];
         for (i = 0; i < n; i++)
         {
             count[i] = 0;
         }
 
-        x = new double[m];
+        double[] x = new double[m];
 
-        reset = true;
+        bool reset = true;
         seed = sample_function_cvt switch
         {
             //
@@ -252,7 +246,7 @@ public static class LatinCentroidalVoronoi
             //
             //  Find the nearest cell generator.
             //
-            nearest = find_closest(m, n, x, generator);
+            int nearest = find_closest(m, n, x, generator);
             //
             //  Add X to the averaging data for GENERATOR(*,NEAREST).
             //
@@ -368,9 +362,8 @@ public static class LatinCentroidalVoronoi
         //    the output file.
         //
     {
-        bool comment = true;
+        const bool comment = true;
         List<string> file_out = new();
-        int i;
         int j;
 
 
@@ -445,6 +438,7 @@ public static class LatinCentroidalVoronoi
         for (j = 0; j < n; j++)
         {
             string cout = "";
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 cout += cell_generator[i + j * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
@@ -553,11 +547,9 @@ public static class LatinCentroidalVoronoi
         //
     {
         List<string> file_out = new();
-        int i;
         int j;
-        string s;
-            
-        s = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+
+        string s = DateTime.Now.ToString(CultureInfo.InvariantCulture);
 
         switch (comment)
         {
@@ -588,6 +580,7 @@ public static class LatinCentroidalVoronoi
         for (j = 0; j < n; j++)
         {
             string cout = "";
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 cout += r[i + j * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
@@ -648,18 +641,15 @@ public static class LatinCentroidalVoronoi
         //    Output, int FIND_CLOSEST, the index of the nearest cell generators.
         //
     {
-        double dist_min;
-        double dist;
-        int i;
         int j;
-        int nearest;
 
-        nearest = 0;
-        dist_min = 0.0;
+        int nearest = 0;
+        double dist_min = 0.0;
 
         for ( j = 0; j < n; j++ )
         {
-            dist = 0.0;
+            double dist = 0.0;
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 dist += Math.Pow ( x[i] - generator[i+j*m], 2 );

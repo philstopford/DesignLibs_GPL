@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ChebyshevNS;
 
 namespace ChebyshevTest;
@@ -62,14 +63,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double[] c;
-        double[] fc;
         int i;
-        int m;
-        int n;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV_TEST01");
@@ -77,20 +71,20 @@ internal static class Program
         Console.WriteLine("  Chebyshev interpolant.");
         Console.WriteLine("  CHEBYSHEV_INTERPOLANT evaluates the interpolant.");
 
-        n = 5;
-        a = -1.0;
-        b = +1.0;
+        int n = 5;
+        double a = -1.0;
+        double b = +1.0;
 
-        c = Chebyshev.chebyshev_coefficients(a, b, n, f1);
+        double[] c = Chebyshev.chebyshev_coefficients(a, b, n, f1);
 
-        x = Chebyshev.chebyshev_zeros(n);
+        double[] x = Chebyshev.chebyshev_zeros(n);
         for (i = 0; i < n; i++)
         {
             x[i] = 0.5 * (a + b) + x[i] * 0.5 * (b - a);
         }
 
-        m = n;
-        fc = Chebyshev.chebyshev_interpolant(a, b, n, c, m, x);
+        int m = n;
+        double[] fc = Chebyshev.chebyshev_interpolant(a, b, n, c, m, x);
 
         Console.WriteLine("");
         Console.WriteLine("  F(X) is a trig function:");
@@ -99,10 +93,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + c[i].ToString().PadLeft(14)
-                                   + "  " + f1(x[i]).ToString().PadLeft(14)
-                                   + "  " + fc[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + f1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -130,10 +124,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + c[i].ToString().PadLeft(14)
-                                   + "  " + f1(x[i]).ToString().PadLeft(14)
-                                   + "  " + fc[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + f1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -161,10 +155,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + c[i].ToString().PadLeft(14)
-                                   + "  " + f1(x[i]).ToString().PadLeft(14)
-                                   + "  " + fc[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + f1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -192,10 +186,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + c[i].ToString().PadLeft(14)
-                                   + "  " + f3(x[i]).ToString().PadLeft(14)
-                                   + "  " + fc[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + f3(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -223,10 +217,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + c[i].ToString().PadLeft(14)
-                                   + "  " + f2(x[i]).ToString().PadLeft(14)
-                                   + "  " + fc[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + f2(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

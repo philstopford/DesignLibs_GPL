@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Chebyshev;
 
@@ -122,11 +123,11 @@ internal static class Program
             s2 -= y;
             s3 -= y;
 
-            Console.WriteLine(x.ToString().PadLeft(5)
-                              + s.ToString().PadLeft(14)
-                              + s1.ToString().PadLeft(14)
-                              + s2.ToString().PadLeft(14)
-                              + s3.ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -163,7 +164,6 @@ internal static class Program
         //    London, 1962.
         //
     {
-        double s;
         double s1 = 0;
         double s2 = 0;
         double[] table1 =  {
@@ -182,7 +182,6 @@ internal static class Program
             ;
         double y = 0;
         double y1 = 0;
-        double y2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -197,18 +196,18 @@ internal static class Program
         for (int i = 0; i <= 10; i++)
         {
             double x = i / 10.0;
-            s = ChebyshevSeries.evenchebser2(x, table1, 11, ref s1, ref s2);
+            double s = ChebyshevSeries.evenchebser2(x, table1, 11, ref s1, ref s2);
             Helpers.sincos(Math.PI/2 * x, ref y1, ref y);
             y1 = -y1 * Math.PI/2;
-            y2 = -y * (Math.PI/2* Math.PI/2);
+            double y2 = -y * (Math.PI/2* Math.PI/2);
             s -= y;
             s1 -= y1;
             s2 -= y2;
 
-            Console.WriteLine(x.ToString().PadLeft(5)
-                              + s.ToString().PadLeft(14)
-                              + s1.ToString().PadLeft(14)
-                              + s2.ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -279,10 +278,10 @@ internal static class Program
             s -= y;
             s1 -= y1;
             s2 -= y;
-            Console.WriteLine(x.ToString().PadLeft(5)
-                              + s.ToString().PadLeft(14)
-                              + s1.ToString().PadLeft(14)
-                              + s2.ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

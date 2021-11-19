@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ChebyshevPolynomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -119,16 +120,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double[] c;
-        double[] d;
-        double[] d2;
         int i;
-        int m;
-        int n;
-        int seed;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV_POLYNOMIAL_TEST01:");
@@ -143,18 +135,18 @@ internal static class Program
         //
         //  Data in [0,1];
         //
-        a = 0.0;
-        b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Chebyshev polynomial will be based in [" + a + "," + b + "]");
         //
         //  Compute sample data.
         //
-        m = 20;
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_ab_new(m, a, b, ref seed);
-        d = new double[m];
+        const int m = 20;
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(m, a, b, ref seed);
+        double[] d = new double[m];
         for (i = 0; i < m; i++)
         {
             d[i] = x[i] * x[i];
@@ -162,24 +154,24 @@ internal static class Program
 
         typeMethods.r8vec2_print(m, x, d, "  Data ( X, D ):");
 
-        n = 4;
-        c = ChebyshevPolynomial.t_project_coefficients_data(a, b, m, n, x, d);
+        const int n = 4;
+        double[] c = ChebyshevPolynomial.t_project_coefficients_data(a, b, m, n, x, d);
 
         typeMethods.r8vec_print(n, c, "  Coefficients of Chebyshev expansion of degree 4.");
         //
         //  Compare Chebyshev expansion and original function.
         //
-        d2 = ChebyshevPolynomial.t_project_value_ab(m, n, x, c, a, b);
+        double[] d2 = ChebyshevPolynomial.t_project_value_ab(m, n, x, c, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("   I      X(I)     Data(I)      Chebyshev(X(I))");
         Console.WriteLine("");
         for (i = 0; i < m; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(12)
-                                   + "  " + d[i].ToString().PadLeft(12)
-                                   + "  " + d2[i].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -204,9 +196,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("T_MASS_MATRIX_TEST:");
         Console.WriteLine("  T_MASS_MATRIX computes the mass matrix for the");
@@ -216,8 +205,8 @@ internal static class Program
         Console.WriteLine("  pi   if i = j = 0;");
         Console.WriteLine("  pi/2 if i = j =/= 0.");
 
-        n = 3;
-        a = ChebyshevPolynomial.t_mass_matrix(n);
+        const int n = 3;
+        double[] a = ChebyshevPolynomial.t_mass_matrix(n);
 
         typeMethods.r8mat_print(n + 1, n + 1, a, "  T mass matrix:");
     }
@@ -253,8 +242,8 @@ internal static class Program
         for (int e = 0; e <= 10; e++)
         {
             double value = ChebyshevPolynomial.t_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -312,10 +301,10 @@ internal static class Program
             x_vec[0] = x;
             double[] fx2 = ChebyshevPolynomial.t_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -341,15 +330,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int m;
-        int n;
-        double[] v;
-        double[] x;
-
-        m = 11;
-        n = 5;
+        const int m = 11;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("T_POLYNOMIAL_AB_TEST:");
@@ -359,11 +341,11 @@ internal static class Program
         Console.WriteLine("  Here, we will use the new domain [0,1]");
         Console.WriteLine("  and the desired maximum polynomial degree will be N = 5.");
 
-        a = 0.0;
-        b = 1.0;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
 
-        v = ChebyshevPolynomial.t_polynomial_ab(a, b, m, n, ref x);
+        double[] v = ChebyshevPolynomial.t_polynomial_ab(a, b, m, n, ref x);
 
         typeMethods.r8mat_print(m, n + 1, v, "  Tables of T values:");
 
@@ -405,8 +387,8 @@ internal static class Program
         Console.WriteLine("     N      X01    T01(n,x)       T01(n,x)");
         Console.WriteLine("");
 
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
         int n_data = 0;
 
@@ -421,10 +403,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.t_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
     //****************************************************************************80
@@ -451,20 +433,20 @@ internal static class Program
         //
     {
         int i;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("T_POLYNOMIAL_COEFFICIENTS_TEST");
         Console.WriteLine("  T_POLYNOMIAL_COEFFICIENTS determines the polynomial coefficients ");
         Console.WriteLine("  of T(n,x).");
 
-        int n = 5;
+        const int n = 5;
 
         double[] c = ChebyshevPolynomial.t_polynomial_coefficients(n);
 
         for (i = 0; i <= n; i++)
         {
             double[] c2 = new double[i + 1];
+            int j;
             for (j = 0; j <= i; j++)
             {
                 c2[j] = c[i + j * (n + 1)];
@@ -495,7 +477,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_num = 6;
+        const int n_num = 6;
         int[] n_val = new int[6];
 
         Console.WriteLine("");
@@ -508,7 +490,7 @@ internal static class Program
             n_val[i] = i;
         }
 
-        string output_filename = "t_polynomial_plot.png";
+        const string output_filename = "t_polynomial_plot.png";
 
         ChebyshevPolynomial.t_polynomial_plot(n_num, n_val, output_filename);
 
@@ -560,10 +542,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.t_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -588,11 +570,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] fx;
-        int i;
         int n;
         const int N_MAX = 5;
-        double[] z;
 
         Console.WriteLine("");
         Console.WriteLine("T_POLYNOMIAL_ZEROS_TEST:");
@@ -603,13 +582,14 @@ internal static class Program
 
         for (n = 1; n <= N_MAX; n++)
         {
-            z = ChebyshevPolynomial.t_polynomial_zeros(n);
-            fx = ChebyshevPolynomial.t_polynomial(n, n, z);
+            double[] z = ChebyshevPolynomial.t_polynomial_zeros(n);
+            double[] fx = ChebyshevPolynomial.t_polynomial(n, n, z);
+            int i;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -642,7 +622,7 @@ internal static class Program
         Console.WriteLine("  T_QUADRATURE_RULE computes the quadrature rule");
         Console.WriteLine("  associated with T(n,x);");
 
-        int n = 7;
+        const int n = 7;
         double[] x = new double[n];
         double[] w = new double[n];
 
@@ -686,9 +666,9 @@ internal static class Program
 
             double q = typeMethods.r8vec_dot_product(n, w, f);
             double q_exact = ChebyshevPolynomial.t_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -713,45 +693,35 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double[] c;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("TEST07:");
         Console.WriteLine("  T_PROJECT_COEFFICIENTS computes the Chebyshev coefficients");
         Console.WriteLine("  of a function defined over [-1,+1].");
         Console.WriteLine("  T_PROJECT_COEFFICIENTS_AB works in [A,B].");
 
-        n = 3;
-        c = new double[n + 1];
+        int n = 3;
+        double[] c = ChebyshevPolynomial.t_project_coefficients(n, Math.Exp);
+        typeMethods.r8vec_print(n + 1, c, "  Chebyshev coefficients for exp(x) in [-1,+1]");
+
+        n = 5;
         c = ChebyshevPolynomial.t_project_coefficients(n, Math.Exp);
         typeMethods.r8vec_print(n + 1, c, "  Chebyshev coefficients for exp(x) in [-1,+1]");
 
         n = 5;
-        c = new double[n + 1];
-        c = ChebyshevPolynomial.t_project_coefficients(n, Math.Exp);
-        typeMethods.r8vec_print(n + 1, c, "  Chebyshev coefficients for exp(x) in [-1,+1]");
-
-        n = 5;
-        c = new double[n + 1];
         c = ChebyshevPolynomial.t_project_coefficients(n, Math.Sin);
         typeMethods.r8vec_print(n + 1, c, "  Chebyshev coefficients for sin(x) in [-1,+1]");
         //
         //  Repeat calculation with T_PROJECT_COEFFICIENTS_AB.
         //
         n = 5;
-        c = new double[n + 1];
-        a = -1.0;
-        b = +1.0;
+        double a = -1.0;
+        double b = +1.0;
         c = ChebyshevPolynomial.t_project_coefficients_ab(n, Math.Sin, a, b);
         typeMethods.r8vec_print(n + 1, c, "  Chebyshev coefficients for sin(x) in [-1,+1]");
         //
         //  Now try a different interval.
         //
         n = 5;
-        c = new double[n + 1];
         a = 0.0;
         b = 1.0;
         c = ChebyshevPolynomial.t_project_coefficients_ab(n, Math.Sqrt, a, b);
@@ -779,15 +749,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double[] c;
-        double[] d;
         int i;
-        int m;
-        int n;
-        int seed;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08:");
@@ -798,18 +760,18 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Begin by using equally spaced points in [-1,+1].");
 
-        a = -1.0;
-        b = +1.0;
-        m = 10;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
-        d = new double[m];
+        double a = -1.0;
+        double b = +1.0;
+        int m = 10;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
+        double[] d = new double[m];
         for (i = 0; i < m; i++)
         {
             d[i] = Math.Exp(x[i]);
         }
 
-        n = 3;
-        c = ChebyshevPolynomial.t_project_coefficients_data(a, b, m, n, x, d);
+        int n = 3;
+        double[] c = ChebyshevPolynomial.t_project_coefficients_data(a, b, m, n, x, d);
         typeMethods.r8vec_print(n + 1, c, "  Chebyshev coefficients for exp(x) on [-1,+1]");
 
         a = -1.0;
@@ -878,7 +840,7 @@ internal static class Program
         a = -1.0;
         b = +1.0;
         m = 10;
-        seed = 123456789;
+        int seed = 123456789;
         x = UniformRNG.r8vec_uniform_ab_new(m, a, b, ref seed);
         d = new double[m];
         for (i = 0; i < m; i++)
@@ -912,15 +874,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double[] c;
-        int i;
-        int m;
         int n;
-        double r;
-        double[] v;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09:");
@@ -934,23 +888,24 @@ internal static class Program
         Console.WriteLine("   N   Max||F(x)-C(F)(n,x)||");
         Console.WriteLine("");
 
-        a = -1.0;
-        b = +1.0;
+        const double a = -1.0;
+        const double b = +1.0;
+        const int m = 101;
 
         for (n = 0; n <= 10; n++)
         {
-            c = ChebyshevPolynomial.t_project_coefficients(n, Math.Exp);
-            m = 101;
-            x = typeMethods.r8vec_linspace_new(m, a, b);
-            v = ChebyshevPolynomial.t_project_value(m, n, x, c);
-            r = 0.0;
+            double[] c = ChebyshevPolynomial.t_project_coefficients(n, Math.Exp);
+            double[] x = typeMethods.r8vec_linspace_new(m, a, b);
+            double[] v = ChebyshevPolynomial.t_project_value(m, n, x, c);
+            double r = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 r = Math.Max(r, Math.Abs(v[i] - Math.Exp(x[i])));
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + r.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -975,15 +930,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double[] c;
-        int i;
-        int m;
         int n;
-        double r;
-        double[] v;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10:");
@@ -991,8 +938,9 @@ internal static class Program
         Console.WriteLine("  of a function F(x) defined over [A,B].");
         Console.WriteLine("  T_PROJECT_VALUE_AB evaluates that projection.");
 
-        a = 0.0;
-        b = 1.5;
+        const double a = 0.0;
+        const double b = 1.5;
+        const int m = 101;
 
         Console.WriteLine("");
         Console.WriteLine("  Compute projections of order N to exp(x) over [" + a + "," + b + "]");
@@ -1002,18 +950,18 @@ internal static class Program
 
         for (n = 0; n <= 10; n++)
         {
-            c = ChebyshevPolynomial.t_project_coefficients_ab(n, Math.Exp, a, b);
-            m = 101;
-            x = typeMethods.r8vec_linspace_new(m, a, b);
-            v = ChebyshevPolynomial.t_project_value_ab(m, n, x, c, a, b);
-            r = 0.0;
+            double[] c = ChebyshevPolynomial.t_project_coefficients_ab(n, Math.Exp, a, b);
+            double[] x = typeMethods.r8vec_linspace_new(m, a, b);
+            double[] v = ChebyshevPolynomial.t_project_value_ab(m, n, x, c, a, b);
+            double r = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 r = Math.Max(r, Math.Abs(v[i] - Math.Exp(x[i])));
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + r.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1038,43 +986,34 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
-        double r8_hi;
-        double r8_lo;
-        int seed;
         int test;
-        double ti;
-        double titj;
-        double tj;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("TT_PRODUCT_TEST:");
         Console.WriteLine("  TT_PRODUCT(I,J;X) = T(I,X) * T(J,X)");
 
-        r8_lo = -1.0;
-        r8_hi = +1.0;
-        seed = 123456789;
+        const double r8_lo = -1.0;
+        const double r8_hi = +1.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("   I   J      X               TI              TJ              TI*TJ       TT_PRODUCT");
         Console.WriteLine("");
         for (test = 1; test <= 10; test++)
         {
-            x = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
-            i = UniformRNG.i4_uniform_ab(0, 6, ref seed);
-            ti = ChebyshevPolynomial.t_polynomial_value(i, x);
-            j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
-            tj = ChebyshevPolynomial.t_polynomial_value(j, x);
-            titj = ChebyshevPolynomial.tt_product(i, j, x);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + ti.ToString().PadLeft(14)
-                                   + "  " + tj.ToString().PadLeft(14)
-                                   + "  " + (ti * tj).ToString().PadLeft(14)
-                                   + "  " + titj.ToString().PadLeft(14) + "");
+            double x = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
+            int i = UniformRNG.i4_uniform_ab(0, 6, ref seed);
+            double ti = ChebyshevPolynomial.t_polynomial_value(i, x);
+            int j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
+            double tj = ChebyshevPolynomial.t_polynomial_value(j, x);
+            double titj = ChebyshevPolynomial.tt_product(i, j, x);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ti.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + tj.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (ti * tj).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + titj.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1103,10 +1042,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
         int i;
-        int j;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("TT_PRODUCT_INTEGRAL_TEST:");
@@ -1117,10 +1053,11 @@ internal static class Program
         Console.WriteLine("  pi   if i = j = 0;");
         Console.WriteLine("  pi/2 if i = j =/= 0.");
 
-        n = 4;
-        a = new double[(n + 1) * (n + 1)];
+        const int n = 4;
+        double[] a = new double[(n + 1) * (n + 1)];
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n; j++)
             {
                 a[i + j * (n + 1)] = ChebyshevPolynomial.tt_product_integral(i, j);
@@ -1151,21 +1088,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double fx1;
-        double fx2;
-        int i;
-        int j;
-        int k;
-        int l;
-        int n;
-        int seed;
         int test;
-        int test_num = 20;
-        double ti;
-        double tj;
-        double tk;
-        double[] w;
-        double[] x;
+        const int test_num = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TTT_PRODUCT_INTEGRAL_TEST:");
@@ -1176,34 +1100,35 @@ internal static class Program
         Console.WriteLine("                 computed       exact");
         Console.WriteLine("");
 
-        n = 15;
-        x = new double[n];
-        w = new double[n];
+        const int n = 15;
+        double[] x = new double[n];
+        double[] w = new double[n];
 
         ChebyshevPolynomial.t_quadrature_rule(n, ref x, ref w);
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= test_num; test++)
         {
-            i = UniformRNG.i4_uniform_ab(2, 6, ref seed);
-            j = UniformRNG.i4_uniform_ab(1, 3, ref seed);
-            k = UniformRNG.i4_uniform_ab(0, 4, ref seed);
-            fx1 = ChebyshevPolynomial.ttt_product_integral(i, j, k);
-            fx2 = 0.0;
+            int i = UniformRNG.i4_uniform_ab(2, 6, ref seed);
+            int j = UniformRNG.i4_uniform_ab(1, 3, ref seed);
+            int k = UniformRNG.i4_uniform_ab(0, 4, ref seed);
+            double fx1 = ChebyshevPolynomial.ttt_product_integral(i, j, k);
+            double fx2 = 0.0;
+            int l;
             for (l = 0; l < n; l++)
             {
-                ti = ChebyshevPolynomial.t_polynomial_value(i, x[l]);
-                tj = ChebyshevPolynomial.t_polynomial_value(j, x[l]);
-                tk = ChebyshevPolynomial.t_polynomial_value(k, x[l]);
+                double ti = ChebyshevPolynomial.t_polynomial_value(i, x[l]);
+                double tj = ChebyshevPolynomial.t_polynomial_value(j, x[l]);
+                double tk = ChebyshevPolynomial.t_polynomial_value(k, x[l]);
                 fx2 += w[l] * ti * tj * tk;
             }
 
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(2)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1228,43 +1153,34 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
-        double r8_hi;
-        double r8_lo;
-        int seed;
         int test;
-        double ti;
-        double tiuj;
-        double uj;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("TU_PRODUCT_TEST:");
         Console.WriteLine("  TU_PRODUCT(I,J;X) = T(I,X) * U(J,X)");
 
-        r8_lo = -1.0;
-        r8_hi = +1.0;
-        seed = 123456789;
+        const double r8_lo = -1.0;
+        const double r8_hi = +1.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("   I   J      X               TI              UJ              TI*UJ       TU_PRODUCT");
         Console.WriteLine("");
         for (test = 1; test <= 10; test++)
         {
-            x = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
-            i = UniformRNG.i4_uniform_ab(0, 6, ref seed);
-            ti = ChebyshevPolynomial.t_polynomial_value(i, x);
-            j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
-            uj = ChebyshevPolynomial.u_polynomial_value(j, x);
-            tiuj = ChebyshevPolynomial.tu_product(i, j, x);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + ti.ToString().PadLeft(14)
-                                   + "  " + uj.ToString().PadLeft(14)
-                                   + "  " + (ti * uj).ToString().PadLeft(14)
-                                   + "  " + tiuj.ToString().PadLeft(14) + "");
+            double x = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
+            int i = UniformRNG.i4_uniform_ab(0, 6, ref seed);
+            double ti = ChebyshevPolynomial.t_polynomial_value(i, x);
+            int j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
+            double uj = ChebyshevPolynomial.u_polynomial_value(j, x);
+            double tiuj = ChebyshevPolynomial.tu_product(i, j, x);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ti.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uj.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (ti * uj).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + tiuj.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1290,9 +1206,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("U_MASS_MATRIX_TEST:");
         Console.WriteLine("  U_MASS_MATRIX computes the mass matrix for the");
@@ -1301,8 +1214,8 @@ internal static class Program
         Console.WriteLine("  0    if i is not equal to j;");
         Console.WriteLine("  pi/2 if i = j.");
 
-        n = 3;
-        a = ChebyshevPolynomial.u_mass_matrix(n);
+        const int n = 3;
+        double[] a = ChebyshevPolynomial.u_mass_matrix(n);
 
         typeMethods.r8mat_print(n + 1, n + 1, a, "  U mass matrix:");
     }
@@ -1329,7 +1242,6 @@ internal static class Program
         //
     {
         int e;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("U_MOMENT_TEST:");
@@ -1340,9 +1252,9 @@ internal static class Program
         Console.WriteLine("");
         for (e = 0; e <= 10; e++)
         {
-            value = ChebyshevPolynomial.u_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            double value = ChebyshevPolynomial.u_moment(e);
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1368,7 +1280,6 @@ internal static class Program
         //
     {
         double fx = 0;
-        double[] fx2;
         int n = 0;
         double x = 0;
         double[] x_vec = new double[1];
@@ -1399,12 +1310,12 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2 = ChebyshevPolynomial.u_polynomial(1, n, x_vec);
+            double[] fx2 = ChebyshevPolynomial.u_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1429,15 +1340,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int m;
-        int n;
-        double[] v;
-        double[] x;
-
-        m = 11;
-        n = 5;
+        const int m = 11;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("U_POLYNOMIAL_AB_TEST:");
@@ -1447,11 +1351,11 @@ internal static class Program
         Console.WriteLine("  Here, we will use the new domain [0,1]");
         Console.WriteLine("  and the desired maximum polynomial degree will be N = 5.");
 
-        a = 0.0;
-        b = 1.0;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
 
-        v = ChebyshevPolynomial.u_polynomial_ab(a, b, m, n, x);
+        double[] v = ChebyshevPolynomial.u_polynomial_ab(a, b, m, n, x);
 
         typeMethods.r8mat_print(m, n + 1, v, "  Tables of U values:");
 
@@ -1493,8 +1397,8 @@ internal static class Program
         Console.WriteLine("     N      X01    U01(n,x)       U01(n,x)");
         Console.WriteLine("");
 
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
         int n_data = 0;
 
@@ -1509,10 +1413,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.u_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1537,24 +1441,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        double[] c2;
         int i;
-        int j;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("U_POLYNOMIAL_COEFFICIENTS_TEST");
         Console.WriteLine("  U_POLYNOMIAL_COEFFICIENTS determines the polynomial coefficients ");
         Console.WriteLine("  of U(n,x).");
 
-        n = 5;
+        const int n = 5;
 
-        c = ChebyshevPolynomial.u_polynomial_coefficients(n);
+        double[] c = ChebyshevPolynomial.u_polynomial_coefficients(n);
 
         for (i = 0; i <= n; i++)
         {
-            c2 = new double[i + 1];
+            double[] c2 = new double[i + 1];
+            int j;
             for (j = 0; j <= i; j++)
             {
                 c2[j] = c[i + j * (n + 1)];
@@ -1586,9 +1487,8 @@ internal static class Program
         //
     {
         int i;
-        int n_num = 6;
+        const int n_num = 6;
         int[] n_val = new int[6];
-        string output_filename;
 
         Console.WriteLine("");
         Console.WriteLine("U_POLYNOMIAL_PLOT_TEST");
@@ -1600,7 +1500,7 @@ internal static class Program
             n_val[i] = i;
         }
 
-        output_filename = "u_polynomial_plot.png";
+        const string output_filename = "u_polynomial_plot.png";
 
         ChebyshevPolynomial.u_polynomial_plot(n_num, n_val, output_filename);
     }
@@ -1651,10 +1551,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.u_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1679,11 +1579,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] fx;
-        int i;
         int n;
         const int N_MAX = 5;
-        double[] z;
 
         Console.WriteLine("");
         Console.WriteLine("U_POLYNOMIAL_ZEROS_TEST:");
@@ -1694,13 +1591,14 @@ internal static class Program
 
         for (n = 1; n <= N_MAX; n++)
         {
-            z = ChebyshevPolynomial.u_polynomial_zeros(n);
-            fx = ChebyshevPolynomial.u_polynomial(n, n, z);
+            double[] z = ChebyshevPolynomial.u_polynomial_zeros(n);
+            double[] fx = ChebyshevPolynomial.u_polynomial(n, n, z);
+            int i;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -1729,22 +1627,15 @@ internal static class Program
         //
     {
         int e;
-        double[] f;
-        int i;
-        int n;
-        double q;
-        double q_exact;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("U_QUADRATURE_RULE_TEST:");
         Console.WriteLine("  U_QUADRATURE_RULE computes the quadrature rule");
         Console.WriteLine("  associated with U(n,x);");
 
-        n = 7;
-        x = new double[n];
-        w = new double[n];
+        const int n = 7;
+        double[] x = new double[n];
+        double[] w = new double[n];
 
         ChebyshevPolynomial.u_quadrature_rule(n, ref x, ref w);
 
@@ -1758,10 +1649,11 @@ internal static class Program
         Console.WriteLine("   E       Q_Estimate      Q_Exact");
         Console.WriteLine("");
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (e = 0; e <= 2 * n - 1; e++)
         {
+            int i;
             switch (e)
             {
                 case 0:
@@ -1784,11 +1676,11 @@ internal static class Program
                 }
             }
 
-            q = typeMethods.r8vec_dot_product(n, w, f);
-            q_exact = ChebyshevPolynomial.u_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            double q = typeMethods.r8vec_dot_product(n, w, f);
+            double q_exact = ChebyshevPolynomial.u_moment(e);
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1813,43 +1705,34 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
-        double r8_hi;
-        double r8_lo;
-        int seed;
         int test;
-        double ui;
-        double uiuj;
-        double uj;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("UU_PRODUCT_TEST:");
         Console.WriteLine("  UU_PRODUCT(I,J;X) = U(I,X) * U(J,X)");
 
-        r8_lo = -1.0;
-        r8_hi = +1.0;
-        seed = 123456789;
+        const double r8_lo = -1.0;
+        const double r8_hi = +1.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("   I   J      X               UI              UJ              UI*UJ       UU_PRODUCT");
         Console.WriteLine("");
         for (test = 1; test <= 10; test++)
         {
-            x = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
-            i = UniformRNG.i4_uniform_ab(0, 6, ref seed);
-            ui = ChebyshevPolynomial.u_polynomial_value(i, x);
-            j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
-            uj = ChebyshevPolynomial.u_polynomial_value(j, x);
-            uiuj = ChebyshevPolynomial.uu_product(i, j, x);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + j.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + ui.ToString().PadLeft(14)
-                                   + "  " + uj.ToString().PadLeft(14)
-                                   + "  " + (ui * uj).ToString().PadLeft(14)
-                                   + "  " + uiuj.ToString().PadLeft(14) + "");
+            double x = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
+            int i = UniformRNG.i4_uniform_ab(0, 6, ref seed);
+            double ui = ChebyshevPolynomial.u_polynomial_value(i, x);
+            int j = UniformRNG.i4_uniform_ab(-1, 4, ref seed);
+            double uj = ChebyshevPolynomial.u_polynomial_value(j, x);
+            double uiuj = ChebyshevPolynomial.uu_product(i, j, x);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ui.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uj.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (ui * uj).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uiuj.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1878,10 +1761,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
         int i;
-        int j;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("UU_PRODUCT_INTEGRAL_TEST:");
@@ -1891,10 +1771,11 @@ internal static class Program
         Console.WriteLine("  0    if i is not equal to j;");
         Console.WriteLine("  pi/2 if i = j.");
 
-        n = 4;
-        a = new double[(n + 1) * (n + 1)];
+        const int n = 4;
+        double[] a = new double[(n + 1) * (n + 1)];
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n; j++)
             {
                 a[i + j * (n + 1)] = ChebyshevPolynomial.uu_product_integral(i, j);
@@ -1926,9 +1807,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("V_MASS_MATRIX_TEST:");
         Console.WriteLine("  V_MASS_MATRIX computes the mass matrix for the");
@@ -1937,8 +1815,8 @@ internal static class Program
         Console.WriteLine("  0  if i is not equal to j;");
         Console.WriteLine("  pi if i = j.");
 
-        n = 3;
-        a = ChebyshevPolynomial.v_mass_matrix(n);
+        const int n = 3;
+        double[] a = ChebyshevPolynomial.v_mass_matrix(n);
 
         typeMethods.r8mat_print(n + 1, n + 1, a, "  V mass matrix:");
 
@@ -1966,7 +1844,6 @@ internal static class Program
         //
     {
         int e;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("V_MOMENT_TEST:");
@@ -1977,9 +1854,9 @@ internal static class Program
         Console.WriteLine("");
         for (e = 0; e <= 10; e++)
         {
-            value = ChebyshevPolynomial.v_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            double value = ChebyshevPolynomial.v_moment(e);
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2037,10 +1914,10 @@ internal static class Program
             x_vec[0] = x;
             double[] fx2 = ChebyshevPolynomial.v_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -2066,15 +1943,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int m;
-        int n;
-        double[] v;
-        double[] x;
-
-        m = 11;
-        n = 5;
+        const int m = 11;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("V_POLYNOMIAL_AB_TEST:");
@@ -2084,11 +1954,11 @@ internal static class Program
         Console.WriteLine("  Here, we will use the new domain [0,1]");
         Console.WriteLine("  and the desired maximum polynomial degree will be N = 5.");
 
-        a = 0.0;
-        b = 1.0;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
 
-        v = ChebyshevPolynomial.v_polynomial_ab(a, b, m, n, x);
+        double[] v = ChebyshevPolynomial.v_polynomial_ab(a, b, m, n, x);
 
         typeMethods.r8mat_print(m, n + 1, v, "  Tables of V values:");
     }
@@ -2129,8 +1999,8 @@ internal static class Program
         Console.WriteLine("     N      X01    V01(n,x)       V01(n,x)");
         Console.WriteLine("");
 
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
         int n_data = 0;
 
@@ -2145,10 +2015,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.v_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2178,7 +2048,7 @@ internal static class Program
         Console.WriteLine("  V_POLYNOMIAL_COEFFICIENTS determines the polynomial coefficients ");
         Console.WriteLine("  of V(n,x).");
 
-        int n = 5;
+        const int n = 5;
 
         double[] c = ChebyshevPolynomial.v_polynomial_coefficients(n);
 
@@ -2215,9 +2085,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_num = 6;
+        const int n_num = 6;
         int[] n_val = new int[6];
-        string output_filename;
 
         Console.WriteLine("");
         Console.WriteLine("V_POLYNOMIAL_PLOT_TEST");
@@ -2229,7 +2098,7 @@ internal static class Program
             n_val[i] = i;
         }
 
-        output_filename = "v_polynomial_plot.png";
+        const string output_filename = "v_polynomial_plot.png";
 
         ChebyshevPolynomial.v_polynomial_plot(n_num, n_val, output_filename);
     }
@@ -2280,10 +2149,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.v_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2323,9 +2192,9 @@ internal static class Program
             double[] fx = ChebyshevPolynomial.v_polynomial(n, n, z);
             for (int i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -2358,7 +2227,7 @@ internal static class Program
         Console.WriteLine("  V_QUADRATURE_RULE computes the quadrature rule");
         Console.WriteLine("  associated with V(n,x);");
 
-        int n = 7;
+        const int n = 7;
         double[] x = new double[n];
         double[] w = new double[n];
 
@@ -2402,9 +2271,9 @@ internal static class Program
 
             double q = typeMethods.r8vec_dot_product(n, w, f);
             double q_exact = ChebyshevPolynomial.v_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2433,10 +2302,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
         int i;
-        int j;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("VV_PRODUCT_INTEGRAL_TEST:");
@@ -2446,10 +2312,11 @@ internal static class Program
         Console.WriteLine("  0  if i is not equal to j;");
         Console.WriteLine("  pi if i = j.");
 
-        n = 4;
-        a = new double[(n + 1) * (n + 1)];
+        const int n = 4;
+        double[] a = new double[(n + 1) * (n + 1)];
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n; j++)
             {
                 a[i + j * (n + 1)] = ChebyshevPolynomial.vv_product_integral(i, j);
@@ -2480,9 +2347,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("W_MASS_MATRIX_TEST:");
         Console.WriteLine("  W_MASS_MATRIX computes the mass matrix for the");
@@ -2491,8 +2355,8 @@ internal static class Program
         Console.WriteLine("  0  if i is not equal to j;");
         Console.WriteLine("  pi if i = j.");
 
-        n = 3;
-        a = ChebyshevPolynomial.w_mass_matrix(n);
+        const int n = 3;
+        double[] a = ChebyshevPolynomial.w_mass_matrix(n);
 
         typeMethods.r8mat_print(n + 1, n + 1, a, "  W mass matrix:");
 
@@ -2520,7 +2384,6 @@ internal static class Program
         //
     {
         int e;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("W_MOMENT_TEST:");
@@ -2531,9 +2394,9 @@ internal static class Program
         Console.WriteLine("");
         for (e = 0; e <= 10; e++)
         {
-            value = ChebyshevPolynomial.w_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            double value = ChebyshevPolynomial.w_moment(e);
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2591,10 +2454,10 @@ internal static class Program
             x_vec[0] = x;
             double[] fx2 = ChebyshevPolynomial.w_polynomial(1, n, x_vec);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2[n].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2619,15 +2482,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int m;
-        int n;
-        double[] v;
-        double[] x;
-
-        m = 11;
-        n = 5;
+        const int m = 11;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("W_POLYNOMIAL_AB_TEST:");
@@ -2637,11 +2493,11 @@ internal static class Program
         Console.WriteLine("  Here, we will use the new domain [0,1]");
         Console.WriteLine("  and the desired maximum polynomial degree will be N = 5.");
 
-        a = 0.0;
-        b = 1.0;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
 
-        v = ChebyshevPolynomial.w_polynomial_ab(a, b, m, n, x);
+        double[] v = ChebyshevPolynomial.w_polynomial_ab(a, b, m, n, x);
 
         typeMethods.r8mat_print(m, n + 1, v, "  Tables of W values:");
     }
@@ -2682,8 +2538,8 @@ internal static class Program
         Console.WriteLine("     N      X01    W01(n,x)       W01(n,x)");
         Console.WriteLine("");
 
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
         int n_data = 0;
 
@@ -2698,10 +2554,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.w_polynomial_ab_value(a, b, n, x01);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x01.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x01.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2731,7 +2587,7 @@ internal static class Program
         Console.WriteLine("  W_POLYNOMIAL_COEFFICIENTS determines the polynomial coefficients ");
         Console.WriteLine("  of W(n,x).");
 
-        int n = 5;
+        const int n = 5;
 
         double[] c = ChebyshevPolynomial.w_polynomial_coefficients(n);
 
@@ -2769,9 +2625,8 @@ internal static class Program
         //
     {
         int i;
-        int n_num = 6;
+        const int n_num = 6;
         int[] n_val = new int[6];
-        string output_filename;
 
         Console.WriteLine("");
         Console.WriteLine("W_POLYNOMIAL_PLOT_TEST");
@@ -2783,7 +2638,7 @@ internal static class Program
             n_val[i] = i;
         }
 
-        output_filename = "w_polynomial_plot.png";
+        const string output_filename = "w_polynomial_plot.png";
 
         ChebyshevPolynomial.w_polynomial_plot(n_num, n_val, output_filename);
     }
@@ -2834,10 +2689,10 @@ internal static class Program
 
             double fx2 = ChebyshevPolynomial.w_polynomial_value(n, x);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2862,7 +2717,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int n;
         const int N_MAX = 5;
 
@@ -2877,11 +2731,12 @@ internal static class Program
         {
             double[] z = ChebyshevPolynomial.w_polynomial_zeros(n);
             double[] fx = ChebyshevPolynomial.w_polynomial(n, n, z);
+            int i;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                       + "  " + z[i].ToString().PadLeft(8)
-                                       + "  " + fx[i + n * n].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fx[i + n * n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -2914,7 +2769,7 @@ internal static class Program
         Console.WriteLine("  W_QUADRATURE_RULE computes the quadrature rule");
         Console.WriteLine("  associated with W(n,x);");
 
-        int n = 7;
+        const int n = 7;
         double[] x = new double[n];
         double[] w = new double[n];
 
@@ -2958,9 +2813,9 @@ internal static class Program
 
             double q = typeMethods.r8vec_dot_product(n, w, f);
             double q_exact = ChebyshevPolynomial.w_moment(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2997,7 +2852,7 @@ internal static class Program
         Console.WriteLine("  0  if i is not equal to j;");
         Console.WriteLine("  pi if i = j.");
 
-        int n = 4;
+        const int n = 4;
         double[] a = new double[(n + 1) * (n + 1)];
         for (int i = 0; i <= n; i++)
         {

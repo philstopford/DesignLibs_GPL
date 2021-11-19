@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.CircleNS;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
@@ -66,18 +67,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] e;
-        double error;
-        double exact;
-        int i;
-        int m = 2;
-        int n = 4192;
-        double result;
-        int seed;
+        const int m = 2;
+        const int n = 4192;
         int test;
-        int test_num = 20;
-        double[] value;
-        double[] x;
+        const int test_num = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -87,8 +80,8 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
-        x = Integrals.circle01_sample(n, ref seed);
+        int seed = 123456789;
+        double[] x = Integrals.circle01_sample(n, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points used is " + n + "");
@@ -104,25 +97,26 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
-            e = UniformRNG.i4vec_uniform_ab_new(m, 0, 5, ref seed);
+            int[] e = UniformRNG.i4vec_uniform_ab_new(m, 0, 5, ref seed);
 
+            int i;
             for (i = 0; i < m; i++)
             {
                 e[i] *= 2;
             }
 
-            value = Monomial.monomial_value(m, n, e, x);
+            double[] value = Monomial.monomial_value(m, n, e, x);
 
-            result = Integrals.circle01_length() * typeMethods.r8vec_sum(n, value)
-                     / n;
-            exact = Integrals.circle01_monomial_integral(e);
-            error = Math.Abs(result - exact);
+            double result = Integrals.circle01_length() * typeMethods.r8vec_sum(n, value)
+                            / n;
+            double exact = Integrals.circle01_monomial_integral(e);
+            double error = Math.Abs(result - exact);
 
-            Console.WriteLine("  " + e[0].ToString().PadLeft(2)
-                                   + "  " + e[1].ToString().PadLeft(2)
-                                   + "  " + result.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

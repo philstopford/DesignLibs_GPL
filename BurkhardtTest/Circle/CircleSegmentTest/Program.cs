@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.CircleNS;
 using Burkardt.IO;
@@ -62,7 +63,7 @@ internal static class Program
     private static void test01()
 
         //****************************************************************************80
-        ///
+        //
         //  Purpose:
         //
         //    TEST01 tests CIRCLE_SEGMENT_AREA_FROM_HEIGHT.
@@ -80,10 +81,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        double h;
         int i;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -92,14 +90,14 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("          R               H               Area");
         Console.WriteLine("");
-        r = 1.0;
-        h = 1.0;
+        double r = 1.0;
+        double h = 1.0;
         for (i = 0; i <= 10; i++)
         {
-            area = Segment.circle_segment_area_from_height(r, h);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
-                                   + "  " + h.ToString().PadLeft(14)
-                                   + "  " + area.ToString().PadLeft(14) + "");
+            double area = Segment.circle_segment_area_from_height(r, h);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             h /= 2.0;
         }
     }
@@ -126,11 +124,8 @@ internal static class Program
         //
     {
         double a;
-        double a2;
         double h;
-        double h2;
         double r;
-        int seed;
         int test;
 
         Console.WriteLine("");
@@ -145,18 +140,18 @@ internal static class Program
         Console.WriteLine("        R             H      =>     A    =>       H2");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= 5; test++)
         {
             r = 5.0 * UniformRNG.r8_uniform_01(ref seed);
             h = 2.0 * r * UniformRNG.r8_uniform_01(ref seed);
             a = Segment.circle_segment_area_from_height(r, h);
-            h2 = Segment.circle_segment_height_from_area(r, a);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + a.ToString().PadLeft(12)
-                                   + "  " + h2.ToString().PadLeft(12) + "");
+            double h2 = Segment.circle_segment_height_from_area(r, a);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -168,11 +163,11 @@ internal static class Program
             r = 5.0 * UniformRNG.r8_uniform_01(ref seed);
             a = Math.PI * r * r * UniformRNG.r8_uniform_01(ref seed);
             h = Segment.circle_segment_height_from_area(r, a);
-            a2 = Segment.circle_segment_area_from_height(r, h);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + a.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + a2.ToString().PadLeft(12) + "");
+            double a2 = Segment.circle_segment_area_from_height(r, h);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -197,29 +192,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] an;
-        int an_num = 51;
+        const int an_num = 51;
         string boundary_filename = "sample00_boundary.txt";
         List<string> boundary_unit = new();
-        double[] boundary_x;
-        double[] boundary_y;
         string command_filename = "sample00_commands.txt";
         List<string> command_unit = new();
         string data_filename = "sample00_data.txt";
         List<string> data_unit = new();
-        int data_num = 100;
-        double[] data_x;
-        double[] data_y;
+        const int data_num = 100;
         string graphics_filename = "sample00.png";
-        double h;
-        int i;
-        double r;
-        int seed;
         int test;
-        double theta;
-        double thetah;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_SEGMENT_TEST06");
@@ -228,25 +212,26 @@ internal static class Program
         Console.WriteLine("  Plot " + data_num + " points from several segments.");
         Console.WriteLine("");
 
-        r = 1.0;
-        theta = Math.PI;
+        double r = 1.0;
+        double theta = Math.PI;
 
         for (test = 1; test <= 4; test++)
         {
-            h = Segment.circle_segment_height_from_angle(r, theta);
+            double h = Segment.circle_segment_height_from_angle(r, theta);
 
-            thetah = theta / 2.0;
+            double thetah = theta / 2.0;
             //
             //  Create boundary.
             //
-            an = typeMethods.r8vec_linspace_new(an_num, -thetah, +thetah);
+            double[] an = typeMethods.r8vec_linspace_new(an_num, -thetah, +thetah);
+            int i;
             for (i = 0; i < an_num; i++)
             {
                 an[i] += 0.5 * Math.PI;
             }
 
-            boundary_x = new double[an_num + 1];
-            boundary_y = new double[an_num + 1];
+            double[] boundary_x = new double[an_num + 1];
+            double[] boundary_y = new double[an_num + 1];
 
             for (i = 0; i < an_num; i++)
             {
@@ -260,8 +245,8 @@ internal static class Program
             Files.filename_inc(ref boundary_filename);
             for (i = 0; i <= an_num; i++)
             {
-                boundary_unit.Add("  " + boundary_x[i].ToString().PadLeft(14)
-                                       + "  " + boundary_y[i].ToString().PadLeft(14) + "");
+                boundary_unit.Add("  " + boundary_x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + boundary_y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             File.WriteAllLines(boundary_filename, boundary_unit);
@@ -270,16 +255,16 @@ internal static class Program
             //
             //  Create data.
             //
-            data_x = new double[data_num + 1];
-            data_y = new double[data_num + 1];
+            double[] data_x = new double[data_num + 1];
+            double[] data_y = new double[data_num + 1];
 
             Segment.circle_segment_sample_from_height(r, h, data_num, ref seed, ref data_x, ref data_y);
 
             Files.filename_inc(ref data_filename);
             for (i = 0; i < data_num; i++)
             {
-                data_unit.Add( "  " + data_x[i].ToString().PadLeft(14)
-                                    + "  " + data_y[i].ToString().PadLeft(14) + "");
+                data_unit.Add( "  " + data_x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                    + "  " + data_y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             File.WriteAllLines(data_filename, data_unit);
@@ -340,11 +325,8 @@ internal static class Program
         //
     {
         double h;
-        double h2;
         double r;
-        int seed;
         double t;
-        double t2;
         int test;
 
         Console.WriteLine("");
@@ -358,18 +340,18 @@ internal static class Program
         Console.WriteLine("        R             H      =>     T    =>       H2");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= 5; test++)
         {
             r = 5.0 * UniformRNG.r8_uniform_01(ref seed);
             h = 2.0 * r * UniformRNG.r8_uniform_01(ref seed);
             t = Segment.circle_segment_angle_from_height(r, h);
-            h2 = Segment.circle_segment_height_from_angle(r, t);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + t.ToString().PadLeft(12)
-                                   + "  " + h2.ToString().PadLeft(12) + "");
+            double h2 = Segment.circle_segment_height_from_angle(r, t);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -380,11 +362,11 @@ internal static class Program
             r = 5.0 * UniformRNG.r8_uniform_01(ref seed);
             t = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
             h = Segment.circle_segment_height_from_angle(r, t);
-            t2 = Segment.circle_segment_angle_from_height(r, h);
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + t.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + t2.ToString().PadLeft(12) + "");
+            double t2 = Segment.circle_segment_angle_from_height(r, h);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + t2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -409,20 +391,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        double area_est;
         double[] c = new double[2];
-        int i;
-        int[] inout;
-        int j;
-        int n = 1000;
-        double omega1;
-        double omega2;
-        double r;
-        int seed;
+        const int n = 1000;
         int test;
-        double theta;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -437,25 +408,27 @@ internal static class Program
         Console.WriteLine("       N       Omega1          Omega2           Area         Estimate");
         Console.WriteLine("");
 
-        r = 1.0;
+        const double r = 1.0;
         c[0] = 0.0;
         c[1] = 0.0;
-        seed = 123456789;
-        inout = new int[n];
+        int seed = 123456789;
+        int[] inout = new int[n];
 
         for (test = 1; test <= 5; test++)
         {
-            omega1 = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
-            omega2 = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
+            double omega1 = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
+            double omega2 = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
 
             if (omega2 < omega1)
             {
                 omega2 += 2.0 * Math.PI;
             }
 
-            xy = UniformRNG.r8mat_uniform_01_new(2, n, ref seed);
+            double[] xy = UniformRNG.r8mat_uniform_01_new(2, n, ref seed);
+            int j;
             for (j = 0; j < n; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     xy[i + j * 2] = 2.0 * xy[i + j * 2] - 1.0;
@@ -467,15 +440,15 @@ internal static class Program
                 inout[j] = Segment.circle_segment_contains_point(r, c, omega1, omega2, xy, xyIndex: + j * 2);
             }
 
-            theta = Segment.circle_segment_angle_from_chord_angles(omega1, omega2);
-            area = Segment.circle_segment_area_from_angle(r, theta);
-            area_est = 4.0 * typeMethods.i4vec_sum(n, inout) / n;
+            double theta = Segment.circle_segment_angle_from_chord_angles(omega1, omega2);
+            double area = Segment.circle_segment_area_from_angle(r, theta);
+            double area_est = 4.0 * typeMethods.i4vec_sum(n, inout) / n;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + omega1.ToString().PadLeft(14)
-                                   + "  " + omega2.ToString().PadLeft(14)
-                                   + "  " + area.ToString().PadLeft(14)
-                                   + "  " + area_est.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + omega1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + omega2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area_est.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -500,23 +473,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a1;
-        double a2;
-        double a3;
         double[] c = new double[2];
-        double[] d1;
-        double[] d2;
-        double[] d3;
-        double h;
-        int n;
-        double omega1;
-        double omega2;
         double[] p1 = new double[2];
         double[] p2 = new double[2];
-        const double pi = 3.141592653589793;
-        double r;
-        int seed;
-        double theta;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_SEGMENT_TEST09");
@@ -531,44 +490,44 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Start easy, with R = 1, C = (0,0), and Theta centered.");
 
-        seed = 123456789;
-        r = 1.0;
+        int seed = 123456789;
+        const double r = 1.0;
         c[0] = 0.0;
         c[1] = 0.0;
-        theta = pi / 4.0;
-        h = Segment.circle_segment_height_from_angle(r, theta);
-        omega1 = -theta / 2.0;
-        omega2 = +theta / 2.0;
+        const double theta = Math.PI / 4.0;
+        double h = Segment.circle_segment_height_from_angle(r, theta);
+        const double omega1 = -theta / 2.0;
+        const double omega2 = +theta / 2.0;
         p1[0] = c[0] + r * Math.Cos(omega1);
         p1[1] = c[1] + r * Math.Sin(omega1);
         p2[0] = c[0] + r * Math.Cos(omega2);
         p2[1] = c[1] + r * Math.Sin(omega2);
 
-        a1 = Segment.circle_segment_area_from_chord(r, c, p1, p2);
-        d1 = Segment.circle_segment_centroid_from_chord(r, c, p1, p2);
+        double a1 = Segment.circle_segment_area_from_chord(r, c, p1, p2);
+        double[] d1 = Segment.circle_segment_centroid_from_chord(r, c, p1, p2);
 
         Console.WriteLine("");
         Console.WriteLine("         Area          CentroidX    CentroidY");
         Console.WriteLine("");
-        Console.WriteLine("  " + a1.ToString().PadLeft(14)
-                               + "  " + d1[0].ToString().PadLeft(14)
-                               + "  " + d1[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  This only works because the centroid of the height-based circle segment 
         //  is easily transformed to the centroid of the chord based circle segment.
         //
-        a2 = Segment.circle_segment_area_from_height(r, h);
-        d2 = Segment.circle_segment_centroid_from_height(r, h);
-        Console.WriteLine("  " + a2.ToString().PadLeft(14)
-                               + "  " + d2[1].ToString().PadLeft(14)
-                               + "  " + (-d2[0]).ToString().PadLeft(14) + "");
+        double a2 = Segment.circle_segment_area_from_height(r, h);
+        double[] d2 = Segment.circle_segment_centroid_from_height(r, h);
+        Console.WriteLine("  " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + (-d2[0]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
-        n = 10000;
-        a3 = Segment.circle_segment_area_from_sample(r, c, p1, p2, n, ref seed);
-        d3 = Segment.circle_segment_centroid_from_sample(r, c, p1, p2, n, ref seed);
-        Console.WriteLine("  " + a3.ToString().PadLeft(14)
-                               + "  " + d3[0].ToString().PadLeft(14)
-                               + "  " + d3[1].ToString().PadLeft(14) + "");
+        const int n = 10000;
+        double a3 = Segment.circle_segment_area_from_sample(r, c, p1, p2, n, ref seed);
+        double[] d3 = Segment.circle_segment_centroid_from_sample(r, c, p1, p2, n, ref seed);
+        Console.WriteLine("  " + a3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + d3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -601,16 +560,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha;
         double[] c = new double[2];
         int i;
-        int j;
         double[] p1 = new double[2];
         double[] p2 = new double[2];
-        double r;
-        double rho1;
-        double rho2;
-        double t;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11:");
@@ -622,7 +575,7 @@ internal static class Program
         Console.WriteLine("  of pi/12, determine the corresponding chord endpoints, and");
         Console.WriteLine("  compute the rotation angle, also printed as a multiple of pi/12.");
 
-        r = 2.0;
+        const double r = 2.0;
         c[0] = 3.0;
         c[1] = 5.0;
         Console.WriteLine("");
@@ -631,18 +584,19 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i <= 12; i++)
         {
-            rho1 = i * Math.PI / 6.0;
+            double rho1 = i * Math.PI / 6.0;
             p1[0] = c[0] + r * Math.Cos(rho1);
             p1[1] = c[1] + r * Math.Sin(rho1);
-            string cout = i.ToString().PadLeft(2);
+            string cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            int j;
             for (j = 0; j <= 12; j++)
             {
-                rho2 = j * Math.PI / 6.0;
+                double rho2 = j * Math.PI / 6.0;
                 p2[0] = c[0] + r * Math.Cos(rho2);
                 p2[1] = c[1] + r * Math.Sin(rho2);
-                alpha = Segment.circle_segment_rotation_from_chord(r, c, p1, p2);
-                t = 6.0 * alpha / Math.PI;
-                cout += "  " + t.ToString().PadLeft(4);
+                double alpha = Segment.circle_segment_rotation_from_chord(r, c, p1, p2);
+                double t = 6.0 * alpha / Math.PI;
+                cout += "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -682,12 +636,7 @@ internal static class Program
         //    Volume 40, Number 3, October 1982, pages 407-422.
         //
     {
-        double[] alpha;
-        double[] beta;
         int i;
-        int n;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -697,10 +646,10 @@ internal static class Program
         //
         //  Legendre rule.
         //
-        n = 10;
+        int n = 10;
 
-        alpha = new double[n];
-        beta = new double[n];
+        double[] alpha = new double[n];
+        double[] beta = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -712,8 +661,8 @@ internal static class Program
             };
         }
 
-        x = new double[n];
-        w = new double[n];
+        double[] x = new double[n];
+        double[] w = new double[n];
 
         GaussQuadrature.gauss(n, alpha, beta, ref x, ref w);
 
@@ -723,8 +672,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -756,8 +705,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -789,8 +738,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -829,12 +778,7 @@ internal static class Program
         //    LC: QA404.5 G3555.
         //
     {
-        double a;
-        double[] alpha;
-        double b;
-        double[] beta;
         int i;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -844,12 +788,12 @@ internal static class Program
         //
         //  Legendre rule.
         //
-        n = 10;
+        int n = 10;
 
-        a = 0.0;
-        b = 0.0;
-        alpha = new double[n];
-        beta = new double[n];
+        double a = 0.0;
+        double b = 0.0;
+        double[] alpha = new double[n];
+        double[] beta = new double[n];
 
         Jacobi.r_jacobi(n, a, b, ref alpha, ref beta);
 
@@ -860,8 +804,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -883,8 +827,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -906,8 +850,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -929,8 +873,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + alpha[i].ToString().PadLeft(14)
-                                   + "  " + beta[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + alpha[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + beta[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

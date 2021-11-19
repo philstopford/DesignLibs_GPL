@@ -66,21 +66,18 @@ internal static class Program
     {
         double[] a = new double[2];
         double[] c = new double[2];
-        string filename = "arc.txt";
-        int n;
-        double r;
-        double[] xy;
+        const string filename = "arc.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Compute points along a 90 degree arc");
 
-        r = 2.0;
+        const double r = 2.0;
         c[0] = 5.0;
         c[1] = 5.0;
         a[0] = 0.0;
         a[1] = 90.0;
-        n = 10;
+        const int n = 10;
         //
         //  Echo the input.
         //
@@ -89,12 +86,11 @@ internal static class Program
         Console.WriteLine("  Center =           " + c[0] + "  " + c[1] + "");
         Console.WriteLine("  Angle 1 =          " + a[0] + "");
         Console.WriteLine("  Angle 2 =          " + a[1] + "");
-        ;
         Console.WriteLine("  Number of points = " + n + "");
         //
         //  Compute the data.
         //
-        xy = Circle.circle_arc_grid(r, c, a, n);
+        double[] xy = Circle.circle_arc_grid(r, c, a, n);
         //
         //  Print a little of the data.
         //

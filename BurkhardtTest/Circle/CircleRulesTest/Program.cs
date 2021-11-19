@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.CircleNS;
 
 namespace CircleRulesTest;
@@ -29,14 +30,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int nt;
-
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_RULE:");
 
         Console.WriteLine("  Test the CIRCLE_RULE library.");
 
-        nt = 8;
+        int nt = 8;
         test01(nt);
 
         nt = 32;
@@ -71,15 +70,6 @@ internal static class Program
     {
         int[] e = new int[2];
         int e1;
-        int e2;
-        double exact;
-        int i;
-        double q;
-        double r8_pi = 3.141592653589793;
-        double[] t;
-        double[] w;
-        double x;
-        double y;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -90,8 +80,8 @@ internal static class Program
         //
         //  Compute the quadrature rule.
         //
-        w = new double[nt];
-        t = new double[nt];
+        double[] w = new double[nt];
+        double[] t = new double[nt];
 
         QuadratureRule.circle_rule(nt, ref w, ref t);
         //
@@ -107,26 +97,28 @@ internal static class Program
         {
             e[0] = e1;
 
+            int e2;
             for (e2 = e1; e2 <= 6; e2 += 2)
             {
                 e[1] = e2;
 
-                q = 0.0;
+                double q = 0.0;
+                int i;
                 for (i = 0; i < nt; i++)
                 {
-                    x = Math.Cos(t[i]);
-                    y = Math.Sin(t[i]);
+                    double x = Math.Cos(t[i]);
+                    double y = Math.Sin(t[i]);
                     q += w[i] * Math.Pow(x, e[0]) * Math.Pow(y, e[1]);
                 }
 
-                q = 2.0 * r8_pi * q;
+                q = 2.0 * Math.PI * q;
 
-                exact = Integrals.circle01_monomial_integral(e);
+                double exact = Integrals.circle01_monomial_integral(e);
 
-                Console.WriteLine("  " + e[0].ToString().PadLeft(2)
-                                       + "  " + e[1].ToString().PadLeft(2)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + q.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }

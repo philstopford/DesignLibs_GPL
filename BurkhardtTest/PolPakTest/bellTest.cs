@@ -96,7 +96,7 @@ public static class bellTest
         Console.WriteLine("  Table of polynomial coefficients:");
         Console.WriteLine("");
 
-        for ( n = 0; n <= n_max; n++ )
+        for ( n = 0; n <= N_MAX; n++ )
         {
             c = Bell.bell_poly_coef ( n );
             string cout = "  " + n.ToString().PadLeft(2) + ":  ";

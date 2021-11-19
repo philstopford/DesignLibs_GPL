@@ -247,7 +247,7 @@ public static class Files
                             {
                                 [i] = c
                             };
-                            filename = sb.ToString(CultureInfo.InvariantCulture);
+                            filename = sb.ToString();
                             break;
                         }
                         default:
@@ -257,7 +257,7 @@ public static class Files
                             {
                                 [i] = c
                             };
-                            filename = sb.ToString(CultureInfo.InvariantCulture);
+                            filename = sb.ToString();
                             return;
                         }
                     }
@@ -279,7 +279,7 @@ public static class Files
                 {
                     sb[i] = ' ';
                 }
-                filename = sb.ToString(CultureInfo.InvariantCulture);
+                filename = sb.ToString();
                 break;
             }
         }

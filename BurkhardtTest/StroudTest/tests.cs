@@ -44,7 +44,7 @@ public static class tests
         Console.WriteLine("  BALL_F1_ND approximates the integral;");
         Console.WriteLine("  BALL_F3_ND approximates the integral.");
 
-        for (n = 2; n <= n_max; n++)
+        for (n = 2; n <= N_MAX; n++)
         {
             center = new double[n];
             for (i = 0; i < n; i++)
@@ -268,7 +268,7 @@ public static class tests
         Console.WriteLine("  BALL_UNIT_F3_ND approximates the integral.");
         Console.WriteLine("");
 
-        for (n = 2; n <= n_max; n++)
+        for (n = 2; n <= N_MAX; n++)
         {
             Console.WriteLine("");
             Console.WriteLine("  Spatial dimension N = " + n + "");

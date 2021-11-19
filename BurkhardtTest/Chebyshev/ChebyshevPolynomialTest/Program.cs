@@ -601,7 +601,7 @@ internal class Program
         Console.WriteLine("       N      X        T(n,x)");
         Console.WriteLine("");
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             z = ChebyshevPolynomial.t_polynomial_zeros(n);
             fx = ChebyshevPolynomial.t_polynomial(n, n, z);
@@ -1692,7 +1692,7 @@ internal class Program
         Console.WriteLine("       N      X        U(n,x)");
         Console.WriteLine("");
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             z = ChebyshevPolynomial.u_polynomial_zeros(n);
             fx = ChebyshevPolynomial.u_polynomial(n, n, z);
@@ -2317,7 +2317,7 @@ internal class Program
         Console.WriteLine("       N      X        V(n,x)");
         Console.WriteLine("");
 
-        for (int n = 1; n <= n_max; n++)
+        for (int n = 1; n <= N_MAX; n++)
         {
             double[] z = ChebyshevPolynomial.v_polynomial_zeros(n);
             double[] fx = ChebyshevPolynomial.v_polynomial(n, n, z);
@@ -2873,7 +2873,7 @@ internal class Program
         Console.WriteLine("       N      X        W(n,x)");
         Console.WriteLine("");
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             double[] z = ChebyshevPolynomial.w_polynomial_zeros(n);
             double[] fx = ChebyshevPolynomial.w_polynomial(n, n, z);

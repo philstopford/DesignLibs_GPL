@@ -172,7 +172,7 @@ internal class Program
 
         seed = 123456789;
 
-        for (n = 2; n <= n_max; n++)
+        for (n = 2; n <= N_MAX; n++)
         {
             Console.WriteLine("");
 

@@ -724,7 +724,7 @@ public static class tests3
             functions.function_nd_name(function_nd_index, ref name);
             string cout = "  " + name;
 
-            for (n = 1; n <= n_max; n++)
+            for (n = 1; n <= N_MAX; n++)
             {
                 result = Octahedron.octahedron_unit_nd(function_nd_index, functions.function_nd, n);
                 cout += result.ToString().PadLeft(14);

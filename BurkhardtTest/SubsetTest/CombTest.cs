@@ -99,9 +99,9 @@ public static class CombTest
         Console.WriteLine("  COMB_ROW_NEXT computes the next row of the Pascal triangle.");
         Console.WriteLine("");
 
-        c = new int[n_max + 1];
+        c = new int[N_MAX + 1];
 
-        for (n = 0; n <= n_max; n++)
+        for (n = 0; n <= N_MAX; n++)
         {
             Comb.comb_row_next(n, ref c);
             string cout = "  " + n.ToString().PadLeft(2) + "  ";

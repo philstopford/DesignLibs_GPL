@@ -558,7 +558,7 @@ public static class tests4
                     break;
             }
 
-            for (n = 2; n <= n_max; n++)
+            for (n = 2; n <= N_MAX; n++)
             {
                 Console.WriteLine("");
                 Console.WriteLine("  Spatial dimension N = " + n + "");

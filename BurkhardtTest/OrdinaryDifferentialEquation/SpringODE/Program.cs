@@ -66,7 +66,7 @@ internal class Program
         float k;
         float m;
         int n;
-        int p;
+        int p = 0;
         float t_final;
         float v;
         float v_old;

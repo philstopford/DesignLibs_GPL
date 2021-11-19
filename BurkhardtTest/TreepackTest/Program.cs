@@ -1000,7 +1000,7 @@ internal class Program
 
                 Console.WriteLine(cout);
 
-                if (n_max < n + 2)
+                if (N_MAX < n + 2)
                 {
                     break;
                 }

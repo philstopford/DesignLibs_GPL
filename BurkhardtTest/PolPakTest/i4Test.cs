@@ -349,7 +349,7 @@ public static class i4Test
                 break;
             }
 
-            if (n_max < n)
+            if (N_MAX < n)
             {
                 continue;
             }

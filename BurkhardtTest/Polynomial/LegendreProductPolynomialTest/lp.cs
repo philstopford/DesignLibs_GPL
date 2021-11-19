@@ -41,7 +41,7 @@ public static class lpTest
         Console.WriteLine("  LP_COEFFICIENTS: coefficients of Legendre polynomial P(n,x).");
         Console.WriteLine("");
 
-        for (n = 0; n <= n_max; n++)
+        for (n = 0; n <= N_MAX; n++)
         {
             c = new double[n + 1];
             f = new int[n + 1];

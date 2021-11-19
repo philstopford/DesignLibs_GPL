@@ -172,7 +172,7 @@ public static class baffle
         //
     {
         int node;
-        double z;
+        double z = 0;
         double[] node_rhs = new double[node_num];
 
         for (node = 0; node < node_num; node++)

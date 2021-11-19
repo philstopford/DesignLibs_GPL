@@ -1341,7 +1341,7 @@ namespace SandiaRulesTest
             Console.WriteLine("");
             Console.WriteLine("         N         D       Estimate       Exact            Error");
 
-            for (n = 1; n <= n_max; n++)
+            for (n = 1; n <= N_MAX; n++)
             {
                 Console.WriteLine("");
 
@@ -1618,7 +1618,7 @@ namespace SandiaRulesTest
                 {
                     beta = beta_test[test2];
 
-                    for (n = 1; n <= n_max; n++)
+                    for (n = 1; n <= N_MAX; n++)
                     {
                         Console.WriteLine("");
                         Console.WriteLine("  N = " + n + "");
@@ -4265,7 +4265,7 @@ namespace SandiaRulesTest
             int level_max = 8;
             int n;
             int order;
-            int p;
+            int p = 0;
             double[] w;
             double[] x;
 

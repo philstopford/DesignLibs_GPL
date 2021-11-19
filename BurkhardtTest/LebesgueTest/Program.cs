@@ -89,14 +89,14 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.chebyshev1(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
 
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Chebyshev1 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -146,14 +146,14 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.chebyshev2(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
 
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Chebyshev2 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -203,14 +203,14 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.chebyshev3(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
 
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Chebyshev3 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -260,13 +260,13 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.chebyshev4(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Chebyshev4 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -316,13 +316,13 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.equidistant1(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Equidistant1 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -372,13 +372,13 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.equidistant2(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Equidistant2 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -428,13 +428,13 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.equidistant3(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Equidistant3 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -484,13 +484,13 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.fejer1(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Fejer1 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.
@@ -540,13 +540,13 @@ internal class Program
 
         l = new double[nfun];
 
-        for (n = 1; n <= n_max; n++)
+        for (n = 1; n <= N_MAX; n++)
         {
             x = Points.fejer2(n);
             l[n - 1] = Lebesgue.lebesgue_constant(n, x, nfun, xfun);
         }
 
-        typeMethods.r8vec_print(n_max, l,
+        typeMethods.r8vec_print(N_MAX, l,
             "  Fejer2 Lebesgue constants for N = 1 to 11:");
         //
         //  Examine one case more closely.

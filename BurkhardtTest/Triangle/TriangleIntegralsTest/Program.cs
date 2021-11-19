@@ -7,9 +7,9 @@ using Integrals = Burkardt.TriangleNS.Integrals;
 
 namespace TriangleIntegralsTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

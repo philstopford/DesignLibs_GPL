@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA310Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -64,7 +64,7 @@ internal class Program
     {
         double a = 0;
         double b = 0;
-        double errmax = 1.0E-10;
+        const double errmax = 1.0E-10;
         double fx = 0;
         int ifault = 0;
         double lambda = 0;

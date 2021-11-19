@@ -4,9 +4,9 @@ using Burkardt.Uniform;
 
 namespace SobolTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.WriteLine();
         Console.WriteLine("SOBOL_TEST");

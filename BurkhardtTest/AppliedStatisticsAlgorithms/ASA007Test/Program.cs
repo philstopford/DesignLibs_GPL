@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA007Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -70,7 +70,6 @@ internal class Program
         double[] cfull = new double[N_MAX * N_MAX];
         int ifault = 0;
         int nullty = 0;
-        int k;
         double[] w = new double[N_MAX];
 
         Console.WriteLine("");
@@ -89,7 +88,7 @@ internal class Program
             //  Set A to the lower triangle of the matrix which is N+1 on the diagonal
             //  and N on the off diagonals.
             //
-            k = 0;
+            int k = 0;
             for (int i = 1; i <= n; i++)
             {
                 for (int j = 1; j < i; j++)

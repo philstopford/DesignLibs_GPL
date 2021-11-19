@@ -3,9 +3,9 @@ using Burkardt.Types;
 
 namespace FD1DBurgersLeapfrogTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //
         //  Purpose:
         //

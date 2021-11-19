@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.AppliedStatistics;
 
 namespace ASA183Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -97,7 +98,7 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             float r = Algorithms.r4_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(8)
                                    + "  " + s2.ToString().PadLeft(8)
                                    + "  " + s3.ToString().PadLeft(8) + "");
@@ -124,7 +125,7 @@ internal class Program
         //    John Burkardt
         //
     {
-        int n = 100000;
+        const int n = 100000;
 
         float[] u = new float[n];
 
@@ -162,7 +163,6 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  Average value = " + u_avg + "");
         Console.WriteLine("  Expecting       " + 0.5 + "");
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("  Variance =      " + u_var + "");
@@ -220,7 +220,7 @@ internal class Program
         {
             r = Algorithms.r4_random(ref s1, ref s2, ref s3);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12)
                                    + "  " + s3.ToString().PadLeft(12) + "");
@@ -254,7 +254,7 @@ internal class Program
         {
             r = Algorithms.r4_random(ref s1, ref s2, ref s3);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12)
                                    + "  " + s3.ToString().PadLeft(12) + "");
@@ -282,17 +282,14 @@ internal class Program
         //
     {
         int i;
-        float r;
-        int s1;
-        int s2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  R4_UNI computes pseudorandom values.");
         Console.WriteLine("  Two seeds, S1 and S2, are used.");
 
-        s1 = 12345;
-        s2 = 34567;
+        int s1 = 12345;
+        int s2 = 34567;
 
         Console.WriteLine("");
         Console.WriteLine("      R                 S1        S2");
@@ -303,8 +300,8 @@ internal class Program
 
         for (i = 0; i < 10; i++)
         {
-            r = Algorithms.r4_uni(ref s1, ref s2);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
+            float r = Algorithms.r4_uni(ref s1, ref s2);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(8)
                                    + "  " + s2.ToString().PadLeft(8) + "");
         }
@@ -418,7 +415,7 @@ internal class Program
         {
             float r = Algorithms.r4_uni(ref s1, ref s2);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12) + "");
 
@@ -448,7 +445,7 @@ internal class Program
         {
             float r = Algorithms.r4_uni(ref s1, ref s2);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12) + "");
 
@@ -476,7 +473,6 @@ internal class Program
         //
     {
         int i;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -497,8 +493,8 @@ internal class Program
 
         for (i = 0; i < 10; i++)
         {
-            r = Algorithms.r8_random(ref s1, ref s2, ref s3);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
+            double r = Algorithms.r8_random(ref s1, ref s2, ref s3);
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(8)
                                    + "  " + s2.ToString().PadLeft(8)
                                    + "  " + s3.ToString().PadLeft(8) + "");
@@ -563,7 +559,6 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  Average value = " + u_avg + "");
         Console.WriteLine("  Expecting       " + 0.5 + "");
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("  Variance =      " + u_var + "");
@@ -618,7 +613,7 @@ internal class Program
         {
             double r = Algorithms.r8_random(ref s1, ref s2, ref s3);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12)
                                    + "  " + s3.ToString().PadLeft(12) + "");
@@ -652,7 +647,7 @@ internal class Program
         {
             double r = Algorithms.r8_random(ref s1, ref s2, ref s3);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12)
                                    + "  " + s3.ToString().PadLeft(12) + "");
@@ -697,7 +692,7 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             double r = Algorithms.r8_uni(ref s1, ref s2);
-            Console.WriteLine("  " + r.ToString().PadLeft(14)
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(8)
                                    + "  " + s2.ToString().PadLeft(8) + "");
         }
@@ -760,7 +755,6 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  Average value = " + u_avg + "");
         Console.WriteLine("  Expecting       " + 0.5 + "");
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("  Variance =      " + u_var + "");
@@ -815,7 +809,7 @@ internal class Program
         {
             r = Algorithms.r8_uni(ref s1, ref s2);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12) + "");
 
@@ -845,7 +839,7 @@ internal class Program
         {
             r = Algorithms.r8_uni(ref s1, ref s2);
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + s1.ToString().PadLeft(12)
                                    + "  " + s2.ToString().PadLeft(12) + "");
         }

@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA172Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,20 +63,15 @@ internal class Program
         //    John Burkardt
         //
     {
-        int KDIM = 3;
+        const int KDIM = 3;
 
         int ifault;
         int[] iprod = new int[KDIM];
         int[] ivec= new int[KDIM];
-        int jsub;
-        int kdim = KDIM;
-        int n;
         int[] nr =  {
                 3, 2, 4
             }
             ;
-        bool qfor;
-        bool qind;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -90,22 +85,22 @@ internal class Program
         Console.WriteLine("  Here, we actually carry out a triple loop");
         Console.WriteLine("  list the indices, and then compare.");
 
-        qfor = false;
+        const bool qfor = false;
         //
         //  If QFOR is FALSE, then the definition of IPROD is reversed...
         //
-        iprod[0] = nr[kdim - 1];
-        for (int i = 1; i < kdim; i++)
+        iprod[0] = nr[KDIM - 1];
+        for (int i = 1; i < KDIM; i++)
         {
-            iprod[i] = iprod[i - 1] * nr[kdim - 1 - i];
+            iprod[i] = iprod[i - 1] * nr[KDIM - 1 - i];
         }
 
-        n = iprod[kdim - 1];
+        int n = iprod[KDIM - 1];
         //
         //  Carry out the nested loops, and use JSUB to count each iteration.
         //  In the inmost loop, print JSUB and the corresponding (I1,I2,I3) vector.
         //
-        jsub = 0;
+        int jsub = 0;
 
         Console.WriteLine("");
         Console.WriteLine("  #1: Generate JSUB by counting as we DO the loops:");
@@ -139,7 +134,7 @@ internal class Program
         //  In order to use the QFOR = .FALSE. switch, I apparently have to reverse
         //  the sense of the NR vector//
         //
-        qind = true;
+        bool qind = true;
 
         Console.WriteLine("");
         Console.WriteLine("  #2: Loop on JSUB, retrieve loop indices");
@@ -152,7 +147,7 @@ internal class Program
         for (int j = 1; j <= n; j++)
         {
             jsub = j;
-            ifault = Algorithms.simdo(qind, qfor, iprod, kdim, ref jsub, ref ivec);
+            ifault = Algorithms.simdo(qind, qfor, iprod, KDIM, ref jsub, ref ivec);
             if (ifault != 0)
             {
                 Console.WriteLine("");
@@ -188,7 +183,7 @@ internal class Program
                 for (int k = 1; k <= nr[2]; k++)
                 {
                     ivec[2] = k;
-                    ifault = Algorithms.simdo(qind, qfor, iprod, kdim, ref jsub, ref ivec);
+                    ifault = Algorithms.simdo(qind, qfor, iprod, KDIM, ref jsub, ref ivec);
                     Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
                                       + "  " + i.ToString().PadLeft(8)
                                       + "  " + j.ToString().PadLeft(8)
@@ -218,19 +213,14 @@ internal class Program
         //    John Burkardt
         //
     {
-        int KDIM = 3;
+        const int KDIM = 3;
 
         int ifault;
         int[] iprod = new int[KDIM];
         int[] ivec = new int[KDIM];
-        int jsub;
-        int kdim = KDIM;
-        int n;
         int[] nr =  {
             3, 2, 4
         };
-        bool qfor;
-        bool qind;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -244,20 +234,20 @@ internal class Program
         Console.WriteLine("  Here, we actually carry out a triple loop");
         Console.WriteLine("  list the indices, and then compare.");
 
-        qfor = true;
+        const bool qfor = true;
 
         iprod[0] = nr[0];
-        for (int i = 1; i < kdim; i++)
+        for (int i = 1; i < KDIM; i++)
         {
             iprod[i] = iprod[i - 1] * nr[i];
         }
 
-        n = iprod[kdim - 1];
+        int n = iprod[KDIM - 1];
         //
         //  Carry out the nested loops, and use JSUB to count each iteration.
         //  In the inmost loop, print JSUB and the corresponding (I1,I2,I3) vector.
         //
-        jsub = 0;
+        int jsub = 0;
 
         Console.WriteLine("");
         Console.WriteLine("  #1: Generate JSUB by counting as we do the loops.");
@@ -289,7 +279,7 @@ internal class Program
         //
         //  Reverse the order, so that the loop indices are generated in lexical order.
         //
-        qind = true;
+        bool qind = true;
 
         Console.WriteLine("");
         Console.WriteLine("  #2: Setting QFOR false means loop indices");
@@ -303,7 +293,7 @@ internal class Program
         for (int j = 1; j <= n; j++)
         {
             jsub = j;
-            ifault = Algorithms.simdo(qind, qfor, iprod, kdim, ref jsub, ref ivec);
+            ifault = Algorithms.simdo(qind, qfor, iprod, KDIM, ref jsub, ref ivec);
 
             if (ifault != 0)
             {
@@ -340,7 +330,7 @@ internal class Program
                 for (int k = 1; k <= nr[0]; k++)
                 {
                     ivec[0] = k;
-                    ifault = Algorithms.simdo(qind, qfor, iprod, kdim, ref jsub, ref ivec);
+                    ifault = Algorithms.simdo(qind, qfor, iprod, KDIM, ref jsub, ref ivec);
                     Console.WriteLine("  " + jsub.ToString().PadLeft(8) + "    "
                                       + "  " + k.ToString().PadLeft(8)
                                       + "  " + j.ToString().PadLeft(8)

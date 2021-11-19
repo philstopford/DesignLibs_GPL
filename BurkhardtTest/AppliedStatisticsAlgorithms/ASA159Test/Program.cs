@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace ASA159Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,34 +63,31 @@ internal class Program
         //    John Burkardt
         //
     {
-        int M = 5;
-        int N = 5;
+        const int M = 5;
+        const int N = 5;
 
         int[] a = new int[M*N];
         int[] c = { 2, 2, 2, 2, 1 };
         int ierror = 0;
         bool key = false;
-        int m = M;
-        int n = N;
-        int ntest = 10;
+        const int ntest = 10;
         int[] r = { 3, 2, 2, 1, 1 };
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  RCONT2 constructs a random matrix with");
         Console.WriteLine("  given row and column sums.");
 
-        typeMethods.i4vec_print ( m, r, "  The rowsum vector:" );
-        typeMethods.i4vec_print ( n, c, "  The columnsum vector:" );
+        typeMethods.i4vec_print ( M, r, "  The rowsum vector:" );
+        typeMethods.i4vec_print ( N, c, "  The columnsum vector:" );
 
         Algorithms.RCont2Data data = new();
 
         for (int i = 1; i <= ntest; i++ )
         {
-            Algorithms.rcont2 (ref data, m, n, r, c, ref key, ref seed, ref a, ref ierror );
+            Algorithms.rcont2 (ref data, M, N, r, c, ref key, ref seed, ref a, ref ierror );
 
             if ( ierror != 0 )
             {
@@ -99,7 +96,7 @@ internal class Program
                 return;
             }
 
-            typeMethods.i4mat_print ( m, n, a, "  The rowcolsum matrix:" );
+            typeMethods.i4mat_print ( M, N, a, "  The rowcolsum matrix:" );
         }
     }
         

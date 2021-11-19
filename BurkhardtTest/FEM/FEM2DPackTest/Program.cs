@@ -10,9 +10,9 @@ using Triangle = Burkardt.TriangleNS.Triangle;
 
 namespace FEM2DPackTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace BallGridTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,12 +63,8 @@ internal class Program
         //    John Burkardt
         //
     {
-        double[] bg;
         double[] c = new double[3];
-        string filename = "ball_grid_test01.xyz";
-        int n;
-        int ng;
-        double r;
+        const string filename = "ball_grid_test01.xyz";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -76,8 +72,8 @@ internal class Program
         Console.WriteLine("  with N+1 points on a horizontal or vertical radius,");
         Console.WriteLine("  based on any ball.");
 
-        n = 10;
-        r = 2.0;
+        const int n = 10;
+        const double r = 2.0;
         c[0] = 1.0;
         c[1] = 5.0;
         c[2] = 2.0;
@@ -87,12 +83,12 @@ internal class Program
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center C = (" + c[0] + "," + c[1] + "," + c[2] + ")");
 
-        ng = Grid.ball_grid_count(n, r, c);
+        int ng = Grid.ball_grid_count(n, r, c);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of grid points will be " + ng + "");
 
-        bg = Grid.ball_grid(n, r, c, ng);
+        double[] bg = Grid.ball_grid(n, r, c, ng);
 
         typeMethods.r83vec_print_part(ng, bg, 20, "  Part of the grid point array:");
 

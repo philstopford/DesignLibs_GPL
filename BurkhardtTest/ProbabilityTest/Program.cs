@@ -4,7 +4,7 @@ namespace ProbabilityTest;
 
 internal partial class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
 //****************************************************************************80
 //

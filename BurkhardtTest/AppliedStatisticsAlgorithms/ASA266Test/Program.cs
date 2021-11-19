@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.AppliedStatistics;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace ASA266Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
 //****************************************************************************80
 //
 //  Purpose:
@@ -78,7 +79,7 @@ internal class Program
         double ccdf3 = 0;
         double cdf2 = 0;
         double cdf3 = 0;
-        int ntest = 16;
+        const int ntest = 16;
         double pdf2 = 0;
         double pdf3 = 0;
 
@@ -108,17 +109,17 @@ internal class Program
             Algorithms.nprob(x, ref cdf3, ref ccdf3, ref pdf3);
 
             Console.WriteLine("");
-            Console.WriteLine(x.ToString().PadLeft(14)
-                              + cdf1.ToString().PadLeft(14)
-                              + ccdf1.ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + cdf1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + ccdf1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             Console.WriteLine("              "
-                              + cdf2.ToString().PadLeft(14)
-                              + ccdf2.ToString().PadLeft(14)
-                              + pdf2.ToString().PadLeft(14) + "");
+                              + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + ccdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + pdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             Console.WriteLine("              "
-                              + cdf3.ToString().PadLeft(14)
-                              + ccdf3.ToString().PadLeft(14)
-                              + pdf3.ToString().PadLeft(14) + "");
+                              + cdf3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + ccdf3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + pdf3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -142,14 +143,10 @@ internal class Program
         //    John Burkardt
         //
     {
-        double cdf;
         int i;
-        int ifault;
-        int ntest = 9;
-        double x1;
-        double x2;
+        const int ntest = 9;
 
-        ifault = 0;
+        int ifault = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -162,12 +159,12 @@ internal class Program
 
         for (i = 1; i <= ntest; i++)
         {
-            cdf = i / (double) (ntest + 1);
-            x1 = Algorithms.ppnd(cdf, ref ifault);
-            x2 = Algorithms.ppnd16(cdf, ref ifault);
-            Console.WriteLine(cdf.ToString().PadLeft(14)
-                              + x1.ToString().PadLeft(14)
-                              + x2.ToString().PadLeft(14) + "");
+            double cdf = i / (double) (ntest + 1);
+            double x1 = Algorithms.ppnd(cdf, ref ifault);
+            double x2 = Algorithms.ppnd16(cdf, ref ifault);
+            Console.WriteLine(cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + x1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -192,7 +189,7 @@ internal class Program
         //    John Burkardt
         //
     {
-        int ntest = 10;
+        const int ntest = 10;
         int ifault = 0;
 
         Console.WriteLine("");
@@ -209,9 +206,9 @@ internal class Program
         {
             double x = i / (double) ntest;
 
-            Console.WriteLine(x.ToString().PadLeft(14)
-                              + Algorithms.digamma(x, ref ifault).ToString().PadLeft(14)
-                              + typeMethods.r8_psi(x).ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + Algorithms.digamma(x, ref ifault).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + typeMethods.r8_psi(x).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -236,7 +233,7 @@ internal class Program
         //
     {
         int ifault = 0;
-        int ntest = 10;
+        const int ntest = 10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -251,8 +248,8 @@ internal class Program
             double x = i / (double) ntest;
 
             double t = Algorithms.trigamma(x, ref ifault);
-            Console.WriteLine(x.ToString().PadLeft(14)
-                              + t.ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + t.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -276,7 +273,7 @@ internal class Program
         //    John Burkardt
         //
     {
-        int ntest = 10;
+        const int ntest = 10;
 
         int ifault = 0;
 
@@ -299,11 +296,11 @@ internal class Program
             double log3 = typeMethods.r8_gamma_log(x);
             double log4 = Algorithms.lngamma(x, ref ifault);
 
-            Console.WriteLine(x.ToString().PadLeft(14)
-                              + log1.ToString().PadLeft(14)
-                              + log2.ToString().PadLeft(14)
-                              + log3.ToString().PadLeft(14)
-                              + log4.ToString().PadLeft(14) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + log1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + log2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + log3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + log4.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -327,7 +324,7 @@ internal class Program
         //    John Burkardt
         //
     {
-        int ntest = 10;
+        const int ntest = 10;
 
         int ifault = 0;
 
@@ -366,11 +363,11 @@ internal class Program
                     g3 = -99.0;
                 }
 
-                Console.WriteLine(x.ToString().PadLeft(14)
-                                  + p.ToString().PadLeft(14)
-                                  + g1.ToString().PadLeft(14)
-                                  + g2.ToString().PadLeft(14)
-                                  + g3.ToString().PadLeft(14) + "");
+                Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + p.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + g1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + g2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + g3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -395,8 +392,8 @@ internal class Program
         //    John Burkardt
         //
     {
-        int nitest = 9;
-        int njtest = 9;
+        const int nitest = 9;
+        const int njtest = 9;
 
         int ifault = 0;
 
@@ -421,8 +418,8 @@ internal class Program
                 double cdf = i / (double) (nitest + 1);
                 double gg = Algorithms.alngam(v / 2.0, ref ifault);
                 double x1 = Algorithms.ppchi2(cdf, v, gg, ref ifault);
-                Console.WriteLine(cdf.ToString().PadLeft(14)
-                                  + x1.ToString().PadLeft(14) + "");
+                Console.WriteLine(cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + x1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -451,18 +448,16 @@ internal class Program
         //    John Burkardt
         //
     {
-        int ELEM_NUM = 3;
-        int SAMPLE_NUM = 23;
+        const int ELEM_NUM = 3;
+        const int SAMPLE_NUM = 23;
 
         double aminus;
         double aplus;
-        int elem_num = ELEM_NUM;
         double eps = 0;
         int ifault = 0;
         int niter = 0;
         double rlogl = 0;
         double s = 0;
-        int sample_num = SAMPLE_NUM;
         double vari;
         double[] x =  {
             0.178, 0.162, 0.083, 0.087, 0.078, 0.040, 0.049, 0.100, 0.075, 0.084,
@@ -483,30 +478,30 @@ internal class Program
         Console.WriteLine("  DIRICHLET_MEAN finds the means;");
         Console.WriteLine("  DIRICHLET_VARIANCE finds the variances;");
 
-        typeMethods.r8mat_print(sample_num, elem_num, x, "  Sampled data:");
+        typeMethods.r8mat_print(SAMPLE_NUM, ELEM_NUM, x, "  Sampled data:");
         //
         //  Compute the observed averages.
         //
-        double[] mean = typeMethods.r8col_mean(sample_num, elem_num, x);
+        double[] mean = typeMethods.r8col_mean(SAMPLE_NUM, ELEM_NUM, x);
 
-        double[] variance = typeMethods.r8col_variance(sample_num, elem_num, x);
+        double[] variance = typeMethods.r8col_variance(SAMPLE_NUM, ELEM_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Observed means, variances are:");
         Console.WriteLine("");
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + mean[elem_i].ToString().PadLeft(14)
-                              + variance[elem_i].ToString().PadLeft(14) + "");
+                              + mean[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         int init = 1;
-        double[] alpha = new double[elem_num];
-        double[] g = new double[elem_num];
-        double[] v = new double[elem_num * elem_num];
+        double[] alpha = new double[ELEM_NUM];
+        double[] g = new double[ELEM_NUM];
+        double[] v = new double[ELEM_NUM * ELEM_NUM];
 
-        Algorithms.dirichlet_estimate(elem_num, sample_num, x, sample_num,
+        Algorithms.dirichlet_estimate(ELEM_NUM, SAMPLE_NUM, x, SAMPLE_NUM,
             init, ref alpha, ref rlogl, ref v, ref g, ref niter, ref s, ref eps, ref ifault);
 
         if (ifault != 0)
@@ -521,32 +516,32 @@ internal class Program
         Console.WriteLine("  Index, Estimate, Lower Limit, Upper Limit:");
         Console.WriteLine("");
 
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
-            vari = v[elem_i + elem_i * elem_num];
+            vari = v[elem_i + elem_i * ELEM_NUM];
             aminus = alpha[elem_i] - 1.96 * Math.Sqrt(vari);
             aplus = alpha[elem_i] + 1.96 * Math.Sqrt(vari);
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + alpha[elem_i].ToString().PadLeft(14)
-                              + aminus.ToString().PadLeft(14)
-                              + aplus.ToString().PadLeft(14) + "");
+                              + alpha[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aminus.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aplus.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        mean = Algorithms.dirichlet_mean(elem_num, alpha);
+        mean = Algorithms.dirichlet_mean(ELEM_NUM, alpha);
 
-        variance = Algorithms.dirichlet_variance(elem_num, alpha);
+        variance = Algorithms.dirichlet_variance(ELEM_NUM, alpha);
 
         Console.WriteLine("");
         Console.WriteLine("  Expected means, variances are:");
         Console.WriteLine("");
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + mean[elem_i].ToString().PadLeft(14)
-                              + variance[elem_i].ToString().PadLeft(14) + "");
+                              + mean[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        double alpha_sum = typeMethods.r8vec_sum(elem_num, alpha);
+        double alpha_sum = typeMethods.r8vec_sum(ELEM_NUM, alpha);
 
         Console.WriteLine("");
         Console.WriteLine("  Alpha sum is " + alpha_sum + "");
@@ -555,15 +550,15 @@ internal class Program
         Console.WriteLine("  Index, Estimate, Lower Limit, Upper Limit:");
         Console.WriteLine("");
 
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
-            vari = v[elem_i + elem_i * elem_num];
+            vari = v[elem_i + elem_i * ELEM_NUM];
             aminus = (alpha[elem_i] - 1.96 * Math.Sqrt(vari)) / alpha_sum;
             aplus = (alpha[elem_i] + 1.96 * Math.Sqrt(vari)) / alpha_sum;
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + (alpha[elem_i] / alpha_sum).ToString().PadLeft(14)
-                              + aminus.ToString().PadLeft(14)
-                              + aplus.ToString().PadLeft(14) + "");
+                              + (alpha[elem_i] / alpha_sum).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aminus.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aplus.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -591,8 +586,8 @@ internal class Program
         //    John Burkardt
         //
     {
-        int rep_num = 5;
-        int test_num = 5;
+        const int rep_num = 5;
+        const int test_num = 5;
 
         typeMethods.r8NormalData data = new();
 
@@ -612,7 +607,7 @@ internal class Program
             {
                 double x = Algorithms.gamma_sample(a, b, ref data, ref seed);
                 Console.WriteLine("  " + rep.ToString().PadLeft(2)
-                                       + "  " + x.ToString().PadLeft(14) + "");
+                                       + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -641,8 +636,8 @@ internal class Program
         //    John Burkardt
         //
     {
-        int ELEM_NUM = 3;
-        int SAMPLE_NUM = 1000;
+        const int ELEM_NUM = 3;
+        const int SAMPLE_NUM = 1000;
 
         double[] alpha =  {
                 3.22, 20.38, 21.68
@@ -650,13 +645,11 @@ internal class Program
             ;
         double aminus;
         double aplus;
-        int elem_num = ELEM_NUM;
         double eps = 0;
         int ifault = 0;
         int niter = 0;
         double rlogl = 0;
         double s = 0;
-        int sample_num = SAMPLE_NUM;
         double vari;
 
         int seed = 123456789;
@@ -672,37 +665,37 @@ internal class Program
         //
         //  Report.
         //
-        typeMethods.r8vec_print(elem_num, alpha, "  Distribution parameters:");
+        typeMethods.r8vec_print(ELEM_NUM, alpha, "  Distribution parameters:");
 
-        double[] mean = Algorithms.dirichlet_mean(elem_num, alpha);
+        double[] mean = Algorithms.dirichlet_mean(ELEM_NUM, alpha);
 
-        double[] variance = Algorithms.dirichlet_variance(elem_num, alpha);
+        double[] variance = Algorithms.dirichlet_variance(ELEM_NUM, alpha);
 
         Console.WriteLine("");
         Console.WriteLine("  Distribution means, variances are:");
         Console.WriteLine("");
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + mean[elem_i].ToString().PadLeft(14)
-                              + variance[elem_i].ToString().PadLeft(14) + "");
+                              + mean[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Sample the distribution.
         //
-        double[] x_sample = new double[sample_num * elem_num];
+        double[] x_sample = new double[SAMPLE_NUM * ELEM_NUM];
 
         Console.WriteLine("");
-        Console.WriteLine("  Number of samples is " + sample_num + "");
+        Console.WriteLine("  Number of samples is " + SAMPLE_NUM + "");
 
-        for (int sample_i = 0; sample_i < sample_num; sample_i++)
+        for (int sample_i = 0; sample_i < SAMPLE_NUM; sample_i++)
         {
-            double[] x = Algorithms.dirichlet_sample(elem_num, alpha, ref data, ref seed);
+            double[] x = Algorithms.dirichlet_sample(ELEM_NUM, alpha, ref data, ref seed);
 
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
             {
-                x_sample[sample_i + elem_i * sample_num] = x[elem_i];
+                x_sample[sample_i + elem_i * SAMPLE_NUM] = x[elem_i];
             }
         }
 
@@ -713,12 +706,12 @@ internal class Program
         Console.WriteLine("  First few samples:");
         Console.WriteLine("");
 
-        for (int sample_i = 0; sample_i < Math.Min(sample_num, 10); sample_i++)
+        for (int sample_i = 0; sample_i < Math.Min(SAMPLE_NUM, 10); sample_i++)
         {
             string cout = sample_i.ToString().PadLeft(6);
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
             {
-                cout += x_sample[sample_i + elem_i * sample_num].ToString().PadLeft(14);
+                cout += x_sample[sample_i + elem_i * SAMPLE_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -727,24 +720,24 @@ internal class Program
         //
         //  Compute means, variances.
         //
-        mean = typeMethods.r8col_mean(sample_num, elem_num, x_sample);
+        mean = typeMethods.r8col_mean(SAMPLE_NUM, ELEM_NUM, x_sample);
 
-        variance = typeMethods.r8col_variance(sample_num, elem_num, x_sample);
+        variance = typeMethods.r8col_variance(SAMPLE_NUM, ELEM_NUM, x_sample);
 
         Console.WriteLine("");
         Console.WriteLine("  Observed means, variances are:");
         Console.WriteLine("");
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + mean[elem_i].ToString().PadLeft(14)
-                              + variance[elem_i].ToString().PadLeft(14) + "");
+                              + mean[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Destroy the values of ALPHA.
         //
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
             alpha[elem_i] = 0.0;
         }
@@ -753,10 +746,10 @@ internal class Program
         //  Try to recover the values of ALPHA.
         //
         int init = 1;
-        double[] v = new double[elem_num * elem_num];
-        double[] g = new double[elem_num];
+        double[] v = new double[ELEM_NUM * ELEM_NUM];
+        double[] g = new double[ELEM_NUM];
 
-        Algorithms.dirichlet_estimate(elem_num, sample_num, x_sample, sample_num,
+        Algorithms.dirichlet_estimate(ELEM_NUM, SAMPLE_NUM, x_sample, SAMPLE_NUM,
             init, ref alpha, ref rlogl, ref v, ref g, ref niter, ref s, ref eps, ref ifault);
 
         if (ifault != 0)
@@ -771,18 +764,18 @@ internal class Program
         Console.WriteLine("  Index, Estimate, Lower Limit, Upper Limit:");
         Console.WriteLine("");
 
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
-            vari = v[elem_i + elem_i * elem_num];
+            vari = v[elem_i + elem_i * ELEM_NUM];
             aminus = alpha[elem_i] - 1.96 * Math.Sqrt(vari);
             aplus = alpha[elem_i] + 1.96 * Math.Sqrt(vari);
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + alpha[elem_i].ToString().PadLeft(14)
-                              + aminus.ToString().PadLeft(14)
-                              + aplus.ToString().PadLeft(14) + "");
+                              + alpha[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aminus.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aplus.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        double alpha_sum = typeMethods.r8vec_sum(elem_num, alpha);
+        double alpha_sum = typeMethods.r8vec_sum(ELEM_NUM, alpha);
 
         Console.WriteLine("");
         Console.WriteLine("  Alpha sum is " + alpha_sum + "");
@@ -791,15 +784,15 @@ internal class Program
         Console.WriteLine("  Index, Estimate, Lower Limit, Upper Limit:");
         Console.WriteLine("");
 
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
-            vari = v[elem_i + elem_i * elem_num];
+            vari = v[elem_i + elem_i * ELEM_NUM];
             aminus = (alpha[elem_i] - 1.96 * Math.Sqrt(vari)) / alpha_sum;
             aplus = (alpha[elem_i] + 1.96 * Math.Sqrt(vari)) / alpha_sum;
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + (alpha[elem_i] / alpha_sum).ToString().PadLeft(14)
-                              + aminus.ToString().PadLeft(14)
-                              + aplus.ToString().PadLeft(14) + "");
+                              + (alpha[elem_i] / alpha_sum).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aminus.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + aplus.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -827,10 +820,10 @@ internal class Program
         //    John Burkardt
         //
     {
-        int COMP_NUM = 3;
-        int COMP_MAX = 3;
-        int ELEM_NUM = 3;
-        int SAMPLE_NUM = 200;
+        const int COMP_NUM = 3;
+        const int COMP_MAX = 3;
+        const int ELEM_NUM = 3;
+        const int SAMPLE_NUM = 200;
 
         double[] a = new double[ELEM_NUM];
         double[] alpha =  {
@@ -839,18 +832,12 @@ internal class Program
                 0.75, 0.05, 0.50
             }
             ;
-        int comp_max = COMP_MAX;
-        int comp_num = COMP_NUM;
-        int[] comp_sample;
         double[] comp_weight = {
                 3.0, 2.0, 1.0
             }
             ;
-        int elem_num = ELEM_NUM;
         double[] mean;
-        int sample_num = SAMPLE_NUM;
         double[] variance;
-        double[] x;
 
         int seed = 123456789;
 
@@ -865,52 +852,52 @@ internal class Program
         //
         //  Report.
         //
-        typeMethods.r8vec_print(comp_num, comp_weight, "  Component weight:");
+        typeMethods.r8vec_print(COMP_NUM, comp_weight, "  Component weight:");
 
         Console.WriteLine("");
         Console.WriteLine("  Component  Parameters Means Variances");
-        for (int comp_i = 0; comp_i < comp_num; comp_i++)
+        for (int comp_i = 0; comp_i < COMP_NUM; comp_i++)
         {
             Console.WriteLine("");
             string cout = comp_i.ToString().PadLeft(6);
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
             {
-                a[elem_i] = alpha[comp_i + elem_i * comp_max];
+                a[elem_i] = alpha[comp_i + elem_i * COMP_MAX];
             }
 
-            mean = Algorithms.dirichlet_mean(elem_num, a);
-            variance = Algorithms.dirichlet_variance(elem_num, a);
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            mean = Algorithms.dirichlet_mean(ELEM_NUM, a);
+            variance = Algorithms.dirichlet_variance(ELEM_NUM, a);
+            for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
             {
                 Console.WriteLine(cout + elem_i.ToString().PadLeft(6)
-                                       + "  " + alpha[comp_i + elem_i * comp_max].ToString().PadLeft(10)
-                                       + "  " + mean[elem_i].ToString().PadLeft(10)
-                                       + "  " + variance[elem_i].ToString().PadLeft(10) + "");
+                                       + "  " + alpha[comp_i + elem_i * COMP_MAX].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + mean[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
 
-        mean = Algorithms.dirichlet_mix_mean(comp_max, comp_num, elem_num, alpha,
+        mean = Algorithms.dirichlet_mix_mean(COMP_MAX, COMP_NUM, ELEM_NUM, alpha,
             comp_weight);
 
-        typeMethods.r8vec_print(elem_num, mean, "  Element means:");
+        typeMethods.r8vec_print(ELEM_NUM, mean, "  Element means:");
         //
         //  Sample the distribution.
         //
-        comp_sample = new int[sample_num];
-        double[] x_sample = new double[elem_num * sample_num];
+        int[] comp_sample = new int[SAMPLE_NUM];
+        double[] x_sample = new double[ELEM_NUM * SAMPLE_NUM];
         Console.WriteLine("");
-        Console.WriteLine("  Number of samples is " + sample_num + "");
+        Console.WriteLine("  Number of samples is " + SAMPLE_NUM + "");
 
-        for (int sample_i = 0; sample_i < sample_num; sample_i++)
+        for (int sample_i = 0; sample_i < SAMPLE_NUM; sample_i++)
         {
             int comp_i = 0;
-            x = Algorithms.dirichlet_mix_sample(comp_max, comp_num, elem_num, alpha,
+            double[] x = Algorithms.dirichlet_mix_sample(COMP_MAX, COMP_NUM, ELEM_NUM, alpha,
                 comp_weight, ref data, ref seed, ref comp_i);
 
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
             {
-                x_sample[elem_i + sample_i * elem_num] = x[elem_i];
+                x_sample[elem_i + sample_i * ELEM_NUM] = x[elem_i];
             }
 
             comp_sample[sample_i] = comp_i;
@@ -926,13 +913,13 @@ internal class Program
         Console.WriteLine("  Sample  Component  X");
         Console.WriteLine("");
 
-        for (int sample_i = 0; sample_i < Math.Min(sample_num, 10); sample_i++)
+        for (int sample_i = 0; sample_i < Math.Min(SAMPLE_NUM, 10); sample_i++)
         {
             string cout = "  " + sample_i.ToString().PadLeft(2)
                                + "  " + comp_sample[sample_i].ToString().PadLeft(2);
-            for (int elem_i = 0; elem_i < elem_num; elem_i++)
+            for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
             {
-                cout += "  " + x_sample[elem_i + sample_i * elem_num].ToString().PadLeft(10);
+                cout += "  " + x_sample[elem_i + sample_i * ELEM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -940,18 +927,18 @@ internal class Program
         //
         //  Compute the observed averages.
         //
-        mean = typeMethods.r8col_mean(sample_num, elem_num, x_sample);
+        mean = typeMethods.r8col_mean(SAMPLE_NUM, ELEM_NUM, x_sample);
 
-        variance = typeMethods.r8col_variance(sample_num, elem_num, x_sample);
+        variance = typeMethods.r8col_variance(SAMPLE_NUM, ELEM_NUM, x_sample);
 
         Console.WriteLine("");
         Console.WriteLine("  Element  Observed mean, variance");
         Console.WriteLine("");
-        for (int elem_i = 0; elem_i < elem_num; elem_i++)
+        for (int elem_i = 0; elem_i < ELEM_NUM; elem_i++)
         {
             Console.WriteLine(elem_i.ToString().PadLeft(6)
-                              + "  " + mean[elem_i].ToString().PadLeft(10)
-                              + "  " + variance[elem_i].ToString().PadLeft(10) + "");
+                              + "  " + mean[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

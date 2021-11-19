@@ -6,9 +6,9 @@ using Burkardt.Types;
 
 namespace TriangulationL2QTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

@@ -8,7 +8,7 @@ namespace QuaternionsTest;
 
 static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -95,11 +95,8 @@ static class Program
         //
     {
         int i;
-        int seed;
-        double[] q1;
-        double[] q2;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("Q8_CONJUGATE_TEST");
@@ -107,8 +104,8 @@ static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            q1 = typeMethods.q8_normal_01(ref seed);
-            q2 = typeMethods.q8_conjugate(q1);
+            double[] q1 = typeMethods.q8_normal_01(ref seed);
+            double[] q2 = typeMethods.q8_conjugate(q1);
 
             Console.WriteLine("");
             typeMethods.q8_transpose_print(q1, "  q1 = q8_normal_01 ( seed ):");
@@ -139,11 +136,8 @@ static class Program
         //
     {
         int i;
-        double[] q1;
-        double[] q2;
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("Q8_EXPONENTIATE_TEST");
@@ -151,8 +145,8 @@ static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            q1 = typeMethods.q8_normal_01(ref seed);
-            q2 = typeMethods.q8_exponentiate(q1);
+            double[] q1 = typeMethods.q8_normal_01(ref seed);
+            double[] q2 = typeMethods.q8_exponentiate(q1);
 
             Console.WriteLine("");
             typeMethods.q8_transpose_print(q1, "  q1 = q8_normal_01 ( seed ):");
@@ -183,12 +177,8 @@ static class Program
         //
     {
         int i;
-        double[] q1;
-        double[] q2;
-        double[] q3;
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("Q8_INVERSE_TEST");
@@ -196,9 +186,9 @@ static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            q1 = typeMethods.q8_normal_01(ref seed);
-            q2 = typeMethods.q8_inverse(q1);
-            q3 = typeMethods.q8_multiply(q1, q2);
+            double[] q1 = typeMethods.q8_normal_01(ref seed);
+            double[] q2 = typeMethods.q8_inverse(q1);
+            double[] q3 = typeMethods.q8_multiply(q1, q2);
 
             Console.WriteLine("");
             typeMethods.q8_transpose_print(q1, "  q1 = q8_normal_01 ( seed ):");
@@ -324,10 +314,8 @@ static class Program
         //
     {
         int i;
-        double[] q;
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("Q8_NORMAL_01_TEST");
@@ -336,7 +324,7 @@ static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            q = typeMethods.q8_normal_01(ref seed);
+            double[] q = typeMethods.q8_normal_01(ref seed);
             typeMethods.q8_transpose_print(q, "Sample quaternion:");
         }
 
@@ -405,8 +393,6 @@ static class Program
         //    John Burkardt
         //
     {
-        double[] q;
-
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -414,7 +400,7 @@ static class Program
         Console.WriteLine("  Q8_TRANSPOSE_PRINT prints a quaternion 'transposed',");
         Console.WriteLine("  that is, writing it as a row vector.");
 
-        q = typeMethods.q8_normal_01(ref seed);
+        double[] q = typeMethods.q8_normal_01(ref seed);
 
         typeMethods.q8_transpose_print(q, "  The quaternion:");
 
@@ -613,18 +599,16 @@ static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int j;
-        double[] r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("typeMethods.r8VEC_UNIFORM_01_NEW_TEST");
         Console.WriteLine("  typeMethods.r8VEC_UNIFORM_01_NEW returns a random typeMethods.r8VEC");
         Console.WriteLine("  with entries in [ 0.0, 1.0 ]");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 3; j++)
         {
@@ -632,7 +616,7 @@ static class Program
             Console.WriteLine("  Input SEED = " + seed + "");
             Console.WriteLine("");
 
-            r = UniformRNG.r8vec_uniform_01_new(N, ref seed);
+            double[] r = UniformRNG.r8vec_uniform_01_new(N, ref seed);
 
             typeMethods.r8vec_print(N, r, "  Random typeMethods.r8VEC:");
 

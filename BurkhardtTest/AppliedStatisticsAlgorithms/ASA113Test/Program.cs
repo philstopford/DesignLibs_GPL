@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.AppliedStatistics;
 
 namespace ASA113Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -64,11 +65,10 @@ internal class Program
     {
         int ci;
         int ifault = 0;
-        int k = 5;
-        int m = 100;
-        int n = 2;
+        const int k = 5;
+        const int m = 100;
+        const int n = 2;
 
-        double[] a = new double[m * n];
         int[] c = new int[m];
         double[] c_center = new double[k * n];
         int[] c_size = new int[k];
@@ -82,7 +82,7 @@ internal class Program
         //
         //  Read the data.
         */
-        a = Helpers.getExampleDoubleData();
+        double[] a = Helpers.getExampleDoubleData();
             
         //
         //  Print a few data values.
@@ -96,7 +96,7 @@ internal class Program
             string cout = "  " + i.ToString().PadLeft(8);
             for (int j = 1; j <= n; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * m].ToString().PadLeft(14);
+                cout += "  " + a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -241,13 +241,13 @@ internal class Program
         {
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + c_size[i - 1].ToString().PadLeft(8)
-                                   + "  " + wss[i - 1].ToString().PadLeft(14) + "");
+                                   + "  " + wss[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("     Total"
                           + "  " + m.ToString().PadLeft(8)
-                          + "  " + critvl.ToString().PadLeft(14) + "");
+                          + "  " + critvl.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

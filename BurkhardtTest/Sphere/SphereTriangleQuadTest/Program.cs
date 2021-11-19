@@ -4,11 +4,11 @@ using Burkardt.Types;
 
 namespace SphereTriangleQuadTest;
 
-internal class Program
+internal static class Program
 {
     private static int[] e_save = new int[3];
 
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

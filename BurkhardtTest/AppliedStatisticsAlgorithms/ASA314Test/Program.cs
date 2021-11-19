@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace ASA314Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -81,7 +81,7 @@ internal class Program
         int[] jmat = { 1, 0, 0, 2, 1, 0, 1, 0, 1 };
         int[] mat = { 1, 0, 0, 1, 1, 0, 2, 0, 1 };
 
-        int nrow = 3;
+        const int nrow = 3;
         int[] cmod = new int[nrow];
         int[] rmod = new int[nrow];
         int[] imat = new int[nrow*nrow];

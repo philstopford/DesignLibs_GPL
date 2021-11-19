@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA076Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -121,7 +121,7 @@ internal class Program
         double a = 0;
         double h = 0;
         int n_data = 0;
-        double one = 1.0;
+        const double one = 1.0;
         double t1 = 0;
 
         Console.WriteLine("");

@@ -3,9 +3,9 @@ using Burkardt.MonteCarlo;
 
 namespace MonteCarloTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.WriteLine();
         Console.WriteLine("MONTE_CARLO_RULE");

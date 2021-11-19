@@ -3,9 +3,9 @@ using Burkardt.FEM;
 
 namespace FEM1DPMethodTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
 //****************************************************************************80
 //
 //  Purpose:

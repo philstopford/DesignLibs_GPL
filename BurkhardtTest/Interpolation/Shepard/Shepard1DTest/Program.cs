@@ -5,9 +5,9 @@ using InterpTest;
 
 namespace Shepard1DTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
 /******************************************************************************/
 //
 //  Purpose:

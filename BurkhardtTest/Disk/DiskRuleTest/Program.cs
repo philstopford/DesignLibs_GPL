@@ -4,9 +4,9 @@ namespace DiskRuleTest;
 
 using QuadratureRule = Burkardt.Disk.QuadratureRule;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

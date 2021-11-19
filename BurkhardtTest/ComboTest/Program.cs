@@ -4,7 +4,7 @@ namespace ComboTest;
 
 internal partial class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

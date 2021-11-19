@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.AppliedStatistics;
 
 namespace ASA058Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,22 +63,17 @@ internal class Program
         //    John Burkardt
         //
     {
-        int K = 5;
-        int M = 2;
-        int N = 100;
+        const int K = 5;
+        const int M = 2;
+        const int N = 100;
 
         int[] b = new int[N];
         double[] d = new double[K * M];
         double[] dev = new double[K];
-        double dev_sum;
         int[] e = new int[K];
-        int e_sum;
         double[] f = new double[N];
         int i;
         int j;
-        int k2;
-        int nz;
-        double[] x = new double[N * M];
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -87,7 +83,7 @@ internal class Program
         //
         //  Read the data.
         */
-        x = Helpers.getExampleDoubleData();
+        double[] x = Helpers.getExampleDoubleData();
 
         //
         //  Print a few data values.
@@ -101,7 +97,7 @@ internal class Program
             string cout = "  " + i.ToString().PadLeft(8);
             for (j = 1; j <= M; j++)
             {
-                cout += "  " + x[i - 1 + (j - 1) * N].ToString().PadLeft(14);
+                cout += "  " + x[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -121,8 +117,8 @@ internal class Program
         //
         //  Compute the clusters.
         //
-        nz = 1;
-        k2 = K;
+        int nz = 1;
+        int k2 = K;
 
         Algorithms.clustr(x, ref d, ref dev, ref b, f, ref e, N, M, K, nz, k2);
 
@@ -134,11 +130,11 @@ internal class Program
         {
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + e[i - 1].ToString().PadLeft(8)
-                                   + "  " + dev[i - 1].ToString().PadLeft(14) + "");
+                                   + "  " + dev[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e_sum = 0;
-        dev_sum = 0.0;
+        int e_sum = 0;
+        double dev_sum = 0.0;
 
         for (i = 1; i <= K; i++)
         {
@@ -149,7 +145,7 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  " + "   Total"
                                + "  " + e_sum.ToString().PadLeft(8)
-                               + "  " + dev_sum.ToString().PadLeft(14) + "");
+                               + "  " + dev_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

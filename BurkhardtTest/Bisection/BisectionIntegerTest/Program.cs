@@ -3,9 +3,9 @@ using Burkardt.Bisection;
 
 namespace BisectionIntegerTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,8 +62,6 @@ internal class Program
         //    John Burkardt
         //
     {
-        int a = 0;
-        int b = 0;
         int c = 0;
         int fc = 0;
 
@@ -76,8 +74,8 @@ internal class Program
         Console.WriteLine("  as well as an integer root, so the algorithm can");
         Console.WriteLine("  fail depending on how the change of sign interval is chosen.");
 
-        a = 4;
-        b = 100;
+        int a = 4;
+        int b = 100;
 
         Console.WriteLine("");
         Console.WriteLine("  The initial change of sign interval is:");

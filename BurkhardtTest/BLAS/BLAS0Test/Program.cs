@@ -5,9 +5,9 @@ using Burkardt.Uniform;
 
 namespace BLAS0Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
 //****************************************************************************80
 //
 //  Purpose:

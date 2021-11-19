@@ -6,9 +6,9 @@ namespace TetrahedronMonteCarloTest;
 using MonteCarlo = Burkardt.TetrahedronNS.MonteCarlo;
 using Integrand = Burkardt.TetrahedronNS.Integrand;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

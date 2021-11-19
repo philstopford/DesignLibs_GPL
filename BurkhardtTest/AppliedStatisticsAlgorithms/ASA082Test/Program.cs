@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace ASA082Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -71,12 +71,7 @@ internal class Program
             double[] a = helmert_matrix(n);
             Console.WriteLine("");
             Console.WriteLine("  Helmert matrix of order " + n + "");
-            switch (false)
-            {
-                case true:
-                    typeMethods.r8mat_print(n, n, a, "  Helmert matrix:");
-                    break;
-            }
+            typeMethods.r8mat_print(n, n, a, "  Helmert matrix:");
 
             double d1 = helmert_determinant(n);
             Console.WriteLine("  determinant =      " + d1 + "");

@@ -6,9 +6,9 @@ using Triangle = Burkardt.FEM.Triangle;
 
 namespace FEMToTriangleTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         //****************************************************************************80
         //

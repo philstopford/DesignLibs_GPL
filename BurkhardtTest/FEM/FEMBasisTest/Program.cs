@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace FEMBasisTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.WriteLine("");
         Console.WriteLine("FEM_BASIS_TEST:");

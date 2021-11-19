@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA121Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,7 +62,6 @@ internal class Program
         //
     {
         double fx = 0;
-        int n_data = 0;
         double x = 0;
         int ifault = 0;
 
@@ -77,7 +76,7 @@ internal class Program
                           + "(Tabulated)               (TRIGAMMA)                DIFF");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {

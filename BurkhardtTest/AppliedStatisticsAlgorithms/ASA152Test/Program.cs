@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA152Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -65,7 +65,6 @@ internal class Program
     {
         double fx = 0;
         int ifault = 0;
-        int n_data = 0;
         int pop = 0;
         int sam = 0;
         int suc = 0;
@@ -83,7 +82,7 @@ internal class Program
                           + " (tabulated)               (CHYPER)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -94,7 +93,7 @@ internal class Program
                 break;
             }
 
-            bool point = false;
+            const bool point = false;
 
             double fx2 = Algorithms.chyper(point, sam, x, pop, suc, ref ifault);
 
@@ -158,7 +157,7 @@ internal class Program
                 break;
             }
 
-            bool point = true;
+            const bool point = true;
 
             double fx2 = Algorithms.chyper(point, sam, x, pop, suc, ref ifault);
 

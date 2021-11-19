@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Ball;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace BallMonteCarloTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -77,31 +78,27 @@ internal class Program
         };
         int i;
         int j;
-        int n;
         double[] result = new double[7];
-        int seed;
-        double[] value;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Estimate integrals over the interior of the unit ball");
         Console.WriteLine("  using the Monte Carlo method.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N        1              X^2             Y^2 " +
                           "             Z^2             X^4           X^2Y^2           Z^4");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
-        string cout = "";
+        string cout;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.ball01_sample(n, ref seed);
+            double[] x = MonteCarlo.ball01_sample(n, ref seed);
 
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
@@ -111,10 +108,10 @@ internal class Program
                     e[i] = e_test[i + j * 3];
                 }
 
-                value = Monomial.monomial_value(3, n, e, x);
+                double[] value = Monomial.monomial_value(3, n, e, x);
 
                 result[j] = MonteCarlo.ball01_volume() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result[j].ToString().PadLeft(14);
+                cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -133,7 +130,7 @@ internal class Program
             }
 
             result[j] = MonteCarlo.ball01_monomial_integral(e);
-            cout += "  " + result[j].ToString().PadLeft(14);
+            cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);

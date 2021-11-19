@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace ASA053Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //
         //  Purpose:
         //
@@ -59,33 +59,29 @@ internal class Program
         //    John Burkardt
         //
     {
-        int NP = 3;
+        const int NP = 3;
 
         double[] d = {
             3.0, 
             2.0, 4.0, 
             1.0, 2.0, 5.0 };
-        int n;
-        int np = NP;
-        double[] sa;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Generate a single Wishart deviate.");
 
-        n = 1;
-        seed = 123456789;
+        const int n = 1;
+        int seed = 123456789;
 
         Console.WriteLine("");
-        Console.WriteLine("  The number of variables is " + np + "");
+        Console.WriteLine("  The number of variables is " + NP + "");
         Console.WriteLine("  The number of degrees of freedom is " + n + "");
 
-        typeMethods.r8utp_print ( np, d, "  The upper Cholesky factor:" );
+        typeMethods.r8utp_print ( NP, d, "  The upper Cholesky factor:" );
 
-        sa = Algorithms.wshrt ( d, n, np, ref seed );
+        double[] sa = Algorithms.wshrt ( d, n, NP, ref seed );
 
-        typeMethods.r8pp_print ( np, sa, "  The sample matrix:" );
+        typeMethods.r8pp_print ( NP, sa, "  The sample matrix:" );
     }
 
     private static void test02()

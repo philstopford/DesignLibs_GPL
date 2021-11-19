@@ -4,9 +4,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA091Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,22 +63,18 @@ internal class Program
         //    John Burkardt
         //
     {
-        double g;
         int ifault = 0;
-        double p;
-        double v;
-        double value = 0;
-        double value_correct = 0.4;
+        const double value_correct = 0.4;
 
-        p = 0.017523;
-        v = 4.0;
+        const double p = 0.017523;
+        const double v = 4.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Perform a simple sample calculation using");
         Console.WriteLine("  PPCHI2 to invert the Chi-Squared CDF.");
 
-        g = Helpers.LogGamma(v / 2.0);
+        double g = Helpers.LogGamma(v / 2.0);
 
         Console.WriteLine("");
         Console.WriteLine("  P =                  "
@@ -88,7 +84,7 @@ internal class Program
         Console.WriteLine("  G Log(Gamma(V/2)) =  "
                           + g.ToString("0.################").PadLeft(24) + "");
 
-        value = Algorithms.ppchi2(p, v, g, ref ifault);
+        double value = Algorithms.ppchi2(p, v, g, ref ifault);
 
         Console.WriteLine("  VALUE =              "
                           + value.ToString("0.################").PadLeft(24) + "");
@@ -121,12 +117,8 @@ internal class Program
     {
         int a = 0;
         double fx = 0;
-        double g;
         int ifault = 0;
-        int n_data;
-        double v;
         double x = 0;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -139,7 +131,7 @@ internal class Program
                           + "(PPCHI2)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -150,11 +142,11 @@ internal class Program
                 break;
             }
 
-            v = a;
+            double v = a;
 
-            g = Helpers.LogGamma(v / 2.0);
+            double g = Helpers.LogGamma(v / 2.0);
 
-            x2 = Algorithms.ppchi2(fx, v, g, ref ifault);
+            double x2 = Algorithms.ppchi2(fx, v, g, ref ifault);
 
             Console.WriteLine("  " + a.ToString("0.####").PadLeft(10)
                                    + "  " + fx.ToString("0.####").PadLeft(10)

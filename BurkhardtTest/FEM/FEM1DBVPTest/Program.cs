@@ -6,9 +6,9 @@ using Burkardt.Types;
 
 namespace FEM1DBVPTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
 //****************************************************************************80
 //

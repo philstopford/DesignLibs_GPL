@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA299Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,12 +62,9 @@ internal class Program
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        int i;
-        int j;
-        bool more;
-        int t = 4;
+        const int t = 4;
         int[] x = new int[N];
 
         Console.WriteLine("");
@@ -82,9 +79,9 @@ internal class Program
         Console.WriteLine("     Index        X(1)      X(2)      X(3)      X(4)");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
-        i = 0;
+        int i = 0;
 
         for ( ; ; )
         {
@@ -94,6 +91,7 @@ internal class Program
 
             string cout = "  " + i.ToString().PadLeft(8);
             cout += "  ";
+            int j;
             for ( j = 0; j < N; j++ )
             {
                 cout += x[j].ToString().PadLeft(8);

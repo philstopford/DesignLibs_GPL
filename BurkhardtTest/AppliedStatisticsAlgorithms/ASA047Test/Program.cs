@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.AppliedStatistics;
 
 namespace ASA047Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -81,20 +82,20 @@ internal class Program
         start[0] = -1.2;
         start[1] =  1.0;
 
-        double reqmin = 1.0E-08;
+        const double reqmin = 1.0E-08;
 
         step[0] = 1.0;
         step[1] = 1.0;
 
-        int konvge = 10;
-        int kcount = 500;
+        const int konvge = 10;
+        const int kcount = 500;
 
         Console.WriteLine("");
         Console.WriteLine("  Starting point X:");
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = rosenbrock ( start );
@@ -112,7 +113,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -189,7 +190,7 @@ internal class Program
         int ifault = 0;
         int numres = 0;
 
-        int n = 4;
+        const int n = 4;
 
         double[] start = new double[n];
         double[] step = new double[n];
@@ -219,7 +220,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = powell ( start );
@@ -237,7 +238,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -291,7 +292,7 @@ internal class Program
         double fx = fx1 * fx1
                     +  5.0 * fx2 * fx2
                     +            fx3 * fx3 * fx3 * fx3
-                    + 10.0 * fx4 * fx4 * fx4 * fx4;;
+                    + 10.0 * fx4 * fx4 * fx4 * fx4;
 
         return fx;
     }
@@ -321,7 +322,7 @@ internal class Program
         int ifault = 0;
         int numres = 0;
 
-        int n = 3;
+        const int n = 3;
 
         double[] start = new double[n];
         double[] step = new double[n];
@@ -349,7 +350,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = helical ( start );
@@ -367,7 +368,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -487,7 +488,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + start[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + start[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         double ynewlo = quartic ( start );
@@ -505,7 +506,7 @@ internal class Program
         Console.WriteLine("");
         for (int i = 0; i < n; i++ )
         {
-            Console.WriteLine("  " + xmin[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");

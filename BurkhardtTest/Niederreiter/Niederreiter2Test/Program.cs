@@ -3,9 +3,9 @@ using Burkardt.NiederreiterNS;
 
 namespace Niederreiter2Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

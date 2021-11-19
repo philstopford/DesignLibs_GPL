@@ -9,7 +9,7 @@ namespace FEM2DPoissonCGTest;
 
 internal partial class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

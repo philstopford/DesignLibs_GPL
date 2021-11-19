@@ -7,9 +7,9 @@ namespace JacobiPolynomialTest;
 using Polynomial = Burkardt.PolynomialNS.Jacobi;
 using Quadrature = Burkardt.Quadrature.JacobiQuadrature;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

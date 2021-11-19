@@ -6,9 +6,9 @@ using Grid = Burkardt.Wedge.Grid;
 
 namespace WedgeGridTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

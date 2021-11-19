@@ -6,9 +6,9 @@ using Burkardt.Types;
 
 namespace FEM1DBVPQuadraticTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.WriteLine("");
         Console.WriteLine("FEM1D_BVP_QUADRATIC_TEST");

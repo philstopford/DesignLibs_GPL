@@ -3,9 +3,9 @@ using Burkardt.AppliedStatistics;
 
 namespace ASA066Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -64,9 +64,7 @@ internal class Program
         //
     {
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
-        bool upper = false;
+        const bool upper = false;
         double x = 0;
 
         Console.WriteLine("");
@@ -80,7 +78,7 @@ internal class Program
         Console.WriteLine("               (tabulated)                 (ALNORM)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -91,7 +89,7 @@ internal class Program
                 break;
             }
 
-            fx2 = Algorithms.alnorm ( x, upper );
+            double fx2 = Algorithms.alnorm ( x, upper );
 
             Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
                                    + "  " + fx.ToString("0.################").PadLeft(24)
@@ -121,8 +119,6 @@ internal class Program
         //    John Burkardt
     {
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         double p = 0;
         double pdf = 0;
         double q = 0;
@@ -139,7 +135,7 @@ internal class Program
         Console.WriteLine("               (tabulated)                 (NORMP)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -151,7 +147,7 @@ internal class Program
             }
 
             Algorithms.normp(x, ref p, ref q, ref pdf);
-            fx2 = p;
+            double fx2 = p;
 
             Console.WriteLine("  " + x.ToString("0.####").PadLeft(10)
                                    + "  " + fx.ToString("0.################").PadLeft(24)
@@ -181,7 +177,6 @@ internal class Program
         //
     {
         double fx = 0;
-        int n_data = 0;
         double p = 0;
         double pdf = 0;
         double q = 0;
@@ -198,7 +193,7 @@ internal class Program
         Console.WriteLine("               (tabulated)                 (NPROB)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {

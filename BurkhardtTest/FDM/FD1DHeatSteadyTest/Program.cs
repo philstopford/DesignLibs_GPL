@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace FD1DHeatSteadyTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         problem1();
         problem2();

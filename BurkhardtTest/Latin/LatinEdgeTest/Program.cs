@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace LatinEdgeTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         int seed = typeMethods.get_seed();
         int seed_save = seed;

@@ -3,9 +3,9 @@ using Burkardt.Types;
 
 namespace CyclicReductionTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

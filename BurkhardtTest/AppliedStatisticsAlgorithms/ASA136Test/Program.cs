@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.AppliedStatistics;
 
 namespace ASA136Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -63,9 +64,9 @@ internal class Program
         //
     {
         int ifault = 0;
-        int k = 5;
-        int m = 100;
-        int n = 2;
+        const int k = 5;
+        const int m = 100;
+        const int n = 2;
 
         double[] c = new double[k * n];
         int[] ic1 = new int[m];
@@ -91,7 +92,7 @@ internal class Program
             string cout = "  " + i.ToString().PadLeft(8);
             for (int j = 1; j <= n; j++)
             {
-                cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(14);
+                cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -109,7 +110,7 @@ internal class Program
             }
         }
 
-        int iter = 50;
+        const int iter = 50;
         //
         //  Compute the clusters.
         //
@@ -134,7 +135,7 @@ internal class Program
         {
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + nc[i - 1].ToString().PadLeft(8)
-                                   + "  " + wss[i - 1].ToString().PadLeft(14) + "");
+                                   + "  " + wss[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             nc_sum += nc[i - 1];
             wss_sum += wss[i - 1];
         }
@@ -142,7 +143,7 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("     Total"
                           + "  " + nc_sum.ToString().PadLeft(8)
-                          + "  " + wss_sum.ToString().PadLeft(14) + "");
+                          + "  " + wss_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

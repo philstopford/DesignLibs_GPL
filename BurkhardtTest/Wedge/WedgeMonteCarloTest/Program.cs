@@ -6,9 +6,9 @@ using MonteCarlo = Burkardt.Wedge.MonteCarlo;
 
 namespace WedgeMonteCarloTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

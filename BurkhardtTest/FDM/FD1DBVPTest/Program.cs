@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace FDM1DBVPTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:

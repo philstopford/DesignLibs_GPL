@@ -5,7 +5,7 @@ namespace BlendTest;
 
 internal partial class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
         Console.WriteLine();
         Console.WriteLine("BLEND_TEST");

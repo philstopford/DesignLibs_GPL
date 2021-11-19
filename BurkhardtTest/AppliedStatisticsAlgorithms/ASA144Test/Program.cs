@@ -4,9 +4,9 @@ using Burkardt.Types;
 
 namespace ASA144Test;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -62,11 +62,10 @@ internal class Program
         //    John Burkardt
         //
     {
-        int NROW = 5;
-        int NCOL = 5;
+        const int NROW = 5;
+        const int NCOL = 5;
 
         int ifault = 0;
-        bool key;
         int[] matrix = new int[NROW * NCOL];
         int[] ncolt =  {
             2, 2, 2, 2, 1
@@ -76,7 +75,7 @@ internal class Program
         };
         int[] nsubt = new int[NCOL];
         int test;
-        int test_num = 10;
+        const int test_num = 10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -86,7 +85,7 @@ internal class Program
         typeMethods.i4vec_print(NROW, nrowt, "  The rowsum vector:");
         typeMethods.i4vec_print(NCOL, ncolt, "  The columnsum vector: ");
 
-        key = false;
+        bool key = false;
 
         Algorithms.RContData data = new();
 

@@ -3,7 +3,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.RandomMatrix;
 
-public class PositiveDefiniteSymmetric
+public static class PositiveDefiniteSymmetric
 {
     public static double[] pds_random ( int n, ref typeMethods.r8NormalData data, ref int seed )
 
@@ -49,30 +49,27 @@ public class PositiveDefiniteSymmetric
         //    Output, double PDS_RANDOM[N*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
-        int k;
-        double[] lambda;
-        double[] q;
 
-        a = new double[n*n];
+        double[] a = new double[n*n];
         //
         //  Get a random set of eigenvalues.
         //
-        lambda = UniformRNG.r8vec_uniform_01_new ( n, ref seed );
+        double[] lambda = UniformRNG.r8vec_uniform_01_new ( n, ref seed );
         //
         //  Get a random orthogonal matrix Q.
         //
-        q = Orthogonal.orth_random ( n, ref data, ref seed );
+        double[] q = Orthogonal.orth_random ( n, ref data, ref seed );
         //
         //  Set A = Q * Lambda * Q'.
         //
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < n; i++ )
             {
                 a[i+j*n] = 0.0;
+                int k;
                 for ( k = 0; k < n; k++ )
                 {
                     a[i+j*n] += q[i+k*n] * lambda[k] * q[j+k*n];

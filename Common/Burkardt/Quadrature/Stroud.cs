@@ -61,24 +61,19 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double arg;
-           int expon;
-           int i;
            int j;
-               
-           int r;
-           double volume;
 
-           expon = 0;
-           volume = C1.c1_leg_monomial_integral(expon);
+           const int expon = 0;
+           double volume = C1.c1_leg_monomial_integral(expon);
            volume = Math.Pow(volume, n);
 
            for (j = 0; j < o; j++)
            {
-                i = 0;
+                int i = 0;
+                int r;
                 for (r = 1; r <= n / 2; r++)
                 {
-                     arg = (2 * r - 1) * (j + 1) * Math.PI / n;
+                     double arg = (2 * r - 1) * (j + 1) * Math.PI / n;
 
                      x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg) / Math.Sqrt(3.0);
                      i += 1;
@@ -89,16 +84,16 @@ using Burkardt.Types;
                 //
                 //  The following code does not correspond to what Stroud declares.
                 //
-                if (i < n)
+                if (i >= n)
                 {
-                     x[i + j * n] = n switch
-                     {
-                          1 => typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0),
-                          _ => Math.Sqrt(2.0) * typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0)
-                     };
-
-                     i += 1;
+                     continue;
                 }
+
+                x[i + j * n] = n switch
+                {
+                     1 => typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0),
+                     _ => Math.Sqrt(2.0) * typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0)
+                };
            }
 
            for (j = 0; j < o; j++)
@@ -154,9 +149,7 @@ using Burkardt.Types;
            //    Output, int CN_LEG_03_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 2 * n;
+           int o = 2 * n;
 
            return o;
       }
@@ -222,15 +215,12 @@ using Burkardt.Types;
            double b = 0;
            double c = 0;
            double eta = 0;
-           int expon = 0;
            double gamma = 0;
-           int i = 0;
-           int i1 = 0;
-           int i2 = 0;
-           int k = 0;
+           int i;
+           int i1;
+           int i2;
            double lambda = 0;
            double mu = 0;
-           double volume = 0;
            double xsi = 0;
 
            switch (n)
@@ -258,8 +248,8 @@ using Burkardt.Types;
                 }
            }
 
-           expon = 0;
-           volume = C1.c1_leg_monomial_integral(expon);
+           int expon = 0;
+           double volume = C1.c1_leg_monomial_integral(expon);
            volume = Math.Pow(volume, n);
 
            switch (n)
@@ -316,7 +306,7 @@ using Burkardt.Types;
                      break;
            }
 
-           k = -1;
+           int k = -1;
 
            k += 1;
            for (i = 0; i < n; i++)
@@ -438,9 +428,7 @@ using Burkardt.Types;
            //    Output, int CN_LEG_05_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = n * n + n + 2;
+           int o = n * n + n + 2;
 
            return o;
       }
@@ -497,16 +485,8 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double b0;
-           double b1;
-           double b2;
-           int expon;
            int i;
            int i1;
-           int i2;
-           int k;
-           double r;
-           double volume;
 
            switch (n)
            {
@@ -517,17 +497,17 @@ using Burkardt.Types;
                      return;
            }
 
-           expon = 0;
-           volume = C1.c1_leg_monomial_integral(expon);
+           const int expon = 0;
+           double volume = C1.c1_leg_monomial_integral(expon);
            volume = Math.Pow(volume, n);
 
-           b0 = (25 * n * n - 115 * n + 162) * volume / 162.0;
-           b1 = (70 - 25 * n) * volume / 162.0;
-           b2 = 25.0 * volume / 324.0;
+           double b0 = (25 * n * n - 115 * n + 162) * volume / 162.0;
+           double b1 = (70 - 25 * n) * volume / 162.0;
+           double b2 = 25.0 * volume / 324.0;
 
-           r = Math.Sqrt(3.0 / 5.0);
+           double r = Math.Sqrt(3.0 / 5.0);
 
-           k = -1;
+           int k = -1;
 
            k += 1;
            for (i = 0; i < n; i++)
@@ -560,6 +540,7 @@ using Burkardt.Types;
 
            for (i1 = 0; i1 < n - 1; i1++)
            {
+                int i2;
                 for (i2 = i1 + 1; i2 < n; i2++)
                 {
                      k += 1;
@@ -652,9 +633,7 @@ using Burkardt.Types;
            //    Output, int CN_LEG_05_2_SIZE, the order.
            //
       {
-           int o;
-
-           o = 2 * n * n + 1;
+           int o = 2 * n * n + 1;
 
            return o;
       }
@@ -705,10 +684,6 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           int expon;
-           int k;
-           double volume;
-
            switch (alpha)
            {
                 case <= -1.0:
@@ -718,13 +693,13 @@ using Burkardt.Types;
                      return;
            }
 
-           expon = 0;
-           volume = C1.c1_geg_monomial_integral(alpha, expon);
+           const int expon = 0;
+           double volume = C1.c1_geg_monomial_integral(alpha, expon);
            volume = Math.Pow(volume, n);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -774,8 +749,6 @@ using Burkardt.Types;
            //    Output, int CN_GEG_00_1_SIZE, the order.
            //
       {
-           int o;
-
            switch (alpha)
            {
                 case <= -1.0:
@@ -784,7 +757,7 @@ using Burkardt.Types;
                      Console.WriteLine("  ALPHA <= -1.0");
                      return 1;
                 default:
-                     o = 1;
+                     int o = 1;
 
                      return o;
            }
@@ -836,12 +809,7 @@ using Burkardt.Types;
            //    Output, double W[[O], the weights.
            //
       {
-           int expon;
            int i;
-           int k;
-           double value1;
-           double value2;
-           double volume;
 
            switch (alpha)
            {
@@ -852,16 +820,16 @@ using Burkardt.Types;
                      return;
            }
 
-           expon = 0;
-           value1 = C1.c1_geg_monomial_integral(alpha, expon);
-           volume = Math.Pow(value1, n);
+           int expon = 0;
+           double value1 = C1.c1_geg_monomial_integral(alpha, expon);
+           double volume = Math.Pow(value1, n);
 
            expon = 1;
-           value2 = C1.c1_geg_monomial_integral(alpha, expon);
+           double value2 = C1.c1_geg_monomial_integral(alpha, expon);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -916,8 +884,6 @@ using Burkardt.Types;
            //    Output, int CN_GEG_01_1_SIZE, the order.
            //
       {
-           int o;
-
            switch (alpha)
            {
                 case <= -1.0:
@@ -926,7 +892,7 @@ using Burkardt.Types;
                      Console.WriteLine("  ALPHA <= -1.0");
                      return 1;
                 default:
-                     o = 1;
+                     const int o = 1;
 
                      return o;
            }
@@ -981,17 +947,12 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           int k;
-               
-           double volume;
-           double volume_1d;
-
-           volume_1d = Math.Sqrt(Math.PI);
-           volume = Math.Pow(volume_1d, n);
+           double volume_1d = Math.Sqrt(Math.PI);
+           double volume = Math.Pow(volume_1d, n);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = 0;
+           const int k = 0;
            //
            //  1 point.
            //
@@ -1037,9 +998,7 @@ using Burkardt.Types;
            //    Output, int EN_HER_01_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 1;
+           const int o = 1;
 
            return o;
       }
@@ -1093,23 +1052,17 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
            int i;
-           int k;
-               
-           double r;
-           double volume;
-           double volume_1d;
 
-           volume_1d = Math.Sqrt(Math.PI);
-           volume = Math.Pow(volume_1d, n);
+           double volume_1d = Math.Sqrt(Math.PI);
+           double volume = Math.Pow(volume_1d, n);
 
-           a = volume / o;
-           r = Math.Sqrt(n / 2.0);
+           double a = volume / o;
+           double r = Math.Sqrt(n / 2.0);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2 * N points.
            //
@@ -1163,9 +1116,7 @@ using Burkardt.Types;
            //    Output, int EN_HER_03_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 2 * n;
+           int o = 2 * n;
 
            return o;
       }
@@ -1238,15 +1189,11 @@ using Burkardt.Types;
            double c = 0;
            double eta = 0;
            double gamma = 0;
-           int i = 0;
-           int i1 = 0;
-           int j = 0;
-           int k = 0;
+           int i;
+           int i1;
            double lambda = 0;
            double mu = 0;
-               
-           double volume = 0;
-           double volume_1d = 0;
+
            double xsi = 0;
 
            switch (n)
@@ -1274,8 +1221,8 @@ using Burkardt.Types;
                      return;
            }
 
-           volume_1d = Math.Sqrt(Math.PI);
-           volume = Math.Pow(volume_1d, n);
+           double volume_1d = Math.Sqrt(Math.PI);
+           double volume = Math.Pow(volume_1d, n);
 
            switch (n)
            {
@@ -1376,7 +1323,7 @@ using Burkardt.Types;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2 points.
            //
@@ -1422,6 +1369,7 @@ using Burkardt.Types;
            //
            for (i = 0; i < n - 1; i++)
            {
+                int j;
                 for (j = i + 1; j < n; j++)
                 {
                      k += 1;
@@ -1485,9 +1433,7 @@ using Burkardt.Types;
            //    Output, int EN_HER_05_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = n * n + n + 2;
+           int o = n * n + n + 2;
 
            return o;
       }
@@ -1541,32 +1487,22 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
-           double b;
-           double c;
            int i;
-           int j;
-           int k;
-               
-           double r;
-           double s;
-           double volume;
-           double volume_1d;
 
-           volume_1d = Math.Sqrt(Math.PI);
-           volume = Math.Pow(volume_1d, n);
+           double volume_1d = Math.Sqrt(Math.PI);
+           double volume = Math.Pow(volume_1d, n);
 
-           a = 2.0E+00 * volume / (n + 2);
-           b = (4 - n) * volume / 2.0
-                                / ((n + 2) * (n + 2));
-           c = volume / ((n + 2) * (n + 2));
+           double a = 2.0E+00 * volume / (n + 2);
+           double b = (4 - n) * volume / 2.0
+                                       / ((n + 2) * (n + 2));
+           double c = volume / ((n + 2) * (n + 2));
 
-           r = Math.Sqrt((n + 2) / 2.0);
-           s = Math.Sqrt((n + 2) / 4.0);
+           double r = Math.Sqrt((n + 2) / 2.0);
+           double s = Math.Sqrt((n + 2) / 4.0);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -1590,6 +1526,7 @@ using Burkardt.Types;
            //
            for (i = 0; i < n - 1; i++)
            {
+                int j;
                 for (j = i + 1; j < n; j++)
                 {
                      k += 1;
@@ -1651,9 +1588,7 @@ using Burkardt.Types;
            //    Output, int EN_HER_01_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 2 * n * n + 1;
+           int o = 2 * n * n + 1;
 
            return o;
       }
@@ -1708,15 +1643,11 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           int k;
-               
-           double volume;
-
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = 0;
+           const int k = 0;
            //
            //  1 point.
            //
@@ -1762,9 +1693,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_01_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 1;
+           int o = 1;
 
            return o;
       }
@@ -1819,21 +1748,16 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
            int i;
-           int k;
-               
-           double r;
-           double volume;
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           a = volume / o;
-           r = Math.Sqrt(n / 2.0);
+           double a = volume / o;
+           double r = Math.Sqrt(n / 2.0);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2 * N points.
            //
@@ -1887,9 +1811,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_03_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 2 * n;
+           int o = 2 * n;
 
            return o;
       }
@@ -1943,23 +1865,16 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
-           int i;
            int i1;
-           int k;
-           bool more;
-               
-           double r;
-           double volume;
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           a = volume / o;
-           r = Math.Sqrt(0.5);
+           double a = volume / o;
+           double r = Math.Sqrt(0.5);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2^N points.
            //
@@ -1970,11 +1885,12 @@ using Burkardt.Types;
            }
 
            w[k] = a;
-           more = true;
+           bool more = true;
 
            while (more)
            {
                 more = false;
+                int i;
                 for (i = n - 1; 0 <= i; i--)
                 {
                      if (x[i + k * n] < 0.0)
@@ -2038,9 +1954,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_03_2_SIZE, the order.
            //
       {
-           int o;
-
-           o = (int)Math.Pow(2, n);
+           int o = (int)Math.Pow(2, n);
 
            return o;
       }
@@ -2114,14 +2028,11 @@ using Burkardt.Types;
            double c = 0;
            double eta = 0;
            double gamma = 0;
-           int i = 0;
-           int i1 = 0;
-           int j = 0;
-           int k = 0;
+           int i;
+           int i1;
            double lambda = 0;
            double mu = 0;
-               
-           double volume = 0;
+
            double xsi = 0;
 
            switch (n)
@@ -2149,7 +2060,7 @@ using Burkardt.Types;
                      return;
            }
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
            switch (n)
            {
@@ -2250,7 +2161,7 @@ using Burkardt.Types;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2 points.
            //
@@ -2296,6 +2207,7 @@ using Burkardt.Types;
            //
            for (i = 0; i < n - 1; i++)
            {
+                int j;
                 for (j = i + 1; j < n; j++)
                 {
                      k += 1;
@@ -2359,9 +2271,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_05_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = n * n + n + 2;
+           int o = n * n + n + 2;
 
            return o;
       }
@@ -2415,30 +2325,21 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
-           double b;
-           double c;
            int i;
-           int j;
-           int k;
-               
-           double r;
-           double s;
-           double volume;
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           a = 2.0E+00 * volume / (n + 2);
-           b = (4 - n) * volume / 2.0E+00
-                                / ((n + 2) * (n + 2));
-           c = volume / ((n + 2) * (n + 2));
+           double a = 2.0E+00 * volume / (n + 2);
+           double b = (4 - n) * volume / 2.0E+00
+                                       / ((n + 2) * (n + 2));
+           double c = volume / ((n + 2) * (n + 2));
 
-           r = Math.Sqrt((n + 2) / 2.0E+00);
-           s = Math.Sqrt((n + 2) / 4.0E+00);
+           double r = Math.Sqrt((n + 2) / 2.0E+00);
+           double s = Math.Sqrt((n + 2) / 4.0E+00);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -2462,6 +2363,7 @@ using Burkardt.Types;
            //
            for (i = 0; i < n - 1; i++)
            {
+                int j;
                 for (j = i + 1; j < n; j++)
                 {
                      k += 1;
@@ -2523,9 +2425,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_01_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = 2 * n * n + 1;
+           int o = 2 * n * n + 1;
 
            return o;
       }
@@ -2582,16 +2482,8 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
-           double b;
            int i;
            int i1;
-           int k;
-           bool more;
-               
-           double r;
-           double s;
-           double volume;
 
            switch (n)
            {
@@ -2602,17 +2494,17 @@ using Burkardt.Types;
                      return;
            }
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           a = 4.0E+00 * volume / ((n + 2) * (n + 2));
-           b = (n - 2) * (n - 2) * volume / (int)Math.Pow(2, n)
-                                          / ((n + 2) * (n + 2));
-           r = Math.Sqrt((n + 2) / 4.0E+00);
-           s = Math.Sqrt((n + 2) / 2.0E+00 / (n - 2));
+           double a = 4.0E+00 * volume / ((n + 2) * (n + 2));
+           double b = (n - 2) * (n - 2) * volume / (int)Math.Pow(2, n)
+                                                 / ((n + 2) * (n + 2));
+           double r = Math.Sqrt((n + 2) / 4.0E+00);
+           double s = Math.Sqrt((n + 2) / 2.0E+00 / (n - 2));
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2 * N points.
            //
@@ -2636,7 +2528,7 @@ using Burkardt.Types;
            }
 
            w[k] = b;
-           more = true;
+           bool more = true;
            while (more)
            {
                 more = false;
@@ -2703,9 +2595,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_05_3_SIZE, the order.
            //
       {
-           int o;
-
-           o = (int)Math.Pow(2, n) + 2 * n;
+           int o = (int)Math.Pow(2, n) + 2 * n;
 
            return o;
       }
@@ -2759,46 +2649,39 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double b;
            int i;
-           int i1;
-           int j;
-           int k;
-           bool more;
-               
-           double r;
-           double s;
-           double volume;
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           s = Math.Sqrt(0.5E+00);
+           double s = Math.Sqrt(0.5E+00);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2^N + 2^(N-1) + 2^(N-2) + ... + 1 = 2^(N+1)-1 points.
            //  but do the last point separately.
            //
            for (i = 0; i < n; i++)
            {
-                r = Math.Sqrt((i + 3) / 2.0E+00);
-                b = Math.Pow(2.0E+00, i + 1 - n) * volume / (i + 2)
-                                                          / (i + 3);
+                double r = Math.Sqrt((i + 3) / 2.0E+00);
+                double b = Math.Pow(2.0E+00, i + 1 - n) * volume / (i + 2)
+                                                                 / (i + 3);
 
                 k += 1;
                 x[i + k * n] = -r;
+                int i1;
                 for (i1 = i + 1; i1 < n; i1++)
                 {
                      x[i1 + k * n] = -s;
                 }
 
                 w[k] = b;
-                more = true;
+                bool more = true;
                 while (more)
                 {
                      more = false;
+                     int j;
                      for (j = n - 1; 0 <= j; j--)
                      {
                           if (x[j + k * n] < 0.0E+00)
@@ -2869,9 +2752,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_05_4_SIZE, the order.
            //
       {
-           int o;
-
-           o = (int)Math.Pow(2, n + 1) - 1;
+           int o = (int)Math.Pow(2, n + 1) - 1;
 
            return o;
       }
@@ -2928,28 +2809,19 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a = 0;
-           double b = 0;
-           int i = 0;
-           int i1 = 0;
-           int j = 0;
-           int k = 0;
-           bool more = false;
-           double n_r8 = 0;
-           int option = 0;
-               
+           int i;
+
            double r = 0;
            double s = 0;
-           double volume = 0;
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           n_r8 = n;
+           double n_r8 = n;
 
-           a = 2.0E+00 * volume / (n_r8 + 2.0E+00);
-           b = volume / (n_r8 + 2.0E+00) / Math.Pow(2.0, n);
+           double a = 2.0E+00 * volume / (n_r8 + 2.0E+00);
+           double b = volume / (n_r8 + 2.0E+00) / Math.Pow(2.0, n);
 
-           option = 1;
+           const int option = 1;
 
            switch (option)
            {
@@ -2973,7 +2845,7 @@ using Burkardt.Types;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -2986,6 +2858,7 @@ using Burkardt.Types;
            for (i = 0; i < n; i++)
            {
                 k += 1;
+                int i1;
                 for (i1 = 0; i1 < n; i1++)
                 {
                      x[i1 + k * n] = -s;
@@ -2994,31 +2867,34 @@ using Burkardt.Types;
                 x[i + k * n] = -r;
                 w[k] = b;
 
-                more = true;
+                bool more = true;
 
                 while (more)
                 {
                      more = false;
+                     int j;
                      for (j = n - 1; 0 <= j; j--)
                      {
-                          if (x[j + k * n] < 0.0E+00)
+                          if (!(x[j + k * n] < 0.0E+00))
                           {
-                               k += 1;
-                               for (i1 = 0; i1 < n; i1++)
-                               {
-                                    x[i1 + k * n] = x[i1 + (k - 1) * n];
-                               }
-
-                               x[j + k * n] = Math.Abs(x[j + k * n]);
-                               for (i1 = j + 1; i1 < n; i1++)
-                               {
-                                    x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                               }
-
-                               w[k] = b;
-                               more = true;
-                               break;
+                               continue;
                           }
+
+                          k += 1;
+                          for (i1 = 0; i1 < n; i1++)
+                          {
+                               x[i1 + k * n] = x[i1 + (k - 1) * n];
+                          }
+
+                          x[j + k * n] = Math.Abs(x[j + k * n]);
+                          for (i1 = j + 1; i1 < n; i1++)
+                          {
+                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                          }
+
+                          w[k] = b;
+                          more = true;
+                          break;
                      }
                 }
            }
@@ -3063,9 +2939,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_05_5_SIZE, the order.
            //
       {
-           int o;
-
-           o = n * (int)Math.Pow(2, n) + 1;
+           int o = n * (int)Math.Pow(2, n) + 1;
 
            return o;
       }
@@ -3122,18 +2996,10 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a;
            int i;
            int i1;
            int j;
-           int k;
            bool more;
-           double n_r8;
-               
-           double r;
-           double s;
-           double t;
-           double volume;
 
            switch (n)
            {
@@ -3144,23 +3010,23 @@ using Burkardt.Types;
                      return;
            }
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           n_r8 = n;
+           double n_r8 = n;
 
-           a = volume / Math.Pow(2.0, n) / (n_r8 + 1.0E+00);
+           double a = volume / Math.Pow(2.0, n) / (n_r8 + 1.0E+00);
 
-           r = Math.Sqrt((n_r8 - Math.Sqrt(2.0E+00)
-                          + (n_r8 - 1.0E+00) * Math.Sqrt(2.0E+00 * (n_r8 + 1.0E+00)))
-                         / 2.0E+00 / n_r8);
-           s = Math.Sqrt((n_r8 - Math.Sqrt(2.0E+00)
-                               - Math.Sqrt(2.0E+00 * (n_r8 + 1.0E+00)))
-                         / 2.0E+00 / n_r8);
-           t = Math.Sqrt((1.0E+00 + Math.Sqrt(2.0E+00)) / 2.0E+00);
+           double r = Math.Sqrt((n_r8 - Math.Sqrt(2.0E+00)
+                                 + (n_r8 - 1.0E+00) * Math.Sqrt(2.0E+00 * (n_r8 + 1.0E+00)))
+                                / 2.0E+00 / n_r8);
+           double s = Math.Sqrt((n_r8 - Math.Sqrt(2.0E+00)
+                                      - Math.Sqrt(2.0E+00 * (n_r8 + 1.0E+00)))
+                                / 2.0E+00 / n_r8);
+           double t = Math.Sqrt((1.0E+00 + Math.Sqrt(2.0E+00)) / 2.0E+00);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  N * 2^N points.
            //
@@ -3182,24 +3048,26 @@ using Burkardt.Types;
                      more = false;
                      for (j = n - 1; 0 <= j; j--)
                      {
-                          if (x[j + k * n] < 0.0E+00)
+                          if (!(x[j + k * n] < 0.0E+00))
                           {
-                               k += 1;
-                               for (i1 = 0; i1 < n; i1++)
-                               {
-                                    x[i1 + k * n] = x[i1 + (k - 1) * n];
-                               }
-
-                               x[j + k * n] = Math.Abs(x[j + k * n]);
-                               for (i1 = j + 1; i1 < n; i1++)
-                               {
-                                    x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                               }
-
-                               w[k] = a;
-                               more = true;
-                               break;
+                               continue;
                           }
+
+                          k += 1;
+                          for (i1 = 0; i1 < n; i1++)
+                          {
+                               x[i1 + k * n] = x[i1 + (k - 1) * n];
+                          }
+
+                          x[j + k * n] = Math.Abs(x[j + k * n]);
+                          for (i1 = j + 1; i1 < n; i1++)
+                          {
+                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                          }
+
+                          w[k] = a;
+                          more = true;
+                          break;
                      }
                 }
            }
@@ -3281,9 +3149,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_05_6_SIZE, the order.
            //
       {
-           int o;
-
-           o = (n + 1) * (int)Math.Pow(2, n);
+           int o = (n + 1) * (int)Math.Pow(2, n);
 
            return o;
       }
@@ -3346,21 +3212,12 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a = 0;
-           double b = 0;
-           double c = 0;
-           double d = 0;
-           int i = 0;
-           int i1 = 0;
-           int j = 0;
-           int k = 0;
-           bool more = false;
-           double n_r8 = 0;
-               
+           int i;
+           int i1;
+
            double r = 0;
            double s = 0;
            double t = 0;
-           double volume = 0;
 
            switch (option)
            {
@@ -3382,9 +3239,9 @@ using Burkardt.Types;
                      return;
            }
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           n_r8 = n;
+           double n_r8 = n;
 
            switch (option)
            {
@@ -3406,15 +3263,15 @@ using Burkardt.Types;
                      break;
            }
 
-           b = (8.0E+00 - n_r8) * volume / 8.0E+00 / Math.Pow(r, 6);
-           c = volume / Math.Pow(2.0E+00, n + 3) / Math.Pow(s, 6);
-           d = volume / 16.0E+00 / Math.Pow(t, 6);
-           a = volume - 2.0E+00 * n_r8 * b - Math.Pow(2.0E+00, n) * c - 2.0E+00 * n_r8
+           double b = (8.0E+00 - n_r8) * volume / 8.0E+00 / Math.Pow(r, 6);
+           double c = volume / Math.Pow(2.0E+00, n + 3) / Math.Pow(s, 6);
+           double d = volume / 16.0E+00 / Math.Pow(t, 6);
+           double a = volume - 2.0E+00 * n_r8 * b - Math.Pow(2.0E+00, n) * c - 2.0E+00 * n_r8
                 * (n_r8 - 1.0E+00) * d;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -3443,30 +3300,32 @@ using Burkardt.Types;
            }
 
            w[k] = c;
-           more = true;
+           bool more = true;
            while (more)
            {
                 more = false;
                 for (i = n - 1; 0 <= i; i--)
                 {
-                     if (x[i + k * n] < 0.0E+00)
+                     if (!(x[i + k * n] < 0.0E+00))
                      {
-                          k += 1;
-                          for (i1 = 0; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = x[i1 + (k - 1) * n];
-                          }
-
-                          x[i + k * n] = Math.Abs(x[i + k * n]);
-                          for (i1 = i + 1; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                          }
-
-                          w[k] = c;
-                          more = true;
-                          break;
+                          continue;
                      }
+
+                     k += 1;
+                     for (i1 = 0; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = x[i1 + (k - 1) * n];
+                     }
+
+                     x[i + k * n] = Math.Abs(x[i + k * n]);
+                     for (i1 = i + 1; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                     }
+
+                     w[k] = c;
+                     more = true;
+                     break;
                 }
            }
 
@@ -3475,6 +3334,7 @@ using Burkardt.Types;
            //
            for (i = 0; i < n - 1; i++)
            {
+                int j;
                 for (j = i + 1; j < n; j++)
                 {
                      k += 1;
@@ -3536,9 +3396,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_07_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = (int)Math.Pow(2, n) + 2 * n * n + 1;
+           int o = (int)Math.Pow(2, n) + 2 * n * n + 1;
 
            return o;
       }
@@ -3604,24 +3462,8 @@ using Burkardt.Types;
            //    Output, double W[O], the weights.
            //
       {
-           double a1;
-           double a2;
-           double b;
-           double c;
-           double d;
            int i;
            int i1;
-           int j;
-           int k;
-           bool more;
-           double n_r8;
-               
-           double r;
-           double rho1;
-           double rho2;
-           double s;
-           double t;
-           double volume;
 
            switch (n)
            {
@@ -3632,30 +3474,30 @@ using Burkardt.Types;
                      return;
            }
 
-           volume = Math.Sqrt(Math.Pow(Math.PI, n));
+           double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
-           n_r8 = n;
+           double n_r8 = n;
 
-           rho1 = Math.Sqrt((n_r8 + 2.0E+00 - Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00)))
-                            / 2.0E+00);
-           rho2 = Math.Sqrt((n_r8 + 2.0E+00 + Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00)))
-                            / 2.0E+00);
-           a1 = (n_r8 + 2.0E+00 + Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00))) / 2.0E+00
-                                                                         / (n_r8 + 2.0E+00);
-           a2 = (n_r8 + 2.0E+00 - Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00))) / 2.0E+00
-                                                                         / (n_r8 + 2.0E+00);
+           double rho1 = Math.Sqrt((n_r8 + 2.0E+00 - Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00)))
+                                   / 2.0E+00);
+           double rho2 = Math.Sqrt((n_r8 + 2.0E+00 + Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00)))
+                                   / 2.0E+00);
+           double a1 = (n_r8 + 2.0E+00 + Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00))) / 2.0E+00
+                / (n_r8 + 2.0E+00);
+           double a2 = (n_r8 + 2.0E+00 - Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00))) / 2.0E+00
+                / (n_r8 + 2.0E+00);
 
-           r = 1.0E+00;
-           s = Math.Sqrt(1.0E+00 / n_r8);
-           t = Math.Sqrt(0.5E+00);
-           b = (8.0E+00 - n_r8) * volume / n_r8 / (n_r8 + 2.0E+00) / (n_r8 + 4.0E+00);
-           c = Math.Pow(n_r8, 3) * volume / Math.Pow(2.0E+00, n) / n_r8 / (n_r8 + 2.0E+00)
-               / (n_r8 + 4.0E+00);
-           d = 4.0E+00 * volume / n_r8 / (n_r8 + 2.0E+00) / (n_r8 + 4.0E+00);
+           double r = 1.0E+00;
+           double s = Math.Sqrt(1.0E+00 / n_r8);
+           double t = Math.Sqrt(0.5E+00);
+           double b = (8.0E+00 - n_r8) * volume / n_r8 / (n_r8 + 2.0E+00) / (n_r8 + 4.0E+00);
+           double c = Math.Pow(n_r8, 3) * volume / Math.Pow(2.0E+00, n) / n_r8 / (n_r8 + 2.0E+00)
+                      / (n_r8 + 4.0E+00);
+           double d = 4.0E+00 * volume / n_r8 / (n_r8 + 2.0E+00) / (n_r8 + 4.0E+00);
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  2 * 2 * N points.
            //
@@ -3692,44 +3534,46 @@ using Burkardt.Types;
            }
 
            w[k] = a2 * c;
-           more = true;
+           bool more = true;
            while (more)
            {
                 more = false;
                 for (i = n - 1; 0 <= i; i--)
                 {
-                     if (x[i + k * n] < 0.0E+00)
+                     if (!(x[i + k * n] < 0.0E+00))
                      {
-                          k += 1;
-                          for (i1 = 0; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = x[i1 + (k - 2) * n];
-                               ;
-                          }
-
-                          x[i + k * n] = Math.Abs(x[i + k * n]);
-                          for (i1 = i + 1; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                          }
-
-                          w[k] = a1 * c;
-                          k += 1;
-                          for (i1 = 0; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = x[i1 + (k - 2) * n];
-                          }
-
-                          x[i + k * n] = Math.Abs(x[i + k * n]);
-                          for (i1 = i + 1; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                          }
-
-                          w[k] = a2 * c;
-                          more = true;
-                          break;
+                          continue;
                      }
+
+                     k += 1;
+                     for (i1 = 0; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = x[i1 + (k - 2) * n];
+                          ;
+                     }
+
+                     x[i + k * n] = Math.Abs(x[i + k * n]);
+                     for (i1 = i + 1; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                     }
+
+                     w[k] = a1 * c;
+                     k += 1;
+                     for (i1 = 0; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = x[i1 + (k - 2) * n];
+                     }
+
+                     x[i + k * n] = Math.Abs(x[i + k * n]);
+                     for (i1 = i + 1; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                     }
+
+                     w[k] = a2 * c;
+                     more = true;
+                     break;
                 }
            }
 
@@ -3738,6 +3582,7 @@ using Burkardt.Types;
            //
            for (i = 0; i < n - 1; i++)
            {
+                int j;
                 for (j = i + 1; j < n; j++)
                 {
                      k += 1;
@@ -3815,9 +3660,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_07_2_SIZE, the order.
            //
       {
-           int o;
-
-           o = (int)Math.Pow(2, n + 1) + 4 * n * n;
+           int o = (int)Math.Pow(2, n + 1) + 4 * n * n;
 
            return o;
       }
@@ -3901,10 +3744,8 @@ using Burkardt.Types;
            double b3 = 0;
            double b4 = 0;
            double b5 = 0;
-           int i = 0;
-           int j = 0;
-           int k = 0;
-           int l = 0;
+           int i;
+           int j;
            double u = 0;
            double v = 0;
 
@@ -4014,7 +3855,7 @@ using Burkardt.Types;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -4105,6 +3946,7 @@ using Burkardt.Types;
            {
                 for (j = i + 1; j < n - 1; j++)
                 {
+                     int l;
                      for (l = j + 1; l < n; l++)
                      {
                           k += 1;
@@ -4191,9 +4033,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_07_3_SIZE, the order.
            //
       {
-           int o;
-
-           o = (4 * n * n * n + 8 * n + 3) / 3;
+           int o = (4 * n * n * n + 8 * n + 3) / 3;
 
            return o;
       }
@@ -4272,11 +4112,9 @@ using Burkardt.Types;
            double b6 = 0;
            double b7 = 0;
            double b8 = 0;
-           int i = 0;
-           int j = 0;
-           int k = 0;
-           int l = 0;
-           int m = 0;
+           int i;
+           int j;
+           int l;
            double u = 0;
            double v = 0;
 
@@ -4397,7 +4235,7 @@ using Burkardt.Types;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -4638,6 +4476,7 @@ using Burkardt.Types;
                 {
                      for (l = j + 1; l < n - 1; l++)
                      {
+                          int m;
                           for (m = l + 1; m < n; m++)
                           {
                                k += 1;
@@ -4781,13 +4620,11 @@ using Burkardt.Types;
            //    Output, int EN_R2_09_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = (2 * (int)Math.Pow(n, 4)
-                - 4 * (int)Math.Pow(n, 3)
-                + 22 * (int)Math.Pow(n, 2)
-                - 8 * n
-                + 3) / 3;
+           int o = (2 * (int)Math.Pow(n, 4)
+                    - 4 * (int)Math.Pow(n, 3)
+                    + 22 * (int)Math.Pow(n, 2)
+                    - 8 * n
+                    + 3) / 3;
 
            return o;
       }
@@ -4874,16 +4711,11 @@ using Burkardt.Types;
            double b13 = 0;
            double b14 = 0;
            double b15 = 0;
-           int i = 0;
-           int i1 = 0;
-           int i2 = 0;
-           int i3 = 0;
-           int i4 = 0;
-           int i5 = 0;
-           int j = 0;
-           int k = 0;
-           int l = 0;
-           int m = 0;
+           int i;
+           int i1;
+           int j;
+           int l;
+           int m;
            double u = 0;
            double v = 0;
            double w2 = 0;
@@ -5040,7 +4872,7 @@ using Burkardt.Types;
 
            typeMethods.r8vec_zero(n * o, ref x);
 
-           k = -1;
+           int k = -1;
            //
            //  1 point.
            //
@@ -5768,12 +5600,16 @@ using Burkardt.Types;
            //
            for (i1 = 0; i1 < n - 4; i1++)
            {
+                int i2;
                 for (i2 = i1 + 1; i2 < n - 3; i2++)
                 {
+                     int i3;
                      for (i3 = i2 + 1; i3 < n - 2; i3++)
                      {
+                          int i4;
                           for (i4 = i3 + 1; i4 < n - 1; i4++)
                           {
+                               int i5;
                                for (i5 = i4 + 1; i5 < n; i5++)
                                {
                                     k += 1;
@@ -6047,14 +5883,12 @@ using Burkardt.Types;
            //    Output, int EN_R2_11_1_SIZE, the order.
            //
       {
-           int o;
-
-           o = (4 * (int)Math.Pow(n, 5)
-                - 20 * (int)Math.Pow(n, 4)
-                + 140 * (int)Math.Pow(n, 3)
-                - 130 * (int)Math.Pow(n, 2)
-                + 96 * n
-                + 15) / 15;
+           int o = (4 * (int)Math.Pow(n, 5)
+                    - 20 * (int)Math.Pow(n, 4)
+                    + 140 * (int)Math.Pow(n, 3)
+                    - 130 * (int)Math.Pow(n, 2)
+                    + 96 * n
+                    + 15) / 15;
 
            return o;
       }

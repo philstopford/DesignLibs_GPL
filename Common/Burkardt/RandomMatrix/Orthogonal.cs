@@ -2,7 +2,7 @@
 
 namespace Burkardt.RandomMatrix;
 
-public class Orthogonal
+public static class Orthogonal
 {
     public static double[] orth_random(int n, ref typeMethods.r8NormalData data, ref int seed)
 
@@ -82,15 +82,12 @@ public class Orthogonal
         //    Output, double ORTH_RANDOM[N*N] the matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        double[] v;
-        double[] x;
         //
         //  Start with A = the identity matrix.
         //
-        a = typeMethods.r8mat_zero_new(n, n);
+        double[] a = typeMethods.r8mat_zero_new(n, n);
 
         for (i = 0; i < n; i++)
         {
@@ -112,7 +109,7 @@ public class Orthogonal
         //  and set A := A * H(N-1)' = A * H(N-1) = H1 * H2 * ... * H(N-1).
         //  This is our random orthogonal matrix.
         //
-        x = new double[n];
+        double[] x = new double[n];
 
         for (j = 0; j < n - 1; j++)
         {
@@ -135,7 +132,7 @@ public class Orthogonal
             //
             //  The COLUMN argument here is 1-based.
             //
-            v = typeMethods.r8vec_house_column(n, x, j + 1);
+            double[] v = typeMethods.r8vec_house_column(n, x, j + 1);
             //
             //  Postmultiply the matrix A by H'(V) = H(V).
             //

@@ -43,10 +43,7 @@ public static class TanhSinh
         //    in the rule of order ORDER.
         //
     {
-        double h;
-        double st;
-        double t;
-        double value = 0;
+        double value;
 
         switch (order)
         {
@@ -74,11 +71,11 @@ public static class TanhSinh
                                     value = 0.0;
                                     break;
                                 default:
-                                    h = 4.0 / (order + 1);
+                                    double h = 4.0 / (order + 1);
 
-                                    t = (2 * i - order - 1) * h / 2.0;
+                                    double t = (2 * i - order - 1) * h / 2.0;
 
-                                    st = Math.Sinh(t);
+                                    double st = Math.Sinh(t);
                                     value = Math.Tanh(0.5 * Math.PI * st);
                                     break;
                             }
@@ -135,14 +132,7 @@ public static class TanhSinh
         //    Output, double W[ORDER], the weights of the rule.
         //
     {
-        double ct;
-        double ct2;
-        double h;
         int i;
-        double st;
-        double t;
-        double[] w;
-        double w_sum;
 
         switch (order)
         {
@@ -153,17 +143,17 @@ public static class TanhSinh
                 return null;
         }
 
-        w = new double[order];
+        double[] w = new double[order];
 
-        h = 4.0 / (order + 1);
+        double h = 4.0 / (order + 1);
 
         for (i = 0; i < order; i++)
         {
-            t = (2 * i - order + 1) * h / 2.0;
+            double t = (2 * i - order + 1) * h / 2.0;
 
-            ct = Math.Cosh(t);
-            st = Math.Sinh(t);
-            ct2 = Math.Cosh(0.5 * Math.PI * st);
+            double ct = Math.Cosh(t);
+            double st = Math.Sinh(t);
+            double ct2 = Math.Cosh(0.5 * Math.PI * st);
 
             w[i] = 0.5 * Math.PI * h * ct / ct2 / ct2;
         }
@@ -171,7 +161,7 @@ public static class TanhSinh
         //
         //  Normalize the weights so that they sum to 2.0.
         //
-        w_sum = 0.0;
+        double w_sum = 0.0;
         for (i = 0; i < order; i++)
         {
             w_sum += w[i];

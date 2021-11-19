@@ -84,13 +84,7 @@ public static class Faure
     {
         int hisum;
         int i;
-        int j;
         int k;
-        int ktemp;
-        int ltemp;
-        int mtemp;
-        double r;
-        int ztemp;
         //
         //  Initialization required or requested?
         //
@@ -149,13 +143,13 @@ public static class Faure
         //
         //  We now compute the YTEMP(J)'s.
         //
-        ktemp = (int)Math.Pow(data.qs, hisum + 1);
-        ltemp = seed;
+        int ktemp = (int)Math.Pow(data.qs, hisum + 1);
+        int ltemp = seed;
 
         for (i = hisum; 0 <= i; i--)
         {
             ktemp /= data.qs;
-            mtemp = ltemp % ktemp;
+            int mtemp = ltemp % ktemp;
             data.ytemp[i] = (ltemp - mtemp) / ktemp;
             ltemp = mtemp;
         }
@@ -167,7 +161,7 @@ public static class Faure
         //
         //  Compute QUASI(1) using nested multiplication.
         //
-        r = data.ytemp[hisum];
+        double r = data.ytemp[hisum];
         for (i = hisum - 1; 0 <= i; i--)
         {
             r = data.ytemp[i] + r / data.qs;
@@ -182,9 +176,10 @@ public static class Faure
             quasi[quasiIndex + k] = 0.0;
             r = 1.0 / data.qs;
 
+            int j;
             for (j = 0; j <= hisum; j++)
             {
-                ztemp = 0;
+                int ztemp = 0;
                 for (i = j; i <= hisum; i++)
                 {
                     ztemp += data.ytemp[i] * data.coef[i + j * (hisum + 1)];
@@ -239,12 +234,10 @@ public static class Faure
         //
     {
         int j;
-        double[] r;
-        int seed;
 
-        r = new double[dim_num * n];
+        double[] r = new double[dim_num * n];
 
-        seed = skip;
+        int seed = skip;
         FaureData data = new();
         for (j = 0; j < n; j++)
         {

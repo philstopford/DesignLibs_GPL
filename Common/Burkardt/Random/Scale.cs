@@ -47,13 +47,11 @@ public static class Scale
         //    Input/output, double X[DIM_NUM*N], the data to be modified.
         //
     {
-        double[] a;
         int i;
         int j;
-        double[] v;
 
-        a = new double[dim_num * dim_num];
-        v = new double[dim_num];
+        double[] a = new double[dim_num * dim_num];
+        double[] v = new double[dim_num];
 
         for (j = 0; j < dim_num; j++)
         {
@@ -127,13 +125,11 @@ public static class Scale
     {
         int i;
         int j;
-        double r;
         double scale = 0;
-        double[] xave;
         //
         //  Determine the center.
         //
-        xave = new double[dim_num];
+        double[] xave = new double[dim_num];
 
         for (i = 0; i < dim_num; i++)
         {
@@ -151,7 +147,7 @@ public static class Scale
         //
         for (j = 0; j < n; j++)
         {
-            r = 0.0;
+            double r = 0.0;
             for (i = 0; i < dim_num; i++)
             {
                 r += Math.Pow(x[i + j * dim_num] - xave[i], 2);
@@ -231,17 +227,13 @@ public static class Scale
     {
         int i;
         int j;
-        double[] xmax;
-        double[] xmin;
-        double xrange;
-        double xrange2;
 
-        xmax = new double[dim_num];
-        xmin = new double[dim_num];
+        double[] xmax = new double[dim_num];
+        double[] xmin = new double[dim_num];
         //
         //  Determine the extremes in each dimension.
         //
-        xrange = 0.0;
+        double xrange = 0.0;
         for (i = 0; i < dim_num; i++)
         {
             xmin[i] = x[i + 0 * dim_num];
@@ -260,7 +252,7 @@ public static class Scale
         //
         for (i = 0; i < dim_num; i++)
         {
-            xrange2 = xrange - (xmax[i] - xmin[i]);
+            double xrange2 = xrange - (xmax[i] - xmin[i]);
             xmax[i] += 0.5 * xrange2;
             xmin[i] -= 0.5 * xrange2;
         }
@@ -337,14 +329,12 @@ public static class Scale
         //
     {
         int i;
-        int j;
-        double xmax;
-        double xmin;
 
         for (i = 0; i < dim_num; i++)
         {
-            xmin = x[i + 0 * dim_num];
-            xmax = x[i + 0 * dim_num];
+            double xmin = x[i + 0 * dim_num];
+            double xmax = x[i + 0 * dim_num];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (x[i + j * dim_num] < xmin)

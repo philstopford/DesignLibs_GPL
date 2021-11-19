@@ -39,7 +39,6 @@ public static partial class BRandom
         //
     {
         int i;
-        double norm;
         //
         //  Sample the standard normal distribution.
         //
@@ -47,7 +46,7 @@ public static partial class BRandom
         //
         //  Compute the length of the vector.
         //
-        norm = 0.0;
+        double norm = 0.0;
         for ( i = 0; i < dim_num; i++ )
         {
             norm += w[i] * w[i];

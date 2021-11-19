@@ -44,18 +44,14 @@ public static partial class BRandom
         //    Output, double BROWNIAN[DIM_NUM*N], the Brownian motion points.
         //
     {
-        double[] direction;
         int i;
-        int j;
-        double r;
-        double[] x;
 
-        direction = new double[dim_num];
-        x = new double[dim_num*n];
+        double[] direction = new double[dim_num];
+        double[] x = new double[dim_num*n];
         //
         //  Initial point.
         //
-        j = 0;
+        int j = 0;
         for ( i = 0; i < dim_num; i++ )
         {
             x[i+j*dim_num] = 0.0;
@@ -65,7 +61,7 @@ public static partial class BRandom
         //
         for ( j = 1; j < n; j++ )
         {
-            r = typeMethods.r8_normal_01 ( ref data, ref seed );
+            double r = typeMethods.r8_normal_01 ( ref data, ref seed );
             r = Math.Abs ( r );
 
             direction_uniform_nd ( dim_num, ref seed, ref direction );

@@ -18,11 +18,11 @@ public class Rand48
         SetSeed(0xD0C3F8CBU);
     }
 
-    public string AlgorithmName => "RAND48";
+    public static string AlgorithmName => "RAND48";
 
-    public ulong MaxNext => int.MaxValue;
+    public static ulong MaxNext => int.MaxValue;
 
-    public int SeedLength => 6;
+    public static int SeedLength => 6;
 
     public ulong Next()
     {

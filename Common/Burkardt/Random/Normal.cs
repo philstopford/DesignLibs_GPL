@@ -63,14 +63,10 @@ public static class Normal
         //    Output, double NORMAL[DIM_NUM*N], the random points.
         //
     {
-        int i;
         int j;
-        int k;
-        double[] v;
-        double[] x;
 
-        v = new double[dim_num];
-        x = new double[dim_num * n];
+        double[] v = new double[dim_num];
+        double[] x = new double[dim_num * n];
         //
         //  Get a matrix V of normal data.
         //  Compute X = MU + R' * V.
@@ -80,9 +76,11 @@ public static class Normal
         {
             typeMethods.r8vec_normal_01(dim_num, ref seed, ref v);
 
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 x[i + j * dim_num] = mu[i];
+                int k;
                 for (k = 0; k <= i; k++)
                 {
                     x[i + j * dim_num] += v[k] * r[k + i * dim_num];
@@ -131,13 +129,10 @@ public static class Normal
         //
     {
         int j;
-        double[] r;
-        double[] t;
-        double[] x;
 
-        r = new double[n];
-        t = new double[n];
-        x = new double[dim_num * n];
+        double[] r = new double[n];
+        double[] t = new double[n];
+        double[] x = new double[dim_num * n];
         //
         //  The angle varies uniformly from 0 to 2 pi.
         //
@@ -232,14 +227,10 @@ public static class Normal
         //    points associated with the multivariate normal distribution.
         //
     {
-        int i;
         int j;
-        int k;
-        double[] v;
-        double[] x;
 
-        v = new double[m];
-        x = new double[m * n];
+        double[] v = new double[m];
+        double[] x = new double[m * n];
         //
         //  Compute X = MU + R' * V.
         //  We actually carry out this computation in the equivalent form MU + V' * R.
@@ -248,9 +239,11 @@ public static class Normal
         {
             typeMethods.r8vec_normal_01(m, ref seed, ref v);
 
+            int i;
             for (i = 0; i < m; i++)
             {
                 x[i + j * m] = mu[i];
+                int k;
                 for (k = 0; k <= i; k++)
                 {
                     x[i + j * m] += v[k] * r[k + i * m];
@@ -307,9 +300,7 @@ public static class Normal
         //    Output, double NORMAL_SIMPLE[DIM_NUM*N], the random points.
         //
     {
-        double[] x;
-
-        x = new double[dim_num * n];
+        double[] x = new double[dim_num * n];
 
         typeMethods.r8vec_normal_01(dim_num * n, ref seed, ref x);
 

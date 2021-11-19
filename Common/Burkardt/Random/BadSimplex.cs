@@ -50,20 +50,17 @@ public static partial class BRandom
         //    Output, double BAD_IN_SIMPLEX01[DIM_NUM*POINT_NUM], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] x;
 
-        x = new double[dim_num*point_num];
+        double[] x = new double[dim_num*point_num];
 
         for ( j = 0; j < point_num; j++ )
         {
-            e = UniformRNG.r8vec_uniform_01_new ( dim_num + 1, ref seed );
+            double[] e = UniformRNG.r8vec_uniform_01_new ( dim_num + 1, ref seed );
 
-            e_sum = typeMethods.r8vec_sum ( dim_num + 1, e );
+            double e_sum = typeMethods.r8vec_sum ( dim_num + 1, e );
 
+            int i;
             for ( i = 0; i < dim_num; i++ )
             {
                 x[i+j*dim_num] = e[i] / e_sum;

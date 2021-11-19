@@ -56,24 +56,16 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        int expon;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -84,13 +76,12 @@ public static class Xiu
             if (i < n)
             {
                 x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
             }
         }
 
-        gamma0 = 1.0;
-        delta0 = 0.0;
-        c1 = 1.0 / 3.0;
+        const double gamma0 = 1.0;
+        const double delta0 = 0.0;
+        const double c1 = 1.0 / 3.0;
 
         for (j = 0; j < o; j++)
         {
@@ -100,9 +91,9 @@ public static class Xiu
             }
         }
 
-        expon = 0;
-        volume_1d = C1.c1_leg_monomial_integral(expon);
-        volume = Math.Pow(volume_1d, n);
+        const int expon = 0;
+        double volume_1d = C1.c1_leg_monomial_integral(expon);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -156,9 +147,7 @@ public static class Xiu
         //    Output, int CN_LEG_02_XIU_SIZE, the order.
         //
     {
-        int o;
-
-        o = n + 1;
+        int o = n + 1;
 
         return o;
     }
@@ -215,24 +204,19 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        int expon;
-        int i;
         int j;
-            
-        int r;
-        double volume;
 
-        expon = 0;
-        volume = C1.c1_leg_monomial_integral(expon);
+        const int expon = 0;
+        double volume = C1.c1_leg_monomial_integral(expon);
         volume = Math.Pow(volume, n);
 
         for (j = 0; j < o; j++)
         {
-            i = 0;
+            int i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = (2 * r - 1) * (j + 1) * Math.PI / n;
+                double arg = (2 * r - 1) * (j + 1) * Math.PI / n;
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg) / Math.Sqrt(3.0);
                 i += 1;
@@ -240,16 +224,16 @@ public static class Xiu
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = n switch
-                {
-                    1 => typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0),
-                    _ => Math.Sqrt(2.0) * typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0)
-                };
-
-                i += 1;
+                continue;
             }
+
+            x[i + j * n] = n switch
+            {
+                1 => typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0),
+                _ => Math.Sqrt(2.0) * typeMethods.r8_mop(j + 1) / Math.Sqrt(3.0)
+            };
         }
 
         for (j = 0; j < o; j++)
@@ -304,9 +288,7 @@ public static class Xiu
         //    Output, int CN_LEG_03_XIU_SIZE, the order.
         //
     {
-        int o;
-
-        o = 2 * n;
+        int o = 2 * n;
 
         return o;
     }
@@ -368,17 +350,8 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        int expon;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         switch (alpha)
         {
@@ -392,9 +365,10 @@ public static class Xiu
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -402,16 +376,17 @@ public static class Xiu
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
+                continue;
             }
+
+            x[i + j * n] = typeMethods.r8_mop(j);
         }
 
-        gamma0 = 1.0;
-        delta0 = 0.0;
-        c1 = 1.0 / (2.0 * alpha + 3.0);
+        const double gamma0 = 1.0;
+        const double delta0 = 0.0;
+        double c1 = 1.0 / (2.0 * alpha + 3.0);
 
         for (j = 0; j < o; j++)
         {
@@ -421,9 +396,9 @@ public static class Xiu
             }
         }
 
-        expon = 0;
-        volume_1d = C1.c1_geg_monomial_integral(alpha, expon);
-        volume = Math.Pow(volume_1d, n);
+        const int expon = 0;
+        double volume_1d = C1.c1_geg_monomial_integral(alpha, expon);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -482,8 +457,6 @@ public static class Xiu
         //    Output, int CN_GEG_02_XIU_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -492,7 +465,7 @@ public static class Xiu
                 Console.WriteLine("  ALPHA <= -1.0");
                 return 1;
             default:
-                o = n + 1;
+                int o = n + 1;
 
                 return o;
         }
@@ -553,13 +526,7 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        int expon;
-        int i;
         int j;
-            
-        int r;
-        double volume;
 
         switch (alpha)
         {
@@ -570,16 +537,17 @@ public static class Xiu
                 return;
         }
 
-        expon = 0;
-        volume = C1.c1_geg_monomial_integral(alpha, expon);
+        int expon = 0;
+        double volume = C1.c1_geg_monomial_integral(alpha, expon);
         volume = Math.Pow(volume, n);
 
         for (j = 0; j < o; j++)
         {
-            i = 0;
+            int i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = (2 * r - 1) * j * Math.PI / n;
+                double arg = (2 * r - 1) * j * Math.PI / n;
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg) / Math.Sqrt(2.0 * alpha + 3.0);
                 i += 1;
@@ -596,8 +564,6 @@ public static class Xiu
                         x[i + j * n] /= Math.Sqrt(2.0);
                         break;
                 }
-
-                i += 1;
             }
         }
 
@@ -658,8 +624,6 @@ public static class Xiu
         //    Output, int CN_GEG_03_XIU_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -668,7 +632,7 @@ public static class Xiu
                 Console.WriteLine("  ALPHA <= -1.0");
                 return 1;
             default:
-                o = 2 * n;
+                int o = 2 * n;
 
                 return o;
         }
@@ -724,23 +688,16 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -751,13 +708,12 @@ public static class Xiu
             if (i < n)
             {
                 x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
             }
         }
 
-        gamma0 = 2.0;
-        delta0 = 0.0;
-        c1 = 1.0;
+        const double gamma0 = 2.0;
+        const double delta0 = 0.0;
+        const double c1 = 1.0;
 
         for (j = 0; j < o; j++)
         {
@@ -767,8 +723,8 @@ public static class Xiu
             }
         }
 
-        volume_1d = Math.Sqrt(Math.PI);
-        volume = Math.Pow(volume_1d, n);
+        double volume_1d = Math.Sqrt(Math.PI);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -814,9 +770,7 @@ public static class Xiu
         //    Output, int EN_HER_01_1_SIZE, the order.
         //
     {
-        int o;
-
-        o = n + 1;
+        int o = n + 1;
 
         return o;
     }
@@ -871,42 +825,37 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         for (j = 0; j < o; j++)
         {
-            i = 0;
+            int i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = (2 * r - 1) * (j + 1) * Math.PI / n;
+                double arg = (2 * r - 1) * (j + 1) * Math.PI / n;
                 x[i + j * n] = Math.Cos(arg);
                 i += 1;
                 x[i + j * n] = Math.Sin(arg);
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = typeMethods.r8_mop(j + 1);
-                switch (n)
-                {
-                    case 1:
-                        x[i + j * n] /= Math.Sqrt(2.0);
-                        break;
-                }
+                continue;
+            }
 
-                i += 1;
+            x[i + j * n] = typeMethods.r8_mop(j + 1);
+            switch (n)
+            {
+                case 1:
+                    x[i + j * n] /= Math.Sqrt(2.0);
+                    break;
             }
         }
 
-        volume_1d = Math.Sqrt(Math.PI);
-        volume = Math.Pow(volume_1d, n);
+        double volume_1d = Math.Sqrt(Math.PI);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -960,9 +909,7 @@ public static class Xiu
         //    Output, int EN_HER_XIU_SIZE, the order.
         //
     {
-        int o;
-
-        o = 2 * n;
+        int o = 2 * n;
 
         return o;
     }
@@ -1018,23 +965,16 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -1042,16 +982,17 @@ public static class Xiu
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
+                continue;
             }
+
+            x[i + j * n] = typeMethods.r8_mop(j);
         }
 
-        gamma0 = 2.0;
-        delta0 = 0.0;
-        c1 = 1.0;
+        double gamma0 = 2.0;
+        double delta0 = 0.0;
+        double c1 = 1.0;
 
         for (j = 0; j < o; j++)
         {
@@ -1061,8 +1002,8 @@ public static class Xiu
             }
         }
 
-        volume_1d = Math.Sqrt(Math.PI);
-        volume = Math.Pow(volume_1d, n);
+        double volume_1d = Math.Sqrt(Math.PI);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -1108,9 +1049,7 @@ public static class Xiu
         //    Output, int EN_R2_01_1_SIZE, the order.
         //
     {
-        int o;
-
-        o = n + 1;
+        int o = n + 1;
 
         return o;
     }
@@ -1165,38 +1104,34 @@ public static class Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        int i;
         int j;
-            
-        int r;
-        double volume;
 
-        volume = Math.Sqrt(Math.Pow(Math.PI, n));
+        double volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
         for (j = 0; j < o; j++)
         {
-            i = 0;
+            int i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = (2 * r - 1) * j * Math.PI / n;
+                double arg = (2 * r - 1) * j * Math.PI / n;
                 x[i + j * n] = Math.Cos(arg);
                 i += 1;
                 x[i + j * n] = Math.Sin(arg);
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = typeMethods.r8_mop(j);
-                switch (n)
-                {
-                    case 1:
-                        x[i + j * n] /= Math.Sqrt(2.0);
-                        break;
-                }
+                continue;
+            }
 
-                i += 1;
+            x[i + j * n] = typeMethods.r8_mop(j);
+            switch (n)
+            {
+                case 1:
+                    x[i + j * n] /= Math.Sqrt(2.0);
+                    break;
             }
         }
 
@@ -1252,9 +1187,7 @@ public static class Xiu
         //    Output, int EN_R2_XIU_SIZE, the order.
         //
     {
-        int o;
-
-        o = 2 * n;
+        int o = 2 * n;
 
         return o;
     }

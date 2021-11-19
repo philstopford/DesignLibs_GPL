@@ -49,12 +49,11 @@ public static class Geometry
         //    Output, double QUAD_AREA_2D, the area of the quadrilateral.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area;
         double[] t = new double[DIM_NUM * 3];
 
-        area = 0.0;
+        double area = 0.0;
 
         t[0 + 0 * 2] = q[0 + 0 * 2];
         t[1 + 0 * 2] = q[1 + 0 * 2];
@@ -112,12 +111,10 @@ public static class Geometry
         //    Output, double QUAD_AREA2_2D, the area of the quadrilateral.
         //
     {
-        double area;
         int i;
         int j;
-        double[] p;
 
-        p = new double[2 * 4];
+        double[] p = new double[2 * 4];
         //
         //  Define a parallelogram by averaging consecutive vertices.
         //
@@ -137,7 +134,7 @@ public static class Geometry
         //
         //  Compute the area.
         //
-        area = Parallelogram.Geometry.parallelogram_area_2d(p);
+        double area = Parallelogram.Geometry.parallelogram_area_2d(p);
         //
         //  The quadrilateral's area is twice that of the parallelogram.
         //
@@ -184,12 +181,10 @@ public static class Geometry
         //    Output, double QUAD_AREA_3D, the area of the quadrilateral.
         //
     {
-        double area;
         int i;
         int j;
-        double[] p;
 
-        p = new double[3 * 4];
+        double[] p = new double[3 * 4];
         //
         //  Define a parallelogram by averaging consecutive vertices.
         //
@@ -209,7 +204,7 @@ public static class Geometry
         //
         //  Compute the area.
         //
-        area = Parallelogram.Geometry.parallelogram_area_3d(p);
+        double area = Parallelogram.Geometry.parallelogram_area_3d(p);
         //
         //  The quadrilateral's area is twice that of the parallelogram.
         //
@@ -315,7 +310,6 @@ public static class Geometry
     {
         int[] hull = new int[4];
         int hull_num = 0;
-        int i;
         int j;
         double[] xy_random;
 
@@ -344,6 +338,7 @@ public static class Geometry
         //
         for (j = 0; j < 4; j++)
         {
+            int i;
             for (i = 0; i < 2; i++)
             {
                 xy[i + j * 2] = xy_random[i + (hull[j] - 1) * 2];
@@ -381,21 +376,18 @@ public static class Geometry
         //    DIST is zero if the point lies exactly on the quadrilateral.
         //
     {
-        double dist;
-        double dist2;
         int j;
-        int jp1;
-        int side_num = 4;
+        const int side_num = 4;
         //
         //  Find the distance to each of the line segments.
         //
-        dist = typeMethods.r8_huge();
+        double dist = typeMethods.r8_huge();
 
         for (j = 0; j < side_num; j++)
         {
-            jp1 = typeMethods.i4_wrap(j + 1, 0, side_num - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, side_num - 1);
 
-            dist2 = Segments.segment_point_dist_2d(q, q, p, + j * 2, + jp1 * 2 );
+            double dist2 = Segments.segment_point_dist_2d(q, q, p, + j * 2, + jp1 * 2 );
 
             if (dist2 < dist)
             {
@@ -449,11 +441,8 @@ public static class Geometry
         //    positive, the point is in the exterior.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double dis1;
-        double dis2;
-        double dist_signed;
         double[] pm = new double[DIM_NUM];
         //
         //  Compare the signed distance from each line segment to the point,
@@ -463,12 +452,12 @@ public static class Geometry
         //
         //  Side 12
         //
-        dis1 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, p, +0 * 2, +1 * 2);
+        double dis1 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, p, +0 * 2, +1 * 2);
 
         pm[0] = 0.5 * (q[0 + 2 * 2] + q[0 + 3 * 2]);
         pm[1] = 0.5 * (q[1 + 2 * 2] + q[1 + 3 * 2]);
 
-        dis2 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, pm, +0 * 2, +1 * 2);
+        double dis2 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, pm, +0 * 2, +1 * 2);
 
         dis1 = dis2 switch
         {
@@ -476,7 +465,7 @@ public static class Geometry
             _ => dis1
         };
 
-        dist_signed = dis1;
+        double dist_signed = dis1;
         //
         //  Side 23
         //
@@ -566,13 +555,12 @@ public static class Geometry
         //    quadrilateral.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double dist2 = 0;
         int j;
-        int jp1;
         double[] pn2 = new double[DIM_NUM];
-        int side_num = 4;
+        const int side_num = 4;
         double tval = 0;
 
         dist = typeMethods.r8_huge();
@@ -580,7 +568,7 @@ public static class Geometry
 
         for (j = 0; j < side_num; j++)
         {
-            jp1 = typeMethods.i4_wrap(j + 1, 0, side_num - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, side_num - 1);
 
             Segments.segment_point_near_2d(q, q, p, ref pn2, ref dist2, ref tval,  + j * 2,  + jp1 * 2);
 

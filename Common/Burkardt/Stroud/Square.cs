@@ -149,7 +149,7 @@ public static class Square
                 ytab[0] = 0.0;
                 break;
             case 2:
-                double a = 1.0;
+                const double a = 1.0;
                 s = 1.0 / Math.Sqrt(3.0);
 
                 xtab[0] = -s;

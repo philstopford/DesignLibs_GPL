@@ -63,16 +63,8 @@ public static class Diophantine
     {
         const int N_MAX = 100;
 
-        int a_copy;
-        int a_mag;
-        int a_sign;
-        int b_copy;
-        int b_mag;
-        int b_sign;
-        int c_copy;
         int g;
         int k;
-        int n;
         int[] q = new int[N_MAX];
         bool swap;
         //
@@ -155,16 +147,16 @@ public static class Diophantine
             return;
         }
 
-        a_copy = a / g;
-        b_copy = b / g;
-        c_copy = c / g;
+        int a_copy = a / g;
+        int b_copy = b / g;
+        int c_copy = c / g;
         //
         //  Step 2: Split A and B into sign and magnitude.
         //
-        a_mag = Math.Abs(a_copy);
-        a_sign = typeMethods.i4_sign(a_copy);
-        b_mag = Math.Abs(b_copy);
-        b_sign = typeMethods.i4_sign(b_copy);
+        int a_mag = Math.Abs(a_copy);
+        int a_sign = typeMethods.i4_sign(a_copy);
+        int b_mag = Math.Abs(b_copy);
+        int b_sign = typeMethods.i4_sign(b_copy);
         switch (a_mag)
         {
             //
@@ -200,7 +192,7 @@ public static class Diophantine
             q[1] = a_mag;
         }
 
-        n = 3;
+        int n = 3;
 
         for (;;)
         {
@@ -313,31 +305,25 @@ public static class Diophantine
         //    equation.  On output, a solution of minimal Euclidean norm.
         //
     {
-        double fa;
-        double fb;
-        double fx;
-        double fy;
-        double norm;
         double norm_new;
-        double t;
         int xnew;
         int ynew;
         //
         //  Compute the minimum for T real, and then look nearby.
         //
-        fa = a;
-        fb = b;
-        fx = x;
-        fy = y;
+        double fa = a;
+        double fb = b;
+        double fx = x;
+        double fy = y;
 
-        t = (-fb * fx + fa * fy) / (fa * fa + fb * fb);
+        double t = (-fb * fx + fa * fy) / (fa * fa + fb * fb);
 
         x += (int)typeMethods.r8_nint(t) * b;
         y -= (int)typeMethods.r8_nint(t) * a;
         //
         //  Now look nearby.
         //
-        norm = fx * fx + fy * fy;
+        double norm = fx * fx + fy * fy;
 
         for (;;)
         {

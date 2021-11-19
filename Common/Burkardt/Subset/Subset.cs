@@ -1337,18 +1337,22 @@ public static class Subset
                         int j;
                         for (j = 0; j < n; j++)
                         {
-                            if (index[j] == 1)
+                            if (index[j] != 1)
                             {
-                                if (sum_achieved < sum_achieved + a[i] - a[j] &&
-                                    sum_achieved + a[i] - a[j] <= sum_desired)
-                                {
-                                    index[j] = 0;
-                                    index[i] = 1;
-                                    nmove += 2;
-                                    sum_achieved = sum_achieved + a[i] - a[j];
-                                    break;
-                                }
+                                continue;
                             }
+
+                            if (sum_achieved >= sum_achieved + a[i] - a[j] ||
+                                sum_achieved + a[i] - a[j] > sum_desired)
+                            {
+                                continue;
+                            }
+
+                            index[j] = 0;
+                            index[i] = 1;
+                            nmove += 2;
+                            sum_achieved = sum_achieved + a[i] - a[j];
+                            break;
                         }
 
                         break;

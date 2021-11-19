@@ -220,11 +220,13 @@ public static class Ksub
                     in_ = iout - 1;
                     a[j - 1] = in_;
 
-                    if (j != 1)
+                    if (j == 1)
                     {
-                        in_ = j - 1;
-                        a[j - 2] = in_;
+                        return;
                     }
+
+                    in_ = j - 1;
+                    a[j - 2] = in_;
 
                     return;
                 }
@@ -545,11 +547,13 @@ public static class Ksub
 
                     for (j = 0; j < k - 1; j++)
                     {
-                        if (a[j] + 1 < a[j + 1])
+                        if (a[j] + 1 >= a[j + 1])
                         {
-                            jsave = j;
-                            break;
+                            continue;
                         }
+
+                        jsave = j;
+                        break;
                     }
 
                     for (j = 0; j < jsave; j++)
@@ -679,11 +683,13 @@ public static class Ksub
             m = a[i - 1];
             a[i - 1] = 0;
 
-            if (m != (i - 1) * n / k)
+            if (m == (i - 1) * n / k)
             {
-                ip += 1;
-                a[ip - 1] = m;
+                continue;
             }
+
+            ip += 1;
+            a[ip - 1] = m;
 
         }
 

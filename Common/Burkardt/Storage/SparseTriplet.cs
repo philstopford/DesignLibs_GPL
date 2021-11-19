@@ -399,15 +399,17 @@ public static class SparseTriplet
         for (k = 0; k < ncc; k++)
         {
             jhi = jcc[k];
-            if (jhi != jlo)
+            if (jhi == jlo)
             {
-                for (j = jlo + 1; j <= jhi; j++)
-                {
-                    ccc[j] = k;
-                }
-
-                jlo = jhi;
+                continue;
             }
+
+            for (j = jlo + 1; j <= jhi; j++)
+            {
+                ccc[j] = k;
+            }
+
+            jlo = jhi;
         }
 
         jhi = n;
@@ -480,12 +482,14 @@ public static class SparseTriplet
             int kcc;
             for (kcc = clo; kcc < chi; kcc++)
             {
-                if (icc[kcc] == i)
+                if (icc[kcc] != i)
                 {
-                    acc[kcc] += ast[kst];
-                    fail = false;
-                    break;
+                    continue;
                 }
+
+                acc[kcc] += ast[kst];
+                fail = false;
+                break;
             }
 
             switch (fail)

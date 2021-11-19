@@ -1022,7 +1022,7 @@ public static class Triangle
             //  last generator point as 0.4869... when it should be 0.04869...
             //
             case 13:
-                double h = 1.0 / 3.0;
+                const double h = 1.0 / 3.0;
                 a = 0.479308067841923;
                 b = 0.260345966079038;
                 c = 0.869739794195568;
@@ -1085,7 +1085,7 @@ public static class Triangle
                 a = 1.0 / 3.0;
                 b = 1.0;
                 c = 0.5;
-                double z = 0.0;
+                const double z = 0.0;
 
                 u = 27.0 / 60.0;
                 v = 3.0 / 60.0;
@@ -1433,8 +1433,8 @@ public static class Triangle
                 u = 0.04484167758913055;
                 v = 0.27722066752827925;
                 w = 0.8588702812826364;
-                double x = 0.0;
-                double y = 0.1411297187173636;
+                const double x = 0.0;
+                const double y = 0.1411297187173636;
 
                 w1 = 0.08797730116222190;
                 w2 = 0.008744311553736190;
@@ -1552,8 +1552,8 @@ public static class Triangle
                 w6 = 0.010791612736631273623178240136;
                 w7 = 0.032195534242431618819414482205;
                 w8 = 0.015445834210701583817692900053;
-                double w9 = 0.017822989923178661888748319485;
-                double wx = 0.037038683681384627918546472190;
+                const double w9 = 0.017822989923178661888748319485;
+                const double wx = 0.037038683681384627918546472190;
 
                 xtab[0] = a;
                 xtab[1] = b;

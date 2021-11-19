@@ -62,37 +62,22 @@ public static class Zero
         //    double ZERO, the estimated value of a zero of the function F.
         //
     {
-        double c;
-        double d;
-        double e;
-        double fa;
-        double fb;
-        double fc;
-        double m;
-        double p;
-        double q;
-        double r;
-        double s;
-        double sa;
-        double sb;
-        double tol;
-
         calls = 0;
         //
         //  Make local copies of A and B.
         //
-        sa = a;
-        fa = f(sa);
+        double sa = a;
+        double fa = f(sa);
         calls += 1;
 
-        sb = b;
-        fb = f(sb);
+        double sb = b;
+        double fb = f(sb);
         calls += 1;
 
-        c = sa;
-        fc = fa;
-        e = sb - sa;
-        d = e;
+        double c = sa;
+        double fc = fa;
+        double e = sb - sa;
+        double d = e;
 
         for (;;)
         {
@@ -106,8 +91,8 @@ public static class Zero
                 fc = fa;
             }
 
-            tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(sb) + t;
-            m = 0.5 * (c - sb);
+            double tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(sb) + t;
+            double m = 0.5 * (c - sb);
 
             if (Math.Abs(m) <= tol || fb == 0.0)
             {
@@ -121,8 +106,10 @@ public static class Zero
             }
             else
             {
-                s = fb / fa;
+                double s = fb / fa;
 
+                double q;
+                double p;
                 if (Math.Abs(sa - c) <= double.Epsilon)
                 {
                     p = 2.0 * m * s;
@@ -131,7 +118,7 @@ public static class Zero
                 else
                 {
                     q = fa / fc;
-                    r = fb / fc;
+                    double r = fb / fc;
                     p = s * (2.0 * m * q * (q - r) - (sb - sa) * (r - 1.0));
                     q = (q - 1.0) * (r - 1.0) * (s - 1.0);
                 }

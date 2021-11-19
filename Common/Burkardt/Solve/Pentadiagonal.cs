@@ -56,10 +56,9 @@ public static class Pentadiagonal
         //
     {
         int i;
-        double[] x;
         double xmult;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for ( i = 1; i < n - 1; i++ )
         {

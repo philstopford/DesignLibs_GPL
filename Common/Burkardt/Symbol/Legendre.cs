@@ -221,10 +221,10 @@ public static class Legendre
                     //  Check for a Q of 1 or 2.
                     //
                     case 1:
-                    case 2 when (p % 8 == 1 || p % 8 == 7):
+                    case 2 when p % 8 == 1 || p % 8 == 7:
                         l = +1 * l;
                         break;
-                    case 2 when (p % 8 == 3 || p % 8 == 5):
+                    case 2 when p % 8 == 3 || p % 8 == 5:
                         l = -1 * l;
                         break;
                     default:

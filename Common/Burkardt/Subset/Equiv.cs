@@ -278,11 +278,13 @@ public static class Equiv
             int j;
             for (j = 0; j < n; j++)
             {
-                if (iarray[j] == s)
+                if (iarray[j] != s)
                 {
-                    karray[k] = j + 1;
-                    k += 1;
+                    continue;
                 }
+
+                karray[k] = j + 1;
+                k += 1;
             }
 
             switch (k)
@@ -378,18 +380,20 @@ public static class Equiv
             int i;
             for (i = 0; i < n; i++)
             {
-                if (s[i] == j)
+                if (s[i] != j)
                 {
-                    switch (size)
-                    {
-                        case > 0:
-                            cout += ",";
-                            break;
-                    }
-
-                    cout += i;
-                    size += 1;
+                    continue;
                 }
+
+                switch (size)
+                {
+                    case > 0:
+                        cout += ",";
+                        break;
+                }
+
+                cout += i;
+                size += 1;
             }
 
             cout += ")";

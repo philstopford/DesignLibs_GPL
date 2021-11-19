@@ -81,7 +81,7 @@ public class GCTxt : GCElement
 
     private void pMoveSelect(GeoLibPoint pos)
     {
-        point = @select switch
+        point = select switch
         {
             true => new GeoLibPoint(point.X + pos.X, point.Y + pos.Y),
             _ => point

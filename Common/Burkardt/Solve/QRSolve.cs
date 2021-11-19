@@ -56,14 +56,10 @@ public static class QRSolve
         int i;
         int j;
         int k;
-        int minmn;
-        double sum;
-        double temp;
-        double[] wa;
         //
         //  Zero out the upper triangle of Q in the first min(M,N) columns.
         //
-        minmn = Math.Min(m, n);
+        int minmn = Math.Min(m, n);
 
         for (j = 1; j < minmn; j++)
         {
@@ -89,7 +85,7 @@ public static class QRSolve
         //
         //  Accumulate Q from its factored form.
         //
-        wa = new double[m];
+        double[] wa = new double[m];
 
         for (k = minmn - 1; 0 <= k; k--)
         {
@@ -105,13 +101,13 @@ public static class QRSolve
             {
                 for (j = k; j < m; j++)
                 {
-                    sum = 0.0;
+                    double sum = 0.0;
                     for (i = k; i < m; i++)
                     {
                         sum += q[qIndex + i + j * ldq] * wa[i];
                     }
 
-                    temp = sum / wa[k];
+                    double temp = sum / wa[k];
                     for (i = k; i < m; i++)
                     {
                         q[qIndex + i + j * ldq] -= temp * wa[i];
@@ -204,25 +200,16 @@ public static class QRSolve
         //         with rdiag.
         //
     {
-        double ajnorm;
-        double epsmch;
-        int i;
         int j;
-        int k;
-        int kmax;
-        int minmn;
         const double p05 = 0.05;
-        double sum;
-        double temp;
-        double[] wa;
         //
         //  EPSMCH is the machine precision.
         //
-        epsmch = typeMethods.r8_epsilon();
+        double epsmch = typeMethods.r8_epsilon();
         //
         //  Compute the initial column norms and initialize several arrays.
         //
-        wa = new double[n];
+        double[] wa = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -239,10 +226,13 @@ public static class QRSolve
         //
         //  Reduce A to R with Householder transformations.
         //
-        minmn = Math.Min(m, n);
+        int minmn = Math.Min(m, n);
 
         for (j = 0; j < minmn; j++)
         {
+            int i;
+            double temp;
+            int k;
             switch (pivot)
             {
                 case true:
@@ -250,7 +240,7 @@ public static class QRSolve
                     //
                     //  Bring the column of largest norm into the pivot position.
                     //
-                    kmax = j;
+                    int kmax = j;
                     for (k = j; k < n; k++)
                     {
                         if (rdiag[rdiagIndex + kmax] < rdiag[rdiagIndex + k])
@@ -283,7 +273,7 @@ public static class QRSolve
             //  Compute the Householder transformation to reduce the
             //  J-th column of A to a multiple of the J-th unit vector.
             //
-            ajnorm = Helpers.enorm(m - j, a, xIndex: aIndex + + j + j * lda);
+            double ajnorm = Helpers.enorm(m - j, a, xIndex: aIndex + + j + j * lda);
 
             if (ajnorm != 0.0)
             {
@@ -304,7 +294,7 @@ public static class QRSolve
                 //
                 for (k = j + 1; k < n; k++)
                 {
-                    sum = 0.0;
+                    double sum = 0.0;
                     for (i = j; i < m; i++)
                     {
                         sum += a[aIndex + i + j * lda] * a[aIndex + i + k * lda];
@@ -388,24 +378,16 @@ public static class QRSolve
         //    Output, double QR_SOLVE[N], the least squares solution.
         //
     {
-        double[] a_qr;
-        int itask;
-        int[] jpvt;
         int kr = 0;
-        int lda;
-        double[] qraux;
-        double[] r;
-        double tol;
-        double[] x;
 
-        a_qr = typeMethods.r8mat_copy_new ( m, n, a );
-        lda = m;
-        tol = typeMethods.r8_epsilon() / typeMethods.r8mat_amax ( m, n, a_qr );
-        x = new double[n];
-        jpvt = new int[n];
-        qraux = new double[n];
-        r = new double[m];
-        itask = 1;
+        double[] a_qr = typeMethods.r8mat_copy_new ( m, n, a );
+        int lda = m;
+        double tol = typeMethods.r8_epsilon() / typeMethods.r8mat_amax ( m, n, a_qr );
+        double[] x = new double[n];
+        int[] jpvt = new int[n];
+        double[] qraux = new double[n];
+        double[] r = new double[m];
+        const int itask = 1;
 
         for (int i = 0; i < qraux.Length; i++)
         {
@@ -494,22 +476,19 @@ public static class QRSolve
     {
         int i;
         int j;
-        int job;
-        int k;
-        double[] work;
 
         for (i = 0; i < n; i++)
         {
             jpvt[i] = 0;
         }
 
-        work = new double[n];
-        job = 1;
+        double[] work = new double[n];
+        const int job = 1;
 
         dqrdc(ref a, lda, m, n, ref qraux, ref jpvt, work, job);
 
         kr = 0;
-        k = Math.Min(m, n);
+        int k = Math.Min(m, n);
 
         for (j = 0; j < k; j++)
         {
@@ -606,21 +585,12 @@ public static class QRSolve
         int j;
         int jp;
         int l;
-        int lup;
-        int maxj;
-        double maxnrm;
-        double nrmxl;
-        int pl;
-        int pu;
-        bool swapj;
-        double t;
-        double tt;
-        int xIndex = 0;
-        int yIndex = 0;
-        int index = 0;
+        int xIndex;
+        int yIndex;
+        int index;
             
-        pl = 1;
-        pu = 0;
+        int pl = 1;
+        int pu = 0;
         //
         //  If pivoting is requested, rearrange the columns.
         //
@@ -628,7 +598,7 @@ public static class QRSolve
         {
             for (j = 1; j <= p; j++)
             {
-                swapj = 0 < jpvt[j - 1];
+                bool swapj = 0 < jpvt[j - 1];
 
                 jpvt[j - 1] = jpvt[j - 1] switch
                 {
@@ -699,7 +669,7 @@ public static class QRSolve
         //
         //  Perform the Householder reduction of A.
         //
-        lup = Math.Min(n, p);
+        int lup = Math.Min(n, p);
 
         for (l = 1; l <= lup; l++)
         {
@@ -708,8 +678,8 @@ public static class QRSolve
             //
             if (pl <= l && l < pu)
             {
-                maxnrm = 0.0;
-                maxj = l;
+                double maxnrm = 0.0;
+                int maxj = l;
                 for (j = l; j <= pu; j++)
                 {
                     if (maxnrm < qraux[j - 1])
@@ -737,59 +707,61 @@ public static class QRSolve
             //
             qraux[l - 1] = 0.0;
 
-            if (l != n)
+            if (l == n)
             {
-                index = +l - 1 + (l - 1) * lda;
-                nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index);
+                continue;
+            }
 
-                if (nrmxl != 0.0)
+            index = +l - 1 + (l - 1) * lda;
+            double nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index);
+
+            if (nrmxl != 0.0)
+            {
+                if (a[l - 1 + (l - 1) * lda] != 0.0)
                 {
-                    if (a[l - 1 + (l - 1) * lda] != 0.0)
-                    {
-                        nrmxl *= typeMethods.r8_sign(a[index]);
-                    }
+                    nrmxl *= typeMethods.r8_sign(a[index]);
+                }
 
-                    BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
-                    a[index] = 1.0 + a[index];
-                    //
-                    //  Apply the transformation to the remaining columns, updating the norms.
-                    //
-                    for (j = l + 1; j <= p; j++)
-                    {
-                        yIndex = +l - 1 + (j - 1) * lda;
-                        t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
-                            / a[index];
-                        BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
+                BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
+                a[index] = 1.0 + a[index];
+                //
+                //  Apply the transformation to the remaining columns, updating the norms.
+                //
+                for (j = l + 1; j <= p; j++)
+                {
+                    yIndex = +l - 1 + (j - 1) * lda;
+                    double t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
+                               / a[index];
+                    BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
 
-                        if (pl <= j && j <= pu)
+                    if (pl <= j && j <= pu)
+                    {
+                        if (qraux[j - 1] != 0.0)
                         {
-                            if (qraux[j - 1] != 0.0)
-                            {
-                                tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
-                                tt = Math.Max(tt, 0.0);
-                                t = tt;
-                                tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
+                            double tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
+                            tt = Math.Max(tt, 0.0);
+                            t = tt;
+                            tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
 
-                                if (Math.Abs(tt - 1.0) > double.Epsilon)
-                                {
-                                    qraux[j - 1] *= Math.Sqrt(t);
-                                }
-                                else
-                                {
-                                    int index2 = +l + (j - 1) * lda;
-                                    qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
-                                    work[j - 1] = qraux[j - 1];
-                                }
+                            if (Math.Abs(tt - 1.0) > double.Epsilon)
+                            {
+                                qraux[j - 1] *= Math.Sqrt(t);
+                            }
+                            else
+                            {
+                                int index2 = +l + (j - 1) * lda;
+                                qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
+                                work[j - 1] = qraux[j - 1];
                             }
                         }
                     }
-
-                    //
-                    //  Save the transformation.
-                    //
-                    qraux[l - 1] = a[index];
-                    a[index] = -nrmxl;
                 }
+
+                //
+                //  Save the transformation.
+                //
+                qraux[l - 1] = a[index];
+                a[index] = -nrmxl;
             }
         }
     }
@@ -1024,13 +996,10 @@ public static class QRSolve
     {
         int i;
         int j;
-        int job;
-        int k;
-        double t;
 
         if (kr != 0)
         {
-            job = 110;
+            const int job = 110;
             dqrsl(a, lda, m, kr, qraux, b, ref rsd, ref rsd, ref x, ref rsd, ref rsd, job);
         }
 
@@ -1050,14 +1019,12 @@ public static class QRSolve
             {
                 case <= 0:
                 {
-                    k = -jpvt[j - 1];
+                    int k = -jpvt[j - 1];
                     jpvt[j - 1] = k;
 
                     while (k != j)
                     {
-                        t = x[j - 1];
-                        x[j - 1] = x[k - 1];
-                        x[k - 1] = t;
+                        (x[j - 1], x[k - 1]) = (x[k - 1], x[j - 1]);
                         jpvt[k - 1] = -jpvt[k - 1];
                         k = jpvt[k - 1];
                     }
@@ -1207,32 +1174,25 @@ public static class QRSolve
         //    index of the first zero diagonal element of R, and B is left unaltered.
         //
     {
-        bool cab;
-        bool cb;
-        bool cqty;
-        bool cqy;
-        bool cr;
         int i;
-        int info;
         int j;
         int jj;
-        int ju;
         double t;
         double temp;
         //
         //  set info flag.
         //
-        info = 0;
+        int info = 0;
         //
         //  Determine what is to be computed.
         //
-        cqy = job / 10000 != 0;
-        cqty = job % 10000 != 0;
-        cb = job % 1000 / 100 != 0;
-        cr = job % 100 / 10 != 0;
-        cab = job % 10 != 0;
+        bool cqy = job / 10000 != 0;
+        bool cqty = job % 10000 != 0;
+        bool cb = job % 1000 / 100 != 0;
+        bool cr = job % 100 / 10 != 0;
+        bool cab = job % 10 != 0;
 
-        ju = Math.Min(k, n - 1);
+        int ju = Math.Min(k, n - 1);
         switch (ju)
         {
             //
@@ -1445,7 +1405,7 @@ public static class QRSolve
                     if (j != 1)
                     {
                         t = -b[j - 1];
-                        BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, + 0 + (j - 1) * lda, 0);
+                        BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, + 0 + (j - 1) * lda);
                     }
                 }
 

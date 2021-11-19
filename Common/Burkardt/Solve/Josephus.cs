@@ -72,9 +72,6 @@ public static class Josephus
         //    The value will be between 1 and N.
         //
     {
-        int m2;
-        int x;
-
         switch (n)
         {
             case <= 0:
@@ -106,9 +103,9 @@ public static class Josephus
         //  equivalent positive value between 1 and N.
         //  You can skip this operation if 1 <= M <= N.
         //
-        m2 = typeMethods.i4_modp(m, n);
+        int m2 = typeMethods.i4_modp(m, n);
 
-        x = k * m2;
+        int x = k * m2;
 
         while (n < x)
         {

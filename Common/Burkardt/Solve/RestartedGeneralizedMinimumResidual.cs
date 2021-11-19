@@ -100,36 +100,22 @@ public static class RestartedGeneralizedMinimumResidual
         //    current residual to the initial residual.
         //
     {
-        double av;
-        double[] c;
-        double delta = 1.0e-03;
-        double[] g;
-        double[] h;
-        double htmp;
-        int i;
+        const double delta = 1.0e-03;
         int itr;
-        int itr_used;
-        int j;
-        int k;
         int k_copy = 0;
-        double mu;
-        double[] r;
         double rho = 0;
         double rho_tol = 0;
-        double[] s;
-        double[] v;
-        bool verbose = true;
-        double[] y;
+        const bool verbose = true;
 
-        c = new double[mr];
-        g = new double[mr + 1];
-        h = new double[(mr + 1) * mr];
-        r = new double[n];
-        s = new double[mr];
-        v = new double[n * (mr + 1)];
-        y = new double[mr + 1];
+        double[] c = new double[mr];
+        double[] g = new double[mr + 1];
+        double[] h = new double[(mr + 1) * mr];
+        double[] r = new double[n];
+        double[] s = new double[mr];
+        double[] v = new double[n * (mr + 1)];
+        double[] y = new double[mr + 1];
 
-        itr_used = 0;
+        int itr_used = 0;
 
         if (n < mr)
         {
@@ -145,6 +131,7 @@ public static class RestartedGeneralizedMinimumResidual
         {
             AX.ax(a, ia, ja, x, ref r, n, nz_num);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 r[i] = rhs[i] - r[i];
@@ -176,6 +163,7 @@ public static class RestartedGeneralizedMinimumResidual
                 g[i] = 0.0;
             }
 
+            int j;
             for (i = 0; i < mr + 1; i++)
             {
                 for (j = 0; j < mr; j++)
@@ -184,13 +172,14 @@ public static class RestartedGeneralizedMinimumResidual
                 }
             }
 
+            int k;
             for (k = 1; k <= mr; k++)
             {
                 k_copy = k;
 
                 AX.ax(a, ia, ja, v, ref v, n, nz_num, xIndex:  + (k - 1) * n, wIndex:  + k * n);
 
-                av = Math.Sqrt(typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +k * n));
+                double av = Math.Sqrt(typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +k * n));
 
                 for (j = 1; j <= k; j++)
                 {
@@ -209,7 +198,7 @@ public static class RestartedGeneralizedMinimumResidual
                 {
                     for (j = 1; j <= k; j++)
                     {
-                        htmp = typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +(j - 1) * n);
+                        double htmp = typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +(j - 1) * n);
                         h[j - 1 + (k - 1) * (mr + 1)] += htmp;
                         for (i = 0; i < n; i++)
                         {
@@ -252,8 +241,8 @@ public static class RestartedGeneralizedMinimumResidual
                     }
                 }
 
-                mu = Math.Sqrt(Math.Pow(h[k - 1 + (k - 1) * (mr + 1)], 2)
-                               + Math.Pow(h[k + (k - 1) * (mr + 1)], 2));
+                double mu = Math.Sqrt(Math.Pow(h[k - 1 + (k - 1) * (mr + 1)], 2)
+                                      + Math.Pow(h[k + (k - 1) * (mr + 1)], 2));
                 c[k - 1] = h[k - 1 + (k - 1) * (mr + 1)] / mu;
                 s[k - 1] = -h[k + (k - 1) * (mr + 1)] / mu;
                 h[k - 1 + (k - 1) * (mr + 1)] = c[k - 1] * h[k - 1 + (k - 1) * (mr + 1)]
@@ -409,36 +398,22 @@ public static class RestartedGeneralizedMinimumResidual
         //    current residual to the initial residual.
         //
     {
-        double av;
-        double[] c;
-        double delta = 1.0e-03;
-        double[] g;
-        double[] h;
-        double htmp;
-        int i;
+        const double delta = 1.0e-03;
         int itr;
-        int itr_used;
-        int j;
-        int k;
         int k_copy = 0;
-        double mu;
-        double[] r;
         double rho = 0;
         double rho_tol = 0;
-        double[] s;
-        double[] v;
-        bool verbose = true;
-        double[] y;
+        const bool verbose = true;
 
-        c = new double[mr];
-        g = new double[mr + 1];
-        h = new double[(mr + 1) * mr];
-        r = new double[n];
-        s = new double[mr];
-        v = new double[n * (mr + 1)];
-        y = new double[mr + 1];
+        double[] c = new double[mr];
+        double[] g = new double[mr + 1];
+        double[] h = new double[(mr + 1) * mr];
+        double[] r = new double[n];
+        double[] s = new double[mr];
+        double[] v = new double[n * (mr + 1)];
+        double[] y = new double[mr + 1];
 
-        itr_used = 0;
+        int itr_used = 0;
 
         if (n < mr)
         {
@@ -454,6 +429,7 @@ public static class RestartedGeneralizedMinimumResidual
         {
             AXST.ax_st(n, nz_num, ia, ja, a, x, ref r);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 r[i] = rhs[i] - r[i];
@@ -485,6 +461,7 @@ public static class RestartedGeneralizedMinimumResidual
                 g[i] = 0.0;
             }
 
+            int j;
             for (i = 0; i < mr + 1; i++)
             {
                 for (j = 0; j < mr; j++)
@@ -493,13 +470,14 @@ public static class RestartedGeneralizedMinimumResidual
                 }
             }
 
+            int k;
             for (k = 1; k <= mr; k++)
             {
                 k_copy = k;
 
                 AXST.ax_st(n, nz_num, ia, ja, a, v, ref v, xIndex: + (k - 1) * n, wIndex: + k * n);
 
-                av = Math.Sqrt(typeMethods.r8vec_dot(n, v, v, a1Index: + k * n, a2Index: + k * n));
+                double av = Math.Sqrt(typeMethods.r8vec_dot(n, v, v, a1Index: + k * n, a2Index: + k * n));
 
                 for (j = 1; j <= k; j++)
                 {
@@ -516,7 +494,7 @@ public static class RestartedGeneralizedMinimumResidual
                 {
                     for (j = 1; j <= k; j++)
                     {
-                        htmp = typeMethods.r8vec_dot(n, v, v, a1Index: + k * n, a2Index: + (j - 1) * n);
+                        double htmp = typeMethods.r8vec_dot(n, v, v, a1Index: + k * n, a2Index: + (j - 1) * n);
                         h[j - 1 + (k - 1) * (mr + 1)] += htmp;
                         for (i = 0; i < n; i++)
                         {
@@ -558,8 +536,8 @@ public static class RestartedGeneralizedMinimumResidual
                     }
                 }
 
-                mu = Math.Sqrt(Math.Pow(h[k - 1 + (k - 1) * (mr + 1)], 2)
-                               + Math.Pow(h[k + (k - 1) * (mr + 1)], 2));
+                double mu = Math.Sqrt(Math.Pow(h[k - 1 + (k - 1) * (mr + 1)], 2)
+                                      + Math.Pow(h[k + (k - 1) * (mr + 1)], 2));
                 c[k - 1] = h[k - 1 + (k - 1) * (mr + 1)] / mu;
                 s[k - 1] = -h[k + (k - 1) * (mr + 1)] / mu;
                 h[k - 1 + (k - 1) * (mr + 1)] = c[k - 1] * h[k - 1 + (k - 1) * (mr + 1)]
@@ -721,40 +699,24 @@ public static class RestartedGeneralizedMinimumResidual
         //    current residual to the initial residual.
         //
     {
-        double av;
-        double[] c;
-        double delta = 1.0e-03;
-        double[] g;
-        double[] h;
-        double htmp;
-        int i;
+        const double delta = 1.0e-03;
         int itr;
-        int itr_used;
-        int j;
-        int k;
         int k_copy = 0;
-        double[] l;
-        double mu;
-        double[] r;
         double rho = 0;
         double rho_tol = 0;
-        double[] s;
-        int[] ua;
-        double[] v;
-        bool verbose = true;
-        double[] y;
+        const bool verbose = true;
 
-        itr_used = 0;
+        int itr_used = 0;
 
-        c = new double[mr + 1];
-        g = new double[mr + 1];
-        h = new double[(mr + 1) * mr];
-        l = new double[ia[n] + 1];
-        r = new double[n];
-        s = new double[mr + 1];
-        ua = new int[n];
-        v = new double[(mr + 1) * n];
-        y = new double[mr + 1];
+        double[] c = new double[mr + 1];
+        double[] g = new double[mr + 1];
+        double[] h = new double[(mr + 1) * mr];
+        double[] l = new double[ia[n] + 1];
+        double[] r = new double[n];
+        double[] s = new double[mr + 1];
+        int[] ua = new int[n];
+        double[] v = new double[(mr + 1) * n];
+        double[] y = new double[mr + 1];
 
         RearrangeCR.rearrange_cr(n, nz_num, ia, ref ja, ref a);
 
@@ -775,6 +737,7 @@ public static class RestartedGeneralizedMinimumResidual
         {
             AXCR.ax_cr(n, nz_num, ia, ja, a, x, ref r);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 r[i] = rhs[i] - r[i];
@@ -808,6 +771,7 @@ public static class RestartedGeneralizedMinimumResidual
                 g[i] = 0.0;
             }
 
+            int j;
             for (i = 0; i < mr + 1; i++)
             {
                 for (j = 0; j < mr; j++)
@@ -816,6 +780,7 @@ public static class RestartedGeneralizedMinimumResidual
                 }
             }
 
+            int k;
             for (k = 0; k < mr; k++)
             {
                 k_copy = k;
@@ -824,7 +789,7 @@ public static class RestartedGeneralizedMinimumResidual
 
                 LUSCR.lus_cr(n, nz_num, ia, ja, l, ua, v, ref v, rIndex: + (k + 1) * n, zIndex: + (k + 1) * n);
 
-                av = Math.Sqrt(typeMethods.r8vec_dot(n, v, v, a1Index: + (k + 1) * n, a2Index: + (k + 1) * n));
+                double av = Math.Sqrt(typeMethods.r8vec_dot(n, v, v, a1Index: + (k + 1) * n, a2Index: + (k + 1) * n));
 
                 for (j = 0; j <= k; j++)
                 {
@@ -841,7 +806,7 @@ public static class RestartedGeneralizedMinimumResidual
                 {
                     for (j = 0; j < k + 1; j++)
                     {
-                        htmp = typeMethods.r8vec_dot(n, v, v, a1Index: + (k + 1) * n, a2Index: + j * n);
+                        double htmp = typeMethods.r8vec_dot(n, v, v, a1Index: + (k + 1) * n, a2Index: + j * n);
                         h[j * mr + k] += htmp;
                         for (i = 0; i < n; i++)
                         {
@@ -883,7 +848,7 @@ public static class RestartedGeneralizedMinimumResidual
                     }
                 }
 
-                mu = Math.Sqrt(h[k * mr + k] * h[k * mr + k] + h[(k + 1) * mr + k] * h[(k + 1) * mr + k]);
+                double mu = Math.Sqrt(h[k * mr + k] * h[k * mr + k] + h[(k + 1) * mr + k] * h[(k + 1) * mr + k]);
                 c[k] = h[k * mr + k] / mu;
                 s[k] = -h[(k + 1) * mr + k] / mu;
                 h[k * mr + k] = c[k] * h[k * mr + k] - s[k] * h[(k + 1) * mr + k];

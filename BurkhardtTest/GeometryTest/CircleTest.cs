@@ -437,7 +437,7 @@ public static class CircleTest
             //
             //  Check that the lines are the right distance from the center.
             //
-            d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +0 * 2);
+            d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc);
             d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +1 * 2);
             d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +2 * 2);
             d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +3 * 2);
@@ -447,7 +447,7 @@ public static class CircleTest
                                    + "  " + d3.ToString().PadLeft(12)
                                    + "  " + d4.ToString().PadLeft(12) + "");
 
-            d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +0 * 2);
+            d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc);
             d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +1 * 2);
             d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +2 * 2);
             d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +3 * 2);

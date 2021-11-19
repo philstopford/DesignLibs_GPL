@@ -1222,13 +1222,15 @@ public static class Grid
                         break;
                 }
 
-                if (j < nelemy)
+                if (j >= nelemy)
                 {
-                    element_node[0 + element * element_order] = ne;
-                    element_node[1 + element * element_order] = nw;
-                    element_node[2 + element * element_order] = se;
-                    element += 1;
+                    continue;
                 }
+
+                element_node[0 + element * element_order] = ne;
+                element_node[1 + element * element_order] = nw;
+                element_node[2 + element * element_order] = se;
+                element += 1;
             }
         }
 
@@ -1548,16 +1550,18 @@ public static class Grid
                         break;
                 }
 
-                if (j < nelemy)
+                if (j >= nelemy)
                 {
-                    element_node[0 + element * element_order] = ne;
-                    element_node[1 + element * element_order] = nw;
-                    element_node[2 + element * element_order] = se;
-                    element_node[3 + element * element_order] = n;
-                    element_node[4 + element * element_order] = c;
-                    element_node[5 + element * element_order] = e;
-                    element += 1;
+                    continue;
                 }
+
+                element_node[0 + element * element_order] = ne;
+                element_node[1 + element * element_order] = nw;
+                element_node[2 + element * element_order] = se;
+                element_node[3 + element * element_order] = n;
+                element_node[4 + element * element_order] = c;
+                element_node[5 + element * element_order] = e;
+                element += 1;
             }
         }
 
@@ -1762,7 +1766,7 @@ public static class Grid
         //
         //  The first row.
         //
-        int n = 0;
+        const int n = 0;
 
         int sw = 1;
         int se = sw + 1;
@@ -1933,7 +1937,7 @@ public static class Grid
         //s_min = 1;
         //s_max = long_num;
 
-        int n = 1;
+        const int n = 1;
         int sw = 2;
         int se = sw + 1;
         int s_min = 2;

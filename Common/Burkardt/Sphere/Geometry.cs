@@ -247,11 +247,13 @@ public static class Geometry
         //
         //  Adjust for cases where R < H < 2R.
         //
-        if (r < h)
+        if (!(r < h))
         {
-            double area2 = sphere_imp_area_nd(dim_num, r);
-            area = area2 - area;
+            return area;
         }
+
+        double area2 = sphere_imp_area_nd(dim_num, r);
+        area = area2 - area;
 
         return area;
     }
@@ -472,7 +474,7 @@ public static class Geometry
 
                 double angle = typeMethods.r8_asin(Math.Sqrt((2.0 * r - h) * h / r));
 
-                double arg = 0.0;
+                const double arg = 0.0;
                 double factor2 = Misc.sin_power_int(arg, angle, dim_num);
 
                 volume = factor1 * factor2 * Math.Pow(r, dim_num);
@@ -853,12 +855,7 @@ public static class Geometry
         a[3 + 4 * 5] = 1.0;
         a[4 + 4 * 5] = 1.0;
 
-        if (typeMethods.r8mat_det_5d(a) < 0.0)
-        {
-            return false;
-        }
-
-        return true;
+        return !(typeMethods.r8mat_det_5d(a) < 0.0);
     }
 
     public static void sphere_exp_point_near_3d(double[] p1, double[] p2, double[] p3,
@@ -981,7 +978,7 @@ public static class Geometry
         //    singular, then R = -1, PC[] = 0.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] tet = new double[DIM_NUM * 4];
 
@@ -1225,14 +1222,9 @@ public static class Geometry
         //    on the sphere, FALSE otherwise.
         //
     {
-        if (Math.Pow(p[0] - pc[0], 2)
+        return Math.Pow(p[0] - pc[0], 2)
             + Math.Pow(p[1] - pc[1], 2)
-            + Math.Pow(p[2] - pc[2], 2) <= r * r)
-        {
-            return true;
-        }
-
-        return false;
+            + Math.Pow(p[2] - pc[2], 2) <= r * r;
     }
 
     public static void sphere_imp_grid_icos_size(int factor, ref int node_num, ref int edge_num,
@@ -1356,7 +1348,7 @@ public static class Geometry
         //
         //  The first row.
         //
-        int n = 1;
+        const int n = 1;
 
         int sw = 2;
         int se = sw + 1;
@@ -1643,16 +1635,18 @@ public static class Geometry
 
                                     double tnorm = typeMethods.r8vec_norm(DIM_NUM, pi);
 
-                                    if (tnorm != 0.0)
+                                    if (tnorm == 0.0)
                                     {
-                                        pi[0] = pc[0] + r * pi[0] / tnorm;
-                                        pi[1] = pc[1] + r * pi[1] / tnorm;
-                                        pi[2] = pc[2] + r * pi[2] / tnorm;
-                                        pp[0 + n2 * 3] = pi[0];
-                                        pp[1 + n2 * 3] = pi[1];
-                                        pp[2 + n2 * 3] = pi[2];
-                                        n2 += 1;
+                                        continue;
                                     }
+
+                                    pi[0] = pc[0] + r * pi[0] / tnorm;
+                                    pi[1] = pc[1] + r * pi[1] / tnorm;
+                                    pi[2] = pc[2] + r * pi[2] / tnorm;
+                                    pp[0 + n2 * 3] = pi[0];
+                                    pp[1 + n2 * 3] = pi[1];
+                                    pp[2 + n2 * 3] = pi[2];
+                                    n2 += 1;
                                 }
                             }
 
@@ -3195,15 +3189,17 @@ public static class Geometry
 
             double norm = typeMethods.r8vec_norm(dim_num, p);
 
-            if (norm <= 1.0)
+            if (!(norm <= 1.0))
             {
-                for (i = 0; i < dim_num; i++)
-                {
-                    p[i] /= norm;
-                }
-
-                break;
+                continue;
             }
+
+            for (i = 0; i < dim_num; i++)
+            {
+                p[i] /= norm;
+            }
+
+            break;
         }
 
         return p;
@@ -3584,42 +3580,44 @@ public static class Geometry
                     break;
             }
 
-            if (Math.Abs(lam1 - lam2) > double.Epsilon)
+            if (!(Math.Abs(lam1 - lam2) > double.Epsilon))
             {
-                double hav_a = Helpers.haversine(beta2 - beta1)
-                               + cos_b1 * cos_b2 * Helpers.haversine(lam2 - lam1);
-                double a = 2.0 * Math.Asin(Math.Sqrt(hav_a));
-
-                double b = 0.5 * Math.PI - beta2;
-                double c = 0.5 * Math.PI - beta1;
-                double s = 0.5 * (a + b + c);
-                //
-                //  Given the three sides of a spherical triangle, we can use a formula
-                //  to find the spherical excess.
-                //
-                double t = Math.Tan(s / 2.0) * Math.Tan((s - a) / 2.0)
-                                             * Math.Tan((s - b) / 2.0) * Math.Tan((s - c) / 2.0);
-
-                double excess = Math.Abs(4.0 * Math.Atan(Math.Sqrt(Math.Abs(t))));
-
-                double lam;
-                if (lam1 < lam2)
-                {
-                    lam = lam2 - lam1;
-                }
-                else
-                {
-                    lam = lam2 - lam1 + 2.0 * Math.PI;
-                }
-
-                excess = lam switch
-                {
-                    > Math.PI => -excess,
-                    _ => excess
-                };
-
-                area += excess;
+                continue;
             }
+
+            double hav_a = Helpers.haversine(beta2 - beta1)
+                           + cos_b1 * cos_b2 * Helpers.haversine(lam2 - lam1);
+            double a = 2.0 * Math.Asin(Math.Sqrt(hav_a));
+
+            double b = 0.5 * Math.PI - beta2;
+            double c = 0.5 * Math.PI - beta1;
+            double s = 0.5 * (a + b + c);
+            //
+            //  Given the three sides of a spherical triangle, we can use a formula
+            //  to find the spherical excess.
+            //
+            double t = Math.Tan(s / 2.0) * Math.Tan((s - a) / 2.0)
+                                         * Math.Tan((s - b) / 2.0) * Math.Tan((s - c) / 2.0);
+
+            double excess = Math.Abs(4.0 * Math.Atan(Math.Sqrt(Math.Abs(t))));
+
+            double lam;
+            if (lam1 < lam2)
+            {
+                lam = lam2 - lam1;
+            }
+            else
+            {
+                lam = lam2 - lam1 + 2.0 * Math.PI;
+            }
+
+            excess = lam switch
+            {
+                > Math.PI => -excess,
+                _ => excess
+            };
+
+            area += excess;
         }
 
         area = area switch

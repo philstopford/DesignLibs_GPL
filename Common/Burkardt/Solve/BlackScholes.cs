@@ -52,20 +52,16 @@ public static class BlackScholes
         //    in equal steps.
         //
     {
-        double dt;
         int i;
-        double p;
-        double[] r;
-        double[] s;
 
-        dt = t1 / n;
+        double dt = t1 / n;
 
-        r = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
+        double[] r = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
-        s = new double[n + 1];
+        double[] s = new double[n + 1];
 
         s[0] = s0;
-        p = s0;
+        double p = s0;
         for (i = 1; i <= n; i++)
         {
             p *= Math.Exp((mu - sigma * sigma) * dt + sigma * Math.Sqrt(dt) * r[i - 1]);
@@ -122,28 +118,21 @@ public static class BlackScholes
         //    Output, double BIONOMIAL, the option value at time 0.
         //
     {
-        double a;
-        double c;
-        double d;
-        double dt;
         int i;
         int n;
-        double p;
-        double u;
-        double[] w;
         //
         //  Time stepsize.
         //
-        dt = t1 / m;
+        double dt = t1 / m;
 
-        a = 0.5 * (Math.Exp(-r * dt) + Math.Exp((r + sigma * sigma) * dt));
+        double a = 0.5 * (Math.Exp(-r * dt) + Math.Exp((r + sigma * sigma) * dt));
 
-        d = a - Math.Sqrt(a * a - 1.0);
-        u = a + Math.Sqrt(a * a - 1.0);
+        double d = a - Math.Sqrt(a * a - 1.0);
+        double u = a + Math.Sqrt(a * a - 1.0);
 
-        p = (Math.Exp(r * dt) - d) / (u - d);
+        double p = (Math.Exp(r * dt) - d) / (u - d);
 
-        w = new double[m + 1];
+        double[] w = new double[m + 1];
 
         for (i = 0; i <= m; i++)
         {
@@ -166,7 +155,7 @@ public static class BlackScholes
             w[i] = Math.Exp(-r * t1) * w[i];
         }
 
-        c = w[0];
+        double c = w[0];
 
         return c;
     }
@@ -217,24 +206,19 @@ public static class BlackScholes
         //
     {
         double c;
-        double d1;
-        double d2;
-        double n1;
-        double n2;
-        double tau;
 
-        tau = t1 - t0;
+        double tau = t1 - t0;
 
         switch (tau)
         {
             case > 0.0:
-                d1 = (Math.Log(s0 / e) + (r + 0.5 * sigma * sigma) * tau)
-                     / (sigma * Math.Sqrt(tau));
+                double d1 = (Math.Log(s0 / e) + (r + 0.5 * sigma * sigma) * tau)
+                            / (sigma * Math.Sqrt(tau));
 
-                d2 = d1 - sigma * Math.Sqrt(tau);
+                double d2 = d1 - sigma * Math.Sqrt(tau);
 
-                n1 = 0.5 * (1.0 + Helpers.Erf(d1 / Math.Sqrt(2.0)));
-                n2 = 0.5 * (1.0 + Helpers.Erf(d2 / Math.Sqrt(2.0)));
+                double n1 = 0.5 * (1.0 + Helpers.Erf(d1 / Math.Sqrt(2.0)));
+                double n2 = 0.5 * (1.0 + Helpers.Erf(d2 / Math.Sqrt(2.0)));
 
                 c = s0 * n1 - e * Math.Exp(-r * tau) * n2;
                 break;
@@ -296,24 +280,15 @@ public static class BlackScholes
         //    call option.
         //
     {
-        double[] a;
-        double[] b;
-        double[] c;
-        double dt;
-        double dx;
         int i;
         int j;
-        double p;
-        double t;
-        double[] u;
-        double u0;
 
-        dt = t1 / nt;
-        dx = smax / nx;
+        double dt = t1 / nt;
+        double dx = smax / nx;
 
-        a = new double[nx - 1];
-        b = new double[nx - 1];
-        c = new double[nx - 1];
+        double[] a = new double[nx - 1];
+        double[] b = new double[nx - 1];
+        double[] c = new double[nx - 1];
 
         for (i = 0; i < nx - 1; i++)
         {
@@ -330,9 +305,9 @@ public static class BlackScholes
             a[i] = 0.5 * dt * Math.Pow(sigma * (i + 1), 2) - 0.5 * dt * r * (i + 1);
         }
 
-        u = new double[(nx - 1) * (nt + 1)];
+        double[] u = new double[(nx - 1) * (nt + 1)];
 
-        u0 = 0.0;
+        double u0 = 0.0;
         for (i = 0; i < nx - 1; i++)
         {
             u0 += dx;
@@ -341,10 +316,10 @@ public static class BlackScholes
 
         for (j = 0; j < nt; j++)
         {
-            t = j * t1 / nt;
+            double t = j * t1 / nt;
 
-            p = 0.5 * dt * (nx - 1) * (sigma * sigma * (nx - 1) + r)
-                * (smax - e * Math.Exp(-r * t));
+            double p = 0.5 * dt * (nx - 1) * (sigma * sigma * (nx - 1) + r)
+                       * (smax - e * Math.Exp(-r * t));
 
             for (i = 0; i < nx - 1; i++)
             {
@@ -417,18 +392,11 @@ public static class BlackScholes
         //    Output, double MC[2], the estimated range of the valuation.
         //
     {
-        double[] conf;
         int i;
-        double pmean;
-        double[] pvals;
-        double std;
-        double[] svals;
-        double[] u;
-        double width;
 
-        u = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
+        double[] u = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
 
-        svals = new double[m];
+        double[] svals = new double[m];
 
         for (i = 0; i < m; i++)
         {
@@ -436,14 +404,14 @@ public static class BlackScholes
                                      + sigma * Math.Sqrt(t1) * u[i]);
         }
 
-        pvals = new double[m];
+        double[] pvals = new double[m];
 
         for (i = 0; i < m; i++)
         {
             pvals[i] = Math.Exp(-r * t1) * Math.Max(svals[i] - e, 0.0);
         }
 
-        pmean = 0.0;
+        double pmean = 0.0;
         for (i = 0; i < m; i++)
         {
             pmean += pvals[i];
@@ -451,7 +419,7 @@ public static class BlackScholes
 
         pmean /= m;
 
-        std = 0.0;
+        double std = 0.0;
         for (i = 0; i < m; i++)
         {
             std += Math.Pow(pvals[i] - pmean, 2);
@@ -459,9 +427,9 @@ public static class BlackScholes
 
         std = Math.Sqrt(std / (m - 1));
 
-        width = 1.96 * std / Math.Sqrt(m);
+        double width = 1.96 * std / Math.Sqrt(m);
 
-        conf = new double[2];
+        double[] conf = new double[2];
 
         conf[0] = pmean - width;
         conf[1] = pmean + width;

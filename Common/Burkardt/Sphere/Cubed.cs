@@ -690,16 +690,17 @@ public static class Cubed
             }
         }
 
-        if (l != line_num)
+        if (l == line_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("SPHERE_CUBED_LINES - Fatal error!");
-            Console.WriteLine("  LINE_NUM = " + line_num + "");
-            Console.WriteLine("  L = " + l + "n");
-            return null;
+            return line_data;
         }
 
-        return line_data;
+        Console.WriteLine("");
+        Console.WriteLine("SPHERE_CUBED_LINES - Fatal error!");
+        Console.WriteLine("  LINE_NUM = " + line_num + "");
+        Console.WriteLine("  L = " + l + "n");
+        return null;
+
     }
 
     public static double[] sphere_cubed_points(int n, int ns)
@@ -766,16 +767,17 @@ public static class Cubed
         //
         sphere_cubed_points_face(n, 0, 0, n, n, n, n, ref ns2, ref xyz);
 
-        if (ns2 != ns)
+        if (ns2 == ns)
         {
-            Console.WriteLine("");
-            Console.WriteLine("SPHERE_CUBED_POINTS - Fatal error");
-            Console.WriteLine("  Expected to generated NS = " + ns + " points.");
-            Console.WriteLine("  Generated " + ns2 + " points.");
-            return null;
+            return xyz;
         }
 
-        return xyz;
+        Console.WriteLine("");
+        Console.WriteLine("SPHERE_CUBED_POINTS - Fatal error");
+        Console.WriteLine("  Expected to generated NS = " + ns + " points.");
+        Console.WriteLine("  Generated " + ns2 + " points.");
+        return null;
+
     }
 
     public static void sphere_cubed_points_face(int n, int i1, int j1, int k1, int i2, int j2,

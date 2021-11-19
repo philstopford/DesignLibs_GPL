@@ -870,7 +870,7 @@ public static class SGMGAniso
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                if (!(Math.Abs(sparse_point[dim + point * dim_num] - (-typeMethods.r8_huge())) <= double.Epsilon))
+                if (!(Math.Abs(sparse_point[dim + point * dim_num] - -typeMethods.r8_huge()) <= double.Epsilon))
                 {
                     continue;
                 }
@@ -1946,12 +1946,14 @@ public static class SGMGAniso
         for (point = 0; point < point_total_num; point++)
         {
             int rep = undx[sparse_unique_index[point]];
-            if (point != rep)
+            if (point == rep)
             {
-                for (dim = 0; dim < dim_num; dim++)
-                {
-                    sparse_total_point[dim + point * dim_num] = sparse_total_point[dim + rep * dim_num];
-                }
+                continue;
+            }
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                sparse_total_point[dim + point * dim_num] = sparse_total_point[dim + rep * dim_num];
             }
         }
 
@@ -2101,11 +2103,13 @@ public static class SGMGAniso
 
                 for (i = 0; i < n; i++)
                 {
-                    if (0.0 < w[i])
+                    if (!(0.0 < w[i]))
                     {
-                        data.nstart = i;
-                        break;
+                        continue;
                     }
+
+                    data.nstart = i;
+                    break;
                 }
 
                 switch (data.nstart)
@@ -2158,7 +2162,7 @@ public static class SGMGAniso
             //  DIR =  0, hold N2 at current value, and see if we can increment X[N2].
             //
 
-            if (data.dir == -1 || data.dir == 0)
+            if (data.dir is -1 or 0)
             {
                 switch (data.dir)
                 {
@@ -2246,16 +2250,18 @@ public static class SGMGAniso
                             break;
                         }
 
-                        if (data.dir == 0)
+                        if (data.dir != 0)
                         {
-                            x[data.n2] += 1;
-                            if (x[data.n2] <= data.xmax[data.n2])
-                            {
-                                break;
-                            }
-
-                            data.dir = +1;
+                            continue;
                         }
+
+                        x[data.n2] += 1;
+                        if (x[data.n2] <= data.xmax[data.n2])
+                        {
+                            break;
+                        }
+
+                        data.dir = +1;
                     }
                     else
                     {
@@ -2284,15 +2290,19 @@ public static class SGMGAniso
 
                             data.n2 += 1;
 
-                            if (0.0 < w[data.n2])
+                            if (!(0.0 < w[data.n2]))
                             {
-                                if (x[data.n2] < data.xmax[data.n2])
-                                {
-                                    x[data.n2] += 1;
-                                    data.dir = -1;
-                                    break;
-                                }
+                                continue;
                             }
+
+                            if (x[data.n2] >= data.xmax[data.n2])
+                            {
+                                continue;
+                            }
+
+                            x[data.n2] += 1;
+                            data.dir = -1;
+                            break;
                         }
 
                         break;
@@ -2656,11 +2666,13 @@ public static class SGMGAniso
             bool too_big = false;
             for (i = 0; i < dim_num; i++)
             {
-                if (x_max[i] < x[i] + b[i])
+                if (x_max[i] >= x[i] + b[i])
                 {
-                    too_big = true;
-                    break;
+                    continue;
                 }
+
+                too_big = true;
+                break;
             }
 
             switch (too_big)

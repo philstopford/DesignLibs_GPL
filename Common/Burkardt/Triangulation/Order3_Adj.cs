@@ -652,16 +652,18 @@ public static partial class Adjacency
             //
             triangle2 = triangle_neighbor[2 + triangle * 3];
 
-            if (triangle2 < 0 || triangle < triangle2)
+            if (triangle2 >= 0 && triangle >= triangle2)
             {
-                ia[adj_copy[n1 - 1] - 1] = n1;
-                ja[adj_copy[n1 - 1] - 1] = n3;
-                adj_copy[n1 - 1] += 1;
-
-                ia[adj_copy[n3 - 1] - 1] = n3;
-                ja[adj_copy[n3 - 1] - 1] = n1;
-                adj_copy[n3 - 1] += 1;
+                continue;
             }
+
+            ia[adj_copy[n1 - 1] - 1] = n1;
+            ja[adj_copy[n1 - 1] - 1] = n3;
+            adj_copy[n1 - 1] += 1;
+
+            ia[adj_copy[n3 - 1] - 1] = n3;
+            ja[adj_copy[n3 - 1] - 1] = n1;
+            adj_copy[n3 - 1] += 1;
         }
 
         //

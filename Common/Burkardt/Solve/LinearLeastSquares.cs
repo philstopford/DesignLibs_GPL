@@ -36,9 +36,7 @@ public static class LinearLeastSquares
         //    Output, double %A, the slope of the least-squares approximant to the data.
         //
     {
-        double bot;
         int i;
-        double top;
         switch (n)
         {
             //
@@ -59,8 +57,8 @@ public static class LinearLeastSquares
         //
         //  Compute (x'y)/(x'x).
         //
-        top = 0.0;
-        bot = 0.0;
+        double top = 0.0;
+        double bot = 0.0;
         for (i = 0; i < n; i++)
         {
             top += x[i] * y[i];
@@ -105,11 +103,7 @@ public static class LinearLeastSquares
         //    approximant to the data.
         //
     {
-        double bot;
         int i;
-        double top;
-        double xbar;
-        double ybar;
         switch (n)
         {
             //
@@ -124,8 +118,8 @@ public static class LinearLeastSquares
         //
         //  Average X and Y.
         //
-        xbar = 0.0;
-        ybar = 0.0;
+        double xbar = 0.0;
+        double ybar = 0.0;
         for (i = 0; i < n; i++)
         {
             xbar += x[i];
@@ -137,8 +131,8 @@ public static class LinearLeastSquares
         //
         //  Compute Beta.
         //
-        top = 0.0;
-        bot = 0.0;
+        double top = 0.0;
+        double bot = 0.0;
         for (i = 0; i < n; i++)
         {
             top += (x[i] - xbar) * (y[i] - ybar);

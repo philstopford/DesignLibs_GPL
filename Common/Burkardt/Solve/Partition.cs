@@ -50,16 +50,11 @@ public static class Partition
         //    Output, int &DISCREPANCY, the discrepancy.
         //
     {
-        int[] d;
-        int d_discrepancy;
-        int rank;
-        int w_sum;
-
-        w_sum = typeMethods.i4vec_sum(n, w);
+        int w_sum = typeMethods.i4vec_sum(n, w);
         discrepancy = w_sum;
 
-        rank = -1;
-        d = new int[n];
+        int rank = -1;
+        int[] d = new int[n];
 
         while (true)
         {
@@ -70,7 +65,7 @@ public static class Partition
                 break;
             }
 
-            d_discrepancy = Math.Abs(w_sum - 2 * typeMethods.i4vec_dot_product(n, d, w));
+            int d_discrepancy = Math.Abs(w_sum - 2 * typeMethods.i4vec_dot_product(n, d, w));
 
             if (d_discrepancy < discrepancy)
             {
@@ -133,17 +128,11 @@ public static class Partition
         //    Output, int PARTITION_COUNT, the number of solutions.
         //
     {
-        int[] c;
-        int count;
-        int discrepancy;
-        int rank;
-        int w_sum;
+        int w_sum = typeMethods.i4vec_sum(n, w);
 
-        w_sum = typeMethods.i4vec_sum(n, w);
-
-        c = new int[n];
-        rank = -1;
-        count = 0;
+        int[] c = new int[n];
+        int rank = -1;
+        int count = 0;
 
         while (true)
         {
@@ -154,7 +143,7 @@ public static class Partition
                 break;
             }
 
-            discrepancy = Math.Abs(w_sum - 2 * typeMethods.i4vec_dot_product(n, c, w));
+            int discrepancy = Math.Abs(w_sum - 2 * typeMethods.i4vec_dot_product(n, c, w));
 
             switch (discrepancy)
             {

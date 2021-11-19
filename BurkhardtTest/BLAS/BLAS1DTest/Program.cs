@@ -100,9 +100,9 @@ internal static class Program
         }
 
         Console.WriteLine("");
-        Console.WriteLine("  DASUM ( NX,   X, 1 ) =    " + BLAS1D.dasum(NX, x, 1, 0) + "");
-        Console.WriteLine("  DASUM ( NX/2, X, 2 ) =    " + BLAS1D.dasum(NX / 2, x, 2, 0) + "");
-        Console.WriteLine("  DASUM ( 2,    X, NX/2 ) = " + BLAS1D.dasum(2, x, NX / 2, 0) + "");
+        Console.WriteLine("  DASUM ( NX,   X, 1 ) =    " + BLAS1D.dasum(NX, x, 1) + "");
+        Console.WriteLine("  DASUM ( NX/2, X, 2 ) =    " + BLAS1D.dasum(NX / 2, x, 2) + "");
+        Console.WriteLine("  DASUM ( 2,    X, NX/2 ) = " + BLAS1D.dasum(2, x, NX / 2) + "");
 
         for (int i = 0; i < MA; i++)
         {
@@ -489,14 +489,14 @@ internal static class Program
         //  To multiply a ROW of a matrix A times a vector X, we need to
         //  specify the increment between successive entries of the row of A:
         //
-        sum1 = BLAS1D.ddot(N, a, LDA, x, 1, 1 + 0 * LDA, 0);
+        sum1 = BLAS1D.ddot(N, a, LDA, x, 1, 1 + 0 * LDA);
 
         Console.WriteLine("");
         Console.WriteLine("  Product of row 2 of A and X is " + sum1 + "");
         //
         //  Product of a column of A and a vector is simpler:
         //
-        sum1 = BLAS1D.ddot(N, a, 1, x, 1, +0 + 1 * LDA, 0);
+        sum1 = BLAS1D.ddot(N, a, 1, x, 1, +0 + 1 * LDA);
 
         Console.WriteLine("");
         Console.WriteLine("  Product of column 2 of A and X is " + sum1 + "");
@@ -581,7 +581,7 @@ internal static class Program
         }
 
         Console.WriteLine("");
-        Console.WriteLine("  The 2-norm of X is " + BLAS1D.dnrm2(N, x, 1, 0) + "");
+        Console.WriteLine("  The 2-norm of X is " + BLAS1D.dnrm2(N, x, 1) + "");
         //
         //  Compute the euclidean norm of a row or column of a matrix:
         //
@@ -794,7 +794,7 @@ internal static class Program
         }
 
         double da = 5.0;
-        BLAS1D.dscal(N, da, ref x, 1, 0);
+        BLAS1D.dscal(N, da, ref x, 1);
         Console.WriteLine("");
         Console.WriteLine("  DSCAL ( N, " + da + ", X, 1 )");
         Console.WriteLine("");
@@ -811,7 +811,7 @@ internal static class Program
         }
 
         da = -2.0;
-        BLAS1D.dscal(3, da, ref x, 2, 0);
+        BLAS1D.dscal(3, da, ref x, 2);
         Console.WriteLine("");
         Console.WriteLine("  DSCAL ( 3, " + da + ", X, 2 )");
         Console.WriteLine("");

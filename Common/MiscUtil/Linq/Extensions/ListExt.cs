@@ -31,7 +31,7 @@ public static class ListExt
             _ => comparer
         };
         IComparer<T> itemComparer = new ProjectionComparer<T, TValue>(selector, comparer);
-        switch (@descending)
+        switch (descending)
         {
             case true:
                 itemComparer = itemComparer.Reverse();

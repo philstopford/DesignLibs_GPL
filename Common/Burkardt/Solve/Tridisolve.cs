@@ -46,19 +46,16 @@ public static class Tridisolve
         //    Output, double TRIDISOLVE[N], the solution.
         //
     {
-        double[] bi;
         int j;
-        double mu;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (j = 0; j < n; j++)
         {
             x[j] = d[j];
         }
 
-        bi = new double[n];
+        double[] bi = new double[n];
         for (j = 0; j < n; j++)
         {
             bi[j] = 1.0 / b[j];
@@ -66,7 +63,7 @@ public static class Tridisolve
 
         for (j = 0; j < n - 1; j++)
         {
-            mu = a[j] * bi[j];
+            double mu = a[j] * bi[j];
             b[j + 1] -= mu * c[j];
             x[j + 1] -= mu * x[j];
         }

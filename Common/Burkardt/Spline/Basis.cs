@@ -236,8 +236,8 @@ public static class Basis
             yval = 2.0 * Math.Pow(beta1 * (1.0 - u), 3);
         }
 
-        yval /= (2.0 + beta2 + 4.0 * beta1 + 4.0 * beta1 * beta1
-                 + 2.0 * beta1 * beta1 * beta1);
+        yval /= 2.0 + beta2 + 4.0 * beta1 + 4.0 * beta1 * beta1
+                + 2.0 * beta1 * beta1 * beta1;
 
         return yval;
     }

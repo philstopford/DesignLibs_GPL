@@ -206,8 +206,8 @@ public static class Circle
 
         LegendreQuadrature.legendre_set(nr, ref ra, ref rw);
 
-        double a = -1.0;
-        double b = +1.0;
+        const double a = -1.0;
+        const double b = +1.0;
         double c = radius1 * radius1;
         double d = radius2 * radius2;
 
@@ -1477,7 +1477,7 @@ public static class Circle
                 a = Math.Sqrt(3.0) / 2.0;
                 b = Math.Sqrt((27.0 - 3.0 * Math.Sqrt(29.0)) / 104.0);
                 c = Math.Sqrt((27.0 + 3.0 * Math.Sqrt(29.0)) / 104.0);
-                double u = 2.0 / 27.0;
+                const double u = 2.0 / 27.0;
                 double v = (551.0 + 41.0 * Math.Sqrt(29.0)) / 6264.0;
                 double w = (551.0 - 41.0 * Math.Sqrt(29.0)) / 6264.0;
                 z = 0.0;
@@ -1733,7 +1733,7 @@ public static class Circle
                 break;
             case 13:
             {
-                int nr = 4;
+                const int nr = 4;
                 double[] ra = new double[nr];
                 double[] rw = new double[nr];
 

@@ -918,8 +918,7 @@ public class SparseCount
 
         for (int dim_num2 = dim_num; 0 <= dim_num2; dim_num2--)
         {
-            int level_min;
-            level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
+            int level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
 
             int point_num2;
             switch (dim_num2)
@@ -1072,8 +1071,7 @@ public class SparseCount
 
         for (int dim_num2 = dim_num; 0 <= dim_num2; dim_num2--)
         {
-            int level_min;
-            level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
+            int level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
 
             int point_num2;
             switch (dim_num2)
@@ -1216,8 +1214,7 @@ public class SparseCount
 
         for (int dim_num2 = dim_num; 0 <= dim_num2; dim_num2--)
         {
-            int level_min;
-            level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
+            int level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
 
             int point_num2;
             switch (dim_num2)

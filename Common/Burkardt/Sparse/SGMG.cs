@@ -1097,12 +1097,14 @@ public static class SGMG
         for (point = 0; point < point_total_num; point++)
         {
             int rep = undx[sparse_unique_index[point]];
-            if (point != rep)
+            if (point == rep)
             {
-                for (dim = 0; dim < dim_num; dim++)
-                {
-                    sparse_total_point[dim + point * dim_num] = sparse_total_point[dim + rep * dim_num];
-                }
+                continue;
+            }
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                sparse_total_point[dim + point * dim_num] = sparse_total_point[dim + rep * dim_num];
             }
         }
 

@@ -89,7 +89,7 @@ public class GCPath : GCElement
 
     private void pMoveSelect(GeoLibPoint pos)
     {
-        switch (@select)
+        switch (select)
         {
             case true:
             {

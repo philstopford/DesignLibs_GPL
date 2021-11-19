@@ -89,13 +89,13 @@ public static class MilsteinStrong
         //
         //  Set stepping parameters.
         //
-        double tmax = 1.0;
+        const double tmax = 1.0;
         int n = (int) Math.Pow(2, 11);
         double dt = tmax / n;
         //
         //  Number of paths sampled.
         //
-        int m = 500;
+        const int m = 500;
         //
         //  Define the increments dW.
         //

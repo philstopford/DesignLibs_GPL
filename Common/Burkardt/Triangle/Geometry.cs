@@ -2222,12 +2222,14 @@ public static class Geometry
             //
             case 0:
             {
-                if (grid_num + 1 <= grid_max)
+                if (grid_num + 1 > grid_max)
                 {
-                    p[0 + grid_num * 2] = (t[0 + 0 * 2] + t[0 + 1 * 2] + t[0 + 2 * 2]) / 3.0;
-                    p[1 + grid_num * 2] = (t[1 + 0 * 2] + t[1 + 1 * 2] + t[1 + 2 * 2]) / 3.0;
-                    grid_num += 1;
+                    return;
                 }
+
+                p[0 + grid_num * 2] = (t[0 + 0 * 2] + t[0 + 1 * 2] + t[0 + 2 * 2]) / 3.0;
+                p[1 + grid_num * 2] = (t[1 + 0 * 2] + t[1 + 1 * 2] + t[1 + 2 * 2]) / 3.0;
+                grid_num += 1;
 
                 return;
             }
@@ -2865,7 +2867,7 @@ public static class Geometry
 
         if (typeMethods.r8vec_eq(2, t, t, +0 * 2, +1 * 2) ||
             typeMethods.r8vec_eq(2, t, t, +1 * 2, +2 * 2) ||
-            typeMethods.r8vec_eq(2, t, t, +2 * 2, +0 * 2))
+            typeMethods.r8vec_eq(2, t, t, +2 * 2))
         {
             value = 3;
             return value;
@@ -3014,7 +3016,7 @@ public static class Geometry
         value = Math.Min(value,
             Segments.segment_point_dist_2d(t, t, p,  + 1 * DIM_NUM,  + 2 * DIM_NUM));
         value = Math.Min(value,
-            Segments.segment_point_dist_2d(t, t, p,  + 2 * DIM_NUM,  + 0 * DIM_NUM));
+            Segments.segment_point_dist_2d(t, t, p,  + 2 * DIM_NUM));
 
         return value;
 
@@ -3061,7 +3063,7 @@ public static class Geometry
         value = Math.Min(value,
             Segments.segment_point_dist_3d(t, t, p,  + 1 * DIM_NUM,  + 2 * DIM_NUM));
         value = Math.Min(value,
-            Segments.segment_point_dist_3d(t, t, p,  + 2 * DIM_NUM,  + 0 * DIM_NUM));
+            Segments.segment_point_dist_3d(t, t, p,  + 2 * DIM_NUM));
 
         return value;
 
@@ -3111,7 +3113,7 @@ public static class Geometry
         //
         double dis12 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +0 * 2, +1 * 2);
         double dis23 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +1 * 2, +2 * 2);
-        double dis31 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +2 * 2, +0 * 2);
+        double dis31 = LineNS.Geometry.line_exp_point_dist_signed_2d(t, t, p, +2 * 2);
         switch (dis12)
         {
             //
@@ -3128,7 +3130,7 @@ public static class Geometry
             default:
                 value = Segments.segment_point_dist_2d(t, t, p,  + 0 * 2,  + 1 * 2);
                 value = Math.Min(value, Segments.segment_point_dist_2d(t, t, p,  + 1 * 2,  + 2 * 2));
-                value = Math.Min(value, Segments.segment_point_dist_2d(t, t, p,  + 2 * 2,  + 0 * 2));
+                value = Math.Min(value, Segments.segment_point_dist_2d(t, t, p,  + 2 * 2));
                 break;
         }
 
@@ -3186,7 +3188,7 @@ public static class Geometry
 
         Segments.segment_point_near_2d(t, t, p, ref pn23, ref dist23, ref tval,  + 1 * DIM_NUM, + 2 * DIM_NUM);
 
-        Segments.segment_point_near_2d(t, t, p, ref pn31, ref dist31, ref tval,  + 2 * DIM_NUM, + 0 * DIM_NUM);
+        Segments.segment_point_near_2d(t, t, p, ref pn31, ref dist31, ref tval,  + 2 * DIM_NUM);
 
         if (dist12 <= dist23 && dist12 <= dist31)
         {

@@ -147,7 +147,7 @@ public class LHCSampler
     public void testLHC()
     {
         init(2,10);
-        setInterval(-1, 1, 0);
+        setInterval(-1, 1);
         setInterval(-2, 1, 1);
         getPoints(true);
     }

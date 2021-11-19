@@ -132,32 +132,34 @@ public static partial class Print
             int j;
             for (j = 0; j < 3; j++)
             {
-                if (triangle_neighbor[j + i * 3] < 0)
+                if (triangle_neighbor[j + i * 3] >= 0)
                 {
-                    s = -triangle_neighbor[j + i * 3];
-                    t = s / 3;
-
-                    if (t < 1 || triangle_num < t)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("  Sorry, this data does not use the R8TRIS2");
-                        Console.WriteLine("  convention for convex hull segments.");
-                        skip = true;
-                        break;
-                    }
-
-                    int s1 = s % 3 + 1;
-                    int s2 = typeMethods.i4_wrap(s1 + 1, 1, 3);
-                    k += 1;
-                    int n1 = triangle_node[s1 - 1 + (t - 1) * 3];
-                    int n2 = triangle_node[s2 - 1 + (t - 1) * 3];
-                    Console.WriteLine("  "
-                                      + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                      + t.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                      + s1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                      + n1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                      + n2.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                    continue;
                 }
+
+                s = -triangle_neighbor[j + i * 3];
+                t = s / 3;
+
+                if (t < 1 || triangle_num < t)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("  Sorry, this data does not use the R8TRIS2");
+                    Console.WriteLine("  convention for convex hull segments.");
+                    skip = true;
+                    break;
+                }
+
+                int s1 = s % 3 + 1;
+                int s2 = typeMethods.i4_wrap(s1 + 1, 1, 3);
+                k += 1;
+                int n1 = triangle_node[s1 - 1 + (t - 1) * 3];
+                int n2 = triangle_node[s2 - 1 + (t - 1) * 3];
+                Console.WriteLine("  "
+                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                  + t.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                  + s1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                  + n1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                  + n2.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
 
             if (skip)

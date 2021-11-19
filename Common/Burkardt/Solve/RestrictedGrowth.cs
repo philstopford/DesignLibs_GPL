@@ -75,7 +75,6 @@ public static class RestrictedGrowth
         //
     {
         int i;
-        int j;
         switch (done)
         {
             //
@@ -100,7 +99,7 @@ public static class RestrictedGrowth
             //
             default:
             {
-                j = n;
+                int j = n;
 
                 for (;;)
                 {

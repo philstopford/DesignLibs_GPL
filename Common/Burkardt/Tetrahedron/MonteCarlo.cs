@@ -82,7 +82,7 @@ public static class MonteCarlo
             result[i] = volume * fp_sum / p_num;
         }
 
-        return new TetrahedronSampleResult() { result = result, seed = seed };
+        return new TetrahedronSampleResult { result = result, seed = seed };
     }
 
     public static TetrahedronSampleResult tetrahedron_unit_sample_01(int p_num, int seed)
@@ -143,7 +143,7 @@ public static class MonteCarlo
             }
         }
 
-        return new TetrahedronSampleResult() { result = p, seed = seed };
+        return new TetrahedronSampleResult { result = p, seed = seed };
     }
 
     public static TetrahedronSampleResult tetrahedron_unit_sample_02(int p_num, int seed)
@@ -234,7 +234,7 @@ public static class MonteCarlo
 
         }
 
-        return new TetrahedronSampleResult() { result = p, seed = seed };
+        return new TetrahedronSampleResult { result = p, seed = seed };
     }
 
     public static TetrahedronSampleResult tetrahedron_unit_sample_03(int p_num, int seed)
@@ -301,7 +301,7 @@ public static class MonteCarlo
 
         }
 
-        return new TetrahedronSampleResult() { result = p, seed = seed };
+        return new TetrahedronSampleResult { result = p, seed = seed };
     }
 
     public static TetrahedronSampleResult tetrahedron_unit_sample_04(int p_num, int seed)
@@ -372,6 +372,6 @@ public static class MonteCarlo
             }
         }
 
-        return new TetrahedronSampleResult() { result = p, seed = seed };
+        return new TetrahedronSampleResult { result = p, seed = seed };
     }
 }

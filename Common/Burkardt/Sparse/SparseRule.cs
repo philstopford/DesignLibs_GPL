@@ -47,7 +47,6 @@ public static class SparseRule
         //    when "unfolded" to the full space.
         //
     {
-        int j;
         int r;
         //
         //  Count the size of the full rule.
@@ -57,6 +56,7 @@ public static class SparseRule
         for ( r = 0; r < nr; r++ )
         {
             int count = 1;
+            int j;
             for ( j = 0; j < dim; j++ )
             {
                 if ( Math.Abs(nodes[r+j*nr] - x0) > double.Epsilon )

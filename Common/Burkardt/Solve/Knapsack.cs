@@ -50,30 +50,24 @@ public static class Knapsack
     {
         int i;
         int iadd = 0;
-        bool more;
-        int ncard;
-        int[] s;
-        int[] s_test;
-        int t;
-        int t_test;
 
-        s = new int[n];
-        s_test = new int[n];
+        int[] s = new int[n];
+        int[] s_test = new int[n];
 
-        more = false;
-        ncard = 0;
+        bool more = false;
+        int ncard = 0;
 
         for ( i = 0; i < n; i++ )
         {
             s_test[i] = 0;
         }
-        t_test = 0;
+        int t_test = 0;
 
         for ( i = 0; i < n; i++ )
         {
             s[i] = s_test[i];
         }
-        t = 0;
+        int t = 0;
 
         for ( ; ; )
         {

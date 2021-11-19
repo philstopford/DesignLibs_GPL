@@ -71,16 +71,12 @@ public static class Pell
         //    Both X0 and Y0 will be nonnegative.
         //
     {
-        int TERM_MAX = 100;
+        const int TERM_MAX = 100;
 
         int[] b = new int[TERM_MAX + 1];
         int i;
         int p = 0;
-        int pm1;
-        int pm2;
         int q = 0;
-        int qm1;
-        int qm2;
         int r = 0;
         int term_num = 0;
         switch (d)
@@ -134,10 +130,10 @@ public static class Pell
         //
         //  Evaluate the continued fraction using the forward recursion algorithm.
         //
-        pm2 = 0;
-        pm1 = 1;
-        qm2 = 1;
-        qm1 = 0;
+        int pm2 = 0;
+        int pm1 = 1;
+        int qm2 = 1;
+        int qm1 = 0;
 
         for (i = 0; i < term_num; i++)
         {

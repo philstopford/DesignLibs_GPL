@@ -82,11 +82,11 @@ public static class Lens
         double ay = center[1] + r * 0.5 * (Math.Sin(theta1) + Math.Sin(theta2));
 
         double bx = center[0] + r * Math.Cos(0.5 * (theta1 + theta2));
-        double @by = center[1] + r * Math.Sin(0.5 * (theta1 + theta2));
+        double by = center[1] + r * Math.Sin(0.5 * (theta1 + theta2));
         //
         //  Find the length of the line between A and B.
         //
-        double s_length = Math.Sqrt(Math.Pow(ax - bx, 2) + Math.Pow(ay - @by, 2));
+        double s_length = Math.Sqrt(Math.Pow(ax - bx, 2) + Math.Pow(ay - by, 2));
 
         switch (s_length)
         {
@@ -105,7 +105,7 @@ public static class Lens
         //
         //  Determine the unit vector in the T direction.
         //
-        double tdirx = (ay - @by) / s_length;
+        double tdirx = (ay - by) / s_length;
         double tdiry = (bx - ax) / s_length;
 
         quad = 0.0;
@@ -120,7 +120,7 @@ public static class Lens
                          + (1.0 + xtab[i]) * bx)
                         / 2.0;
             double sy = ((1.0 - xtab[i]) * ay
-                         + (1.0 + xtab[i]) * @by)
+                         + (1.0 + xtab[i]) * by)
                         / 2.0;
             //
             //  Determine the length of the line in the T direction, from the

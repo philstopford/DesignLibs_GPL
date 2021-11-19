@@ -160,7 +160,7 @@ public class GCCellRefArray : GCElement
 
     private void pMoveSelect(GeoLibPoint p)
     {
-        switch (@select)
+        switch (select)
         {
             case true:
                 point.Offset(p);

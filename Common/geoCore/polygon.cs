@@ -130,7 +130,7 @@ public class GCPolygon : GCElement
 
     private void pMapSelect(GCStrans m)
     {
-        switch (@select)
+        switch (select)
         {
             case true:
                 m.matrix.TransformPoints(pointarray);
@@ -181,7 +181,7 @@ public class GCPolygon : GCElement
 
     private void pMoveSelect(GeoLibPoint pos)
     {
-        switch (@select)
+        switch (select)
         {
             case true:
             {

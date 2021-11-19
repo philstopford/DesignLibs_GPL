@@ -260,7 +260,7 @@ public static partial class FeketeRule
                 Console.WriteLine("");
                 Console.WriteLine("FEKETE_SUBORDER_NUM - Fatal error!");
                 Console.WriteLine("  Illegal RULE = " + rule + "");
-                return 1;
+                break;
         }
 
         return suborder_num;

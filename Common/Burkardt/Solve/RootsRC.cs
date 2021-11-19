@@ -57,13 +57,8 @@ public static class RootsRC
         double damp;
         int i;
         int j;
-        int jsma;
-        int jsus;
-        int lda;
-        double sump;
-        double t;
 
-        lda = 2 * n + 2;
+        int lda = 2 * n + 2;
 
         ferr = 0.0;
         for (i = 0; i < n; i++)
@@ -71,7 +66,7 @@ public static class RootsRC
             ferr += Math.Abs(fx[i]);
         }
 
-        switch (q[2 * n + 1 + 0 * lda])
+        switch (q[2 * n + 1])
         {
             //
             //  Initialization if Q(2*N+1,1) = 0.0.
@@ -117,7 +112,7 @@ public static class RootsRC
             }
             default:
             {
-                jsus = 1;
+                int jsus = 1;
                 for (i = 2; i <= n + 1; i++)
                 {
                     if (2 * n <= q[2 * n + 1 + (i - 1) * lda])
@@ -145,7 +140,7 @@ public static class RootsRC
 
                 q[2 * n + (jsus - 1) * lda] = ferr;
                 q[2 * n + 1 + (jsus - 1) * lda] = 0;
-                jsma = 1;
+                int jsma = 1;
                 damp = 0.0;
 
                 for (j = 1; j <= n + 1; j++)
@@ -165,9 +160,7 @@ public static class RootsRC
                 {
                     for (i = 1; i <= 2 * n + 2; i++)
                     {
-                        t = q[i - 1 + (jsma - 1) * lda];
-                        q[i - 1 + (jsma - 1) * lda] = q[i - 1 + n * lda];
-                        q[i - 1 + n * lda] = t;
+                        (q[i - 1 + (jsma - 1) * lda], q[i - 1 + n * lda]) = (q[i - 1 + n * lda], q[i - 1 + (jsma - 1) * lda]);
                     }
                 }
 
@@ -186,7 +179,7 @@ public static class RootsRC
         //
         typeMethods.r8mat_fs(lda, n, q, ref q, xIndex: +(n + 1) * lda);
 
-        sump = 0.0;
+        double sump = 0.0;
         for (i = 1; i <= n; i++)
         {
             sump += q[i - 1 + (n + 1) * lda];

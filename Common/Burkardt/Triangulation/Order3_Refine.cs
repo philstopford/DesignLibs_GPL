@@ -306,12 +306,14 @@ public static partial class Refine
         {
             int n1 = edge_data[0 + edge * 5];
             int n2 = edge_data[1 + edge * 5];
-            if (n1 != n1_old || n2 != n2_old)
+            if (n1 == n1_old && n2 == n2_old)
             {
-                node_num2 += 1;
-                n1_old = n1;
-                n2_old = n2;
+                continue;
             }
+
+            node_num2 += 1;
+            n1_old = n1;
+            n2_old = n2;
         }
 
         triangle_num2 = 4 * triangle_num1;

@@ -63,16 +63,13 @@ public static class Grid_ClenshawCurtis
         //    Output, double GRID_POINTS[DIM_NUM*POINT_NUM], the points.
         //
     {
-        int dim;
-        int[] grid_index;
-        int order_max;
         int point;
         //
         //  Determine the index vector, relative to the full product grid,
         //  that identifies the points in the sparse grid.
         //
-        grid_index = sparse_grid_cc_index(dim_num, level_max, point_num);
-        order_max = level_max switch
+        int[] grid_index = sparse_grid_cc_index(dim_num, level_max, point_num);
+        int order_max = level_max switch
         {
             //
             //  Compute the physical coordinates of the abscissas.
@@ -83,6 +80,7 @@ public static class Grid_ClenshawCurtis
 
         for (point = 0; point < point_num; point++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 grid_point[dim + point * dim_num] =
@@ -157,28 +155,16 @@ public static class Grid_ClenshawCurtis
         //    sparse grid of level LEVEL_MAX.
         //
     {
-        int dim;
-        int[] grid_index;
-        int[] grid_index2;
-        int[] grid_level;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
 
-        grid_index = new int[dim_num * point_num];
+        int[] grid_index = new int[dim_num * point_num];
         //
         //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = 0; level <= level_max; level++)
         {
@@ -186,9 +172,9 @@ public static class Grid_ClenshawCurtis
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -200,11 +186,11 @@ public static class Grid_ClenshawCurtis
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index0(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index0(dim_num, order_1d, order_nd);
                 //
                 //  Adjust these grid indices to reflect LEVEL_MAX.
                 //
@@ -213,15 +199,17 @@ public static class Grid_ClenshawCurtis
                 //
                 //  Determine the first level of appearance of each of the points.
                 //
-                grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
+                int[] grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
                     grid_index2);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     if (grid_level[point] == level)
                     {
+                        int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
                             grid_index[dim + point_num2 * dim_num] =
@@ -292,17 +280,8 @@ public static class Grid_ClenshawCurtis
         //    Output, int SPARSE_GRID_CC_SIZE, the number of points in the grid.
         //
     {
-        int[] grid_index;
-        int[] grid_level;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
         int point_num;
-        int t;
         switch (level_max)
         {
             //
@@ -318,17 +297,17 @@ public static class Grid_ClenshawCurtis
         //
         point_num = 0;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = 0; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -340,11 +319,11 @@ public static class Grid_ClenshawCurtis
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index = Multigrid.multigrid_index0(dim_num, order_1d, order_nd);
+                int[] grid_index = Multigrid.multigrid_index0(dim_num, order_1d, order_nd);
                 //
                 //  Adjust these grid indices to reflect LEVEL_MAX.
                 //
@@ -353,11 +332,12 @@ public static class Grid_ClenshawCurtis
                 //
                 //  Determine the first level of appearance of each of the points.
                 //
-                grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
+                int[] grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
                     grid_index);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     if (grid_level[point] == level)
@@ -422,22 +402,8 @@ public static class Grid_ClenshawCurtis
         //    associated with the sparse grid points.
         //
     {
-        bool all_equal;
-        int coeff;
-        int dim;
-        bool found;
-        int[] grid_index2;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int order_nd;
-        int[] order_1d;
         int point;
-        int point2;
-        int t;
 
         switch (level_max)
         {
@@ -452,15 +418,15 @@ public static class Grid_ClenshawCurtis
             }
         }
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (point = 0; point < point_num; point++)
         {
             grid_weight[point] = 0.0;
         }
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -468,9 +434,9 @@ public static class Grid_ClenshawCurtis
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -482,15 +448,15 @@ public static class Grid_ClenshawCurtis
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Generate the indices of the points corresponding to the grid.
                 //
-                grid_index2 = Multigrid.multigrid_index0(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index0(dim_num, order_1d, order_nd);
                 //
                 //  Compute the weights for this grid.
                 //
-                grid_weight2 = ClenshawCurtis.product_weights_cc(dim_num, order_1d, order_nd);
+                double[] grid_weight2 = ClenshawCurtis.product_weights_cc(dim_num, order_1d, order_nd);
                 //
                 //  Adjust the grid indices to reflect LEVEL_MAX.
                 //
@@ -499,16 +465,18 @@ public static class Grid_ClenshawCurtis
                 //
                 //  Now determine the coefficient.
                 //
-                coeff = typeMethods.i4_mop(level_max - level)
-                        * typeMethods.i4_choose(dim_num - 1, level_max - level);
+                int coeff = typeMethods.i4_mop(level_max - level)
+                            * typeMethods.i4_choose(dim_num - 1, level_max - level);
 
+                int point2;
                 for (point2 = 0; point2 < order_nd; point2++)
                 {
-                    found = false;
+                    bool found = false;
 
                     for (point = 0; point < point_num; point++)
                     {
-                        all_equal = true;
+                        bool all_equal = true;
+                        int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
                             if (grid_index2[dim + point2 * dim_num] !=
@@ -597,18 +565,9 @@ public static class Grid_ClenshawCurtis
         //    Output, int SPARSE_GRID_CC_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int l;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
-        int o;
-        int p;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -625,17 +584,16 @@ public static class Grid_ClenshawCurtis
         //
         //  Construct the vector that counts the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 1;
         new_1d[1] = 2;
 
-        p = 3;
-        o = 3;
+        int o = 3;
 
         for (l = 2; l <= level_max; l++)
         {
-            p = 2 * l + 1;
+            int p = 2 * l + 1;
             if (o < p)
             {
                 new_1d[l] = o - 1;
@@ -651,21 +609,22 @@ public static class Grid_ClenshawCurtis
         //  Count the number of points by counting the number of new points 
         //  associated with each level vector.
         //
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
         point_num = 0;
 
         for (level = 0; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= new_1d[level_1d[dim]];
@@ -735,17 +694,9 @@ public static class Grid_ClenshawCurtis
         //    Output, int SPARSE_GRID_CFN_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
-        int j;
         int l;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -762,12 +713,12 @@ public static class Grid_ClenshawCurtis
         //
         //  Construct the vector that counts the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 1;
         new_1d[1] = 2;
 
-        j = 1;
+        int j = 1;
         for (l = 2; l <= level_max; l++)
         {
             j *= 2;
@@ -778,21 +729,22 @@ public static class Grid_ClenshawCurtis
         //  Count the number of points by counting the number of new points 
         //  associated with each level vector.
         //
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
         point_num = 0;
 
         for (level = 0; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= new_1d[level_1d[dim]];

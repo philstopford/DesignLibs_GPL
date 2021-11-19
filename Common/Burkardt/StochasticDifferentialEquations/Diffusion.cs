@@ -687,7 +687,7 @@ public static class Diffusion
         int i;
         int j;
 
-        double d = 1.0;
+        const double d = 1.0;
         double lp = Math.Max(d, 2.0 * cl);
         double l = cl / lp;
 

@@ -236,7 +236,7 @@ public static partial class Matrix
                 {
                     b[k - 1] /= a[k - 1 + (k - 1) * lda];
                     t = -b[k - 1];
-                    BLAS1D.daxpy(k - 1, t, a, 1, ref b, 1,  + 0 + (k - 1) * lda, 0);
+                    BLAS1D.daxpy(k - 1, t, a, 1, ref b, 1,  + 0 + (k - 1) * lda);
                 }
 
                 break;
@@ -246,7 +246,7 @@ public static partial class Matrix
             {
                 for (k = 1; k <= n; k++)
                 {
-                    t = BLAS1D.ddot(k - 1, a, 1, b, 1,  + 0 + (k - 1) * lda, 0);
+                    t = BLAS1D.ddot(k - 1, a, 1, b, 1,  + 0 + (k - 1) * lda);
                     b[k - 1] = (b[k - 1] - t) / a[k - 1 + (k - 1) * lda];
                 }
 

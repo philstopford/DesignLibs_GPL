@@ -57,36 +57,24 @@ public static class Grid
         //    sparse grid of level LEVEL_MAX.
         //
     {
-        int dim;
-        int[] grid_index;
-        int[] grid_index2;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
-        bool test;
         //
         //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
         //
-        grid_index = new int[dim_num * point_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_index = new int[dim_num * point_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
-        point_num2 = 0;
+        int point_num2 = 0;
 
         for (level = 0; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -98,19 +86,21 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
                 //
                 //  Only keep those points which first appear on this level.
                 //  If you keep a point, it is necessary to rescale each of its components
                 //  so that we save the coordinates as they apply on the final grid.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    test = true;
+                    bool test = true;
+                    int dim;
                     for (dim = 0; dim < dim_num; dim++)
                     {
                         test = (grid_index2[dim + point * dim_num] % 2) switch
@@ -289,25 +279,14 @@ public static class Grid
         //    sparse grid of level LEVEL_MAX.
         //
     {
-        int dim;
-        int[] grid_index2;
-        int[] grid_level;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
         //
         //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = 0; level <= level_max; level++)
         {
@@ -315,9 +294,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -329,11 +308,11 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_cfn(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_cfn(dim_num, order_1d, order_nd);
                 //
                 //  Adjust these grid indices to reflect LEVEL_MAX.
                 //
@@ -342,33 +321,37 @@ public static class Grid
                 //
                 //  Determine the first level of appearance of each of the points.
                 //
-                grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
+                int[] grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
                     grid_index2);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    if (grid_level[point] == level)
+                    if (grid_level[point] != level)
                     {
-                        if (point_num <= point_num2)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("LEVELS_INDEX_CFN - Fatal error!");
-                            Console.WriteLine("  Exceeding maximum point index POINT_NUM = "
-                                              + point_num + "");
-                            return;
-                        }
-
-                        for (dim = 0; dim < dim_num; dim++)
-                        {
-                            grid_base[dim + point_num2 * dim_num] = order_1d[dim];
-                            grid_index[dim + point_num2 * dim_num] =
-                                grid_index2[dim + point * dim_num];
-                        }
-
-                        point_num2 += 1;
+                        continue;
                     }
+
+                    if (point_num <= point_num2)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("LEVELS_INDEX_CFN - Fatal error!");
+                        Console.WriteLine("  Exceeding maximum point index POINT_NUM = "
+                                          + point_num + "");
+                        return;
+                    }
+
+                    int dim;
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        grid_base[dim + point_num2 * dim_num] = order_1d[dim];
+                        grid_index[dim + point_num2 * dim_num] =
+                            grid_index2[dim + point * dim_num];
+                    }
+
+                    point_num2 += 1;
                 }
 
                 if (!more)
@@ -378,12 +361,14 @@ public static class Grid
             }
         }
 
-        if (point_num2 < point_num)
+        if (point_num2 >= point_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("LEVELS_INDEX_CFN - Fatal error!");
-            Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("LEVELS_INDEX_CFN - Fatal error!");
+        Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
 
     }
 
@@ -446,34 +431,23 @@ public static class Grid
         //    the orders of the rules associated with each point and dimension.
         //
     {
-        int dim;
-        int[] grid_index2;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
-        bool test;
         //
         //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
         //
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
-        point_num2 = 0;
+        int point_num2 = 0;
 
         for (level = 0; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -485,19 +459,21 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_ofn(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_ofn(dim_num, order_1d, order_nd);
                 //
                 //  Only keep those points which first appear on this level.
                 //  If you keep a point, it is necessary to rescale each of its components
                 //  so that we save the coordinates as they apply on the final grid.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    test = true;
+                    bool test = true;
+                    int dim;
                     for (dim = 0; dim < dim_num; dim++)
                     {
                         test = (grid_index2[dim + point * dim_num] % 2) switch
@@ -539,12 +515,14 @@ public static class Grid
             }
         }
 
-        if (point_num2 < point_num)
+        if (point_num2 >= point_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("LEVELS_INDEX_OFN - Fatal error!");
-            Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("LEVELS_INDEX_OFN - Fatal error!");
+        Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
 
     }
 
@@ -607,29 +585,17 @@ public static class Grid
         //    the orders of the rules associated with each point and dimension.
         //
     {
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -637,9 +603,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -649,6 +615,7 @@ public static class Grid
                 //
                 LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = order_1d[dim];
@@ -657,14 +624,15 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_onn(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_onn(dim_num, order_1d, order_nd);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     if (point_num <= point_num2)
@@ -692,12 +660,14 @@ public static class Grid
             }
         }
 
-        if (point_num2 < point_num)
+        if (point_num2 >= point_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("LEVELS_INDEX_ONN - Fatal error!");
-            Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("LEVELS_INDEX_ONN - Fatal error!");
+        Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
 
     }
 
@@ -760,34 +730,21 @@ public static class Grid
         //    the orders of the rules associated with each point and dimension.
         //
     {
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        int[] grid_level;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = dim_num switch
+        int level_min = dim_num switch
         {
             1 => level_max,
             _ => 0
         };
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -795,9 +752,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -807,6 +764,7 @@ public static class Grid
                 //
                 LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = (order_1d[dim] - 1) / 2;
@@ -815,11 +773,11 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_own(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_own(dim_num, order_1d, order_nd);
                 //
                 //  Determine the first level of appearance of each of the points.
                 //  This allows us to flag certain points as being repeats of points
@@ -827,11 +785,12 @@ public static class Grid
                 //
                 //  This is SLIGHTLY tricky.
                 //
-                grid_level = LevelToOrder.index_level_own(level, level_max, dim_num, order_nd,
+                int[] grid_level = LevelToOrder.index_level_own(level, level_max, dim_num, order_nd,
                     grid_index2, grid_base2);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     if (grid_level[point] == level)
@@ -863,12 +822,14 @@ public static class Grid
             }
         }
 
-        if (point_num2 < point_num)
+        if (point_num2 >= point_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("LEVELS_INDEX_OWN - Fatal error!");
-            Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("LEVELS_INDEX_OWN - Fatal error!");
+        Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
 
     }
 
@@ -998,17 +959,8 @@ public static class Grid
         //    Output, int LEVELS_INDEX_SIZE_CFN, the number of points in the grid.
         //
     {
-        int[] grid_index;
-        int[] grid_level;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
         int point_num;
-        int t;
         switch (level_max)
         {
             //
@@ -1024,17 +976,17 @@ public static class Grid
         //
         point_num = 0;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = 0; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1046,11 +998,11 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index = Multigrid.multigrid_index_cfn(dim_num, order_1d, order_nd);
+                int[] grid_index = Multigrid.multigrid_index_cfn(dim_num, order_1d, order_nd);
                 //
                 //  Adjust these grid indices to reflect LEVEL_MAX.
                 //
@@ -1059,11 +1011,12 @@ public static class Grid
                 //
                 //  Determine the first level of appearance of each of the points.
                 //
-                grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
+                int[] grid_level = Abscissa.abscissa_level_closed_nd(level_max, dim_num, order_nd,
                     grid_index);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     if (grid_level[point] == level)
@@ -1129,14 +1082,8 @@ public static class Grid
         //    Output, int LEVELS_INDEX_SIZE_ONN, the number of points in the grid.
         //
     {
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
         int point_num;
-        int t;
         switch (level_max)
         {
             //
@@ -1152,19 +1099,19 @@ public static class Grid
         //
         point_num = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1240,15 +1187,9 @@ public static class Grid
         //    Output, int LEVELS_INDEX_SIZE_OWN, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int level;
-        int[] level_1d;
         int level_min;
-        bool more;
-        int[] order_1d;
         int point_num;
-        int t;
         switch (level_max)
         {
             //
@@ -1280,17 +1221,17 @@ public static class Grid
                 break;
         }
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1300,6 +1241,7 @@ public static class Grid
                 //
                 LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     switch (order_1d[dim])
@@ -1378,17 +1320,9 @@ public static class Grid
         //    Output, int SPARSE_GRID_CC_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
-        int j;
         int l;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -1405,12 +1339,12 @@ public static class Grid
         //
         //  Construct the vector that counts the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 1;
         new_1d[1] = 2;
 
-        j = 1;
+        int j = 1;
         for (l = 2; l <= level_max; l++)
         {
             j *= 2;
@@ -1421,21 +1355,22 @@ public static class Grid
         //  Count the number of points by counting the number of new points 
         //  associated with each level vector.
         //
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
         point_num = 0;
 
         for (level = 0; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= new_1d[level_1d[dim]];
@@ -1607,10 +1542,6 @@ public static class Grid
         //    Output, double GRID_POINTS[DIM_NUM*POINT_NUM], the points.
         //
     {
-        int dim;
-        int[] grid_base;
-        int[] grid_index;
-        int order_max;
         int point;
 
         if (rule != 1)
@@ -1625,11 +1556,11 @@ public static class Grid
         //  Determine the index vector, relative to the full product grid,
         //  that identifies the points in the sparse grid.
         //
-        grid_index = new int[dim_num * point_num];
-        grid_base = new int[dim_num * point_num];
+        int[] grid_index = new int[dim_num * point_num];
+        int[] grid_base = new int[dim_num * point_num];
 
         levels_index_cfn(dim_num, level_max, point_num, ref grid_index, ref grid_base);
-        order_max = level_max switch
+        int order_max = level_max switch
         {
             //
             //  Compute the physical coordinates of the abscissas.
@@ -1640,6 +1571,7 @@ public static class Grid
 
         for (point = 0; point < point_num; point++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 grid_point[dim + point * dim_num] = rule switch
@@ -1709,18 +1641,9 @@ public static class Grid
         //    Output, int SPARSE_GRID_F2S_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int l;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
-        int o;
-        int p;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -1737,16 +1660,15 @@ public static class Grid
         //
         //  Construct the vector that counts the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 1;
 
-        p = 1;
-        o = 1;
+        int o = 1;
 
         for (l = 1; l <= level_max; l++)
         {
-            p = 2 * l + 1;
+            int p = 2 * l + 1;
             if (o < p)
             {
                 new_1d[l] = o + 1;
@@ -1762,21 +1684,22 @@ public static class Grid
         //  Count the number of points by counting the number of new points 
         //  associated with each level vector.
         //
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
         point_num = 0;
 
         for (level = 0; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= new_1d[level_1d[dim]];
@@ -1852,18 +1775,8 @@ public static class Grid
         //    Output, int SPARSE_GRID_CC_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
-        int o;
-        int[] order_1d;
-        int p;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -1880,12 +1793,12 @@ public static class Grid
         //
         //  Count the points in the 1D rule.
         //
-        order_1d = new int[level_max + 1];
+        int[] order_1d = new int[level_max + 1];
         order_1d[0] = 1;
         for (level = 1; level <= level_max; level++)
         {
-            p = 5;
-            o = 3;
+            int p = 5;
+            int o = 3;
             while (p < 2 * level + 1)
             {
                 p = 2 * p + 1;
@@ -1898,7 +1811,7 @@ public static class Grid
         //
         //  Count the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 1;
         for (level = 1; level <= level_max; level++)
@@ -1910,21 +1823,22 @@ public static class Grid
         //  Count the number of points by counting the number of new points 
         //  associated with each level vector.
         //
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
         point_num = 0;
 
         for (level = 0; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= new_1d[level_1d[dim]];
@@ -2008,10 +1922,6 @@ public static class Grid
         //    Output, double GRID_POINT[DIM_NUM*POINT_NUM], the points. 
         // 
     {
-        int dim;
-        int[] grid_base;
-        int[] grid_index;
-        int order_max;
         int point;
 
         switch (rule)
@@ -2028,17 +1938,18 @@ public static class Grid
         //  Determine the index vector, relative to the full product grid, 
         //  that identifies the points in the sparse grid. 
         //
-        grid_base = new int[dim_num * point_num];
-        grid_index = new int[dim_num * point_num];
+        int[] grid_base = new int[dim_num * point_num];
+        int[] grid_index = new int[dim_num * point_num];
 
         levels_index_ofn(dim_num, level_max, point_num, ref grid_index, ref grid_base);
         // 
         //  Compute the physical coordinates of the abscissas. 
         //
-        order_max = (int) Math.Pow(2, level_max + 1) - 1;
+        int order_max = (int) Math.Pow(2, level_max + 1) - 1;
 
         for (point = 0; point < point_num; point++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 grid_point[dim + point * dim_num] = rule switch
@@ -2111,16 +2022,9 @@ public static class Grid
         //    Output, int SPARSE_GRID_CC_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int l;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -2137,7 +2041,7 @@ public static class Grid
         //
         //  Construct the vector that counts the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 1;
         for (l = 1; l <= level_max; l++)
@@ -2149,21 +2053,22 @@ public static class Grid
         //  Count the number of points by counting the number of new points 
         //  associated with each level vector.
         //
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
         point_num = 0;
 
         for (level = 0; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= new_1d[level_1d[dim]];
@@ -2246,21 +2151,8 @@ public static class Grid
         //    Output, double GRID_POINT[DIM_NUM*POINT_NUM], the points.
         //
     {
-        double coeff;
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
         int point;
-        int point_num2;
-        int t;
 
         for (point = 0; point < point_num; point++)
         {
@@ -2270,13 +2162,13 @@ public static class Grid
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -2284,9 +2176,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -2297,6 +2189,7 @@ public static class Grid
                 //
                 LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = order_1d[dim];
@@ -2305,21 +2198,21 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Compute the weights for this product grid.
                 //
-                grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
+                double[] grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
                 //
                 //  Now determine the coefficient of the weight.
                 //
-                coeff = typeMethods.r8_mop(level_max - level)
-                        * typeMethods.r8_choose(dim_num - 1, level_max - level);
+                double coeff = typeMethods.r8_mop(level_max - level)
+                               * typeMethods.r8_choose(dim_num - 1, level_max - level);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //  The grid indices will be between -M to +M, where 2*M + 1 = ORDER_1D(DIM).
                 //
-                grid_index2 = Multigrid.multigrid_index_onn(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_onn(dim_num, order_1d, order_nd);
 
                 for (point = 0; point < order_nd; point++)
                 {
@@ -2348,12 +2241,14 @@ public static class Grid
             }
         }
 
-        if (point_num2 < point_num)
+        if (point_num2 >= point_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("SPARSE_GRID_ONN - Fatal error!");
-            Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("SPARSE_GRID_ONN - Fatal error!");
+        Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
 
     }
 
@@ -2422,26 +2317,9 @@ public static class Grid
         //    Output, double GRID_POINT[DIM_NUM*POINT_NUM], the points.
         //
     {
-        double coeff;
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        int[] grid_level;
-        double[] grid_point_temp;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        int level_min2;
-        bool more;
-        int[] order_1d;
-        int order_nd;
         int point;
-        int point_num2;
-        int point2;
         int point3 = 0;
-        int t;
 
         for (point = 0; point < point_num; point++)
         {
@@ -2451,19 +2329,19 @@ public static class Grid
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        level_min2 = dim_num switch
+        int level_min2 = dim_num switch
         {
             1 => level_min,
             _ => 0
         };
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min2; level <= level_max; level++)
         {
@@ -2471,9 +2349,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -2485,6 +2363,7 @@ public static class Grid
                 //
                 LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = (order_1d[dim] - 1) / 2;
@@ -2493,21 +2372,21 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Compute the weights for this product grid.
                 //
-                grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
+                double[] grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
                 //
                 //  Now determine the coefficient of the weight.
                 //
-                coeff = typeMethods.r8_mop(level_max - level)
-                        * typeMethods.r8_choose(dim_num - 1, level_max - level);
+                double coeff = typeMethods.r8_mop(level_max - level)
+                               * typeMethods.r8_choose(dim_num - 1, level_max - level);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //  The grid indices will be between -M to +M, where 2*M + 1 = ORDER_1D(DIM).
                 //
-                grid_index2 = Multigrid.multigrid_index_own(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_own(dim_num, order_1d, order_nd);
                 //
                 //  Determine the first level of appearance of each of the points.
                 //  This allows us to flag certain points as being repeats of points
@@ -2515,7 +2394,7 @@ public static class Grid
                 //
                 //  This is SLIGHTLY tricky.
                 //
-                grid_level = LevelToOrder.index_level_own(level, level_max, dim_num, order_nd,
+                int[] grid_level = LevelToOrder.index_level_own(level, level_max, dim_num, order_nd,
                     grid_index2, grid_base2);
                 //
                 //  Only keep those points which first appear on this level.
@@ -2569,7 +2448,7 @@ public static class Grid
                     {
                         if (level_min <= level)
                         {
-                            grid_point_temp = new double[dim_num];
+                            double[] grid_point_temp = new double[dim_num];
 
                             switch (rule)
                             {
@@ -2588,6 +2467,7 @@ public static class Grid
                                     return;
                             }
 
+                            int point2;
                             for (point2 = 0; point2 < point_num2; point2++)
                             {
                                 point3 = point2;
@@ -2692,17 +2572,9 @@ public static class Grid
         //    Output, int SPARSE_GRID_ONN_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int l;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
         int point_num;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -2719,30 +2591,31 @@ public static class Grid
         //
         //  Construct the 1D order vector.
         //
-        order_1d = new int[level_max + 1];
+        int[] order_1d = new int[level_max + 1];
 
         for (l = 0; l <= level_max; l++)
         {
             order_1d[l] = 2 * l + 1;
         }
 
-        level_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         point_num = 0;
 
         for (level = level_min; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
-                v = 1;
+                int v = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     v *= order_1d[level_1d[dim]];
@@ -2830,19 +2703,9 @@ public static class Grid
         //    Output, int SPARSE_GRID_OWN_SIZE, the number of points in the grid.
         //
     {
-        int dim;
         int dim_num2;
-        int h;
         int l;
-        int level;
-        int level_min;
-        int[] level_1d;
-        bool more;
-        int[] new_1d;
         int point_num;
-        int point_num2;
-        int t;
-        int v;
         switch (level_max)
         {
             //
@@ -2859,7 +2722,7 @@ public static class Grid
         //
         //  Construct the vector that counts the new points in the 1D rule.
         //
-        new_1d = new int[level_max + 1];
+        int[] new_1d = new int[level_max + 1];
 
         new_1d[0] = 0;
         for (l = 1; l <= level_max; l++)
@@ -2879,6 +2742,7 @@ public static class Grid
 
         for (dim_num2 = dim_num; 0 <= dim_num2; dim_num2--)
         {
+            int level_min;
             if (dim_num2 == dim_num)
             {
                 level_min = Math.Max(0, level_max - dim_num + 1);
@@ -2888,6 +2752,7 @@ public static class Grid
                 level_min = 0;
             }
 
+            int point_num2;
             switch (dim_num2)
             {
                 case 0:
@@ -2895,21 +2760,23 @@ public static class Grid
                     break;
                 default:
                 {
-                    level_1d = new int[dim_num2];
+                    int[] level_1d = new int[dim_num2];
 
                     point_num2 = 0;
 
+                    int level;
                     for (level = level_min; level <= level_max; level++)
                     {
-                        more = false;
-                        h = 0;
-                        t = 0;
+                        bool more = false;
+                        int h = 0;
+                        int t = 0;
 
                         for (;;)
                         {
                             Comp.comp_next(level, dim_num2, ref level_1d, ref more, ref h, ref t);
 
-                            v = 1;
+                            int v = 1;
+                            int dim;
                             for (dim = 0; dim < dim_num2; dim++)
                             {
                                 v *= new_1d[level_1d[dim]];
@@ -2989,21 +2856,8 @@ public static class Grid
         //    associated with the sparse grid points.
         //
     {
-        bool all_equal;
-        double coeff;
-        int dim;
-        int[] grid_index2;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int order_nd;
-        int[] order_1d;
         int point;
-        int point2;
-        int t;
 
         switch (level_max)
         {
@@ -3018,15 +2872,15 @@ public static class Grid
             }
         }
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (point = 0; point < point_num; point++)
         {
             grid_weight[point] = 0.0;
         }
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -3034,9 +2888,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -3048,15 +2902,15 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Generate the indices of the points corresponding to the grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_cfn(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_cfn(dim_num, order_1d, order_nd);
                 //
                 //  Compute the weights for this grid.
                 //
-                grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
+                double[] grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
                 //
                 //  Adjust the grid indices to reflect LEVEL_MAX.
                 //
@@ -3065,14 +2919,16 @@ public static class Grid
                 //
                 //  Now determine the coefficient.
                 //
-                coeff = typeMethods.r8_mop(level_max - level)
-                        * typeMethods.r8_choose(dim_num - 1, level_max - level);
+                double coeff = typeMethods.r8_mop(level_max - level)
+                               * typeMethods.r8_choose(dim_num - 1, level_max - level);
 
+                int point2;
                 for (point2 = 0; point2 < order_nd; point2++)
                 {
                     for (point = 0; point < point_num; point++)
                     {
-                        all_equal = true;
+                        bool all_equal = true;
+                        int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
                             if (grid_index2[dim + point2 * dim_num] !=
@@ -3155,21 +3011,8 @@ public static class Grid
         //    associated with the sparse grid points.
         //
     {
-        bool all_equal;
-        double coeff;
-        int dim;
-        int[] grid_index2;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int order_nd;
-        int[] order_1d;
         int point;
-        int point2;
-        int t;
 
         switch (level_max)
         {
@@ -3184,15 +3027,15 @@ public static class Grid
             }
         }
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (point = 0; point < point_num; point++)
         {
             grid_weight[point] = 0.0;
         }
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -3200,9 +3043,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -3214,15 +3057,15 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Generate the indices of the points corresponding to the grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_ofn(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_ofn(dim_num, order_1d, order_nd);
                 //
                 //  Compute the weights for this grid.
                 //
-                grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
+                double[] grid_weight2 = Product.product_weights(dim_num, order_1d, order_nd, rule);
                 //
                 //  Adjust the grid indices to reflect LEVEL_MAX.
                 //
@@ -3231,14 +3074,16 @@ public static class Grid
                 //
                 //  Now determine the coefficient.
                 //
-                coeff = typeMethods.r8_mop(level_max - level)
-                        * typeMethods.r8_choose(dim_num - 1, level_max - level);
+                double coeff = typeMethods.r8_mop(level_max - level)
+                               * typeMethods.r8_choose(dim_num - 1, level_max - level);
 
+                int point2;
                 for (point2 = 0; point2 < order_nd; point2++)
                 {
                     for (point = 0; point < point_num; point++)
                     {
-                        all_equal = true;
+                        bool all_equal = true;
+                        int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
                             if (grid_index2[dim + point2 * dim_num] !=
@@ -3312,36 +3157,24 @@ public static class Grid
         //    sparse grid of level LEVEL_MAX.
         //
     {
-        int dim;
-        int[] grid_index;
-        int[] grid_index2;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
-        bool test;
         //
         //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
         //
-        grid_index = new int[dim_num * point_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_index = new int[dim_num * point_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
-        point_num2 = 0;
+        int point_num2 = 0;
 
         for (level = 0; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -3353,19 +3186,21 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
                 //
                 //  Only keep those points which first appear on this level.
                 //  If you keep a point, it is necessary to rescale each of its components
                 //  so that we save the coordinates as they apply on the final grid.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    test = true;
+                    bool test = true;
+                    int dim;
                     for (dim = 0; dim < dim_num; dim++)
                     {
                         test = (grid_index2[dim + point * dim_num] % 2) switch
@@ -3454,25 +3289,10 @@ public static class Grid
         //    associated with the sparse grid points.
         //
     {
-        bool all_equal;
-        int coeff;
-        int dim;
-        int[] grid_index2;
-        double[] grid_weight;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        int match;
-        bool more;
-        int order_nd;
-        int[] order_1d;
         int point;
-        int point2;
-        int t;
 
-        grid_weight = new double[point_num];
+        double[] grid_weight = new double[point_num];
 
         switch (level_max)
         {
@@ -3492,10 +3312,10 @@ public static class Grid
             grid_weight[point] = 0.0;
         }
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -3503,9 +3323,9 @@ public static class Grid
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -3517,15 +3337,15 @@ public static class Grid
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Generate the indices of the points corresponding to the grid.
                 //
-                grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
                 //
                 //  Compute the weights for this grid.
                 //
-                grid_weight2 = Product.product_weights_open(dim_num, order_1d, order_nd, rule);
+                double[] grid_weight2 = Product.product_weights_open(dim_num, order_1d, order_nd, rule);
                 //
                 //  Adjust the grid indices to reflect LEVEL_MAX.
                 //
@@ -3534,16 +3354,18 @@ public static class Grid
                 //
                 //  Now determine the coefficient.
                 //
-                coeff = (int) Math.Pow(-1, level_max - level)
-                        * typeMethods.i4_choose(dim_num - 1, level_max - level);
+                int coeff = (int) Math.Pow(-1, level_max - level)
+                            * typeMethods.i4_choose(dim_num - 1, level_max - level);
 
+                int point2;
                 for (point2 = 0; point2 < order_nd; point2++)
                 {
-                    match = -1;
+                    int match = -1;
 
+                    int dim;
                     for (point = 0; point < point_num; point++)
                     {
-                        all_equal = true;
+                        bool all_equal = true;
                         for (dim = 0; dim < dim_num; dim++)
                         {
                             if (grid_index2[dim + point2 * dim_num]

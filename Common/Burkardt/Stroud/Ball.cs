@@ -423,7 +423,7 @@ public static class Ball
         //
         LegendreQuadrature.legendre_set(order, ref xtab3, ref weight3);
 
-        double w = 3.0 / 16.0;
+        const double w = 3.0 / 16.0;
 
         double quad = 0.0;
 
@@ -653,7 +653,7 @@ public static class Ball
 
         LegendreQuadrature.legendre_set(order2, ref xtab2, ref weight2);
 
-        double w = 3.0 / 32.0;
+        const double w = 3.0 / 32.0;
 
         double quad = 0.0;
 

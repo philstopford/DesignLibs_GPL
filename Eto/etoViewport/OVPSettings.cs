@@ -296,7 +296,7 @@ public class OVPSettings
             tess.AddContour(contour, ContourOrientation.Clockwise); // keep our orientation to allow holes to be handled.
 
             // Triangulate.
-            tess.Tessellate(WindingRule.Positive, ElementType.Polygons, 3); // We don't have any hole polygons here.
+            tess.Tessellate(WindingRule.Positive); // We don't have any hole polygons here.
 
             // Iterate triangles and create output geometry
             for (int i = 0; i < tess.ElementCount; i++)

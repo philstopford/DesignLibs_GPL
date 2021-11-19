@@ -140,28 +140,30 @@ public static class CompleteBinaryTree
             //
             //  Try going in direction UP.
             //
-            if (direction == UP)
+            if (direction != UP)
             {
-                p -= 1;
-                if (1 <= p)
-                {
-                    cout = "           ";
-                    for (i = 0; i < p; i++)
-                    {
-                        cout += b[i];
-                    }
+                continue;
+            }
 
-                    Console.WriteLine(cout);
-                    direction = b[p - 1] switch
-                    {
-                        0 => UPDOWNRIGHT,
-                        _ => direction
-                    };
-                }
-                else
+            p -= 1;
+            if (1 <= p)
+            {
+                cout = "           ";
+                for (i = 0; i < p; i++)
                 {
-                    break;
+                    cout += b[i];
                 }
+
+                Console.WriteLine(cout);
+                direction = b[p - 1] switch
+                {
+                    0 => UPDOWNRIGHT,
+                    _ => direction
+                };
+            }
+            else
+            {
+                break;
             }
         }
     }

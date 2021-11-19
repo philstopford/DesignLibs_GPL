@@ -98,10 +98,8 @@ public static class Abscissa
         //
     {
         int j;
-        int order;
-        int[] test_level;
 
-        test_level = new int[test_num];
+        int[] test_level = new int[test_num];
 
         switch (level_max)
         {
@@ -116,7 +114,7 @@ public static class Abscissa
             }
         }
 
-        order = (int)Math.Pow(2, level_max) + 1;
+        int order = (int)Math.Pow(2, level_max) + 1;
 
         for (j = 0; j < test_num; j++)
         {
@@ -207,10 +205,8 @@ public static class Abscissa
         //
     {
         int j;
-        int order;
-        int[] test_level;
 
-        test_level = new int[test_num];
+        int[] test_level = new int[test_num];
 
         switch (level_max)
         {
@@ -225,7 +221,7 @@ public static class Abscissa
             }
         }
 
-        order = (int)Math.Pow(2, level_max) + 1;
+        int order = (int)Math.Pow(2, level_max) + 1;
 
         for (j = 0; j < test_num; j++)
         {

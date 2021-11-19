@@ -734,11 +734,13 @@ public static class CentroidalVoronoi
                                * ( s[i+js*dim_num] - r[i+jr*dim_num] );
                 }
 
-                if ( jr == 0 || dist_sq < dist_sq_min )
+                if (jr != 0 && !(dist_sq < dist_sq_min))
                 {
-                    dist_sq_min = dist_sq;
-                    nearest[js] = jr;
+                    continue;
                 }
+
+                dist_sq_min = dist_sq;
+                nearest[js] = jr;
             }
         }
     }

@@ -85,12 +85,6 @@ public static class ZeroRC
         //    by the routine on the previous call.
         //
     {
-        double m;
-        double p;
-        double q;
-        double r;
-        double s;
-        double tol;
         switch (status)
         {
             //
@@ -166,8 +160,8 @@ public static class ZeroRC
             data.fc = data.fa;
         }
 
-        tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(data.sb) + t;
-        m = 0.5 * (data.c - data.sb);
+        double tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(data.sb) + t;
+        double m = 0.5 * (data.c - data.sb);
 
         if (Math.Abs(m) <= tol || data.fb == 0.0)
         {
@@ -183,8 +177,10 @@ public static class ZeroRC
         }
         else
         {
-            s = data.fb / data.fa;
+            double s = data.fb / data.fa;
 
+            double p;
+            double q;
             if (Math.Abs(data.sa - data.c) <= double.Epsilon)
             {
                 p = 2.0 * m * s;
@@ -193,7 +189,7 @@ public static class ZeroRC
             else
             {
                 q = data.fa / data.fc;
-                r = data.fb / data.fc;
+                double r = data.fb / data.fc;
                 p = s * (2.0 * m * q * (q - r) - (data.sb - data.sa) * (r - 1.0));
                 q = (q - 1.0) * (r - 1.0) * (s - 1.0);
             }

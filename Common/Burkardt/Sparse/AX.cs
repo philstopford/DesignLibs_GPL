@@ -74,7 +74,6 @@ public static class AX
         //
     {
         int i;
-        int j;
         int k;
 
         for ( i = 0; i < n; i++ )
@@ -85,7 +84,7 @@ public static class AX
         for ( k = 0; k < nz_num; k++ )
         {
             i = ia[k] - 1;
-            j = ja[k] - 1;
+            int j = ja[k] - 1;
             w[(i + wIndex) % w.Length] += a[k] * x[(j + xIndex) % x.Length];
         }
     }

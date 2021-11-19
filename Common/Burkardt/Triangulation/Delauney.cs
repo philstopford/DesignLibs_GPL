@@ -760,12 +760,14 @@ public static class Delauney
                 double cmax = Math.Max(Math.Abs(node_xy[2 * (m - 1) + j]),
                     Math.Abs(node_xy[2 * (m1 - 1) + j]));
 
-                if (tol * (cmax + 1.0)
-                    < Math.Abs(node_xy[2 * (m - 1) + j] - node_xy[2 * (m1 - 1) + j]))
+                if (!(tol * (cmax + 1.0)
+                      < Math.Abs(node_xy[2 * (m - 1) + j] - node_xy[2 * (m1 - 1) + j])))
                 {
-                    k = j;
-                    break;
+                    continue;
                 }
+
+                k = j;
+                break;
             }
 
             switch (k)
@@ -1058,8 +1060,6 @@ public static class Delauney
         //    are to replace triangles [0+2,3) and [0+3,4).
         //
     {
-        bool swap;
-
         double x13 = xy[0 + 0 * 2] - xy[0 + 2 * 2];
         double x14 = xy[0 + 0 * 2] - xy[0 + 3 * 2];
         double x23 = xy[0 + 1 * 2] - xy[0 + 2 * 2];
@@ -1092,7 +1092,7 @@ public static class Delauney
         //  }
         //  else if ...
 
-        swap = a * b < c * d;
+        bool swap = a * b < c * d;
 
         return swap;
     }

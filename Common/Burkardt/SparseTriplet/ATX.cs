@@ -75,7 +75,6 @@ public static class ATXST
         //
     {
         int i;
-        int j;
         int k;
 
         for (i = 0; i < n; i++)
@@ -86,7 +85,7 @@ public static class ATXST
         for (k = 0; k < nz_num; k++)
         {
             i = ia[k];
-            j = ja[k];
+            int j = ja[k];
             w[j] += a[k] * x[i];
         }
     }

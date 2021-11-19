@@ -37,17 +37,13 @@ public static class Solve
         //    Output, double R8RMAT_FS_NEW[N], the solution of the linear system.
         //
     {
-        double[][] a2;
         int i;
         int j;
         int k;
-        int p;
-        double t;
-        double[] x;
         //
         //  Create a copy of the matrix.
         //
-        a2 = new double[n][];
+        double[][] a2 = new double[n][];
 
         for (i = 0; i < n; i++)
         {
@@ -65,7 +61,7 @@ public static class Solve
         //
         //  Create X and set it to B.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = b[i];
@@ -76,7 +72,7 @@ public static class Solve
             //
             //  Find the maximum element in column I.
             //
-            p = k;
+            int p = k;
 
             for (i = k + 1; i < n; i++)
             {
@@ -98,6 +94,7 @@ public static class Solve
             //
             //  Switch rows K and P.
             //
+            double t;
             if (k != p)
             {
                 for (j = 0; j < n; j++)
@@ -206,14 +203,9 @@ public static class Solve
         //
     {
         int i;
-        int ipiv;
-        int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -225,15 +217,17 @@ public static class Solve
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -248,6 +242,8 @@ public static class Solve
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            int j;
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -356,14 +352,9 @@ public static class Solve
         //
     {
         int i;
-        int ipiv;
-        int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -375,15 +366,17 @@ public static class Solve
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < Math.Abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -398,6 +391,8 @@ public static class Solve
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            int j;
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -508,14 +503,10 @@ public static class Solve
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        x = new double[n * nb];
+        double[] x = new double[n * nb];
 
         for (j = 0; j < nb; j++)
         {
@@ -530,8 +521,8 @@ public static class Solve
             //
             //  Find the maximum element in column I.
             //
-            piv = typeMethods.r8_abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = typeMethods.r8_abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n]))
@@ -553,6 +544,7 @@ public static class Solve
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)

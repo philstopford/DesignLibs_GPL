@@ -169,14 +169,7 @@ public static class Graph
         //
         //  No more neighbors were found.  Have we reached all nodes?
         //
-        if (ihi == nnode)
-        {
-            result = 1;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = ihi == nnode ? 1 : 0;
 
         return result;
     }
@@ -238,14 +231,7 @@ public static class Graph
         //
         int nedge = graph_adj_edge_count(adj, nnode);
 
-        if (nedge == nnode - 1)
-        {
-            result = 1;
-        }
-        else
-        {
-            result = 0;
-        }
+        result = nedge == nnode - 1 ? 1 : 0;
 
         return result;
     }

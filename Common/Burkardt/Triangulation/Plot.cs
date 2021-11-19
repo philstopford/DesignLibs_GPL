@@ -79,7 +79,7 @@ public static partial class Plot
         y_min -= 0.05 * y_scale;
         y_scale = y_max - y_min;
 
-        int i4_min = 1;
+        const int i4_min = 1;
         const int j4_min = 1;
         if (x_scale < y_scale)
         {

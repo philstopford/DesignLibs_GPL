@@ -62,14 +62,11 @@ public static class PseudoLinear
         //    Output, double PSEUDO_INVERSE[N*M], the pseudo_inverse of A.
         //
     {
-        double[] a_pseudo;
         int i;
         int j;
         int k;
-        double[] sp;
-        double[] sput;
 
-        sp = new double[n * m];
+        double[] sp = new double[n * m];
         for (j = 0; j < m; j++)
         {
             for (i = 0; i < n; i++)
@@ -85,7 +82,7 @@ public static class PseudoLinear
             }
         }
 
-        sput = new double[n * m];
+        double[] sput = new double[n * m];
         for (i = 0; i < n; i++)
         {
             for (j = 0; j < m; j++)
@@ -98,7 +95,7 @@ public static class PseudoLinear
             }
         }
 
-        a_pseudo = new double[n * m];
+        double[] a_pseudo = new double[n * m];
         for (i = 0; i < n; i++)
         {
             for (j = 0; j < m; j++)
@@ -162,29 +159,21 @@ public static class PseudoLinear
         //    Input/output, int *SEED, a seed for the random number generator.
         //
     {
-        double[] bm;
-        double[] bn;
         int i;
         int j;
-        double[] rm;
-        double[] rn;
-        double[] xm1;
-        double[] xm2;
-        double[] xn1;
-        double[] xn2;
 
         Console.WriteLine("");
         Console.WriteLine("PSEUDO_LINEAR_SOLVE_TEST");
         //
         //  A * x = b, b in range of A.
         //
-        xn1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] xn1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         for (i = 0; i < n; i++)
         {
             xn1[i] = typeMethods.r8_nint(10.0 * xn1[i]);
         }
 
-        bm = new double[m];
+        double[] bm = new double[m];
         for (i = 0; i < m; i++)
         {
             bm[i] = 0.0;
@@ -194,7 +183,7 @@ public static class PseudoLinear
             }
         }
 
-        xn2 = new double[n];
+        double[] xn2 = new double[n];
         for (i = 0; i < n; i++)
         {
             xn2[i] = 0.0;
@@ -204,7 +193,7 @@ public static class PseudoLinear
             }
         }
 
-        rm = new double[m];
+        double[] rm = new double[m];
         for (i = 0; i < m; i++)
         {
             rm[i] = bm[i];
@@ -274,13 +263,13 @@ public static class PseudoLinear
         //
         //  A' * x = b, b is in the range of A'.
         //
-        xm1 = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+        double[] xm1 = UniformRNG.r8vec_uniform_01_new(m, ref seed);
         for (i = 0; i < m; i++)
         {
             xm1[i] = typeMethods.r8_nint(10.0 * xm1[i]);
         }
 
-        bn = new double[n];
+        double[] bn = new double[n];
         for (i = 0; i < n; i++)
         {
             bn[i] = 0.0;
@@ -290,7 +279,7 @@ public static class PseudoLinear
             }
         }
 
-        xm2 = new double[m];
+        double[] xm2 = new double[m];
         for (i = 0; i < m; i++)
         {
             xm2[i] = 0.0;
@@ -300,7 +289,7 @@ public static class PseudoLinear
             }
         }
 
-        rn = new double[n];
+        double[] rn = new double[n];
         for (i = 0; i < n; i++)
         {
             rn[i] = bn[i];
@@ -411,14 +400,6 @@ public static class PseudoLinear
         //    Input, double A_PSEUDO[N*M], the pseudo_inverse of A.
         //
     {
-        double[] bmm;
-        double[] bmn;
-        double[] bnm;
-        double[] bnn;
-        double dif1;
-        double dif2;
-        double dif3;
-        double dif4;
         int i;
         int j;
         int k;
@@ -435,7 +416,7 @@ public static class PseudoLinear
         //
         //  Compute A * A+ * A.
         //
-        bnn = new double[n * n];
+        double[] bnn = new double[n * n];
         for (i = 0; i < n; i++)
         {
             for (j = 0; j < n; j++)
@@ -448,7 +429,7 @@ public static class PseudoLinear
             }
         }
 
-        bmn = new double[m * n];
+        double[] bmn = new double[m * n];
 
         for (i = 0; i < m; i++)
         {
@@ -462,12 +443,12 @@ public static class PseudoLinear
             }
         }
 
-        dif1 = typeMethods.r8mat_dif_fro(m, n, a, bmn);
+        double dif1 = typeMethods.r8mat_dif_fro(m, n, a, bmn);
 
         //
         //  Compute A+ * A * A+.
         //
-        bmm = new double[m * m];
+        double[] bmm = new double[m * m];
         for (i = 0; i < m; i++)
         {
             for (j = 0; j < m; j++)
@@ -480,7 +461,7 @@ public static class PseudoLinear
             }
         }
 
-        bnm = new double[n * m];
+        double[] bnm = new double[n * m];
 
         for (i = 0; i < n; i++)
         {
@@ -494,7 +475,7 @@ public static class PseudoLinear
             }
         }
 
-        dif2 = typeMethods.r8mat_dif_fro(n, m, a_pseudo, bnm);
+        double dif2 = typeMethods.r8mat_dif_fro(n, m, a_pseudo, bnm);
 
         //
         //  Compute norm of A * A+ - (A * A+)'.
@@ -512,7 +493,7 @@ public static class PseudoLinear
             }
         }
 
-        dif3 = 0.0;
+        double dif3 = 0.0;
         for (j = 0; j < m; j++)
         {
             for (i = 0; i < m; i++)
@@ -539,7 +520,7 @@ public static class PseudoLinear
             }
         }
 
-        dif4 = 0.0;
+        double dif4 = 0.0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)

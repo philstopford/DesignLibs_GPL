@@ -77,7 +77,7 @@ public sealed partial class EditableLookup<TKey, TElement> : ILookup<TKey, TElem
         {
             group.Add(value);
         }
-        switch (@group.Count)
+        switch (group.Count)
         {
             case 0:
                 groups.Remove(key); // nothing there after all!
@@ -117,7 +117,7 @@ public sealed partial class EditableLookup<TKey, TElement> : ILookup<TKey, TElem
             bool removed = group.Remove(value);
             switch (removed)
             {
-                case true when @group.Count == 0:
+                case true when group.Count == 0:
                     groups.Remove(key);
                     break;
             }

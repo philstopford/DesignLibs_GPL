@@ -161,15 +161,17 @@ public static class Cubic
 
         for (i = 0; i < n - 1; i++)
         {
-            if (t[i + 1] <= t[i])
+            if (!(t[i + 1] <= t[i]))
             {
-                Console.WriteLine("");
-                Console.WriteLine("SPLINE_CUBIC_SET - Fatal error!");
-                Console.WriteLine("  The knots must be strictly increasing, but");
-                Console.WriteLine("  T(" + i + ") = " + t[i] + "");
-                Console.WriteLine("  T(" + (i + 1) + ") = " + t[i + 1] + "");
-                return null;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("SPLINE_CUBIC_SET - Fatal error!");
+            Console.WriteLine("  The knots must be strictly increasing, but");
+            Console.WriteLine("  T(" + i + ") = " + t[i] + "");
+            Console.WriteLine("  T(" + (i + 1) + ") = " + t[i + 1] + "");
+            return null;
         }
 
         double[] a1 = new double[n];

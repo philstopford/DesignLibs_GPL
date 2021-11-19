@@ -86,7 +86,7 @@ public static class SymmetricQuadrature
         //    Input, int NUMNODES, the number of nodes.
         //
     {
-        int itype = 0;
+        const int itype = 0;
 
         Quae.quaequad(itype, n, ref rnodes, ref weights, numnodes);
 

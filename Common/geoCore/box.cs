@@ -98,7 +98,7 @@ public class GCBox : GCElement
 
     private void pMoveSelect(GeoLibPoint p)
     {
-        switch (@select)
+        switch (select)
         {
             case true:
                 rect.Offset(p);

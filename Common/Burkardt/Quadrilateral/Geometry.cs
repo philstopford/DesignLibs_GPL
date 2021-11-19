@@ -253,25 +253,25 @@ public static class Geometry
         //
     {
         if (Angle.anglei_rad_2d(q, q, q, +0 * 2, +1 * 2, +2 * 2) <
-            Angle.anglei_rad_2d(q, q, p, +0 * 2, +1 * 2, 0))
+            Angle.anglei_rad_2d(q, q, p, +0 * 2, +1 * 2))
         {
             return false;
         }
 
         if (Angle.anglei_rad_2d(q, q, q, +1 * 2, +2 * 2, +3 * 2) <
-            Angle.anglei_rad_2d(q, q, p, +1 * 2, +2 * 2, 0))
+            Angle.anglei_rad_2d(q, q, p, +1 * 2, +2 * 2))
         {
             return false;
         }
 
-        if (Angle.anglei_rad_2d(q, q, q, +2 * 2, +3 * 2, +0 * 2) <
-            Angle.anglei_rad_2d(q, q, p, +2 * 2, +3 * 2, 0))
+        if (Angle.anglei_rad_2d(q, q, q, +2 * 2, +3 * 2) <
+            Angle.anglei_rad_2d(q, q, p, +2 * 2, +3 * 2))
         {
             return false;
         }
 
         if (Angle.anglei_rad_2d(q, q, q, +3 * 2, +0 * 2, +1 * 2) <
-            Angle.anglei_rad_2d(q, q, p, +3 * 2, +0 * 2, 0))
+            Angle.anglei_rad_2d(q, q, p, +3 * 2))
         {
             return false;
         }
@@ -514,12 +514,12 @@ public static class Geometry
         //
         //  Side 41
         //
-        dis1 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, p, +3 * 2, +0 * 2);
+        dis1 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, p, +3 * 2);
 
         pm[0] = 0.5 * (q[0 + 1 * 2] + q[0 + 2 * 2]);
         pm[1] = 0.5 * (q[1 + 1 * 2] + q[1 + 2 * 2]);
 
-        dis2 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, pm, +3 * 2, +0 * 2);
+        dis2 = LineNS.Geometry.line_exp_point_dist_signed_2d(q, q, pm, +3 * 2);
 
         dis1 = dis2 switch
         {

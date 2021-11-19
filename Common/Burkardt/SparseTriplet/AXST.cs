@@ -75,7 +75,6 @@ public static class AXST
         //
     {
         int i;
-        int j;
         int k;
 
         for (i = 0; i < n; i++)
@@ -86,7 +85,7 @@ public static class AXST
         for (k = 0; k < nz_num; k++)
         {
             i = ia[k];
-            j = ja[k];
+            int j = ja[k];
             w[wIndex + i] += a[aIndex + k] * x[xIndex + j];
         }
     }

@@ -75,50 +75,32 @@ public static class LocalMinimum
         //    double LOCAL_MIN, the value F(X).
         //
     {
-        double c;
         double d = 0;
-        double e;
-        double eps;
-        double fu;
-        double fv;
-        double fw;
-        double fx;
-        double m;
-        double p;
-        double q;
-        double r;
-        double sa;
-        double sb;
-        double t2;
-        double tol;
-        double u;
-        double v;
-        double w;
 
         calls = 0;
         //
         //  C is the square of the inverse of the golden ratio.
         //
-        c = 0.5 * (3.0 - Math.Sqrt(5.0));
+        double c = 0.5 * (3.0 - Math.Sqrt(5.0));
 
-        eps = Math.Sqrt(typeMethods.r8_epsilon());
+        double eps = Math.Sqrt(typeMethods.r8_epsilon());
 
-        sa = a;
-        sb = b;
+        double sa = a;
+        double sb = b;
         x = sa + c * (b - a);
-        w = x;
-        v = w;
-        e = 0.0;
-        fx = f(x);
+        double w = x;
+        double v = w;
+        double e = 0.0;
+        double fx = f(x);
         calls += 1;
-        fw = fx;
-        fv = fw;
+        double fw = fx;
+        double fv = fw;
 
         for (;;)
         {
-            m = 0.5 * (sa + sb);
-            tol = eps * Math.Abs(x) + t;
-            t2 = 2.0 * tol;
+            double m = 0.5 * (sa + sb);
+            double tol = eps * Math.Abs(x) + t;
+            double t2 = 2.0 * tol;
             //
             //  Check the stopping criterion.
             //
@@ -130,9 +112,9 @@ public static class LocalMinimum
             //
             //  Fit a parabola.
             //
-            r = 0.0;
-            q = r;
-            p = q;
+            double r = 0.0;
+            double q = r;
+            double p = q;
 
             if (tol < Math.Abs(e))
             {
@@ -151,6 +133,7 @@ public static class LocalMinimum
                 e = d;
             }
 
+            double u;
             if (Math.Abs(p) < Math.Abs(0.5 * q * r) &&
                 q * (sa - x) < p &&
                 p < q * (sb - x))
@@ -208,7 +191,7 @@ public static class LocalMinimum
                 };
             }
 
-            fu = f(u);
+            double fu = f(u);
             calls += 1;
             //
             //  Update A, B, V, W, and X.

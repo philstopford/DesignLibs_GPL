@@ -53,16 +53,8 @@ public static class RootRC
         //    Output, double ROOT_RC, an improved estimate for the root.
         //
     {
-        double d;
-        double decr;
         int i;
-        double p;
-        double r;
-        double u;
-        double v;
-        double w;
         double xnew;
-        double z;
         switch (fx)
         {
             //
@@ -145,14 +137,7 @@ public static class RootRC
         //
         //  Calculate XERR.
         //
-        if (q[6] != 0.0)
-        {
-            xerr = Math.Abs(q[7] - q[1]);
-        }
-        else
-        {
-            xerr = typeMethods.r8_huge();
-        }
+        xerr = q[6] != 0.0 ? Math.Abs(q[7] - q[1]) : typeMethods.r8_huge();
 
         switch (q[8])
         {
@@ -164,21 +149,21 @@ public static class RootRC
                 return xnew;
         }
 
-        v = (q[2] - q[0]) / (q[3] - q[1]);
+        double v = (q[2] - q[0]) / (q[3] - q[1]);
         //
         //  If 3 or more points, try Muller.
         //
         if (q[4] != 0.0)
         {
-            u = (q[4] - q[2]) / (q[5] - q[3]);
-            w = q[3] - q[1];
-            z = (q[5] - q[1]) / w;
-            r = (z + 1.0) * v - u;
+            double u = (q[4] - q[2]) / (q[5] - q[3]);
+            double w = q[3] - q[1];
+            double z = (q[5] - q[1]) / w;
+            double r = (z + 1.0) * v - u;
 
             if (r != 0.0)
             {
-                p = 2.0 * z * q[0] / r;
-                d = 2.0 * p / (w * r) * (v - u);
+                double p = 2.0 * z * q[0] / r;
+                double d = 2.0 * p / (w * r) * (v - u);
                 switch (d)
                 {
                     case >= -1.0:
@@ -210,7 +195,7 @@ public static class RootRC
                 return 1;
             }
 
-            decr = q[0] / v;
+            double decr = q[0] / v;
             if (Math.Abs(decr) * 4.6E+18 < Math.Abs(q[1]))
             {
                 decr = 1.74E-18 * Math.Abs(q[1]) * typeMethods.r8_sign(decr);

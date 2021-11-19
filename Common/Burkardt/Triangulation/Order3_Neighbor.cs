@@ -73,16 +73,20 @@ public static partial class Neighbor
             int s;
             for (s = 0; s < 3; s++)
             {
-                if (triangle_node[s + t * 3] == n1)
+                if (triangle_node[s + t * 3] != n1)
                 {
-                    ss = typeMethods.i4_wrap(s - 1, 0, 2);
-                    if (triangle_node[ss + t * 3] == n2)
-                    {
-                        t2 = t + 1;
-                        s2 = ss + 1;
-                        return;
-                    }
+                    continue;
                 }
+
+                ss = typeMethods.i4_wrap(s - 1, 0, 2);
+                if (triangle_node[ss + t * 3] != n2)
+                {
+                    continue;
+                }
+
+                t2 = t + 1;
+                s2 = ss + 1;
+                return;
             }
         }
 

@@ -317,9 +317,7 @@ public static class DunavantRule
         //    Output, int DUNAVANT_SUBORDER[SUBORDER_NUM], the suborders of the rule.
         //
     {
-        int[] suborder;
-
-        suborder = new int[suborder_num];
+        int[] suborder = new int[suborder_num];
 
         switch (rule)
         {

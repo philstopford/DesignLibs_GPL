@@ -71,20 +71,10 @@ public static class Theta
         //    Output, double THETA_SOLVE[M], the values of Theta.
         //
     {
-        double bmatol;
-        double eps;
-        double fa;
-        double fc;
-        double ftol;
         int k;
-        double[] theta;
-        double xa;
-        double xa_init;
-        double xb;
-        double xb_init;
         double xc = 0;
 
-        theta = new double[m];
+        double[] theta = new double[m];
         for (k = 0; k < m; k++)
         {
             theta[k] = 0.0;
@@ -93,9 +83,9 @@ public static class Theta
         //
         //  [ XA_INIT, XB_INIT] = [ n * pi, n+1/2 Math.PI ] / a, n = 0, 1, 2, ...
         //
-        xa_init = 0.0;
-        xb_init = Math.PI / 2.0 / a;
-        eps = typeMethods.r8_epsilon();
+        double xa_init = 0.0;
+        double xb_init = Math.PI / 2.0 / a;
+        double eps = typeMethods.r8_epsilon();
 
         k = 0;
         for (;;)
@@ -109,12 +99,12 @@ public static class Theta
             }
 
             k += 1;
-            xa = xa_init;
-            fa = 1.0 / cl - xa * Math.Tan(a * xa);
-            ftol = eps * (Math.Abs(fa) + 1.0);
-            xb = xb_init;
-            fc = fa;
-            bmatol = 100.0 * eps * (Math.Abs(xa) + Math.Abs(xb));
+            double xa = xa_init;
+            double fa = 1.0 / cl - xa * Math.Tan(a * xa);
+            double ftol = eps * (Math.Abs(fa) + 1.0);
+            double xb = xb_init;
+            double fc;
+            double bmatol = 100.0 * eps * (Math.Abs(xa) + Math.Abs(xb));
 
             while (bmatol < xb - xa)
             {

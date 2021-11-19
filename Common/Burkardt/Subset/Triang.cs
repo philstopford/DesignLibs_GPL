@@ -141,15 +141,17 @@ public static class Triang
                             break;
                         }
 
-                        if (m == n)
+                        if (m != n)
                         {
-                            for (i = 0; i < n; i++)
-                            {
-                                p[i] -= 1;
-                            }
-
-                            return;
+                            continue;
                         }
+
+                        for (i = 0; i < n; i++)
+                        {
+                            p[i] -= 1;
+                        }
+
+                        return;
                     }
 
                     it = m + 1;

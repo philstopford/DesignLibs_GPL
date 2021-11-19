@@ -45,26 +45,14 @@ public static class ConjugateGradient
         //
     {
         double aii;
-        double bnrm2;
         int i;
-        int it;
-        int it_max;
-        int j;
-        int job;
-        int k;
-        double[] p;
-        double[] q;
-        double[] r;
         double rnrm2;
-        double tol;
-        double[] x;
-        double[] z;
         ConjugateGradientData data = new();
 
-        it = 0;
-        it_max = 100;
-        tol = 1.0E-08;
-        bnrm2 = 0.0;
+        int it = 0;
+        int it_max = 100;
+        double tol = 1.0E-08;
+        double bnrm2 = 0.0;
         for (i = 0; i < n; i++)
         {
             bnrm2 += b[i] * b[i];
@@ -72,11 +60,11 @@ public static class ConjugateGradient
 
         bnrm2 = Math.Sqrt(bnrm2);
 
-        p = new double[n];
-        q = new double[n];
-        r = new double[n];
-        x = new double[n];
-        z = new double[n];
+        double[] p = new double[n];
+        double[] q = new double[n];
+        double[] r = new double[n];
+        double[] x = new double[n];
+        double[] z = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -88,7 +76,7 @@ public static class ConjugateGradient
         Console.WriteLine("  Step        Residual");
         Console.WriteLine("");
 
-        job = 1;
+        int job = 1;
 
         for (;;)
         {
@@ -96,6 +84,8 @@ public static class ConjugateGradient
             //
             //  Compute q = A * p.
             //
+            int k;
+            int j;
             if (job == 1)
             {
                 for (i = 0; i < n; i++)

@@ -386,21 +386,25 @@ public static partial class TOMS
 
                 for (i = 0; i < nvars; i++)
                 {
-                    if (0.5 * Math.Abs(delta[i]) < Math.Abs(newx[i] - xbefore[i]))
+                    if (!(0.5 * Math.Abs(delta[i]) < Math.Abs(newx[i] - xbefore[i])))
                     {
-                        keep = 1;
-                        break;
+                        continue;
                     }
+
+                    keep = 1;
+                    break;
                 }
             }
 
-            if (eps <= steplength && fbefore <= newf)
+            if (!(eps <= steplength) || !(fbefore <= newf))
             {
-                steplength *= rho;
-                for (i = 0; i < nvars; i++)
-                {
-                    delta[i] *= rho;
-                }
+                continue;
+            }
+
+            steplength *= rho;
+            for (i = 0; i < nvars; i++)
+            {
+                delta[i] *= rho;
             }
 
         }

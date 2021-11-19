@@ -1594,12 +1594,14 @@ public static class TetMesh
         {
             int n1 = edge_data[0 + edge * 5];
             int n2 = edge_data[1 + edge * 5];
-            if (n1 != n1_old || n2 != n2_old)
+            if (n1 == n1_old && n2 == n2_old)
             {
-                node_num2 += 1;
-                n1_old = n1;
-                n2_old = n2;
+                continue;
             }
+
+            node_num2 += 1;
+            n1_old = n1;
+            n2_old = n2;
         }
 
         tetra_num2 = 8 * tetra_num1;
@@ -2677,7 +2679,6 @@ public static class TetMesh
     {
         const int DIM_NUM = 3;
 
-        int j;
         int tetra;
         double[] tetrahedron = new double[DIM_NUM * 4];
 
@@ -2685,6 +2686,7 @@ public static class TetMesh
 
         for (tetra = 0; tetra < tetra_num; tetra++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 int node = tetra_node[j + tetra * tetra_order];
@@ -3209,11 +3211,14 @@ public static class TetMesh
                 face = -3;
                 break;
             }
-            if (alpha[3] < 0.0)
+
+            if (!(alpha[3] < 0.0))
             {
-                face = -4;
-                break;
+                continue;
             }
+
+            face = -4;
+            break;
         }
 
         return tet_index;
@@ -3288,12 +3293,14 @@ public static class TetMesh
 
             double[] alpha = Tetrahedron.tetrahedron_barycentric(tet_xyz, p);
 
-            if (typeMethods.r8vec_is_nonnegative(4, alpha))
+            if (!typeMethods.r8vec_is_nonnegative(4, alpha))
             {
-                tet_index = tet;
-                step_num = tet;
-                return tet_index;
+                continue;
             }
+
+            tet_index = tet;
+            step_num = tet;
+            return tet_index;
         }
 
         return tet_index;

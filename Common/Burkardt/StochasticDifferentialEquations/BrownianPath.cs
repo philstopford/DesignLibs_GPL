@@ -227,7 +227,7 @@ public static class BrownianPath
         int i;
         int j;
 
-        double tmax = 1.0;
+        const double tmax = 1.0;
         double dt = tmax / n;
 
         double[] t = new double[n + 1];

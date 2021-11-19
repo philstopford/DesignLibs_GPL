@@ -56,17 +56,12 @@ public static class Cluster
         //    Output, double CLUSTER_ENERGY, the estimated energy.
         //
     {
-        double energy;
-        int i;
         int j;
-        int nearest;
-        bool reset;
-        double[] x;
 
-        x = new double [dim_num];
+        double[] x = new double [dim_num];
 
-        energy = 0.0;
-        reset = true;
+        double energy = 0.0;
+        bool reset = true;
 
         for (j = 0; j < sample_num_cvt; j++)
         {
@@ -80,8 +75,9 @@ public static class Cluster
             //
             //  Find the nearest cell generator.
             //
-            nearest = find_closest(dim_num, n, x, cell_generator);
+            int nearest = find_closest(dim_num, n, x, cell_generator);
 
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 energy += Math.Pow(x[i] - cell_generator[i + nearest * dim_num], 2);
@@ -144,18 +140,15 @@ public static class Cluster
         //    associated with each cluster.
         //
     {
-        double[] cluster_energy;
         int i = 0;
         int j;
-        int k;
-        double point_energy;
 
-        cluster_energy = typeMethods.r8vec_zero_new(cluster_num);
+        double[] cluster_energy = typeMethods.r8vec_zero_new(cluster_num);
 
         for (j = 0; j < point_num; j++)
         {
-            k = cluster[i];
-            point_energy = 0.0;
+            int k = cluster[i];
+            double point_energy = 0.0;
             for (i = 0; i < dim_num; i++)
             {
                 point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
@@ -207,14 +200,13 @@ public static class Cluster
         //    the coordinates of the cluster centers.
         //
     {
-        double[] cluster_center;
-        int i;
         int j;
 
-        cluster_center = new double[dim_num * cluster_num];
+        double[] cluster_center = new double[dim_num * cluster_num];
 
         for (j = 0; j < cluster_num; j++)
         {
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 cluster_center[i + j * dim_num] = point[i + j * dim_num];
@@ -273,20 +265,15 @@ public static class Cluster
         //    the coordinates of the cluster centers.
         //
     {
-        double[] cluster_center;
         int i;
-        int j;
-        double[] r;
-        double[] r_max;
-        double[] r_min;
 
-        cluster_center = new double[dim_num * cluster_num];
+        double[] cluster_center = new double[dim_num * cluster_num];
 
-        r = new double[dim_num];
-        r_min = new double[dim_num];
-        r_max = new double[dim_num];
+        double[] r = new double[dim_num];
+        double[] r_min = new double[dim_num];
+        double[] r_max = new double[dim_num];
 
-        j = 0;
+        int j = 0;
         for (i = 0; i < dim_num; i++)
         {
             r_max[i] = point[i + j * dim_num];
@@ -359,15 +346,13 @@ public static class Cluster
         //    the coordinates of the cluster centers.
         //
     {
-        double[] cluster_center;
-        int[] cluster_population;
         int i;
         int j;
         int k;
         //
         //  Assign one point to each cluster center.
         //
-        cluster_center = new double[dim_num * cluster_num];
+        double[] cluster_center = new double[dim_num * cluster_num];
 
         for (k = 0; k < cluster_num; k++)
         {
@@ -377,7 +362,7 @@ public static class Cluster
             }
         }
 
-        cluster_population = new int[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         for (k = 0; k < cluster_num; k++)
         {
@@ -459,25 +444,21 @@ public static class Cluster
         //    the coordinates of the cluster centers.
         //
     {
-        double[] cluster_center;
-        double[] cluster_factor;
-        double[] cluster_weight;
-        double divisor;
         int i;
         int j;
         int k;
 
-        cluster_center = typeMethods.r8vec_zero_new(dim_num * cluster_num);
+        double[] cluster_center = typeMethods.r8vec_zero_new(dim_num * cluster_num);
 
-        cluster_factor = new double[cluster_num];
+        double[] cluster_factor = new double[cluster_num];
 
-        cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
+        double[] cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
 
         for (j = 0; j < point_num; j++)
         {
             UniformRNG.r8vec_uniform_01(cluster_num, ref seed, ref cluster_factor);
 
-            divisor = typeMethods.r8vec_sum(cluster_num, cluster_factor);
+            double divisor = typeMethods.r8vec_sum(cluster_num, cluster_factor);
 
             for (k = 0; k < cluster_num; k++)
             {
@@ -557,21 +538,18 @@ public static class Cluster
         //    the coordinates of the cluster centers.
         //
     {
-        double[] cluster_center;
-        double column_sum;
-        double[] factor;
-        int j;
         int k;
         //
         //  Get a PxC block of random factors.
         //
-        factor = UniformRNG.r8mat_uniform_01_new(point_num, cluster_num, ref seed);
+        double[] factor = UniformRNG.r8mat_uniform_01_new(point_num, cluster_num, ref seed);
         //
         //  Make each column of factors have unit sum.
         //
         for (k = 0; k < cluster_num; k++)
         {
-            column_sum = 0.0;
+            double column_sum = 0.0;
+            int j;
             for (j = 0; j < point_num; j++)
             {
                 column_sum += factor[j + k * point_num];
@@ -586,7 +564,7 @@ public static class Cluster
         //
         //  Set centers = points * factors.
         //
-        cluster_center = typeMethods.r8mat_mm_new(dim_num, point_num, cluster_num, point,
+        double[] cluster_center = typeMethods.r8mat_mm_new(dim_num, point_num, cluster_num, point,
             factor);
 
         return cluster_center;
@@ -631,13 +609,12 @@ public static class Cluster
     {
         double ce;
         int cep;
-        double ce_total;
         int cp;
         int cpp;
         double cv;
         int k;
 
-        ce_total = typeMethods.r8vec_sum(cluster_num, cluster_energy);
+        double ce_total = typeMethods.r8vec_sum(cluster_num, cluster_energy);
 
         Console.WriteLine("");
         Console.WriteLine("  Clustering statistics:");
@@ -729,21 +706,18 @@ public static class Cluster
         //    associated with each cluster.
         //
     {
-        int[] cluster_population;
-        double[] cluster_variance;
-        int i;
         int j;
         int k;
-        double point_variance;
 
-        cluster_population = typeMethods.i4vec_zero_new(cluster_num);
-        cluster_variance = typeMethods.r8vec_zero_new(cluster_num);
+        int[] cluster_population = typeMethods.i4vec_zero_new(cluster_num);
+        double[] cluster_variance = typeMethods.r8vec_zero_new(cluster_num);
 
         for (j = 0; j < point_num; j++)
         {
             k = cluster[j];
 
-            point_variance = 0.0;
+            double point_variance = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 point_variance += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
@@ -806,18 +780,15 @@ public static class Cluster
         //    Output, int FIND_CLOSEST, the index of the nearest cell generators.
         //
     {
-        double dist_min;
-        double dist;
-        int i;
         int j;
-        int nearest;
 
-        nearest = 0;
-        dist_min = 0.0;
+        int nearest = 0;
+        double dist_min = 0.0;
 
         for (j = 0; j < n; j++)
         {
-            dist = 0.0;
+            double dist = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 dist += Math.Pow(x[i] - generator[i + j * m], 2);

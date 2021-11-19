@@ -51,26 +51,15 @@ public static class Congruence
     {
         const int N_MAX = 100;
 
-        int a_copy;
-        int a_mag;
-        int a_sign;
-        int b_copy;
-        int b_mag;
-        int c_copy;
-        int g;
         int k;
-        int n;
         int[] q = new int[N_MAX];
         bool swap;
-        int x;
-        int y;
-        int z;
         //
         //  Defaults for output parameters.
         //
         error = false;
-        x = 0;
-        y = 0;
+        int x = 0;
+        int y;
         switch (a)
         {
             //
@@ -131,7 +120,7 @@ public static class Congruence
         //
         //  Step 1: Compute the GCD of A and B, which must also divide C.
         //
-        g = typeMethods.i4_gcd(a, b);
+        int g = typeMethods.i4_gcd(a, b);
 
         if (c % g != 0)
         {
@@ -139,15 +128,15 @@ public static class Congruence
             return x;
         }
 
-        a_copy = a / g;
-        b_copy = b / g;
-        c_copy = c / g;
+        int a_copy = a / g;
+        int b_copy = b / g;
+        int c_copy = c / g;
         //
         //  Step 2: Split A and B into sign and magnitude.
         //
-        a_mag = Math.Abs(a_copy);
-        a_sign = typeMethods.i4_sign(a_copy);
-        b_mag = Math.Abs(b_copy);
+        int a_mag = Math.Abs(a_copy);
+        int a_sign = typeMethods.i4_sign(a_copy);
+        int b_mag = Math.Abs(b_copy);
         switch (a_mag)
         {
             //
@@ -181,7 +170,7 @@ public static class Congruence
             q[1] = a_mag;
         }
 
-        n = 3;
+        int n = 3;
 
         for (;;)
         {
@@ -194,14 +183,16 @@ public static class Congruence
 
             n += 1;
 
-            if (N_MAX < n)
+            if (N_MAX >= n)
             {
-                error = true;
-                Console.WriteLine("");
-                Console.WriteLine("CONGRUENCE - Fatal error!");
-                Console.WriteLine("  Exceeded number of iterations.");
-                return 1;
+                continue;
             }
+
+            error = true;
+            Console.WriteLine("");
+            Console.WriteLine("CONGRUENCE - Fatal error!");
+            Console.WriteLine("  Exceeded number of iterations.");
+            return 1;
         }
 
         //
@@ -220,9 +211,7 @@ public static class Congruence
             //  Step 5: Undo the swapping.
             //
             case true:
-                z = x;
-                x = y;
-                y = z;
+                (x, y) = (y, x);
                 break;
         }
 

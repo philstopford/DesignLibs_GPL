@@ -96,14 +96,14 @@ public static class Integrals
         //    P2(R,S) = d+e*R+f*S
         //
         const int d1 = 1;
-        int m1 = (d1 + 1) * (d1 + 2) / 2;
+        const int m1 = (d1 + 1) * (d1 + 2) / 2;
         double[] p1 = new double[m1];
         p1[0] = a;
         p1[1] = b;
         p1[2] = c;
 
         const int d2 = 1;
-        int m2 = (d2 + 1) * (d2 + 2) / 2;
+        const int m2 = (d2 + 1) * (d2 + 2) / 2;
         double[] p2 = new double[m2];
         p2[0] = d;
         p2[1] = e;
@@ -453,12 +453,12 @@ public static class Integrals
         //
         //  Compute the weighted sum and divide by the exact value.
         //
-        double area = 0.5;
+        const double area = 0.5;
         double quad = area * typeMethods.r8vec_dot_product ( point_num, weight, value ) / scale;
         //
         //  Error:
         //
-        double exact = 1.0;
+        const double exact = 1.0;
         double quad_error = Math.Abs ( quad - exact );
             
         return quad_error;

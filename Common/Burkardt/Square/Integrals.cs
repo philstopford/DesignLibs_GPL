@@ -309,11 +309,10 @@ public static class Integrals
         //
     {
         const int m = 2;
-        double[] x;
 
         const double a = -1.0;
         const double b = 1.0;
-        x = UniformRNG.r8mat_uniform_ab_new(m, n, a, b, ref seed);
+        double[] x = UniformRNG.r8mat_uniform_ab_new(m, n, a, b, ref seed);
 
         return x;
     }

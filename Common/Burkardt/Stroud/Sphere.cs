@@ -957,21 +957,25 @@ public static class Sphere
         bool all_zero = true;
         for (i = 0; i < n; i++)
         {
-            if (e[i] != 0)
+            if (e[i] == 0)
             {
-                all_zero = false;
-                break;
+                continue;
             }
+
+            all_zero = false;
+            break;
         }
 
         bool any_odd = false;
         for (i = 0; i < n; i++)
         {
-            if (e[i] % 2 == 1)
+            if (e[i] % 2 != 1)
             {
-                any_odd = true;
-                break;
+                continue;
             }
+
+            any_odd = true;
+            break;
         }
 
         int e_sum = 0;
@@ -1591,7 +1595,7 @@ public static class Sphere
                     / (double)((int)Math.Pow(2, n) * n * (n + 2) * (n + 4));
         double w3 = 4.0 / (n * (n + 2) * (n + 4));
 
-        double x1 = 1.0;
+        const double x1 = 1.0;
         double x2 = 1.0 / Math.Sqrt(n);
         double x3 = 1.0 / Math.Sqrt(2.0);
 
@@ -1846,7 +1850,7 @@ public static class Sphere
 
         double quad = 0.0;
 
-        double w1 = 9216.0 / 725760.0;
+        const double w1 = 9216.0 / 725760.0;
         double x = 1.0;
         double y = 0.0;
         double z = 0.0;
@@ -1880,7 +1884,7 @@ public static class Sphere
             }
         }
 
-        double w3 = 15309.0 / 725760.0;
+        const double w3 = 15309.0 / 725760.0;
         x = Math.Sqrt(1.0 / 3.0);
         y = Math.Sqrt(1.0 / 3.0);
         z = Math.Sqrt(1.0 / 3.0);
@@ -1899,7 +1903,7 @@ public static class Sphere
             }
         }
 
-        double w4 = 14641.0 / 725760.0;
+        const double w4 = 14641.0 / 725760.0;
         x = Math.Sqrt(1.0 / 11.0);
         y = Math.Sqrt(1.0 / 11.0);
         z = 3.0 * Math.Sqrt(1.0 / 11.0);
@@ -2538,7 +2542,7 @@ public static class Sphere
         //    Output, double SPHERE_UNIT_AREA_3D, the area of the sphere.
         //
     {
-        double area = 4.0 * Math.PI;
+        const double area = 4.0 * Math.PI;
 
         return area;
     }
@@ -2798,11 +2802,8 @@ public static class Sphere
         //    X1**P(1)*X2**P(2)*...*XN**P(N) over the unit sphere.
         //
     {
-        double arg1;
-        double arg2;
         int i;
-        double temp;
-        double value = 0;
+        double value;
 
         for (i = 0; i < n; i++)
         {
@@ -2814,12 +2815,12 @@ public static class Sphere
             }
         }
 
-        temp = 0.0;
-        arg2 = 0.0;
+        double temp = 0.0;
+        double arg2 = 0.0;
 
         for (i = 0; i < n; i++)
         {
-            arg1 = (p[i] + 1) / 2.0;
+            double arg1 = (p[i] + 1) / 2.0;
             temp += typeMethods.r8_gamma_log(arg1);
             arg2 += arg1;
         }

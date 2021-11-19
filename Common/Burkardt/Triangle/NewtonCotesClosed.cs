@@ -52,7 +52,7 @@ public static partial class NewtonCotesClosed
                 Console.WriteLine("");
                 Console.WriteLine("TRIANGLE_NCC_DEGREE - Fatal error!");
                 Console.WriteLine("  Illegal RULE = " + rule + "");
-                return 1;
+                break;
         }
 
         return degree;

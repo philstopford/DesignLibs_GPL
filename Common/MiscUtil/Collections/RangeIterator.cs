@@ -56,7 +56,7 @@ public class RangeIterator<T> : IEnumerable<T>
     {
         step.ThrowIfNull("step");
 
-        switch (@ascending)
+        switch (ascending)
         {
             case true when range.Comparer.Compare(range.Start, step(range.Start)) >= 0:
             case false when range.Comparer.Compare(range.End, step(range.End)) <= 0:

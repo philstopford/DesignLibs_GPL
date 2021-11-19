@@ -146,8 +146,8 @@ public static class Cone
 
         }
 
-        double r = 1.0;
-        double h = 1.0;
+        const double r = 1.0;
+        const double h = 1.0;
 
         double volume = cone_volume_3d(r, h);
         double result = quad * volume;

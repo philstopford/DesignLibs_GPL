@@ -238,11 +238,13 @@ public static class Grid_NodesWeights
             bool equal = true;
             for (i = 0; i < dim; i++)
             {
-                if (Math.Abs(nodes[i + r * dim] - nodes[i + j * dim]) > double.Epsilon)
+                if (!(Math.Abs(nodes[i + r * dim] - nodes[i + j * dim]) > double.Epsilon))
                 {
-                    equal = false;
-                    break;
+                    continue;
                 }
+
+                equal = false;
+                break;
             }
 
             switch (equal)

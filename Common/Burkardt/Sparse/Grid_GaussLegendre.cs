@@ -61,25 +61,9 @@ public static class Grid_GaussLegendre
         //    Output, double GRID_POINT[DIM_NUM*POINT_NUM], the points.
         //
     {
-        int coeff;
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        int[] grid_level;
-        double[] grid_point_temp;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
         int point;
-        int point_num2;
-        int point2;
         int point3 = 0;
-        int t;
 
         for (point = 0; point < point_num; point++)
         {
@@ -89,13 +73,13 @@ public static class Grid_GaussLegendre
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -103,9 +87,9 @@ public static class Grid_GaussLegendre
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -117,6 +101,7 @@ public static class Grid_GaussLegendre
                 //
                 ClenshawCurtis.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = (order_1d[dim] - 1) / 2;
@@ -125,21 +110,21 @@ public static class Grid_GaussLegendre
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Compute the weights for this product grid.
                 //
-                grid_weight2 = GaussQuadrature.product_weight_gl(dim_num, order_1d, order_nd);
+                double[] grid_weight2 = GaussQuadrature.product_weight_gl(dim_num, order_1d, order_nd);
                 //
                 //  Now determine the coefficient of the weight.
                 //
-                coeff = (int)Math.Pow(-1, level_max - level)
-                        * typeMethods.i4_choose(dim_num - 1, level_max - level);
+                int coeff = (int)Math.Pow(-1, level_max - level)
+                            * typeMethods.i4_choose(dim_num - 1, level_max - level);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //  The grid indices will be between -M to +M, where 2*M + 1 = ORDER_1D(DIM).
                 //
-                grid_index2 = Multigrid.multigrid_index_z(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_z(dim_num, order_1d, order_nd);
                 //
                 //  Determine the first level of appearance of each of the points.
                 //  This allows us to flag certain points as being repeats of points
@@ -147,7 +132,7 @@ public static class Grid_GaussLegendre
                 //
                 //  This is SLIGHTLY tricky.
                 //
-                grid_level = index_level_gl(level, level_max, dim_num, order_nd,
+                int[] grid_level = index_level_gl(level, level_max, dim_num, order_nd,
                     grid_index2, grid_base2);
                 //
                 //  Only keep those points which first appear on this level.
@@ -173,11 +158,12 @@ public static class Grid_GaussLegendre
                     //
                     else
                     {
-                        grid_point_temp = new double[dim_num];
+                        double[] grid_point_temp = new double[dim_num];
 
                         GaussQuadrature.gl_abscissa(dim_num, 1, grid_index2,
                             grid_base2, ref grid_point_temp, gridIndex: +point * dim_num);
 
+                        int point2;
                         for (point2 = 0; point2 < point_num2; point2++)
                         {
                             point3 = point2;
@@ -276,30 +262,17 @@ public static class Grid_GaussLegendre
         //    the orders of the Gauss-Legendre rules associated with each point and dimension.
         //
     {
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        int[] grid_level;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -307,9 +280,9 @@ public static class Grid_GaussLegendre
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -318,6 +291,7 @@ public static class Grid_GaussLegendre
                 //  Transform each 1D level to a corresponding 1D order.
                 //
                 ClenshawCurtis.level_to_order_open(dim_num, level_1d, ref order_1d);
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = (order_1d[dim] - 1) / 2;
@@ -326,11 +300,11 @@ public static class Grid_GaussLegendre
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_z(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_z(dim_num, order_1d, order_nd);
                 //
                 //  Determine the first level of appearance of each of the points.
                 //  This allows us to flag certain points as being repeats of points
@@ -338,11 +312,12 @@ public static class Grid_GaussLegendre
                 //
                 //  This is SLIGHTLY tricky.
                 //
-                grid_level = index_level_gl(level, level_max, dim_num, order_nd,
+                int[] grid_level = index_level_gl(level, level_max, dim_num, order_nd,
                     grid_index2, grid_base2);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     if (grid_level[point] == level)
@@ -417,15 +392,8 @@ public static class Grid_GaussLegendre
         //    Output, int SPARSE_GRID_GL_SIZE, the number of points in the grid.
         //
     {
-        int dim;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
         int point_num;
-        int t;
         switch (level_max)
         {
             //
@@ -441,19 +409,19 @@ public static class Grid_GaussLegendre
         //
         point_num = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -463,6 +431,7 @@ public static class Grid_GaussLegendre
                 //
                 ClenshawCurtis.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     //
@@ -559,14 +528,11 @@ public static class Grid_GaussLegendre
         //    a corresponding BASE that is NOT zero.
         //
     {
-        int dim;
-        int[] grid_level;
-        int level_min;
         int point;
 
-        grid_level = new int[point_num];
+        int[] grid_level = new int[point_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
         //
         //  If a point has a DIM-th component whose INDEX is 0, then the 
         //  value of LEVEL at which this point would first be generated is
@@ -576,6 +542,7 @@ public static class Grid_GaussLegendre
         {
             grid_level[point] = Math.Max(level, level_min);
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 grid_level[point] = grid_index[dim + point * dim_num] switch

@@ -54,8 +54,6 @@ public static class Trisolve
         //
     {
         int i;
-        double[] x;
-        double xmult;
         //
         //  The diagonal entries can't be zero.
         //
@@ -71,7 +69,7 @@ public static class Trisolve
             }
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -80,7 +78,7 @@ public static class Trisolve
 
         for (i = 1; i < n; i++)
         {
-            xmult = a[i + 0 * n] / a[i - 1 + 1 * n];
+            double xmult = a[i + 0 * n] / a[i - 1 + 1 * n];
             a[i + 1 * n] -= xmult * a[i - 1 + 2 * n];
             x[i] -= xmult * x[i - 1];
         }

@@ -178,13 +178,15 @@ public static class CubicHermite
 
         for (i = 1; i < n; i++)
         {
-            if (x[i] <= x[i - 1])
+            if (!(x[i] <= x[i - 1]))
             {
-                Console.WriteLine("");
-                Console.WriteLine("SPLINE_PCHIP_SET - Fatal error!");
-                Console.WriteLine("  X array not strictly increasing.");
-                return;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("SPLINE_PCHIP_SET - Fatal error!");
+            Console.WriteLine("  X array not strictly increasing.");
+            return;
         }
 
         int nless1 = n - 1;
@@ -418,13 +420,15 @@ public static class CubicHermite
 
         for (i = 1; i < n; i++)
         {
-            if (x[i] <= x[i - 1])
+            if (!(x[i] <= x[i - 1]))
             {
-                Console.WriteLine("");
-                Console.WriteLine("SPLINE_PCHIP_VAL - Fatal error!");
-                Console.WriteLine("  X array not strictly increasing.");
-                return;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("SPLINE_PCHIP_VAL - Fatal error!");
+            Console.WriteLine("  X array not strictly increasing.");
+            return;
         }
 
         switch (ne)
@@ -462,16 +466,18 @@ public static class CubicHermite
             int j;
             for (j = j_first; j <= ne; j++)
             {
-                if (x[ir - 1] <= xe[j - 1])
+                if (!(x[ir - 1] <= xe[j - 1]))
                 {
-                    j_save = j;
-                    if (ir == n)
-                    {
-                        j_save = ne + 1;
-                    }
-
-                    break;
+                    continue;
                 }
+
+                j_save = j;
+                if (ir == n)
+                {
+                    j_save = ne + 1;
+                }
+
+                break;
             }
 
             //
@@ -537,11 +543,13 @@ public static class CubicHermite
 
                             for (i = j_first; i <= j - 1; i++)
                             {
-                                if (xe[i - 1] < x[ir - 2])
+                                if (!(xe[i - 1] < x[ir - 2]))
                                 {
-                                    j_new = i;
-                                    break;
+                                    continue;
                                 }
+
+                                j_new = i;
+                                break;
                             }
 
                             switch (j_new)

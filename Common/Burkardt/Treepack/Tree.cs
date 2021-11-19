@@ -533,9 +533,7 @@ public static class Tree
         for (j = 1; j <= nedge; j++)
         {
             inode[j - 1] = Math.Abs(inode[j - 1]);
-            k = inode[j - 1];
             jnode[j - 1] = Math.Abs(jnode[j - 1]);
-            k = jnode[j - 1];
         }
     }
 
@@ -707,11 +705,13 @@ public static class Tree
                     break;
                 }
 
-                if (jnode[j - 1] == iterm)
+                if (jnode[j - 1] != iterm)
                 {
-                    i2 = 1;
-                    break;
+                    continue;
                 }
+
+                i2 = 1;
+                break;
             }
 
             switch (i2)
@@ -1302,11 +1302,13 @@ public static class Tree
                     break;
             }
 
-            if (jleaf == ileaf)
+            if (jleaf != ileaf)
             {
-                j = i;
-                break;
+                continue;
             }
+
+            j = i;
+            break;
         }
 
         //
@@ -1379,13 +1381,15 @@ public static class Tree
         int father = 0;
         for (i = 1; i <= nnode; i++)
         {
-            if (parent[i - 1] == 0)
+            if (parent[i - 1] != 0)
             {
-                k = 1;
-                code[0] = 1;
-                father = i;
-                break;
+                continue;
             }
+
+            k = 1;
+            code[0] = 1;
+            father = i;
+            break;
         }
 
         switch (father)
@@ -1404,12 +1408,14 @@ public static class Tree
             int son;
             for (son = 1; son <= nnode; son++)
             {
-                if (parent[son - 1] == father)
+                if (parent[son - 1] != father)
                 {
-                    code[k - 1] = 1;
-                    father = son;
-                    break;
+                    continue;
                 }
+
+                code[k - 1] = 1;
+                father = son;
+                break;
             }
 
             switch (code[k - 1])
@@ -1490,11 +1496,13 @@ public static class Tree
                 return result;
             }
 
-            if (code2[i] < code1[i])
+            if (code2[i] >= code1[i])
             {
-                result = +1;
-                return result;
+                continue;
             }
+
+            result = +1;
+            return result;
         }
 
         return result;
@@ -1547,11 +1555,13 @@ public static class Tree
         int root = -1;
         for (i = 1; i <= nnode; i++)
         {
-            if (parent[i - 1] == 0)
+            if (parent[i - 1] != 0)
             {
-                root = i;
-                break;
+                continue;
             }
+
+            root = i;
+            break;
         }
 
         switch (root)
@@ -1581,11 +1591,13 @@ public static class Tree
                 depth_node[i - 1] += 1;
                 j = parent[j - 1];
 
-                if (0 < depth_node[j - 1])
+                if (0 >= depth_node[j - 1])
                 {
-                    depth_node[i - 1] += depth_node[j - 1];
-                    break;
+                    continue;
                 }
+
+                depth_node[i - 1] += depth_node[j - 1];
+                break;
             }
         }
 

@@ -1086,7 +1086,7 @@ public static partial class typeMethods
 
         if (r8vec_eq(2, t, t, 0 * 2, 1 * 2) ||
             r8vec_eq(2, t, t, 1 * 2, 2 * 2) ||
-            r8vec_eq(2, t, t, 2 * 2, 0 * 2))
+            r8vec_eq(2, t, t, 2 * 2))
         {
             value = 3;
             return value;

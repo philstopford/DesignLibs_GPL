@@ -171,18 +171,20 @@ public static class Comb
                 int i;
                 for (i = k; 2 <= i; i--)
                 {
-                    if (a[i - 2] < n - k + i - 1)
+                    if (a[i - 2] >= n - k + i - 1)
                     {
-                        a[i - 2] += 1;
-
-                        int j;
-                        for (j = i; j <= k; j++)
-                        {
-                            a[j - 1] = a[i - 2] + j - (i - 1);
-                        }
-
-                        return;
+                        continue;
                     }
+
+                    a[i - 2] += 1;
+
+                    int j;
+                    for (j = i; j <= k; j++)
+                    {
+                        a[j - 1] = a[i - 2] + j - (i - 1);
+                    }
+
+                    return;
                 }
 
                 done = true;

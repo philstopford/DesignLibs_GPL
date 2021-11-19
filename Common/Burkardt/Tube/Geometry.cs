@@ -96,8 +96,7 @@ public static class Geometry
 
             double[] pi = p.Skip(+(j - 1) * DIM_NUM).ToArray();
 
-            double[] pip1;
-            pip1 = j < n ? p.Skip(+j * DIM_NUM).ToArray() : p.Skip(+(j - 1) * DIM_NUM).ToArray();
+            double[] pip1 = j < n ? p.Skip(+j * DIM_NUM).ToArray() : p.Skip(+(j - 1) * DIM_NUM).ToArray();
 
             Angle.angle_box_2d(dist, pim1, pi, pip1, ref p4, ref p5);
 

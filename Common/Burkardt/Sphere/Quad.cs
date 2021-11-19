@@ -1416,7 +1416,7 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_MC, the approximate integral.
         //
     {
-        double sphere_area = 4.0 * Math.PI;
+        const double sphere_area = 4.0 * Math.PI;
 
         double[] x = MonteCarlo.sphere01_sample(n, ref seed);
 

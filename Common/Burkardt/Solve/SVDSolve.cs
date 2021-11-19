@@ -58,38 +58,22 @@ public static class SVDSolve
         //    Output, double SVD_SOLVE[N], the least squares solution.
         //
     {
-        double[] a_copy;
-        double[] e;
         int i;
-        int info;
-        int lda;
-        int ldu;
-        int ldv;
-        int job;
-        double[] sdiag;
-        double smax;
-        double stol;
-        double[] sub;
-        double[] u;
-        double[] ub;
-        double[] v;
-        double[] work;
-        double[] x;
         //
         //  Get the SVD.
         //
-        a_copy = typeMethods.r8mat_copy_new(m, n, a);
-        lda = m;
-        sdiag = new double[Math.Max(m + 1, n)];
-        e = new double[Math.Max(m + 1, n)];
-        u = new double[m * m];
-        ldu = m;
-        v = new double[n * n];
-        ldv = n;
-        work = new double[m];
-        job = 11;
+        double[] a_copy = typeMethods.r8mat_copy_new(m, n, a);
+        int lda = m;
+        double[] sdiag = new double[Math.Max(m + 1, n)];
+        double[] e = new double[Math.Max(m + 1, n)];
+        double[] u = new double[m * m];
+        int ldu = m;
+        double[] v = new double[n * n];
+        int ldv = n;
+        double[] work = new double[m];
+        int job = 11;
 
-        info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
 
         if (info != 0)
         {
@@ -101,35 +85,37 @@ public static class SVDSolve
             return null;
         }
 
-        ub = typeMethods.r8mat_mtv_new(m, m, u, b);
+        double[] ub = typeMethods.r8mat_mtv_new(m, m, u, b);
         //
         //  For singular problems, there may be tiny but nonzero singular values
         //  that should be ignored.  This is a reasonable attempt to avoid such 
         //  problems, although in general, the user might wish to control the tolerance.
         //
-        smax = typeMethods.r8vec_max(n, sdiag);
+        double smax = typeMethods.r8vec_max(n, sdiag);
         if (smax <= typeMethods.r8_epsilon())
         {
             smax = 1.0;
         }
 
-        stol = typeMethods.r8_epsilon() * smax;
+        double stol = typeMethods.r8_epsilon() * smax;
 
-        sub = new double[n];
+        double[] sub = new double[n];
 
         for (i = 0; i < n; i++)
         {
             sub[i] = 0.0;
-            if (i < m)
+            if (i >= m)
             {
-                if (stol <= sdiag[i])
-                {
-                    sub[i] = ub[i] / sdiag[i];
-                }
+                continue;
+            }
+
+            if (stol <= sdiag[i])
+            {
+                sub[i] = ub[i] / sdiag[i];
             }
         }
 
-        x = typeMethods.r8mat_mv_new(n, n, v, sub);
+        double[] x = typeMethods.r8mat_mv_new(n, n, v, sub);
 
         return x;
     }

@@ -86,11 +86,11 @@ public static class Tetrahedron
               //
               //  Adjust the rule for the interval [0,1].
               //
-              double a = -1.0;
-              double b = +1.0;
+              const double a = -1.0;
+              const double b = +1.0;
 
-              double c = 0.0;
-              double d = 1.0;
+              const double c = 0.0;
+              const double d = 1.0;
 
               QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab1, ref weight1);
               //
@@ -294,10 +294,10 @@ public static class Tetrahedron
               //
               //  Adjust the rules from [-1,1] to [0,1].
               //
-              double a = -1.0;
-              double b = +1.0;
-              double c = 0.0;
-              double d = 1.0;
+              const double a = -1.0;
+              const double b = +1.0;
+              const double c = 0.0;
+              const double d = 1.0;
 
               QuadratureRule.rule_adjust(a, b, c, d, order, ref xtab0, ref weight0);
 

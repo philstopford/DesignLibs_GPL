@@ -59,7 +59,6 @@ public static partial class Plot
         //
     {
         int delta;
-        int e;
         List<string> file_unit = new();
         int i;
         int node;
@@ -329,7 +328,7 @@ public static partial class Plot
 
                     for (i = 1; i <= 4; i++)
                     {
-                        e = typeMethods.i4_wrap(i, 1, 3);
+                        int e = typeMethods.i4_wrap(i, 1, 3);
 
                         node = triangle_node[e - 1 + triangle * 3] - 1;
 

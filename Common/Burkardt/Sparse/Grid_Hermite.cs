@@ -322,17 +322,19 @@ public static class Grid_Hermite
                 int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    if (grid_level[point] == level)
+                    if (grid_level[point] != level)
                     {
-                        for (dim = 0; dim < dim_num; dim++)
-                        {
-                            grid_index[dim + point_num2 * dim_num] =
-                                grid_index2[dim + point * dim_num];
-                            grid_base[dim + point_num2 * dim_num] = grid_base2[dim];
-                        }
-
-                        point_num2 += 1;
+                        continue;
                     }
+
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        grid_index[dim + point_num2 * dim_num] =
+                            grid_index2[dim + point * dim_num];
+                        grid_base[dim + point_num2 * dim_num] = grid_base2[dim];
+                    }
+
+                    point_num2 += 1;
                 }
 
                 if (!more)

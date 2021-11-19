@@ -320,7 +320,7 @@ public static class WrightOmega
         Complex wp1 = s * w + 1.0;
         e = r / wp1 * (2.0 * wp1 * (wp1 + 2.0 / 3.0 * r) - r)
             / (2.0 * wp1 * (wp1 + 2.0 / 3.0 * r) - 2.0 * r);
-        w *= (1.0 + e);
+        w *= 1.0 + e;
         //
         //  Iteration two.
         //
@@ -332,7 +332,7 @@ public static class WrightOmega
             wp1 = s * w + 1.0;
             e = r / wp1 * (2.0 * wp1 * (wp1 + 2.0 / 3.0 * r) - r)
                 / (2.0 * wp1 * (wp1 + 2.0 / 3.0 * r) - 2.0 * r);
-            w *= (1.0 + e);
+            w *= 1.0 + e;
         }
 
         //

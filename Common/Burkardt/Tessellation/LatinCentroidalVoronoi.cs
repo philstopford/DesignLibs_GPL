@@ -263,12 +263,14 @@ public static class LatinCentroidalVoronoi
         //
         for (j = 0; j < n; j++)
         {
-            if (count[j] != 0)
+            if (count[j] == 0)
             {
-                for (i = 0; i < m; i++)
-                {
-                    generator2[j * m + i] /= count[j];
-                }
+                continue;
+            }
+
+            for (i = 0; i < m; i++)
+            {
+                generator2[j * m + i] /= count[j];
             }
         }
 
@@ -379,10 +381,7 @@ public static class LatinCentroidalVoronoi
                 file_out.Add("#  Number of points N =       " + n + "");
                 file_out.Add("#  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
-                if (sample_function_init == 0 ||
-                    sample_function_init == 1 ||
-                    sample_function_cvt == 0 ||
-                    sample_function_cvt == 0)
+                if (sample_function_init is 0 or 1 || sample_function_cvt == 0)
                 {
                     file_out.Add("#");
                     file_out.Add("#  Initial SEED      =        " + seed_start + "");
@@ -655,11 +654,13 @@ public static class LatinCentroidalVoronoi
                 dist += Math.Pow ( x[i] - generator[i+j*m], 2 );
             }
 
-            if ( j == 0 || dist < dist_min )
+            if (j != 0 && !(dist < dist_min))
             {
-                dist_min = dist;
-                nearest = j;
+                continue;
             }
+
+            dist_min = dist;
+            nearest = j;
 
         }
 

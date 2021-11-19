@@ -474,7 +474,7 @@ public static partial class DataProducerExt
         comparer.ThrowIfNull("comparer");
 
         IComparer<TSource> itemComparer = new ProjectionComparer<TSource, TKey>(selector, comparer);
-        switch (@descending)
+        switch (descending)
         {
             case true:
                 itemComparer = itemComparer.Reverse();
@@ -504,7 +504,7 @@ public static partial class DataProducerExt
     {
         comparer.ThrowIfNull("comparer");
         IComparer<TSource> itemComparer = new ProjectionComparer<TSource, TKey>(selector, comparer);
-        switch (@descending)
+        switch (descending)
         {
             case true:
                 itemComparer = itemComparer.Reverse();

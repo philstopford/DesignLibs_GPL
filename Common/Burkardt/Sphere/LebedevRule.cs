@@ -38,7 +38,7 @@ public static class LebedevRule
         //    *  1, the rule is available in this library.
         //
     {
-        int rule_max = 65;
+        const int rule_max = 65;
         int[] table =
         {
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -836,14 +836,12 @@ public static class LebedevRule
         //    and weights of the points.
         //
     {
-        double a = 0.0;
-        double b = 0.0;
-        int n;
-        double v;
+        const double a = 0.0;
+        const double b = 0.0;
 
-        n = 0;
-        v = 0.1666666666666667;
-        n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
+        int n = 0;
+        double v = 0.1666666666666667;
+        gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0014(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -876,17 +874,14 @@ public static class LebedevRule
         //    and weights of the points.
         //
     {
-        double a = 0.0;
-        double b = 0.0;
-        int n;
-        double v;
+        const double a = 0.0;
+        const double b = 0.0;
 
-        n = 0;
-        v = 0.6666666666666667e-1;
+        int n = 0;
+        double v = 0.6666666666666667e-1;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.7500000000000000e-1;
-        n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0026(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -921,17 +916,14 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.4761904761904762e-1;
+        int n = 0;
+        double v = 0.4761904761904762e-1;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3809523809523810e-1;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3214285714285714e-1;
-        n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0038(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -966,18 +958,15 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.9523809523809524e-2;
+        int n = 0;
+        double v = 0.9523809523809524e-2;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3214285714285714e-1;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.4597008433809831;
         v = 0.2857142857142857e-1;
-        n += gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0050(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1012,11 +1001,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1269841269841270e-1;
+        int n = 0;
+        double v = 0.1269841269841270e-1;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.2257495590828924e-1;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1024,8 +1011,7 @@ public static class LebedevRule
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.3015113445777636;
         v = 0.2017333553791887e-1;
-        n += gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0074(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1060,11 +1046,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.5130671797338464e-3;
+        int n = 0;
+        double v = 0.5130671797338464e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.1660406956574204e-1;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1075,8 +1059,7 @@ public static class LebedevRule
         n += gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.3207726489807764;
         v = 0.1652217099371571e-1;
-        n += gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0086(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1111,11 +1094,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1154401154401154e-1;
+        int n = 0;
+        double v = 0.1154401154401154e-1;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.1194390908585628e-1;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1127,8 +1108,7 @@ public static class LebedevRule
         n += gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.3742430390903412;
         v = 0.1181230374690448e-1;
-        n += gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0110(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1163,11 +1143,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.3828270494937162e-2;
+        int n = 0;
+        double v = 0.3828270494937162e-2;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.9793737512487512e-2;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1182,8 +1160,7 @@ public static class LebedevRule
         n += gen_oh(4, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         a = 0.4783690288121502;
         v = 0.9694996361663028e-2;
-        n += gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(5, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0146(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1218,11 +1195,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.5996313688621381e-3;
+        int n = 0;
+        double v = 0.5996313688621381e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.7372999718620756e-2;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1240,8 +1215,7 @@ public static class LebedevRule
         a = 0.1403553811713183;
         b = 0.4493328323269557;
         v = 0.6991087353303262e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0170(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1276,11 +1250,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.5544842902037365e-2;
+        int n = 0;
+        double v = 0.5544842902037365e-2;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.6071332770670752e-2;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1301,8 +1273,7 @@ public static class LebedevRule
         a = 0.4990453161796037;
         b = 0.1446630744325115;
         v = 0.5968383987681156e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0194(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1337,11 +1308,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1782340447244611e-2;
+        int n = 0;
+        double v = 0.1782340447244611e-2;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.5716905949977102e-2;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1365,8 +1334,7 @@ public static class LebedevRule
         a = 0.1590417105383530;
         b = 0.8360360154824589;
         v = 0.5530248916233094e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0230(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1401,11 +1369,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = -0.5522639919727325e-1;
+        int n = 0;
+        double v = -0.5522639919727325e-1;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.4450274607445226e-2;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1433,8 +1399,7 @@ public static class LebedevRule
         a = 0.2272181808998187;
         b = 0.4864661535886647;
         v = 0.4695720972568883e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0266(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1469,11 +1434,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = -0.1313769127326952e-2;
+        int n = 0;
+        double v = -0.1313769127326952e-2;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = -0.2522728704859336e-2;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1504,8 +1467,7 @@ public static class LebedevRule
         a = 0.2314790158712601;
         b = 0.5244939240922365;
         v = 0.4071467593830964e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0302(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1540,11 +1502,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.8545911725128148e-3;
+        int n = 0;
+        double v = 0.8545911725128148e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3599119285025571e-2;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1579,8 +1539,7 @@ public static class LebedevRule
         a = 0.1233548532583327;
         b = 0.4127724083168531;
         v = 0.3392312205006170e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0350(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1615,11 +1574,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.3006796749453936e-2;
+        int n = 0;
+        double v = 0.3006796749453936e-2;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3050627745650771e-2;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1658,8 +1615,7 @@ public static class LebedevRule
         a = 0.1833434647041659;
         b = 0.9074658265305127;
         v = 0.2832187403926303e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0434(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1694,11 +1650,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.5265897968224436e-3;
+        int n = 0;
+        double v = 0.5265897968224436e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.2548219972002607e-2;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1746,8 +1700,7 @@ public static class LebedevRule
         a = 0.9371809858553722;
         b = 0.3344363145343455;
         v = 0.2236607760437849e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0590(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1782,11 +1735,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.3095121295306187e-3;
+        int n = 0;
+        double v = 0.3095121295306187e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.1852379698597489e-2;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1849,8 +1800,7 @@ public static class LebedevRule
         a = 0.5033564271075117;
         b = 0.8999205842074875e-1;
         v = 0.1802239128008525e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0770(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -1885,11 +1835,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.2192942088181184e-3;
+        int n = 0;
+        double v = 0.2192942088181184e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.1436433617319080e-2;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -1969,8 +1917,7 @@ public static class LebedevRule
         a = 0.3822477379524787;
         b = 0.5648768149099500;
         v = 0.1415914757466932e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld0974(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -2005,11 +1952,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1438294190527431e-3;
+        int n = 0;
+        double v = 0.1438294190527431e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.1125772288287004e-2;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -2108,8 +2053,7 @@ public static class LebedevRule
         a = 0.4055122137872836;
         b = 0.5674997546074373;
         v = 0.1121780048519972e-2;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld1202(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -2144,11 +2088,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1105189233267572e-3;
+        int n = 0;
+        double v = 0.1105189233267572e-3;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.9205232738090741e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -2268,8 +2210,7 @@ public static class LebedevRule
         a = 0.7043837184021765;
         b = 0.5693702498468441;
         v = 0.9105760258970126e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld1454(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -2304,11 +2245,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.7777160743261247e-4;
+        int n = 0;
+        double v = 0.7777160743261247e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.7557646413004701e-3;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -2451,8 +2390,7 @@ public static class LebedevRule
         a = 0.5817218061802611;
         b = 0.5797589531445219e-1;
         v = 0.7489908329079234e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld1730(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -2487,11 +2425,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.6309049437420976e-4;
+        int n = 0;
+        double v = 0.6309049437420976e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.6398287705571748e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -2659,8 +2595,7 @@ public static class LebedevRule
         a = 0.6511904367376113;
         b = 0.5354789536565540e-1;
         v = 0.6375414170333233e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld2030(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -2695,11 +2630,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.4656031899197431e-4;
+        int n = 0;
+        double v = 0.4656031899197431e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.5421549195295507e-3;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -2894,8 +2827,7 @@ public static class LebedevRule
         a = 0.6529222529856881;
         b = 0.9861621540127005e-1;
         v = 0.5433312705027845e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld2354(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -2930,11 +2862,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.3922616270665292e-4;
+        int n = 0;
+        double v = 0.3922616270665292e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.4703831750854424e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -3158,8 +3088,7 @@ public static class LebedevRule
         a = 0.6594761494500487;
         b = 0.4589901487275583e-1;
         v = 0.4691445539106986e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld2702(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -3194,11 +3123,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.2998675149888161e-4;
+        int n = 0;
+        double v = 0.2998675149888161e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.4077860529495355e-3;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -3453,8 +3380,7 @@ public static class LebedevRule
         a = 0.6607195418355383;
         b = 0.8551925814238349e-1;
         v = 0.4087191292799671e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld3074(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -3489,11 +3415,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.2599095953754734e-4;
+        int n = 0;
+        double v = 0.2599095953754734e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3603134089687541e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -3781,8 +3705,7 @@ public static class LebedevRule
         a = 0.6656263089489130;
         b = 0.4015955957805969e-1;
         v = 0.3595855034661997e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld3470(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -3817,11 +3740,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.2040382730826330e-4;
+        int n = 0;
+        double v = 0.2040382730826330e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.3178149703889544e-3;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -4144,8 +4065,7 @@ public static class LebedevRule
         a = 0.6665611711264577;
         b = 0.7548443301360158e-1;
         v = 0.3185447944625510e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld3890(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -4180,11 +4100,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1807395252196920e-4;
+        int n = 0;
+        double v = 0.1807395252196920e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.2848008782238827e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -4544,8 +4462,7 @@ public static class LebedevRule
         a = 0.6703715271049922;
         b = 0.3569455268820809e-1;
         v = 0.2843455206008783e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld4334(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -4580,11 +4497,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.1449063022537883e-4;
+        int n = 0;
+        double v = 0.1449063022537883e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.2546377329828424e-3;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -4983,8 +4898,7 @@ public static class LebedevRule
         a = 0.6710994302899275;
         b = 0.6755249309678028e-1;
         v = 0.2552114127580376e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld4802(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -5019,11 +4933,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.9687521879420705e-4;
+        int n = 0;
+        double v = 0.9687521879420705e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.2307897895367918e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -5463,8 +5375,7 @@ public static class LebedevRule
         a = 0.6741354429572275;
         b = 0.3211853196273233e-1;
         v = 0.2304831913227114e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld5294(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -5499,11 +5410,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.9080510764308163e-4;
+        int n = 0;
+        double v = 0.9080510764308163e-4;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.2084824361987793e-3;
         n += gen_oh(3, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -5986,8 +5895,7 @@ public static class LebedevRule
         a = 0.6747218676375681;
         b = 0.6112185773983089e-1;
         v = 0.2090509712889637e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static void ld5810(ref double[] x, ref double[] y, ref double[] z, ref double[] w)
@@ -6022,11 +5930,9 @@ public static class LebedevRule
     {
         double a = 0.0;
         double b = 0.0;
-        int n;
-        double v;
 
-        n = 0;
-        v = 0.9735347946175486e-5;
+        int n = 0;
+        double v = 0.9735347946175486e-5;
         n += gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
         v = 0.1907581241803167e-3;
         n += gen_oh(2, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
@@ -6554,8 +6460,7 @@ public static class LebedevRule
         a = 0.6772135750395347;
         b = 0.2919946135808105e-1;
         v = 0.1905534498734563e-3;
-        n += gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
-        n -= 1;
+        gen_oh(6, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
     public static int order_table(int rule)

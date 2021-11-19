@@ -111,12 +111,12 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("           A                 Z             B");
         Console.WriteLine("         F(A)              F(Z)          F(B)");
-        Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + z.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-        Console.WriteLine("  " + fa.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + fz.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + a.ToString().PadLeft(14)
+                               + "  " + z.ToString().PadLeft(14)
+                               + "  " + b.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + fa.ToString().PadLeft(14)
+                               + "  " + fz.ToString().PadLeft(14)
+                               + "  " + fb.ToString().PadLeft(14) + "");
         Console.WriteLine("  Number of calls to F = " + calls + "");
     }
 

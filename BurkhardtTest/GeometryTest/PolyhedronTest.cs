@@ -68,10 +68,10 @@ public static class PolyhedronTest
         Console.WriteLine("");
         for (i = 0; i < FACE_NUM; i++)
         {
-            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "  " + i.ToString().PadLeft(4);
             for (j = 0; j < order[i]; j++)
             {
-                cout += "  " + node[i * ORDER_MAX + j].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + node[i * ORDER_MAX + j].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -82,10 +82,10 @@ public static class PolyhedronTest
         Console.WriteLine("");
         for (j = 0; j < NODE_NUM; j++)
         {
-            cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + coord[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + coord[i + j * 3].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -161,10 +161,10 @@ public static class PolyhedronTest
         Console.WriteLine("");
         for (j = 0; j < FACE_NUM; j++)
         {
-            cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < order[j]; i++)
             {
-                cout += "  " + node[i + j * ORDER_MAX].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + node[i + j * ORDER_MAX].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -175,10 +175,10 @@ public static class PolyhedronTest
         Console.WriteLine("");
         for (j = 0; j < NODE_NUM; j++)
         {
-            cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + coord[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + coord[i + j * DIM_NUM].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -189,13 +189,13 @@ public static class PolyhedronTest
 
         Console.WriteLine("");
         Console.WriteLine("  The computed centroid is "
-                          + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                          + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                          + centroid[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                          + centroid[0].ToString().PadLeft(10) + "  "
+                          + centroid[1].ToString().PadLeft(10) + "  "
+                          + centroid[2].ToString().PadLeft(10) + "");
         Console.WriteLine("  The correct centroid is  "
-                          + centroid_exact[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                          + centroid_exact[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                          + centroid_exact[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                          + centroid_exact[0].ToString().PadLeft(10) + "  "
+                          + centroid_exact[1].ToString().PadLeft(10) + "  "
+                          + centroid_exact[2].ToString().PadLeft(10) + "");
 
     }
 
@@ -287,19 +287,19 @@ public static class PolyhedronTest
                       0.0 <= c[3] && c[3] <= 1.0 &&
                       c[0] + c[1] + c[2] + c[3] <= 1.0;
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + inside1.ToString(CultureInfo.InvariantCulture).PadLeft(1)
-                                   + "  " + inside2.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "");
+            Console.WriteLine("  " + p[0].ToString().PadLeft(10)
+                                   + "  " + p[1].ToString().PadLeft(10)
+                                   + "  " + p[2].ToString().PadLeft(10)
+                                   + "  " + inside1.ToString().PadLeft(1)
+                                   + "  " + inside2.ToString().PadLeft(1) + "");
 
             if (inside1 != inside2)
             {
                 Console.WriteLine("??? Disagreement!  Barycentric coordinates:");
-                Console.WriteLine("  " + c[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                       + "  " + c[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                       + "  " + c[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                       + "  " + c[3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + c[0].ToString().PadLeft(10)
+                                       + "  " + c[1].ToString().PadLeft(10)
+                                       + "  " + c[2].ToString().PadLeft(10)
+                                       + "  " + c[3].ToString().PadLeft(10) + "");
             }
 
         }
@@ -367,10 +367,10 @@ public static class PolyhedronTest
         Console.WriteLine("");
         for (j = 0; j < FACE_NUM; j++)
         {
-            cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < order[j]; i++)
             {
-                cout += "  " + node[i + j * ORDER_MAX].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + node[i + j * ORDER_MAX].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -381,10 +381,10 @@ public static class PolyhedronTest
         Console.WriteLine("");
         for (j = 0; j < NODE_NUM; j++)
         {
-            cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + coord[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + coord[i + j * 3].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);

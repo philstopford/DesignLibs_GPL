@@ -52,9 +52,9 @@ public static class normalTest
             x2 = CDF.normal_01_cdf_inv ( fx );
 
             Console.WriteLine("  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(8)   + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)  + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + fx.ToString().PadLeft(8)   + "  "
+                              + x.ToString().PadLeft(14)  + "  "
+                              + x2.ToString().PadLeft(14) + "");
         }
 
     }

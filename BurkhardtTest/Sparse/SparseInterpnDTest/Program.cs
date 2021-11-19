@@ -278,9 +278,9 @@ internal class Program
             //
             app_error = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + nd_total.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + app_error.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + l.ToString().PadLeft(2)
+                                   + "  " + nd_total.ToString().PadLeft(8)
+                                   + "  " + app_error.ToString().PadLeft(8) + "");
 
         }
     }

@@ -115,7 +115,7 @@ internal class Program
         string cout = "";
         for (i = 0; i < 5; i++)
         {
-            cout += prob[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+            cout += prob[i].ToString().PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -329,11 +329,11 @@ internal class Program
         pos_percent = 100 * pos_count / (double) (m * n);
         neg_percent = 100 * neg_count / (double) (m * n);
 
-        Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + pos_count.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + pos_percent.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + neg_count.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + neg_percent.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + step.ToString().PadLeft(4)
+                               + "  " + pos_count.ToString().PadLeft(6)
+                               + "  " + pos_percent.ToString().PadLeft(6)
+                               + "  " + neg_count.ToString().PadLeft(6)
+                               + "  " + neg_percent.ToString().PadLeft(6) + "");
     }
 
     private static void neighbor_2d_stats ( int step, int m, int n, int[] c1, int[] c5 )
@@ -393,12 +393,12 @@ internal class Program
                 stats[c5[i+j*m]-1+5] += 1;
             }
         }
-        string cout = "  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+        string cout = "  " + step.ToString().PadLeft(4);
         for ( i = - 5; i <= 5; i++ )
         {
             if ( i != 0 )
             {
-                cout += "  " + stats[i+5].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + stats[i+5].ToString().PadLeft(4);
             }
         }
         Console.WriteLine(cout);

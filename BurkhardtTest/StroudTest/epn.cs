@@ -52,7 +52,7 @@ public static class epn
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -74,9 +74,9 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_GLG_00_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 1;
@@ -91,9 +91,9 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_GLG_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -108,9 +108,9 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_GLG_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = -1.0;
@@ -124,13 +124,13 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 
@@ -175,7 +175,7 @@ public static class epn
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -197,9 +197,9 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_LAG_00_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 1;
@@ -214,9 +214,9 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_LAG_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -231,9 +231,9 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_LAG_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = -1.0;
@@ -247,13 +247,13 @@ public static class epn
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 

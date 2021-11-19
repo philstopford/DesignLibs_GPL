@@ -123,10 +123,10 @@ internal class Program
 
                 exact = Integrals.circle01_monomial_integral(e);
 
-                Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + e[0].ToString().PadLeft(2)
+                                       + "  " + e[1].ToString().PadLeft(2)
+                                       + "  " + exact.ToString().PadLeft(14)
+                                       + "  " + q.ToString().PadLeft(14) + "");
             }
         }
     }

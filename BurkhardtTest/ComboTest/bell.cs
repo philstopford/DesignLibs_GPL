@@ -48,9 +48,9 @@ internal partial class Program
                 break;
             }
             b = Ranking.bell_numbers ( n );
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + bn.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + b[n].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(8)
+                                   + "  " + bn.ToString().PadLeft(12)
+                                   + "  " + b[n].ToString().PadLeft(12) + "");
         }
     }
 }

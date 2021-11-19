@@ -200,7 +200,7 @@ internal partial class Program
             string cout = "";
             for (j = jlo + 1; j <= jlo + index[i - 1]; j++)
             {
-                cout += "  " + t[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[j - 1].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

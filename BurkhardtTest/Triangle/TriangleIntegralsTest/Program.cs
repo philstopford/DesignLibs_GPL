@@ -102,9 +102,9 @@ internal class Program
         for (k = 1; k <= 20; k++)
         {
             typeMethods.i4_to_pascal(k, ref i, ref j);
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "    " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(4)
+                                   + "    " + i.ToString().PadLeft(4)
+                                   + "  " + j.ToString().PadLeft(4) + "");
         }
     }
 
@@ -143,8 +143,8 @@ internal class Program
         for (k = 1; k <= 20; k++)
         {
             d = typeMethods.i4_to_pascal_degree(k);
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "    " + d.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(4)
+                                   + "    " + d.ToString().PadLeft(4) + "");
         }
     }
 
@@ -188,9 +188,9 @@ internal class Program
             {
                 j = d - i;
                 k = typeMethods.pascal_to_i4(i, j);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "    " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + j.ToString().PadLeft(4)
+                                       + "    " + k.ToString().PadLeft(4) + "");
             }
 
             Console.WriteLine("");
@@ -785,11 +785,11 @@ internal class Program
             t[0 + 1 * 2] = r * Math.Cos(angler);
             t[1 + 1 * 2] = r * Math.Sin(angler);
             area = Integrals.triangle_area(t);
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + angled.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + t[0 + 1 * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + t[1 + 1 * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                   + "  " + angled.ToString().PadLeft(10)
+                                   + "  " + t[0 + 1 * 2].ToString().PadLeft(10)
+                                   + "  " + t[1 + 1 * 2].ToString().PadLeft(10)
+                                   + "  " + area.ToString().PadLeft(10) + "");
         }
     }
 
@@ -1106,8 +1106,8 @@ internal class Program
             {
                 j = d - i;
                 q = Integrals.triangle01_monomial_integral(i, j);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                       + "  " + j.ToString().PadLeft(2)
                                        + "  " + q + "");
             }
         }
@@ -1313,10 +1313,10 @@ internal class Program
                 for (i = 0; i <= 4; i++)
                 {
                     t = Trinomial.trinomial(i, j, k);
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                           + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                           + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                           + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                           + "  " + j.ToString().PadLeft(4)
+                                           + "  " + k.ToString().PadLeft(4)
+                                           + "  " + t.ToString().PadLeft(8) + "");
                 }
             }
         }

@@ -81,10 +81,10 @@ internal class Program
             available = LebedevRule.available_table(rule);
             order = LebedevRule.order_table(rule);
             precision = LebedevRule.precision_table(rule);
-            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + available.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + precision.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+            Console.WriteLine("  " + rule.ToString().PadLeft(4)
+                                   + "  " + available.ToString().PadLeft(4)
+                                   + "  " + order.ToString().PadLeft(4)
+                                   + "  " + precision.ToString().PadLeft(4) + "");
         }
     }
 
@@ -220,7 +220,7 @@ internal class Program
 
                     Console.WriteLine("");
                     ;
-                    Console.WriteLine("  Order = " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                    Console.WriteLine("  Order = " + order.ToString().PadLeft(4)
                                                    + "  LMAXW = " + LebedevRule.precision_table(n)
                                                    + "  max error = " + err_max + "");
                     switch (order)

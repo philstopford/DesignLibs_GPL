@@ -44,8 +44,8 @@ public static class EulerTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + c.ToString().PadLeft(10) + "");
         }
     }
     public static void euler_poly_values_test ( )
@@ -88,9 +88,9 @@ public static class EulerTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(16) + "");
         }
     }
 }

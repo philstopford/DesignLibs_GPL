@@ -53,13 +53,13 @@ public static class PythagorusTest
             d = a * a + b * b;
             e = c * c;
 
-            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + b.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + c.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + d.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + e.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine(i.ToString().PadLeft(6) + "  "
+                                                      + j.ToString().PadLeft(6) + "  "
+                                                      + a.ToString().PadLeft(6) + "  "
+                                                      + b.ToString().PadLeft(6) + "  "
+                                                      + c.ToString().PadLeft(6) + "  "
+                                                      + d.ToString().PadLeft(6) + "  "
+                                                      + e.ToString().PadLeft(6) + "");
         }
     }
 }

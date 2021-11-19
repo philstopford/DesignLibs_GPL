@@ -92,8 +92,8 @@ internal class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
     }
@@ -147,8 +147,8 @@ internal class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(i.ToString().PadLeft(6) + "  "
+                                                      + r[i].ToString().PadLeft(10) + "");
         }
 
     }
@@ -205,8 +205,8 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
-                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
+                                                               + r[i].ToString().PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -226,8 +226,8 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
-                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
+                                                               + r[i].ToString().PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -247,8 +247,8 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
-                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
+                                                               + r[i].ToString().PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -268,8 +268,8 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
-                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
+                                                               + r[i].ToString().PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -333,8 +333,8 @@ internal class Program
             seed = VanDerCorput.van_der_corput_seed_get();
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
         base_ = 3;
@@ -356,8 +356,8 @@ internal class Program
             seed = VanDerCorput.van_der_corput_seed_get();
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
         base_ = 4;
@@ -379,8 +379,8 @@ internal class Program
             seed = VanDerCorput.van_der_corput_seed_get();
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
     }
@@ -447,8 +447,8 @@ internal class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -472,8 +472,8 @@ internal class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -497,8 +497,8 @@ internal class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
+                                                         + r.ToString().PadLeft(10) + "");
         }
 
         ;
@@ -542,15 +542,15 @@ internal class Program
         {
 
             Console.WriteLine("");
-            Console.WriteLine(base_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine(base_.ToString().PadLeft(6) + "");
 
             for (seed = 0; seed <= 10; seed++)
             {
                 r = VanDerCorput.i4_to_van_der_corput(seed, base_);
 
                 Console.WriteLine("        "
-                                  + seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                  + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                                  + seed.ToString().PadLeft(6) + "  "
+                                  + r.ToString().PadLeft(10) + "");
             }
 
         }
@@ -597,7 +597,7 @@ internal class Program
         {
 
             Console.WriteLine("");
-            Console.WriteLine(base_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine(base_.ToString().PadLeft(6) + "");
 
             seed = 0;
 
@@ -607,8 +607,8 @@ internal class Program
             {
 
                 Console.WriteLine("        "
-                                  + (seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                  + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                                  + (seed + i).ToString().PadLeft(6) + "  "
+                                  + r[i].ToString().PadLeft(10) + "");
             }
 
         }
@@ -650,10 +650,10 @@ internal class Program
         for (n = 1; n <= 20; n++)
         {
             r = VanDerCorput.vdc_numerator_sequence(n);
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":";
+            string cout = "  " + n.ToString().PadLeft(2) + ":";
             for (i = 0; i < n; i++)
             {
-                cout += "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + r[i].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);

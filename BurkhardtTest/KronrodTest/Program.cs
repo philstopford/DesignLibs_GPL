@@ -127,10 +127,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 1; i <= n + 1; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + w1[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + w2[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + x[i - 1].ToString().PadLeft(14)
+                                   + "  " + w1[i - 1].ToString().PadLeft(14)
+                                   + "  " + w2[i - 1].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -150,9 +150,9 @@ internal class Program
                 s = +1.0;
             }
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + xg[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + (s * x[i2 - 1]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + xg[i - 1].ToString().PadLeft(14)
+                                   + "  " + (s * x[i2 - 1]).ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -170,9 +170,9 @@ internal class Program
                 i2 = 2 * (n + 1) - 2 * i;
             }
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + wg[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + w2[i2 - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + wg[i - 1].ToString().PadLeft(14)
+                                   + "  " + w2[i2 - 1].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -192,9 +192,9 @@ internal class Program
                 s = +1.0;
             }
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + xk[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + (s * x[i2 - 1]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + xk[i - 1].ToString().PadLeft(14)
+                                   + "  " + (s * x[i2 - 1]).ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -212,9 +212,9 @@ internal class Program
                 i2 = 2 * (n + 1) - i;
             }
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + wk[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + w1[i2 - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + wk[i - 1].ToString().PadLeft(14)
+                                   + "  " + w1[i2 - 1].ToString().PadLeft(14) + "");
         }
     }
 
@@ -266,10 +266,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 1; i <= n + 1; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + w1[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + w2[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + x[i - 1].ToString().PadLeft(14)
+                                   + "  " + w1[i - 1].ToString().PadLeft(14)
+                                   + "  " + w2[i - 1].ToString().PadLeft(14) + "");
         }
     }
 

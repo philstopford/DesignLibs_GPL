@@ -43,24 +43,24 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Coordinates of 3 points:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
+                                        + "  " + p1[1].ToString().PadLeft(12)
+                                        + "  " + p1[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
+                                        + "  " + p2[1].ToString().PadLeft(12)
+                                        + "  " + p2[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
+                                        + "  " + p3[1].ToString().PadLeft(12)
+                                        + "  " + p3[2].ToString().PadLeft(12) + "");
 
             Geometry.plane_exp_normal_3d(p1, p2, p3, ref pn);
 
             Console.WriteLine("");
             Console.WriteLine("  Unit normal vector:");
             Console.WriteLine("");
-            Console.WriteLine("  PN = " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  PN = " + pn[0].ToString().PadLeft(12)
+                                        + "  " + pn[1].ToString().PadLeft(12)
+                                        + "  " + pn[2].ToString().PadLeft(12) + "");
 
       }
 
@@ -114,15 +114,15 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Input:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
+                                        + "  " + p1[1].ToString().PadLeft(12)
+                                        + "  " + p1[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
+                                        + "  " + p2[1].ToString().PadLeft(12)
+                                        + "  " + p2[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
+                                        + "  " + p3[1].ToString().PadLeft(12)
+                                        + "  " + p3[2].ToString().PadLeft(12) + "");
             Console.WriteLine("");
             Console.WriteLine("  Output:");
             Console.WriteLine("");
@@ -146,15 +146,15 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Input:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
+                                        + "  " + p1[1].ToString().PadLeft(12)
+                                        + "  " + p1[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
+                                        + "  " + p2[1].ToString().PadLeft(12)
+                                        + "  " + p2[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
+                                        + "  " + p3[1].ToString().PadLeft(12)
+                                        + "  " + p3[2].ToString().PadLeft(12) + "");
             Console.WriteLine("");
             Console.WriteLine("  Output:");
             Console.WriteLine("");
@@ -212,15 +212,15 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Input:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
+                                        + "  " + p1[1].ToString().PadLeft(12)
+                                        + "  " + p1[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
+                                        + "  " + p2[1].ToString().PadLeft(12)
+                                        + "  " + p2[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
+                                        + "  " + p3[1].ToString().PadLeft(12)
+                                        + "  " + p3[2].ToString().PadLeft(12) + "");
             Console.WriteLine("");
             Console.WriteLine("  Output:");
             Console.WriteLine("");
@@ -242,21 +242,21 @@ public static class PlaneTest
             string cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p1[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p2[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p3[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -331,15 +331,15 @@ public static class PlaneTest
             {
                   for (i = 0; i < DIM_NUM; i++)
                   {
-                        cout += "  " + po[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                        cout += "  " + po[i + j * DIM_NUM].ToString().PadLeft(10);
                   }
 
                   for (i = 0; i < DIM_NUM; i++)
                   {
-                        cout += "  " + pp[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                        cout += "  " + pp[i + j * DIM_NUM].ToString().PadLeft(10);
                   }
 
-                  cout += "  " + ivis[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                  cout += "  " + ivis[j].ToString().PadLeft(4);
                   Console.WriteLine(cout);
             }
 
@@ -394,21 +394,21 @@ public static class PlaneTest
             string cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p1[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p2[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p3[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -527,7 +527,7 @@ public static class PlaneTest
                         Console.WriteLine("  The plane and line intersect at");
                         for (i = 0; i < DIM_NUM; i++)
                         {
-                              cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                              cout += "  " + p[i].ToString().PadLeft(12);
                         }
 
                         Console.WriteLine(cout);
@@ -698,11 +698,11 @@ public static class PlaneTest
 
                   dist_signed = Geometry.plane_imp_point_dist_signed_3d(a, b, c, d, p);
 
-                  Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                         + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                         + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                         + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                         + "  " + dist_signed.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                  Console.WriteLine("  " + p[0].ToString().PadLeft(10)
+                                         + "  " + p[1].ToString().PadLeft(10)
+                                         + "  " + p[2].ToString().PadLeft(10)
+                                         + "  " + dist.ToString().PadLeft(10)
+                                         + "  " + dist_signed.ToString().PadLeft(10) + "");
             }
 
       }
@@ -898,10 +898,10 @@ public static class PlaneTest
                         {
                               for (j = 0; j < int_num; j++)
                               {
-                                    Console.WriteLine("  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                                           + "  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                                           + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                                           + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                                    Console.WriteLine("  " + (j + 1).ToString().PadLeft(4)
+                                                           + "  " + p[0 + j * 3].ToString().PadLeft(10)
+                                                           + "  " + p[1 + j * 3].ToString().PadLeft(10)
+                                                           + "  " + p[2 + j * 3].ToString().PadLeft(10) + "");
                               }
 
                               break;
@@ -1242,7 +1242,7 @@ public static class PlaneTest
                         Console.WriteLine("");
                         for (j = 0; j < int_num; j++)
                         {
-                              cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                              cout = "  " + j.ToString().PadLeft(4);
                               for (i = 0; i < 3; i++)
                               {
                                     cout += "  " + pint[i + j * 3];
@@ -1370,21 +1370,21 @@ public static class PlaneTest
             cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p1[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p2[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                  cout += "  " + p3[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1530,11 +1530,11 @@ public static class PlaneTest
                   string cout = "";
                   for ( i = 0; i < DIM_NUM; i++ )
                   {
-                        cout += "  " + po[i+test*DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                        cout += "  " + po[i+test*DIM_NUM].ToString().PadLeft(10);
                   }
                   for ( i = 0; i < DIM_NUM; i++ )
                   {
-                        cout += "  " + pp[i+test*DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                        cout += "  " + pp[i+test*DIM_NUM].ToString().PadLeft(10);
                   }
                   Console.WriteLine(cout);
             }

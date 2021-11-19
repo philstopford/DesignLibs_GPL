@@ -280,11 +280,11 @@ internal class Program
                     {
                         case 0.0 when beta[dim] == 0.0:
                             rule[dim] = 1;
-                            Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  Gauss Legendre.");
+                            Console.WriteLine("  " + dim.ToString().PadLeft(4) + "  Gauss Legendre.");
                             break;
                         default:
                             rule[dim] = 2;
-                            Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  Gauss Jacobi"
+                            Console.WriteLine("  " + dim.ToString().PadLeft(4) + "  Gauss Jacobi"
                                               + ", ALPHA = " + alpha[dim]
                                               + ", BETA = " + beta[dim] + "");
                             break;
@@ -298,11 +298,11 @@ internal class Program
                     {
                         case 0.0:
                             rule[dim] = 3;
-                            Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  Gauss Laguerre.");
+                            Console.WriteLine("  " + dim.ToString().PadLeft(4) + "  Gauss Laguerre.");
                             break;
                         default:
                             rule[dim] = 4;
-                            Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  Generalized Gauss Laguerre"
+                            Console.WriteLine("  " + dim.ToString().PadLeft(4) + "  Generalized Gauss Laguerre"
                                               + ", ALPHA = " + alpha[dim] + "");
                             break;
                     }
@@ -318,11 +318,11 @@ internal class Program
                         {
                             case 0.0:
                                 rule[dim] = 5;
-                                Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  Gauss Hermite dimension.");
+                                Console.WriteLine("  " + dim.ToString().PadLeft(4) + "  Gauss Hermite dimension.");
                                 break;
                             default:
                                 rule[dim] = 6;
-                                Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  Generalized Gauss Hermite"
+                                Console.WriteLine("  " + dim.ToString().PadLeft(4) + "  Generalized Gauss Hermite"
                                                   + ", ALPHA = " + alpha[dim] + "");
                                 break;
                         }
@@ -365,13 +365,13 @@ internal class Program
                 quad_error = MonomialQuadrature.monomial_quadrature(dim_num, point_num, rule, alpha,
                     beta, expon, weight, x);
 
-                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "     " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                string cout = "  " + quad_error.ToString().PadLeft(12)
+                                   + "     " + degree.ToString().PadLeft(2)
                                    + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                    cout += expon[dim].ToString().PadLeft(3);
                 }
 
                 Console.WriteLine(cout);

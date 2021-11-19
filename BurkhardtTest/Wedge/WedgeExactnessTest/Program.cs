@@ -185,13 +185,13 @@ internal class Program
 
                 quad_error = Math.Abs(quad - exact);
 
-                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "     " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                string cout = "  " + quad_error.ToString().PadLeft(12)
+                                   + "     " + degree.ToString().PadLeft(2)
                                    + "  ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                    cout += expon[dim].ToString().PadLeft(3);
                 }
 
                 Console.WriteLine(cout);

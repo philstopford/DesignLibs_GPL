@@ -212,7 +212,7 @@ internal class Program
 
             x = MonteCarlo.ellipse_sample(n, a, r, ref data, ref seed);
 
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + n.ToString().PadLeft(8);
 
             for (j = 0; j < 7; j++)
             {
@@ -224,7 +224,7 @@ internal class Program
                 result = MonteCarlo.ellipse_area1(a, r) * typeMethods.r8vec_sum(n, value)
                          / n;
 
-                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result.ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);

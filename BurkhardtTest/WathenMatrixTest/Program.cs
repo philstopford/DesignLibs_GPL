@@ -290,14 +290,14 @@ internal class Program
             //
             //  Report.
             //
-            Console.WriteLine(nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
-                                                       + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                       + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                       + storage_ge.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                       + bw1.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                       + bw2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                       + storage_gb.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                       + storage_sparse.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine(nx.ToString().PadLeft(6) + "      "
+                                                       + (nx * ny).ToString().PadLeft(4) + "  "
+                                                       + n.ToString().PadLeft(6) + "  "
+                                                       + storage_ge.ToString().PadLeft(8) + "  "
+                                                       + bw1.ToString().PadLeft(8) + "  "
+                                                       + bw2.ToString().PadLeft(8) + "  "
+                                                       + storage_gb.ToString().PadLeft(8) + "  "
+                                                       + storage_sparse.ToString().PadLeft(8) + "");
             //
             //  Ready for next iteration.
             //
@@ -404,13 +404,13 @@ internal class Program
             //
             //  Report.
             //
-            Console.WriteLine(nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
-                                                       + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                       + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                       + storage_ge.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                       + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                       + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                       + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(nx.ToString().PadLeft(6) + "      "
+                                                       + (nx * ny).ToString().PadLeft(4) + "  "
+                                                       + n.ToString().PadLeft(6) + "  "
+                                                       + storage_ge.ToString().PadLeft(8) + "  "
+                                                       + t1.TotalSeconds.ToString().PadLeft(10) + "  "
+                                                       + t2.TotalSeconds.ToString().PadLeft(10) + "  "
+                                                       + e.ToString().PadLeft(10) + "");
             //
             //  Ready for next iteration.
             //
@@ -525,13 +525,13 @@ internal class Program
             //
             //  Report.
             //
-            Console.WriteLine(nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
-                                                       + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                       + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                       + storage_gb.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                       + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                       + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                       + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(nx.ToString().PadLeft(6) + "      "
+                                                       + (nx * ny).ToString().PadLeft(4) + "  "
+                                                       + n.ToString().PadLeft(6) + "  "
+                                                       + storage_gb.ToString().PadLeft(8) + "  "
+                                                       + t1.TotalSeconds.ToString().PadLeft(10) + "  "
+                                                       + t2.TotalSeconds.ToString().PadLeft(10) + "  "
+                                                       + e.ToString().PadLeft(10) + "");
             //
             //  Ready for next iteration.
             //
@@ -644,13 +644,13 @@ internal class Program
             //
             Console.WriteLine("");
             Console.WriteLine("  WATHEN_GE      "
-                              + nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
-                              + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + storage_ge.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + nx.ToString().PadLeft(6) + "      "
+                              + (nx * ny).ToString().PadLeft(4) + "  "
+                              + n.ToString().PadLeft(6) + "  "
+                              + storage_ge.ToString().PadLeft(8) + "  "
+                              + t1.TotalSeconds.ToString().PadLeft(10) + "  "
+                              + t2.TotalSeconds.ToString().PadLeft(10) + "  "
+                              + e.ToString().PadLeft(10) + "");
 
             //
             //  Compute the bandwidth.
@@ -698,13 +698,13 @@ internal class Program
             //  Report.
             //
             Console.WriteLine("  WATHEN_GB      "
-                              + nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
-                              + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + storage_gb.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + nx.ToString().PadLeft(6) + "      "
+                              + (nx * ny).ToString().PadLeft(4) + "  "
+                              + n.ToString().PadLeft(6) + "  "
+                              + storage_gb.ToString().PadLeft(8) + "  "
+                              + t1.TotalSeconds.ToString().PadLeft(10) + "  "
+                              + t2.TotalSeconds.ToString().PadLeft(10) + "  "
+                              + e.ToString().PadLeft(10) + "");
             //
             //  Ready for next iteration.
             //
@@ -1022,11 +1022,11 @@ internal class Program
                 {
                     for (i = 0; i <= 2 * ny; i++)
                     {
-                        Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                               + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                               + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                               + "  " + xy[k].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                               + "  " + xy[k + n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                        Console.WriteLine("  " + k.ToString().PadLeft(2)
+                                               + "  " + i.ToString().PadLeft(2)
+                                               + "  " + j.ToString().PadLeft(2)
+                                               + "  " + xy[k].ToString().PadLeft(8)
+                                               + "  " + xy[k + n].ToString().PadLeft(8) + "");
                         k += 1;
                     }
 
@@ -1036,11 +1036,11 @@ internal class Program
                 {
                     for (i = 0; i <= ny; i++)
                     {
-                        Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                               + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                               + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                               + "  " + xy[k].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                               + "  " + xy[k + n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                        Console.WriteLine("  " + k.ToString().PadLeft(2)
+                                               + "  " + i.ToString().PadLeft(2)
+                                               + "  " + j.ToString().PadLeft(2)
+                                               + "  " + xy[k].ToString().PadLeft(8)
+                                               + "  " + xy[k + n].ToString().PadLeft(8) + "");
                         k += 1;
                     }
 

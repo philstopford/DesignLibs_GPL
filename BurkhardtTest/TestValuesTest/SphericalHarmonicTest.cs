@@ -50,8 +50,8 @@ public class SphericalHarmonicTest
             }
 
             Console.WriteLine("  "
-                              + l.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + l.ToString().PadLeft(2) + "  "
+                              + m.ToString().PadLeft(2) + "  "
                               + theta.ToString("0.####").PadLeft(8) + "  "
                               + phi.ToString("0.####").PadLeft(8) + "  "
                               + yr.ToString("0.################").PadLeft(24) + "  "

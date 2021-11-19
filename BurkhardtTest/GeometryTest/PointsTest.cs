@@ -158,21 +158,21 @@ public static class PointsTest
             string cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + p1[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + p2[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + p3[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);

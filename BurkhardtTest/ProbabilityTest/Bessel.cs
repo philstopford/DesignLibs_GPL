@@ -52,9 +52,9 @@ internal partial class Program
             double fx2 = Bessel.bessel_i0(x);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(16) + "  "
+                              + fx2.ToString().PadLeft(16) + "");
         }
     }
 
@@ -104,9 +104,9 @@ internal partial class Program
             double fx2 = Bessel.bessel_i1(x);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(16) + "  "
+                              + fx2.ToString().PadLeft(16) + "");
         }
     }
 }

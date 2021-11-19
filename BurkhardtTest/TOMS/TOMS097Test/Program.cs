@@ -102,7 +102,7 @@ internal class Program
         {
             for (j = 0; j < n; j++)
             {
-                cout += a[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += a[i + j * n].ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -150,7 +150,7 @@ internal class Program
         {
             for (j = 0; j < n; j++)
             {
-                cout += a[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += a[i + j * n].ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -217,7 +217,7 @@ internal class Program
         {
             for (j = 0; j < n; j++)
             {
-                cout += a[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += a[i + j * n].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -264,7 +264,7 @@ internal class Program
         {
             for (j = 0; j < n; j++)
             {
-                cout += a[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += a[i + j * n].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);

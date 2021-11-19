@@ -191,7 +191,7 @@ internal class Program
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -214,9 +214,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_GEG_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -231,9 +231,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_GEG_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = 1.0;
@@ -248,9 +248,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 3;
@@ -265,13 +265,13 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_GEG_03_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
     }
 
     private static void cn_jac_tests()
@@ -418,7 +418,7 @@ internal class Program
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -441,9 +441,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_JAC_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -458,9 +458,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_JAC_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = (alpha + beta + 2.0) / 2.0;
@@ -477,13 +477,13 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 
@@ -612,7 +612,7 @@ internal class Program
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -635,9 +635,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -652,9 +652,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = 1.0;
@@ -668,9 +668,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 3;
@@ -685,9 +685,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_03_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = Xiu.cn_leg_03_xiu_size(n);
             x = new double[n * o];
@@ -697,9 +697,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_03_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 5;
@@ -718,9 +718,9 @@ internal class Program
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  CN_LEG_05_1(1):"
-                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                      + "  " + o.ToString().PadLeft(6)
+                                      + "  " + quad.ToString().PadLeft(14)
+                                      + "  " + err.ToString().PadLeft(14) + "");
                     break;
             }
 
@@ -736,9 +736,9 @@ internal class Program
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  CN_LEG_05_1(2):"
-                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                      + "  " + o.ToString().PadLeft(6)
+                                      + "  " + quad.ToString().PadLeft(14)
+                                      + "  " + err.ToString().PadLeft(14) + "");
                     break;
             }
 
@@ -753,15 +753,15 @@ internal class Program
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  CN_LEG_05_2:   "
-                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                      + "  " + o.ToString().PadLeft(6)
+                                      + "  " + quad.ToString().PadLeft(14)
+                                      + "  " + err.ToString().PadLeft(14) + "");
                     break;
             }
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 
@@ -904,7 +904,7 @@ internal class Program
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += "  " + expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += "  " + expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -927,9 +927,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -944,9 +944,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = 2.0;
@@ -960,9 +960,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 3;
@@ -977,9 +977,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_03_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = Xiu.en_her_03_xiu_size(n);
             x = new double[n * o];
@@ -989,9 +989,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_03_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 5;
@@ -1010,9 +1010,9 @@ internal class Program
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  EN_HER_05_1(1):"
-                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                      + "  " + o.ToString().PadLeft(6)
+                                      + "  " + quad.ToString().PadLeft(14)
+                                      + "  " + err.ToString().PadLeft(14) + "");
                     break;
             }
 
@@ -1030,9 +1030,9 @@ internal class Program
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  EN_HER_05_1(2):"
-                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                      + "  " + o.ToString().PadLeft(6)
+                                      + "  " + quad.ToString().PadLeft(14)
+                                      + "  " + err.ToString().PadLeft(14) + "");
                     break;
             }
 
@@ -1044,13 +1044,13 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_05_2:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 
@@ -1185,7 +1185,7 @@ internal class Program
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -1208,9 +1208,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_GLG_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -1225,9 +1225,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_GLG_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = -1.0;
@@ -1241,13 +1241,13 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 
@@ -1358,7 +1358,7 @@ internal class Program
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += expon[i].ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -1381,9 +1381,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_LAG_01_1:   "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         p = 2;
@@ -1398,9 +1398,9 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_LAG_02_XIU: "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
             gamma0 = -1.0;
@@ -1414,13 +1414,13 @@ internal class Program
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
-                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + o.ToString().PadLeft(6)
+                              + "  " + quad.ToString().PadLeft(14)
+                              + "  " + err.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + exact.ToString().PadLeft(14) + "");
 
     }
 
@@ -1489,10 +1489,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1511,10 +1511,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1535,10 +1535,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1559,10 +1559,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1583,10 +1583,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1605,10 +1605,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1627,10 +1627,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1656,10 +1656,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1678,10 +1678,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1700,10 +1700,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            string cout = w[j].ToString().PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += x[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);

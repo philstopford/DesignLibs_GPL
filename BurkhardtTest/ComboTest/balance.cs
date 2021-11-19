@@ -66,11 +66,11 @@ internal partial class Program
 
             check = Ranking.bal_seq_check(n, t);
             string cout = "    "
-                          + "  " + check.ToString(CultureInfo.InvariantCulture).PadLeft(1)
-                          + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                          + "  " + check.ToString().PadLeft(1)
+                          + "  " + n.ToString().PadLeft(2);
             for (i = 0; i < 2 * n; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + t[i].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -108,8 +108,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             bal_seq_num = Ranking.bal_seq_enum(n);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + bal_seq_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + bal_seq_num.ToString().PadLeft(6) + "");
         }
     }
 
@@ -200,10 +200,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < 2 * n; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

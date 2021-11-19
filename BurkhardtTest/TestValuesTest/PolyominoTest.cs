@@ -44,8 +44,8 @@ public class PolyominoTest
                 break;
             }
 
-            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4) + order
-                              + "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(24) + number + "");
+            Console.WriteLine("  " + order.ToString().PadLeft(4) + order
+                              + "  " + number.ToString().PadLeft(24) + number + "");
         }
     }
 
@@ -88,8 +88,8 @@ public class PolyominoTest
                 break;
             }
 
-            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+            Console.WriteLine("  " + order.ToString().PadLeft(4)
+                                   + "  " + number.ToString().PadLeft(24) + "");
         }
     }
 
@@ -132,8 +132,8 @@ public class PolyominoTest
                 break;
             }
 
-            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+            Console.WriteLine("  " + order.ToString().PadLeft(4)
+                                   + "  " + number.ToString().PadLeft(24) + "");
         }
     }
 }

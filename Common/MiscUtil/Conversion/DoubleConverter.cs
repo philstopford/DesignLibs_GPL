@@ -137,7 +137,7 @@ public class DoubleConverter
         {
             // Finally, return the string with an appropriate sign
             true => "-" + ad,
-            _ => ad.ToString(CultureInfo.InvariantCulture)
+            _ => ad.ToString()
         };
     }
 
@@ -244,7 +244,7 @@ public class DoubleConverter
         /// <summary>
         /// Converts the value to a proper decimal string representation.
         /// </summary>
-        public override string ToString(CultureInfo.InvariantCulture)
+        public override string ToString()
         {
             char[] digitString = new char[digits.Length];
             for (int i = 0; i < digits.Length; i++)

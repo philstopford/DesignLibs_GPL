@@ -99,10 +99,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + f1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
+                                   + "  " + c[i].ToString().PadLeft(14)
+                                   + "  " + f1(x[i]).ToString().PadLeft(14)
+                                   + "  " + fc[i].ToString().PadLeft(14) + "");
         }
 
         //
@@ -130,10 +130,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + f1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
+                                   + "  " + c[i].ToString().PadLeft(14)
+                                   + "  " + f1(x[i]).ToString().PadLeft(14)
+                                   + "  " + fc[i].ToString().PadLeft(14) + "");
         }
 
         //
@@ -161,10 +161,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + f1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
+                                   + "  " + c[i].ToString().PadLeft(14)
+                                   + "  " + f1(x[i]).ToString().PadLeft(14)
+                                   + "  " + fc[i].ToString().PadLeft(14) + "");
         }
 
         //
@@ -192,10 +192,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + f3(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
+                                   + "  " + c[i].ToString().PadLeft(14)
+                                   + "  " + f3(x[i]).ToString().PadLeft(14)
+                                   + "  " + fc[i].ToString().PadLeft(14) + "");
         }
 
         //
@@ -223,10 +223,10 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + f2(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fc[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x[i].ToString().PadLeft(14)
+                                   + "  " + c[i].ToString().PadLeft(14)
+                                   + "  " + f2(x[i]).ToString().PadLeft(14)
+                                   + "  " + fc[i].ToString().PadLeft(14) + "");
         }
 
     }

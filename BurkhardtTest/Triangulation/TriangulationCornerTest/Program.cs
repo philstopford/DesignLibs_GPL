@@ -209,8 +209,8 @@ internal class Program
             Console.WriteLine("");
             for (i = 0; i < 4; i++)
             {
-                Console.WriteLine("            " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "            " + negative_total[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("            " + i.ToString().PadLeft(8)
+                                                 + "            " + negative_total[i].ToString().PadLeft(8) + "");
             }
 
             switch (negative_total[3])

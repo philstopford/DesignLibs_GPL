@@ -182,8 +182,8 @@ internal class Program
                 a = Differ.differ_matrix(n, x);
                 b = Differ.differ_inverse(n, x);
                 err = Helpers.inverse_error(n, a, b);
-                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                       + "  " + err.ToString().PadLeft(14) + "");
             }
         }
     }
@@ -319,8 +319,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_forward(h, o, p, ref c, ref x);
-        label = "  Forward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Forward difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Backward difference approximation to the third derivative with error of O(h).
@@ -331,8 +331,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_backward(h, o, p, ref c, ref x);
-        label = "  Backward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                           + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Backward difference coefficients, O = " + o.ToString()
+                                                           + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Central difference approximation to the third derivative with error of O(h^2).
@@ -343,8 +343,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_central(h, o, p, ref c, ref x);
-        label = "  Central difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Central difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Central difference approximation to the third derivative with error of O(h^4).
@@ -355,8 +355,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_central(h, o, p, ref c, ref x);
-        label = "  Central difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Central difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Forward difference approximation to the fourth derivative with error of O(h).
@@ -367,8 +367,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_forward(h, o, p, ref c, ref x);
-        label = "  Forward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Forward difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Backward difference approximation to the fourth derivative with error of O(h).
@@ -379,8 +379,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_backward(h, o, p, ref c, ref x);
-        label = "  Backward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                           + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Backward difference coefficients, O = " + o.ToString()
+                                                           + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //   Central difference approximation to the fourth derivative with error of O(h^3).
@@ -391,8 +391,8 @@ internal class Program
         c = new double[n];
         x = new double[n];
         Differ.differ_central(h, o, p, ref c, ref x);
-        label = "  Central difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Central difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
     }
 
@@ -459,8 +459,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Forward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Forward difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Backward difference approximation to the third derivative with error of O(h).
@@ -476,8 +476,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Backward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                           + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Backward difference coefficients, O = " + o.ToString()
+                                                           + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Central difference approximation to the third derivative with error of O(h^2).
@@ -493,8 +493,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Central difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Central difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Central difference approximation to the third derivative with error of O(h^4).
@@ -510,8 +510,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Central difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Central difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Forward difference approximation to the fourth derivative with error of O(h).
@@ -527,8 +527,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Forward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Forward difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Backward difference approximation to the fourth derivative with error of O(h).
@@ -544,8 +544,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Backward difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                           + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Backward difference coefficients, O = " + o.ToString()
+                                                           + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //   Central difference approximation to the fourth derivative with error of O(h^3).
@@ -561,8 +561,8 @@ internal class Program
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Central difference coefficients, O = " + o.ToString(CultureInfo.InvariantCulture)
-                                                          + ", P = " + p.ToString(CultureInfo.InvariantCulture);
+        label = "  Central difference coefficients, O = " + o.ToString()
+                                                          + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
     }
 }

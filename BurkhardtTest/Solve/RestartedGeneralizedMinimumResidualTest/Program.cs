@@ -383,8 +383,8 @@ internal class Program
             Console.WriteLine("");
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + x_estimate[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                       + "  " + x_estimate[i].ToString().PadLeft(12) + "");
             }
         }
     }

@@ -96,11 +96,11 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  File  M  N  Diaphony  1/sqrt(N)  D/sqrt(N)");
         Console.WriteLine("  " + input_filename
-                               + "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                               + "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(5)
-                               + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + de.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                               + "  " + dim_num.ToString().PadLeft(2)
+                               + "  " + point_num.ToString().PadLeft(5)
+                               + "  " + d.ToString().PadLeft(14)
+                               + "  " + e.ToString().PadLeft(14)
+                               + "  " + de.ToString().PadLeft(14) + "");
 
     }
 }

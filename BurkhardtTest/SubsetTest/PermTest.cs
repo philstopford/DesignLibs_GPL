@@ -104,12 +104,12 @@ public static class PermTest
 
             number = Permutation.multiperm_enum(N, k, counts);
 
-            string cout = "  " + number.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + N.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            string cout = "  " + number.ToString().PadLeft(6)
+                               + "  " + N.ToString().PadLeft(6)
+                               + "  " + k.ToString().PadLeft(6);
             for (i = 0; i < k; i++)
             {
-                cout += "  " + counts[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + counts[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -157,10 +157,10 @@ public static class PermTest
         {
             tally += 1;
 
-            string cout = "  " + tally.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + tally.ToString().PadLeft(4);
             for (i = 0; i < N; i++)
             {
-                cout += "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + a[i].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -254,8 +254,8 @@ public static class PermTest
             fnm = Permutation.perm_fixed_enum(n, m);
 
             Console.WriteLine("  "
-                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                              + fnm.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                              + m.ToString().PadLeft(3) + "  "
+                              + fnm.ToString().PadLeft(8) + "");
         }
     }
 
@@ -1048,12 +1048,12 @@ public static class PermTest
                 break;
             }
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                     + p_sign.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            string cout = rank.ToString().PadLeft(4) + "  "
+                                                     + p_sign.ToString().PadLeft(4) + "  ";
 
             for (i = 0; i < N; i++)
             {
-                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += p[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);

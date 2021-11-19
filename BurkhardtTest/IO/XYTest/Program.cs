@@ -143,9 +143,9 @@ internal class Program
         for (k = 0; k <= 9; k++)
         {
             i = ((9 - k) * 0 + k * (point_num - 1)) / 9;
-            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                      + xy[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                      + xy[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(i.ToString().PadLeft(4) + "  "
+                                                      + xy[0 + i * 2].ToString().PadLeft(10) + "  "
+                                                      + xy[1 + i * 2].ToString().PadLeft(10) + "");
         }
     }
 
@@ -267,9 +267,9 @@ internal class Program
 
         for (i = 0; i < point_num; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + xy[0 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + xy[1 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + xy[0 + 2 * i].ToString().PadLeft(10)
+                                   + "  " + xy[1 + 2 * i].ToString().PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -292,9 +292,9 @@ internal class Program
 
         for (line = 0; line < line_num; line++)
         {
-            Console.WriteLine("  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + line_pointer[line].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + (line_pointer[line + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + line.ToString().PadLeft(4)
+                                   + "  " + line_pointer[line].ToString().PadLeft(8)
+                                   + "  " + (line_pointer[line + 1] - 1).ToString().PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -303,10 +303,10 @@ internal class Program
 
         for (line = 0; line < line_num; line++)
         {
-            string cout = "  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            string cout = "  " + line.ToString().PadLeft(4) + "  ";
             for (j = line_pointer[line]; j < line_pointer[line + 1]; j++)
             {
-                cout += "  " + line_data[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + line_data[j].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -430,9 +430,9 @@ internal class Program
 
         for (i = 0; i < point_num; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + xy[0 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + xy[1 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + xy[0 + 2 * i].ToString().PadLeft(10)
+                                   + "  " + xy[1 + 2 * i].ToString().PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -455,9 +455,9 @@ internal class Program
 
         for (face = 0; face < face_num; face++)
         {
-            Console.WriteLine("  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + face_pointer[face].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + (face_pointer[face + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + face.ToString().PadLeft(4)
+                                   + "  " + face_pointer[face].ToString().PadLeft(8)
+                                   + "  " + (face_pointer[face + 1] - 1).ToString().PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -466,10 +466,10 @@ internal class Program
 
         for (face = 0; face < face_num; face++)
         {
-            string cout = "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            string cout = "  " + face.ToString().PadLeft(4) + "  ";
             for (j = face_pointer[face]; j < face_pointer[face + 1]; j++)
             {
-                cout += "  " + face_data[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + face_data[j].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);

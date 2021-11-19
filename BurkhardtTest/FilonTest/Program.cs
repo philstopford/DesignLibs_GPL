@@ -136,9 +136,9 @@ internal class Program
                     _ => exact
                 };
 
-                Console.WriteLine(t.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                           + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+                Console.WriteLine(t.ToString().PadLeft(24) + "  "
+                                                           + result.ToString().PadLeft(24) + "  "
+                                                           + exact.ToString().PadLeft(24) + "");
             }
         }
     }
@@ -214,10 +214,10 @@ internal class Program
             exact = -0.008446594405;
             error = result - exact;
 
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+            Console.WriteLine(n.ToString().PadLeft(6) + "  "
+                                                      + result.ToString().PadLeft(24) + "  "
+                                                      + exact.ToString().PadLeft(24) + "  "
+                                                      + error.ToString().PadLeft(24) + "");
 
         }
     }
@@ -278,10 +278,10 @@ internal class Program
             exact = -0.008446594405;
             error = result - exact;
 
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+            Console.WriteLine(n.ToString().PadLeft(6) + "  "
+                                                      + result.ToString().PadLeft(24) + "  "
+                                                      + exact.ToString().PadLeft(24) + "  "
+                                                      + error.ToString().PadLeft(24) + "");
         }
     }
 
@@ -379,9 +379,9 @@ internal class Program
                     _ => exact
                 };
 
-                Console.WriteLine(t.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                           + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+                Console.WriteLine(t.ToString().PadLeft(24) + "  "
+                                                           + result.ToString().PadLeft(24) + "  "
+                                                           + exact.ToString().PadLeft(24) + "");
             }
         }
     }
@@ -458,10 +458,10 @@ internal class Program
             exact = -0.19762680771872;
             error = result - exact;
 
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+            Console.WriteLine(n.ToString().PadLeft(6) + "  "
+                                                      + result.ToString().PadLeft(24) + "  "
+                                                      + exact.ToString().PadLeft(24) + "  "
+                                                      + error.ToString().PadLeft(24) + "");
 
         }
     }
@@ -522,10 +522,10 @@ internal class Program
             exact = -0.19762680771872;
             error = result - exact;
 
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
-                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+            Console.WriteLine(n.ToString().PadLeft(6) + "  "
+                                                      + result.ToString().PadLeft(24) + "  "
+                                                      + exact.ToString().PadLeft(24) + "  "
+                                                      + error.ToString().PadLeft(24) + "");
         }
     }
 

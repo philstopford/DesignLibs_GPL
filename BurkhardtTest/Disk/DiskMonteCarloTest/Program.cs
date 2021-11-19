@@ -109,9 +109,9 @@ internal class Program
             center[1] = 10.0 * data[1] - 5.0;
             r = data[2];
             area = MonteCarlo.disk_area(center, r);
-            Console.WriteLine("  (" + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                    + ", " + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                    + ")  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+            Console.WriteLine("  (" + center[0].ToString().PadLeft(9)
+                                    + ", " + center[1].ToString().PadLeft(9)
+                                    + ")  " + r.ToString().PadLeft(9)
                                     + "  " + area + "");
         }
     }
@@ -178,7 +178,7 @@ internal class Program
         {
             x = MonteCarlo.disk_sample(center, r, n, ref data, ref seed);
 
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -189,7 +189,7 @@ internal class Program
                 value = Monomial.monomial_value(2, n, e, x);
 
                 result = MonteCarlo.disk_area(center, r) * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result.ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -211,7 +211,7 @@ internal class Program
                     }
 
                     result = MonteCarlo.disk01_monomial_integral(e);
-                    cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += "  " + result.ToString().PadLeft(14);
                 }
 
                 Console.WriteLine(cout);

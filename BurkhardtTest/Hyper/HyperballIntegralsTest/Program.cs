@@ -124,12 +124,12 @@ internal class Program
                 
             for (i = 0; i < m; i++)
             {
-                cout += "  " + e[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + e[i].ToString().PadLeft(2);
             }
 
-            Console.WriteLine(cout + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(cout + "  " + result.ToString().PadLeft(14)
+                              + "  " + exact.ToString().PadLeft(14)
+                              + "  " + error.ToString().PadLeft(10) + "");
         }
     }
 
@@ -211,12 +211,12 @@ internal class Program
                 
             for (i = 0; i < m; i++)
             {
-                cout += "  " + e[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + e[i].ToString().PadLeft(2);
             }
 
-            Console.WriteLine(cout + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(cout + "  " + result.ToString().PadLeft(14)
+                              + "  " + exact.ToString().PadLeft(14)
+                              + "  " + error.ToString().PadLeft(10) + "");
         }
     }
 }

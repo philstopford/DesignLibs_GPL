@@ -45,9 +45,9 @@ public static class i4Test
                 cnk = typeMethods.i4_choose(n, k);
 
                 Console.WriteLine("  "
-                                  + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                  + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                                  + n.ToString().PadLeft(6) + "  "
+                                  + k.ToString().PadLeft(6) + "  "
+                                  + cnk.ToString().PadLeft(6) + "");
             }
         }
 
@@ -95,8 +95,8 @@ public static class i4Test
         {
             j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + j.ToString().PadLeft(8) + "");
         }
 
     }
@@ -236,9 +236,9 @@ public static class i4Test
         for (i = 0; i < n; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + indx[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + a[indx[i]].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                              + i.ToString().PadLeft(8) + "  "
+                              + indx[i].ToString().PadLeft(8) + "  "
+                              + a[indx[i]].ToString().PadLeft(8) + "");
         }
 
     }

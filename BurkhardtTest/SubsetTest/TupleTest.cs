@@ -55,10 +55,10 @@ public static class TupleTest
                 break;
             }
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = rank.ToString().PadLeft(4);
             for (i = 0; i < N; i++)
             {
-                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += x[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -115,10 +115,10 @@ public static class TupleTest
         {
             BTuple.tuple_next_fast(m, n, rank, ref base_, ref x);
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = rank.ToString().PadLeft(4);
             for (i = 0; i < n; i++)
             {
-                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += x[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -175,10 +175,10 @@ public static class TupleTest
                 break;
             }
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = rank.ToString().PadLeft(4);
             for (i = 0; i < N; i++)
             {
-                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += x[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -242,10 +242,10 @@ public static class TupleTest
                 break;
             }
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = rank.ToString().PadLeft(4);
             for (i = 0; i < N; i++)
             {
-                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += x[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);

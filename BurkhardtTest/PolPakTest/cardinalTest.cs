@@ -52,7 +52,7 @@ public static class cardinalTest
             string cout = "";
             for (i = 0; i <= m + 1; i++)
             {
-                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + c[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -105,7 +105,7 @@ public static class cardinalTest
             string cout = "";
             for (i = 0; i <= m + 1; i++)
             {
-                cout += "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + s[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

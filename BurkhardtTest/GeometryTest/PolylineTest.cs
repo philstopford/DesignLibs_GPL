@@ -70,10 +70,10 @@ public static class PolylineTest
             cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p[i + j * DIM_NUM].ToString().PadLeft(12);
             }
 
-            Console.WriteLine(cout + "  " + s[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine(cout + "  " + s[j].ToString().PadLeft(12) + "");
         }
 
         Console.WriteLine("");

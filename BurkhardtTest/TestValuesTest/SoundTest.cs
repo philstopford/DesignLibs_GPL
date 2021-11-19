@@ -47,9 +47,9 @@ public class SoundTest
             }
 
             Console.WriteLine("  "
-                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + tc.ToString().PadLeft(12) + "  "
+                              + p.ToString().PadLeft(12) + "  "
+                              + c.ToString().PadLeft(12) + "");
         }
     }
 

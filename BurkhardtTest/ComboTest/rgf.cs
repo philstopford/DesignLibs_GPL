@@ -119,8 +119,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             rgf_num = Ranking.rgf_enum(n);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + rgf_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + rgf_num.ToString().PadLeft(6) + "");
         }
     }
 
@@ -163,7 +163,7 @@ internal partial class Program
             string cout = "";
             for (j = 0; j <= m - i; j++)
             {
-                cout += "  " + d[i + j * (m + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + d[i + j * (m + 1)].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -256,10 +256,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < m; i++)
             {
-                cout += "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + f[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -322,7 +322,7 @@ internal partial class Program
             string cout = "";
             for (j = jlo; j <= index[i - 1]; j++)
             {
-                cout += "  " + s[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + s[j - 1].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

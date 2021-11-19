@@ -85,9 +85,9 @@ public static class DigraphTest
                         break;
                     }
 
-                    Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                              + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                              + in_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                    Console.WriteLine(i.ToString().PadLeft(6) + "  "
+                                                              + j.ToString().PadLeft(6) + "  "
+                                                              + in_.ToString().PadLeft(6) + "");
                 }
 
                 break;

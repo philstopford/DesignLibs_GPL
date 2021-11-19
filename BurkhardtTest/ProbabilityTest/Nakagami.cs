@@ -69,10 +69,10 @@ internal partial class Program
             cdf = Nakagami.nakagami_cdf(x, a, b, c);
             x2 = Nakagami.nakagami_cdf_inv(cdf, a, b, c);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + pdf.ToString().PadLeft(12)
+                                   + "  " + cdf.ToString().PadLeft(12)
+                                   + "  " + x2.ToString().PadLeft(12) + "");
         }
     }
 

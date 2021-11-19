@@ -102,15 +102,15 @@ internal class Program
 
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine("  " + ref_[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + ref_[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + ref_[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + phy[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)  
-                                   + "  " + phy[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8) 
-                                   + "  " + phy[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8) 
-                                   + "  " + ref2[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8) 
-                                   + "  " + ref2[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + ref2[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + ref_[0 + j * 3].ToString().PadLeft(8)
+                                   + "  " + ref_[1 + j * 3].ToString().PadLeft(8)
+                                   + "  " + ref_[2 + j * 3].ToString().PadLeft(8)
+                                   + "  " + phy[0 + j * 3].ToString().PadLeft(8)  
+                                   + "  " + phy[1 + j * 3].ToString().PadLeft(8) 
+                                   + "  " + phy[2 + j * 3].ToString().PadLeft(8) 
+                                   + "  " + ref2[0 + j * 3].ToString().PadLeft(8) 
+                                   + "  " + ref2[1 + j * 3].ToString().PadLeft(8)
+                                   + "  " + ref2[2 + j * 3].ToString().PadLeft(8) + "");
         }
     }
 }

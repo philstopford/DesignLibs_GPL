@@ -88,9 +88,9 @@ internal class Program
             {
                 long_num *= 2;
                 point_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
-                Console.WriteLine("  " + lat_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + long_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("  " + lat_num.ToString().PadLeft(8)
+                                       + "  " + long_num.ToString().PadLeft(8)
+                                       + "  " + point_num.ToString().PadLeft(8) + "");
             }
         }
     }
@@ -155,10 +155,10 @@ internal class Program
         Console.WriteLine("");
 
         k = 0;
-        Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + k.ToString().PadLeft(8)
+                               + "  " + node_xyz[0 + k * 3].ToString().PadLeft(14)
+                               + "  " + node_xyz[1 + k * 3].ToString().PadLeft(14)
+                               + "  " + node_xyz[2 + k * 3].ToString().PadLeft(14) + "");
         k += 1;
 
         Console.WriteLine("");
@@ -168,10 +168,10 @@ internal class Program
             Console.WriteLine("");
             for (j = 0; j < long_num; j++)
             {
-                Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                       + "  " + node_xyz[0 + k * 3].ToString().PadLeft(14)
+                                       + "  " + node_xyz[1 + k * 3].ToString().PadLeft(14)
+                                       + "  " + node_xyz[2 + k * 3].ToString().PadLeft(14) + "");
                 k += 1;
                 Console.WriteLine("");
             }
@@ -179,10 +179,10 @@ internal class Program
 
         Console.WriteLine("");
 
-        Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + k.ToString().PadLeft(8)
+                               + "  " + node_xyz[0 + k * 3].ToString().PadLeft(14)
+                               + "  " + node_xyz[1 + k * 3].ToString().PadLeft(14)
+                               + "  " + node_xyz[2 + k * 3].ToString().PadLeft(14) + "");
         k += 1;
         Console.WriteLine("");
     }
@@ -232,9 +232,9 @@ internal class Program
             {
                 long_num *= 2;
                 line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
-                Console.WriteLine("  " + lat_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + long_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + line_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("  " + lat_num.ToString().PadLeft(8)
+                                       + "  " + long_num.ToString().PadLeft(8)
+                                       + "  " + line_num.ToString().PadLeft(8) + "");
             }
         }
     }

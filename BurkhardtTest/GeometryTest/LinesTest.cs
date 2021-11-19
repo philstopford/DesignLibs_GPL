@@ -512,12 +512,12 @@ public static class LinesTest
 
             dist = Geometry.line_imp_point_dist_2d(a, b, c, p);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
+                                   + "  " + a.ToString().PadLeft(8)
+                                   + "  " + b.ToString().PadLeft(8)
+                                   + "  " + c.ToString().PadLeft(8)
+                                   + "  " + dist.ToString().PadLeft(8) + "");
         }
     }
 
@@ -834,28 +834,28 @@ public static class LinesTest
             cout = "  P1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -936,28 +936,28 @@ public static class LinesTest
             cout = "  P1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -968,14 +968,14 @@ public static class LinesTest
             cout = "  PN:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + pn[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  QN:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + qn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + qn[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -1068,28 +1068,28 @@ public static class LinesTest
             cout = "  P1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -1200,28 +1200,28 @@ public static class LinesTest
             cout = "  P1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q1[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + q2[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -1235,7 +1235,7 @@ public static class LinesTest
                     cout = "  Intersection at";
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                        cout += "  " + p[i].ToString().PadLeft(12);
                     }
 
                     Console.WriteLine(cout);
@@ -1400,13 +1400,13 @@ public static class LinesTest
 
             dist = Geometry.lines_imp_dist_2d(a1, b1, c1, a2, b2, c2);
 
-            Console.WriteLine("  " + a1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + b1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + c1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + a2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + b2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + c2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + a1.ToString().PadLeft(8)
+                                   + "  " + b1.ToString().PadLeft(8)
+                                   + "  " + c1.ToString().PadLeft(8)
+                                   + "  " + a2.ToString().PadLeft(8)
+                                   + "  " + b2.ToString().PadLeft(8)
+                                   + "  " + c2.ToString().PadLeft(8)
+                                   + "  " + dist.ToString().PadLeft(8) + "");
         }
 
     }
@@ -1588,10 +1588,10 @@ public static class LinesTest
         g1 = 1.0;
 
         Console.WriteLine("");
-        Console.WriteLine("  Line 1 parameters:" + x1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "  " + y1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "  " + g1.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+        Console.WriteLine("  Line 1 parameters:" + x1.ToString().PadLeft(8)
+                                                 + "  " + y1.ToString().PadLeft(8)
+                                                 + "  " + f1.ToString().PadLeft(8)
+                                                 + "  " + g1.ToString().PadLeft(8) + "");
         //
         //  x + y - 8 = 0
         //
@@ -1601,10 +1601,10 @@ public static class LinesTest
         g2 = 1.0;
 
         Console.WriteLine("");
-        Console.WriteLine("  Line 2 parameters:" + x2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "  " + y2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                 + "  " + g2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+        Console.WriteLine("  Line 2 parameters:" + x2.ToString().PadLeft(8)
+                                                 + "  " + y2.ToString().PadLeft(8)
+                                                 + "  " + f2.ToString().PadLeft(8)
+                                                 + "  " + g2.ToString().PadLeft(8) + "");
 
         Geometry.lines_par_int_2d(f1, g1, x1, y1, f2, g2, x2, y2, ref t1, ref t2, ref pint);
 

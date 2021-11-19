@@ -85,10 +85,10 @@ internal class Program
         for (int k = 0; k <= n; k++)
         {
             double prob = PDF.i4_binomial_pdf(n, p, k);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + p.ToString().PadLeft(8)
+                                   + "  " + k.ToString().PadLeft(2)
+                                   + "  " + prob.ToString().PadLeft(14) + "");
         }
     }
 
@@ -126,10 +126,10 @@ internal class Program
             double p = PDF.r8_uniform_sample(0.0, 1.0);
             int k = PDF.i4_binomial_sample(n, p);
             double pdf = PDF.i4_binomial_pdf(n, p, k);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + p.ToString().PadLeft(8)
+                                   + "  " + k.ToString().PadLeft(2)
+                                   + "  " + pdf.ToString().PadLeft(14) + "");
         }
     }
 
@@ -172,9 +172,9 @@ internal class Program
             a = PDF.i4_uniform_sample(-10, +10);
             b = PDF.i4_uniform_sample(a, 20);
             c = PDF.i4_uniform_sample(a, b);
-            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                                   + "  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+            Console.WriteLine("  " + a.ToString().PadLeft(3)
+                                   + "  " + b.ToString().PadLeft(3)
+                                   + "  " + c.ToString().PadLeft(3) + "");
         }
     }
 
@@ -221,9 +221,9 @@ internal class Program
         {
             double df = 5.0 * PDF.r8_uniform_01_sample() + 1.0;
             double u = PDF.r8_chi_sample(df);
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + df.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                   + "  " + df.ToString().PadLeft(14)
+                                   + "  " + u.ToString().PadLeft(14) + "");
         }
     }
 

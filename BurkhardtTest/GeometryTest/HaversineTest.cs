@@ -45,9 +45,9 @@ public static class HaversineTest
             x = test * 2.0 * Math.PI / test_num;
             d = Helpers.radians_to_degrees ( x );
             hx = Helpers.haversine ( x );
-            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + hx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + d.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
+                                   + "  " + hx.ToString().PadLeft(12) + "");
         }
     }
 }

@@ -85,66 +85,66 @@ internal class Program
         r = -0.9;
         expect = 0.148;
         cdf = bivariatenormal.bivnor(ref data, x, y, r);
-        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + expect.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + x.ToString().PadLeft(9)
+                               + "  " + y.ToString().PadLeft(8)
+                               + "  " + r.ToString().PadLeft(8)
+                               + "  " + expect.ToString().PadLeft(14)
+                               + "  " + cdf.ToString().PadLeft(14) + "");
 
         x = 0.6;
         y = -1.4;
         r = -0.7;
         expect = 0.208;
         cdf = bivariatenormal.bivnor(ref data, x, y, r);
-        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + expect.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + x.ToString().PadLeft(9)
+                               + "  " + y.ToString().PadLeft(8)
+                               + "  " + r.ToString().PadLeft(8)
+                               + "  " + expect.ToString().PadLeft(14)
+                               + "  " + cdf.ToString().PadLeft(14) + "");
 
         x = 0.2;
         y = -1.0;
         r = -0.5;
         expect = 0.304;
         cdf = bivariatenormal.bivnor(ref data, x, y, r);
-        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + expect.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + x.ToString().PadLeft(9)
+                               + "  " + y.ToString().PadLeft(8)
+                               + "  " + r.ToString().PadLeft(8)
+                               + "  " + expect.ToString().PadLeft(14)
+                               + "  " + cdf.ToString().PadLeft(14) + "");
 
         x = -1.2;
         y = 0.1;
         r = 0.0;
         expect = 0.407;
         cdf = bivariatenormal.bivnor(ref data, x, y, r);
-        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + expect.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + x.ToString().PadLeft(9)
+                               + "  " + y.ToString().PadLeft(8)
+                               + "  " + r.ToString().PadLeft(8)
+                               + "  " + expect.ToString().PadLeft(14)
+                               + "  " + cdf.ToString().PadLeft(14) + "");
 
         x = -1.2;
         y = -0.1;
         r = 0.3;
         expect = 0.501;
         cdf = bivariatenormal.bivnor(ref data, x, y, r);
-        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + expect.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + x.ToString().PadLeft(9)
+                               + "  " + y.ToString().PadLeft(8)
+                               + "  " + r.ToString().PadLeft(8)
+                               + "  " + expect.ToString().PadLeft(14)
+                               + "  " + cdf.ToString().PadLeft(14) + "");
 
         x = -0.4;
         y = -0.9;
         r = 0.6;
         expect = 0.601;
         cdf = bivariatenormal.bivnor(ref data, x, y, r);
-        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + expect.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + x.ToString().PadLeft(9)
+                               + "  " + y.ToString().PadLeft(8)
+                               + "  " + r.ToString().PadLeft(8)
+                               + "  " + expect.ToString().PadLeft(14)
+                               + "  " + cdf.ToString().PadLeft(14) + "");
 
     }
 
@@ -205,12 +205,12 @@ internal class Program
             //
             fxy2 = bivariatenormal.bivnor(ref data, -x, -y, r);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + fxy1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
-                                   + "  " + fxy2.ToString(CultureInfo.InvariantCulture).PadLeft(24)
-                                   + "  " + Math.Abs(fxy1 - fxy2).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(8)
+                                   + "  " + y.ToString().PadLeft(8)
+                                   + "  " + r.ToString().PadLeft(8)
+                                   + "  " + fxy1.ToString().PadLeft(24)
+                                   + "  " + fxy2.ToString().PadLeft(24)
+                                   + "  " + Math.Abs(fxy1 - fxy2).ToString().PadLeft(10) + "");
         }
     }
 }

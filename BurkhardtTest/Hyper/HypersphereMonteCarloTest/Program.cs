@@ -107,7 +107,7 @@ internal class Program
         while (n <= 65536)
         {
             x = MonteCarlo.hypersphere01_sample(m, n, ref data, ref seed);
-            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)
@@ -212,7 +212,7 @@ internal class Program
         while (n <= 65536)
         {
             x = MonteCarlo.hypersphere01_sample(m, n, ref data, ref seed);
-            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < m; i++)

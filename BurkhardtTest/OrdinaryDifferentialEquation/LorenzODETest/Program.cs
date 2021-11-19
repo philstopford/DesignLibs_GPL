@@ -81,10 +81,10 @@ internal class Program
         //
         for (j = 0; j <= n; j += 50)
         {
-            data_unit.Add("  " + t[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + x[0 + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + x[1 + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + x[2 + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            data_unit.Add("  " + t[j].ToString().PadLeft(14)
+                               + "  " + x[0 + j * m].ToString().PadLeft(14)
+                               + "  " + x[1 + j * m].ToString().PadLeft(14)
+                               + "  " + x[2 + j * m].ToString().PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);

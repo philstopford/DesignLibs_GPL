@@ -46,9 +46,9 @@ public class VanDerCorputTest
             }
 
             Console.WriteLine("  "
-                              + base_.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + seed.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + base_.ToString().PadLeft(8) + "  "
+                              + seed.ToString().PadLeft(8) + "  "
+                              + value.ToString().PadLeft(14) + "");
         }
     }
 }

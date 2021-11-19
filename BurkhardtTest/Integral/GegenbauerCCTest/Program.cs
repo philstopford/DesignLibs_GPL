@@ -302,8 +302,8 @@ internal class Program
         {
             j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + j.ToString().PadLeft(8) + "");
         }
     }
 
@@ -350,8 +350,8 @@ internal class Program
             i4 = UniformRNG.i4_uniform_ab(i4_min, i4_max, ref seed);
             r8 = typeMethods.r8_mop(i4);
             Console.WriteLine("  "
-                              + i4.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + r8.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                              + i4.ToString().PadLeft(4) + "  "
+                              + r8.ToString().PadLeft(4) + "");
         }
     }
 

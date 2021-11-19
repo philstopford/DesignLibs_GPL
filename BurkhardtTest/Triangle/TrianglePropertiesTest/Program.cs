@@ -104,7 +104,7 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + angle[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+            Console.WriteLine("  " + angle[i].ToString().PadLeft(14)
                                    + "  " + angle[i] * 180.0 / r8_pi + "");
         }
     }
@@ -343,8 +343,8 @@ internal class Program
 
             inside = typeMethods.triangle_contains_point_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  " + inside + "");
         }
 
@@ -374,8 +374,8 @@ internal class Program
 
             inside = typeMethods.triangle_contains_point_2d(t2, p);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  " + inside + "");
         }
     }
@@ -758,10 +758,10 @@ internal class Program
 
             dist = typeMethods.triangle_point_dist(t, p);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                   + "  " + dist.ToString().PadLeft(8) + "");
         }
 
     }
@@ -827,11 +827,11 @@ internal class Program
 
             typeMethods.triangle_point_near(t, p, ref pn, ref dist);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                   + "  " + pn[0].ToString().PadLeft(8)
+                                   + "  " + pn[1].ToString().PadLeft(8) + "");
         }
     }
 
@@ -945,12 +945,12 @@ internal class Program
         {
             typeMethods.triangle_reference_sample(1, ref seed, ref p);
             xsi = typeMethods.triangle_xy_to_xsi(t, p);
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString().PadLeft(8)
+                                   + "  " + xsi[1].ToString().PadLeft(8)
+                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
         }
     }
 
@@ -1000,12 +1000,12 @@ internal class Program
         {
             typeMethods.triangle_sample(t, 1, ref seed, ref p);
             xsi = typeMethods.triangle_xy_to_xsi(t, p);
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString().PadLeft(8)
+                                   + "  " + xsi[1].ToString().PadLeft(8)
+                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
         }
     }
 
@@ -1077,15 +1077,15 @@ internal class Program
 
             p2 = typeMethods.triangle_xsi_to_xy(t, xsi);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[0].ToString().PadLeft(8)
+                                   + "  " + xsi[1].ToString().PadLeft(8)
+                                   + "  " + xsi[2].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                   + "  " + p2[0].ToString().PadLeft(8)
+                                   + "  " + p2[1].ToString().PadLeft(8) + "");
 
         }
     }
@@ -1158,15 +1158,15 @@ internal class Program
 
             p2 = typeMethods.triangle_xsi_to_xy(t, xsi);
 
-            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                                   + "  " + p[1].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[0].ToString().PadLeft(8)
+                                   + "  " + xsi[1].ToString().PadLeft(8)
+                                   + "  " + xsi[2].ToString().PadLeft(8)
                                    + "  "
-                                   + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                   + "  " + p2[0].ToString().PadLeft(8)
+                                   + "  " + p2[1].ToString().PadLeft(8) + "");
         }
     }
 }

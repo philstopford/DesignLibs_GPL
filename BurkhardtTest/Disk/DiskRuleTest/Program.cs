@@ -152,10 +152,10 @@ internal class Program
 
                 q = area * s;
 
-                Console.WriteLine("  " + ex.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + ey.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + ex.ToString().PadLeft(2)
+                                       + "  " + ey.ToString().PadLeft(2)
+                                       + "  " + exact[k].ToString().PadLeft(14)
+                                       + "  " + q.ToString().PadLeft(14) + "");
 
                 k += 1;
             }

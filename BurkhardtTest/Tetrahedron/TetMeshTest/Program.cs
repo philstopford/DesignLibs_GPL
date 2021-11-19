@@ -114,7 +114,7 @@ internal class Program
             string cout = "";
             for (j = N; j < N + RHS_NUM; j++)
             {
-                cout += a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
+                cout += a[i + j * N].ToString().PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -541,7 +541,7 @@ internal class Program
             tet1 = UniformRNG.i4_uniform_ab(0, tet_num - 1, ref seed);
 
             Console.WriteLine("");
-            Console.WriteLine("  Point was chosen from tetrahedron    " + tet1.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  Point was chosen from tetrahedron    " + tet1.ToString().PadLeft(8) + "");
 
             for (j = 0; j < 4; j++)
             {
@@ -562,7 +562,7 @@ internal class Program
             tet2 = TetMesh.tet_mesh_search_naive(node_num, node_xyz, tet_order, tet_num,
                 tet_node, p, ref step_num);
 
-            Console.WriteLine("  Naive search ended in tetrahedron    " + tet2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  Naive search ended in tetrahedron    " + tet2.ToString().PadLeft(8)
                                                                         + ", number of steps = " + step_num + "");
             //
             //  Delaunay search.
@@ -570,7 +570,7 @@ internal class Program
             tet3 = TetMesh.tet_mesh_search_delaunay(node_num, node_xyz, tet_order,
                 tet_num, tet_node, tet_neighbor, p, ref face, ref step_num);
 
-            Console.WriteLine("  Delaunay search ended in tetrahedron " + tet3.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  Delaunay search ended in tetrahedron " + tet3.ToString().PadLeft(8)
                                                                         + ", number of steps = " + step_num + "");
         }
     }

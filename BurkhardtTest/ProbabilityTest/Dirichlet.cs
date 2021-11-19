@@ -96,11 +96,11 @@ internal partial class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + mean[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + variance[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + xmax[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + mean[i].ToString().PadLeft(12) + "  "
+                              + variance[i].ToString().PadLeft(12) + "  "
+                              + xmax[i].ToString().PadLeft(12) + "  "
+                              + xmin[i].ToString().PadLeft(12) + "");
         }
     }
 
@@ -255,11 +255,11 @@ internal partial class Program
         for (i = 0; i < ELEM_NUM; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + mean[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + variance[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + xmax[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + mean[i].ToString().PadLeft(12) + "  "
+                              + variance[i].ToString().PadLeft(12) + "  "
+                              + xmax[i].ToString().PadLeft(12) + "  "
+                              + xmin[i].ToString().PadLeft(12) + "");
         }
     }
 

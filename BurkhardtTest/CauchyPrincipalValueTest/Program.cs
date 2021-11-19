@@ -83,9 +83,9 @@ internal class Program
         for (n = 2; n <= 8; n += 2)
         {
             value = CauchyPrincipalValue.cpv(f01, a, b, n);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(24)
-                                   + "  " + Math.Abs(value - exact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + value.ToString().PadLeft(24)
+                                   + "  " + Math.Abs(value - exact).ToString().PadLeft(14) + "");
         }
 
     }
@@ -183,10 +183,10 @@ internal class Program
                 a = 1.0 - delta;
                 b = 1.0 + delta;
                 value = CauchyPrincipalValue.cpv(f02, a, b, n);
-                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(24)
-                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24)
-                                       + "  " + Math.Abs(value - exact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                       + "  " + value.ToString().PadLeft(24)
+                                       + "  " + exact.ToString().PadLeft(24)
+                                       + "  " + Math.Abs(value - exact).ToString().PadLeft(14) + "");
             }
 
             delta /= 2.0;

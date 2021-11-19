@@ -95,8 +95,8 @@ internal class Program
         for (int i = 0; i < NX; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -121,7 +121,7 @@ internal class Program
             string cout = "";
             for (int j = 0; j < NA; j++)
             {
-                cout += "  " + a[i + j * LDA].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + a[i + j * LDA].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -179,8 +179,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -189,8 +189,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         da = 1.0;
@@ -203,8 +203,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -222,8 +222,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -241,8 +241,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -260,8 +260,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
     }
 
@@ -319,8 +319,8 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -329,8 +329,8 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -341,7 +341,7 @@ internal class Program
             string cout = "";
             for (int j = 0; j < 5; j++)
             {
-                cout += "  " + a[i + j * 5].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + a[i + j * 5].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -354,8 +354,8 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < 10; i++)
@@ -370,8 +370,8 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         BLAS1D.dcopy(5, x, 1, ref a, 1);
@@ -385,7 +385,7 @@ internal class Program
             string cout = "";
             for (int j = 0; j < 5; j++)
             {
-                cout += "  " + a[i + j * 5].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + a[i + j * 5].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -410,7 +410,7 @@ internal class Program
             string cout = "";
             for (int j = 0; j < 5; j++)
             {
-                cout += "  " + a[i + j * 5].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + a[i + j * 5].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -520,7 +520,7 @@ internal class Program
             string cout = "";
             for (int j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * LDC].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + c[i + j * LDC].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -576,8 +576,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -650,9 +650,9 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         c = 0.5;
@@ -664,9 +664,9 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -688,9 +688,9 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
     }
 
@@ -789,8 +789,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
 
         double da = 5.0;
@@ -801,8 +801,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -818,8 +818,8 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "");
         }
     }
 
@@ -868,9 +868,9 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         BLAS1D.dswap(N, ref x, 1, ref y, 1);
@@ -882,9 +882,9 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
 
         for (int i = 0; i < N; i++)
@@ -907,9 +907,9 @@ internal class Program
         for (int i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + x[i].ToString().PadLeft(14) + "  "
+                              + y[i].ToString().PadLeft(14) + "");
         }
     }
 
@@ -953,8 +953,8 @@ internal class Program
 
         for (int i = 1; i <= N; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + x[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(6)
+                                   + "  " + x[i - 1].ToString().PadLeft(8) + "");
         }
 
         int incx = 1;

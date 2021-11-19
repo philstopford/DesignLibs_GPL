@@ -93,10 +93,10 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + r[i].ToString().PadLeft(10)
+                                   + "  " + s[i].ToString().PadLeft(10)
+                                   + "  " + t[i].ToString().PadLeft(10) + "");
         }
     }
 }

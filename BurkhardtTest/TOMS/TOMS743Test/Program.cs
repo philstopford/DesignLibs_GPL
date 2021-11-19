@@ -431,7 +431,7 @@ internal class Program
             Console.WriteLine(dx1[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp1[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                              + nd.ToString().PadLeft(3) + "");
         }
 
         //
@@ -459,7 +459,7 @@ internal class Program
             Console.WriteLine(x2[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp2[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                              + nd.ToString().PadLeft(3) + "");
         }
 
         for (i = 0; i < 20; i++)
@@ -477,7 +477,7 @@ internal class Program
             Console.WriteLine((-x2[i]).ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp2[20 + i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                              + nd.ToString().PadLeft(3) + "");
         }
 
         //
@@ -505,7 +505,7 @@ internal class Program
             Console.WriteLine(x3[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp3[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                              + nd.ToString().PadLeft(3) + "");
         }
 
         //
@@ -533,7 +533,7 @@ internal class Program
             Console.WriteLine(dx1[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wm1[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                              + nd.ToString().PadLeft(3) + "");
         }
 
         //
@@ -566,7 +566,7 @@ internal class Program
                     Console.WriteLine((-dx1[i]).ToString("0.########").PadLeft(17)
                                       + w.ToString("0.########").PadLeft(17)
                                       + wm2[i].ToString("0.########").PadLeft(17) + "      "
-                                      + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                                      + nd.ToString().PadLeft(3) + "");
                     break;
                 }
             }
@@ -694,7 +694,7 @@ internal class Program
                     Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                       + w.ToString("0.########").PadLeft(17)
                                       + we.ToString("0.########").PadLeft(17) + "      "
-                                      + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                                      + nd.ToString().PadLeft(3) + "");
                     break;
                 }
             }
@@ -758,7 +758,7 @@ internal class Program
                             Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                               + w.ToString("0.########").PadLeft(17)
                                               + we.ToString("0.########").PadLeft(17) + "      "
-                                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                                              + nd.ToString().PadLeft(3) + "");
                             break;
                         }
                     }
@@ -901,7 +901,7 @@ internal class Program
                     Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                       + w.ToString("0.########").PadLeft(17)
                                       + we.ToString("0.########").PadLeft(17) + "      "
-                                      + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                                      + nd.ToString().PadLeft(3) + "");
                     break;
                 }
             }
@@ -963,7 +963,7 @@ internal class Program
                             Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                               + w.ToString("0.########").PadLeft(17)
                                               + we.ToString("0.########").PadLeft(17) + "      "
-                                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                                              + nd.ToString().PadLeft(3) + "");
                             break;
                         }
                     }

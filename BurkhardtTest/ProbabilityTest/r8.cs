@@ -53,8 +53,8 @@ internal partial class Program
 
             double fxy2 = typeMethods.r8_beta(x, y);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + y.ToString().PadLeft(12)
                                    + "  " + fxy1.ToString("0.################").PadLeft(24)
                                    + "  " + fxy2.ToString("0.################").PadLeft(24) + "");
         }
@@ -93,8 +93,8 @@ internal partial class Program
             double rval = i / 5.0;
             int ival = (int)Math.Ceiling(rval);
             Console.WriteLine("  "
-                              + rval.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + ival.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                              + rval.ToString().PadLeft(14) + "  "
+                              + ival.ToString().PadLeft(6) + "");
         }
     }
 
@@ -141,9 +141,9 @@ internal partial class Program
             x = Normal.normal_01_sample(ref seed);
             y = typeMethods.r8_error_f(x);
             z = typeMethods.r8_error_f_inverse(y);
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + z.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(14)
+                                   + "  " + y.ToString().PadLeft(14)
+                                   + "  " + z.ToString().PadLeft(14) + "");
         }
     }
 
@@ -183,8 +183,8 @@ internal partial class Program
             f = typeMethods.r8_factorial(i);
 
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
+                              + i.ToString().PadLeft(4) + "  "
+                              + f.ToString().PadLeft(24) + "");
         }
     }
 
@@ -235,10 +235,10 @@ internal partial class Program
             double fx2 = typeMethods.r8_gamma_inc(a, x);
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
+                              + a.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(16) + "  "
+                              + fx2.ToString().PadLeft(16) + "");
         }
     }
 
@@ -277,8 +277,8 @@ internal partial class Program
             double g = typeMethods.r8_gamma_log_int(i);
 
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + g.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + g.ToString().PadLeft(12) + "");
         }
     }
 
@@ -329,8 +329,8 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < 10; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(6)
+                                   + "  " + x[i].ToString().PadLeft(14) + "");
         }
 
         min = typeMethods.r8vec_min(N, x);
@@ -382,8 +382,8 @@ internal partial class Program
         {
             p = i;
             v = typeMethods.r8_zeta(p);
-            Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p.ToString().PadLeft(6)
+                                   + "  " + v.ToString().PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -391,8 +391,8 @@ internal partial class Program
         {
             p = 3.0 + i / 8.0;
             v = typeMethods.r8_zeta(p);
-            Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p.ToString().PadLeft(6)
+                                   + "  " + v.ToString().PadLeft(14) + "");
         }
     }
 }

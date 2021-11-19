@@ -133,11 +133,11 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                      + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                      + x[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                      + x[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                      + x[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine(j.ToString().PadLeft(4) + "  "
+                                                      + w[j].ToString().PadLeft(14) + "  "
+                                                      + x[0 + j * 3].ToString().PadLeft(14) + "  "
+                                                      + x[1 + j * 3].ToString().PadLeft(14) + "  "
+                                                      + x[2 + j * 3].ToString().PadLeft(14) + "");
         }
 
         d = typeMethods.r8vec_sum(n, w);

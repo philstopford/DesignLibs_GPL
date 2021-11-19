@@ -196,10 +196,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < k; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -283,11 +283,11 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+            string cout = "  " + n.ToString().PadLeft(2)
                                + ":  ";
             for (k = 0; k <= Math.Min(n, 5); k++)
             {
-                cout += "  " + Ranking.ksubset_enum(k, n).ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += "  " + Ranking.ksubset_enum(k, n).ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -484,10 +484,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < k; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -633,10 +633,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < k; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

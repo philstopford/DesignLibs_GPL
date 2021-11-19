@@ -45,8 +45,8 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -91,9 +91,9 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + a.ToString().PadLeft(6) + "  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -138,9 +138,9 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + df.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -187,10 +187,10 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(10) + "  "
+                              + lambda.ToString().PadLeft(8) + "  "
+                              + df.ToString().PadLeft(4) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -235,9 +235,9 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + df.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -282,10 +282,10 @@ public class ChiTest
                 break;
             }
             Console.WriteLine("  "
-                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + xi.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)  + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + df.ToString().PadLeft(8) + "  "
+                              + xi.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8)  + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 }

@@ -103,7 +103,7 @@ internal class Program
         {
             x = MonteCarlo.ball01_sample(n, ref seed);
 
-            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 3; i++)
@@ -114,7 +114,7 @@ internal class Program
                 value = Monomial.monomial_value(3, n, e, x);
 
                 result[j] = MonteCarlo.ball01_volume() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result[j].ToString().PadLeft(14);
 
             }
 
@@ -133,7 +133,7 @@ internal class Program
             }
 
             result[j] = MonteCarlo.ball01_monomial_integral(e);
-            cout += "  " + result[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + result[j].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);

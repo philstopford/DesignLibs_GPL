@@ -56,10 +56,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + a[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + a[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + a[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + a[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + a[i + 0 * 4].ToString().PadLeft(10)
+                                   + "  " + a[i + 1 * 4].ToString().PadLeft(10)
+                                   + "  " + a[i + 2 * 4].ToString().PadLeft(10)
+                                   + "  " + a[i + 3 * 4].ToString().PadLeft(10) + "");
         }
 
         //
@@ -75,10 +75,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
         }
 
         //
@@ -97,10 +97,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
         }
 
         //
@@ -117,10 +117,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
         }
 
         //
@@ -136,10 +136,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
         }
 
         //
@@ -156,10 +156,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
         }
     }
 

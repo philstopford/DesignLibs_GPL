@@ -135,7 +135,7 @@ public static class BoxTest
         Console.WriteLine("");
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout += "  " + p1[i].ToString().PadLeft(8);
         }
 
         Console.WriteLine("");
@@ -144,7 +144,7 @@ public static class BoxTest
         Console.WriteLine("");
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout += "  " + p2[i].ToString().PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -167,12 +167,12 @@ public static class BoxTest
             Console.WriteLine("");
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pa[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + pa[i].ToString().PadLeft(8);
             }
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pb[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + pb[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -191,7 +191,7 @@ public static class BoxTest
                 {
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qa[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                        cout += "  " + qa[i].ToString().PadLeft(8);
                     }
 
                     break;
@@ -205,7 +205,7 @@ public static class BoxTest
 
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qb[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                        cout += "  " + qb[i].ToString().PadLeft(8);
                     }
 
                     Console.WriteLine(cout);
@@ -216,12 +216,12 @@ public static class BoxTest
                 {
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qa[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                        cout += "  " + qa[i].ToString().PadLeft(8);
                     }
 
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qb[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                        cout += "  " + qb[i].ToString().PadLeft(8);
                     }
 
                     Console.WriteLine(cout);
@@ -290,13 +290,13 @@ public static class BoxTest
         Console.WriteLine("");
         Console.WriteLine("  Lower left box corner:");
         Console.WriteLine("");
-        Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                               + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("  " + p1[0].ToString().PadLeft(12)
+                               + "  " + p1[1].ToString().PadLeft(12) + "");
         Console.WriteLine("");
         Console.WriteLine("  Upper right box corner:");
         Console.WriteLine("");
-        Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                               + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("  " + p2[0].ToString().PadLeft(12)
+                               + "  " + p2[1].ToString().PadLeft(12) + "");
         Console.WriteLine("");
 
         for (test = 0; test < TEST_NUM; test++)
@@ -307,14 +307,14 @@ public static class BoxTest
             Geometry.box_ray_int_2d(p1, p2, pa, pb, pint);
 
             Console.WriteLine("");
-            Console.WriteLine("  Origin:       " + pa[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                                 + "  " + pa[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  Point 2:      " + pb[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                                 + "  " + pb[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
-            Console.WriteLine("  Intersection: " + pint[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                                 + "  " + pint[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  Origin:       " + pa[0].ToString().PadLeft(12)
+                                                 + "  " + pa[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  Point 2:      " + pb[0].ToString().PadLeft(12)
+                                                 + "  " + pb[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  Intersection: " + pint[0].ToString().PadLeft(12)
+                                                 + "  " + pint[1].ToString().PadLeft(12) + "");
             Console.WriteLine("  Correct:      " + pc_test[0 + test * DIM_NUM]
-                                                 + "  " + pc_test[1 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                                 + "  " + pc_test[1 + test * DIM_NUM].ToString().PadLeft(12) + "");
         }
     }
 

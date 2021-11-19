@@ -52,10 +52,10 @@ public static class FrobeniusTest
 
             f2 = Frobenius.frobenius_number_order2 ( c1, c2 );
 
-            Console.WriteLine("  " + c1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + c2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + c1.ToString().PadLeft(8)
+                                   + "  " + c2.ToString().PadLeft(8)
+                                   + "  " + f1.ToString().PadLeft(8)
+                                   + "  " + f2.ToString().PadLeft(8) + "");
         }
     }
 

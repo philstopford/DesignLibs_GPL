@@ -46,8 +46,8 @@ public static class HermiteTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + n.ToString().PadLeft(6) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -93,8 +93,8 @@ public static class HermiteTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + n.ToString().PadLeft(6) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -140,8 +140,8 @@ public static class HermiteTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + n.ToString().PadLeft(6) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

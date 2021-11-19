@@ -39,8 +39,8 @@ public static class PentEnumTest
 
         for ( i = 0; i <= N; i++ )
         {
-            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4)               + "  "
-                                                                    + Pentagon.pentagon_num ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine(i.ToString().PadLeft(4)               + "  "
+                                                                    + Pentagon.pentagon_num ( i ).ToString().PadLeft(6) + "");
         }
     }
 }

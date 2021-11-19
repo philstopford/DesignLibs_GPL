@@ -110,10 +110,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_01,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
+                                   + "  " + result[0].ToString().PadLeft(14)
+                                   + "  " + result[1].ToString().PadLeft(14)
+                                   + "  " + result[2].ToString().PadLeft(14) + "");
 
             p_num = 2 * p_num;
         }
@@ -173,10 +173,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_02,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
+                                   + "  " + result[0].ToString().PadLeft(14)
+                                   + "  " + result[1].ToString().PadLeft(14)
+                                   + "  " + result[2].ToString().PadLeft(14) + "");
 
             p_num = 2 * p_num;
         }
@@ -236,10 +236,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_03,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
+                                   + "  " + result[0].ToString().PadLeft(14)
+                                   + "  " + result[1].ToString().PadLeft(14)
+                                   + "  " + result[2].ToString().PadLeft(14) + "");
 
             p_num = 2 * p_num;
 
@@ -300,10 +300,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_04,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
+                                   + "  " + result[0].ToString().PadLeft(14)
+                                   + "  " + result[1].ToString().PadLeft(14)
+                                   + "  " + result[2].ToString().PadLeft(14) + "");
 
             p_num = 2 * p_num;
         }
@@ -366,10 +366,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_01,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string tmp = "  " + p_num.ToString().PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                tmp += "  " + result[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -435,10 +435,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_02,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string tmp = "  " + p_num.ToString().PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                tmp += "  " + result[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -504,10 +504,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_03,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string tmp = "  " + p_num.ToString().PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                tmp += "  " + result[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -573,10 +573,10 @@ internal class Program
             result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_04,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string tmp = "  " + p_num.ToString().PadLeft(8);
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                tmp += "  " + result[i].ToString().PadLeft(12);
             }
 
             Console.WriteLine(tmp);

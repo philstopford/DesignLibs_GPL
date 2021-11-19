@@ -75,12 +75,12 @@ public static class RadecTest
                 theta = Radec.radec_distance_3d(ra1, dec1, ra2, dec2);
                 theta_deg = Helpers.radians_to_degrees(theta);
 
-                Console.WriteLine("  " + ra1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + dec1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + ra2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + dec2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + theta.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + theta_deg.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("  " + ra1.ToString().PadLeft(8)
+                                       + "  " + dec1.ToString().PadLeft(8)
+                                       + "  " + ra2.ToString().PadLeft(8)
+                                       + "  " + dec2.ToString().PadLeft(8)
+                                       + "  " + theta.ToString().PadLeft(8)
+                                       + "  " + theta_deg.ToString().PadLeft(8) + "");
             }
         }
     }
@@ -141,19 +141,19 @@ public static class RadecTest
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(7);
+                cout += "  " + p1[i].ToString().PadLeft(7);
             }
 
             XY.xyz_to_radec(p1, ref ra, ref dec);
 
-            cout += ra.ToString(CultureInfo.InvariantCulture).PadLeft(7);
-            cout += dec.ToString(CultureInfo.InvariantCulture).PadLeft(7);
+            cout += ra.ToString().PadLeft(7);
+            cout += dec.ToString().PadLeft(7);
 
             p2 = Radec.radec_to_xyz(ra, dec);
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(7);
+                cout += "  " + p2[i].ToString().PadLeft(7);
             }
 
             Console.WriteLine(cout);

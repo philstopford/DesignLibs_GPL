@@ -46,8 +46,8 @@ public class TsatTest
             }
 
             Console.WriteLine("  "
-                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + p + "  "
-                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + tc + "");
+                              + p.ToString().PadLeft(12) + p + "  "
+                              + tc.ToString().PadLeft(12) + tc + "");
         }
     }
 }

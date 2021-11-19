@@ -167,11 +167,11 @@ internal class Program
         Console.WriteLine("           A                 X             B");
         Console.WriteLine("         F(A)              F(X)          F(B)");
         Console.WriteLine("  " + a.ToString("0.######").PadLeft(14)
-                               + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-        Console.WriteLine("  " + fa.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                               + "  " + x.ToString().PadLeft(14)
+                               + "  " + b.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + fa.ToString().PadLeft(14)
+                               + "  " + fx.ToString().PadLeft(14)
+                               + "  " + fb.ToString().PadLeft(14) + "");
         Console.WriteLine("  Number of calls to F = " + calls + "");
     }
 

@@ -41,8 +41,8 @@ public static class IndexTest
         Console.WriteLine("  lie on the surface of a box in 2D.");
         Console.WriteLine("");
         Console.WriteLine("  The box has logical dimensions:");
-        Console.WriteLine(n1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + n2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        Console.WriteLine(n1.ToString().PadLeft(3) + "  "
+                                                   + n2.ToString().PadLeft(3) + "");
         Console.WriteLine("");
         Console.WriteLine("   #    I   J");
         Console.WriteLine("");
@@ -60,9 +60,9 @@ public static class IndexTest
             }
 
             n += 1;
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+            Console.WriteLine(n.ToString().PadLeft(3) + "  "
+                                                      + i.ToString().PadLeft(3) + "  "
+                                                      + j.ToString().PadLeft(3) + "");
         }
     }
 
@@ -102,9 +102,9 @@ public static class IndexTest
         Console.WriteLine("  lie on the surface of a box.");
         Console.WriteLine("");
         Console.WriteLine("  The box has logical dimensions:");
-        Console.WriteLine(n1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + n2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + n3.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        Console.WriteLine(n1.ToString().PadLeft(3) + "  "
+                                                   + n2.ToString().PadLeft(3) + "  "
+                                                   + n3.ToString().PadLeft(3) + "");
         Console.WriteLine("");
         Console.WriteLine("   #    I   J   K");
         Console.WriteLine("");
@@ -122,10 +122,10 @@ public static class IndexTest
             }
 
             n += 1;
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + k.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+            Console.WriteLine(n.ToString().PadLeft(3) + "  "
+                                                      + i.ToString().PadLeft(3) + "  "
+                                                      + j.ToString().PadLeft(3) + "  "
+                                                      + k.ToString().PadLeft(3) + "");
 
         }
     }
@@ -166,12 +166,12 @@ public static class IndexTest
         Console.WriteLine("  lie on the surface of a box2 in 2D.");
         Console.WriteLine("");
         Console.WriteLine("  The box has half-widths:");
-        Console.WriteLine(n1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + n2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        Console.WriteLine(n1.ToString().PadLeft(3) + "  "
+                                                   + n2.ToString().PadLeft(3) + "");
         Console.WriteLine("");
         Console.WriteLine("  and has center cell:");
-        Console.WriteLine(ic.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + jc.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        Console.WriteLine(ic.ToString().PadLeft(3) + "  "
+                                                   + jc.ToString().PadLeft(3) + "");
         Console.WriteLine("");
         Console.WriteLine("   #    I   J");
         Console.WriteLine("");
@@ -189,9 +189,9 @@ public static class IndexTest
             }
 
             n += 1;
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+            Console.WriteLine(n.ToString().PadLeft(3) + "  "
+                                                      + i.ToString().PadLeft(3) + "  "
+                                                      + j.ToString().PadLeft(3) + "");
         }
     }
 
@@ -234,14 +234,14 @@ public static class IndexTest
         Console.WriteLine("  lie on the surface of a box.");
         Console.WriteLine("");
         Console.WriteLine("  The box has half widths:");
-        Console.WriteLine(n1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + n2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + n3.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        Console.WriteLine(n1.ToString().PadLeft(3) + "  "
+                                                   + n2.ToString().PadLeft(3) + "  "
+                                                   + n3.ToString().PadLeft(3) + "");
         Console.WriteLine("");
         Console.WriteLine("  and central cell:");
-        Console.WriteLine(ic.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + jc.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                   + kc.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        Console.WriteLine(ic.ToString().PadLeft(3) + "  "
+                                                   + jc.ToString().PadLeft(3) + "  "
+                                                   + kc.ToString().PadLeft(3) + "");
         Console.WriteLine("");
         Console.WriteLine("  We will only print a PORTION of the data!");
         Console.WriteLine("");
@@ -266,10 +266,10 @@ public static class IndexTest
             {
                 case <= 10:
                 case >= 370:
-                    Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                              + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
-                                                              + k.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                    Console.WriteLine(n.ToString().PadLeft(3) + "  "
+                                                              + i.ToString().PadLeft(3) + "  "
+                                                              + j.ToString().PadLeft(3) + "  "
+                                                              + k.ToString().PadLeft(3) + "");
                     break;
             }
 
@@ -326,7 +326,7 @@ public static class IndexTest
             string cout = "";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -390,7 +390,7 @@ public static class IndexTest
             string cout = "";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -445,9 +445,9 @@ public static class IndexTest
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine((i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                            + lo[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                            + hi[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine((i + 1).ToString().PadLeft(8) + "  "
+                                                            + lo[i].ToString().PadLeft(8) + "  "
+                                                            + hi[i].ToString().PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -463,7 +463,7 @@ public static class IndexTest
             string cout = "";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -563,8 +563,8 @@ public static class IndexTest
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine((i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                             + hi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine((i + 1).ToString().PadLeft(10) + "  "
+                                                             + hi[i].ToString().PadLeft(10) + "");
         }
 
         typeMethods.i4vec1_print(N, a, "  The index array:");
@@ -617,9 +617,9 @@ public static class IndexTest
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine((i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                             + lo[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                             + hi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine((i + 1).ToString().PadLeft(10) + "  "
+                                                             + lo[i].ToString().PadLeft(10) + "  "
+                                                             + hi[i].ToString().PadLeft(10) + "");
         }
 
         typeMethods.i4vec1_print(N, a, "  The index array:");
@@ -676,10 +676,10 @@ public static class IndexTest
         for (rank = 1; rank <= maxrank; rank++)
         {
             Index.index_unrank0(N, hi, rank, ref a);
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
+            string cout = rank.ToString().PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+                cout += a[i].ToString().PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -732,10 +732,10 @@ public static class IndexTest
         for (rank = 1; rank <= maxrank; rank++)
         {
             Index.index_unrank1(N, hi, rank, ref a);
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
+            string cout = rank.ToString().PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+                cout += a[i].ToString().PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -782,9 +782,9 @@ public static class IndexTest
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                       + lo[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                                       + hi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(i.ToString().PadLeft(10) + "  "
+                                                       + lo[i].ToString().PadLeft(10) + "  "
+                                                       + hi[i].ToString().PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -794,10 +794,10 @@ public static class IndexTest
         rank = 7;
 
         Index.index_unrank2(N, lo, hi, rank, ref a);
-        string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
+        string cout = rank.ToString().PadLeft(3) + "  ";
         for (i = 0; i < N; i++)
         {
-            cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            cout += a[i].ToString().PadLeft(6) + "  ";
         }
 
         Console.WriteLine(cout);

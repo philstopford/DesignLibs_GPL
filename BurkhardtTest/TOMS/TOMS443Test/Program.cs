@@ -94,10 +94,10 @@ internal class Program
                 _ => Lambert.wew_a(x, ref en)
             };
 
-            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                       + w1.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                                                       + w2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                                                       + Math.Abs(w1 - w2).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(x.ToString().PadLeft(14) + "  "
+                                                       + w1.ToString().PadLeft(16) + "  "
+                                                       + w2.ToString().PadLeft(16) + "  "
+                                                       + Math.Abs(w1 - w2).ToString().PadLeft(10) + "");
         }
 
     }
@@ -154,10 +154,10 @@ internal class Program
                 _ => Lambert.wew_b(x, ref en)
             };
 
-            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                       + w1.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                                                       + w2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                                                       + Math.Abs(w1 - w2).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(x.ToString().PadLeft(14) + "  "
+                                                       + w1.ToString().PadLeft(16) + "  "
+                                                       + w2.ToString().PadLeft(16) + "  "
+                                                       + Math.Abs(w1 - w2).ToString().PadLeft(10) + "");
         }
 
     }

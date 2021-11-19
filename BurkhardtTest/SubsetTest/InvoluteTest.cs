@@ -44,8 +44,8 @@ public static class InvoluteTest
 
         for ( i = 0; i <= N; i++ )
         {
-            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(10)    + "  "
-                                                          + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine(i.ToString().PadLeft(10)    + "  "
+                                                          + s[i].ToString().PadLeft(10) + "");
         }
 
     }

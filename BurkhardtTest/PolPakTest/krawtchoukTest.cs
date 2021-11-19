@@ -65,11 +65,11 @@ public static class krawtchoukTest
                 for ( i = 0; i <= 5; i++ )
                 {
 
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + value[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + "  " + p.ToString().PadLeft(8)
+                                           + "  " + x.ToString().PadLeft(8)
+                                           + "  " + m.ToString().PadLeft(8)
+                                           + "  " + value[i].ToString().PadLeft(14) + "");
                 }
             }
         }

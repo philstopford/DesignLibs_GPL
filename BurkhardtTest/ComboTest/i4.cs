@@ -38,9 +38,9 @@ internal partial class Program
         {
             for (j = -1; j <= 5; j++)
             {
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + typeMethods.i4_choose(i, j).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + j.ToString().PadLeft(4)
+                                       + "  " + typeMethods.i4_choose(i, j).ToString().PadLeft(12) + "");
             }
         }
     }
@@ -94,9 +94,9 @@ internal partial class Program
 
             fx2 = typeMethods.i4_factorial(x);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(4)
+                                   + "  " + fx.ToString().PadLeft(12)
+                                   + "  " + fx2.ToString().PadLeft(12) + "");
         }
     }
 
@@ -147,10 +147,10 @@ internal partial class Program
 
             f2 = typeMethods.i4_fall(m, n);
 
-            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + f1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + f2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(8)
+                                   + "  " + f1.ToString().PadLeft(8)
+                                   + "  " + f2.ToString().PadLeft(8) + "");
         }
     }
 
@@ -196,8 +196,8 @@ internal partial class Program
         {
             j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + j.ToString().PadLeft(8) + "");
         }
     }
 }

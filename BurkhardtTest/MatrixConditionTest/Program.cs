@@ -105,10 +105,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_linpack(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX1
         //
@@ -121,10 +121,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_linpack(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX2
         //
@@ -137,10 +137,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_linpack(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX3
         //
@@ -152,10 +152,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_linpack(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX4
         //
@@ -167,10 +167,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_linpack(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  KAHAN
         //
@@ -183,10 +183,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_linpack(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  Random
         //
@@ -205,10 +205,10 @@ internal class Program
             a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
             cond_l1 = a_norm_l1 * a_inverse_norm_l1;
             cond = Matrix.condition_linpack(n, a);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
     }
 
@@ -277,11 +277,11 @@ internal class Program
         {
             m = m_test[i];
             cond = Matrix.condition_sample1(n, a, m);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
 
         //
@@ -300,11 +300,11 @@ internal class Program
         {
             m = m_test[i];
             cond = Matrix.condition_sample1(n, a, m);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
 
         //
@@ -323,11 +323,11 @@ internal class Program
         {
             m = m_test[i];
             cond = Matrix.condition_sample1(n, a, m);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
 
         //
@@ -345,11 +345,11 @@ internal class Program
         {
             m = m_test[i];
             cond = Matrix.condition_sample1(n, a, m);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
 
         //
@@ -367,11 +367,11 @@ internal class Program
         {
             m = m_test[i];
             cond = Matrix.condition_sample1(n, a, m);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
 
         //
@@ -390,11 +390,11 @@ internal class Program
         {
             m = m_test[i];
             cond = Matrix.condition_sample1(n, a, m);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
 
         //
@@ -419,11 +419,11 @@ internal class Program
             {
                 m = m_test[i];
                 cond = Matrix.condition_sample1(n, a, m);
-                Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                       + "  " + m.ToString().PadLeft(8)
+                                       + "  " + n.ToString().PadLeft(4)
+                                       + "  " + cond_l1.ToString().PadLeft(14)
+                                       + "  " + cond.ToString().PadLeft(14) + "");
             }
         }
     }
@@ -484,10 +484,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_hager(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX1
         //
@@ -500,10 +500,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_hager(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX2
         //
@@ -516,10 +516,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_hager(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX3
         //
@@ -531,10 +531,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_hager(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  CONEX4
         //
@@ -546,10 +546,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_hager(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  KAHAN
         //
@@ -562,10 +562,10 @@ internal class Program
         a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
         cond_l1 = a_norm_l1 * a_inverse_norm_l1;
         cond = Matrix.condition_hager(n, a);
-        Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + name.ToString().PadLeft(20)
+                               + "  " + n.ToString().PadLeft(4)
+                               + "  " + cond_l1.ToString().PadLeft(14)
+                               + "  " + cond.ToString().PadLeft(14) + "");
         //
         //  Random
         //
@@ -584,10 +584,10 @@ internal class Program
             a_inverse_norm_l1 = typeMethods.r8mat_norm_l1(n, n, a_inverse);
             cond_l1 = a_norm_l1 * a_inverse_norm_l1;
             cond = Matrix.condition_hager(n, a);
-            Console.WriteLine("  " + name.ToString(CultureInfo.InvariantCulture).PadLeft(20)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + cond_l1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cond.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + name.ToString().PadLeft(20)
+                                   + "  " + n.ToString().PadLeft(4)
+                                   + "  " + cond_l1.ToString().PadLeft(14)
+                                   + "  " + cond.ToString().PadLeft(14) + "");
         }
     }
 }

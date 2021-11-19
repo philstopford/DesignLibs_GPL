@@ -63,9 +63,9 @@ public static class cardanTest
 
             cx1 = typeMethods.r8poly_value_horner(n, c, x);
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + cx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + cx1.ToString().PadLeft(14)
+                                   + "  " + cx2[n].ToString().PadLeft(14) + "");
         }
 
     }
@@ -113,10 +113,10 @@ public static class cardanTest
         for (n = 0; n <= N_MAX; n++)
         {
             Cardan.cardan_poly_coef(n, s, ref c);
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
+            string cout = "  " + n.ToString().PadLeft(2) + "  ";
             for (i = 0; i <= n; i++)
             {
-                cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
+                cout += c[i].ToString().PadLeft(3) + "  ";
             }
 
             Console.WriteLine(cout);

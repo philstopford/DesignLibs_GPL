@@ -52,10 +52,10 @@ public static class vibonacciTest
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + v1[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + v2[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + v3[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + v1[i].ToString().PadLeft(6) + "  "
+                              + v2[i].ToString().PadLeft(6) + "  "
+                              + v3[i].ToString().PadLeft(6) + "");
         }
 
     }

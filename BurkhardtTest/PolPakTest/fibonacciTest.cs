@@ -40,8 +40,8 @@ public static class fibonacciTest
             f = Fibonacci.fibonacci_direct(i);
 
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + f.ToString().PadLeft(10) + "");
         }
 
     }
@@ -84,9 +84,9 @@ public static class fibonacciTest
             Fibonacci.fibonacci_floor(n, ref f, ref i);
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + f.ToString().PadLeft(6) + "  "
+                              + i.ToString().PadLeft(6) + "");
         }
 
     }
@@ -127,8 +127,8 @@ public static class fibonacciTest
         for (i = 1; i <= N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + f[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + f[i - 1].ToString().PadLeft(10) + "");
         }
 
     }

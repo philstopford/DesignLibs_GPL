@@ -47,9 +47,9 @@ public static class HyperTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + a.ToString().PadLeft(8) + "  "
+                              + b.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -97,10 +97,10 @@ public static class HyperTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + a.ToString().PadLeft(8) + "  "
+                              + b.ToString().PadLeft(8) + "  "
+                              + c.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -148,10 +148,10 @@ public static class HyperTest
             }
 
             Console.WriteLine("  "
-                              + sam.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + succ.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + pop.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + sam.ToString().PadLeft(8) + "  "
+                              + succ.ToString().PadLeft(8) + "  "
+                              + pop.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -199,10 +199,10 @@ public static class HyperTest
             }
 
             Console.WriteLine("  "
-                              + sam.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + succ.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + pop.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + sam.ToString().PadLeft(8) + "  "
+                              + succ.ToString().PadLeft(8) + "  "
+                              + pop.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -249,9 +249,9 @@ public static class HyperTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + a.ToString().PadLeft(8) + "  "
+                              + b.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

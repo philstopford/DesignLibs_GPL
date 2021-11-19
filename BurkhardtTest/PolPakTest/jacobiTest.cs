@@ -61,12 +61,12 @@ public class jacobiTest
             fx2 = c[n];
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + a.ToString().PadLeft(6) + "  "
+                              + b.ToString().PadLeft(6) + "  "
+                              + x.ToString().PadLeft(10) + "  "
+                              + fx.ToString().PadLeft(14) + "  "
+                              + fx2.ToString().PadLeft(14) + "");
 
         }
 
@@ -114,9 +114,9 @@ public class jacobiTest
             Console.WriteLine("");
             for (q = 0; q <= p; q++)
             {
-                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + Symbol.jacobi_symbol(q, p).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("  " + p.ToString().PadLeft(8)
+                                       + "  " + q.ToString().PadLeft(8)
+                                       + "  " + Symbol.jacobi_symbol(q, p).ToString().PadLeft(8) + "");
             }
         }
     }

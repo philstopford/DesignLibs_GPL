@@ -68,13 +68,13 @@ public static class SubcompTest
             }
 
             rank += 1;
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            string cout = "  " + rank.ToString().PadLeft(4)
+                               + "  " + total.ToString().PadLeft(4)
                                + "  ";
 
             for (i = 0; i < k; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += a[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -152,13 +152,13 @@ public static class SubcompTest
             }
 
             rank += 1;
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            string cout = "  " + rank.ToString().PadLeft(4)
+                               + "  " + total.ToString().PadLeft(4)
                                + "  ";
 
             for (i = 0; i < k; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += a[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -240,13 +240,13 @@ public static class SubcompTest
             }
 
             rank += 1;
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            string cout = "  " + rank.ToString().PadLeft(4)
+                               + "  " + n.ToString().PadLeft(4)
                                + "  ";
 
             for (i = 0; i < k; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += a[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

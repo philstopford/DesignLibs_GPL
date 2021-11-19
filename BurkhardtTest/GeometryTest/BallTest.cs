@@ -56,7 +56,7 @@ public static class BallTest
             x = Geometry.ball01_sample_2d(ref seed);
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + x[j].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -88,7 +88,7 @@ public static class BallTest
         cout = "  Average:        ";
         for (j = 0; j < DIM_NUM; j++)
         {
-            cout += "  " + average[j].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+            cout += "  " + average[j].ToString().PadLeft(10);
         }
 
         Console.WriteLine(cout);
@@ -188,7 +188,7 @@ public static class BallTest
             x = Geometry.ball01_sample_3d(ref seed);
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + x[j].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -220,7 +220,7 @@ public static class BallTest
         cout = "  Average:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout += "  " + average[i].ToString().PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -347,7 +347,7 @@ public static class BallTest
             x = Geometry.ball01_sample_nd(DIM_NUM, ref seed);
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + x[j].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -379,7 +379,7 @@ public static class BallTest
         cout = "  Average:        ";
         for (j = 0; j < DIM_NUM; j++)
         {
-            cout += "  " + average[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout += "  " + average[j].ToString().PadLeft(8);
         }
 
         Console.WriteLine(cout);

@@ -78,10 +78,10 @@ public static class CongruenceTest
             {
                 case true:
                     Console.WriteLine("  "
-                                      + test_i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                      + a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                      + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                      + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                      + test_i.ToString().PadLeft(2) + "  "
+                                      + a.ToString().PadLeft(10) + "  "
+                                      + b.ToString().PadLeft(10) + "  "
+                                      + c.ToString().PadLeft(10) + "  "
                                       + "(An error occurred)");
                     break;
                 default:
@@ -96,12 +96,12 @@ public static class CongruenceTest
                     }
 
                     Console.WriteLine("  "
-                                      + test_i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                      + a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                      + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                      + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                                      + test_i.ToString().PadLeft(2) + "  "
+                                      + a.ToString().PadLeft(10) + "  "
+                                      + b.ToString().PadLeft(10) + "  "
+                                      + c.ToString().PadLeft(10) + "  "
+                                      + x.ToString().PadLeft(10) + "  "
+                                      + result.ToString().PadLeft(10) + "");
                     break;
                 }
             }

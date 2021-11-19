@@ -120,7 +120,7 @@ internal class Program
 
             value = f(arg);
 
-            Console.WriteLine("  " + status.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + status.ToString().PadLeft(8)
                                    + "  " + arg.ToString("0.################").PadLeft(24)
                                    + "  " + value.ToString("0.######").PadLeft(14) + "");
 

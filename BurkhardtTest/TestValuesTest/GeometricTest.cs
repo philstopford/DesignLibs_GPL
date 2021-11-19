@@ -46,8 +46,8 @@ public static class GeometricTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString().PadLeft(6) + "  "
+                              + p.ToString().PadLeft(8) + "  "
                               + cdf.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -55,10 +55,10 @@ internal partial class Program
                 {
                     l = k * Math.Min(a, b) / 5.0;
                     pdf = Buffon.buffon_box_pdf(a, b, l);
-                    Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                    Console.WriteLine("  " + a.ToString().PadLeft(8)
+                                           + "  " + b.ToString().PadLeft(8)
+                                           + "  " + l.ToString().PadLeft(8)
+                                           + "  " + pdf.ToString().PadLeft(14) + "");
                 }
 
                 Console.WriteLine("");
@@ -137,10 +137,10 @@ internal partial class Program
 
             err = Math.Abs(pi_est - pi);
 
-            Console.WriteLine("  " + trial_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + hits.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + pi_est.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + trial_num.ToString().PadLeft(8)
+                                   + "  " + hits.ToString().PadLeft(8)
+                                   + "  " + pi_est.ToString().PadLeft(14)
+                                   + "  " + err.ToString().PadLeft(14) + "");
         }
 
     }
@@ -189,9 +189,9 @@ internal partial class Program
             {
                 l = k * a / 5.0;
                 pdf = Buffon.buffon_pdf(a, l);
-                Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)+ "");
+                Console.WriteLine("  " + a.ToString().PadLeft(8)
+                                       + "  " + l.ToString().PadLeft(8)
+                                       + "  " + pdf.ToString().PadLeft(14)+ "");
             }
 
             Console.WriteLine("");
@@ -265,10 +265,10 @@ internal partial class Program
 
             err = Math.Abs(pi_est - pi);
 
-            Console.WriteLine("  " + trial_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + hits.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + pi_est.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + trial_num.ToString().PadLeft(8)
+                                   + "  " + hits.ToString().PadLeft(8)
+                                   + "  " + pi_est.ToString().PadLeft(14)
+                                   + "  " + err.ToString().PadLeft(14) + "");
         }
     }
 

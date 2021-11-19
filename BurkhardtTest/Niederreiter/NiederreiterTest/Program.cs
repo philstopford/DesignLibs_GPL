@@ -329,7 +329,7 @@ internal class Program
         //  Write out the irreducible polynomials as they are found.
         //
         n = 0;
-        output.Add(ply.Q.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+        output.Add(ply.Q.ToString().PadLeft(3) + "");
 
         for (i = 1; i <= SIEVE_MAX; i++)
         {
@@ -339,10 +339,10 @@ internal class Program
                 {
                     pi = Polynomial.itop(ref ply, monpol[i - 1]);
                     k = pi[0];
-                    string cout = k.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                    string cout = k.ToString().PadLeft(3);
                     for (l = 0; l <= k; l++)
                     {
-                        cout += pi[l + 1].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                        cout += pi[l + 1].ToString().PadLeft(3);
                     }
 
                     output.Add(cout);
@@ -871,11 +871,11 @@ internal class Program
                     case <= 11:
                     case >= 95:
                     {
-                        string cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                        string cout = "  " + seed_in.ToString().PadLeft(8)
+                                           + "  " + seed_out.ToString().PadLeft(8);
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                            cout += "  " + r[dim].ToString().PadLeft(10);
                         }
 
                         Console.WriteLine(cout);
@@ -951,11 +951,11 @@ internal class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + seed_in.ToString().PadLeft(8)
+                        + "  " + seed_out.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + r[dim].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -976,11 +976,11 @@ internal class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + seed_in.ToString().PadLeft(8)
+                        + "  " + seed_out.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + r[dim].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -1001,11 +1001,11 @@ internal class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + seed_in.ToString().PadLeft(8)
+                        + "  " + seed_out.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + r[dim].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1027,11 +1027,11 @@ internal class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + seed_in.ToString().PadLeft(8)
+                        + "  " + seed_out.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + r[dim].ToString().PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -1108,11 +1108,11 @@ internal class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + seed_in.ToString().PadLeft(8)
+                        + "  " + seed_out.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+                cout += "  " + r[dim].ToString().PadLeft(10);
                 switch ((dim + 1) % 5)
                 {
                     case 0 when dim != dim_num:

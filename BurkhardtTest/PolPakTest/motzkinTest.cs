@@ -44,8 +44,8 @@ public static class motzkinTest
         for (i = 0; i <= N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + i.ToString().PadLeft(4) + "  "
+                              + a[i].ToString().PadLeft(10) + "");
         }
 
     }

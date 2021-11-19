@@ -91,9 +91,9 @@ internal class Program
         {
             order = LynessRule.lyness_order(rule);
             precision = LynessRule.lyness_precision(rule);
-            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + precision.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString().PadLeft(8)
+                                   + "  " + order.ToString().PadLeft(8)
+                                   + "  " + precision.ToString().PadLeft(8) + "");
         }
     }
 
@@ -152,8 +152,8 @@ internal class Program
 
             w_sum = typeMethods.r8vec_sum(order, w);
 
-            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + w_sum.ToString(CultureInfo.InvariantCulture).PadLeft(25) + "");
+            Console.WriteLine("  " + rule.ToString().PadLeft(8)
+                                   + "  " + w_sum.ToString().PadLeft(25) + "");
         }
     }
 
@@ -210,8 +210,8 @@ internal class Program
             LynessRule.lyness_subrule(rule, suborder_num, ref sub_xyz, ref sub_w);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + suborder_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString().PadLeft(8)
+                                   + "  " + suborder_num.ToString().PadLeft(8) + "");
             for (suborder = 0; suborder < suborder_num; suborder++)
             {
                 xyz_sum = typeMethods.r8vec_sum(3, sub_xyz, +3 * suborder);
@@ -275,7 +275,7 @@ internal class Program
 
         for (j = 0; j < order; j++)
         {
-            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("  " + j.ToString().PadLeft(4)
                                    + "  " + w[j].ToString("0.################").PadLeft(24)
                                    + "  " + x[0 + j * 2].ToString("0.################").PadLeft(24)
                                    + "  " + x[1 + j * 2].ToString("0.################").PadLeft(24) + "");
@@ -461,7 +461,7 @@ internal class Program
                     exact = 1.0;
                     err = Math.Abs(exact - quad);
 
-                    Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                    Console.WriteLine("  " + rule.ToString().PadLeft(8)
                                            + "  " + quad.ToString("0.######").PadLeft(14)
                                            + "  " + err.ToString("0.##").PadLeft(10) + "");
 

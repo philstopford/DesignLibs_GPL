@@ -145,10 +145,10 @@ internal class Program
 
             double[] ax = typeMethods.r8mat_mv_new(n, n, a, x);
 
-            string cout = "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            string cout = "  " + k.ToString().PadLeft(4) + "  ";
             for (int i = 0; i < n; i++)
             {
-                cout += "  " + ax[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + ax[i].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -192,9 +192,9 @@ internal class Program
 
             double d1 = BernsteinPolynomial.bernstein_matrix_determinant(n);
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + a_norm_frobenius.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + a_norm_frobenius.ToString().PadLeft(14)
+                                   + "  " + d1.ToString().PadLeft(14) + "");
 
         }
 
@@ -240,10 +240,10 @@ internal class Program
             double[] c = typeMethods.r8mat_mm_new(n, n, n, a, b);
             double error_norm_frobenius = typeMethods.r8mat_is_identity(n, c);
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + a_norm_frobenius.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + b_norm_frobenius.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + error_norm_frobenius.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + a_norm_frobenius.ToString().PadLeft(14)
+                                   + "  " + b_norm_frobenius.ToString().PadLeft(14)
+                                   + "  " + error_norm_frobenius.ToString().PadLeft(14) + "");
 
         }
     }
@@ -295,11 +295,11 @@ internal class Program
 
             double[] bvec = BernsteinPolynomial.bernstein_poly_01(n, x);
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + bvec[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + k.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(7)
+                                   + "  " + b.ToString().PadLeft(14)
+                                   + "  " + bvec[k].ToString().PadLeft(14) + "");
         }
     }
 
@@ -346,9 +346,9 @@ internal class Program
 
             double[] bvec = BernsteinPolynomial.bernstein_poly_01(n, x);
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + typeMethods.r8vec_sum(n + 1, bvec).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(7)
+                                   + "  " + typeMethods.r8vec_sum(n + 1, bvec).ToString().PadLeft(14) + "");
 
         }
     }
@@ -449,12 +449,12 @@ internal class Program
         Console.WriteLine("");
         for (int k = 0; k <= n; k++)
         {
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + bern[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + k.ToString().PadLeft(4)
+                                   + "  " + a.ToString().PadLeft(7)
+                                   + "  " + b.ToString().PadLeft(7)
+                                   + "  " + x.ToString().PadLeft(7)
+                                   + "  " + bern[k].ToString().PadLeft(14) + "");
         }
             
         x = 1.3;
@@ -467,12 +467,12 @@ internal class Program
         Console.WriteLine("");
         for (int k = 0; k <= n; k++)
         {
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + bern[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + k.ToString().PadLeft(4)
+                                   + "  " + a.ToString().PadLeft(7)
+                                   + "  " + b.ToString().PadLeft(7)
+                                   + "  " + x.ToString().PadLeft(7)
+                                   + "  " + bern[k].ToString().PadLeft(14) + "");
         }
             
         x = 2.6;
@@ -486,12 +486,12 @@ internal class Program
 
         for (int k = 0; k <= n; k++)
         {
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
-                                   + "  " + bern[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + k.ToString().PadLeft(4)
+                                   + "  " + a.ToString().PadLeft(7)
+                                   + "  " + b.ToString().PadLeft(7)
+                                   + "  " + x.ToString().PadLeft(7)
+                                   + "  " + bern[k].ToString().PadLeft(14) + "");
         }
     }
 
@@ -564,8 +564,8 @@ internal class Program
                 error_max = Math.Max(error_max, Math.Abs(yval[i] - Math.Sin(xval[i])));
             }
 
-            Console.WriteLine("  " + ndata.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + error_max.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + ndata.ToString().PadLeft(4)
+                                   + "  " + error_max.ToString().PadLeft(14) + "");
 
         }
     }

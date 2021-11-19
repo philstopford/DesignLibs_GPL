@@ -120,10 +120,10 @@ internal class Program
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(14)
+                                   + "  " + fx.ToString().PadLeft(14)
+                                   + "  " + dx.ToString().PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -149,9 +149,9 @@ internal class Program
         }
 
         Console.WriteLine("");
-        Console.WriteLine("  A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " F(A) = " + f01(a) + "");
-        Console.WriteLine("  X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " F(X) = " + f01(x) + "");
-        Console.WriteLine("  B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " F(B) = " + f01(b) + "");
+        Console.WriteLine("  A = " + a.ToString().PadLeft(14) + " F(A) = " + f01(a) + "");
+        Console.WriteLine("  X = " + x.ToString().PadLeft(14) + " F(X) = " + f01(x) + "");
+        Console.WriteLine("  B = " + b.ToString().PadLeft(14) + " F(B) = " + f01(b) + "");
 
     }
 
@@ -262,10 +262,10 @@ internal class Program
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(14)
+                                   + "  " + fx.ToString().PadLeft(14)
+                                   + "  " + dx.ToString().PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -292,11 +292,11 @@ internal class Program
 
         Console.WriteLine("");
         fx = Math.Cos(100.0 * a) - 4.0 * Helpers.Erf(30.0 * a - 10.0);
-        Console.WriteLine("  A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(A) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  A = " + a.ToString().PadLeft(14) + ", F(A) = " + fx.ToString().PadLeft(14) + "");
         fx = Math.Cos(100.0 * x) - 4.0 * Helpers.Erf(30.0 * x - 10.0);
-        Console.WriteLine("  X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(X) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  X = " + x.ToString().PadLeft(14) + ", F(X) = " + fx.ToString().PadLeft(14) + "");
         fx = Math.Cos(100.0 * b) - 4.0 * Helpers.Erf(30.0 * b - 10.0);
-        Console.WriteLine("  B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(B) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  B = " + b.ToString().PadLeft(14) + ", F(B) = " + fx.ToString().PadLeft(14) + "");
 
     }
 
@@ -395,10 +395,10 @@ internal class Program
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(14)
+                                   + "  " + fx.ToString().PadLeft(14)
+                                   + "  " + dx.ToString().PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -426,13 +426,13 @@ internal class Program
         Console.WriteLine("");
         cdf = (Math.PI + a - alpha + 2.0 * beta * Math.Sin(a - alpha)) / (2.0 * Math.PI);
         fx = cdf - 0.75;
-        Console.WriteLine("  A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(A) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  A = " + a.ToString().PadLeft(14) + ", F(A) = " + fx.ToString().PadLeft(14) + "");
         cdf = (Math.PI + x - alpha + 2.0 * beta * Math.Sin(x - alpha)) / (2.0 * Math.PI);
         fx = cdf - 0.75;
-        Console.WriteLine("  X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(X) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  X = " + x.ToString().PadLeft(14) + ", F(X) = " + fx.ToString().PadLeft(14) + "");
         cdf = (Math.PI + b - alpha + 2.0 * beta * Math.Sin(b - alpha)) / (2.0 * Math.PI);
         fx = cdf - 0.75;
-        Console.WriteLine("  B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(B) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  B = " + b.ToString().PadLeft(14) + ", F(B) = " + fx.ToString().PadLeft(14) + "");
 
         Console.WriteLine("");
         Console.WriteLine("  Look at the actual cardioid CDF value now:");
@@ -554,10 +554,10 @@ internal class Program
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(14)
+                                   + "  " + fx.ToString().PadLeft(14)
+                                   + "  " + dx.ToString().PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -741,10 +741,10 @@ internal class Program
                 _ => 0.5 * Math.Abs(br - ar)
             };
 
-            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + xr.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString().PadLeft(4)
+                                   + "  " + xr.ToString().PadLeft(14)
+                                   + "  " + fx.ToString().PadLeft(14)
+                                   + "  " + dx.ToString().PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {

@@ -53,9 +53,9 @@ public static class collatzTest
 
             count2 = Collatz.collatz_count ( n );
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + count.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + count2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(8)
+                                   + "  " + count.ToString().PadLeft(8)
+                                   + "  " + count2.ToString().PadLeft(8) + "");
         }
 
     }
@@ -99,9 +99,9 @@ public static class collatzTest
         {
             Collatz.collatz_count_max ( n, ref i_max, ref j_max );
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + i_max.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j_max.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(8)
+                                   + "  " + i_max.ToString().PadLeft(8)
+                                   + "  " + j_max.ToString().PadLeft(8) + "");
 
             n *= 10;
         }

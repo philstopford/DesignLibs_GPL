@@ -90,12 +90,12 @@ internal class Program
             cout = it switch
             {
                 0 => "                ",
-                _ => "  " + ferr.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                _ => "  " + ferr.ToString().PadLeft(14)
             };
 
             for (i = 0; i < n; i++)
             {
-                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + x[i].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);

@@ -48,11 +48,11 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + mu.ToString().PadLeft(8)
+                                   + "  " + sigma.ToString().PadLeft(8) + sigma
+                                   + "  " + a.ToString().PadLeft(8)
+                                   + "  " + b.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -100,11 +100,11 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + mu.ToString().PadLeft(8)
+                                   + "  " + sigma.ToString().PadLeft(8) + sigma
+                                   + "  " + a.ToString().PadLeft(8)
+                                   + "  " + b.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -151,10 +151,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + mu.ToString().PadLeft(8)
+                                   + "  " + sigma.ToString().PadLeft(8) + sigma
+                                   + "  " + a.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -201,10 +201,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
-                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + mu.ToString().PadLeft(8)
+                                   + "  " + sigma.ToString().PadLeft(8) + sigma
+                                   + "  " + a.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -251,10 +251,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + mu.ToString().PadLeft(8)
+                                   + "  " + sigma.ToString().PadLeft(8) + sigma
+                                   + "  " + b.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -301,10 +301,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + mu.ToString().PadLeft(8)
+                                   + "  " + sigma.ToString().PadLeft(8) + sigma
+                                   + "  " + b.ToString().PadLeft(8)
+                                   + "  " + x.ToString().PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

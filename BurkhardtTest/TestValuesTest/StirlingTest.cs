@@ -46,9 +46,9 @@ public class StirlingTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + m.ToString().PadLeft(6) + "  "
+                              + s1.ToString().PadLeft(12) + "");
         }
     }
 
@@ -93,9 +93,9 @@ public class StirlingTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + m.ToString().PadLeft(6) + "  "
+                              + s2.ToString().PadLeft(12) + "");
         }
     }
 

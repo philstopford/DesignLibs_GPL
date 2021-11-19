@@ -9,143 +9,141 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace info.lundin.math;
-
-/// <summary>
-/// Dictionary of expressions for caching expressions
-/// </summary>
-public class ExpressionDictionary : IDictionary<string, Expression>
+namespace info.lundin.math
 {
-    private IDictionary<string, Expression> dictionary;
-
     /// <summary>
-    /// Creates dictionary
+    /// Dictionary of expressions for caching expressions
     /// </summary>
-    public ExpressionDictionary()
+    public class ExpressionDictionary : IDictionary<string, Expression>
     {
-        dictionary = new Dictionary<string, Expression>();
-    }
+        private IDictionary<string, Expression> dictionary;
 
-    /// <summary>
-    /// Serializes the expression to the stream
-    /// </summary>
-    /// <param name="stream">stream to write to</param>
-    public void Save(Stream stream)
-    {
-        BinaryFormatter bin = new();
-        bin.Serialize(stream, dictionary);
-    }
-
-    /// <summary>
-    /// Attempts to load a serialized expression from the stream
-    /// </summary>
-    /// <param name="stream">stream to read from</param>
-    public void Load(Stream stream)
-    {
-        BinaryFormatter bin = new();
-
-        IDictionary<string, Expression> obj
-            = bin.Deserialize(stream) as IDictionary<string, Expression>;
-
-        if (obj != null)
+        /// <summary>
+        /// Creates dictionary
+        /// </summary>
+        public ExpressionDictionary()
         {
-            dictionary = obj;
+            dictionary = new Dictionary<string, Expression>();
         }
-    }
 
-    /// <summary>
-    /// Adds an expression to the dictionary with the key
-    /// </summary>
-    /// <param name="key">key to use</param>
-    /// <param name="value">expression to add</param>
-    public void Add(string key, Expression value)
-    {
-        dictionary.Add(key, value);
-    }
-
-    #region Standard Dictionary Method Implementations
-
-    public bool ContainsKey(string key)
-    {
-        return dictionary.ContainsKey(key);
-    }
-
-    public ICollection<string> Keys
-    {
-        get { return dictionary.Keys; }
-    }
-
-    public bool Remove(string key)
-    {
-        return dictionary.Remove(key);
-    }
-
-    public bool TryGetValue(string key, out Expression value)
-    {
-        return dictionary.TryGetValue(key, out value);
-    }
-
-    public ICollection<Expression> Values
-    {
-        get { return dictionary.Values; }
-    }
-
-    public Expression this[string key]
-    {
-        get
+        /// <summary>
+        /// Serializes the expression to the stream
+        /// </summary>
+        /// <param name="stream">stream to write to</param>
+        public void Save(Stream stream)
         {
-            return dictionary[key];
+            var bin = new BinaryFormatter();
+            bin.Serialize(stream, dictionary);
         }
-        set
+
+        /// <summary>
+        /// Attempts to load a serialized expression from the stream
+        /// </summary>
+        /// <param name="stream">stream to read from</param>
+        public void Load(Stream stream)
         {
-            dictionary[key] = value;
+            var bin = new BinaryFormatter();
+
+            IDictionary<string, Expression> obj
+                = bin.Deserialize(stream) as IDictionary<string, Expression>;
+
+            if (obj != null) dictionary = obj;
         }
-    }
 
-    public void Add(KeyValuePair<string, Expression> item)
-    {
-        dictionary.Add(item);
-    }
+        /// <summary>
+        /// Adds an expression to the dictionary with the key
+        /// </summary>
+        /// <param name="key">key to use</param>
+        /// <param name="value">expression to add</param>
+        public void Add(string key, Expression value)
+        {
+            dictionary.Add(key, value);
+        }
 
-    public void Clear()
-    {
-        dictionary.Clear();
-    }
+        #region Standard Dictionary Method Implementations
 
-    public bool Contains(KeyValuePair<string, Expression> item)
-    {
-        return dictionary.Contains(item);
-    }
+        public bool ContainsKey(string key)
+        {
+            return dictionary.ContainsKey(key);
+        }
 
-    public void CopyTo(KeyValuePair<string, Expression>[] array, int arrayIndex)
-    {
-        dictionary.CopyTo(array, arrayIndex);
-    }
+        public ICollection<string> Keys
+        {
+            get { return dictionary.Keys; }
+        }
 
-    public int Count
-    {
-        get { return dictionary.Count; }
-    }
+        public bool Remove(string key)
+        {
+            return dictionary.Remove(key);
+        }
 
-    public bool IsReadOnly
-    {
-        get { return dictionary.IsReadOnly; }
-    }
+        public bool TryGetValue(string key, out Expression value)
+        {
+            return dictionary.TryGetValue(key, out value);
+        }
 
-    public bool Remove(KeyValuePair<string, Expression> item)
-    {
-        return dictionary.Remove(item);
-    }
+        public ICollection<Expression> Values
+        {
+            get { return dictionary.Values; }
+        }
 
-    public IEnumerator<KeyValuePair<string, Expression>> GetEnumerator()
-    {
-        return dictionary.GetEnumerator();
-    }
+        public Expression this[string key]
+        {
+            get
+            {
+                return dictionary[key];
+            }
+            set
+            {
+                dictionary[key] = value;
+            }
+        }
 
-    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-    {
-        return dictionary.GetEnumerator();
-    }
+        public void Add(KeyValuePair<string, Expression> item)
+        {
+            dictionary.Add(item);
+        }
 
-    #endregion
+        public void Clear()
+        {
+            dictionary.Clear();
+        }
+
+        public bool Contains(KeyValuePair<string, Expression> item)
+        {
+            return dictionary.Contains(item);
+        }
+
+        public void CopyTo(KeyValuePair<string, Expression>[] array, int arrayIndex)
+        {
+            dictionary.CopyTo(array, arrayIndex);
+        }
+
+        public int Count
+        {
+            get { return dictionary.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return dictionary.IsReadOnly; }
+        }
+
+        public bool Remove(KeyValuePair<string, Expression> item)
+        {
+            return dictionary.Remove(item);
+        }
+
+        public IEnumerator<KeyValuePair<string, Expression>> GetEnumerator()
+        {
+            return dictionary.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return dictionary.GetEnumerator();
+        }
+
+        #endregion
+    }
 }

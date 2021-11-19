@@ -75,10 +75,10 @@ internal partial class Program
             x2 = Burr.burr_cdf_inv(cdf, a, b, c, d);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "  "
+                              + x2.ToString().PadLeft(12) + "");
         }
 
     }

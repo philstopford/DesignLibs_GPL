@@ -412,7 +412,7 @@ internal class Program
         string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout += "  " + dim_num.ToString().PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -422,7 +422,7 @@ internal class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout = "    " + level_max.ToString().PadLeft(4);
 
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
@@ -450,7 +450,7 @@ internal class Program
                 point_num = SGMG.sgmg_size(dim_num, level_max, rule,
                     np, p, gw_compute_points, tol, growth);
 
-                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + point_num.ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);

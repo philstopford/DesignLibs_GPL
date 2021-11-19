@@ -42,8 +42,8 @@ public static class MonomialTest
         for (dim = 1; dim <= 6; dim++)
         {
             total = Monomial.monomial_count(degree_max, dim);
-            Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + dim.ToString().PadLeft(2)
+                                   + "  " + total.ToString().PadLeft(8) + "");
         }
     }
 
@@ -89,8 +89,8 @@ public static class MonomialTest
 
             for (degree = 0; degree <= degree_max; degree++)
             {
-                Console.WriteLine("  " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + counts[degree].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("  " + degree.ToString().PadLeft(8)
+                                       + "  " + counts[degree].ToString().PadLeft(8) + "");
             }
 
             total = 0;
@@ -101,7 +101,7 @@ public static class MonomialTest
 
             Console.WriteLine("");
             Console.WriteLine("     Total"
-                              + "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                              + "  " + total.ToString().PadLeft(8) + "");
         }
     }
 

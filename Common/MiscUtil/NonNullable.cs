@@ -125,8 +125,8 @@ public struct NonNullable<T> : IEquatable<NonNullable<T>> where T : class
     /// Defers to the ToString implementation of the encapsulated reference, or an
     /// empty string if the reference is null.
     /// </summary>
-    public override string ToString(CultureInfo.InvariantCulture)
+    public override string ToString()
     {
-        return value == null ? "" : value.ToString(CultureInfo.InvariantCulture);
+        return value == null ? "" : value.ToString();
     }
 }

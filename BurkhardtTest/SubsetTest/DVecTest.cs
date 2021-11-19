@@ -59,10 +59,10 @@ public static class DVecTest
             typeMethods.dvec_add(N, dvec1, dvec2, ref dvec3);
             l = typeMethods.dvec_to_i4(N, ref dvec3);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + j.ToString().PadLeft(8)
+                                   + "  " + k.ToString().PadLeft(8)
+                                   + "  " + l.ToString().PadLeft(8) + "");
         }
 
     }
@@ -201,10 +201,10 @@ public static class DVecTest
                 typeMethods.dvec_mul(n2, dvec1, dvec2, ref dvec3);
                 l = typeMethods.dvec_to_i4(n2, ref dvec3);
 
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                       + "  " + j.ToString().PadLeft(8)
+                                       + "  " + k.ToString().PadLeft(8)
+                                       + "  " + l.ToString().PadLeft(8) + "");
             }
         }
     }
@@ -297,10 +297,10 @@ public static class DVecTest
             typeMethods.dvec_sub(N, dvec1, dvec2, ref dvec4);
             l = typeMethods.dvec_to_i4(N, ref dvec4);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + j.ToString().PadLeft(8)
+                                   + "  " + k.ToString().PadLeft(8)
+                                   + "  " + l.ToString().PadLeft(8) + "");
         }
             
     }
@@ -348,13 +348,13 @@ public static class DVecTest
 
         i2 = typeMethods.dvec_to_i4(n, ref dvec);
 
-        string cout = "  " + i1.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+        string cout = "  " + i1.ToString().PadLeft(6) + "  ";
         for (i = n - 1; 0 <= i; i--)
         {
-            cout += dvec[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += dvec[i].ToString().PadLeft(2);
         }
 
-        Console.WriteLine(cout + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine(cout + "  " + i2.ToString().PadLeft(6) + "");
     }
 
 }

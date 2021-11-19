@@ -1013,10 +1013,10 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "L" + layer.ToString(CultureInfo.InvariantCulture) + "D" + datatype.ToString(CultureInfo.InvariantCulture) + "_box.gds");
+        gds.gdsWriter gw = new(g, outDir + "L" + layer + "D" + datatype + "_box.gds");
         gw.save();
 
-        oasis.oasWriter ow = new(g, outDir + "L" + layer.ToString(CultureInfo.InvariantCulture) + "D" + datatype.ToString(CultureInfo.InvariantCulture) + "_box.oas");
+        oasis.oasWriter ow = new(g, outDir + "L" + layer + "D" + datatype + "_box.oas");
         ow.save();
     }
 
@@ -1063,7 +1063,7 @@ internal class Program
             gcell.modmin = 10;
             gcell.modsec = 10;
 
-            gcell.cellName = "test" + i.ToString(CultureInfo.InvariantCulture);
+            gcell.cellName = "test" + i;
 
             GeoLibPoint[] poly = new GeoLibPoint[6];
             poly[0] = new GeoLibPoint(0, 0);
@@ -1078,8 +1078,8 @@ internal class Program
             master_gcell.addCellref();
             GCElement cellref = master_gcell.elementList[master_gcell.elementList.Count - 1];
             cellref.setPos(new GeoLibPoint(40 * (i % edge), 40 * Math.Floor((double)i / edge)));
-            cellref.setCellRef(drawing_.findCell("test" + i.ToString(CultureInfo.InvariantCulture)));
-            cellref.setName("test" + i.ToString(CultureInfo.InvariantCulture));
+            cellref.setCellRef(drawing_.findCell("test" + i));
+            cellref.setName("test" + i);
             cellref.rotate(0);
             cellref.scale(1);
             switch (mirror_x)
@@ -1092,10 +1092,10 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + edge.ToString(CultureInfo.InvariantCulture) + "_cellref.gds");
+        gds.gdsWriter gw = new(g, outDir + edge + "_cellref.gds");
         gw.save();
 
-        oasis.oasWriter ow = new(g, outDir + edge.ToString(CultureInfo.InvariantCulture) + "_cellref.oas");
+        oasis.oasWriter ow = new(g, outDir + edge + "_cellref.oas");
         ow.save();
     }
 }

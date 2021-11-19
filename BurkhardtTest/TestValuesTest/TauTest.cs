@@ -45,8 +45,8 @@ public class TauTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + fn.ToString().PadLeft(12) + "");
         }
     }
 }

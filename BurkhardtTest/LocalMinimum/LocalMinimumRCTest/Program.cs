@@ -118,13 +118,13 @@ internal class Program
 
         arg = a;
         value = f(arg);
-        Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+        Console.WriteLine("  " + step.ToString().PadLeft(4)
                                + "  " + arg.ToString("0.################").PadLeft(24)
                                + "  " + value.ToString("0.################").PadLeft(24) + "");
 
         arg = b;
         value = f(arg);
-        Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+        Console.WriteLine("  " + step.ToString().PadLeft(4)
                                + "  " + arg.ToString("0.################").PadLeft(24)
                                + "  " + value.ToString("0.################").PadLeft(24) + "");
 
@@ -149,7 +149,7 @@ internal class Program
             value = f(arg);
 
             step += 1;
-            Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("  " + step.ToString().PadLeft(4)
                                    + "  " + arg.ToString("0.################").PadLeft(24)
                                    + "  " + value.ToString("0.################").PadLeft(24) + "");
 

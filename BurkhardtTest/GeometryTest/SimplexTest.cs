@@ -68,7 +68,7 @@ public static class SimplexTest
             cout = "  C = ";
             for (i = 0; i < n; i++)
             {
-                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + c[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -94,10 +94,10 @@ public static class SimplexTest
                     }
 
                     i += 1;
-                    cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                    cout = "  " + i.ToString().PadLeft(4);
                     for (j = 0; j < n; j++)
                     {
-                        cout += "  " + v[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                        cout += "  " + v[j].ToString().PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
@@ -171,7 +171,7 @@ public static class SimplexTest
             cout = "  C = ";
             for (i = 0; i < n + 1; i++)
             {
-                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + c[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -189,10 +189,10 @@ public static class SimplexTest
                 }
 
                 i += 1;
-                cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout = "  " + i.ToString().PadLeft(4);
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + v[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                    cout += "  " + v[j].ToString().PadLeft(4);
                 }
 
                 Console.WriteLine(cout);

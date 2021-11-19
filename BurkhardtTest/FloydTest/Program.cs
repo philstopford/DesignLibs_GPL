@@ -260,10 +260,10 @@ internal class Program
         while (n <= 2048)
         {
             wtime = test03_sub(n);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + wtime.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+            Console.WriteLine("  " + n.ToString().PadLeft(6)
+                                   + "  " + wtime.ToString().PadLeft(14)
                                    + "  " + (1000000.0 * wtime / n
-                                                               / n / n).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                                               / n / n).ToString().PadLeft(14)
                                    + "");
             n *= 2;
         }

@@ -529,7 +529,7 @@ public class RandomGenerator<TAlgo> : IRandomGenerator
             sb.Append(alphabet[NextInt(0, alphabet.Length)]);
         }
 
-        return sb.ToString(CultureInfo.InvariantCulture);
+        return sb.ToString();
     }
 
     /// <summary>

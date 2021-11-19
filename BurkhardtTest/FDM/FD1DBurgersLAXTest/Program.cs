@@ -100,7 +100,7 @@ internal class Program
             string cout = "";
             for (i = ilo; i <= ihi; i++)
             {
-                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + x[i].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -211,7 +211,7 @@ internal class Program
             string cout = "";
             for (i = ilo; i <= ihi; i++)
             {
-                cout += "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + u[i].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);

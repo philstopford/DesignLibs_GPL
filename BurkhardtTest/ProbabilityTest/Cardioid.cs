@@ -64,10 +64,10 @@ internal partial class Program
             pdf = Cardioid.cardioid_pdf(x, a, b);
             cdf = Cardioid.cardioid_cdf(x, a, b);
             x2 = Cardioid.cardioid_cdf_inv(cdf, a, b);
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + pdf.ToString().PadLeft(12)
+                                   + "  " + cdf.ToString().PadLeft(12)
+                                   + "  " + x2.ToString().PadLeft(12) + "");
         }
     }
 

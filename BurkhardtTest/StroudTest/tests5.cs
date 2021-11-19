@@ -55,9 +55,9 @@ public static class tests5
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine("  " + x[i].ToString().PadLeft(6)
+                                   + "  " + y[i].ToString().PadLeft(6)
+                                   + "  " + z[i].ToString().PadLeft(6) + "");
         }
 
 
@@ -69,7 +69,7 @@ public static class tests5
             cout = "  Rule:   ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += "       " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(7);
+                cout += "       " + rule.ToString().PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -99,7 +99,7 @@ public static class tests5
                         ytab, ztab,
                         weight);
 
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -156,9 +156,9 @@ public static class tests5
         Console.WriteLine("");
         Console.WriteLine("  Triangle vertices:");
         Console.WriteLine("");
-        Console.WriteLine(xval[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-        Console.WriteLine(xval[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-        Console.WriteLine(xval[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine(xval[0].ToString().PadLeft(14) + yval[0].ToString().PadLeft(14) + "");
+        Console.WriteLine(xval[1].ToString().PadLeft(14) + yval[1].ToString().PadLeft(14) + "");
+        Console.WriteLine(xval[2].ToString().PadLeft(14) + yval[2].ToString().PadLeft(14) + "");
         //
         //  Get the quadrature abscissas and weights for a unit triangle.
         //
@@ -194,7 +194,7 @@ public static class tests5
                 result = Triangle.triangle_sub(function_2d_index, functions.function_2d, xval, yval, nsub, order,
                     xtab,
                     ytab, weight);
-                Console.WriteLine("  " + name + nsub.ToString(CultureInfo.InvariantCulture).PadLeft(4) + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + name + nsub.ToString().PadLeft(4) + result.ToString().PadLeft(14) + "");
             }
         }
 
@@ -278,7 +278,7 @@ public static class tests5
                     result = Triangle.triangle_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
                         weight);
 
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -388,9 +388,9 @@ public static class tests5
 
                     exact = 1.0;
                     err = Math.Abs(exact - quad);
-                    Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                           + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                           + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
+                    Console.WriteLine("  " + rule.ToString().PadLeft(4)
+                                           + "  " + quad.ToString().PadLeft(14)
+                                           + "  " + err.ToString().PadLeft(11) + "");
                 }
             }
         }
@@ -446,7 +446,7 @@ public static class tests5
             cout = "  Rule Order: ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += rule.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += rule.ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -474,7 +474,7 @@ public static class tests5
                     result = Triangle.triangle_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
                         weight);
 
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
 
                 }
 
@@ -535,7 +535,7 @@ public static class tests5
             cout = "  Rule:   ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += rule.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += rule.ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -565,7 +565,7 @@ public static class tests5
                         xtab, ytab,
                         weight);
 
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
 
                 }
 
@@ -624,7 +624,7 @@ public static class tests5
         for (j = 1; j <= 5; j++)
         {
             j2 = 2 * (j - 1);
-            cout += ((int)Math.Pow(2, j2)).ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += ((int)Math.Pow(2, j2)).ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -644,7 +644,7 @@ public static class tests5
                 j2 = 2 * (j - 1);
                 n = (int)Math.Pow(2, j2);
                 result = Torus.torus_1(function_3d_index, functions.function_3d, r1, r2, n);
-                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += result.ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -711,9 +711,9 @@ public static class tests5
             result3 = Torus.torus_14s(function_3d_index, functions.function_3d, r1, r2);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + result1.ToString().PadLeft(14)
+                                   + "  " + result2.ToString().PadLeft(14)
+                                   + "  " + result3.ToString().PadLeft(14) + "");
         }
     }
 
@@ -773,8 +773,8 @@ public static class tests5
             result2 = Torus.torus_square_14c(function_3d_index, functions.function_3d, r1, r2);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + result1.ToString().PadLeft(14)
+                                   + "  " + result2.ToString().PadLeft(14) + "");
         }
     }
 

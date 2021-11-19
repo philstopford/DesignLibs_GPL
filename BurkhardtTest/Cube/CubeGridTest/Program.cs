@@ -99,11 +99,11 @@ internal class Program
         for (i = 0; i < 3; i++)
         {
             Console.WriteLine(
-                i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                        + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                        + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                        + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                        + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                i.ToString().PadLeft(6) + "  "
+                                        + ns[i].ToString().PadLeft(4) + "  "
+                                        + c[i].ToString().PadLeft(4) + "  "
+                                        + a[i].ToString().PadLeft(8) + "  "
+                                        + b[i].ToString().PadLeft(8) + "");
         }
 
         x = Grid.cube_grid(n, ns, a, b, c);
@@ -164,11 +164,11 @@ internal class Program
         for (i = 0; i < 3; i++)
         {
             Console.WriteLine(
-                i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                        + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                        + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                        + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                        + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                i.ToString().PadLeft(6) + "  "
+                                        + ns[i].ToString().PadLeft(4) + "  "
+                                        + c[i].ToString().PadLeft(4) + "  "
+                                        + a[i].ToString().PadLeft(8) + "  "
+                                        + b[i].ToString().PadLeft(8) + "");
         }
 
         x = Grid.cube_grid(n, ns, a, b, c);
@@ -229,11 +229,11 @@ internal class Program
         for (i = 0; i < 3; i++)
         {
             Console.WriteLine(
-                i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                        + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                        + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                        + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                        + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                i.ToString().PadLeft(6) + "  "
+                                        + ns[i].ToString().PadLeft(4) + "  "
+                                        + c[i].ToString().PadLeft(4) + "  "
+                                        + a[i].ToString().PadLeft(8) + "  "
+                                        + b[i].ToString().PadLeft(8) + "");
         }
 
         x = Grid.cube_grid(n, ns, a, b, c);

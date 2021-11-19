@@ -77,8 +77,8 @@ public static class tests
                 result1 = Ball.ball_f1_nd(function_nd_index, functions.function_nd, n, center, r);
                 result2 = Ball.ball_f3_nd(function_nd_index, functions.function_nd, n, center, r);
                 Console.WriteLine("  " + name
-                                       + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                       + "  " + result1.ToString().PadLeft(14)
+                                       + "  " + result2.ToString().PadLeft(14) + "");
             }
 
         }
@@ -167,8 +167,8 @@ public static class tests
             result1 = Ball.ball_monomial_nd(dim_num, p, r);
 
             Console.WriteLine("  " + string_
-                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + result1.ToString().PadLeft(14)
+                                   + "  " + result2.ToString().PadLeft(14) + "");
         }
 
     }
@@ -226,9 +226,9 @@ public static class tests
             result3 = Ball.ball_unit_15_3d(function_3d_index, functions.function_3d);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + result1.ToString().PadLeft(14)
+                                   + "  " + result2.ToString().PadLeft(14)
+                                   + "  " + result3.ToString().PadLeft(14) + "");
         }
     }
 
@@ -290,8 +290,8 @@ public static class tests
                 result2 = Ball.ball_unit_f3_nd(function_nd_index, functions.function_nd, n);
 
                 Console.WriteLine("  " + name
-                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                       + result1.ToString().PadLeft(14)
+                                       + result2.ToString().PadLeft(14) + "");
             }
         }
     }
@@ -328,12 +328,12 @@ public static class tests
         Console.WriteLine("    N    Volume    Method");
         Console.WriteLine("");
 
-        Console.WriteLine("  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                               + "  " + Ball.ball_unit_volume_3d().ToString(CultureInfo.InvariantCulture).PadLeft(14)
+        Console.WriteLine("  " + dim_num.ToString().PadLeft(3)
+                               + "  " + Ball.ball_unit_volume_3d().ToString().PadLeft(14)
                                + "  BALL_UNIT_VOLUME_3D");
 
-        Console.WriteLine("  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                               + "  " + Ball.ball_unit_volume_nd(dim_num).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+        Console.WriteLine("  " + dim_num.ToString().PadLeft(3)
+                               + "  " + Ball.ball_unit_volume_nd(dim_num).ToString().PadLeft(14)
                                + "  BALL_UNIT_VOLUME_ND");
 
     }
@@ -371,7 +371,7 @@ public static class tests
 
         for (dim_num = 2; dim_num <= 10; dim_num++)
         {
-            Console.WriteLine("  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+            Console.WriteLine("  " + dim_num.ToString().PadLeft(3)
                                    + "  " + Ball.ball_unit_volume_nd(dim_num) + "");
         }
     }
@@ -414,13 +414,13 @@ public static class tests
 
         for (i = 1; i <= 3; i++)
         {
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+            Console.WriteLine("  " + n.ToString().PadLeft(3)
+                                   + "  " + r.ToString().PadLeft(14)
                                    + "  " + Ball.ball_volume_3d(r)
                                    + "  BALL_VOLUME_3D");
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+            Console.WriteLine("  " + n.ToString().PadLeft(3)
+                                   + "  " + r.ToString().PadLeft(14)
                                    + "  " + Ball.ball_volume_nd(n, r)
                                    + "  " + "BALL_VOLUME_ND");
 
@@ -466,8 +466,8 @@ public static class tests
             r = 0.5;
             for (i = 1; i <= 3; i++)
             {
-                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                Console.WriteLine("  " + n.ToString().PadLeft(3)
+                                       + "  " + r.ToString().PadLeft(14)
                                        + "  " + Ball.ball_volume_nd(n, r) + "");
                 r *= 2.0;
             }
@@ -547,11 +547,11 @@ public static class tests
 
             Console.WriteLine("");
             Console.WriteLine("  " + "   Area"
-                                   + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                                   + center[0].ToString().PadLeft(10)
+                                   + center[1].ToString().PadLeft(10)
+                                   + radius1.ToString().PadLeft(10)
+                                   + radius2.ToString().PadLeft(10)
+                                   + "  " + area.ToString().PadLeft(10) + "");
 
             num = functions.function_2d_num();
 
@@ -567,12 +567,12 @@ public static class tests
                     functions.function_2d_name(function_2d_index, ref name);
 
                     Console.WriteLine("  " + name
-                                           + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + nr.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                                           + center[0].ToString().PadLeft(10)
+                                           + center[1].ToString().PadLeft(10)
+                                           + radius1.ToString().PadLeft(10)
+                                           + radius2.ToString().PadLeft(10)
+                                           + nr.ToString().PadLeft(2)
+                                           + result.ToString().PadLeft(10) + "");
                 }
             }
         }
@@ -669,11 +669,11 @@ public static class tests
             name = "   Area";
             Console.WriteLine("");
             Console.WriteLine("  " + name
-                                   + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                   + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                   + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                   + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                   + area.ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
+                                   + center[0].ToString().PadLeft(11)
+                                   + center[1].ToString().PadLeft(11)
+                                   + radius1.ToString().PadLeft(11)
+                                   + radius2.ToString().PadLeft(11)
+                                   + area.ToString().PadLeft(11) + "");
 
             rule = 9;
             Circle.circle_rt_size(rule, ref nr2, ref nt, ref nc);
@@ -699,12 +699,12 @@ public static class tests
                     ta, tw, zw);
 
                 Console.WriteLine("  " + name
-                                       + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                       + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                       + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                       + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(11)
-                                       + (result3 - result2).ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
+                                       + center[0].ToString().PadLeft(11)
+                                       + center[1].ToString().PadLeft(11)
+                                       + radius1.ToString().PadLeft(11)
+                                       + radius2.ToString().PadLeft(11)
+                                       + result1.ToString().PadLeft(11)
+                                       + (result3 - result2).ToString().PadLeft(11) + "");
             }
         }
     }
@@ -768,11 +768,11 @@ public static class tests
             area = Circle.circle_annulus_area_2d(radius1, radius2);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                   + "  " + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                   + "  " + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                   + "  " + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+            Console.WriteLine("  " + center[0].ToString().PadLeft(9)
+                                   + "  " + center[1].ToString().PadLeft(9)
+                                   + "  " + radius1.ToString().PadLeft(9)
+                                   + "  " + radius2.ToString().PadLeft(9)
+                                   + "  " + area.ToString().PadLeft(9) + "");
         }
 
     }
@@ -925,8 +925,8 @@ public static class tests
             functions.function_2d_name(function_2d_index, ref name);
 
             Console.WriteLine("  " + name
-                                   + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + result1.ToString().PadLeft(14)
+                                   + result2.ToString().PadLeft(14) + "");
         }
 
     }

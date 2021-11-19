@@ -51,10 +51,10 @@ public static class PellTest
 
                 r = x0 * x0 - d * y0 * y0;
 
-                Console.WriteLine(d.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                          + x0.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                          + y0.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                          + r.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                Console.WriteLine(d.ToString().PadLeft(9) + "  "
+                                                          + x0.ToString().PadLeft(9) + "  "
+                                                          + y0.ToString().PadLeft(9) + "  "
+                                                          + r.ToString().PadLeft(9) + "");
             }
         }
     }
@@ -105,19 +105,19 @@ public static class PellTest
 
                 r = x0 * x0 - d * y0 * y0;
 
-                Console.WriteLine(d.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                          + x0.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                          + y0.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                          + r.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                Console.WriteLine(d.ToString().PadLeft(9) + "  "
+                                                          + x0.ToString().PadLeft(9) + "  "
+                                                          + y0.ToString().PadLeft(9) + "  "
+                                                          + r.ToString().PadLeft(9) + "");
 
                 Pell.pell_next(d, x0, y0, x0, y0, ref x1, ref y1);
 
                 r = x1 * x1 - d * y1 * y1;
 
                 Console.WriteLine("         " + "  "
-                                              + x1.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                              + y1.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                                              + x1.ToString().PadLeft(9) + "  "
+                                              + y1.ToString().PadLeft(9) + "  "
+                                              + r.ToString().PadLeft(9) + "");
 
             }
 

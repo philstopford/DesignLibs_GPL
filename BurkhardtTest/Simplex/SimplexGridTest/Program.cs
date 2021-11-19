@@ -77,11 +77,11 @@ internal class Program
         Console.WriteLine("    N:");
         for (n = 0; n <= 10; n++)
         {
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ":";
+            string cout = "  " + n.ToString().PadLeft(3) + ":";
             for (m = 0; m <= 5; m++)
             {
                 ng = Grid.simplex_grid_size(m, n);
-                cout += ng.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += ng.ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -137,13 +137,13 @@ internal class Program
 
         while (true)
         {
-            string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            string cout = "  " + j.ToString().PadLeft(2);
             for (i = 0; i < m; i++)
             {
-                cout += g[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                cout += g[i].ToString().PadLeft(3);
             }
 
-            Console.WriteLine(cout + " (" + g[m].ToString(CultureInfo.InvariantCulture).PadLeft(3) + ")");
+            Console.WriteLine(cout + " (" + g[m].ToString().PadLeft(3) + ")");
 
             if (g[0] == n)
             {
@@ -200,13 +200,13 @@ internal class Program
         {
             g = Grid.simplex_grid_index_sample(m, n, ref seed);
 
-            string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            string cout = "  " + j.ToString().PadLeft(2);
             for (i = 0; i < m; i++)
             {
-                cout += g[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                cout += g[i].ToString().PadLeft(3);
             }
 
-            Console.WriteLine(cout + " (" + g[m].ToString(CultureInfo.InvariantCulture).PadLeft(3) + ")");
+            Console.WriteLine(cout + " (" + g[m].ToString().PadLeft(3) + ")");
         }
     }
 
@@ -268,16 +268,16 @@ internal class Program
             g = Grid.simplex_grid_index_sample(m, n, ref seed);
             x = Grid.simplex_grid_index_to_point(m, n, 1, g, v);
 
-            string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":";
+            string cout = "  " + j.ToString().PadLeft(2) + ":";
             for (i = 0; i <= m; i++)
             {
-                cout += g[i].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                cout += g[i].ToString().PadLeft(3);
             }
 
             cout += "  ";
             for (i = 0; i < m; i++)
             {
-                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += x[i].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);

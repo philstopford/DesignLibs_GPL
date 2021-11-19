@@ -176,11 +176,11 @@ internal class Program
                     x_diff = typeMethods.r8vec_diff_norm_li(order, x1, x2);
                     w_diff = typeMethods.r8vec_diff_norm_li(order, w1, w2);
 
-                    Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + "  " + x_diff.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                           + "  " + w_diff.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                    Console.WriteLine("  " + order.ToString().PadLeft(6)
+                                           + "  " + alpha.ToString().PadLeft(10)
+                                           + "  " + beta.ToString().PadLeft(10)
+                                           + "  " + x_diff.ToString().PadLeft(10)
+                                           + "  " + w_diff.ToString().PadLeft(10) + "");
                 }
             }
         }

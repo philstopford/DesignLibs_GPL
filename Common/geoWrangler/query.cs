@@ -240,13 +240,13 @@ public static partial class GeoWrangler
             Path intersectionPath = clockwise(t);
 
             // Compare hashes.
-            string intersectionPathHash = utility.Utils.GetMD5Hash(intersectionPath.ToString(CultureInfo.InvariantCulture));
+            string intersectionPathHash = utility.Utils.GetMD5Hash(intersectionPath.ToString());
 
             bool polyMatchFound = false;
 
             foreach (Path t1 in rationalizedSecondLayer)
             {
-                string myHash = utility.Utils.GetMD5Hash(t1.ToString(CultureInfo.InvariantCulture));
+                string myHash = utility.Utils.GetMD5Hash(t1.ToString());
 
                 if (myHash == intersectionPathHash)
                 {
@@ -266,7 +266,7 @@ public static partial class GeoWrangler
                 {
                     foreach (Path t1 in rationalizedFirstLayer)
                     {
-                        string myHash = utility.Utils.GetMD5Hash(t1.ToString(CultureInfo.InvariantCulture));
+                        string myHash = utility.Utils.GetMD5Hash(t1.ToString());
 
                         if (myHash == intersectionPathHash)
                         {

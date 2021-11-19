@@ -44,8 +44,8 @@ public static class DilogarithmTest
                 break;
             }
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12)  + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 }

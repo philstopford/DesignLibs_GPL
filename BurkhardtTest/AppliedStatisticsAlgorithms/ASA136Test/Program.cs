@@ -88,10 +88,10 @@ internal class Program
 
         for (int i = 1; i <= 5; i++)
         {
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + i.ToString().PadLeft(8);
             for (int j = 1; j <= n; j++)
             {
-                cout += a[i - 1 + (j - 1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -132,17 +132,17 @@ internal class Program
 
         for (int i = 1; i <= k; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + nc[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + wss[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + nc[i - 1].ToString().PadLeft(8)
+                                   + "  " + wss[i - 1].ToString().PadLeft(14) + "");
             nc_sum += nc[i - 1];
             wss_sum += wss[i - 1];
         }
 
         Console.WriteLine("");
         Console.WriteLine("     Total"
-                          + "  " + nc_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                          + "  " + wss_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + nc_sum.ToString().PadLeft(8)
+                          + "  " + wss_sum.ToString().PadLeft(14) + "");
 
     }
 

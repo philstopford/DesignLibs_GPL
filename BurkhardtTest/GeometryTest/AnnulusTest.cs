@@ -53,8 +53,8 @@ public static class AnnulusTest
 
         Console.WriteLine("");
         Console.WriteLine("  Centroid: "
-                          + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + centroid[0].ToString().PadLeft(12)
+                          + centroid[1].ToString().PadLeft(12) + "");
             
     }
 

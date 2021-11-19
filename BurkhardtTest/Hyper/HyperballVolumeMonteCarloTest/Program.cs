@@ -147,8 +147,8 @@ internal class Program
             estimate = volume * quad / n;
             exact = Montecarlo.hyperball01_volume(dim_num);
             error = Math.Abs(exact - estimate);
-            Console.WriteLine("  " + n_log2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + n_log2.ToString().PadLeft(8)
+                                   + "  " + n.ToString().PadLeft(8)
                                    + "  " + estimate.ToString("0.##########").PadLeft(16)
                                    + "  " + error.ToString("0.##").PadLeft(16) + "");
         }

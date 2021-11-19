@@ -103,7 +103,7 @@ internal class Program
         while (n <= 65536)
         {
             x = MonteCarlo.circle01_sample_random(n, ref seed);
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -114,7 +114,7 @@ internal class Program
                 value = Monomial.monomial_value(2, n, e, x);
 
                 result = Integrals.circle01_length() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result.ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -132,7 +132,7 @@ internal class Program
             }
 
             exact = Integrals.circle01_monomial_integral(e);
-            cout2 += "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout2 += "  " + exact.ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout2);
@@ -196,7 +196,7 @@ internal class Program
         while (n <= 65536)
         {
             x = MonteCarlo.circle01_sample_ergodic(n, ref angle);
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -207,7 +207,7 @@ internal class Program
                 value = Monomial.monomial_value(2, n, e, x);
 
                 result = Integrals.circle01_length() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result.ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -225,7 +225,7 @@ internal class Program
             }
 
             exact = Integrals.circle01_monomial_integral(e);
-            cout2 += "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout2 += "  " + exact.ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout2);

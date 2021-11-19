@@ -46,8 +46,8 @@ public class StudentTest
             }
 
             Console.WriteLine("  "
-                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                              + c.ToString().PadLeft(16) + "  "
+                              + x.ToString().PadLeft(16) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -95,9 +95,9 @@ public class StudentTest
             }
 
             Console.WriteLine("  "
-                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString().PadLeft(6) + "  "
+                              + lambda.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

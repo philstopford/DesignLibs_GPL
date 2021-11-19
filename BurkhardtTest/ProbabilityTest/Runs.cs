@@ -55,18 +55,18 @@ internal partial class Program
             {
                 pdf = Runs.runs_pdf(m, n, r);
 
-                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + m.ToString().PadLeft(8)
+                                       + "  " + n.ToString().PadLeft(8)
+                                       + "  " + r.ToString().PadLeft(8)
+                                       + "  " + pdf.ToString().PadLeft(14) + "");
 
                 pdf_total += pdf;
             }
 
-            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + m.ToString().PadLeft(8)
                                    + "  " + "        "
                                    + "  " + "        "
-                                   + "  " + pdf_total.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + pdf_total.ToString().PadLeft(14) + "");
 
         }
     }

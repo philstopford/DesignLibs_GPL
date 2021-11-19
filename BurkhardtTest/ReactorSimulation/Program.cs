@@ -583,11 +583,11 @@ internal class Program
         pa = na * 100 / (double)ntot;
 
         Console.WriteLine("Absorbed   "
-                          + "  " + na.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                          + "  " + ea.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + pa.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + ea_ave.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + sa.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + na.ToString().PadLeft(8)
+                          + "  " + ea.ToString().PadLeft(14)
+                          + "  " + pa.ToString().PadLeft(6)
+                          + "  " + ea_ave.ToString().PadLeft(14)
+                          + "  " + sa.ToString().PadLeft(14) + "");
 
         switch (nr)
         {
@@ -603,11 +603,11 @@ internal class Program
         pr = nr * 100 / (double)ntot;
 
         Console.WriteLine("Reflected  "
-                          + "  " + nr.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                          + "  " + er.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + pr.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + er_ave.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + sr.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + nr.ToString().PadLeft(8)
+                          + "  " + er.ToString().PadLeft(14)
+                          + "  " + pr.ToString().PadLeft(6)
+                          + "  " + er_ave.ToString().PadLeft(14)
+                          + "  " + sr.ToString().PadLeft(14) + "");
 
         switch (nt)
         {
@@ -623,19 +623,19 @@ internal class Program
         pt = nt * 100 / (double)ntot;
 
         Console.WriteLine("Transmitted  "
-                          + "  " + nt.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                          + "  " + et.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + pt.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + et_ave.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + st.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + nt.ToString().PadLeft(8)
+                          + "  " + et.ToString().PadLeft(14)
+                          + "  " + pt.ToString().PadLeft(6)
+                          + "  " + et_ave.ToString().PadLeft(14)
+                          + "  " + st.ToString().PadLeft(14) + "");
 
         ptot = 100.0;
 
         Console.WriteLine("");
         Console.WriteLine("Total      "
-                          + "  " + ntot.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                          + "  " + etot.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + ptot.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                          + "  " + ntot.ToString().PadLeft(8)
+                          + "  " + etot.ToString().PadLeft(14)
+                          + "  " + ptot.ToString().PadLeft(6) + "");
 
     }
 

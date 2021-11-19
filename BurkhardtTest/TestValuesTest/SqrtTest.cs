@@ -44,7 +44,7 @@ public class SqrtTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

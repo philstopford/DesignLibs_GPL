@@ -47,8 +47,8 @@ public static class commulTest
         Console.WriteLine("  Number of factors = " + factor + "");
         for ( i = 0; i < nfactor; i++ )
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + factor[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                   + "  " + factor[i].ToString().PadLeft(8) + "");
         }
         Console.WriteLine("  Value of coefficient = " + ncomb + "");
 
@@ -62,8 +62,8 @@ public static class commulTest
         Console.WriteLine("  Number of factors = " + factor + "");
         for ( i = 0; i < nfactor; i++ )
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + factor[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                   + "  " + factor[i].ToString().PadLeft(8) + "");
         }
         Console.WriteLine("  Value of coefficient = " + ncomb + "");
 
@@ -79,8 +79,8 @@ public static class commulTest
         Console.WriteLine("  Number of factors = " + factor + "");
         for ( i = 0; i < nfactor; i++ )
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + factor[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                   + "  " + factor[i].ToString().PadLeft(8) + "");
         }
         Console.WriteLine("  Value of coefficient = " + ncomb + "");
 

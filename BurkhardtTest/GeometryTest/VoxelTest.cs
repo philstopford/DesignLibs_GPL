@@ -39,16 +39,16 @@ public static class VoxelTest
 
         Console.WriteLine("");
         Console.WriteLine("  P1:");
-        Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + p1[0].ToString().PadLeft(6)
+                               + "  " + p1[1].ToString().PadLeft(6)
+                               + "  " + p1[2].ToString().PadLeft(6) + "");
 
 
         Console.WriteLine("");
         Console.WriteLine("  P2:");
-        Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + p2[0].ToString().PadLeft(6)
+                               + "  " + p2[1].ToString().PadLeft(6)
+                               + "  " + p2[2].ToString().PadLeft(6) + "");
 
         dist = Geometry.voxels_dist_l1_nd(DIM_NUM, p1, p2);
 
@@ -93,15 +93,15 @@ public static class VoxelTest
 
         Console.WriteLine("");
         Console.WriteLine("  Starting voxel:");
-        Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + p1[0].ToString().PadLeft(6)
+                               + "  " + p1[1].ToString().PadLeft(6)
+                               + "  " + p1[2].ToString().PadLeft(6) + "");
 
         Console.WriteLine("");
         Console.WriteLine("  Heading voxel:");
-        Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + p2[0].ToString().PadLeft(6)
+                               + "  " + p2[1].ToString().PadLeft(6)
+                               + "  " + p2[2].ToString().PadLeft(6) + "");
 
         n = Geometry.voxels_dist_l1_nd(DIM_NUM, p1, p2) + 1;
 
@@ -216,10 +216,10 @@ public static class VoxelTest
                     l = ishow[i + j * NX + k * NX * NY];
                     if (l != 0)
                     {
-                        Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                               + "  " + (j + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                               + "  " + (k + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                               + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                        Console.WriteLine("  " + (i + 1).ToString().PadLeft(6)
+                                               + "  " + (j + 1).ToString().PadLeft(6)
+                                               + "  " + (k + 1).ToString().PadLeft(6)
+                                               + "  " + l.ToString().PadLeft(6) + "");
                     }
                 }
             }
@@ -256,9 +256,9 @@ public static class VoxelTest
                     list_num -= 1;
                     i = list[list_num - 1];
                     list_num -= 1;
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                           + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                           + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(6)
+                                           + "  " + j.ToString().PadLeft(6)
+                                           + "  " + k.ToString().PadLeft(6) + "");
                 }
 
                 region -= 1;
@@ -310,18 +310,18 @@ public static class VoxelTest
         knc = -1;
 
         Console.WriteLine("");
-        Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + v2[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + v2[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + 0.ToString().PadLeft(4)
+                               + "  " + v2[0].ToString().PadLeft(6)
+                               + "  " + v2[1].ToString().PadLeft(6)
+                               + "  " + v2[2].ToString().PadLeft(6) + "");
 
         for (i = 1; i <= 10; i++)
         {
             Geometry.voxels_step_3d(v1, v2, inc, jnc, knc, ref v3);
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + v3[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + v3[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + v3[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + v3[0].ToString().PadLeft(6)
+                                   + "  " + v3[1].ToString().PadLeft(6)
+                                   + "  " + v3[2].ToString().PadLeft(6) + "");
             typeMethods.i4vec_copy(DIM_NUM, v3, ref v2);
         }
 
@@ -337,18 +337,18 @@ public static class VoxelTest
 
         typeMethods.i4vec_copy(DIM_NUM, v1, ref v2);
 
-        Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                               + "  " + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + v2[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                               + "  " + v2[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+        Console.WriteLine("  " + 0.ToString().PadLeft(4)
+                               + "  " + v2[0].ToString().PadLeft(6)
+                               + "  " + v2[1].ToString().PadLeft(6)
+                               + "  " + v2[2].ToString().PadLeft(6) + "");
 
         for (i = 1; i <= 10; i++)
         {
             Geometry.voxels_step_3d(v1, v2, inc, jnc, knc, ref v3);
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + v3[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + v3[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + v3[2].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + v3[0].ToString().PadLeft(6)
+                                   + "  " + v3[1].ToString().PadLeft(6)
+                                   + "  " + v3[2].ToString().PadLeft(6) + "");
             typeMethods.i4vec_copy(DIM_NUM, v3, ref v2);
         }
 

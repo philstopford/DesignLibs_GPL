@@ -62,8 +62,8 @@ public static class laguerreTest
             for (j = 0; j <= N; j++)
             {
                 Console.WriteLine("  "
-                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                  + c[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                  + j.ToString().PadLeft(6) + "  "
+                                  + c[j].ToString().PadLeft(14) + "");
             }
         }
     }
@@ -129,8 +129,8 @@ public static class laguerreTest
             for (j = 0; j <= N; j++)
             {
                 Console.WriteLine("  "
-                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                  + c[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                  + j.ToString().PadLeft(6) + "  "
+                                  + c[j].ToString().PadLeft(14) + "");
             }
 
         }
@@ -186,10 +186,10 @@ public static class laguerreTest
             Laguerre.laguerre_poly(n, x, ref fx2);
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                              + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + n.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(14) + "  "
+                              + fx2[n].ToString().PadLeft(14) + "");
         }
 
     }
@@ -239,14 +239,14 @@ public static class laguerreTest
                 switch (j)
                 {
                     case 0:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + "");
                         ;
                         break;
                     case 1:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x");
                         break;
                     default:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x^" + j + "");
                         break;
                 }
             }
@@ -263,14 +263,14 @@ public static class laguerreTest
                 switch (j)
                 {
                     case 0:
-                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString().PadLeft(14) + "");
                         ;
                         break;
                     case 1:
-                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
+                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString().PadLeft(14) + " * x");
                         break;
                     default:
-                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
+                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString().PadLeft(14) + " * x^" + j + "");
                         break;
                 }
             }

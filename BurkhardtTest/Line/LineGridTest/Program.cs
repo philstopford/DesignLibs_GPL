@@ -75,10 +75,10 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("     N     C      A         B");
         Console.WriteLine("");
-        Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                  + c.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                  + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                  + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+        Console.WriteLine(n.ToString().PadLeft(4) + "  "
+                                                  + c.ToString().PadLeft(4) + "  "
+                                                  + a.ToString().PadLeft(8) + "  "
+                                                  + b.ToString().PadLeft(8) + "");
 
         x = Grid.line_grid(n, a, b, c);
         typeMethods.r8vec_print(n, x, "  Grid points:");
@@ -126,10 +126,10 @@ internal class Program
             Console.WriteLine("");
             Console.WriteLine("     N     C      A         B");
             Console.WriteLine("");
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                      + c.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                      + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                      + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine(n.ToString().PadLeft(4) + "  "
+                                                      + c.ToString().PadLeft(4) + "  "
+                                                      + a.ToString().PadLeft(8) + "  "
+                                                      + b.ToString().PadLeft(8) + "");
 
             x = Grid.line_grid(n, a, b, c);
             typeMethods.r8vec_print(n, x, "  Grid points:");
@@ -175,10 +175,10 @@ internal class Program
             Console.WriteLine("");
             Console.WriteLine("     N     C      A         B");
             Console.WriteLine("");
-            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                      + c.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                      + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                      + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine(n.ToString().PadLeft(4) + "  "
+                                                      + c.ToString().PadLeft(4) + "  "
+                                                      + a.ToString().PadLeft(8) + "  "
+                                                      + b.ToString().PadLeft(8) + "");
 
             x = Grid.line_grid(n, a, b, c);
             typeMethods.r8vec_print(n, x, "  Grid points:");

@@ -78,17 +78,17 @@ internal partial class Program
             if (indx == 1)
             {
                 found_num += 1;
-                string cout = "  " + found_num.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "   ";
+                string cout = "  " + found_num.ToString().PadLeft(2) + "   ";
 
                 total = typeMethods.r8vec_dot_product(n, w, x);
-                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + ":  ";
+                cout += "  " + total.ToString().PadLeft(8) + ":  ";
 
                 for (i = 0; i < n; i++)
                 {
                     switch (x[i])
                     {
                         case 1.0:
-                            cout += "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                            cout += "  " + w[i].ToString().PadLeft(8);
                             break;
                     }
                 }

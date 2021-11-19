@@ -114,10 +114,10 @@ internal class Program
             cdf = CDF.log_normal_truncated_ab_cdf(x, mu, sigma, a, b);
             x2 = CDF.log_normal_truncated_ab_cdf_inv(cdf, mu, sigma, a, b);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + pdf.ToString().PadLeft(12)
+                                   + "  " + cdf.ToString().PadLeft(12)
+                                   + "  " + x2.ToString().PadLeft(12) + "");
         }
     }
 

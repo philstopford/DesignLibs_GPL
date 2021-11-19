@@ -45,8 +45,8 @@ public static class CollatzTest
                 break;
             }
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + count.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(8)
+                                   + "  " + count.ToString().PadLeft(12) + "");
         }
     }
 }

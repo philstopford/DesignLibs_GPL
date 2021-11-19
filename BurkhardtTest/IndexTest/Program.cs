@@ -85,25 +85,25 @@ internal class Program
         i = 3;
         i_max = 5;
         Console.WriteLine("  1D Index"
-                          + "  " + i_min.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                          + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                          + "  " + i_max.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                          + "  " + i_min.ToString().PadLeft(4)
+                          + "  " + i.ToString().PadLeft(4)
+                          + "  " + i_max.ToString().PadLeft(4) + "");
 
         value = Index.index0(i_min, i, i_max);
         index_min = 0;
         index_max = index_min + i_max - i_min;
         Console.WriteLine("  Index0  "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                          + "  " + index_min.ToString().PadLeft(4)
+                          + "  " + value.ToString().PadLeft(4)
+                          + "  " + index_max.ToString().PadLeft(4) + "");
 
         value = Index.index1(i_min, i, i_max);
         index_min = 1;
         index_max = index_min + i_max - i_min;
         Console.WriteLine("  Index1  "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                          + "  " + index_min.ToString().PadLeft(4)
+                          + "  " + value.ToString().PadLeft(4)
+                          + "  " + index_max.ToString().PadLeft(4) + "");
     }
 
     private static void test02()
@@ -155,41 +155,41 @@ internal class Program
         j = 2;
         j_max = 4;
         Console.WriteLine("  2D Index:"
-                          + "  " + i_min.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j_min.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                          + "  " + i_min.ToString().PadLeft(3) + j_min.ToString().PadLeft(3)
+                          + "  " + i.ToString().PadLeft(3) + j.ToString().PadLeft(3)
+                          + "  " + i_max.ToString().PadLeft(3) + j_max.ToString().PadLeft(3) + "");
 
         value = Index.index01(i_min, i, i_max, j_min, j, j_max);
         index_min = 0;
         index_max = index_min + (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
         Console.WriteLine("  INDEX01: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                          + "  " + index_min.ToString().PadLeft(6)
+                          + "  " + value.ToString().PadLeft(6)
+                          + "  " + index_max.ToString().PadLeft(6) + "");
 
         value = Index.index10(i_min, i, i_max, j_min, j, j_max);
         index_min = 0;
         index_max = index_min + (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
         Console.WriteLine("  INDEX10: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                          + "  " + index_min.ToString().PadLeft(6)
+                          + "  " + value.ToString().PadLeft(6)
+                          + "  " + index_max.ToString().PadLeft(6) + "");
 
         value = Index.index12(i_min, i, i_max, j_min, j, j_max);
         index_min = 1;
         index_max = index_min + (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
         Console.WriteLine("  INDEX12: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                          + "  " + index_min.ToString().PadLeft(6)
+                          + "  " + value.ToString().PadLeft(6)
+                          + "  " + index_max.ToString().PadLeft(6) + "");
 
         value = Index.index21(i_min, i, i_max, j_min, j, j_max);
         index_min = 1;
         index_max = index_min + (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
         Console.WriteLine("  INDEX21: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                          + "  " + index_min.ToString().PadLeft(6)
+                          + "  " + value.ToString().PadLeft(6)
+                          + "  " + index_max.ToString().PadLeft(6) + "");
     }
 
     private static void test03()
@@ -253,43 +253,43 @@ internal class Program
             * (k_max - k_min + 1);
 
         Console.WriteLine("  3D Index:"
-                          + "  " + i_min.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j_min.ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          k_min.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + k.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          k_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                          + "  " + i_min.ToString().PadLeft(3) + j_min.ToString().PadLeft(3) +
+                          k_min.ToString().PadLeft(3)
+                          + "  " + i.ToString().PadLeft(3) + j.ToString().PadLeft(3) + k.ToString().PadLeft(3)
+                          + "  " + i_max.ToString().PadLeft(3) + j_max.ToString().PadLeft(3) +
+                          k_max.ToString().PadLeft(3) + "");
 
         value = Index.index012(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
         index_min = 0;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX012:"
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                          + "  " + index_min.ToString().PadLeft(9)
+                          + "  " + value.ToString().PadLeft(9)
+                          + "  " + index_max.ToString().PadLeft(9) + "");
 
         value = Index.index123(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
         index_min = 1;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX123:"
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                          + "  " + index_min.ToString().PadLeft(9)
+                          + "  " + value.ToString().PadLeft(9)
+                          + "  " + index_max.ToString().PadLeft(9) + "");
 
         value = Index.index210(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
         index_min = 0;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX210:"
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                          + "  " + index_min.ToString().PadLeft(9)
+                          + "  " + value.ToString().PadLeft(9)
+                          + "  " + index_max.ToString().PadLeft(9) + "");
 
         value = Index.index321(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
         index_min = 1;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX321:"
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+                          + "  " + index_min.ToString().PadLeft(9)
+                          + "  " + value.ToString().PadLeft(9)
+                          + "  " + index_max.ToString().PadLeft(9) + "");
     }
 
     private static void test04()
@@ -360,44 +360,44 @@ internal class Program
             * (l_max - l_min + 1);
 
         Console.WriteLine("  4D Index:  "
-                          + "  " + i_min.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j_min.ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          k_min.ToString(CultureInfo.InvariantCulture).PadLeft(3) + l_min.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + k.ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          l.ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + j_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          k_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + l_max.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                          + "  " + i_min.ToString().PadLeft(3) + j_min.ToString().PadLeft(3) +
+                          k_min.ToString().PadLeft(3) + l_min.ToString().PadLeft(3)
+                          + "  " + i.ToString().PadLeft(3) + j.ToString().PadLeft(3) + k.ToString().PadLeft(3) +
+                          l.ToString().PadLeft(3)
+                          + "  " + i_max.ToString().PadLeft(3) + j_max.ToString().PadLeft(3) +
+                          k_max.ToString().PadLeft(3) + l_max.ToString().PadLeft(3) + "");
 
         value = Index.index0123(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
         index_min = 0;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX0123: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
 
         value = Index.index1234(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
         index_min = 1;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX1234: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
 
         value = Index.index3210(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
         index_min = 0;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX3210: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
 
         value = Index.index4321(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
         index_min = 1;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX4321: "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
     }
 
     private static void test05()
@@ -449,43 +449,43 @@ internal class Program
         }
 
         Console.WriteLine("  ND Index: "
-                          + "  " + i_min[0].ToString(CultureInfo.InvariantCulture).PadLeft(3) + i_min[1].ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          i_min[2].ToString(CultureInfo.InvariantCulture).PadLeft(3) + i_min[3].ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i[0].ToString(CultureInfo.InvariantCulture).PadLeft(3) + i[1].ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          i[2].ToString(CultureInfo.InvariantCulture).PadLeft(3) + i[3].ToString(CultureInfo.InvariantCulture).PadLeft(3)
-                          + "  " + i_max[0].ToString(CultureInfo.InvariantCulture).PadLeft(3) + i_max[1].ToString(CultureInfo.InvariantCulture).PadLeft(3) +
-                          i_max[2].ToString(CultureInfo.InvariantCulture).PadLeft(3) + i_max[3].ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+                          + "  " + i_min[0].ToString().PadLeft(3) + i_min[1].ToString().PadLeft(3) +
+                          i_min[2].ToString().PadLeft(3) + i_min[3].ToString().PadLeft(3)
+                          + "  " + i[0].ToString().PadLeft(3) + i[1].ToString().PadLeft(3) +
+                          i[2].ToString().PadLeft(3) + i[3].ToString().PadLeft(3)
+                          + "  " + i_max[0].ToString().PadLeft(3) + i_max[1].ToString().PadLeft(3) +
+                          i_max[2].ToString().PadLeft(3) + i_max[3].ToString().PadLeft(3) + "");
 
         value = Index.index0n(n, i_min, i, i_max);
         index_min = 0;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX0N:  "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
 
         value = Index.index1n(n, i_min, i, i_max);
         index_min = 1;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEX1N:  "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
 
         value = Index.indexn0(n, i_min, i, i_max);
         index_min = 0;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEXN0:  "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
 
         value = Index.indexn1(n, i_min, i, i_max);
         index_min = 1;
         index_max = index_min + m - 1;
         Console.WriteLine("  INDEXN1:  "
-                          + "  " + index_min.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                          + "  " + index_max.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                          + "  " + index_min.ToString().PadLeft(12)
+                          + "  " + value.ToString().PadLeft(12)
+                          + "  " + index_max.ToString().PadLeft(12) + "");
     }
 }

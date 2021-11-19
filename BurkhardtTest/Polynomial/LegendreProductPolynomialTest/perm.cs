@@ -45,7 +45,7 @@ public static class permTest
             string cout = "  ";
             for ( i = 0; i < n; i++ )
             {
-                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += p[i].ToString().PadLeft(4);
             }
             Console.WriteLine(cout);
         }

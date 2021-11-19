@@ -134,11 +134,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact00(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact00);
@@ -224,11 +224,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact1(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact1);
@@ -314,11 +314,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact2(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact2);
@@ -403,11 +403,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact3(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact3);
@@ -491,11 +491,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact4(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact4);
@@ -584,11 +584,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact5(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact5);
@@ -677,11 +677,11 @@ internal class Program
                 h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux6);
                 mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact6);
 
-                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + h1s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                       + "  " + e1.ToString().PadLeft(14)
+                                       + "  " + e2.ToString().PadLeft(14)
+                                       + "  " + h1s.ToString().PadLeft(14)
+                                       + "  " + mx.ToString().PadLeft(14) + "");
 
                 n = 2 * (n - 1) + 1;
 
@@ -762,11 +762,11 @@ internal class Program
                 h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux7);
                 mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact7);
 
-                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + h1s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                       + "  " + e1.ToString().PadLeft(14)
+                                       + "  " + e2.ToString().PadLeft(14)
+                                       + "  " + h1s.ToString().PadLeft(14)
+                                       + "  " + mx.ToString().PadLeft(14) + "");
 
                 n = 2 * (n - 1) + 1;
 
@@ -845,11 +845,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact8(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact8);
@@ -935,11 +935,11 @@ internal class Program
             for (i = 0; i < n; i++)
             {
                 uexact = FEM_Test_Methods.exact9(x[i]);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(14)
+                                       + "  " + uexact.ToString().PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
             }
 
             e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact9);
@@ -1060,11 +1060,11 @@ internal class Program
                 mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact10);
                 mx_plot[e_log] = mx;
 
-                Console.WriteLine("  " + e_log.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + ne.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + h1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + e_log.ToString().PadLeft(4)
+                                       + "  " + ne.ToString().PadLeft(4)
+                                       + "  " + l2.ToString().PadLeft(14)
+                                       + "  " + h1.ToString().PadLeft(14)
+                                       + "  " + mx.ToString().PadLeft(14) + "");
 
             }
 
@@ -1083,11 +1083,11 @@ internal class Program
                 h1 = Math.Log(h1) / Math.Log(r);
                 mx = mx_plot[e_log] / mx_plot[e_log + 1];
                 mx = Math.Log(mx) / Math.Log(r);
-                Console.WriteLine("  " + e_log.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + ne1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + " /" + ne2.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + h1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine("  " + e_log.ToString().PadLeft(4)
+                                       + "  " + ne1.ToString().PadLeft(4) + " /" + ne2.ToString().PadLeft(4)
+                                       + "  " + l2.ToString().PadLeft(14)
+                                       + "  " + h1.ToString().PadLeft(14)
+                                       + "  " + mx.ToString().PadLeft(14) + "");
             }
 
 //

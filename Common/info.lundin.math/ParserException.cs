@@ -7,28 +7,29 @@
 */
 using System;
 
-namespace info.lundin.math;
-
-/// <summary>
-/// Exception class for parser related exceptions
-/// </summary>
-public class ParserException : Exception
+namespace info.lundin.math
 {
-    public ParserException()
-        : base()
+    /// <summary>
+    /// Exception class for parser related exceptions
+    /// </summary>
+    public class ParserException : Exception
     {
+        public ParserException()
+            : base()
+        {
 
-    }
+        }
 
-    public ParserException(string message)
-        : base(message)
-    {
+        public ParserException(string message)
+            : base(message)
+        {
 
-    }
+        }
 
-    public ParserException(string message, Exception inner)
-        : base(message, inner)
-    {
+        public ParserException(string message, Exception inner)
+            : base(message, inner)
+        {
 
+        }
     }
 }

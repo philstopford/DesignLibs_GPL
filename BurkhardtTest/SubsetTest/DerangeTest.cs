@@ -40,8 +40,8 @@ public static class DerangeTest
 
         for (i = 0; i <= N; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + Derange.derange_enum(i).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + Derange.derange_enum(i).ToString().PadLeft(8) + "");
         }
             
     }
@@ -83,7 +83,7 @@ public static class DerangeTest
 
         for (i = 0; i <= N; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + d[i] + "");
         }
     }
@@ -122,7 +122,7 @@ public static class DerangeTest
 
         for (i = 0; i <= N; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + Derange.derange_enum3(i) + "");
         }
     }
@@ -176,10 +176,10 @@ public static class DerangeTest
 
             rank += 1;
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
+            string cout = rank.ToString().PadLeft(4) + "    ";
             for (i = 0; i < N; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -291,10 +291,10 @@ public static class DerangeTest
 
             rank += 1;
 
-            string cout = rank.ToString(CultureInfo.InvariantCulture).PadLeft(4) + ":   ";
+            string cout = rank.ToString().PadLeft(4) + ":   ";
             for (i = 0; i < n; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);

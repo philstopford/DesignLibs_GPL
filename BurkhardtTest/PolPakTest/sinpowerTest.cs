@@ -55,11 +55,11 @@ public static class sinpowerTest
             fx2 = SinPower.sin_power_int(a, b, n);
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + a.ToString().PadLeft(8) + "  "
+                              + b.ToString().PadLeft(8) + "  "
+                              + n.ToString().PadLeft(6) + "  "
+                              + fx.ToString().PadLeft(12) + "  "
+                              + fx2.ToString().PadLeft(12) + "");
         }
     }
 

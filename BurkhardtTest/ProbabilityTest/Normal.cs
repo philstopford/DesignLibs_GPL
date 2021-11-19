@@ -182,10 +182,10 @@ internal partial class Program
             x2 = CDF.normal_cdf_inv(cdf, mu, sigma);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "  "
+                              + x2.ToString().PadLeft(12) + "");
         }
 
     }
@@ -330,10 +330,10 @@ internal partial class Program
 
             x2 = CDF.normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(14)
+                                   + "  " + pdf.ToString().PadLeft(14)
+                                   + "  " + cdf.ToString().PadLeft(14)
+                                   + "  " + x2.ToString().PadLeft(14) + "");
         }
     }
 
@@ -478,10 +478,10 @@ internal partial class Program
 
             x2 = CDF.normal_truncated_a_cdf_inv(cdf, mu, s, a);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(14)
+                                   + "  " + pdf.ToString().PadLeft(14)
+                                   + "  " + cdf.ToString().PadLeft(14)
+                                   + "  " + x2.ToString().PadLeft(14) + "");
         }
 
     }
@@ -625,10 +625,10 @@ internal partial class Program
 
             x2 = CDF.normal_truncated_b_cdf_inv(cdf, mu, s, b);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(14)
+                                   + "  " + pdf.ToString().PadLeft(14)
+                                   + "  " + cdf.ToString().PadLeft(14)
+                                   + "  " + x2.ToString().PadLeft(14) + "");
         }
     }
 

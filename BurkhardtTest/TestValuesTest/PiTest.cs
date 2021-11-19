@@ -44,8 +44,8 @@ public class PiTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(12) + n  + "  "
-                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(10) + fn + "");
+                              + n.ToString().PadLeft(12) + n  + "  "
+                              + fn.ToString().PadLeft(10) + fn + "");
         }
     }
 }

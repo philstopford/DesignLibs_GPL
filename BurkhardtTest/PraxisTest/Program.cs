@@ -1518,7 +1518,7 @@ internal class Program
         cout = "";
         for (j = 0; j < n; j++)
         {
-            cout += d[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += d[j].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -1529,7 +1529,7 @@ internal class Program
 
             for (j = 0; j < n; j++)
             {
-                cout += v[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += v[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1543,7 +1543,7 @@ internal class Program
         cout = "";
         for (j = 0; j < n; j++)
         {
-            cout += d[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += d[j].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -1553,7 +1553,7 @@ internal class Program
             cout = "";
             for (j = 0; j < n; j++)
             {
-                cout += v[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += v[i + j * n].ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);

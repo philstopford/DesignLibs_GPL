@@ -116,13 +116,13 @@ internal class Program
             for (i = 0; i < nx; i++)
             {
                 uexact = exact1(x[i], y[j]);
-                Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                          + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                          + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                          + y[j].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                                                          + u[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                          + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                          + Math.Abs(u[i + j * nx] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                Console.WriteLine(i.ToString().PadLeft(6) + "  "
+                                                          + j.ToString().PadLeft(4) + "  "
+                                                          + x[i].ToString().PadLeft(8) + "  "
+                                                          + y[j].ToString().PadLeft(8) + "  "
+                                                          + u[i + j * nx].ToString().PadLeft(14) + "  "
+                                                          + uexact.ToString().PadLeft(14) + "  "
+                                                          + Math.Abs(u[i + j * nx] - uexact).ToString().PadLeft(14) + "");
             }
         }
 

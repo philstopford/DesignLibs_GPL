@@ -216,7 +216,7 @@ internal class Program
         Console.WriteLine("");
         for (k = 0; k < n * n; k++)
         {
-            Console.WriteLine("  " + histo[k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + histo[k].ToString().PadLeft(8) + "");
         }
 
         Console.WriteLine("");

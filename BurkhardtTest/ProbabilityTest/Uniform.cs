@@ -83,10 +83,10 @@ internal partial class Program
         for (i = 1; i <= 10; i++)
         {
             x = Burkardt.Probability.Uniform.uniform_nsphere_sample(n, ref seed);
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            string cout = "  " + i.ToString().PadLeft(6) + "  ";
             for (j = 0; j < n; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
+                cout += x[j].ToString().PadLeft(12) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -142,10 +142,10 @@ internal partial class Program
             x2 = Burkardt.Probability.Uniform.uniform_01_cdf_inv(cdf);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "  "
+                              + x2.ToString().PadLeft(12) + "");
         }
 
     }
@@ -276,10 +276,10 @@ internal partial class Program
             x2 = Burkardt.Probability.Uniform.uniform_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "  "
+                              + x2.ToString().PadLeft(12) + "");
         }
     }
 
@@ -426,10 +426,10 @@ internal partial class Program
             x2 = Burkardt.Probability.Uniform.uniform_discrete_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "  "
+                              + x2.ToString().PadLeft(12) + "");
         }
     }
 

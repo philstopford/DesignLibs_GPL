@@ -148,11 +148,11 @@ internal class Program
                 Comp.comp_next(level, dim_num, ref level_1d, ref more_grids, ref h, ref t);
 
                 i += 1;
-                string cout = "  " + level.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                string cout = "  " + level.ToString().PadLeft(8)
+                                   + "  " + i.ToString().PadLeft(8);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                    cout += "  " + level_1d[dim].ToString().PadLeft(8);
                 }
 
                 Console.WriteLine(cout);

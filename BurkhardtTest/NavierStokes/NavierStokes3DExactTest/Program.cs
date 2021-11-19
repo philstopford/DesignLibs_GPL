@@ -114,17 +114,17 @@ internal class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:  "
-                          + "  " + typeMethods.r8vec_amin(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, u).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, u).ToString().PadLeft(14) + "");
         Console.WriteLine("  V:  "
-                          + "  " + typeMethods.r8vec_amin(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, v).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, v).ToString().PadLeft(14) + "");
         Console.WriteLine("  W:  "
-                          + "  " + typeMethods.r8vec_amin(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, w).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, w).ToString().PadLeft(14) + "");
         Console.WriteLine("  P:  "
-                          + "  " + typeMethods.r8vec_amin(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, p).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, p).ToString().PadLeft(14) + "");
     }
 
     private static void resid_burgers_test()
@@ -194,17 +194,17 @@ internal class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:  "
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
         Console.WriteLine("  Vr:  "
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
         Console.WriteLine("  Wr:  "
-                          + "  " + typeMethods.r8vec_amin(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, wr).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, wr).ToString().PadLeft(14) + "");
         Console.WriteLine("  Pr:  "
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
     }
 
     private static void uvwp_ethier_test()
@@ -278,17 +278,17 @@ internal class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:  "
-                          + "  " + typeMethods.r8vec_amin(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, u).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, u).ToString().PadLeft(14) + "");
         Console.WriteLine("  V:  "
-                          + "  " + typeMethods.r8vec_amin(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, v).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, v).ToString().PadLeft(14) + "");
         Console.WriteLine("  W:  "
-                          + "  " + typeMethods.r8vec_amin(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, w).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, w).ToString().PadLeft(14) + "");
         Console.WriteLine("  P:  "
-                          + "  " + typeMethods.r8vec_amin(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, p).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, p).ToString().PadLeft(14) + "");
     }
 
     private static void resid_ethier_test()
@@ -362,17 +362,17 @@ internal class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:  "
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
         Console.WriteLine("  Vr:  "
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
         Console.WriteLine("  Wr:  "
-                          + "  " + typeMethods.r8vec_amin(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, wr).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, wr).ToString().PadLeft(14) + "");
         Console.WriteLine("  Pr:  "
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
 
     }
 }

@@ -62,10 +62,10 @@ public static class charlierTest
                 for ( i = 0; i <= 5; i++ )
                 {
 
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                           + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + value[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(6)
+                                           + "  " + a.ToString().PadLeft(8)
+                                           + "  " + x.ToString().PadLeft(8)
+                                           + "  " + value[i].ToString().PadLeft(14) + "");
                 }
             }
         }

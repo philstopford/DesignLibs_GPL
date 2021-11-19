@@ -91,9 +91,9 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("         I           T             X");
         Console.WriteLine("");
-        Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + i.ToString().PadLeft(8)
+                               + "  " + t.ToString().PadLeft(14)
+                               + "  " + x[i].ToString().PadLeft(14) + "");
 
         for (i = 1; i <= n; i++)
         {
@@ -103,9 +103,9 @@ internal class Program
 
             x[i] = RungeKutta.rk1_ti_step(x[i - 1], t, h, q, fi, gi, ref seed);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + t.ToString().PadLeft(14)
+                                   + "  " + x[i].ToString().PadLeft(14) + "");
         }
     }
 

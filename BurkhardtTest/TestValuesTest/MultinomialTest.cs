@@ -58,14 +58,14 @@ public class MultinomialTest
             Console.WriteLine("");
             for (i = 0; i < m; i++)
             {
-                Console.WriteLine("              " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
+                Console.WriteLine("              " + i.ToString().PadLeft(4)
+                                                   + "  " + p[i].ToString().PadLeft(8)
+                                                   + "  " + x[i].ToString().PadLeft(4) + "");
             }
 
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "                        " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(4)
+                                   + "  " + m.ToString().PadLeft(4)
+                                   + "                        " + pdf.ToString().PadLeft(14) + "");
         }
     }
 }

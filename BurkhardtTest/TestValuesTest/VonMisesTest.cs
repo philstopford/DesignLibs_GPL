@@ -47,9 +47,9 @@ public class VonMisesTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + a.ToString().PadLeft(12) + "  "
+                              + b.ToString().PadLeft(12) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -103,8 +103,8 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             perm_num = Permutation.perm_enum(n);
-            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + perm_num.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+            Console.WriteLine("  " + n.ToString().PadLeft(2)
+                                   + "  " + perm_num.ToString().PadLeft(6) + "");
         }
     }
 
@@ -309,10 +309,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < n; i++)
             {
-                cout += "  " + pi[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + pi[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -609,10 +609,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < n; i++)
             {
-                cout += "  " + pi[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + pi[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

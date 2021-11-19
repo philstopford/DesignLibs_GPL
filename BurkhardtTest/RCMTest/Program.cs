@@ -106,8 +106,8 @@ internal class Program
             i = UniformRNG.i4_uniform(1, NODE_NUM, ref seed);
             j = UniformRNG.i4_uniform(1, NODE_NUM, ref seed);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + j.ToString().PadLeft(8) + "");
 
             AdjacencyMatrix.adj_set(NODE_NUM, ADJ_MAX, ref adj_num, ref adj_row, ref adj, i, j);
         }
@@ -182,9 +182,9 @@ internal class Program
 
         for (i = 0; i < node_num; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + perm[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + perm_inv[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
+                                   + "  " + perm[i].ToString().PadLeft(8)
+                                   + "  " + perm_inv[i].ToString().PadLeft(8) + "");
         }
 
         Console.WriteLine("");

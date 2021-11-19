@@ -49,9 +49,9 @@ public static class mertensTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + Mertens.mertens(n).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + n.ToString().PadLeft(8) + "  "
+                              + c.ToString().PadLeft(10) + "  "
+                              + Mertens.mertens(n).ToString().PadLeft(10) + "");
         }
 
     }

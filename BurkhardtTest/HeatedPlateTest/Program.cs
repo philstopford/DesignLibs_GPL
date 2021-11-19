@@ -272,7 +272,7 @@ internal class Program
             iterations++;
             if (iterations == iterations_print)
             {
-                Console.WriteLine("  " + iterations.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                Console.WriteLine("  " + iterations.ToString().PadLeft(8)
                                        + "  " + diff + "");
                 iterations_print = 2 * iterations_print;
             }
@@ -282,7 +282,7 @@ internal class Program
         ctime = ctime2 - ctime1;
 
         Console.WriteLine("");
-        Console.WriteLine("  " + iterations.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+        Console.WriteLine("  " + iterations.ToString().PadLeft(8)
                                + "  " + diff + "");
         Console.WriteLine("");
         Console.WriteLine("  Error tolerance achieved.");

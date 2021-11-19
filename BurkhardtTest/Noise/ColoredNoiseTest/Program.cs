@@ -121,7 +121,7 @@ internal class Program
 
         for (i = 0; i < n; i++)
         {
-            output_unit.Add(x[i].ToString(CultureInfo.InvariantCulture));
+            output_unit.Add(x[i].ToString());
         }
 
         File.WriteAllLines(output_filename, output_unit);

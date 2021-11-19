@@ -956,7 +956,7 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < nt; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
                                    + "  " + t[i].ToString("0.################").PadLeft(24)
                                    + "  " + wts[i].ToString("0.################").PadLeft(24) + "");
         }
@@ -1010,7 +1010,7 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < nt; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
                                    + "  " + t[i].ToString("0.################").PadLeft(24)
                                    + "  " + wts[i].ToString("0.################").PadLeft(24) + "");
         }
@@ -1164,8 +1164,8 @@ internal class Program
         for (i = 0; i < m; i++)
         {
             Console.WriteLine("   "
-                              + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                              + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                              + "  " + i.ToString().PadLeft(2)
+                              + "  " + w[i].ToString().PadLeft(14) + "");
         }
     }
 

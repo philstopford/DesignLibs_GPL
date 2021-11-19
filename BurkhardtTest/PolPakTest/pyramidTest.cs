@@ -36,8 +36,8 @@ public static class pyramidTest
         for (n = 1; n <= 10; n++)
         {
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + Pyramid.pyramid_num(n).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                              + n.ToString().PadLeft(4) + "  "
+                              + Pyramid.pyramid_num(n).ToString().PadLeft(6) + "");
         }
 
     }
@@ -73,8 +73,8 @@ public static class pyramidTest
         for (n = 1; n <= 10; n++)
         {
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + Pyramid.pyramid_square_num(n).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                              + n.ToString().PadLeft(6) + "  "
+                              + Pyramid.pyramid_square_num(n).ToString().PadLeft(6) + "");
         }
 
     }

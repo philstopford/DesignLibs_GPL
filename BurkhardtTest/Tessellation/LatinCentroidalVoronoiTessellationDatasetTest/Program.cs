@@ -649,8 +649,8 @@ internal class Program
                 switch (debug)
                 {
                     case true:
-                        Console.WriteLine("  " + cvt_it.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                               + "  " + cvt_it_diff.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                        Console.WriteLine("  " + cvt_it.ToString().PadLeft(8)
+                                               + "  " + cvt_it_diff.ToString().PadLeft(14) + "");
                         break;
                 }
             }
@@ -668,9 +668,9 @@ internal class Program
 
             lat_energy = Cluster.cluster_energy(ref rdata, dim_num, n, r, sample_num, sample, ref seed);
 
-            Console.WriteLine("  " + lat_it.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + cvt_energy.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + lat_energy.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + lat_it.ToString().PadLeft(8)
+                                   + "  " + cvt_energy.ToString().PadLeft(14)
+                                   + "  " + lat_energy.ToString().PadLeft(14) + "");
         }
 
         //

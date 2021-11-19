@@ -54,8 +54,8 @@ internal partial class Program
             c2 = English.english_letter_cdf_inv(cdf);
 
             Console.WriteLine("  '" + c + "'"
-                              + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + pdf.ToString().PadLeft(14)
+                              + "  " + cdf.ToString().PadLeft(14)
                               + "  '" + c2 + "'");
         }
     }
@@ -108,10 +108,10 @@ internal partial class Program
 
             x2 = English.english_sentence_length_cdf_inv(cdf);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + pdf.ToString().PadLeft(12)
+                                   + "  " + cdf.ToString().PadLeft(12)
+                                   + "  " + x2.ToString().PadLeft(12) + "");
         }
     }
 
@@ -226,10 +226,10 @@ internal partial class Program
 
             x2 = English.english_word_length_cdf_inv(cdf);
 
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(12)
+                                   + "  " + pdf.ToString().PadLeft(12)
+                                   + "  " + cdf.ToString().PadLeft(12)
+                                   + "  " + x2.ToString().PadLeft(12) + "");
         }
     }
 

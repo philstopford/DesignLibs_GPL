@@ -88,11 +88,11 @@ internal class Program
             Console.WriteLine("");
             for (i = 0; i <= 10; i++)
             {
-                string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                string cout = "  " + i.ToString().PadLeft(3);
                 r = Hammersley.hammersley(i, m, n);
                 for (j = 0; j < m; j++)
                 {
-                    cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);;
+                    cout += "  " + r[j].ToString().PadLeft(14);;
                 }
 
                 Console.WriteLine(cout);
@@ -140,15 +140,15 @@ internal class Program
 
         for (i = 0; i <= 10; i++)
         {
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+            string cout = "  " + i.ToString().PadLeft(3);
             r = Hammersley.hammersley(i, m, n);
             for (j = 0; j < m; j++)
             {
-                cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);;
+                cout += "  " + r[j].ToString().PadLeft(14);;
             }
 
             i2 = Hammersley.hammersley_inverse(r, m, n);
-            Console.WriteLine(cout + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
+            Console.WriteLine(cout + "  " + i2.ToString().PadLeft(3) + "");
         }
     }
 

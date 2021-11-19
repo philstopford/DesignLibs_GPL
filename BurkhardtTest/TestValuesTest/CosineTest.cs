@@ -45,8 +45,8 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -90,8 +90,8 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -135,8 +135,8 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + fx.ToString().PadLeft(12) + "");
         }
     }
 
@@ -270,9 +270,9 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + a.ToString().PadLeft(8) + "  "
+                              + b.ToString().PadLeft(8) + "  "
+                              + n.ToString().PadLeft(6) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

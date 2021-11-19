@@ -70,7 +70,7 @@ internal class Program
                 }
                 else
                 {
-                    cout += "  " + ohd[i][j].ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                    cout += "  " + ohd[i][j].ToString().PadLeft(3);
                 }
             }
 
@@ -89,8 +89,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < NV; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + mind[i].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                   + "  " + mind[i].ToString().PadLeft(2) + "");
         }
 
         Console.WriteLine("");

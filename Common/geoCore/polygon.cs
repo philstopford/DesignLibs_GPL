@@ -357,7 +357,7 @@ public class GCPolygon : GCElement
                         {
                             if (identical(pointarray[i], pointarray[i + 1], pointarray[j + 1], pointarray[j]))
                             {
-                                int h1, h2;
+                                int h1 = 0, h2;
                                 bool side = true;
                                 bool change;
                                 if (pointarray[j + 1] == pointarray[i])

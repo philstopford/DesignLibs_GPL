@@ -169,24 +169,24 @@ internal class Program
             {
                 case 0:
                     w0_sum += w[i];
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                           + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                           + "  " + w[i].ToString().PadLeft(8) + "");
                     break;
                 default:
                     w1_sum += w[i];
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                    Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + "        "
-                                           + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                                           + "  " + w[i].ToString().PadLeft(8) + "");
                     break;
             }
         }
 
         Console.WriteLine("        --------  --------");
         Console.WriteLine("  " + "    "
-                               + "  " + w0_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                               + "  " + w1_sum.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                               + "  " + w0_sum.ToString().PadLeft(8)
+                               + "  " + w1_sum.ToString().PadLeft(8) + "");
         Console.WriteLine("");
-        Console.WriteLine("  Discrepancy = " + discrepancy.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+        Console.WriteLine("  Discrepancy = " + discrepancy.ToString().PadLeft(8) + "");
 
     }
 
@@ -232,8 +232,8 @@ internal class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + w[i].ToString().PadLeft(8) + "");
         }
 
         Console.WriteLine("");

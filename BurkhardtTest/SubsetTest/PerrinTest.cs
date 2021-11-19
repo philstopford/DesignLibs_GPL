@@ -45,8 +45,8 @@ public static class PerrinTest
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                              + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
+                              + i.ToString().PadLeft(4) + "  "
+                              + p[i].ToString().PadLeft(6) + "");
         }
     }
 }

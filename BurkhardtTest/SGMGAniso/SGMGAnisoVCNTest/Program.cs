@@ -233,7 +233,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + importance[dim].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -241,17 +241,17 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + level_weight[dim].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_NAIVE");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -275,20 +275,20 @@ internal class Program
             }
 
             i += 1;
-            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout = "  " + i.ToString().PadLeft(4)
+                        + "  " + q.ToString().PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + level_1d[dim].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -296,10 +296,10 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -323,20 +323,20 @@ internal class Program
             }
 
             i += 1;
-            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout = "  " + i.ToString().PadLeft(4)
+                        + "  " + q.ToString().PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + level_1d[dim].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -503,7 +503,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + importance[dim].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -511,17 +511,17 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + level_weight[dim].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_NAIVE");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -539,23 +539,23 @@ internal class Program
         }
 
         t2 = DateTime.Now;
-        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("  TIME" + "  "
-                                   + (t2 - t1).TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + (t2 - t1).TotalSeconds.ToString().PadLeft(14) + "");
 
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -573,15 +573,15 @@ internal class Program
         }
 
         t2 = DateTime.Now;
-        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("  TIME" + "  "
-                                   + (t2 - t1).TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + (t2 - t1).TotalSeconds.ToString().PadLeft(14) + "");
 
     }
 
@@ -744,7 +744,7 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + importance[dim].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -752,17 +752,17 @@ internal class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " + level_weight[dim].ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_ORDERED_NAIVE:");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -786,20 +786,20 @@ internal class Program
             }
 
             i += 1;
-            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout = "  " + i.ToString().PadLeft(4)
+                        + "  " + q.ToString().PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + level_1d[dim].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -807,10 +807,10 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_ORDERED:");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_min[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);
@@ -834,20 +834,20 @@ internal class Program
             }
 
             i += 1;
-            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout = "  " + i.ToString().PadLeft(4)
+                        + "  " + q.ToString().PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_1d[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + level_1d[dim].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_1d_max[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
         }
 
         Console.WriteLine(cout);

@@ -93,10 +93,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < ng; j++)
         {
-            Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                                                      + g[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                      + g[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                      + g[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine(j.ToString().PadLeft(6) + "  "
+                                                      + g[0 + j * 3].ToString().PadLeft(14) + "  "
+                                                      + g[1 + j * 3].ToString().PadLeft(14) + "  "
+                                                      + g[2 + j * 3].ToString().PadLeft(14) + "");
         }
 
         output_filename = "wedge_grid.xy";

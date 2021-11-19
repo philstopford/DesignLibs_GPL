@@ -39,10 +39,10 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":  ";
+            string cout = "  " + n.ToString().PadLeft(2) + ":  ";
             for (part_num = 1; part_num <= Math.Min(n, 6); part_num++)
             {
-                cout += "  " + Ranking.npart_enum(n, part_num).ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += "  " + Ranking.npart_enum(n, part_num).ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -146,10 +146,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < npart; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -287,10 +287,10 @@ internal partial class Program
                 break;
             }
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + rank.ToString().PadLeft(4);
             for (i = 0; i < npart; i++)
             {
-                cout += "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + t[i].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -337,10 +337,10 @@ internal partial class Program
 
         for (i = 0; i <= maxn; i++)
         {
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            string cout = "  " + i.ToString().PadLeft(2);
             for (j = 0; j <= maxpart; j++)
             {
-                cout += "  " + p[i + j * (maxn + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + p[i + j * (maxn + 1)].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

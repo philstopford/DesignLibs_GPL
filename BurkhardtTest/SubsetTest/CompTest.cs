@@ -43,7 +43,7 @@ public class CompTest
             for (k = 1; k <= 10; k++)
             {
                 num = Comp.comp_enum(n, k);
-                cout += "  " + num.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += "  " + num.ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -98,10 +98,10 @@ public class CompTest
 
             index += 1;
             string cout = "  ";
-            cout += "  " + index.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            cout += "  " + index.ToString().PadLeft(4) + "  ";
             for (i = 0; i < K; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -171,14 +171,14 @@ public class CompTest
 
             nc = typeMethods.i4vec_sum(kc, xc);
 
-            string cout = "   " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ": ";
-            cout += "    " + nc.ToString(CultureInfo.InvariantCulture).PadLeft(2) + " = ";
+            string cout = "   " + rank.ToString().PadLeft(3) + ": ";
+            cout += "    " + nc.ToString().PadLeft(2) + " = ";
             for (j = 0; j < kc - 1; j++)
             {
-                cout += xc[j].ToString(CultureInfo.InvariantCulture).PadLeft(2) + " + ";
+                cout += xc[j].ToString().PadLeft(2) + " + ";
             }
 
-            Console.WriteLine(cout + xc[kc - 1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
+            Console.WriteLine(cout + xc[kc - 1].ToString().PadLeft(2) + "");
             //
             //  When XC(1) == NC, we have completed the compositions associated with
             //  a particular integer, and are about to advance to the next integer.
@@ -236,7 +236,7 @@ public class CompTest
             string cout = "  ";
             for (i = 0; i < K; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -292,14 +292,14 @@ public class CompTest
             xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank);
             nc = typeMethods.i4vec_sum(kc, xc);
 
-            string cout = "   " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ": ";
-            cout += "    " + nc.ToString(CultureInfo.InvariantCulture).PadLeft(2) + " = ";
+            string cout = "   " + rank.ToString().PadLeft(3) + ": ";
+            cout += "    " + nc.ToString().PadLeft(2) + " = ";
             for (j = 0; j < kc - 1; j++)
             {
-                cout += xc[j].ToString(CultureInfo.InvariantCulture).PadLeft(2) + " + ";
+                cout += xc[j].ToString().PadLeft(2) + " + ";
             }
 
-            Console.WriteLine(cout + xc[kc - 1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
+            Console.WriteLine(cout + xc[kc - 1].ToString().PadLeft(2) + "");
         }
     }
 
@@ -354,9 +354,9 @@ public class CompTest
             xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank3);
             rank4 = Comp.comp_rank_grlex(kc, xc);
 
-            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(4) + 
-                              "  " + rank3.ToString(CultureInfo.InvariantCulture).PadLeft(6) + 
-                              "  " + rank4.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + test.ToString().PadLeft(4) + 
+                              "  " + rank3.ToString().PadLeft(6) + 
+                              "  " + rank4.ToString().PadLeft(8) + "");
         }
     }
 
@@ -408,7 +408,7 @@ public class CompTest
             cout = "  COMP:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += ac[j].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -417,7 +417,7 @@ public class CompTest
             cout = "  KSUB:";
             for (j = 0; j < ks; j++)
             {
-                cout += as_[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += as_[j].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -426,7 +426,7 @@ public class CompTest
             cout = "  COMP:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += ac[j].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -477,14 +477,14 @@ public class CompTest
             xc = Comp.comp_unrank_grlex(kc, rank1);
             nc = typeMethods.i4vec_sum(kc, xc);
 
-            cout = "   " + rank1.ToString(CultureInfo.InvariantCulture).PadLeft(3) + ": ";
-            cout += "    " + nc.ToString(CultureInfo.InvariantCulture).PadLeft(2) + " = ";
+            cout = "   " + rank1.ToString().PadLeft(3) + ": ";
+            cout += "    " + nc.ToString().PadLeft(2) + " = ";
             for (j = 0; j < kc - 1; j++)
             {
-                cout += xc[j].ToString(CultureInfo.InvariantCulture).PadLeft(2) + " + ";
+                cout += xc[j].ToString().PadLeft(2) + " + ";
             }
 
-            Console.WriteLine(cout + xc[kc - 1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
+            Console.WriteLine(cout + xc[kc - 1].ToString().PadLeft(2) + "");
             //
             //  When XC(1) == NC, we have completed the compositions associated with
             //  a particular integer, and are about to advance to the next integer.
@@ -545,7 +545,7 @@ public class CompTest
             cout = "  COMPNZ:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += ac[j].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -554,7 +554,7 @@ public class CompTest
             cout = "  KSUB:  ";
             for (j = 0; j < ks; j++)
             {
-                cout += as_[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += as_[j].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -563,7 +563,7 @@ public class CompTest
             cout = "  COMPNZ:";
             for (j = 0; j < kc; j++)
             {
-                cout += ac[j].ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += ac[j].ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -619,7 +619,7 @@ public class CompTest
             cout = "  ";
             for (i = 0; i < k; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -680,7 +680,7 @@ public class CompTest
             cout = "  ";
             for (i = 0; i < K; i++)
             {
-                cout += a[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+                cout += a[i].ToString().PadLeft(4) + "  ";
             }
 
             Console.WriteLine(cout);

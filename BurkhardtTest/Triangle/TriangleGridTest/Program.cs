@@ -89,9 +89,9 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < 3; j++)
         {
-            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + t[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + t[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + j.ToString().PadLeft(4)
+                                   + "  " + t[0 + j * 2].ToString().PadLeft(12)
+                                   + "  " + t[1 + j * 2].ToString().PadLeft(12) + "");
         }
 
         tg = Grid.triangle_grid(n, t);
@@ -101,17 +101,17 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < ng; j++)
         {
-            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + tg[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + tg[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  " + j.ToString().PadLeft(4)
+                                   + "  " + tg[0 + j * 2].ToString().PadLeft(12)
+                                   + "  " + tg[1 + j * 2].ToString().PadLeft(12) + "");
         }
 
         filename = "triangle_grid_test01.xy";
 
         for (j = 0; j < ng; j++)
         {
-            output.Add("  " + tg[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                            + "  " + tg[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            output.Add("  " + tg[0 + j * 2].ToString().PadLeft(12)
+                            + "  " + tg[1 + j * 2].ToString().PadLeft(12) + "");
         }
 
         File.WriteAllLines(filename, output);

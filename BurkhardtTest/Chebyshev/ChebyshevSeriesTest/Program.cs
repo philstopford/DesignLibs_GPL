@@ -122,11 +122,11 @@ internal class Program
             s2 -= y;
             s3 -= y;
 
-            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(5)
-                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine(x.ToString().PadLeft(5)
+                              + s.ToString().PadLeft(14)
+                              + s1.ToString().PadLeft(14)
+                              + s2.ToString().PadLeft(14)
+                              + s3.ToString().PadLeft(14) + "");
         }
     }
 
@@ -205,10 +205,10 @@ internal class Program
             s1 -= y1;
             s2 -= y2;
 
-            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(5)
-                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine(x.ToString().PadLeft(5)
+                              + s.ToString().PadLeft(14)
+                              + s1.ToString().PadLeft(14)
+                              + s2.ToString().PadLeft(14) + "");
         }
     }
 
@@ -279,10 +279,10 @@ internal class Program
             s -= y;
             s1 -= y1;
             s2 -= y;
-            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(5)
-                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                              + s2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine(x.ToString().PadLeft(5)
+                              + s.ToString().PadLeft(14)
+                              + s1.ToString().PadLeft(14)
+                              + s2.ToString().PadLeft(14) + "");
         }
     }
 }

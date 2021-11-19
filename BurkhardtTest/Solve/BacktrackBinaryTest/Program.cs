@@ -155,7 +155,7 @@ internal class Program
             string cout = "  ";
             for (i = 0; i < n; i++)
             {
-                cout += choice[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += choice[i].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -240,7 +240,7 @@ internal class Program
                 string cout = "  ";
                 for (i = 0; i < n; i++)
                 {
-                    cout += choice[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                    cout += choice[i].ToString().PadLeft(2);
                 }
 
                 Console.WriteLine(cout);

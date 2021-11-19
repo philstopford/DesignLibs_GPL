@@ -99,10 +99,10 @@ internal class Program
         Console.WriteLine("");
         for (j = 0; j < order; j++)
         {
-            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + xyw[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + xyw[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + xyw[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + j.ToString().PadLeft(4)
+                                   + "  " + xyw[0 + j * 3].ToString().PadLeft(14)
+                                   + "  " + xyw[1 + j * 3].ToString().PadLeft(14)
+                                   + "  " + xyw[2 + j * 3].ToString().PadLeft(14) + "");
         }
 
         d = 0.0;
@@ -112,9 +112,9 @@ internal class Program
         }
 
         Console.WriteLine("");
-        Console.WriteLine("   Sum  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("   Sum  " + d.ToString().PadLeft(14) + "");
         area = Integrals.squaresym_area();
-        Console.WriteLine("  Area  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  Area  " + area.ToString().PadLeft(14) + "");
 
     }
 
@@ -218,8 +218,8 @@ internal class Program
         {
             error_max = MinimalRule.square_minimal_rule_error_max(degree);
             m_num = (degree + 1) * (degree + 2) / 2;
-            Console.WriteLine("   " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                    + "       " + m_num.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("   " + degree.ToString().PadLeft(4)
+                                    + "       " + m_num.ToString().PadLeft(4)
                                     + "  " + error_max + "");
         }
 

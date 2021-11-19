@@ -66,9 +66,9 @@ internal partial class Program
             cdf = InverseGaussian.inverse_gaussian_cdf(x, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "");
         }
     }
 

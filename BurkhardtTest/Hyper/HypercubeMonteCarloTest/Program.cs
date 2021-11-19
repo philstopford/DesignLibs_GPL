@@ -109,7 +109,7 @@ internal class Program
         while ( n <= 65536 )
         {
             double[] x = MonteCarlo.hypercube01_sample ( m, n, ref seed );
-            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " + n.ToString().PadLeft(8);
             for (int j = 0; j < 10; j++ )
             {
                 for (int i = 0; i < m; i++ )
@@ -120,7 +120,7 @@ internal class Program
                 double[] value = Monomial.monomial_value ( m, n, e, x );
 
                 double result = MonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / n;
-                cout += "  " +result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " +result.ToString().PadLeft(14);
             }
             Console.WriteLine(cout);
 
@@ -136,7 +136,7 @@ internal class Program
                 e[i] = e_test[i+j*m];
             }
             double exact = MonteCarlo.hypercube01_monomial_integral ( m, e );
-            cout += "  " +exact.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " +exact.ToString().PadLeft(14);
         }
         Console.WriteLine(cout);
     }
@@ -197,7 +197,7 @@ internal class Program
         while ( n <= 65536 )
         {
             double[] x = MonteCarlo.hypercube01_sample ( m, n, ref seed );
-            cout = "  " +n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            cout = "  " +n.ToString().PadLeft(8);
             for (int j = 0; j < 7; j++ )
             {
                 for (int i = 0; i < m; i++ )
@@ -208,7 +208,7 @@ internal class Program
                 double[] value = Monomial.monomial_value ( m, n, e, x );
 
                 double result = MonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / n;
-                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result.ToString().PadLeft(14);
             }
             Console.WriteLine(cout);
 
@@ -224,7 +224,7 @@ internal class Program
                 e[i] = e_test[i+j*m];
             }
             double exact = MonteCarlo.hypercube01_monomial_integral ( m, e );
-            cout += "  " +exact.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout += "  " +exact.ToString().PadLeft(14);
         }
         Console.WriteLine(cout);
     }

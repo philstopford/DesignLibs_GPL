@@ -54,10 +54,10 @@ public static class MultinomialTest
 
             ncomb = Multinomial.multinomial_coef1(nfactor, factor);
 
-            Console.WriteLine(factor[0].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                              + factor[1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+            Console.WriteLine(factor[0].ToString().PadLeft(4) + "  "
+                                                              + factor[1].ToString().PadLeft(4) + "  "
                                                               + "    "
-                                                              + ncomb.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
+                                                              + ncomb.ToString().PadLeft(5) + "");
 
         }
 
@@ -80,11 +80,11 @@ public static class MultinomialTest
 
                 ncomb = Multinomial.multinomial_coef1(nfactor, factor);
 
-                Console.WriteLine(factor[0].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                                  + factor[1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                                  + factor[2].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                Console.WriteLine(factor[0].ToString().PadLeft(4) + "  "
+                                                                  + factor[1].ToString().PadLeft(4) + "  "
+                                                                  + factor[2].ToString().PadLeft(4) + "  "
                                                                   + "    "
-                                                                  + ncomb.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
+                                                                  + ncomb.ToString().PadLeft(5) + "");
             }
         }
     }
@@ -138,10 +138,10 @@ public static class MultinomialTest
 
             ncomb = Multinomial.multinomial_coef2(nfactor, factor);
 
-            Console.WriteLine(factor[0].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                              + factor[1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+            Console.WriteLine(factor[0].ToString().PadLeft(4) + "  "
+                                                              + factor[1].ToString().PadLeft(4) + "  "
                                                               + "    "
-                                                              + ncomb.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
+                                                              + ncomb.ToString().PadLeft(5) + "");
 
         }
 
@@ -164,11 +164,11 @@ public static class MultinomialTest
 
                 ncomb = Multinomial.multinomial_coef2(nfactor, factor);
 
-                Console.WriteLine(factor[0].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                                  + factor[1].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                                  + factor[2].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                Console.WriteLine(factor[0].ToString().PadLeft(4) + "  "
+                                                                  + factor[1].ToString().PadLeft(4) + "  "
+                                                                  + factor[2].ToString().PadLeft(4) + "  "
                                                                   + "    "
-                                                                  + ncomb.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
+                                                                  + ncomb.ToString().PadLeft(5) + "");
 
             }
 

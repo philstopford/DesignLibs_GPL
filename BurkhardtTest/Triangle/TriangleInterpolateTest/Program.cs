@@ -89,29 +89,29 @@ internal class Program
         Console.WriteLine("");
         Console.WriteLine("       X               Y               V(1)            V(2)            V(3)");
         Console.WriteLine("");
-        Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v1[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v1[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-        Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v2[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v2[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-        Console.WriteLine("  " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v3[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v3[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                               + "  " + v3[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + p1[0].ToString().PadLeft(14)
+                               + "  " + p1[1].ToString().PadLeft(14)
+                               + "  " + v1[0].ToString().PadLeft(14)
+                               + "  " + v1[1].ToString().PadLeft(14)
+                               + "  " + v1[2].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + p2[0].ToString().PadLeft(14)
+                               + "  " + p2[1].ToString().PadLeft(14)
+                               + "  " + v2[0].ToString().PadLeft(14)
+                               + "  " + v2[1].ToString().PadLeft(14)
+                               + "  " + v2[2].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + p3[0].ToString().PadLeft(14)
+                               + "  " + p3[1].ToString().PadLeft(14)
+                               + "  " + v3[0].ToString().PadLeft(14)
+                               + "  " + v3[1].ToString().PadLeft(14)
+                               + "  " + v3[2].ToString().PadLeft(14) + "");
         Console.WriteLine("");
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine("  " + p[(0 + j * m) % p.Length].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + p[(1 + j * m) % p.Length].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + v[(0 + j * m) % v.Length].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + v[(1 + j * m) % v.Length].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + v[(2 + j * m) % v.Length].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + p[(0 + j * m) % p.Length].ToString().PadLeft(14)
+                                   + "  " + p[(1 + j * m) % p.Length].ToString().PadLeft(14)
+                                   + "  " + v[(0 + j * m) % v.Length].ToString().PadLeft(14)
+                                   + "  " + v[(1 + j * m) % v.Length].ToString().PadLeft(14)
+                                   + "  " + v[(2 + j * m) % v.Length].ToString().PadLeft(14) + "");
         }
     }
 }

@@ -94,8 +94,8 @@ internal class Program
         Console.WriteLine("");
         for (int j = 0; j < node_num; j++)
         {
-            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + node_x[j].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
+            Console.WriteLine("  " + j.ToString().PadLeft(8)
+                                   + "  " + node_x[j].ToString().PadLeft(7) + "");
         }
 
         for (int j = 0; j < node_num; j++)
@@ -123,8 +123,8 @@ internal class Program
             x = UniformRNG.r8_uniform(1.0, 4.5, ref seed);
             phi = LocalBasis.local_basis_1d(node_num, node_x, x);
             double s = typeMethods.r8vec_sum(node_num, phi);
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + s.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(14)
+                                   + "  " + s.ToString().PadLeft(14) + "");
         }
     }
 }

@@ -54,9 +54,9 @@ public static class bellTest
             Burkardt.Values.Bell.bell ( n, ref c2 );
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)     + "  "
-                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(8)     + "  "
-                              + c2[n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                              + n.ToString().PadLeft(4)     + "  "
+                              + c.ToString().PadLeft(8)     + "  "
+                              + c2[n].ToString().PadLeft(8) + "");
                 
         }
 
@@ -99,10 +99,10 @@ public static class bellTest
         for ( n = 0; n <= n_max; n++ )
         {
             c = Bell.bell_poly_coef ( n );
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":  ";
+            string cout = "  " + n.ToString().PadLeft(2) + ":  ";
             for ( i = 0; i <= n; i++ )
             {
-                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += "  " + c[i].ToString().PadLeft(6);
             }
             Console.WriteLine(cout);
         }

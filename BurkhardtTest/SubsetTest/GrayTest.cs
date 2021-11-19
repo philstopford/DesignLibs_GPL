@@ -72,11 +72,11 @@ public static class GrayTest
             }
 
             string cout = "  "
-                          + data.k.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                          + change.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+                          + data.k.ToString().PadLeft(2) + "  "
+                          + change.ToString().PadLeft(6) + "  ";
             for (i = 0; i < n; i++)
             {
-                cout += g[i].ToString(CultureInfo.InvariantCulture).PadLeft(1);
+                cout += g[i].ToString().PadLeft(1);
             }
 
             Console.WriteLine(cout);
@@ -125,9 +125,9 @@ public static class GrayTest
 
             rank2 = Ranking.gray_rank(gray);
 
-            Console.WriteLine(rank.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + gray.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + rank2.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+            Console.WriteLine(rank.ToString().PadLeft(9) + "  "
+                                                         + gray.ToString().PadLeft(9) + "  "
+                                                         + rank2.ToString().PadLeft(9) + "");
         }
     }
 
@@ -173,9 +173,9 @@ public static class GrayTest
 
             rank2 = Ranking.gray_rank2(gray);
 
-            Console.WriteLine(rank.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + gray.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + rank2.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+            Console.WriteLine(rank.ToString().PadLeft(9) + "  "
+                                                         + gray.ToString().PadLeft(9) + "  "
+                                                         + rank2.ToString().PadLeft(9) + "");
         }
     }
 
@@ -221,9 +221,9 @@ public static class GrayTest
 
             rank2 = Ranking.gray_rank(gray);
 
-            Console.WriteLine(rank.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + gray.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + rank2.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+            Console.WriteLine(rank.ToString().PadLeft(9) + "  "
+                                                         + gray.ToString().PadLeft(9) + "  "
+                                                         + rank2.ToString().PadLeft(9) + "");
         }
     }
 
@@ -269,9 +269,9 @@ public static class GrayTest
 
             rank2 = Ranking.gray_rank2(gray);
 
-            Console.WriteLine(rank.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + gray.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
-                                                         + rank2.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+            Console.WriteLine(rank.ToString().PadLeft(9) + "  "
+                                                         + gray.ToString().PadLeft(9) + "  "
+                                                         + rank2.ToString().PadLeft(9) + "");
         }
     }
 

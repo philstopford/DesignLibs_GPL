@@ -331,12 +331,12 @@ internal class Program
         s_total = 0;
         for (i = 0; i < component_num; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
+                                   + "  " + s[i].ToString().PadLeft(8) + "");
             s_total += s[i];
         }
 
         Console.WriteLine("------  --------");
-        Console.WriteLine(" Total  " + s_total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+        Console.WriteLine(" Total  " + s_total.ToString().PadLeft(8) + "");
     }
 }

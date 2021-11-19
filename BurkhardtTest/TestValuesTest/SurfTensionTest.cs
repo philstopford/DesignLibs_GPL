@@ -45,8 +45,8 @@ public class SurfTensionTest
                 break;
             }
             Console.WriteLine( "  "
-                               + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + tc    + "  "
-                               + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + sigma + "");
+                               + tc.ToString().PadLeft(12) + tc    + "  "
+                               + sigma.ToString().PadLeft(12) + sigma + "");
         }
     }
 }

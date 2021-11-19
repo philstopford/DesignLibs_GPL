@@ -137,9 +137,9 @@ public static class NormalTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + mu.ToString().PadLeft(12) + "  "
+                              + sigma.ToString().PadLeft(12) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -186,9 +186,9 @@ public static class NormalTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + mu.ToString().PadLeft(12) + "  "
+                              + sigma.ToString().PadLeft(12) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

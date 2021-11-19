@@ -63,10 +63,10 @@ internal partial class Program
             x2 = Zipf.zipf_cdf_inv(a, cdf);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + x.ToString().PadLeft(12) + "  "
+                              + pdf.ToString().PadLeft(12) + "  "
+                              + cdf.ToString().PadLeft(12) + "  "
+                              + x2.ToString().PadLeft(12) + "");
         }
     }
 

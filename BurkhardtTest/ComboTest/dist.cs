@@ -39,11 +39,11 @@ internal partial class Program
 
         for (m = 0; m <= 10; m++)
         {
-            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+            string cout = "  " + m.ToString().PadLeft(2)
                                + ":  ";
             for (n = 0; n <= 5; n++)
             {
-                cout += "  " + Ranking.dist_enum(m, n).ToString(CultureInfo.InvariantCulture).PadLeft(6);
+                cout += "  " + Ranking.dist_enum(m, n).ToString().PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -108,10 +108,10 @@ internal partial class Program
             }
 
             idist += 1;
-            string cout = "  " + idist.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            string cout = "  " + idist.ToString().PadLeft(4);
             for (i = 0; i < k; i++)
             {
-                cout += "  " + q[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += "  " + q[i].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);

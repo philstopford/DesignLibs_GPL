@@ -126,11 +126,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -201,11 +201,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -276,11 +276,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -352,11 +352,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -428,11 +428,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -504,11 +504,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -594,11 +594,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -684,12 +684,12 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + z[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + z[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + m.ToString().PadLeft(8)
+                                   + "  " + z[0].ToString().PadLeft(8)
+                                   + "  " + z[1].ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -775,11 +775,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -865,11 +865,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -955,11 +955,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -1033,11 +1033,11 @@ internal class Program
 
             error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString().PadLeft(8)
+                                   + "  " + m.ToString().PadLeft(8)
+                                   + "  " + exact.ToString().PadLeft(10)
+                                   + "  " + quad.ToString().PadLeft(10)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
 
     }
@@ -1145,10 +1145,10 @@ internal class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + m.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + z[dim].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1165,10 +1165,10 @@ internal class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + m.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + z[dim].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1185,10 +1185,10 @@ internal class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + m.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + z[dim].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1205,10 +1205,10 @@ internal class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + m.ToString().PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                cout += "  " + z[dim].ToString().PadLeft(8);
             }
 
             Console.WriteLine(cout);

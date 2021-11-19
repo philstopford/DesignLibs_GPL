@@ -47,9 +47,9 @@ public static class DegRadTest
             angle_deg = 30 * i;
             angle_rad = Helpers.degrees_to_radians ( angle_deg );
             angle_deg2 = Helpers.radians_to_degrees ( angle_rad );
-            Console.WriteLine("  " + angle_deg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + angle_rad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + angle_deg2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + angle_deg.ToString().PadLeft(10)
+                                   + "  " + angle_rad.ToString().PadLeft(10)
+                                   + "  " + angle_deg2.ToString().PadLeft(10) + "");
         }
     }
 

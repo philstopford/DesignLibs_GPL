@@ -46,8 +46,8 @@ public static class BinomialTest
                 break;
             }
 
-            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+            Console.WriteLine("  " + a.ToString().PadLeft(6)
+                                   + "  " + b.ToString().PadLeft(6)
                                    + "  " + c.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -94,9 +94,9 @@ public static class BinomialTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + a.ToString().PadLeft(6) + "  "
+                              + b.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(4) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -143,9 +143,9 @@ public static class BinomialTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + a.ToString().PadLeft(6) + "  "
                               + b.ToString("0.################").PadLeft(24) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + x.ToString().PadLeft(4) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -192,9 +192,9 @@ public static class BinomialTest
             }
 
             Console.WriteLine("  "
-                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + f.ToString().PadLeft(6) + "  "
+                              + s.ToString().PadLeft(6) + "  "
+                              + p.ToString().PadLeft(12) + "  "
                               + cdf.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -62,10 +62,10 @@ internal partial class Program
             ncomb2 = Burkardt.PolynomialNS.Multinomial.multinomial_coef2(nfactor, factor);
 
             Console.WriteLine("  "
-                              + factor[0].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                              + factor[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                              + ncomb1.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
-                              + ncomb2.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
+                              + factor[0].ToString().PadLeft(2) + "  "
+                              + factor[1].ToString().PadLeft(2) + "  "
+                              + ncomb1.ToString().PadLeft(5) + "  "
+                              + ncomb2.ToString().PadLeft(5) + "");
         }
 
         Console.WriteLine("");
@@ -90,11 +90,11 @@ internal partial class Program
                 ncomb2 = Burkardt.PolynomialNS.Multinomial.multinomial_coef2(nfactor, factor);
 
                 Console.WriteLine("  "
-                                  + factor[0].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                  + factor[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                  + factor[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                  + ncomb1.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
-                                  + ncomb2.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "");
+                                  + factor[0].ToString().PadLeft(2) + "  "
+                                  + factor[1].ToString().PadLeft(2) + "  "
+                                  + factor[2].ToString().PadLeft(2) + "  "
+                                  + ncomb1.ToString().PadLeft(5) + "  "
+                                  + ncomb2.ToString().PadLeft(5) + "");
             }
         }
 
@@ -188,11 +188,11 @@ internal partial class Program
         for (i = 0; i < B; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + mean[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + variance[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
-                              + xmax[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + mean[i].ToString().PadLeft(12) + "  "
+                              + variance[i].ToString().PadLeft(12) + "  "
+                              + xmin[i].ToString().PadLeft(12) + "  "
+                              + xmax[i].ToString().PadLeft(12) + "");
         }
 
     }
@@ -310,8 +310,8 @@ internal partial class Program
         for (x = -1; x <= n; x++)
         {
             pdf = Multinoulli.multinoulli_pdf(x, n, theta);
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(2)
+                                   + "  " + pdf.ToString().PadLeft(14) + "");
         }
 
     }

@@ -98,10 +98,10 @@ internal class Program
 
             double fx2 = Algorithms.chyper(point, sam, x, pop, suc, ref ifault);
 
-            Console.WriteLine("  " + sam.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + suc.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + pop.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("  " + sam.ToString().PadLeft(4)
+                                   + "  " + suc.ToString().PadLeft(4)
+                                   + "  " + pop.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(4)
                                    + "  " + fx.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
                                    + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");
@@ -162,10 +162,10 @@ internal class Program
 
             double fx2 = Algorithms.chyper(point, sam, x, pop, suc, ref ifault);
 
-            Console.WriteLine("  " + sam.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + suc.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + pop.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+            Console.WriteLine("  " + sam.ToString().PadLeft(4)
+                                   + "  " + suc.ToString().PadLeft(4)
+                                   + "  " + pop.ToString().PadLeft(4)
+                                   + "  " + x.ToString().PadLeft(4)
                                    + "  " + fx.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
                                    + "  " + Math.Abs(fx - fx2).ToString("0.####").PadLeft(10) + "");

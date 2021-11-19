@@ -107,12 +107,12 @@ internal class Program
             exact = Integrals.hypercube01_monomial_integral(m, e);
             error = Math.Abs(result - exact);
 
-            Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + e[0].ToString().PadLeft(2)
+                                   + "  " + e[1].ToString().PadLeft(2)
+                                   + "  " + e[2].ToString().PadLeft(2)
+                                   + "  " + result.ToString().PadLeft(14)
+                                   + "  " + exact.ToString().PadLeft(14)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
     }
 
@@ -177,15 +177,15 @@ internal class Program
             exact = Integrals.hypercube01_monomial_integral(m, e);
             error = Math.Abs(result - exact);
 
-            Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[4].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + e[5].ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + e[0].ToString().PadLeft(2)
+                                   + "  " + e[1].ToString().PadLeft(2)
+                                   + "  " + e[2].ToString().PadLeft(2)
+                                   + "  " + e[3].ToString().PadLeft(2)
+                                   + "  " + e[4].ToString().PadLeft(2)
+                                   + "  " + e[5].ToString().PadLeft(2)
+                                   + "  " + result.ToString().PadLeft(14)
+                                   + "  " + exact.ToString().PadLeft(14)
+                                   + "  " + error.ToString().PadLeft(10) + "");
         }
     }
 }

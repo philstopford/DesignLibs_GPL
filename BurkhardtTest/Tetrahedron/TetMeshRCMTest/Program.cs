@@ -284,9 +284,9 @@ internal class Program
                 Console.WriteLine("");
                 for (i = 0; i < node_num; i++)
                 {
-                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + perm[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                           + "  " + perm_inv[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + "  " + perm[i].ToString().PadLeft(8)
+                                           + "  " + perm_inv[i].ToString().PadLeft(8) + "");
                 }
 
                 break;

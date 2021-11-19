@@ -74,13 +74,13 @@ public static class ShapeTest
 
             dist = Shape.shape_point_dist_2d(pc, p1, SIDE_NUM, p);
 
-            string cout = "  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            string cout = "  " + test.ToString().PadLeft(6);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+                cout += "  " + p[i].ToString().PadLeft(12);
             }
 
-            Console.WriteLine(cout + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine(cout + "  " + dist.ToString().PadLeft(12) + "");
         }
 
     }
@@ -149,10 +149,10 @@ public static class ShapeTest
 
             dist = Shape.shape_point_dist_2d(pc, p1, SIDE_NUM, p);
 
-            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + test.ToString().PadLeft(6)
+                                   + "  " + p[0].ToString().PadLeft(10)
+                                   + "  " + p[1].ToString().PadLeft(10)
+                                   + "  " + dist.ToString().PadLeft(10) + "");
         }
     }
 
@@ -221,12 +221,12 @@ public static class ShapeTest
 
             Shape.shape_point_near_2d(pc, p1, SIDE_NUM, p, ref pn, ref dist);
 
-            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + test.ToString().PadLeft(6)
+                                   + "  " + p[0].ToString().PadLeft(10)
+                                   + "  " + p[1].ToString().PadLeft(10)
+                                   + "  " + pn[0].ToString().PadLeft(10)
+                                   + "  " + pn[1].ToString().PadLeft(10)
+                                   + "  " + dist.ToString().PadLeft(10) + "");
         }
 
     }
@@ -291,8 +291,8 @@ public static class ShapeTest
         Console.WriteLine("");
         Console.WriteLine("  Hexagon vertex #1:");
         Console.WriteLine("");
-        Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                               + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+        Console.WriteLine("  " + p1[0].ToString().PadLeft(10)
+                               + "  " + p1[1].ToString().PadLeft(10) + "");
 
         Console.WriteLine("");
         Console.WriteLine("  TEST       XA          YA          XB"
@@ -306,13 +306,13 @@ public static class ShapeTest
 
             Shape.shape_ray_int_2d(pc, p1, SIDE_NUM, pa, pb, ref pint);
 
-            Console.WriteLine("  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + pa[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pa[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pb[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pb[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pint[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + pint[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + test.ToString().PadLeft(6)
+                                   + "  " + pa[0].ToString().PadLeft(10)
+                                   + "  " + pa[1].ToString().PadLeft(10)
+                                   + "  " + pb[0].ToString().PadLeft(10)
+                                   + "  " + pb[1].ToString().PadLeft(10)
+                                   + "  " + pint[0].ToString().PadLeft(10)
+                                   + "  " + pint[1].ToString().PadLeft(10) + "");
         }
 
     }

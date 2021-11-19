@@ -44,7 +44,7 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -91,9 +91,9 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + mu.ToString().PadLeft(8) + "  "
+                              + sigma.ToString().PadLeft(8) + "  "
+                              + x.ToString().PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -140,7 +140,7 @@ public static class LogarithmTest
 
             Console.WriteLine("  "
                               + t.ToString("0.################").PadLeft(24) + "  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString().PadLeft(6) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -229,7 +229,7 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString().PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -275,7 +275,7 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString().PadLeft(6) + "  "
                               + z.ToString("0.################").PadLeft(24) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }

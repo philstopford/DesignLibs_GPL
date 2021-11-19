@@ -208,9 +208,9 @@ internal class Program
 
             result_03 = TriangleQuad.sphere01_triangle_quad_03(v1, v2, v3, polyterm_value_3d);
 
-            Console.WriteLine("  " + result_01.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result_02.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result_03.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + result_01.ToString().PadLeft(14)
+                                   + "  " + result_02.ToString().PadLeft(14)
+                                   + "  " + result_03.ToString().PadLeft(14) + "");
 
         }
     }
@@ -380,9 +380,9 @@ internal class Program
             result_03 = TriangleQuad.sphere01_triangle_quad_00(n_mc3, v1, v2, v3,
                 polyterm_value_3d, ref seed);
 
-            Console.WriteLine("  " + result_01.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result_02.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result_03.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + result_01.ToString().PadLeft(14)
+                                   + "  " + result_02.ToString().PadLeft(14)
+                                   + "  " + result_03.ToString().PadLeft(14) + "");
 
         }
 
@@ -560,10 +560,10 @@ internal class Program
 
                 error = Math.Abs(result - best);
 
-                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
-                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + factor.ToString().PadLeft(4)
+                                       + "  " + node_num.ToString().PadLeft(8)
+                                       + "  " + result.ToString().PadLeft(16)
+                                       + "  " + error.ToString().PadLeft(10) + "");
 
                 factor *= 2;
             }
@@ -742,10 +742,10 @@ internal class Program
 
                 error = Math.Abs(result - best);
 
-                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
-                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + factor.ToString().PadLeft(4)
+                                       + "  " + node_num.ToString().PadLeft(8)
+                                       + "  " + result.ToString().PadLeft(16)
+                                       + "  " + error.ToString().PadLeft(10) + "");
 
                 factor *= 2;
             }
@@ -925,10 +925,10 @@ internal class Program
 
                 error = Math.Abs(result - best);
 
-                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
-                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + factor.ToString().PadLeft(4)
+                                       + "  " + node_num.ToString().PadLeft(8)
+                                       + "  " + result.ToString().PadLeft(16)
+                                       + "  " + error.ToString().PadLeft(10) + "");
 
                 factor *= 2;
             }
@@ -1107,10 +1107,10 @@ internal class Program
 
                 error = Math.Abs(result - best);
 
-                Console.WriteLine("  " + factor.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                       + "  " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
-                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + factor.ToString().PadLeft(4)
+                                       + "  " + node_num.ToString().PadLeft(8)
+                                       + "  " + result.ToString().PadLeft(16)
+                                       + "  " + error.ToString().PadLeft(10) + "");
 
                 factor *= 2;
             }

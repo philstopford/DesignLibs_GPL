@@ -67,7 +67,7 @@ public static class tests2
             {
                 order = (int)Math.Pow(2, j);
 
-                cout += Circle.circle_cum(function_2d_index, functions.function_2d, center, r, order).ToString(CultureInfo.InvariantCulture)
+                cout += Circle.circle_cum(function_2d_index, functions.function_2d, center, r, order).ToString()
                     .PadLeft(14);
             }
 
@@ -135,12 +135,12 @@ public static class tests2
 
             area3 = Lens.lens_half_area_2d(r, theta1, theta2);
 
-            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                   + "  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + area3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + r.ToString().PadLeft(9)
+                                   + "  " + theta1.ToString().PadLeft(9)
+                                   + "  " + theta2.ToString().PadLeft(14)
+                                   + "  " + area1.ToString().PadLeft(14)
+                                   + "  " + area2.ToString().PadLeft(14)
+                                   + "  " + area3.ToString().PadLeft(14) + "");
         }
 
     }
@@ -204,13 +204,13 @@ public static class tests2
 
             area3 = Lens.lens_half_w_area_2d(r, w);
 
-            Console.WriteLine("  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + w.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                   + "  " + area3.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+            Console.WriteLine("  " + theta1.ToString().PadLeft(6)
+                                   + "  " + theta2.ToString().PadLeft(6)
+                                   + "  " + h.ToString().PadLeft(6)
+                                   + "  " + w.ToString().PadLeft(6)
+                                   + "  " + area1.ToString().PadLeft(10)
+                                   + "  " + area2.ToString().PadLeft(10)
+                                   + "  " + area3.ToString().PadLeft(10) + "");
         }
 
     }
@@ -308,17 +308,17 @@ public static class tests2
             Console.WriteLine("");
             Console.WriteLine("       CENTER      RADIUS  THETA1  THETA2  Area");
             Console.WriteLine("");
-            Console.WriteLine(center[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                              + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                              + radius.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                              + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                              + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                              + area.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine(center[0].ToString().PadLeft(8)
+                              + center[1].ToString().PadLeft(8)
+                              + radius.ToString().PadLeft(8)
+                              + theta1.ToString().PadLeft(8)
+                              + theta2.ToString().PadLeft(8)
+                              + area.ToString().PadLeft(8) + "");
             Console.WriteLine("");
             string cout = "       F   ";
             for (nr = nrlo; nr <= nrhi; nr++)
             {
-                cout += "      " + nr.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "      ";
+                cout += "      " + nr.ToString().PadLeft(2) + "      ";
             }
 
             Console.WriteLine(cout);
@@ -339,7 +339,7 @@ public static class tests2
                     result = Circle.circle_sector(function_2d_index, functions.function_2d, center, radius, theta1,
                         theta2,
                         nr);
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -475,14 +475,14 @@ public static class tests2
             Console.WriteLine("");
             Console.WriteLine("      CENTER       RADIUS   THETA1   THETA2   Area1   Area2  Circle");
             Console.WriteLine("");
-            Console.WriteLine(center[0].ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + radius.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + area1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + area2.ToString(CultureInfo.InvariantCulture).PadLeft(9)
-                              + area3.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
+            Console.WriteLine(center[0].ToString().PadLeft(9)
+                              + center[1].ToString().PadLeft(9)
+                              + radius.ToString().PadLeft(9)
+                              + theta1.ToString().PadLeft(9)
+                              + theta2.ToString().PadLeft(9)
+                              + area1.ToString().PadLeft(9)
+                              + area2.ToString().PadLeft(9)
+                              + area3.ToString().PadLeft(9) + "");
             Console.WriteLine("");
             Console.WriteLine("       F   Sector1       Sector2         Sum         Circle");
             Console.WriteLine("");
@@ -507,10 +507,10 @@ public static class tests2
                     nt, ta, tw, zw);
 
                 Console.WriteLine("  " + name
-                                       + resulta.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + resultb.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                       + resulta.ToString().PadLeft(14)
+                                       + resultb.ToString().PadLeft(14)
+                                       + result1.ToString().PadLeft(14)
+                                       + result2.ToString().PadLeft(14) + "");
             }
         }
     }
@@ -567,8 +567,8 @@ public static class tests2
         Console.WriteLine("");
         Console.WriteLine("  We use a radius " + r + "");
         Console.WriteLine("  and center:");
-        Console.WriteLine("  CENTER = " + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                        + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  CENTER = " + center[0].ToString().PadLeft(14)
+                                        + center[1].ToString().PadLeft(14) + "");
         Console.WriteLine("");
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
@@ -579,7 +579,7 @@ public static class tests2
             string cout = "  Rule:  ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += "       " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(7);
+                cout += "       " + rule.ToString().PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -607,7 +607,7 @@ public static class tests2
                     result = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, r, nr, ra, rw,
                         nt, ta,
                         tw, zw);
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -676,7 +676,7 @@ public static class tests2
             string cout = "  Rule:  ";
             for (rule = ilo; rule <= ihi; rule++)
             {
-                cout += "       " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(7);
+                cout += "       " + rule.ToString().PadLeft(7);
             }
 
             Console.WriteLine(cout);
@@ -705,7 +705,7 @@ public static class tests2
                         ytab,
                         weight);
 
-                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                    cout += result.ToString().PadLeft(14);
 
                 }
 
@@ -1056,7 +1056,7 @@ public static class tests2
             result = Cone.cone_unit_3d(function_3d_index, functions.function_3d);
 
             Console.WriteLine("  " + name
-                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + result.ToString().PadLeft(14) + "");
         }
     }
 
@@ -1128,7 +1128,7 @@ public static class tests2
                     result = Cube.cube_shell_nd(function_nd_index, functions.function_nd, n, r1, r2);
 
                     Console.WriteLine("  " + name
-                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                           + result.ToString().PadLeft(14) + "");
                 }
             }
         }
@@ -1200,9 +1200,9 @@ public static class tests2
             result3 = Rectangle.rectangle_3d(function_3d_index, functions.function_3d, a, b);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                                   + "  " + result1.ToString().PadLeft(14)
+                                   + "  " + result2.ToString().PadLeft(14)
+                                   + "  " + result3.ToString().PadLeft(14) + "");
         }
     }
 

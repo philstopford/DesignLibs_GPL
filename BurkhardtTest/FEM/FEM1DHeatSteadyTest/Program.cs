@@ -107,11 +107,11 @@ internal class Program
         for (i = 0; i < n; i++)
         {
             uexact = FEM_Test_Methods.exact1(x[i]);
-            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString().PadLeft(4)
+                                   + "  " + x[i].ToString().PadLeft(8)
+                                   + "  " + u[i].ToString().PadLeft(14)
+                                   + "  " + uexact.ToString().PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
         }
     }
 }

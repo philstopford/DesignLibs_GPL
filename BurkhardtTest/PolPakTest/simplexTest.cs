@@ -40,11 +40,11 @@ public static class simplexTest
 
         for (n = 0; n <= 10; n++)
         {
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+            string cout = "  " + n.ToString().PadLeft(2);
             for (m = 0; m <= 5; m++)
             {
                 value = Simplex.simplex_num(m, n);
-                cout += "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+                cout += "  " + value.ToString().PadLeft(4);
             }
 
             Console.WriteLine(cout);

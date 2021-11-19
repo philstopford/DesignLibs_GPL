@@ -113,12 +113,12 @@ internal class Program
                     exact = Integrals.wedge01_integral(expon);
                     error = Math.Abs(q - exact);
 
-                    Console.WriteLine(expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
-                                                                     + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                                                     + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
-                                                                     + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                                     + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
-                                                                     + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+                    Console.WriteLine(expon[0].ToString().PadLeft(4) + "  "
+                                                                     + expon[1].ToString().PadLeft(2) + "  "
+                                                                     + expon[2].ToString().PadLeft(2) + "  "
+                                                                     + q.ToString().PadLeft(14) + "  "
+                                                                     + exact.ToString().PadLeft(14) + "  "
+                                                                     + error.ToString().PadLeft(14) + "");
                 }
             }
         }

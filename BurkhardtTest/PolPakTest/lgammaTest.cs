@@ -53,9 +53,9 @@ public static class lgammaTest
             fx2 = Helpers.LogGamma(x);
 
             Console.WriteLine("  "
-                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
-                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + x.ToString().PadLeft(8) + "  "
+                              + fx.ToString().PadLeft(10) + "  "
+                              + fx2.ToString().PadLeft(10) + "");
 
         }
 

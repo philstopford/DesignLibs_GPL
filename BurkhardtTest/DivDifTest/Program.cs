@@ -240,8 +240,8 @@ internal class Program
             ytab[j] = Math.Exp(xtab[j]);
 
             Console.WriteLine("  "
-                              + xtab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + ytab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + xtab[j].ToString().PadLeft(10) + "  "
+                              + ytab[j].ToString().PadLeft(10) + "");
         }
 
         xval = 2.5;
@@ -269,9 +269,9 @@ internal class Program
             error = yval - true_value;
 
             Console.WriteLine("  "
-                              + ntab.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + ntab.ToString().PadLeft(6) + "  "
+                              + yval.ToString().PadLeft(10) + "  "
+                              + error.ToString().PadLeft(10) + "");
 
         }
     }
@@ -343,7 +343,7 @@ internal class Program
             cout = "  ";
             for (j = 0; j < NTAB; j++)
             {
-                cout += pointerIndex.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
+                cout += pointerIndex.ToString().PadLeft(10) + "  ";
                 pointerIndex++;
             }
 
@@ -384,8 +384,8 @@ internal class Program
             yval = Dif.dif_val(NTAB, xtab, pointer, xval, diftabIndex:pointerIndex);
 
             Console.WriteLine("  "
-                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + xval.ToString().PadLeft(10) + "  "
+                              + yval.ToString().PadLeft(10) + "");
 
         }
     }
@@ -549,10 +549,10 @@ internal class Program
             yval3 = typeMethods.r8poly_der_val(N, poly_cof, xval);
 
             Console.WriteLine("  "
-                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + yval2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + yval3.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + xval.ToString().PadLeft(10) + "  "
+                              + yval.ToString().PadLeft(10) + "  "
+                              + yval2.ToString().PadLeft(10) + "  "
+                              + yval3.ToString().PadLeft(10) + "");
 
         }
     }
@@ -622,7 +622,7 @@ internal class Program
         {
             for (j = 0; j < NTAB; j++)
             {
-                cout += pointerIndex.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
+                cout += pointerIndex.ToString().PadLeft(10) + "  ";
                 pointerIndex++;
             }
 
@@ -668,8 +668,8 @@ internal class Program
             yval = typeMethods.r8poly_val_horner(NTAB, pointer, xval, polyCofIndex:pointerIndex);
 
             Console.WriteLine("  "
-                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + xval.ToString().PadLeft(10) + "  "
+                              + yval.ToString().PadLeft(10) + "");
 
         }
     }
@@ -718,8 +718,8 @@ internal class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + poly_cof[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + poly_cof[i].ToString().PadLeft(10) + "");
         }
 
         typeMethods.r8poly_shift(scale, shift, N, ref poly_cof);
@@ -734,8 +734,8 @@ internal class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + poly_cof[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + i.ToString().PadLeft(6) + "  "
+                              + poly_cof[i].ToString().PadLeft(10) + "");
         }
     }
 
@@ -782,9 +782,9 @@ internal class Program
         for (i = 0; i < NORDER; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + xtab[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + weight[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + xtab[i].ToString().PadLeft(10) + "  "
+                              + weight[i].ToString().PadLeft(10) + "");
         }
     }
 
@@ -831,9 +831,9 @@ internal class Program
         for (i = 0; i < NORDER; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
-                              + xtab[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
-                              + weight[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                              + (i + 1).ToString().PadLeft(6) + "  "
+                              + xtab[i].ToString().PadLeft(10) + "  "
+                              + weight[i].ToString().PadLeft(10) + "");
         }
     }
 
@@ -1121,12 +1121,12 @@ internal class Program
             y2 = Dif.dif_val(n2, x2, d2, x);
             y3 = Dif.dif_val(n3, x3, d3, x);
             y4 = Dif.dif_val(n4, x4, d4, x);
-            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + y0.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + y1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + y2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + y3.ToString(CultureInfo.InvariantCulture).PadLeft(8)
-                                   + "  " + y4.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + x.ToString().PadLeft(8)
+                                   + "  " + y0.ToString().PadLeft(8)
+                                   + "  " + y1.ToString().PadLeft(8)
+                                   + "  " + y2.ToString().PadLeft(8)
+                                   + "  " + y3.ToString().PadLeft(8)
+                                   + "  " + y4.ToString().PadLeft(8) + "");
         }
     }
 

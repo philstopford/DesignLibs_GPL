@@ -116,7 +116,7 @@ internal class Program
 
         while (n <= 65536)
         {
-            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            string cout = "  " + n.ToString().PadLeft(8);
 
             x = MonteCarlo.pyramid01_sample(n, ref seed);
 
@@ -130,7 +130,7 @@ internal class Program
                 value = Monomial.monomial_value(m, n, e, x);
 
                 result = MonteCarlo.pyramid01_volume() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+                cout += "  " + result.ToString().PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -149,7 +149,7 @@ internal class Program
             }
 
             result = MonteCarlo.pyramid01_integral(e);
-            cout2 += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
+            cout2 += "  " + result.ToString().PadLeft(14);
         }
 
         Console.WriteLine(cout2);

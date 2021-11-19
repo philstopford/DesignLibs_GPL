@@ -48,12 +48,12 @@ public class ClebschGordanTest
             {
                 break;
             }
-            Console.WriteLine("  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + j3.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + m1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + m2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                   + "  " + m3.ToString(CultureInfo.InvariantCulture).PadLeft(6) + m3
+            Console.WriteLine("  " + j1.ToString().PadLeft(6)
+                                   + "  " + j2.ToString().PadLeft(6)
+                                   + "  " + j3.ToString().PadLeft(6)
+                                   + "  " + m1.ToString().PadLeft(6)
+                                   + "  " + m2.ToString().PadLeft(6)
+                                   + "  " + m3.ToString().PadLeft(6) + m3
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -54,7 +54,7 @@ public static class monoTest
             string cout = "  ";
             for (k = 0; k < m; k++)
             {
-                cout += x[k].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[k].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -65,7 +65,7 @@ public static class monoTest
                 cout = "  ";
                 for (k = 0; k < m; k++)
                 {
-                    cout += x[k].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                    cout += x[k].ToString().PadLeft(2);
                 }
 
                 Console.WriteLine(cout);
@@ -184,10 +184,10 @@ public static class monoTest
 
         for (;;)
         {
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "    ";
+            string cout = "  " + i.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[j].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -214,10 +214,10 @@ public static class monoTest
 
             rank = Monomial.mono_rank_grlex(m, x);
 
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "    ";
+            string cout = "  " + rank.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[j].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -284,10 +284,10 @@ public static class monoTest
 
         for (;;)
         {
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "    ";
+            string cout = "  " + i.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[j].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -312,10 +312,10 @@ public static class monoTest
         {
             rank = UniformRNG.i4_uniform_ab(1, rank_max, ref seed);
             x = Monomial.mono_unrank_grlex(m, rank);
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "    ";
+            string cout = "  " + rank.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[j].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -358,7 +358,7 @@ public static class monoTest
         string cout = "";
         for (n = 0; n <= 8; n++)
         {
-            cout += "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            cout += "  " + n.ToString().PadLeft(4);
         }
 
         Console.WriteLine(cout);
@@ -366,11 +366,11 @@ public static class monoTest
         Console.WriteLine("   m +------------------------------------------------------");
         for (m = 1; m <= 8; m++)
         {
-            cout += "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  |";
+            cout += "  " + m.ToString().PadLeft(2) + "  |";
             for (n = 0; n <= 8; n++)
             {
                 v = Monomial.mono_upto_enum(m, n);
-                cout += " " + v.ToString(CultureInfo.InvariantCulture).PadLeft(5);
+                cout += " " + v.ToString().PadLeft(5);
             }
 
             Console.WriteLine(cout);
@@ -429,10 +429,10 @@ public static class monoTest
 
         for (;;)
         {
-            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "    ";
+            string cout = "  " + i.ToString().PadLeft(2) + "    ";
             for (j = 0; j < m; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[j].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);
@@ -496,10 +496,10 @@ public static class monoTest
         for (test = 1; test <= test_num; test++)
         {
             x = Monomial.mono_upto_random(m, n, ref seed, ref rank);
-            string cout = "  " + rank.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "    ";
+            string cout = "  " + rank.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
             {
-                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                cout += x[j].ToString().PadLeft(2);
             }
 
             Console.WriteLine(cout);

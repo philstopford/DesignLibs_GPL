@@ -89,9 +89,9 @@ internal class Program
                 q = i;
                 q_in = q;
                 Pink.wrap2(m, ref q);
-                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + q_in.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
+                Console.WriteLine("  " + m.ToString().PadLeft(2)
+                                       + "  " + q_in.ToString().PadLeft(2)
+                                       + "  " + q.ToString().PadLeft(2) + "");
             }
         }
     }
@@ -139,10 +139,10 @@ internal class Program
             {
                 q_in = q;
                 Pink.cdelay2(m, ref q);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + q_in.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                       + "  " + m.ToString().PadLeft(2)
+                                       + "  " + q_in.ToString().PadLeft(2)
+                                       + "  " + q.ToString().PadLeft(2) + "");
             }
         }
     }
@@ -190,11 +190,11 @@ internal class Program
             for (i = 1; i <= 20; i++)
             {
                 y = Pink.ranh(d, ref u, ref q);
-                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                       + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
-                                       + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(2)
+                                       + "  " + d.ToString().PadLeft(2)
+                                       + "  " + q.ToString().PadLeft(2)
+                                       + "  " + u.ToString().PadLeft(10)
+                                       + "  " + y.ToString().PadLeft(10) + "");
             }
         }
     }
@@ -255,9 +255,9 @@ internal class Program
                 for (i = 1; i <= 20; i++)
                 {
                     y = Pink.ran1f(b, ref u, ref q);
-                    Console.WriteLine("  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                           + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
-                                           + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
+                    Console.WriteLine("  " + b.ToString().PadLeft(2)
+                                           + "  " + i.ToString().PadLeft(2)
+                                           + "  " + y.ToString().PadLeft(10) + "");
                 }
             }
         }

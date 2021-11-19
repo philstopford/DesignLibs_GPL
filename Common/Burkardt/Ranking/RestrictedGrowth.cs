@@ -44,32 +44,26 @@ public static partial class Ranking
         //    TRUE, the data is legal.
         //    FALSE, the data is not legal.
     {
-        bool check;
-        int fmax;
         int i;
-
-        check = true;
 
         switch (m)
         {
             case <= 0:
-                check = false;
-                return check;
+                return false;
         }
 
-        fmax = 0;
+        int fmax = 0;
         for (i = 0; i < m; i++)
         {
             if (f[i] <= 0 || fmax + 1 < f[i])
             {
-                check = false;
-                return check;
+                return false;
             }
 
             fmax = Math.Max(fmax, f[i]);
         }
 
-        return check;
+        return true;
     }
 
     public static int rgf_enum(int m)
@@ -110,9 +104,6 @@ public static partial class Ranking
         //    functions.
         // 
     {
-        int[] b;
-        int i;
-        int j;
         int value;
 
         switch (m)
@@ -125,11 +116,13 @@ public static partial class Ranking
                 break;
             default:
             {
-                b = new int[m + 1];
+                int[] b = new int[m + 1];
                 b[0] = 1;
+                int j;
                 for (j = 1; j <= m; j++)
                 {
                     b[j] = 0;
+                    int i;
                     for (i = 0; i < j; i++)
                     {
                         b[j] += typeMethods.i4_choose(j - 1, i) * b[i];
@@ -195,11 +188,10 @@ public static partial class Ranking
         //    parameter J.
         // 
     {
-        int[] d;
         int i;
         int j;
 
-        d = new int[(m + 1) * (m + 1)];
+        int[] d = new int[(m + 1) * (m + 1)];
 
         for (j = 0; j <= m; j++)
         {
@@ -263,15 +255,11 @@ public static partial class Ranking
         //    function.
         // 
     {
-        bool check;
-        int[] d;
         int i;
-        int j;
-        int rank;
         // 
         //  Check.
         // 
-        check = rgf_check(m, f);
+        bool check = rgf_check(m, f);
 
         switch (check)
         {
@@ -285,10 +273,10 @@ public static partial class Ranking
         // 
         //  Get the generalized restricted growth function table.
         // 
-        d = rgf_g_table(m);
+        int[] d = rgf_g_table(m);
 
-        rank = 0;
-        j = 1;
+        int rank = 0;
+        int j = 1;
         for (i = 2; i <= m; i++)
         {
             rank += (f[i - 1] - 1) * d[m - i + j * (m + 1)];
@@ -342,10 +330,7 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
-        int fmax;
         int i;
-        int j;
         switch (rank)
         {
             // 
@@ -366,7 +351,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = rgf_check(m, f);
+        bool check = rgf_check(m, f);
 
         switch (check)
         {
@@ -382,7 +367,8 @@ public static partial class Ranking
         // 
         for (i = m; 2 <= i; i--)
         {
-            fmax = 1;
+            int fmax = 1;
+            int j;
             for (j = 2; j < i; j++)
             {
                 fmax = Math.Max(fmax, f[j - 1]);
@@ -464,14 +450,11 @@ public static partial class Ranking
         //    are S(INDEX(1)+1) through S(INDEX(2)) and so on.
         // 
     {
-        bool check;
         int i;
-        int j;
-        int k;
         // 
         //  Check.
         // 
-        check = rgf_check(m, f);
+        bool check = rgf_check(m, f);
 
         switch (check)
         {
@@ -503,9 +486,10 @@ public static partial class Ranking
         //  For each subset I, collect the indices of F which have value I.
         //  These are the elements of the I-th subset.
         // 
-        k = 0;
+        int k = 0;
         for (i = 1; i <= nsub; i++)
         {
+            int j;
             for (j = 1; j <= m; j++)
             {
                 if (f[j - 1] == i)
@@ -558,12 +542,7 @@ public static partial class Ranking
         //    Output, int RGF_UNRANK[M], the restricted growth function.
         // 
     {
-        int[] d;
-        int[] f;
         int i;
-        int j;
-        int nrgf;
-        int rank_copy;
         switch (m)
         {
             // 
@@ -576,7 +555,7 @@ public static partial class Ranking
                 return null;
         }
 
-        nrgf = rgf_enum(m);
+        int nrgf = rgf_enum(m);
 
         if (rank < 0 || nrgf < rank)
         {
@@ -589,12 +568,12 @@ public static partial class Ranking
         // 
         //  Get the generalized restricted growth function table.
         // 
-        d = rgf_g_table(m);
+        int[] d = rgf_g_table(m);
 
-        f = new int[m];
+        int[] f = new int[m];
 
-        rank_copy = rank;
-        j = 1;
+        int rank_copy = rank;
+        int j = 1;
         f[0] = 1;
 
         for (i = 2; i <= m; i++)

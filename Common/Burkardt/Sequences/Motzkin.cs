@@ -66,7 +66,6 @@ public static class Motzkin
         //
     {
         int i;
-        int j;
 
         switch (n)
         {
@@ -79,6 +78,7 @@ public static class Motzkin
         for ( i = 1; i <= n; i++ )
         {
             a[i] = a[i-1];
+            int j;
             for ( j = 0; j <= i-2; j++ )
             {
                 a[i] += a[j] * a[i-2-j];

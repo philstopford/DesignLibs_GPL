@@ -44,15 +44,11 @@ public static class Halton
         //    Output, double HALTON[M], the element of the sequence with index I.
         //
     {
-        int d;
         int j;
-        double[] prime_inv;
-        double[] r;
-        int[] t;
 
-        prime_inv = new double[m];
-        r = new double[m];
-        t = new int[m];
+        double[] prime_inv = new double[m];
+        double[] r = new double[m];
+        int[] t = new int[m];
 
         for (j = 0; j < m; j++)
         {
@@ -76,7 +72,7 @@ public static class Halton
         {
             for (j = 0; j < m; j++)
             {
-                d = t[j] % Prime.prime(j + 1);
+                int d = t[j] % Prime.prime(j + 1);
                 r[j] += d * prime_inv[j];
                 prime_inv[j] /= Prime.prime(j + 1);
                 t[j] /= Prime.prime(j + 1);
@@ -126,15 +122,11 @@ public static class Halton
         //    Output, double HALTON_BASE[M], the element of the sequence with index I.
         //
     {
-        double[] b_inv;
-        int d;
         int j;
-        double[] r;
-        int[] t;
 
-        b_inv = new double[m];
-        r = new double[m];
-        t = new int[m];
+        double[] b_inv = new double[m];
+        double[] r = new double[m];
+        int[] t = new int[m];
 
         for (j = 0; j < m; j++)
         {
@@ -158,7 +150,7 @@ public static class Halton
         {
             for (j = 0; j < m; j++)
             {
-                d = t[j] % b[j];
+                int d = t[j] % b[j];
                 r[j] += d * b_inv[j];
                 b_inv[j] /= b[j];
                 t[j] /= b[j];
@@ -198,11 +190,7 @@ public static class Halton
         //    Output, int HALTON_INVERSE, the index of the element of the sequence.
         //
     {
-        int d;
-        int i;
         int j;
-        int p;
-        double t;
 
         for (j = 0; j < m; j++)
         {
@@ -221,14 +209,14 @@ public static class Halton
         //  Invert using the first component only, because working with base
         //  2 is accurate.
         //
-        i = 0;
-        t = r[0];
-        p = 1;
+        int i = 0;
+        double t = r[0];
+        int p = 1;
 
         while (t != 0.0)
         {
             t *= 2.0;
-            d = (int) t;
+            int d = (int) t;
             i += d * p;
             p *= 2;
             t %= 1.0;
@@ -277,19 +265,14 @@ public static class Halton
         //    sequence with indices I1 through I2.
         //
     {
-        int d;
         int i;
         int i3;
         int j;
         int k;
-        int n;
-        double[] prime_inv;
-        double[] r;
-        int[] t;
 
-        prime_inv = new double[m];
-        r = new double[m * (Math.Abs(i1 - i2) + 1)];
-        t = new int[m];
+        double[] prime_inv = new double[m];
+        double[] r = new double[m * (Math.Abs(i1 - i2) + 1)];
+        int[] t = new int[m];
 
         if (i1 <= i2)
         {
@@ -300,7 +283,7 @@ public static class Halton
             i3 = -1;
         }
 
-        n = Math.Abs(i2 - i1) + 1;
+        int n = Math.Abs(i2 - i1) + 1;
 
         for (j = 0; j < n; j++)
         {
@@ -331,7 +314,7 @@ public static class Halton
             {
                 for (j = 0; j < m; j++)
                 {
-                    d = t[j] % Prime.prime(j + 1);
+                    int d = t[j] % Prime.prime(j + 1);
                     r[j + k * m] += d * prime_inv[j];
                     prime_inv[j] /= Prime.prime(j + 1);
                     t[j] /= Prime.prime(j + 1);
@@ -375,9 +358,8 @@ public static class Halton
         //
     {
         int i;
-        bool value;
 
-        value = true;
+        const bool value = true;
 
         for (i = 0; i < dim_num; i++)
         {
@@ -432,23 +414,15 @@ public static class Halton
         //    Output, double HALTON_IN_CIRCLE01_ACCEPT[DIM_NUM*N], the points.
         //
     {
-        int[] base_;
-        int have;
         int i;
-        int[] leap;
-        int[] seed_vec;
-        int step;
-        double total;
-        double[] u;
-        double[] x;
 
-        base_ = new int[dim_num];
-        leap = new int[dim_num];
-        seed_vec = new int[dim_num];
-        u = new double[dim_num];
-        x = new double[dim_num * n];
+        int[] base_ = new int[dim_num];
+        int[] leap = new int[dim_num];
+        int[] seed_vec = new int[dim_num];
+        double[] u = new double[dim_num];
+        double[] x = new double[dim_num * n];
 
-        have = 0;
+        int have = 0;
 
         for (i = 0; i < dim_num; i++)
         {
@@ -467,13 +441,13 @@ public static class Halton
 
         while (have < n)
         {
-            step = seed;
+            int step = seed;
 
             i4_to_halton(dim_num, step, seed_vec, leap, base_, ref u);
 
             seed += 1;
 
-            total = 0.0;
+            double total = 0.0;
             for (i = 0; i < dim_num; i++)
             {
                 u[i] = 2.0 * u[i] - 1.0;
@@ -537,17 +511,13 @@ public static class Halton
         int[] base_ = new int[1];
         int j;
         int[] leap = new int[1];
-        double[] r;
-        int step;
         int[] seed_vec = new int[1];
-        double[] t;
-        double[] x;
 
-        r = new double[n];
-        t = new double[n];
-        x = new double[dim_num * n];
+        double[] r = new double[n];
+        double[] t = new double[n];
+        double[] x = new double[dim_num * n];
 
-        step = 0;
+        int step = 0;
         seed_vec[0] = seed;
         leap[0] = 1;
         base_[0] = Prime.prime(1);
@@ -613,19 +583,14 @@ public static class Halton
         //    Output, double HALTON_IN_CUBE01[DIM_NUM*N], the points
         //
     {
-        int[] base_;
         int i;
-        int[] leap;
-        int[] seed_vec;
-        int step;
-        double[] x;
 
-        base_ = new int[dim_num];
-        leap = new int[dim_num];
-        seed_vec = new int[dim_num];
-        x = new double[dim_num * n];
+        int[] base_ = new int[dim_num];
+        int[] leap = new int[dim_num];
+        int[] seed_vec = new int[dim_num];
+        double[] x = new double[dim_num * n];
 
-        step = seed;
+        int step = seed;
         for (i = 0; i < dim_num; i++)
         {
             seed_vec[i] = 0;
@@ -690,10 +655,7 @@ public static class Halton
         //    for the given bases.
         //
     {
-        double base_inv;
-        int digit;
         int i;
-        int seed2;
 
         for ( i = 0; i < ndim; i++ )
         {
@@ -710,13 +672,13 @@ public static class Halton
 
         for ( i = 0; i < ndim; i++ )
         {
-            seed2 = seed;
-            base_inv = 1.0 / base_[i];
+            int seed2 = seed;
+            double base_inv = 1.0 / base_[i];
             r[rIndex + i] = 0.0;
 
             while ( seed2 != 0 )
             {
-                digit = seed2 % base_[i];
+                int digit = seed2 % base_[i];
                 r[rIndex + i] += digit * base_inv;
                 base_inv /= base_[i];
                 seed2 /= base_[i];
@@ -785,10 +747,7 @@ public static class Halton
         //    Halton subsequence.
         //
     {
-        double base_inv;
-        int digit;
         int i;
-        int seed2;
         //
         //  Check the input.
         //
@@ -822,15 +781,15 @@ public static class Halton
         //
         for (i = 0; i < dim_num; i++)
         {
-            seed2 = seed[i] + step * leap[i];
+            int seed2 = seed[i] + step * leap[i];
 
             r[i] = 0.0;
 
-            base_inv = 1.0 / base_[i];
+            double base_inv = 1.0 / base_[i];
 
             while (seed2 != 0)
             {
-                digit = seed2 % base_[i];
+                int digit = seed2 % base_[i];
                 r[i] += digit * base_inv;
                 base_inv /= base_[i];
                 seed2 /= base_[i];
@@ -924,11 +883,7 @@ public static class Halton
         //    leaped Halton subsequence, beginning with element STEP.
         //
     {
-        double base_inv;
-        int digit;
         int i;
-        int j;
-        int[] seed2;
         //
         //  Check the input.
         //
@@ -965,10 +920,11 @@ public static class Halton
         //
         //  Calculate the data.
         //
-        seed2 = new int[n];
+        int[] seed2 = new int[n];
 
         for (i = 0; i < dim_num; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 seed2[j] = seed[i] + (step + j) * leap[i];
@@ -981,11 +937,11 @@ public static class Halton
 
             for (j = 0; j < n; j++)
             {
-                base_inv = 1.0 / base_[i];
+                double base_inv = 1.0 / base_[i];
 
                 while (seed2[j] != 0)
                 {
-                    digit = seed2[j] % base_[i];
+                    int digit = seed2[j] % base_[i];
                     r[i + j * dim_num] += digit * base_inv;
                     base_inv /= base_[i];
                     seed2[j] /= base_[i];

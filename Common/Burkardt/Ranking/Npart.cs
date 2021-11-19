@@ -48,7 +48,6 @@ public static partial class Ranking
         //    with NPART parts.
         // 
     {
-        int[] p;
         int value;
 
         switch (n)
@@ -64,7 +63,7 @@ public static partial class Ranking
                 }
                 else
                 {
-                    p = npart_table(n, npart);
+                    int[] p = npart_table(n, npart);
 
                     value = p[n + npart * (n + 1)];
                 }
@@ -112,15 +111,11 @@ public static partial class Ranking
         //    sum to N.
         // 
     {
-        int[] a;
-        int npartitions;
-        int rank;
+        int npartitions = npart_enum(n, npart);
 
-        npartitions = npart_enum(n, npart);
+        int rank = UniformRNG.i4_uniform_ab(1, npartitions, ref seed);
 
-        rank = UniformRNG.i4_uniform_ab(1, npartitions, ref seed);
-
-        a = npart_rsf_lex_unrank(rank, n, npart);
+        int[] a = npart_rsf_lex_unrank(rank, n, npart);
 
         return a;
     }
@@ -168,17 +163,11 @@ public static partial class Ranking
         //    Output, int NPART_RSF_LEX_RANK, the rank of the partition.
         // 
     {
-        int[] b;
-        bool check;
         int i;
-        int ncopy;
-        int npartcopy;
-        int[] p;
-        int rank;
         // 
         //  Check.
         // 
-        check = part_rsf_check(n, npart, a);
+        bool check = part_rsf_check(n, npart, a);
 
         switch (check)
         {
@@ -192,20 +181,20 @@ public static partial class Ranking
         // 
         //  Get the table of partitions of N with NPART parts.
         // 
-        p = npart_table(n, npart);
+        int[] p = npart_table(n, npart);
         // 
         //  Copy the partition "backwards".
         //
-        b = new int[npart];
+        int[] b = new int[npart];
 
         for (i = 1; i <= npart; i++)
         {
             b[i - 1] = a[npart - i];
         }
 
-        rank = 0;
-        ncopy = n;
-        npartcopy = npart;
+        int rank = 0;
+        int ncopy = n;
+        int npartcopy = npart;
 
         while (0 < ncopy && 0 < npartcopy)
         {
@@ -281,8 +270,6 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
-        int d;
         int i;
         int j;
         switch (rank)
@@ -312,7 +299,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = part_rsf_check(n, npart, a);
+        bool check = part_rsf_check(n, npart, a);
 
         switch (check)
         {
@@ -363,7 +350,7 @@ public static partial class Ranking
         // 
 
         a[npart - i] += 1;
-        d = -1;
+        int d = -1;
 
         for (j = i - 1; 2 <= j; j--)
         {
@@ -419,13 +406,7 @@ public static partial class Ranking
         //    sum to N.
         // 
     {
-        int[] a;
         int i;
-        int ncopy;
-        int npartcopy;
-        int npartitions;
-        int[] p;
-        int rank_copy;
         switch (n)
         {
             // 
@@ -446,7 +427,7 @@ public static partial class Ranking
             return null;
         }
 
-        npartitions = npart_enum(n, npart);
+        int npartitions = npart_enum(n, npart);
 
         if (rank < 0 || npartitions < rank)
         {
@@ -459,18 +440,18 @@ public static partial class Ranking
         // 
         //  Get the table of partitions of N with NPART parts.
         // 
-        p = npart_table(n, npart);
+        int[] p = npart_table(n, npart);
 
-        a = new int[npart];
+        int[] a = new int[npart];
 
         for (i = 0; i < npart; i++)
         {
             a[i] = 0;
         }
 
-        rank_copy = rank;
-        ncopy = n;
-        npartcopy = npart;
+        int rank_copy = rank;
+        int ncopy = n;
+        int npartcopy = npart;
 
         while (0 < ncopy)
         {
@@ -544,10 +525,8 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
         int indx = 0;
-        int temp;
         switch (rank)
         {
             // 
@@ -562,7 +541,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = part_sf_check(n, npart, a);
+        bool check = part_sf_check(n, npart, a);
 
         switch (check)
         {
@@ -597,6 +576,7 @@ public static partial class Ranking
                 a[indx - 2] += 1;
                 indx -= 1;
 
+                int temp;
                 for (;;)
                 {
                     if (indx <= 1)
@@ -682,10 +662,8 @@ public static partial class Ranking
         // 
     {
         int i;
-        int j;
-        int[] p;
 
-        p = new int[(n + 1) * (npart + 1)];
+        int[] p = new int[(n + 1) * (npart + 1)];
 
         p[0 + 0 * (n + 1)] = 1;
         for (i = 1; i <= n; i++)
@@ -695,6 +673,7 @@ public static partial class Ranking
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= npart; j++)
             {
                 if (i < j)

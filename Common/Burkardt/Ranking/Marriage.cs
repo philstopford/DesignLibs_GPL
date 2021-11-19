@@ -66,9 +66,6 @@ public static partial class Ranking
         // 
     {
         int i;
-        int m;
-        int temp;
-        int w;
         // 
         //  For man I, NEXT(I) is the woman I has most recently proposed to,
         //  and hence NEXT(I)+1 is the next one to try.
@@ -92,13 +89,13 @@ public static partial class Ranking
         // 
         for (i = 1; i <= n; i++)
         {
-            m = i;
+            int m = i;
 
             for (;;)
             {
                 next[m - 1] += 1;
 
-                w = prefer[m - 1 + (next[m - 1] - 1) * n];
+                int w = prefer[m - 1 + (next[m - 1] - 1) * n];
 
                 if (fiancee[w - 1] == -1)
                 {
@@ -108,9 +105,7 @@ public static partial class Ranking
 
                 if (rank[w - 1 + (m - 1) * n] < rank[w - 1 + (fiancee[w - 1] - 1) * n])
                 {
-                    temp = fiancee[w - 1];
-                    fiancee[w - 1] = m;
-                    m = temp;
+                    (fiancee[w - 1], m) = (m, fiancee[w - 1]);
                 }
             }
         }

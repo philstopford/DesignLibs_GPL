@@ -63,9 +63,6 @@ public static class Bartlett
         //
     {
         int flag = 0;
-        double[] r;
-        double[] t;
-        double[] tu;
 
         if (df < m)
         {
@@ -78,7 +75,7 @@ public static class Bartlett
         //
         //  Get the upper triangular Cholesky factor of SIGMA.
         //
-        r = typeMethods.r8mat_cholesky_factor_upper(m, sigma, ref flag);
+        double[] r = typeMethods.r8mat_cholesky_factor_upper(m, sigma, ref flag);
 
         if (flag != 0)
         {
@@ -92,11 +89,11 @@ public static class Bartlett
         //
         //  Sample the unit Bartlett distribution.
         //
-        tu = bartlett_unit_sample(m, df);
+        double[] tu = bartlett_unit_sample(m, df);
         //
         //  Construct the matrix T = TU * R.
         //
-        t = typeMethods.r8mat_mm_new(m, m, m, tu, r);
+        double[] t = typeMethods.r8mat_mm_new(m, m, m, tu, r);
 
         return t;
     }
@@ -154,10 +151,7 @@ public static class Bartlett
         //    unit Bartlett distribution.
         //
     {
-        double df_chi;
         int i;
-        int j;
-        double[] t;
 
         if (df < m)
         {
@@ -167,16 +161,17 @@ public static class Bartlett
             return null;
         }
 
-        t = new double[m * m];
+        double[] t = new double[m * m];
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < i; j++)
             {
                 t[i + j * m] = 0.0;
             }
 
-            df_chi = df - i;
+            double df_chi = df - i;
             t[i + i * m] = Math.Sqrt(PDF.r8_chi_sample(df_chi));
             for (j = i + 1; j < m; j++)
             {

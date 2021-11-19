@@ -46,9 +46,6 @@ public static partial class Ranking
         //    (X,Y) to (2*N,0) which do not drop below sea level.
         // 
     {
-        int a;
-        int b;
-        int c;
         int value;
         switch (n)
         {
@@ -104,9 +101,9 @@ public static partial class Ranking
                             value = 0;
                             break;
                         default:
-                            a = 2 * n - x;
-                            b = n - ( x + y ) / 2;
-                            c = n - 1 - ( x + y ) / 2;
+                            int a = 2 * n - x;
+                            int b = n - ( x + y ) / 2;
+                            int c = n - 1 - ( x + y ) / 2;
                             value = typeMethods.i4_choose ( a, b ) - typeMethods.i4_choose ( a, c );
                             break;
                     }

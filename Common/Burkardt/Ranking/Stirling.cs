@@ -46,9 +46,8 @@ public static partial class Ranking
     {
         int i;
         int j;
-        int[] s;
 
-        s = new int[(m + 1) * (n + 1)];
+        int[] s = new int[(m + 1) * (n + 1)];
 
         s[0 + 0 * (m + 1)] = 1;
         for (j = 1; j <= n; j++)
@@ -134,9 +133,8 @@ public static partial class Ranking
     {
         int i;
         int j;
-        int[] s;
 
-        s = new int[(m + 1) * (n + 1)];
+        int[] s = new int[(m + 1) * (n + 1)];
 
         s[0 + 0 * (m + 1)] = 1;
         for (j = 1; j <= n; j++)

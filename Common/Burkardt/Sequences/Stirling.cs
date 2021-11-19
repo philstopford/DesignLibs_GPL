@@ -86,7 +86,6 @@ public static class Stirling
     {
         int i;
         int j;
-        int[] s1;
 
         switch (n)
         {
@@ -100,7 +99,7 @@ public static class Stirling
                 return null;
         }
 
-        s1 = new int[n * m];
+        int[] s1 = new int[n * m];
 
         s1[0 + 0 * n] = 1;
         for (j = 2; j <= m; j++)
@@ -219,7 +218,6 @@ public static class Stirling
     {
         int i;
         int j;
-        int[] s2;
 
         switch (n)
         {
@@ -233,7 +231,7 @@ public static class Stirling
                 return null;
         }
 
-        s2 = new int[n * m];
+        int[] s2 = new int[n * m];
 
         s2[0 + 0 * n] = 1;
         for (j = 2; j <= m; j++)

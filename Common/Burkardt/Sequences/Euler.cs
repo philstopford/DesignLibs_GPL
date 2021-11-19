@@ -169,7 +169,6 @@ public static class Euler
         //
     {
         int i;
-        int j;
 
         switch (n)
         {
@@ -203,6 +202,7 @@ public static class Euler
             {
                 case 0:
                 {
+                    int j;
                     for (j = 2; j <= i; j += 2)
                     {
                         e[i] -= typeMethods.i4_choose(i, j) * e[i - j];
@@ -286,11 +286,7 @@ public static class Euler
             }
             ;
         int i;
-        int itmax = 1000;
-            
-        double sum1;
-        double term;
-        double value = 0;
+        const int itmax = 1000;
 
         switch (n)
         {
@@ -312,11 +308,11 @@ public static class Euler
                 return e[n / 2];
         }
 
-        sum1 = 0.0;
+        double sum1 = 0.0;
 
         for (i = 1; i <= itmax; i++)
         {
-            term = 1.0 / Math.Pow(2 * i - 1, n + 1);
+            double term = 1.0 / Math.Pow(2 * i - 1, n + 1);
 
             switch (i % 2)
             {
@@ -340,8 +336,8 @@ public static class Euler
 
         }
 
-        value = Math.Pow(2.0, n + 2) * sum1 * typeMethods.r8_factorial(n)
-                / Math.Pow(Math.PI, n + 1);
+        double value = Math.Pow(2.0, n + 2) * sum1 * typeMethods.r8_factorial(n)
+                       / Math.Pow(Math.PI, n + 1);
 
         if (n % 4 != 0)
         {

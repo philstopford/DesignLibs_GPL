@@ -42,7 +42,7 @@ public static partial class SobolSampler
 
         for (int j = 0; j < n; j++ )
         {
-            int res = i4_sobol ( m, ref config );
+            i4_sobol ( m, ref config );
             for (int i = 0; i < config.quasi.Length; i++)
             {
                 r[j * m + i] = config.quasi[i];
@@ -138,7 +138,6 @@ public static partial class SobolSampler
     {
         int i;
         int l = 1;
-        int seed_temp;
         bool[] includ = new bool[SobolConfig.LOG_MAX];
         
         if ( !config.initialized || dim_num != config.dim_num_save )
@@ -232,7 +231,7 @@ public static partial class SobolSampler
                         switch (includ[k])
                         {
                             case true:
-                                newv ^= ( l * config.v[i,j-k-1] );
+                                newv ^= l * config.v[i,j-k-1];
                                 break;
                         }
                     }
@@ -281,37 +280,40 @@ public static partial class SobolSampler
                 {
                     l = i4_bit_lo0 ( config.seed );
                 }
-                else if ( config.seed <= config.seed_save )
+                else
                 {
-                    config.seed_save = 0;
-                    l = 1;
-                    for (i = 0; i < dim_num; i++ )
+                    int seed_temp;
+                    if ( config.seed <= config.seed_save )
                     {
-                        config.lastq[i] = 0;
-                    }
+                        config.seed_save = 0;
+                        for (i = 0; i < dim_num; i++ )
+                        {
+                            config.lastq[i] = 0;
+                        }
         
-                    for (seed_temp = config.seed_save; seed_temp <= config.seed-1; seed_temp++ )
-                    {
-                        l = i4_bit_lo0 ( seed_temp );
+                        for (seed_temp = config.seed_save; seed_temp <= config.seed-1; seed_temp++ )
+                        {
+                            l = i4_bit_lo0 ( seed_temp );
 
-                        for (i = 0; i < dim_num; i++ )
-                        {
-                            config.lastq[i] ^= config.v[i,l-1];
+                            for (i = 0; i < dim_num; i++ )
+                            {
+                                config.lastq[i] ^= config.v[i,l-1];
+                            }
                         }
+                        l = i4_bit_lo0 ( config.seed );
                     }
-                    l = i4_bit_lo0 ( config.seed );
-                }
-                else if ( config.seed_save+1 < config.seed )
-                {
-                    for (seed_temp = config.seed_save+1; seed_temp <= config.seed-1; seed_temp++ )
+                    else if ( config.seed_save+1 < config.seed )
                     {
-                        l = i4_bit_lo0 ( seed_temp );
-                        for (i = 0; i < dim_num; i++ )
+                        for (seed_temp = config.seed_save+1; seed_temp <= config.seed-1; seed_temp++ )
                         {
-                            config.lastq[i] ^= config.v[i,l-1];
+                            l = i4_bit_lo0 ( seed_temp );
+                            for (i = 0; i < dim_num; i++ )
+                            {
+                                config.lastq[i] ^= config.v[i,l-1];
+                            }
                         }
+                        l = i4_bit_lo0 ( config.seed );
                     }
-                    l = i4_bit_lo0 ( config.seed );
                 }
 
                 break;
@@ -465,13 +467,11 @@ public static partial class SobolSampler
         //    Output, int I4_BIT_LO0, the position of the low 1 bit.
         //
     {
-        int bit;
-        int n2;
-        bit = 0;
+        int bit = 0;
         while ( true )
         {
             bit += 1;
-            n2 = n / 2;
+            int n2 = n / 2;
 
             if ( n == 2 * n2 )
             {

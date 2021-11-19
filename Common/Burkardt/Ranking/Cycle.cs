@@ -50,20 +50,16 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         //
     {
-        bool check;
         int i;
-        int ifind;
         int iseek;
 
-        check = true;
         switch (n)
         {
             // 
             //  N must be at least 1.
             // 
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         // 
@@ -71,8 +67,7 @@ public static partial class Ranking
         // 
         if (ncycle < 1 || n < ncycle)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         // 
@@ -82,8 +77,7 @@ public static partial class Ranking
         {
             if (index[i] < 1 || n < index[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -92,8 +86,7 @@ public static partial class Ranking
         //
         if (typeMethods.i4vec_sum(ncycle, index) != n)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         // 
@@ -103,8 +96,7 @@ public static partial class Ranking
         {
             if (t[i] < 1 || n < t[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -113,7 +105,7 @@ public static partial class Ranking
         // 
         for (iseek = 1; iseek <= n; iseek++)
         {
-            ifind = -1;
+            int ifind = -1;
 
             for (i = 0; i < n; i++)
             {
@@ -127,12 +119,11 @@ public static partial class Ranking
             switch (ifind)
             {
                 case -1:
-                    check = false;
-                    return check;
+                    return false;
             }
         }
 
-        return check;
+        return true;
     }
 
     public static int[] cycle_to_perm(int n, int ncycle, int[] t, int[] index )
@@ -179,16 +170,11 @@ public static partial class Ranking
         //    single array.  For each index I, I -> P(I).
         // 
     {
-        bool check;
         int i;
-        int j;
-        int jhi;
-        int jlo;
-        int[] p;
         // 
         //  Check.
         // 
-        check = cycle_check(n, ncycle, t, index);
+        bool check = cycle_check(n, ncycle, t, index);
 
         switch (check)
         {
@@ -199,15 +185,16 @@ public static partial class Ranking
                 return null;
         }
 
-        p = new int[n];
+        int[] p = new int[n];
 
-        jhi = 0;
+        int jhi = 0;
 
         for (i = 1; i <= ncycle; i++)
         {
-            jlo = jhi + 1;
+            int jlo = jhi + 1;
             jhi += index[i - 1];
 
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 if (j < jhi)

@@ -38,13 +38,8 @@ public static partial class Ranking
         //    that form the singular value decomposition of A.
         //
     {
-        int i;
-        int j;
-        int k;
         int r;
-        double[] svt;
-        string title = "";
-        double[] usvt;
+        const string title = "";
 
         //a_norm = r8mat_norm_fro ( m, n, a );
 
@@ -54,7 +49,10 @@ public static partial class Ranking
 
         for (r = 0; r <= Math.Min(m, n); r++)
         {
-            svt = new double[r * n];
+            double[] svt = new double[r * n];
+            int k;
+            int j;
+            int i;
             for (i = 0; i < r; i++)
             {
                 for (j = 0; j < n; j++)
@@ -67,7 +65,7 @@ public static partial class Ranking
                 }
             }
 
-            usvt = new double[m * n];
+            double[] usvt = new double[m * n];
 
             for (i = 0; i < m; i++)
             {
@@ -123,16 +121,9 @@ public static partial class Ranking
         //    that form the singular value decomposition of A.
         //
     {
-        double a_norm;
-        double dif_norm;
-        int i;
-        int j;
-        int k;
         int r;
-        double[] svt;
-        double[] usvt;
 
-        a_norm = typeMethods.r8mat_norm_fro(m, n, a);
+        double a_norm = typeMethods.r8mat_norm_fro(m, n, a);
 
         Console.WriteLine("");
         Console.WriteLine("RANK_ONE_TEST:");
@@ -144,7 +135,10 @@ public static partial class Ranking
 
         for (r = 0; r <= Math.Min(m, n); r++)
         {
-            svt = new double[r * n];
+            double[] svt = new double[r * n];
+            int j;
+            int k;
+            int i;
             for (i = 0; i < r; i++)
             {
                 for (j = 0; j < n; j++)
@@ -157,7 +151,7 @@ public static partial class Ranking
                 }
             }
 
-            usvt = new double[m * n];
+            double[] usvt = new double[m * n];
 
             for (i = 0; i < m; i++)
             {
@@ -171,7 +165,7 @@ public static partial class Ranking
                 }
             }
 
-            dif_norm = typeMethods.r8mat_dif_fro(m, n, a, usvt);
+            double dif_norm = typeMethods.r8mat_dif_fro(m, n, a, usvt);
 
             Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + dif_norm.ToString(CultureInfo.InvariantCulture).PadLeft(14)

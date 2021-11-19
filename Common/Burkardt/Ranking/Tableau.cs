@@ -44,17 +44,13 @@ public static partial class Ranking
         //    TRUE, the data is legal.
         //    FALSE, the data is not legal.
     {
-        bool check;
         int i;
         int j;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         // 
@@ -66,8 +62,7 @@ public static partial class Ranking
             {
                 if (tab[i + j * 2] < 1 || 2 * n < tab[i + j * 2])
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
         }
@@ -81,8 +76,7 @@ public static partial class Ranking
             {
                 if (tab[i + j * 2] <= tab[i + (j - 1) * 2])
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
         }
@@ -95,12 +89,11 @@ public static partial class Ranking
         {
             if (tab[i + j * 2] <= tab[i - 1 + j * 2])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
-        return check;
+        return true;
     }
 
     public static int tableau_enum(int n)
@@ -182,14 +175,11 @@ public static partial class Ranking
         //    Output, int TABLEAU_TO_BAL_SEQ[2*N], a balanced sequence.
         // 
     {
-        bool check;
         int i;
-        int j;
-        int[] t;
         // 
         //  Check.
         // 
-        check = tableau_check(n, tab);
+        bool check = tableau_check(n, tab);
 
         switch (check)
         {
@@ -200,10 +190,11 @@ public static partial class Ranking
                 return null;
         }
 
-        t = new int[2 * n];
+        int[] t = new int[2 * n];
 
         for (i = 0; i < 2; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 t[tab[i + j * 2] - 1] = i;

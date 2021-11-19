@@ -41,12 +41,9 @@ public static class Grid
         //    and then the next, grid index.
         //
     {
-        int[] g;
-        int[] grid;
         int i;
-        int k;
 
-        g = new int[m + 1];
+        int[] g = new int[m + 1];
 
         for (i = 0; i < m; i++)
         {
@@ -55,9 +52,9 @@ public static class Grid
 
         g[m] = n;
 
-        grid = new int[(m + 1) * ng];
+        int[] grid = new int[(m + 1) * ng];
 
-        k = 0;
+        int k = 0;
         for (i = 0; i <= m; i++)
         {
             grid[i + k * (m + 1)] = g[i];
@@ -177,9 +174,7 @@ public static class Grid
         //    in the simplex grid.
         //
     {
-        int[] g;
-
-        g = Comp.comp_random_new(n, m + 1, ref seed);
+        int[] g = Comp.comp_random_new(n, m + 1, ref seed);
 
         return g;
     }
@@ -234,18 +229,17 @@ public static class Grid
         //    or more points.
         //
     {
-        int i;
         int j;
-        int k;
-        double[] x;
 
-        x = new double[m * ng];
+        double[] x = new double[m * ng];
 
         for (j = 0; j < ng; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 x[i + j * m] = 0.0;
+                int k;
                 for (k = 0; k < m + 1; k++)
                 {
                     x[i + j * m] += v[i + k * m] * g[k + j * (m + 1)];
@@ -292,9 +286,8 @@ public static class Grid
         //
     {
         int i;
-        int ng;
 
-        ng = 1;
+        int ng = 1;
 
         for (i = 1; i <= m; i++)
         {

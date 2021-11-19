@@ -46,14 +46,11 @@ public static partial class Ranking
         //    Output, int GRAY_CODE_RANK, the rank of the element.
         // 
     {
-        int b;
-        bool check;
         int i;
-        int rank;
         // 
         //  Check.
         // 
-        check = typeMethods.gray_code_check(n, t);
+        bool check = typeMethods.gray_code_check(n, t);
 
         switch (check)
         {
@@ -64,8 +61,8 @@ public static partial class Ranking
                 return 1;
         }
 
-        rank = 0;
-        b = 0;
+        int rank = 0;
+        int b = 0;
 
         for (i = n - 1; 0 <= i; i--)
         {
@@ -126,12 +123,7 @@ public static partial class Ranking
         //    the given rank.
         // 
     {
-        int b;
-        int bprime;
         int i;
-        int ngray;
-        int rank_copy;
-        int[] t;
         switch (n)
         {
             // 
@@ -144,7 +136,7 @@ public static partial class Ranking
                 return null;
         }
 
-        ngray = typeMethods.gray_code_enum(n);
+        int ngray = typeMethods.gray_code_enum(n);
 
         if (rank < 0 || ngray < rank)
         {
@@ -154,19 +146,19 @@ public static partial class Ranking
             return null;
         }
 
-        t = new int[n];
+        int[] t = new int[n];
 
-        rank_copy = rank;
+        int rank_copy = rank;
         for (i = 0; i < n; i++)
         {
             t[i] = 0;
         }
 
-        bprime = 0;
+        int bprime = 0;
 
         for (i = n - 1; 0 <= i; i--)
         {
-            b = rank_copy / (int)Math.Pow(2, i);
+            int b = rank_copy / (int)Math.Pow(2, i);
 
             if (b != bprime)
             {
@@ -263,10 +255,9 @@ public static partial class Ranking
         //
     {
         int i;
-        int nbits = 32;
-        int rank;
+        const int nbits = 32;
 
-        rank = 0;
+        int rank = 0;
 
         if (typeMethods.i4_btest(gray, nbits - 1))
         {
@@ -360,11 +351,7 @@ public static partial class Ranking
         //    code is GRAY.
         //
     {
-        int k;
-        bool last;
-        bool next;
         int rank;
-        int two_k;
 
         switch (gray)
         {
@@ -381,8 +368,8 @@ public static partial class Ranking
         //
         //  Find TWO_K, the largest power of 2 less than or equal to GRAY.
         //
-        k = 0;
-        two_k = 1;
+        int k = 0;
+        int two_k = 1;
         while (2 * two_k <= gray)
         {
             two_k *= 2;
@@ -390,7 +377,7 @@ public static partial class Ranking
         }
 
         rank = two_k;
-        last = true;
+        bool last = true;
         gray -= two_k;
 
         while (0 < k)
@@ -398,7 +385,7 @@ public static partial class Ranking
             two_k /= 2;
             k -= 1;
 
-            next = two_k <= gray && gray < two_k * 2;
+            bool next = two_k <= gray && gray < two_k * 2;
 
             switch (next)
             {
@@ -481,11 +468,10 @@ public static partial class Ranking
         //    Output, int GRAY_UNRANK, the Gray code of the given rank.
         //
     {
-        int gray;
         int i;
-        int nbits = 32;
+        const int nbits = 32;
 
-        gray = 0;
+        int gray = 0;
 
         if (typeMethods.i4_btest(rank, nbits - 1))
         {
@@ -565,10 +551,6 @@ public static partial class Ranking
         //
     {
         int gray;
-        int k;
-        bool last;
-        bool next;
-        int two_k;
 
         switch (rank)
         {
@@ -577,8 +559,8 @@ public static partial class Ranking
                 return gray;
         }
 
-        k = 0;
-        two_k = 1;
+        int k = 0;
+        int two_k = 1;
         while (2 * two_k <= rank)
         {
             two_k *= 2;
@@ -587,14 +569,14 @@ public static partial class Ranking
 
         gray = two_k;
         rank -= two_k;
-        next = true;
+        bool next = true;
 
         while (0 < k)
         {
             two_k /= 2;
             k -= 1;
 
-            last = next;
+            bool last = next;
             next = two_k <= rank && rank <= two_k * 2;
 
             if (next != last)
@@ -667,15 +649,13 @@ public static partial class Ranking
         //    the list of all elements.  The rank count begins at 1.
         //
     {
-        int c;
         int i;
-        int rank;
 
-        rank = 0;
+        int rank = 0;
 
         for (i = 0; i < n; i++)
         {
-            c = (rank % 2) switch
+            int c = (rank % 2) switch
             {
                 1 => base_[i] - a[i] - 1,
                 _ => a[i]
@@ -744,9 +724,8 @@ public static partial class Ranking
         //
     {
         int i;
-        int s;
 
-        s = rank - 1;
+        int s = rank - 1;
 
         for (i = n - 1; 0 <= i; i--)
         {

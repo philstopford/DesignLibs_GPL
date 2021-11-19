@@ -42,7 +42,7 @@ public static partial class SobolSampler
 
         for (int j = 0; j < n; j++ )
         {
-            int res = i8_sobol ( m, ref config );
+            i8_sobol ( m, ref config );
             for (int i = 0; i < config.quasi.Length; i++)
             {
                 r[j * m + i] = config.quasi[i];
@@ -148,10 +148,9 @@ public static partial class SobolSampler
         //
         long i;
         long l = 1;
-        long seed_temp;
         bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
 
-        config.recipd = (double)1 / ( 2 * l ) ;
+        config.recipd = 0.5 ;
 
         if ( !config.initialized || dim_num != config.dim_num_save )
         {
@@ -244,7 +243,7 @@ public static partial class SobolSampler
                         switch (includ[k])
                         {
                             case true:
-                                newv ^= ( l * config.v[i,j-k-1] );
+                                newv ^= l * config.v[i,j-k-1];
                                 break;
                         }
                     }
@@ -293,39 +292,43 @@ public static partial class SobolSampler
                 {
                     l = i8_bit_lo0 ( config.seed );
                 }
-                else if ( config.seed <= config.seed_save )
+                else
                 {
-                    config.seed_save = 0;
-                    l = 1;
-                    for ( i = 0; i < dim_num; i++ )
+                    long seed_temp;
+                    if ( config.seed <= config.seed_save )
                     {
-                        config.lastq[i] = 0;
-                    }
-
-                    for ( seed_temp = config.seed_save; seed_temp <= config.seed-1; seed_temp++ )
-                    {
-
-                        l = i8_bit_lo0 ( seed_temp );
-
+                        config.seed_save = 0;
+                        l = 1;
                         for ( i = 0; i < dim_num; i++ )
                         {
-                            config.lastq[i] ^= config.v[i,l-1];
+                            config.lastq[i] = 0;
                         }
-                    }
-                    l = i8_bit_lo0 ( config.seed );
-                }
-                else if ( config.seed_save+1 < config.seed )
-                {
-                    for ( seed_temp = config.seed_save+1; seed_temp <= config.seed-1; seed_temp++ )
-                    {
-                        l = i8_bit_lo0 ( seed_temp );
 
-                        for ( i = 0; i < dim_num; i++ )
+                        for ( seed_temp = config.seed_save; seed_temp <= config.seed-1; seed_temp++ )
                         {
-                            config.lastq[i] ^= config.v[i,l-1];
+
+                            l = i8_bit_lo0 ( seed_temp );
+
+                            for ( i = 0; i < dim_num; i++ )
+                            {
+                                config.lastq[i] ^= config.v[i,l-1];
+                            }
                         }
+                        l = i8_bit_lo0 ( config.seed );
                     }
-                    l = i8_bit_lo0 ( config.seed );
+                    else if ( config.seed_save+1 < config.seed )
+                    {
+                        for ( seed_temp = config.seed_save+1; seed_temp <= config.seed-1; seed_temp++ )
+                        {
+                            l = i8_bit_lo0 ( seed_temp );
+
+                            for ( i = 0; i < dim_num; i++ )
+                            {
+                                config.lastq[i] ^= config.v[i,l-1];
+                            }
+                        }
+                        l = i8_bit_lo0 ( config.seed );
+                    }
                 }
 
                 break;

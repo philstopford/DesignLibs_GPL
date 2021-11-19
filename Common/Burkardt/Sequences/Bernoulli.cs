@@ -99,10 +99,7 @@ public static class Bernoulli
         //    Output, double B[N+1], B(I) contains the I-th Bernoulli number.
         //
     {
-        double b_sum;
-        int[] c;
         int i;
-        int j;
 
         switch (n)
         {
@@ -120,7 +117,7 @@ public static class Bernoulli
 
         b[1] = -0.5;
 
-        c = new int[n + 2];
+        int[] c = new int[n + 2];
         c[0] = 1;
         c[1] = 2;
         c[2] = 1;
@@ -135,7 +132,8 @@ public static class Bernoulli
                     break;
                 default:
                 {
-                    b_sum = 0.0;
+                    double b_sum = 0.0;
+                    int j;
                     for (j = 0; j <= i - 1; j++)
                     {
                         b_sum += b[j] * c[j];
@@ -242,16 +240,10 @@ public static class Bernoulli
         //    Output, double B[N+1], the requested Bernoulli numbers.
         //
     {
-        double altpi;
         int i;
-        int k;
-        int kmax = 400;
-            
-        double sgn;
-        double sum2;
-        double t;
-        double term;
-        double tol = 1.0E-06;
+        const int kmax = 400;
+
+        const double tol = 1.0E-06;
 
         switch (n)
         {
@@ -275,7 +267,7 @@ public static class Bernoulli
                 return;
         }
 
-        altpi = Math.Log(2.0 * Math.PI);
+        double altpi = Math.Log(2.0 * Math.PI);
         //
         //  Initial estimates for B(I), I = 2 to N
         //
@@ -300,18 +292,19 @@ public static class Bernoulli
 
         b[4] = -1.0 / 30.0;
 
-        sgn = -1.0;
+        double sgn = -1.0;
 
         for (i = 6; i <= n; i += 2)
         {
             sgn = -sgn;
-            t = 2.0 * sgn * Math.Exp(b[i] - i * altpi);
+            double t = 2.0 * sgn * Math.Exp(b[i] - i * altpi);
 
-            sum2 = 1.0;
+            double sum2 = 1.0;
 
+            int k;
             for (k = 2; k <= kmax; k++)
             {
-                term = Math.Pow(k, -i);
+                double term = Math.Pow(k, -i);
 
                 sum2 += term;
 
@@ -417,13 +410,10 @@ public static class Bernoulli
         //    Output, double BERNOULLI_NUMBER3, the desired Bernoulli number.
         //
     {
-        int i;
-        int itmax = 1000;
-            
-        double sum2;
-        double term;
-        double tol = 5.0E-07;
-        double value = 0;
+        const int itmax = 1000;
+
+        const double tol = 5.0E-07;
+        double value;
 
         switch (n)
         {
@@ -448,11 +438,12 @@ public static class Bernoulli
                         break;
                     default:
                     {
-                        sum2 = 0.0;
+                        double sum2 = 0.0;
 
+                        int i;
                         for (i = 1; i <= itmax; i++)
                         {
-                            term = 1.0 / Math.Pow(i, n);
+                            double term = 1.0 / Math.Pow(i, n);
                             sum2 += term;
 
                             if (Math.Abs(term) < tol || Math.Abs(term) < tol * Math.Abs(sum2))

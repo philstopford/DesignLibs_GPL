@@ -57,25 +57,21 @@ public static class GrundmannMoellerRule
         //
     {
         int j;
-        double volume;
-        double volume1;
-        double[] w1;
-        double[] x1;
         //
         //  Get the unit rule.
         //
-        w1 = new double[n];
-        x1 = new double[m * n];
+        double[] w1 = new double[n];
+        double[] x1 = new double[m * n];
 
         gm_unit_rule_set(rule, m, n, ref w1, ref x1);
         //
         //  Compute the volume of the unit simplex.
         //
-        volume1 = Simplex.simplex_unit_volume(m);
+        double volume1 = Simplex.simplex_unit_volume(m);
         //
         //  Compute the volume of the general simplex.
         //
-        volume = Simplex.simplex_general_volume(m, t);
+        double volume = Simplex.simplex_general_volume(m, t);
         //
         //  Convert the points.
         //
@@ -137,12 +133,9 @@ public static class GrundmannMoellerRule
         //    Output, int GM_RULE_SIZE, the number of points in the rule.
         //
     {
-        int arg1;
-        int n;
+        int arg1 = m + rule + 1;
 
-        arg1 = m + rule + 1;
-
-        n = typeMethods.i4_choose(arg1, rule);
+        int n = typeMethods.i4_choose(arg1, rule);
 
         return n;
     }
@@ -202,35 +195,22 @@ public static class GrundmannMoellerRule
         //    Output, double X[M*N], the abscissas.
         //
     {
-        int[] beta;
-        int beta_sum;
-        int d;
-        int dim;
-        int h;
         int i;
-        int j;
-        int j_hi;
-        int k;
-        bool more;
-        double one_pm;
-        int s;
-        int t;
-        double volume1;
-        double weight;
 
-        s = rule;
-        d = 2 * s + 1;
-        k = 0;
-        one_pm = 1.0;
+        int s = rule;
+        int d = 2 * s + 1;
+        int k = 0;
+        double one_pm = 1.0;
 
-        beta = new int[m + 1];
+        int[] beta = new int[m + 1];
 
         for (i = 0; i <= s; i++)
         {
-            weight = one_pm;
+            double weight = one_pm;
 
-            j_hi = Math.Max(m, Math.Max(d, d + m - i));
+            int j_hi = Math.Max(m, Math.Max(d, d + m - i));
 
+            int j;
             for (j = 1; j <= j_hi; j++)
             {
                 if (j <= m)
@@ -261,16 +241,17 @@ public static class GrundmannMoellerRule
 
             one_pm = -one_pm;
 
-            beta_sum = s - i;
-            more = false;
-            h = 0;
-            t = 0;
+            int beta_sum = s - i;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(beta_sum, m + 1, ref beta, ref more, ref h, ref t);
 
                 w[k] = weight;
+                int dim;
                 for (dim = 0; dim < m; dim++)
                 {
                     x[dim + k * m] = (2 * beta[dim + 1] + 1)
@@ -289,7 +270,7 @@ public static class GrundmannMoellerRule
         //
         //  Normalize.
         //
-        volume1 = Simplex.simplex_unit_volume(m);
+        double volume1 = Simplex.simplex_unit_volume(m);
         for (i = 0; i < n; i++)
         {
             w[i] *= volume1;

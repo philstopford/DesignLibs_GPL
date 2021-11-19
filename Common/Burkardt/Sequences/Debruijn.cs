@@ -74,41 +74,32 @@ public static class Debruijn
         //
     {
         int i;
-        int iedge;
-        int[] inode;
-        int[] ivec;
-        int j;
-        int[] jnode;
-        int[] jvec;
-        int k;
-        int[] knode;
-        int nedge;
-        int nnode;
         bool success = false;
-        int[] trail;
         //
         //  Construct the adjacency information.
         //
-        nnode = (int)Math.Pow(m, n - 1);
-        nedge = (int)Math.Pow(m, n);
+        int nnode = (int)Math.Pow(m, n - 1);
+        int nedge = (int)Math.Pow(m, n);
 
-        inode = new int[nedge];
-        ivec = new int[n - 1];
-        jnode = new int[nedge];
-        jvec = new int[n - 1];
-        knode = new int[nedge];
+        int[] inode = new int[nedge];
+        int[] ivec = new int[n - 1];
+        int[] jnode = new int[nedge];
+        int[] jvec = new int[n - 1];
+        int[] knode = new int[nedge];
 
-        iedge = 0;
+        int iedge = 0;
 
         for (i = 1; i <= nnode; i++)
         {
             IndexNS.Index.index_unrank0(n - 1, m, i, ref ivec);
 
+            int k;
             for (k = 1; k <= m; k++)
             {
                 //
                 //  Shift N-2 entries of IVEC down.
                 //
+                int j;
                 for (j = 0; j < n - 2; j++)
                 {
                     jvec[j] = ivec[j + 1];
@@ -128,7 +119,7 @@ public static class Debruijn
         //
         //  Determine a circuit.
         //
-        trail = new int[nedge];
+        int[] trail = new int[nedge];
 
         Digraph.digraph_arc_euler(nnode, nedge, inode, jnode, ref success, ref trail);
         //

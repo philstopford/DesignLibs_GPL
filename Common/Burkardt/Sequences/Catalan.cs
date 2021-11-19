@@ -88,7 +88,6 @@ public static class Catalan
         //    Output, int CATALAN[N+1], the Catalan numbers from C(0) to C(N).
         //
     {
-        int[] c;
         int i;
 
         switch (n)
@@ -97,7 +96,7 @@ public static class Catalan
                 return null;
         }
 
-        c = new int[n + 1];
+        int[] c = new int[n + 1];
 
         c[0] = 1;
         //
@@ -172,7 +171,6 @@ public static class Catalan
         //    row N-1.
         //
     {
-        int i;
         int j;
         switch (n)
         {
@@ -186,6 +184,7 @@ public static class Catalan
             case false:
             {
                 irow[0] = 1;
+                int i;
                 for (i = 1; i <= n; i++)
                 {
                     irow[i] = 0;

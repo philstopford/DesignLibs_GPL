@@ -74,26 +74,16 @@ public static partial class Ranking
         // 
     {
         int i;
-        int indx;
         int k = 0;
-        double mass_1;
         double mass_2 = 0;
-        double mass_best;
-        double mass_remaining;
-        int maxstack = 100;
-        int[] ncan;
-        int nstack;
-        double profit_1 = 0;
+        const int maxstack = 100;
         double profit_2 = 0;
-        double profit_best;
-        double[] stack;
-        double[] x_best;
 
-        ncan = new int[n];
-        stack = new double[maxstack];
-        x_best = new double[n];
+        int[] ncan = new int[n];
+        double[] stack = new double[maxstack];
+        double[] x_best = new double[n];
 
-        nstack = 0;
+        int nstack = 0;
         // 
         //  Initialize the "best so far" data.
         // 
@@ -102,12 +92,12 @@ public static partial class Ranking
             x_best[i] = 0.0;
         }
 
-        profit_best = 0.0;
-        mass_best = 0;
+        double profit_best = 0.0;
+        double mass_best = 0;
         // 
         //  Begin the backtracking solution.
         // 
-        indx = 0;
+        int indx = 0;
 
         for (;;)
         {
@@ -146,7 +136,7 @@ public static partial class Ranking
             {
                 ncan[k - 1] = 0;
 
-                mass_1 = w[k - 1];
+                double mass_1 = w[k - 1];
                 for (i = 0; i < k - 1; i++)
                 {
                     mass_1 += w[i] * x[i];
@@ -154,9 +144,9 @@ public static partial class Ranking
 
                 if (mass_1 <= mass_limit)
                 {
-                    mass_remaining = mass_limit - mass_1;
+                    double mass_remaining = mass_limit - mass_1;
 
-                    profit_1 = p[k - 1];
+                    double profit_1 = p[k - 1];
                     for (i = 0; i < k - 1; i++)
                     {
                         profit_1 += p[i] * x[i];
@@ -375,18 +365,17 @@ public static partial class Ranking
         // 
     {
         int i;
-        int j;
-        double t;
         // 
         //  Rearrange the objects in order of "profit density".
         //
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = i + 1; j < n; j++)
             {
                 if (p[i] * w[j] < p[j] * w[i])
                 {
-                    t = p[i];
+                    double t = p[i];
                     p[i] = p[j];
                     p[j] = t;
 

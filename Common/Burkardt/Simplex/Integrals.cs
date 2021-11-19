@@ -41,9 +41,6 @@ public static class Integrals
         //
     {
         int i;
-        double integral;
-        int j;
-        int k;
 
         for (i = 0; i < m; i++)
         {
@@ -57,11 +54,12 @@ public static class Integrals
             }
         }
 
-        k = 0;
-        integral = 1.0;
+        int k = 0;
+        double integral = 1.0;
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 1; j <= e[i]; j++)
             {
                 k += 1;
@@ -119,24 +117,21 @@ public static class Integrals
         //    Output, double SIMPLEX01_SAMPLE_01[M*N], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(m + 1, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(m + 1, ref seed);
 
+            int i;
             for (i = 0; i < m + 1; i++)
             {
                 e[i] = -Math.Log(e[i]);
             }
 
-            e_sum = typeMethods.r8vec_sum(m + 1, e);
+            double e_sum = typeMethods.r8vec_sum(m + 1, e);
 
             for (i = 0; i < m; i++)
             {
@@ -175,9 +170,8 @@ public static class Integrals
         //
     {
         int i;
-        double volume;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (i = 1; i <= m; i++)
         {
             volume /= i;

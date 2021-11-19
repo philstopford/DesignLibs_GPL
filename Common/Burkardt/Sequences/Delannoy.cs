@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Sequence;
 
-public class Delannoy
+public static class Delannoy
 {
     public static int[] delannoy(int m, int n)
 
@@ -66,7 +66,6 @@ public class Delannoy
         //    Output, int DELANNOY[(M+1)*(N+1)], the Delannoy numbers.
         //
     {
-        int[] a;
         int i;
         int j;
 
@@ -82,7 +81,7 @@ public class Delannoy
                 return null;
         }
 
-        a = new int[(m + 1) * (n + 1)];
+        int[] a = new int[(m + 1) * (n + 1)];
 
         a[0 + 0 * (m + 1)] = 1;
 

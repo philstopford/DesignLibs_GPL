@@ -59,11 +59,7 @@ public static class Wishart
         //    the Wishart distribution.
         //
     {
-        double[] a;
-        double[] au;
-        double[] aur;
         int flag = 0;
-        double[] r;
 
         if (df < m)
         {
@@ -76,7 +72,7 @@ public static class Wishart
         //
         //  Get R, the upper triangular Cholesky factor of SIGMA.
         //
-        r = typeMethods.r8mat_cholesky_factor_upper(m, sigma, ref flag);
+        double[] r = typeMethods.r8mat_cholesky_factor_upper(m, sigma, ref flag);
 
         if (flag != 0)
         {
@@ -90,12 +86,12 @@ public static class Wishart
         //
         //  Get AU, a sample from the unit Wishart distribution.
         //
-        au = wishart_unit_sample(m, df);
+        double[] au = wishart_unit_sample(m, df);
         //
         //  Construct the matrix A = R' * AU * R.
         //
-        aur = typeMethods.r8mat_mm_new(m, m, m, au, r);
-        a = typeMethods.r8mat_mtm_new(m, m, m, r, aur);
+        double[] aur = typeMethods.r8mat_mm_new(m, m, m, au, r);
+        double[] a = typeMethods.r8mat_mtm_new(m, m, m, r, aur);
 
         return a;
     }
@@ -153,12 +149,7 @@ public static class Wishart
         //    the Wishart distribution.
         //
     {
-        double[] a;
         int flag = 0;
-        double[] r;
-        double[] s;
-        double[] ua;
-        double[] uas;
 
         if (df < m)
         {
@@ -171,7 +162,7 @@ public static class Wishart
         //
         //  Get R, the upper triangular Cholesky factor of SIGMA.
         //
-        r = typeMethods.r8mat_cholesky_factor_upper(m, sigma, ref flag);
+        double[] r = typeMethods.r8mat_cholesky_factor_upper(m, sigma, ref flag);
 
         if (flag != 0)
         {
@@ -185,16 +176,16 @@ public static class Wishart
         //
         //  Get S, the inverse of R.
         //
-        s = typeMethods.r8ut_inverse(m, r);
+        double[] s = typeMethods.r8ut_inverse(m, r);
         //
         //  Get UA, the inverse of a sample from the unit Wishart distribution.
         //
-        ua = wishart_unit_sample_inverse(m, df);
+        double[] ua = wishart_unit_sample_inverse(m, df);
         //
         //  Construct the matrix A = S * UA * S'.
         //
-        uas = typeMethods.r8mat_mmt_new(m, m, m, ua, s);
-        a = typeMethods.r8mat_mm_new(m, m, m, s, uas);
+        double[] uas = typeMethods.r8mat_mmt_new(m, m, m, ua, s);
+        double[] a = typeMethods.r8mat_mm_new(m, m, m, s, uas);
 
         return a;
     }
@@ -249,11 +240,7 @@ public static class Wishart
         //    unit Wishart distribution.
         //
     {
-        double[] a;
-        double[] c;
-        double df_chi;
         int i;
-        int j;
 
         if (df < m)
         {
@@ -263,16 +250,17 @@ public static class Wishart
             return null;
         }
 
-        c = new double[m * m];
+        double[] c = new double[m * m];
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < i; j++)
             {
                 c[i + j * m] = 0.0;
             }
 
-            df_chi = df - i;
+            double df_chi = df - i;
             c[i + i * m] = Math.Sqrt(PDF.r8_chi_sample(df_chi));
             for (j = i + 1; j < m; j++)
             {
@@ -280,7 +268,7 @@ public static class Wishart
             }
         }
 
-        a = typeMethods.r8mat_mtm_new(m, m, m, c, c);
+        double[] a = typeMethods.r8mat_mtm_new(m, m, m, c, c);
 
         return a;
     }
@@ -335,12 +323,7 @@ public static class Wishart
         //    sample matrix from the unit Wishart distribution.
         //
     {
-        double[] a;
-        double[] b;
-        double[] c;
-        double df_chi;
         int i;
-        int j;
 
         if (df < m)
         {
@@ -350,16 +333,17 @@ public static class Wishart
             return null;
         }
 
-        c = new double[m * m];
+        double[] c = new double[m * m];
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < i; j++)
             {
                 c[i + j * m] = 0.0;
             }
 
-            df_chi = df - i;
+            double df_chi = df - i;
             c[i + i * m] = Math.Sqrt(PDF.r8_chi_sample(df_chi));
             for (j = i + 1; j < m; j++)
             {
@@ -370,11 +354,11 @@ public static class Wishart
         //
         //  Compute B, the inverse of C.
         //
-        b = typeMethods.r8ut_inverse(m, c);
+        double[] b = typeMethods.r8ut_inverse(m, c);
         //
         //  The inverse of the Wishart sample matrix C'*C is inv(C) * C'.
         //
-        a = typeMethods.r8mat_mmt_new(m, m, m, b, b);
+        double[] a = typeMethods.r8mat_mmt_new(m, m, m, b, b);
 
         return a;
     }

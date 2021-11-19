@@ -54,9 +54,8 @@ public static class Simplex
         //
     {
         int i;
-        int value;
 
-        value = 1;
+        int value = 1;
         for (i = 1; i <= m; i++)
         {
             value = value * (n + i - 1) / i;
@@ -107,9 +106,8 @@ public static class Simplex
         //
     {
         int i;
-        double[] t;
 
-        t = new double[2];
+        double[] t = new double[2];
 
         for (i = 0; i < 2; i++)
         {
@@ -159,15 +157,11 @@ public static class Simplex
         //    Output, double SIMPLEX_GENERAL_VOLUME, the volume of the simplex.
         //
     {
-        double[] b;
-        double det;
         int i;
         int j;
-        int[] pivot;
-        double volume;
 
-        pivot = new int[m];
-        b = new double[m * m];
+        int[] pivot = new int[m];
+        double[] b = new double[m * m];
 
         for (j = 0; j < m; j++)
         {
@@ -179,9 +173,9 @@ public static class Simplex
 
         typeMethods.r8ge_fa(m, ref b, ref pivot);
 
-        det = typeMethods.r8ge_det(m, b, pivot);
+        double det = typeMethods.r8ge_det(m, b, pivot);
 
-        volume = Math.Abs(det);
+        double volume = Math.Abs(det);
         for (i = 1; i <= m; i++)
         {
             volume /= i;
@@ -231,16 +225,14 @@ public static class Simplex
         //
     {
         int dim;
-        int i;
-        int k;
-        double value = 0;
 
-        value = 1.0;
+        double value = 1.0;
 
-        k = 0;
+        int k = 0;
 
         for (dim = 0; dim < m; dim++)
         {
+            int i;
             for (i = 1; i <= expon[dim]; i++)
             {
                 k += 1;
@@ -293,28 +285,24 @@ public static class Simplex
         //    Output, double SIMPLEX_UNIT_MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact = 1.0;
-        double quad;
-        double quad_error;
-        double scale;
-        double[] value;
+        const double exact = 1.0;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        scale = simplex_unit_monomial_integral(m, expon);
+        double scale = simplex_unit_monomial_integral(m, expon);
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = Monomial.monomial_value(m, n, expon, x);
+        double[] value = Monomial.monomial_value(m, n, expon, x);
         //
         //  Compute the weighted sum and divide by the exact value.
         //
-        quad = typeMethods.r8vec_dot_product(n, w, value) / scale;
+        double quad = typeMethods.r8vec_dot_product(n, w, value) / scale;
 
         //
         //  Error:
         //
-        quad_error = Math.Abs(quad - exact);
+        double quad_error = Math.Abs(quad - exact);
 
         return quad_error;
     }
@@ -367,27 +355,24 @@ public static class Simplex
         //    Output, double UNIFORM_IN_SIMPLEX01_MAP[M*N], the points.
         //
     {
-        double[] e;
-        int i;
         int j;
-        double total;
-        double[] x;
         //
         //  The construction begins by sampling M+1 points from the
         //  exponential distribution with parameter 1.
         //
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(m + 1, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(m + 1, ref seed);
 
+            int i;
             for (i = 0; i <= m; i++)
             {
                 e[i] = -Math.Log(e[i]);
             }
 
-            total = 0.0;
+            double total = 0.0;
             for (i = 0; i <= m; i++)
             {
                 total += e[i];
@@ -457,9 +442,7 @@ public static class Simplex
         //    Output, double PHY[M*N], corresponding points in the physical triangle.
         //
     {
-        int i;
         int j;
-        int k;
         //
         //  The image of each point is initially the image of the origin.
         //
@@ -469,10 +452,12 @@ public static class Simplex
         //
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 phy[i + j * m] = t[i + 0 * m];
 
+                int k;
                 for (k = 1; k < m + 1; k++)
                 {
                     phy[i + j * m] += (t[i + k * m] - t[i + 0 * m]) * ref_[k - 1 + j * m];
@@ -514,9 +499,8 @@ public static class Simplex
         //
     {
         int i;
-        double volume;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (i = 1; i <= m; i++)
         {
             volume /= i;

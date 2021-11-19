@@ -44,21 +44,14 @@ public static partial class Ranking
         //    TRUE, the data is legal.
         //    FALSE, the data is not legal.
     {
-        bool check;
-        int[] d;
         int i;
         int j;
         int k;
-        int x;
-        int y;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         for (i = 0; i < 2; i++)
@@ -67,8 +60,7 @@ public static partial class Ranking
             {
                 if (t[i + j * 2] < 1 || n < t[i + j * 2])
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
         }
@@ -76,21 +68,20 @@ public static partial class Ranking
         // 
         //  Compute the degree of each node.
         //
-        d = edge_degree(n, n - 1, t);
+        int[] d = edge_degree(n, n - 1, t);
         // 
         //  Delete a node of degree 1, N-1 times.
         // 
         for (k = 1; k <= n - 1; k++)
         {
-            x = 1;
+            int x = 1;
 
             while (d[x - 1] != 1)
             {
                 x += 1;
                 if (n < x)
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
 
@@ -99,6 +90,7 @@ public static partial class Ranking
             // 
             j = 1;
 
+            int y;
             for (;;)
             {
                 if (t[0 + (j - 1) * 2] == x)
@@ -117,8 +109,7 @@ public static partial class Ranking
 
                 if (n - 1 < j)
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
 
@@ -140,7 +131,7 @@ public static partial class Ranking
             }
         }
 
-        return check;
+        return true;
     }
 
     public static int tree_enum(int n)
@@ -230,13 +221,10 @@ public static partial class Ranking
         //    Output, int RANK, the rank of the tree.
         // 
     {
-        bool check;
-        int[] p;
-        int rank;
         // 
         //  Check the tree.
         // 
-        check = tree_check(n, t);
+        bool check = tree_check(n, t);
 
         switch (check)
         {
@@ -250,11 +238,11 @@ public static partial class Ranking
         // 
         //  Convert the tree to a Pruefer code.
         // 
-        p = tree_to_pruefer(n, t);
+        int[] p = tree_to_pruefer(n, t);
         // 
         //  Find the rank of the Pruefer code.
         // 
-        rank = pruefer_rank(n, p);
+        int rank = pruefer_rank(n, p);
             
         return rank;
     }
@@ -299,8 +287,6 @@ public static partial class Ranking
         //    Input/output, int &RANK, the rank of the tree.
         // 
     {
-        bool check;
-        int i;
         int[] p;
         switch (rank)
         {
@@ -311,6 +297,7 @@ public static partial class Ranking
             {
                 p = new int[n - 2];
 
+                int i;
                 for (i = 0; i < n - 2; i++)
                 {
                     p[i] = 1;
@@ -325,7 +312,7 @@ public static partial class Ranking
         // 
         //  Check the tree.
         // 
-        check = tree_check(n, t);
+        bool check = tree_check(n, t);
 
         switch (check)
         {
@@ -389,18 +376,11 @@ public static partial class Ranking
         //    Output, int TREE_TO_PRUEFER[N-2], the Pruefer code for the tree.
         // 
     {
-        bool check;
-        int[] d;
-        int i;
         int j;
-        int k;
-        int[] p;
-        int x;
-        int y;
         // 
         //  Check.
         // 
-        check = tree_check(n, t);
+        bool check = tree_check(n, t);
 
         switch (check)
         {
@@ -414,16 +394,16 @@ public static partial class Ranking
         // 
         //  Compute the degree of each node.
         // 
-        d = edge_degree(n, n - 1, t);
+        int[] d = edge_degree(n, n - 1, t);
 
-        p = new int[n - 2];
+        int[] p = new int[n - 2];
 
         for (j = 1; j <= n - 2; j++)
         {
             // 
             //  Find a node of degree 1.
             // 
-            x = n;
+            int x = n;
             while (d[x - 1] != 1)
             {
                 x -= 1;
@@ -432,8 +412,9 @@ public static partial class Ranking
             // 
             //  Find its neighbor.
             // 
-            k = 1;
+            int k = 1;
 
+            int y;
             for (;;)
             {
                 if (t[0 + (k - 1) * 2] == x)
@@ -470,6 +451,7 @@ public static partial class Ranking
         // 
         for (j = 0; j < n - 2; j++)
         {
+            int i;
             for (i = 0; i < 2; i++)
             {
                 t[i + j * 2] = -t[i + j * 2];
@@ -518,9 +500,6 @@ public static partial class Ranking
         //    as pairs of nodes.
         // 
     {
-        int[] p;
-        int[] t;
-        int tree_num;
         switch (n)
         {
             // 
@@ -533,7 +512,7 @@ public static partial class Ranking
                 return null;
         }
 
-        tree_num = tree_enum(n);
+        int tree_num = tree_enum(n);
 
         if (rank < 0 || tree_num < rank)
         {
@@ -546,11 +525,11 @@ public static partial class Ranking
         // 
         //  Unrank the Pruefer code.
         // 
-        p = pruefer_unrank(rank, n);
+        int[] p = pruefer_unrank(rank, n);
         // 
         //  Convert the Pruefer code to a tree.
         // 
-        t = pruefer_to_tree_new(n, p);
+        int[] t = pruefer_to_tree_new(n, p);
 
         return t;
     }

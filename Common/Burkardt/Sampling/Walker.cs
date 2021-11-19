@@ -7,7 +7,7 @@ namespace Burkardt.Sampling;
 
 public static class Walker
 {
-    private static Rand48 rand48 = new();
+    private static readonly Rand48 rand48 = new();
 
     public static void walker_build(int n, double[] x, ref double[] y, ref int[] a)
 
@@ -48,9 +48,7 @@ public static class Walker
         //    Output, int A[N+2], the Walker index vector.
         //
     {
-        int[] b;
         int i;
-        int j;
         int k;
         //
         //  Initialize A.
@@ -65,7 +63,7 @@ public static class Walker
         //
         //  Initialize B to the "stay here" value, and set sentinel values at the ends.
         //
-        b = new int[n + 2];
+        int[] b = new int[n + 2];
 
         b[0] = 0;
         for (i = 1; i <= n; i++)
@@ -87,7 +85,7 @@ public static class Walker
         y[n + 1] = 2.0;
 
         i = 0;
-        j = n + 1;
+        int j = n + 1;
 
         for (;;)
         {
@@ -213,16 +211,12 @@ public static class Walker
         //    selected according to the probability vector X.
         //
     {
-        int i;
-        double r;
-
-
         // 
         //  Let i = random uniform integer from {1,2,...N};  
         //
-        i = 1 + (int) (n * rand48.drand48());
+        int i = 1 + (int) (n * rand48.drand48());
 
-        r = rand48.drand48();
+        double r = rand48.drand48();
 
         if (y[i] < r)
         {
@@ -254,24 +248,11 @@ public static class Walker
         //    C++ version by John Burkardt.
         //
     {
-        int[] a;
-        int[] count;
-        double expval;
         int i;
-        int j;
-        int n;
-        double p;
-        int seed;
-        int seed2;
-        double sum;
-        double t;
-        double v;
-        double[] x;
-        double[] y;
 
-        seed = 123456789;
-        n = 10;
-        p = 2.0;
+        const int seed = 123456789;
+        const int n = 10;
+        const double p = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("WALKER_SAMPLER_TEST:");
@@ -283,14 +264,14 @@ public static class Walker
         //
         Console.WriteLine("  Use seed = " + seed + " to initialize srand48():");
 
-        Rand48 rand48 = new();
-        rand48.SetSeed((ulong)seed);
+        Rand48 _rand48 = new();
+        _rand48.SetSeed(seed);
         //
         //  "Warm up" the random number generator.
         //
         for (i = 0; i < 100; i++)
         {
-            rand48.drand48();
+            _rand48.drand48();
         }
 
         Console.WriteLine("");
@@ -298,14 +279,14 @@ public static class Walker
 
         for (i = 100; i < 103; i++)
         {
-            Console.WriteLine("  " + rand48.drand48() + "");
+            Console.WriteLine("  " + _rand48.drand48() + "");
         }
 
         //
         //  Generate a standard Zipf probability vector for cases 1,...,N,
         //  with parameter P.
         //
-        x = Zipf.zipf_probability(n, p);
+        double[] x = Zipf.zipf_probability(n, p);
 
         Console.WriteLine("");
         Console.WriteLine("  Zipf probabilities");
@@ -323,7 +304,7 @@ public static class Walker
         //
         //  For better testing, randomly scramble the probabilities.
         //
-        seed2 = 123456789;
+        int seed2 = 123456789;
         Permutation.random_permutation(n, ref x, ref seed2);
 
         Console.WriteLine("");
@@ -340,8 +321,8 @@ public static class Walker
         //
         //  Build the Walker sampler.
         //
-        y = new double[n + 2];
-        a = new int[n + 2];
+        double[] y = new double[n + 2];
+        int[] a = new int[n + 2];
 
         walker_build(n, x, ref y, ref a);
 
@@ -360,7 +341,7 @@ public static class Walker
         //
         //  Prepare to count the frequency of each outcome.
         //
-        count = new int[n + 2];
+        int[] count = new int[n + 2];
         for (i = 1; i <= n; i++)
         {
             count[i] = 0;
@@ -371,14 +352,14 @@ public static class Walker
         //
         for (i = 0; i < 100000; i++)
         {
-            j = walker_sampler(n, y, a);
+            int j = walker_sampler(n, y, a);
             count[j] += 1;
         }
 
         //
         //  Compare normalized sample frequencies to the original probabilities in X.
         //
-        sum = 0.0;
+        double sum = 0.0;
         Console.WriteLine("");
         Console.WriteLine("  100000 samples:");
         Console.WriteLine("  prob   #samples:");
@@ -388,8 +369,8 @@ public static class Walker
         {
             Console.WriteLine("  " + x[i]
                                    + "  " + count[i] + "");
-            expval = x[i] * 100000;
-            t = expval - count[i];
+            double expval = x[i] * 100000;
+            double t = expval - count[i];
             sum += t * t / expval;
         }
 
@@ -400,7 +381,7 @@ public static class Walker
         //
         //  Verify the data structure.
         //
-        v = walker_verify(n, x, y, a);
+        double v = walker_verify(n, x, y, a);
         Console.WriteLine("");
         Console.WriteLine("  Verification sum: " + v + "");
         Console.WriteLine("  (Should be close to 0.)");
@@ -447,10 +428,8 @@ public static class Walker
         //    should be close to zero.
     {
         int i;
-        double v;
-        double[] z;
 
-        z = new double[n + 2];
+        double[] z = new double[n + 2];
         //
         //  Reverse the scaling.
         //
@@ -470,7 +449,7 @@ public static class Walker
         //
         //  Check for discrepancies between Z and X.
         //
-        v = 0.0;
+        double v = 0.0;
         for (i = 1; i <= n; i++)
         {
             v += Math.Abs(z[i] - x[i]);

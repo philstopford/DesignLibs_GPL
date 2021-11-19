@@ -52,9 +52,6 @@ public static class Vibonacci
         //
     {
         int i;
-        int j;
-        int s1;
-        int s2;
 
         switch (n)
         {
@@ -74,9 +71,9 @@ public static class Vibonacci
 
         for ( i = 2; i < n; i++ )
         {
-            j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
+            int j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
 
-            s1 = j switch
+            int s1 = j switch
             {
                 0 => -1,
                 _ => +1
@@ -84,7 +81,7 @@ public static class Vibonacci
 
             j = UniformRNG.i4_uniform_ab ( 0, 1, ref seed );
 
-            s2 = j switch
+            int s2 = j switch
             {
                 0 => -1,
                 _ => +1

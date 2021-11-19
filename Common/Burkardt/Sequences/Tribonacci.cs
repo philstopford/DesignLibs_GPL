@@ -56,11 +56,10 @@ public class Tribonacci
         double alpha = 0;
         Complex beta = new();
         Complex gamma = new();
-        int t;
 
         tribonacci_roots(ref alpha, ref beta, ref gamma);
 
-        t = n switch
+        int t = n switch
         {
             <= 0 => 0,
             _ => (int) Math.Round((Complex.Pow(alpha, n) / (-Complex.Pow(alpha, 2) + 4.0 * alpha - 1.0) +
@@ -108,10 +107,9 @@ public class Tribonacci
         //    int TRIBONACCI_RECURSIVE[N], the first N Tribonacci numbers.
         //
     {
-        int[] f;
         int i;
 
-        f = new int[n];
+        int[] f = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -178,16 +176,11 @@ public class Tribonacci
         //    double &ALPHA, complex <double> &BETA, complex <double> &GAMMA, the roots.
         //
     {
-        double a;
-        double b;
-        double rho;
-        double tau;
+        double rho = typeMethods.r8_cube_root(19.0 + 3.0 * Math.Sqrt(33.0));
+        double tau = typeMethods.r8_cube_root(19.0 - 3.0 * Math.Sqrt(33.0));
 
-        rho = typeMethods.r8_cube_root(19.0 + 3.0 * Math.Sqrt(33.0));
-        tau = typeMethods.r8_cube_root(19.0 - 3.0 * Math.Sqrt(33.0));
-
-        a = (2.0 - rho - tau) / 6.0;
-        b = Math.Sqrt(3.0) * (rho - tau) / 6.0;
+        double a = (2.0 - rho - tau) / 6.0;
+        double b = Math.Sqrt(3.0) * (rho - tau) / 6.0;
 
         alpha = (1.0 + rho + tau) / 3.0;
         beta = new Complex(a, +b);

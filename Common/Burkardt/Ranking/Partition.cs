@@ -61,8 +61,6 @@ public static partial class Ranking
         // 
     {
         int i;
-        int[] indx;
-        int j;
         int[] sums = new int[2];
 
         sums[0] = 0;
@@ -70,18 +68,11 @@ public static partial class Ranking
 
         typeMethods.i4vec_sort_insert_d(n, ref a);
 
-        indx = new int[n];
+        int[] indx = new int[n];
 
         for (i = 0; i < n; i++)
         {
-            if (sums[0] < sums[1])
-            {
-                j = 0;
-            }
-            else
-            {
-                j = 1;
-            }
+            int j = sums[0] < sums[1] ? 0 : 1;
 
             indx[i] = j;
             sums[j] += a[i];
@@ -132,7 +123,6 @@ public static partial class Ranking
         //    with maximum element NMAX.
         // 
     {
-        int[] p;
         int value;
 
         switch (n)
@@ -148,7 +138,7 @@ public static partial class Ranking
                 }
                 else
                 {
-                    p = npart_table(n, nmax);
+                    int[] p = npart_table(n, nmax);
 
                     value = p[n + nmax * (n + 1)];
                 }
@@ -208,29 +198,22 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         // 
     {
-        int asum;
-        bool check;
         int i;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         if (nmax < 1 || n < nmax)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         if (npart < 1 || n < npart)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         // 
@@ -238,8 +221,7 @@ public static partial class Ranking
         // 
         if (a[0] != nmax)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         // 
@@ -249,8 +231,7 @@ public static partial class Ranking
         {
             if (a[i] < 1 || n < a[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -261,23 +242,21 @@ public static partial class Ranking
         {
             if (a[i - 1] < a[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
         // 
         //  The entries must add up to N.
         // 
-        asum = typeMethods.i4vec_sum(npart, a);
+        int asum = typeMethods.i4vec_sum(npart, a);
 
         if (asum != n)
         {
-            check = false;
-            return check;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     public static void partn_successor(int n, int nmax, ref int npart, ref int[] a, ref int rank )
@@ -332,10 +311,7 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
-        int index;
-        int temp;
         switch (rank)
         {
             // 
@@ -358,7 +334,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = partn_sf_check(n, nmax, npart, a);
+        bool check = partn_sf_check(n, nmax, npart, a);
 
         switch (check)
         {
@@ -382,8 +358,9 @@ public static partial class Ranking
                 {
                     a[npart - 1] -= 1;
                     a[npart - 2] += 1;
-                    index = npart - 1;
+                    int index = npart - 1;
 
+                    int temp;
                     for (;;)
                     {
                         if (index <= 1)
@@ -491,20 +468,15 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         // 
     {
-        bool check;
         int i;
-        int imin;
-        int j;
 
-        check = true;
         switch (m)
         {
             //
             //  Check M.
             //
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         switch (nsub)
@@ -513,20 +485,18 @@ public static partial class Ranking
             //  Check NSUB.
             //
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         // 
         //  Check INDEX.
         // 
-        imin = 0;
+        int imin = 0;
         for (i = 0; i < nsub; i++)
         {
             if (index[i] <= imin || m < index[i])
             {
-                check = false;
-                return check;
+                return false;
             }
 
             imin = index[i];
@@ -539,21 +509,20 @@ public static partial class Ranking
         {
             if (s[i] <= 0 || m < s[i])
             {
-                check = false;
-                return check;
+                return false;
             }
 
+            int j;
             for (j = 0; j < i; j++)
             {
                 if (s[j] == s[i])
                 {
-                    check = false;
-                    return check;
+                    return false;
                 }
             }
         }
 
-        return check;
+        return true;
     }
 
     public static int setpart_enum(int m)
@@ -593,9 +562,6 @@ public static partial class Ranking
         //    Output, int SETPART_ENUM, the number of partitions of the set.
         // 
     {
-        int[] b;
-        int i;
-        int j;
         int value;
 
         switch (m)
@@ -608,11 +574,13 @@ public static partial class Ranking
                 break;
             default:
             {
-                b = new int[m + 1];
+                int[] b = new int[m + 1];
                 b[0] = 1;
+                int j;
                 for (j = 1; j <= m; j++)
                 {
                     b[j] = 0;
+                    int i;
                     for (i = 0; i < j; i++)
                     {
                         b[j] += typeMethods.i4_choose(j - 1, i) * b[i];
@@ -675,16 +643,11 @@ public static partial class Ranking
         //    M to NSUB.
         // 
     {
-        bool check;
-        int[] f;
         int i;
-        int k;
-        int khi;
-        int klo;
         // 
         //  Check.
         // 
-        check = setpart_check(m, nsub, s, index);
+        bool check = setpart_check(m, nsub, s, index);
 
         switch (check)
         {
@@ -695,13 +658,14 @@ public static partial class Ranking
                 return null;
         }
 
-        f = new int[m];
+        int[] f = new int[m];
 
-        khi = 0;
+        int khi = 0;
         for (i = 1; i <= nsub; i++)
         {
-            klo = khi + 1;
+            int klo = khi + 1;
             khi = index[i - 1];
+            int k;
             for (k = klo; k <= khi; k++)
             {
                 f[s[k - 1] - 1] = i;

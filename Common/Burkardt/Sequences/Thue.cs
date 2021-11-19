@@ -58,11 +58,9 @@ public static class Thue
         //
     {
         int i;
-        int n_out;
-        int[] thue_out;
 
-        n_out = 0;
-        thue_out = new int[2 * n];
+        int n_out = 0;
+        int[] thue_out = new int[2 * n];
 
         for (i = 0; i < n; i++)
         {
@@ -163,11 +161,9 @@ public static class Thue
         //
     {
         int i;
-        int n_out;
-        int[] thue_out;
 
-        n_out = 0;
-        thue_out = new int[3 * n];
+        int n_out = 0;
+        int[] thue_out = new int[3 * n];
 
         for (i = 0; i < n; i++)
         {

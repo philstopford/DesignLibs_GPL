@@ -49,16 +49,15 @@ public static partial class Ranking
         //    Output, int BELL_NUMBERS[M+1], the first M+1 Bell numbers.
         // 
     {
-        int[] b;
-        int i;
         int j;
 
-        b = new int[m + 1];
+        int[] b = new int[m + 1];
 
         b[0] = 1;
         for (j = 1; j <= m; j++)
         {
             b[j] = 0;
+            int i;
             for (i = 0; i < j; i++)
             {
                 b[j] += typeMethods.i4_choose(j - 1, i) * b[i];

@@ -117,11 +117,13 @@ public static partial class Ranking
 
             k -= 1;
 
-            if (k <= 0)
+            if (k > 0)
             {
-                indx = 3;
-                break;
+                continue;
             }
+
+            indx = 3;
+            break;
         }
     }
 }

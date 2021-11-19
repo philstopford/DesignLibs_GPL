@@ -76,7 +76,6 @@ public static class Region
         //    Input/output, int *SEED, the random number seed.
         //
     {
-        double exponent;
         int i;
         int j;
         int k;
@@ -108,7 +107,6 @@ public static class Region
                     case true:
                     {
                         data.halton_seed = 1;
-                        reset = false;
 
                         data.halton_base = new int[m];
                         for (i = 0; i < m; i++)
@@ -139,7 +137,7 @@ public static class Region
                     case true:
                     {
                         data.rank = 0;
-                        exponent = 1.0 / m;
+                        double exponent = 1.0 / m;
 
                         data.ngrid = (int) Math.Pow(n_total, exponent);
 
@@ -149,7 +147,6 @@ public static class Region
                         }
                     
                         data.tuple = new int[m];
-                        reset = false;
                         break;
                     }
                 }

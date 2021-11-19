@@ -48,12 +48,9 @@ public static class MonteCarlo
         //    Output, double SIMPLEX_GENERAL_SAMPLE[M*N], the points.
         //
     {
-        double[] x;
-        double[] x1;
+        double[] x1 = simplex_unit_sample(m, n, ref seed);
 
-        x1 = simplex_unit_sample(m, n, ref seed);
-
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
         simplex_unit_to_general(m, n, t, x1, x);
 
@@ -98,15 +95,11 @@ public static class MonteCarlo
         //    Output, double SIMPLEX_GENERAL_VOLUME, the volume of the simplex.
         //
     {
-        double[] b;
-        double det;
         int i;
         int j;
-        int[] pivot;
-        double volume;
 
-        pivot = new int[m];
-        b = new double[m * m];
+        int[] pivot = new int[m];
+        double[] b = new double[m * m];
 
         for (j = 0; j < m; j++)
         {
@@ -118,9 +111,9 @@ public static class MonteCarlo
 
         typeMethods.r8ge_fa(m, ref b, ref pivot);
 
-        det = typeMethods.r8ge_det(m, b, pivot);
+        double det = typeMethods.r8ge_det(m, b, pivot);
 
-        volume = Math.Abs(det);
+        double volume = Math.Abs(det);
         for (i = 1; i <= m; i++)
         {
             volume /= i;
@@ -164,9 +157,6 @@ public static class MonteCarlo
         //
     {
         int i;
-        double integral;
-        int j;
-        int k;
 
         for (i = 0; i < m; i++)
         {
@@ -180,11 +170,12 @@ public static class MonteCarlo
             }
         }
 
-        k = 0;
-        integral = 1.0;
+        int k = 0;
+        double integral = 1.0;
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 1; j <= e[i]; j++)
             {
                 k += 1;
@@ -242,24 +233,21 @@ public static class MonteCarlo
         //    Output, double SIMPLEX_UNIT_SAMPLE_01[M*N], the points.
         //
     {
-        double[] e;
-        double e_sum;
-        int i;
         int j;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            e = UniformRNG.r8vec_uniform_01_new(m + 1, ref seed);
+            double[] e = UniformRNG.r8vec_uniform_01_new(m + 1, ref seed);
 
+            int i;
             for (i = 0; i < m + 1; i++)
             {
                 e[i] = -Math.Log(e[i]);
             }
 
-            e_sum = typeMethods.r8vec_sum(m + 1, e);
+            double e_sum = typeMethods.r8vec_sum(m + 1, e);
 
             for (i = 0; i < m; i++)
             {
@@ -325,9 +313,7 @@ public static class MonteCarlo
         //    Output, double PHY[M*N], corresponding points in the physical triangle.
         //
     {
-        int dim;
         int point;
-        int vertex;
         //
         //  The image of each point is initially the image of the origin.
         //
@@ -337,10 +323,12 @@ public static class MonteCarlo
         //
         for (point = 0; point < n; point++)
         {
+            int dim;
             for (dim = 0; dim < m; dim++)
             {
                 phy[dim + point * m] = t[dim + 0 * m];
 
+                int vertex;
                 for (vertex = 1; vertex < m + 1; vertex++)
                 {
                     phy[dim + point * m] += (t[dim + vertex * m] - t[dim + 0 * m]) * ref_[vertex - 1 + point * m];
@@ -377,9 +365,8 @@ public static class MonteCarlo
         //
     {
         int i;
-        double volume;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (i = 1; i <= m; i++)
         {
             volume /= i;

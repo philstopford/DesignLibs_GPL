@@ -55,13 +55,12 @@ public static class PowerSeries
         //    Output, double B[N], the power series coefficients for G(Z).
         //
     {
-        int i;
         int j;
-        double v;
 
         for (j = 1; j <= n; j++)
         {
-            v = 0.0;
+            double v = 0.0;
+            int i;
             for (i = 1; i <= j - 1; i++)
             {
                 v += b[i - 1] * a[j - i - 1] * (alpha * (j - i) - i);
@@ -121,14 +120,13 @@ public static class PowerSeries
         //    Output, double B[N], the power series coefficients for G(Z).
         //
     {
-        int i;
         int j;
-        double v;
 
         for (j = 1; j <= n; j++)
         {
-            v = 0.0;
+            double v = 0.0;
 
+            int i;
             for (i = 1; i <= j - 1; i++)
             {
                 v += b[i - 1] * a[j - i - 1] * (j - i);
@@ -190,14 +188,8 @@ public static class PowerSeries
         //
     {
         int i;
-        int iq;
-        int j;
-        int m;
-        double r;
-        double v;
-        double[] work;
 
-        work = new double[n];
+        double[] work = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -207,20 +199,22 @@ public static class PowerSeries
         //
         //  Search for IQ, the index of the first nonzero entry in A.
         //
-        iq = 0;
+        int iq = 0;
 
         for (i = 1; i <= n; i++)
         {
-            if (a[i - 1] != 0.0)
+            if (a[i - 1] == 0.0)
             {
-                iq = i;
-                break;
+                continue;
             }
+
+            iq = i;
+            break;
         }
 
         if (iq != 0)
         {
-            m = 1;
+            int m = 1;
 
             for (;;)
             {
@@ -237,12 +231,13 @@ public static class PowerSeries
                         continue;
                 }
 
-                r = b[m - 1] * Math.Pow(a[iq - 1], m);
+                double r = b[m - 1] * Math.Pow(a[iq - 1], m);
                 work[m * iq - 1] += r;
 
+                int j;
                 for (j = 1; j <= n - m * iq; j++)
                 {
-                    v = 0.0;
+                    double v = 0.0;
                     for (i = 1; i <= j - 1; i++)
                     {
                         v += c[i - 1] * a[j - i + iq - 1] * (m * (j - i) - i);
@@ -318,11 +313,7 @@ public static class PowerSeries
         //
     {
         int i;
-        int l;
         int m;
-        double s;
-        double t;
-        double[] work;
 
         switch (a[0])
         {
@@ -333,9 +324,9 @@ public static class PowerSeries
                 return;
         }
 
-        work = new double[n];
+        double[] work = new double[n];
 
-        t = 1.0;
+        double t = 1.0;
 
         for (i = 0; i < n; i++)
         {
@@ -346,9 +337,10 @@ public static class PowerSeries
 
         for (m = 2; m <= n; m++)
         {
-            s = -work[m - 1];
+            double s = -work[m - 1];
             for (i = m; i <= n; i++)
             {
+                int l;
                 for (l = i; l <= n; l++)
                 {
                     c[l - 1] += s * c[l - m];

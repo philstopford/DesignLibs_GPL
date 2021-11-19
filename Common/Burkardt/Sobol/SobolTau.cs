@@ -78,16 +78,15 @@ public static class Tau
         //    Output, int TAU_SOBOL, the value TAU.
         //
     {
-        int DIM_MAX = 13;
+        const int DIM_MAX = 13;
 
-        int tau;
         int[] tau_table = {
             0,  0,  1,  3,  5, 
             8, 11, 15, 19, 23, 
             27, 31, 35
         };
 
-        tau = dim_num switch
+        int tau = dim_num switch
         {
             >= 1 when dim_num <= DIM_MAX => tau_table[dim_num - 1],
             _ => -1

@@ -46,13 +46,11 @@ public static partial class Ranking
         //    Output, int SUBSET_COLEX_RANK, the rank of the subset.
         // 
     {
-        bool check;
         int i;
-        int rank;
         // 
         //  Check.
         // 
-        check = SubsetNS.Subset.subset_check(n, t);
+        bool check = SubsetNS.Subset.subset_check(n, t);
 
         switch (check)
         {
@@ -63,7 +61,7 @@ public static partial class Ranking
                 return 1;
         }
 
-        rank = 0;
+        int rank = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -121,9 +119,6 @@ public static partial class Ranking
         // 
     {
         int i;
-        int nsub;
-        int rank_copy;
-        int[] t;
         switch (n)
         {
             // 
@@ -136,7 +131,7 @@ public static partial class Ranking
                 return null;
         }
 
-        nsub = SubsetNS.Subset.subset_enum(n);
+        int nsub = SubsetNS.Subset.subset_enum(n);
 
         if (rank < 0 || nsub < rank)
         {
@@ -146,8 +141,8 @@ public static partial class Ranking
             return null;
         }
 
-        rank_copy = rank;
-        t = new int[n];
+        int rank_copy = rank;
+        int[] t = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -219,24 +214,20 @@ public static partial class Ranking
         //    Gray code ordering.
         //
     {
-        int gray;
         int i;
-        int rank;
-        uint[] ua;
-        uint ugray;
 
-        ua = new uint[n];
+        uint[] ua = new uint[n];
 
         for (i = 0; i < n; i++)
         {
             ua[i] = (uint)a[i];
         }
 
-        ugray = typeMethods.ubvec_to_ui4(n, ua);
+        uint ugray = typeMethods.ubvec_to_ui4(n, ua);
 
-        gray = (int)ugray;
+        int gray = (int)ugray;
 
-        rank = gray_rank(gray);
+        int rank = gray_rank(gray);
 
         rank += 1;
 
@@ -298,16 +289,13 @@ public static partial class Ranking
         //    and 0 otherwise.
         //
     {
-        int gray;
         int i;
-        uint[] ua;
-        uint ugray;
 
-        gray = gray_unrank(rank - 1);
+        int gray = gray_unrank(rank - 1);
 
-        ugray = (uint)gray;
+        uint ugray = (uint)gray;
 
-        ua = new uint [n];
+        uint[] ua = new uint [n];
 
         typeMethods.ui4_to_ubvec(ugray, n, ref ua);
 
@@ -356,13 +344,11 @@ public static partial class Ranking
         //    Output, int SUBSET_LEX_RANK, the rank of the subset.
         // 
     {
-        bool check;
         int i;
-        int rank;
         // 
         //  Check.
         // 
-        check = SubsetNS.Subset.subset_check(n, t);
+        bool check = SubsetNS.Subset.subset_check(n, t);
 
         switch (check)
         {
@@ -373,7 +359,7 @@ public static partial class Ranking
                 return 1;
         }
 
-        rank = 0;
+        int rank = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -430,9 +416,6 @@ public static partial class Ranking
         // 
     {
         int i;
-        int nsub;
-        int rank_copy;
-        int[] t;
         switch (n)
         {
             // 
@@ -445,7 +428,7 @@ public static partial class Ranking
                 return null;
         }
 
-        nsub = SubsetNS.Subset.subset_enum(n);
+        int nsub = SubsetNS.Subset.subset_enum(n);
 
         if (rank < 0 || nsub < rank)
         {
@@ -455,8 +438,8 @@ public static partial class Ranking
             return null;
         }
 
-        rank_copy = rank;
-        t = new int[n];
+        int rank_copy = rank;
+        int[] t = new int[n];
 
         for (i = n - 1; 0 <= i; i--)
         {

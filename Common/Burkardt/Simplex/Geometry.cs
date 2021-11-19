@@ -59,12 +59,7 @@ public static class Geometry
         //    and V was reset to 0, and the lattice layer has been exhausted.
         //
     {
-        int c1n;
-        int i;
         int j;
-        int lhs;
-        int rhs1;
-        int rhs2;
         switch (c[n])
         {
             //
@@ -111,13 +106,14 @@ public static class Geometry
             }
             default:
             {
-                c1n = typeMethods.i4vec_lcm(n, c);
+                int c1n = typeMethods.i4vec_lcm(n, c);
 
-                rhs1 = c1n * (c[n] - 1);
-                rhs2 = c1n * c[n];
+                int rhs1 = c1n * (c[n] - 1);
+                int rhs2 = c1n * c[n];
                 //
                 //  Try to increment component I.
                 //
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     v[i] += 1;
@@ -143,7 +139,7 @@ public static class Geometry
                         }
                     }
 
-                    lhs = 0;
+                    int lhs = 0;
                     for (j = 0; j < n; j++)
                     {
                         lhs += c1n / c[j] * v[j];
@@ -229,13 +225,6 @@ public static class Geometry
         //    for this simplex.
         //
     {
-        int c1n;
-        int i;
-        int j;
-        int lhs;
-        int rhs;
-        int term;
-
         switch (more)
         {
             case false:
@@ -244,13 +233,15 @@ public static class Geometry
                 break;
             default:
             {
-                c1n = typeMethods.i4vec_lcm(n, c);
-                rhs = c1n * c[n];
+                int c1n = typeMethods.i4vec_lcm(n, c);
+                int rhs = c1n * c[n];
 
-                lhs = 0;
+                int lhs = 0;
+                int i;
                 for (i = 0; i < n; i++)
                 {
-                    term = 1;
+                    int term = 1;
+                    int j;
                     for (j = 0; j < n; j++)
                     {
                         if (i == j)
@@ -336,9 +327,8 @@ public static class Geometry
         //
     {
         int i;
-        int n;
 
-        n = 1;
+        int n = 1;
         for (i = 1; i <= d; i++)
         {
             n = n * (s + i) / i;
@@ -379,9 +369,8 @@ public static class Geometry
         //
     {
         int i;
-        double volume;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (i = 1; i <= dim_num; i++)
         {
             volume /= i;
@@ -428,16 +417,12 @@ public static class Geometry
         //    Output, double SIMPLEX_VOLUME_ND, the volume of the simplex.
         //
     {
-        double[] b;
-        double det;
         int i;
-        int info;
         int j;
-        int[] pivot;
         double volume;
 
-        b = new double [dim_num * dim_num];
-        pivot = new int [dim_num];
+        double[] b = new double [dim_num * dim_num];
+        int[] pivot = new int [dim_num];
 
         for (j = 0; j < dim_num; j++)
         {
@@ -447,7 +432,7 @@ public static class Geometry
             }
         }
 
-        info = Matrix.dge_fa(dim_num, ref b, ref pivot);
+        int info = Matrix.dge_fa(dim_num, ref b, ref pivot);
 
         if (info != 0)
         {
@@ -455,7 +440,7 @@ public static class Geometry
         }
         else
         {
-            det = Matrix.dge_det(dim_num, b, pivot);
+            double det = Matrix.dge_det(dim_num, b, pivot);
 
             volume = Math.Abs(det);
             for (i = 1; i <= dim_num; i++)

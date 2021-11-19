@@ -44,28 +44,23 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         // 
     {
-        bool check;
         int i;
-
-        check = true;
 
         switch (n)
         {
             case < 3:
-                check = false;
-                return check;
+                return false;
         }
 
         for (i = 0; i < n - 2; i++)
         {
             if (p[i] < 1 || n < p[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
-        return check;
+        return true;
     }
 
     public static int pruefer_enum(int n)
@@ -143,14 +138,11 @@ public static partial class Ranking
         //    Output, int PRUEFER_RANK, the rank of the Pruefer code.
         // 
     {
-        bool check;
         int i;
-        int k;
-        int rank;
         // 
         //  Check.
         // 
-        check = pruefer_check(n, p);
+        bool check = pruefer_check(n, p);
 
         switch (check)
         {
@@ -161,8 +153,8 @@ public static partial class Ranking
                 return 1;
         }
 
-        rank = 0;
-        k = 1;
+        int rank = 0;
+        int k = 1;
         for (i = n - 3; 0 <= i; i--)
         {
             rank += k * (p[i] - 1);
@@ -217,9 +209,7 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
-        int j;
         switch (rank)
         {
             // 
@@ -240,7 +230,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = pruefer_check(n, p);
+        bool check = pruefer_check(n, p);
 
         switch (check)
         {
@@ -251,7 +241,7 @@ public static partial class Ranking
                 return;
         }
 
-        j = n - 2;
+        int j = n - 2;
 
         for (;;)
         {
@@ -332,16 +322,12 @@ public static partial class Ranking
         //    as pairs of nodes.
         // 
     {
-        bool check;
-        int[] d;
         int i;
         int j;
-        int x;
-        int y;
         // 
         //  Check.
         // 
-        check = pruefer_check(n, p);
+        bool check = pruefer_check(n, p);
 
         switch (check)
         {
@@ -363,7 +349,7 @@ public static partial class Ranking
             }
         }
 
-        d = new int[n];
+        int[] d = new int[n];
 
         for (i = 0; i < n; i++)
         {
@@ -377,20 +363,13 @@ public static partial class Ranking
 
         for (i = 1; i <= n - 1; i++)
         {
-            x = n;
+            int x = n;
             while (d[x - 1] != 1)
             {
                 x -= 1;
             }
 
-            if (i == n - 1)
-            {
-                y = 1;
-            }
-            else
-            {
-                y = p[i - 1];
-            }
+            int y = i == n - 1 ? 1 : p[i - 1];
 
             d[x - 1] -= 1;
             d[y - 1] -= 1;
@@ -443,9 +422,7 @@ public static partial class Ranking
         //    as pairs of nodes.
         // 
     {
-        int[] t;
-
-        t = new int[2 * (n - 1)];
+        int[] t = new int[2 * (n - 1)];
 
         pruefer_to_tree(n, p, ref t);
 
@@ -491,9 +468,7 @@ public static partial class Ranking
         // 
     {
         int i;
-        int ncode;
         int[] p;
-        int rank_copy;
         switch (n)
         {
             // 
@@ -505,11 +480,10 @@ public static partial class Ranking
                 Console.WriteLine("  Input N is illegal.");
                 return null;
             case < 3:
-                p = null;
-                return p;
+                return null;
         }
 
-        ncode = pruefer_enum(n);
+        int ncode = pruefer_enum(n);
 
         if (rank < 0 || ncode < rank)
         {
@@ -519,7 +493,7 @@ public static partial class Ranking
             return null;
         }
 
-        rank_copy = rank;
+        int rank_copy = rank;
         p = new int[n - 2];
 
         for (i = n - 3; 0 <= i; i--)

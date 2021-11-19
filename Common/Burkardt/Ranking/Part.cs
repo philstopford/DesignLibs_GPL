@@ -42,7 +42,6 @@ public static partial class Ranking
         //    Output, int PART_ENUM is the number of partitions of N.
         // 
     {
-        int[] p;
         int value;
 
         switch (n)
@@ -51,7 +50,7 @@ public static partial class Ranking
                 value = 0;
                 break;
             default:
-                p = part_table(n);
+                int[] p = part_table(n);
 
                 value = p[n];
                 break;
@@ -105,22 +104,17 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         // 
     {
-        bool check;
         int i;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         if (npart < 1 || n < npart)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         // 
@@ -130,8 +124,7 @@ public static partial class Ranking
         {
             if (a[i] < 1 || n < a[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -142,21 +135,14 @@ public static partial class Ranking
         {
             if (a[i] < a[i - 1])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
         // 
         //  The entries must add up to N.
         // 
-        if (typeMethods.i4vec_sum(npart, a) != n)
-        {
-            check = false;
-            return check;
-        }
-
-        return check;
+        return typeMethods.i4vec_sum(npart, a) == n;
     }
 
     public static bool part_sf_check(int n, int npart, int[] a)
@@ -203,22 +189,17 @@ public static partial class Ranking
         //    TRUE, the data is legal.
         //    FALSE, the data is not legal.
     {
-        bool check;
         int i;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         if (npart < 1 || n < npart)
         {
-            check = false;
-            return check;
+            return false;
         }
 
         // 
@@ -228,8 +209,7 @@ public static partial class Ranking
         {
             if (a[i] < 1 || n < a[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -240,8 +220,7 @@ public static partial class Ranking
         {
             if (a[i - 1] < a[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -250,11 +229,10 @@ public static partial class Ranking
         // 
         if (typeMethods.i4vec_sum(npart, a) != n)
         {
-            check = false;
-            return check;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     public static int[] part_sf_conjugate(int n, int npart, int[] a, ref int npart2 )
@@ -303,14 +281,11 @@ public static partial class Ranking
         //    Output, int PART_SF_CONJUGATE[N], contains the conjugate partition.
         // 
     {
-        int[] b;
-        bool check;
         int i;
-        int j;
         // 
         //  Check.
         // 
-        check = part_sf_check(n, npart, a);
+        bool check = part_sf_check(n, npart, a);
 
         switch (check)
         {
@@ -323,7 +298,7 @@ public static partial class Ranking
 
         npart2 = a[0];
 
-        b = new int[n];
+        int[] b = new int[n];
 
         for (i = 0; i < npart2; i++)
         {
@@ -332,6 +307,7 @@ public static partial class Ranking
 
         for (i = 0; i < npart; i++)
         {
+            int j;
             for (j = 0; j < a[i]; j++)
             {
                 b[j] += 1;
@@ -412,15 +388,11 @@ public static partial class Ranking
         //    +2, A and B are incomparable, but would have been +1.
         // 
     {
-        bool check;
         int i;
-        int result;
-        int suma;
-        int sumb;
         // 
         //  Check.
         // 
-        check = part_sf_check(n, nparta, a);
+        bool check = part_sf_check(n, nparta, a);
 
         switch (check)
         {
@@ -442,9 +414,9 @@ public static partial class Ranking
                 return 1;
         }
 
-        result = 0;
-        suma = 0;
-        sumb = 0;
+        int result = 0;
+        int suma = 0;
+        int sumb = 0;
 
         for (i = 0; i < Math.Min(nparta, npartb); i++)
         {
@@ -539,10 +511,7 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        int asum;
-        bool check;
         int i;
-        int ihi;
         int j;
         switch (rank)
         {
@@ -565,7 +534,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = part_sf_check(n, npart, a);
+        bool check = part_sf_check(n, npart, a);
 
         switch (check)
         {
@@ -581,13 +550,13 @@ public static partial class Ranking
         //  is less than its left hand neighbor, and has at least one
         //  right hand neighbor.
         // 
-        ihi = npart - 1;
+        int ihi = npart - 1;
 
         for (i = ihi; 2 <= i; i--)
         {
             if (a[i - 1] < a[i - 2])
             {
-                asum = -1;
+                int asum = -1;
                 for (j = i + 1; j <= npart; j++)
                 {
                     asum += a[j - 1];
@@ -689,14 +658,8 @@ public static partial class Ranking
         // 
     {
         int i;
-        int j;
-        int[] p;
-        int psum;
-        int sign;
-        int w;
-        int wprime;
 
-        p = new int[n + 1];
+        int[] p = new int[n + 1];
 
         p[0] = 1;
 
@@ -710,11 +673,11 @@ public static partial class Ranking
 
         for (i = 2; i <= n; i++)
         {
-            sign = 1;
-            psum = 0;
-            w = 1;
-            j = 1;
-            wprime = w + j;
+            int sign = 1;
+            int psum = 0;
+            int w = 1;
+            int j = 1;
+            int wprime = w + j;
 
             while (w < n)
             {

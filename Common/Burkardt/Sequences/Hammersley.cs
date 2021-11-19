@@ -46,13 +46,9 @@ public static class Hammersley
         //    Output, double HAMMERSLEY[M], the element of the sequence with index I.
         //
     {
-        int d;
         int j;
-        double[] prime_inv;
-        double[] r;
-        int[] t;
 
-        t = new int[m];
+        int[] t = new int[m];
 
         t[0] = 0;
         for (j = 1; j < m; j++)
@@ -63,7 +59,7 @@ public static class Hammersley
         //
         //  Carry out the computation.
         //
-        prime_inv = new double[m];
+        double[] prime_inv = new double[m];
 
         prime_inv[0] = 1.0;
         for (j = 1; j < m; j++)
@@ -71,7 +67,7 @@ public static class Hammersley
             prime_inv[j] = 1.0 / Prime.prime(j);
         }
 
-        r = new double[m];
+        double[] r = new double[m];
 
         r[0] = i % (n + 1) / (double) n;
         for (j = 1; j < m; j++)
@@ -83,7 +79,7 @@ public static class Hammersley
         {
             for (j = 1; j < m; j++)
             {
-                d = t[j] % Prime.prime(j);
+                int d = t[j] % Prime.prime(j);
                 r[j] += d * prime_inv[j];
                 prime_inv[j] /= Prime.prime(j);
                 t[j] /= Prime.prime(j);
@@ -126,11 +122,8 @@ public static class Hammersley
         //    Output, int HAMMERSLEY_INVERSE, the index of the element of the sequence.
         //
     {
-        int d;
         int i;
         int j;
-        int p;
-        double t;
 
         for (j = 0; j < m; j++)
         {
@@ -172,13 +165,14 @@ public static class Hammersley
             case >= 2:
             {
                 i = 0;
-                t = r[1];
-                p = 1;
+                double t = r[1];
+                int p = 1;
 
                 while (t != 0.0)
                 {
                     t *= 2.0;
-                    d = (int) t;
+                    int d = (int) t;
+                    
                     i += d * p;
                     p *= 2;
                     t -= d;
@@ -235,15 +229,9 @@ public static class Hammersley
         //    the sequence with indices I1 through I2.
         //
     {
-        int d;
-        int i;
         int i3;
         int j;
         int k;
-        int l;
-        double[] prime_inv;
-        double[] r;
-        int[] t;
 
         if (i1 <= i2)
         {
@@ -254,11 +242,11 @@ public static class Hammersley
             i3 = -1;
         }
 
-        prime_inv = new double[m];
+        double[] prime_inv = new double[m];
         prime_inv[0] = 1.0;
 
-        l = Math.Abs(i2 - i1) + 1;
-        r = new double[m * l];
+        int l = Math.Abs(i2 - i1) + 1;
+        double[] r = new double[m * l];
 
         for (k = 0; k < l; k++)
         {
@@ -268,9 +256,9 @@ public static class Hammersley
             }
         }
 
-        i = i1;
+        int i = i1;
 
-        t = new int[m];
+        int[] t = new int[m];
         for (k = 0; k < l; k++)
         {
             t[0] = 0;
@@ -293,7 +281,7 @@ public static class Hammersley
             {
                 for (j = 1; j < m; j++)
                 {
-                    d = t[j] % Prime.prime(j);
+                    int d = t[j] % Prime.prime(j);
                     r[j + k * m] += d * prime_inv[j];
                     prime_inv[j] /= Prime.prime(j);
                     t[j] /= Prime.prime(j);
@@ -335,9 +323,8 @@ public static class Hammersley
         //    Output, bool HAMMERSLEY_BASE_CHECK.
     {
         int i;
-        bool value;
 
-        value = true;
+        const bool value = true;
 
         for (i = 0; i < dim_num; i++)
         {
@@ -387,19 +374,14 @@ public static class Hammersley
         //    Output, double HAMMERSLEY_IN_CUBE01[DIM_NUM*N], the points.
         //
     {
-        int[] base_;
         int i;
-        int[] leap;
-        int[] seed_vec;
-        int step;
-        double[] x;
 
-        base_ = new int[dim_num];
-        leap = new int[dim_num];
-        seed_vec = new int[dim_num];
-        x = new double[dim_num * n];
+        int[] base_ = new int[dim_num];
+        int[] leap = new int[dim_num];
+        int[] seed_vec = new int[dim_num];
+        double[] x = new double[dim_num * n];
 
-        step = seed;
+        int step = seed;
         for (i = 0; i < dim_num; i++)
         {
             seed_vec[i] = 0;
@@ -490,13 +472,9 @@ public static class Hammersley
         //    Hammersley subsequence.
         //
     {
-        double FIDDLE = 0.0;
+        const double FIDDLE = 0.0;
 
-        double base_inv;
-        int digit;
         int i;
-        int seed2;
-        int temp;
         //
         //  Check the input.
         //
@@ -534,15 +512,15 @@ public static class Hammersley
             {
                 case > 1:
                 {
-                    seed2 = seed[i] + step * leap[i];
+                    int seed2 = seed[i] + step * leap[i];
 
                     r[i] = 0.0;
 
-                    base_inv = 1.0 / base_[i];
+                    double base_inv = 1.0 / base_[i];
 
                     while (seed2 != 0)
                     {
-                        digit = seed2 % base_[i];
+                        int digit = seed2 % base_[i];
                         r[i] += digit * base_inv;
                         base_inv /= base_[i];
                         seed2 /= base_[i];
@@ -552,7 +530,7 @@ public static class Hammersley
                 }
                 //
                 default:
-                    temp = (seed[i] + step * leap[i]) % -base_[i];
+                    int temp = (seed[i] + step * leap[i]) % -base_[i];
                     r[i] = (temp + FIDDLE) / -base_[i];
                     break;
             }
@@ -647,14 +625,9 @@ public static class Hammersley
         //    leaped Hammersley subsequence, beginning with element STEP.
         //
     {
-        double FIDDLE = 0.0;
+        const double FIDDLE = 0.0;
 
-        double base_inv;
-        int digit;
         int i;
-        int j;
-        int[] seed2;
-        int temp;
         //
         //  Check the input.
         //
@@ -691,10 +664,11 @@ public static class Hammersley
         //
         //  Calculate the data.
         //
-        seed2 = new int[n];
+        int[] seed2 = new int[n];
 
         for (i = 0; i < dim_num; i++)
         {
+            int j;
             switch (base_[i])
             {
                 case > 1:
@@ -711,11 +685,11 @@ public static class Hammersley
 
                     for (j = 0; j < n; j++)
                     {
-                        base_inv = 1.0 / base_[i];
+                        double base_inv = 1.0 / base_[i];
 
                         while (seed2[j] != 0)
                         {
-                            digit = seed2[j] % base_[i];
+                            int digit = seed2[j] % base_[i];
                             r[i + j * dim_num] += digit * base_inv;
                             base_inv /= base_[i];
                             seed2[j] /= base_[i];
@@ -729,7 +703,7 @@ public static class Hammersley
                 {
                     for (j = 0; j < n; j++)
                     {
-                        temp = (seed[i] + (step + j) * leap[i]) % -base_[i];
+                        int temp = (seed[i] + (step + j) * leap[i]) % -base_[i];
 
                         r[i + j * dim_num] = (temp + FIDDLE)
                                              / -base_[i];

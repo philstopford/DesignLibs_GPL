@@ -32,8 +32,6 @@ public static class Halham
         //    Output, bool HALHAM_DIM_NUM_CHECK, is true if DIM_NUM is legal.
         //
     {
-        bool value;
-
         switch (dim_num)
         {
             case < 1:
@@ -42,9 +40,7 @@ public static class Halham
                 Console.WriteLine("  DIM_NUM < 0." + "  DIM_NUM = " + dim_num + "");
                 return false;
             default:
-                value = true;
-
-                return value;
+                return true;
         }
     }
 
@@ -79,10 +75,7 @@ public static class Halham
         //
     {
         int i;
-        bool value;
-
-        value = true;
-
+        
         for (i = 0; i < dim_num; i++)
         {
             switch (leap[i])
@@ -96,7 +89,7 @@ public static class Halham
             }
         }
 
-        return value;
+        return true;
     }
 
     public static bool halham_n_check(int n)
@@ -127,8 +120,6 @@ public static class Halham
         //    Output, bool HALHAM_N_CHECK, is true if N is legal.
         //
     {
-        bool value;
-
         switch (n)
         {
             case < 1:
@@ -137,9 +128,7 @@ public static class Halham
                 Console.WriteLine("  N < 0." + "  N = " + n + "");
                 return false;
             default:
-                value = true;
-
-                return value;
+                return true;
         }
     }
 
@@ -174,9 +163,6 @@ public static class Halham
         //
     {
         int i;
-        bool value;
-
-        value = true;
 
         for (i = 0; i < dim_num; i++)
         {
@@ -191,7 +177,7 @@ public static class Halham
             }
         }
 
-        return value;
+        return true;
     }
 
     public static bool halham_step_check(int step)
@@ -222,8 +208,6 @@ public static class Halham
         //    Output, bool HALHAM_STEP_CHECK, is true if STEP is legal.
         //
     {
-        bool value;
-
         switch (step)
         {
             case < 0:
@@ -232,9 +216,7 @@ public static class Halham
                 Console.WriteLine("  STEP < 0." + "  STEP = " + step + "");
                 return false;
             default:
-                value = true;
-
-                return value;
+                return true;
         }
     }
 }

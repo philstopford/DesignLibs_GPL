@@ -60,12 +60,11 @@ public static class Fibonacci
         //    Output, int FIBONACCI_DIRECT, the value of the N-th Fibonacci number.
         //
     {
-        int f;
-        double sqrt5 = 2.236068;
-        double phim = (1.0 - sqrt5) / 2.0;
-        double phip = (1.0 + sqrt5) / 2.0;
+        const double sqrt5 = 2.236068;
+        const double phim = (1.0 - sqrt5) / 2.0;
+        const double phip = (1.0 + sqrt5) / 2.0;
 
-        f = n switch
+        int f = n switch
         {
             < 0 => 0,
             _ => (int) typeMethods.r8_nint((Math.Pow(phip, n) - Math.Pow(phim, n)) / Math.Sqrt(5.0))

@@ -48,19 +48,16 @@ public static class Coordinates
         //
     {
         int i;
-        int ii;
-        int j;
-        double s;
-        double[] x;
 
-        x = typeMethods.r8mat_zero_new(n, n + 1);
+        double[] x = typeMethods.r8mat_zero_new(n, n + 1);
 
         for (i = 0; i < n; i++)
         {
             //
             //  Set X(I,I) so that sum ( X(1:I,I)**2 ) = 1.
             //
-            s = 0.0;
+            double s = 0.0;
+            int ii;
             for (ii = 0; ii < i; ii++)
             {
                 s += x[ii + i * n] * x[ii + i * n];
@@ -70,6 +67,7 @@ public static class Coordinates
             //
             //  Set X(I,J) for J = I+1 to N+1 by using the fact that XI dot XJ = - 1 / N 
             //
+            int j;
             for (j = i + 1; j < n + 1; j++)
             {
                 s = 0.0;
@@ -142,21 +140,17 @@ public static class Coordinates
         //    of a simplex in N dimensions.  
         //
     {
-        double a;
-        double c;
         int i;
         int j;
-        double s;
-        double[] x;
 
-        x = typeMethods.r8mat_zero_new(n, n + 1);
+        double[] x = typeMethods.r8mat_zero_new(n, n + 1);
 
         for (i = 0; i < n; i++)
         {
             x[i + i * n] = 1.0;
         }
 
-        a = (1.0 - Math.Sqrt(1.0 + n)) / n;
+        double a = (1.0 - Math.Sqrt(1.0 + n)) / n;
 
         for (i = 0; i < n; i++)
         {
@@ -168,7 +162,7 @@ public static class Coordinates
         //
         for (i = 0; i < n; i++)
         {
-            c = 0.0;
+            double c = 0.0;
             for (j = 0; j < n + 1; j++)
             {
                 c += x[i + j * n];
@@ -184,7 +178,7 @@ public static class Coordinates
         //
         //  Now scale so each column has norm 1.
         //
-        s = 0.0;
+        double s = 0.0;
         for (i = 0; i < n; i++)
         {
             s += x[i + 0 * n] * x[i + 0 * n];
@@ -233,13 +227,10 @@ public static class Coordinates
         //    Output, double SIMPLEX_VOLUME, the volume of the simplex.
         //
     {
-        double[] a;
-        double det;
         int i;
         int j;
-        double volume;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)
@@ -256,9 +247,9 @@ public static class Coordinates
             }
         }
 
-        det = typeMethods.r8mat_det(n, a);
+        double det = typeMethods.r8mat_det(n, a);
 
-        volume = Math.Abs(det);
+        double volume = Math.Abs(det);
         for (i = 1; i <= n; i++)
         {
             volume /= i;

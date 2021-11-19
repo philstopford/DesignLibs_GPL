@@ -50,39 +50,32 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         // 
     {
-        bool check;
         int i;
-        int tmax;
-
-        check = true;
 
         switch (n)
         {
             case < 0:
-                check = false;
-                return check;
+                return false;
         }
 
         if (k < 0 || n < k)
         {
-            check = false;
-            return check;
+            return false;
         }
 
-        tmax = n + 1;
+        int tmax = n + 1;
 
         for (i = 0; i < k; i++)
         {
             if (t[i] <= 0 || tmax <= t[i])
             {
-                check = false;
-                return check;
+                return false;
             }
 
             tmax = t[i];
         }
 
-        return check;
+        return true;
     }
 
     public static int ksubset_colex_rank(int k, int n, int[] t)
@@ -127,13 +120,11 @@ public static partial class Ranking
         //    Output, int KSUBSET_COLEX_RANK, the rank of the subset.
         // 
     {
-        bool check;
         int i;
-        int rank;
         // 
         //  Check.
         // 
-        check = ksubset_colex_check(k, n, t);
+        bool check = ksubset_colex_check(k, n, t);
 
         switch (check)
         {
@@ -144,7 +135,7 @@ public static partial class Ranking
                 return 1;
         }
 
-        rank = 0;
+        int rank = 0;
 
         for (i = 0; i < k; i++)
         {
@@ -210,7 +201,6 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
         switch (rank)
         {
@@ -232,7 +222,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = ksubset_colex_check(k, n, t);
+        bool check = ksubset_colex_check(k, n, t);
 
         switch (check)
         {
@@ -321,10 +311,7 @@ public static partial class Ranking
         // 
     {
         int i;
-        int nksub;
-        int rank_copy;
         int[] t;
-        int x;
         switch (n)
         {
             // 
@@ -352,7 +339,7 @@ public static partial class Ranking
             return null;
         }
 
-        nksub = ksubset_enum(k, n);
+        int nksub = ksubset_enum(k, n);
 
         if (rank < 0 || nksub < rank)
         {
@@ -363,9 +350,9 @@ public static partial class Ranking
         }
 
         // 
-        rank_copy = rank;
+        int rank_copy = rank;
 
-        x = n;
+        int x = n;
 
         t = new int[k];
 
@@ -464,39 +451,32 @@ public static partial class Ranking
         //    FALSE, data is not legal.
         // 
     {
-        bool check;
         int i;
-        int tmin;
-
-        check = true;
 
         switch (n)
         {
             case < 0:
-                check = false;
-                return check;
+                return false;
         }
 
         if (k < 0 || n < k)
         {
-            check = false;
-            return check;
+            return false;
         }
 
-        tmin = 0;
+        int tmin = 0;
 
         for (i = 0; i < k; i++)
         {
             if (t[i] <= tmin || n < t[i])
             {
-                check = false;
-                return check;
+                return false;
             }
 
             tmin = t[i];
         }
 
-        return check;
+        return true;
     }
 
     public static int ksubset_lex_rank(int k, int n, int[] t)
@@ -541,15 +521,11 @@ public static partial class Ranking
         //    Output, int KSUBSET_LEX_RANK, the rank of the K subset.
         // 
     {
-        bool check;
         int i;
-        int j;
-        int rank;
-        int tim1;
         // 
         //  Check.
         // 
-        check = ksubset_lex_check(k, n, t);
+        bool check = ksubset_lex_check(k, n, t);
 
         switch (check)
         {
@@ -560,11 +536,11 @@ public static partial class Ranking
                 return 0;
         }
 
-        rank = 0;
+        int rank = 0;
 
         for (i = 1; i <= k; i++)
         {
-            tim1 = i switch
+            int tim1 = i switch
             {
                 1 => 0,
                 _ => t[i - 2]
@@ -572,6 +548,7 @@ public static partial class Ranking
 
             if (tim1 + 1 <= t[i - 1] - 1)
             {
+                int j;
                 for (j = tim1 + 1; j <= t[i - 1] - 1; j++)
                 {
                     rank += typeMethods.i4_choose(n - j, k - i);
@@ -638,10 +615,7 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
-        int isave;
-        int j;
         switch (rank)
         {
             // 
@@ -656,7 +630,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = ksubset_lex_check(k, n, t);
+        bool check = ksubset_lex_check(k, n, t);
 
         switch (check)
         {
@@ -667,15 +641,17 @@ public static partial class Ranking
                 return;
         }
 
-        isave = 0;
+        int isave = 0;
 
         for (i = k; 1 <= i; i--)
         {
-            if (t[i - 1] != n - k + i)
+            if (t[i - 1] == n - k + i)
             {
-                isave = i;
-                break;
+                continue;
             }
+
+            isave = i;
+            break;
         }
 
         switch (isave)
@@ -690,6 +666,7 @@ public static partial class Ranking
                 break;
             default:
             {
+                int j;
                 for (j = k; isave <= j; j--)
                 {
                     t[j - 1] = t[isave - 1] + 1 + j - isave;
@@ -745,10 +722,7 @@ public static partial class Ranking
         // 
     {
         int i;
-        int nksub;
-        int rank_copy;
         int[] t;
-        int x;
         switch (n)
         {
             // 
@@ -776,7 +750,7 @@ public static partial class Ranking
             return null;
         }
 
-        nksub = ksubset_enum(k, n);
+        int nksub = ksubset_enum(k, n);
 
         if (rank < 0 || nksub < rank)
         {
@@ -788,9 +762,9 @@ public static partial class Ranking
 
         t = new int[k];
 
-        rank_copy = rank;
+        int rank_copy = rank;
 
-        x = 1;
+        int x = 1;
 
         for (i = 1; i <= k; i++)
         {
@@ -849,14 +823,11 @@ public static partial class Ranking
         //    Output, int KSUBSET_REVDOOR_RANK, the rank of the K subset.
         // 
     {
-        bool check;
         int i;
-        int rank;
-        int s;
         // 
         //  Check.
         // 
-        check = ksubset_lex_check(k, n, t);
+        bool check = ksubset_lex_check(k, n, t);
 
         switch (check)
         {
@@ -867,13 +838,13 @@ public static partial class Ranking
                 return 0;
         }
 
-        rank = (k % 2) switch
+        int rank = (k % 2) switch
         {
             0 => 0,
             _ => -1
         };
 
-        s = 1;
+        int s = 1;
 
         for (i = k; 1 <= i; i--)
         {
@@ -949,8 +920,6 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
-        int j;
         switch (rank)
         {
             // 
@@ -965,7 +934,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = ksubset_lex_check(k, n, t);
+        bool check = ksubset_lex_check(k, n, t);
 
         switch (check)
         {
@@ -976,7 +945,7 @@ public static partial class Ranking
                 return;
         }
 
-        j = 0;
+        int j = 0;
 
         for (;;)
         {
@@ -1077,10 +1046,6 @@ public static partial class Ranking
         // 
     {
         int i;
-        int nksub;
-        int rank_copy;
-        int[] t;
-        int x;
         switch (n)
         {
             // 
@@ -1101,7 +1066,7 @@ public static partial class Ranking
             return null;
         }
 
-        nksub = ksubset_enum(k, n);
+        int nksub = ksubset_enum(k, n);
 
         if (rank < 0 || nksub < rank)
         {
@@ -1111,11 +1076,11 @@ public static partial class Ranking
             return null;
         }
 
-        rank_copy = rank;
+        int rank_copy = rank;
 
-        t = new int[k];
+        int[] t = new int[k];
 
-        x = n;
+        int x = n;
 
         for (i = k; 1 <= i; i--)
         {

@@ -68,9 +68,7 @@ public static class Collatz
         //    the Collatz sequence that begins with N.
         //
     {
-        int count;
-
-        count = 1;
+        int count = 1;
 
         for (;;)
         {
@@ -152,16 +150,14 @@ public static class Collatz
         //
     {
         int i;
-        int j;
-        int x;
 
         i_max = -1;
         j_max = -1;
 
         for (i = 1; i <= n; i++)
         {
-            j = 1;
-            x = i;
+            int j = 1;
+            int x = i;
 
             while (x != 1)
             {
@@ -177,11 +173,13 @@ public static class Collatz
                 }
             }
 
-            if (j_max < j)
+            if (j_max >= j)
             {
-                i_max = i;
-                j_max = j;
+                continue;
             }
+
+            i_max = i;
+            j_max = j;
         }
     }
 }

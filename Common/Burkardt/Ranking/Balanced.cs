@@ -45,22 +45,16 @@ public static partial class Ranking
         //    FALSE, the data is not legal.
         // 
     {
-        bool check;
         int i;
-        int one_count;
-        int zero_count;
-
-        check = true;
 
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
-        one_count = 0;
-        zero_count = 0;
+        int one_count = 0;
+        int zero_count = 0;
 
         for (i = 0; i < 2 * n; i++)
         {
@@ -73,23 +67,21 @@ public static partial class Ranking
                     one_count += 1;
                     break;
                 default:
-                    check = false;
-                    return check;
+                    return false;
             }
 
             if (zero_count < one_count)
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
         if (one_count != zero_count)
         {
-            check = false;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     public static int bal_seq_enum(int n)
@@ -171,15 +163,11 @@ public static partial class Ranking
         //    Output, int BAL_SEQ_RANK, the rank of the balanced sequence.
         // 
     {
-        bool check;
-        int mxy;
-        int rank;
         int x;
-        int y;
         // 
         //  Check.
         // 
-        check = bal_seq_check(n, t);
+        bool check = bal_seq_check(n, t);
 
         switch (check)
         {
@@ -190,8 +178,8 @@ public static partial class Ranking
                 return 1;
         }
 
-        y = 0;
-        rank = 0;
+        int y = 0;
+        int rank = 0;
 
         for (x = 1; x <= 2 * n - 1; x++)
         {
@@ -201,7 +189,7 @@ public static partial class Ranking
                     y += 1;
                     break;
                 default:
-                    mxy = mountain(n, x, y + 1);
+                    int mxy = mountain(n, x, y + 1);
                     rank += mxy;
                     y -= 1;
                     break;
@@ -256,14 +244,7 @@ public static partial class Ranking
         //    case the output value of RANK is 0.
         // 
     {
-        bool check;
         int i;
-        int j;
-        int open;
-        int open_index;
-        int slot;
-        int slot_index;
-        int slot_ones;
         switch (rank)
         {
             // 
@@ -289,7 +270,7 @@ public static partial class Ranking
         // 
         //  Check.
         // 
-        check = bal_seq_check(n, t);
+        bool check = bal_seq_check(n, t);
 
         switch (check)
         {
@@ -312,12 +293,12 @@ public static partial class Ranking
         // 
         //  Find the slot.
         // 
-        slot = 0;
-        slot_index = 0;
-        slot_ones = 0;
+        int slot = 0;
+        int slot_index = 0;
+        int slot_ones = 0;
 
-        open = 0;
-        open_index = 0;
+        int open = 0;
+        int open_index = 0;
 
         for (i = 1; i <= 2 * n; i++)
         {
@@ -356,7 +337,7 @@ public static partial class Ranking
         // 
         if (open != 0)
         {
-            j = open_index + 1;
+            int j = open_index + 1;
 
             while (t[j - 1] == 1)
             {
@@ -438,14 +419,11 @@ public static partial class Ranking
         // 
     {
         int[] c = new int[2];
-        bool check;
         int i;
-        int r;
-        int[] tab;
         // 
         //  Check.
         // 
-        check = bal_seq_check(n, t);
+        bool check = bal_seq_check(n, t);
 
         switch (check)
         {
@@ -456,14 +434,14 @@ public static partial class Ranking
                 return null;
         }
 
-        tab = new int[2 * n];
+        int[] tab = new int[2 * n];
 
         c[0] = 0;
         c[1] = 0;
 
         for (i = 1; i <= 2 * n; i++)
         {
-            r = t[i - 1] + 1;
+            int r = t[i - 1] + 1;
             c[r - 1] += 1;
             tab[r - 1 + (c[r - 1] - 1) * 2] = i;
         }
@@ -509,12 +487,7 @@ public static partial class Ranking
         //    Output, int BAL_SEQ_UNRANK[2*N], a balanced sequence.
         // 
     {
-        int low;
-        int m;
-        int nseq;
-        int[] t;
         int x;
-        int y;
         switch (n)
         {
             // 
@@ -527,7 +500,7 @@ public static partial class Ranking
                 return null;
         }
 
-        nseq = bal_seq_enum(n);
+        int nseq = bal_seq_enum(n);
 
         if (rank < 0 || nseq < rank)
         {
@@ -537,14 +510,14 @@ public static partial class Ranking
             return null;
         }
 
-        t = new int[2 * n];
+        int[] t = new int[2 * n];
 
-        y = 0;
-        low = 0;
+        int y = 0;
+        int low = 0;
 
         for (x = 0; x < 2 * n; x++)
         {
-            m = mountain(n, x + 1, y + 1);
+            int m = mountain(n, x + 1, y + 1);
 
             if (rank <= low + m - 1)
             {

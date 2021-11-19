@@ -42,15 +42,11 @@ public static class VanDerCorput
         //    point on the circle.
         //
     {
-        double angle;
-        double u;
-        double[] x;
+        double u = van_der_corput ( );
 
-        u = van_der_corput ( );
+        double angle = 2.0 * Math.PI * u;
 
-        angle = 2.0 * Math.PI * u;
-
-        x = new double[2];
+        double[] x = new double[2];
 
         x[0] = Math.Cos ( angle );
         x[1] = Math.Sin ( angle );
@@ -167,10 +163,6 @@ public static class VanDerCorput
         //    der Corput sequence for base BASE.
         //
     {
-        double base_inv;
-        int digit;
-        double r;
-
         switch (base_)
         {
             case <= 1:
@@ -191,13 +183,13 @@ public static class VanDerCorput
                 return 1;
         }
 
-        r = 0.0;
+        double r = 0.0;
 
-        base_inv = 1.0 / base_;
+        double base_inv = 1.0 / base_;
 
         while (seed != 0)
         {
-            digit = seed % base_;
+            int digit = seed % base_;
             r += digit * base_inv;
             base_inv /= base_;
             seed /= base_;
@@ -255,10 +247,7 @@ public static class VanDerCorput
         //    the given base.
         //
     {
-        double base_inv;
-        int digit;
         int i;
-        int seed2;
 
         switch (base_)
         {
@@ -283,12 +272,12 @@ public static class VanDerCorput
         for (i = 0; i < n; i++)
         {
             r[i] = 0.0;
-            seed2 = seed + i;
-            base_inv = 1.0E+00 / base_;
+            int seed2 = seed + i;
+            double base_inv = 1.0E+00 / base_;
 
             while (seed2 != 0)
             {
-                digit = seed2 % base_;
+                int digit = seed2 % base_;
                 r[i] += digit * base_inv;
                 base_inv /= base_;
                 seed2 /= base_;
@@ -332,9 +321,7 @@ public static class VanDerCorput
         //    Output, double VAN_DER_CORPUT, the next element of the van der Corput sequence.
         //
     {
-        double r;
-
-        r = i4_to_van_der_corput(van_der_corput_SEED, van_der_corput_BASE);
+        double r = i4_to_van_der_corput(van_der_corput_SEED, van_der_corput_BASE);
 
         van_der_corput_SEED += 1;
 
@@ -537,12 +524,9 @@ public static class VanDerCorput
         //    der Corput sequence.
         //
     {
-        int base_;
-        int seed;
+        int seed = van_der_corput_seed_get();
 
-        seed = van_der_corput_seed_get();
-
-        base_ = van_der_corput_base_get();
+        int base_ = van_der_corput_base_get();
 
         i4_to_van_der_corput_sequence(seed, base_, n, ref r);
 
@@ -624,26 +608,22 @@ public static class VanDerCorput
         //    numerator sequence base 2.
         //
     {
-        int d;
         int i;
-        int j;
-        int n_log_2;
-        int[] p;
-        int s;
         //
         //  Carry out the computation.
         //
-        p = new int[n];
+        int[] p = new int[n];
 
-        n_log_2 = (int)Math.Log2(n) + 1;
+        int n_log_2 = (int)Math.Log2(n) + 1;
 
         for (i = 0; i < n; i++)
         {
             p[i] = 0;
-            s = i + 1;
+            int s = i + 1;
+            int j;
             for (j = 0; j < n_log_2; j++)
             {
-                d = s % 2;
+                int d = s % 2;
                 p[i] = 2 * p[i] + d;
                 s /= 2;
             }
@@ -737,12 +717,7 @@ public static class VanDerCorput
         //    sequence.
         //
     {
-        double base_inv;
-        int d;
-        double r;
-        double s;
-        int t;
-        s = i switch
+        double s = i switch
         {
             //
             //  Isolate the sign.
@@ -754,17 +729,17 @@ public static class VanDerCorput
         //
         //  Work with the magnitude of I.
         //
-        t = Math.Abs(i);
+        int t = Math.Abs(i);
         //
         //  Carry out the computation.
         //
-        base_inv = 0.5;
+        double base_inv = 0.5;
 
-        r = 0.0;
+        double r = 0.0;
 
         while (t != 0)
         {
-            d = t % 2;
+            int d = t % 2;
             r += d * base_inv;
             base_inv /= 2.0;
             t /= 2;
@@ -810,11 +785,6 @@ public static class VanDerCorput
         //    Corput sequence.
         //
     {
-        double base_inv;
-        int d;
-        double r;
-        double s;
-        int t;
         switch (b)
         {
             //
@@ -827,7 +797,7 @@ public static class VanDerCorput
                 return 1;
         }
 
-        s = i switch
+        double s = i switch
         {
             //
             //  Isolate the sign.
@@ -839,17 +809,17 @@ public static class VanDerCorput
         //
         //  Only work with the nonnegative part of I.
         //
-        t = Math.Abs(i);
+        int t = Math.Abs(i);
         //
         //  Carry out the computation.
         //
-        base_inv = 1.0 / b;
+        double base_inv = 1.0 / b;
 
-        r = 0.0;
+        double r = 0.0;
 
         while (t != 0)
         {
-            d = t % b;
+            int d = t % b;
             r += d * base_inv;
             base_inv /= b;
             t /= b;
@@ -892,13 +862,7 @@ public static class VanDerCorput
         //    the sequence.
         //
     {
-        int d;
-        int i;
-        int p;
-        double s;
-        double t;
-
-        s = r switch
+        double s = r switch
         {
             < 0.0 => -1.0,
             _ => +1.0
@@ -913,15 +877,15 @@ public static class VanDerCorput
                 return 1;
         }
 
-        t = Math.Abs(r);
+        double t = Math.Abs(r);
 
-        i = 0;
-        p = 1;
+        int i = 0;
+        int p = 1;
 
         while (t != 0.0)
         {
             t *= 2.0;
-            d = (int) t;
+            int d = (int) t;
             i += d * p;
             p *= 2;
             t %= 1.0;
@@ -969,15 +933,7 @@ public static class VanDerCorput
         the van der Corput sequence.
         */
     {
-        double base_inv;
-        int d;
-        int i;
         int i3;
-        int j;
-        int n;
-        double[] r;
-        double s;
-        int t;
 
         if (i1 <= i2)
         {
@@ -988,16 +944,16 @@ public static class VanDerCorput
             i3 = -1;
         }
 
-        n = Math.Abs(i2 - i1) + 1;
+        int n = Math.Abs(i2 - i1) + 1;
 
-        r = new double[n];
+        double[] r = new double[n];
 
-        j = 0;
-        i = i1;
+        int j = 0;
+        int i = i1;
 
         while (true)
         {
-            s = i switch
+            double s = i switch
             {
                 //
                 //  Isolate the sign.
@@ -1009,17 +965,17 @@ public static class VanDerCorput
             //
             //  Work with the magnitude of I.
             //
-            t = Math.Abs(i);
+            int t = Math.Abs(i);
             //
             //  Carry out the computation.
             //
-            base_inv = 0.5;
+            double base_inv = 0.5;
 
             r[j] = 0.0;
 
             while (t != 0)
             {
-                d = t % 2;
+                int d = t % 2;
                 r[j] += d * base_inv;
                 base_inv /= 2.0;
                 t /= 2;

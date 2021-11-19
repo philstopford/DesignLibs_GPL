@@ -44,14 +44,13 @@ public static class Jacobi
         //
     {
         int i;
-        int j;
-        double[] x_new;
 
-        x_new = new double[n];
+        double[] x_new = new double[n];
 
         for (i = 0; i < n; i++)
         {
             x_new[i] = b[i];
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j != i)
@@ -111,28 +110,10 @@ public static class Jacobi
         //    Output, int &ROT_NUM, the total number of rotations.
         //
     {
-        double[] bw;
-        double c;
-        double g;
-        double gapq;
-        double h;
         int i;
         int j;
         int k;
-        int l;
-        int m;
-        int p;
-        int q;
-        double s;
         double t = 0;
-        double tau;
-        double term;
-        double termp;
-        double termq;
-        double theta;
-        double thresh;
-        double w;
-        double[] zw;
 
         for (j = 0; j < n; j++)
         {
@@ -154,8 +135,8 @@ public static class Jacobi
             d[i] = a[i + i * n];
         }
 
-        bw = new double[n];
-        zw = new double[n];
+        double[] bw = new double[n];
+        double[] zw = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -173,7 +154,7 @@ public static class Jacobi
             //  The convergence threshold is based on the size of the elements in
             //  the strict upper triangle of the matrix.
             //
-            thresh = 0.0;
+            double thresh = 0.0;
             for (j = 0; j < n; j++)
             {
                 for (i = 0; i < j; i++)
@@ -189,13 +170,15 @@ public static class Jacobi
                 break;
             }
 
+            int p;
             for (p = 0; p < n; p++)
             {
+                int q;
                 for (q = p + 1; q < n; q++)
                 {
-                    gapq = 10.0 * Math.Abs(a[p + q * n]);
-                    termp = gapq + Math.Abs(d[p]);
-                    termq = gapq + Math.Abs(d[q]);
+                    double gapq = 10.0 * Math.Abs(a[p + q * n]);
+                    double termp = gapq + Math.Abs(d[p]);
+                    double termq = gapq + Math.Abs(d[q]);
                     switch (it_num)
                     {
                         //
@@ -209,8 +192,8 @@ public static class Jacobi
                         {
                             if (thresh <= Math.Abs(a[p + q * n]))
                             {
-                                h = d[q] - d[p];
-                                term = Math.Abs(h) + gapq;
+                                double h = d[q] - d[p];
+                                double term = Math.Abs(h) + gapq;
 
                                 if (Math.Abs(term - Math.Abs(h)) <= double.Epsilon)
                                 {
@@ -218,7 +201,7 @@ public static class Jacobi
                                 }
                                 else
                                 {
-                                    theta = 0.5 * h / a[p + q * n];
+                                    double theta = 0.5 * h / a[p + q * n];
                                     t = theta switch
                                     {
                                         < 0.0 => -t,
@@ -226,9 +209,9 @@ public static class Jacobi
                                     };
                                 }
 
-                                c = 1.0 / Math.Sqrt(1.0 + t * t);
-                                s = t * c;
-                                tau = s / (1.0 + c);
+                                double c = 1.0 / Math.Sqrt(1.0 + t * t);
+                                double s = t * c;
+                                double tau = s / (1.0 + c);
                                 h = t * a[p + q * n];
                                 //
                                 //  Accumulate corrections to diagonal elements.
@@ -242,6 +225,7 @@ public static class Jacobi
                                 //
                                 //  Rotate, using information from the upper triangle of A only.
                                 //
+                                double g;
                                 for (j = 0; j < p; j++)
                                 {
                                     g = a[j + p * n];
@@ -310,7 +294,8 @@ public static class Jacobi
         //
         for (k = 0; k < n - 1; k++)
         {
-            m = k;
+            int m = k;
+            int l;
             for (l = k + 1; l < n; l++)
             {
                 if (d[l] < d[m])
@@ -326,9 +311,7 @@ public static class Jacobi
                 d[k] = t;
                 for (i = 0; i < n; i++)
                 {
-                    w = v[i + m * n];
-                    v[i + m * n] = v[i + k * n];
-                    v[i + k * n] = w;
+                    (v[i + m * n], v[i + k * n]) = (v[i + k * n], v[i + m * n]);
                 }
             }
         }

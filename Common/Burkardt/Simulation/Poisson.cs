@@ -45,12 +45,11 @@ public static class Poisson
         //
     {
         int i;
-        double[] u;
         //
         //  Poisson waiting times follow an exponential distribution.
         //
         w[0] = 0.0;
-        u = UniformRNG.r8vec_uniform_01_new(event_num, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(event_num, ref seed);
         for (i = 1; i <= event_num; i++)
         {
             w[i] = -Math.Log(u[i - 1]) / lambda;
@@ -95,18 +94,13 @@ public static class Poisson
         //    Output, int POISSON_FIXED_TIME, the number of Poisson events observed.
         //
     {
-        double dt;
-        int n;
-        double t;
-        double u;
-
-        n = 0;
-        t = 0.0;
+        int n = 0;
+        double t = 0.0;
 
         while (t < time)
         {
-            u = UniformRNG.r8_uniform_01(ref seed);
-            dt = -Math.Log(u) / lambda;
+            double u = UniformRNG.r8_uniform_01(ref seed);
+            double dt = -Math.Log(u) / lambda;
             n += 1;
             t += dt;
         }

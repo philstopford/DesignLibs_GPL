@@ -51,21 +51,18 @@ public static partial class Ranking
         //    Input, int MAXSTACK, maximum dimension of ISTACK.
         // 
     {
-        bool diag;
         int irow;
-        int jcol;
-        int ncan;
-        bool row;
 
-        ncan = 0;
+        int ncan = 0;
 
         for (irow = 1; irow <= n; irow++)
         {
             // 
             //  If row IROW has already been used, that is it.
             // 
-            row = false;
+            bool row = false;
 
+            int jcol;
             for (jcol = 1; jcol <= k - 1; jcol++)
             {
                 if (iarray[jcol - 1] == irow)
@@ -78,7 +75,7 @@ public static partial class Ranking
             {
                 case false:
                 {
-                    diag = false;
+                    bool diag = false;
 
                     for (jcol = 1; jcol <= k - 1; jcol++)
                     {

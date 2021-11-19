@@ -40,27 +40,24 @@ public static class Linear
         //    Output, double SPLINE_LINEAR_INT, the value of the integral.
         //
     {
-        double a_copy;
         int a_left = 0;
         int a_right = 0;
-        double b_copy;
         int b_left = 0;
         int b_right = 0;
-        int i_left = 0;
-        double int_val;
+        int i_left;
         double tval;
         double yp;
         double yval;
 
-        int_val = 0.0;
+        double int_val = 0.0;
 
         if (Math.Abs(a - b) <= double.Epsilon)
         {
             return int_val;
         }
 
-        a_copy = Math.Min(a, b);
-        b_copy = Math.Max(a, b);
+        double a_copy = Math.Min(a, b);
+        double b_copy = Math.Max(a, b);
         //
         //  Find the interval [ TDATA(A_LEFT), TDATA(A_RIGHT) ] that contains, or is
         //  nearest to, A.
@@ -187,13 +184,10 @@ public static class Linear
         //    is equal to INT_V(I).
         //
     {
-        double[] a;
-        double[] b;
-        double[] c;
         int i;
 
-        a = new double[3 * n];
-        b = new double[n];
+        double[] a = new double[3 * n];
+        double[] b = new double[n];
         //
         //  Set up the easy stuff.
         //
@@ -247,7 +241,7 @@ public static class Linear
         //
         //  Solve the linear system.
         //
-        c = D3.d3_np_fs(n, a, b);
+        double[] c = D3.d3_np_fs(n, a, b);
 
         for (i = 0; i < n; i++)
         {

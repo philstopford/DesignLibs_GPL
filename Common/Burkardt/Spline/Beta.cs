@@ -59,16 +59,8 @@ public static class Beta
         //    Output, double SPLINE_BETA_VAL, the value of the function at TVAL.
         //
     {
-        double a;
-        double b;
-        double bval;
-        double c;
-        double d;
-        double delta;
         int left = 0;
         int right = 0;
-        double u;
-        double yval;
         //
         //  Find the nearest interval [ TDATA(LEFT), TDATA(RIGHT) ] to TVAL.
         //
@@ -77,19 +69,19 @@ public static class Beta
         //  Evaluate the 5 nonzero beta spline basis functions in the interval,
         //  weighted by their corresponding data values.
         //
-        u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
+        double u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
 
-        delta = ((2.0
+        double delta = ((2.0
                     * beta1 + 4.0)
                 * beta1 + 4.0)
             * beta1 + 2.0 + beta2;
 
-        yval = 0.0;
+        double yval = 0.0;
         //
         //  Beta function associated with node LEFT - 1, (or "phantom node"),
         //  evaluated in its 4th interval.
         //
-        bval = 2.0 * Math.Pow(beta1 * (1.0 - u), 3) / delta;
+        double bval = 2.0 * Math.Pow(beta1 * (1.0 - u), 3) / delta;
 
         yval += (left - 1) switch
         {
@@ -101,16 +93,16 @@ public static class Beta
         //  Beta function associated with node LEFT,
         //  evaluated in its third interval.
         //
-        a = beta2 + (4.0 + 4.0 * beta1) * beta1;
+        double a = beta2 + (4.0 + 4.0 * beta1) * beta1;
 
-        b = -6.0 * beta1 * (1.0 - beta1) * (1.0 + beta1);
+        double b = -6.0 * beta1 * (1.0 - beta1) * (1.0 + beta1);
 
-        c = ((-6.0
+        double c = ((-6.0
                     * beta1 - 6.0)
                 * beta1 + 0.0)
             * beta1 - 3.0 * beta2;
 
-        d = ((+2.0
+        double d = ((+2.0
                     * beta1 + 2.0)
                 * beta1 + 2.0)
             * beta1 + 2.0 * beta2;

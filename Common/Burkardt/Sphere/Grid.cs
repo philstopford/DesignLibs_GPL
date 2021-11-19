@@ -40,7 +40,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num = 1;
+        int element_num;
 
         switch (code)
         {
@@ -223,27 +223,22 @@ public static class Grid
         //    that form each element.
         //
     {
-        int base1;
-        int base2;
-        int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 4;
-        int i;
+        const int element_order = 4;
         int j;
 
-        element_num = sphere_grid_q4_element_num(nelemx, nelemy);
+        int element_num = sphere_grid_q4_element_num(nelemx, nelemy);
 
-        element_node = new int[element_order * element_num];
-        element = 0;
+        int[] element_node = new int[element_order * element_num];
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
-            base1 = (j - 1) * nelemx + 2 - nelemx;
+            int base1 = (j - 1) * nelemx + 2 - nelemx;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base2 = base1 + i - 1;
+                int base2 = base1 + i - 1;
 
                 element_node[0 + element * element_order] = base2;
                 if (i < nelemx)
@@ -323,9 +318,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_Q4_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -358,9 +351,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_Q4_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = nelemx * (nelemy - 1) + 2;
+        int node_num = nelemx * (nelemy - 1) + 2;
 
         return node_num;
     }
@@ -400,30 +391,25 @@ public static class Grid
         //    the node coordinates.
         //
     {
-        int i;
         int j;
-        int node;
-        int node_num;
-        double[] node_xyz;
-        double phi;
-        double theta;
 
-        node_num = sphere_grid_t6_node_num (nelemx, nelemy);
-        node_xyz = new double[3 * node_num];
-        node = 0;
+        int node_num = sphere_grid_t6_node_num (nelemx, nelemy);
+        double[] node_xyz = new double[3 * node_num];
+        int node = 0;
 
-        node_xyz[0 + node * 3] = 0.0;
-        node_xyz[1 + node * 3] = 0.0;
-        node_xyz[2 + node * 3] = -1.0;
+        node_xyz[0] = 0.0;
+        node_xyz[1] = 0.0;
+        node_xyz[2] = -1.0;
         node += 1;
 
         for (j = nelemy; 2 <= j; j--)
         {
-            phi = (j - 1) * Math.PI / nelemy;
+            double phi = (j - 1) * Math.PI / nelemy;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                theta = (i - 1) * 2.0 * Math.PI / nelemx;
+                double theta = (i - 1) * 2.0 * Math.PI / nelemx;
 
                 node_xyz[0 + node * 3] = Math.Cos(theta) * Math.Sin(phi);
                 node_xyz[1 + node * 3] = Math.Sin(theta) * Math.Sin(phi);
@@ -435,7 +421,6 @@ public static class Grid
         node_xyz[0 + node * 3] = 0.0;
         node_xyz[1 + node * 3] = 0.0;
         node_xyz[2 + node * 3] = 1.0;
-        node += 1;
 
         return node_xyz;
     }
@@ -532,26 +517,21 @@ public static class Grid
         //    the nodes that form each element.
         //
     {
-        int base1;
-        int base2;
-        int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 9;
-        int i;
+        const int element_order = 9;
         int j;
 
-        element_num = sphere_grid_q9_element_num(nelemx, nelemy);
-        element_node = new int[element_order * element_num];
-        element = 0;
+        int element_num = sphere_grid_q9_element_num(nelemx, nelemy);
+        int[] element_node = new int[element_order * element_num];
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
-            base1 = (j - 1) * 2 * 2 * nelemx + 2 - 2 * nelemx;
+            int base1 = (j - 1) * 2 * 2 * nelemx + 2 - 2 * nelemx;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base2 = base1 + 2 * (i - 1);
+                int base2 = base1 + 2 * (i - 1);
 
                 element_node[0 + element * element_order] = base2;
                 element_node[4 + element * element_order] = base2 + 1;
@@ -644,9 +624,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_Q9_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -679,9 +657,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_Q9_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = 4 * nelemx * nelemy - 2 * nelemx + 2;
+        int node_num = 4 * nelemx * nelemy - 2 * nelemx + 2;
 
         return node_num;
     }
@@ -721,30 +697,25 @@ public static class Grid
         //    the node coordinates.
         //
     {
-        int i;
         int j;
-        int node;
-        int node_num;
-        double[] node_xyz;
-        double phi;
-        double theta;
 
-        node_num = sphere_grid_q9_node_num (nelemx, nelemy);
-        node_xyz = new double[3 * node_num];
-        node = 0;
+        int node_num = sphere_grid_q9_node_num (nelemx, nelemy);
+        double[] node_xyz = new double[3 * node_num];
+        int node = 0;
 
-        node_xyz[0 + node * 3] = 0.0;
-        node_xyz[1 + node * 3] = 0.0;
-        node_xyz[2 + node * 3] = -1.0;
+        node_xyz[0] = 0.0;
+        node_xyz[1] = 0.0;
+        node_xyz[2] = -1.0;
         node += 1;
 
         for (j = 2 * nelemy; 2 <= j; j--)
         {
-            phi = (j - 1) * Math.PI / (2 * nelemy);
+            double phi = (j - 1) * Math.PI / (2 * nelemy);
 
+            int i;
             for (i = 1; i <= 2 * nelemx; i++)
             {
-                theta = (i - 1) * 2.0 * Math.PI / (2 * nelemx);
+                double theta = (i - 1) * 2.0 * Math.PI / (2 * nelemx);
 
                 node_xyz[0 + node * 3] = Math.Cos(theta) * Math.Sin(phi);
                 node_xyz[1 + node * 3] = Math.Sin(theta) * Math.Sin(phi);
@@ -756,7 +727,6 @@ public static class Grid
         node_xyz[0 + node * 3] = 0.0;
         node_xyz[1 + node * 3] = 0.0;
         node_xyz[2 + node * 3] = 1.0;
-        node += 1;
 
         return node_xyz;
     }
@@ -851,25 +821,21 @@ public static class Grid
         //    the nodes that form each element.
         //
     {
-        int base1;
-        int base2;
-        int element;
-        int[] element_node;
-        int element_order = 16;
-        int i;
+        const int element_order = 16;
         int j;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
-            base1 = (j - 1) * 3 * 3 * nelemx + 2 - 3 * nelemx;
+            int base1 = (j - 1) * 3 * 3 * nelemx + 2 - 3 * nelemx;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base2 = base1 + 3 * (i - 1);
+                int base2 = base1 + 3 * (i - 1);
 
                 element_node[0 + element * element_order] = base2;
                 element_node[1 + element * element_order] = base2 + 1;
@@ -978,9 +944,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_Q16_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -1013,9 +977,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_Q16_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = 9 * nelemx * nelemy - 3 * nelemx + 2;
+        int node_num = 9 * nelemx * nelemy - 3 * nelemx + 2;
 
         return node_num;
     }
@@ -1054,21 +1016,15 @@ public static class Grid
         //    Output, double SPHERE_GRID_Q16_NODE_XYZ[3*NODE_NUM], the node coordinates.
         //
     {
-        int i;
         int j;
-        int node;
-        int node_num;
-        double[] node_xyz;
-        double phi;
-        double theta;
 
-        node_num = sphere_grid_q16_node_num (nelemx, nelemy);
-        node_xyz = new double[3 * node_num];
-        node = 0;
+        int node_num = sphere_grid_q16_node_num (nelemx, nelemy);
+        double[] node_xyz = new double[3 * node_num];
+        int node = 0;
 
         for (j = 3 * nelemy + 1; 1 <= j; j--)
         {
-            phi = (j - 1) * Math.PI / (3 * nelemy);
+            double phi = (j - 1) * Math.PI / (3 * nelemy);
 
             switch (j)
             {
@@ -1082,9 +1038,10 @@ public static class Grid
                 {
                     if (j < 3 * nelemy + 1)
                     {
+                        int i;
                         for (i = 1; i <= 3 * nelemx; i++)
                         {
-                            theta = (i - 1) * 2.0 * Math.PI / (3 * nelemx);
+                            double theta = (i - 1) * 2.0 * Math.PI / (3 * nelemx);
 
                             node_xyz[0 + node * 3] = Math.Cos(theta) * Math.Sin(phi);
                             node_xyz[1 + node * 3] = Math.Sin(theta) * Math.Sin(phi);
@@ -1206,33 +1163,25 @@ public static class Grid
         //    the nodes that form each element.
         //
     {
-        int base1;
-        int base2;
-        int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 3;
-        int i;
+        const int element_order = 3;
         int j;
-        int ne;
-        int nw;
-        int se;
-        int sw;
 
-        element_num = sphere_grid_t3_element_num(nelemx, nelemy);
-        element_node = new int[element_order * element_num];
+        int element_num = sphere_grid_t3_element_num(nelemx, nelemy);
+        int[] element_node = new int[element_order * element_num];
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
-            base1 = (j - 1) * nelemx + 2 - nelemx;
+            int base1 = (j - 1) * nelemx + 2 - nelemx;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base2 = base1 + i - 1;
+                int base2 = base1 + i - 1;
 
-                sw = base2;
+                int sw = base2;
+                int se;
                 if (i < nelemx)
                 {
                     se = base2 + 1;
@@ -1242,8 +1191,8 @@ public static class Grid
                     se = base1;
                 }
 
-                nw = sw + nelemx;
-                ne = se + nelemx;
+                int nw = sw + nelemx;
+                int ne = se + nelemx;
 
                 switch (j)
                 {
@@ -1324,9 +1273,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_T3_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = 2 * nelemx * (nelemy - 1);
+        int element_num = 2 * nelemx * (nelemy - 1);
 
         return element_num;
     }
@@ -1359,9 +1306,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_T3_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = nelemx * (nelemy - 1) + 2;
+        int node_num = nelemx * (nelemy - 1) + 2;
 
         return node_num;
     }
@@ -1401,31 +1346,26 @@ public static class Grid
         //    the node coordinates.
         //
     {
-        int i;
         int j;
-        int node;
-        int node_num;
-        double[] node_xyz;
-        double phi;
-        double theta;
 
-        node_num = sphere_grid_t3_node_num (nelemx, nelemy);
-        node_xyz = new double[3 * node_num];
+        int node_num = sphere_grid_t3_node_num (nelemx, nelemy);
+        double[] node_xyz = new double[3 * node_num];
 
-        node = 0;
+        int node = 0;
 
-        node_xyz[0 + node * 3] = 0.0;
-        node_xyz[1 + node * 3] = 0.0;
-        node_xyz[2 + node * 3] = -1.0;
+        node_xyz[0] = 0.0;
+        node_xyz[1] = 0.0;
+        node_xyz[2] = -1.0;
         node += 1;
 
         for (j = nelemy; 2 <= j; j--)
         {
-            phi = (j - 1) * Math.PI / nelemy;
+            double phi = (j - 1) * Math.PI / nelemy;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                theta = (i - 1) * 2.0 * Math.PI / nelemx;
+                double theta = (i - 1) * 2.0 * Math.PI / nelemx;
 
                 node_xyz[0 + node * 3] = Math.Cos(theta) * Math.Sin(phi);
                 node_xyz[1 + node * 3] = Math.Sin(theta) * Math.Sin(phi);
@@ -1437,7 +1377,6 @@ public static class Grid
         node_xyz[0 + node * 3] = 0.0;
         node_xyz[1 + node * 3] = 0.0;
         node_xyz[2 + node * 3] = 1.0;
-        node += 1;
 
         return node_xyz;
     }
@@ -1540,38 +1479,25 @@ public static class Grid
         //    the nodes that form each element.
         //
     {
-        int base1;
-        int base2;
-        int c;
-        int e;
-        int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 6;
-        int i;
+        const int element_order = 6;
         int j;
-        int n;
-        int ne;
-        int nw;
-        int s;
-        int se;
-        int sw;
-        int w;
 
-        element_num = sphere_grid_t6_element_num(nelemx, nelemy);
-        element_node = new int[element_order * element_num];
-        element = 0;
+        int element_num = sphere_grid_t6_element_num(nelemx, nelemy);
+        int[] element_node = new int[element_order * element_num];
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
-            base1 = (j - 1) * 2 * 2 * nelemx + 2 - 2 * nelemx;
+            int base1 = (j - 1) * 2 * 2 * nelemx + 2 - 2 * nelemx;
 
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base2 = base1 + 2 * (i - 1);
+                int base2 = base1 + 2 * (i - 1);
 
-                sw = base2;
-                s = base2 + 1;
+                int sw = base2;
+                int s = base2 + 1;
+                int se;
                 if (i < nelemx)
                 {
                     se = base2 + 2;
@@ -1581,13 +1507,13 @@ public static class Grid
                     se = base1;
                 }
 
-                w = sw + 2 * nelemx;
-                c = s + 2 * nelemx;
-                e = se + 2 * nelemx;
+                int w = sw + 2 * nelemx;
+                int c = s + 2 * nelemx;
+                int e = se + 2 * nelemx;
 
-                nw = w + 2 * nelemx;
-                n = c + 2 * nelemx;
-                ne = e + 2 * nelemx;
+                int nw = w + 2 * nelemx;
+                int n = c + 2 * nelemx;
+                int ne = e + 2 * nelemx;
 
                 switch (j)
                 {
@@ -1676,9 +1602,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_T6_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = 2 * nelemx * (nelemy - 1);
+        int element_num = 2 * nelemx * (nelemy - 1);
 
         return element_num;
     }
@@ -1711,9 +1635,7 @@ public static class Grid
         //    Output, int SPHERE_GRID_T6_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = 4 * nelemx * nelemy - 2 * nelemx + 2;
+        int node_num = 4 * nelemx * nelemy - 2 * nelemx + 2;
 
         return node_num;
     }
@@ -1753,30 +1675,25 @@ public static class Grid
         //    the node coordinates.
         //
     {
-        int i;
         int j;
-        int node;
-        int node_num;
-        double[] node_xyz;
-        double phi;
-        double theta;
 
-        node_num = sphere_grid_t6_node_num (nelemx, nelemy);
-        node_xyz = new double[3 * node_num];
-        node = 0;
+        int node_num = sphere_grid_t6_node_num (nelemx, nelemy);
+        double[] node_xyz = new double[3 * node_num];
+        int node = 0;
 
-        node_xyz[0 + node * 3] = 0.0;
-        node_xyz[1 + node * 3] = 0.0;
-        node_xyz[2 + node * 3] = -1.0;
+        node_xyz[0] = 0.0;
+        node_xyz[1] = 0.0;
+        node_xyz[2] = -1.0;
         node += 1;
 
         for (j = 2 * nelemy; 2 <= j; j--)
         {
-            phi = (j - 1) * Math.PI / (2 * nelemy);
+            double phi = (j - 1) * Math.PI / (2 * nelemy);
 
+            int i;
             for (i = 1; i <= 2 * nelemx; i++)
             {
-                theta = (i - 1) * 2.0 * Math.PI / (2 * nelemx);
+                double theta = (i - 1) * 2.0 * Math.PI / (2 * nelemx);
 
                 node_xyz[0 + node * 3] = Math.Cos(theta) * Math.Sin(phi);
                 node_xyz[1 + node * 3] = Math.Sin(theta) * Math.Sin(phi);
@@ -1788,7 +1705,6 @@ public static class Grid
         node_xyz[0 + node * 3] = 0.0;
         node_xyz[1 + node * 3] = 0.0;
         node_xyz[2 + node * 3] = 1.0;
-        node += 1;
 
         return node_xyz;
     }
@@ -1836,31 +1752,23 @@ public static class Grid
     {
         int i;
         int j;
-        int n;
         int n_max;
         int n_min;
         int ne;
         int nw;
-        int s;
-        int s_max;
-        int s_min;
-        int se;
-        int sw;
-        int[] rectangle_node;
-        int rectangle_num;
 
-        rectangle_node = new int[4 * lat_num * long_num];
-        rectangle_num = 0;
+        int[] rectangle_node = new int[4 * lat_num * long_num];
+        int rectangle_num = 0;
         //
         //  The first row.
         //
-        n = 0;
+        int n = 0;
 
-        sw = 1;
-        se = sw + 1;
+        int sw = 1;
+        int se = sw + 1;
 
-        s_min = 1;
-        s_max = long_num;
+        int s_min = 1;
+        int s_max = long_num;
 
         for (j = 1; j <= long_num; j++)
         {
@@ -1935,7 +1843,7 @@ public static class Grid
         n_max = s_max;
         n_min = s_min;
 
-        s = n_max + 1;
+        int s = n_max + 1;
 
         nw = n_min;
         ne = nw + 1;
@@ -2009,21 +1917,13 @@ public static class Grid
     {
         int i;
         int j;
-        int n;
         int n_max;
         int n_min;
         int ne;
         int nw;
-        int s;
-        int s_max;
-        int s_min;
-        int se;
-        int sw;
-        int[] triangle_node;
-        int triangle_num;
 
-        triangle_node = new int[3 * 2 * (lat_num + 1) * long_num];
-        triangle_num = 0;
+        int[] triangle_node = new int[3 * 2 * (lat_num + 1) * long_num];
+        int triangle_num = 0;
         //
         //  The first row.
         //
@@ -2033,11 +1933,11 @@ public static class Grid
         //s_min = 1;
         //s_max = long_num;
 
-        n = 1;
-        sw = 2;
-        se = sw + 1;
-        s_min = 2;
-        s_max = long_num + 1;
+        int n = 1;
+        int sw = 2;
+        int se = sw + 1;
+        int s_min = 2;
+        int s_max = long_num + 1;
 
         for (j = 0; j < long_num; j++)
         {
@@ -2113,7 +2013,7 @@ public static class Grid
         n_max = s_max;
         n_min = s_min;
 
-        s = n_max + 1;
+        int s = n_max + 1;
 
         nw = n_min;
         ne = nw + 1;

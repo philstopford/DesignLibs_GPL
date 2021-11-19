@@ -58,11 +58,10 @@ public static class Basis
         //    double BASIS_FUNCTION_B_VAL, the value of the function at TVAL.
         //
     {
-        int NDATA = 5;
+        const int NDATA = 5;
 
         int left = 0;
         int right = 0;
-        double u;
         double yval = 0;
 
         if (tval <= tdata[0] || tdata[NDATA - 1] <= tval)
@@ -78,7 +77,7 @@ public static class Basis
         //
         //  U is the normalized coordinate of TVAL in this interval.
         //
-        u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
+        double u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
         //
         //  Now evaluate the function.
         //
@@ -170,7 +169,7 @@ public static class Basis
         //    Output, double BASIS_FUNCTION_BETA_VAL, the value of the function at TVAL.
         //
     {
-        int NDATA = 5;
+        const int NDATA = 5;
 
         double a;
         double b;
@@ -178,7 +177,6 @@ public static class Basis
         double d;
         int left = 0;
         int right = 0;
-        double u;
         double yval = 0;
 
         if (tval <= tdata[0] || tdata[NDATA - 1] <= tval)
@@ -194,7 +192,7 @@ public static class Basis
         //
         //  U is the normalized coordinate of TVAL in this interval.
         //
-        u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
+        double u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
         //
         //  Now evaluate the function.
         //
@@ -278,9 +276,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_B_UNI[4*4], the basis matrix.
         //
     {
-        int i;
         int j;
-        double[] mbasis;
         double[] mbasis_save =
         {
             -1.0 / 6.0,
@@ -301,10 +297,11 @@ public static class Basis
             0.0
         };
 
-        mbasis = new double[4 * 4];
+        double[] mbasis = new double[4 * 4];
 
         for (j = 0; j < 4; j++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 mbasis[i + j * 4] = mbasis_save[i + j * 4];
@@ -359,12 +356,9 @@ public static class Basis
         //    Output, double BASIS_MATRIX_BETA_UNI[4*4], the basis matrix.
         //
     {
-        double delta;
-        int i;
         int j;
-        double[] mbasis;
 
-        mbasis = new double[4 * 4];
+        double[] mbasis = new double[4 * 4];
 
         mbasis[0 + 0 * 4] = -2.0 * beta1 * beta1 * beta1;
         mbasis[0 + 1 * 4] = 2.0 * beta2
@@ -388,13 +382,14 @@ public static class Basis
         mbasis[3 + 2 * 4] = 2.0;
         mbasis[3 + 3 * 4] = 0.0;
 
-        delta = ((2.0
+        double delta = ((2.0
                     * beta1 + 4.0)
                 * beta1 + 4.0)
             * beta1 + 2.0 + beta2;
 
         for (j = 0; j < 4; j++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 mbasis[i + j * 4] /= delta;
@@ -447,9 +442,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_BEZIER[4*4], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[4 * 4];
+        double[] mbasis = new double[4 * 4];
 
         mbasis[0 + 0 * 4] = -1.0;
         mbasis[0 + 1 * 4] = 3.0;
@@ -514,9 +507,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_HERMITE[4*4], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[4 * 4];
+        double[] mbasis = new double[4 * 4];
 
         mbasis[0 + 0 * 4] = 2.0;
         mbasis[0 + 1 * 4] = -2.0;
@@ -576,9 +567,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_OVERHAUSER_NONUNI[4*4], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[4 * 4];
+        double[] mbasis = new double[4 * 4];
 
         mbasis[0 + 0 * 4] = -(1.0 - alpha) * (1.0 - alpha) / alpha;
         mbasis[0 + 1 * 4] = beta + (1.0 - alpha) / alpha;
@@ -638,9 +627,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_OVERHAUSER_NUL[3*3], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[3 * 3];
+        double[] mbasis = new double[3 * 3];
 
         mbasis[0 + 0 * 3] = 1.0 / alpha;
         mbasis[0 + 1 * 3] = -1.0 / (alpha * (1.0 - alpha));
@@ -691,9 +678,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_OVERHAUSER_NUR[3*3], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[3 * 3];
+        double[] mbasis = new double[3 * 3];
 
         mbasis[0 + 0 * 3] = 1.0 / beta;
         mbasis[0 + 1 * 3] = -1.0 / (beta * (1.0 - beta));
@@ -750,9 +735,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_OVERHASUER_UNI[4*4], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[4 * 4];
+        double[] mbasis = new double[4 * 4];
 
         mbasis[0 + 0 * 4] = -1.0 / 2.0;
         mbasis[0 + 1 * 4] = 3.0 / 2.0;
@@ -808,9 +791,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_OVERHASUER_UNI_L[3*3], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[3 * 3];
+        double[] mbasis = new double[3 * 3];
 
         mbasis[0 + 0 * 3] = 2.0;
         mbasis[0 + 1 * 3] = -4.0;
@@ -858,9 +839,7 @@ public static class Basis
         //    Output, double BASIS_MATRIX_OVERHASUER_UNI_R[3*3], the basis matrix.
         //
     {
-        double[] mbasis;
-
-        mbasis = new double[3 * 3];
+        double[] mbasis = new double[3 * 3];
 
         mbasis[0 + 0 * 3] = 2.0;
         mbasis[0 + 1 * 3] = -4.0;
@@ -937,11 +916,8 @@ public static class Basis
         int first = 0;
         int i;
         int j;
-        double tm;
-        double[] tvec;
-        double yval;
 
-        tvec = new double[n];
+        double[] tvec = new double[n];
 
         switch (left)
         {
@@ -975,10 +951,10 @@ public static class Basis
             tvec[i] = arg * tvec[i + 1];
         }
 
-        yval = 0.0;
+        double yval = 0.0;
         for (j = 0; j < n; j++)
         {
-            tm = 0.0;
+            double tm = 0.0;
             for (i = 0; i < n; i++)
             {
                 tm += tvec[i] * mbasis[i + j * n];

@@ -62,21 +62,8 @@ public static class Grid_Laguerre
         //    Output, double GRID_POINT[DIM_NUM*POINT_NUM], the points.
         //
     {
-        int coeff;
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        double[] grid_weight2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
         int point;
-        int point_num2;
-        int t;
 
         for (point = 0; point < point_num; point++)
         {
@@ -86,13 +73,13 @@ public static class Grid_Laguerre
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -100,9 +87,9 @@ public static class Grid_Laguerre
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -113,6 +100,7 @@ public static class Grid_Laguerre
                 //
                 ClenshawCurtis.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = order_1d[dim];
@@ -121,21 +109,21 @@ public static class Grid_Laguerre
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Compute the weights for this product grid.
                 //
-                grid_weight2 = QuadratureRule.product_weight_laguerre(dim_num, order_1d, order_nd);
+                double[] grid_weight2 = QuadratureRule.product_weight_laguerre(dim_num, order_1d, order_nd);
                 //
                 //  Now determine the coefficient of the weight.
                 //
-                coeff = (int)(Math.Pow(-1, level_max - level)
-                              * Binomial.choose(dim_num - 1, level_max - level));
+                int coeff = (int)(Math.Pow(-1, level_max - level)
+                                  * Binomial.choose(dim_num - 1, level_max - level));
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //  The grid indices will be between -M to +M, where 2*M + 1 = ORDER_1D(DIM).
                 //
-                grid_index2 = Multigrid.multigrid_index_one(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_one(dim_num, order_1d, order_nd);
 
                 for (point = 0; point < order_nd; point++)
                 {
@@ -211,29 +199,17 @@ public static class Grid_Laguerre
         //    and dimension.
         //
     {
-        int dim;
-        int[] grid_base2;
-        int[] grid_index2;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int point;
-        int point_num2;
-        int t;
         //
         //  The outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        point_num2 = 0;
+        int point_num2 = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        grid_base2 = new int[dim_num];
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] grid_base2 = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -241,9 +217,9 @@ public static class Grid_Laguerre
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -253,6 +229,7 @@ public static class Grid_Laguerre
                 //
                 ClenshawCurtis.level_to_order_open(dim_num, level_1d, ref order_1d);
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     grid_base2[dim] = order_1d[dim];
@@ -261,14 +238,15 @@ public static class Grid_Laguerre
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  The inner (hidden) loop generates all points corresponding to given grid.
                 //
-                grid_index2 = Multigrid.multigrid_index_one(dim_num, order_1d, order_nd);
+                int[] grid_index2 = Multigrid.multigrid_index_one(dim_num, order_1d, order_nd);
                 //
                 //  Only keep those points which first appear on this level.
                 //
+                int point;
                 for (point = 0; point < order_nd; point++)
                 {
                     for (dim = 0; dim < dim_num; dim++)
@@ -336,14 +314,8 @@ public static class Grid_Laguerre
         //    Output, int SPARSE_GRID_LAGUERRE_SIZE, the number of points in the grid.
         //
     {
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more;
-        int[] order_1d;
         int point_num;
-        int t;
         switch (level_max)
         {
             //
@@ -359,19 +331,19 @@ public static class Grid_Laguerre
         //
         point_num = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (level = level_min; level <= level_max; level++)
         {
             //
             //  The middle loop generates the next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {

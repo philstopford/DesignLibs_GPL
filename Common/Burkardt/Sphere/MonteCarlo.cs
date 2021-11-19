@@ -30,11 +30,10 @@ public static class MonteCarlo
         //    Output, double SPHERE01_AREA, the area.
         //
     {
-        double area;
         const double r = 1.0;
             
 
-        area = 4.0 * Math.PI * r * r;
+        const double area = 4.0 * Math.PI * r * r;
 
         return area;
     }
@@ -82,8 +81,6 @@ public static class MonteCarlo
         //    Output, double SPHERE01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        double arg;
-        int i;
         double integral;
             
 
@@ -115,6 +112,8 @@ public static class MonteCarlo
                 {
                     integral = 2.0;
 
+                    double arg;
+                    int i;
                     for (i = 0; i < 3; i++)
                     {
                         arg = 0.5 * (e[i] + 1);
@@ -181,25 +180,23 @@ public static class MonteCarlo
         //    Output, double X[3*N], the points.
         //
     {
-        int i;
         int j;
-        double norm;
-        double[] x;
         typeMethods.r8vecNormalData data = new();
 
-        x = typeMethods.r8mat_normal_01_new(3, n, ref data, ref seed);
+        double[] x = typeMethods.r8mat_normal_01_new(3, n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
             //
             //  Compute the length of the vector.
             //
-            norm = Math.Sqrt(Math.Pow(x[0 + j * 3], 2)
-                             + Math.Pow(x[1 + j * 3], 2)
-                             + Math.Pow(x[2 + j * 3], 2));
+            double norm = Math.Sqrt(Math.Pow(x[0 + j * 3], 2)
+                                    + Math.Pow(x[1 + j * 3], 2)
+                                    + Math.Pow(x[2 + j * 3], 2));
             //
             //  Normalize the vector.
             //
+            int i;
             for (i = 0; i < 3; i++)
             {
                 x[i + j * 3] /= norm;

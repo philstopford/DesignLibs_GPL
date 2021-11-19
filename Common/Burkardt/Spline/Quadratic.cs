@@ -49,16 +49,8 @@ public static class Quadratic
         //    equal to TDATA(I) for some I.
         //
     {
-        double dif1;
-        double dif2;
         int left = 0;
         int right = 0;
-        double t1;
-        double t2;
-        double t3;
-        double y1;
-        double y2;
-        double y3;
 
         switch (ndata)
         {
@@ -96,9 +88,9 @@ public static class Quadratic
         //
         //  Copy out the three abscissas.
         //
-        t1 = tdata[left - 1];
-        t2 = tdata[left];
-        t3 = tdata[left + 1];
+        double t1 = tdata[left - 1];
+        double t2 = tdata[left];
+        double t3 = tdata[left + 1];
 
         if (t2 <= t1 || t3 <= t2)
         {
@@ -112,14 +104,14 @@ public static class Quadratic
         //  Construct and evaluate a parabolic interpolant for the data
         //  in each dimension.
         //
-        y1 = ydata[left - 1];
-        y2 = ydata[left];
-        y3 = ydata[left + 1];
+        double y1 = ydata[left - 1];
+        double y2 = ydata[left];
+        double y3 = ydata[left + 1];
 
-        dif1 = (y2 - y1) / (t2 - t1);
+        double dif1 = (y2 - y1) / (t2 - t1);
 
-        dif2 = ((y3 - y1) / (t3 - t1)
-                - (y2 - y1) / (t2 - t1)) / (t3 - t2);
+        double dif2 = ((y3 - y1) / (t3 - t1)
+                       - (y2 - y1) / (t2 - t1)) / (t3 - t2);
 
         yval = y1 + (tval - t1) * (dif1 + (tval - t2) * dif2);
         ypval = dif1 + dif2 * (2.0 * tval - t1 - t2);

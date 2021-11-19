@@ -162,22 +162,8 @@ public static class CubicHermite
         //    a monotone cubic Hermite function.  
         //
     {
-        double del1;
-        double del2;
         double dmax;
-        double dmin;
-        double drat1;
-        double drat2;
-        double dsave;
-        double h1;
-        double h2;
-        double hsum;
-        double hsumt3;
         int i;
-        int nless1;
-        double temp;
-        double w1;
-        double w2;
         switch (n)
         {
             //
@@ -201,10 +187,10 @@ public static class CubicHermite
             }
         }
 
-        nless1 = n - 1;
-        h1 = x[1] - x[0];
-        del1 = (f[1] - f[0]) / h1;
-        dsave = del1;
+        int nless1 = n - 1;
+        double h1 = x[1] - x[0];
+        double del1 = (f[1] - f[0]) / h1;
+        double dsave = del1;
         switch (n)
         {
             //
@@ -219,15 +205,15 @@ public static class CubicHermite
         //
         //  Normal case, 3 <= N.
         //
-        h2 = x[2] - x[1];
-        del2 = (f[2] - f[1]) / h2;
+        double h2 = x[2] - x[1];
+        double del2 = (f[2] - f[1]) / h2;
         //
         //  Set D(1) via non-centered three point formula, adjusted to be
         //  shape preserving.
         //
-        hsum = h1 + h2;
-        w1 = (h1 + hsum) / hsum;
-        w2 = -h1 / hsum;
+        double hsum = h1 + h2;
+        double w1 = (h1 + hsum) / hsum;
+        double w2 = -h1 / hsum;
         d[0] = w1 * del1 + w2 * del2;
 
         if (pchst(d[0], del1) <= 0.0)
@@ -269,7 +255,7 @@ public static class CubicHermite
             //
             d[i - 1] = 0.0;
 
-            temp = pchst(del1, del2);
+            double temp = pchst(del1, del2);
 
             switch (temp)
             {
@@ -294,13 +280,13 @@ public static class CubicHermite
                 }
                 //
                 default:
-                    hsumt3 = 3.0 * hsum;
+                    double hsumt3 = 3.0 * hsum;
                     w1 = (hsum + h1) / hsumt3;
                     w2 = (hsum + h2) / hsumt3;
                     dmax = Math.Max(Math.Abs(del1), Math.Abs(del2));
-                    dmin = Math.Min(Math.Abs(del1), Math.Abs(del2));
-                    drat1 = del1 / dmax;
-                    drat2 = del2 / dmax;
+                    double dmin = Math.Min(Math.Abs(del1), Math.Abs(del2));
+                    double drat1 = del1 / dmax;
+                    double drat2 = del2 / dmax;
                     d[i - 1] = dmin / (w1 * drat1 + w2 * drat2);
                     break;
             }
@@ -417,14 +403,7 @@ public static class CubicHermite
         //
     {
         int i;
-        int ierc;
-        int ir;
-        int j;
-        int j_first;
-        int j_new;
-        int j_save;
         int[] next = new int[2];
-        int nj;
         switch (n)
         {
             //
@@ -462,8 +441,8 @@ public static class CubicHermite
         //  The interval index is IL = IR-1.
         //  The interval is X(IL) <= X < X(IR).
         //
-        j_first = 1;
-        ir = 2;
+        int j_first = 1;
+        int ir = 2;
 
         for (;;)
         {
@@ -478,8 +457,9 @@ public static class CubicHermite
             //
             //  Locate all points in the interval.
             //
-            j_save = ne + 1;
+            int j_save = ne + 1;
 
+            int j;
             for (j = j_first; j <= ne; j++)
             {
                 if (x[ir - 1] <= xe[j - 1])
@@ -499,7 +479,7 @@ public static class CubicHermite
             //
             j = j_save;
 
-            nj = j - j_first;
+            int nj = j - j_first;
             //
             //  Skip evaluation if no points in interval.
             //
@@ -508,7 +488,7 @@ public static class CubicHermite
                 //
                 //  Evaluate cubic at XE(J_FIRST:J-1).
                 //
-                ierc = PolynomialNS.Cubic.chfev(x[ir - 2], x[ir - 1], f[ir - 2], f[ir - 1], d[ir - 2],
+                int ierc = PolynomialNS.Cubic.chfev(x[ir - 2], x[ir - 1], f[ir - 2], f[ir - 1], d[ir - 2],
                     d[ir - 1],
                     nj, xe, ref fe, ref next, xeIndex: +j_first - 1, feIndex: +j_first - 1);
 
@@ -553,7 +533,7 @@ public static class CubicHermite
                             break;
                         default:
                         {
-                            j_new = -1;
+                            int j_new = -1;
 
                             for (i = j_first; i <= j - 1; i++)
                             {

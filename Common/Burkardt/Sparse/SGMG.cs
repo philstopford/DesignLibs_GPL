@@ -105,18 +105,8 @@ public static class SGMG
         //
     {
         int dim;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more_grids;
-        bool more_points;
-        int[] order_1d;
         int point;
-        int point_count;
-        int[] point_index;
-        int point_unique;
-        int t;
         switch (level_max)
         {
             //
@@ -145,15 +135,15 @@ public static class SGMG
             }
         }
 
-        point_count = 0;
+        int point_count = 0;
         //
         //  The outer loop generates values of LEVEL.
         //
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
-        point_index = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] point_index = new int[dim_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -161,9 +151,9 @@ public static class SGMG
             //  The middle loop generates a GRID, 
             //  based on the next partition that adds up to LEVEL.
             //
-            more_grids = false;
-            h = 0;
-            t = 0;
+            bool more_grids = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -173,7 +163,7 @@ public static class SGMG
                 //
                 //  The inner loop generates a POINT of the GRID of the LEVEL.
                 //
-                more_points = false;
+                bool more_points = false;
 
                 for (;;)
                 {
@@ -184,7 +174,7 @@ public static class SGMG
                         break;
                     }
 
-                    point_unique = sparse_unique_index[point_count];
+                    int point_unique = sparse_unique_index[point_count];
                     for (dim = 0; dim < dim_num; dim++)
                     {
                         sparse_order[dim + point_unique * dim_num] = order_1d[dim];
@@ -307,12 +297,9 @@ public static class SGMG
     {
         int dim;
         int[] levels = new int[level_max];
-        int level;
         int[] orders = null;
-        int order = 0;
-        int p_index;
+        const int order = 0;
         int point;
-        double[] points;
 
         for (point = 0; point < point_num; point++)
         {
@@ -325,15 +312,16 @@ public static class SGMG
         //
         //  Compute the point coordinates.
         //
-        p_index = 0;
+        int p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
         {
+            int level;
             for (level = 0; level <= level_max; level++)
             {
                 LevelToOrder.level_growth_to_order(1, levels, rule.Skip(+dim).ToArray(),
                     growth.Skip(+dim).ToArray(), ref orders);
 
-                points = new double[order];
+                double[] points = new double[order];
 
                 switch (rule[dim])
                 {
@@ -491,28 +479,10 @@ public static class SGMG
         //
     {
         int dim;
-        int h;
         int level;
-        int[] levels;
-        int[] level_1d;
-        int level_min;
-        bool more_grids;
-        bool more_points;
-        int order;
         int[] orders = null;
-        int[] order_1d;
-        int p_index;
         int point;
-        int[] point_index;
         int point_num;
-        int point_total_num;
-        int point_total_num2;
-        double[] points;
-        int seed;
-        int[] sparse_total_index;
-        int[] sparse_total_order;
-        double[] sparse_total_point;
-        int t;
         switch (level_max)
         {
             //
@@ -529,25 +499,25 @@ public static class SGMG
         //
         //  Get total number of points, including duplicates.
         //
-        point_total_num = sgmg_size_total(dim_num,
+        int point_total_num = sgmg_size_total(dim_num,
             level_max, rule, growth);
         //
         //  Generate SPARSE_TOTAL_ORDER and SPARSE_TOTAL_INDEX arrays 
         //  for the TOTAL set of points.
         //
-        sparse_total_order = new int[dim_num * point_total_num];
-        sparse_total_index = new int[dim_num * point_total_num];
+        int[] sparse_total_order = new int[dim_num * point_total_num];
+        int[] sparse_total_index = new int[dim_num * point_total_num];
 
-        point_total_num2 = 0;
+        int point_total_num2 = 0;
         //
         //  The outer loop generates values of LEVEL.
         //
-        level_1d = new int[dim_num];
-        levels = new int[dim_num];
-        order_1d = new int[dim_num];
-        point_index = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] levels = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] point_index = new int[dim_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -555,9 +525,9 @@ public static class SGMG
             //  The middle loop generates a GRID, 
             //  based on the next partition that adds up to LEVEL.
             //
-            more_grids = false;
-            h = 0;
-            t = 0;
+            bool more_grids = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -567,7 +537,7 @@ public static class SGMG
                 //
                 //  The inner loop generates a POINT of the GRID of the LEVEL.
                 //
-                more_points = false;
+                bool more_points = false;
 
                 for (;;)
                 {
@@ -601,7 +571,7 @@ public static class SGMG
         //
         //  Now compute the coordinates of the TOTAL set of points.
         //
-        sparse_total_point = new double[dim_num * point_total_num];
+        double[] sparse_total_point = new double[dim_num * point_total_num];
 
         for (point = 0; point < point_total_num; point++)
         {
@@ -614,7 +584,7 @@ public static class SGMG
         //
         //  Compute the point coordinates.
         //
-        p_index = 0;
+        int p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
         {
             for (level = 0; level <= level_max; level++)
@@ -622,9 +592,9 @@ public static class SGMG
                 LevelToOrder.level_growth_to_order(1, levels, rule.Skip(+dim).ToArray(),
                     growth.Skip(+dim).ToArray(), ref orders);
 
-                order = orders.Length;
+                int order = orders.Length;
                     
-                points = new double[order];
+                double[] points = new double[order];
 
                 switch (rule[dim])
                 {
@@ -697,7 +667,7 @@ public static class SGMG
         //
         //  Count the tolerably unique columns. 
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         point_num = typeMethods.point_radial_tol_unique_count(dim_num, point_total_num,
             sparse_total_point, tol, ref seed);
@@ -782,14 +752,8 @@ public static class SGMG
         //    including repetitions.
         //
     {
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more_grids;
-        int[] order_1d;
         int point_total_num;
-        int t;
         switch (level_max)
         {
             //
@@ -802,12 +766,12 @@ public static class SGMG
 
         point_total_num = 0;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         //
         //  The outer loop generates values of LEVEL.
         //
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -815,9 +779,9 @@ public static class SGMG
             //  The middle loop generates a GRID, 
             //  based on the next partition that adds up to LEVEL.
             //
-            more_grids = false;
-            h = 0;
-            t = 0;
+            bool more_grids = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -942,28 +906,9 @@ public static class SGMG
         //
     {
         int dim;
-        int h;
         int level;
-        int[] levels;
-        int[] level_1d;
-        int level_min;
-        bool more_grids;
-        bool more_points;
-        int order;
         int[] orders = null;
-        int[] order_1d;
-        int p_index;
         int point;
-        int[] point_index;
-        int point_total_num2;
-        double[] points;
-        int rep;
-        int seed;
-        int[] sparse_total_index;
-        int[] sparse_total_order;
-        double[] sparse_total_point;
-        int t;
-        int[] undx;
         switch (level_max)
         {
             //
@@ -980,19 +925,19 @@ public static class SGMG
         //  Generate SPARSE_TOTAL_ORDER and SPARSE_TOTAL_INDEX arrays 
         //  for the TOTAL set of points.
         //
-        sparse_total_order = new int[dim_num * point_total_num];
-        sparse_total_index = new int[dim_num * point_total_num];
+        int[] sparse_total_order = new int[dim_num * point_total_num];
+        int[] sparse_total_index = new int[dim_num * point_total_num];
 
-        point_total_num2 = 0;
+        int point_total_num2 = 0;
         //
         //  The outer loop generates values of LEVEL.
         //
-        level_1d = new int[dim_num];
-        levels = new int[dim_num];
-        order_1d = new int[dim_num];
-        point_index = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] levels = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] point_index = new int[dim_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -1000,9 +945,9 @@ public static class SGMG
             //  The middle loop generates a GRID, 
             //  based on the next partition that adds up to LEVEL.
             //
-            more_grids = false;
-            h = 0;
-            t = 0;
+            bool more_grids = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1012,7 +957,7 @@ public static class SGMG
                 //
                 //  The inner loop generates a POINT of the GRID of the LEVEL.
                 //
-                more_points = false;
+                bool more_points = false;
 
                 for (;;)
                 {
@@ -1046,7 +991,7 @@ public static class SGMG
         //
         //  Now compute the coordinates of the TOTAL set of points.
         //
-        sparse_total_point = new double[dim_num * point_total_num];
+        double[] sparse_total_point = new double[dim_num * point_total_num];
 
         for (point = 0; point < point_total_num; point++)
         {
@@ -1059,7 +1004,7 @@ public static class SGMG
         //
         //  Compute the point coordinates.
         //
-        p_index = 0;
+        int p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
         {
             for (level = 0; level <= level_max; level++)
@@ -1067,9 +1012,9 @@ public static class SGMG
                 LevelToOrder.level_growth_to_order(1, levels, rule.Skip(+dim).ToArray(), growth.Skip(+dim).ToArray(),
                     ref orders);
 
-                order = orders.Length;
+                int order = orders.Length;
                     
-                points = new double[order];
+                double[] points = new double[order];
 
                 switch (rule[dim])
                 {
@@ -1142,16 +1087,16 @@ public static class SGMG
         //
         //  Merge points that are too close.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        undx = new int[point_num];
+        int[] undx = new int[point_num];
 
         typeMethods.point_radial_tol_unique_index(dim_num, point_total_num,
             sparse_total_point, tol, ref seed, ref undx, ref sparse_unique_index);
 
         for (point = 0; point < point_total_num; point++)
         {
-            rep = undx[sparse_unique_index[point]];
+            int rep = undx[sparse_unique_index[point]];
             if (point != rep)
             {
                 for (dim = 0; dim < dim_num; dim++)
@@ -1257,32 +1202,20 @@ public static class SGMG
         //    associated with the sparse grid points.
         //
     {
-        double coeff;
-        double[] grid_weight;
-        int h;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more_grids;
-        int order;
-        int[] order_1d;
-        int order_nd;
         int point;
-        int point_total;
-        int point_unique;
-        int t;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         for (point = 0; point < point_num; point++)
         {
             sparse_weight[point] = 0.0;
         }
 
-        point_total = 0;
+        int point_total = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         for (level = level_min; level <= level_max; level++)
         {
@@ -1290,9 +1223,9 @@ public static class SGMG
             //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
             //  that adds up to LEVEL.
             //
-            more_grids = false;
-            h = 0;
-            t = 0;
+            bool more_grids = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1304,7 +1237,7 @@ public static class SGMG
                 //
                 //  The product of the 1D orders gives us the number of points in this grid.
                 //
-                order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
                 //
                 //  Compute the weights for this grid.
                 //
@@ -1313,21 +1246,22 @@ public static class SGMG
                 //  order of the points, and this is the same ordering implicitly used in
                 //  generating the SPARSE_UNIQUE_INDEX array.
                 //
-                grid_weight = new double[order_nd];
+                double[] grid_weight = new double[order_nd];
 
                 Product.product_mixed_growth_weight(dim_num, order_1d, order_nd, rule,
                     np, p, gw_compute_weights, ref grid_weight);
                 //
                 //  Compute Smolyak's binomial coefficient for this grid.
                 //
-                coeff = typeMethods.r8_mop(level_max - level)
-                        * typeMethods.r8_choose(dim_num - 1, level_max - level);
+                double coeff = typeMethods.r8_mop(level_max - level)
+                               * typeMethods.r8_choose(dim_num - 1, level_max - level);
                 //
                 //  Add these weights to the rule.
                 //
+                int order;
                 for (order = 0; order < order_nd; order++)
                 {
-                    point_unique = sparse_unique_index[point_total];
+                    int point_unique = sparse_unique_index[point_total];
 
                     point_total += 1;
 
@@ -1418,21 +1352,14 @@ public static class SGMG
         //
     {
         int dim;
-        string file_name_n;
-        string file_name_p;
-        string file_name_r;
-        string file_name_w;
-        string file_name_x;
-        int np_sum;
-        int point;
-        double[] sparse_region;
-        double t1;
-        double t2;
 
-        sparse_region = new double[dim_num * 2];
+        double[] sparse_region = new double[dim_num * 2];
 
         for (dim = 0; dim < dim_num; dim++)
         {
+            double t2;
+            double t1;
+            int point;
             switch (rule[dim])
             {
                 case 1:
@@ -1518,24 +1445,24 @@ public static class SGMG
         Console.WriteLine("");
         Console.WriteLine("SGMG_WRITE:");
 
-        file_name_n = file_name + "_n.txt";
+        string file_name_n = file_name + "_n.txt";
         typeMethods.i4mat_write(file_name_n, dim_num, 1, np);
         Console.WriteLine("  Wrote the N file = \"" + file_name_n + "\".");
 
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        file_name_p = file_name + "_p.txt";
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        string file_name_p = file_name + "_p.txt";
         typeMethods.r8mat_write(file_name_p, 1, np_sum, p);
         Console.WriteLine("  Wrote the P file = \"" + file_name_p + "\".");
 
-        file_name_r = file_name + "_r.txt";
+        string file_name_r = file_name + "_r.txt";
         typeMethods.r8mat_write(file_name_r, dim_num, 2, sparse_region);
         Console.WriteLine("  Wrote the R file = \"" + file_name_r + "\".");
 
-        file_name_w = file_name + "_w.txt";
+        string file_name_w = file_name + "_w.txt";
         typeMethods.r8mat_write(file_name_w, 1, point_num, sparse_weight);
         Console.WriteLine("  Wrote the W file = \"" + file_name_w + "\".");
 
-        file_name_x = file_name + "_x.txt";
+        string file_name_x = file_name + "_x.txt";
         typeMethods.r8mat_write(file_name_x, dim_num, point_num, sparse_point);
         Console.WriteLine("  Wrote the X file = \"" + file_name_x + "\".");
 

@@ -51,9 +51,7 @@ public static class Icosphere
         //    Output, int SPHERE_ICOS_EDGE_NUM, the number of edges.
         //
     {
-        int edge_num;
-
-        edge_num = 30 * factor * factor;
+        int edge_num = 30 * factor * factor;
 
         return edge_num;
     }
@@ -104,9 +102,7 @@ public static class Icosphere
         //    Output, int SPHERE_ICOS_FACE_NUM, the number of faces.
         //
     {
-        int face_num;
-
-        face_num = 20 * factor * factor;
+        int face_num = 20 * factor * factor;
 
         return face_num;
     }
@@ -157,11 +153,9 @@ public static class Icosphere
         //    Output, int SPHERE_ICOS_POINT_NUM, the number of points.
         //
     {
-        int point_num;
-
-        point_num = 12
-                    + 10 * 3 * (factor - 1)
-                    + 10 * (factor - 2) * (factor - 1);
+        int point_num = 12
+                        + 10 * 3 * (factor - 1)
+                        + 10 * (factor - 2) * (factor - 1);
 
         return point_num;
     }
@@ -227,27 +221,17 @@ public static class Icosphere
     {
         int a;
         int b;
-        int c;
         int dim;
-        int edge = 0;
+        int edge;
         int edge_num = 0;
-        int[] edge_point;
-        int f;
-        int f1;
-        int f2;
-        int face = 0;
+        int face;
         int face_num = 0;
-        int[] face_order;
-        int[] face_point;
         int face_order_max = 0;
-        int node = 0;
-        double node_norm = 0;
-        double[] node_xyz;
-        int point = 0;
-        double[] point_coord;
+        double node_norm;
+        int point;
         int point_num = 0;
 
-        node_xyz = new double[3 * node_num];
+        double[] node_xyz = new double[3 * node_num];
         //
         //  Size the icosahedron.
         //
@@ -255,10 +239,10 @@ public static class Icosphere
         //
         //  Set the icosahedron.
         //
-        point_coord = new double[3 * point_num];
-        edge_point = new int[2 * edge_num];
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[3 * point_num];
+        int[] edge_point = new int[2 * edge_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
 
         Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
             ref point_coord, ref edge_point, ref face_order, ref face_point);
@@ -267,7 +251,7 @@ public static class Icosphere
         //
         //  A.  Points that are the icosahedral vertices.
         //
-        node = 0;
+        int node = 0;
         for (point = 0; point < point_num; point++)
         {
             for (dim = 0; dim < 3; dim++)
@@ -287,6 +271,7 @@ public static class Icosphere
             a = edge_point[0 + edge * 2];
             b = edge_point[1 + edge * 2];
 
+            int f;
             for (f = 1; f < factor; f++)
             {
                 for (dim = 0; dim < 3; dim++)
@@ -315,10 +300,12 @@ public static class Icosphere
         {
             a = face_point[0 + face * 3];
             b = face_point[1 + face * 3];
-            c = face_point[2 + face * 3];
+            int c = face_point[2 + face * 3];
 
+            int f1;
             for (f1 = 1; f1 < factor; f1++)
             {
+                int f2;
                 for (f2 = 1; f2 < factor - f1; f2++)
                 {
                     for (dim = 0; dim < 3; dim++)
@@ -409,39 +396,23 @@ public static class Icosphere
         double[] ab = new double[3];
         double[] ac = new double[3];
         double[] acn = new double[3];
-        double acn_norm;
         double[] acp = new double[3];
         int b;
         double[] bn = new double[3];
         double bn_norm;
         double[] bp = new double[3];
-        int c;
         double[] cn = new double[3];
-        double cn_norm;
         double[] cp = new double[3];
-        int edge = 0;
+        int edge;
         int edge_num = 0;
-        int[] edge_point;
-        int f;
-        int fa;
-        int fbc;
-        int face = 0;
+        int face;
         int face_num = 0;
-        int[] face_order;
-        int[] face_point;
         int face_order_max = 0;
         int i;
         int j;
-        int node = 0;
-        double[] node_xyz;
-        double[] point_coord;
         int point_num = 0;
-        double theta;
-        double theta_ab;
-        double theta_ac;
-        double theta_bc;
 
-        node_xyz = new double[3 * node_num];
+        double[] node_xyz = new double[3 * node_num];
         //
         //  Size the icosahedron.
         //
@@ -449,10 +420,10 @@ public static class Icosphere
         //
         //  Set the icosahedron.
         //
-        point_coord = new double[3 * point_num];
-        edge_point = new int[2 * edge_num];
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[3 * point_num];
+        int[] edge_point = new int[2 * edge_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
 
         Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
             ref point_coord, ref edge_point, ref face_order, ref face_point);
@@ -461,7 +432,7 @@ public static class Icosphere
         //
         //  A.  Points that are the icosahedral vertices.
         //
-        node = 0;
+        int node = 0;
         for (j = 0; j < point_num; j++)
         {
             for (i = 0; i < 3; i++)
@@ -484,7 +455,7 @@ public static class Icosphere
             //
             //  Determine the "distance" = angle between points A and B.
             //
-            theta = Distance.sphere_distance_xyz(point_coord, point_coord, index1: +a * 3, index2: +b * 3);
+            double theta = Distance.sphere_distance_xyz(point_coord, point_coord, index1: +a * 3, index2: +b * 3);
             //
             //  Polarize B into BP + BN and normalize BN.
             //
@@ -500,6 +471,7 @@ public static class Icosphere
             //  F = 0      => ANGLE = 0     => A
             //  F = FACTOR => ANGLE = THETA => B
             //
+            int f;
             for (f = 1; f < factor; f++)
             {
                 angle = f * theta / factor;
@@ -521,12 +493,12 @@ public static class Icosphere
         {
             a = face_point[0 + face * 3];
             b = face_point[1 + face * 3];
-            c = face_point[2 + face * 3];
+            int c = face_point[2 + face * 3];
             //
             //  Determine the "distance" = angle between points A and B, A and C.
             //
-            theta_ab = Distance.sphere_distance_xyz(point_coord, point_coord, +a * 3, +b * 3);
-            theta_ac = Distance.sphere_distance_xyz(point_coord, point_coord, +a * 3, +c * 3);
+            double theta_ab = Distance.sphere_distance_xyz(point_coord, point_coord, +a * 3, +b * 3);
+            double theta_ac = Distance.sphere_distance_xyz(point_coord, point_coord, +a * 3, +c * 3);
             //
             //  Polarize B = BP + BN and normalize BN, C = CP + CN, and normalize CN.
             //
@@ -538,7 +510,7 @@ public static class Icosphere
             }
 
             typeMethods.r8vec_polarize(3, point_coord, point_coord, ref cn, ref cp, +c * 3, +a * 3);
-            cn_norm = typeMethods.r8vec_norm(3, cn);
+            double cn_norm = typeMethods.r8vec_norm(3, cn);
             for (i = 0; i < 3; i++)
             {
                 cn[i] /= cn_norm;
@@ -553,6 +525,7 @@ public static class Icosphere
             //    FA = 0      => ANGLE = 0        => AC = A
             //    FA = FACTOR => ANGLE = THETA_AC => AC = C
             //
+            int fa;
             for (fa = 2; fa < factor; fa++)
             {
                 //
@@ -574,12 +547,12 @@ public static class Icosphere
                 //
                 //  Determine the "distance" = angle between points AB and AC.
                 //
-                theta_bc = Distance.sphere_distance_xyz(ab, ac);
+                double theta_bc = Distance.sphere_distance_xyz(ab, ac);
                 //
                 //  Polarize AC into ACP + ACN and normalize ACN.
                 //
                 typeMethods.r8vec_polarize(3, ac, ab, ref acn, ref acp);
-                acn_norm = typeMethods.r8vec_norm(3, acn);
+                double acn_norm = typeMethods.r8vec_norm(3, acn);
                 for (i = 0; i < 3; i++)
                 {
                     acn[i] /= acn_norm;
@@ -589,6 +562,7 @@ public static class Icosphere
                 //  The interval between AB and AC is broken into FA intervals.
                 //  Go from 1 to FA - 1.
                 //
+                int fbc;
                 for (fbc = 1; fbc < fa; fbc++)
                 {
                     angle = fbc * theta_bc / fa;

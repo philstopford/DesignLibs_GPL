@@ -144,12 +144,6 @@ public static class Cubic
         //    of the cubic spline.
         //
     {
-        double[] a1;
-        double[] a2;
-        double[] a3;
-        double[] a4;
-        double[] a5;
-        double[] b;
         int i;
         double[] ypp;
         switch (n)
@@ -178,12 +172,12 @@ public static class Cubic
             }
         }
 
-        a1 = new double[n];
-        a2 = new double[n];
-        a3 = new double[n];
-        a4 = new double[n];
-        a5 = new double[n];
-        b = new double[n];
+        double[] a1 = new double[n];
+        double[] a2 = new double[n];
+        double[] a3 = new double[n];
+        double[] a4 = new double[n];
+        double[] a5 = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -367,38 +361,36 @@ public static class Cubic
         //    double SPLINE_VAL, the value of the spline at TVAL.
         //
     {
-        double dt;
-        double h;
         int i;
-        int ival;
-        double yval;
         //
         //  Determine the interval [ T(I), T(I+1) ] that contains TVAL.
         //  Values below T[0] or above T[N-1] use extrapolation.
         //
-        ival = n - 2;
+        int ival = n - 2;
 
         for (i = 0; i < n - 1; i++)
         {
-            if (tval < t[i + 1])
+            if (!(tval < t[i + 1]))
             {
-                ival = i;
-                break;
+                continue;
             }
+
+            ival = i;
+            break;
         }
 
         //
         //  In the interval I, the polynomial is in terms of a normalized
         //  coordinate between 0 and 1.
         //
-        dt = tval - t[ival];
-        h = t[ival + 1] - t[ival];
+        double dt = tval - t[ival];
+        double h = t[ival + 1] - t[ival];
 
-        yval = y[ival]
-               + dt * ((y[ival + 1] - y[ival]) / h
-                       - (ypp[ival + 1] / 6.0 + ypp[ival] / 3.0) * h
-                       + dt * (0.5 * ypp[ival]
-                               + dt * ((ypp[ival + 1] - ypp[ival]) / (6.0 * h))));
+        double yval = y[ival]
+                      + dt * ((y[ival + 1] - y[ival]) / h
+                              - (ypp[ival + 1] / 6.0 + ypp[ival] / 3.0) * h
+                              + dt * (0.5 * ypp[ival]
+                                      + dt * ((ypp[ival + 1] - ypp[ival]) / (6.0 * h))));
 
         ypval = (y[ival + 1] - y[ival]) / h
                 - (ypp[ival + 1] / 6.0 + ypp[ival] / 3.0) * h
@@ -479,9 +471,6 @@ public static class Cubic
         //    its first two derivatives at TVAL.
         //
     {
-        double dt;
-        double h;
-        int right;
         //
         //  Determine the interval [T[LEFT], T[RIGHT]] that contains TVAL.  
         //  
@@ -493,7 +482,7 @@ public static class Cubic
         // In the interval LEFT, the polynomial is in terms of a normalized
         // coordinate  ( DT / H ) between 0 and 1.
         //
-        right = left + 1;
+        int right = left + 1;
 
         int tlIndex = left % t.Length;
         switch (tlIndex)
@@ -543,8 +532,8 @@ public static class Cubic
                 break;
         }
 
-        dt = tval - t[tlIndex];
-        h = t[trIndex] - t[tlIndex];
+        double dt = tval - t[tlIndex];
+        double h = t[trIndex] - t[tlIndex];
 
         yval = y[ylIndex]
                + dt * ((y[yrIndex] - y[ylIndex]) / h

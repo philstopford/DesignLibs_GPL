@@ -68,10 +68,9 @@ public static class Bezier
         //    on the Bezier curve corresponding to the given T value.
         //
     {
-        double[] bval;
         int i;
 
-        bval = BernsteinPolynomial.bernstein_poly_01(n, t);
+        double[] bval = BernsteinPolynomial.bernstein_poly_01(n, t);
 
         xval = 0.0;
         for (i = 0; i <= n; i++)
@@ -153,10 +152,7 @@ public static class Bezier
         //    Output, double BEZ_VAL, the value of the Bezier function at X.
         //
     {
-        double[] bval;
         int i;
-        double value = 0;
-        double x01;
 
         switch (b - a)
         {
@@ -170,11 +166,11 @@ public static class Bezier
         //
         //  X01 lies in [0,1], in the same relative position as X in [A,B].
         //
-        x01 = (x - a) / (b - a);
+        double x01 = (x - a) / (b - a);
 
-        bval = BernsteinPolynomial.bernstein_poly_01(n, x01);
+        double[] bval = BernsteinPolynomial.bernstein_poly_01(n, x01);
 
-        value = 0.0;
+        double value = 0.0;
         for (i = 0; i <= n; i++)
         {
             value += y[i] * bval[i];

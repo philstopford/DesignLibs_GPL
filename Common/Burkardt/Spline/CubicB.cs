@@ -53,11 +53,8 @@ public static class CubicB
         //    Output, double SPLINE_B_VAL, the value of the function at TVAL.
         //
     {
-        double bval;
         int left = 0;
         int right = 0;
-        double u;
-        double yval;
         //
         //  Find the nearest interval [ TDATA(LEFT), TDATA(RIGHT) ] to TVAL.
         //
@@ -66,13 +63,13 @@ public static class CubicB
         //  Evaluate the 5 nonzero B spline basis functions in the interval,
         //  weighted by their corresponding data values.
         //
-        u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
-        yval = 0.0;
+        double u = (tval - tdata[left - 1]) / (tdata[right - 1] - tdata[left - 1]);
+        double yval = 0.0;
         //
         //  B function associated with node LEFT - 1, (or "phantom node"),
         //  evaluated in its 4th interval.
         //
-        bval = (((-1.0
+        double bval = (((-1.0
                     * u + 3.0)
                 * u - 3.0)
             * u + 1.0) / 6.0;

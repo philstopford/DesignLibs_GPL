@@ -54,10 +54,8 @@ public static class Overhauser
         //
     {
         double alpha;
-        double beta;
         double d21;
         double d32;
-        double d43;
         int left = 0;
         double[] mbasis;
         int right = 0;
@@ -98,6 +96,8 @@ public static class Overhauser
                 break;
             default:
             {
+                double beta;
+                double d43;
                 if (left < ndata - 1)
                 {
                     d21 = Math.Sqrt(Math.Pow(tdata[left - 1] - tdata[left - 2], 2)
@@ -312,14 +312,11 @@ public static class Overhauser
     {
         int i;
         int left = 0;
-        int order;
         int right = 0;
-        double[] yl;
-        double[] yr;
         //
         //  Check.
         //
-        order = typeMethods.r8vec_order_type(ndata, tdata);
+        int order = typeMethods.r8vec_order_type(ndata, tdata);
 
         if (order != 2)
         {
@@ -347,8 +344,8 @@ public static class Overhauser
         //  Evaluate the "left hand" quadratic defined at 
         //  T[LEFT-1], T[LEFT], T[RIGHT]. 
         //
-        yl = new double[ndim];
-        yr = new double[ndim];
+        double[] yl = new double[ndim];
+        double[] yr = new double[ndim];
 
         switch (left - 1)
         {

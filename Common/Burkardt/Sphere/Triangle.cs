@@ -50,10 +50,7 @@ public static class Triangle
         //    Output, double STRI_ANGLES_TO_AREA, the area of the spherical triangle.
         //
     {
-        double area;
-            
-
-        area = a + b + c - Math.PI;
+        double area = a + b + c - Math.PI;
 
         return area;
     }
@@ -110,10 +107,8 @@ public static class Triangle
         //
     {
         int i;
-        double[] node_xyz;
-        double norm;
 
-        node_xyz = new double[3];
+        double[] node_xyz = new double[3];
 
         for (i = 0; i < 3; i++)
         {
@@ -124,7 +119,7 @@ public static class Triangle
                 / (f1 + f2 + f3);
         }
 
-        norm = typeMethods.r8vec_norm(3, node_xyz);
+        double norm = typeMethods.r8vec_norm(3, node_xyz);
 
         for (i = 0; i < 3; i++)
         {
@@ -189,19 +184,13 @@ public static class Triangle
         double[] ac = new double[3];
         double[] acn = new double[3];
         double[] acp = new double[3];
-        double angle;
         double[] bn = new double[3];
         double[] bp = new double[3];
         double[] cn = new double[3];
         double[] cp = new double[3];
         int i;
-        double[] node_xyz;
-        double norm;
-        double theta_ab;
-        double theta_ac;
-        double theta_bc;
 
-        node_xyz = new double[3];
+        double[] node_xyz = new double[3];
         switch (f2)
         {
             //
@@ -243,16 +232,16 @@ public static class Triangle
         //
         //  Determine the angular distances (A,B) and (A,C).
         //
-        theta_ab = Distance.sphere01_distance_xyz(a_xyz, b_xyz);
+        double theta_ab = Distance.sphere01_distance_xyz(a_xyz, b_xyz);
 
-        theta_ac = Distance.sphere01_distance_xyz(a_xyz, c_xyz);
+        double theta_ac = Distance.sphere01_distance_xyz(a_xyz, c_xyz);
         //
         //  Polarize B = BP + BN
         //  Normalize BN, 
         //  Same for C.
         //
         typeMethods.r8vec_polarize(3, b_xyz, a_xyz, ref bn, ref bp);
-        norm = typeMethods.r8vec_norm(3, bn);
+        double norm = typeMethods.r8vec_norm(3, bn);
         for (i = 0; i < 3; i++)
         {
             bn[i] /= norm;
@@ -269,7 +258,7 @@ public static class Triangle
         //  Determine AB and AC that use Math.Cos ( ( F2 + F3 ) / ( F1 + F2 + F3 ) ) of A
         //  and Math.Cos ( F1 / ( F1 + F2 + F3 ) ) of B or C.
         //
-        angle = (f2 + f3) * theta_ab / (f1 + f2 + f3);
+        double angle = (f2 + f3) * theta_ab / (f1 + f2 + f3);
         for (i = 0; i < 3; i++)
         {
             ab[i] = Math.Cos(angle) * a_xyz[i] + Math.Sin(angle) * bn[i];
@@ -284,7 +273,7 @@ public static class Triangle
         //
         //  Determine the angular distance between AB and AC.
         //
-        theta_bc = Distance.sphere01_distance_xyz(ab, ac);
+        double theta_bc = Distance.sphere01_distance_xyz(ab, ac);
         //
         //  Polarize AC = ACP + ACN, normalize ACN.
         //
@@ -358,59 +347,45 @@ public static class Triangle
     {
         double a = 0;
         double alpha = 0;
-        double area = 0;
-        double area_hat = 0;
         double b = 0;
         double beta = 0;
         double c = 0;
         double gamma = 0;
-        int i;
         int j;
-        double norm;
-        double q;
-        double s;
-        double t;
-        double u;
-        double v;
         double[] v31 = new double[3];
         double[] v4 = new double[3];
         double[] v42 = new double[3];
-        double w;
-        double[] x;
-        double xsi1;
-        double xsi2;
-        double z;
 
         sphere01_triangle_vertices_to_sides(v1, v2, v3, ref a, ref b, ref c);
 
         sphere01_triangle_sides_to_angles(a, b, c, ref alpha, ref beta, ref gamma);
 
-        area = sphere01_triangle_angles_to_area(alpha, beta, gamma);
+        double area = sphere01_triangle_angles_to_area(alpha, beta, gamma);
 
-        x = new double[3 * n];
+        double[] x = new double[3 * n];
 
         for (j = 0; j < n; j++)
         {
             //
             //  Select the new area.
             //
-            xsi1 = UniformRNG.r8_uniform_01(ref seed);
-            area_hat = xsi1 * area;
+            double xsi1 = UniformRNG.r8_uniform_01(ref seed);
+            double area_hat = xsi1 * area;
             //
             //  Compute the sine and cosine of the angle phi.
             //
-            s = Math.Sin(area_hat - alpha);
-            t = Math.Cos(area_hat - alpha);
+            double s = Math.Sin(area_hat - alpha);
+            double t = Math.Cos(area_hat - alpha);
             //
             //  Compute the pair that determines beta_hat.
             //
-            u = t - Math.Cos(alpha);
-            v = s + Math.Sin(alpha) * Math.Cos(c);
+            double u = t - Math.Cos(alpha);
+            double v = s + Math.Sin(alpha) * Math.Cos(c);
             //
             //  Q is the cosine of the new edge length b_hat.
             //
-            q = ((v * t - u * s) * Math.Cos(alpha) - v)
-                / ((v * s + u * t) * Math.Sin(alpha));
+            double q = ((v * t - u * s) * Math.Cos(alpha) - v)
+                       / ((v * s + u * t) * Math.Sin(alpha));
             //
             //  We very occasionally get a Q value out of bounds.
             //
@@ -419,13 +394,14 @@ public static class Triangle
             //
             //  V31 = normalized ( V3 - ( V3 dot V1 ) * V1 )
             //
-            w = typeMethods.r8vec_dot_product(3, v3, v1);
+            double w = typeMethods.r8vec_dot_product(3, v3, v1);
+            int i;
             for (i = 0; i < 3; i++)
             {
                 v31[i] = v3[i] - w * v1[i];
             }
 
-            norm = typeMethods.r8vec_norm(3, v31);
+            double norm = typeMethods.r8vec_norm(3, v31);
             for (i = 0; i < 3; i++)
             {
                 v31[i] /= norm;
@@ -442,8 +418,8 @@ public static class Triangle
             //
             //  Select Math.Cos theta, which will sample along the edge from V2 to V4.
             //
-            xsi2 = UniformRNG.r8_uniform_01(ref seed);
-            z = 1.0 - xsi2 * (1.0 - typeMethods.r8vec_dot_product(3, v4, v2));
+            double xsi2 = UniformRNG.r8_uniform_01(ref seed);
+            double z = 1.0 - xsi2 * (1.0 - typeMethods.r8vec_dot_product(3, v4, v2));
             //
             //  V42 = normalized ( V4 - ( V4 dot V2 ) * V2 )
             //
@@ -501,31 +477,23 @@ public static class Triangle
         //    Angle A is opposite the side of length AS, and so on.
         //
     {
-        double asu;
-        double bsu;
-        double csu;
-        double ssu;
-        double tan_a2;
-        double tan_b2;
-        double tan_c2;
+        double asu = as_;
+        double bsu = bs;
+        double csu = cs;
+        double ssu = (asu + bsu + csu) / 2.0;
 
-        asu = as_;
-        bsu = bs;
-        csu = cs;
-        ssu = (asu + bsu + csu) / 2.0;
-
-        tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - asu)));
+        double tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - asu)));
 
         a = 2.0 * Math.Atan(tan_a2);
 
-        tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
+        double tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
 
         b = 2.0 * Math.Atan(tan_b2);
 
-        tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - csu)));
+        double tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - csu)));
 
         c = 2.0 * Math.Atan(tan_c2);
     }
@@ -623,7 +591,6 @@ public static class Triangle
         //    Output, double STRI_VERTICES_TO_AREA, the area of the 
         //    spherical triangle.
     {
-        double area = 0;
         double a = 0;
         double as_ = 0;
         double b = 0;
@@ -641,7 +608,7 @@ public static class Triangle
         //
         //  Get the area
         //
-        area = sphere01_triangle_angles_to_area(a, b, c);
+        double area = sphere01_triangle_angles_to_area(a, b, c);
 
         return area;
     }
@@ -702,20 +669,18 @@ public static class Triangle
         //    "spherical centroid" of the spherical triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
-        double norm;
-        double[] vs;
 
-        vs = new double[3];
+        double[] vs = new double[3];
 
         for (i = 0; i < DIM_NUM; i++)
         {
             vs[i] = (v1[i] + v2[i] + v3[i]) / 3.0;
         }
 
-        norm = typeMethods.r8vec_norm(DIM_NUM, vs);
+        double norm = typeMethods.r8vec_norm(DIM_NUM, vs);
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -759,14 +724,13 @@ public static class Triangle
         //
     {
         int i;
-        double norm;
 
         for (i = 0; i < 3; i++)
         {
             m1[i] = (v1[i] + v2[i]) / 2.0;
         }
 
-        norm = typeMethods.r8vec_norm(3, m1);
+        double norm = typeMethods.r8vec_norm(3, m1);
         for (i = 0; i < 3; i++)
         {
             m1[i] /= norm;

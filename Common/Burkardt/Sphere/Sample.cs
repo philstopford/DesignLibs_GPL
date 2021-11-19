@@ -59,18 +59,12 @@ public static class Sample
         //
     {
         GeometrySampleResult result = new();
-        double exponent;
-        int i;
         int j;
-        double norm;
-        double r;
-        double[] x;
-        double[] y;
 
-        x = new double[m*n];
-        y = new double[m];
+        double[] x = new double[m*n];
+        double[] y = new double[m];
 
-        exponent = 1.0 / m;
+        double exponent = 1.0 / m;
 
         for ( j = 0; j < n; j++ )
         {
@@ -81,7 +75,8 @@ public static class Sample
             //
             //  Compute the length of the vector.
             //
-            norm = 0.0;
+            double norm = 0.0;
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 norm += y[i] * y[i];
@@ -97,7 +92,7 @@ public static class Sample
             //
             //  Now compute a value to map the point ON the sphere INTO the sphere.
             //
-            r = UniformRNG.r8_uniform_01 ( ref seed );
+            double r = UniformRNG.r8_uniform_01 ( ref seed );
             r = Math.Pow ( r, exponent );
 
             for ( i = 0; i < m; i++ )

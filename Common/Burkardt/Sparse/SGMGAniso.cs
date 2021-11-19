@@ -84,9 +84,6 @@ public static class SGMGAniso
         //
     {
         int dim;
-        double[] level_weight2;
-        double level_weight_min;
-        int nonzero_num;
 
         switch (alpha_max)
         {
@@ -100,8 +97,8 @@ public static class SGMGAniso
         //
         //  Find the smallest nonzero entry.
         //
-        level_weight_min = typeMethods.r8_huge();
-        nonzero_num = 0;
+        double level_weight_min = typeMethods.r8_huge();
+        int nonzero_num = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -132,7 +129,7 @@ public static class SGMGAniso
         //
         //  Rescale so the smallest nonzero entry is 1.
         //
-        level_weight2 = new double[dim_num];
+        double[] level_weight2 = new double[dim_num];
         for (dim = 0; dim < dim_num; dim++)
         {
             level_weight2[dim] = level_weight[dim] / level_weight_min;
@@ -217,9 +214,6 @@ public static class SGMGAniso
         //
     {
         int dim;
-        int found;
-        double level_weight_min;
-        double level_weight_sum;
         switch (option)
         {
             //
@@ -232,8 +226,8 @@ public static class SGMGAniso
             //
             case 1:
             {
-                level_weight_min = typeMethods.r8_huge();
-                found = 0;
+                double level_weight_min = typeMethods.r8_huge();
+                int found = 0;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     switch (level_weight[dim])
@@ -272,7 +266,7 @@ public static class SGMGAniso
             //
             case 2:
             {
-                level_weight_sum = typeMethods.r8vec_sum(dim_num, level_weight);
+                double level_weight_sum = typeMethods.r8vec_sum(dim_num, level_weight);
 
                 switch (level_weight_sum)
                 {
@@ -372,7 +366,6 @@ public static class SGMGAniso
         //
     {
         int dim;
-        int found;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -386,7 +379,7 @@ public static class SGMGAniso
             }
         }
 
-        found = 0;
+        int found = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -515,20 +508,8 @@ public static class SGMGAniso
         //    it.  The indices are 1-based.
         //
     {
-        double coef;
         int dim;
-        int[] level_1d;
-        int[] level_1d_max;
-        double level_weight_min_pos;
-        bool more_grids;
-        bool more_points;
-        int[] order_1d;
         int point;
-        int point_count;
-        int[] point_index;
-        int point_unique;
-        double q_max;
-        double q_min;
         SGMGAData data = new();
         switch (level_max)
         {
@@ -562,19 +543,19 @@ public static class SGMGAniso
             }
         }
 
-        point_count = 0;
+        int point_count = 0;
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        order_1d = new int[dim_num];
-        point_index = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] point_index = new int[dim_num];
         //
         //  Initialization for SGMGA_VCN_ORDERED.
         //
-        level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-        q_min = level_max * level_weight_min_pos
-                - typeMethods.r8vec_sum(dim_num, level_weight);
-        q_max = level_max * level_weight_min_pos;
+        double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+        double q_min = level_max * level_weight_min_pos
+                       - typeMethods.r8vec_sum(dim_num, level_weight);
+        double q_max = level_max * level_weight_min_pos;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -595,7 +576,7 @@ public static class SGMGAniso
             }
         }
 
-        more_grids = false;
+        bool more_grids = false;
         //
         //  Seek all vectors LEVEL_1D which satisfy the constraint.
         //
@@ -616,7 +597,7 @@ public static class SGMGAniso
             //
             //  Compute the combinatorial coefficient.
             //
-            coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
+            double coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
 
             switch (coef)
             {
@@ -631,7 +612,7 @@ public static class SGMGAniso
             //
             //  The inner loop generates a POINT of the GRID of the LEVEL.
             //
-            more_points = false;
+            bool more_points = false;
 
             for (;;)
             {
@@ -642,7 +623,7 @@ public static class SGMGAniso
                     break;
                 }
 
-                point_unique = sparse_unique_index[point_count];
+                int point_unique = sparse_unique_index[point_count];
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     sparse_order[dim + point_unique * dim_num] = order_1d[dim];
@@ -764,16 +745,8 @@ public static class SGMGAniso
         //
     {
         int dim;
-        int level;
-        int[] levels;
-        int[] level_1d_max;
-        double level_weight_min_pos;
-        int order;
         int[] orders = null;
-        int p_index;
         int point;
-        double[] points;
-        double q_max;
 
         for (point = 0; point < point_num; point++)
         {
@@ -786,12 +759,12 @@ public static class SGMGAniso
         //
         //  Compute the point coordinates.
         //
-        level_1d_max = new int[dim_num];
-        levels = new int[dim_num];
-        level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-        q_max = level_max * level_weight_min_pos;
+        int[] level_1d_max = new int[dim_num];
+        int[] levels = new int[dim_num];
+        double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+        double q_max = level_max * level_weight_min_pos;
 
-        p_index = 0;
+        int p_index = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -812,14 +785,15 @@ public static class SGMGAniso
                     break;
             }
 
+            int level;
             for (level = 0; level <= level_1d_max[dim]; level++)
             {
                 LevelToOrder.level_growth_to_order(1, levels, rule.Skip(+dim).ToArray(),
                     growth.Skip(+dim).ToArray(), ref orders);
 
-                order = orders.Length;
+                int order = orders.Length;
 
-                points = new double[order];
+                double[] points = new double[order];
 
                 switch (rule[dim])
                 {
@@ -896,18 +870,20 @@ public static class SGMGAniso
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                if (Math.Abs(sparse_point[dim + point * dim_num] - (-typeMethods.r8_huge())) <= double.Epsilon)
+                if (!(Math.Abs(sparse_point[dim + point * dim_num] - (-typeMethods.r8_huge())) <= double.Epsilon))
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("SGMGA_POINT - Fatal error!");
-                    Console.WriteLine("  At least one point component was not assigned.");
-                    Console.WriteLine("  POINT = " + point + "");
-                    Console.WriteLine("  DIM = " + dim + "");
-                    Console.WriteLine("  SPARSE_ORDER(DIM,POINT) = "
-                                      + sparse_order[dim + point * dim_num] + "");
-                    Console.WriteLine("  LEVEL_WEIGHT(DIM) = " + level_weight[dim] + "");
-                    return;
+                    continue;
                 }
+
+                Console.WriteLine("");
+                Console.WriteLine("SGMGA_POINT - Fatal error!");
+                Console.WriteLine("  At least one point component was not assigned.");
+                Console.WriteLine("  POINT = " + point + "");
+                Console.WriteLine("  DIM = " + dim + "");
+                Console.WriteLine("  SPARSE_ORDER(DIM,POINT) = "
+                                  + sparse_order[dim + point * dim_num] + "");
+                Console.WriteLine("  LEVEL_WEIGHT(DIM) = " + level_weight[dim] + "");
+                return;
             }
         }
     }
@@ -992,8 +968,6 @@ public static class SGMGAniso
     {
         int dim;
         int i;
-        int p_index;
-        double[] weight_1d;
         typeMethods.r8vecDPData data = new();
 
         for (i = 0; i < order_nd; i++)
@@ -1001,11 +975,11 @@ public static class SGMGAniso
             weight_nd[i] = 1.0;
         }
 
-        p_index = 0;
+        int p_index = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            weight_1d = new double[order_1d[dim]];
+            double[] weight_1d = new double[order_1d[dim]];
 
             switch (rule[dim])
             {
@@ -1168,31 +1142,10 @@ public static class SGMGAniso
         //    Output, int SGMGA_SIZE, the number of unique points.
         //
     {
-        double coef;
         int dim;
-        int level;
-        int[] levels;
-        int[] level_1d;
-        int[] level_1d_max;
-        double level_weight_min_pos;
-        bool more_grids;
-        bool more_points;
-        int order;
         int[] orders = null;
-        int[] order_1d;
-        int p_index;
         int point;
-        int[] point_index;
         int point_num;
-        int point_total_num;
-        int point_total_num2;
-        double[] points;
-        double q_max;
-        double q_min;
-        int seed;
-        int[] sparse_total_index;
-        int[] sparse_total_order;
-        double[] sparse_total_point;
         SGMGAData data = new();
         switch (level_max)
         {
@@ -1210,29 +1163,29 @@ public static class SGMGAniso
         //
         //  Get total number of points, including duplicates.
         //
-        point_total_num = sgmga_size_total(dim_num, level_weight, level_max,
+        int point_total_num = sgmga_size_total(dim_num, level_weight, level_max,
             rule, growth);
         //
         //  Generate SPARSE_TOTAL_ORDER and SPARSE_TOTAL_INDEX arrays 
         //  for the TOTAL set of points.
         //
-        sparse_total_order = new int[dim_num * point_total_num];
-        sparse_total_index = new int[dim_num * point_total_num];
+        int[] sparse_total_order = new int[dim_num * point_total_num];
+        int[] sparse_total_index = new int[dim_num * point_total_num];
 
-        point_total_num2 = 0;
+        int point_total_num2 = 0;
 
-        level_1d = new int[dim_num];
-        levels = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        order_1d = new int[dim_num];
-        point_index = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] levels = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] point_index = new int[dim_num];
         //
         //  Initialization for SGMGA_VCN_ORDERED.
         //
-        level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-        q_min = level_max * level_weight_min_pos
-                - typeMethods.r8vec_sum(dim_num, level_weight);
-        q_max = level_max * level_weight_min_pos;
+        double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+        double q_min = level_max * level_weight_min_pos
+                       - typeMethods.r8vec_sum(dim_num, level_weight);
+        double q_max = level_max * level_weight_min_pos;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -1253,7 +1206,7 @@ public static class SGMGAniso
             }
         }
 
-        more_grids = false;
+        bool more_grids = false;
         //
         //  Seek all vectors LEVEL_1D which satisfy the constraint.
         //
@@ -1274,7 +1227,7 @@ public static class SGMGAniso
             //
             //  Compute the combinatorial coefficient.
             //
-            coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
+            double coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
 
             switch (coef)
             {
@@ -1289,7 +1242,7 @@ public static class SGMGAniso
             //
             //  The inner loop generates a POINT of the GRID of the LEVEL.
             //
-            more_points = false;
+            bool more_points = false;
 
             for (;;)
             {
@@ -1317,7 +1270,7 @@ public static class SGMGAniso
         //
         //  Now compute the coordinates of the TOTAL set of points.
         //
-        sparse_total_point = new double[dim_num * point_total_num];
+        double[] sparse_total_point = new double[dim_num * point_total_num];
 
         for (point = 0; point < point_total_num; point++)
         {
@@ -1334,7 +1287,7 @@ public static class SGMGAniso
         level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
         q_max = level_max * level_weight_min_pos;
 
-        p_index = 0;
+        int p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -1354,14 +1307,15 @@ public static class SGMGAniso
                     break;
             }
 
+            int level;
             for (level = 0; level <= level_1d_max[dim]; level++)
             {
                 LevelToOrder.level_growth_to_order(1, levels, rule.Skip(+dim).ToArray(),
                     growth.Skip(+dim).ToArray(), ref orders);
 
-                order = orders.Length;
+                int order = orders.Length;
 
-                points = new double[order];
+                double[] points = new double[order];
 
                 switch (rule[dim])
                 {
@@ -1434,7 +1388,7 @@ public static class SGMGAniso
         //
         //  Count the tolerably unique columns. 
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         point_num = typeMethods.point_radial_tol_unique_count(dim_num, point_total_num,
             sparse_total_point, tol, ref seed);
@@ -1546,16 +1500,8 @@ public static class SGMGAniso
         //    including repetitions.
         //
     {
-        double coef;
         int dim;
-        int[] level_1d;
-        int[] level_1d_max;
-        double level_weight_min_pos;
-        bool more_grids;
-        int[] order_1d;
         int point_total_num;
-        double q_max;
-        double q_min;
         SGMGAData data = new();
         switch (level_max)
         {
@@ -1569,16 +1515,16 @@ public static class SGMGAniso
 
         point_total_num = 0;
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         //
         //  Initialization for SGMGA_VCN_ORDERED.
         //
-        level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-        q_min = level_max * level_weight_min_pos
-                - typeMethods.r8vec_sum(dim_num, level_weight);
-        q_max = level_max * level_weight_min_pos;
+        double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+        double q_min = level_max * level_weight_min_pos
+                       - typeMethods.r8vec_sum(dim_num, level_weight);
+        double q_max = level_max * level_weight_min_pos;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -1599,7 +1545,7 @@ public static class SGMGAniso
             }
         }
 
-        more_grids = false;
+        bool more_grids = false;
         //
         //  Seek all vectors LEVEL_1D which satisfy the constraint.
         //
@@ -1620,7 +1566,7 @@ public static class SGMGAniso
             //
             //  Compute the combinatorlal coefficient.
             //
-            coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
+            double coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
 
             switch (coef)
             {
@@ -1751,31 +1697,9 @@ public static class SGMGAniso
         //    the unique listing.
         //
     {
-        double coef;
         int dim;
-        int level;
-        int[] level_1d;
-        int[] levels;
-        int[] level_1d_max;
-        double level_weight_min_pos;
-        bool more_grids;
-        bool more_points;
-        int order;
         int[] orders = null;
-        int[] order_1d;
-        int p_index;
         int point;
-        int[] point_index;
-        int point_total_num2;
-        double[] points;
-        double q_max;
-        double q_min;
-        int rep;
-        int seed;
-        int[] sparse_total_index;
-        int[] sparse_total_order;
-        double[] sparse_total_point;
-        int[] undx;
         SGMGAData data = new();
         switch (level_max)
         {
@@ -1793,22 +1717,22 @@ public static class SGMGAniso
         //  Generate SPARSE_TOTAL_ORDER and SPARSE_TOTAL_INDEX arrays 
         //  for the TOTAL set of points.
         //
-        sparse_total_order = new int[dim_num * point_total_num];
-        sparse_total_index = new int[dim_num * point_total_num];
+        int[] sparse_total_order = new int[dim_num * point_total_num];
+        int[] sparse_total_index = new int[dim_num * point_total_num];
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        order_1d = new int[dim_num];
-        point_index = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] point_index = new int[dim_num];
 
-        point_total_num2 = 0;
+        int point_total_num2 = 0;
         //
         //  Initialization for SGMGA_VCN_ORDERED.
         //
-        level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-        q_min = level_max * level_weight_min_pos
-                - typeMethods.r8vec_sum(dim_num, level_weight);
-        q_max = level_max * level_weight_min_pos;
+        double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+        double q_min = level_max * level_weight_min_pos
+                       - typeMethods.r8vec_sum(dim_num, level_weight);
+        double q_max = level_max * level_weight_min_pos;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -1829,7 +1753,7 @@ public static class SGMGAniso
             }
         }
 
-        more_grids = false;
+        bool more_grids = false;
         //
         //  Seek all vectors LEVEL_1D which satisfy the constraint:
         //
@@ -1850,7 +1774,7 @@ public static class SGMGAniso
             //
             //  Compute the combinatorial coefficient.
             //
-            coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
+            double coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
 
             switch (coef)
             {
@@ -1865,7 +1789,7 @@ public static class SGMGAniso
             //
             //  The inner loop generates a POINT of the GRID of the LEVEL.
             //
-            more_points = false;
+            bool more_points = false;
 
             for (;;)
             {
@@ -1893,7 +1817,7 @@ public static class SGMGAniso
         //
         //  Now compute the coordinates of the TOTAL set of points.
         //
-        sparse_total_point = new double[dim_num * point_total_num];
+        double[] sparse_total_point = new double[dim_num * point_total_num];
 
         for (point = 0; point < point_total_num; point++)
         {
@@ -1907,11 +1831,11 @@ public static class SGMGAniso
         //  Compute the point coordinates.
         //
         level_1d_max = new int[dim_num];
-        levels = new int[dim_num];
+        int[] levels = new int[dim_num];
         level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
         q_max = level_max * level_weight_min_pos;
 
-        p_index = 0;
+        int p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -1931,14 +1855,15 @@ public static class SGMGAniso
                     break;
             }
 
+            int level;
             for (level = 0; level <= level_1d_max[dim]; level++)
             {
                 LevelToOrder.level_growth_to_order(1, levels, rule.Skip(+dim).ToArray(),
                     growth.Skip(+dim).ToArray(), ref orders);
 
-                order = orders.Length;
+                int order = orders.Length;
 
-                points = new double[order];
+                double[] points = new double[order];
 
                 switch (rule[dim])
                 {
@@ -2011,16 +1936,16 @@ public static class SGMGAniso
         //
         //  Merge points that are too close.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        undx = new int[point_num];
+        int[] undx = new int[point_num];
 
         typeMethods.point_radial_tol_unique_index(dim_num, point_total_num,
             sparse_total_point, tol, ref seed, ref undx, ref sparse_unique_index);
 
         for (point = 0; point < point_total_num; point++)
         {
-            rep = undx[sparse_unique_index[point]];
+            int rep = undx[sparse_unique_index[point]];
             if (point != rep)
             {
                 for (dim = 0; dim < dim_num; dim++)
@@ -2157,7 +2082,6 @@ public static class SGMGAniso
         //
     {
         int i;
-        double t;
         switch (more)
         {
             //
@@ -2251,6 +2175,7 @@ public static class SGMGAniso
                         break;
                     default:
                     {
+                        double t;
                         if (data.nstart < data.n2)
                         {
                             data.xmin = 0;
@@ -2507,16 +2432,10 @@ public static class SGMGAniso
         //    Output, double SGMGA_VCN_COEF, the combinatorial coefficient.
         //
     {
-        int[] b;
-        int b_sum;
-        int c;
-        double coef;
         int i;
-        int j;
-        double q;
 
-        c = 0;
-        b = new int[dim_num];
+        int c = 0;
+        int[] b = new int[dim_num];
 
         for (i = 0; i < dim_num; i++)
         {
@@ -2530,6 +2449,7 @@ public static class SGMGAniso
             //
             i = -1;
 
+            int j;
             while (i < dim_num - 1)
             {
                 i += 1;
@@ -2558,7 +2478,7 @@ public static class SGMGAniso
                         // 
                         //  Does X + B satisfy the Q_MAX constraint?
                         //
-                        q = 0.0;
+                        double q = 0.0;
                         for (j = 0; j < dim_num; j++)
                         {
                             q += level_weight[j] * (x[j] + b[j]);
@@ -2601,7 +2521,7 @@ public static class SGMGAniso
                 }
             }
 
-            b_sum = 0;
+            int b_sum = 0;
             for (j = 0; j < dim_num; j++)
             {
                 b_sum += b[j];
@@ -2620,7 +2540,7 @@ public static class SGMGAniso
             }
         }
 
-        coef = c;
+        double coef = c;
 
         return coef;
     }
@@ -2703,21 +2623,16 @@ public static class SGMGAniso
         //    Output, double SGMGA_VCN_COEF_NAIVE, the combinatorial coefficient.
         //
     {
-        int[] b;
-        int b_sum;
-        double coef;
         int i;
-        double q;
-        bool too_big;
 
-        b = new int[dim_num];
+        int[] b = new int[dim_num];
 
         for (i = 0; i < dim_num; i++)
         {
             b[i] = 0;
         }
 
-        coef = 1.0;
+        double coef = 1.0;
 
         for (;;)
         {
@@ -2725,7 +2640,7 @@ public static class SGMGAniso
             //  Generate the next binary perturbation.
             //
             typeMethods.binary_vector_next(dim_num, ref b);
-            b_sum = typeMethods.i4vec_sum(dim_num, b);
+            int b_sum = typeMethods.i4vec_sum(dim_num, b);
             //
             //  We're done if we've got back to 0.
             //
@@ -2738,7 +2653,7 @@ public static class SGMGAniso
             //  Does it satisfy the XMAX constraint?
             //  (THIS CHECK IS SURPRISINGLY NECESSARY, PARTLY BECAUSE OF ZERO WEIGHT).
             //
-            too_big = false;
+            bool too_big = false;
             for (i = 0; i < dim_num; i++)
             {
                 if (x_max[i] < x[i] + b[i])
@@ -2757,7 +2672,7 @@ public static class SGMGAniso
             //
             //  Does it satisfy the Q_MAX constraint?
             //
-            q = 0.0;
+            double q = 0.0;
             for (i = 0; i < dim_num; i++)
             {
                 q += level_weight[i] * (x[i] + b[i]);
@@ -2894,7 +2809,6 @@ public static class SGMGAniso
         //
     {
         int i;
-        int j;
         double q;
 
         switch (more)
@@ -2924,7 +2838,7 @@ public static class SGMGAniso
 
         for (;;)
         {
-            j = 0;
+            int j = 0;
 
             for (;;)
             {
@@ -3403,21 +3317,8 @@ public static class SGMGAniso
         //    associated with the sparse grid points.
         //
     {
-        double coef;
         int dim;
-        double[] grid_weight;
-        int[] level_1d;
-        int[] level_1d_max;
-        double level_weight_min_pos;
-        bool more_grids;
-        int order;
-        int[] order_1d;
-        int order_nd;
         int point;
-        int point_total;
-        int point_unique;
-        double q_max;
-        double q_min;
         SGMGAData data = new();
 
         for (point = 0; point < point_num; point++)
@@ -3425,18 +3326,18 @@ public static class SGMGAniso
             sparse_weight[point] = 0.0;
         }
 
-        point_total = 0;
+        int point_total = 0;
 
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
         //
         //  Initialization for SGMGA_VCN_ORDERED.
         //
-        level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-        q_min = level_max * level_weight_min_pos
-                - typeMethods.r8vec_sum(dim_num, level_weight);
-        q_max = level_max * level_weight_min_pos;
+        double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+        double q_min = level_max * level_weight_min_pos
+                       - typeMethods.r8vec_sum(dim_num, level_weight);
+        double q_max = level_max * level_weight_min_pos;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (level_weight[dim])
@@ -3457,7 +3358,7 @@ public static class SGMGAniso
             }
         }
 
-        more_grids = false;
+        bool more_grids = false;
         //
         //  Seek all vectors LEVEL_1D which satisfy the constraint:
         //
@@ -3478,7 +3379,7 @@ public static class SGMGAniso
             //
             //  Compute the combinatorial coefficient.
             //
-            coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
+            double coef = sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
 
             switch (coef)
             {
@@ -3493,7 +3394,7 @@ public static class SGMGAniso
             //
             //  The product of the 1D orders gives us the number of points in this grid.
             //
-            order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+            int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
             //
             //  Compute the weights for this grid.
             //
@@ -3502,16 +3403,17 @@ public static class SGMGAniso
             //  order of the points, and this is the same ordering implicitly used in
             //  generating the SPARSE_UNIQUE_INDEX array.
             //
-            grid_weight = new double[order_nd];
+            double[] grid_weight = new double[order_nd];
 
             sgmga_product_weight(dim_num, order_1d, order_nd, rule,
                 np, p, gw_compute_weights, ref grid_weight);
             //
             //  Add these weights to the rule.
             //
+            int order;
             for (order = 0; order < order_nd; order++)
             {
-                point_unique = sparse_unique_index[point_total];
+                int point_unique = sparse_unique_index[point_total];
 
                 point_total += 1;
 
@@ -3606,22 +3508,14 @@ public static class SGMGAniso
         //
     {
         int dim;
-        string file_name_a;
-        string file_name_n;
-        string file_name_p;
-        string file_name_r;
-        string file_name_w;
-        string file_name_x;
-        int np_sum;
-        int point;
-        double[] sparse_region;
-        double t1;
-        double t2;
 
-        sparse_region = new double[dim_num * 2];
+        double[] sparse_region = new double[dim_num * 2];
 
         for (dim = 0; dim < dim_num; dim++)
         {
+            int point;
+            double t1;
+            double t2;
             switch (rule[dim])
             {
                 case 1:
@@ -3707,28 +3601,28 @@ public static class SGMGAniso
         Console.WriteLine("");
         Console.WriteLine("SGMGA_WRITE:");
 
-        file_name_a = file_name + "_a.txt";
+        string file_name_a = file_name + "_a.txt";
         typeMethods.r8mat_write(file_name_a, 1, dim_num, level_weight);
         Console.WriteLine("  Wrote the A file = \"" + file_name_a + "\".");
 
-        file_name_n = file_name + "_n.txt";
+        string file_name_n = file_name + "_n.txt";
         typeMethods.i4mat_write(file_name_n, 1, dim_num, np);
         Console.WriteLine("  Wrote the N file = \"" + file_name_n + "\".");
 
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        file_name_p = file_name + "_p.txt";
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        string file_name_p = file_name + "_p.txt";
         typeMethods.r8mat_write(file_name_p, 1, np_sum, p);
         Console.WriteLine("  Wrote the P file = \"" + file_name_p + "\".");
 
-        file_name_r = file_name + "_r.txt";
+        string file_name_r = file_name + "_r.txt";
         typeMethods.r8mat_write(file_name_r, dim_num, 2, sparse_region);
         Console.WriteLine("  Wrote the R file = \"" + file_name_r + "\".");
 
-        file_name_w = file_name + "_w.txt";
+        string file_name_w = file_name + "_w.txt";
         typeMethods.r8mat_write(file_name_w, 1, point_num, sparse_weight);
         Console.WriteLine("  Wrote the W file = \"" + file_name_w + "\".");
 
-        file_name_x = file_name + "_x.txt";
+        string file_name_x = file_name + "_x.txt";
         typeMethods.r8mat_write(file_name_x, dim_num, point_num, sparse_point);
         Console.WriteLine("  Wrote the X file = \"" + file_name_x + "\".");
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Types;
 
@@ -139,11 +140,13 @@ public static class Sparsity
         {
             for (int i = 0; i < m; i++)
             {
-                if (a[i + j * m] != 0.0)
+                if (a[i + j * m] == 0.0)
                 {
-                    data_unit.Add(j.ToString(CultureInfo.InvariantCulture) + "  " + i.ToString(CultureInfo.InvariantCulture));
-                    nz_num += 1;
+                    continue;
                 }
+
+                data_unit.Add(j.ToString(CultureInfo.InvariantCulture) + "  " + i.ToString(CultureInfo.InvariantCulture));
+                nz_num += 1;
             }
         }
             

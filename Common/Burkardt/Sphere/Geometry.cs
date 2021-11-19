@@ -48,7 +48,6 @@ public static class Geometry
         //
     {
         double area;
-        double theta;
 
         switch (h)
         {
@@ -63,7 +62,7 @@ public static class Geometry
                 }
                 else
                 {
-                    theta = 2.0 * typeMethods.r8_asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
+                    double theta = 2.0 * typeMethods.r8_asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
                     area = r * theta;
                     if (r <= h)
                     {
@@ -191,13 +190,6 @@ public static class Geometry
         //
     {
         double area;
-        double area2;
-        double haver_sine;
-        int i;
-        double theta;
-        double ti;
-        double tj;
-        double tk;
 
         switch (h)
         {
@@ -215,9 +207,9 @@ public static class Geometry
         //
         //  For cases where R < H < 2 * R, work with the complementary region.
         //
-        haver_sine = Math.Sqrt((2.0 * r - h) * h);
+        double haver_sine = Math.Sqrt((2.0 * r - h) * h);
 
-        theta = typeMethods.r8_asin(haver_sine / r);
+        double theta = typeMethods.r8_asin(haver_sine / r);
 
         switch (dim_num)
         {
@@ -232,14 +224,15 @@ public static class Geometry
                 break;
             default:
             {
-                ti = theta;
+                double ti = theta;
 
-                tj = ti;
+                double tj = ti;
                 ti = 1.0 - Math.Cos(theta);
 
+                int i;
                 for (i = 2; i <= dim_num - 2; i++)
                 {
-                    tk = tj;
+                    double tk = tj;
                     tj = ti;
                     ti = ((i - 1) * tk
                           - Math.Cos(theta) * Math.Pow(Math.Sin(theta), i - 1))
@@ -256,7 +249,7 @@ public static class Geometry
         //
         if (r < h)
         {
-            area2 = sphere_imp_area_nd(dim_num, r);
+            double area2 = sphere_imp_area_nd(dim_num, r);
             area = area2 - area;
         }
 
@@ -302,7 +295,6 @@ public static class Geometry
         //    Output, double SPHERE_CAP_VOLUME_2D, the volume (area) of the spherical cap.
         //
     {
-        double theta;
         double volume;
 
         switch (h)
@@ -318,7 +310,7 @@ public static class Geometry
                 }
                 else
                 {
-                    theta = 2.0 * typeMethods.r8_asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
+                    double theta = 2.0 * typeMethods.r8_asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
                     volume = r * r * (theta - Math.Sin(theta)) / 2.0;
 
                     if (r < h)
@@ -451,12 +443,7 @@ public static class Geometry
         //    Output, double SPHERE_CAP_VOLUME_ND, the volume of the spherical cap.
         //
     {
-        double angle;
-        double arg;
-        double factor1;
-        double factor2;
         double volume;
-        double volume2;
 
         switch (h)
         {
@@ -481,18 +468,18 @@ public static class Geometry
                 break;
             default:
             {
-                factor1 = sphere_unit_volume_nd(dim_num - 1);
+                double factor1 = sphere_unit_volume_nd(dim_num - 1);
 
-                angle = typeMethods.r8_asin(Math.Sqrt((2.0 * r - h) * h / r));
+                double angle = typeMethods.r8_asin(Math.Sqrt((2.0 * r - h) * h / r));
 
-                arg = 0.0;
-                factor2 = Misc.sin_power_int(arg, angle, dim_num);
+                double arg = 0.0;
+                double factor2 = Misc.sin_power_int(arg, angle, dim_num);
 
                 volume = factor1 * factor2 * Math.Pow(r, dim_num);
 
                 if (r < h)
                 {
-                    volume2 = sphere_imp_volume_nd(dim_num, r);
+                    double volume2 = sphere_imp_volume_nd(dim_num, r);
                     volume = volume2 - volume;
                 }
 
@@ -595,33 +582,24 @@ public static class Geometry
         //    Output, double DIST, the great circle distance between the points.
         //
     {
-        double bot;
-        double dist;
-        double lat1;
-        double lat2;
-        double lon1;
-        double lon2;
-        double r;
-        double top;
+        double r = typeMethods.r8vec_norm(3, xyz1);
 
-        r = typeMethods.r8vec_norm(3, xyz1);
+        double lat1 = typeMethods.r8_asin(xyz1[2]);
+        double lon1 = typeMethods.r8_atan(xyz1[1], xyz1[0]);
 
-        lat1 = typeMethods.r8_asin(xyz1[2]);
-        lon1 = typeMethods.r8_atan(xyz1[1], xyz1[0]);
+        double lat2 = typeMethods.r8_asin(xyz2[2]);
+        double lon2 = typeMethods.r8_atan(xyz2[1], xyz2[0]);
 
-        lat2 = typeMethods.r8_asin(xyz2[2]);
-        lon2 = typeMethods.r8_atan(xyz2[1], xyz2[0]);
-
-        top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
-              + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
-                         - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
+        double top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
+                     + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
+                                - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
 
         top = Math.Sqrt(top);
 
-        bot = Math.Sin(lat1) * Math.Sin(lat2)
-              + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
+        double bot = Math.Sin(lat1) * Math.Sin(lat2)
+                     + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
 
-        dist = r * Math.Atan2(top, bot);
+        double dist = r * Math.Atan2(top, bot);
 
         return dist;
     }
@@ -672,13 +650,10 @@ public static class Geometry
         //    the points, measured in the same units as R.
         //
     {
-        double c;
-        double dist;
+        double c = Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2)
+                   + Math.Sin(lat1) * Math.Sin(lat2);
 
-        c = Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2)
-            + Math.Sin(lat1) * Math.Sin(lat2);
-
-        dist = r * Math.Acos(c);
+        double dist = r * Math.Acos(c);
 
         return dist;
     }
@@ -729,14 +704,11 @@ public static class Geometry
         //    the points, measured in the same units as R.
         //
     {
-        double dist;
-        double s;
-
-        s = Math.Pow(Math.Sin((lat1 - lat2) / 2.0), 2)
-            + Math.Cos(lat1) * Math.Cos(lat2) * Math.Pow(Math.Sin((lon1 - lon2) / 2.0), 2);
+        double s = Math.Pow(Math.Sin((lat1 - lat2) / 2.0), 2)
+                   + Math.Cos(lat1) * Math.Cos(lat2) * Math.Pow(Math.Sin((lon1 - lon2) / 2.0), 2);
         s = Math.Sqrt(s);
 
-        dist = 2.0 * r * Math.Asin(s);
+        double dist = 2.0 * r * Math.Asin(s);
 
         return dist;
     }
@@ -787,20 +759,16 @@ public static class Geometry
         //    the points, measured in the same units as R.
         //
     {
-        double bot;
-        double dist;
-        double top;
-
-        top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
-              + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
-                         - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
+        double top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
+                     + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
+                                - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
 
         top = Math.Sqrt(top);
 
-        bot = Math.Sin(lat1) * Math.Sin(lat2)
-              + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
+        double bot = Math.Sin(lat1) * Math.Sin(lat2)
+                     + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
 
-        dist = r * Math.Atan2(top, bot);
+        double dist = r * Math.Atan2(top, bot);
 
         return dist;
     }
@@ -935,7 +903,6 @@ public static class Geometry
         //    Output, double PN[3], the nearest point on the sphere.
         //
     {
-        double norm;
         double r = 0;
         double[] pc = new double[3];
         //
@@ -945,9 +912,9 @@ public static class Geometry
         //
         //  If P = PC, bail out now.
         //
-        norm = Math.Sqrt(Math.Pow(p[0] - pc[0], 2)
-                         + Math.Pow(p[1] - pc[1], 2)
-                         + Math.Pow(p[2] - pc[2], 2));
+        double norm = Math.Sqrt(Math.Pow(p[0] - pc[0], 2)
+                                + Math.Pow(p[1] - pc[1], 2)
+                                + Math.Pow(p[2] - pc[2], 2));
 
         switch (norm)
         {
@@ -1057,15 +1024,12 @@ public static class Geometry
         //    Output, double PC[N], the center of the sphere.
         //
     {
-        double[] a;
         int i;
-        int info;
         int j;
-        double t;
         //
         //  Set up the linear system.
         //
-        a = new double[n * (n + 1)];
+        double[] a = new double[n * (n + 1)];
 
         for (j = 0; j < n; j++)
         {
@@ -1085,7 +1049,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            t = 0.0;
+            double t = 0.0;
             for (j = 0; j < n; j++)
             {
                 t += a[i + j * n] * a[i + j * n];
@@ -1097,7 +1061,7 @@ public static class Geometry
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(n, 1, ref a);
+        int info = typeMethods.r8mat_solve(n, 1, ref a);
         //
         //  If the system was singular, return a consolation prize.
         //
@@ -1165,9 +1129,7 @@ public static class Geometry
         //    Output, double SPHERE_IMP_AREA_3D, the area of the sphere.
         //
     {
-        double area;
-
-        area = 4.0 * Math.PI * r * r;
+        double area = 4.0 * Math.PI * r * r;
 
         return area;
     }
@@ -1218,9 +1180,7 @@ public static class Geometry
         //    Output, double SPHERE_IMP_AREA_ND, the area of the sphere.
         //
     {
-        double area;
-
-        area = Math.Pow(r, dim_num - 1) * sphere_unit_area_nd(dim_num);
+        double area = Math.Pow(r, dim_num - 1) * sphere_unit_area_nd(dim_num);
 
         return area;
     }
@@ -1387,28 +1347,22 @@ public static class Geometry
     {
         int i;
         int j;
-        int n;
         int n_max;
         int n_min;
         int ne;
         int nw;
-        int s;
-        int s_max;
-        int s_min;
-        int se;
-        int sw;
 
         ntri = 0;
         //
         //  The first row.
         //
-        n = 1;
+        int n = 1;
 
-        sw = 2;
-        se = sw + 1;
+        int sw = 2;
+        int se = sw + 1;
 
-        s_min = 2;
-        s_max = nlong + 1;
+        int s_min = 2;
+        int s_max = nlong + 1;
 
         for (j = 0; j <= nlong - 1; j++)
         {
@@ -1498,7 +1452,7 @@ public static class Geometry
         n_max = s_max;
         n_min = s_min;
 
-        s = n_max + 1;
+        int s = n_max + 1;
 
         nw = n_min;
         ne = nw + 1;
@@ -1606,16 +1560,10 @@ public static class Geometry
         //    angular projection of less than THETAMIN radians.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double alpha;
-        double ang3d;
-        double dot;
         int i;
-        int j;
-        int nfill;
         int n2;
-        double tnorm;
         double[] p1 = new double[DIM_NUM];
         double[] p2 = new double[DIM_NUM];
         double[] pi = new double[DIM_NUM];
@@ -1643,9 +1591,9 @@ public static class Geometry
             {
                 typeMethods.r8vec_copy(DIM_NUM, p2, ref p1);
 
-                alpha = Math.Sqrt(Math.Pow(p[0 + i * 3] - pc[0], 2)
-                                  + Math.Pow(p[1 + i * 3] - pc[1], 2)
-                                  + Math.Pow(p[2 + i * 3] - pc[2], 2));
+                double alpha = Math.Sqrt(Math.Pow(p[0 + i * 3] - pc[0], 2)
+                                         + Math.Pow(p[1 + i * 3] - pc[1], 2)
+                                         + Math.Pow(p[2 + i * 3] - pc[2], 2));
 
                 p2[0] = pc[0] + r * (p[0 + i * 3] - pc[0]) / alpha;
                 p2[1] = pc[1] + r * (p[1 + i * 3] - pc[1]) / alpha;
@@ -1666,10 +1614,10 @@ public static class Geometry
                     //
                     case >= 1:
                     {
-                        dot = (p1[0] - pc[0]) * (p2[0] - pc[0])
-                              + (p1[1] - pc[1]) * (p2[1] - pc[1])
-                              + (p1[2] - pc[2]) * (p2[2] - pc[2]);
-                        ang3d = typeMethods.r8_acos(dot / (r * r));
+                        double dot = (p1[0] - pc[0]) * (p2[0] - pc[0])
+                                     + (p1[1] - pc[1]) * (p2[1] - pc[1])
+                                     + (p1[2] - pc[2]) * (p2[2] - pc[2]);
+                        double ang3d = typeMethods.r8_acos(dot / (r * r));
                         //
                         //  If the angle is at least THETAMIN, (or it's the last point),
                         //  then we will draw a line segment.
@@ -1681,8 +1629,9 @@ public static class Geometry
                             //
                             if (thetamax < Math.Abs(ang3d))
                             {
-                                nfill = (int) (Math.Abs(ang3d) / thetamax);
+                                int nfill = (int) (Math.Abs(ang3d) / thetamax);
 
+                                int j;
                                 for (j = 1; j < nfill; j++)
                                 {
                                     pi[0] = (nfill - j) * (p1[0] - pc[0])
@@ -1692,7 +1641,7 @@ public static class Geometry
                                     pi[2] = (nfill - j) * (p1[2] - pc[2])
                                             + j * (p2[2] - pc[2]);
 
-                                    tnorm = typeMethods.r8vec_norm(DIM_NUM, pi);
+                                    double tnorm = typeMethods.r8vec_norm(DIM_NUM, pi);
 
                                     if (tnorm != 0.0)
                                     {
@@ -1823,13 +1772,12 @@ public static class Geometry
         //    Output, double PN[3], the nearest point on the sphere.
         //
     {
-        double norm;
         //
         //  If P = PC, bail out now.
         //
-        norm = Math.Sqrt(Math.Pow(p[0] - pc[0], 2)
-                         + Math.Pow(p[1] - pc[1], 2)
-                         + Math.Pow(p[2] - pc[2], 2));
+        double norm = Math.Sqrt(Math.Pow(p[0] - pc[0], 2)
+                                + Math.Pow(p[1] - pc[1], 2)
+                                + Math.Pow(p[2] - pc[2], 2));
 
         switch (norm)
         {
@@ -1845,7 +1793,6 @@ public static class Geometry
                 pn[2] = pc[2] + r * (p[2] - pc[2]) / norm;
                 break;
         }
-
     }
 
     public static void sphere_imp_point_project_3d(double r, double[] pc, double[] p,
@@ -1889,9 +1836,7 @@ public static class Geometry
         //    onto the sphere from the center.
         //
     {
-        int DIM_NUM = 3;
-
-        double norm;
+        const int DIM_NUM = 3;
 
         switch (r)
         {
@@ -1908,9 +1853,9 @@ public static class Geometry
                 }
                 else
                 {
-                    norm = Math.Sqrt(Math.Pow(p[0] - pc[0], 2)
-                                     + Math.Pow(p[1] - pc[1], 2)
-                                     + Math.Pow(p[2] - pc[2], 2));
+                    double norm = Math.Sqrt(Math.Pow(p[0] - pc[0], 2)
+                                            + Math.Pow(p[1] - pc[1], 2)
+                                            + Math.Pow(p[2] - pc[2], 2));
 
                     pp[0] = pc[0] + r * (p[0] - pc[0]) / norm;
                     pp[1] = pc[1] + r * (p[1] - pc[1]) / norm;
@@ -1957,9 +1902,7 @@ public static class Geometry
         //    Output, double SPHERE_IMP_VOLUME_3D, the volume of the sphere.
         //
     {
-        double volume;
-
-        volume = 4.0 * Math.PI * r * r * r / 3.0;
+        double volume = 4.0 * Math.PI * r * r * r / 3.0;
 
         return volume;
     }
@@ -2010,9 +1953,7 @@ public static class Geometry
         //    Output, double SPHERE_IMP_VOLUME_ND, the volume of the sphere.
         //
     {
-        double value = 0;
-
-        value = Math.Pow(r, dim_num) * sphere_unit_volume_nd(dim_num);
+        double value = Math.Pow(r, dim_num) * sphere_unit_volume_nd(dim_num);
 
         return value;
     }
@@ -2062,9 +2003,7 @@ public static class Geometry
         //    Output, double SPHERE_IMP_ZONE_AREA_3D, the area of the spherical zone.
         //
     {
-        double h;
-
-        h = Math.Abs(h1 - h2);
+        double h = Math.Abs(h1 - h2);
 
         switch (h)
         {
@@ -2124,10 +2063,7 @@ public static class Geometry
         //    Output, double SPHERE_IMP_ZONE_VOLUME_3D, the volume of the spherical zone
         //
     {
-        double h11;
-        double h22;
-
-        h11 = Math.Min(h1, h2);
+        double h11 = Math.Min(h1, h2);
         h11 = Math.Max(h11, 0.0);
 
         if (2.0 * r <= h11)
@@ -2135,7 +2071,7 @@ public static class Geometry
             return 0.0;
         }
 
-        h22 = Math.Max(h1, h2);
+        double h22 = Math.Max(h1, h2);
         h22 = Math.Min(h22, 2.0 * r);
 
         return h22 switch
@@ -2189,11 +2125,8 @@ public static class Geometry
         //    four distinct noncoplanar points on the sphere.
         //
     {
-        double phi;
-        double theta;
-
-        theta = 0.0;
-        phi = 0.0;
+        double theta = 0.0;
+        double phi = 0.0;
 
         p1[0] = pc[0] + r * Math.Cos(theta) * Math.Sin(phi);
         p1[1] = pc[1] + r * Math.Sin(theta) * Math.Sin(phi);
@@ -2313,9 +2246,7 @@ public static class Geometry
         //    Output, double SPHERE_TRIANGLE_ANGLES_TO_AREA, the area of the spherical triangle.
         //
     {
-        double area;
-
-        area = r * r * (a + b + c - Math.PI);
+        double area = r * r * (a + b + c - Math.PI);
 
         return area;
     }
@@ -2352,31 +2283,23 @@ public static class Geometry
         //    Angle A is opposite the side of length AS, and so on.
         //
     {
-        double asu = 0;
-        double bsu = 0;
-        double csu = 0;
-        double ssu = 0;
-        double tan_a2 = 0;
-        double tan_b2 = 0;
-        double tan_c2 = 0;
+        double asu = as_ / r;
+        double bsu = bs / r;
+        double csu = cs / r;
+        double ssu = (asu + bsu + csu) / 2.0;
 
-        asu = as_ / r;
-        bsu = bs / r;
-        csu = cs / r;
-        ssu = (asu + bsu + csu) / 2.0;
-
-        tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - asu)));
+        double tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - asu)));
 
         a = 2.0 * Math.Atan(tan_a2);
 
-        tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
+        double tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
 
         b = 2.0 * Math.Atan(tan_b2);
 
-        tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - csu)));
+        double tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - csu)));
 
         c = 2.0 * Math.Atan(tan_c2);
 
@@ -2481,7 +2404,6 @@ public static class Geometry
         //    Output, double SPHERE_TRIANGLE_VERTICES_TO_AREA, the area of the
         //    spherical triangle.
     {
-        double area = 0;
         double a = 0;
         double as_ = 0;
         double b = 0;
@@ -2499,7 +2421,7 @@ public static class Geometry
         //
         //  Get the area
         //
-        area = sphere_triangle_angles_to_area(r, a, b, c);
+        double area = sphere_triangle_angles_to_area(r, a, b, c);
 
         return area;
     }
@@ -2563,17 +2485,16 @@ public static class Geometry
         //    of the spherical triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
-        double norm;
 
         for (i = 0; i < DIM_NUM; i++)
         {
             vs[i] = (v1[i] + v2[i] + v3[i]) / 3.0;
         }
 
-        norm = typeMethods.r8vec_norm(DIM_NUM, vs);
+        double norm = typeMethods.r8vec_norm(DIM_NUM, vs);
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -2965,12 +2886,9 @@ public static class Geometry
         //    Output, double SPHERE_UNIT_SAMPLE_2D[2], the random point on the unit circle.
         //
     {
-        double u;
-        double[] x;
+        double u = UniformRNG.r8_uniform_01(ref seed);
 
-        u = UniformRNG.r8_uniform_01(ref seed);
-
-        x = new double[2];
+        double[] x = new double[2];
 
         x[0] = Math.Cos(2.0 * Math.PI * u);
         x[1] = Math.Sin(2.0 * Math.PI * u);
@@ -3011,10 +2929,6 @@ public static class Geometry
         //    Output, double SPHERE_UNIT_SAMPLE_3D[3], the sample point.
         //
     {
-        double phi;
-        double theta;
-        double vdot;
-        double[] x;
         //
         //  Pick a uniformly random VDOT, which must be between -1 and 1.
         //  This represents the dot product of the random vector with the Z unit vector.
@@ -3023,16 +2937,16 @@ public static class Geometry
         //  Z and Z + dZ is independent of Z.  So choosing Z uniformly chooses
         //  a patch of area uniformly.
         //
-        vdot = 2.0 * UniformRNG.r8_uniform_01(ref seed) - 1.0;
+        double vdot = 2.0 * UniformRNG.r8_uniform_01(ref seed) - 1.0;
 
-        phi = typeMethods.r8_acos(vdot);
+        double phi = typeMethods.r8_acos(vdot);
         //
         //  Pick a uniformly random rotation between 0 and 2 Pi around the
         //  axis of the Z vector.
         //
-        theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
+        double theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
 
-        x = new double[3];
+        double[] x = new double[3];
 
         x[0] = Math.Cos(theta) * Math.Sin(phi);
         x[1] = Math.Sin(theta) * Math.Sin(phi);
@@ -3087,14 +3001,10 @@ public static class Geometry
         //    Output, double SPHERE_UNIT_SAMPLE_3D_2[3], the sample point.
         //
     {
-        double phi;
-        double theta;
-        double[] x;
+        double phi = Math.PI * UniformRNG.r8_uniform_01(ref seed);
+        double theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
 
-        phi = Math.PI * UniformRNG.r8_uniform_01(ref seed);
-        theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
-
-        x = new double[3];
+        double[] x = new double[3];
 
         x[0] = Math.Cos(theta) * Math.Sin(phi);
         x[1] = Math.Sin(theta) * Math.Sin(phi);
@@ -3147,13 +3057,8 @@ public static class Geometry
         //
     {
         int i;
-        double random_cosine;
-        double random_sign;
-        double random_sine;
-        double[] p;
-        double pi;
 
-        p = new double[dim_num];
+        double[] p = new double[dim_num];
 
         p[0] = 1.0;
         for (i = 1; i < dim_num; i++)
@@ -3163,15 +3068,15 @@ public static class Geometry
 
         for (i = 0; i < dim_num - 1; i++)
         {
-            random_cosine = 2.0 * UniformRNG.r8_uniform_01(ref seed) - 1.0;
+            double random_cosine = 2.0 * UniformRNG.r8_uniform_01(ref seed) - 1.0;
 
-            random_sign = 2 * (int) (2.0 *
-                                     UniformRNG.r8_uniform_01(ref seed)) - 1;
+            double random_sign = 2 * (int) (2.0 *
+                                            UniformRNG.r8_uniform_01(ref seed)) - 1;
 
-            random_sine = random_sign
-                          * Math.Sqrt(1.0 - random_cosine * random_cosine);
+            double random_sine = random_sign
+                                 * Math.Sqrt(1.0 - random_cosine * random_cosine);
 
-            pi = p[i];
+            double pi = p[i];
             p[i] = random_cosine * pi;
             p[i + 1] = random_sine * pi;
         }
@@ -3218,13 +3123,11 @@ public static class Geometry
         //
     {
         int i;
-        double norm;
-        double[] p;
         typeMethods.r8vecNormalData data = new();
 
-        p = typeMethods.r8vec_normal_01_new(dim_num, ref data, ref seed);
+        double[] p = typeMethods.r8vec_normal_01_new(dim_num, ref data, ref seed);
 
-        norm = typeMethods.r8vec_norm(dim_num, p);
+        double norm = typeMethods.r8vec_norm(dim_num, p);
 
         for (i = 0; i < dim_num; i++)
         {
@@ -3278,20 +3181,19 @@ public static class Geometry
         //    Output, double SPHERE_UNIT_SAMPLE_ND_3[DIM_NUM], the random point.
         //
     {
-        int i;
-        double norm;
         double[] p;
 
         for (;;)
         {
             p = UniformRNG.r8vec_uniform_01_new(dim_num, ref seed);
 
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 p[i] = 2.0 * p[i] - 1.0;
             }
 
-            norm = typeMethods.r8vec_norm(dim_num, p);
+            double norm = typeMethods.r8vec_norm(dim_num, p);
 
             if (norm <= 1.0)
             {
@@ -3566,30 +3468,22 @@ public static class Geometry
         //    Output, double DIST, the great circle distance between the points.
         //
     {
-        double bot;
-        double dist;
-        double lat1;
-        double lat2;
-        double lon1;
-        double lon2;
-        double top;
+        double lat1 = typeMethods.r8_asin(xyz1[2]);
+        double lon1 = typeMethods.r8_atan(xyz1[1], xyz1[0]);
 
-        lat1 = typeMethods.r8_asin(xyz1[2]);
-        lon1 = typeMethods.r8_atan(xyz1[1], xyz1[0]);
+        double lat2 = typeMethods.r8_asin(xyz2[2]);
+        double lon2 = typeMethods.r8_atan(xyz2[1], xyz2[0]);
 
-        lat2 = typeMethods.r8_asin(xyz2[2]);
-        lon2 = typeMethods.r8_atan(xyz2[1], xyz2[0]);
-
-        top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
-              + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
-                         - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
+        double top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
+                     + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
+                                - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
 
         top = Math.Sqrt(top);
 
-        bot = Math.Sin(lat1) * Math.Sin(lat2)
-              + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
+        double bot = Math.Sin(lat1) * Math.Sin(lat2)
+                     + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
 
-        dist = Math.Atan2(top, bot);
+        double dist = Math.Atan2(top, bot);
 
         return dist;
     }
@@ -3657,28 +3551,18 @@ public static class Geometry
         //    in spherical radians.
         //
     {
-        double a = 0.0;
-        double area = 0.0;
-        double b = 0.0;
-        double beta1 = 0.0;
         double beta2 = 0.0;
-        double c = 0.0;
-        double cos_b1 = 0.0;
         double cos_b2 = 0.0;
-        double excess = 0.0;
-        double hav_a = 0.0;
         int j;
-        int k;
-        double lam = 0.0;
-        double lam1 = 0.0;
         double lam2 = 0.0;
-        double s;
-        double t;
 
-        area = 0.0;
+        double area = 0.0;
 
         for (j = 0; j <= n; j++)
         {
+            double cos_b1;
+            double beta1;
+            double lam1;
             switch (j)
             {
                 case 0:
@@ -3690,7 +3574,7 @@ public static class Geometry
                     cos_b2 = Math.Cos(beta2);
                     break;
                 default:
-                    k = (j + 1) % (n + 1);
+                    int k = (j + 1) % (n + 1);
                     lam1 = lam2;
                     beta1 = beta2;
                     lam2 = lon[k % lon.Length];
@@ -3702,22 +3586,23 @@ public static class Geometry
 
             if (Math.Abs(lam1 - lam2) > double.Epsilon)
             {
-                hav_a = Helpers.haversine(beta2 - beta1)
-                        + cos_b1 * cos_b2 * Helpers.haversine(lam2 - lam1);
-                a = 2.0 * Math.Asin(Math.Sqrt(hav_a));
+                double hav_a = Helpers.haversine(beta2 - beta1)
+                               + cos_b1 * cos_b2 * Helpers.haversine(lam2 - lam1);
+                double a = 2.0 * Math.Asin(Math.Sqrt(hav_a));
 
-                b = 0.5 * Math.PI - beta2;
-                c = 0.5 * Math.PI - beta1;
-                s = 0.5 * (a + b + c);
+                double b = 0.5 * Math.PI - beta2;
+                double c = 0.5 * Math.PI - beta1;
+                double s = 0.5 * (a + b + c);
                 //
                 //  Given the three sides of a spherical triangle, we can use a formula
                 //  to find the spherical excess.
                 //
-                t = Math.Tan(s / 2.0) * Math.Tan((s - a) / 2.0)
-                                      * Math.Tan((s - b) / 2.0) * Math.Tan((s - c) / 2.0);
+                double t = Math.Tan(s / 2.0) * Math.Tan((s - a) / 2.0)
+                                             * Math.Tan((s - b) / 2.0) * Math.Tan((s - c) / 2.0);
 
-                excess = Math.Abs(4.0 * Math.Atan(Math.Sqrt(Math.Abs(t))));
+                double excess = Math.Abs(4.0 * Math.Atan(Math.Sqrt(Math.Abs(t))));
 
+                double lam;
                 if (lam1 < lam2)
                 {
                     lam = lam2 - lam1;
@@ -3809,22 +3694,17 @@ public static class Geometry
         //    positive result.
         //
     {
-        double area;
         int j;
-        double lam1;
-        double lam2;
-        double tbeta1;
-        double tbeta2;
 
-        area = 0.0;
-        lam2 = lon[n - 1];
-        tbeta2 = Math.Tan(lat[n - 1] / 2.0);
+        double area = 0.0;
+        double lam2 = lon[n - 1];
+        double tbeta2 = Math.Tan(lat[n - 1] / 2.0);
 
         for (j = 0; j < n; j++)
         {
-            lam1 = lam2;
+            double lam1 = lam2;
             lam2 = lon[j];
-            tbeta1 = tbeta2;
+            double tbeta1 = tbeta2;
             tbeta2 = Math.Tan(lat[j] / 2.0);
             area += Math.Atan2(Math.Tan((lam1 - lam2) / 2.0) * (tbeta1 + tbeta2),
                 1.0 + tbeta1 * tbeta2);
@@ -3880,9 +3760,7 @@ public static class Geometry
         //    spherical triangle.
         //
     {
-        double area;
-
-        area = a + b + c - Math.PI;
+        double area = a + b + c - Math.PI;
 
         return area;
     }
@@ -3917,31 +3795,23 @@ public static class Geometry
         //    Angle A is opposite the side of length AS, and so on.
         //
     {
-        double asu;
-        double bsu;
-        double csu;
-        double ssu;
-        double tan_a2;
-        double tan_b2;
-        double tan_c2;
+        double asu = as_;
+        double bsu = bs;
+        double csu = cs;
+        double ssu = (asu + bsu + csu) / 2.0;
 
-        asu = as_;
-        bsu = bs;
-        csu = cs;
-        ssu = (asu + bsu + csu) / 2.0;
-
-        tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - asu)));
+        double tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - asu)));
 
         a = 2.0 * Math.Atan(tan_a2);
 
-        tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
+        double tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
 
         b = 2.0 * Math.Atan(tan_b2);
 
-        tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
-                           (Math.Sin(ssu) * Math.Sin(ssu - csu)));
+        double tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - csu)));
 
         c = 2.0 * Math.Atan(tan_c2);
     }
@@ -4040,7 +3910,6 @@ public static class Geometry
         //    Output, double SPHERE_TRIANGLE_VERTICES_TO_AREA, the area of the
         //    spherical triangle.
     {
-        double area = 0;
         double a = 0;
         double as_ = 0;
         double b = 0;
@@ -4058,7 +3927,7 @@ public static class Geometry
         //
         //  Get the area
         //
-        area = sphere01_triangle_angles_to_area(a, b, c);
+        double area = sphere01_triangle_angles_to_area(a, b, c);
 
         return area;
     }
@@ -4120,20 +3989,18 @@ public static class Geometry
         //    of the "spherical centroid" of the spherical triangle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
-        double norm;
-        double[] vs;
 
-        vs = new double[3];
+        double[] vs = new double[3];
 
         for (i = 0; i < DIM_NUM; i++)
         {
             vs[i] = (v1[i] + v2[i] + v3[i]) / 3.0;
         }
 
-        norm = typeMethods.r8vec_norm(DIM_NUM, vs);
+        double norm = typeMethods.r8vec_norm(DIM_NUM, vs);
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -4177,14 +4044,13 @@ public static class Geometry
         //
     {
         int i;
-        double norm;
 
         for (i = 0; i < 3; i++)
         {
             m1[i] = (v1[i] + v2[i]) / 2.0;
         }
 
-        norm = typeMethods.r8vec_norm(3, m1);
+        double norm = typeMethods.r8vec_norm(3, m1);
         for (i = 0; i < 3; i++)
         {
             m1[i] /= norm;

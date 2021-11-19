@@ -54,14 +54,11 @@ public static class Grid_LatLong
     {
         int i;
         int j;
-        int l;
-        int[] line;
         int next;
-        int newcol;
         int old;
 
-        line = new int [2 * line_num];
-        l = 0;
+        int[] line = new int [2 * line_num];
+        int l = 0;
         //
         //  "Vertical" lines.
         //
@@ -116,9 +113,8 @@ public static class Grid_LatLong
         //
         for (j = 0; j <= nlong - 1; j++)
         {
-            old = 1;
             next = j + 2;
-            newcol = j;
+            int newcol = j;
 
             for (i = 1; i <= nlat - 1; i++)
             {
@@ -175,11 +171,9 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LL_LINE_NUM, the number of grid lines.
         //
     {
-        int line_num;
-
-        line_num = long_num * (lat_num + 1)
-                   + lat_num * long_num
-                   + long_num * (lat_num - 1);
+        int line_num = long_num * (lat_num + 1)
+                       + lat_num * long_num
+                       + long_num * (lat_num - 1);
 
         return line_num;
     }
@@ -231,24 +225,18 @@ public static class Grid_LatLong
         //
     {
         int lat;
-        int lon;
-        int n;
-        double[] p;
-        double phi;
-            
-        double theta;
 
-        p = new double[3 * point_num];
-        n = 0;
+        double[] p = new double[3 * point_num];
+        int n = 0;
         //
         //  The north pole.
         //
-        theta = 0.0;
-        phi = 0.0;
+        double theta = 0.0;
+        double phi = 0.0;
 
-        p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
-        p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
-        p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
+        p[0] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
+        p[1] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
+        p[2] = pc[2] + r * Math.Cos(phi);
         n += 1;
         //
         //  Do each intermediate ring of latitude.
@@ -259,6 +247,7 @@ public static class Grid_LatLong
             //
             //  Along that ring of latitude, compute points at various longitudes.
             //
+            int lon;
             for (lon = 0; lon < lon_num; lon++)
             {
                 theta = lon * 2.0 * Math.PI / lon_num;
@@ -278,7 +267,6 @@ public static class Grid_LatLong
         p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
         p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
         p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
-        n += 1;
 
         return p;
     }
@@ -313,9 +301,7 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LL_POINT_NUM, the number of grid points.
         //
     {
-        int point_num;
-
-        point_num = 2 + lat_num * long_num;
+        int point_num = 2 + lat_num * long_num;
 
         return point_num;
     }
@@ -368,13 +354,11 @@ public static class Grid_LatLong
     {
         int i;
         int j;
-        int l;
-        int[] line;
         int next;
         int old;
 
-        line = new int [2 * line_num];
-        l = 0;
+        int[] line = new int [2 * line_num];
+        int l = 0;
         //
         //  "Vertical" lines.
         //
@@ -462,26 +446,20 @@ public static class Grid_LatLong
         //    Input, string PREFIX, a prefix for the filenames.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        int i;
         int j;
-        int j1;
-        int j2;
         int l;
-        string line_filename;
         List<string> line_unit = new();
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
         //
         //  Create graphics data files.
         //
-        node_filename = prefix + "_nodes.txt";
+        string node_filename = prefix + "_nodes.txt";
 
         for (j = 0; j < ng; j++)
         {
             string tmp = "";
+            int i;
             for (i = 0; i < 3; i++)
             {
                 tmp += "  " + xg[i + j * 3];
@@ -494,7 +472,7 @@ public static class Grid_LatLong
         Console.WriteLine("");
         Console.WriteLine("  Created node file '" + node_filename + "'");
 
-        line_filename = prefix + "_lines.txt";
+        string line_filename = prefix + "_lines.txt";
 
         for (l = 0; l < line_num; l++)
         {
@@ -506,8 +484,8 @@ public static class Grid_LatLong
                     break;
             }
 
-            j1 = line_data[0 + l * 2];
-            j2 = line_data[1 + l * 2];
+            int j1 = line_data[0 + l * 2];
+            int j2 = line_data[1 + l * 2];
             line_unit.Add("  " + xg[0 + j1 * 3]
                                + "  " + xg[1 + j1 * 3]
                                + "  " + xg[2 + j1 * 3] + "");
@@ -522,7 +500,7 @@ public static class Grid_LatLong
         //
         //  Create graphics command file.
         //
-        command_filename = prefix + "_commands.txt";
+        string command_filename = prefix + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -531,7 +509,7 @@ public static class Grid_LatLong
         command_unit.Add("#");
         command_unit.Add("set term png");
 
-        plot_filename = prefix + ".png";
+        string plot_filename = prefix + ".png";
 
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
@@ -589,10 +567,8 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LLQ_GRID_LINE_COUNT, the number of grid lines.
         //
     {
-        int line_num;
-
-        line_num = long_num * (lat_num + 1)
-                   + lat_num * long_num;
+        int line_num = long_num * (lat_num + 1)
+                       + lat_num * long_num;
 
         return line_num;
     }
@@ -631,10 +607,8 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LLQ_LINE_NUM, the number of grid lines.
         //
     {
-        int line_num;
-
-        line_num = long_num * (lat_num + 1)
-                   + lat_num * long_num;
+        int line_num = long_num * (lat_num + 1)
+                       + lat_num * long_num;
 
         return line_num;
     }
@@ -682,13 +656,11 @@ public static class Grid_LatLong
     {
         int i;
         int j;
-        int l;
-        int[] line;
         int next;
         int old;
 
-        line = new int[2 * line_num];
-        l = 0;
+        int[] line = new int[2 * line_num];
+        int l = 0;
         //
         //  "Vertical" lines.
         //
@@ -771,9 +743,7 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LLQ_GRID_POINT_COUNT, the number of grid points.
         //
     {
-        int point_num;
-
-        point_num = 2 + lat_num * long_num;
+        int point_num = 2 + lat_num * long_num;
 
         return point_num;
     }
@@ -822,24 +792,18 @@ public static class Grid_LatLong
         //
     {
         int lat;
-        int lon;
-        int n;
-        double[] p;
-        double phi;
-            
-        double theta;
 
-        p = new double[3 * point_num];
-        n = 0;
+        double[] p = new double[3 * point_num];
+        int n = 0;
         //
         //  The north pole.
         //
-        theta = 0.0;
-        phi = 0.0;
+        double theta = 0.0;
+        double phi = 0.0;
 
-        p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
-        p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
-        p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
+        p[0] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
+        p[1] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
+        p[2] = pc[2] + r * Math.Cos(phi);
         n += 1;
         //
         //  Do each intermediate ring of latitude.
@@ -850,6 +814,7 @@ public static class Grid_LatLong
             //
             //  Along that ring of latitude, compute points at various longitudes.
             //
+            int lon;
             for (lon = 0; lon < lon_num; lon++)
             {
                 theta = lon * 2.0 * Math.PI / lon_num;
@@ -869,7 +834,6 @@ public static class Grid_LatLong
         p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
         p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
         p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
-        n += 1;
 
         return p;
     }
@@ -909,26 +873,20 @@ public static class Grid_LatLong
         //    Input, string PREFIX, a prefix for the filenames.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        int i;
         int j;
-        int j1;
-        int j2;
         int l;
-        string line_filename;
         List<string> line_unit = new();
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
         //
         //  Create graphics data files.
         //
-        node_filename = prefix + "_nodes.txt";
+        string node_filename = prefix + "_nodes.txt";
 
         for (j = 0; j < ng; j++)
         {
             string tmp = "";
+            int i;
             for (i = 0; i < 3; i++)
             {
                 tmp += "  " + xg[i + j * 3];
@@ -942,7 +900,7 @@ public static class Grid_LatLong
         Console.WriteLine("");
         Console.WriteLine("  Created node file '" + node_filename + "'");
 
-        line_filename = prefix + "_lines.txt";
+        string line_filename = prefix + "_lines.txt";
 
         for (l = 0; l < line_num; l++)
         {
@@ -954,8 +912,8 @@ public static class Grid_LatLong
                     break;
             }
 
-            j1 = line_data[0 + l * 2];
-            j2 = line_data[1 + l * 2];
+            int j1 = line_data[0 + l * 2];
+            int j2 = line_data[1 + l * 2];
             line_unit.Add("  " + xg[0 + j1 * 3]
                                + "  " + xg[1 + j1 * 3]
                                + "  " + xg[2 + j1 * 3] + "");
@@ -970,7 +928,7 @@ public static class Grid_LatLong
         //
         //  Create graphics command file.
         //
-        command_filename = prefix + "_commands.txt";
+        string command_filename = prefix + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -979,7 +937,7 @@ public static class Grid_LatLong
         command_unit.Add("#");
         command_unit.Add("set term png");
 
-        plot_filename = prefix + ".png";
+        string plot_filename = prefix + ".png";
 
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
@@ -1037,11 +995,9 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LLT_GRID_LINE_COUNT, the number of grid lines.
         //
     {
-        int line_num;
-
-        line_num = long_num * (lat_num + 1)
-                   + long_num * lat_num
-                   + long_num * (lat_num - 1);
+        int line_num = long_num * (lat_num + 1)
+                       + long_num * lat_num
+                       + long_num * (lat_num - 1);
 
         return line_num;
     }
@@ -1089,14 +1045,11 @@ public static class Grid_LatLong
     {
         int i;
         int j;
-        int l;
-        int[] line;
         int next;
-        int newcol;
         int old;
 
-        line = new int[2 * line_num];
-        l = 0;
+        int[] line = new int[2 * line_num];
+        int l = 0;
         //
         //  "Vertical" lines.
         //
@@ -1151,9 +1104,8 @@ public static class Grid_LatLong
         //
         for (j = 0; j < nlong; j++)
         {
-            old = 0;
             next = j + 1;
-            newcol = j;
+            int newcol = j;
 
             for (i = 1; i < nlat; i++)
             {
@@ -1205,9 +1157,7 @@ public static class Grid_LatLong
         //    Output, int SPHERE_LLT_GRID_POINT_COUNT, the number of grid points.
         //
     {
-        int point_num;
-
-        point_num = 2 + lat_num * long_num;
+        int point_num = 2 + lat_num * long_num;
 
         return point_num;
     }
@@ -1256,24 +1206,18 @@ public static class Grid_LatLong
         //
     {
         int lat;
-        int lon;
-        int n;
-        double[] p;
-        double phi;
-            
-        double theta;
 
-        p = new double[3 * point_num];
-        n = 0;
+        double[] p = new double[3 * point_num];
+        int n = 0;
         //
         //  The north pole.
         //
-        theta = 0.0;
-        phi = 0.0;
+        double theta = 0.0;
+        double phi = 0.0;
 
-        p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
-        p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
-        p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
+        p[0] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
+        p[1] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
+        p[2] = pc[2] + r * Math.Cos(phi);
         n += 1;
         //
         //  Do each intermediate ring of latitude.
@@ -1284,6 +1228,7 @@ public static class Grid_LatLong
             //
             //  Along that ring of latitude, compute points at various longitudes.
             //
+            int lon;
             for (lon = 0; lon < lon_num; lon++)
             {
                 theta = lon * 2.0 * Math.PI / lon_num;
@@ -1303,7 +1248,6 @@ public static class Grid_LatLong
         p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
         p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
         p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
-        n += 1;
 
         return p;
     }

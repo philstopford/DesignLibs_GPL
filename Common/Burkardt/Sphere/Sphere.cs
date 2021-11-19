@@ -54,22 +54,19 @@ public static class Sphere
         //    Output, double SPHERE_SPIRALPOINTS[3*N], the coordinates of the grid points.
         //
     {
-        double cosphi = 0.0;
         int i;
-        double[] p;
-            
-        double sinphi = 0.0;
+
         double theta = 0.0;
 
-        p = new double[3*n];
+        double[] p = new double[3*n];
 
         for ( i = 0; i < n; i++ )
         {
-            cosphi = ( (n - i - 1) * -1.0 
-                       + i * 1.0 ) 
-                     / (n     - 1);
+            double cosphi = ( (n - i - 1) * -1.0 
+                              + i * 1.0 ) 
+                            / (n     - 1);
 
-            sinphi = Math.Sqrt ( 1.0 - cosphi * cosphi );
+            double sinphi = Math.Sqrt ( 1.0 - cosphi * cosphi );
 
             if ( i == 0 || i == n - 1 )
             {
@@ -124,13 +121,8 @@ public static class Sphere
         //
     {
         int j;
-        double phi;
-            
-        double theta;
-        double vdot;
-        double[] x;
 
-        x = new double[3*n];
+        double[] x = new double[3*n];
 
         for ( j = 0; j < n; j++ )
         {
@@ -142,14 +134,14 @@ public static class Sphere
             //  Z and Z + dZ is independent of Z.  So choosing Z uniformly chooses
             //  a patch of area uniformly.
             //
-            vdot = 2.0 * UniformRNG.r8_uniform_01 ( ref seed ) - 1.0;
+            double vdot = 2.0 * UniformRNG.r8_uniform_01 ( ref seed ) - 1.0;
 
-            phi = Helpers.arc_cosine ( vdot );
+            double phi = Helpers.arc_cosine ( vdot );
             //
             //  Pick a uniformly random rotation between 0 and 2 Pi around the
             //  axis of the Z vector.
             //
-            theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01 ( ref seed );
+            double theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01 ( ref seed );
 
             x[0+j*3] = Math.Cos ( theta ) * Math.Sin ( phi );
             x[1+j*3] = Math.Sin ( theta ) * Math.Sin ( phi );
@@ -195,26 +187,22 @@ public static class Sphere
         //    Output, double SPHERE01_MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact;
-        double quad;
-        double quad_error;
-        double[] value;
         //
         //  Get the exact value of the integral.
         //
-        exact = Integrals.sphere01_monomial_integral ( expon );
+        double exact = Integrals.sphere01_monomial_integral ( expon );
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = MonomialNS.Monomial.monomial_value ( 3, point_num, expon, xyz );
+        double[] value = MonomialNS.Monomial.monomial_value ( 3, point_num, expon, xyz );
         //
         //  Compute the weighted sum.
         //
-        quad = typeMethods.r8vec_dot ( point_num, w, value );
+        double quad = typeMethods.r8vec_dot ( point_num, w, value );
         //
         //  Error:
         //
-        quad_error = Math.Abs ( quad - exact );
+        double quad_error = Math.Abs ( quad - exact );
 
         return quad_error;
     }

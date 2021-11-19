@@ -47,23 +47,19 @@ public static class TriangleQuad
         //    Output, double SPHERE01_TRIANGLE_QUAD_00, the approximate integral.
         //
     {
-        double area;
         int j;
-        double quad;
-        double result;
-        double[] vc;
 
-        area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
+        double area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
 
-        vc = Triangle.sphere01_triangle_sample(n, v1, v2, v3, ref seed);
+        double[] vc = Triangle.sphere01_triangle_sample(n, v1, v2, v3, ref seed);
 
-        quad = 0.0;
+        double quad = 0.0;
         for (j = 0; j < n; j++)
         {
             quad += f(vc, +3 * j);
         }
 
-        result = quad * area / n;
+        double result = quad * area / n;
 
 
         return result;
@@ -105,17 +101,12 @@ public static class TriangleQuad
         //    Output, double SPHERE01_TRIANGLE_QUAD_01, the approximate integral.
         //
     {
-        double area;
-        double quad;
-        double result;
-        double[] vc;
+        double area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
 
-        area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
+        double[] vc = Triangle.sphere01_triangle_vertices_to_centroid(v1, v2, v3);
 
-        vc = Triangle.sphere01_triangle_vertices_to_centroid(v1, v2, v3);
-
-        quad = f(vc, 0);
-        result = quad * area;
+        double quad = f(vc, 0);
+        double result = quad * area;
 
         return result;
     }
@@ -156,15 +147,11 @@ public static class TriangleQuad
         //    Output, double SPHERE01_TRIANGLE_QUAD_02, the approximate integral.
         //
     {
-        double area;
-        double quad;
-        double result;
+        double area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
 
-        area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
+        double quad = (f(v1, 0) + f(v2, 0) + f(v3, 0)) / 3.0;
 
-        quad = (f(v1, 0) + f(v2, 0) + f(v3, 0)) / 3.0;
-
-        result = quad * area;
+        double result = quad * area;
 
         return result;
     }
@@ -205,20 +192,17 @@ public static class TriangleQuad
         //    Output, double SPHERE01_TRIANGLE_QUAD_03, the approximate integral.
         //
     {
-        double area;
-        double quad;
-        double result;
         double[] v4 = new double[3];
         double[] v5 = new double[3];
         double[] v6 = new double[3];
 
-        area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
+        double area = Triangle.sphere01_triangle_vertices_to_area(v1, v2, v3);
 
         Triangle.sphere01_triangle_vertices_to_midpoints(v1, v2, v3, ref v4, ref v5, ref v6);
 
-        quad = (f(v4, 0) + f(v5, 0) + f(v6, 0)) / 3.0;
+        double quad = (f(v4, 0) + f(v5, 0) + f(v6, 0)) / 3.0;
 
-        result = quad * area;
+        double result = quad * area;
 
         return result;
     }
@@ -278,12 +262,11 @@ public static class TriangleQuad
         int f2;
         int f3;
         double[] node_xyz;
-        double result;
         double v;
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Some subtriangles will have the same direction as the face.
@@ -405,14 +388,13 @@ public static class TriangleQuad
         int f1;
         int f2;
         int f3;
-        double result;
         double va;
         double vb;
         double vc;
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Some subtriangles will have the same direction as the face.
@@ -537,14 +519,13 @@ public static class TriangleQuad
         int f1;
         int f2;
         int f3;
-        double result;
         double va;
         double vb;
         double vc;
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Some subtriangles will have the same direction as the face.
@@ -658,14 +639,13 @@ public static class TriangleQuad
         int f1;
         int f2;
         int f3;
-        double result;
         double va;
         double vb;
         double vc;
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Some subtriangles will have the same direction as the face.

@@ -61,40 +61,11 @@ public static class Grid_NodesWeights
         //    Output, double WEIGHTS[R_SIZE], the weights of the sparse rule.
         //
     {
-        int bq;
-        bool equal;
         int i;
-        int[] is_;
         int j;
-        int j2;
         int level;
-        int[] lr;
-        int maxq;
-        int minq;
         int n;
-        int[] n1d;
-        int n1d_total;
-        int nc;
-        int np;
-        int[] nr;
         int q;
-        int r;
-        int[] roff;
-        int[] rq;
-        int seq_num;
-        double t;
-        double[] w;
-        double[] w1d;
-        int[] w1d_off;
-        double[] wc;
-        double[] wp;
-        double[] wr;
-        double[] x;
-        double[] x1d;
-        int[] x1d_off;
-        double[] xc;
-        double[] xp;
-        double[] xr;
 
         for (j = 0; j < r_size; j++)
         {
@@ -113,9 +84,9 @@ public static class Grid_NodesWeights
         //  Create cell arrays that will contain the points and weights 
         //  for levels 1 through K.
         //
-        n1d = new int[k];
-        x1d_off = new int[k + 1];
-        w1d_off = new int[k + 1];
+        int[] n1d = new int[k];
+        int[] x1d_off = new int[k + 1];
+        int[] w1d_off = new int[k + 1];
 
         x1d_off[0] = 0;
         w1d_off[0] = 0;
@@ -128,19 +99,19 @@ public static class Grid_NodesWeights
             w1d_off[level] = w1d_off[level - 1] + n;
         }
 
-        n1d_total = x1d_off[k];
+        int n1d_total = x1d_off[k];
         //
         //  Calculate all the 1D rules needed.
         //
-        x1d = new double[n1d_total];
-        w1d = new double[n1d_total];
+        double[] x1d = new double[n1d_total];
+        double[] w1d = new double[n1d_total];
 
         for (level = 1; level <= k; level++)
         {
             n = n1d[level - 1];
 
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
 
             ClenshawCurtis.ccResult result = rule(n, x, w);
             x = result.x;
@@ -154,15 +125,15 @@ public static class Grid_NodesWeights
         //
         //  Construct the sparse grid.
         //
-        minq = Math.Max(0, k - dim);
-        maxq = k - 1;
+        int minq = Math.Max(0, k - dim);
+        int maxq = k - 1;
         //
         //  Q is the level total.
         //
-        lr = new int[dim];
-        nr = new int[dim];
+        int[] lr = new int[dim];
+        int[] nr = new int[dim];
 
-        r = 0;
+        int r = 0;
 
         for (q = minq; q <= maxq; q++)
         {
@@ -170,17 +141,17 @@ public static class Grid_NodesWeights
             //  BQ is the combinatorial coefficient applied to the component
             //  product rules which have level Q.
             //
-            bq = typeMethods.i4_mop(maxq - q) * typeMethods.i4_choose(dim - 1, dim + q - k);
+            int bq = typeMethods.i4_mop(maxq - q) * typeMethods.i4_choose(dim - 1, dim + q - k);
             //
             //  Compute the D-dimensional row vectors that sum to DIM+Q.
             //
-            seq_num = Comp.num_seq(q, dim);
+            int seq_num = Comp.num_seq(q, dim);
 
-            is_ = Comp.get_seq(dim, q + dim, seq_num);
+            int[] is_ = Comp.get_seq(dim, q + dim, seq_num);
             //
             //  Allocate new rows for nodes and weights.
             //
-            rq = new int[seq_num];
+            int[] rq = new int[seq_num];
 
             for (j = 0; j < seq_num; j++)
             {
@@ -195,6 +166,7 @@ public static class Grid_NodesWeights
             //
             //  Generate every product rule whose level total is Q.
             //
+            int j2;
             for (j2 = 0; j2 < seq_num; j2++)
             {
                 for (i = 0; i < dim; i++)
@@ -207,26 +179,26 @@ public static class Grid_NodesWeights
                     nr[i] = rule_order(lr[i]);
                 }
 
-                roff = typeMethods.r8cvv_offset(dim, nr);
+                int[] roff = typeMethods.r8cvv_offset(dim, nr);
 
-                nc = typeMethods.i4vec_sum(dim, nr);
-                wc = new double[nc];
-                xc = new double[nc];
+                int nc = typeMethods.i4vec_sum(dim, nr);
+                double[] wc = new double[nc];
+                double[] xc = new double[nc];
                 //
                 //  Corrected first argument in calls to R8CVV to N1D_TOTAL,
                 //  19 April 2013.
                 //
                 for (i = 0; i < dim; i++)
                 {
-                    xr = typeMethods.r8cvv_rget_new(n1d_total, x1d, k, x1d_off, lr[i] - 1);
-                    wr = typeMethods.r8cvv_rget_new(n1d_total, w1d, k, w1d_off, lr[i] - 1);
+                    double[] xr = typeMethods.r8cvv_rget_new(n1d_total, x1d, k, x1d_off, lr[i] - 1);
+                    double[] wr = typeMethods.r8cvv_rget_new(n1d_total, w1d, k, w1d_off, lr[i] - 1);
                     typeMethods.r8cvv_rset(nc, xc, dim, roff, i, xr);
                     typeMethods.r8cvv_rset(nc, wc, dim, roff, i, wr);
                 }
 
-                np = rq[j2];
-                wp = new double[np];
-                xp = new double[dim * np];
+                int np = rq[j2];
+                double[] wp = new double[np];
+                double[] xp = new double[dim * np];
 
                 typeMethods.tensor_product_cell(nc, xc, wc, dim, nr, roff, np, ref xp, ref wp);
                 //
@@ -263,7 +235,7 @@ public static class Grid_NodesWeights
         r = 0;
         for (j = 1; j < r_size; j++)
         {
-            equal = true;
+            bool equal = true;
             for (i = 0; i < dim; i++)
             {
                 if (Math.Abs(nodes[i + r * dim] - nodes[i + j * dim]) > double.Epsilon)
@@ -313,7 +285,7 @@ public static class Grid_NodesWeights
         //
         //  Normalize the weights to sum to 1.
         //
-        t = typeMethods.r8vec_sum(r, weights);
+        double t = typeMethods.r8vec_sum(r, weights);
 
         for (j = 0; j < r; j++)
         {
@@ -372,52 +344,44 @@ public static class Grid_NodesWeights
         //    are merged.
         //
     {
-        int i;
-        int[] is_;
-        int j;
         int level;
-        int maxq;
-        int minq;
-        int n;
-        int[] n1d;
         int q;
-        int r_size;
-        int[] rq;
-        int seq_num;
         //
         //  Determine the size of each 1D rule.
         //
-        n1d = new int[k];
+        int[] n1d = new int[k];
 
         for (level = 1; level <= k; level++)
         {
-            n = rule_order(level);
+            int n = rule_order(level);
             n1d[level - 1] = n;
         }
 
         //
         //  Go through the motions of generating the rules.
         //
-        minq = Math.Max(0, k - dim);
-        maxq = k - 1;
-        r_size = 0;
+        int minq = Math.Max(0, k - dim);
+        int maxq = k - 1;
+        int r_size = 0;
 
         for (q = minq; q <= maxq; q++)
         {
             //
             //  Compute the D-dimensional vectors that sum to Q+DIM.
             //
-            seq_num = Comp.num_seq(q, dim);
+            int seq_num = Comp.num_seq(q, dim);
 
-            is_ = Comp.get_seq(dim, q + dim, seq_num);
+            int[] is_ = Comp.get_seq(dim, q + dim, seq_num);
             //
             //  Determine the size of each rule.
             //
-            rq = new int[seq_num];
+            int[] rq = new int[seq_num];
 
+            int j;
             for (j = 0; j < seq_num; j++)
             {
                 rq[j] = 1;
+                int i;
                 for (i = 0; i < dim; i++)
                 {
                     rq[j] *= n1d[is_[j + i * seq_num] - 1];

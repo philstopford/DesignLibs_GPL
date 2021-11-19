@@ -35,21 +35,18 @@ public static class Grid_Fibonacci
         //    Input, string PREFIX, a prefix for the filenames.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit= new();
-        int i;
         int j;
-        string plot_filename;
         //
         //  Create graphics data file.
         //
-        data_filename = prefix + "_data.txt";
+        string data_filename = prefix + "_data.txt";
 
         for (j = 0; j < ng; j++)
         {
             string tmp = "";
+            int i;
             for (i = 0; i < 3; i++)
             {
                 tmp +="  " + xg[i + j * 3];
@@ -65,7 +62,7 @@ public static class Grid_Fibonacci
         //
         //  Create graphics command file.
         //
-        command_filename = prefix + "_commands.txt";
+        string command_filename = prefix + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -74,7 +71,7 @@ public static class Grid_Fibonacci
         command_unit.Add("#");
         command_unit.Add("set term png");
 
-        plot_filename = prefix + ".png";
+        string plot_filename = prefix + ".png";
 
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
@@ -129,27 +126,19 @@ public static class Grid_Fibonacci
         //    spiral points.
         //
     {
-        double cphi;
-        double i_r8;
         int j;
-        double ng_r8;
-        double r8_phi;
-            
-        double sphi;
-        double theta;
-        double[] xyz;
 
-        xyz = new double[3 * ng];
+        double[] xyz = new double[3 * ng];
 
-        r8_phi = (1.0 + Math.Sqrt(5.0)) / 2.0;
-        ng_r8 = ng;
+        double r8_phi = (1.0 + Math.Sqrt(5.0)) / 2.0;
+        double ng_r8 = ng;
 
         for (j = 0; j < ng; j++)
         {
-            i_r8 = -ng + 1 + 2 * j;
-            theta = 2.0 * Math.PI * i_r8 / r8_phi;
-            sphi = i_r8 / ng_r8;
-            cphi = Math.Sqrt((ng_r8 + i_r8) * (ng_r8 - i_r8)) / ng_r8;
+            double i_r8 = -ng + 1 + 2 * j;
+            double theta = 2.0 * Math.PI * i_r8 / r8_phi;
+            double sphi = i_r8 / ng_r8;
+            double cphi = Math.Sqrt((ng_r8 + i_r8) * (ng_r8 - i_r8)) / ng_r8;
             xyz[0 + j * 3] = cphi * Math.Sin(theta);
             xyz[1 + j * 3] = cphi * Math.Cos(theta);
             xyz[2 + j * 3] = sphi;

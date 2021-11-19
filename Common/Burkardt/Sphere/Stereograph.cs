@@ -59,14 +59,13 @@ public static class Stereograph
         //    image points.
         //
     {
-        int i;
         int j;
-        double[] q;
 
-        q = new double[m * n];
+        double[] q = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m - 1; i++)
             {
                 q[i + j * m] = 2.0 * p[i + j * m] / (1.0 + p[m - 1 + j * m]);
@@ -134,16 +133,14 @@ public static class Stereograph
         //    inverse projections of the points.
         //
     {
-        int i;
         int j;
-        double[] p;
-        double qn;
 
-        p = new double[m * n];
+        double[] p = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            qn = 0.0;
+            double qn = 0.0;
+            int i;
             for (i = 0; i < m - 1; i++)
             {
                 qn += Math.Pow(q[i + j * m], 2);
@@ -218,26 +215,22 @@ public static class Stereograph
         //    image points,
         //
     {
-        double cf_dot_pf;
-        double cf_normsq;
-        int i;
         int j;
-        double[] q;
-        double s;
 
-        q = new double[m * n];
+        double[] q = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            cf_normsq = 0.0;
-            cf_dot_pf = 0.0;
+            double cf_normsq = 0.0;
+            double cf_dot_pf = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 cf_normsq += Math.Pow(center[i] - focus[i], 2);
                 cf_dot_pf += (center[i] - focus[i]) * (p[i + j * m] - focus[i]);
             }
 
-            s = 2.0 * cf_normsq / cf_dot_pf;
+            double s = 2.0 * cf_normsq / cf_dot_pf;
             for (i = 0; i < m; i++)
             {
                 q[i + j * m] = s * p[i + j * m] + (1.0 - s) * focus[i];
@@ -306,26 +299,22 @@ public static class Stereograph
         //    inverse projections of the points.
         //
     {
-        double cf_dot_qf;
-        int i;
         int j;
-        double[] p;
-        double qf_normsq;
-        double s;
 
-        p = new double[m * n];
+        double[] p = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            cf_dot_qf = 0.0;
-            qf_normsq = 0.0;
+            double cf_dot_qf = 0.0;
+            double qf_normsq = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 cf_dot_qf += (center[i] - focus[i]) * (q[i + j * m] - focus[i]);
                 qf_normsq += Math.Pow(q[i + j * m] - focus[i], 2);
             }
 
-            s = 2.0 * cf_dot_qf / qf_normsq;
+            double s = 2.0 * cf_dot_qf / qf_normsq;
             for (i = 0; i < m; i++)
             {
                 p[i + j * m] = s * q[i + j * m] + (1.0 - s) * focus[i];

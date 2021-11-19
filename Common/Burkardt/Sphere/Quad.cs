@@ -54,31 +54,14 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_ICOS1C, the estimated integral.
         //
     {
-        int a;
         double[] a_xyz = new double[3];
-        double[] a2_xyz;
-        double area;
-        int b;
         double[] b_xyz = new double[3];
-        double[] b2_xyz;
-        int c;
         double[] c_xyz = new double[3];
-        double[] c2_xyz;
         int edge_num = 0;
-        int[] edge_point;
-        int f1;
-        int f2;
-        int f3;
         int face;
         int face_num = 0;
-        int[] face_order;
-        int[] face_point;
         int face_order_max = 0;
-        int i;
-        double[] node_xyz;
-        double[] point_coord;
         int point_num = 0;
-        double result;
         double[] v = new double[1];
         //
         //  Size the icosahedron.
@@ -87,27 +70,28 @@ public static class Quad
         //
         //  Set the icosahedron.
         //
-        point_coord = new double[3 * point_num];
-        edge_point = new int[2 * edge_num];
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[3 * point_num];
+        int[] edge_point = new int[2 * edge_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
 
         Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
             ref point_coord, ref edge_point, ref face_order, ref face_point);
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Pick a face of the icosahedron, and identify its vertices as A, B, C.
         //
         for (face = 0; face < face_num; face++)
         {
-            a = face_point[0 + face * 3];
-            b = face_point[1 + face * 3];
-            c = face_point[2 + face * 3];
+            int a = face_point[0 + face * 3];
+            int b = face_point[1 + face * 3];
+            int c = face_point[2 + face * 3];
 
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a_xyz[i] = point_coord[i + a * 3];
@@ -121,6 +105,14 @@ public static class Quad
             //  of the centroid (F1,F2,F3), from which we can also work out the barycentric
             //  coordinates of the vertices of the subtriangle.
             //
+            double[] a2_xyz;
+            double area;
+            double[] node_xyz;
+            int f1;
+            int f2;
+            int f3;
+            double[] c2_xyz;
+            double[] b2_xyz;
             for (f3 = 1; f3 <= 3 * factor - 2; f3 += 3)
             {
                 for (f2 = 1; f2 <= 3 * factor - f3 - 1; f2 += 3)
@@ -222,33 +214,14 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_ICOS1M, the estimated integral.
         //
     {
-        int a;
         double[] a_xyz = new double[3];
-        double[] a2_xyz;
-        double[] a3_xyz;
-        double area;
-        int b;
         double[] b_xyz = new double[3];
-        double[] b2_xyz;
-        double[] b3_xyz;
-        int c;
         double[] c_xyz = new double[3];
-        double[] c2_xyz;
-        double[] c3_xyz;
         int edge_num = 0;
-        int[] edge_point;
-        int f1;
-        int f2;
-        int f3;
         int face;
         int face_num = 0;
-        int[] face_order;
-        int[] face_point;
         int face_order_max = 0;
-        int i;
-        double[] point_coord;
         int point_num = 0;
-        double result;
         double[] va = new double[1];
         double[] vb = new double[1];
         double[] vc = new double[1];
@@ -259,27 +232,28 @@ public static class Quad
         //
         //  Set the icosahedron.
         //
-        point_coord = new double[3 * point_num];
-        edge_point = new int[2 * edge_num];
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[3 * point_num];
+        int[] edge_point = new int[2 * edge_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
 
         Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
             ref point_coord, ref edge_point, ref face_order, ref face_point);
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Pick a face of the icosahedron, and identify its vertices as A, B, C.
         //
         for (face = 0; face < face_num; face++)
         {
-            a = face_point[0 + face * 3];
-            b = face_point[1 + face * 3];
-            c = face_point[2 + face * 3];
+            int a = face_point[0 + face * 3];
+            int b = face_point[1 + face * 3];
+            int c = face_point[2 + face * 3];
 
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a_xyz[i] = point_coord[i + a * 3];
@@ -290,6 +264,16 @@ public static class Quad
             //
             //  Deal with subtriangles that have same orientation as face.
             //
+            double[] a3_xyz;
+            int f1;
+            int f2;
+            int f3;
+            double[] c3_xyz;
+            double[] c2_xyz;
+            double[] b3_xyz;
+            double[] b2_xyz;
+            double[] a2_xyz;
+            double area;
             for (f1 = 0; f1 <= factor - 1; f1++)
             {
                 for (f2 = 0; f2 <= factor - f1 - 1; f2++)
@@ -399,30 +383,14 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_ICOS2M, the estimated integral.
         //
     {
-        int a;
         double[] a_xyz = new double[3];
-        double[] a2_xyz;
-        double area;
-        int b;
         double[] b_xyz = new double[3];
-        double[] b2_xyz;
-        int c;
         double[] c_xyz = new double[3];
-        double[] c2_xyz;
         int edge_num = 0;
-        int[] edge_point;
-        int f1;
-        int f2;
-        int f3;
         int face;
         int face_num = 0;
-        int[] face_order;
-        int[] face_point;
         int face_order_max = 0;
-        int i;
-        double[] point_coord;
         int point_num = 0;
-        double result;
         double[] va = new double[1];
         double[] vb = new double[1];
         double[] vc = new double[1];
@@ -433,27 +401,28 @@ public static class Quad
         //
         //  Set the icosahedron.
         //
-        point_coord = new double[3 * point_num];
-        edge_point = new int[2 * edge_num];
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[3 * point_num];
+        int[] edge_point = new int[2 * edge_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
 
         Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
             ref point_coord, ref edge_point, ref face_order, ref face_point);
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Pick a face of the icosahedron, and identify its vertices as A, B, C.
         //
         for (face = 0; face < face_num; face++)
         {
-            a = face_point[0 + face * 3];
-            b = face_point[1 + face * 3];
-            c = face_point[2 + face * 3];
+            int a = face_point[0 + face * 3];
+            int b = face_point[1 + face * 3];
+            int c = face_point[2 + face * 3];
 
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a_xyz[i] = point_coord[i + a * 3];
@@ -464,6 +433,13 @@ public static class Quad
             //
             //  Deal with subtriangles that have same orientation as face.
             //
+            double[] a2_xyz;
+            int f1;
+            double area;
+            int f3;
+            int f2;
+            double[] c2_xyz;
+            double[] b2_xyz;
             for (f1 = 0; f1 <= factor - 1; f1++)
             {
                 for (f2 = 0; f2 <= factor - f1 - 1; f2++)
@@ -564,30 +540,14 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_ICOS2V, the estimated integral.
         //
     {
-        int a;
         double[] a_xyz = new double[3];
-        double[] a2_xyz;
-        double area;
-        int b;
         double[] b_xyz = new double[3];
-        double[] b2_xyz;
-        int c;
         double[] c_xyz = new double[3];
-        double[] c2_xyz;
         int edge_num = 0;
-        int[] edge_point;
-        int f1;
-        int f2;
-        int f3;
         int face;
         int face_num = 0;
-        int[] face_order;
-        int[] face_point;
         int face_order_max = 0;
-        int i;
-        double[] point_coord;
         int point_num = 0;
-        double result;
         double[] va = new double[1];
         double[] vb = new double[1];
         double[] vc = new double[1];
@@ -598,27 +558,28 @@ public static class Quad
         //
         //  Set the icosahedron.
         //
-        point_coord = new double[3 * point_num];
-        edge_point = new int[2 * edge_num];
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[3 * point_num];
+        int[] edge_point = new int[2 * edge_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
 
         Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
             ref point_coord, ref edge_point, ref face_order, ref face_point);
         //
         //  Initialize the integral data.
         //
-        result = 0.0;
+        double result = 0.0;
         node_num = 0;
         //
         //  Pick a face of the icosahedron, and identify its vertices as A, B, C.
         //
         for (face = 0; face < face_num; face++)
         {
-            a = face_point[0 + face * 3];
-            b = face_point[1 + face * 3];
-            c = face_point[2 + face * 3];
+            int a = face_point[0 + face * 3];
+            int b = face_point[1 + face * 3];
+            int c = face_point[2 + face * 3];
 
+            int i;
             for (i = 0; i < 3; i++)
             {
                 a_xyz[i] = point_coord[i + a * 3];
@@ -629,6 +590,13 @@ public static class Quad
             //
             //  Deal with subtriangles that have same orientation as face.
             //
+            double[] a2_xyz;
+            double[] c2_xyz;
+            double[] b2_xyz;
+            int f1;
+            int f3;
+            double area;
+            int f2;
             for (f1 = 0; f1 <= factor - 1; f1++)
             {
                 for (f2 = 0; f2 <= factor - f1 - 1; f2++)
@@ -716,33 +684,16 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_LLC, the approximate integral.
         //
     {
-        double area;
-        int i;
-        int j;
         double phi;
-        int phi_num;
-        double phi1;
-        double phi2;
-            
-        double result;
-        double sector_area;
+
         double sphere_area;
         double theta;
-        int theta_num;
-        double theta1;
-        double theta2;
         double[] v = new double[1];
         double[] x;
-        double[] x1;
-        double[] x11;
-        double[] x12;
-        double[] x2;
-        double[] x21;
-        double[] x22;
         //
         //  Choose PHI and THETA counts that make short sides.
         //
-        phi_num = (int)(Math.PI / h);
+        int phi_num = (int)(Math.PI / h);
 
         switch (h * phi_num)
         {
@@ -751,7 +702,7 @@ public static class Quad
                 break;
         }
 
-        theta_num = (int)(2.0 * Math.PI / h);
+        int theta_num = (int)(2.0 * Math.PI / h);
 
         switch (h * theta_num)
         {
@@ -761,7 +712,7 @@ public static class Quad
         }
 
         n = 0;
-        result = 0.0;
+        double result;
         switch (theta_num)
         {
             //
@@ -781,12 +732,13 @@ public static class Quad
             //
             default:
             {
+                int j;
                 switch (phi_num)
                 {
                     case 1:
                     {
                         sphere_area = 4.0 * Math.PI;
-                        sector_area = sphere_area / theta_num;
+                        double sector_area = sphere_area / theta_num;
 
                         result = 0.0;
 
@@ -814,15 +766,20 @@ public static class Quad
                         //      .    .
                         //    V12----V22
                         //
-                        phi1 = 0.0;
-                        phi2 = Math.PI / phi_num;
+                        double phi1 = 0.0;
+                        double phi2 = Math.PI / phi_num;
 
+                        double area;
+                        double[] x22;
+                        double theta1;
+                        double theta2;
+                        double[] x12;
                         for (j = 1; j <= theta_num; j++)
                         {
                             theta1 = (j - 1) * 2.0 * Math.PI / theta_num;
                             theta2 = j * 2.0 * Math.PI / theta_num;
 
-                            x1 = typeMethods.tp_to_xyz(theta1, phi1);
+                            double[] x1 = typeMethods.tp_to_xyz(theta1, phi1);
                             x12 = typeMethods.tp_to_xyz(theta1, phi2);
                             x22 = typeMethods.tp_to_xyz(theta2, phi2);
 
@@ -841,6 +798,9 @@ public static class Quad
                         //     |  . |
                         //    V12--V22
                         //
+                        int i;
+                        double[] x21;
+                        double[] x11;
                         for (i = 2; i <= phi_num - 1; i++)
                         {
                             phi1 = (i - 1) * Math.PI / phi_num;
@@ -888,7 +848,7 @@ public static class Quad
 
                             x11 = typeMethods.tp_to_xyz(theta1, phi1);
                             x21 = typeMethods.tp_to_xyz(theta2, phi1);
-                            x2 = typeMethods.tp_to_xyz(theta2, phi2);
+                            double[] x2 = typeMethods.tp_to_xyz(theta2, phi2);
 
                             area = Triangle.sphere01_triangle_vertices_to_area(x11, x2, x21);
                             x = Triangle.sphere01_triangle_vertices_to_centroid(x11, x2, x21);
@@ -948,36 +908,20 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_LLM, the approximate integral.
         //
     {
-        double area;
-        int i;
-        int j;
         double[] m1 = new double[3];
         double[] m2 = new double[3];
         double[] m3 = new double[3];
         double phi;
-        int phi_num;
-        double phi1;
-        double phi2;
-            
+
         double result;
-        double sector_area;
         double sphere_area;
         double theta;
-        int theta_num;
-        double theta1;
-        double theta2;
         double[] v = new double[1];
         double[] x;
-        double[] x1;
-        double[] x11;
-        double[] x12;
-        double[] x2;
-        double[] x21;
-        double[] x22;
         //
         //  Choose PHI and THETA counts that make short sides.
         //
-        phi_num = (int)(Math.PI / h);
+        int phi_num = (int)(Math.PI / h);
 
         switch (h * phi_num)
         {
@@ -986,7 +930,7 @@ public static class Quad
                 break;
         }
 
-        theta_num = (int)(2.0 * Math.PI / h);
+        int theta_num = (int)(2.0 * Math.PI / h);
 
         switch (h * theta_num)
         {
@@ -996,7 +940,6 @@ public static class Quad
         }
 
         n = 0;
-        result = 0.0;
         switch (theta_num)
         {
             //
@@ -1015,12 +958,13 @@ public static class Quad
             //
             default:
             {
+                int j;
                 switch (phi_num)
                 {
                     case 1:
                     {
                         sphere_area = 4.0 * Math.PI;
-                        sector_area = sphere_area / theta_num;
+                        double sector_area = sphere_area / theta_num;
 
                         result = 0.0;
 
@@ -1048,15 +992,20 @@ public static class Quad
                         //      .    .
                         //    V12----V22
                         //
-                        phi1 = 0.0;
-                        phi2 = Math.PI / phi_num;
+                        double phi1 = 0.0;
+                        double phi2 = Math.PI / phi_num;
 
+                        double area;
+                        double[] x22;
+                        double theta1;
+                        double[] x12;
+                        double theta2;
                         for (j = 1; j <= theta_num; j++)
                         {
                             theta1 = (j - 1) * 2.0 * Math.PI / theta_num;
                             theta2 = j * 2.0 * Math.PI / theta_num;
 
-                            x1 = typeMethods.tp_to_xyz(theta1, phi1);
+                            double[] x1 = typeMethods.tp_to_xyz(theta1, phi1);
                             x12 = typeMethods.tp_to_xyz(theta1, phi2);
                             x22 = typeMethods.tp_to_xyz(theta2, phi2);
 
@@ -1083,6 +1032,9 @@ public static class Quad
                         //     |  . |
                         //    V12--V22
                         //
+                        int i;
+                        double[] x11;
+                        double[] x21;
                         for (i = 2; i <= phi_num - 1; i++)
                         {
                             phi1 = (i - 1) * Math.PI / phi_num;
@@ -1146,7 +1098,7 @@ public static class Quad
 
                             x11 = typeMethods.tp_to_xyz(theta1, phi1);
                             x21 = typeMethods.tp_to_xyz(theta2, phi1);
-                            x2 = typeMethods.tp_to_xyz(theta2, phi2);
+                            double[] x2 = typeMethods.tp_to_xyz(theta2, phi2);
 
                             area = Triangle.sphere01_triangle_vertices_to_area(x11, x2, x21);
 
@@ -1214,33 +1166,16 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_LLV, the approximate integral.
         //
     {
-        double area;
-        int i;
-        int j;
         double phi;
-        int phi_num;
-        double phi1;
-        double phi2;
-            
-        double result;
-        double sector_area;
+
         double sphere_area;
         double theta;
-        int theta_num;
-        double theta1;
-        double theta2;
         double[] v = new double[1];
         double[] x;
-        double[] x1;
-        double[] x11;
-        double[] x12;
-        double[] x2;
-        double[] x21;
-        double[] x22;
         //
         //  Choose PHI and THETA counts that make short sides.
         //
-        phi_num = (int)(Math.PI / h);
+        int phi_num = (int)(Math.PI / h);
 
         switch (h * phi_num)
         {
@@ -1249,7 +1184,7 @@ public static class Quad
                 break;
         }
 
-        theta_num = (int)(2.0 * Math.PI / h);
+        int theta_num = (int)(2.0 * Math.PI / h);
 
         switch (h * theta_num)
         {
@@ -1259,7 +1194,7 @@ public static class Quad
         }
 
         n = 0;
-        result = 0.0;
+        double result;
         switch (theta_num)
         {
             //
@@ -1277,12 +1212,13 @@ public static class Quad
             //
             default:
             {
+                int j;
                 switch (phi_num)
                 {
                     case 1:
                     {
                         sphere_area = 4.0 * Math.PI;
-                        sector_area = sphere_area / theta_num;
+                        double sector_area = sphere_area / theta_num;
 
                         result = 0.0;
 
@@ -1310,15 +1246,20 @@ public static class Quad
                         //      .    .
                         //    V12----V22
                         //
-                        phi1 = 0.0;
-                        phi2 = Math.PI / phi_num;
+                        double phi1 = 0.0;
+                        double phi2 = Math.PI / phi_num;
 
+                        double area;
+                        double theta1;
+                        double theta2;
+                        double[] x22;
+                        double[] x12;
                         for (j = 1; j <= theta_num; j++)
                         {
                             theta1 = (j - 1) * 2.0 * Math.PI / theta_num;
                             theta2 = j * 2.0 * Math.PI / theta_num;
 
-                            x1 = typeMethods.tp_to_xyz(theta1, phi1);
+                            double[] x1 = typeMethods.tp_to_xyz(theta1, phi1);
                             x12 = typeMethods.tp_to_xyz(theta1, phi2);
                             x22 = typeMethods.tp_to_xyz(theta2, phi2);
 
@@ -1343,6 +1284,9 @@ public static class Quad
                         //     |  . |
                         //    V12--V22
                         //
+                        int i;
+                        double[] x21;
+                        double[] x11;
                         for (i = 2; i <= phi_num - 1; i++)
                         {
                             phi1 = (i - 1) * Math.PI / phi_num;
@@ -1403,7 +1347,7 @@ public static class Quad
 
                             x11 = typeMethods.tp_to_xyz(theta1, phi1);
                             x21 = typeMethods.tp_to_xyz(theta2, phi1);
-                            x2 = typeMethods.tp_to_xyz(theta2, phi2);
+                            double[] x2 = typeMethods.tp_to_xyz(theta2, phi2);
 
                             area = Triangle.sphere01_triangle_vertices_to_area(x11, x2, x21);
 
@@ -1472,21 +1416,15 @@ public static class Quad
         //    Output, double SPHERE01_QUAD_MC, the approximate integral.
         //
     {
-            
-        double result;
-        double sphere_area;
-        double[] v;
-        double[] x;
+        double sphere_area = 4.0 * Math.PI;
 
-        sphere_area = 4.0 * Math.PI;
+        double[] x = MonteCarlo.sphere01_sample(n, ref seed);
 
-        x = MonteCarlo.sphere01_sample(n, ref seed);
-
-        v = new double[n];
+        double[] v = new double[n];
 
         v = f(n, x, v);
 
-        result = sphere_area * typeMethods.r8vec_sum(n, v) / n;
+        double result = sphere_area * typeMethods.r8vec_sum(n, v) / n;
 
         return result;
     }
@@ -1525,16 +1463,13 @@ public static class Quad
         //    Output, int SPHERE01_QUAD_MC_SIZE, the number of points to use.
         //
     {
-        int n;
-            
-        double sphere_area;
         //
         //  The sphere's area is 4 * PI.
         //  Choose N so that we divide this area into N subareas of PI * H * H.
         //
-        sphere_area = 4.0 * Math.PI;
+        const double sphere_area = 4.0 * Math.PI;
 
-        n = (int)(sphere_area / h / h);
+        int n = (int)(sphere_area / h / h);
         n = Math.Max(n, 1);
 
         return n;

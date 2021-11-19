@@ -49,30 +49,22 @@ public static class Distance
         //    Output, double DIST, the great circle distance between the points.
         //
     {
-        double bot;
-        double dist;
-        double lat1;
-        double lat2;
-        double lon1;
-        double lon2;
-        double top;
+        double lat1 = Helpers.arc_sine ( xyz1[2] );
+        double lon1 = Helpers.atan4 ( xyz1[1], xyz1[0] );
 
-        lat1 = Helpers.arc_sine ( xyz1[2] );
-        lon1 = Helpers.atan4 ( xyz1[1], xyz1[0] );
+        double lat2 = Helpers.arc_sine ( xyz2[2] );
+        double lon2 = Helpers.atan4 ( xyz2[1], xyz2[0] );
 
-        lat2 = Helpers.arc_sine ( xyz2[2] );
-        lon2 = Helpers.atan4 ( xyz2[1], xyz2[0] );
-
-        top = Math.Pow ( Math.Cos ( lat2 ) * Math.Sin ( lon1 - lon2 ), 2 )
-              + Math.Pow ( Math.Cos ( lat1 ) * Math.Sin ( lat2 ) 
-                           - Math.Sin ( lat1 ) * Math.Cos ( lat2 ) * Math.Cos ( lon1 - lon2 ), 2 );
+        double top = Math.Pow ( Math.Cos ( lat2 ) * Math.Sin ( lon1 - lon2 ), 2 )
+                     + Math.Pow ( Math.Cos ( lat1 ) * Math.Sin ( lat2 ) 
+                                  - Math.Sin ( lat1 ) * Math.Cos ( lat2 ) * Math.Cos ( lon1 - lon2 ), 2 );
 
         top = Math.Sqrt ( top );
 
-        bot = Math.Sin ( lat1 ) * Math.Sin ( lat2 ) 
-              + Math.Cos ( lat1 ) * Math.Cos ( lat2 ) * Math.Cos ( lon1 - lon2 );
+        double bot = Math.Sin ( lat1 ) * Math.Sin ( lat2 ) 
+                     + Math.Cos ( lat1 ) * Math.Cos ( lat2 ) * Math.Cos ( lon1 - lon2 );
 
-        dist = Math.Atan2 ( top, bot );
+        double dist = Math.Atan2 ( top, bot );
 
         return dist;
     }
@@ -120,33 +112,24 @@ public static class Distance
         //    Output, double DIST, the great circle distance between the points.
         //
     {
-        double bot;
-        double dist;
-        double lat1;
-        double lat2;
-        double lon1;
-        double lon2;
-        double r;
-        double top;
+        double r = typeMethods.r8vec_norm(3, xyz1, index1);
 
-        r = typeMethods.r8vec_norm(3, xyz1, index1);
+        double lat1 = Helpers.arc_sine(xyz1[index1 + 2]);
+        double lon1 = Helpers.atan4(xyz1[index1 + 1], xyz1[index1 + 0]);
 
-        lat1 = Helpers.arc_sine(xyz1[index1 + 2]);
-        lon1 = Helpers.atan4(xyz1[index1 + 1], xyz1[index1 + 0]);
+        double lat2 = Helpers.arc_sine(xyz2[index2 + 2]);
+        double lon2 = Helpers.atan4(xyz2[index2 + 1], xyz2[index2 + 0]);
 
-        lat2 = Helpers.arc_sine(xyz2[index2 + 2]);
-        lon2 = Helpers.atan4(xyz2[index2 + 1], xyz2[index2 + 0]);
-
-        top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
-              + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
-                         - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
+        double top = Math.Pow(Math.Cos(lat2) * Math.Sin(lon1 - lon2), 2)
+                     + Math.Pow(Math.Cos(lat1) * Math.Sin(lat2)
+                                - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2), 2);
 
         top = Math.Sqrt(top);
 
-        bot = Math.Sin(lat1) * Math.Sin(lat2)
-              + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
+        double bot = Math.Sin(lat1) * Math.Sin(lat2)
+                     + Math.Cos(lat1) * Math.Cos(lat2) * Math.Cos(lon1 - lon2);
 
-        dist = r * Math.Atan2(top, bot);
+        double dist = r * Math.Atan2(top, bot);
 
         return dist;
     }

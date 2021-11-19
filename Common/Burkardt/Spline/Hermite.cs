@@ -64,14 +64,10 @@ public static class Hermite
         //    coefficients.
         //
     {
-        double[] c;
-        double divdif1;
-        double divdif3;
-        double dt;
         int i;
         int j;
 
-        c = new double[4 * ndata];
+        double[] c = new double[4 * ndata];
 
         for (j = 0; j < ndata; j++)
         {
@@ -85,9 +81,9 @@ public static class Hermite
 
         for (i = 1; i <= ndata - 1; i++)
         {
-            dt = tdata[i] - tdata[i - 1];
-            divdif1 = (c[0 + i * 4] - c[0 + (i - 1) * 4]) / dt;
-            divdif3 = c[1 + (i - 1) * 4] + c[1 + i * 4] - 2.0 * divdif1;
+            double dt = tdata[i] - tdata[i - 1];
+            double divdif1 = (c[0 + i * 4] - c[0 + (i - 1) * 4]) / dt;
+            double divdif3 = c[1 + (i - 1) * 4] + c[1 + i * 4] - 2.0 * divdif1;
             c[2 + (i - 1) * 4] = (divdif1 - c[1 + (i - 1) * 4] - divdif3) / dt;
             c[3 + (i - 1) * 4] = divdif3 / (dt * dt);
         }
@@ -166,7 +162,6 @@ public static class Hermite
         //    and its derivative at TVAL.
         //
     {
-        double dt;
         int left = 0;
         int right = 0;
         //
@@ -177,7 +172,7 @@ public static class Hermite
         //
         //  Evaluate the cubic polynomial.
         //
-        dt = tval - tdata[left - 1];
+        double dt = tval - tdata[left - 1];
 
         sval = c[0 + (left - 1) * 4]
                + dt * (c[1 + (left - 1) * 4]

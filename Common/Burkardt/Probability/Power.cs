@@ -43,14 +43,7 @@ public static class Power
                 break;
             default:
             {
-                if (x <= b)
-                {
-                    cdf = Math.Pow(x / b, a);
-                }
-                else
-                {
-                    cdf = 1.0;
-                }
+                cdf = x <= b ? Math.Pow(x / b, a) : 1.0;
 
                 break;
             }

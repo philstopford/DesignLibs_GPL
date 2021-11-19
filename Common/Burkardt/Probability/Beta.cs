@@ -138,11 +138,13 @@ public static class Beta
 
             cum += pdf;
 
-            if (cdf <= cum)
+            if (!(cdf <= cum))
             {
-                x = y;
-                return x;
+                continue;
             }
+
+            x = y;
+            return x;
 
         }
 
@@ -514,14 +516,13 @@ public static class Beta
         //
     {
         double a;
-        double beta_log = 0.0;
-        double g;
+        const double beta_log = 0.0;
         bool indx;
         double pp;
         double qq;
-        double sae = -37.0;
+        const double sae = -37.0;
         double t;
-        double value = 0;
+        double value;
 
         double fpu = Math.Pow(10.0, sae);
         switch (p)
@@ -668,7 +669,7 @@ public static class Beta
                 _ => prev
             };
 
-            g = 1.0;
+            double g = 1.0;
 
             double tx;
             for (;;)
@@ -682,7 +683,7 @@ public static class Beta
                     {
                         tx = value - adj;
 
-                        if (0.0 <= tx && tx <= 1.0)
+                        if (tx is >= 0.0 and <= 1.0)
                         {
                             break;
                         }
@@ -778,26 +779,11 @@ public static class Beta
         //    Output, double BETA_CDF_INV, the argument of the CDF.
         //
     {
-        int MAXK = 20;
+        const int MAXK = 20;
 
-        double bcoeff;
-        double cdf_x;
         double[] d = new double[MAXK * (MAXK - 1)];
-        double error = 0.0001;
-        double errapp = 0.01;
-        int i;
-        int j;
-        int k;
-        int loopct;
-        double pdf_x;
-        double q;
-        double s1;
-        double s2;
-        double sum2;
-        double t;
-        double tail;
-        double x;
-        double xold;
+        const double error = 0.0001;
+        const double errapp = 0.01;
 
         switch (cdf)
         {
@@ -812,10 +798,10 @@ public static class Beta
         //
         //  Estimate the solution.
         //
-        x = a / (a + b);
+        double x = a / (a + b);
 
-        xold = 0.0;
-        loopct = 2;
+        double xold = 0.0;
+        int loopct = 2;
 
         while (errapp <= Math.Abs((x - xold) / x) && loopct != 0)
         {
@@ -825,22 +811,22 @@ public static class Beta
             //  CDF_X = PROB { BETA(A,B) <= X }.
             //  Q = ( CDF - CDF_X ) / PDF_X.
             //
-            cdf_x = beta_cdf(x, a, b);
+            double cdf_x = beta_cdf(x, a, b);
 
-            pdf_x = beta_pdf(x, a, b);
+            double pdf_x = beta_pdf(x, a, b);
 
-            q = (cdf - cdf_x) / pdf_x;
+            double q = (cdf - cdf_x) / pdf_x;
             //
             //  D(N,K) = C(N,K) * Q**(N+K-1) / (N-1)!
             //
-            t = 1.0 - x;
-            s1 = q * (b - 1.0) / t;
-            s2 = q * (1.0 - a) / x;
+            double t = 1.0 - x;
+            double s1 = q * (b - 1.0) / t;
+            double s2 = q * (1.0 - a) / x;
             d[2 - 1 + 0 * MAXK] = s1 + s2;
-            tail = d[2 - 1 + 0 * MAXK] * q / 2.0;
+            double tail = d[2 - 1 + 0 * MAXK] * q / 2.0;
             x = x + q + tail;
 
-            k = 3;
+            int k = 3;
 
             while (error < Math.Abs(tail / x) && k <= MAXK)
             {
@@ -853,11 +839,13 @@ public static class Beta
                 //
                 //  Find D(3,K-3), D(4,K-4), D(5,K-5), ... , D(K-1,1).
                 //
+                int i;
                 for (i = 3; i <= k - 1; i++)
                 {
-                    sum2 = d[2 - 1 + 0 * MAXK] * d[i - 2 + (k - i) * MAXK];
-                    bcoeff = 1.0;
+                    double sum2 = d[2 - 1 + 0 * MAXK] * d[i - 2 + (k - i) * MAXK];
+                    double bcoeff = 1.0;
 
+                    int j;
                     for (j = 1; j <= k - i; j++)
                     {
                         bcoeff = bcoeff * (k - i - j + 1)
@@ -1301,19 +1289,12 @@ public static class Beta
         //
     {
         double cx;
-        int i;
-        int it;
-        int it_max = 1000;
+        const int it_max = 1000;
         bool indx;
-        int ns;
         double pp;
-        double psq;
         double qq;
-        double rx;
-        double temp;
-        double term;
-        double tol = 1.0E-07;
-        double value = 0;
+        const double tol = 1.0E-07;
+        double value;
         double xx;
 
         switch (a)
@@ -1347,7 +1328,7 @@ public static class Beta
         //
         //  Change tail if necessary and determine S.
         //
-        psq = a + b;
+        double psq = a + b;
 
         if (a < (a + b) * x)
         {
@@ -1366,24 +1347,24 @@ public static class Beta
             indx = false;
         }
 
-        term = 1.0;
-        i = 1;
+        double term = 1.0;
+        int i = 1;
         value = 1.0;
 
-        ns = (int) (qq + cx * (a + b));
+        int ns = (int) (qq + cx * (a + b));
         //
         //  Use Soper's reduction formulas.
         //
-        rx = xx / cx;
+        double rx = xx / cx;
 
-        temp = qq - i;
+        double temp = qq - i;
         rx = ns switch
         {
             0 => xx,
             _ => rx
         };
 
-        it = 0;
+        int it = 0;
 
         for (;;)
         {
@@ -1875,19 +1856,14 @@ public static class Beta
         //    Output, double BETA_SAMPLE, a sample of the PDF.
         //
     {
-        double mu;
-        double stdev;
-        double test;
-        double u;
         double x;
-        double y;
 
-        mu = (a - 1.0) / (a + b - 2.0);
-        stdev = 0.5 / Math.Sqrt(a + b - 2.0);
+        double mu = (a - 1.0) / (a + b - 2.0);
+        double stdev = 0.5 / Math.Sqrt(a + b - 2.0);
 
         for (;;)
         {
-            y = Normal.normal_01_sample(ref seed);
+            double y = Normal.normal_01_sample(ref seed);
 
             x = mu + stdev * y;
 
@@ -1898,11 +1874,11 @@ public static class Beta
                     continue;
             }
 
-            u = UniformRNG.r8_uniform_01(ref seed);
+            double u = UniformRNG.r8_uniform_01(ref seed);
 
-            test = (a - 1.0) * Math.Log(x / (a - 1.0))
-                   + (b - 1.0) * Math.Log((1.0 - x) / (b - 1.0))
-                   + (a + b - 2.0) * Math.Log(a + b - 2.0) + 0.5 * y * y;
+            double test = (a - 1.0) * Math.Log(x / (a - 1.0))
+                          + (b - 1.0) * Math.Log((1.0 - x) / (b - 1.0))
+                          + (a + b - 2.0) * Math.Log(a + b - 2.0) + 0.5 * y * y;
 
             if (Math.Log(u) <= test)
             {

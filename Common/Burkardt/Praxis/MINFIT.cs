@@ -70,27 +70,17 @@ public static class MINFIT
         //    Input/output, double Q[N], the singular values.
         //
     {
-        double c;
-        double[] e;
-        double eps;
         double f = 0;
-        double g;
         double h;
         int i;
         int ii;
         int j;
         int jj;
         int k;
-        int kt;
         const int kt_max = 30;
         int l;
-        int l2;
         double s;
-        bool skip;
-        double temp;
-        double x;
         double y;
-        double z;
         switch (n)
         {
             //
@@ -102,11 +92,11 @@ public static class MINFIT
                 return;
         }
 
-        e = new double[n];
+        double[] e = new double[n];
 
-        eps = typeMethods.r8_epsilon();
-        g = 0.0;
-        x = 0.0;
+        double eps = typeMethods.r8_epsilon();
+        double g = 0.0;
+        double x = 0.0;
 
         for (i = 1; i <= n; i++)
         {
@@ -262,7 +252,7 @@ public static class MINFIT
 
         for (k = n; 1 <= k; k--)
         {
-            kt = 0;
+            int kt = 0;
 
             for (;;)
             {
@@ -278,8 +268,9 @@ public static class MINFIT
                         return;
                 }
 
-                skip = false;
+                bool skip = false;
 
+                int l2;
                 for (l2 = k; 1 <= l2; l2--)
                 {
                     l = l2;
@@ -299,6 +290,7 @@ public static class MINFIT
                     }
                 }
 
+                double c;
                 switch (skip)
                 {
                     //
@@ -345,7 +337,7 @@ public static class MINFIT
                 //
                 //  Test for convergence for this index K.
                 //
-                z = q[k - 1];
+                double z = q[k - 1];
 
                 if (l == k)
                 {
@@ -377,7 +369,7 @@ public static class MINFIT
 
                 g = typeMethods.r8_hypot(f, 1.0);
 
-                temp = f switch
+                double temp = f switch
                 {
                     < 0.0 => f - g,
                     _ => f + g

@@ -109,11 +109,13 @@ public static class Deranged
 
             cdf2 += pdf;
 
-            if (cdf <= cdf2)
+            if (!(cdf <= cdf2))
             {
-                x = x2;
-                return x;
+                continue;
             }
+
+            x = x2;
+            return x;
 
         }
 

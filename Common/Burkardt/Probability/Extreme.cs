@@ -34,12 +34,9 @@ public static class Extreme
         //    Output, double EXTREME_VALUES_CDF, the value of the CDF.
         //
     {
-        double cdf;
-        double y;
+        double y = (x - a) / b;
 
-        y = (x - a) / b;
-
-        cdf = Math.Exp(-Math.Exp(-y));
+        double cdf = Math.Exp(-Math.Exp(-y));
 
         return cdf;
     }
@@ -311,9 +308,7 @@ public static class Extreme
         //    Output, double EXTREME_VALUES_MEAN, the mean of the PDF.
         //
     {
-        double mean;
-
-        mean = a + b * Misc.euler_constant();
+        double mean = a + b * Misc.euler_constant();
 
         return mean;
     }

@@ -50,28 +50,18 @@ public static class VonMises
         //    Output, double VON_MISES_CDF, the value of the CDF.
         //
     {
-        double a1 = 12.0;
-        double a2 = 0.8;
-        double a3 = 8.0;
-        double a4 = 1.0;
-        double arg;
+        const double a1 = 12.0;
+        const double a2 = 0.8;
+        const double a3 = 8.0;
+        const double a4 = 1.0;
         double c;
-        double c1 = 56.0;
+        const double c1 = 56.0;
         double cdf;
-        double ck = 10.5;
-        double cn;
-        double erfx;
-        int ip;
-        int n;
-        double p;
-            
+        const double ck = 10.5;
+
         double r;
         double s;
-        double sn;
-        double u;
         double v;
-        double y;
-        double z;
         switch (x - a)
         {
             //
@@ -88,9 +78,9 @@ public static class VonMises
         //
         //  Convert the angle (X - A) modulo 2 PI to the range ( 0, 2 * PI ).
         //
-        z = b;
+        double z = b;
 
-        u = typeMethods.r8_modp(x - a + Math.PI, 2.0 * Math.PI);
+        double u = typeMethods.r8_modp(x - a + Math.PI, 2.0 * Math.PI);
 
         switch (u)
         {
@@ -99,7 +89,7 @@ public static class VonMises
                 break;
         }
 
-        y = u - Math.PI;
+        double y = u - Math.PI;
         //
         //  For small B, sum IP terms by backwards recursion.
         //
@@ -111,16 +101,17 @@ public static class VonMises
             {
                 case > 0.0:
                 {
-                    ip = (int) (z * a2 - a3 / (z + a4) + a1);
-                    p = ip;
+                    int ip = (int) (z * a2 - a3 / (z + a4) + a1);
+                    double p = ip;
                     s = Math.Sin(y);
                     c = Math.Cos(y);
                     y = p * y;
-                    sn = Math.Sin(y);
-                    cn = Math.Cos(y);
+                    double sn = Math.Sin(y);
+                    double cn = Math.Cos(y);
                     r = 0.0;
                     z = 2.0 / z;
 
+                    int n;
                     for (n = 2; n <= ip; n++)
                     {
                         p -= 1.0;
@@ -150,8 +141,8 @@ public static class VonMises
             v = v - s + 3.0;
             y = (c - s - s - 16.0) / 3.0;
             y = ((s + 1.75) * s + 83.5) / v - y;
-            arg = z * (1.0 - s / y / y);
-            erfx = typeMethods.r8_error_f(arg);
+            double arg = z * (1.0 - s / y / y);
+            double erfx = typeMethods.r8_error_f(arg);
             cdf = 0.5 * erfx + 0.5;
         }
 
@@ -196,16 +187,10 @@ public static class VonMises
         //    A - PI <= X <= A + PI.
         //
     {
-        double cdf1;
-        double cdf3;
-        int it;
-        int it_max = 100;
+        const int it_max = 100;
             
-        double tol = 0.0001;
+        const double tol = 0.0001;
         double x;
-        double x1;
-        double x2;
-        double x3;
 
         switch (cdf)
         {
@@ -223,21 +208,21 @@ public static class VonMises
                 return x;
         }
 
-        x1 = a - Math.PI;
-        cdf1 = 0.0;
+        double x1 = a - Math.PI;
+        double cdf1 = 0.0;
 
-        x2 = a + Math.PI;
+        double x2 = a + Math.PI;
         //
         //  Now use bisection.
         //
-        it = 0;
+        int it = 0;
 
         for (;;)
         {
             it += 1;
 
-            x3 = 0.5 * (x1 + x2);
-            cdf3 = von_mises_cdf(x3, a, b);
+            double x3 = 0.5 * (x1 + x2);
+            double cdf3 = von_mises_cdf(x3, a, b);
 
             if (Math.Abs(cdf3 - cdf) < tol)
             {
@@ -676,30 +661,20 @@ public static class VonMises
         //    Output, double VON_MISES_SAMPLE, a sample of the PDF.
         //
     {
-        double c;
         double f;
-            
-        double r;
-        double rho;
-        double tau;
-        double u1;
-        double u2;
-        double u3;
-        double x;
-        double z;
 
-        tau = 1.0 + Math.Sqrt(1.0 + 4.0 * b * b);
-        rho = (tau - Math.Sqrt(2.0 * tau)) / (2.0 * b);
-        r = (1.0 + rho * rho) / (2.0 * rho);
+        double tau = 1.0 + Math.Sqrt(1.0 + 4.0 * b * b);
+        double rho = (tau - Math.Sqrt(2.0 * tau)) / (2.0 * b);
+        double r = (1.0 + rho * rho) / (2.0 * rho);
 
         for (;;)
         {
-            u1 = UniformRNG.r8_uniform_01(ref seed);
-            z = Math.Cos(Math.PI * u1);
+            double u1 = UniformRNG.r8_uniform_01(ref seed);
+            double z = Math.Cos(Math.PI * u1);
             f = (1.0 + r * z) / (r + z);
-            c = b * (r - f);
+            double c = b * (r - f);
 
-            u2 = UniformRNG.r8_uniform_01(ref seed);
+            double u2 = UniformRNG.r8_uniform_01(ref seed);
 
             if (u2 < c * (2.0 - c))
             {
@@ -713,9 +688,9 @@ public static class VonMises
 
         }
 
-        u3 = UniformRNG.r8_uniform_01(ref seed);
+        double u3 = UniformRNG.r8_uniform_01(ref seed);
 
-        x = a + typeMethods.r8_sign(u3 - 0.5) * Math.Acos(f);
+        double x = a + typeMethods.r8_sign(u3 - 0.5) * Math.Acos(f);
 
         return x;
     }

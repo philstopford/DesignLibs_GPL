@@ -90,10 +90,8 @@ public static class Nakagami
         //    Output, double NAKAGAMI_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        double cdf2;
-        int it_max = 100;
-        const double r8_huge = 1.0E+30;
-        double tol = 0.000000001;
+        const int it_max = 100;
+        const double tol = 0.000000001;
 
         double x = 0.0;
 
@@ -109,7 +107,7 @@ public static class Nakagami
                 x = c * a * a;
                 return x;
             case 1.0:
-                x = r8_huge;
+                x = typeMethods.r8_huge();
                 return x;
         }
 
@@ -120,7 +118,7 @@ public static class Nakagami
 
         for (;;)
         {
-            cdf2 = nakagami_cdf(x2, a, b, c);
+            double cdf2 = nakagami_cdf(x2, a, b, c);
 
             if (cdf < cdf2)
             {
@@ -164,7 +162,6 @@ public static class Nakagami
             else
             {
                 x2 = x3;
-                cdf2 = cdf3;
             }
         }
 
@@ -248,9 +245,7 @@ public static class Nakagami
         //    Output, double NAKAGAMI_MEAN, the mean of the PDF.
         //
     {
-        double mean;
-
-        mean = a + b * Helpers.Gamma(c + 0.5) / (Math.Sqrt(c) * Helpers.Gamma(c));
+        double mean = a + b * Helpers.Gamma(c + 0.5) / (Math.Sqrt(c) * Helpers.Gamma(c));
 
         return mean;
     }
@@ -286,7 +281,6 @@ public static class Nakagami
         //
     {
         double pdf = 0;
-        double y;
 
         switch (x)
         {
@@ -294,7 +288,7 @@ public static class Nakagami
                 pdf = 0.0;
                 break;
             case > 0.0:
-                y = (x - a) / b;
+                double y = (x - a) / b;
 
                 pdf = 2.0 * Math.Pow(c, c) / (b * Helpers.Gamma(c))
                       * Math.Pow(y, 2.0 * c - 1.0)

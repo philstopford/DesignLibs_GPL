@@ -88,14 +88,9 @@ public static class Maxwell
         //    Output, double MAXWELL_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        int it;
-        int it_max = 100;
-        const double r8_huge = 1.0E+30;
-        double tol = 0.0001;
+        const int it_max = 100;
+        const double tol = 0.0001;
         double x;
-        double x1;
-        double x2;
-        double x3;
 
         switch (cdf)
         {
@@ -109,14 +104,14 @@ public static class Maxwell
                 x = 0.0;
                 return x;
             case 1.0:
-                x = r8_huge;
+                x = typeMethods.r8_huge();
                 return x;
         }
 
-        x1 = 0.0;
+        double x1 = 0.0;
         double cdf1 = 0.0;
 
-        x2 = 1.0;
+        double x2 = 1.0;
 
         for (;;)
         {
@@ -142,13 +137,13 @@ public static class Maxwell
         //
         //  Now use bisection.
         //
-        it = 0;
+        int it = 0;
 
         for (;;)
         {
             it += 1;
 
-            x3 = 0.5 * (x1 + x2);
+            double x3 = 0.5 * (x1 + x2);
             double cdf3 = maxwell_cdf(x3, a);
 
             if (Math.Abs(cdf3 - cdf) < tol)

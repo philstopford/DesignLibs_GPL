@@ -44,9 +44,9 @@ public static class Digamma
         //    Output, double DIGAMMA, the value of the digamma function at X.
         //
     {
-        double c = 8.5;
-        double euler_mascheroni = - 0.57721566490153286060;
-        double value = 0;
+        const double c = 8.5;
+        const double euler_mascheroni = - 0.57721566490153286060;
+        double value;
         switch (x)
         {
             //

@@ -74,8 +74,6 @@ public static class Rayleigh
         //    Output, double RAYLEIGH_CDF_INV, the corresponding argument.
         //
     {
-        double x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -85,7 +83,7 @@ public static class Rayleigh
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
             default:
-                x = Math.Sqrt(-2.0 * a * a * Math.Log(1.0 - cdf));
+                double x = Math.Sqrt(-2.0 * a * a * Math.Log(1.0 - cdf));
 
                 return x;
         }
@@ -280,10 +278,7 @@ public static class Rayleigh
         //    Output, double RAYLEIGH_MEAN, the mean of the PDF.
         //
     {
-        double mean;
-            
-
-        mean = a * Math.Sqrt(0.5 * Math.PI);
+        double mean = a * Math.Sqrt(0.5 * Math.PI);
 
         return mean;
     }

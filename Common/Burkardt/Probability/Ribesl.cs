@@ -180,44 +180,25 @@ public static class Ribesl
         // VAX G-Format  (D.P.)   2.22D-308    1.0D+4     709
         //
     {
-        double constant = 1.585;
-        double em;
+        const double constant = 1.585;
         double empal;
-        double emp2al;
-        double en;
-        double enmten = 8.9E-308;
-        double ensig = 1.0E+16;
-        double enten = 1.0E+308;
-        double exparg = 709.0;
-        bool flag;
-        double half = 0.5;
-        double halfx;
-        int i;
-        int k;
-        int l;
-        int magx;
+        const double enmten = 8.9E-308;
+        const double ensig = 1.0E+16;
+        const double enten = 1.0E+308;
+        const double exparg = 709.0;
+        const double half = 0.5;
         int n;
-        int nbmx;
         int ncalc;
-        int nend;
-        int nsig = 16;
-        int nstart;
-        double one = 1.0;
-        double p;
-        double plast;
-        double pold;
-        double psave;
-        double psavel;
-        double rtnsig = 1.0E-04;
+        const int nsig = 16;
+        const double one = 1.0;
+        const double rtnsig = 1.0E-04;
         double tempa;
         double tempb;
         double tempc;
-        double test;
-        double total;
         double tover;
-        double two = 2.0;
-        double xlarge = 1.0E+04;
-        double zero = 0.0;
+        const double two = 2.0;
+        const double xlarge = 1.0E+04;
+        const double zero = 0.0;
         switch (nb)
         {
             //
@@ -259,21 +240,21 @@ public static class Ribesl
         //  Use 2-term ascending series for small X.
         //
         ncalc = nb;
-        magx = (int) x;
+        int magx = (int) x;
         //
         //  Initialize the forward sweep, the P-sequence of Olver.
         //
         if (rtnsig <= x)
         {
-            nbmx = nb - magx;
+            int nbmx = nb - magx;
             n = magx + 1;
-            en = n + n + (alpha + alpha);
-            plast = one;
-            p = en / x;
+            double en = n + n + (alpha + alpha);
+            double plast = one;
+            double p = en / x;
             //
             //  Calculate general significance test.
             //
-            test = ensig + ensig;
+            double test = ensig + ensig;
 
             if (5 * nsig < 2 * magx)
             {
@@ -287,16 +268,20 @@ public static class Ribesl
             //
             //  Calculate P-sequence until N = NB-1.  Check for possible overflow.
             //
-            flag = false;
+            bool flag = false;
 
+            int l;
+            int nend;
+            double pold;
             switch (nbmx)
             {
                 case >= 3:
                 {
                     tover = enten / ensig;
-                    nstart = magx + 2;
+                    int nstart = magx + 2;
                     nend = nb - 1;
 
+                    int k;
                     for (k = nstart; k <= nend; k++)
                     {
                         n = k;
@@ -313,8 +298,8 @@ public static class Ribesl
                             tover = enten;
                             p /= tover;
                             plast /= tover;
-                            psave = p;
-                            psavel = plast;
+                            double psave = p;
+                            double psavel = plast;
                             nstart = n + 1;
 
                             for (;;)
@@ -412,10 +397,10 @@ public static class Ribesl
             en += two;
             tempb = zero;
             tempa = one / p;
-            em = n - one;
+            double em = n - one;
             empal = em + alpha;
-            emp2al = em - one + (alpha + alpha);
-            total = tempa * empal * emp2al / em;
+            double emp2al = em - one + (alpha + alpha);
+            double total = tempa * empal * emp2al / em;
             nend = n - nb;
             switch (nend)
             {
@@ -626,7 +611,7 @@ public static class Ribesl
 
         tempa = one;
         empal = one + alpha;
-        halfx = zero;
+        double halfx = zero;
 
         if (enmten < x)
         {
@@ -663,6 +648,7 @@ public static class Ribesl
         {
             case > 1 when Math.Abs(x - zero) <= double.Epsilon:
             {
+                int i;
                 for (i = 1; i < nb; i++)
                 {
                     b[i] = zero;

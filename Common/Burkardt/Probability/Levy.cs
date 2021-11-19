@@ -89,10 +89,6 @@ public static class Levy
         //    Output, double LEVY_CDF_INV, the corresponding argument.
         //
     {
-        double cdf1;
-        double x;
-        double x1;
-
         switch (cdf)
         {
             case < 0.0:
@@ -112,9 +108,9 @@ public static class Levy
                 return 1;
         }
 
-        cdf1 = 1.0 - 0.5 * cdf;
-        x1 = Normal.normal_01_cdf_inv(cdf1);
-        x = a + b / (x1 * x1);
+        double cdf1 = 1.0 - 0.5 * cdf;
+        double x1 = Normal.normal_01_cdf_inv(cdf1);
+        double x = a + b / (x1 * x1);
 
         return x;
     }

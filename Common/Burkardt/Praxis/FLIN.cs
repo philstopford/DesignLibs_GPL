@@ -77,10 +77,8 @@ public static class FLIN
         //
     {
         int i;
-        double[] t;
-        double value = 0;
 
-        t = new double[n];
+        double[] t = new double[n];
         switch (jsearch)
         {
             //
@@ -118,7 +116,7 @@ public static class FLIN
         //
         //  Evaluate the function.
         //
-        value = f(t, n);
+        double value = f(t, n);
 
         return value;
     }

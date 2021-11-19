@@ -77,7 +77,7 @@ public static class Fisher
         //    Output, double FISHER_PDF, the value of the PDF.
         //
     {
-        int NB = 1;
+        const int NB = 1;
 
         double[] b = new double[NB];
         double pdf;
@@ -96,8 +96,8 @@ public static class Fisher
                 return pdf;
         }
 
-        double alpha = 0.5;
-        int ize = 1;
+        const double alpha = 0.5;
+        const int ize = 1;
 
         Ribesl.ribesl(kappa, alpha, NB, ize, ref b);
 
@@ -176,15 +176,10 @@ public static class Fisher
         //
     {
         double[] a = new double[3*3];
-        double lambda;
-        double mu_norm;
-        double[] phi;
-            
-        double[] rst = new double[3];
-        double[] theta;
-        double[] xyz;
 
-        mu_norm = typeMethods.r8vec_length(3, mu);
+        double[] rst = new double[3];
+
+        double mu_norm = typeMethods.r8vec_length(3, mu);
 
         switch (mu_norm)
         {
@@ -192,15 +187,15 @@ public static class Fisher
                 Console.WriteLine("");
                 Console.WriteLine("FISHER_SAMPLE - Fatal error!");
                 Console.WriteLine("  MU = 0.");
-                return new double[0];
+                return Array.Empty<double>();
         }
 
         double alpha = -Math.Acos(mu[2] / mu_norm);
         double beta = Math.Atan2(mu[1], mu[0]);
 
-        lambda = Math.Exp(-2.0 * kappa);
+        double lambda = Math.Exp(-2.0 * kappa);
 
-        theta = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] theta = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
         for (int k = 0; k < n; k++)
         {
@@ -211,7 +206,7 @@ public static class Fisher
             };
         }
 
-        phi = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] phi = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
         for (int k = 0; k < n; k++)
         {
@@ -235,7 +230,7 @@ public static class Fisher
         //
         //  Compute the unrotated points.
         //
-        xyz = new double[3 * n];
+        double[] xyz = new double[3 * n];
 
         for (int k = 0; k < n; k++)
         {

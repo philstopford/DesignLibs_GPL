@@ -216,14 +216,10 @@ public static class Circular
         //    Output, double CIRCULAR_NORMAL_PDF, the value of the PDF.
         //
     {
-        double d;
-        double pdf;
-            
+        double d = (Math.Pow(x[0] - a[0], 2)
+                    + Math.Pow(x[1] - a[1], 2)) / Math.Pow(b, 2);
 
-        d = (Math.Pow(x[0] - a[0], 2)
-             + Math.Pow(x[1] - a[1], 2)) / Math.Pow(b, 2);
-
-        pdf = Math.Exp(-0.5 * d) / (2.0 * b * b * Math.PI);
+        double pdf = Math.Exp(-0.5 * d) / (2.0 * b * b * Math.PI);
 
         return pdf;
     }

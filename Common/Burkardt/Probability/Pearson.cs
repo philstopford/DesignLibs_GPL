@@ -186,19 +186,12 @@ public static class Pearson
 //    Output, double PEARSON_05_SAMPLE, a sample of the PDF.
 //
     {
-        double a2;
-        double b2;
-        double c2;
-        double x;
-        double x2;
+        const double a2 = 0.0;
+        double c2 = 1.0 / a;
 
-        a2 = 0.0;
-        b2 = b;
-        c2 = 1.0 / a;
+        double x2 = Gamma.gamma_sample(a2, b, c2, ref seed);
 
-        x2 = Gamma.gamma_sample(a2, b2, c2, ref seed);
-
-        x = c + 1.0 / x2;
+        double x = c + 1.0 / x2;
 
         return x;
     }

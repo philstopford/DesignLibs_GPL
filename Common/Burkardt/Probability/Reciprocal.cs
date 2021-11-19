@@ -130,15 +130,16 @@ public static class Reciprocal
                 return false;
         }
 
-        if (b < a)
+        if (!(b < a))
         {
-            Console.WriteLine(" ");
-            Console.WriteLine("RECIPROCAL_CHECK - Warning!");
-            Console.WriteLine("  B < A");
-            return false;
+            return true;
         }
 
-        return true;
+        Console.WriteLine(" ");
+        Console.WriteLine("RECIPROCAL_CHECK - Warning!");
+        Console.WriteLine("  B < A");
+        return false;
+
     }
 
     public static double reciprocal_mean(double a, double b)

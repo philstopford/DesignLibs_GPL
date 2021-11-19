@@ -67,8 +67,6 @@ public static class Exponential
         //    Output, double EXPONENTIAL_CDF_INV, the corresponding argument.
         //
     {
-        double x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -78,7 +76,7 @@ public static class Exponential
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
             default:
-                x = -Math.Log(1.0 - cdf);
+                double x = -Math.Log(1.0 - cdf);
 
                 return x;
         }
@@ -108,7 +106,7 @@ public static class Exponential
         //    Output, double EXPONENTIAL_MEAN, the mean of the PDF.
         //
     {
-        double mean = 1.0;
+        const double mean = 1.0;
 
         return mean;
     }
@@ -210,7 +208,7 @@ public static class Exponential
         //    Output, double VARIANCE, the variance of the PDF.
         //
     {
-        double variance = 1.0;
+        const double variance = 1.0;
 
         return variance;
     }

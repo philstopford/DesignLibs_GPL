@@ -40,15 +40,13 @@ public static class Student
         //    Output, double STUDENT_CDF, the value of the CDF.
         //
     {
-        double cdf;
-
         double y = (x - a) / b;
 
         double a2 = 0.5 * c;
-        double b2 = 0.5;
+        const double b2 = 0.5;
         double c2 = c / (c + y * y);
 
-        cdf = y switch
+        double cdf = y switch
         {
             <= 0.0 => 0.5 * Beta.beta_inc(a2, b2, c2),
             _ => 1.0 - 0.5 * Beta.beta_inc(a2, b2, c2)
@@ -485,12 +483,12 @@ public static class Student
         //
     {
         double a;
-        int a_max = 100;
+        const int a_max = 100;
         double b;
         double cdf;
         double cdf2;
         double drb;
-        double emin = 12.5;
+        const double emin = 12.5;
             
 
         double f = idf;

@@ -51,7 +51,7 @@ public static class FermiDirac
         //    be less than or equal to U.
         //
     {
-        int iter_max = 1000;
+        const int iter_max = 1000;
         double y1;
 
         double x = UniformRNG.r8_uniform_01(ref seed);

@@ -36,22 +36,9 @@ public static class QuadratureRule
         //    abscissas, and region.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        string filename_r;
-        string filename_w;
-        string filename_x;
-        int i;
-        int j;
-        double jacobi_alpha;
-        double jacobi_beta;
-        double[] jacobi_w;
-        double[] jacobi_x;
         int k;
-        int l;
-        double[] legendre_w;
-        double[] legendre_x;
-        int pyramid_order;
         double[] pyramid_r =
         {
             -1.0, -1.0, 0.0,
@@ -60,53 +47,46 @@ public static class QuadratureRule
             +1.0, +1.0, 0.0,
             0.0, 0.0, 1.0
         };
-        double[] pyramid_w;
-        double[] pyramid_x;
-        double volume;
-        double wi;
-        double wj;
-        double wk;
-        double xi;
-        double xj;
-        double xk;
         //
         //  Compute the factor rules.
         //
-        legendre_w = new double[legendre_order];
-        legendre_x = new double[legendre_order];
+        double[] legendre_w = new double[legendre_order];
+        double[] legendre_x = new double[legendre_order];
 
         Legendre.QuadratureRule.legendre_compute(legendre_order, ref legendre_x, ref legendre_w);
 
-        jacobi_w = new double[jacobi_order];
-        jacobi_x = new double[jacobi_order];
+        double[] jacobi_w = new double[jacobi_order];
+        double[] jacobi_x = new double[jacobi_order];
 
-        jacobi_alpha = 2.0;
-        jacobi_beta = 0.0;
+        double jacobi_alpha = 2.0;
+        double jacobi_beta = 0.0;
 
         JacobiQuadrature.jacobi_compute(jacobi_order, jacobi_alpha, jacobi_beta, ref jacobi_x, ref jacobi_w);
         //
         //  Compute the pyramid rule.
         //
-        pyramid_order = legendre_order * legendre_order * jacobi_order;
+        int pyramid_order = legendre_order * legendre_order * jacobi_order;
 
-        pyramid_w = new double[pyramid_order];
-        pyramid_x = new double[DIM_NUM * pyramid_order];
+        double[] pyramid_w = new double[pyramid_order];
+        double[] pyramid_x = new double[DIM_NUM * pyramid_order];
 
-        volume = 4.0 / 3.0;
+        double volume = 4.0 / 3.0;
 
-        l = 0;
+        int l = 0;
         for (k = 0; k < jacobi_order; k++)
         {
-            xk = (jacobi_x[k] + 1.0) / 2.0;
-            wk = jacobi_w[k] / 2.0;
+            double xk = (jacobi_x[k] + 1.0) / 2.0;
+            double wk = jacobi_w[k] / 2.0;
+            int j;
             for (j = 0; j < legendre_order; j++)
             {
-                xj = legendre_x[j];
-                wj = legendre_w[j];
+                double xj = legendre_x[j];
+                double wj = legendre_w[j];
+                int i;
                 for (i = 0; i < legendre_order; i++)
                 {
-                    xi = legendre_x[i];
-                    wi = legendre_w[i];
+                    double xi = legendre_x[i];
+                    double wi = legendre_w[i];
                     pyramid_w[l] = wi * wj * wk / 4.0 / volume;
                     pyramid_x[0 + l * 3] = xi * (1.0 - xk);
                     pyramid_x[1 + l * 3] = xj * (1.0 - xk);
@@ -119,9 +99,9 @@ public static class QuadratureRule
         //
         //  Write the rule to files.
         //
-        filename_w = filename + "_w.txt";
-        filename_x = filename + "_x.txt";
-        filename_r = filename + "_r.txt";
+        string filename_w = filename + "_w.txt";
+        string filename_x = filename + "_x.txt";
+        string filename_r = filename + "_r.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Creating quadrature files.");

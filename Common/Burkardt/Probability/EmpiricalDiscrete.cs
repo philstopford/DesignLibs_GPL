@@ -208,26 +208,30 @@ public static class EmpiricalDiscrete
         {
             for (int j = i + 1; j < a; j++)
             {
-                if (Math.Abs(c[i] - c[j]) <= double.Epsilon)
+                if (!(Math.Abs(c[i] - c[j]) <= double.Epsilon))
                 {
-                    Console.WriteLine(" ");
-                    Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
-                    Console.WriteLine("  All values C must be unique.");
-                    Console.WriteLine("  But at least two values are identical.");
-                    return false;
+                    continue;
                 }
+
+                Console.WriteLine(" ");
+                Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
+                Console.WriteLine("  All values C must be unique.");
+                Console.WriteLine("  But at least two values are identical.");
+                return false;
             }
         }
 
         for (int i = 0; i < a - 1; i++)
         {
-            if (c[i + 1] < c[i])
+            if (!(c[i + 1] < c[i]))
             {
-                Console.WriteLine(" ");
-                Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
-                Console.WriteLine("  The values in C must be in ascending order.");
-                return false;
+                continue;
             }
+
+            Console.WriteLine(" ");
+            Console.WriteLine("EMPIRICAL_DISCRETE_CHECK - Warning!");
+            Console.WriteLine("  The values in C must be in ascending order.");
+            return false;
         }
 
         return true;
@@ -267,9 +271,8 @@ public static class EmpiricalDiscrete
         //
     {
         int i;
-        double mean;
 
-        mean = 0.0;
+        double mean = 0.0;
         for (i = 0; i < a; i++)
         {
             mean += b[i] * c[i];
@@ -327,11 +330,13 @@ public static class EmpiricalDiscrete
 
         for (int i = 0; i <= a; i++)
         {
-            if (Math.Abs(x - c[i]) <= double.Epsilon)
+            if (!(Math.Abs(x - c[i]) <= double.Epsilon))
             {
-                pdf = b[i] / typeMethods.r8vec_sum(a, b);
-                return pdf;
+                continue;
             }
+
+            pdf = b[i] / typeMethods.r8vec_sum(a, b);
+            return pdf;
         }
 
         pdf = 0.0;

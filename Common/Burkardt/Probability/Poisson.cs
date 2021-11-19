@@ -110,7 +110,7 @@ public static class Poisson
         //
     {
         int x = 0;
-        int xmax = 100;
+        const int xmax = 100;
 
         switch (cdf)
         {
@@ -148,11 +148,13 @@ public static class Poisson
                 }
             }
 
-            if (sumold <= cdf && cdf <= sum2)
+            if (!(sumold <= cdf) || !(cdf <= sum2))
             {
-                x = i;
-                return x;
+                continue;
             }
+
+            x = i;
+            return x;
         }
 
         switch (x)
@@ -396,20 +398,13 @@ public static class Poisson
         //    Output, double POISSON_KERNEL, the Poisson kernel function P(X,Y).
         //
     {
-        double area;
-        double b;
-        double p;
-        double t;
-        double xc_diff_norm;
-        double xy_diff_norm;
+        double xc_diff_norm = typeMethods.r8vec_diff_norm(n, x, c);
+        double xy_diff_norm = typeMethods.r8vec_diff_norm(n, x, y);
+        double area = Misc.sphere_unit_area_nd(n);
 
-        xc_diff_norm = typeMethods.r8vec_diff_norm(n, x, c);
-        xy_diff_norm = typeMethods.r8vec_diff_norm(n, x, y);
-        area = Misc.sphere_unit_area_nd(n);
-
-        t = (r + xc_diff_norm) * (r - xc_diff_norm);
-        b = r * area * Math.Pow(xy_diff_norm, n);
-        p = t / b;
+        double t = (r + xc_diff_norm) * (r - xc_diff_norm);
+        double b = r * area * Math.Pow(xy_diff_norm, n);
+        double p = t / b;
 
         return p;
     }
@@ -543,7 +538,7 @@ public static class Poisson
         //    Output, int POISSON_SAMPLE, a sample of the PDF.
         //
     {
-        int KMAX = 100;
+        const int KMAX = 100;
         switch (a)
         {
             //

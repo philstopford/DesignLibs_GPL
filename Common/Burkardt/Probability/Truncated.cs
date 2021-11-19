@@ -270,16 +270,6 @@ public static class Truncated
         //    Output, double TRUNCATED_NORMAL_AB_MOMENT, the moment of the PDF.
         //
     {
-        double a_cdf;
-        double a_h;
-        double a_pdf;
-        double b_cdf;
-        double b_h;
-        double b_pdf;
-        double ir;
-        double irm1;
-        double irm2;
-        double moment;
         int r;
 
         switch (order)
@@ -308,9 +298,9 @@ public static class Truncated
             return 1;
         }
 
-        a_h = (a - mu) / sigma;
-        a_pdf = Normal.normal_01_pdf(a_h);
-        a_cdf = CDF.normal_01_cdf(a_h);
+        double a_h = (a - mu) / sigma;
+        double a_pdf = Normal.normal_01_pdf(a_h);
+        double a_cdf = CDF.normal_01_cdf(a_h);
 
         switch (a_cdf)
         {
@@ -323,9 +313,9 @@ public static class Truncated
                 return 1;
         }
 
-        b_h = (b - mu) / sigma;
-        b_pdf = Normal.normal_01_pdf(b_h);
-        b_cdf = CDF.normal_01_cdf(b_h);
+        double b_h = (b - mu) / sigma;
+        double b_pdf = Normal.normal_01_pdf(b_h);
+        double b_cdf = CDF.normal_01_cdf(b_h);
 
         switch (b_cdf)
         {
@@ -338,13 +328,13 @@ public static class Truncated
                 return 1;
         }
 
-        moment = 0.0;
-        irm2 = 0.0;
-        irm1 = 0.0;
+        double moment = 0.0;
+        double irm2 = 0.0;
+        double irm1 = 0.0;
 
         for (r = 0; r <= order; r++)
         {
-            ir = r switch
+            double ir = r switch
             {
                 0 => 1.0,
                 1 => -(b_pdf - a_pdf) / (b_cdf - a_cdf),
@@ -401,10 +391,8 @@ public static class Truncated
         //    Output, double TRUNCATED_NORMAL_A_MOMENT, the moment of the PDF.
         //
     {
-        double moment;
-
-        moment = typeMethods.r8_mop ( order )
-                 * truncated_normal_b_moment ( order, - mu, sigma, - a );
+        double moment = typeMethods.r8_mop ( order )
+                        * truncated_normal_b_moment ( order, - mu, sigma, - a );
 
         return moment;
     }
@@ -483,11 +471,7 @@ public static class Truncated
         //    Output, double TRUNCATED_NORMAL_A_PDF, the value of the PDF.
         //
     {
-        double alpha;
-        double alpha_cdf;
         double pdf;
-        double xi;
-        double xi_pdf;
 
         if ( x < a )
         {
@@ -495,11 +479,11 @@ public static class Truncated
         }
         else
         {
-            alpha = ( a - mu ) / sigma;
-            xi = ( x - mu ) / sigma;
+            double alpha = ( a - mu ) / sigma;
+            double xi = ( x - mu ) / sigma;
 
-            alpha_cdf = CDF.normal_01_cdf ( alpha );
-            xi_pdf = Normal.normal_01_pdf ( xi );
+            double alpha_cdf = CDF.normal_01_cdf ( alpha );
+            double xi_pdf = Normal.normal_01_pdf ( xi );
 
             pdf = xi_pdf / ( 1.0 - alpha_cdf ) / sigma;
         }
@@ -538,22 +522,15 @@ public static class Truncated
         //    Output, double NORMAL_TRUNCATED_A_SAMPLE, a sample of the PDF.
         //
     {
-        double alpha;
-        double alpha_cdf;
-        double u;
-        double x;
-        double xi;
-        double xi_cdf;
+        double alpha = (a - mu) / s;
 
-        alpha = (a - mu) / s;
+        double alpha_cdf = CDF.normal_01_cdf(alpha);
 
-        alpha_cdf = CDF.normal_01_cdf(alpha);
+        double u = UniformRNG.r8_uniform_01(ref seed);
+        double xi_cdf = alpha_cdf + u * (1.0 - alpha_cdf);
+        double xi = CDF.normal_01_cdf_inv(xi_cdf);
 
-        u = UniformRNG.r8_uniform_01(ref seed);
-        xi_cdf = alpha_cdf + u * (1.0 - alpha_cdf);
-        xi = CDF.normal_01_cdf_inv(xi_cdf);
-
-        x = mu + s * xi;
+        double x = mu + s * xi;
 
         return x;
     }
@@ -679,14 +656,6 @@ public static class Truncated
         //    Output, double TRUNCATED_NORMAL_B_MOMENT, the moment of the PDF.
         //
     {
-        double f;
-        double h;
-        double h_cdf;
-        double h_pdf;
-        double ir;
-        double irm1;
-        double irm2;
-        double moment;
         int r;
 
         switch (order)
@@ -698,9 +667,9 @@ public static class Truncated
                 return 1;
         }
 
-        h = ( b - mu ) / sigma;
-        h_pdf = Normal.normal_01_pdf ( h );
-        h_cdf = CDF.normal_01_cdf ( h );
+        double h = ( b - mu ) / sigma;
+        double h_pdf = Normal.normal_01_pdf ( h );
+        double h_cdf = CDF.normal_01_cdf ( h );
 
         switch (h_cdf)
         {
@@ -711,15 +680,15 @@ public static class Truncated
                 return 1;
         }
 
-        f = h_pdf / h_cdf;
+        double f = h_pdf / h_cdf;
 
-        moment = 0.0;
-        irm2 = 0.0;
-        irm1 = 0.0;
+        double moment = 0.0;
+        double irm2 = 0.0;
+        double irm1 = 0.0;
 
         for ( r = 0; r <= order; r++ )
         {
-            ir = r switch
+            double ir = r switch
             {
                 0 => 1.0,
                 1 => -f,

@@ -87,10 +87,8 @@ public static class Chi
         //    Output, double CHI_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        double cdf2;
-        int it_max = 100;
-        const double r8_huge = 1.0E+30;
-        double tol = 0.0001;
+        const int it_max = 100;
+        const double tol = 0.0001;
 
         double x = 0.0;
 
@@ -106,7 +104,7 @@ public static class Chi
                 x = a;
                 return x;
             case 1.0:
-                x = r8_huge;
+                x = typeMethods.r8_huge();
                 return x;
         }
 
@@ -117,7 +115,7 @@ public static class Chi
 
         for (;;)
         {
-            cdf2 = chi_cdf(x2, a, b, c);
+            double cdf2 = chi_cdf(x2, a, b, c);
 
             if (cdf < cdf2)
             {
@@ -161,7 +159,6 @@ public static class Chi
             else
             {
                 x2 = x3;
-                cdf2 = cdf3;
             }
 
         }
@@ -463,74 +460,71 @@ public static class Chi
         //
     {
         double a2;
-        double aa = 0.6931471806;
-        double c1 = 0.01;
-        double c2 = 0.222222;
-        double c3 = 0.32;
-        double c4 = 0.4;
-        double c5 = 1.24;
-        double c6 = 2.2;
-        double c7 = 4.67;
-        double c8 = 6.66;
-        double c9 = 6.73;
-        double c10 = 13.32;
-        double c11 = 60.0;
-        double c12 = 70.0;
-        double c13 = 84.0;
-        double c14 = 105.0;
-        double c15 = 120.0;
-        double c16 = 127.0;
-        double c17 = 140.0;
-        double c18 = 175.0;
-        double c19 = 210.0;
-        double c20 = 252.0;
-        double c21 = 264.0;
-        double c22 = 294.0;
-        double c23 = 346.0;
-        double c24 = 420.0;
-        double c25 = 462.0;
-        double c26 = 606.0;
-        double c27 = 672.0;
-        double c28 = 707.0;
-        double c29 = 735.0;
-        double c30 = 889.0;
-        double c31 = 932.0;
-        double c32 = 966.0;
-        double c33 = 1141.0;
-        double c34 = 1182.0;
-        double c35 = 1278.0;
-        double c36 = 1740.0;
-        double c37 = 2520.0;
-        double c38 = 5040.0;
-        double cdf_max = 0.999998;
-        double cdf_min = 0.000002;
+        const double aa = 0.6931471806;
+        const double c1 = 0.01;
+        const double c2 = 0.222222;
+        const double c3 = 0.32;
+        const double c4 = 0.4;
+        const double c5 = 1.24;
+        const double c6 = 2.2;
+        const double c7 = 4.67;
+        const double c8 = 6.66;
+        const double c9 = 6.73;
+        const double c10 = 13.32;
+        const double c11 = 60.0;
+        const double c12 = 70.0;
+        const double c13 = 84.0;
+        const double c14 = 105.0;
+        const double c15 = 120.0;
+        const double c16 = 127.0;
+        const double c17 = 140.0;
+        const double c18 = 175.0;
+        const double c19 = 210.0;
+        const double c20 = 252.0;
+        const double c21 = 264.0;
+        const double c22 = 294.0;
+        const double c23 = 346.0;
+        const double c24 = 420.0;
+        const double c25 = 462.0;
+        const double c26 = 606.0;
+        const double c27 = 672.0;
+        const double c28 = 707.0;
+        const double c29 = 735.0;
+        const double c30 = 889.0;
+        const double c31 = 932.0;
+        const double c32 = 966.0;
+        const double c33 = 1141.0;
+        const double c34 = 1182.0;
+        const double c35 = 1278.0;
+        const double c36 = 1740.0;
+        const double c37 = 2520.0;
+        const double c38 = 5040.0;
+        const double cdf_max = 0.999998;
+        const double cdf_min = 0.000002;
         double ch;
-        double e = 0.0000005;
-        double g;
+        const double e = 0.0000005;
         int i;
-        int it_max = 20;
+        const int it_max = 20;
         double p1;
         double p2;
         double q;
         double t;
         double x;
-        //
-        if (cdf < cdf_min)
+        switch (cdf)
         {
-            x = -1.0;
-            Console.WriteLine(" ");
-            Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
-            Console.WriteLine("  CDF < CDF_MIN.");
-            return 1;
-        }
-
-        if (cdf_max < cdf)
-        {
-            x = -1.0;
-            Console.WriteLine(" ");
-            Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
-            Console.WriteLine("  CDF_MAX < CDF.");
-            return 1;
+            //
+            case < cdf_min:
+                x = -1.0;
+                Console.WriteLine(" ");
+                Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
+                Console.WriteLine("  CDF < CDF_MIN.");
+                return 1;
+            case > cdf_max:
+                x = -1.0;
+                Console.WriteLine(" ");
+                Console.WriteLine("CHI_SQUARE_CDF_INV - Fatal error!");
+                Console.WriteLine("  CDF_MAX < CDF.");
+                return 1;
         }
 
         double xx = 0.5 * a;
@@ -538,7 +532,7 @@ public static class Chi
         //
         //  Compute Log ( Gamma ( A/2 ) ).
         //
-        g = Helpers.LogGamma(a / 2.0);
+        double g = Helpers.LogGamma(a / 2.0);
         //
         //  Starting approximation for small chi-squared.
         //
@@ -873,9 +867,7 @@ public static class Chi
         //    Output, double MEAN, the mean value.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double chi_square_pdf(double x, double a)
@@ -961,8 +953,7 @@ public static class Chi
         //    Output, double CHI_SQUARE_SAMPLE, a sample of the PDF.
         //
     {
-        int i;
-        int it_max = 100;
+        const int it_max = 100;
         double x;
 
         int n = (int) a;
@@ -970,6 +961,7 @@ public static class Chi
         if (Math.Abs(n - a) <= double.Epsilon && n <= it_max)
         {
             x = 0.0;
+            int i;
             for (i = 1; i <= n; i++)
             {
                 double x2 = Normal.normal_01_sample(ref seed);

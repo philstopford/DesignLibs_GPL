@@ -209,9 +209,7 @@ public static class Gumbel
         //    Output, double GUMBEL_VARIANCE, the variance of the PDF.
         //
     {
-            
-
-        double variance = Math.PI * Math.PI / 6.0;
+        const double variance = Math.PI * Math.PI / 6.0;
 
         return variance;
     }

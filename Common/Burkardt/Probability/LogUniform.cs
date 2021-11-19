@@ -135,15 +135,16 @@ public static class LogUniform
                 return false;
         }
 
-        if (b <= a)
+        if (!(b <= a))
         {
-            Console.WriteLine( "");
-            Console.WriteLine( "LOG_UNIFORM_CHECK - Warning!");
-            Console.WriteLine( "  B <= A.");
-            return false;
+            return true;
         }
 
-        return true;
+        Console.WriteLine( "");
+        Console.WriteLine( "LOG_UNIFORM_CHECK - Warning!");
+        Console.WriteLine( "  B <= A.");
+        return false;
+
     }
 
     public static double log_uniform_mean(double a, double b)

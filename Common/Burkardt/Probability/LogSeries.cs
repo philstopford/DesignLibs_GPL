@@ -99,8 +99,7 @@ public static class LogSeries
         //    CDF(X-1) <= CDF <= CDF(X).
         //
     {
-        int x;
-        int xmax = 1000;
+        const int xmax = 1000;
 
         switch (cdf)
         {
@@ -114,7 +113,7 @@ public static class LogSeries
 
         double cdf2 = 0.0;
         double pdf = 0;
-        x = 1;
+        int x = 1;
 
         while (cdf2 < cdf && x < xmax)
         {

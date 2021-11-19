@@ -50,11 +50,7 @@ public static class SVSORT
         //    the output column V(*,J).
         //
     {
-        int i;
         int j1;
-        int j2;
-        int j3;
-        double t;
 
         for ( j1 = 0; j1 < n - 1; j1++ )
         {
@@ -62,7 +58,8 @@ public static class SVSORT
             //  Find J3, the index of the largest entry in D[J1:N-1].
             //  MAXLOC apparently requires its output to be an array.
             //
-            j3 = j1;
+            int j3 = j1;
+            int j2;
             for ( j2 = j1 + 1; j2 < n; j2++ )
             {
                 if ( d[j3] < d[j2] )
@@ -73,17 +70,20 @@ public static class SVSORT
             //
             //  If J1 != J3, swap D[J1] and D[J3], and columns J1 and J3 of V.
             //
-            if ( j1 != j3 )
+            if (j1 == j3)
             {
-                t     = d[j1];
-                d[j1] = d[j3];
-                d[j3] = t;
-                for ( i = 0; i < n; i++ )
-                {
-                    t         = v[i+j1*n];
-                    v[i+j1*n] = v[i+j3*n];
-                    v[i+j3*n] = t;
-                }
+                continue;
+            }
+
+            double t = d[j1];
+            d[j1] = d[j3];
+            d[j3] = t;
+            int i;
+            for ( i = 0; i < n; i++ )
+            {
+                t         = v[i+j1*n];
+                v[i+j1*n] = v[i+j3*n];
+                v[i+j3*n] = t;
             }
         }
     }

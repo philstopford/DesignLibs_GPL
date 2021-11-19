@@ -203,12 +203,8 @@ public static class Dirichlet
         //    Output, double PDF, the value of the PDF.
         //
     {
-        double a_prod;
-        double a_sum;
         int i;
-        double pdf;
-        double tol = 0.0001;
-        double x_sum;
+        const double tol = 0.0001;
 
         for (i = 0; i < n; i++)
         {
@@ -222,7 +218,7 @@ public static class Dirichlet
             }
         }
 
-        x_sum = typeMethods.r8vec_sum(n, x);
+        double x_sum = typeMethods.r8vec_sum(n, x);
 
         if (tol < Math.Abs(x_sum - 1.0))
         {
@@ -232,15 +228,15 @@ public static class Dirichlet
             return 1;
         }
 
-        a_sum = typeMethods.r8vec_sum(n, a);
+        double a_sum = typeMethods.r8vec_sum(n, a);
 
-        a_prod = 1.0;
+        double a_prod = 1.0;
         for (i = 0; i < n; i++)
         {
             a_prod *= Helpers.Gamma(a[i]);
         }
 
-        pdf = Helpers.Gamma(a_sum) / a_prod;
+        double pdf = Helpers.Gamma(a_sum) / a_prod;
 
         for (i = 0; i < n; i++)
         {
@@ -290,8 +286,8 @@ public static class Dirichlet
     {
         double[] x = new double[n];
 
-        double a2 = 0.0;
-        double b2 = 1.0;
+        const double a2 = 0.0;
+        const double b2 = 1.0;
 
         for (int i = 0; i < n; i++)
         {
@@ -697,15 +693,12 @@ public static class Dirichlet
         //     multinomial PDF.
         //
     {
-        double c_sum;
         int i;
-        double pdf;
-        double pdf_log;
 
-        c_sum = typeMethods.r8vec_sum(b, c);
+        double c_sum = typeMethods.r8vec_sum(b, c);
 
-        pdf_log = -Helpers.LogGamma(c_sum + a) + Helpers.LogGamma(c_sum)
-                                               + Helpers.LogGamma(a + 1);
+        double pdf_log = -Helpers.LogGamma(c_sum + a) + Helpers.LogGamma(c_sum)
+                                                      + Helpers.LogGamma(a + 1);
 
         for (i = 0; i < b; i++)
         {
@@ -713,7 +706,7 @@ public static class Dirichlet
                       - Helpers.LogGamma(c[i]) - Helpers.LogGamma(x[i] + 1);
         }
 
-        pdf = Math.Exp(pdf_log);
+        double pdf = Math.Exp(pdf_log);
 
         return pdf;
     }

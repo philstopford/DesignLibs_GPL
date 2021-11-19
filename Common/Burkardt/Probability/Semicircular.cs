@@ -35,8 +35,6 @@ public static class Semicircular
         //
     {
         double cdf = 0;
-            
-        double y;
 
         if (x <= a - b)
         {
@@ -44,7 +42,7 @@ public static class Semicircular
         }
         else if (x <= a + b)
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
             cdf = 0.5 + (y * Math.Sqrt(1.0 - y * y) + Math.Asin(y)) / Math.PI;
         }
@@ -90,15 +88,9 @@ public static class Semicircular
         //    of the CDF.
         //
     {
-        double cdf1;
-        double cdf3;
-        int it;
-        int it_max = 100;
-        double tol = 0.0001;
+        const int it_max = 100;
+        const double tol = 0.0001;
         double x;
-        double x1;
-        double x2;
-        double x3;
 
         switch (cdf)
         {
@@ -116,21 +108,21 @@ public static class Semicircular
                 return x;
         }
 
-        x1 = a - b;
-        cdf1 = 0.0;
+        double x1 = a - b;
+        double cdf1 = 0.0;
 
-        x2 = a + b;
+        double x2 = a + b;
         //
         //  Now use bisection.
         //
-        it = 0;
+        int it = 0;
 
         for (;;)
         {
             it += 1;
 
-            x3 = 0.5 * (x1 + x2);
-            cdf3 = semicircular_cdf(x3, a, b);
+            double x3 = 0.5 * (x1 + x2);
+            double cdf3 = semicircular_cdf(x3, a, b);
 
             if (Math.Abs(cdf3 - cdf) < tol)
             {
@@ -267,8 +259,6 @@ public static class Semicircular
         //
     {
         double pdf = 0;
-            
-        double y;
 
         if (x < a - b)
         {
@@ -276,7 +266,7 @@ public static class Semicircular
         }
         else if (x <= a + b)
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
             pdf = 2.0 / (b * Math.PI) * Math.Sqrt(1.0 - y * y);
         }

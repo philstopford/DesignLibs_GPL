@@ -323,10 +323,6 @@ public static class Fisk
         //    Output, double FISK_VARIANCE, the variance of the PDF.
         //
     {
-        double g;
-            
-        double variance;
-
         switch (c)
         {
             case <= 2.0:
@@ -336,10 +332,10 @@ public static class Fisk
                 return 1;
         }
 
-        g = Math.PI / c;
+        double g = Math.PI / c;
 
-        variance = b * b * (2.0 * g * typeMethods.r8_csc(2.0 * g)
-                            - Math.Pow(g * typeMethods.r8_csc(g), 2));
+        double variance = b * b * (2.0 * g * typeMethods.r8_csc(2.0 * g)
+                                   - Math.Pow(g * typeMethods.r8_csc(g), 2));
 
         return variance;
     }

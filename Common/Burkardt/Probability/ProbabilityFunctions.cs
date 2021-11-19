@@ -272,7 +272,7 @@ public static class ProbabilityFunctions
         //    Output, double P00_PROB_NUM, the number of problems.
         //
     {
-        int prob_num = 6;
+        const int prob_num = 6;
 
         return prob_num;
     }
@@ -443,7 +443,7 @@ public static class ProbabilityFunctions
         //    Output, int P01_M, the number of equations.
         //
     {
-        int m = 5;
+        const int m = 5;
 
         return m;
     }
@@ -473,9 +473,7 @@ public static class ProbabilityFunctions
         //    Output, int P01_N, the number of variables.
         //
     {
-        int n;
-
-        n = 3;
+        const int n = 3;
 
         return n;
     }
@@ -631,7 +629,7 @@ public static class ProbabilityFunctions
         //    Output, int P02_M, the number of equations.
         //
     {
-        int m = 6;
+        const int m = 6;
 
         return m;
     }
@@ -661,7 +659,7 @@ public static class ProbabilityFunctions
         //    Output, int P02_N, the number of variables.
         //
     {
-        int n = 3;
+        const int n = 3;
 
         return n;
     }
@@ -815,7 +813,7 @@ public static class ProbabilityFunctions
         //    Output, int P03_M, the number of equations.
         //
     {
-        int m = 5;
+        const int m = 5;
 
         return m;
     }
@@ -845,7 +843,7 @@ public static class ProbabilityFunctions
         //    Output, int P03_N, the number of variables.
         //
     {
-        int n = 3;
+        const int n = 3;
 
         return n;
     }
@@ -1021,7 +1019,7 @@ public static class ProbabilityFunctions
         //    Output, int P04_N, the number of variables.
         //
     {
-        int n = 5;
+        const int n = 5;
 
         return n;
     }
@@ -1172,7 +1170,7 @@ public static class ProbabilityFunctions
         //    Output, int P05_M, the number of equations.
         //
     {
-        int m = 10;
+        const int m = 10;
 
         return m;
     }
@@ -1202,7 +1200,7 @@ public static class ProbabilityFunctions
         //    Output, int P05_N, the number of variables.
         //
     {
-        int n = 10;
+        const int n = 10;
 
         return n;
     }
@@ -1355,7 +1353,7 @@ public static class ProbabilityFunctions
         //    Output, int P06_M, the number of equations.
         //
     {
-        int m = 10;
+        const int m = 10;
 
         return m;
     }
@@ -1385,7 +1383,7 @@ public static class ProbabilityFunctions
         //    Output, int P06_N, the number of variables.
         //
     {
-        int n = 10;
+        const int n = 10;
 
         return n;
     }

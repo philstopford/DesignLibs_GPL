@@ -73,13 +73,11 @@ public static class Sech
         //    Output, double SECH_CDF, the value of the CDF.
         //
     {
-        double cdf;
-            
         double y;
 
         y = (x - a) / b;
 
-        cdf = 2.0 * Math.Atan(Math.Exp(y)) / Math.PI;
+        double cdf = 2.0 * Math.Atan(Math.Exp(y)) / Math.PI;
 
         return cdf;
     }
@@ -205,9 +203,7 @@ public static class Sech
         //    Output, double SECH_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double sech_pdf(double x, double a, double b)

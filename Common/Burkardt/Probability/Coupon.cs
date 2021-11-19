@@ -231,7 +231,7 @@ public static class Coupon
         //
     {
         int i;
-        int box_max = 2000;
+        const int box_max = 2000;
 
         for (i = 0; i < type_num; i++)
         {

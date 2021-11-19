@@ -59,12 +59,9 @@ public static class Grid
         //    nodes in the grid of size N.
         //
     {
-        int np1;
-        int value;
+        int np1 = n + 1;
 
-        np1 = n + 1;
-
-        value = np1 * (np1 + 1) * (2 * np1 + 1) / 6;
+        int value = np1 * (np1 + 1) * (2 * np1 + 1) / 6;
 
         return value;
     }
@@ -104,24 +101,20 @@ public static class Grid
         //    Output, double PYRAMID_UNIT_GRID[3*NG], the grid point coordinates.
         //
     {
-        int g;
-        int hi;
-        int i;
-        int j;
         int k;
-        int lo;
-        double[] pg;
 
-        pg = new double[3 * ng];
+        double[] pg = new double[3 * ng];
 
-        g = 0;
+        int g = 0;
 
         for (k = n; 0 <= k; k--)
         {
-            hi = n - k;
-            lo = -hi;
+            int hi = n - k;
+            int lo = -hi;
+            int j;
             for (j = lo; j <= hi; j += 2)
             {
+                int i;
                 for (i = lo; i <= hi; i += 2)
                 {
                     pg[0 + g * 3] = i / (double)n;
@@ -167,25 +160,21 @@ public static class Grid
         //    Input, string HEADER, the header for the files.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
         int j;
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
         double[] v1 = new double[3];
         double[] v2 = new double[3];
         double[] v3 = new double[3];
         double[] v4 = new double[3];
         double[] v5 = new double[3];
-        string vertex_filename;
         List<string> vertex_unit = new();
         //
         //  Create the vertex file.
         //
         pyramid_unit_vertices(ref v1, ref v2, ref v3, ref v4, ref v5);
 
-        vertex_filename = header + "_vertices.txt";
+        string vertex_filename = header + "_vertices.txt";
 
         vertex_unit.Add(v2[0] + "  "
                               + v2[1] + "  "
@@ -243,7 +232,7 @@ public static class Grid
         //
         //  Create the node file.
         //
-        node_filename = header + "_nodes.txt";
+        string node_filename = header + "_nodes.txt";
 
         for (j = 0; j < ng; j++)
         {
@@ -258,7 +247,7 @@ public static class Grid
         //
         //  Create the command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -267,7 +256,7 @@ public static class Grid
         command_unit.Add("#");
         command_unit.Add("set term png");
 
-        plot_filename = header + ".png";
+        string plot_filename = header + ".png";
 
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");

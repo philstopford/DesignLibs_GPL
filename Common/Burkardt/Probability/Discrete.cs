@@ -115,11 +115,13 @@ public static class Discrete
         {
             cum += b[j - 1] / b_sum;
 
-            if (cdf <= cum)
+            if (!(cdf <= cum))
             {
-                x = j;
-                return x;
+                continue;
             }
+
+            x = j;
+            return x;
         }
 
         x = a;
@@ -260,11 +262,9 @@ public static class Discrete
         //    Output, double DISCRETE_PDF, the value of the PDF.
         //
     {
-        double pdf;
-
         double b_sum = typeMethods.r8vec_sum(a, b);
 
-        pdf = x switch
+        double pdf = x switch
         {
             >= 1 when x <= a => b[x - 1] / b_sum,
             _ => 0.0

@@ -78,7 +78,7 @@ public static class Bessel
         //    of the first kind.
         //
     {
-        double exp40 = 2.353852668370199854E+17;
+        const double exp40 = 2.353852668370199854E+17;
         double[] p =
         {
             -5.2487866627945699800E-18,
@@ -126,17 +126,12 @@ public static class Bessel
             3.2547697594819615062E-02,
             -5.5194330231005480228E-04
         };
-        const double r8_huge = 1.0E+30;
-        double rec15 = 6.6666666666666666666E-02;
-        double sump;
-        double sumq;
+        const double rec15 = 6.6666666666666666666E-02;
         double value = 0;
-        double x;
-        double xmax = 91.9;
-        double xsmall = 2.98E-08;
-        double xx;
+        const double xmax = 91.9;
+        const double xsmall = 2.98E-08;
 
-        x = Math.Abs(arg);
+        double x = Math.Abs(arg);
 
         if (x < xsmall)
         {
@@ -144,6 +139,9 @@ public static class Bessel
         }
         else
         {
+            double sump;
+            double sumq;
+            double xx;
             switch (x)
             {
                 case < 15.0:
@@ -171,7 +169,7 @@ public static class Bessel
                     break;
                 }
                 case >= 15.0 when xmax < x:
-                    value = r8_huge;
+                    value = typeMethods.r8_huge();
                     break;
                 case >= 15.0:
                 {
@@ -427,11 +425,11 @@ public static class Bessel
         //    I1 function.
         //
     {
-        double exp40 = 2.353852668370199854E+17;
-        double forty = 40.0;
-        double half = 0.5;
-        double one = 1.0;
-        double one5 = 15.0;
+        const double exp40 = 2.353852668370199854E+17;
+        const double forty = 40.0;
+        const double half = 0.5;
+        const double one = 1.0;
+        const double one5 = 15.0;
         double[] p =  {
             -1.9705291802535139930E-19,
             -6.5245515583151902910E-16,
@@ -449,7 +447,7 @@ public static class Bessel
             -1.7732037840791591320E+14,
             -1.4577180278143463643E+15
         };
-        double pbar = 3.98437500E-01;
+        const double pbar = 3.98437500E-01;
         double[] pp =  {
             -6.0437159056137600000E-02,
             4.5748122901933459000E-01,
@@ -475,15 +473,14 @@ public static class Bessel
             -2.2835624489492512649E-03,
             3.7510433111922824643E-05
         };
-        double r8_huge = 1.0E+30;
-        double rec15 = 6.6666666666666666666E-02;
+        const double rec15 = 6.6666666666666666666E-02;
         double sump;
         double sumq;
-        double two25 = 225.0;
-        double value = 0;
-        double xmax = 713.987;
+        const double two25 = 225.0;
+        double value;
+        const double xmax = 713.987;
         double xx;
-        double zero = 0.0;
+        const double zero = 0.0;
 
         double x = Math.Abs(arg);
         //
@@ -519,7 +516,7 @@ public static class Bessel
         }
         else if (xmax < x)
         {
-            value = r8_huge;
+            value = typeMethods.r8_huge();
         }
         //
         //  15.0 <= ABS(ARG)

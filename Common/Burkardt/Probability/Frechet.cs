@@ -34,8 +34,6 @@ public static class Frechet
         //    Output, double CDF, the value of the CDF.
         //
     {
-        double cdf;
-
         switch (alpha)
         {
             case <= 0.0:
@@ -45,7 +43,7 @@ public static class Frechet
                 return 1;
         }
 
-        cdf = x switch
+        double cdf = x switch
         {
             <= 0.0 => 0.0,
             _ => Math.Exp(-1.0 / Math.Pow(x, alpha))
@@ -84,8 +82,6 @@ public static class Frechet
         //    Output, double FRECHET_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        double x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -105,7 +101,7 @@ public static class Frechet
                 return 1;
         }
 
-        x = cdf switch
+        double x = cdf switch
         {
             0.0 => 0.0,
             _ => Math.Pow(-1.0 / Math.Log(cdf), 1.0 / alpha)

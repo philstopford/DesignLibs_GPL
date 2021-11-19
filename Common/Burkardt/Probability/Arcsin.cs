@@ -75,9 +75,6 @@ public static class Arcsin
         //    Output, double ARCSIN_CDF_INV, the corresponding argument.
         //
     {
-            
-        double x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -87,7 +84,7 @@ public static class Arcsin
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1.0;
             default:
-                x = a * Math.Sin(Math.PI * (cdf - 0.5));
+                double x = a * Math.Sin(Math.PI * (cdf - 0.5));
 
                 return x;
         }
@@ -146,7 +143,7 @@ public static class Arcsin
         //    Output, double MEAN, the mean of the PDF.
         //
     {
-        double mean = 0.0;
+        const double mean = 0.0;
 
         return mean;
     }

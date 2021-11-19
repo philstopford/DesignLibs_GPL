@@ -236,9 +236,6 @@ public static class Runs
         //    uniformly at random.
         //
     {
-        int j;
-        int k;
-
         int[] a = new int[m + n];
 
         for (int i = 0; i < m; i++)
@@ -253,11 +250,9 @@ public static class Runs
 
         for (int i = 1; i <= m + n - 1; i++)
         {
-            j = UniformRNG.i4_uniform_ab(i, m + n, ref seed);
+            int j = UniformRNG.i4_uniform_ab(i, m + n, ref seed);
 
-            k = a[i - 1];
-            a[i - 1] = a[j - 1];
-            a[j - 1] = k;
+            (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
         }
 
         return a;

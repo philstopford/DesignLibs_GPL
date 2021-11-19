@@ -37,7 +37,6 @@ public static class Weibull
         //
     {
         double cdf;
-        double y;
 
         if (x < a)
         {
@@ -45,7 +44,7 @@ public static class Weibull
         }
         else
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
             cdf = 1.0 - 1.0 / Math.Exp(Math.Pow(y, c));
         }
 
@@ -83,8 +82,6 @@ public static class Weibull
         //    Output, double WEIBULL_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        double x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -94,7 +91,7 @@ public static class Weibull
                 Console.WriteLine("  CDF < 0 or 1 < CDF.");
                 return 1;
             default:
-                x = a + b * Math.Pow(-Math.Log(1.0 - cdf), 1.0 / c);
+                double x = a + b * Math.Pow(-Math.Log(1.0 - cdf), 1.0 / c);
 
                 return x;
         }
@@ -372,7 +369,6 @@ public static class Weibull
         //
     {
         double pdf;
-        double y;
 
         if (x < a)
         {
@@ -380,7 +376,7 @@ public static class Weibull
         }
         else
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
             pdf = c / b * Math.Pow(y, c - 1.0) / Math.Exp(Math.Pow(y, c));
         }

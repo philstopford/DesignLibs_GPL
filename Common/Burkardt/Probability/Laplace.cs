@@ -185,9 +185,8 @@ public static class Laplace
         //
     {
         double cdf;
-        double y;
 
-        y = (x - a) / b;
+        double y = (x - a) / b;
 
         if (x <= a)
         {

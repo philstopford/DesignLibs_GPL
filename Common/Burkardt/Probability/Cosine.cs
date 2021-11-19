@@ -35,8 +35,6 @@ public static class Cosine
         //
     {
         double cdf = 0;
-            
-        double y;
 
         if (x <= a - Math.PI * b)
         {
@@ -44,7 +42,7 @@ public static class Cosine
         }
         else if (x <= a + Math.PI * b)
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
             cdf = 0.5 + (y + Math.Sin(y)) / (2.0 * Math.PI);
         }
@@ -90,9 +88,9 @@ public static class Cosine
         //    Output, double COSINE_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        int it_max = 100;
+        const int it_max = 100;
             
-        double tol = 0.0001;
+        const double tol = 0.0001;
         double x;
 
         switch (cdf)
@@ -255,8 +253,6 @@ public static class Cosine
         //
     {
         double pdf = 0;
-            
-        double y;
 
         if (x < a - Math.PI * b)
         {
@@ -264,7 +260,7 @@ public static class Cosine
         }
         else if (x <= a + Math.PI * b)
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
             pdf = 1.0 / (2.0 * Math.PI * b) * Math.Cos(y);
         }

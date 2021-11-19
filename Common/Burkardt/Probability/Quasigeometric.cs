@@ -326,12 +326,9 @@ public static class Quasigeometric
         //    Output, int QUASIGEOMETRIC_SAMPLE, a sample of the PDF.
         //
     {
-        double cdf;
-        int x;
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-        cdf = UniformRNG.r8_uniform_01(ref seed);
-
-        x = quasigeometric_cdf_inv(cdf, a, b);
+        int x = quasigeometric_cdf_inv(cdf, a, b);
 
         return x;
     }

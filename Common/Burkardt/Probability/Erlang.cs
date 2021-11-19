@@ -86,10 +86,8 @@ public static class Erlang
         //    Output, double ERLANG_CDF_INV, the corresponding argument of the CDF.
         //
     {
-        double cdf2;
-        int it_max = 100;
-        const double r8_huge = 1.0E+30;
-        double tol = 0.0001;
+        const int it_max = 100;
+        const double tol = 0.0001;
 
         double x = 0.0;
 
@@ -105,7 +103,7 @@ public static class Erlang
                 x = a;
                 return x;
             case 1.0:
-                x = r8_huge;
+                x = typeMethods.r8_huge();
                 return x;
         }
 
@@ -116,7 +114,7 @@ public static class Erlang
 
         for (;;)
         {
-            cdf2 = erlang_cdf(x2, a, b, c);
+            double cdf2 = erlang_cdf(x2, a, b, c);
 
             if (cdf < cdf2)
             {
@@ -160,7 +158,6 @@ public static class Erlang
             else
             {
                 x2 = x3;
-                cdf2 = cdf3;
             }
         }
 
@@ -332,13 +329,12 @@ public static class Erlang
         //    Output, double ERLANG_SAMPLE, a sample of the PDF.
         //
     {
-        double a2 = 0.0;
-        double b2 = b;
+        const double a2 = 0.0;
         double x = a;
 
         for (int i = 1; i <= c; i++)
         {
-            double x2 = Exponential.exponential_sample(a2, b2, ref seed);
+            double x2 = Exponential.exponential_sample(a2, b, ref seed);
             x += x2;
         }
 

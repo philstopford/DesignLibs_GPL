@@ -135,15 +135,16 @@ public static class Triangular
         //    Output, bool TRIANGULAR_CHECK, is true if the parameters are legal.
         //
     {
-        if (b <= a)
+        if (!(b <= a))
         {
-            Console.WriteLine(" ");
-            Console.WriteLine("TRIANGULAR_CHECK - Warning!");
-            Console.WriteLine("  B <= A.");
-            return false;
+            return true;
         }
 
-        return true;
+        Console.WriteLine(" ");
+        Console.WriteLine("TRIANGULAR_CHECK - Warning!");
+        Console.WriteLine("  B <= A.");
+        return false;
+
     }
 
     public static double triangular_mean(double a, double b)

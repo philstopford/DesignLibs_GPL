@@ -206,16 +206,10 @@ public static class Uniform
         //    Local, int IP = 2^31 - 1.
         //
     {
-        int ia = 16807;
-        int ib15 = 32768;
-        int ib16 = 65536;
-        int ip = 2147483647;
-        int iprhi;
-        int ixhi;
-        int k;
-        int leftlo;
-        int loxa;
-        double temp;
+        const int ia = 16807;
+        const int ib15 = 32768;
+        const int ib16 = 65536;
+        const int ip = 2147483647;
         seed = seed switch
         {
             //
@@ -228,23 +222,23 @@ public static class Uniform
         //
         //  Get the 15 high order bits of SEED.
         //
-        ixhi = seed / ib16;
+        int ixhi = seed / ib16;
         //
         //  Get the 16 low bits of SEED and form the low product.
         //
-        loxa = (seed - ixhi * ib16) * ia;
+        int loxa = (seed - ixhi * ib16) * ia;
         //
         //  Get the 15 high order bits of the low product.
         //
-        leftlo = loxa / ib16;
+        int leftlo = loxa / ib16;
         //
         //  Form the 31 highest bits of the full product.
         //
-        iprhi = ixhi * ia + leftlo;
+        int iprhi = ixhi * ia + leftlo;
         //
         //  Get overflow past the 31st bit of full product.
         //
-        k = iprhi / ib15;
+        int k = iprhi / ib15;
         //
         //  Assemble all the parts and presubtract IP.  The parentheses are essential.
         //
@@ -263,7 +257,7 @@ public static class Uniform
         //
         //  Multiply by 1 / (2^31-1).
         //
-        temp = seed * 4.656612875E-10;
+        double temp = seed * 4.656612875E-10;
 
         return temp;
     }
@@ -479,15 +473,16 @@ public static class Uniform
         //    Output, bool UNIFORM_CHECK, is true if the parameters are legal.
         //
     {
-        if (b <= a)
+        if (!(b <= a))
         {
-            Console.WriteLine(" ");
-            Console.WriteLine("UNIFORM_CHECK - Warning!");
-            Console.WriteLine("  B <= A.");
-            return false;
+            return true;
         }
 
-        return true;
+        Console.WriteLine(" ");
+        Console.WriteLine("UNIFORM_CHECK - Warning!");
+        Console.WriteLine("  B <= A.");
+        return false;
+
     }
 
     public static double uniform_mean(double a, double b)

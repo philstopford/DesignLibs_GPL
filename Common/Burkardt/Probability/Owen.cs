@@ -239,20 +239,14 @@ public static class Owen
         //    Output, double TFN, the value of the T function.
         //
     {
-        int NGAUSS = 10;
+        const int NGAUSS = 10;
 
-        double as_;
-        double h1;
-        double h2;
-        double hs;
-        int i;
-        double rt;
-        double two_pi_inverse = 0.1591549430918953;
-        double tv1 = 1.0E-35;
-        double tv2 = 15.0;
-        double tv3 = 15.0;
-        double tv4 = 1.0E-05;
-        double value = 0;
+        const double two_pi_inverse = 0.1591549430918953;
+        const double tv1 = 1.0E-35;
+        const double tv2 = 15.0;
+        const double tv3 = 15.0;
+        const double tv4 = 1.0E-05;
+        double value;
         double[] weight =  {
             0.666713443086881375935688098933E-01,
             0.149451349150580593145776339658,
@@ -265,7 +259,6 @@ public static class Owen
             0.149451349150580593145776339658,
             0.666713443086881375935688098933E-01
         };
-        double x;
         double[] xtab =  {
             -0.973906528517171720077964012084,
             -0.865063366688984510732096688423,
@@ -305,15 +298,16 @@ public static class Owen
         //
         else
         {
-            hs = -0.5 * h * h;
-            h2 = a;
-            as_ = a * a;
+            double hs = -0.5 * h * h;
+            double h2 = a;
+            double as_ = a * a;
             //
             //  Computation of truncation point by Newton iteration.
             //
+            double rt;
             if (tv3 <= Math.Log(1.0 + as_) - hs * as_)
             {
-                h1 = 0.5 * a;
+                double h1 = 0.5 * a;
                 as_ = 0.25 * as_;
 
                 for (;;)
@@ -336,9 +330,10 @@ public static class Owen
             //  Gaussian quadrature on the interval [0,H2].
             //
             rt = 0.0;
+            int i;
             for (i = 0; i < NGAUSS; i++)
             {
-                x = 0.5 * h2 * (xtab[i] + 1.0);
+                double x = 0.5 * h2 * (xtab[i] + 1.0);
                 rt += weight[i] * Math.Exp(hs * (1.0 + x * x)) / (1.0 + x * x);
             }
 

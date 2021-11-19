@@ -164,15 +164,16 @@ public static class Triangle
             return false;
         }
 
-        if (Math.Abs(a - c) <= double.Epsilon)
+        if (!(Math.Abs(a - c) <= double.Epsilon))
         {
-            Console.WriteLine("");
-            Console.WriteLine("TRIANGLE_CHECK - Warning!");
-            Console.WriteLine("  A == C.");
-            return false;
+            return true;
         }
 
-        return true;
+        Console.WriteLine("");
+        Console.WriteLine("TRIANGLE_CHECK - Warning!");
+        Console.WriteLine("  A == C.");
+        return false;
+
     }
 
     public static double triangle_mean(double a, double b, double c)

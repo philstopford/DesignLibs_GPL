@@ -113,11 +113,13 @@ public static class Birthday
         for (int i = 1; i <= 365; i++)
         {
             cdf_not = cdf_not * (365 + 1 - i) / 365.0;
-            if (cdf <= 1.0 - cdf_not)
+            if (!(cdf <= 1.0 - cdf_not))
             {
-                n = i;
-                return n;
+                continue;
             }
+
+            n = i;
+            return n;
         }
 
         n = 365;
@@ -250,14 +252,7 @@ public static class Birthday
         //
         int u2 = typeMethods.i4vec_unique_count(n, b);
 
-        if (u2 == n - 1)
-        {
-            value = 1;
-        }
-        else
-        {
-            value = 0;
-        }
+        value = u2 == n - 1 ? 1 : 0;
 
         return value;
     }

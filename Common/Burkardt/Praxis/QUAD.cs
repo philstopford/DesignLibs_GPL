@@ -71,16 +71,10 @@ public static class QUAD
         //    Input/output, ref double QF1, &QA, &QB, &QC, &QD0, &QD1 ?
         //
     {
-        bool fk;
         int i;
-        int jsearch;
-        double l;
-        int nits;
         double s;
-        double temp;
-        double value = 0;
 
-        temp = fx;
+        double temp = fx;
         fx = qf1;
         qf1 = temp;
 
@@ -105,16 +99,15 @@ public static class QUAD
             qa = 0.0;
             qb = 0.0;
             qc = 1.0;
-            s = 0.0;
         }
         else
         {
-            jsearch = -1;
-            nits = 2;
+            const int jsearch = -1;
+            const int nits = 2;
             s = 0.0;
-            l = qd1;
-            value = qf1;
-            fk = true;
+            double l = qd1;
+            double value = qf1;
+            const bool fk = true;
 
             MINNY.minny(n, jsearch, nits, ref s, ref l, ref value, fk, f, x, t,
                 h, v, q0, q1, ref nl, ref nf, dmin, ldt, ref fx, ref qa, ref qb, ref qc, ref qd0, ref qd1);

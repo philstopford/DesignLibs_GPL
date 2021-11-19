@@ -202,22 +202,15 @@ public static class Planck
 //    Output, double PLANCK_SAMPLE, a sample of the PDF.
 //
     {
-        double a2;
-        double b2;
-        double c2;
-        double g;
-        double x;
-        int z;
-//
-        a2 = 0.0;
-        b2 = 1.0;
-        c2 = b + 1.0;
+        const double a2 = 0.0;
+        const double b2 = 1.0;
+        double c2 = b + 1.0;
 
-        g = Gamma.gamma_sample(a2, b2, c2, ref seed);
+        double g = Gamma.gamma_sample(a2, b2, c2, ref seed);
 
-        z = Zipf.zipf_sample(c2, ref seed);
+        int z = Zipf.zipf_sample(c2, ref seed);
 
-        x = g / (a * z);
+        double x = g / (a * z);
 
         return x;
     }
@@ -252,9 +245,7 @@ public static class Planck
 //    Output, double PLANCK_VARIANCE, the variance of the PDF.
 //
     {
-        double variance;
-
-        variance = 0.0;
+        const double variance = 0.0;
 
         return variance;
     }

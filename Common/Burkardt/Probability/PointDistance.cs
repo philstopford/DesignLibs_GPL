@@ -53,8 +53,6 @@ public static class PointDistance
         //    Output, double PDF, the value of the PDF.
         //
     {
-        double pdf;
-
         switch (a)
         {
             case < 1:
@@ -73,7 +71,7 @@ public static class PointDistance
                 return 1;
         }
 
-        pdf = x switch
+        double pdf = x switch
         {
             < 0.0 => 0.0,
             _ => Math.Pow(b, a) * Math.Pow(x, a - 1) * Math.Exp(-b * x) / typeMethods.r8_factorial(a - 1)
@@ -137,9 +135,6 @@ public static class PointDistance
 //    Output, double PDF, the value of the PDF.
 //
     {
-        double pdf;
-            
-
         switch (a)
         {
             case < 1:
@@ -158,7 +153,7 @@ public static class PointDistance
                 return 1;
         }
 
-        pdf = x switch
+        double pdf = x switch
         {
             < 0.0 => 0.0,
             _ => 2.0 * Math.Pow(b * Math.PI, a) * Math.Pow(x, 2 * a - 1) * Math.Exp(-b * Math.PI * x * x) /
@@ -223,9 +218,6 @@ public static class PointDistance
 //    Output, double PDF, the value of the PDF.
 //
     {
-        double pdf;
-            
-
         switch (a)
         {
             case < 1:
@@ -244,7 +236,7 @@ public static class PointDistance
                 return 1;
         }
 
-        pdf = x switch
+        double pdf = x switch
         {
             < 0.0 => 0.0,
             _ => 3.0 * Math.Pow(4.0 / 3.0 * b * Math.PI, a) * Math.Pow(x, 3 * a - 1) *

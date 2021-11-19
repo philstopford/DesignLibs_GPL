@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.CDFLib;
+using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace Burkardt.Probability;
@@ -89,11 +90,9 @@ public static class Folded
         //    0.0 <= X.
         //
     {
-        int it_max = 100;
-        const double r8_huge = 1.0E+30;
-        double tol = 0.0001;
+        const int it_max = 100;
+        const double tol = 0.0001;
         double x;
-        double x1;
 
         switch (cdf)
         {
@@ -107,11 +106,11 @@ public static class Folded
                 x = 0.0;
                 return x;
             case 1.0:
-                x = r8_huge;
+                x = typeMethods.r8_huge();
                 return x;
         }
 
-        x1 = a switch
+        double x1 = a switch
         {
             //
             //  Find X1, for which the value of CDF will be too small.
@@ -165,7 +164,6 @@ public static class Folded
             else
             {
                 x2 = x3;
-                cdf2 = cdf3;
             }
         }
 

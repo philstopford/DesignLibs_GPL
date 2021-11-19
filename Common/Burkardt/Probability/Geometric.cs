@@ -94,8 +94,6 @@ public static class Geometric
         //    Output, int GEOMETRIC_CDF_INV, the corresponding value of X.
         //
     {
-        int x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -106,7 +104,7 @@ public static class Geometric
                 return 1;
         }
 
-        x = a switch
+        int x = a switch
         {
             1.0 => 1,
             0.0 => typeMethods.i4_huge(),

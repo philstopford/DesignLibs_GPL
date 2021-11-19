@@ -34,11 +34,8 @@ public static class Dipole
         //    Output, double DIPOLE_CDF, the value of the CDF.
         //
     {
-        double cdf;
-            
-
-        cdf = 0.5 + 1.0 / Math.PI * Math.Atan(x) + b * b * (x * Math.Cos(2.0 * a)
-                                                            - Math.Sin(2.0 * a)) / (Math.PI * (1.0 + x * x));
+        double cdf = 0.5 + 1.0 / Math.PI * Math.Atan(x) + b * b * (x * Math.Cos(2.0 * a)
+                                                                   - Math.Sin(2.0 * a)) / (Math.PI * (1.0 + x * x));
 
         return cdf;
     }
@@ -78,9 +75,9 @@ public static class Dipole
     {
         double cdf1;
         double cdf2;
-        int it_max = 100;
+        const int it_max = 100;
         const double r8_huge = 1.0E+30;
-        double tol = 0.0001;
+        const double tol = 0.0001;
         double x;
 
         switch (cdf)
@@ -264,13 +261,10 @@ public static class Dipole
         //    Output, double DIPOLE_PDF, the value of the PDF.
         //
     {
-        double pdf;
-            
-
-        pdf = 1.0 / (Math.PI * (1.0 + x * x))
-              + b * b * ((1.0 - x * x) * Math.Cos(2.0 * a)
-                         + 2.0 * x * Math.Sin(2.0 * x))
-              / (Math.PI * (1.0 + x * x) * (1.0 + x * x));
+        double pdf = 1.0 / (Math.PI * (1.0 + x * x))
+                     + b * b * ((1.0 - x * x) * Math.Cos(2.0 * a)
+                                + 2.0 * x * Math.Sin(2.0 * x))
+                     / (Math.PI * (1.0 + x * x) * (1.0 + x * x));
 
         return pdf;
     }
@@ -312,23 +306,18 @@ public static class Dipole
         //    Output, double DIPOLE_SAMPLE, a sample of the PDF.
         //
     {
-        double a2;
-        double b2;
-        double c2;
-        double x;
-        double[] xc;
         //
         //  Find (X1,X2) at random in a circle.
         //
-        a2 = b * Math.Sin(a);
-        b2 = b * Math.Cos(a);
-        c2 = 1.0;
+        double a2 = b * Math.Sin(a);
+        double b2 = b * Math.Cos(a);
+        double c2 = 1.0;
 
-        xc = Disk.disk_sample(a2, b2, c2, ref seed);
+        double[] xc = Disk.disk_sample(a2, b2, c2, ref seed);
         //
         //  The dipole variate is the ratio X1 / X2.
         //
-        x = xc[0] / xc[1];
+        double x = xc[0] / xc[1];
 
         return x;
     }

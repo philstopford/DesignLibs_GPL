@@ -321,7 +321,6 @@ public static class Gamma
         //
     {
         double pdf;
-        double y;
 
         if (x <= a)
         {
@@ -329,7 +328,7 @@ public static class Gamma
         }
         else
         {
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
             pdf = Math.Pow(y, c - 1.0) / (b * Helpers.Gamma(c) * Math.Exp(y));
         }
@@ -387,26 +386,26 @@ public static class Gamma
         //    Output, double GAMMA_SAMPLE, a sample of the PDF.
         //
     {
-        double a1 = 0.3333333;
-        double a2 = -0.2500030;
-        double a3 = 0.2000062;
-        double a4 = -0.1662921;
-        double a5 = 0.1423657;
-        double a6 = -0.1367177;
-        double a7 = 0.1233795;
-        double e1 = 1.0;
-        double e2 = 0.4999897;
-        double e3 = 0.1668290;
-        double e4 = 0.0407753;
-        double e5 = 0.0102930;
-        double euler = 2.71828182845904;
-        double q1 = 0.04166669;
-        double q2 = 0.02083148;
-        double q3 = 0.00801191;
-        double q4 = 0.00144121;
-        double q5 = -0.00007388;
-        double q6 = 0.00024511;
-        double q7 = 0.00024240;
+        const double a1 = 0.3333333;
+        const double a2 = -0.2500030;
+        const double a3 = 0.2000062;
+        const double a4 = -0.1662921;
+        const double a5 = 0.1423657;
+        const double a6 = -0.1367177;
+        const double a7 = 0.1233795;
+        const double e1 = 1.0;
+        const double e2 = 0.4999897;
+        const double e3 = 0.1668290;
+        const double e4 = 0.0407753;
+        const double e5 = 0.0102930;
+        const double euler = 2.71828182845904;
+        const double q1 = 0.04166669;
+        const double q2 = 0.02083148;
+        const double q3 = 0.00801191;
+        const double q4 = 0.00144121;
+        const double q5 = -0.00007388;
+        const double q6 = 0.00024511;
+        const double q7 = 0.00024240;
         double s;
         double t;
         double u;
@@ -582,8 +581,6 @@ public static class Gamma
                         }
                     }
                 }
-
-                break;
             }
         }
     }

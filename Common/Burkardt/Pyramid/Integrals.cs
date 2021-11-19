@@ -53,18 +53,15 @@ public static class Integrals
         //    over the pyramid.
         //
     {
-        int i;
-        int i_hi;
-        double value = 0;
-
-        value = 0.0;
+        double value = 0.0;
 
         switch (expon[0] % 2)
         {
             case 0 when expon[1] % 2 == 0:
             {
-                i_hi = 2 + expon[0] + expon[1];
+                int i_hi = 2 + expon[0] + expon[1];
 
+                int i;
                 for (i = 0; i <= i_hi; i++)
                 {
                     value += typeMethods.r8_mop(i) * typeMethods.r8_choose(i_hi, i)
@@ -114,9 +111,8 @@ public static class Integrals
         int j;
         int m = 3;
         double one_third = 1.0 / 3.0;
-        double[] x;
 
-        x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         for (j = 0; j < n; j++)
         {
@@ -163,9 +159,7 @@ public static class Integrals
         //    Output, double PYRAMID01_VOLUME, the volume of the pyramid.
         //
     {
-        double volume;
-
-        volume = 4.0 / 3.0;
+        double volume = 4.0 / 3.0;
 
         return volume;
     }

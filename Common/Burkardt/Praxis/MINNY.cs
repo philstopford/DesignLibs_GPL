@@ -99,49 +99,32 @@ public static class MINNY
         //    Input/output, ref double QD0, &QD1, ?.
         //
     {
-        double d1;
-        bool dz;
-        double f0;
         double f2;
-        double fm;
-        int i;
-        int k;
-        double m2;
-        double m4;
-        double machep;
-        bool ok;
-        double s;
-        double sf1;
-        double small;
-        double sx1;
-        double t2;
-        double temp;
         double x2;
-        double xm;
 
-        machep = typeMethods.r8_epsilon();
-        small = machep * machep;
-        m2 = Math.Sqrt(machep);
-        m4 = Math.Sqrt(m2);
-        sf1 = f1;
-        sx1 = x1;
-        k = 0;
-        xm = 0.0;
-        fm = fx;
-        f0 = fx;
-        dz = d2 < machep;
+        double machep = typeMethods.r8_epsilon();
+        double small = machep * machep;
+        double m2 = Math.Sqrt(machep);
+        double m4 = Math.Sqrt(m2);
+        double sf1 = f1;
+        double sx1 = x1;
+        int k = 0;
+        double xm = 0.0;
+        double fm = fx;
+        double f0 = fx;
+        bool dz = d2 < machep;
         //
         //  Find the step size.
         //
-        s = typeMethods.r8vec_norm(n, x);
+        double s = typeMethods.r8vec_norm(n, x);
 
-        temp = dz switch
+        double temp = dz switch
         {
             true => dmin,
             _ => d2
         };
 
-        t2 = m4 * Math.Sqrt(Math.Abs(fx) / temp + s * ldt) + m2 * ldt;
+        double t2 = m4 * Math.Sqrt(Math.Abs(fx) / temp + s * ldt) + m2 * ldt;
         s = m4 * s + t;
         t2 = dz switch
         {
@@ -213,7 +196,7 @@ public static class MINNY
             //
             //  Estimate the first derivative at 0.
             //
-            d1 = (f1 - f0) / x1 - x1 * d2;
+            double d1 = (f1 - f0) / x1 - x1 * d2;
             dz = true;
             //
             //  Predict the minimum.
@@ -243,7 +226,7 @@ public static class MINNY
             //
             //  Evaluate F at the predicted minimum.
             //
-            ok = true;
+            bool ok = true;
 
             for (;;)
             {
@@ -320,6 +303,7 @@ public static class MINNY
             //
             case >= 0:
             {
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     x[i] += x1 * v[i + jsearch * n];

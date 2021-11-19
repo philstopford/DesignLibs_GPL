@@ -375,15 +375,13 @@ public static class Misc
         //    trigamma function at X.
         //
     {
-        double a = 0.0001;
-        double b = 5.0;
-        double b2 =   1.0 / 6.0;
-        double b4 = - 1.0 / 30.0;
-        double b6 =   1.0 / 42.0;
-        double b8 = - 1.0 / 30.0;
-        double value = 0;
-        double y;
-        double z;
+        const double a = 0.0001;
+        const double b = 5.0;
+        const double b2 =   1.0 / 6.0;
+        const double b4 = - 1.0 / 30.0;
+        const double b6 =   1.0 / 42.0;
+        const double b8 = - 1.0 / 30.0;
+        double value;
         switch (x)
         {
             //
@@ -408,7 +406,7 @@ public static class Misc
         //
         else
         {
-            z = x;
+            double z = x;
             value = 0.0;
 
             while ( z < b )
@@ -419,7 +417,7 @@ public static class Misc
             //
             //  ...and then apply an asymptotic formula.
             //
-            y = 1.0 / z / z;
+            double y = 1.0 / z / z;
 
             value = value + 0.5 *
                 y + ( 1.0

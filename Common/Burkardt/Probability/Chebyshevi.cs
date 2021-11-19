@@ -111,7 +111,7 @@ public static class Chebyshevi
         //    Output, double CHEBYSHEV1_MEAN, the mean of the PDF.
         //
     {
-        double mean = 0.0;
+        const double mean = 0.0;
 
         return mean;
     }
@@ -216,7 +216,7 @@ public static class Chebyshevi
         //    Output, double CHEBYSHEV1_VARIANCE, the variance of the PDF.
         //
     {
-        double variance = 0.5;
+        const double variance = 0.5;
 
         return variance;
     }

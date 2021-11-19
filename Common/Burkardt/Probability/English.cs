@@ -122,11 +122,13 @@ public static class English
 
         for (int i = 1; i < 27; i++)
         {
-            if (cdf <= cdf_vec[i])
+            if (!(cdf <= cdf_vec[i]))
             {
-                c = (char)('a' + (i - 1));
-                break;
+                continue;
             }
+
+            c = (char)('a' + (i - 1));
+            break;
         }
 
         return c;
@@ -265,9 +267,9 @@ public static class English
         //    Output, double ENGLISH_SENTENCE_LENGTH_CDF, the value of the CDF.
         //
     {
-        int SENTENCE_LENGTH_MAX = 79;
+        const int SENTENCE_LENGTH_MAX = 79;
 
-        double cdf = 0;
+        double cdf;
         double[] pdf_vec =  {
                 0.00806,
                 0.01370,
@@ -350,7 +352,7 @@ public static class English
                 0.00006
             }
             ;
-        double pdf_sum = 0.99768;
+        const double pdf_sum = 0.99768;
 
         switch (x)
         {
@@ -415,7 +417,7 @@ public static class English
         //    length for which CDF(X-1) < CDF <= CDF(X)
         //
     {
-        int SENTENCE_LENGTH_MAX = 79;
+        const int SENTENCE_LENGTH_MAX = 79;
 
         double[] pdf_vec =  {
             0.00806,
@@ -498,7 +500,7 @@ public static class English
             0.00008,
             0.00006
         };
-        double pdf_sum = 0.99768;
+        const double pdf_sum = 0.99768;
         int x;
 
         switch (cdf)
@@ -517,11 +519,13 @@ public static class English
         {
             cum += pdf_vec[j];
 
-            if (cdf <= cum / pdf_sum)
+            if (!(cdf <= cum / pdf_sum))
             {
-                x = j + 1;
-                return x;
+                continue;
             }
+
+            x = j + 1;
+            return x;
         }
 
         x = SENTENCE_LENGTH_MAX;
@@ -559,7 +563,7 @@ public static class English
         //    Output, double ENGLISH_SENTENCE_LENGTH_MEAN, the mean of the PDF.
         //
     {
-        int SENTENCE_LENGTH_MAX = 79;
+        const int SENTENCE_LENGTH_MAX = 79;
 
         double[] pdf_vec =  {
             0.00806,
@@ -642,7 +646,7 @@ public static class English
             0.00008,
             0.00006
         };
-        double pdf_sum = 0.99768;
+        const double pdf_sum = 0.99768;
 
         double mean = 0.0;
         for (int j = 1; j <= SENTENCE_LENGTH_MAX; j++)
@@ -692,9 +696,8 @@ public static class English
         //    Output, double ENGLISH_SENTENCE_LENGTH_PDF, the value of the PDF.
         //
     {
-        int SENTENCE_LENGTH_MAX = 79;
+        const int SENTENCE_LENGTH_MAX = 79;
 
-        double pdf;
         double[] pdf_vec =  {
             0.00806,
             0.01370,
@@ -776,9 +779,9 @@ public static class English
             0.00008,
             0.00006
         };
-        double pdf_sum = 0.99768;
+        const double pdf_sum = 0.99768;
 
-        pdf = x switch
+        double pdf = x switch
         {
             >= 1 when x <= SENTENCE_LENGTH_MAX => pdf_vec[x - 1] / pdf_sum,
             _ => 0.0
@@ -856,7 +859,7 @@ public static class English
         //    Output, double ENGLISH_SENTENCE_LENGTH_VARIANCE, the variance of the PDF.
         //
     {
-        int SENTENCE_LENGTH_MAX = 79;
+        const int SENTENCE_LENGTH_MAX = 79;
 
         double[] pdf_vec =  {
             0.00806,
@@ -939,7 +942,7 @@ public static class English
             0.00008,
             0.00006
         };
-        double pdf_sum = 0.99768;
+        const double pdf_sum = 0.99768;
 
         double mean = 0.0;
         for (int j = 1; j <= SENTENCE_LENGTH_MAX; j++)
@@ -992,9 +995,9 @@ public static class English
         //    Output, double ENGLISH_WORD_LENGTH_CDF, the value of the CDF.
         //
     {
-        int WORD_LENGTH_MAX = 27;
+        const int WORD_LENGTH_MAX = 27;
 
-        double cdf = 0;
+        double cdf;
         double[] pdf_vec =  {
                 0.03160,
                 0.16975,
@@ -1025,7 +1028,7 @@ public static class English
                 0.00001
             }
             ;
-        double pdf_sum = 0.99997;
+        const double pdf_sum = 0.99997;
 
         switch (x)
         {
@@ -1090,7 +1093,7 @@ public static class English
         //    length for which CDF(X-1) < CDF <= CDF(X)
         //
     {
-        int WORD_LENGTH_MAX = 27;
+        const int WORD_LENGTH_MAX = 27;
 
         double[] pdf_vec =  {
                 0.03160,
@@ -1122,7 +1125,7 @@ public static class English
                 0.00001
             }
             ;
-        double pdf_sum = 0.99997;
+        const double pdf_sum = 0.99997;
         int x;
 
         switch (cdf)
@@ -1141,11 +1144,13 @@ public static class English
         {
             cum += pdf_vec[j];
 
-            if (cdf <= cum / pdf_sum)
+            if (!(cdf <= cum / pdf_sum))
             {
-                x = j + 1;
-                return x;
+                continue;
             }
+
+            x = j + 1;
+            return x;
         }
 
         x = WORD_LENGTH_MAX;
@@ -1183,7 +1188,7 @@ public static class English
         //    Output, double ENGLISH_WORD_LENGTH_MEAN, the mean of the PDF.
         //
     {
-        int WORD_LENGTH_MAX = 27;
+        const int WORD_LENGTH_MAX = 27;
 
         double[] pdf_vec =  {
                 0.03160,
@@ -1215,7 +1220,7 @@ public static class English
                 0.00001
             }
             ;
-        double pdf_sum = 0.99997;
+        const double pdf_sum = 0.99997;
 
         double mean = 0.0;
         for (int j = 1; j <= WORD_LENGTH_MAX; j++)
@@ -1265,9 +1270,8 @@ public static class English
         //    Output, double ENGLISH_WORD_LENGTH_PDF, the value of the PDF.
         //
     {
-        int WORD_LENGTH_MAX = 27;
+        const int WORD_LENGTH_MAX = 27;
 
-        double pdf;
         double[] pdf_vec =  {
                 0.03160,
                 0.16975,
@@ -1298,9 +1302,9 @@ public static class English
                 0.00001
             }
             ;
-        double pdf_sum = 0.99997;
+        const double pdf_sum = 0.99997;
 
-        pdf = x switch
+        double pdf = x switch
         {
             >= 1 when x <= WORD_LENGTH_MAX => pdf_vec[x - 1] / pdf_sum,
             _ => 0.0
@@ -1378,7 +1382,7 @@ public static class English
         //    Output, double ENGLISH_WORD_LENGTH_VARIANCE, the variance of the PDF.
         //
     {
-        int WORD_LENGTH_MAX = 27;
+        const int WORD_LENGTH_MAX = 27;
 
         double[] pdf_vec =  {
                 0.03160,
@@ -1410,8 +1414,7 @@ public static class English
                 0.00001
             }
             ;
-        double pdf_sum = 0.99997;
-        double variance;
+        const double pdf_sum = 0.99997;
 
         double mean = 0.0;
         for (int j = 1; j <= WORD_LENGTH_MAX; j++)
@@ -1421,7 +1424,7 @@ public static class English
 
         mean /= pdf_sum;
 
-        variance = 0.0;
+        double variance = 0.0;
         for (int j = 1; j <= WORD_LENGTH_MAX; j++)
         {
             variance += pdf_vec[j - 1] * Math.Pow(j - mean, 2);

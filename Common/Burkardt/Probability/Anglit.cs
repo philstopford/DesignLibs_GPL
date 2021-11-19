@@ -201,7 +201,7 @@ public static class Anglit
         //    Output, double ANGLIT_VARIANCE, the variance of the PDF.
         //
     {
-        double variance = 0.0625 * Math.PI * Math.PI - 0.5;
+        const double variance = 0.0625 * Math.PI * Math.PI - 0.5;
 
         return variance;
     }

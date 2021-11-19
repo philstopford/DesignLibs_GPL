@@ -35,8 +35,7 @@ public static class Angle
         //    Output, real CDF, the value of the CDF.
         //
     {
-        double cdf;
-        double zero = 0.0;
+        const double zero = 0.0;
 
         switch (n)
         {
@@ -47,6 +46,7 @@ public static class Angle
                 Console.WriteLine("  The input value of N = " + n + "");
                 return 1.0;
             default:
+                double cdf;
                 switch (x)
                 {
                     case < 0.0:
@@ -95,9 +95,7 @@ public static class Angle
         //    Output, double ANGLE_MEAN, the mean of the PDF.
         //
     {
-        double mean;
-
-        mean = Math.PI / 2.0;
+        const double mean = Math.PI / 2.0;
 
         return mean;
     }

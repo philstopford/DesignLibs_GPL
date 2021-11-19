@@ -40,10 +40,7 @@ public static class Zipf
         //    Output, double CDF, the value of the CDF.
         //
     {
-        double c;
         double cdf;
-        double pdf;
-        int y;
 
         switch (x)
         {
@@ -52,12 +49,13 @@ public static class Zipf
                 break;
             default:
             {
-                c = typeMethods.r8_zeta(a);
+                double c = typeMethods.r8_zeta(a);
 
                 cdf = 0.0;
+                int y;
                 for (y = 1; y <= x; y++)
                 {
-                    pdf = 1.0 / Math.Pow(y, a) / c;
+                    double pdf = 1.0 / Math.Pow(y, a) / c;
                     cdf += pdf;
                 }
 
@@ -103,11 +101,7 @@ public static class Zipf
         //    1 <= X <= 1000
         //
     {
-        double c;
-        double cdf2;
-        double pdf;
         int x;
-        int y;
 
         switch (cdf)
         {
@@ -116,14 +110,15 @@ public static class Zipf
                 break;
             default:
             {
-                c = typeMethods.r8_zeta(a);
-                cdf2 = 0.0;
+                double c = typeMethods.r8_zeta(a);
+                double cdf2 = 0.0;
 
                 x = 1000;
 
+                int y;
                 for (y = 1; y <= 1000; y++)
                 {
-                    pdf = 1.0 / Math.Pow(y, a) / c;
+                    double pdf = 1.0 / Math.Pow(y, a) / c;
                     cdf2 += pdf;
                     if (cdf <= cdf2)
                     {
@@ -206,8 +201,6 @@ public static class Zipf
         //    The mean is only defined for 2 < A.
         //
     {
-        double mean;
-
         switch (a)
         {
             case <= 2.0:
@@ -216,7 +209,7 @@ public static class Zipf
                 Console.WriteLine("  No mean defined for A <= 2.");
                 return 1.0;
             default:
-                mean = typeMethods.r8_zeta(a - 1.0) / typeMethods.r8_zeta(a);
+                double mean = typeMethods.r8_zeta(a - 1.0) / typeMethods.r8_zeta(a);
 
                 return mean;
         }
@@ -325,9 +318,8 @@ public static class Zipf
         //
     {
         int i;
-        double[] x;
 
-        x = new double[n+2];
+        double[] x = new double[n+2];
 
         x[0] = 0.0;
         for ( i = 1; i <= n; i++ )
@@ -376,22 +368,17 @@ public static class Zipf
         //    Output, int ZIPF_SAMPLE, a sample of the PDF.
         //
     {
-        double b;
-        double t;
-        double u;
-        double v;
         double w;
-        int x;
 
-        b = Math.Pow(2.0, a - 1.0);
+        double b = Math.Pow(2.0, a - 1.0);
 
         for (;;)
         {
-            u = UniformRNG.r8_uniform_01(ref seed);
-            v = UniformRNG.r8_uniform_01(ref seed);
+            double u = UniformRNG.r8_uniform_01(ref seed);
+            double v = UniformRNG.r8_uniform_01(ref seed);
             w = (int) (1.0 / Math.Pow(u, 1.0 / (a - 1.0)));
 
-            t = Math.Pow((w + 1.0) / w, a - 1.0);
+            double t = Math.Pow((w + 1.0) / w, a - 1.0);
 
             if (v * w * (t - 1.0) * b <= t * (b - 1.0))
             {
@@ -400,7 +387,7 @@ public static class Zipf
 
         }
 
-        x = (int) w;
+        int x = (int) w;
 
         return x;
     }
@@ -433,9 +420,6 @@ public static class Zipf
         //    The variance is only defined for 3 < A.
         //
     {
-        double mean;
-        double variance;
-
         switch (a)
         {
             case <= 3.0:
@@ -445,9 +429,9 @@ public static class Zipf
                 return 1.0;
         }
 
-        mean = zipf_mean(a);
+        double mean = zipf_mean(a);
 
-        variance = typeMethods.r8_zeta(a - 2.0) / typeMethods.r8_zeta(a) - mean * mean;
+        double variance = typeMethods.r8_zeta(a - 2.0) / typeMethods.r8_zeta(a) - mean * mean;
 
         return variance;
     }

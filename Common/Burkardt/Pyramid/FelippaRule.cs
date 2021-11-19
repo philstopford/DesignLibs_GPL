@@ -50,18 +50,15 @@ public static class FelippaRule
         //    Output, double PYRAMID__UNIT_MONOMIAL, the volume of the pyramid.
         //
     {
-        int i;
-        int i_hi;
-        double value = 0;
-
-        value = 0.0;
+        double value = 0.0;
 
         switch (expon[0] % 2)
         {
             case 0 when expon[1] % 2 == 0:
             {
-                i_hi = 2 + expon[0] + expon[1];
+                int i_hi = 2 + expon[0] + expon[1];
 
+                int i;
                 for (i = 0; i <= i_hi; i++)
                 {
                     value += typeMethods.r8_mop(i) * typeMethods.r8_choose(i_hi, i)
@@ -126,14 +123,14 @@ public static class FelippaRule
         //    Output, double XYZ[3*1], the abscissas.
         //
     {
-        int order = 1;
+        const int order = 1;
 
         double[] w_save = { 1.0 };
 
         double[] xyz_save = { 0.00, 0.00, 0.25 };
 
         typeMethods.r8vec_copy(order, w_save, ref w);
-        typeMethods.r8vec_copy(3 * order, xyz_save, ref xyz);
+        typeMethods.r8vec_copy(3 , xyz_save, ref xyz);
 
     }
 
@@ -1012,9 +1009,7 @@ public static class FelippaRule
         //    Output, double PYRAMID__UNIT_VOLUME, the volume of the pyramid.
         //
     {
-        double volume;
-
-        volume = 4.0 / 3.0;
+        const double volume = 4.0 / 3.0;
 
         return volume;
     }

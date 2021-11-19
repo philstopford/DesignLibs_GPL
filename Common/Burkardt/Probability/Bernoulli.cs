@@ -80,14 +80,7 @@ public static class Bernoulli
                 return 1;
         }
 
-        if (cdf <= 1.0 - a)
-        {
-            x = 0;
-        }
-        else
-        {
-            x = 1;
-        }
+        x = cdf <= 1.0 - a ? 0 : 1;
 
         return x;
     }
@@ -147,9 +140,7 @@ public static class Bernoulli
         //    Output, double BERNOULLI_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double bernoulli_pdf(int x, double a)

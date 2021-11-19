@@ -89,14 +89,9 @@ public static class NegativeBinomial
         //    density function is greater than or equal to CDF.
         //
     {
-        double cum;
-        double pdf;
-        int x;
-        int x_max = 1000;
+        const int x_max = 1000;
         switch (cdf)
         {
-    
-//
             case < 0.0:
             case > 1.0:
                 Console.WriteLine(" ");
@@ -105,13 +100,13 @@ public static class NegativeBinomial
                 return 1;
         }
 
-        cum = 0.0;
+        double cum = 0.0;
 
-        x = a;
+        int x = a;
 
         for (;;)
         {
-            pdf = negative_binomial_pdf(x, a, b);
+            double pdf = negative_binomial_pdf(x, a, b);
 
             cum += pdf;
 
@@ -488,7 +483,6 @@ public static class NegativeBinomial
         //    Output, int NEGATIVE_BINOMIAL_SAMPLE, a sample of the PDF.
         //
     {
-        double r;
         int x;
 
         switch (b)
@@ -507,7 +501,7 @@ public static class NegativeBinomial
         while (num_success < a)
         {
             x += 1;
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             if (r <= b)
             {

@@ -256,12 +256,9 @@ public static class Gompertz
         //    Output, double GOMPERTZ_SAMPLE, a sample of the PDF.
         //
     {
-        double cdf;
-        double x;
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-        cdf = UniformRNG.r8_uniform_01(ref seed);
-
-        x = gompertz_cdf_inv(cdf, a, b);
+        double x = gompertz_cdf_inv(cdf, a, b);
 
         return x;
     }

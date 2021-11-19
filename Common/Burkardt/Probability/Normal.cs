@@ -40,26 +40,25 @@ public static class Normal
         //    Output, double CDF, the value of the CDF.
         //
     {
-        double a1 = 0.398942280444;
-        double a2 = 0.399903438504;
-        double a3 = 5.75885480458;
-        double a4 = 29.8213557808;
-        double a5 = 2.62433121679;
-        double a6 = 48.6959930692;
-        double a7 = 5.92885724438;
-        double b0 = 0.398942280385;
-        double b1 = 3.8052E-08;
-        double b2 = 1.00000615302;
-        double b3 = 3.98064794E-04;
-        double b4 = 1.98615381364;
-        double b5 = 0.151679116635;
-        double b6 = 5.29330324926;
-        double b7 = 4.8385912808;
-        double b8 = 15.1508972451;
-        double b9 = 0.742380924027;
-        double b10 = 30.789933034;
-        double b11 = 3.99019417011;
-        double cdf;
+        const double a1 = 0.398942280444;
+        const double a2 = 0.399903438504;
+        const double a3 = 5.75885480458;
+        const double a4 = 29.8213557808;
+        const double a5 = 2.62433121679;
+        const double a6 = 48.6959930692;
+        const double a7 = 5.92885724438;
+        const double b0 = 0.398942280385;
+        const double b1 = 3.8052E-08;
+        const double b2 = 1.00000615302;
+        const double b3 = 3.98064794E-04;
+        const double b4 = 1.98615381364;
+        const double b5 = 0.151679116635;
+        const double b6 = 5.29330324926;
+        const double b7 = 4.8385912808;
+        const double b8 = 15.1508972451;
+        const double b9 = 0.742380924027;
+        const double b10 = 30.789933034;
+        const double b11 = 3.99019417011;
         double q;
         double y;
         switch (Math.Abs(x))
@@ -94,7 +93,7 @@ public static class Normal
                 break;
         }
 
-        cdf = x switch
+        double cdf = x switch
         {
             //
             //  Take account of negative X.
@@ -193,12 +192,11 @@ public static class Normal
                 1.42151175831644588870e-7, 2.04426310338993978564e-15
             }
             ;
-        double q;
         double r;
         const double r8_huge = 1.0E+30;
-        double split1 = 0.425;
-        double split2 = 5.0;
-        double value = 0;
+        const double split1 = 0.425;
+        const double split2 = 5.0;
+        double value;
 
         switch (p)
         {
@@ -210,7 +208,7 @@ public static class Normal
                 return value;
         }
 
-        q = p - 0.5;
+        double q = p - 0.5;
 
         if (Math.Abs(q) <= split1)
         {
@@ -445,13 +443,10 @@ public static class Normal
         //    Output, double NORMAL_01_SAMPLES[N], the samples.
         //
     {
-            
-        double[] x;
-
         double[] r1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         double[] r2 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        x = new double[n];
+        double[] x = new double[n];
         for (int i = 0; i < n; i++)
         {
             x[i] = Math.Sqrt(-2.0 * Math.Log(r1[i])) * Math.Cos(2.0 * Math.PI * r2[i]);
@@ -483,7 +478,7 @@ public static class Normal
         //    Output, double VARIANCE, the variance of the PDF.
         //
     {
-        double variance = 1.0;
+        const double variance = 1.0;
 
         return variance;
     }
@@ -541,9 +536,6 @@ public static class Normal
         //    and so on.
         //
     {
-        int i;
-        int m;
-            
         double[] r;
 
         double[] x = new double[n];
@@ -565,6 +557,8 @@ public static class Normal
             //
             default:
             {
+                int i;
+                int m;
                 switch ((x_hi - x_lo + 1) % 2)
                 {
                     case 0:
@@ -638,9 +632,7 @@ public static class Normal
         //    Output, double NORMAL_MS_MEAN, the mean of the PDF.
         //
     {
-        double mean;
-
-        mean = mu;
+        double mean = mu;
 
         return mean;
     }
@@ -695,12 +687,10 @@ public static class Normal
         //
     {
         int j;
-        int j_hi;
-        double value = 0;
 
-        j_hi = order / 2;
+        int j_hi = order / 2;
 
-        value = 0.0;
+        double value = 0.0;
         for (j = 0; j <= j_hi; j++)
         {
             value += typeMethods.r8_choose(order, 2 * j)
@@ -803,7 +793,7 @@ public static class Normal
         //    central moment.
         //
     {
-        double value = 0;
+        double value;
 
         switch (order)
         {
@@ -899,7 +889,7 @@ public static class Normal
         //    Output, double NORMAL_MS_MOMENT_VALUES, the value of the central moment.
         //
     {
-        double value = 0;
+        double value;
 
         switch (order)
         {
@@ -986,13 +976,9 @@ public static class Normal
         //    Output, double NORMAL_MS_PDF, the value of the PDF.
         //
     {
-        double pdf;
-            
-        double y;
+        double y = (x - mu) / sigma;
 
-        y = (x - mu) / sigma;
-
-        pdf = Math.Exp(-0.5 * y * y) / (sigma * Math.Sqrt(2.0 * Math.PI));
+        double pdf = Math.Exp(-0.5 * y * y) / (sigma * Math.Sqrt(2.0 * Math.PI));
 
         return pdf;
     }
@@ -1027,9 +1013,7 @@ public static class Normal
         //    Output, double NORMAL_MS_SAMPLE, a sample of the PDF.
         //
     {
-        double x;
-
-        x = normal_01_sample(ref seed);
+        double x = normal_01_sample(ref seed);
 
         x = mu + sigma * x;
 
@@ -1064,9 +1048,7 @@ public static class Normal
         //    Output, double NORMAL_MS_VARIANCE, the variance of the PDF.
         //
     {
-        double variance;
-
-        variance = sigma * sigma;
+        double variance = sigma * sigma;
 
         return variance;
     }

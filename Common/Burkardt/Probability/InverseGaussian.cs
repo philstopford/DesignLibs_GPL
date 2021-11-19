@@ -220,8 +220,6 @@ public static class InverseGaussian
         //    Output, double INVERSE_GAUSSIAN_SAMPLE, a sample of the PDF.
         //
     {
-        double x;
-
         double phi = b / a;
         double z = Normal.normal_01_sample(ref seed);
         double y = z * z;
@@ -229,7 +227,7 @@ public static class InverseGaussian
         double t = 1.0 + 0.5 * (y - Math.Sqrt(4.0 * phi * y + y * y)) / phi;
         double u = UniformRNG.r8_uniform_01(ref seed);
 
-        x = (u * (1.0 + t)) switch
+        double x = (u * (1.0 + t)) switch
         {
             <= 1.0 => a * t,
             _ => a / t

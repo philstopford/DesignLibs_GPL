@@ -103,79 +103,28 @@ public static class PRAXIS
         //    Local, int NL, the number of linear searches.
         //
     {
-        double[] d;
-        double d2;
-        double df;
-        double dmin;
-        double dn;
-        double dni;
-        double f1;
-        bool fk;
-        double fx;
-        double h;
         int i;
-        bool illc;
         int j;
-        int jsearch;
-        int k;
-        int k2;
-        int kl;
-        int kt;
-        int ktm;
-        double large;
-        double ldfac;
-        double lds;
-        double ldt;
-        double m2;
-        double m4;
-        double machep;
-        int nits;
-        int nl;
-        int nf;
-        double[] q0;
-        double[] q1;
-        double qa;
-        double qb;
-        double qc;
-        double qd0;
-        double qd1;
-        double qf1;
-        double r;
-        double s;
-        double scbd;
-        int seed;
-        double sf;
-        double sl;
-        double small;
-        double t;
-        double temp;
-        double t2;
-        double[] v;
-        double value = 0;
-        double vlarge;
-        double vsmall;
-        double[] y;
-        double[] z;
         //
         //  Allocation.
         //
-        d = new double[n];
-        q0 = new double[n];
-        q1 = new double[n];
-        v = new double[n * n];
-        y = new double[n];
-        z = new double[n];
+        double[] d = new double[n];
+        double[] q0 = new double[n];
+        double[] q1 = new double[n];
+        double[] v = new double[n * n];
+        double[] y = new double[n];
+        double[] z = new double[n];
         //
         //  Initialization.
         //
-        machep = typeMethods.r8_epsilon();
-        small = machep * machep;
-        vsmall = small * small;
-        large = 1.0 / small;
-        vlarge = 1.0 / vsmall;
-        m2 = Math.Sqrt(machep);
-        m4 = Math.Sqrt(m2);
-        seed = 123456789;
+        double machep = typeMethods.r8_epsilon();
+        double small = machep * machep;
+        double vsmall = small * small;
+        double large = 1.0 / small;
+        double vlarge = 1.0 / vsmall;
+        double m2 = Math.Sqrt(machep);
+        double m4;
+        int seed = 123456789;
         //
         //  Heuristic numbers:
         //
@@ -188,27 +137,27 @@ public static class PRAXIS
         //  algorithm terminates.  KTM = 4 is very cautious; usually KTM = 1
         //  is satisfactory.
         //
-        scbd = 1.0;
-        illc = false;
-        ktm = 1;
+        const double scbd = 1.0;
+        bool illc = false;
+        const int ktm = 1;
 
-        ldfac = illc switch
+        double ldfac = illc switch
         {
             true => 0.1,
             _ => 0.01
         };
 
-        kt = 0;
-        nl = 0;
-        nf = 1;
-        fx = f(x, n);
-        qf1 = fx;
-        t = small + Math.Abs(t0);
-        t2 = t;
-        dmin = small;
-        h = h0;
+        int kt = 0;
+        int nl = 0;
+        int nf = 1;
+        double fx = f(x, n);
+        double qf1 = fx;
+        double t = small + Math.Abs(t0);
+        double t2 = t;
+        double dmin = small;
+        double h = h0;
         h = Math.Max(h, 100.0 * t);
-        ldt = h;
+        double ldt = h;
         //
         //  The initial set of search directions V is the identity matrix.
         //
@@ -227,11 +176,11 @@ public static class PRAXIS
             d[i] = 0.0;
         }
 
-        qa = 0.0;
-        qb = 0.0;
-        qc = 0.0;
-        qd0 = 0.0;
-        qd1 = 0.0;
+        double qa = 0.0;
+        double qb = 0.0;
+        double qc = 0.0;
+        double qd0 = 0.0;
+        double qd1 = 0.0;
         typeMethods.r8vec_copy(n, x, ref q0);
         typeMethods.r8vec_copy(n, x, ref q1);
 
@@ -247,17 +196,17 @@ public static class PRAXIS
         //
         for (;;)
         {
-            sf = d[0];
+            double sf = d[0];
             d[0] = 0.0;
             //
             //  Minimize along the first direction V(*,1).
             //
-            jsearch = 0;
-            nits = 2;
-            d2 = d[0];
-            s = 0.0;
-            value = fx;
-            fk = false;
+            int jsearch = 0;
+            int nits = 2;
+            double d2 = d[0];
+            double s = 0.0;
+            double value = fx;
+            bool fk = false;
 
             MINNY.minny(n, jsearch, nits, ref d2, ref s, ref value, fk, f, x, t,
                 h, v, q0, q1, ref nl, ref nf, dmin, ldt, ref fx, ref qa, ref qb, ref qc, ref qd0, ref qd1);
@@ -288,6 +237,8 @@ public static class PRAXIS
             //
             //  The inner loop starts here.
             //
+            int k;
+            double sl;
             for (k = 2; k <= n; k++)
             {
                 typeMethods.r8vec_copy(n, x, ref y);
@@ -300,10 +251,12 @@ public static class PRAXIS
                     _ => illc
                 };
 
+                int k2;
+                int kl;
                 for (;;)
                 {
                     kl = k;
-                    df = 0.0;
+                    double df = 0.0;
                     switch (illc)
                     {
                         //
@@ -313,7 +266,7 @@ public static class PRAXIS
                         {
                             for (j = 0; j < n; j++)
                             {
-                                r = UniformRNG.r8_uniform_01(ref seed);
+                                double r = UniformRNG.r8_uniform_01(ref seed);
                                 s = (0.1 * ldt + t2 * Math.Pow(10.0, kt)) * (r - 0.5);
                                 z[j] = s;
                                 for (i = 0; i < n; i++)
@@ -403,17 +356,17 @@ public static class PRAXIS
                     d[k2 - 1] = d2;
                 }
 
-                f1 = fx;
+                double f1 = fx;
                 fx = sf;
 
                 for (i = 0; i < n; i++)
                 {
-                    temp = x[i];
+                    double temp = x[i];
                     x[i] = y[i];
                     y[i] = temp - y[i];
                 }
 
-                lds = typeMethods.r8vec_norm(n, y);
+                double lds = typeMethods.r8vec_norm(n, y);
                 //
                 //  Discard direction V(*,kl).
                 //
@@ -493,17 +446,19 @@ public static class PRAXIS
 
                 kt += 1;
 
-                if (ktm < kt)
+                if (ktm >= kt)
                 {
-                    switch (prin)
-                    {
-                        case > 0:
-                            typeMethods.r8vec_print(n, x, "  X:");
-                            break;
-                    }
-
-                    return fx;
+                    continue;
                 }
+
+                switch (prin)
+                {
+                    case > 0:
+                        typeMethods.r8vec_print(n, x, "  X:");
+                        break;
+                }
+
+                return fx;
             }
 
             //
@@ -519,7 +474,7 @@ public static class PRAXIS
                 d[j] = 1.0 / Math.Sqrt(d[j]);
             }
 
-            dn = typeMethods.r8vec_max(n, d);
+            double dn = typeMethods.r8vec_max(n, d);
 
             switch (prin)
             {
@@ -630,7 +585,7 @@ public static class PRAXIS
 
             for (i = 0; i < n; i++)
             {
-                dni = dn * d[i];
+                double dni = dn * d[i];
 
                 if (large < dni)
                 {
@@ -658,14 +613,7 @@ public static class PRAXIS
             //  The ratio of the smallest to largest eigenvalue determines whether
             //  the system is ill conditioned.
             //
-            if (dmin < m2 * d[0])
-            {
-                illc = true;
-            }
-            else
-            {
-                illc = false;
-            }
+            illc = dmin < m2 * d[0];
 
             switch (prin)
             {

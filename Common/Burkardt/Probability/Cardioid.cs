@@ -89,7 +89,7 @@ public static class Cardioid
         //
     {
             
-        double tol = 0.000001;
+        const double tol = 0.000001;
         double x;
 
         switch (cdf)
@@ -210,9 +210,7 @@ public static class Cardioid
         //    Output, double MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double cardioid_pdf(double x, double a, double b)
@@ -329,7 +327,7 @@ public static class Cardioid
         //    Output, double VARIANCE, the variance of the PDF.
         //
     {
-        double variance = 0.0;
+        const double variance = 0.0;
 
         return variance;
     }

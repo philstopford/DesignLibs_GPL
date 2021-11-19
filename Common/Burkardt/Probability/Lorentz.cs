@@ -108,7 +108,7 @@ public static class Lorentz
         //    Output, double LORENTZ_MEAN, the mean of the PDF.
         //
     {
-        double mean = 0.0;
+        const double mean = 0.0;
 
         return mean;
     }

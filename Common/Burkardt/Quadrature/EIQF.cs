@@ -71,13 +71,9 @@ public static class EIQF
         //    applied to F.
         //
     {
-        int i;
         int j;
-        int l;
-        double p;
-        double qfsum;
 
-        l = Math.Abs(key);
+        int l = Math.Abs(key);
 
         switch (l)
         {
@@ -89,22 +85,25 @@ public static class EIQF
                 return 1;
         }
 
-        qfsum = 0.0;
+        double qfsum = 0.0;
         for (j = 0; j < nt; j++)
         {
             l = Math.Abs(ndx[j]);
-            if (l != 0)
+            if (l == 0)
             {
-                p = 1.0;
-                for (i = 0; i < mlt[j]; i++)
+                continue;
+            }
+
+            double p = 1.0;
+            int i;
+            for (i = 0; i < mlt[j]; i++)
+            {
+                qfsum += wts[l + i - 1] * f(t[j], i) / p;
+                switch (key)
                 {
-                    qfsum += wts[l + i - 1] * f(t[j], i) / p;
-                    switch (key)
-                    {
-                        case <= 0:
-                            p *= (i + 1);
-                            break;
-                    }
+                    case <= 0:
+                        p *= i + 1;
+                        break;
                 }
             }
         }

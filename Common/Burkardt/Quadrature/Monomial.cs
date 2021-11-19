@@ -41,25 +41,22 @@ public static class MonomialQuadrature
         //    Output, double MONOMIAL_QUADRATURE_CHEBYSHEV1, the quadrature error.
         //
     {
-        double exact;
         int i;
-        double quad;
-        double quad_error;
         //
         //  Get the exact value of the integral.
         //
-        exact = Integral.chebyshev1_integral ( expon );
+        double exact = Integral.chebyshev1_integral ( expon );
         //
         //  Evaluate the monomial at the quadrature points
         //  and compute the weighted sum.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for ( i = 0; i < order; i++ )
         {
             quad += w[i] * Math.Pow ( x[i], expon );
         }
 
-        quad_error = exact switch
+        double quad_error = exact switch
         {
             //
             //  Error:
@@ -105,25 +102,22 @@ public static class MonomialQuadrature
         //    Output, double MONOMIAL_QUADRATURE_CHEBYSHEV2, the quadrature error.
         //
     {
-        double exact;
         int i;
-        double quad;
-        double quad_error;
         //
         //  Get the exact value of the integral.
         //
-        exact = Integral.chebyshev2_integral ( expon );
+        double exact = Integral.chebyshev2_integral ( expon );
         //
         //  Evaluate the monomial at the quadrature points
         //  and compute the weighted sum.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for ( i = 0; i < order; i++ )
         {
             quad += w[i] * Math.Pow ( x[i], expon );
         }
 
-        quad_error = exact switch
+        double quad_error = exact switch
         {
             //
             //  Error:
@@ -168,18 +162,15 @@ public static class MonomialQuadrature
         //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact;
         int i;
-        double quad;
-        double quad_error;
         //
         //  Get the exact value of the integral.
         //
-        exact = 1.0 / (expon + 1);
+        double exact = 1.0 / (expon + 1);
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for ( i = 0; i < order; i++ )
         {
             quad += w[i] * Math.Pow ( x[i], expon );
@@ -187,7 +178,7 @@ public static class MonomialQuadrature
         //
         //  Relative error:
         //
-        quad_error = Math.Abs ( quad - exact ) / exact;
+        double quad_error = Math.Abs ( quad - exact ) / exact;
 
         return quad_error;
     }
@@ -239,9 +230,6 @@ public static class MonomialQuadrature
     {
         double exact;
         int point;
-        double quad;
-        double quad_error;
-        double[] value;
         switch (rule)
         {
             //
@@ -266,17 +254,17 @@ public static class MonomialQuadrature
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = Monomial.monomial_value(dim_num, point_num, x, expon);
+        double[] value = Monomial.monomial_value(dim_num, point_num, x, expon);
         //
         //  Compute the quadrature sum.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (point = 0; point < point_num; point++)
         {
             quad += weight[point] * value[point];
         }
 
-        quad_error = exact switch
+        double quad_error = exact switch
         {
             //
             //  Absolute error if EXACT = 0, relative error otherwise:
@@ -324,24 +312,19 @@ public static class MonomialQuadrature
         //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact;
         int point;
-        double quad;
-        double quad_error;
-        double scale;
-        double[] value;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        scale = IntegralNS.Monomial.monomial_int01 ( dim_num, expon );
+        double scale = IntegralNS.Monomial.monomial_int01 ( dim_num, expon );
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = Monomial.monomial_value ( dim_num, point_num, x, expon );
+        double[] value = Monomial.monomial_value ( dim_num, point_num, x, expon );
         //
         //  Compute the weighted sum and divide by the exact value.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for ( point = 0; point < point_num; point++ )
         {
             quad += weight[point] * value[point];
@@ -350,8 +333,8 @@ public static class MonomialQuadrature
         //
         //  Error:
         //
-        exact = 1.0;
-        quad_error = Math.Abs ( quad - exact );
+        const double exact = 1.0;
+        double quad_error = Math.Abs ( quad - exact );
             
         return quad_error;
     }
@@ -402,23 +385,19 @@ public static class MonomialQuadrature
         //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact;
-        double quad;
-        double quad_error;
-        double[] value;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        exact = IntegralNS.Monomial.monomial_integral_mixed(dim_num, rule, alpha, beta, expon);
+        double exact = IntegralNS.Monomial.monomial_integral_mixed(dim_num, rule, alpha, beta, expon);
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = Monomial.monomial_value(dim_num, point_num, expon, x);
+        double[] value = Monomial.monomial_value(dim_num, point_num, expon, x);
         //
         //  Compute the weighted sum and divide by the exact value.
         //
-        quad = typeMethods.r8vec_dot(point_num, weight, value);
-        quad_error = exact switch
+        double quad = typeMethods.r8vec_dot(point_num, weight, value);
+        double quad_error = exact switch
         {
             //
             //  Error:

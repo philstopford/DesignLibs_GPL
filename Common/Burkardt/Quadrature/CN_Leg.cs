@@ -47,17 +47,13 @@ public static class CN_Leg
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
-        int k;
-        double volume;
-
-        expon = 0;
-        volume = C1.c1_leg_monomial_integral ( expon );
+        const int expon = 0;
+        double volume = C1.c1_leg_monomial_integral ( expon );
         volume = Math.Pow ( volume, n );
 
         typeMethods.r8vec_zero ( n * o, ref x );
 
-        k = - 1;
+        int k = - 1;
         //
         //  1 point.
         //
@@ -102,9 +98,7 @@ public static class CN_Leg
         //    Output, int CN_LEG_01_1_SIZE, the order.
         //
     {
-        int o;
-
-        o = 1;
+        int o = 1;
 
         return o;
     }

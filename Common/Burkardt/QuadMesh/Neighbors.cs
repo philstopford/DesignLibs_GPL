@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.QuadMesh;
 
-public class Neighbors
+public static class Neighbors
 {
     public static int[] neighbor_elements_q4_mesh(int element_num, int[] element_node)
 
@@ -63,22 +63,13 @@ public class Neighbors
         //    neighbors of a given element, or -1 if there is no neighbor on that side.
         //
     {
-        int[] col;
         int element;
-        int[] element_neighbor;
         int element_order = 4;
-        int element1;
-        int element2;
         int i;
-        int icol;
         int j;
-        int k;
-        int l;
-        int side1;
-        int side2;
 
-        element_neighbor = new int[4 * element_num];
-        col = new int[4 * 4 * element_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] col = new int[4 * 4 * element_num];
         //
         //  Step 1.
         //  From the list of nodes for element E, of the form: (I,J,K,L)
@@ -95,8 +86,8 @@ public class Neighbors
         {
             i = element_node[0 + element * element_order];
             j = element_node[1 + element * element_order];
-            k = element_node[2 + element * element_order];
-            l = element_node[3 + element * element_order];
+            int k = element_node[2 + element * element_order];
+            int l = element_node[3 + element * element_order];
 
             col[0 + 0 * 4 + 16 * element] = Math.Min(i, j);
             col[1 + 0 * 4 + 16 * element] = Math.Max(i, j);
@@ -144,7 +135,7 @@ public class Neighbors
             }
         }
 
-        icol = 0;
+        int icol = 0;
 
         for (;;)
         {
@@ -160,11 +151,11 @@ public class Neighbors
                 continue;
             }
 
-            side1 = col[(2 + icol * 4) % col.Length];
-            element1 = col[(3 + icol * 4) % col.Length];
+            int side1 = col[(2 + icol * 4) % col.Length];
+            int element1 = col[(3 + icol * 4) % col.Length];
 
-            side2 = col[(2 + (icol + 1) * 4) % col.Length];
-            element2 = col[(3 + (icol + 1) * 4) % col.Length];
+            int side2 = col[(2 + (icol + 1) * 4) % col.Length];
+            int element2 = col[(3 + (icol + 1) * 4) % col.Length];
 
             element_neighbor[side1 + element1 * 4] = element2;
             element_neighbor[side2 + element2 * 4] = element1;

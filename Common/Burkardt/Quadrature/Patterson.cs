@@ -60,7 +60,6 @@ public static class PattersonQuadrature
         //    abscissa in the rule of level LEVEL.
         //
     {
-        int order;
         double[] x_001 =
         {
             0.0
@@ -587,9 +586,9 @@ public static class PattersonQuadrature
             0.99998243035489159858,
             0.99999759637974846462
         };
-        double value = 0;
+        double value;
 
-        order = (int) Math.Pow(2, level + 1) - 1;
+        int order = (int) Math.Pow(2, level + 1) - 1;
 
         switch (order)
         {
@@ -675,7 +674,6 @@ public static class PattersonQuadrature
         //    The weights are positive, symmetric and should sum to 2.
         //
     {
-        double[] w;
         double[] w_001 =
         {
             2.0
@@ -1203,7 +1201,7 @@ public static class PattersonQuadrature
             0.69379364324108267170E-05
         };
 
-        w = new double[order];
+        double[] w = new double[order];
 
         switch (order)
         {
@@ -3584,7 +3582,7 @@ public static class PattersonQuadrature
             0.125792781889592743525E-04,
             0.736624069102321668857E-05,
             0.345456507169149134898E-05,
-            0.945715933950007048827E-06,
+            0.945715933950007048827E-06
         };
 
         switch (n)

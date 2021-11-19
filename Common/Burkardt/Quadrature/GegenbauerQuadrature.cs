@@ -62,9 +62,7 @@ public static class GegenbauerQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gegenbauer_compute ( order, alpha, ref x, ref w );
     }
@@ -121,18 +119,10 @@ public static class GegenbauerQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double an = 0;
-        double[] c;
-        double cc = 0;
-        double delta = 0;
         double dp2 = 0;
-        int i = 0;
+        int i;
         double p1 = 0;
-        double prod = 0;
-        double r1 = 0;
-        double r2 = 0;
-        double r3 = 0;
-        double temp = 0;
+        double temp;
         double x0 = 0;
         switch (order)
         {
@@ -146,7 +136,7 @@ public static class GegenbauerQuadrature
                 return;
         }
 
-        c = new double[order];
+        double[] c = new double[order];
         switch (alpha)
         {
             //
@@ -177,24 +167,27 @@ public static class GegenbauerQuadrature
                         * (alpha + alpha + (2 * i - 3)));
         }
 
-        delta = typeMethods.r8_gamma(alpha + 1.0)
-                * typeMethods.r8_gamma(alpha + 1.0)
-                / typeMethods.r8_gamma(alpha + alpha + 2.0);
+        double delta = typeMethods.r8_gamma(alpha + 1.0)
+                       * typeMethods.r8_gamma(alpha + 1.0)
+                       / typeMethods.r8_gamma(alpha + alpha + 2.0);
 
-        prod = 1.0;
+        double prod = 1.0;
         for (i = 2; i <= order; i++)
         {
             prod *= c[i - 1];
         }
 
-        cc = delta * Math.Pow(2.0, alpha + alpha + 1.0) * prod;
+        double cc = delta * Math.Pow(2.0, alpha + alpha + 1.0) * prod;
 
         for (i = 1; i <= order; i++)
         {
+            double r2;
+            double r1;
+            double r3;
             switch (i)
             {
                 case 1:
-                    an = alpha / order;
+                    double an = alpha / order;
 
                     r1 = (1.0 + alpha)
                          * (2.78 / (4.0 + order * order)
@@ -341,17 +334,9 @@ public static class GegenbauerQuadrature
         //    Output, double WEIGHT[ORDER], the weights.
         //
     {
-        double an;
-        double[] c;
-        double cc;
-        double delta;
         double dp2 = 0;
         int i;
         double p1 = 0;
-        double prod;
-        double r1;
-        double r2;
-        double r3;
         double temp;
         double x = 0;
         switch (order)
@@ -366,7 +351,7 @@ public static class GegenbauerQuadrature
                 return;
         }
 
-        c = new double[order];
+        double[] c = new double[order];
         switch (alpha)
         {
             //
@@ -397,24 +382,27 @@ public static class GegenbauerQuadrature
                         * (alpha + alpha + (2 * i - 3)));
         }
 
-        delta = Helpers.Gamma(alpha + 1.0)
-                * Helpers.Gamma(alpha + 1.0)
-                / Helpers.Gamma(alpha + alpha + 2.0);
+        double delta = Helpers.Gamma(alpha + 1.0)
+                       * Helpers.Gamma(alpha + 1.0)
+                       / Helpers.Gamma(alpha + alpha + 2.0);
 
-        prod = 1.0;
+        double prod = 1.0;
         for (i = 2; i <= order; i++)
         {
             prod *= c[i - 1];
         }
 
-        cc = delta * Math.Pow(2.0, alpha + alpha + 1.0) * prod;
+        double cc = delta * Math.Pow(2.0, alpha + alpha + 1.0) * prod;
 
         for (i = 1; i <= order; i++)
         {
+            double r1;
+            double r2;
+            double r3;
             switch (i)
             {
                 case 1:
-                    an = alpha / order;
+                    double an = alpha / order;
 
                     r1 = (1.0 + alpha)
                          * (2.78 / (4.0 + order * order)
@@ -553,21 +541,18 @@ public static class GegenbauerQuadrature
         //    Input, double C[ORDER], the recursion coefficients.
         //
     {
-        double dp0;
-        double dp1;
         int i;
-        double p0;
 
         p1 = 1.0;
-        dp1 = 0.0;
+        double dp1 = 0.0;
 
         p2 = x;
         dp2 = 1.0;
 
         for (i = 2; i <= order; i++)
         {
-            p0 = p1;
-            dp0 = dp1;
+            double p0 = p1;
+            double dp0 = dp1;
 
             p1 = p2;
             dp1 = dp2;
@@ -621,19 +606,17 @@ public static class GegenbauerQuadrature
         //    Input, double C[ORDER], the recursion coefficients.
         //
     {
-        double d;
-        double eps;
         double p2 = 0;
         int step;
-        int step_max = 10;
+        const int step_max = 10;
 
-        eps = typeMethods.r8_epsilon();
+        double eps = typeMethods.r8_epsilon();
 
         for (step = 1; step <= step_max; step++)
         {
             gegenbauer_ss_recur(ref p2, ref dp2, ref p1, x, order, alpha, c);
 
-            d = p2 / dp2;
+            double d = p2 / dp2;
             x -= d;
 
             if (Math.Abs(d) <= eps * (Math.Abs(x) + 1.0))

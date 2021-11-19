@@ -51,23 +51,15 @@ public static class Boundary
         //    edges.
         //
     {
-        int boundary_edge_num;
-        int e1;
-        int e2;
-        int[] edge;
         int element;
-        int interior_edge_num;
         int j;
-        int m;
-        int n;
-        int unique_num;
 
-        m = 2;
-        n = 4 * element_num;
+        const int m = 2;
+        int n = 4 * element_num;
         //
         //  Set up the edge array.
         //
-        edge = new int[2 * 4 * element_num];
+        int[] edge = new int[2 * 4 * element_num];
 
         for (element = 0; element < element_num; element++)
         {
@@ -89,8 +81,8 @@ public static class Boundary
         //
         for (j = 0; j < n; j++)
         {
-            e1 = Math.Min(edge[0 + 2 * j], edge[1 + 2 * j]);
-            e2 = Math.Max(edge[0 + 2 * j], edge[1 + 2 * j]);
+            int e1 = Math.Min(edge[0 + 2 * j], edge[1 + 2 * j]);
+            int e2 = Math.Max(edge[0 + 2 * j], edge[1 + 2 * j]);
             edge[0 + 2 * j] = e1;
             edge[1 + 2 * j] = e2;
         }
@@ -102,11 +94,11 @@ public static class Boundary
         //
         //  Get the number of unique columns in EDGE.
         //
-        unique_num = typeMethods.i4col_sorted_unique_count(m, n, edge);
+        int unique_num = typeMethods.i4col_sorted_unique_count(m, n, edge);
 
-        interior_edge_num = 4 * element_num - unique_num;
+        int interior_edge_num = 4 * element_num - unique_num;
 
-        boundary_edge_num = 4 * element_num - 2 * interior_edge_num;
+        int boundary_edge_num = 4 * element_num - 2 * interior_edge_num;
 
 
         return boundary_edge_num;
@@ -185,9 +177,7 @@ public static class Boundary
         //    lie on the boundary of the mesh.
         //
     {
-        int boundary_num;
-
-        boundary_num = 2 * node_num + 2 * hole_num - 2 * element_num - 2;
+        int boundary_num = 2 * node_num + 2 * hole_num - 2 * element_num - 2;
 
         return boundary_num;
     }

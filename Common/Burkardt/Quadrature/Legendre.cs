@@ -3,7 +3,7 @@ using Burkardt.MatrixNS;
 
 namespace Burkardt.Quadrature;
 
-public class LegendreQuadrature
+public static class LegendreQuadrature
 {
     public static void legendre_com(int norder, ref double[] xtab, ref double[] weight)
 
@@ -52,31 +52,7 @@ public class LegendreQuadrature
         //    The weights are positive, symmetric, and should sum to 2.
         //
     {
-        double d1;
-        double d2pn;
-        double d3pn;
-        double d4pn;
-        double dp;
-        double dpn;
-        double e1;
-        double fx;
-        double h;
         int i;
-        int iback;
-        int k;
-        int m;
-        int mp1mi;
-        int ncopy;
-        int nmove;
-        double p;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double t;
-        double u;
-        double v;
-        double x0;
-        double xtemp;
 
         switch (norder)
         {
@@ -87,59 +63,60 @@ public class LegendreQuadrature
                 return;
         }
 
-        e1 = norder * (norder + 1);
+        double e1 = norder * (norder + 1);
 
-        m = (norder + 1) / 2;
+        int m = (norder + 1) / 2;
 
         for (i = 1; i <= (norder + 1) / 2; i++)
         {
-            mp1mi = m + 1 - i;
-            t = Math.PI * (4 * i - 1) / (4 * norder + 2);
-            x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 /
+            int mp1mi = m + 1 - i;
+            double t = Math.PI * (4 * i - 1) / (4 * norder + 2);
+            double x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 /
                 norder) / (8 * norder * norder));
 
-            pkm1 = 1.0;
-            pk = x0;
+            double pkm1 = 1.0;
+            double pk = x0;
 
+            int k;
             for (k = 2; k <= norder; k++)
             {
-                pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
+                double pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
                 pkm1 = pk;
                 pk = pkp1;
             }
 
-            d1 = norder * (pkm1 - x0 * pk);
+            double d1 = norder * (pkm1 - x0 * pk);
 
-            dpn = d1 / (1.0 - x0 * x0);
+            double dpn = d1 / (1.0 - x0 * x0);
 
-            d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
+            double d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
 
-            d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
+            double d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
 
-            d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
+            double d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
 
-            u = pk / dpn;
-            v = d2pn / dpn;
+            double u = pk / dpn;
+            double v = d2pn / dpn;
             //
             //  Initial approximation H:
             //
-            h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn
+            double h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn
                 / (3.0 * dpn))));
             //
             //  Refine H using one step of Newton's method:
             //
-            p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
+            double p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
                 * (d3pn + 0.25 * h * d4pn)));
 
-            dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
+            double dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
 
             h -= p / dp;
 
-            xtemp = x0 + h;
+            double xtemp = x0 + h;
 
             xtab[mp1mi - 1] = xtemp;
 
-            fx = d1 - h * e1 * (pk + 0.5 * h * (dpn + h / 3.0
+            double fx = d1 - h * e1 * (pk + 0.5 * h * (dpn + h / 3.0
                 * (d2pn + 0.25 * h * (d3pn + 0.2 * h * d4pn))));
 
             weight[mp1mi - 1] = 2.0 * (1.0 - xtemp * xtemp) / (fx * fx);
@@ -154,12 +131,12 @@ public class LegendreQuadrature
         //
         //  Shift the data up.
         //
-        nmove = (norder + 1) / 2;
-        ncopy = norder - nmove;
+        int nmove = (norder + 1) / 2;
+        int ncopy = norder - nmove;
 
         for (i = 1; i <= nmove; i++)
         {
-            iback = norder + 1 - i;
+            int iback = norder + 1 - i;
             xtab[iback - 1] = xtab[iback - ncopy - 1];
             weight[iback - 1] = weight[iback - ncopy - 1];
         }
@@ -222,20 +199,15 @@ public class LegendreQuadrature
     {
         int i;
         int j;
-        int k;
-        double[] wx;
-        double[] wy;
-        double[] xx;
-        double[] yy;
         //
         //  Get the rules for [-1,+1].
         //
-        xx = new double[nx];
-        wx = new double [nx];
+        double[] xx = new double[nx];
+        double[] wx = new double [nx];
         legendre_set(nx, ref xx, ref wx);
 
-        yy = new double [ny];
-        wy = new double [ny];
+        double[] yy = new double [ny];
+        double[] wy = new double [ny];
         legendre_set(ny, ref yy, ref wy);
         //
         //  Adjust from [-1,+1] to [A,B].
@@ -259,7 +231,7 @@ public class LegendreQuadrature
         //
         //  Compute the product rule.
         //
-        k = 0;
+        int k = 0;
         for (j = 0; j < ny; j++)
         {
             for (i = 0; i < nx; i++)
@@ -3002,7 +2974,6 @@ public class LegendreQuadrature
         //    of the rule.
         //
     {
-        double[] bj;
         int i;
   
         for ( i = 0; i < nt; i++ )
@@ -3010,7 +2981,7 @@ public class LegendreQuadrature
             t[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
         for ( i = 0; i < nt; i++ )
         {
             bj[i] = ( i + 1 ) * ( i + 1 ) 

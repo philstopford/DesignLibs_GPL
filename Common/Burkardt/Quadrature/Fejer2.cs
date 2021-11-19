@@ -40,7 +40,7 @@ public static class Fejer2
         //
     {
             
-        double value = 0;
+        double value;
 
         switch (order)
         {
@@ -126,10 +126,6 @@ public static class Fejer2
         //
     {
         int i;
-        int j;
-        double p;
-        double[] theta;
-        double[] w;
 
         switch (order)
         {
@@ -140,7 +136,7 @@ public static class Fejer2
                 return null;
         }
 
-        w = new double[order];
+        double[] w = new double[order];
 
         switch (order)
         {
@@ -153,7 +149,7 @@ public static class Fejer2
                 return w;
         }
 
-        theta = new double[order];
+        double[] theta = new double[order];
 
         for (i = 1; i <= order; i++)
         {
@@ -165,6 +161,7 @@ public static class Fejer2
         {
             w[i - 1] = 1.0;
 
+            int j;
             for (j = 1; j <= (order - 1) / 2; j++)
             {
                 w[i - 1] -= 2.0 * Math.Cos(2.0 * j * theta[i - 1])
@@ -174,7 +171,7 @@ public static class Fejer2
             switch (order)
             {
                 case > 2:
-                    p = 2.0 * ((double)(order + 1) / 2) - 1.0;
+                    double p = 2.0 * ((double)(order + 1) / 2) - 1.0;
                     w[i - 1] -= Math.Cos((p + 1.0) * theta[i - 1]) / p;
                     break;
             }
@@ -269,10 +266,6 @@ public static class Fejer2
         //
     {
         int i;
-        int j;
-        double p;
-            
-        double theta;
 
         switch (n)
         {
@@ -309,17 +302,18 @@ public static class Fejer2
             {
                 for ( i = 0; i < n; i++ )
                 {
-                    theta = (n - i) * Math.PI
-                            / (n + 1);
+                    double theta = (n - i) * Math.PI
+                                   / (n + 1);
 
                     w[i] = 1.0;
 
+                    int j;
                     for ( j = 1; j <= ( n - 1 ) / 2; j++ )
                     {
                         w[i] -= 2.0 *  Math.Cos ( 2.0 * j * theta )
                                 / (4 * j * j - 1);
                     }
-                    p = 2.0 * ((double)( n + 1 ) / 2) - 1.0;
+                    double p = 2.0 * ((double)( n + 1 ) / 2) - 1.0;
                     w[i] -= Math.Cos ( ( p + 1.0 ) * theta ) / p;
                 }
                 for ( i = 0; i < n; i++ )
@@ -366,9 +360,6 @@ public static class Fejer2
         //    Output, double X[N], the abscissas.
         //
     {
-        int i;
-        double pi = 3.141592653589793;
-
         switch (n)
         {
             case < 1:
@@ -381,9 +372,10 @@ public static class Fejer2
                 break;
             default:
             {
+                int i;
                 for (i = 1; i <= n; i++)
                 {
-                    x[i - 1] = Math.Cos((n + 1 - i) * pi
+                    x[i - 1] = Math.Cos((n + 1 - i) * Math.PI
                                         / (n + 1));
                 }
 
@@ -491,12 +483,6 @@ public static class Fejer2
         //    Output, double W[N], the weights.
         //
     {
-        int i;
-        int j;
-        double p;
-        double pi = 3.141592653589793;
-        double theta;
-
         switch (n)
         {
             case < 1:
@@ -513,20 +499,22 @@ public static class Fejer2
                 break;
             default:
             {
+                int i;
                 for (i = 1; i <= n; i++)
                 {
-                    theta = (n + 1 - i) * pi
-                            / (n + 1);
+                    double theta = (n + 1 - i) * Math.PI
+                                   / (n + 1);
 
                     w[i - 1] = 1.0;
 
+                    int j;
                     for (j = 1; j <= (n - 1) / 2; j++)
                     {
                         w[i - 1] -= 2.0 * Math.Cos(2.0 * j * theta)
                                     / (4 * j * j - 1);
                     }
 
-                    p = 2.0 * ((double)(n + 1) / 2) - 1.0;
+                    double p = 2.0 * ((double)(n + 1) / 2) - 1.0;
                     w[i - 1] -= Math.Cos((p + 1.0) * theta) / p;
                 }
 

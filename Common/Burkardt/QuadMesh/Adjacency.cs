@@ -94,27 +94,18 @@ public static class Adjacency
         //    Output, int ADJ_SET_Q4_MESH[ADJ_NUM], the adjacency information.
         //
     {
-        int[] adj;
-        int[] adj_copy;
         int k;
-        int k1;
-        int k2;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
         int node;
         int element;
-        int element2;
-        int element_order = 4;
+        const int element_order = 4;
 
-        adj = new int[adj_num];
+        int[] adj = new int[adj_num];
         for (k = 0; k < adj_num; k++)
         {
             adj[k] = -1;
         }
 
-        adj_copy = new int[node_num];
+        int[] adj_copy = new int[node_num];
         for (node = 0; node < node_num; node++)
         {
             adj_copy[node] = adj_row[node];
@@ -134,10 +125,10 @@ public static class Adjacency
         //
         for (element = 0; element < element_num; element++)
         {
-            n1 = element_node[0 + element * element_order];
-            n2 = element_node[1 + element * element_order];
-            n3 = element_node[2 + element * element_order];
-            n4 = element_node[3 + element * element_order];
+            int n1 = element_node[0 + element * element_order];
+            int n2 = element_node[1 + element * element_order];
+            int n3 = element_node[2 + element * element_order];
+            int n4 = element_node[3 + element * element_order];
             //
             //  Add edges (1,3) and (2,4).  There is no need to check for redundancy,
             //  since this is the only case when these nodes can share an element.
@@ -157,7 +148,7 @@ public static class Adjacency
             //  or if this element is the first of the pair in which the edge
             //  occurs (ELEMENT < ELEMENT2).
             //
-            element2 = element_neighbor[0 + element * 4];
+            int element2 = element_neighbor[0 + element * 4];
 
             if (element2 < 0 || element < element2)
             {
@@ -212,8 +203,8 @@ public static class Adjacency
         //
         for (node = 0; node < node_num; node++)
         {
-            k1 = adj_row[node];
-            k2 = adj_row[node + 1] - 1;
+            int k1 = adj_row[node];
+            int k2 = adj_row[node + 1] - 1;
             typeMethods.i4vec_sort_heap_a(k2 + 1 - k1, ref adj, aIndex: +k1);
         }
 
@@ -305,18 +296,11 @@ public static class Adjacency
         //    Output, int ADJ_SIZE_Q4_MESH, the number of adjacencies.
         //
     {
-        int adj_num;
         int element;
-        int element_order = 4;
-        int element2;
+        const int element_order = 4;
         int i;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
         int node;
 
-        adj_num = 0;
         //
         //  Set every node to be adjacent to itself.
         //
@@ -330,10 +314,10 @@ public static class Adjacency
         //
         for (element = 0; element < element_num; element++)
         {
-            n1 = element_node[0 + element * element_order];
-            n2 = element_node[1 + element * element_order];
-            n3 = element_node[2 + element * element_order];
-            n4 = element_node[3 + element * element_order];
+            int n1 = element_node[0 + element * element_order];
+            int n2 = element_node[1 + element * element_order];
+            int n3 = element_node[2 + element * element_order];
+            int n4 = element_node[3 + element * element_order];
             //
             //  Add edge (1,3).
             //
@@ -350,7 +334,7 @@ public static class Adjacency
             //  or if this element is the first of the pair in which the edge
             //  occurs (ELEMENT < ELEMENT2).
             //
-            element2 = element_neighbor[0 + element * 4];
+            int element2 = element_neighbor[0 + element * 4];
 
             if (element2 < 0 || element < element2)
             {
@@ -410,7 +394,7 @@ public static class Adjacency
         //
         //  Finally, record the total number of adjacencies.
         //
-        adj_num = adj_row[node_num];
+        int adj_num = adj_row[node_num];
 
         return adj_num;
     }

@@ -53,10 +53,6 @@ public static class CN_Jac
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
-        int k;
-        double volume;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -75,13 +71,13 @@ public static class CN_Jac
                 return;
         }
 
-        expon = 0;
-        volume = C1.c1_jac_monomial_integral(alpha, beta, expon);
+        const int expon = 0;
+        double volume = C1.c1_jac_monomial_integral(alpha, beta, expon);
         volume = Math.Pow(volume, n);
 
         typeMethods.r8vec_zero(n * o, ref x);
 
-        k = -1;
+        int k = -1;
         //
         //  1 point.
         //
@@ -132,8 +128,6 @@ public static class CN_Jac
         //    Output, int CN_JAC_00_1_SIZE the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -151,7 +145,7 @@ public static class CN_Jac
                 Console.WriteLine("  BETA <= -1.0");
                 return 1;
             default:
-                o = 1;
+                int o = 1;
 
                 return o;
         }
@@ -204,12 +198,7 @@ public static class CN_Jac
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
         int i;
-        int k;
-        double value1;
-        double value2;
-        double volume;
 
         switch (alpha)
         {
@@ -229,16 +218,16 @@ public static class CN_Jac
                 return;
         }
 
-        expon = 0;
-        value1 = C1.c1_jac_monomial_integral(alpha, beta, expon);
-        volume = Math.Pow(value1, n);
+        int expon = 0;
+        double value1 = C1.c1_jac_monomial_integral(alpha, beta, expon);
+        double volume = Math.Pow(value1, n);
 
         expon = 1;
-        value2 = C1.c1_jac_monomial_integral(alpha, beta, expon);
+        double value2 = C1.c1_jac_monomial_integral(alpha, beta, expon);
 
         typeMethods.r8vec_zero(n * o, ref x);
 
-        k = -1;
+        int k = -1;
         //
         //  1 point.
         //
@@ -293,8 +282,6 @@ public static class CN_Jac
         //    Output, int CN_JAC_01_1_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -312,7 +299,7 @@ public static class CN_Jac
                 Console.WriteLine("  BETA <= -1.0");
                 return 1;
             default:
-                o = 1;
+                int o = 1;
 
                 return o;
         }

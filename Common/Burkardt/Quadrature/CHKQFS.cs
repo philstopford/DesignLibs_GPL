@@ -103,34 +103,14 @@ public static class CHKQFS
         //    applied to (X-DEL)^N.
         //
     {
-        double[] e;
-        double ek;
-        double emn;
-        double emx;
-        double erest;
-        double ern;
-        double erx;
-        double[] er;
-        int i;
         int j;
-        int jl;
         int k;
-        int kindp;
-        int kjl;
-        int l;
-        int m;
-        int mx;
-        double px;
-        double tmp;
-        double tmpx;
-        double prec;
-        double[] qm;
         //
         //  KIND may be set to -1 to allow printing of moments only.
         //
         //  This feature is only used internally, by CHKQF.
         //
-        kindp = Math.Max(0, kind);
+        int kindp = Math.Max(0, kind);
 
         if (lo != 0 && kind != -1)
         {
@@ -189,31 +169,31 @@ public static class CHKQFS
 
             }
 
-            if (kind != -1)
-            {
-                prec = typeMethods.r8_epsilon();
-                Console.WriteLine("");
-                Console.WriteLine("  Machine precision = " + prec + "");
-            }
+            double prec = typeMethods.r8_epsilon();
+            Console.WriteLine("");
+            Console.WriteLine("  Machine precision = " + prec + "");
 
             Console.WriteLine("");
             Console.WriteLine("           Knots               Mult                Weights");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= nt; i++)
             {
                 k = Math.Abs(ndx[i - 1]);
-                if (k != 0)
+                if (k == 0)
                 {
-                    Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                      + t[i - 1].ToString("0.#################").PadLeft(26)
-                                      + mlt[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
-                                      + wts[k - 1].ToString("0.#################").PadLeft(26) + "");
-                    for (j = k + 1; j <= k + mlt[i - 1] - 1; j++)
-                    {
-                        Console.WriteLine("                                  "
-                                          + wts[j - 1].ToString("0.#################").PadLeft(26) + "");
-                    }
+                    continue;
+                }
+
+                Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                  + t[i - 1].ToString("0.#################").PadLeft(26)
+                                  + mlt[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                  + wts[k - 1].ToString("0.#################").PadLeft(26) + "");
+                for (j = k + 1; j <= k + mlt[i - 1] - 1; j++)
+                {
+                    Console.WriteLine("                                  "
+                                      + wts[j - 1].ToString("0.#################").PadLeft(26) + "");
                 }
             }
         }
@@ -232,21 +212,21 @@ public static class CHKQFS
             w = WM.wm(mex, kindp, alpha, beta);
         }
 
-        e = new double[mex];
-        er = new double[mex];
-        qm = new double[mex];
+        double[] e = new double[mex];
+        double[] er = new double[mex];
+        double[] qm = new double[mex];
 
         for (j = 0; j < mex; j++)
         {
             qm[j] = 0.0;
         }
 
-        erest = 0.0;
+        double erest = 0.0;
 
         for (k = 1; k <= nt; k++)
         {
-            tmp = 1.0;
-            l = Math.Abs(ndx[k - 1]);
+            double tmp = 1.0;
+            int l = Math.Abs(ndx[k - 1]);
             switch (l)
             {
                 case 0:
@@ -257,11 +237,12 @@ public static class CHKQFS
             for (j = 1; j <= mex; j++)
             {
                 qm[j - 1] += tmp * wts[l - 1];
-                tmpx = tmp;
-                px = 1.0;
+                double tmpx = tmp;
+                double px = 1.0;
+                int jl;
                 for (jl = 2; jl <= Math.Min(mlt[k - 1], mex - j + 1); jl++)
                 {
-                    kjl = j + jl - 1;
+                    int kjl = j + jl - 1;
                     tmpx *= (kjl - 1);
                     qm[kjl - 1] += tmpx * wts[l + jl - 2] / px;
                     switch (key)
@@ -292,13 +273,13 @@ public static class CHKQFS
         {
             case > 0:
             {
-                m = mop + 1;
-                mx = Math.Min(mop, mex);
+                int m = mop + 1;
+                int mx = Math.Min(mop, mex);
 
-                emx = Math.Abs(e[0]);
-                emn = emx;
-                erx = Math.Abs(er[0]);
-                ern = erx;
+                double emx = Math.Abs(e[0]);
+                double emn = emx;
+                double erx = Math.Abs(er[0]);
+                double ern = erx;
                 for (k = 1; k < mx; k++)
                 {
                     emx = Math.Max(Math.Abs(e[k]), emx);
@@ -323,7 +304,7 @@ public static class CHKQFS
 
                 if (m <= mex)
                 {
-                    ek = e[m - 1];
+                    double ek = e[m - 1];
                     for (j = 1; j <= mop; j++)
                     {
                         ek /= j;

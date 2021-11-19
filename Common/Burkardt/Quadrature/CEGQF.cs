@@ -72,20 +72,15 @@ public static class CEGQF
         //    applied to F.
         //
     {
-        int lo;
-        double qfsum;
-        double[] t;
-        double[] wts;
-
-        lo = 0;
-        t = new double[nt];
-        wts = new double[nt];
+        const int lo = 0;
+        double[] t = new double[nt];
+        double[] wts = new double[nt];
 
         CGQF.cgqf(nt, kind, alpha, beta, a, b, lo, ref t, ref wts);
         //
         //  Evaluate the quadrature sum.
         //
-        qfsum = EIQFS.eiqfs(nt, t, wts, f);
+        double qfsum = EIQFS.eiqfs(nt, t, wts, f);
 
         return qfsum;
     }

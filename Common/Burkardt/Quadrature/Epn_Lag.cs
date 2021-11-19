@@ -50,10 +50,7 @@ public static class Epn_Lag
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
         int i;
-        int k;
-        double volume;
 
         switch (alpha)
         {
@@ -64,13 +61,13 @@ public static class Epn_Lag
                 return;
         }
 
-        expon = 0;
-        volume = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
+        const int expon = 0;
+        double volume = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
         volume = Math.Pow(volume, n);
 
         typeMethods.r8vec_zero(n * o, ref x);
 
-        k = -1;
+        int k = -1;
         //
         //  1 point.
         //
@@ -124,8 +121,6 @@ public static class Epn_Lag
         //    Output, int EPN_GLG_00_1_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -134,7 +129,7 @@ public static class Epn_Lag
                 Console.WriteLine("  ALPHA <= -1.0");
                 return 1;
             default:
-                o = 1;
+                const int o = 1;
 
                 return o;
         }
@@ -185,12 +180,7 @@ public static class Epn_Lag
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
         int i;
-        int k;
-        double value1;
-        double value2;
-        double volume;
 
         switch (alpha)
         {
@@ -201,16 +191,16 @@ public static class Epn_Lag
                 return;
         }
 
-        expon = 0;
-        value1 = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
-        volume = Math.Pow(value1, n);
+        int expon = 0;
+        double value1 = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
+        double volume = Math.Pow(value1, n);
 
         expon = 1;
-        value2 = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
+        double value2 = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
 
         typeMethods.r8vec_zero(n * o, ref x);
 
-        k = -1;
+        int k = -1;
         //
         //  1 point.
         //
@@ -264,8 +254,6 @@ public static class Epn_Lag
         //    Output, int EPN_GLG_01_1_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -274,7 +262,7 @@ public static class Epn_Lag
                 Console.WriteLine("  ALPHA <= -1.0");
                 return 1;
             default:
-                o = 1;
+                const int o = 1;
 
                 return o;
         }
@@ -334,17 +322,8 @@ public static class Epn_Lag
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        int expon;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         switch (alpha)
         {
@@ -358,9 +337,10 @@ public static class Epn_Lag
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -368,16 +348,17 @@ public static class Epn_Lag
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
+                continue;
             }
+
+            x[i + j * n] = typeMethods.r8_mop(j);
         }
 
-        gamma0 = -1.0;
-        delta0 = alpha + 1.0;
-        c1 = -alpha - 1.0;
+        double gamma0 = -1.0;
+        double delta0 = alpha + 1.0;
+        double c1 = -alpha - 1.0;
 
         for (j = 0; j < o; j++)
         {
@@ -387,9 +368,9 @@ public static class Epn_Lag
             }
         }
 
-        expon = 0;
-        volume_1d = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
-        volume = Math.Pow(volume_1d, n);
+        int expon = 0;
+        double volume_1d = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -447,8 +428,6 @@ public static class Epn_Lag
         //    Output, int EPN_GLG_02_XIU_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -457,7 +436,7 @@ public static class Epn_Lag
                 Console.WriteLine("  ALPHA <= -1.0");
                 return 1;
             default:
-                o = n + 1;
+                int o = n + 1;
 
                 return o;
         }
@@ -505,18 +484,15 @@ public static class Epn_Lag
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
         int i;
-        int k;
-        double volume;
 
-        expon = 0;
-        volume = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
+        const int expon = 0;
+        double volume = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
         volume = Math.Pow(volume, n);
 
         typeMethods.r8vec_zero(n * o, ref x);
 
-        k = -1;
+        int k = -1;
         //
         //  1 point.
         //
@@ -567,9 +543,7 @@ public static class Epn_Lag
         //    Output, int EPN_LAG_00_1_SIZE, the order.
         //
     {
-        int o;
-
-        o = 1;
+        int o = 1;
 
         return o;
     }
@@ -616,23 +590,18 @@ public static class Epn_Lag
         //    Output, double W[O], the weights.
         //
     {
-        int expon;
         int i;
-        int k;
-        double value1;
-        double value2;
-        double volume;
 
-        expon = 0;
-        value1 = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
-        volume = Math.Pow(value1, n);
+        int expon = 0;
+        double value1 = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
+        double volume = Math.Pow(value1, n);
 
         expon = 1;
-        value2 = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
+        double value2 = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
 
         typeMethods.r8vec_zero(n * o, ref x);
 
-        k = -1;
+        int k = -1;
         //
         //  1 point.
         //
@@ -683,9 +652,7 @@ public static class Epn_Lag
         //    Output, int EPN_LOG_01_1_SIZE, the order.
         //
     {
-        int o;
-
-        o = 1;
+        const int o = 1;
 
         return o;
     }
@@ -741,24 +708,16 @@ public static class Epn_Lag
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        int expon;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -769,13 +728,12 @@ public static class Epn_Lag
             if (i < n)
             {
                 x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
             }
         }
 
-        gamma0 = -1.0;
-        delta0 = 1.0;
-        c1 = -1.0;
+        const double gamma0 = -1.0;
+        const double delta0 = 1.0;
+        const double c1 = -1.0;
 
         for (j = 0; j < o; j++)
         {
@@ -785,9 +743,9 @@ public static class Epn_Lag
             }
         }
 
-        expon = 0;
-        volume_1d = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
-        volume = Math.Pow(volume_1d, n);
+        int expon = 0;
+        double volume_1d = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -842,9 +800,7 @@ public static class Epn_Lag
         //    Output, int EPN_LAG_02_XIU_SIZE, the order.
         //
     {
-        int o;
-
-        o = n + 1;
+        int o = n + 1;
 
         return o;
     }

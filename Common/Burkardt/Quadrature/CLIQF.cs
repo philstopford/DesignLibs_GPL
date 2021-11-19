@@ -75,21 +75,17 @@ public static class CLIQF
         //
     {
         int i;
-        int key;
-        int[] mlt;
-        int[] ndx;
-        double[] wts;
 
-        key = 1;
-        mlt = new int[nt];
+        const int key = 1;
+        int[] mlt = new int[nt];
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 1;
         }
 
-        ndx = new int[nt];
+        int[] ndx = new int[nt];
 
-        wts = CIQF.ciqf(nt, t, mlt, nt, ref ndx, key, kind, alpha, beta, a, b, lo);
+        double[] wts = CIQF.ciqf(nt, t, mlt, nt, ref ndx, key, kind, alpha, beta, a, b, lo);
 
         return wts;
     }

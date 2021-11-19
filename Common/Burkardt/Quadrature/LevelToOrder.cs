@@ -71,8 +71,6 @@ public static class LevelToOrder
         //
     {
         int dim;
-        int o;
-        int p;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -85,6 +83,8 @@ public static class LevelToOrder
                     Console.WriteLine("  LEVEL[" + dim + "] = " + level[dim] + "");
                     return;
                 default:
+                    int o;
+                    int p;
                     switch (rule[dim])
                     {
                         case 1 when level[dim] == 0:
@@ -464,8 +464,6 @@ public static class LevelToOrder
         //
     {
         int dim;
-        int o;
-        int p;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -482,6 +480,7 @@ public static class LevelToOrder
 
         for (dim = 0; dim < dim_num; dim++)
         {
+            int o;
             switch (rule[dim])
             {
                 case 1:
@@ -519,7 +518,7 @@ public static class LevelToOrder
                             break;
                         default:
                         {
-                            p = 5;
+                            int p = 5;
                             o = 3;
                             while (p < 2 * level[dim] + 1)
                             {
@@ -1442,10 +1441,8 @@ public static class LevelToOrder
         //
     {
         int dim;
-        int l;
         int o = 0;
         int[] o_hgk = {1, 3, 9, 19, 35, 43};
-        int p;
         int[] p_hgk = {1, 5, 15, 29, 51, 67};
         //
         //  Check the input.
@@ -1490,6 +1487,8 @@ public static class LevelToOrder
         //
         for (dim = 0; dim < dim_num; dim++)
         {
+            int l;
+            int p;
             switch (rule[dim])
             {
                 //
@@ -2216,14 +2215,11 @@ public static class LevelToOrder
         //    a corresponding BASE that is NOT zero.
         //
     {
-        int dim;
-        int[] grid_level;
-        int level_min;
         int point;
 
-        grid_level = new int[point_num];
+        int[] grid_level = new int[point_num];
 
-        level_min = dim_num switch
+        int level_min = dim_num switch
         {
             1 => level_max,
             _ => 0
@@ -2238,6 +2234,7 @@ public static class LevelToOrder
         {
             grid_level[point] = Math.Max(level, level_min);
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 grid_level[point] = grid_index[dim + point * dim_num] switch
@@ -2296,18 +2293,16 @@ public static class LevelToOrder
         //
     {
         int dim;
-        int level;
-        int s;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            s = t[dim];
+            int s = t[dim];
 
             s = typeMethods.i4_modp(s, order);
 
+            int level;
             switch (s)
             {
                 case 0:
@@ -2380,18 +2375,16 @@ public static class LevelToOrder
         //
     {
         int dim;
-        int level;
-        int s;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            s = t[(dim + tIndex) % t.Length];
+            int s = t[(dim + tIndex) % t.Length];
 
             s = typeMethods.i4_modp(s, order);
 
+            int level;
             switch (s)
             {
                 case 0:

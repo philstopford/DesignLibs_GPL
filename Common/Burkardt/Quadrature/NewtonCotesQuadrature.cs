@@ -52,13 +52,10 @@ public static class NewtonCotesQuadrature
         //
     {
         int i;
-        double[] poly_cof;
-        double yvala;
-        double yvalb;
         //
         //  Allocate temporary space for POLY_COF.
         //
-        poly_cof = new double[norder];
+        double[] poly_cof = new double[norder];
 
         for (i = 1; i <= norder; i++)
         {
@@ -71,9 +68,9 @@ public static class NewtonCotesQuadrature
             //  Evaluate the antiderivative of the polynomial at the left and
             //  right endpoints.
             //
-            yvala = typeMethods.r8poly_ant_val(norder - 1, poly_cof, a);
+            double yvala = typeMethods.r8poly_ant_val(norder - 1, poly_cof, a);
 
-            yvalb = typeMethods.r8poly_ant_val(norder - 1, poly_cof, b);
+            double yvalb = typeMethods.r8poly_ant_val(norder - 1, poly_cof, b);
 
             weight[i - 1] = yvalb - yvala;
         }
@@ -121,14 +118,12 @@ public static class NewtonCotesQuadrature
         //    Output, double WEIGHT[NORDER], the weights of the rule.
         //
     {
-        double a;
-        double b;
         int i;
         //
         //  Compute a closed quadrature rule.
         //
-        a = -1.0;
-        b = 1.0;
+        const double a = -1.0;
+        const double b = 1.0;
 
         for (i = 1; i <= norder; i++)
         {
@@ -176,9 +171,9 @@ public static class NewtonCotesQuadrature
         //    abscissa in the Newton Cotes open rule of order ORDER.
         //
     {
-        double value = 0;
-        double x_max = +1.0;
-        double x_min = -1.0;
+        double value;
+        const double x_max = +1.0;
+        const double x_min = -1.0;
 
         switch (order)
         {
@@ -251,12 +246,10 @@ public static class NewtonCotesQuadrature
         //    Output, double WEIGHT[NORDER], the weights of the  rule.
         //
     {
-        double a;
-        double b;
         int i;
 
-        a = -1.0;
-        b = 1.0;
+        const double a = -1.0;
+        const double b = 1.0;
 
         for (i = 1; i <= norder; i++)
         {
@@ -294,20 +287,13 @@ public static class NewtonCotesQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double[] diftab;
         int i;
-        int j;
-        int k;
-        double[] w;
-        double x_max = +1.0;
-        double x_min = -1.0;
-        double[] x;
-        double yvala;
-        double yvalb;
+        const double x_max = +1.0;
+        const double x_min = -1.0;
 
-        diftab = new double[order];
-        w = new double[order];
-        x = new double[order];
+        double[] diftab = new double[order];
+        double[] w = new double[order];
+        double[] x = new double[order];
 
         for (i = 1; i <= order; i++)
         {
@@ -322,6 +308,7 @@ public static class NewtonCotesQuadrature
             //  Compute the Lagrange basis polynomial which is 1 at X(I),
             //  and zero at the other nodes.
             //
+            int j;
             for (j = 0; j < order; j++)
             {
                 diftab[j] = 0.0;
@@ -329,6 +316,7 @@ public static class NewtonCotesQuadrature
 
             diftab[i - 1] = 1.0;
 
+            int k;
             for (j = 2; j <= order; j++)
             {
                 for (k = j; k <= order; k++)
@@ -350,7 +338,7 @@ public static class NewtonCotesQuadrature
             //  Evaluate the antiderivative of the polynomial at the left and
             //  right endpoints.
             //
-            yvala = diftab[order - 1] / order;
+            double yvala = diftab[order - 1] / order;
             for (j = order - 1; 1 <= j; j--)
             {
                 yvala = yvala * x_min + diftab[j - 1] / j;
@@ -358,7 +346,7 @@ public static class NewtonCotesQuadrature
 
             yvala *= x_min;
 
-            yvalb = diftab[order - 1] / order;
+            double yvalb = diftab[order - 1] / order;
             for (j = order - 1; 1 <= j; j--)
             {
                 yvalb = yvalb * x_max + diftab[j - 1] / j;

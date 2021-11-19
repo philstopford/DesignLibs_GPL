@@ -75,23 +75,14 @@ public static class CGQFS
         //    Output, double WTS[NT], the weights.
         //
     {
-        int i;
-        int key;
-        int m;
-        int mex;
-        int[] mlt;
-        int mmex;
-        int mop;
-        int[] ndx;
-        double[] w;
         //
         //  Check there is enough workfield and assign workfield
         //
-        key = 1;
-        mop = 2 * nt;
-        m = mop + 1;
-        mex = m + 2;
-        mmex = Math.Max(mex, 1);
+        int key = 1;
+        int mop = 2 * nt;
+        int m = mop + 1;
+        int mex = m + 2;
+        int mmex = Math.Max(mex, 1);
         //
         //  Compute the Gauss quadrature formula for default values of A and B.
         //
@@ -99,24 +90,27 @@ public static class CGQFS
         //
         //  Exit if no print required.
         //
-        if (lo != 0)
+        if (lo == 0)
         {
-            mlt = new int[nt];
-            for (i = 0; i < nt; i++)
-            {
-                mlt[i] = 1;
-            }
-
-            ndx = new int[nt];
-            for (i = 0; i < nt; i++)
-            {
-                ndx[i] = i + 1;
-            }
-
-            w = new double[mmex];
-
-            CHKQFS.chkqfs(t, wts, mlt, nt, nt, ndx, key, ref w, mop, mmex, kind, alpha,
-                beta, lo);
+            return;
         }
+
+        int[] mlt = new int[nt];
+        int i;
+        for (i = 0; i < nt; i++)
+        {
+            mlt[i] = 1;
+        }
+
+        int[] ndx = new int[nt];
+        for (i = 0; i < nt; i++)
+        {
+            ndx[i] = i + 1;
+        }
+
+        double[] w = new double[mmex];
+
+        CHKQFS.chkqfs(t, wts, mlt, nt, nt, ndx, key, ref w, mop, mmex, kind, alpha,
+            beta, lo);
     }
 }

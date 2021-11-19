@@ -92,16 +92,9 @@ public static class CIQF
         //
     {
         int j;
-        int l;
-        int lu;
-        int m;
-        int mex;
-        int mop;
-        double[] st;
-        double[] wts;
 
-        m = 1;
-        l = Math.Abs(key);
+        int m = 1;
+        int l = Math.Abs(key);
 
         for (j = 0; j < nt; j++)
         {
@@ -119,17 +112,17 @@ public static class CIQF
             return null;
         }
 
-        mex = 2 + m;
+        int mex = 2 + m;
         //
         //  Scale the knots to default A, B.
         //
-        st = SCT.sct(nt, t, kind, a, b);
+        double[] st = SCT.sct(nt, t, kind, a, b);
         //
         //  Compute the weights.
         //
-        lu = 0;
+        int lu = 0;
 
-        wts = CIQFS.ciqfs(nt, st, mlt, nwts, ref ndx, key, kind, alpha, beta, lu);
+        double[] wts = CIQFS.ciqfs(nt, st, mlt, nwts, ref ndx, key, kind, alpha, beta, lu);
         //
         //  Don't scale user's knots - only scale weights.
         //
@@ -137,7 +130,7 @@ public static class CIQF
 
         if (lo != 0)
         {
-            mop = m - 1;
+            int mop = m - 1;
 
             CHKQF.chkqf(t, wts, mlt, nt, nwts, ndx, key, mop, mex, kind,
                 alpha, beta, lo, a, b);

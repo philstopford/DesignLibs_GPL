@@ -72,22 +72,18 @@ public static class CLIQFS
         //
     {
         int i;
-        int key;
-        int[] mlt;
-        int[] ndx;
-        double[] wts;
 
-        key = 1;
-        mlt = new int[nt];
+        const int key = 1;
+        int[] mlt = new int[nt];
 
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 1;
         }
 
-        ndx = new int[nt];
+        int[] ndx = new int[nt];
 
-        wts = CIQFS.ciqfs(nt, t, mlt, nt, ref ndx, key, kind, alpha, beta, lo);
+        double[] wts = CIQFS.ciqfs(nt, t, mlt, nt, ref ndx, key, kind, alpha, beta, lo);
 
         return wts;
     }

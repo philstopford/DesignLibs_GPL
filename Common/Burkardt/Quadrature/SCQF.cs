@@ -230,14 +230,16 @@ public static class SCQF
             st[k] = shft + slp * t[k];
             int l = Math.Abs(ndx[k]);
 
-            if (l != 0)
+            if (l == 0)
             {
-                double tmp = p;
-                for (int i = l - 1; i <= l - 1 + mlt[k] - 1; i++)
-                {
-                    swts[i] = wts[i] * tmp;
-                    tmp *= slp;
-                }
+                continue;
+            }
+
+            double tmp = p;
+            for (int i = l - 1; i <= l - 1 + mlt[k] - 1; i++)
+            {
+                swts[i] = wts[i] * tmp;
+                tmp *= slp;
             }
         }
     }

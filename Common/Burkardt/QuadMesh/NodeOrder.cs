@@ -43,17 +43,15 @@ public static class NodeOrder
         //
     {
         int element;
-        int i;
-        int node;
-        int[] node_order = null;
 
-        node_order = typeMethods.i4vec_zero_new ( node_num );
+        int[] node_order = typeMethods.i4vec_zero_new ( node_num );
 
         for ( element = 0; element < element_num; element++ )
         {
+            int i;
             for ( i = 0; i < 4; i++ )
             {
-                node = element_node[i+element*4];
+                int node = element_node[i+element*4];
                 if ( node < 0 || node_num <= node )
                 {
                     Console.WriteLine("");

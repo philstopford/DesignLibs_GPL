@@ -70,8 +70,6 @@ public static class CGQF
         //
     {
         int i;
-        int[] mlt;
-        int[] ndx;
         //
         //  Compute the Gauss quadrature formula for default values of A and B.
         //
@@ -80,13 +78,13 @@ public static class CGQF
         //  Prepare to scale the quadrature formula to other weight function with 
         //  valid A and B.
         //
-        mlt = new int[nt];
+        int[] mlt = new int[nt];
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 1;
         }
 
-        ndx = new int[nt];
+        int[] ndx = new int[nt];
         for (i = 0; i < nt; i++)
         {
             ndx[i] = i + 1;
@@ -166,27 +164,14 @@ public static class CGQF
         //
     {
         int i;
-        int key;
-        int m;
-        int mex;
-        int[] mlt;
-        int mmex;
-        int mop;
-        int[] ndx;
         //
         //  Check that there is enough workspace and assign it.
         //
-        key = 1;
-        mop = 2 * nt;
-        m = mop + 1;
-        mex = m + 2;
-        mmex = Math.Max(mex, 1);
-
-        mex = lo switch
-        {
-            <= 0 => 0,
-            _ => mex
-        };
+        const int key = 1;
+        int mop = 2 * nt;
+        int m = mop + 1;
+        int mex = m + 2;
+        int mmex = Math.Max(mex, 1);
 
         //
         //  Compute the Gauss quadrature formula for default values of A and B.
@@ -196,13 +181,13 @@ public static class CGQF
         //  Prepare to scale the quadrature formula to other weight function with 
         //  valid A and B.
         //
-        mlt = new int[nt];
+        int[] mlt = new int[nt];
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 1;
         }
 
-        ndx = new int[nt];
+        int[] ndx = new int[nt];
         for (i = 0; i < nt; i++)
         {
             ndx[i] = i + 1;

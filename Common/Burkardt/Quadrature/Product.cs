@@ -81,8 +81,6 @@ public static class Product
     {
         int dim;
         int i;
-        int p_index;
-        double[] weight_1d;
         typeMethods.r8vecDPData data = new();
 
         for (i = 0; i < order_nd; i++)
@@ -90,11 +88,11 @@ public static class Product
             weight_nd[i] = 1.0;
         }
 
-        p_index = 0;
+        int p_index = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            weight_1d = new double[order_1d[dim]];
+            double[] weight_1d = new double[order_1d[dim]];
 
             switch (rule[dim])
             {
@@ -207,11 +205,9 @@ public static class Product
     {
         int dim;
         int order;
-        double[] w_1d = null;
-        double[] w_nd = null;
         typeMethods.r8vecDPData data = new();
 
-        w_nd = new double[order_nd];
+        double[] w_nd = new double[order_nd];
 
         for (order = 0; order < order_nd; order++)
         {
@@ -220,6 +216,7 @@ public static class Product
 
         for (dim = 0; dim < dim_num; dim++)
         {
+            double[] w_1d;
             switch (rule)
             {
                 case 1:
@@ -304,10 +301,9 @@ public static class Product
         int dim;
         int order;
         double[] w_1d = null;
-        double[] w_nd;
         typeMethods.r8vecDPData data = new();
 
-        w_nd = new double[order_nd];
+        double[] w_nd = new double[order_nd];
 
         for (order = 0; order < order_nd; order++)
         {

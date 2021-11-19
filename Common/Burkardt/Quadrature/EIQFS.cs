@@ -57,9 +57,8 @@ public static class EIQFS
         //
     {
         int j;
-        double qfsum;
 
-        qfsum = 0.0;
+        double qfsum = 0.0;
         for ( j = 0; j < nt; j++ )
         {
             qfsum += wts[j] * f ( t[j], 0 );

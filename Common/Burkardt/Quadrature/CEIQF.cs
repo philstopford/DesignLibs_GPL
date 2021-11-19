@@ -75,26 +75,20 @@ public static class CEIQF
         //
     {
         int i;
-        int key;
-        int lu;
-        int n;
-        int[] ndx;
-        double qfsum;
-        double[] wts;
 
-        lu = 0;
-        n = 0;
+        const int lu = 0;
+        int n = 0;
         for (i = 0; i < nt; i++)
         {
             n += mlt[i];
         }
 
-        key = 1;
-        ndx = new int[nt];
+        int key = 1;
+        int[] ndx = new int[nt];
 
-        wts = CIQF.ciqf(nt, t, mlt, n, ref ndx, key, kind, alpha, beta, a, b, lu);
+        double[] wts = CIQF.ciqf(nt, t, mlt, n, ref ndx, key, kind, alpha, beta, a, b, lu);
 
-        qfsum = EIQF.eiqf(nt, t, mlt, wts, n, ndx, key, f);
+        double qfsum = EIQF.eiqf(nt, t, mlt, wts, n, ndx, key, f);
 
         return qfsum;
     }

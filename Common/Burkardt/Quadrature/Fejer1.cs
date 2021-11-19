@@ -40,7 +40,7 @@ public static class Fejer1
         //    abscissa in the Fejer type 1 rule of order ORDER.
         //
     {
-        double value = 0;
+        double value;
 
         switch (order)
         {
@@ -126,9 +126,6 @@ public static class Fejer1
         //
     {
         int i;
-        int j;
-        double[] theta;
-        double[] w;
 
         switch (order)
         {
@@ -139,7 +136,7 @@ public static class Fejer1
                 return null;
         }
 
-        w = new double[order];
+        double[] w = new double[order];
 
         switch (order)
         {
@@ -148,7 +145,7 @@ public static class Fejer1
                 return w;
         }
 
-        theta = new double[order];
+        double[] theta = new double[order];
 
         for (i = 1; i <= order; i++)
         {
@@ -159,6 +156,7 @@ public static class Fejer1
         for (i = 1; i <= order; i++)
         {
             w[i - 1] = 1.0;
+            int j;
             for (j = 1; j <= order / 2; j++)
             {
                 w[i - 1] -= 2.0 * Math.Cos(2.0 * j * theta[i - 1])

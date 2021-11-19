@@ -54,14 +54,11 @@ public static class JacobiQuadrature
         //    Output, double X[N], the abscissas.
         //
     {
-        double alpha;
-        double beta;
-
         data = parameter(data, dim, 0);
-        alpha = data.value;
+        double alpha = data.value;
         data = parameter(data, dim, 1);
             
-        beta = data.value;
+        double beta = data.value;
 
         jacobi_compute_points(n, alpha, beta, ref x);
 
@@ -98,9 +95,7 @@ public static class JacobiQuadrature
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double[] w;
-
-        w = new double[order];
+        double[] w = new double[order];
 
         jacobi_compute ( order, alpha, beta, ref x, ref w );
     }
@@ -139,11 +134,8 @@ public static class JacobiQuadrature
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double alpha;
-        double beta;
-
-        alpha = p[0];
-        beta = p[1];
+        double alpha = p[0];
+        double beta = p[1];
 
         jacobi_compute_points ( order, alpha, beta, ref x );
 
@@ -186,13 +178,10 @@ public static class JacobiQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double alpha;
-        double beta;
-
         data = parameter(data, dim, 0);
-        alpha = data.value;
+        double alpha = data.value;
         data = parameter(data, dim, 1);
-        beta = data.value;
+        double beta = data.value;
 
         jacobi_compute_weights(n, alpha, beta, ref w);
 
@@ -229,9 +218,7 @@ public static class JacobiQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double[] x;
-
-        x = new double[order];
+        double[] x = new double[order];
 
         jacobi_compute ( order, alpha, beta, ref x, ref w );
     }
@@ -270,11 +257,8 @@ public static class JacobiQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-        double beta;
-
-        alpha = p[0];
-        beta = p[1];
+        double alpha = p[0];
+        double beta = p[1];
 
         jacobi_compute_weights ( order, alpha, beta, ref w );
 
@@ -317,16 +301,10 @@ public static class JacobiQuadrature
         // 
     {
         int i;
-        string output_r;
-        string output_w;
-        string output_x;
-        double[] r;
-        double[] w;
-        double[] x;
 
-        r = new double[2];
-        w = new double[order];
-        x = new double[order];
+        double[] r = new double[2];
+        double[] w = new double[order];
+        double[] x = new double[order];
 
         r[0] = -1.0;
         r[1] = +1.0;
@@ -480,9 +458,9 @@ public static class JacobiQuadrature
                 break;
             }
             default:
-                output_w = output + "%s_w.txt";
-                output_x = output + "%s_x.txt";
-                output_r = output + "%s_r.txt";
+                string output_w = output + "%s_w.txt";
+                string output_x = output + "%s_x.txt";
+                string output_r = output + "%s_r.txt";
 
                 Console.WriteLine("");
                 Console.WriteLine("  Creating quadrature files.");
@@ -541,21 +519,15 @@ public static class JacobiQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double a2b2;
-        double ab;
-        double abi;
-        double[] bj;
         int i;
-        double i_r8;
-        double zemu;
 
-        ab = alpha + beta;
-        abi = 2.0 + ab;
+        double ab = alpha + beta;
+        double abi = 2.0 + ab;
         //
         //  Define the zero-th moment.
         //
-        zemu = Math.Pow(2.0, ab + 1.0) * Helpers.Gamma(alpha + 1.0)
-                                       * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
+        double zemu = Math.Pow(2.0, ab + 1.0) * Helpers.Gamma(alpha + 1.0)
+                                              * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
         //
         //  Define the Jacobi matrix.
         //
@@ -565,7 +537,7 @@ public static class JacobiQuadrature
             x[i] = 0.0;
         }
 
-        bj = new double[n];
+        double[] bj = new double[n];
 
         bj[0] = 4.0 * (1.0 + alpha) * (1.0 + beta)
                 / ((abi + 1.0) * abi * abi);
@@ -574,11 +546,11 @@ public static class JacobiQuadrature
             bj[i] = 0.0;
         }
 
-        a2b2 = beta * beta - alpha * alpha;
+        double a2b2 = beta * beta - alpha * alpha;
 
         for (i = 1; i < n; i++)
         {
-            i_r8 = i + 1;
+            double i_r8 = i + 1;
             abi = 2.0 * i_r8 + ab;
             x[i] = a2b2 / ((abi - 2.0) * abi);
             abi *= abi;
@@ -646,24 +618,21 @@ public static class JacobiQuadrature
         //    Output, double MONOMIAL_QUADRATURE_JACOBI, the quadrature error.
         //
     {
-        double exact;
         int i;
-        double quad;
-        double quad_error;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        exact = Integral.jacobi_integral(expon, alpha, beta);
+        double exact = Integral.jacobi_integral(expon, alpha, beta);
         //
         //  Evaluate the unweighted monomial at the quadrature points.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
             quad += w[i] * Math.Pow(x[i], expon);
         }
 
-        quad_error = exact switch
+        double quad_error = exact switch
         {
             //
             //  Absolute error for cases where exact integral is zero,
@@ -734,11 +703,8 @@ public static class JacobiQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-        double beta;
-
-        alpha = p[0];
-        beta = p[1];
+        double alpha = p[0];
+        double beta = p[1];
 
         jacobi_compute ( order, alpha, beta, ref x, ref w );
     }
@@ -803,19 +769,9 @@ public static class JacobiQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double an;
-        double[] b;
-        double bn;
-        double[] c;
-        double cc;
-        double delta;
         double dp2 = 0;
         int i;
         double p1 = 0;
-        double prod;
-        double r1;
-        double r2;
-        double r3;
         double temp;
         double x0 = 0;
 
@@ -828,8 +784,8 @@ public static class JacobiQuadrature
                 return;
         }
 
-        b = new double[order];
-        c = new double[order];
+        double[] b = new double[order];
+        double[] c = new double[order];
         switch (alpha)
         {
             //
@@ -876,25 +832,28 @@ public static class JacobiQuadrature
             };
         }
 
-        delta = typeMethods.r8_gamma(alpha + 1.0)
-                * typeMethods.r8_gamma(beta + 1.0)
-                / typeMethods.r8_gamma(alpha + beta + 2.0);
+        double delta = typeMethods.r8_gamma(alpha + 1.0)
+                       * typeMethods.r8_gamma(beta + 1.0)
+                       / typeMethods.r8_gamma(alpha + beta + 2.0);
 
-        prod = 1.0;
+        double prod = 1.0;
         for (i = 2; i <= order; i++)
         {
             prod *= c[i - 1];
         }
 
-        cc = delta * Math.Pow(2.0, alpha + beta + 1.0) * prod;
+        double cc = delta * Math.Pow(2.0, alpha + beta + 1.0) * prod;
 
         for (i = 1; i <= order; i++)
         {
+            double r2;
+            double r3;
+            double r1;
             switch (i)
             {
                 case 1:
-                    an = alpha / order;
-                    bn = beta / order;
+                    double an = alpha / order;
+                    double bn = beta / order;
 
                     r1 = (1.0 + alpha)
                          * (2.78 / (4.0 + order * order)

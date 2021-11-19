@@ -43,15 +43,15 @@ public static class Area
         //    Output, double *MESH_AREA, the mesh area.
         //
     {
-        int dim;
         int element;
-        int node;
         double[] q4 = new double[2 * 4];
 
         for (element = 0; element < element_num; element++)
         {
+            int node;
             for (node = 0; node < 4; node++)
             {
+                int dim;
                 for (dim = 0; dim < 2; dim++)
                 {
                     q4[dim + 2 * node] = node_xy[dim + 2 * element_node[node + 4 * element]];
@@ -91,9 +91,6 @@ public static class Area
         //    Output, double AREA_QUAD, the area.
         //
     {
-        double area;
-        double area1;
-        double area2;
         double[] t1 = new double[2 * 3];
         double[] t2 = new double[2 * 3];
 
@@ -104,7 +101,7 @@ public static class Area
         t1[0 + 2 * 2] = quad_xy[0 + 2 * 2];
         t1[1 + 2 * 2] = quad_xy[1 + 2 * 2];
 
-        area1 = Integrals.triangle_area(t1);
+        double area1 = Integrals.triangle_area(t1);
 
         t2[0 + 0 * 2] = quad_xy[0 + 2 * 2];
         t2[1 + 0 * 2] = quad_xy[1 + 2 * 2];
@@ -113,7 +110,7 @@ public static class Area
         t2[0 + 2 * 2] = quad_xy[0 + 0 * 2];
         t2[1 + 2 * 2] = quad_xy[1 + 0 * 2];
 
-        area2 = Integrals.triangle_area(t2);
+        double area2 = Integrals.triangle_area(t2);
 
         if (area1 < 0.0 || area2 < 0.0)
         {
@@ -146,7 +143,7 @@ public static class Area
             }
         }
 
-        area = area1 + area2;
+        double area = area1 + area2;
 
         return area;
     }

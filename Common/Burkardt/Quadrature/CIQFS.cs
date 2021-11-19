@@ -88,23 +88,11 @@ public static class CIQFS
         //    Output, double CIQFS[NWTS], the weights.
         //
     {
-        double[] aj;
-        double[] bj;
         int j;
-        int jdf;
-        int l;
-        int m;
-        int mex;
-        int mop;
-        int n;
-        int nst;
-        double[] w;
-        double[] wts;
-        double zemu;
 
-        jdf = 0;
-        n = 0;
-        l = Math.Abs(key);
+        int jdf = 0;
+        int n = 0;
+        int l = Math.Abs(key);
 
         for (j = 0; j < nt; j++)
         {
@@ -125,20 +113,20 @@ public static class CIQFS
             return null;
         }
 
-        m = n + 1;
-        mex = 2 + m;
-        nst = m / 2;
+        int m = n + 1;
+        int mex = 2 + m;
+        int nst = m / 2;
         //
         //  Get the Jacobi matrix.
         //
-        aj = new double[nst];
-        bj = new double[nst];
+        double[] aj = new double[nst];
+        double[] bj = new double[nst];
 
-        zemu = Matrix.class_matrix(kind, nst, alpha, beta, ref aj, ref bj);
+        double zemu = Matrix.class_matrix(kind, nst, alpha, beta, ref aj, ref bj);
         //
         //  Call weights routine.
         //
-        wts = CAWIQ.cawiq(nt, t, mlt, n, ref ndx, key, nst, ref aj, ref bj, ref jdf, zemu);
+        double[] wts = CAWIQ.cawiq(nt, t, mlt, n, ref ndx, key, nst, ref aj, ref bj, ref jdf, zemu);
 
         //
         //
@@ -146,9 +134,9 @@ public static class CIQFS
         //
         if (lo != 0)
         {
-            mop = m - 1;
+            int mop = m - 1;
 
-            w = new double[mex];
+            double[] w = new double[mex];
 
             CHKQFS.chkqfs(t, wts, mlt, nt, n, ndx, key, ref w, mop, mex, kind,
                 alpha, beta, lo);

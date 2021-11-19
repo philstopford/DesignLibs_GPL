@@ -51,9 +51,6 @@ public static class Sample
         //    which each point was drawn.
         //
     {
-        double area;
-        double[] area_cum;
-        double area_total;
         int element;
         int i1;
         int i2;
@@ -61,13 +58,12 @@ public static class Sample
         int i4;
         int left = 0;
         double[] quad_xy = new double[2 * 4];
-        double r;
         int right = 0;
         int sample;
         //
         //  Compute the areas of the quadrilaterals.
         //
-        area_cum = new double[element_num + 1];
+        double[] area_cum = new double[element_num + 1];
 
         area_cum[0] = 0.0;
 
@@ -87,12 +83,12 @@ public static class Sample
             quad_xy[0 + 3 * 2] = node_xy[0 + i4 * 2];
             quad_xy[1 + 3 * 2] = node_xy[1 + i4 * 2];
 
-            area = Area.area_quad(quad_xy);
+            double area = Area.area_quad(quad_xy);
 
             area_cum[element] = area_cum[element - 1] + area;
         }
 
-        area_total = area_cum[element_num];
+        double area_total = area_cum[element_num];
 
         for (element = 0; element <= element_num; element++)
         {
@@ -105,7 +101,7 @@ public static class Sample
         //
         for (sample = 0; sample < sample_num; sample++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             typeMethods.r8vec_bracket(element_num + 1, area_cum, r, ref left, ref right);
 
@@ -163,11 +159,7 @@ public static class Sample
         //    Output, double XY[2*N], the sample points.
         //
     {
-        double area1;
-        double area2;
-        double area_total;
         int i;
-        double r;
         double[] t1 = new double[2 * 3];
         double[] t2 = new double[2 * 3];
 
@@ -178,7 +170,7 @@ public static class Sample
         t1[0 + 2 * 2] = quad_xy[0 + 2 * 2];
         t1[1 + 2 * 2] = quad_xy[1 + 2 * 2];
 
-        area1 = Integrals.triangle_area(t1);
+        double area1 = Integrals.triangle_area(t1);
 
         t2[0 + 0 * 2] = quad_xy[0 + 2 * 2];
         t2[1 + 0 * 2] = quad_xy[1 + 2 * 2];
@@ -187,7 +179,7 @@ public static class Sample
         t2[0 + 2 * 2] = quad_xy[0 + 0 * 2];
         t2[1 + 2 * 2] = quad_xy[1 + 0 * 2];
 
-        area2 = Integrals.triangle_area(t2);
+        double area2 = Integrals.triangle_area(t2);
 
         if (area1 < 0.0 || area2 < 0.0)
         {
@@ -220,14 +212,14 @@ public static class Sample
             }
         }
 
-        area_total = area1 + area2;
+        double area_total = area1 + area2;
         //
         //  Choose a triangle at random, weighted by the areas.
         //  Then choose a point in that triangle.
         //
         for (i = 0; i < n; i++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             if (r * area_total < area1)
             {
@@ -272,14 +264,9 @@ public static class Sample
         //    Output, double SAMPLE_QUAD[2*N], the sample points.
         //
     {
-        double area1;
-        double area2;
-        double area_total;
         int i;
-        double r;
         double[] t1 = new double[2 * 3];
         double[] t2 = new double[2 * 3];
-        double[] xy;
 
         t1[0 + 0 * 2] = quad_xy[0 + 0 * 2];
         t1[1 + 0 * 2] = quad_xy[1 + 0 * 2];
@@ -288,7 +275,7 @@ public static class Sample
         t1[0 + 2 * 2] = quad_xy[0 + 2 * 2];
         t1[1 + 2 * 2] = quad_xy[1 + 2 * 2];
 
-        area1 = Integrals.triangle_area(t1);
+        double area1 = Integrals.triangle_area(t1);
 
         t2[0 + 0 * 2] = quad_xy[0 + 2 * 2];
         t2[1 + 0 * 2] = quad_xy[1 + 2 * 2];
@@ -297,7 +284,7 @@ public static class Sample
         t2[0 + 2 * 2] = quad_xy[0 + 0 * 2];
         t2[1 + 2 * 2] = quad_xy[1 + 0 * 2];
 
-        area2 = Integrals.triangle_area(t2);
+        double area2 = Integrals.triangle_area(t2);
 
         if (area1 < 0.0 || area2 < 0.0)
         {
@@ -330,16 +317,16 @@ public static class Sample
             }
         }
 
-        area_total = area1 + area2;
+        double area_total = area1 + area2;
         //
         //  Choose a triangle at random, weighted by the areas.
         //  Then choose a point in that triangle.
         //
-        xy = new double[2 * n];
+        double[] xy = new double[2 * n];
 
         for (i = 0; i < n; i++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             if (r * area_total < area1)
             {

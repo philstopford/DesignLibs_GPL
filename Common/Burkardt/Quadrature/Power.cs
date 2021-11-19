@@ -52,11 +52,9 @@ public static class PowerQuadrature
         //
     {
         int dim;
-        int[] indx;
-        int k;
 
-        indx = new int[dim_num];
-        k = 0;
+        int[] indx = new int[dim_num];
+        int k = 0;
 
         for (;;)
         {
@@ -116,9 +114,7 @@ public static class PowerQuadrature
         //    Output, int POWER_RULE_SIZE, the number of points in the rule.
         //
     {
-        int point_num;
-
-        point_num = (int)Math.Pow(point_num_1d, dim_num);
+        int point_num = (int)Math.Pow(point_num_1d, dim_num);
 
         return point_num;
     }

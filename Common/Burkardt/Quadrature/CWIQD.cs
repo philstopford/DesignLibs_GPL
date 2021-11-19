@@ -72,23 +72,15 @@ public static class CWIQD
         //    Output, double CWIQD[M], the weights.
         //
     {
-        double[] d;
         int i;
         int j;
-        int jr;
         int k;
-        int last;
-        int minil;
         double sum;
-        double tmp;
-        double[] wf;
-        double[] y;
-        double[] z;
 
-        d = new double[m];
-        wf = new double[nstar];
-        y = new double[m];
-        z = new double[m];
+        double[] d = new double[m];
+        double[] wf = new double[nstar];
+        double[] y = new double[m];
+        double[] z = new double[m];
         //
         //  Compute products required for Y-hat.
         //
@@ -122,9 +114,10 @@ public static class CWIQD
         //
         for (i = 1; i <= nm; i++)
         {
-            tmp = v - xk[i - 1];
+            double tmp = v - xk[i - 1];
 
-            last = Math.Min(l, i + 1);
+            int last = Math.Min(l, i + 1);
+            int jr;
             for (jr = 2; jr <= last; jr++)
             {
                 j = last - jr + 2;
@@ -154,7 +147,7 @@ public static class CWIQD
         for (i = 2; i <= m; i++)
         {
             sum = 0.0;
-            minil = Math.Min(i, l);
+            int minil = Math.Min(i, l);
             for (j = 2; j <= minil; j++)
             {
                 k = i - j + 1;

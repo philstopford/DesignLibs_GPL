@@ -39,9 +39,7 @@ public static class HermiteQuadrature
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double[] w;
-
-        w = new double[order];
+        double[] w = new double[order];
 
         gen_hermite_compute ( order, alpha, ref x, ref w );
     }
@@ -78,9 +76,7 @@ public static class HermiteQuadrature
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gen_hermite_compute_points ( order, alpha, ref x );
 
@@ -116,12 +112,9 @@ public static class HermiteQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double[] x;
-
-        x = new double[order];
+        double[] x = new double[order];
 
         gen_hermite_compute ( order, alpha, ref x, ref w );
-            
     }
 
     public static double[] gen_hermite_compute_weights_np ( int order, int np, double[] p,
@@ -157,9 +150,7 @@ public static class HermiteQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gen_hermite_compute_weights ( order, alpha, ref w );
 
@@ -217,9 +208,7 @@ public static class HermiteQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gen_hermite_compute ( order, alpha, ref x, ref w );
     }
@@ -309,9 +298,7 @@ public static class HermiteQuadrature
         //    Output, double W[ORDER], the weights.
         //
     {
-        double[] x;
-
-        x = new double[order];
+        double[] x = new double[order];
 
         hermite_compute ( order, ref x, ref w );
     }
@@ -404,19 +391,16 @@ public static class HermiteQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double arg;
-        double[] bj;
         int i;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        arg = 0.5;
-        zemu = typeMethods.r8_gamma ( arg );
+        const double arg = 0.5;
+        double zemu = typeMethods.r8_gamma ( arg );
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -505,22 +489,19 @@ public static class HermiteQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double[] bj;
         int i;
-        double i_r8;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = typeMethods.r8_gamma ( ( alpha + 1.0 ) / 2.0 );
+        double zemu = typeMethods.r8_gamma ( ( alpha + 1.0 ) / 2.0 );
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            i_r8 = i + 1;
+            double i_r8 = i + 1;
             bj[i] = (i % 2) switch
             {
                 0 => (i_r8 + alpha) / 2.0,
@@ -594,18 +575,15 @@ public static class HermiteQuadrature
         //    Output, double MONOMIAL_QUADRATURE_GEN_HERMITE, the quadrature error.
         //
     {
-        double exact;
         int i;
-        double quad;
-        double quad_error;
         //
         //  Get the exact value of the integral of the monomial.
         //
-        exact = Integral.gen_hermite_integral ( expon, alpha );
+        double exact = Integral.gen_hermite_integral ( expon, alpha );
         //
         //  Evaluate the unweighted monomial at the quadrature points.
         //
-        quad = 0.0;
+        double quad = 0.0;
         switch (option)
         {
             case 0:
@@ -629,7 +607,7 @@ public static class HermiteQuadrature
             }
         }
 
-        quad_error = exact switch
+        double quad_error = exact switch
         {
             //
             //  Error:
@@ -692,19 +670,16 @@ public static class HermiteQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double arg;
-        double[] bj;
         int i;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        arg = 0.5;
-        zemu = Helpers.Gamma ( arg );
+        double arg = 0.5;
+        double zemu = Helpers.Gamma ( arg );
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -778,9 +753,7 @@ public static class HermiteQuadrature
         //
     {
         int dim;
-        int level;
         int point;
-        int pointer;
         int[] skip =  {
                 0, 1, 4, 11, 26, 57, 120, 247
             }
@@ -1064,9 +1037,9 @@ public static class HermiteQuadrature
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1);
+                int level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1);
 
-                pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num] + grid_base[gridBaseIndex + dim];
+                int pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num] + grid_base[gridBaseIndex + dim];
 
                 grid_point[gridPointIndex + dim + point * dim_num] = x[pointer];
             }
@@ -2201,14 +2174,11 @@ public static class HermiteQuadrature
         //    a corresponding BASE that is NOT zero.
         //
     {
-        int dim;
-        int[] grid_level;
-        int level_min;
         int point;
 
-        grid_level = new int[point_num];
+        int[] grid_level = new int[point_num];
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
         //
         //  If a point has a DIM-th component whose INDEX is 0, then the 
         //  value of LEVEL at which this point would first be generated is
@@ -2218,6 +2188,7 @@ public static class HermiteQuadrature
         {
             grid_level[point] = Math.Max(level, level_min);
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 grid_level[point] = grid_index[dim + point * dim_num] switch
@@ -2267,29 +2238,25 @@ public static class HermiteQuadrature
         //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
         //
     {
-        double exact;
         int point;
-        double quad;
-        double quad_error;
-        double[] value;
         //
         //  Get the exact value of the integral of the unscaled monomial.
         //
-        exact = Integral.hermite_integral_nd ( dim_num, expon );
+        double exact = Integral.hermite_integral_nd ( dim_num, expon );
         //
         //  Evaluate the monomial at the quadrature points.
         //
-        value = Monomial.monomial_value ( dim_num, point_num, x, expon );
+        double[] value = Monomial.monomial_value ( dim_num, point_num, x, expon );
         //
         //  Compute the weighted sum.
         //
-        quad = 0.0;
+        double quad = 0.0;
         for ( point = 0; point < point_num; point++ )
         {
             quad += weight[point] * value[point];
         }
 
-        quad_error = exact switch
+        double quad_error = exact switch
         {
             //
             //  If the exact value is nonzero, use it to scale the data.
@@ -2339,11 +2306,9 @@ public static class HermiteQuadrature
     {
         int dim;
         int order;
-        double[] w_1d;
-        double[] w_nd;
         typeMethods.r8vecDPData data = new();
 
-        w_nd = new double[order_nd];
+        double[] w_nd = new double[order_nd];
   
         for ( order = 0; order < order_nd; order++ )
         {
@@ -2352,7 +2317,7 @@ public static class HermiteQuadrature
 
         for ( dim = 0; dim < dim_num; dim++ )
         {
-            w_1d = new double[order_1d[dim]];
+            double[] w_1d = new double[order_1d[dim]];
     
             hermite_weights ( order_1d[dim], ref w_1d );
 
@@ -2395,7 +2360,6 @@ public static class HermiteQuadrature
         //    of the rule.
         //
     {
-        double[] bj;
         int i;
             
 
@@ -2404,7 +2368,7 @@ public static class HermiteQuadrature
             t[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
@@ -2527,11 +2491,8 @@ public static class HermiteQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        int nhalf;
-        double[] xhalf;
-
-        nhalf = n / 2;
-        xhalf = new double[nhalf];
+        int nhalf = n / 2;
+        double[] xhalf = new double[nhalf];
 
         ClenshawCurtis.clenshaw_curtis_compute_points ( nhalf, ref xhalf );
         typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
@@ -2565,9 +2526,7 @@ public static class HermiteQuadrature
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double[] w;
-
-        w = new double[order];
+        double[] w = new double[order];
 
         hermite_compute ( order, ref x, ref w );
     }
@@ -2645,9 +2604,6 @@ public static class HermiteQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        int nhalf;
-        double[] xhalf;
-
         if ( n % 2 != 0 )
         {
             Console.WriteLine("");
@@ -2656,8 +2612,8 @@ public static class HermiteQuadrature
             return;
         }
 
-        nhalf = n / 2;
-        xhalf = new double[nhalf];
+        int nhalf = n / 2;
+        double[] xhalf = new double[nhalf];
 
         hc_compute_weights_from_points ( nhalf, xhalf, ref w );
 
@@ -2703,17 +2659,12 @@ public static class HermiteQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double a_high = 1.0;
-        double a_low = 0.0;
-        int nhalf;
-        double[] xhalf;
+        const double a_low = 0.0;
+        const double a_high = 1.0;
 
-        a_low = 0.0;
-        a_high = 1.0;
+        int nhalf = n / 2;
 
-        nhalf = n / 2;
-
-        xhalf = typeMethods.r8vec_linspace_new ( nhalf, a_low, a_high );
+        double[] xhalf = typeMethods.r8vec_linspace_new ( nhalf, a_low, a_high );
         typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
         hc_compute_weights_from_points ( nhalf, xhalf, ref w );
     }
@@ -2750,7 +2701,6 @@ public static class HermiteQuadrature
         //    of the rule.
         //
     {
-        double[] bj;
         int i;
             
 
@@ -2759,7 +2709,7 @@ public static class HermiteQuadrature
             t[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
@@ -2818,7 +2768,6 @@ public static class HermiteQuadrature
         //    of the rule.
         //
     {
-        double[] bj;
         int i;
             
 
@@ -2827,7 +2776,7 @@ public static class HermiteQuadrature
             t[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
 
         for (i = 0; i < nt; i++)
         {

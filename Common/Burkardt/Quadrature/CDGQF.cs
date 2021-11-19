@@ -68,18 +68,14 @@ public static class CDGQF
         //    Output, double WTS[NT], the weights.
         //
     {
-        double[] aj;
-        double[] bj;
-        double zemu;
-
         PARCHK.parchk(kind, 2 * nt, alpha, beta);
         //
         //  Get the Jacobi matrix and zero-th moment.
         //
-        aj = new double[nt];
-        bj = new double[nt];
+        double[] aj = new double[nt];
+        double[] bj = new double[nt];
 
-        zemu = Matrix.class_matrix(kind, nt, alpha, beta, ref aj, ref bj);
+        double zemu = Matrix.class_matrix(kind, nt, alpha, beta, ref aj, ref bj);
         //
         //  Compute the knots and weights.
         //

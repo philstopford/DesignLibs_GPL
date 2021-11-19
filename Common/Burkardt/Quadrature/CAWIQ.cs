@@ -114,25 +114,13 @@ public static class CAWIQ
         //
     {
         int i;
-        int ip;
         int j;
-        int jj;
-        int jp;
         int k;
         int l;
-        int m;
-        int mnm;
         int n = 0;
-        double p;
-        double prec;
-        double[] r;
         double tmp;
-        double[] xk;
-        double[] wtmp;
-        double[] wts;
-        double[] z;
 
-        prec = typeMethods.r8_epsilon();
+        double prec = typeMethods.r8_epsilon();
 
         switch (nt)
         {
@@ -258,7 +246,7 @@ public static class CAWIQ
             {
                 for (i = 1; i <= nt; i++)
                 {
-                    ip = Math.Abs(ndx[i - 1]);
+                    int ip = Math.Abs(ndx[i - 1]);
 
                     switch (ip)
                     {
@@ -282,7 +270,7 @@ public static class CAWIQ
                     l = i + 1;
                     for (j = l; j <= nt; j++)
                     {
-                        jp = Math.Abs(ndx[j - 1]);
+                        int jp = Math.Abs(ndx[j - 1]);
                         if (jp != 0)
                         {
                             if (jp <= ip + mlt[i - 1] && ip <= jp + mlt[j - 1])
@@ -317,7 +305,7 @@ public static class CAWIQ
                 return null;
         }
 
-        wts = new double[nwts];
+        double[] wts = new double[nwts];
         switch (n)
         {
             //
@@ -349,7 +337,7 @@ public static class CAWIQ
                 //
                 //  Set unit vector in work field to get back first row of Q.
                 //
-                z = new double[nst];
+                double[] z = new double[nst];
 
                 for (i = 0; i < nst; i++)
                 {
@@ -388,13 +376,13 @@ public static class CAWIQ
                     continue;
             }
 
-            m = mlt[i - 1];
-            mnm = Math.Max(n - m, 1);
+            int m = mlt[i - 1];
+            int mnm = Math.Max(n - m, 1);
             l = Math.Min(m, n - m + 1);
             //
             //  Set up K-hat matrix for CWIQD with knots according to their multiplicities.
             //
-            xk = new double[mnm];
+            double[] xk = new double[mnm];
 
             k = 1;
             for (j = 1; j <= nt; j++)
@@ -403,6 +391,7 @@ public static class CAWIQ
                 {
                     if (j != i)
                     {
+                        int jj;
                         for (jj = 1; jj <= mlt[j - 1]; jj++)
                         {
                             xk[k - 1] = t[j - 1];
@@ -415,7 +404,7 @@ public static class CAWIQ
             //
             //  Set up the right principal vector.
             //
-            r = new double[l];
+            double[] r = new double[l];
 
             r[0] = 1.0 / zemu;
             for (j = 1; j < l; j++)
@@ -430,7 +419,7 @@ public static class CAWIQ
             //
             //  Find all the weights for this knot.
             //
-            wtmp = CWIQD.cwiqd(m, mnm, l, t[i - 1], xk, nst, aj, bj, r);
+            double[] wtmp = CWIQD.cwiqd(m, mnm, l, t[i - 1], xk, nst, aj, bj, r);
 
             for (j = 0; j < m; j++)
             {
@@ -449,7 +438,7 @@ public static class CAWIQ
             tmp = 1.0;
             for (j = 1; j < m - 1; j++)
             {
-                p = j;
+                double p = j;
                 tmp *= p;
                 wts[k - 1 + j] /= tmp;
             }

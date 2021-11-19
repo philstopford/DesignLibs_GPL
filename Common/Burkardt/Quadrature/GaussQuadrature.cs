@@ -56,20 +56,17 @@ public static class GaussQuadrature
         //    quadrature rule.  The nodes are listed in increasing order.
         //
     {
-        double[] a;
-        int i;
-        int it_max;
         int it_num = 0;
         int j;
         int rot_num = 0;
-        double[] v;
         //
         //  Define the tridiagonal Jacobi matrix.
         //
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)
@@ -94,9 +91,9 @@ public static class GaussQuadrature
         //
         //  Get the eigenvectors and eigenvalues.
         //
-        it_max = 100;
+        const int it_max = 100;
 
-        v = new double[n * n];
+        double[] v = new double[n * n];
 
         Jacobi.jacobi_eigenvalue(n, a, it_max, ref v, ref x, ref it_num, ref rot_num);
 
@@ -144,12 +141,10 @@ public static class GaussQuadrature
     {
         int dim;
         int order;
-        double[] w_1d;
-        double[] w_nd;
 
         typeMethods.r8vecDPData data = new();
 
-        w_nd = new double[order_nd];
+        double[] w_nd = new double[order_nd];
 
         for (order = 0; order < order_nd; order++)
         {
@@ -158,7 +153,7 @@ public static class GaussQuadrature
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            w_1d = new double[order_1d[dim]];
+            double[] w_1d = new double[order_1d[dim]];
 
             gl_weights(order_1d[dim], ref w_1d);
 
@@ -1473,9 +1468,7 @@ public static class GaussQuadrature
         //
     {
         int dim;
-        int level;
         int point;
-        int pointer;
         int[] skip =
             {
                 0, 1, 4, 11, 26, 57, 120, 247
@@ -1761,9 +1754,9 @@ public static class GaussQuadrature
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1);
+                int level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1);
 
-                pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num] + grid_base[gridBaseIndex + dim];
+                int pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num] + grid_base[gridBaseIndex + dim];
 
                 grid_point[gridPointIndex + dim + point * dim_num] = x[pointer];
             }

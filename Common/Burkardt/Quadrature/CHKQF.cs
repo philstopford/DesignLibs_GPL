@@ -93,20 +93,15 @@ public static class CHKQF
         //    Input, double A, B, the interval endpoints.
         //
     {
-        int i;
-        int izero;
-        int neg;
-        double[] t2;
         double tmp = 0;
-        double[] w;
 
-        w = new double[mex];
+        double[] w = new double[mex];
 
         PARCHK.parchk(kind, mex, alpha, beta);
 
         if (lo != 0)
         {
-            izero = 0;
+            const int izero = 0;
 
             Console.WriteLine("");
             Console.WriteLine("  Interpolatory quadrature formula");
@@ -192,14 +187,15 @@ public static class CHKQF
                         break;
                 }
 
-                t2 = new double[nt];
+                double[] t2 = new double[nt];
 
+                int i;
                 for (i = 0; i < nt; i++)
                 {
                     t2[i] = t[i] - tmp;
                 }
 
-                neg = -1;
+                int neg = -1;
                 //
                 //  Check moments.
                 //

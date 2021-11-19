@@ -102,27 +102,14 @@ public static class QuadratureRule
         //    of quadrature points in a given element.
         //
     {
-        int NQE = 13;
+        const int NQE = 13;
 
-        double ar = 0;
         double bi = 0;
         double dbidx = 0;
         double dbidy = 0;
-        double dudx;
-        double dudxh;
-        double dudy;
-        double dudyh;
         int element;
-        int i;
-        int in1;
-        int ip;
-        int quad;
-        double u;
-        double uh;
         double[] wqe = new double[NQE];
-        double x;
         double[] xqe = new double[NQE];
-        double y;
         double[] yqe = new double[NQE];
 
         el2 = 0.0E+00;
@@ -139,24 +126,26 @@ public static class QuadratureRule
             //  For each quadrature point, evaluate the computed solution and its X and
             //  Y derivatives.
             //
+            int quad;
             for (quad = 1; quad <= NQE; quad++)
             {
-                ar = element_area[element - 1] * wqe[quad - 1];
-                x = xqe[quad - 1];
-                y = yqe[quad - 1];
+                double ar = element_area[element - 1] * wqe[quad - 1];
+                double x = xqe[quad - 1];
+                double y = yqe[quad - 1];
 
-                uh = 0.0E+00;
-                dudxh = 0.0E+00;
-                dudyh = 0.0E+00;
+                double uh = 0.0E+00;
+                double dudxh = 0.0E+00;
+                double dudyh = 0.0E+00;
 
+                int in1;
                 for (in1 = 1; in1 <= nnodes; in1++)
                 {
-                    ip = element_node[in1 - 1 + (element - 1) * nnodes];
+                    int ip = element_node[in1 - 1 + (element - 1) * nnodes];
 
                     Quadratic.qbf(x, y, element, in1, node_xy,
                         element_node, element_num, nnodes, node_num, ref bi, ref dbidx, ref dbidy);
 
-                    i = indx[ip - 1];
+                    int i = indx[ip - 1];
 
                     uh += bi * f[i - 1];
                     dudxh += dbidx * f[i - 1];
@@ -167,9 +156,9 @@ public static class QuadratureRule
                 //  Evaluate the exact solution and its X and Y derivatives.
                 //
                 ExactResult res = exact(x, y);
-                u = res.u;
-                dudx = res.dudx;
-                dudy = res.dudy;
+                double u = res.u;
+                double dudx = res.dudx;
+                double dudy = res.dudy;
                 //
                 //  Add the weighted value at this quadrature point to the quadrature sum.
                 //
@@ -236,15 +225,6 @@ public static class QuadratureRule
         //
     {
         int element;
-        int ip1;
-        int ip2;
-        int ip3;
-        double x1;
-        double x2;
-        double x3;
-        double y1;
-        double y2;
-        double y3;
 
         wq[0] = 1.0E+00 / 3.0E+00;
         wq[1] = wq[0];
@@ -252,17 +232,17 @@ public static class QuadratureRule
 
         for (element = 1; element <= element_num; element++)
         {
-            ip1 = element_node[0 + (element - 1) * nnodes];
-            ip2 = element_node[1 + (element - 1) * nnodes];
-            ip3 = element_node[2 + (element - 1) * nnodes];
+            int ip1 = element_node[0 + (element - 1) * nnodes];
+            int ip2 = element_node[1 + (element - 1) * nnodes];
+            int ip3 = element_node[2 + (element - 1) * nnodes];
 
-            x1 = node_xy[0 + (ip1 - 1) * 2];
-            x2 = node_xy[0 + (ip2 - 1) * 2];
-            x3 = node_xy[0 + (ip3 - 1) * 2];
+            double x1 = node_xy[0 + (ip1 - 1) * 2];
+            double x2 = node_xy[0 + (ip2 - 1) * 2];
+            double x3 = node_xy[0 + (ip3 - 1) * 2];
 
-            y1 = node_xy[1 + (ip1 - 1) * 2];
-            y2 = node_xy[1 + (ip2 - 1) * 2];
-            y3 = node_xy[1 + (ip3 - 1) * 2];
+            double y1 = node_xy[1 + (ip1 - 1) * 2];
+            double y2 = node_xy[1 + (ip2 - 1) * 2];
+            double y3 = node_xy[1 + (ip3 - 1) * 2];
 
             xq[0 + (element - 1) * 3] = 0.5E+00 * (x1 + x2);
             xq[1 + (element - 1) * 3] = 0.5E+00 * (x2 + x3);
@@ -323,57 +303,39 @@ public static class QuadratureRule
         //
     {
         int i;
-        int ii;
-        int iii;
-        int ip1;
-        int ip2;
-        int ip3;
-        double x1;
-        double x2;
-        double x3;
-        double y1;
-        double y2;
-        double y3;
-        double z1;
-        double z2;
-        double z3;
-        double z4;
-        double z5;
-        double z6;
-        double z7;
 
         for (i = 1; i <= 3; i++)
         {
             wqe[i - 1] = 0.175615257433204E+00;
-            ii = i + 3;
+            int ii = i + 3;
             wqe[ii - 1] = 0.053347235608839E+00;
             ii = i + 6;
-            iii = ii + 3;
+            int iii = ii + 3;
             wqe[ii - 1] = 0.077113760890257E+00;
             wqe[iii - 1] = wqe[ii - 1];
         }
 
         wqe[13 - 1] = -0.14957004446767E+00;
 
-        z1 = 0.479308067841923E+00;
-        z2 = 0.260345966079038E+00;
-        z3 = 0.869739794195568E+00;
-        z4 = 0.065130102902216E+00;
-        z5 = 0.638444188569809E+00;
-        z6 = 0.312865496004875E+00;
-        z7 = 0.048690315425316E+00;
+        const double z1 = 0.479308067841923E+00;
+        const double z2 = 0.260345966079038E+00;
+        const double z3 = 0.869739794195568E+00;
+        const double z4 = 0.065130102902216E+00;
+        const double z5 = 0.638444188569809E+00;
+        const double z6 = 0.312865496004875E+00;
+        const double z7 = 0.048690315425316E+00;
 
-        ip1 = element_node[0 + (element - 1) * nnodes];
-        ip2 = element_node[1 + (element - 1) * nnodes];
-        ip3 = element_node[2 + (element - 1) * nnodes];
+        int ip1 = element_node[0 + (element - 1) * nnodes];
+        int ip2 = element_node[1 + (element - 1) * nnodes];
+        int ip3 = element_node[2 + (element - 1) * nnodes];
 
-        x1 = node_xy[0 + (ip1 - 1) * 2];
-        x2 = node_xy[0 + (ip2 - 1) * 2];
-        x3 = node_xy[0 + (ip3 - 1) * 2];
+        double x1 = node_xy[0 + (ip1 - 1) * 2];
+        double x2 = node_xy[0 + (ip2 - 1) * 2];
+        double x3 = node_xy[0 + (ip3 - 1) * 2];
 
-        y1 = node_xy[1 + (ip1 - 1) * 2];
-        y2 = node_xy[1 + (ip2 - 1) * 2];
-        y3 = node_xy[1 + (ip3 - 1) * 2];
+        double y1 = node_xy[1 + (ip1 - 1) * 2];
+        double y2 = node_xy[1 + (ip2 - 1) * 2];
+        double y3 = node_xy[1 + (ip3 - 1) * 2];
 
         xqe[1 - 1] = z1 * x1 + z2 * x2 + z2 * x3;
         yqe[1 - 1] = z1 * y1 + z2 * y2 + z2 * y3;
@@ -468,10 +430,6 @@ public static class QuadratureRule
         double c;
         double d;
         double e;
-        double f;
-        double g;
-        double h;
-        double t;
         double u;
         double v;
         double w;
@@ -619,17 +577,17 @@ public static class QuadratureRule
                 quad_w[8] = v;
                 break;
             case 13:
-                h = 1.0 / 3.0;
+                double h = 1.0 / 3.0;
                 a = 0.479308067841923;
                 b = 0.260345966079038;
                 c = 0.869739794195568;
                 d = 0.065130102902216;
                 e = 0.638444188569809;
-                f = 0.312865496004875;
-                g = 0.048690315425316;
+                double f = 0.312865496004875;
+                double g = 0.048690315425316;
 
                 w = -0.149570044467670;
-                t = 0.175615257433204;
+                double t = 0.175615257433204;
                 u = 0.053347235608839;
                 v = 0.077113760890257;
 
@@ -719,7 +677,6 @@ public static class QuadratureRule
         //    Input, string TITLE, a title for the rule.
         //
     {
-        int i;
         int j;
 
         Console.WriteLine("");
@@ -730,6 +687,7 @@ public static class QuadratureRule
         {
             string cout = "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                + "  " + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + " * f (";
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 cout += x[i+j*m];
@@ -778,13 +736,6 @@ public static class QuadratureRule
         //    The points and weights.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j1;
-        int j2;
-        double t;
-        double ww;
         SortHeapExternalData data = new();
 
         switch (m)
@@ -801,10 +752,10 @@ public static class QuadratureRule
         //
         //  Initialize.
         //
-        indx = 0;
-        isgn = 0;
-        j1 = 0;
-        j2 = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j1 = 0;
+        int j2 = 0;
         //
         //  Call the external heap sorter.
         //
@@ -814,18 +765,15 @@ public static class QuadratureRule
             //
             //  Interchange columns J1 and J2.
             //
+            int i;
             if ( 0 < indx )
             {
                 for ( i = 0; i < m; i++ )
                 {
-                    t             = x[i+(j1-1)*m];
-                    x[i+(j1-1)*m] = x[i+(j2-1)*m];
-                    x[i+(j2-1)*m] = t;
+                    (x[i+(j1-1)*m], x[i+(j2-1)*m]) = (x[i+(j2-1)*m], x[i+(j1-1)*m]);
                 }
 
-                ww      = w[j1-1];
-                w[j1-1] = w[j2-1];
-                w[j2-1] = ww;   
+                (w[j1-1], w[j2-1]) = (w[j2-1], w[j1-1]);
             }
             //
             //  Compare columns J1 and J2.
@@ -841,17 +789,19 @@ public static class QuadratureRule
                         break;
                     }
 
-                    if ( x[i+(j2-1)*m] < x[i+(j1-1)*m] )
+                    if (!(x[i + (j2 - 1) * m] < x[i + (j1 - 1) * m]))
                     {
-                        isgn = +1;
-                        break;
+                        continue;
                     }
+
+                    isgn = +1;
+                    break;
                 }
             }
             //
             //  The columns are sorted.
             //
-            else if ( indx == 0 )
+            else
             {
                 break;
             }
@@ -903,38 +853,30 @@ public static class QuadratureRule
         //
     {
         int i;
-        int ihi;
-        int[] ix;
-        int j;
-        bool more;
-        double quad;
-        double result;
-        double volume;
-        double w;
-        double[] x;
 
-        w = 1.0 / ( double ) ( (int)Math.Pow ( nsub, n ) );
-        quad = 0.0;
+        double w = 1.0 / (int)Math.Pow ( nsub, n );
+        double quad = 0.0;
 
-        more = false;
-        ihi = (int)Math.Pow ( nsub, n );
+        bool more = false;
+        int ihi = (int)Math.Pow ( nsub, n );
 
-        ix = new int[n];
-        x = new double[n];
+        int[] ix = new int[n];
+        double[] x = new double[n];
 
         for ( i = 0; i < ihi; i++ )
         {
             typeMethods.vec_lex_next ( n, nsub, ref ix, ref more );
 
+            int j;
             for ( j = 0; j < n; j++ )
             {
-                x[j] = ( double ) ( 2 * ix[j] + 1 - nsub ) / ( double ) ( nsub );
+                x[j] = (2 * ix[j] + 1 - nsub) / ( double ) ( nsub );
             }
             quad += w * func (setting, n, x );
         }
 
-        volume = Math.Pow ( 2.0, n );
-        result = quad * volume;
+        double volume = Math.Pow ( 2.0, n );
+        double result = quad * volume;
 
         return result;
     }
@@ -1049,7 +991,7 @@ public static class QuadratureRule
         };
         int npts;
 
-        if (1 <= mmax && mmax <= 50)
+        if (mmax is >= 1 and <= 50)
         {
             npts = nnodes[mmax - 1];
         }
@@ -1111,7 +1053,7 @@ public static class QuadratureRule
         };
         int npts;
 
-        if (1 <= mmax && mmax <= 50)
+        if (mmax is >= 1 and <= 50)
         {
             npts = nnodes[mmax - 1];
         }
@@ -8413,13 +8355,9 @@ public static class QuadratureRule
         //    defining weights, abscissas, and region.
         // 
     {
-        string filename_r;
-        string filename_w;
-        string filename_x;
-
-        filename_w = filename + "_w.txt";
-        filename_x = filename + "_x.txt";
-        filename_r = filename + "_r.txt";
+        string filename_w = filename + "_w.txt";
+        string filename_x = filename + "_x.txt";
+        string filename_r = filename + "_r.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Creating quadrature files.");

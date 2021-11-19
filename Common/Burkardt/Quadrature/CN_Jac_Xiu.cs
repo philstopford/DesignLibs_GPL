@@ -62,17 +62,8 @@ public static class CN_Jac_Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
-        double c1;
-        double delta0;
-        int expon;
-        double gamma0;
         int i;
         int j;
-            
-        int r;
-        double volume;
-        double volume_1d;
 
         switch (alpha)
         {
@@ -95,9 +86,10 @@ public static class CN_Jac_Xiu
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
 
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
@@ -105,17 +97,18 @@ public static class CN_Jac_Xiu
                 i += 1;
             }
 
-            if (i < n)
+            if (i >= n)
             {
-                x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
+                continue;
             }
+
+            x[i + j * n] = typeMethods.r8_mop(j);
         }
 
-        gamma0 = (alpha + beta + 2.0) / 2.0;
-        delta0 = (alpha - beta) / 2.0;
-        c1 = 2.0 * (alpha + 1.0) * (beta + 1.0) / (alpha + beta + 3.0)
-                                                / (alpha + beta + 2.0);
+        double gamma0 = (alpha + beta + 2.0) / 2.0;
+        double delta0 = (alpha - beta) / 2.0;
+        double c1 = 2.0 * (alpha + 1.0) * (beta + 1.0) / (alpha + beta + 3.0)
+                                                       / (alpha + beta + 2.0);
 
         for (j = 0; j < o; j++)
         {
@@ -125,9 +118,9 @@ public static class CN_Jac_Xiu
             }
         }
 
-        expon = 0;
-        volume_1d = C1.c1_jac_monomial_integral(alpha, beta, expon);
-        volume = Math.Pow(volume_1d, n);
+        int expon = 0;
+        double volume_1d = C1.c1_jac_monomial_integral(alpha, beta, expon);
+        double volume = Math.Pow(volume_1d, n);
 
         for (j = 0; j < o; j++)
         {
@@ -186,8 +179,6 @@ public static class CN_Jac_Xiu
         //    Output, int CN_JAC_02_XIU_SIZE, the order.
         //
     {
-        int o;
-
         switch (alpha)
         {
             case <= -1.0:
@@ -205,7 +196,7 @@ public static class CN_Jac_Xiu
                 Console.WriteLine("  BETA <= -1.0");
                 return 1;
             default:
-                o = n + 1;
+                int o = n + 1;
 
                 return o;
         }

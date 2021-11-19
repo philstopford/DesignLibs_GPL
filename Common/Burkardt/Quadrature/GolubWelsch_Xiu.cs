@@ -173,18 +173,16 @@ public static class GolubWelsch_Xiu
         //    Output, double W[O], the weights.
         //
     {
-        double arg;
         int i;
         int j;
-            
-        int r;
 
         for (j = 0; j < o; j++)
         {
             i = 0;
+            int r;
             for (r = 1; r <= n / 2; r++)
             {
-                arg = 2 * r * j * Math.PI / (n + 1);
+                double arg = 2 * r * j * Math.PI / (n + 1);
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                 i += 1;
                 x[i + j * n] = Math.Sqrt(2.0) * Math.Sin(arg);
@@ -194,7 +192,6 @@ public static class GolubWelsch_Xiu
             if (i < n)
             {
                 x[i + j * n] = typeMethods.r8_mop(j);
-                i += 1;
             }
         }
 
@@ -256,9 +253,7 @@ public static class GolubWelsch_Xiu
         //    Output, int GW_02_XIU_SIZE, the order.
         //
     {
-        int o;
-
-        o = n + 1;
+        int o = n + 1;
 
         return o;
     }

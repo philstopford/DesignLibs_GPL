@@ -51,9 +51,7 @@ public static class GaussHermite
         //
     {
         int dim;
-        int level;
         int point;
-        int pointer;
         int[] skip = {0, 1, 4, 11, 26, 57, 120, 247};
         double[] x =
         {
@@ -334,9 +332,9 @@ public static class GaussHermite
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                level = (int) Math.Log2(grid_base[dim] + 1);
+                int level = (int) Math.Log2(grid_base[dim] + 1);
 
-                pointer = skip[level] + grid_index[(dim + point * dim_num + gridIndIndex) % grid_index.Length] + grid_base[dim];
+                int pointer = skip[level] + grid_index[(dim + point * dim_num + gridIndIndex) % grid_index.Length] + grid_base[dim];
 
                 grid_point[(dim + point * dim_num + gridPtIndex) % grid_point.Length] = x[pointer];
             }
@@ -390,9 +388,7 @@ public static class GaussHermite
         //    The weights are positive, symmetric and should sum to SQRT(PI).
         //
     {
-        double[] weight;
-
-        weight = new double[order];
+        double[] weight = new double[order];
 
         switch (order)
         {
@@ -721,18 +717,15 @@ public static class GaussHermite
         //    Output, double WEIGHT[ORDER], the Gauss-Hermite weights.
         //
     {
-        double cc;
         double dp2 = 0;
         int i;
         double p1 = 0;
-        double s;
-        double temp;
         double x = 0;
 
-        cc = 1.7724538509 * typeMethods.r8_gamma(order)
-             / Math.Pow(2.0, order - 1);
+        double cc = 1.7724538509 * typeMethods.r8_gamma(order)
+                    / Math.Pow(2.0, order - 1);
 
-        s = Math.Pow(2.0 * order + 1.0, 1.0 / 6.0);
+        double s = Math.Pow(2.0 * order + 1.0, 1.0 / 6.0);
 
         for (i = 0; i < (order + 1) / 2; i++)
         {
@@ -775,9 +768,7 @@ public static class GaussHermite
             {
                 for (i = 0; i < order / 2; i++)
                 {
-                    temp = xtab[i];
-                    xtab[i] = xtab[order - 1 - i];
-                    xtab[order - 1 - i] = temp;
+                    (xtab[i], xtab[order - 1 - i]) = (xtab[order - 1 - i], xtab[i]);
                 }
 
                 break;

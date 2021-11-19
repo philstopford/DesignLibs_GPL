@@ -151,9 +151,8 @@ public static class Quae
         //
     {
         int nbool = 0;
-        double s;
 
-        s = Math.Sqrt(3.0);
+        double s = Math.Sqrt(3.0);
         switch (iitype)
         {
             //
@@ -286,16 +285,12 @@ public static class Quae
     {
         const double eps = 1.0E-12;
         int i;
-        int ntot;
-        double w0 = 0;
-        double x0 = 0;
         double x1 = 0;
         double x2 = 0;
-        double y0 = 0;
         double y1 = 0;
         double y2 = 0;
 
-        ntot = 0;
+        int ntot = 0;
 
         for (i = 0; i < nptsout; i++)
         {
@@ -309,6 +304,9 @@ public static class Quae
                     break;
                 default:
                 {
+                    double w0;
+                    double y0;
+                    double x0;
                     if (Math.Pow(xsout[i], 2) < eps ||
                         Math.Abs(ysout[i] - xsout[i] / Math.Sqrt(3.0)) < Math.Sqrt(eps))
                     {
@@ -431,9 +429,8 @@ public static class Quae
     {
         const double eps = 1.0E-12;
         int i;
-        int ntot;
 
-        ntot = 0;
+        int ntot = 0;
 
         for (i = 0; i < nptsout; i++)
         {
@@ -531,15 +528,6 @@ public static class Quae
         //    Input, int NUMNODES, the number of nodes in the quadrature rule.
         //
     {
-        int nc;
-        int nf;
-        double[] wc;
-        double[] wf;
-        double[] xc;
-        double[] xf;
-        double[] yc;
-        double[] yf;
-
         switch (mmax)
         {
             case < 1:
@@ -563,22 +551,22 @@ public static class Quae
         //
         //  Get the size of the compressed rule.
         //
-        nc = QuadratureRule.rule_compressed_size(mmax);
+        int nc = QuadratureRule.rule_compressed_size(mmax);
         //
         //  Retrieve the compressed rule.
         //
-        xc = new double[nc];
-        yc = new double[nc];
-        wc = new double[nc];
+        double[] xc = new double[nc];
+        double[] yc = new double[nc];
+        double[] wc = new double[nc];
 
         quaequad0(mmax, nc, ref xc, ref yc, ref wc);
         //
         //  Expand the nodes to the entire triangle.
         //
-        nf = QuadratureRule.rule_full_size(mmax);
-        xf = new double[nf];
-        yf = new double[nf];
-        wf = new double[nf];
+        int nf = QuadratureRule.rule_full_size(mmax);
+        double[] xf = new double[nf];
+        double[] yf = new double[nf];
+        double[] wf = new double[nf];
 
         switch (itype)
         {
@@ -648,13 +636,7 @@ public static class Quae
         //
     {
         int i;
-        int iitype;
-        int nbool0;
-        int nbool1;
-        int nbool2;
-        double x0 = 0;
         double x1 = 0;
-        double y0 = 0;
         double y1 = 0;
         switch (mmax)
         {
@@ -824,18 +806,18 @@ public static class Quae
             //
             //  The lower-left 1/6
             //
-            iitype = 2;
-            nbool2 = quaeinside(iitype, xnew[i], ynew[i]);
+            int iitype = 2;
+            int nbool2 = quaeinside(iitype, xnew[i], ynew[i]);
             //
             //  The lower 1/3
             //
             iitype = 1;
-            nbool1 = quaeinside(iitype, xnew[i], ynew[i]);
+            int nbool1 = quaeinside(iitype, xnew[i], ynew[i]);
             //
             //  The whole triangle
             //
             iitype = 0;
-            nbool0 = quaeinside(iitype, xnew[i], ynew[i]);
+            int nbool0 = quaeinside(iitype, xnew[i], ynew[i]);
 
             switch (nbool2)
             {
@@ -854,8 +836,8 @@ public static class Quae
                             switch (nbool0)
                             {
                                 case 1:
-                                    x0 = xnew[i];
-                                    y0 = ynew[i];
+                                    double x0 = xnew[i];
+                                    double y0 = ynew[i];
                                     quaerotate(x0, y0, ref x1, ref y1);
                                     xnew[i] = x1;
                                     ynew[i] = y1;
@@ -914,20 +896,14 @@ public static class Quae
         //    after rotation.
         //
     {
-        double a11;
-        double a12;
-        double a21;
-        double a22;
-            
-        double theta;
         //
         //  Initialize the matrix of rotation.
         //
-        theta = 2.0 * Math.PI / 3.0;
-        a11 = Math.Cos(theta);
-        a22 = Math.Cos(theta);
-        a12 = -Math.Sin(theta);
-        a21 = -a12;
+        const double theta = 2.0 * Math.PI / 3.0;
+        double a11 = Math.Cos(theta);
+        double a22 = Math.Cos(theta);
+        double a12 = -Math.Sin(theta);
+        double a21 = -a12;
         //
         //  Apply the rotation matrix to the input vector.
         //

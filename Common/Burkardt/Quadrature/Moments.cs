@@ -43,21 +43,13 @@ public static class Moments
         //    Output, double X[N], W[N], the points and weights of the quadrature rule.
         //
     {
-        double[] alpha;
-        double[] beta;
-        bool debug;
         int flag = 0;
-        double[] h;
         int i;
-        int it_max;
         int it_num = 0;
         int j;
-        double[] jacobi;
-        double[] r;
         int rot_num = 0;
-        double[] v;
 
-        debug = false;
+        const bool debug = false;
 
         switch (debug)
         {
@@ -69,7 +61,7 @@ public static class Moments
         //
         //  Define the N+1 by N+1 Hankel matrix H(I,J) = moment(I+J).
         //
-        h = new double[(n + 1) * (n + 1)];
+        double[] h = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -89,7 +81,7 @@ public static class Moments
         //
         //  Compute R, the upper triangular Cholesky factor of H.
         //
-        r = typeMethods.r8mat_cholesky_factor_upper(n + 1, h, ref flag);
+        double[] r = typeMethods.r8mat_cholesky_factor_upper(n + 1, h, ref flag);
 
         if (flag != 0)
         {
@@ -109,7 +101,7 @@ public static class Moments
         //
         //  Compute ALPHA and BETA from R, using Golub and Welsch's formula.
         //
-        alpha = new double[n];
+        double[] alpha = new double[n];
 
         alpha[0] = r[0 + 1 * (n + 1)] / r[0 + 0 * (n + 1)];
         for (i = 1; i < n; i++)
@@ -118,7 +110,7 @@ public static class Moments
                        - r[i - 1 + i * (n + 1)] / r[i - 1 + (i - 1) * (n + 1)];
         }
 
-        beta = new double[n - 1];
+        double[] beta = new double[n - 1];
 
         for (i = 0; i < n - 1; i++)
         {
@@ -128,7 +120,7 @@ public static class Moments
         //
         //  Compute the points and weights from the moments.
         //
-        jacobi = new double[n * n];
+        double[] jacobi = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -159,8 +151,8 @@ public static class Moments
         //
         //  Get the eigendecomposition of the Jacobi matrix.
         //
-        it_max = 100;
-        v = new double[n * n];
+        const int it_max = 100;
+        double[] v = new double[n * n];
 
         Jacobi.jacobi_eigenvalue(n, jacobi, it_max, ref v, ref x, ref it_num, ref rot_num);
 
@@ -212,18 +204,15 @@ public static class Moments
         //    through X^(M-1).
         //
     {
-        int j;
-        int j_hi;
         int k;
-        double t;
-        double[] w;
 
-        w = new double[m];
+        double[] w = new double[m];
 
         for (k = 0; k < m; k++)
         {
-            t = 0.0;
-            j_hi = k / 2;
+            double t = 0.0;
+            int j_hi = k / 2;
+            int j;
             for (j = 0; j <= j_hi; j++)
             {
                 t += typeMethods.r8_choose(k, 2 * j) * typeMethods.r8_factorial2(2 * j - 1)
@@ -271,9 +260,8 @@ public static class Moments
         //
     {
         int order;
-        double[] w;
 
-        w = new double[m];
+        double[] w = new double[m];
 
         for (order = 0; order < m; order++)
         {
@@ -318,9 +306,8 @@ public static class Moments
         //
     {
         int order;
-        double[] w;
 
-        w = new double[m];
+        double[] w = new double[m];
 
         for (order = 0; order < m; order++)
         {
@@ -365,9 +352,8 @@ public static class Moments
         //
     {
         int order;
-        double[] w;
 
-        w = new double[m];
+        double[] w = new double[m];
 
         for (order = 0; order < m; order++)
         {

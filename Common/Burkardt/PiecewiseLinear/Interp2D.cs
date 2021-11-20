@@ -47,22 +47,9 @@ public static class Interp2D
         //    Output, double PWL_INTERP_2D[NI], the value of the interpolant.
         //
     {
-        double alpha;
-        double beta;
-        double det;
-        double dxa;
-        double dxb;
-        double dxi;
-        double dya;
-        double dyb;
-        double dyi;
-        double gamma;
-        int i;
-        int j;
         int k;
-        double[] zi;
 
-        zi = new double[ni];
+        double[] zi = new double[ni];
 
         for (k = 0; k < ni; k++)
         {
@@ -75,7 +62,7 @@ public static class Interp2D
             //  But if the interpolation point is not within a data interval, 
             //  assign the dummy interpolant value zi(k) = infinity.
             //
-            i = typeMethods.r8vec_bracket5(nxd, xd, xi[k]);
+            int i = typeMethods.r8vec_bracket5(nxd, xd, xi[k]);
             switch (i)
             {
                 case -1:
@@ -83,7 +70,7 @@ public static class Interp2D
                     continue;
             }
 
-            j = typeMethods.r8vec_bracket5(nyd, yd, yi[k]);
+            int j = typeMethods.r8vec_bracket5(nyd, yd, yi[k]);
             switch (j)
             {
                 case -1:
@@ -105,6 +92,16 @@ public static class Interp2D
             //      |     \  |
             //    (I,J)---(I+1,J)
             //
+            double dxb;
+            double dya;
+            double dyb;
+            double dyi;
+            double gamma;
+            double det;
+            double dxa;
+            double dxi;
+            double beta;
+            double alpha;
             if (yi[k] < yd[j + 1] + (yd[j] - yd[j + 1]) * (xi[k] - xd[i]) / (xd[i + 1] - xd[i]))
             {
                 dxa = xd[i + 1] - xd[i];
@@ -198,9 +195,8 @@ public static class Interp2D
         int i;
         int j = 0;
         int step_num = 0;
-        double[] zi;
 
-        zi = new double[ni];
+        double[] zi = new double[ni];
 
         DelaunaySearchData data = new();
             

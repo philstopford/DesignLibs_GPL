@@ -36,12 +36,10 @@ public static class Interp1D
         //    interpolation points.
         //
     {
-        double[] bk;
         int i;
         int j;
-        double t;
 
-        bk = new double[ni * nd];
+        double[] bk = new double[ni * nd];
 
         for (j = 0; j < nd; j++)
         {
@@ -71,6 +69,7 @@ public static class Interp1D
         {
             for (j = 0; j < nd; j++)
             {
+                double t;
                 switch (j)
                 {
                     case 0 when xi[i] <= xd[j]:
@@ -147,11 +146,8 @@ public static class Interp1D
         //
     {
         int i;
-        int k;
-        double t;
-        double[] yi;
 
-        yi = new double[ni];
+        double[] yi = new double[ni];
 
         for (i = 0; i < ni; i++)
         {
@@ -173,6 +169,7 @@ public static class Interp1D
 
         for (i = 0; i < ni; i++)
         {
+            double t;
             if (xi[i] <= xd[0])
             {
                 t = (xi[i] - xd[0]) / (xd[1] - xd[0]);
@@ -185,6 +182,7 @@ public static class Interp1D
             }
             else
             {
+                int k;
                 for (k = 1; k < nd; k++)
                 {
                     if (xd[k - 1] <= xi[i] && xi[i] <= xd[k])

@@ -48,16 +48,14 @@ public static class Approx1D
         //    Output, double PWL_APPROX_1D[NC], the control values.
         //
     {
-        double[] a;
-        double[] yc;
         //
         //  Define the NDxNC linear system that determines the control values.
         //
-        a = pwl_approx_1d_matrix(nd, xd, yd, nc, xc);
+        double[] a = pwl_approx_1d_matrix(nd, xd, yd, nc, xc);
         //
         //  Solve the system.
         //
-        yc = QRSolve.qr_solve(nd, nc, a, yd);
+        double[] yc = QRSolve.qr_solve(nd, nc, a, yd);
 
         return yc;
     }
@@ -109,13 +107,10 @@ public static class Approx1D
         //    Output, double PWL_APPROX_1D_MATRIX[ND*NC], the matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        int k;
-        double t;
 
-        a = new double[nd * nc];
+        double[] a = new double[nd * nc];
 
         for (j = 0; j < nc; j++)
         {
@@ -127,7 +122,7 @@ public static class Approx1D
 
         for (i = 0; i < nd; i++)
         {
-            k = nc - 2;
+            int k = nc - 2;
             for (j = 1; j < nc - 1; j++)
             {
                 if (xd[i] < xc[j])
@@ -137,7 +132,7 @@ public static class Approx1D
                 }
             }
 
-            t = (xd[i] - xc[k]) / (xc[k + 1] - xc[k]);
+            double t = (xd[i] - xc[k]) / (xc[k + 1] - xc[k]);
             a[i + k * nd] = 1.0 - t;
             a[i + (k + 1) * nd] = t;
         }
@@ -188,11 +183,8 @@ public static class Approx1D
         //
     {
         int i;
-        int k;
-        double t;
-        double[] yi;
 
-        yi = new double[ni];
+        double[] yi = new double[ni];
 
         switch (nd)
         {
@@ -209,6 +201,7 @@ public static class Approx1D
 
         for (i = 0; i < ni; i++)
         {
+            double t;
             if (xi[i] <= xd[0])
             {
                 t = (xi[i] - xd[0]) / (xd[1] - xd[0]);
@@ -221,6 +214,7 @@ public static class Approx1D
             }
             else
             {
+                int k;
                 for (k = 1; k < nd; k++)
                 {
                     if (xd[k - 1] <= xi[i] && xi[i] <= xd[k])

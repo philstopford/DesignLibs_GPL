@@ -68,27 +68,7 @@ public static class ProductIntegral
         //    from A to B.
         //
     {
-        double bit;
-        int f_left;
-        double f0;
-        double f1;
-        double fl;
-        double fr;
-        int g_left;
-        double g0;
-        double g1;
-        double gl;
-        double gr;
-        double h0;
-        double h1;
-        double h2;
-        int i;
-        double integral;
-        double xl;
-        double xr;
-        double xr_max;
-
-        integral = 0.0;
+        double integral = 0.0;
 
         if (f_x[f_num - 1] <= a || g_x[g_num - 1] <= a)
         {
@@ -100,19 +80,19 @@ public static class ProductIntegral
             return integral;
         }
 
-        xr = a;
+        double xr = a;
 
-        f_left = 0;
+        int f_left = 0;
         typeMethods.r8vec_bracket3(f_num, f_x, xr, ref f_left);
-        fr = f_v[f_left] + (xr - f_x[f_left]) * (f_v[f_left + 1] - f_v[f_left])
+        double fr = f_v[f_left] + (xr - f_x[f_left]) * (f_v[f_left + 1] - f_v[f_left])
             / (f_x[f_left + 1] - f_x[f_left]);
 
-        g_left = 0;
+        int g_left = 0;
         typeMethods.r8vec_bracket3(g_num, g_x, xr, ref g_left);
-        gr = g_v[g_left] + (xr - g_x[g_left]) * (g_v[g_left + 1] - g_v[g_left])
+        double gr = g_v[g_left] + (xr - g_x[g_left]) * (g_v[g_left + 1] - g_v[g_left])
             / (g_x[g_left + 1] - g_x[g_left]);
 
-        xr_max = b;
+        double xr_max = b;
         xr_max = Math.Min(xr_max, f_x[f_num - 1]);
         xr_max = Math.Min(xr_max, g_x[g_num - 1]);
 
@@ -121,37 +101,46 @@ public static class ProductIntegral
             //
             //  Shift right values to left.
             //
-            xl = xr;
-            fl = fr;
-            gl = gr;
+            double xl = xr;
+            double fl = fr;
+            double gl = gr;
             //
             //  Determine the new right values.
             //  The hard part is figuring out how to advance XR some, but not too much.
             //
             xr = xr_max;
 
+            int i;
             for (i = 1; i <= 2; i++)
             {
-                if (f_left + i <= f_num - 1)
+                if (f_left + i > f_num - 1)
                 {
-                    if (xl < f_x[f_left + i] && f_x[f_left + i] < xr)
-                    {
-                        xr = f_x[f_left + i];
-                        break;
-                    }
+                    continue;
                 }
+
+                if (!(xl < f_x[f_left + i]) || !(f_x[f_left + i] < xr))
+                {
+                    continue;
+                }
+
+                xr = f_x[f_left + i];
+                break;
             }
 
             for (i = 1; i <= 2; i++)
             {
-                if (g_left + i <= g_num - 1)
+                if (g_left + i > g_num - 1)
                 {
-                    if (xl < g_x[g_left + i] && g_x[g_left + i] < xr)
-                    {
-                        xr = g_x[g_left + i];
-                        break;
-                    }
+                    continue;
                 }
+
+                if (!(xl < g_x[g_left + i]) || !(g_x[g_left + i] < xr))
+                {
+                    continue;
+                }
+
+                xr = g_x[g_left + i];
+                break;
             }
 
             typeMethods.r8vec_bracket3(f_num, f_x, xr, ref f_left);
@@ -165,26 +154,28 @@ public static class ProductIntegral
             //  Form the linear polynomials for F(X) and G(X) over [XL,XR],
             //  then the product H(X), integrate H(X) and add to the running total.
             //
-            if (typeMethods.r8_epsilon() <= Math.Abs(xr - xl))
+            if (!(typeMethods.r8_epsilon() <= Math.Abs(xr - xl)))
             {
-                f1 = fl - fr;
-                f0 = fr * xl - fl * xr;
-
-                g1 = gl - gr;
-                g0 = gr * xl - gl * xr;
-
-                h2 = f1 * g1;
-                h1 = f1 * g0 + f0 * g1;
-                h0 = f0 * g0;
-
-                h2 /= 3.0;
-                h1 /= 2.0;
-
-                bit = ((h2 * xr + h1) * xr + h0) * xr
-                      - ((h2 * xl + h1) * xl + h0) * xl;
-
-                integral += bit / (xr - xl) / (xr - xl);
+                continue;
             }
+
+            double f1 = fl - fr;
+            double f0 = fr * xl - fl * xr;
+
+            double g1 = gl - gr;
+            double g0 = gr * xl - gl * xr;
+
+            double h2 = f1 * g1;
+            double h1 = f1 * g0 + f0 * g1;
+            double h0 = f0 * g0;
+
+            h2 /= 3.0;
+            h1 /= 2.0;
+
+            double bit = ((h2 * xr + h1) * xr + h0) * xr
+                         - ((h2 * xl + h1) * xl + h0) * xl;
+
+            integral += bit / (xr - xl) / (xr - xl);
         }
 
         return integral;
@@ -256,43 +247,35 @@ public static class ProductIntegral
         //    of F(X) * G(X) from A to B.
         //
     {
-        double a2;
-        double b2;
-        int f_left;
-        double fq;
-        int g_left;
-        double gq;
         int i;
-        double quad;
-        double xq;
 
-        quad = 0.0;
+        double quad = 0.0;
 
-        f_left = 0;
-        g_left = 0;
+        int f_left = 0;
+        int g_left = 0;
 
-        a2 = a;
+        double a2 = a;
         a2 = Math.Max(a2, f_x[0]);
         a2 = Math.Max(a2, g_x[0]);
 
-        b2 = b;
+        double b2 = b;
         b2 = Math.Min(b2, f_x[f_num - 1]);
         b2 = Math.Min(b2, g_x[g_num - 1]);
 
         for (i = 1; i <= quad_num; i++)
         {
-            xq = ((2 * i - 1) * b2
-                  + (2 * quad_num - 2 * i + 1) * a2)
-                 / (2 * quad_num);
+            double xq = ((2 * i - 1) * b2
+                         + (2 * quad_num - 2 * i + 1) * a2)
+                        / (2 * quad_num);
 
             typeMethods.r8vec_bracket3(f_num, f_x, xq, ref f_left);
 
-            fq = f_v[f_left] + (xq - f_x[f_left]) * (f_v[f_left + 1] - f_v[f_left])
+            double fq = f_v[f_left] + (xq - f_x[f_left]) * (f_v[f_left + 1] - f_v[f_left])
                 / (f_x[f_left + 1] - f_x[f_left]);
 
             typeMethods.r8vec_bracket3(g_num, g_x, xq, ref g_left);
 
-            gq = g_v[g_left] + (xq - g_x[g_left]) * (g_v[g_left + 1] - g_v[g_left])
+            double gq = g_v[g_left] + (xq - g_x[g_left]) * (g_v[g_left + 1] - g_v[g_left])
                 / (g_x[g_left + 1] - g_x[g_left]);
 
             quad += fq * gq;

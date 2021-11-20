@@ -69,55 +69,35 @@ public static partial class RungeKutta
         //    Output, double RK3_TI_STEP, the value at time T+H.
         //
     {
-        double a21;
-        double a31;
-        double a32;
-        double a41;
-        double a42;
-        double a43;
-        double k1;
-        double k2;
-        double k3;
-        double q1;
-        double q2;
-        double q3;
         //double t1;
-        double w1;
-        double w2;
-        double w3;
-        double x1;
-        double x2;
-        double x3;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 1.52880952525675;
-        a31 = 0.0;
-        a32 = 0.51578733443615;
-        a41 = 0.53289582961739;
-        a42 = 0.25574324768195;
-        a43 = 0.21136092270067;
+        const double a21 = 1.52880952525675;
+        const double a31 = 0.0;
+        const double a32 = 0.51578733443615;
+        const double a41 = 0.53289582961739;
+        const double a42 = 0.25574324768195;
+        const double a43 = 0.21136092270067;
 
-        q1 = 1.87653936176981;
-        q2 = 3.91017166264989;
-        q3 = 4.73124353935667;
+        const double q1 = 1.87653936176981;
+        const double q2 = 3.91017166264989;
+        const double q3 = 4.73124353935667;
 
         //t1 = t;
-        x1 = x;
-        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-        k1 = h * fi(x1) + h * gi(x1) * w1;
+        double w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        double k1 = h * fi(x) + h * gi(x) * w1;
 
         //t2 = t1 + a21 * h;
-        x2 = x1 + a21 * k1;
-        w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
-        k2 = h * fi(x2) + h * gi(x2) * w2;
+        double x2 = x + a21 * k1;
+        double w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
+        double k2 = h * fi(x2) + h * gi(x2) * w2;
 
         //t3 = t1 + a31 * h  + a32 * h;
-        x3 = x1 + a31 * k1 + a32 * k2;
-        w3 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q3 * q / h);
-        k3 = h * fi(x3) + h * gi(x3) * w3;
+        double x3 = x + a31 * k1 + a32 * k2;
+        double w3 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q3 * q / h);
+        double k3 = h * fi(x3) + h * gi(x3) * w3;
 
-        xstar = x1 + a41 * k1 + a42 * k2 + a43 * k3;
+        double xstar = x + a41 * k1 + a42 * k2 + a43 * k3;
 
         return xstar;
     }

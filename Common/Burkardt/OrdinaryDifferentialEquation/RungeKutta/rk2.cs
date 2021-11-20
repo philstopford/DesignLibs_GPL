@@ -70,40 +70,24 @@ public static partial class RungeKutta
         //    Output, double RK2_TV_STEP, the value at time T+H.
         //
     {
-        double a21;
-        double a31;
-        double a32;
-        double k1;
-        double k2;
-        double q1;
-        double q2;
-        double t1;
-        double t2;
-        double w1;
-        double w2;
-        double x1;
-        double x2;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 1.0;
-        a31 = 0.5;
-        a32 = 0.5;
+        const double a21 = 1.0;
+        const double a31 = 0.5;
+        const double a32 = 0.5;
 
-        q1 = 2.0;
-        q2 = 2.0;
+        const double q1 = 2.0;
+        const double q2 = 2.0;
 
-        t1 = t;
-        x1 = x;
-        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-        k1 = h * fv(t1, x1) + h * gv(t1, x1) * w1;
+        double w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        double k1 = h * fv(t, x) + h * gv(t, x) * w1;
 
-        t2 = t1 + a21 * h;
-        x2 = x1 + a21 * k1;
-        w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
-        k2 = h * fv(t2, x2) + h * gv(t2, x2) * w2;
+        double t2 = t + a21 * h;
+        double x2 = x + a21 * k1;
+        double w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
+        double k2 = h * fv(t2, x2) + h * gv(t2, x2) * w2;
 
-        xstar = x1 + a31 * k1 + a32 * k2;
+        double xstar = x + a31 * k1 + a32 * k2;
 
         return xstar;
     }
@@ -172,36 +156,23 @@ public static partial class RungeKutta
         //    Output, double RK2_TI_STEP, the value at time T+H.
         //
     {
-        double a21;
-        double a31;
-        double a32;
-        double k1;
-        double k2;
-        double q1;
-        double q2;
-        double w1;
-        double w2;
-        double x1;
-        double x2;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 1.0;
-        a31 = 0.5;
-        a32 = 0.5;
+        const double a21 = 1.0;
+        const double a31 = 0.5;
+        const double a32 = 0.5;
 
-        q1 = 2.0;
-        q2 = 2.0;
+        const double q1 = 2.0;
+        const double q2 = 2.0;
 
-        x1 = x;
-        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-        k1 = h * fi(x1) + h * gi(x1) * w1;
+        double w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        double k1 = h * fi(x) + h * gi(x) * w1;
 
-        x2 = x1 + a21 * k1;
-        w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
-        k2 = h * fi(x2) + h * gi(x2) * w2;
+        double x2 = x + a21 * k1;
+        double w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
+        double k2 = h * fi(x2) + h * gi(x2) * w2;
 
-        xstar = x1 + a31 * k1 + a32 * k2;
+        double xstar = x + a31 * k1 + a32 * k2;
 
         return xstar;
     }
@@ -238,29 +209,23 @@ public static partial class RungeKutta
         //    Output, double RK2_LEG, the value of X at T2.
         //
     {
-        double f;
-        double h;
         int j;
-        double k1;
-        double k2;
-        int m = 10;
-        double snn1;
-        double t;
+        const int m = 10;
 
-        h = ( t2 - t1 ) / m;
-        snn1 = Math.Sqrt ( n * ( n + 1 ) );
-        t = t1;
+        double h = ( t2 - t1 ) / m;
+        double snn1 = Math.Sqrt ( n * ( n + 1 ) );
+        double t = t1;
 
         for ( j = 0; j < m; j++ )
         {
-            f = ( 1.0 - x ) * ( 1.0 + x );
-            k1 = - h * f / ( snn1 * Math.Sqrt ( f ) - 0.5 * x * Math.Sin ( 2.0 * t ) );
+            double f = ( 1.0 - x ) * ( 1.0 + x );
+            double k1 = - h * f / ( snn1 * Math.Sqrt ( f ) - 0.5 * x * Math.Sin ( 2.0 * t ) );
             x += k1;
 
             t += h;
 
             f = ( 1.0 - x ) * ( 1.0 + x );
-            k2 = - h * f / ( snn1 * Math.Sqrt ( f ) - 0.5 * x * Math.Sin ( 2.0 * t ) );
+            double k2 = - h * f / ( snn1 * Math.Sqrt ( f ) - 0.5 * x * Math.Sin ( 2.0 * t ) );
             x += 0.5 * ( k2 - k1 );
         }
         return x;

@@ -49,9 +49,6 @@ public static class L1PP
         //    Output, double L1PP_APPLY[N], the Laplacian evaluated at each point.
         //
     {
-        int i;
-        double[] lu;
-
         switch (n)
         {
             case < 3:
@@ -61,10 +58,10 @@ public static class L1PP
                 return null;
         }
 
-        lu = new double[n];
+        double[] lu = new double[n];
 
-        i = 0;
-        lu[i] = (-u[n - 1] + 2.0 * u[i] - u[i + 1]) / h / h;
+        int i = 0;
+        lu[i] = (-u[n - 1] + 2.0 * u[i] - u[1]) / h / h;
         for (i = 1; i < n - 1; i++)
         {
             lu[i] = (-u[i - 1] + 2.0 * u[i] - u[i + 1]) / h / h;
@@ -106,7 +103,6 @@ public static class L1PP
         //    Output, double L1PP_CHOLESKY[N*N], the Cholesky factor.
         //
     {
-        double[] c;
         int i;
         double i_r8;
         int j;
@@ -120,7 +116,7 @@ public static class L1PP
                 return null;
         }
 
-        c = new double[n * n];
+        double[] c = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -201,21 +197,14 @@ public static class L1PP
         //    Output, double LAMBDA[N], the eigenvalues.
         //
     {
-        int i;
-        double i_r8;
         int j;
-        double j_r8;
-        double n_r8;
-            
-        double s;
-        double theta;
 
-        n_r8 = n;
+        double n_r8 = n;
 
         for (j = 0; j < n; j++)
         {
-            j_r8 = j + 1;
-            theta = (j % 2) switch
+            double j_r8 = j + 1;
+            double theta = (j % 2) switch
             {
                 0 => Math.PI * (j_r8 - 1.0) / (2.0 * n_r8),
                 _ => Math.PI * j_r8 / (2.0 * n_r8)
@@ -223,6 +212,8 @@ public static class L1PP
 
             lambda[j] = Math.Pow(2.0 * Math.Sin(theta) / h, 2);
 
+            double i_r8;
+            int i;
             switch (j % 2)
             {
                 case 0 when j == 0:
@@ -249,7 +240,7 @@ public static class L1PP
                 {
                     if (j == n - 1)
                     {
-                        s = -1.0 / Math.Sqrt(n_r8);
+                        double s = -1.0 / Math.Sqrt(n_r8);
                         for (i = 0; i < n; i++)
                         {
                             v[i + j * n] = s;
@@ -318,7 +309,6 @@ public static class L1PP
     {
         int i;
         int j;
-        double[] l;
 
         switch (n)
         {
@@ -329,7 +319,7 @@ public static class L1PP
                 return null;
         }
 
-        l = new double[n * n];
+        double[] l = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -340,9 +330,9 @@ public static class L1PP
         }
 
         i = 0;
-        l[i + i * n] = 2.0 / h / h;
-        l[i + (i + 1) * n] = -1.0 / h / h;
-        l[i + (n - 1) * n] = -1.0 / h / h;
+        l[0] = 2.0 / h / h;
+        l[n] = -1.0 / h / h;
+        l[(n - 1) * n] = -1.0 / h / h;
 
         for (i = 1; i < n - 1; i++)
         {
@@ -352,7 +342,7 @@ public static class L1PP
         }
 
         i = n - 1;
-        l[i + 0 * n] = -1.0 / h / h;
+        l[i] = -1.0 / h / h;
         l[i + (i - 1) * n] = -1.0 / h / h;
         l[i + i * n] = 2.0 / h / h;
 

@@ -41,7 +41,8 @@ public static partial class LatinVariants
         //    Output, double LATIN_CENTER[DIM_NUM*POINT_NUM], the points.
         //
     {
-        int base_ = 0;
+        const int base_ = 0;
+        const double r = 0.5;
         double[] x = new double[dim_num * point_num];
         //
         //  For spatial dimension I, 
@@ -56,7 +57,6 @@ public static partial class LatinVariants
 
             for (int j = 0; j < point_num; j++ )
             {
-                double r = 0.5;
                 x[k] = ( perm[j] + r ) / point_num;
                 k += 1;
             }

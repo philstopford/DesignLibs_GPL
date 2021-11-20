@@ -7,7 +7,7 @@ using Burkardt.Types;
 namespace Burkardt.Legendre;
 
 using Polynomial = Polynomial;
-public class QuadratureRuleFast
+public static class QuadratureRuleFast
 {
     public static void legendre_handle(int n, double a, double b)
 
@@ -37,17 +37,9 @@ public class QuadratureRuleFast
         //    interval.
         // 
     {
-        string output_r;
-        string output_w;
-        string output_x;
-        double[] r;
-        double t;
-        double[] w;
-        double[] x;
-
-        r = new double[2];
-        w = new double[n];
-        x = new double[n];
+        double[] r = new double[2];
+        double[] w = new double[n];
+        double[] x = new double[n];
 
         r[0] = a;
         r[1] = b;
@@ -56,7 +48,7 @@ public class QuadratureRuleFast
         //
         DateTime dt = DateTime.Now;
         legendre_compute_glr(n, ref x, ref w);
-        t = (DateTime.Now - dt).TotalSeconds;
+        double t = (DateTime.Now - dt).TotalSeconds;
         Console.WriteLine("");
         Console.WriteLine("  Elapsed time during computation was " + t + " seconds.");
         //
@@ -66,9 +58,9 @@ public class QuadratureRuleFast
         //
         //  Write the data to files.
         //
-        output_w = "leg_o" + n + "_w.txt";
-        output_x = "leg_o" + n + "_x.txt";
-        output_r = "leg_o" + n + "_r.txt";
+        string output_w = "leg_o" + n + "_w.txt";
+        string output_x = "leg_o" + n + "_x.txt";
+        string output_r = "leg_o" + n + "_r.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Weight file will be   \"" + output_w + "\".");
@@ -120,7 +112,6 @@ public class QuadratureRuleFast
         int i;
         double p = 0;
         double pp = 0;
-        double w_sum;
         //
         //  Get the value and derivative of the N-th Legendre polynomial at 0.
         //
@@ -152,7 +143,7 @@ public class QuadratureRuleFast
             w[i] = 2.0 / (1.0 - x[i]) / (1.0 + x[i]) / w[i] / w[i];
         }
 
-        w_sum = 0.0;
+        double w_sum = 0.0;
         for (i = 0; i < n; i++)
         {
             w_sum += w[i];
@@ -200,21 +191,16 @@ public class QuadratureRuleFast
         //    and its derivative at 0.
         //
     {
-        double dk;
         int k;
-        double pm1;
-        double pm2;
-        double ppm1;
-        double ppm2;
 
-        pm2 = 0.0;
-        pm1 = 1.0;
-        ppm2 = 0.0;
-        ppm1 = 0.0;
+        double pm2 = 0.0;
+        double pm1 = 1.0;
+        double ppm2 = 0.0;
+        double ppm1 = 0.0;
 
         for (k = 0; k < n; k++)
         {
-            dk = k;
+            double dk = k;
             p = -dk * pm2 / (dk + 1.0);
             pp = ((2.0 * dk + 1.0) * pm1 - dk * ppm2) / (dk + 1.0);
             pm2 = pm1;
@@ -275,18 +261,11 @@ public class QuadratureRuleFast
         //    Local, int M, the number of terms in the Taylor expansion.
         //
     {
-        double dk;
-        double dn;
-        double h;
         int j;
         int k;
-        int l;
-        int m = 30;
+        const int m = 30;
         int n2;
         int s;
-        double[] u;
-        double[] up;
-        double xp;
 
         switch (n % 2)
         {
@@ -300,16 +279,16 @@ public class QuadratureRuleFast
                 break;
         }
 
-        u = new double[m + 2];
-        up = new double[m + 1];
+        double[] u = new double[m + 2];
+        double[] up = new double[m + 1];
 
-        dn = n;
+        double dn = n;
 
         for (j = n2 + 1; j < n - 1; j++)
         {
-            xp = x[j];
+            double xp = x[j];
 
-            h = RungeKutta.rk2_leg(Math.PI / 2.0, -Math.PI / 2.0, xp, n) - xp;
+            double h = RungeKutta.rk2_leg(Math.PI / 2.0, -Math.PI / 2.0, xp, n) - xp;
 
             u[0] = 0.0;
             u[1] = 0.0;
@@ -320,7 +299,7 @@ public class QuadratureRuleFast
 
             for (k = 0; k <= m - 2; k++)
             {
-                dk = k;
+                double dk = k;
 
                 u[k + 3] =
                 (
@@ -331,6 +310,7 @@ public class QuadratureRuleFast
                 up[k + 2] = (dk + 2.0) * u[k + 3];
             }
 
+            int l;
             for (l = 0; l < 5; l++)
             {
                 h -= Polynomial.ts_mult(u, h, m) / Polynomial.ts_mult(up, h, m - 1);
@@ -395,22 +375,17 @@ public class QuadratureRuleFast
         //    Local, int M, the number of terms in the Taylor expansion.
         //
     {
-        double dk;
-        double dn;
         int k;
         int l;
-        int m = 30;
-        double t;
-        double[] u;
-        double[] up;
+        const int m = 30;
 
-        t = 0.0;
+        const double t = 0.0;
         x1 = RungeKutta.rk2_leg(t, -Math.PI / 2.0, 0.0, n);
 
-        u = new double[m + 2];
-        up = new double[m + 1];
+        double[] u = new double[m + 2];
+        double[] up = new double[m + 1];
 
-        dn = n;
+        double dn = n;
         //
         //  U[0] and UP[0] are never used.
         //  U[M+1] is set, but not used, and UP[M] is set and not used.
@@ -423,7 +398,7 @@ public class QuadratureRuleFast
 
         for (k = 0; k <= m - 2; k += 2)
         {
-            dk = k;
+            double dk = k;
 
             u[k + 2] = 0.0;
             u[k + 3] = (dk * (dk + 1.0) - dn * (dn + 1.0)) * u[k + 1]

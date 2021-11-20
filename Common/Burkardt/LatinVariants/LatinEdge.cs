@@ -42,11 +42,9 @@ public static partial class LatinVariants
         //    Output, double X[DIM_NUM*POINT_NUM], the points.
         //
     {
-        int base_ = 0;
+        const int base_ = 0;
         int i;
-        int j;
         int k;
-        int[] perm;
         double[] x = new double[dim_num * point_num];
         switch (point_num)
         {
@@ -72,8 +70,9 @@ public static partial class LatinVariants
                 k = 0;
                 for ( i = 0; i < dim_num; i++ )
                 {
-                    perm = typeMethods.perm_uniform ( point_num, base_, ref seed );
+                    int[] perm = typeMethods.perm_uniform ( point_num, base_, ref seed );
 
+                    int j;
                     for ( j = 0; j < point_num; j++ )
                     {
                         x[k] = ( double ) perm[j] / ( float ) ( point_num - 1 );

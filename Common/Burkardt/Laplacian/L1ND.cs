@@ -49,9 +49,6 @@ public static class L1ND
         //    Output, double L1ND_APPLY[N], the Laplacian evaluated at each point.
         //
     {
-        int i;
-        double[] lu;
-
         switch (n)
         {
             case < 3:
@@ -61,10 +58,10 @@ public static class L1ND
                 return null;
         }
 
-        lu = new double[n];
+        double[] lu = new double[n];
 
-        i = 0;
-        lu[i] = (u[i] - u[i + 1]) / h / h;
+        int i = 0;
+        lu[i] = (u[i] - u[1]) / h / h;
         for (i = 1; i < n - 1; i++)
         {
             lu[i] = (-u[i - 1] + 2.0 * u[i] - u[i + 1]) / h / h;
@@ -106,7 +103,6 @@ public static class L1ND
         //    Output, double L1ND_CHOLESKY[N*N], the Cholesky factor.
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -119,7 +115,7 @@ public static class L1ND
                 return null;
         }
 
-        c = new double[n * n];
+        double[] c = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -185,24 +181,19 @@ public static class L1ND
         //    Output, double LAMBDA[N], the eigenvalues.
         //
     {
-        int i;
-        double i_r8;
         int j;
-        double j_r8;
-        double n_r8;
-            
-        double theta;
 
-        n_r8 = n;
+        double n_r8 = n;
 
         for (j = 0; j < n; j++)
         {
-            j_r8 = j + 1;
-            theta = Math.PI * (j_r8 - 0.5) / (2.0 * n_r8 + 1.0);
+            double j_r8 = j + 1;
+            double theta = Math.PI * (j_r8 - 0.5) / (2.0 * n_r8 + 1.0);
             lambda[j] = Math.Pow(2.0 * Math.Sin(theta) / h, 2);
+            int i;
             for (i = 0; i < n; i++)
             {
-                i_r8 = i + 1;
+                double i_r8 = i + 1;
                 theta = Math.PI * (i_r8 - 0.5) * (2.0 * j_r8 - 1.0) /
                         (2.0 * n_r8 + 1.0);
                 v[i + j * n] = Math.Sqrt(2.0 / (n_r8 + 0.5)) * Math.Cos(theta);
@@ -255,7 +246,6 @@ public static class L1ND
     {
         int i;
         int j;
-        double[] l;
 
         switch (n)
         {
@@ -266,7 +256,7 @@ public static class L1ND
                 return null;
         }
 
-        l = new double[n * n];
+        double[] l = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -277,8 +267,8 @@ public static class L1ND
         }
 
         i = 0;
-        l[i + i * n] = 1.0 / h / h;
-        l[i + (i + 1) * n] = -1.0 / h / h;
+        l[0] = 1.0 / h / h;
+        l[n] = -1.0 / h / h;
 
         for (i = 1; i < n - 1; i++)
         {
@@ -324,9 +314,7 @@ public static class L1ND
         //    Output, double L1ND_INVERSE[N*N], the inverse of the Laplacian matrix.
         //
     {
-        int i;
         int j;
-        double[] l;
 
         switch (n)
         {
@@ -337,10 +325,11 @@ public static class L1ND
                 return null;
         }
 
-        l = new double[n * n];
+        double[] l = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 l[i + j * n] = (n - Math.Max(i, j)) * h * h;

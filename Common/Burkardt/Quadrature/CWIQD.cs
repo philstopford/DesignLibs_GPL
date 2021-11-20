@@ -89,7 +89,7 @@ public static class CWIQD
             wf[j] = a[j];
             for (i = 0; i < nm; i++)
             {
-                wf[j] *= (phi[j] - xk[i]);
+                wf[j] *= phi[j] - xk[i];
             }
         }
 
@@ -102,7 +102,7 @@ public static class CWIQD
             for (j = 0; j < nstar; j++)
             {
                 sum += wf[j];
-                wf[j] *= (phi[j] - v);
+                wf[j] *= phi[j] - v;
             }
 
             y[i] = sum;

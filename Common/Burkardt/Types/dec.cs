@@ -71,7 +71,6 @@ public static partial class typeMethods
         if (exponent1 < exponent2)
         {
             mantissa2 *= (int)Math.Pow(10, exponent2 - exponent1);
-            exponent2 = exponent1;
             mantissa = mantissa1 + mantissa2;
             exponent = exponent1;
         }
@@ -83,7 +82,6 @@ public static partial class typeMethods
         else if (exponent2 < exponent1)
         {
             mantissa1 *= (int)Math.Pow(10, exponent1 - exponent2);
-            exponent1 = exponent2;
             mantissa = mantissa1 + mantissa2;
             exponent = exponent2;
         }

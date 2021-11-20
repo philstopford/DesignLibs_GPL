@@ -537,7 +537,7 @@ public static class Xiu
                 return;
         }
 
-        int expon = 0;
+        const int expon = 0;
         double volume = C1.c1_geg_monomial_integral(alpha, expon);
         volume = Math.Pow(volume, n);
 
@@ -990,9 +990,9 @@ public static class Xiu
             x[i + j * n] = typeMethods.r8_mop(j);
         }
 
-        double gamma0 = 2.0;
-        double delta0 = 0.0;
-        double c1 = 1.0;
+        const double gamma0 = 2.0;
+        const double delta0 = 0.0;
+        const double c1 = 1.0;
 
         for (j = 0; j < o; j++)
         {

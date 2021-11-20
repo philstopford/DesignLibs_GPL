@@ -141,13 +141,15 @@ public static class CAWIQ
                     l = i + 1;
                     for (j = l; j <= nt; j++)
                     {
-                        if (Math.Abs(tmp - t[j - 1]) <= prec)
+                        if (!(Math.Abs(tmp - t[j - 1]) <= prec))
                         {
-                            Console.WriteLine("");
-                            Console.WriteLine("CAWIQ - Fatal error!");
-                            Console.WriteLine("  Knots too close.");
-                            return null;
+                            continue;
                         }
+
+                        Console.WriteLine("");
+                        Console.WriteLine("CAWIQ - Fatal error!");
+                        Console.WriteLine("  Knots too close.");
+                        return null;
                     }
                 }
 
@@ -271,12 +273,14 @@ public static class CAWIQ
                     for (j = l; j <= nt; j++)
                     {
                         int jp = Math.Abs(ndx[j - 1]);
-                        if (jp != 0)
+                        if (jp == 0)
                         {
-                            if (jp <= ip + mlt[i - 1] && ip <= jp + mlt[j - 1])
-                            {
-                                break;
-                            }
+                            continue;
+                        }
+
+                        if (jp <= ip + mlt[i - 1] && ip <= jp + mlt[j - 1])
+                        {
+                            break;
                         }
                     }
                 }
@@ -387,17 +391,16 @@ public static class CAWIQ
             k = 1;
             for (j = 1; j <= nt; j++)
             {
-                if (ndx[j - 1] != 0)
+                if ((ndx[j - 1] == 0) || (j == i))
                 {
-                    if (j != i)
-                    {
-                        int jj;
-                        for (jj = 1; jj <= mlt[j - 1]; jj++)
-                        {
-                            xk[k - 1] = t[j - 1];
-                            k += 1;
-                        }
-                    }
+                    continue;
+                }
+
+                int jj;
+                for (jj = 1; jj <= mlt[j - 1]; jj++)
+                {
+                    xk[k - 1] = t[j - 1];
+                    k += 1;
                 }
             }
 

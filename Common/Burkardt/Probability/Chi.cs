@@ -408,8 +408,8 @@ public static class Chi
         //
     {
         double x2 = 0.5 * x;
-        double a2 = 0.0;
-        double b2 = 1.0;
+        const double a2 = 0.0;
+        const double b2 = 1.0;
         double c2 = 0.5 * a;
 
         double cdf = Gamma.gamma_cdf(x2, a2, b2, c2);
@@ -641,11 +641,13 @@ public static class Chi
                                                               * (s5 - b
                                                                   * s6))))));
 
-            if (e < Math.Abs(q / ch - 1.0))
+            if (!(e < Math.Abs(q / ch - 1.0)))
             {
-                x = ch;
-                return x;
+                continue;
             }
+
+            x = ch;
+            return x;
 
         }
 
@@ -970,8 +972,8 @@ public static class Chi
         }
         else
         {
-            double a2 = 0.0;
-            double b2 = 1.0;
+            const double a2 = 0.0;
+            const double b2 = 1.0;
             double c2 = a / 2.0;
 
             x = Gamma.gamma_sample(a2, b2, c2, ref seed);

@@ -356,7 +356,7 @@ public static class Epn_Lag
             x[i + j * n] = typeMethods.r8_mop(j);
         }
 
-        double gamma0 = -1.0;
+        const double gamma0 = -1.0;
         double delta0 = alpha + 1.0;
         double c1 = -alpha - 1.0;
 
@@ -368,7 +368,7 @@ public static class Epn_Lag
             }
         }
 
-        int expon = 0;
+        const int expon = 0;
         double volume_1d = IntegralNS.Epn_Lag.ep1_glg_monomial_integral(expon, alpha);
         double volume = Math.Pow(volume_1d, n);
 
@@ -543,7 +543,7 @@ public static class Epn_Lag
         //    Output, int EPN_LAG_00_1_SIZE, the order.
         //
     {
-        int o = 1;
+        const int o = 1;
 
         return o;
     }
@@ -743,7 +743,7 @@ public static class Epn_Lag
             }
         }
 
-        int expon = 0;
+        const int expon = 0;
         double volume_1d = IntegralNS.Epn_Lag.ep1_lag_monomial_integral(expon);
         double volume = Math.Pow(volume_1d, n);
 

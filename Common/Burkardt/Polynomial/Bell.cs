@@ -43,11 +43,10 @@ public static class Bell
         //    Output, int BELL_POLY_COEF[N+1], the coefficients.
         //
     {
-        int[] c;
         int i;
         int j;
 
-        c = new int[n+1];
+        int[] c = new int[n+1];
 
         c[0] = 1;
         for ( j = 1; j <= n; j++ )

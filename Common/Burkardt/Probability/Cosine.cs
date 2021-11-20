@@ -213,9 +213,7 @@ public static class Cosine
         //    Output, double MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double cosine_pdf(double x, double a, double b)

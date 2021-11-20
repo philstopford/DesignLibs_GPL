@@ -302,9 +302,7 @@ public static class Logistic
         //    Output, double LOGISTIC_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double logistic_pdf(double x, double a, double b)

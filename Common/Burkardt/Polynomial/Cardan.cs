@@ -75,18 +75,15 @@ public static class Cardan
         //    Output, double CARDAN_POLY[N+1], the values of the Cardan polynomials at X.
         //
     {
-        double fact;
         int i;
-        double s2;
-        double[] v;
         double[] x2 = new double[1];
 
-        s2 = Math.Sqrt(s);
+        double s2 = Math.Sqrt(s);
         x2[0] = 0.5 * x / s2;
 
-        v = Chebyshev.cheby_t_poly(1, n, x2);
+        double[] v = Chebyshev.cheby_t_poly(1, n, x2);
 
-        fact = 1.0;
+        double fact = 1.0;
 
         for (i = 0; i <= n; i++)
         {
@@ -149,10 +146,7 @@ public static class Cardan
         //    and C(N) is the coefficient of X^N.
         //
     {
-        double[] cm1;
-        double[] cm2;
         int i;
-        int j;
 
         switch (n)
         {
@@ -172,8 +166,8 @@ public static class Cardan
                 return;
         }
 
-        cm1 = new double[n + 1];
-        cm2 = new double[n + 1];
+        double[] cm1 = new double[n + 1];
+        double[] cm2 = new double[n + 1];
 
         for (i = 0; i <= n; i++)
         {
@@ -189,7 +183,7 @@ public static class Cardan
 
         for (i = 2; i <= n; i++)
         {
-
+            int j;
             for (j = 0; j <= i - 2; j++)
             {
                 cm2[j] = cm1[j];

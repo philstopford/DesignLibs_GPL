@@ -55,14 +55,12 @@ public static class Dif
         //
     {
         int i;
-        double[] xd_temp;
-        double[] yd_temp;
         //
         //  Using a temporary copy of the difference table, shift the
         //  abscissas to zero.
         //
-        xd_temp = new double[nd];
-        yd_temp = new double[nd];
+        double[] xd_temp = new double[nd];
+        double[] yd_temp = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -142,14 +140,12 @@ public static class Dif
         //
     {
         int i;
-        double[] xtab1;
-        double[] diftab1;
         //
         //  Using a temporary copy of the difference table, shift the
         //  abscissas to zero.
         //
-        xtab1 = new double[ntab];
-        diftab1 = new double[ntab];
+        double[] xtab1 = new double[ntab];
+        double[] diftab1 = new double[ntab];
 
         for (i = 0; i < ntab; i++)
         {
@@ -301,18 +297,16 @@ public static class Dif
         //
     {
         int i;
-        int j;
-        double[] pointer1;
-        double[] pointer2;
 
 
-        pointer1 = diftab;
+        double[] pointer1 = diftab;
         int p1index = 0;
 
         for (i = 0; i < ntab; i++)
         {
-            pointer2 = pointer1;
+            double[] pointer2 = pointer1;
 
+            int j;
             for (j = 0; j < ntab; j++)
             {
                 if (j == i)
@@ -383,21 +377,19 @@ public static class Dif
         //    contains the table for basis polynomial associated with XD(J).
         //
     {
-        double[] dd;
-        int i;
         int j;
-        double[] yd;
         //
         //  Process the vectors one column at a time.
         //
-        dd = new double[nd];
-        yd = new double[nd];
+        double[] dd = new double[nd];
+        double[] yd = new double[nd];
 
         for (j = 0; j < nd; j++)
         {
             //
             //  Set the data.
             //
+            int i;
             for (i = 0; i < nd; i++)
             {
                 yd[i] = 0.0;
@@ -469,21 +461,19 @@ public static class Dif
         //    contains the table for basis polynomial associated with XD(J).
         //
     {
-        double[] dd;
-        int i;
         int j;
-        double[] yd;
         //
         //  Process the vectors one column at a time.
         //
-        dd = new double[nd];
-        yd = new double[nd];
+        double[] dd = new double[nd];
+        double[] yd = new double[nd];
 
         for (j = 0; j < nd; j++)
         {
             //
             //  Set the data.
             //
+            int i;
             for (i = 0; i < nd; i++)
             {
                 yd[i] = 0.0;
@@ -632,14 +622,12 @@ public static class Dif
         //
     {
         int i;
-        double[] xd_temp;
-        double[] yd_temp;
         //
         //  Using a temporary copy of the difference table, shift the
         //  abscissas to zero.
         //
-        xd_temp = new double[nd];
-        yd_temp = new double[nd];
+        double[] xd_temp = new double[nd];
+        double[] yd_temp = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -713,11 +701,8 @@ public static class Dif
         //    table for the derivative.
         //
     {
-        double[] dd_temp;
         int i;
         int j;
-        int ndk;
-        double[] xd_temp;
 
         switch (k)
         {
@@ -736,10 +721,10 @@ public static class Dif
         //
         //  Shift the abscissas to zero.
         //
-        ndk = nd;
+        int ndk = nd;
 
-        xd_temp = new double[ndk];
-        dd_temp = new double[ndk];
+        double[] xd_temp = new double[ndk];
+        double[] dd_temp = new double[ndk];
 
         for (i = 0; i < ndk; i++)
         {
@@ -958,7 +943,6 @@ public static class Dif
         //    of the polynomial.
         //
     {
-        int i;
         int j;
 
         for (j = 1; j <= nd; j++)
@@ -966,6 +950,7 @@ public static class Dif
             //
             //  Recompute the divided difference coefficients.
             //
+            int i;
             for (i = nd - 2; 0 <= i; i--)
             {
                 yd[i] -= xd[i] * yd[i + 1];
@@ -1100,9 +1085,8 @@ public static class Dif
         //
     {
         int i;
-        double yv;
 
-        yv = diftab[diftabIndex + (ntab - 1)];
+        double yv = diftab[diftabIndex + (ntab - 1)];
         for (i = 2; i <= ntab; i++)
         {
             yv = diftab[diftabIndex + (ntab - i)] + (xv - xtab[ntab - i]) * yv;
@@ -1155,15 +1139,14 @@ public static class Dif
         //    polynomial at the evaluation points.
         //
     {
-        int i;
         int j;
-        double[] yv;
 
-        yv = new double[nv];
+        double[] yv = new double[nv];
 
         for (j = 0; j < nv; j++)
         {
             yv[j] = yd[nd - 1];
+            int i;
             for (i = 2; i <= nd; i++)
             {
                 yv[j] = yd[nd - i] + (xv[j] - xd[nd - i]) * yv[j];

@@ -72,14 +72,16 @@ public static class Hits
                     int nj = triangle_node[j + triangle * triangle_order];
                     int nk = triangle_node[k + triangle * triangle_order];
 
-                    if (0.0 < (data_xy[0 + d * 2] - node_xy[0 + nj * 2])
-                        * (node_xy[1 + nk * 2] - node_xy[1 + nj * 2])
-                        - (data_xy[1 + d * 2] - node_xy[1 + nj * 2])
-                        * (node_xy[0 + nk * 2] - node_xy[0 + nj * 2]))
+                    if (!(0.0 < (data_xy[0 + d * 2] - node_xy[0 + nj * 2])
+                            * (node_xy[1 + nk * 2] - node_xy[1 + nj * 2])
+                            - (data_xy[1 + d * 2] - node_xy[1 + nj * 2])
+                            * (node_xy[0 + nk * 2] - node_xy[0 + nj * 2])))
                     {
-                        inside = false;
-                        break;
+                        continue;
                     }
+
+                    inside = false;
+                    break;
                 }
 
                 switch (inside)

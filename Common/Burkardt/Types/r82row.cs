@@ -235,7 +235,8 @@ public static partial class typeMethods
                 order = -1;
                 break;
             }
-            else if (order == 2)
+
+            if (order == 2)
             {
                 if (a[0 + i * 2] < a[0 + (i - 1) * 2] ||
                     Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= double.Epsilon && a[1 + i * 2] < a[1 + (i - 1) * 2])

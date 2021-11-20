@@ -391,8 +391,7 @@ public static partial class typeMethods
 
         for (int j = 0; j < n; j++)
         {
-            int i = mu;
-            a[i + j * (mu + 1)] = 2.0;
+            a[mu + j * (mu + 1)] = 2.0;
         }
 
         return a;

@@ -377,17 +377,19 @@ public static partial class Ranking
             // 
             //  Increment the function at this position, and set later entries to 1.
             // 
-            if (f[i - 1] != fmax + 1)
+            if (f[i - 1] == fmax + 1)
             {
-                f[i - 1] += 1;
-                for (j = i + 1; j <= m; j++)
-                {
-                    f[j - 1] = 1;
-                }
-
-                rank += 1;
-                return;
+                continue;
             }
+
+            f[i - 1] += 1;
+            for (j = i + 1; j <= m; j++)
+            {
+                f[j - 1] = 1;
+            }
+
+            rank += 1;
+            return;
         }
 
         // 
@@ -492,11 +494,13 @@ public static partial class Ranking
             int j;
             for (j = 1; j <= m; j++)
             {
-                if (f[j - 1] == i)
+                if (f[j - 1] != i)
                 {
-                    k += 1;
-                    s[k - 1] = j;
+                    continue;
                 }
+
+                k += 1;
+                s[k - 1] = j;
             }
 
             index[i - 1] = k;

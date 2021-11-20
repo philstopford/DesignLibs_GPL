@@ -62,7 +62,6 @@ public static class Hermite
         //
     {
         int i;
-        double theta;
 
         switch (n)
         {
@@ -82,7 +81,7 @@ public static class Hermite
  
         for ( i = 1; i < n; i++ )
         {
-            theta = (i % 2) switch
+            double theta = (i % 2) switch
             {
                 0 => 0.0,
                 _ => 2.0 * mu
@@ -341,7 +340,6 @@ public static class Hermite
         //    coefficients of the Hermite polynomials of orders 0 through N.
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -351,7 +349,7 @@ public static class Hermite
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -463,7 +461,6 @@ public static class Hermite
     {
         int i;
         int j;
-        double[] p;
 
         switch (n)
         {
@@ -471,7 +468,7 @@ public static class Hermite
                 return null;
         }
 
-        p = new double[m * (n + 1)];
+        double[] p = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -533,27 +530,23 @@ public static class Hermite
         //    Output, double H_POLYNOMIAL_ZEROS[NT], the zeros of the polynomial.
         //
     {
-        double[] bj;
         int i;
-            
-        double[] wts;
-        double[] z;
 
-        z = new double[nt];
+        double[] z = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
             z[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
             bj[i] = Math.Sqrt((i + 1) / 2.0);
         }
 
-        wts = new double[nt];
+        double[] wts = new double[nt];
         for (i = 0; i < nt; i++)
         {
             wts[i] = 0.0;
@@ -608,23 +601,17 @@ public static class Hermite
         //
     {
         int i;
-        double dq0;
-        double dq1;
-        double dq2;
-        double q0;
-        double q1;
-        double q2;
 
-        q1 = 1.0;
-        dq1 = 0.0;
+        double q1 = 1.0;
+        double dq1 = 0.0;
 
-        q2 = x;
-        dq2 = 1.0;
+        double q2 = x;
+        double dq2 = 1.0;
 
         for (i = 2; i <= order; i++)
         {
-            q0 = q1;
-            dq0 = dq1;
+            double q0 = q1;
+            double dq0 = dq1;
 
             q1 = q2;
             dq1 = dq2;
@@ -678,17 +665,16 @@ public static class Hermite
         //    Output, double *P1, the value of H(ORDER-1)(X).
         //
     {
-        double d;
-        double eps = 1.0E-12;
+        const double eps = 1.0E-12;
         double p2 = 0;
         int step;
-        int step_max = 10;
+        const int step_max = 10;
 
         for (step = 1; step <= step_max; step++)
         {
             hermite_recur(ref p2, ref dp2, ref p1, x, order);
 
-            d = p2 / dp2;
+            double d = p2 / dp2;
             x -= d;
 
             if (Math.Abs(d) <= eps * (Math.Abs(x) + 1.0))
@@ -764,12 +750,10 @@ public static class Hermite
         //    Output, int F[(N+2)/2], the exponents.
         //
     {
-        double[] ct;
         int i;
         int j;
-        int k;
 
-        ct = new double[(n + 1) * (n + 1)];
+        double[] ct = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -809,7 +793,7 @@ public static class Hermite
         //
         o = (n + 2) / 2;
 
-        k = o;
+        int k = o;
         for (j = n; 0 <= j; j -= 2)
         {
             k -= 1;
@@ -880,11 +864,8 @@ public static class Hermite
         //
     {
         int i;
-        int j;
-        double[] v;
-        double[] vtable;
 
-        vtable = new double[n * (o + 1)];
+        double[] vtable = new double[n * (o + 1)];
 
         for (i = 0; i < n; i++)
         {
@@ -900,6 +881,7 @@ public static class Hermite
                     vtable[i + 1 * n] = x[i];
                 }
 
+                int j;
                 for (j = 2; j <= o; j++)
                 {
                     for (i = 0; i < n; i++)
@@ -913,7 +895,7 @@ public static class Hermite
             }
         }
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -984,27 +966,17 @@ public static class Hermite
         //    polynomial product.
         //
     {
-        double[] c1;
-        double[] c2;
-        int[] e1;
-        int[] f2;
         int i;
-        int i1;
-        int i2;
-        int j1;
-        int j2;
-        int o1;
         int o2 = 0;
         int[] p = new int[1];
-        int[] pp;
 
-        c1 = new double[o_max];
-        c2 = new double[o_max];
-        e1 = new int[o_max];
-        f2 = new int[o_max];
-        pp = new int[m];
+        double[] c1 = new double[o_max];
+        double[] c2 = new double[o_max];
+        int[] e1 = new int[o_max];
+        int[] f2 = new int[o_max];
+        int[] pp = new int[m];
 
-        o1 = 1;
+        int o1 = 1;
         c1[0] = 1.0;
         e1[0] = 1;
         //
@@ -1016,8 +988,10 @@ public static class Hermite
 
             o = 0;
 
+            int j2;
             for (j2 = 0; j2 < o2; j2++)
             {
+                int j1;
                 for (j1 = 0; j1 < o1; j1++)
                 {
                     c[o] = c1[j1] * c2[j2];
@@ -1027,9 +1001,13 @@ public static class Hermite
                         _ => p
                     };
 
+                    int i2;
                     for (i2 = 0; i2 < i; i2++)
                     {
-                        pp[i2] = p[i2];
+                        if (p != null)
+                        {
+                            pp[i2] = p[i2];
+                        }
                     }
 
                     pp[i] = f2[j2];
@@ -1047,6 +1025,7 @@ public static class Hermite
             Polynomial.polynomial_compress(o, c, e, ref o, ref c, ref e);
 
             o1 = o;
+            int i1;
             for (i1 = 0; i1 < o; i1++)
             {
                 c1[i1] = c[i1];
@@ -1092,18 +1071,15 @@ public static class Hermite
     {
         int i;
         int j;
-        double[] v;
-        double[] vi;
-        double[] xi;
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for (j = 0; j < n; j++)
         {
             v[j] = 1.0;
         }
 
-        xi = new double[n];
+        double[] xi = new double[n];
 
         for (i = 0; i < m; i++)
         {
@@ -1112,7 +1088,7 @@ public static class Hermite
                 xi[j] = x[i + j * m];
             }
 
-            vi = hep_value(n, o[i], ref xi);
+            double[] vi = hep_value(n, o[i], ref xi);
             for (j = 0; j < n; j++)
             {
                 v[j] *= vi[j];
@@ -1179,7 +1155,6 @@ public static class Hermite
         //    of the Hermite polynomials of orders 0 through N.
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -1189,7 +1164,7 @@ public static class Hermite
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -1306,7 +1281,6 @@ public static class Hermite
     {
         int i;
         int j;
-        double[] p;
 
         switch (n)
         {
@@ -1314,7 +1288,7 @@ public static class Hermite
                 return null;
         }
 
-        p = new double[m * (n + 1)];
+        double[] p = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1375,27 +1349,23 @@ public static class Hermite
         //    Output, double HE_POLYNOMIAL_ZEROS[NT], the zeros of the polynomial.
         //
     {
-        double[] bj;
         int i;
-            
-        double[] wts;
-        double[] z;
 
-        z = new double[nt];
+        double[] z = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
             z[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
             bj[i] = Math.Sqrt((i + 1) / 2.0);
         }
 
-        wts = new double[nt];
+        double[] wts = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
@@ -1465,17 +1435,11 @@ public static class Hermite
         //    exp(B*X) * Hen(I,X) * Hen(J,X).
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
         for (j = 0; j <= p; j++)
         {
             for (i = 0; i <= p; i++)
@@ -1484,17 +1448,17 @@ public static class Hermite
             }
         }
 
-        order = (3 * p + 4) / 2;
+        int order = (3 * p + 4) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         HermiteQuadrature.he_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = hen_polynomial_value(1, p, x_table, +k);
+            double x = x_table[k];
+            double[] h_table = hen_polynomial_value(1, p, x_table, +k);
             //
             //  The following formula is an outer product in H_TABLE.
             //
@@ -1566,11 +1530,9 @@ public static class Hermite
         //    polynomials of index 0 through N.
         //
     {
-        double fact;
         int i;
         int j;
-        double[] p;
-            
+
 
         switch (n)
         {
@@ -1578,7 +1540,7 @@ public static class Hermite
                 return null;
         }
 
-        p = new double[m * (n + 1)];
+        double[] p = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1607,7 +1569,7 @@ public static class Hermite
         //
         //  Normalize.
         //
-        fact = 1.0;
+        double fact = 1.0;
         for (j = 0; j <= n; j++)
         {
             for (i = 0; i < m; i++)
@@ -1669,17 +1631,11 @@ public static class Hermite
         //    X^E * Hen(I,X) * Hen(J,X).
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
         for (j = 0; j <= p; j++)
         {
             for (i = 0; i <= p; i++)
@@ -1688,17 +1644,17 @@ public static class Hermite
             }
         }
 
-        order = p + 1 + (e + 1) / 2;
+        int order = p + 1 + (e + 1) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         HermiteQuadrature.he_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = hen_polynomial_value(1, p, x_table, +k);
+            double x = x_table[k];
+            double[] h_table = hen_polynomial_value(1, p, x_table, +k);
             switch (e)
             {
                 //
@@ -1783,17 +1739,11 @@ public static class Hermite
         //    exp(B*X) * Hf(I,X) * Hf(J,X).
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
         for (j = 0; j <= p; j++)
         {
             for (i = 0; i <= p; i++)
@@ -1802,17 +1752,17 @@ public static class Hermite
             }
         }
 
-        order = (3 * p + 4) / 2;
+        int order = (3 * p + 4) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         HermiteQuadrature.hf_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = hf_function_value(1, p, x_table, +k);
+            double x = x_table[k];
+            double[] h_table = hf_function_value(1, p, x_table, +k);
             //
             //  The following formula is an outer product in H_TABLE.
             //
@@ -1889,12 +1839,11 @@ public static class Hermite
         //    functions of index 0 through N at the evaluation points.
         //
     {
-        double[] f;
         int i;
         int j;
             
 
-        f = new double[m * (n + 1)];
+        double[] f = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1973,17 +1922,11 @@ public static class Hermite
         //    TABLE(I,J) represents the integral of X^E * Hf(I,X) * Hf(J,X).
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
         for (j = 0; j <= p; j++)
         {
             for (i = 0; i <= p; i++)
@@ -1992,17 +1935,17 @@ public static class Hermite
             }
         }
 
-        order = p + 1 + (e + 1) / 2;
+        int order = p + 1 + (e + 1) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         HermiteQuadrature.hf_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = hf_function_value(1, p, x_table, +k);
+            double x = x_table[k];
+            double[] h_table = hf_function_value(1, p, x_table, +k);
             switch (e)
             {
                 //
@@ -2088,17 +2031,11 @@ public static class Hermite
         //    exp(B*X) * Hn(I,X) * Hn(J,X).
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
         for (j = 0; j <= p; j++)
         {
             for (i = 0; i <= p; i++)
@@ -2107,17 +2044,17 @@ public static class Hermite
             }
         }
 
-        order = (3 * p + 4) / 2;
+        int order = (3 * p + 4) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         HermiteQuadrature.h_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = hn_polynomial_value(1, p, x_table, +k);
+            double x = x_table[k];
+            double[] h_table = hn_polynomial_value(1, p, x_table, +k);
             //
             //  The following formula is an outer product in H_TABLE.
             //
@@ -2183,12 +2120,8 @@ public static class Hermite
         //    N+1 Hermite polynomials at the evaluation points.
         //
     {
-        double fact;
         int i;
         int j;
-        double[] p;
-            
-        double two_power;
 
         switch (n)
         {
@@ -2196,7 +2129,7 @@ public static class Hermite
                 return null;
         }
 
-        p = new double[m * (n + 1)];
+        double[] p = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -2226,8 +2159,8 @@ public static class Hermite
         //
         //  Normalize.
         //
-        fact = 1.0;
-        two_power = 1.0;
+        double fact = 1.0;
+        double two_power = 1.0;
         for (j = 0; j <= n; j++)
         {
             for (i = 0; i < m; i++)
@@ -2289,17 +2222,11 @@ public static class Hermite
         //    X^E * Hn(I,X) * Hn(J,X).
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
         for (j = 0; j <= p; j++)
         {
             for (i = 0; i <= p; i++)
@@ -2308,17 +2235,17 @@ public static class Hermite
             }
         }
 
-        order = p + 1 + (e + 1) / 2;
+        int order = p + 1 + (e + 1) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         HermiteQuadrature.h_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = hn_polynomial_value(1, p, x_table, +k);
+            double x = x_table[k];
+            double[] h_table = hn_polynomial_value(1, p, x_table, +k);
             switch (e)
             {
                 //

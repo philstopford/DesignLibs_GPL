@@ -97,21 +97,23 @@ public static class QRSolve
 
             q[qIndex + k + k * ldq] = 1.0;
 
-            if (wa[k] != 0.0)
+            if (wa[k] == 0.0)
             {
-                for (j = k; j < m; j++)
-                {
-                    double sum = 0.0;
-                    for (i = k; i < m; i++)
-                    {
-                        sum += q[qIndex + i + j * ldq] * wa[i];
-                    }
+                continue;
+            }
 
-                    double temp = sum / wa[k];
-                    for (i = k; i < m; i++)
-                    {
-                        q[qIndex + i + j * ldq] -= temp * wa[i];
-                    }
+            for (j = k; j < m; j++)
+            {
+                double sum = 0.0;
+                for (i = k; i < m; i++)
+                {
+                    sum += q[qIndex + i + j * ldq] * wa[i];
+                }
+
+                double temp = sum / wa[k];
+                for (i = k; i < m; i++)
+                {
+                    q[qIndex + i + j * ldq] -= temp * wa[i];
                 }
             }
         }
@@ -381,7 +383,6 @@ public static class QRSolve
         int kr = 0;
 
         double[] a_qr = typeMethods.r8mat_copy_new ( m, n, a );
-        int lda = m;
         double tol = typeMethods.r8_epsilon() / typeMethods.r8mat_amax ( m, n, a_qr );
         double[] x = new double[n];
         int[] jpvt = new int[n];
@@ -394,7 +395,7 @@ public static class QRSolve
             qraux[i] = -6.2774385622041925e+66;
         }
 
-        dqrls ( ref a_qr, lda, m, n, tol, ref kr, b, ref x, ref r, jpvt, qraux, itask );
+        dqrls ( ref a_qr, m, m, n, tol, ref kr, b, ref x, ref r, jpvt, qraux, itask );
 
         return x;
     }
@@ -682,11 +683,13 @@ public static class QRSolve
                 int maxj = l;
                 for (j = l; j <= pu; j++)
                 {
-                    if (maxnrm < qraux[j - 1])
+                    if (!(maxnrm < qraux[j - 1]))
                     {
-                        maxnrm = qraux[j - 1];
-                        maxj = j;
+                        continue;
                     }
+
+                    maxnrm = qraux[j - 1];
+                    maxj = j;
                 }
 
                 if (maxj != l)
@@ -715,54 +718,55 @@ public static class QRSolve
             index = +l - 1 + (l - 1) * lda;
             double nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index);
 
-            if (nrmxl != 0.0)
+            if (nrmxl == 0.0)
             {
-                if (a[l - 1 + (l - 1) * lda] != 0.0)
-                {
-                    nrmxl *= typeMethods.r8_sign(a[index]);
-                }
-
-                BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
-                a[index] = 1.0 + a[index];
-                //
-                //  Apply the transformation to the remaining columns, updating the norms.
-                //
-                for (j = l + 1; j <= p; j++)
-                {
-                    yIndex = +l - 1 + (j - 1) * lda;
-                    double t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
-                               / a[index];
-                    BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
-
-                    if (pl <= j && j <= pu)
-                    {
-                        if (qraux[j - 1] != 0.0)
-                        {
-                            double tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
-                            tt = Math.Max(tt, 0.0);
-                            t = tt;
-                            tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
-
-                            if (Math.Abs(tt - 1.0) > double.Epsilon)
-                            {
-                                qraux[j - 1] *= Math.Sqrt(t);
-                            }
-                            else
-                            {
-                                int index2 = +l + (j - 1) * lda;
-                                qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
-                                work[j - 1] = qraux[j - 1];
-                            }
-                        }
-                    }
-                }
-
-                //
-                //  Save the transformation.
-                //
-                qraux[l - 1] = a[index];
-                a[index] = -nrmxl;
+                continue;
             }
+
+            if (a[l - 1 + (l - 1) * lda] != 0.0)
+            {
+                nrmxl *= typeMethods.r8_sign(a[index]);
+            }
+
+            BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
+            a[index] = 1.0 + a[index];
+            //
+            //  Apply the transformation to the remaining columns, updating the norms.
+            //
+            for (j = l + 1; j <= p; j++)
+            {
+                yIndex = +l - 1 + (j - 1) * lda;
+                double t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
+                           / a[index];
+                BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
+
+                if ((pl > j || j > pu) || (qraux[j - 1] == 0.0))
+                {
+                    continue;
+                }
+
+                double tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
+                tt = Math.Max(tt, 0.0);
+                t = tt;
+                tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
+
+                if (Math.Abs(tt - 1.0) > double.Epsilon)
+                {
+                    qraux[j - 1] *= Math.Sqrt(t);
+                }
+                else
+                {
+                    int index2 = +l + (j - 1) * lda;
+                    qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
+                    work[j - 1] = qraux[j - 1];
+                }
+            }
+
+            //
+            //  Save the transformation.
+            //
+            qraux[l - 1] = a[index];
+            a[index] = -nrmxl;
         }
     }
 
@@ -1278,14 +1282,16 @@ public static class QRSolve
                 {
                     j = ju - jj + 1;
 
-                    if (qraux[j - 1] != 0.0)
+                    if (qraux[j - 1] == 0.0)
                     {
-                        temp = a[j - 1 + (j - 1) * lda];
-                        a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-                        t = -BLAS1D.ddot(n - j + 1, a, 1, qy, 1, + j - 1 + (j - 1) * lda, + j - 1 ) / a[j - 1 + (j - 1) * lda];
-                        BLAS1D.daxpy(n - j + 1, t, a, 1, ref qy, 1, + j - 1 + (j - 1) * lda, + j - 1);
-                        a[j - 1 + (j - 1) * lda] = temp;
+                        continue;
                     }
+
+                    temp = a[j - 1 + (j - 1) * lda];
+                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, qy, 1, + j - 1 + (j - 1) * lda, + j - 1 ) / a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref qy, 1, + j - 1 + (j - 1) * lda, + j - 1);
+                    a[j - 1 + (j - 1) * lda] = temp;
                 }
 
                 break;
@@ -1301,14 +1307,16 @@ public static class QRSolve
             {
                 for (j = 1; j <= ju; j++)
                 {
-                    if (qraux[j - 1] != 0.0)
+                    if (qraux[j - 1] == 0.0)
                     {
-                        temp = a[j - 1 + (j - 1) * lda];
-                        a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-                        t = -BLAS1D.ddot(n - j + 1, a, 1, qty, 1, + j - 1 + (j - 1) * lda, + j - 1) / a[j - 1 + (j - 1) * lda];
-                        BLAS1D.daxpy(n - j + 1, t, a, 1, ref qty, 1, + j - 1 + (j - 1) * lda, + j - 1);
-                        a[j - 1 + (j - 1) * lda] = temp;
+                        continue;
                     }
+
+                    temp = a[j - 1 + (j - 1) * lda];
+                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, qty, 1, + j - 1 + (j - 1) * lda, + j - 1) / a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref qty, 1, + j - 1 + (j - 1) * lda, + j - 1);
+                    a[j - 1 + (j - 1) * lda] = temp;
                 }
 
                 break;
@@ -1416,38 +1424,42 @@ public static class QRSolve
         //
         //  Compute RSD or AB as required.
         //
-        if (cr || cab)
+        if (!cr && !cab)
         {
-            for (jj = 1; jj <= ju; jj++)
+            return info;
+        }
+
+        for (jj = 1; jj <= ju; jj++)
+        {
+            j = ju - jj + 1;
+
+            if (qraux[j - 1] == 0.0)
             {
-                j = ju - jj + 1;
-
-                if (qraux[j - 1] != 0.0)
-                {
-                    temp = a[j - 1 + (j - 1) * lda];
-                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-
-                    switch (cr)
-                    {
-                        case true:
-                            t = -BLAS1D.ddot(n - j + 1, a, 1, rsd, 1, + j - 1 + (j - 1) * lda, + j - 1)
-                                / a[j - 1 + (j - 1) * lda];
-                            BLAS1D.daxpy(n - j + 1, t, a, 1, ref rsd, 1, + j - 1 + (j - 1) * lda, + j - 1);
-                            break;
-                    }
-
-                    switch (cab)
-                    {
-                        case true:
-                            t = -BLAS1D.ddot(n - j + 1, a, 1, ab, 1, + j - 1 + (j - 1) * lda, + j - 1)
-                                / a[j - 1 + (j - 1) * lda];
-                            BLAS1D.daxpy(n - j + 1, t, a, 1, ref ab, 1, + j - 1 + (j - 1) * lda, + j - 1);
-                            break;
-                    }
-
-                    a[j - 1 + (j - 1) * lda] = temp;
-                }
+                continue;
             }
+
+            temp = a[j - 1 + (j - 1) * lda];
+            a[j - 1 + (j - 1) * lda] = qraux[j - 1];
+
+            switch (cr)
+            {
+                case true:
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, rsd, 1, + j - 1 + (j - 1) * lda, + j - 1)
+                        / a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref rsd, 1, + j - 1 + (j - 1) * lda, + j - 1);
+                    break;
+            }
+
+            switch (cab)
+            {
+                case true:
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, ab, 1, + j - 1 + (j - 1) * lda, + j - 1)
+                        / a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref ab, 1, + j - 1 + (j - 1) * lda, + j - 1);
+                    break;
+            }
+
+            a[j - 1 + (j - 1) * lda] = temp;
         }
 
         return info;

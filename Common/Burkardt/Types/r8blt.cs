@@ -190,9 +190,8 @@ public static partial class typeMethods
         for (i = 0; i < n; i++)
         {
             int jlo = Math.Max(0, i - ml);
-            int jhi = i;
             int j;
-            for (j = jlo; j <= jhi; j++)
+            for (j = jlo; j <= i; j++)
             {
                 b[j] += x[i] * a[i - j + j * (ml + 1)];
             }
@@ -249,9 +248,8 @@ public static partial class typeMethods
         for (i = 0; i < n; i++)
         {
             int jlo = Math.Max(0, i - ml);
-            int jhi = i;
             int j;
-            for (j = jlo; j <= jhi; j++)
+            for (j = jlo; j <= i; j++)
             {
                 b[i] += a[i - j + j * (ml + 1)] * x[j];
             }

@@ -574,7 +574,7 @@ public static class BTuple
         int test = 1;
         for (i = 0; i < n; i++)
         {
-            test *= (1 + Math.Abs(xmax[i] - xmin[i]));
+            test *= 1 + Math.Abs(xmax[i] - xmin[i]);
         }
 
         if (test < rank)

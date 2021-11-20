@@ -106,8 +106,7 @@ public static partial class typeMethods
                 _ => jlo
             };
 
-            int j2hi;
-            j2hi = n < jhi ? n : jhi;
+            int j2hi = n < jhi ? n : jhi;
 
             int j;
             for ( j = j2lo; j <= j2hi; j++ )

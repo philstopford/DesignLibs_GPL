@@ -142,7 +142,7 @@ public static class Walker
             //
             //  B[i] will donate to B[j] to fix up.
             //
-            y[b[j]] -= (1.0 - y[b[i]]);
+            y[b[j]] -= 1.0 - y[b[i]];
             a[b[i]] = b[j];
             switch (y[b[j]])
             {

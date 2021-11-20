@@ -262,7 +262,6 @@ public static class Chebyshev
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -270,7 +269,7 @@ public static class Chebyshev
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -355,7 +354,6 @@ public static class Chebyshev
         //    the Chebyshev T polynomials.
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -365,7 +363,7 @@ public static class Chebyshev
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -431,16 +429,13 @@ public static class Chebyshev
         //    Output, double CHEBY_T_POLY_ZERO[N], the zeroes of T(N,X).
         //
     {
-        double angle;
         int i;
-            
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            angle = (2 * i + 1) * Math.PI / (2 * n);
+            double angle = (2 * i + 1) * Math.PI / (2 * n);
             z[i] = Math.Cos ( angle );
         }
 
@@ -505,7 +500,6 @@ public static class Chebyshev
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -513,7 +507,7 @@ public static class Chebyshev
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -669,16 +663,13 @@ public static class Chebyshev
         //    Output, double CHEBY_U_POLY_ZERO[N], the zeroes of U(N,X).
         //
     {
-        double angle;
         int i;
-            
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            angle = (i + 1) * Math.PI / (n + 1);
+            double angle = (i + 1) * Math.PI / (n + 1);
             z[i] = Math.Cos ( angle );
         }
 

@@ -195,7 +195,7 @@ public static class CHKQF
                     t2[i] = t[i] - tmp;
                 }
 
-                int neg = -1;
+                const int neg = -1;
                 //
                 //  Check moments.
                 //

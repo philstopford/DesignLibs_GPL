@@ -674,7 +674,7 @@ public static class HermiteQuadrature
         //
         //  Define the zero-th moment.
         //
-        double arg = 0.5;
+        const double arg = 0.5;
         double zemu = Helpers.Gamma ( arg );
         //
         //  Define the Jacobi matrix.

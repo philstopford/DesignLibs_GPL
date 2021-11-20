@@ -265,13 +265,8 @@ public static class Geometry
             return false;
         }
 
-        if (Angle.anglei_rad_2d(q, q, q, +3 * 2, +0 * 2, +1 * 2) <
-            Angle.anglei_rad_2d(q, q, p, +3 * 2))
-        {
-            return false;
-        }
-
-        return true;
+        return !(Angle.anglei_rad_2d(q, q, q, +3 * 2, +0 * 2, +1 * 2) <
+                 Angle.anglei_rad_2d(q, q, p, +3 * 2));
     }
 
     public static void quad_convex_random(ref int seed, ref double[] xy)
@@ -572,11 +567,13 @@ public static class Geometry
 
             Segments.segment_point_near_2d(q, q, p, ref pn2, ref dist2, ref tval,  + j * 2,  + jp1 * 2);
 
-            if (dist2 < dist)
+            if (!(dist2 < dist))
             {
-                dist = dist2;
-                typeMethods.r8vec_copy(DIM_NUM, pn2, ref pn);
+                continue;
             }
+
+            dist = dist2;
+            typeMethods.r8vec_copy(DIM_NUM, pn2, ref pn);
         }
     }
 

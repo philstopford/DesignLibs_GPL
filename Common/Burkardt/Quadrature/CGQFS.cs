@@ -78,7 +78,7 @@ public static class CGQFS
         //
         //  Check there is enough workfield and assign workfield
         //
-        int key = 1;
+        const int key = 1;
         int mop = 2 * nt;
         int m = mop + 1;
         int mex = m + 2;

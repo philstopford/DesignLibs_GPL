@@ -63,17 +63,14 @@ public static class SVDSolve
         //  Get the SVD.
         //
         double[] a_copy = typeMethods.r8mat_copy_new(m, n, a);
-        int lda = m;
         double[] sdiag = new double[Math.Max(m + 1, n)];
         double[] e = new double[Math.Max(m + 1, n)];
         double[] u = new double[m * m];
-        int ldu = m;
         double[] v = new double[n * n];
-        int ldv = n;
         double[] work = new double[m];
-        int job = 11;
+        const int job = 11;
 
-        int info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a_copy, m, m, n, ref sdiag, ref e, ref u, m, ref v, n, work, job);
 
         if (info != 0)
         {

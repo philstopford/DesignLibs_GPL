@@ -311,7 +311,7 @@ public static class Dipole
         //
         double a2 = b * Math.Sin(a);
         double b2 = b * Math.Cos(a);
-        double c2 = 1.0;
+        const double c2 = 1.0;
 
         double[] xc = Disk.disk_sample(a2, b2, c2, ref seed);
         //

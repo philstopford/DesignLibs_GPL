@@ -98,7 +98,7 @@ public static class CN_Leg
         //    Output, int CN_LEG_01_1_SIZE, the order.
         //
     {
-        int o = 1;
+        const int o = 1;
 
         return o;
     }

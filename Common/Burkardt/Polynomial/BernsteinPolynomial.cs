@@ -56,14 +56,13 @@ public static class BernsteinPolynomial
         //    Output, double BERNSTEIN_MATRIX[N*N], the Bernstein matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i <= j; i++)
             {
                 a[i + j * n] = typeMethods.r8_mop(j - i) * typeMethods.r8_choose(n - 1 - i, j - i)
@@ -107,9 +106,8 @@ public static class BernsteinPolynomial
         //
     {
         int i;
-        double value = 0;
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 0; i < n; i++)
         {
             value *= typeMethods.r8_choose(n - 1, i);
@@ -165,14 +163,13 @@ public static class BernsteinPolynomial
         //    Output, double BERNSTEIN_MATRIX_INVERSE[N*N], the inverse Bernstein matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i <= j; i++)
             {
                 a[i + j * n] = typeMethods.r8_choose(j, i) / typeMethods.r8_choose(n - 1, i);
@@ -257,9 +254,6 @@ public static class BernsteinPolynomial
         //    of orders 0 through N at X.
         //
     {
-        int i;
-        int j;
-
         switch (n)
         {
             case 0:
@@ -270,9 +264,11 @@ public static class BernsteinPolynomial
                 bern[0] = 1.0 - x;
                 bern[1] = x;
 
+                int i;
                 for (i = 2; i <= n; i++)
                 {
                     bern[i] = x * bern[i - 1];
+                    int j;
                     for (j = i - 1; 1 <= j; j--)
                     {
                         bern[j] = x * bern[j - 1] + (1.0 - x) * bern[j];
@@ -360,11 +356,7 @@ public static class BernsteinPolynomial
         //    Bernstein polynomials at X.
         //
     {
-        double[] bern;
-        int i;
-        int j;
-
-        bern = new double[n + 1];
+        double[] bern = new double[n + 1];
 
         switch (n)
         {
@@ -376,9 +368,11 @@ public static class BernsteinPolynomial
                 bern[0] = 1.0 - x;
                 bern[1] = x;
 
+                int i;
                 for (i = 2; i <= n; i++)
                 {
                     bern[i] = x * bern[i - 1];
+                    int j;
                     for (j = i - 1; 1 <= j; j--)
                     {
                         bern[j] = x * bern[j - 1]
@@ -471,12 +465,9 @@ public static class BernsteinPolynomial
         //    Bernstein polynomials at the evaluation points.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int k;
 
-        b = new double[m * (n + 1)];
+        double[] b = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -490,9 +481,11 @@ public static class BernsteinPolynomial
                     b[i + 0 * m] = 1.0 - x[i];
                     b[i + 1 * m] = x[i];
 
+                    int j;
                     for (j = 2; j <= n; j++)
                     {
                         b[i + j * m] = x[i] * b[i + (j - 1) * m];
+                        int k;
                         for (k = j - 1; 1 <= k; k--)
                         {
                             b[i + k * m] = x[i] * b[i + (k - 1) * m]
@@ -574,10 +567,6 @@ public static class BernsteinPolynomial
         //    Bernstein polynomials at X.
         //
     {
-        double[] bern;
-        int i;
-        int j;
-
         if (Math.Abs(b - a) <= double.Epsilon)
         {
             Console.WriteLine("");
@@ -586,7 +575,7 @@ public static class BernsteinPolynomial
             return new double[1];
         }
 
-        bern = new double[n + 1];
+        double[] bern = new double[n + 1];
 
         switch (n)
         {
@@ -598,9 +587,11 @@ public static class BernsteinPolynomial
                 bern[0] = (b - x) / (b - a);
                 bern[1] = (x - a) / (b - a);
 
+                int i;
                 for (i = 2; i <= n; i++)
                 {
                     bern[i] = (x - a) * bern[i - 1] / (b - a);
+                    int j;
                     for (j = i - 1; 1 <= j; j--)
                     {
                         bern[j] = ((b - x) * bern[j]
@@ -691,17 +682,15 @@ public static class BernsteinPolynomial
         //    for F, based in [A,B], evaluated at XVAL.
         //
     {
-        double[] bvec;
         int i;
-        double yval;
         //
         //  Evaluate the Bernstein basis polynomials at XVAL.
         //
-        bvec = bpab(n, a, b, xval);
+        double[] bvec = bpab(n, a, b, xval);
         //
         //  Now compute the sum of YDATA(I) * BVEC(I).
         //
-        yval = 0.0;
+        double yval = 0.0;
 
         for (i = 0; i <= n; i++)
         {
@@ -782,10 +771,6 @@ public static class BernsteinPolynomial
         //    polynomials at X.
         //
     {
-        double[] bern;
-        int i;
-        int j;
-
         if (Math.Abs(b - a) <= double.Epsilon)
         {
             Console.WriteLine("");
@@ -794,7 +779,7 @@ public static class BernsteinPolynomial
             return null;
         }
 
-        bern = new double[n + 1];
+        double[] bern = new double[n + 1];
 
         switch (n)
         {
@@ -806,9 +791,11 @@ public static class BernsteinPolynomial
                 bern[0] = (b - x) / (b - a);
                 bern[1] = (x - a) / (b - a);
 
+                int i;
                 for (i = 2; i <= n; i++)
                 {
                     bern[i] = (x - a) * bern[i - 1] / (b - a);
+                    int j;
                     for (j = i - 1; 1 <= j; j--)
                     {
                         bern[j] = ((b - x) * bern[j] + (x - a) * bern[j - 1]) / (b - a);
@@ -898,18 +885,16 @@ public static class BernsteinPolynomial
         //    polynomial approximant for F, based in [A,B], evaluated at XVAL.
         //
     {
-        double[] bvec;
         int i;
-        double[] yval;
 
-        yval = new double[nval];
+        double[] yval = new double[nval];
 
         for (i = 0; i < nval; i++)
         {
             //
             //  Evaluate the Bernstein basis polynomials at XVAL.
             //
-            bvec = bernstein_poly_ab(n, a, b, xval[i]);
+            double[] bvec = bernstein_poly_ab(n, a, b, xval[i]);
             //
             //  Now compute the sum of YDATA(I) * BVEC(I).
             //
@@ -954,17 +939,16 @@ public static class BernsteinPolynomial
         //    the Bernstein-to-Legendre matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int k;
 
-        a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
+        double[] a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
 
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n; j++)
             {
+                int k;
                 for (k = 0; k <= i; k++)
                 {
                     a[i + j * (n + 1)] += typeMethods.r8_mop(i + k) * Math.Pow(typeMethods.r8_choose(i, k), 2)
@@ -1029,14 +1013,13 @@ public static class BernsteinPolynomial
         //    the Bernstein-to-Power matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
+        double[] a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
 
         for (j = 0; j <= n; j++)
         {
+            int i;
             for (i = 0; i <= j; i++)
             {
                 a[i + j * (n + 1)] = typeMethods.r8_mop(j - i) * typeMethods.r8_choose(n - i, j - i)
@@ -1080,10 +1063,7 @@ public static class BernsteinPolynomial
         //    Output, double BERNSTEIN_VANDERMONDE[N*N], the Bernstein Vandermonde matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
-        double x;
 
         double[] v = new double[n * n];
 
@@ -1096,8 +1076,9 @@ public static class BernsteinPolynomial
 
         for (i = 0; i < n; i++)
         {
-            x = i / (double)(n - 1);
-            b = bernstein_poly_01(n - 1, x);
+            double x = i / (double)(n - 1);
+            double[] b = bernstein_poly_01(n - 1, x);
+            int j;
             for (j = 0; j < n; j++)
             {
                 v[i + j * n] = b[j];
@@ -1142,17 +1123,16 @@ public static class BernsteinPolynomial
         //    Legendre-to-Bernstein matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int k;
 
-        a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
+        double[] a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
 
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = 0; j <= n; j++)
             {
+                int k;
                 for (k = Math.Max(0, i + j - n); k <= Math.Min(i, j); k++)
                 {
                     a[i + j * (n + 1)] += typeMethods.r8_mop(j + k) * Math.Pow(typeMethods.r8_choose(j, k), 2)
@@ -1216,14 +1196,13 @@ public static class BernsteinPolynomial
         //    Power-to-Bernstein matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
+        double[] a = typeMethods.r8mat_zeros_new(n + 1, n + 1);
 
         for (j = 0; j <= n; j++)
         {
+            int i;
             for (i = 0; i <= j; i++)
             {
                 a[n - 1 + (n - j) * (n + 1)] = typeMethods.r8_choose(j, i) / typeMethods.r8_choose(n, i);

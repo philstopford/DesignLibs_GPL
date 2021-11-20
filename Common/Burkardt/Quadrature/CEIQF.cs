@@ -83,7 +83,7 @@ public static class CEIQF
             n += mlt[i];
         }
 
-        int key = 1;
+        const int key = 1;
         int[] ndx = new int[nt];
 
         double[] wts = CIQF.ciqf(nt, t, mlt, n, ref ndx, key, kind, alpha, beta, a, b, lu);

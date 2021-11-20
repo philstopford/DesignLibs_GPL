@@ -182,6 +182,7 @@ public static partial class typeMethods
     {
         float s;
         float tiny;
+        const bool debug = false;
 
         float eps = 1.0f;
 
@@ -216,7 +217,7 @@ public static partial class typeMethods
         //
         tiny = (float)Math.Sqrt(tiny);
 
-        switch (false)
+        switch (debug)
         {
             case true:
             {
@@ -566,6 +567,7 @@ public static partial class typeMethods
     {
         double s;
         double tiny;
+        const bool debug = false;
 
         double eps = 1.0;
 
@@ -600,7 +602,7 @@ public static partial class typeMethods
         //
         tiny = Math.Sqrt(tiny);
 
-        switch (false)
+        switch (debug)
         {
             case true:
             {

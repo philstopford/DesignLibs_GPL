@@ -2503,7 +2503,6 @@ public static partial class typeMethods
         const int INCX = 5;
 
         int i2lo;
-        int i2lo_hi;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -2521,7 +2520,7 @@ public static partial class typeMethods
             _ => ilo
         };
 
-        i2lo_hi = ihi < m ? m : ihi;
+        int i2lo_hi = ihi < m ? m : ihi;
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
@@ -3601,8 +3600,7 @@ public static partial class typeMethods
                 _ => 1
             };
 
-            int i2hi;
-            i2hi = ihi < m ? ihi : m;
+            int i2hi = ihi < m ? ihi : m;
 
             int i;
             for (i = i2lo; i <= i2hi; i++)

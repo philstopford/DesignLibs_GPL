@@ -1865,7 +1865,7 @@ public static class Sphere
             }
         }
 
-        double w2 = 16384.0 / 725760.0;
+        const double w2 = 16384.0 / 725760.0;
         x = Math.Sqrt(0.5);
         y = Math.Sqrt(0.5);
         z = 0.0;

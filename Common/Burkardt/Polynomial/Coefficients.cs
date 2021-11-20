@@ -39,11 +39,10 @@ public static class Coefficients
         //    coefficients modulo QS.
         //
     {
-        int[] coef;
         int i;
         int j;
 
-        coef = new int[(m+1)*(n+1)];
+        int[] coef = new int[(m+1)*(n+1)];
 
         for ( j = 0; j <= n; j++ )
         {

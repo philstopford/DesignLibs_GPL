@@ -307,11 +307,13 @@ public static class PRAXIS
                             _ => sl - fx
                         };
 
-                        if (df <= s)
+                        if (!(df <= s))
                         {
-                            df = s;
-                            kl = k2;
+                            continue;
                         }
+
+                        df = s;
+                        kl = k2;
                     }
 
                     //

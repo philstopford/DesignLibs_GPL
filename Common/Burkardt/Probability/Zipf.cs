@@ -120,11 +120,13 @@ public static class Zipf
                 {
                     double pdf = 1.0 / Math.Pow(y, a) / c;
                     cdf2 += pdf;
-                    if (cdf <= cdf2)
+                    if (!(cdf <= cdf2))
                     {
-                        x = y;
-                        break;
+                        continue;
                     }
+
+                    x = y;
+                    break;
                 }
 
                 break;

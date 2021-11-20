@@ -58,8 +58,8 @@ public static class QuadratureRule
         double[] jacobi_w = new double[jacobi_order];
         double[] jacobi_x = new double[jacobi_order];
 
-        double jacobi_alpha = 2.0;
-        double jacobi_beta = 0.0;
+        const double jacobi_alpha = 2.0;
+        const double jacobi_beta = 0.0;
 
         JacobiQuadrature.jacobi_compute(jacobi_order, jacobi_alpha, jacobi_beta, ref jacobi_x, ref jacobi_w);
         //
@@ -70,7 +70,7 @@ public static class QuadratureRule
         double[] pyramid_w = new double[pyramid_order];
         double[] pyramid_x = new double[DIM_NUM * pyramid_order];
 
-        double volume = 4.0 / 3.0;
+        const double volume = 4.0 / 3.0;
 
         int l = 0;
         for (k = 0; k < jacobi_order; k++)

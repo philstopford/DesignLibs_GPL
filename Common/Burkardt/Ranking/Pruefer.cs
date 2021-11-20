@@ -468,7 +468,6 @@ public static partial class Ranking
         // 
     {
         int i;
-        int[] p;
         switch (n)
         {
             // 
@@ -494,7 +493,7 @@ public static partial class Ranking
         }
 
         int rank_copy = rank;
-        p = new int[n - 2];
+        int[] p = new int[n - 2];
 
         for (i = n - 3; 0 <= i; i--)
         {

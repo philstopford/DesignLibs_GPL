@@ -115,22 +115,15 @@ public static partial class typeMethods
             //
             case 0.0 when b == 0.0 && c == 0.0:
             {
-                switch (d)
+                type = d switch
                 {
-                    case 0.0 when e == 0.0:
+                    0.0 when e == 0.0 => f switch
                     {
-                        type = f switch
-                        {
-                            0.0 => 11,
-                            _ => 12
-                        };
-
-                        break;
-                    }
-                    default:
-                        type = 10;
-                        break;
-                }
+                        0.0 => 11,
+                        _ => 12
+                    },
+                    _ => 10
+                };
 
                 return type;
             }

@@ -419,19 +419,17 @@ public static class Triangle
         const double c = 0.0;
         const double d = +1.0;
 
-        int order0 = rule;
-        LegendreQuadrature.legendre_set(order0, ref xtab0, ref weight0);
-        QuadratureRule.rule_adjust(a, b, c, d, order0, ref xtab0, ref weight0);
+        LegendreQuadrature.legendre_set(rule, ref xtab0, ref weight0);
+        QuadratureRule.rule_adjust(a, b, c, d, rule, ref xtab0, ref weight0);
 
-        int order1 = rule;
-        LegendreQuadrature.legendre_set_x1(order1, ref xtab1, ref weight1);
-        QuadratureRule.rule_adjust(a, b, c, d, order1, ref xtab1, ref weight1);
+        LegendreQuadrature.legendre_set_x1(rule, ref xtab1, ref weight1);
+        QuadratureRule.rule_adjust(a, b, c, d, rule, ref xtab1, ref weight1);
 
         int k = 0;
-        for (j = 0; j < order1; j++)
+        for (j = 0; j < rule; j++)
         {
             int i;
-            for (i = 0; i < order0; i++)
+            for (i = 0; i < rule; i++)
             {
                 xtab[k] = 1.0 - xtab1[j];
                 ytab[k] = xtab0[i] * xtab1[j];

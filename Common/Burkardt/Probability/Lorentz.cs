@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace Burkardt.Probability;
@@ -219,10 +220,6 @@ public static class Lorentz
         //    Output, double LORENTZ_VARIANCE, the mean of the PDF.
         //
     {
-        const double r8_huge = 1.0E+30;
-
-        double variance = r8_huge;
-
-        return variance;
+        return typeMethods.r8_huge();
     }
 }

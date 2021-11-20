@@ -57,9 +57,6 @@ public static class SingleValueDecomposition
         //  Compute the eigenvalues and eigenvectors.
         //
         const int job = 21;
-        int lda = m;
-        int ldu = m;
-        int ldv = n;
         //
         //  The input matrix is destroyed by the routine.  Since we need to keep
         //  it around, we only pass a copy to the routine.
@@ -72,7 +69,7 @@ public static class SingleValueDecomposition
             }
         }
 
-        int info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref un, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a_copy, m, m, n, ref sdiag, ref e, ref un, m, ref v, n, work, job);
 
         if (info != 0)
         {
@@ -144,10 +141,8 @@ public static class SingleValueDecomposition
         //  Transpose the matrix!
         //
         double[] a2 = typeMethods.r8mat_transpose_new ( m, n, a );
-        int m2 = n;
-        int n2 = m;
 
-        svd_truncated_u ( m2, n2, a2, ref vm, ref sm, ref u );
+        svd_truncated_u ( n, m, a2, ref vm, ref sm, ref u );
 
     }
 
@@ -209,15 +204,12 @@ public static class SingleValueDecomposition
         //
         double[] s = new double[Math.Min(m + 1, n)];
         double[] e = new double[n];
-        int lda = m;
         double[] u = a;
-        int ldu = m;
         double[] v = null;
-        int ldv = n;
         double[] work = new double[m];
         const int job = 20;
 
-        int info = DSVDC.dsvdc(ref a, lda, m, n, ref s, ref e, ref u, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a, m, m, n, ref s, ref e, ref u, m, ref v, n, work, job);
 
         if (info != 0)
         {
@@ -388,9 +380,6 @@ public static class SingleValueDecomposition
         //  Compute the eigenvalues and eigenvectors.
         //
         const int job = 11;
-        int lda = m;
-        int ldu = m;
-        int ldv = n;
         //
         //  The input matrix is destroyed by the routine.  Since we need to keep
         //  it around, we only pass a copy to the routine.
@@ -403,7 +392,7 @@ public static class SingleValueDecomposition
             }
         }
 
-        int info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a_copy, m, m, n, ref sdiag, ref e, ref u, m, ref v, n, work, job);
 
         if (info != 0)
         {

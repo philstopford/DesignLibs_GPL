@@ -589,15 +589,13 @@ public static partial class typeMethods
         const double xbig = 2.55E+305;
         const double xinf = 1.79E+308;
 
-        double y = x;
-
-        switch (y)
+        switch (x)
         {
             case > 0.0 and <= xbig:
             {
-                if (y <= r8_epsilon())
+                if (x <= r8_epsilon())
                 {
-                    res = -Math.Log(y);
+                    res = -Math.Log(x);
                 }
                 //
                 //  EPS < X <= 1.5.
@@ -609,24 +607,24 @@ public static partial class typeMethods
                     double xm2;
                     double xnum;
                     int i;
-                    switch (y)
+                    switch (x)
                     {
                         case <= 1.5:
                         {
                             double xm1;
-                            switch (y)
+                            switch (x)
                             {
                                 case < 0.6796875:
-                                    corr = -Math.Log(y);
-                                    xm1 = y;
+                                    corr = -Math.Log(x);
+                                    xm1 = x;
                                     break;
                                 default:
                                     corr = 0.0;
-                                    xm1 = y - 0.5 - 0.5;
+                                    xm1 = x - 0.5 - 0.5;
                                     break;
                             }
 
-                            switch (y)
+                            switch (x)
                             {
                                 case <= 0.5:
                                 case >= 0.6796875:
@@ -644,7 +642,7 @@ public static partial class typeMethods
                                 }
                                 default:
                                 {
-                                    xm2 = y - 0.5 - 0.5;
+                                    xm2 = x - 0.5 - 0.5;
                                     xden = 1.0;
                                     xnum = 0.0;
                                     for (i = 0; i < 8; i++)
@@ -665,7 +663,7 @@ public static partial class typeMethods
                         //
                         case <= 4.0:
                         {
-                            xm2 = y - 2.0;
+                            xm2 = x - 2.0;
                             xden = 1.0;
                             xnum = 0.0;
                             for (i = 0; i < 8; i++)
@@ -682,7 +680,7 @@ public static partial class typeMethods
                         //
                         case <= 12.0:
                         {
-                            double xm4 = y - 4.0;
+                            double xm4 = x - 4.0;
                             xden = -1.0;
                             xnum = 0.0;
                             for (i = 0; i < 8; i++)
@@ -699,20 +697,20 @@ public static partial class typeMethods
                         {
                             res = 0.0;
 
-                            if (y <= frtbig)
+                            if (x <= frtbig)
                             {
                                 res = c[6];
-                                double ysq = y * y;
+                                double ysq = x * x;
                                 for (i = 0; i < 6; i++)
                                 {
                                     res = res / ysq + c[i];
                                 }
                             }
 
-                            res /= y;
-                            corr = Math.Log(y);
+                            res /= x;
+                            corr = Math.Log(x);
                             res = res + sqrtpi - 0.5 * corr;
-                            res += y * (corr - 1.0);
+                            res += x * (corr - 1.0);
                             break;
                         }
                     }

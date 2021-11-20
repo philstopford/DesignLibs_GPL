@@ -557,11 +557,13 @@ public static partial class Ranking
         // 
         for (i = npart; 1 <= i; i--)
         {
-            if (1 < a[i - 1])
+            if (1 >= a[i - 1])
             {
-                indx = i;
-                break;
+                continue;
             }
+
+            indx = i;
+            break;
         }
 
         switch (indx)

@@ -270,9 +270,7 @@ public static class Student
         //    Output, double STUDENT_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double student_pdf(double x, double a, double b, double c)
@@ -376,7 +374,7 @@ public static class Student
                 return 1;
         }
 
-        double a2 = 0.0;
+        const double a2 = 0.0;
         double b2 = c / (c - 2.0);
 
         double x2 = Normal.normal_sample(a2, b2, ref seed);

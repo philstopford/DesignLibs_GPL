@@ -43,16 +43,9 @@ public static partial class Points
         //    These indices are 1-based, not 0-based!
         //
     {
-        double angle;
-        double angle_max;
-        double di;
-        double dr;
-        int first;
         int i;
         double[] p_xy = new double[2];
-        int q;
         double[] q_xy = new double[2];
-        int r;
         double[] r_xy = new double[2];
 
         hull_num = 0;
@@ -91,7 +84,7 @@ public static partial class Points
         //  Find the leftmost point, and take the bottom-most in a tie.
         //  Call it "Q".
         //
-        q = 1;
+        int q = 1;
         for (i = 2; i <= node_num; i++)
         {
             if (node_xy[0 + (i - 1) * 2] < node_xy[0 + (q - 1) * 2] ||
@@ -107,7 +100,7 @@ public static partial class Points
         //
         //  Remember the starting point.
         //
-        first = q;
+        int first = q;
         hull[hull_num] = q;
         hull_num += 1;
         //
@@ -124,14 +117,14 @@ public static partial class Points
         //
         for (;;)
         {
-            r = 0;
-            angle_max = 0.0;
+            int r = 0;
+            double angle_max = 0.0;
 
             for (i = 1; i <= node_num; i++)
             {
                 if (i != q && (Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > double.Epsilon || Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > double.Epsilon))
                 {
-                    angle = Helpers.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
+                    double angle = Helpers.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
 
                     if (r == 0 || angle_max < angle)
                     {
@@ -145,11 +138,11 @@ public static partial class Points
                     //
                     else if (Math.Abs(angle - angle_max) <= double.Epsilon)
                     {
-                        di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
-                                       + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
+                        double di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
+                                              + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
 
-                        dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
-                                       + Math.Pow(r_xy[1] - q_xy[1], 2));
+                        double dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
+                                              + Math.Pow(r_xy[1] - q_xy[1], 2));
 
                         if (di < dr)
                         {
@@ -252,22 +245,13 @@ public static partial class Points
         //    nodes making each triangle.
         //
     {
-        int count;
-        bool flag;
         int i;
-        int j;
-        int k;
-        int m;
         int pass;
         int[] tri = new int[3];
-        double xn;
-        double yn;
-        double zn;
-        double[] z;
 
-        count = 0;
+        int count = 0;
 
-        z = new double [node_num];
+        double[] z = new double [node_num];
 
         for (i = 0; i < node_num; i++)
         {
@@ -292,27 +276,30 @@ public static partial class Points
             //
             for (i = 0; i < node_num - 2; i++)
             {
+                int j;
                 for (j = i + 1; j < node_num; j++)
                 {
+                    int k;
                     for (k = i + 1; k < node_num; k++)
                     {
                         if (j != k)
                         {
-                            xn = (node_xy[1 + j * 2] - node_xy[1 + i * 2]) * (z[k] - z[i])
-                                 - (node_xy[1 + k * 2] - node_xy[1 + i * 2]) * (z[j] - z[i]);
-                            yn = (node_xy[0 + k * 2] - node_xy[0 + i * 2]) * (z[j] - z[i])
-                                 - (node_xy[0 + j * 2] - node_xy[0 + i * 2]) * (z[k] - z[i]);
-                            zn = (node_xy[0 + j * 2] - node_xy[0 + i * 2])
-                                 * (node_xy[1 + k * 2] - node_xy[1 + i * 2])
-                                 - (node_xy[0 + k * 2] - node_xy[0 + i * 2])
-                                 * (node_xy[1 + j * 2] - node_xy[1 + i * 2]);
+                            double xn = (node_xy[1 + j * 2] - node_xy[1 + i * 2]) * (z[k] - z[i])
+                                        - (node_xy[1 + k * 2] - node_xy[1 + i * 2]) * (z[j] - z[i]);
+                            double yn = (node_xy[0 + k * 2] - node_xy[0 + i * 2]) * (z[j] - z[i])
+                                        - (node_xy[0 + j * 2] - node_xy[0 + i * 2]) * (z[k] - z[i]);
+                            double zn = (node_xy[0 + j * 2] - node_xy[0 + i * 2])
+                                        * (node_xy[1 + k * 2] - node_xy[1 + i * 2])
+                                        - (node_xy[0 + k * 2] - node_xy[0 + i * 2])
+                                        * (node_xy[1 + j * 2] - node_xy[1 + i * 2]);
 
-                            flag = zn < 0;
+                            bool flag = zn < 0;
 
                             switch (flag)
                             {
                                 case true:
                                 {
+                                    int m;
                                     for (m = 0; m < node_num; m++)
                                     {
                                         flag = flag && (node_xy[0 + m * 2] - node_xy[0 + i * 2]) * xn

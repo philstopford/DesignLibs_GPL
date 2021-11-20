@@ -989,7 +989,7 @@ public static class ProbabilityFunctions
         //    Output, int P04_M, the number of equations.
         //
     {
-        int m = 3;
+        const int m = 3;
 
         return m;
     }

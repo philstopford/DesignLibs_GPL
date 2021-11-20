@@ -145,7 +145,7 @@ public static class CN_Jac
                 Console.WriteLine("  BETA <= -1.0");
                 return 1;
             default:
-                int o = 1;
+                const int o = 1;
 
                 return o;
         }
@@ -299,7 +299,7 @@ public static class CN_Jac
                 Console.WriteLine("  BETA <= -1.0");
                 return 1;
             default:
-                int o = 1;
+                const int o = 1;
 
                 return o;
         }

@@ -1561,7 +1561,6 @@ public static partial class typeMethods
                             if (b == 1)
                             {
                                 value += j;
-                                j = 0;
                                 break;
                             }
 
@@ -1708,7 +1707,7 @@ public static partial class typeMethods
         //    Output, bool I4_BTEST, is TRUE if the POS-th bit of I4 is 1.
         //
     {
-        bool value = true;
+        bool value;
 
         switch (pos)
         {
@@ -3197,7 +3196,7 @@ public static partial class typeMethods
                 switch (mult % (i - j))
                 {
                     case 0:
-                        mult /= (i - j);
+                        mult /= i - j;
                         break;
                 }
             }

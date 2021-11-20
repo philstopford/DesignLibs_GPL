@@ -109,11 +109,13 @@ public static partial class Ranking
 
             for (i = 0; i < n; i++)
             {
-                if (t[i] == iseek)
+                if (t[i] != iseek)
                 {
-                    ifind = i + 1;
-                    break;
+                    continue;
                 }
+
+                ifind = i + 1;
+                break;
             }
 
             switch (ifind)

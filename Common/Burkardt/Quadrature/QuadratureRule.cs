@@ -162,10 +162,10 @@ public static class QuadratureRule
                 //
                 //  Add the weighted value at this quadrature point to the quadrature sum.
                 //
-                el2 += ar * Math.Pow((uh - u), 2);
+                el2 += ar * Math.Pow(uh - u, 2);
 
-                eh1 += ar * (Math.Pow((dudxh - dudx), 2)
-                             + Math.Pow((dudyh - dudy), 2));
+                eh1 += ar * (Math.Pow(dudxh - dudx, 2)
+                             + Math.Pow(dudyh - dudy, 2));
             }
         }
 
@@ -577,17 +577,17 @@ public static class QuadratureRule
                 quad_w[8] = v;
                 break;
             case 13:
-                double h = 1.0 / 3.0;
+                const double h = 1.0 / 3.0;
                 a = 0.479308067841923;
                 b = 0.260345966079038;
                 c = 0.869739794195568;
                 d = 0.065130102902216;
                 e = 0.638444188569809;
-                double f = 0.312865496004875;
-                double g = 0.048690315425316;
+                const double f = 0.312865496004875;
+                const double g = 0.048690315425316;
 
                 w = -0.149570044467670;
-                double t = 0.175615257433204;
+                const double t = 0.175615257433204;
                 u = 0.053347235608839;
                 v = 0.077113760890257;
 
@@ -870,7 +870,7 @@ public static class QuadratureRule
             int j;
             for ( j = 0; j < n; j++ )
             {
-                x[j] = (2 * ix[j] + 1 - nsub) / ( double ) ( nsub );
+                x[j] = (2 * ix[j] + 1 - nsub) / ( double ) nsub;
             }
             quad += w * func (setting, n, x );
         }
@@ -1062,7 +1062,7 @@ public static class QuadratureRule
             Console.WriteLine("");
             Console.WriteLine("RULE_FULL_SIZE - Fatal error!");
             Console.WriteLine("  Degree MMAX must be between 1 and 50.");
-            return (1);
+            return 1;
         }
 
         return npts;
@@ -1153,7 +1153,7 @@ public static class QuadratureRule
         //    Output, double W[*], the weights.
         //
     {
-        int n = 1;
+        const int n = 1;
         double[] xs =
         {
             0.00000000000000000000000000000000
@@ -1206,7 +1206,7 @@ public static class QuadratureRule
         //    Output, double W[*], the weights.
         //
     {
-        int n = 2;
+        const int n = 2;
 
         double[] xs =
         {

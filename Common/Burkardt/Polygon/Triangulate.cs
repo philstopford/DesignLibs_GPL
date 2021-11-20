@@ -50,20 +50,9 @@ public static class Triangulate
         //    triangulation.
         //
     {
-        double area;
-        bool[] ear;
-        int i;
-        int i0;
         int i1;
-        int i2;
         int i3;
-        int i4;
-        int[] next;
         int node;
-        int node_m1;
-        int[] prev;
-        int triangle_num;
-        int[] triangles;
         switch (n)
         {
             //
@@ -79,7 +68,7 @@ public static class Triangulate
         //
         //  Consecutive vertices cannot be equal.
         //
-        node_m1 = n - 1;
+        int node_m1 = n - 1;
         for (node = 0; node < n; node++)
         {
             if (Math.Abs(x[node_m1] - x[node]) <= double.Epsilon && Math.Abs(y[node_m1] - y[node]) <= double.Epsilon)
@@ -96,7 +85,7 @@ public static class Triangulate
         //
         //  Area must be positive.
         //
-        area = 0.0;
+        double area = 0.0;
         for (node = 0; node < n - 2; node++)
         {
             area += 0.5 *
@@ -115,16 +104,16 @@ public static class Triangulate
                 return null;
         }
 
-        triangles = new int[3 * (n - 2)];
+        int[] triangles = new int[3 * (n - 2)];
         //
         //  PREV and NEXT point to the previous and next nodes.
         //
-        prev = new int[n];
-        next = new int[n];
+        int[] prev = new int[n];
+        int[] next = new int[n];
 
-        i = 0;
+        int i = 0;
         prev[i] = n - 1;
-        next[i] = i + 1;
+        next[i] = 1;
 
         for (i = 1; i < n - 1; i++)
         {
@@ -139,15 +128,15 @@ public static class Triangulate
         //  EAR indicates whether the node and its immediate neighbors form an ear
         //  that can be sliced off immediately.
         //
-        ear = new bool[n];
+        bool[] ear = new bool[n];
         for (i = 0; i < n; i++)
         {
             ear[i] = Properties.diagonal(prev[i], next[i], n, prev, next, x, y);
         }
 
-        triangle_num = 0;
+        int triangle_num = 0;
 
-        i2 = 0;
+        int i2 = 0;
 
         while (triangle_num < n - 3)
         {
@@ -159,9 +148,9 @@ public static class Triangulate
                 //
                 case true:
                     i3 = next[i2];
-                    i4 = next[i3];
+                    int i4 = next[i3];
                     i1 = prev[i2];
-                    i0 = prev[i1];
+                    int i0 = prev[i1];
                     //
                     //  Make vertex I2 disappear.
                     //

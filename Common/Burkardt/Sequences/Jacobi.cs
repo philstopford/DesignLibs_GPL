@@ -304,15 +304,17 @@ public static class Jacobi
                 }
             }
 
-            if (m != k)
+            if (m == k)
             {
-                t = d[m];
-                d[m] = d[k];
-                d[k] = t;
-                for (i = 0; i < n; i++)
-                {
-                    (v[i + m * n], v[i + k * n]) = (v[i + k * n], v[i + m * n]);
-                }
+                continue;
+            }
+
+            t = d[m];
+            d[m] = d[k];
+            d[k] = t;
+            for (i = 0; i < n; i++)
+            {
+                (v[i + m * n], v[i + k * n]) = (v[i + k * n], v[i + m * n]);
             }
         }
     }

@@ -71,17 +71,11 @@ public static class LeastSquares
     {
         int i;
         int j;
-        int k;
-        double p;
-        double[] pj;
-        double[] pjm1;
-        double[] s;
-        double tol = 0.0;
-        int unique_num;
+        const double tol = 0.0;
         //
         //  Make sure at least NTERMS X values are unique.
         //
-        unique_num = typeMethods.r8vec_unique_count(point_num, x, tol);
+        int unique_num = typeMethods.r8vec_unique_count(point_num, x, tol);
 
         if (unique_num < nterms)
         {
@@ -111,7 +105,7 @@ public static class LeastSquares
             }
         }
 
-        s = new double[nterms];
+        double[] s = new double[nterms];
         //
         //  Start inner product summations at zero.
         //
@@ -122,8 +116,8 @@ public static class LeastSquares
         //
         //  Set the values of P(-1,X) and P(0,X) at all data points.
         //
-        pjm1 = new double[point_num];
-        pj = new double[point_num];
+        double[] pjm1 = new double[point_num];
+        double[] pj = new double[point_num];
 
         typeMethods.r8vec_zero(point_num, ref pjm1);
 
@@ -149,6 +143,7 @@ public static class LeastSquares
         //
         for (j = 1; j <= nterms; j++)
         {
+            int k;
             for (k = 0; k < point_num; k++)
             {
                 d[j - 1] += w[k] * f[k] * pj[k];
@@ -174,7 +169,7 @@ public static class LeastSquares
 
             for (i = 1; i <= point_num; i++)
             {
-                p = pj[i - 1];
+                double p = pj[i - 1];
                 pj[i - 1] = (x[i - 1] - b[j - 1]) * pj[i - 1] - c[j - 1] * pjm1[i - 1];
                 pjm1[i - 1] = p;
             }
@@ -254,16 +249,13 @@ public static class LeastSquares
         //
     {
         int i;
-        double prev;
-        double prev2;
-        double px;
 
-        px = d[nterms - 1];
-        prev = 0.0;
+        double px = d[nterms - 1];
+        double prev = 0.0;
 
         for (i = nterms - 1; 1 <= i; i--)
         {
-            prev2 = prev;
+            double prev2 = prev;
             prev = px;
 
             if (i == nterms - 1)
@@ -346,20 +338,16 @@ public static class LeastSquares
         //
     {
         int i;
-        double pxm1;
-        double pxm2;
-        double pxpm1;
-        double pxpm2;
 
         px = d[nterms - 1];
         pxp = 0.0;
-        pxm1 = 0.0;
-        pxpm1 = 0.0;
+        double pxm1 = 0.0;
+        double pxpm1 = 0.0;
 
         for (i = nterms - 1; 1 <= i; i--)
         {
-            pxm2 = pxm1;
-            pxpm2 = pxpm1;
+            double pxm2 = pxm1;
+            double pxpm2 = pxpm1;
             pxm1 = px;
             pxpm1 = pxp;
 
@@ -468,23 +456,12 @@ public static class LeastSquares
         //    nonzero, an error occurred, and the polynomial could not be computed.
         //
     {
-        int B_OFFSET = -1;
-        int D_OFFSET = -2;
+        const int B_OFFSET = -1;
+        const int D_OFFSET = -2;
         int i;
-        int i0l1;
-        int i1l1;
-        int it;
-        int k;
-        int mdeg;
-        double rn0;
-        double rn1;
-        double s;
-        double sum2;
-        double y_sum;
-        double[] ztab;
 
         ierror = 0;
-        ztab = new double[2 * ntab];
+        double[] ztab = new double[2 * ntab];
         switch (ndeg)
         {
             //
@@ -512,30 +489,32 @@ public static class LeastSquares
         //
         for (i = 1; i <= ntab - 1; i++)
         {
-            if (xtab[i] <= xtab[i - 1])
+            if (!(xtab[i] <= xtab[i - 1]))
             {
-                ierror = 1;
-                Console.WriteLine("");
-                Console.WriteLine("LEAST_SET_OLD - Fatal error!");
-                Console.WriteLine("  XTAB must be strictly increasing, but");
-                Console.WriteLine("  XTAB(" + (i - 1) + ") = " + xtab[i - 1] + "");
-                Console.WriteLine("  XTAB(" + i + ") = " + xtab[i] + "");
-                return;
+                continue;
             }
+
+            ierror = 1;
+            Console.WriteLine("");
+            Console.WriteLine("LEAST_SET_OLD - Fatal error!");
+            Console.WriteLine("  XTAB must be strictly increasing, but");
+            Console.WriteLine("  XTAB(" + (i - 1) + ") = " + xtab[i - 1] + "");
+            Console.WriteLine("  XTAB(" + i + ") = " + xtab[i] + "");
+            return;
         }
 
-        i0l1 = 0;
-        i1l1 = ntab;
+        int i0l1 = 0;
+        int i1l1 = ntab;
         //
         //  The polynomial is of degree at least zero.
         //
-        y_sum = 0.0;
+        double y_sum = 0.0;
         for (i = 0; i < ntab; i++)
         {
             y_sum += ytab[i];
         }
 
-        rn0 = ntab;
+        double rn0 = ntab;
         c[0] = y_sum / ntab;
 
         for (i = 0; i < ntab; i++)
@@ -569,8 +548,8 @@ public static class LeastSquares
 
         b[1 + B_OFFSET] = ztab[0] / ntab;
 
-        s = 0.0;
-        sum2 = 0.0;
+        double s = 0.0;
+        double sum2 = 0.0;
         for (i = 0; i < ntab; i++)
         {
             ztab[i1l1 + i] = xtab[i] - b[1 + B_OFFSET];
@@ -578,7 +557,7 @@ public static class LeastSquares
             sum2 += ztab[i1l1 + i] * (ytab[i] - ptab[i]);
         }
 
-        rn1 = s;
+        double rn1 = s;
         c[1] = sum2 / s;
 
         for (i = 0; i < ntab; i++)
@@ -607,8 +586,8 @@ public static class LeastSquares
             ztab[i] = 1.0;
         }
 
-        mdeg = 2;
-        k = 2;
+        int mdeg = 2;
+        int k = 2;
 
         for (;;)
         {
@@ -638,9 +617,7 @@ public static class LeastSquares
 
             c[k] = sum2 / rn1;
 
-            it = i0l1;
-            i0l1 = i1l1;
-            i1l1 = it;
+            (i0l1, i1l1) = (i1l1, i0l1);
 
             for (i = 0; i < ntab; i++)
             {
@@ -706,13 +683,10 @@ public static class LeastSquares
         //    Output, double LEAST_VALPOLD, the value of the polynomial at X.
         //
     {
-        int B_OFFSET = -1;
-        int D_OFFSET = -2;
-        int k;
+        const int B_OFFSET = -1;
+        const int D_OFFSET = -2;
         double sk = 0;
-        double skp1;
-        double skp2;
-        double value = 0;
+        double value;
 
         switch (ndeg)
         {
@@ -724,9 +698,10 @@ public static class LeastSquares
                 break;
             default:
             {
-                skp2 = c[ndeg];
-                skp1 = c[ndeg - 1] + (x - b[ndeg + B_OFFSET]) * skp2;
+                double skp2 = c[ndeg];
+                double skp1 = c[ndeg - 1] + (x - b[ndeg + B_OFFSET]) * skp2;
 
+                int k;
                 for (k = ndeg - 2; 0 <= k; k--)
                 {
                     sk = c[k] + (x - b[k + 1 + B_OFFSET]) * skp1 - d[k + 2 + D_OFFSET] * skp2;

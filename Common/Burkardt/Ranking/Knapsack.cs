@@ -110,14 +110,17 @@ public static partial class Ranking
                 profit = typeMethods.r8vec_dot_product(n, p, x);
                 mass = typeMethods.r8vec_dot_product(n, w, x);
 
-                if (profit_best < profit || Math.Abs(profit - profit_best) <= double.Epsilon && mass < mass_best)
+                if (!(profit_best < profit) &&
+                    (!(Math.Abs(profit - profit_best) <= double.Epsilon) || !(mass < mass_best)))
                 {
-                    profit_best = profit;
-                    mass_best = mass;
-                    for (i = 0; i < n; i++)
-                    {
-                        x_best[i] = x[i];
-                    }
+                    continue;
+                }
+
+                profit_best = profit;
+                mass_best = mass;
+                for (i = 0; i < n; i++)
+                {
+                    x_best[i] = x[i];
                 }
             }
             // 
@@ -373,16 +376,18 @@ public static partial class Ranking
             int j;
             for (j = i + 1; j < n; j++)
             {
-                if (p[i] * w[j] < p[j] * w[i])
+                if (!(p[i] * w[j] < p[j] * w[i]))
                 {
-                    double t = p[i];
-                    p[i] = p[j];
-                    p[j] = t;
-
-                    t = w[i];
-                    w[i] = w[j];
-                    w[j] = t;
+                    continue;
                 }
+
+                double t = p[i];
+                p[i] = p[j];
+                p[j] = t;
+
+                t = w[i];
+                w[i] = w[j];
+                w[j] = t;
             }
         }
     }

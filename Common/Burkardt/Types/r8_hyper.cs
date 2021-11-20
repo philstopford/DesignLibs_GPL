@@ -184,7 +184,7 @@ public static partial class typeMethods
         {
             case < 0.0:
             {
-                x /= (x - 1.0);
+                x /= x - 1.0;
                 if (a < c && b < a && 0.0 < b)
                 {
                     a = bb;

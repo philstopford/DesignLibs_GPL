@@ -189,13 +189,15 @@ public static class Adjacency
             //
             element2 = element_neighbor[3 + element * 4];
 
-            if (element2 < 0 || element < element2)
+            if (element2 >= 0 && element >= element2)
             {
-                adj[adj_copy[n1]] = n4;
-                adj_copy[n1] += 1;
-                adj[adj_copy[n4]] = n1;
-                adj_copy[n4] += 1;
+                continue;
             }
+
+            adj[adj_copy[n1]] = n4;
+            adj_copy[n1] += 1;
+            adj[adj_copy[n4]] = n1;
+            adj_copy[n4] += 1;
         }
 
         //
@@ -369,11 +371,13 @@ public static class Adjacency
             //
             element2 = element_neighbor[3 + element * 4];
 
-            if (element2 < 0 || element < element2)
+            if (element2 >= 0 && element >= element2)
             {
-                adj_row[n4] += 1;
-                adj_row[n1] += 1;
+                continue;
             }
+
+            adj_row[n4] += 1;
+            adj_row[n1] += 1;
         }
 
         //

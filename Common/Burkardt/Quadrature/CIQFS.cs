@@ -132,16 +132,17 @@ public static class CIQFS
         //
         //  Call checking routine.
         //
-        if (lo != 0)
+        if (lo == 0)
         {
-            int mop = m - 1;
-
-            double[] w = new double[mex];
-
-            CHKQFS.chkqfs(t, wts, mlt, nt, n, ndx, key, ref w, mop, mex, kind,
-                alpha, beta, lo);
-
+            return wts;
         }
+
+        int mop = m - 1;
+
+        double[] w = new double[mex];
+
+        CHKQFS.chkqfs(t, wts, mlt, nt, n, ndx, key, ref w, mop, mex, kind,
+            alpha, beta, lo);
 
         return wts;
     }

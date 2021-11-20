@@ -168,7 +168,7 @@ public static class Bessel
                     value = sump / sumq;
                     break;
                 }
-                case >= 15.0 when xmax < x:
+                case >= 15.0 and > xmax:
                     value = typeMethods.r8_huge();
                     break;
                 case >= 15.0:
@@ -490,75 +490,80 @@ public static class Bessel
         {
             value = half * x;
         }
-        //
-        //  EPSILON ( ARG ) <= ABS(ARG) < 15.0
-        //
-        else if (x < one5)
-        {
-            xx = x * x;
-            sump = p[0];
-            int j;
-            for (j = 1; j < 15; j++)
-            {
-                sump = sump * xx + p[j];
-            }
-
-            xx -= two25;
-
-            sumq = ((((
-                                xx + q[0]
-                            ) * xx + q[1]
-                        ) * xx + q[2]
-                    ) * xx + q[3]
-                ) * xx + q[4];
-
-            value = sump / sumq * x;
-        }
-        else if (xmax < x)
-        {
-            value = typeMethods.r8_huge();
-        }
-        //
-        //  15.0 <= ABS(ARG)
-        //
         else
         {
-            xx = one / x - rec15;
-
-            sump = ((((((
-                                        pp[0]
-                                        * xx + pp[1]
-                                    ) * xx + pp[2]
-                                ) * xx + pp[3]
-                            ) * xx + pp[4]
-                        ) * xx + pp[5]
-                    ) * xx + pp[6]
-                ) * xx + pp[7];
-
-            sumq = (((((
-                                    xx + qq[0]
-                                ) * xx + qq[1]
-                            ) * xx + qq[2]
-                        ) * xx + qq[3]
-                    ) * xx + qq[4]
-                ) * xx + qq[5];
-
-            value = sump / sumq;
-
-            double a;
-            double b;
-            if (xmax - one5 < x)
+            switch (x)
             {
-                a = Math.Exp(x - forty);
-                b = exp40;
-            }
-            else
-            {
-                a = Math.Exp(x);
-                b = one;
-            }
+                //
+                //  EPSILON ( ARG ) <= ABS(ARG) < 15.0
+                //
+                case < one5:
+                {
+                    xx = x * x;
+                    sump = p[0];
+                    int j;
+                    for (j = 1; j < 15; j++)
+                    {
+                        sump = sump * xx + p[j];
+                    }
 
-            value = (value * a + pbar * a) / Math.Sqrt(x) * b;
+                    xx -= two25;
+
+                    sumq = ((((
+                                        xx + q[0]
+                                    ) * xx + q[1]
+                                ) * xx + q[2]
+                            ) * xx + q[3]
+                        ) * xx + q[4];
+
+                    value = sump / sumq * x;
+                    break;
+                }
+                case > xmax:
+                    value = typeMethods.r8_huge();
+                    break;
+                //
+                default:
+                {
+                    xx = one / x - rec15;
+
+                    sump = ((((((
+                                                pp[0]
+                                                * xx + pp[1]
+                                            ) * xx + pp[2]
+                                        ) * xx + pp[3]
+                                    ) * xx + pp[4]
+                                ) * xx + pp[5]
+                            ) * xx + pp[6]
+                        ) * xx + pp[7];
+
+                    sumq = (((((
+                                            xx + qq[0]
+                                        ) * xx + qq[1]
+                                    ) * xx + qq[2]
+                                ) * xx + qq[3]
+                            ) * xx + qq[4]
+                        ) * xx + qq[5];
+
+                    value = sump / sumq;
+
+                    double a;
+                    double b;
+                    if (xmax - one5 < x)
+                    {
+                        a = Math.Exp(x - forty);
+                        b = exp40;
+                    }
+                    else
+                    {
+                        a = Math.Exp(x);
+                        b = one;
+                    }
+
+                    value = (value * a + pbar * a) / Math.Sqrt(x) * b;
+                    break;
+                }
+            }
         }
 
         if (arg < zero)

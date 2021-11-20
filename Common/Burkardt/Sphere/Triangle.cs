@@ -477,23 +477,20 @@ public static class Triangle
         //    Angle A is opposite the side of length AS, and so on.
         //
     {
-        double asu = as_;
-        double bsu = bs;
-        double csu = cs;
-        double ssu = (asu + bsu + csu) / 2.0;
+        double ssu = (as_ + bs + cs) / 2.0;
 
-        double tan_a2 = Math.Sqrt(Math.Sin(ssu - bsu) * Math.Sin(ssu - csu) /
-                                  (Math.Sin(ssu) * Math.Sin(ssu - asu)));
+        double tan_a2 = Math.Sqrt(Math.Sin(ssu - bs) * Math.Sin(ssu - cs) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - as_)));
 
         a = 2.0 * Math.Atan(tan_a2);
 
-        double tan_b2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - csu) /
-                                  (Math.Sin(ssu) * Math.Sin(ssu - bsu)));
+        double tan_b2 = Math.Sqrt(Math.Sin(ssu - as_) * Math.Sin(ssu - cs) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - bs)));
 
         b = 2.0 * Math.Atan(tan_b2);
 
-        double tan_c2 = Math.Sqrt(Math.Sin(ssu - asu) * Math.Sin(ssu - bsu) /
-                                  (Math.Sin(ssu) * Math.Sin(ssu - csu)));
+        double tan_c2 = Math.Sqrt(Math.Sin(ssu - as_) * Math.Sin(ssu - bs) /
+                                  (Math.Sin(ssu) * Math.Sin(ssu - cs)));
 
         c = 2.0 * Math.Atan(tan_c2);
     }

@@ -437,8 +437,7 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    double aij;
-                    aij = i <= j ? a[j - i] : a[i - j];
+                    double aij = i <= j ? a[j - i] : a[i - j];
 
                     cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
@@ -574,7 +573,7 @@ public static partial class typeMethods
 
         if (k < n - 1)
         {
-            y[k] = -a[k + 1] / beta;
+            y[k] = -a[1] / beta;
         }
 
         for (k = 1; k <= n - 1; k++)

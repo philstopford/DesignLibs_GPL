@@ -293,60 +293,64 @@ public static class Ribesl
                         //  To avoid overflow, divide P-sequence by TOVER.  Calculate
                         //  P-sequence until 1 < ABS(P).
                         //
-                        if (tover < p)
+                        if (!(tover < p))
                         {
-                            tover = enten;
-                            p /= tover;
-                            plast /= tover;
-                            double psave = p;
-                            double psavel = plast;
-                            nstart = n + 1;
+                            continue;
+                        }
 
-                            for (;;)
+                        tover = enten;
+                        p /= tover;
+                        plast /= tover;
+                        double psave = p;
+                        double psavel = plast;
+                        nstart = n + 1;
+
+                        for (;;)
+                        {
+                            n += 1;
+                            en += two;
+                            pold = plast;
+                            plast = p;
+                            p = en * plast / x + pold;
+
+                            if (1.0 < p)
                             {
-                                n += 1;
-                                en += two;
-                                pold = plast;
-                                plast = p;
-                                p = en * plast / x + pold;
+                                break;
+                            }
+                        }
 
-                                if (1.0 < p)
-                                {
-                                    break;
-                                }
+                        tempb = en / x;
+                        //
+                        //  Calculate backward test, and find NCALC, the highest N
+                        //  such that the test is passed.
+                        //
+                        test = pold * plast / ensig;
+                        test *= half - half / (tempb * tempb);
+                        p = plast * tover;
+                        n -= 1;
+                        en -= two;
+                        nend = Math.Min(nb, n);
+
+                        ncalc = nend + 1;
+
+                        for (l = nstart; l <= nend; l++)
+                        {
+                            pold = psavel;
+                            psavel = psave;
+                            psave = en * psavel / x + pold;
+
+                            if (!(test < psave * psavel))
+                            {
+                                continue;
                             }
 
-                            tempb = en / x;
-                            //
-                            //  Calculate backward test, and find NCALC, the highest N
-                            //  such that the test is passed.
-                            //
-                            test = pold * plast / ensig;
-                            test *= (half - half / (tempb * tempb));
-                            p = plast * tover;
-                            n -= 1;
-                            en -= two;
-                            nend = Math.Min(nb, n);
-
-                            ncalc = nend + 1;
-
-                            for (l = nstart; l <= nend; l++)
-                            {
-                                pold = psavel;
-                                psavel = psave;
-                                psave = en * psavel / x + pold;
-
-                                if (test < psave * psavel)
-                                {
-                                    ncalc = l;
-                                    break;
-                                }
-                            }
-
-                            ncalc -= 1;
-                            flag = true;
+                            ncalc = l;
                             break;
                         }
+
+                        ncalc -= 1;
+                        flag = true;
+                        break;
                     }
 
                     switch (flag)

@@ -793,26 +793,28 @@ public static class Grid
                 int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    if (grid_level[point] == level)
+                    if (grid_level[point] != level)
                     {
-                        if (point_num <= point_num2)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("LEVELS_INDEX_OWN - Fatal error!");
-                            Console.WriteLine("  Exceeding maximum point index POINT_NUM = "
-                                              + point_num + "");
-                            return;
-                        }
-
-                        for (dim = 0; dim < dim_num; dim++)
-                        {
-                            grid_index[dim + point_num2 * dim_num] =
-                                grid_index2[dim + point * dim_num];
-                            grid_base[dim + point_num2 * dim_num] = grid_base2[dim];
-                        }
-
-                        point_num2 += 1;
+                        continue;
                     }
+
+                    if (point_num <= point_num2)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("LEVELS_INDEX_OWN - Fatal error!");
+                        Console.WriteLine("  Exceeding maximum point index POINT_NUM = "
+                                          + point_num + "");
+                        return;
+                    }
+
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        grid_index[dim + point_num2 * dim_num] =
+                            grid_index2[dim + point * dim_num];
+                        grid_base[dim + point_num2 * dim_num] = grid_base2[dim];
+                    }
+
+                    point_num2 += 1;
                 }
 
                 if (!more)
@@ -2511,12 +2513,14 @@ public static class Grid
             }
         }
 
-        if (point_num2 < point_num)
+        if (point_num2 >= point_num)
         {
-            Console.WriteLine("");
-            Console.WriteLine("SPARSE_GRID_OWN - Fatal error!");
-            Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("SPARSE_GRID_OWN - Fatal error!");
+        Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
 
     }
 
@@ -2742,15 +2746,7 @@ public static class Grid
 
         for (dim_num2 = dim_num; 0 <= dim_num2; dim_num2--)
         {
-            int level_min;
-            if (dim_num2 == dim_num)
-            {
-                level_min = Math.Max(0, level_max - dim_num + 1);
-            }
-            else
-            {
-                level_min = 0;
-            }
+            int level_min = dim_num2 == dim_num ? Math.Max(0, level_max - dim_num + 1) : 0;
 
             int point_num2;
             switch (dim_num2)
@@ -2931,19 +2927,22 @@ public static class Grid
                         int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            if (grid_index2[dim + point2 * dim_num] !=
-                                grid_index[dim + point * dim_num])
+                            if (grid_index2[dim + point2 * dim_num] == grid_index[dim + point * dim_num])
                             {
-                                all_equal = false;
-                                break;
+                                continue;
                             }
-                        }
 
-                        if (all_equal)
-                        {
-                            grid_weight[point] += coeff * grid_weight2[point2];
+                            all_equal = false;
                             break;
                         }
+
+                        if (!all_equal)
+                        {
+                            continue;
+                        }
+
+                        grid_weight[point] += coeff * grid_weight2[point2];
+                        break;
                     }
                 }
 
@@ -3086,19 +3085,22 @@ public static class Grid
                         int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            if (grid_index2[dim + point2 * dim_num] !=
-                                grid_index[dim + point * dim_num])
+                            if (grid_index2[dim + point2 * dim_num] == grid_index[dim + point * dim_num])
                             {
-                                all_equal = false;
-                                break;
+                                continue;
                             }
-                        }
 
-                        if (all_equal)
-                        {
-                            grid_weight[point] += coeff * grid_weight2[point2];
+                            all_equal = false;
                             break;
                         }
+
+                        if (!all_equal)
+                        {
+                            continue;
+                        }
+
+                        grid_weight[point] += coeff * grid_weight2[point2];
+                        break;
                     }
                 }
 
@@ -3368,20 +3370,23 @@ public static class Grid
                         bool all_equal = true;
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            if (grid_index2[dim + point2 * dim_num]
-                                != grid_index[dim + point * dim_num])
+                            if (grid_index2[dim + point2 * dim_num] == grid_index[dim + point * dim_num])
                             {
-                                all_equal = false;
-                                break;
+                                continue;
                             }
-                        }
 
-                        if (all_equal)
-                        {
-                            grid_weight[point] += coeff * grid_weight2[point2];
-                            match = point;
+                            all_equal = false;
                             break;
                         }
+
+                        if (!all_equal)
+                        {
+                            continue;
+                        }
+
+                        grid_weight[point] += coeff * grid_weight2[point2];
+                        match = point;
+                        break;
                     }
 
                     switch (match)

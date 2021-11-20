@@ -80,17 +80,8 @@ public static class Cubic
         //    -2, X1 == X2.
         //
     {
-        double c2;
-        double c3;
-        double del1;
-        double del2;
-        double delta;
-        double h;
         int i;
         int ierr;
-        double x;
-        double xma;
-        double xmi;
 
         switch (ne)
         {
@@ -103,7 +94,7 @@ public static class Cubic
                 return ierr;
         }
 
-        h = x2 - x1;
+        double h = x2 - x1;
 
         switch (h)
         {
@@ -121,22 +112,22 @@ public static class Cubic
         ierr = 0;
         next[0] = 0;
         next[1] = 0;
-        xmi = Math.Min(0.0, h);
-        xma = Math.Max(0.0, h);
+        double xmi = Math.Min(0.0, h);
+        double xma = Math.Max(0.0, h);
         //
         //  Compute cubic coefficients expanded about X1.
         //
-        delta = (f2 - f1) / h;
-        del1 = (d1 - delta) / h;
-        del2 = (d2 - delta) / h;
-        c2 = -(del1 + del1 + del2);
-        c3 = (del1 + del2) / h;
+        double delta = (f2 - f1) / h;
+        double del1 = (d1 - delta) / h;
+        double del2 = (d2 - delta) / h;
+        double c2 = -(del1 + del1 + del2);
+        double c3 = (del1 + del2) / h;
         //
         //  Evaluation loop.
         //
         for (i = 0; i < ne; i++)
         {
-            x = xe[xeIndex + i] - x1;
+            double x = xe[xeIndex + i] - x1;
             fe[feIndex + i] = f1 + x * (d1 + x * (c2 + x * c3));
             //
             //  Count the extrapolation points.

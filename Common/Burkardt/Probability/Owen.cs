@@ -271,73 +271,77 @@ public static class Owen
             0.865063366688984510732096688423,
             0.973906528517171720077964012084
         };
-        //
-        //  Test for H near zero.
-        //
-        if (Math.Abs(h) < tv1)
+        switch (Math.Abs(h))
         {
-            value = Math.Atan(a) * two_pi_inverse;
-        }
-        //
-        //  Test for large values of abs(H).
-        //
-        else if (tv2 < Math.Abs(h))
-        {
-            value = 0.0;
-        }
-        //
-        //  Test for A near zero.
-        //
-        else if (Math.Abs(a) < tv1)
-        {
-            value = 0.0;
-        }
-        //
-        //  Test whether abs(A) is so large that it must be truncated.
-        //  If so, the truncated value is H2.
-        //
-        else
-        {
-            double hs = -0.5 * h * h;
-            double h2 = a;
-            double as_ = a * a;
             //
-            //  Computation of truncation point by Newton iteration.
+            //  Test for H near zero.
             //
-            double rt;
-            if (tv3 <= Math.Log(1.0 + as_) - hs * as_)
+            case < tv1:
+                value = Math.Atan(a) * two_pi_inverse;
+                break;
+            //
+            //  Test for large values of abs(H).
+            //
+            case > tv2:
+                value = 0.0;
+                break;
+            //
+            default:
             {
-                double h1 = 0.5 * a;
-                as_ = 0.25 * as_;
-
-                for (;;)
+                if (Math.Abs(a) < tv1)
                 {
-                    rt =  as_ +1.0;
-                    h2 = h1 + (hs * as_ +tv3 - Math.Log(rt) )
-                        / (2.0 * h1 * (1.0 / rt - hs));
-                    as_ = h2* h2;
-
-                    if (Math.Abs(h2 - h1) < tv4)
+                    value = 0.0;
+                }
+                //
+                //  Test whether abs(A) is so large that it must be truncated.
+                //  If so, the truncated value is H2.
+                //
+                else
+                {
+                    double hs = -0.5 * h * h;
+                    double h2 = a;
+                    double as_ = a * a;
+                    //
+                    //  Computation of truncation point by Newton iteration.
+                    //
+                    double rt;
+                    if (tv3 <= Math.Log(1.0 + as_) - hs * as_)
                     {
-                        break;
+                        double h1 = 0.5 * a;
+                        as_ = 0.25 * as_;
+
+                        for (;;)
+                        {
+                            rt =  as_ +1.0;
+                            h2 = h1 + (hs * as_ +tv3 - Math.Log(rt) )
+                                / (2.0 * h1 * (1.0 / rt - hs));
+                            as_ = h2* h2;
+
+                            if (Math.Abs(h2 - h1) < tv4)
+                            {
+                                break;
+                            }
+
+                            h1 = h2;
+                        }
                     }
 
-                    h1 = h2;
+                    //
+                    //  Gaussian quadrature on the interval [0,H2].
+                    //
+                    rt = 0.0;
+                    int i;
+                    for (i = 0; i < NGAUSS; i++)
+                    {
+                        double x = 0.5 * h2 * (xtab[i] + 1.0);
+                        rt += weight[i] * Math.Exp(hs * (1.0 + x * x)) / (1.0 + x * x);
+                    }
+
+                    value = rt * 0.5 * h2 * two_pi_inverse;
                 }
-            }
 
-            //
-            //  Gaussian quadrature on the interval [0,H2].
-            //
-            rt = 0.0;
-            int i;
-            for (i = 0; i < NGAUSS; i++)
-            {
-                double x = 0.5 * h2 * (xtab[i] + 1.0);
-                rt += weight[i] * Math.Exp(hs * (1.0 + x * x)) / (1.0 + x * x);
+                break;
             }
-
-            value = rt * 0.5 * h2 * two_pi_inverse;
         }
 
         return value;

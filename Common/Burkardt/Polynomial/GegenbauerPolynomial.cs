@@ -51,21 +51,18 @@ public static class GegenbauerPolynomial
         //    Input, double C[ORDER], the recursion coefficients.
         //
     {
-        double dp0;
-        double dp1;
         int i;
-        double p0;
 
         p1 = 1.0;
-        dp1 = 0.0;
+        double dp1 = 0.0;
 
         p2 = x;
         dp2 = 1.0;
 
         for ( i = 2; i <= order; i++ )
         {
-            p0 = p1;
-            dp0 = dp1;
+            double p0 = p1;
+            double dp0 = dp1;
 
             p1 = p2;
             dp1 = dp2;
@@ -118,19 +115,17 @@ public static class GegenbauerPolynomial
         //    Input, double C[ORDER], the recursion coefficients.
         //
     {
-        double d;
-        double eps;
         double p2 = 0;
         int step;
-        int step_max = 10;
+        const int step_max = 10;
 
-        eps = typeMethods.r8_epsilon ( );
+        double eps = typeMethods.r8_epsilon ( );
 
         for ( step = 1; step <= step_max; step++ )
         {
             gegenbauer_recur ( ref p2, ref dp2, ref p1, x, order, alpha, c );
 
-            d = p2 / dp2;
+            double d = p2 / dp2;
             x -= d;
 
             if ( Math.Abs ( d ) <= eps * ( Math.Abs ( x ) + 1.0 ) )
@@ -170,9 +165,8 @@ public static class GegenbauerPolynomial
         //
     {
         bool check;
-        bool squawk;
 
-        squawk = false;
+        const bool squawk = false;
 
         switch (alpha)
         {
@@ -253,11 +247,7 @@ public static class GegenbauerPolynomial
         //    Output, double W[N], the weights.
         //
     {
-        double abi;
-        double[] bj;
-        bool check;
         int i;
-        double zemu;
         switch (n)
         {
             //
@@ -273,7 +263,7 @@ public static class GegenbauerPolynomial
         //
         //  Check ALPHA.
         //
-        check = gegenbauer_alpha_check(alpha);
+        bool check = gegenbauer_alpha_check(alpha);
         switch (check)
         {
             case false:
@@ -286,10 +276,10 @@ public static class GegenbauerPolynomial
         //
         //  Define the zero-th moment.
         //
-        zemu = Math.Pow(2.0, 2.0 * alpha + 1.0)
-               * typeMethods.r8_gamma(alpha + 1.0)
-               * typeMethods.r8_gamma(alpha + 1.0)
-               / typeMethods.r8_gamma(2.0 * alpha + 2.0);
+        double zemu = Math.Pow(2.0, 2.0 * alpha + 1.0)
+                      * typeMethods.r8_gamma(alpha + 1.0)
+                      * typeMethods.r8_gamma(alpha + 1.0)
+                      / typeMethods.r8_gamma(2.0 * alpha + 2.0);
         //
         //  Define the Jacobi matrix.
         //
@@ -298,14 +288,14 @@ public static class GegenbauerPolynomial
             x[i] = 0.0;
         }
 
-        bj = new double[n];
+        double[] bj = new double[n];
 
         bj[0] = 4.0 * Math.Pow(alpha + 1.0, 2)
                 / ((2.0 * alpha + 3.0) * Math.Pow(2.0 * alpha + 2.0, 2));
 
         for (i = 2; i <= n; i++)
         {
-            abi = 2.0 * (alpha + i);
+            double abi = 2.0 * (alpha + i);
             bj[i - 1] = 4.0 * i * Math.Pow(alpha + i, 2) * (2.0 * alpha + i)
                         / ((abi - 1.0) * (abi + 1.0) * abi * abi);
         }
@@ -516,13 +506,10 @@ public static class GegenbauerPolynomial
         //    at the N points X.  
         //
     {
-        double[] c;
-        bool check;
         int i;
-        double i_r8;
         int j;
 
-        check = gegenbauer_alpha_check(alpha);
+        bool check = gegenbauer_alpha_check(alpha);
         switch (check)
         {
             case false:
@@ -532,7 +519,7 @@ public static class GegenbauerPolynomial
                 return null;
         }
 
-        c = new double[(m + 1) * n];
+        double[] c = new double[(m + 1) * n];
 
         switch (m)
         {
@@ -564,7 +551,7 @@ public static class GegenbauerPolynomial
 
         for (i = 2; i <= m; i++)
         {
-            i_r8 = i;
+            double i_r8 = i;
             for (j = 0; j < n; j++)
             {
                 c[i + j * (m + 1)] = ((2.0 * i_r8 - 2.0 + 2.0 * alpha) * x[j] * c[i - 1 + j * (m + 1)]

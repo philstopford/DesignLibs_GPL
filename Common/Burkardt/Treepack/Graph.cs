@@ -99,7 +99,6 @@ public static class Graph
         //
     {
         int i;
-        int result;
         //
         //  FOUND(I) is 1 if node I has been reached.
         //  LIST(I) contains a list of the nodes as they are reached.
@@ -169,7 +168,7 @@ public static class Graph
         //
         //  No more neighbors were found.  Have we reached all nodes?
         //
-        result = ihi == nnode ? 1 : 0;
+        int result = ihi == nnode ? 1 : 0;
 
         return result;
     }

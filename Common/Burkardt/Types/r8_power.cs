@@ -33,7 +33,7 @@ public static partial class typeMethods
         //    Output, double R8_POWER, the value of R^P.
         //
     {
-        double value = 0;
+        double value;
         switch (p)
         {
             //
@@ -116,7 +116,7 @@ public static partial class typeMethods
         //    Output, double R8_POWER_FAST, the value of R^P.
         //
     {
-        double value = 0;
+        double value;
 
         mults = 0;
         switch (r)

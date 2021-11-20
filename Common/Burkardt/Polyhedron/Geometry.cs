@@ -58,19 +58,14 @@ public static class Geometry
         //    Output, double POLYHEDRON_AREA_3D, the surface area of the polyhedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double ainc;
-        double area;
         int face;
-        int j;
-        int k;
         double[] p1 = new double[DIM_NUM];
         double[] p2 = new double[DIM_NUM];
-        double[] p3;
         double[] p4 = new double[DIM_NUM];
 
-        area = 0.0;
+        double area = 0.0;
         //
         //  For each face
         //
@@ -80,27 +75,21 @@ public static class Geometry
             //
             //  For each triangle in the face, compute the normal vector.
             //
+            int j;
             for (j = 0; j < order[face]; j++)
             {
-                k = node[j + face * order_max];
+                int k = node[j + face * order_max];
                 p1[0] = coord[0 + k * 3];
                 p1[1] = coord[1 + k * 3];
                 p1[2] = coord[2 + k * 3];
 
-                if (j + 1 < order[face])
-                {
-                    k = node[j + 1 + face * order_max];
-                }
-                else
-                {
-                    k = node[0 + face * order_max];
-                }
+                k = j + 1 < order[face] ? node[j + 1 + face * order_max] : node[0 + face * order_max];
 
                 p2[0] = coord[0 + k * 3];
                 p2[1] = coord[1 + k * 3];
                 p2[2] = coord[2 + k * 3];
 
-                p3 = typeMethods.r8vec_cross_product_3d(p1, p2);
+                double[] p3 = typeMethods.r8vec_cross_product_3d(p1, p2);
 
                 p4[0] += p3[0];
                 p4[1] += p3[1];
@@ -111,7 +100,7 @@ public static class Geometry
             //
             //  Add the magnitude of the normal vector to the sum.
             //
-            ainc = typeMethods.r8vec_norm(DIM_NUM, p4);
+            double ainc = typeMethods.r8vec_norm(DIM_NUM, p4);
 
             area += ainc;
         }
@@ -171,54 +160,40 @@ public static class Geometry
         //    Output, double POLYHEDRON_CENTROID_3D[3], the centroid of the polyhedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
-        double[] centroid;
         int face;
         int i;
-        int j;
-        int n;
-        int n1;
-        int n2;
-        int n3;
         double[] normal = new double[DIM_NUM];
         double[] point = new double[DIM_NUM];
-        double polygon_area;
-        double[] polygon_centroid;
         double[] tet = new double[DIM_NUM * 4];
-        double[] tetrahedron_centroid;
-        double tetrahedron_volume;
-        int v;
-        double[] vert;
-        int vert_num;
-        double volume;
         //
         //  Compute a point in the interior.
         //  We take the area-weighted centroid of each face.
         //
         typeMethods.r8vec_zero(DIM_NUM, ref point);
 
-        vert = new double[DIM_NUM * order_max];
+        double[] vert = new double[DIM_NUM * order_max];
 
-        area = 0.0;
+        double area = 0.0;
 
         for (face = 0; face < face_num; face++)
         {
-            vert_num = order[face];
+            int vert_num = order[face];
 
+            int j;
             for (j = 0; j < vert_num; j++)
             {
-                n = node[j + face * order_max];
+                int n = node[j + face * order_max];
 
                 vert[0 + j * DIM_NUM] = coord[0 + (n - 1) * DIM_NUM];
                 vert[1 + j * DIM_NUM] = coord[1 + (n - 1) * DIM_NUM];
                 vert[2 + j * DIM_NUM] = coord[2 + (n - 1) * DIM_NUM];
             }
 
-            polygon_area = Polygon.Geometry.polygon_area_3d(vert_num, vert, ref normal);
+            double polygon_area = Polygon.Geometry.polygon_area_3d(vert_num, vert, ref normal);
 
-            polygon_centroid = Polygon.Geometry.polygon_centroid_3d(vert_num, vert);
+            double[] polygon_centroid = Polygon.Geometry.polygon_centroid_3d(vert_num, vert);
 
             for (i = 0; i < DIM_NUM; i++)
             {
@@ -237,30 +212,31 @@ public static class Geometry
         //  Now triangulate each face.
         //  For each triangle, consider the tetrahedron created by including POINT.
         //
-        centroid = new double[DIM_NUM];
+        double[] centroid = new double[DIM_NUM];
 
         typeMethods.r8vec_zero(DIM_NUM, ref centroid);
 
-        volume = 0.0;
+        double volume = 0.0;
 
         for (face = 0; face < face_num; face++)
         {
-            n3 = node[order[face] - 1 + face * order_max];
+            int n3 = node[order[face] - 1 + face * order_max];
 
             typeMethods.r8vec_copy(DIM_NUM, coord, ref tet, a1index: +(n3 - 1) * 3, a2index: +2 * 3);
 
+            int v;
             for (v = 0; v < order[face] - 2; v++)
             {
-                n1 = node[v + face * order_max];
-                n2 = node[v + 1 + face * order_max];
+                int n1 = node[v + face * order_max];
+                int n2 = node[v + 1 + face * order_max];
 
                 typeMethods.r8vec_copy(DIM_NUM, coord, ref tet, a1index: +(n1 - 1) * 3, a2index: +0 * 3);
                 typeMethods.r8vec_copy(DIM_NUM, coord, ref tet, a1index: +(n2 - 1) * 3, a2index: +1 * 3);
                 typeMethods.r8vec_copy(DIM_NUM, point, ref tet, a2index: +3 * 3);
 
-                tetrahedron_volume = TetrahedronNS.Geometry.tetrahedron_volume_3d(tet);
+                double tetrahedron_volume = TetrahedronNS.Geometry.tetrahedron_volume_3d(tet);
 
-                tetrahedron_centroid = TetrahedronNS.Geometry.tetrahedron_centroid_3d(tet);
+                double[] tetrahedron_centroid = TetrahedronNS.Geometry.tetrahedron_centroid_3d(tet);
 
                 for (i = 0; i < DIM_NUM; i++)
                 {
@@ -331,29 +307,25 @@ public static class Geometry
         //    is inside the polyhedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
         int face;
-        int i;
         bool inside;
-        int k;
-        int node;
-        int node_num_face;
-        double[] v_face;
 
-        v_face = new double[DIM_NUM * face_order_max];
+        double[] v_face = new double[DIM_NUM * face_order_max];
 
-        area = 0.0;
+        double area = 0.0;
 
         for (face = 0; face < face_num; face++)
         {
-            node_num_face = face_order[face];
+            int node_num_face = face_order[face];
 
+            int k;
             for (k = 0; k < node_num_face; k++)
             {
-                node = face_point[k + face * face_order_max];
+                int node = face_point[k + face * face_order_max];
 
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     v_face[i + k * DIM_NUM] = v[i + (node - 1) * DIM_NUM];
@@ -426,46 +398,32 @@ public static class Geometry
         //
     {
         int face;
-        int n1;
-        int n2;
-        int n3;
-        double term;
-        int v;
-        double volume;
-        double x1;
-        double x2;
-        double x3;
-        double y1;
-        double y2;
-        double y3;
-        double z1;
-        double z2;
-        double z3;
         //
-        volume = 0.0;
+        double volume = 0.0;
         //
         //  Triangulate each face.
         //
         for (face = 0; face < face_num; face++)
         {
-            n3 = node[order[face] - 1 + face * order_max];
-            x3 = coord[0 + n3 * 3];
-            y3 = coord[1 + n3 * 3];
-            z3 = coord[2 + n3 * 3];
+            int n3 = node[order[face] - 1 + face * order_max];
+            double x3 = coord[0 + n3 * 3];
+            double y3 = coord[1 + n3 * 3];
+            double z3 = coord[2 + n3 * 3];
 
+            int v;
             for (v = 0; v < order[face] - 2; v++)
             {
-                n1 = node[v + face * order_max];
-                x1 = coord[0 + n1 * 3];
-                y1 = coord[1 + n1 * 3];
-                z1 = coord[2 + n1 * 3];
+                int n1 = node[v + face * order_max];
+                double x1 = coord[0 + n1 * 3];
+                double y1 = coord[1 + n1 * 3];
+                double z1 = coord[2 + n1 * 3];
 
-                n2 = node[v + 1 + face * order_max];
-                x2 = coord[0 + n2 * 3];
-                y2 = coord[1 + n2 * 3];
-                z2 = coord[2 + n2 * 3];
+                int n2 = node[v + 1 + face * order_max];
+                double x2 = coord[0 + n2 * 3];
+                double y2 = coord[1 + n2 * 3];
+                double z2 = coord[2 + n2 * 3];
 
-                term = x1 * y2 * z3 - x1 * y3 * z2
+                double term = x1 * y2 * z3 - x1 * y3 * z2
                     + x2 * y3 * z1 - x2 * y1 * z3
                     + x3 * y1 * z2 - x3 * y2 * z1;
 
@@ -534,18 +492,14 @@ public static class Geometry
         //    Output, double POLYHEDRON_VOLUME_3D_2, the volume of the polyhedron.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int face;
-        int j;
-        int k;
-        double volume;
         double[] v1 = new double[DIM_NUM];
         double[] v2 = new double[DIM_NUM];
-        double[] v3;
         double[] v4 = new double[DIM_NUM];
 
-        volume = 0.0;
+        double volume = 0.0;
 
         for (face = 0; face < face_num; face++)
         {
@@ -553,6 +507,8 @@ public static class Geometry
             //
             //  Compute the area vector for this face.
             //
+            int k;
+            int j;
             for (j = 0; j < order[face]; j++)
             {
                 k = node[j + face * order_max];
@@ -560,20 +516,13 @@ public static class Geometry
                 v1[1] = coord[1 + k * 3];
                 v1[2] = coord[2 + k * 3];
 
-                if (j + 1 < order[face])
-                {
-                    k = node[j + 1 + face * order_max];
-                }
-                else
-                {
-                    k = node[0 + face * order_max];
-                }
+                k = j + 1 < order[face] ? node[j + 1 + face * order_max] : node[0 + face * order_max];
 
                 v2[0] = coord[0 + k * 3];
                 v2[1] = coord[1 + k * 3];
                 v2[2] = coord[2 + k * 3];
 
-                v3 = typeMethods.r8vec_cross_product_3d(v1, v2);
+                double[] v3 = typeMethods.r8vec_cross_product_3d(v1, v2);
 
                 v4[0] += v3[0];
                 v4[1] += v3[1];

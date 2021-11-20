@@ -49,28 +49,22 @@ public static class Integrals
         //
     {
         int i;
-        int k;
-        int l;
-        double nu_pq;
-        double s_pq;
-        double xi;
-        double xj;
-        double yi;
-        double yj;
 
-        nu_pq = 0.0;
+        double nu_pq = 0.0;
 
-        xj = x[n - 1];
-        yj = y[n - 1];
+        double xj = x[n - 1];
+        double yj = y[n - 1];
 
         for (i = 0; i < n; i++)
         {
-            xi = x[i];
-            yi = y[i];
+            double xi = x[i];
+            double yi = y[i];
 
-            s_pq = 0.0;
+            double s_pq = 0.0;
+            int k;
             for (k = 0; k <= p; k++)
             {
+                int l;
                 for (l = 0; l <= q; l++)
                 {
                     s_pq += typeMethods.r8_choose(k + l, l) * typeMethods.r8_choose(p + q - k - l, q - l)
@@ -142,23 +136,19 @@ public static class Integrals
         //    Output, double MOMENT_CENTRAL, the unnormalized moment Mu(P,Q).
         //
     {
-        double alpha_01;
-        double alpha_10;
-        double alpha_ij;
         int i;
-        int j;
-        double mu_pq;
 
-        alpha_10 = moment_normalized(n, x, y, 1, 0);
-        alpha_01 = moment_normalized(n, x, y, 0, 1);
+        double alpha_10 = moment_normalized(n, x, y, 1, 0);
+        double alpha_01 = moment_normalized(n, x, y, 0, 1);
 
-        mu_pq = 0.0;
+        double mu_pq = 0.0;
 
         for (i = 0; i <= p; i++)
         {
+            int j;
             for (j = 0; j <= q; j++)
             {
-                alpha_ij = moment_normalized(n, x, y, i, j);
+                double alpha_ij = moment_normalized(n, x, y, i, j);
 
                 mu_pq += typeMethods.r8_mop(p + q - i - j)
                          * typeMethods.r8_choose(p, i) * typeMethods.r8_choose(q, j)
@@ -212,14 +202,10 @@ public static class Integrals
         //    Output, double MOMENT_NORMALIZED, the normalized moment Alpha(P,Q).
         //
     {
-        double alpha_pq;
-        double nu_00;
-        double nu_pq;
+        double nu_pq = moment(n, x, y, p, q);
+        double nu_00 = moment(n, x, y, 0, 0);
 
-        nu_pq = moment(n, x, y, p, q);
-        nu_00 = moment(n, x, y, 0, 0);
-
-        alpha_pq = nu_pq / nu_00;
+        double alpha_pq = nu_pq / nu_00;
 
         return alpha_pq;
     }

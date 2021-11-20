@@ -205,14 +205,16 @@ public static class Diophantine
 
             n += 1;
 
-            if (N_MAX < n)
+            if (N_MAX >= n)
             {
-                error = true;
-                Console.WriteLine("");
-                Console.WriteLine("DIOPHANTINE - Fatal error!");
-                Console.WriteLine("  Exceeded number of iterations.");
-                return;
+                continue;
             }
+
+            error = true;
+            Console.WriteLine("");
+            Console.WriteLine("DIOPHANTINE - Fatal error!");
+            Console.WriteLine("  Exceeded number of iterations.");
+            return;
         }
 
         //

@@ -73,9 +73,7 @@ public static class Sech
         //    Output, double SECH_CDF, the value of the CDF.
         //
     {
-        double y;
-
-        y = (x - a) / b;
+        double y = (x - a) / b;
 
         double cdf = 2.0 * Math.Atan(Math.Exp(y)) / Math.PI;
 

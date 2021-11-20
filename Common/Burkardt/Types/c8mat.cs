@@ -1157,7 +1157,6 @@ public static partial class typeMethods
             int j2;
             for (j = jlo; j <= j2hi; j++)
             {
-                j2 = j + 1 - jlo;
                 cout += "     " + j.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "     ";
             }
 

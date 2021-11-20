@@ -317,9 +317,7 @@ public static class Laplace
         //    Output, double LAPLACE_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double laplace_pdf(double x, double a, double b)

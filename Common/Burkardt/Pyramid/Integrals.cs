@@ -109,8 +109,8 @@ public static class Integrals
         //
     {
         int j;
-        int m = 3;
-        double one_third = 1.0 / 3.0;
+        const int m = 3;
+        const double one_third = 1.0 / 3.0;
 
         double[] x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
@@ -159,7 +159,7 @@ public static class Integrals
         //    Output, double PYRAMID01_VOLUME, the volume of the pyramid.
         //
     {
-        double volume = 4.0 / 3.0;
+        const double volume = 4.0 / 3.0;
 
         return volume;
     }

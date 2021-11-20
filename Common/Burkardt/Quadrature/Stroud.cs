@@ -248,7 +248,7 @@ using Burkardt.Types;
                 }
            }
 
-           int expon = 0;
+           const int expon = 0;
            double volume = C1.c1_leg_monomial_integral(expon);
            volume = Math.Pow(volume, n);
 
@@ -757,7 +757,7 @@ using Burkardt.Types;
                      Console.WriteLine("  ALPHA <= -1.0");
                      return 1;
                 default:
-                     int o = 1;
+                     const int o = 1;
 
                      return o;
            }
@@ -1693,7 +1693,7 @@ using Burkardt.Types;
            //    Output, int EN_R2_01_1_SIZE, the order.
            //
       {
-           int o = 1;
+           const int o = 1;
 
            return o;
       }
@@ -1893,24 +1893,26 @@ using Burkardt.Types;
                 int i;
                 for (i = n - 1; 0 <= i; i--)
                 {
-                     if (x[i + k * n] < 0.0)
+                     if (!(x[i + k * n] < 0.0))
                      {
-                          k += 1;
-                          for (i1 = 0; i1 < i; i1++)
-                          {
-                               x[i1 + k * n] = x[i1 + (k - 1) * n];
-                          }
-
-                          x[i + k * n] = +r;
-                          for (i1 = i + 1; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = -r;
-                          }
-
-                          w[k] = a;
-                          more = true;
-                          break;
+                          continue;
                      }
+
+                     k += 1;
+                     for (i1 = 0; i1 < i; i1++)
+                     {
+                          x[i1 + k * n] = x[i1 + (k - 1) * n];
+                     }
+
+                     x[i + k * n] = +r;
+                     for (i1 = i + 1; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = -r;
+                     }
+
+                     w[k] = a;
+                     more = true;
+                     break;
                 }
            }
       }
@@ -2534,24 +2536,26 @@ using Burkardt.Types;
                 more = false;
                 for (i = n - 1; 0 <= i; i--)
                 {
-                     if (x[i + k * n] < 0.0E+00)
+                     if (!(x[i + k * n] < 0.0E+00))
                      {
-                          k += 1;
-                          for (i1 = 0; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = x[i1 + (k - 1) * n];
-                          }
-
-                          x[i + k * n] = +s;
-                          for (i1 = i + 1; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = -s;
-                          }
-
-                          w[k] = b;
-                          more = true;
-                          break;
+                          continue;
                      }
+
+                     k += 1;
+                     for (i1 = 0; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = x[i1 + (k - 1) * n];
+                     }
+
+                     x[i + k * n] = +s;
+                     for (i1 = i + 1; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = -s;
+                     }
+
+                     w[k] = b;
+                     more = true;
+                     break;
                 }
            }
       }
@@ -2684,24 +2688,26 @@ using Burkardt.Types;
                      int j;
                      for (j = n - 1; 0 <= j; j--)
                      {
-                          if (x[j + k * n] < 0.0E+00)
+                          if (!(x[j + k * n] < 0.0E+00))
                           {
-                               k += 1;
-                               for (i1 = 0; i1 < n; i1++)
-                               {
-                                    x[i1 + k * n] = x[i1 + (k - 1) * n];
-                               }
-
-                               x[j + k * n] = Math.Abs(x[j + k * n]);
-                               for (i1 = j + 1; i1 < n; i1++)
-                               {
-                                    x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                               }
-
-                               w[k] = b;
-                               more = true;
-                               break;
+                               continue;
                           }
+
+                          k += 1;
+                          for (i1 = 0; i1 < n; i1++)
+                          {
+                               x[i1 + k * n] = x[i1 + (k - 1) * n];
+                          }
+
+                          x[j + k * n] = Math.Abs(x[j + k * n]);
+                          for (i1 = j + 1; i1 < n; i1++)
+                          {
+                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                          }
+
+                          w[k] = b;
+                          more = true;
+                          break;
                      }
                 }
            }
@@ -3088,24 +3094,26 @@ using Burkardt.Types;
                 more = false;
                 for (j = n - 1; 0 <= j; j--)
                 {
-                     if (x[j + k * n] < 0.0E+00)
+                     if (!(x[j + k * n] < 0.0E+00))
                      {
-                          k += 1;
-                          for (i1 = 0; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = x[i1 + (k - 1) * n];
-                          }
-
-                          x[j + k * n] = Math.Abs(x[j + k * n]);
-                          for (i1 = j + 1; i1 < n; i1++)
-                          {
-                               x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
-                          }
-
-                          w[k] = a;
-                          more = true;
-                          break;
+                          continue;
                      }
+
+                     k += 1;
+                     for (i1 = 0; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = x[i1 + (k - 1) * n];
+                     }
+
+                     x[j + k * n] = Math.Abs(x[j + k * n]);
+                     for (i1 = j + 1; i1 < n; i1++)
+                     {
+                          x[i1 + k * n] = -Math.Abs(x[i1 + k * n]);
+                     }
+
+                     w[k] = a;
+                     more = true;
+                     break;
                 }
            }
       }
@@ -3487,7 +3495,7 @@ using Burkardt.Types;
            double a2 = (n_r8 + 2.0E+00 - Math.Sqrt(2.0E+00 * (n_r8 + 2.0E+00))) / 2.0E+00
                 / (n_r8 + 2.0E+00);
 
-           double r = 1.0E+00;
+           const double r = 1.0E+00;
            double s = Math.Sqrt(1.0E+00 / n_r8);
            double t = Math.Sqrt(0.5E+00);
            double b = (8.0E+00 - n_r8) * volume / n_r8 / (n_r8 + 2.0E+00) / (n_r8 + 4.0E+00);
@@ -3549,7 +3557,6 @@ using Burkardt.Types;
                      for (i1 = 0; i1 < n; i1++)
                      {
                           x[i1 + k * n] = x[i1 + (k - 2) * n];
-                          ;
                      }
 
                      x[i + k * n] = Math.Abs(x[i + k * n]);

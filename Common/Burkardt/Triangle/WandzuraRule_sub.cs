@@ -230,6 +230,7 @@ public static partial class WandzuraRule
                 Console.WriteLine("");
                 Console.WriteLine("WANDZURA_SUBORDER_NUM - Fatal error!");
                 Console.WriteLine("  Illegal RULE = " + rule + "");
+                break;
         }
 
         return suborder_num;

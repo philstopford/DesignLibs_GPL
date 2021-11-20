@@ -314,47 +314,48 @@ public static class PseudoLinear
         //
         //  A' * x = b, b is not in the range of A'.
 
-        if (m < n)
+        if (m >= n)
         {
-            Console.WriteLine("");
-            Console.WriteLine("  For M < N, most systems A'*x=b will not be");
-            Console.WriteLine("  exactly and uniquely solvable, except in the");
-            Console.WriteLine("  least squares sense.");
-            Console.WriteLine("");
-            Console.WriteLine("  Here is an example:");
-
-            bn = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-
-            xm2 = new double[m];
-            for (i = 0; i < m; i++)
-            {
-                xm2[i] = 0.0;
-                for (j = 0; j < n; j++)
-                {
-                    xm2[i] += a_pseudo[j + i * n] * bn[j];
-                }
-            }
-
-            rn = new double[n];
-            for (i = 0; i < n; i++)
-            {
-                rn[i] = bn[i];
-                for (j = 0; j < m; j++)
-                {
-                    rn[i] -= a[j + i * m] * xm2[j];
-                }
-            }
-
-            Console.WriteLine("");
-            Console.WriteLine("  Given b is NOT in the range of A', solve");
-            Console.WriteLine("    A' * x = b");
-            Console.WriteLine("  using the pseudoinverse:");
-            Console.WriteLine("    x2 = A+ * b.");
-            Console.WriteLine("");
-            Console.WriteLine("  Norm of x2 = " + typeMethods.r8vec_norm_l2(m, xm2) + "");
-            Console.WriteLine("  Norm of residual = " + typeMethods.r8vec_norm_l2(n, rn) + "");
-
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("  For M < N, most systems A'*x=b will not be");
+        Console.WriteLine("  exactly and uniquely solvable, except in the");
+        Console.WriteLine("  least squares sense.");
+        Console.WriteLine("");
+        Console.WriteLine("  Here is an example:");
+
+        bn = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+
+        xm2 = new double[m];
+        for (i = 0; i < m; i++)
+        {
+            xm2[i] = 0.0;
+            for (j = 0; j < n; j++)
+            {
+                xm2[i] += a_pseudo[j + i * n] * bn[j];
+            }
+        }
+
+        rn = new double[n];
+        for (i = 0; i < n; i++)
+        {
+            rn[i] = bn[i];
+            for (j = 0; j < m; j++)
+            {
+                rn[i] -= a[j + i * m] * xm2[j];
+            }
+        }
+
+        Console.WriteLine("");
+        Console.WriteLine("  Given b is NOT in the range of A', solve");
+        Console.WriteLine("    A' * x = b");
+        Console.WriteLine("  using the pseudoinverse:");
+        Console.WriteLine("    x2 = A+ * b.");
+        Console.WriteLine("");
+        Console.WriteLine("  Norm of x2 = " + typeMethods.r8vec_norm_l2(m, xm2) + "");
+        Console.WriteLine("  Norm of residual = " + typeMethods.r8vec_norm_l2(n, rn) + "");
 
     }
 

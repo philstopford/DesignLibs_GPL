@@ -79,12 +79,11 @@ public class SparseCount
         new_1d[0] = 1;
         new_1d[1] = 2;
 
-        int p = 3;
         int o = 3;
 
         for (int l = 2; l <= level_max; l++)
         {
-            p = 2 * l + 1;
+            int p = 2 * l + 1;
             if (o < p)
             {
                 new_1d[l] = o - 1;
@@ -320,12 +319,11 @@ public class SparseCount
 
         new_1d[0] = 1;
 
-        int p = 1;
         int o = 1;
 
         for (int l = 1; l <= level_max; l++)
         {
-            p = 2 * l + 1;
+            int p = 2 * l + 1;
             if (o < p)
             {
                 new_1d[l] = o + 1;

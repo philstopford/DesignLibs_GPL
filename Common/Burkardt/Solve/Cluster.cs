@@ -388,12 +388,14 @@ public static class Cluster
         //
         for (k = 0; k < cluster_num; k++)
         {
-            if (cluster_population[k] != 0)
+            if (cluster_population[k] == 0)
             {
-                for (i = 0; i < dim_num; i++)
-                {
-                    cluster_center[i + k * dim_num] /= cluster_population[k];
-                }
+                continue;
+            }
+
+            for (i = 0; i < dim_num; i++)
+            {
+                cluster_center[i + k * dim_num] /= cluster_population[k];
             }
         }
 
@@ -794,11 +796,13 @@ public static class Cluster
                 dist += Math.Pow(x[i] - generator[i + j * m], 2);
             }
 
-            if (j == 0 || dist < dist_min)
+            if (j != 0 && !(dist < dist_min))
             {
-                dist_min = dist;
-                nearest = j;
+                continue;
             }
+
+            dist_min = dist;
+            nearest = j;
 
         }
 

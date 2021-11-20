@@ -181,7 +181,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*5], the abscissas.
         //
     {
-        int order = 5;
+        const int order = 5;
 
         double[] w_save =
         {
@@ -253,7 +253,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*6], the abscissas.
         //
     {
-        int order = 6;
+        const int order = 6;
 
         double[] w_save =
         {
@@ -327,7 +327,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*8], the abscissas.
         //
     {
-        int order = 8;
+        const int order = 8;
 
         double[] w_save =
         {
@@ -405,7 +405,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*8], the abscissas.
         //
     {
-        int order = 8;
+        const int order = 8;
 
         double[] w_save =
         {
@@ -483,7 +483,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*9], the abscissas.
         //
     {
-        int order = 9;
+        const int order = 9;
 
         double[] w_save =
         {
@@ -562,7 +562,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*13], the abscissas.
         //
     {
-        int order = 13;
+        const int order = 13;
 
         double[] w_save =
         {
@@ -649,7 +649,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*18], the abscissas.
         //
     {
-        int order = 18;
+        const int order = 18;
 
         double[] w_save =
         {
@@ -746,7 +746,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*27], the abscissas.
         //
     {
-        int order = 27;
+        const int order = 27;
 
         double[] w_save =
         {
@@ -863,7 +863,7 @@ public static class FelippaRule
         //    Output, double XYZ[3*48], the abscissas.
         //
     {
-        int order = 48;
+        const int order = 48;
 
         double[] w_save =
         {

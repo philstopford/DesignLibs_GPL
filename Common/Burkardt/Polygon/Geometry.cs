@@ -54,10 +54,8 @@ public static class Geometry
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -71,7 +69,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -118,10 +116,7 @@ public static class Geometry
         //    in radians.
         //
     {
-        double[] angle;
         int i;
-        int im1;
-        int ip1;
 
         switch (n)
         {
@@ -129,7 +124,7 @@ public static class Geometry
                 return null;
         }
 
-        angle = new double[n];
+        double[] angle = new double[n];
 
         switch (n)
         {
@@ -146,8 +141,8 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = typeMethods.i4_wrap(i - 1, 0, n - 1);
-            ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
+            int im1 = typeMethods.i4_wrap(i - 1, 0, n - 1);
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
 
             angle[i] = Angle.angle_rad_2d(v, v, v, p1Index: +im1 * 2, p2Index: +i * 2, p3Index: +ip1 * 2);
         }
@@ -193,17 +188,14 @@ public static class Geometry
         //    Output, double POLYGON_AREA_2D, the area of the polygon.
         //
     {
-        double area;
         int i;
-        int im1;
-        int ip1;
 
-        area = 0.0;
+        double area = 0.0;
 
         for (i = 0; i < n; i++)
         {
-            im1 = i - 1;
-            ip1 = i + 1;
+            int im1 = i - 1;
+            int ip1 = i + 1;
 
             im1 = im1 switch
             {
@@ -272,12 +264,10 @@ public static class Geometry
         //    Output, double POLYGON_AREA_2D_2, the area of the polygon.
         //
     {
-        double area;
-        double area_triangle;
         int i;
         double[] t = new double[2 * 3];
 
-        area = 0.0;
+        double area = 0.0;
 
         for (i = 0; i < n - 2; i++)
         {
@@ -288,7 +278,7 @@ public static class Geometry
             t[0 + 2 * 2] = v[0 + (n - 1) * 2];
             t[1 + 2 * 2] = v[1 + (n - 1) * 2];
 
-            area_triangle = typeMethods.triangle_area_2d(t);
+            double area_triangle = typeMethods.triangle_area_2d(t);
 
             area += area_triangle;
         }
@@ -343,11 +333,9 @@ public static class Geometry
         //    Output, double POLYGON_AREA_3D, the area of the polygon.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
         int i;
-        int ip1;
 
         normal[0] = 0.0;
         normal[1] = 0.0;
@@ -355,6 +343,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
+            int ip1;
             if (i < n - 1)
             {
                 ip1 = i + 1;
@@ -372,7 +361,7 @@ public static class Geometry
             normal[2] = normal[2] + v[0 + i * 3] * v[1 + ip1 * 3] - v[1 + i * 3] * v[0 + ip1 * 3];
         }
 
-        area = typeMethods.r8vec_norm(DIM_NUM, normal);
+        double area = typeMethods.r8vec_norm(DIM_NUM, normal);
 
         if (area != 0.0)
         {
@@ -439,11 +428,9 @@ public static class Geometry
         //    Output, double POLYGON_AREA_3D_2, the area of the polygon.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
         double[] area_vector = new double[DIM_NUM];
-        double[] area_vector_triangle;
         int i;
         int j;
         double[] t = new double[DIM_NUM * 3];
@@ -467,7 +454,7 @@ public static class Geometry
             t[1 + 2 * 3] = v[1 + (n - 1) * 3];
             t[2 + 2 * 3] = v[2 + (n - 1) * 3];
 
-            area_vector_triangle = TriangleNS.Geometry.triangle_area_vector_3d(t);
+            double[] area_vector_triangle = TriangleNS.Geometry.triangle_area_vector_3d(t);
 
             for (i = 0; i < DIM_NUM; i++)
             {
@@ -476,7 +463,7 @@ public static class Geometry
 
         }
 
-        area = 0.5 * typeMethods.r8vec_norm(DIM_NUM, area_vector);
+        double area = 0.5 * typeMethods.r8vec_norm(DIM_NUM, area_vector);
 
         return area;
     }
@@ -542,17 +529,13 @@ public static class Geometry
         //    Output, double *POLYGON_CENTROID_2D[2], the coordinates of the centroid.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area;
-        double[] centroid;
         int i;
-        int ip1;
         int j;
-        double temp;
 
-        area = 0.0;
-        centroid = new double[DIM_NUM];
+        double area = 0.0;
+        double[] centroid = new double[DIM_NUM];
 
         for (j = 0; j < DIM_NUM; j++)
         {
@@ -561,6 +544,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
+            int ip1;
             if (i < n - 1)
             {
                 ip1 = i + 1;
@@ -570,7 +554,7 @@ public static class Geometry
                 ip1 = 0;
             }
 
-            temp = v[0 + i * 2] * v[1 + ip1 * 2] - v[0 + ip1 * 2] * v[1 + i * 2];
+            double temp = v[0 + i * 2] * v[1 + ip1 * 2] - v[0 + ip1 * 2] * v[1 + i * 2];
 
             area += temp;
 
@@ -628,17 +612,14 @@ public static class Geometry
         //    Output, double POLYGON_CENTROID_2D_2[2], the coordinates of the centroid.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area;
-        double area_triangle;
-        double[] centroid;
         int i;
         int j;
         double[] t = new double[DIM_NUM * 3];
 
-        area = 0.0;
-        centroid = new double[DIM_NUM];
+        double area = 0.0;
+        double[] centroid = new double[DIM_NUM];
 
         for (j = 0; j < DIM_NUM; j++)
         {
@@ -654,7 +635,7 @@ public static class Geometry
             t[0 + 2 * 2] = v[0 + (n - 1) * 2];
             t[1 + 2 * 2] = v[1 + (n - 1) * 2];
 
-            area_triangle = typeMethods.triangle_area_2d(t);
+            double area_triangle = typeMethods.triangle_area_2d(t);
 
             area += area_triangle;
             centroid[0] += area_triangle * (v[0 + i * 2] + v[0 + (i + 1) * 2] + v[0 + (n - 1) * 2]) / 3.0;
@@ -713,17 +694,14 @@ public static class Geometry
         //    Output, double POLYGON_CENTROID_3D[3], the coordinates of the centroid.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
-        double area_triangle;
-        double[] centroid;
         int i;
         int j;
         double[] t = new double[DIM_NUM * 3];
 
-        area = 0.0;
-        centroid = new double[DIM_NUM];
+        double area = 0.0;
+        double[] centroid = new double[DIM_NUM];
 
         for (j = 0; j < DIM_NUM; j++)
         {
@@ -744,7 +722,7 @@ public static class Geometry
             t[1 + 2 * 3] = v[1 + (n - 1) * 3];
             t[2 + 2 * 3] = v[2 + (n - 1) * 3];
 
-            area_triangle = typeMethods.triangle_area_3d(t);
+            double area_triangle = typeMethods.triangle_area_3d(t);
 
             area += area_triangle;
 
@@ -796,25 +774,18 @@ public static class Geometry
         //
     {
         int i;
-        int ip1;
-        double px1;
-        double px2;
-        double py1;
-        double py2;
-        bool value;
-        double xints;
 
-        value = false;
+        bool value = false;
 
-        px1 = v[0 + 2 * 0];
-        py1 = v[1 + 2 * 0];
-        xints = p[0] - 1.0;
+        double px1 = v[0 + 2 * 0];
+        double py1 = v[1 + 2 * 0];
+        double xints = p[0] - 1.0;
 
         for (i = 0; i < n; i++)
         {
-            ip1 = (i + 1) % n;
-            px2 = v[0 + 2 * ip1];
-            py2 = v[1 + 2 * ip1];
+            int ip1 = (i + 1) % n;
+            double px2 = v[0 + 2 * ip1];
+            double py2 = v[1 + 2 * ip1];
 
             if (Math.Min(py1, py2) < p[1])
             {
@@ -951,19 +922,16 @@ public static class Geometry
         //
     {
         int i;
-        bool value;
-        double x1;
-        double x2;
-        double y1;
-        double y2;
 
-        value = false;
+        bool value = false;
 
         for (i = 0; i < n; i++)
         {
-            x1 = v[0 + i * 2];
-            y1 = v[1 + i * 2];
+            double x1 = v[0 + i * 2];
+            double y1 = v[1 + i * 2];
 
+            double x2;
+            double y2;
             if (i < n - 1)
             {
                 x2 = v[0 + (i + 1) * 2];
@@ -1027,14 +995,13 @@ public static class Geometry
         //    Output, double POLYGON_DIAMETER_2D, the diameter of the polygon.
         //
     {
-        double diameter;
         int i;
-        int j;
 
-        diameter = 0.0;
+        double diameter = 0.0;
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = i + 1; j < n; j++)
             {
                 diameter = Math.Max(diameter,
@@ -1087,25 +1054,18 @@ public static class Geometry
         //    Output, double POLYGON_EXPAND_2D[2*N], the "expanded" coordinates.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double angle;
-        double h2;
-        int i;
         int j;
-        int jm1;
-        int jp1;
-        double[] p4;
-        double[] w;
 
-        w = new double[DIM_NUM * n];
+        double[] w = new double[DIM_NUM * n];
         //
         //  Consider each angle, formed by the nodes P(I-1), P(I), P(I+1).
         //
         for (j = 0; j < n; j++)
         {
-            jm1 = typeMethods.i4_wrap(j - 1, 0, n - 1);
-            jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
+            int jm1 = typeMethods.i4_wrap(j - 1, 0, n - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
             //
             //        P1
             //        /
@@ -1114,18 +1074,19 @@ public static class Geometry
             //     / .
             //    P2--------->P3
             //
-            p4 = Angle.angle_half_2d(v, v, v, p1Index: +jm1 * DIM_NUM, p2Index: +j * DIM_NUM,
+            double[] p4 = Angle.angle_half_2d(v, v, v, p1Index: +jm1 * DIM_NUM, p2Index: +j * DIM_NUM,
                 p3Index: +jp1 * DIM_NUM);
             //
             //  Compute the value of the half angle.
             //
-            angle = Angle.angle_rad_2d(v, v, p4, p1Index: +jm1 * DIM_NUM, p2Index: +j * DIM_NUM);
+            double angle = Angle.angle_rad_2d(v, v, p4, p1Index: +jm1 * DIM_NUM, p2Index: +j * DIM_NUM);
             //
             //  The stepsize along the ray must be adjusted so that the sides
             //  move out by H.
             //
-            h2 = h / Math.Sin(angle);
+            double h2 = h / Math.Sin(angle);
 
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 w[i + j * DIM_NUM] = v[i + j * DIM_NUM] - h2 * (p4[i] - v[i + j * DIM_NUM]);
@@ -1176,8 +1137,6 @@ public static class Geometry
         //    Output, double *SIDE, the length of one side of the polygon.
         //
     {
-        double angle;
-
         switch (n)
         {
             case < 3:
@@ -1188,7 +1147,7 @@ public static class Geometry
                 return;
         }
 
-        angle = Math.PI / n;
+        double angle = Math.PI / n;
         area = n * radin * radin * Math.Tan(angle);
         side = 2.0 * radin * Math.Tan(angle);
         radout = 0.5 * side / Math.Sin(angle);
@@ -1247,23 +1206,16 @@ public static class Geometry
         //     2, the polygon is convex and clockwise.
         //
     {
-        int NOT_CONVEX = -1;
-        int DEGENERATE_CONVEX = 0;
-        int CONVEX_CCW = 1;
-        int CONVEX_CW = 2;
+        const int NOT_CONVEX = -1;
+        const int DEGENERATE_CONVEX = 0;
+        const int CONVEX_CCW = 1;
+        const int CONVEX_CW = 2;
 
-        double angle;
-        double cross;
-        double dot;
-        double exterior_total;
         int i;
-        int ip1;
-        int ip2;
-        double sense;
-        double TOL = 1.0;
+        const double TOL = 1.0;
         int value = 0;
 
-        exterior_total = 0.0;
+        double exterior_total = 0.0;
         switch (n)
         {
             //
@@ -1273,22 +1225,22 @@ public static class Geometry
                 return DEGENERATE_CONVEX;
         }
 
-        sense = 0.0;
+        double sense = 0.0;
         //
         //  Consider each polygonal vertex I.
         //
         for (i = 0; i < n; i++)
         {
-            ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
-            ip2 = typeMethods.i4_wrap(i + 2, 0, n - 1);
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
+            int ip2 = typeMethods.i4_wrap(i + 2, 0, n - 1);
 
-            dot = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[0 + i * 2] - v[0 + ip1 * 2])
-                  + (v[1 + ip2 * 2] - v[1 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2]);
+            double dot = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[0 + i * 2] - v[0 + ip1 * 2])
+                         + (v[1 + ip2 * 2] - v[1 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2]);
 
-            cross = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2])
-                    - (v[0 + i * 2] - v[0 + ip1 * 2]) * (v[1 + ip2 * 2] - v[1 + ip1 * 2]);
+            double cross = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2])
+                           - (v[0 + i * 2] - v[0 + ip1 * 2]) * (v[1 + ip2 * 2] - v[1 + ip1 * 2]);
 
-            angle = Math.Atan2(cross, dot);
+            double angle = Math.Atan2(cross, dot);
             switch (sense)
             {
                 //
@@ -1451,19 +1403,14 @@ public static class Geometry
         //    to the polygon.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
         int j;
-        double[] normal;
-        double normal_norm;
-        double[] p;
-        double[] v1;
-        double[] v2;
 
-        normal = new double[DIM_NUM];
-        v1 = new double[DIM_NUM];
-        v2 = new double[DIM_NUM];
+        double[] normal = new double[DIM_NUM];
+        double[] v1 = new double[DIM_NUM];
+        double[] v2 = new double[DIM_NUM];
 
         typeMethods.r8vec_zero(DIM_NUM, ref normal);
 
@@ -1479,7 +1426,7 @@ public static class Geometry
                 v2[i] = v[i + j * DIM_NUM] - v[i + 0 * DIM_NUM];
             }
 
-            p = typeMethods.r8vec_cross_product_3d(v1, v2);
+            double[] p = typeMethods.r8vec_cross_product_3d(v1, v2);
             for (i = 0; i < DIM_NUM; i++)
             {
                 normal[i] += p[i];
@@ -1492,7 +1439,7 @@ public static class Geometry
         //
         //  Normalize.
         //
-        normal_norm = typeMethods.r8vec_norm(DIM_NUM, normal);
+        double normal_norm = typeMethods.r8vec_norm(DIM_NUM, normal);
 
         if (normal_norm != 0.0)
         {
@@ -1545,8 +1492,6 @@ public static class Geometry
         //    Output, double *SIDE, the length of one side of the polygon.
         //
     {
-        double angle;
-
         switch (n)
         {
             case < 3:
@@ -1557,7 +1502,7 @@ public static class Geometry
                 return;
         }
 
-        angle = Math.PI / n;
+        double angle = Math.PI / n;
         area = 0.5 * n * radout * radout * Math.Sin(2.0 * angle);
         side = 2.0 * radout * Math.Sin(angle);
         radin = 0.5 * side / Math.Tan(angle);
@@ -1603,8 +1548,6 @@ public static class Geometry
         //    the polygon.
         //
     {
-        double angle;
-
         switch (n)
         {
             case < 3:
@@ -1615,7 +1558,7 @@ public static class Geometry
                 return;
         }
 
-        angle = Math.PI / n;
+        double angle = Math.PI / n;
         area = 0.25 * n * side * side / Math.Tan(angle);
         radin = 0.5 * side / Math.Tan(angle);
         radout = 0.5 * side / Math.Sin(angle);
@@ -1686,21 +1629,13 @@ public static class Geometry
         //    by the polygon, as projected onto the unit sphere around the point P.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] a = new double[DIM_NUM];
-        double angle;
         double area = 0.0;
         double[] b = new double[DIM_NUM];
         int j;
-        int jp1;
-        double[] normal1;
-        double normal1_norm;
-        double[] normal2;
-        double normal2_norm;
-        double[] plane;
         double[] r1 = new double[DIM_NUM];
-        double s;
         double value = 0;
 
         switch (n)
@@ -1709,11 +1644,11 @@ public static class Geometry
                 return 0.0;
         }
 
-        plane = polygon_normal_3d(n, v);
+        double[] plane = polygon_normal_3d(n, v);
 
-        a[0] = v[0 + (n - 1) * DIM_NUM] - v[0 + 0 * DIM_NUM];
-        a[1] = v[1 + (n - 1) * DIM_NUM] - v[1 + 0 * DIM_NUM];
-        a[2] = v[2 + (n - 1) * DIM_NUM] - v[2 + 0 * DIM_NUM];
+        a[0] = v[0 + (n - 1) * DIM_NUM] - v[0];
+        a[1] = v[1 + (n - 1) * DIM_NUM] - v[1];
+        a[2] = v[2 + (n - 1) * DIM_NUM] - v[2];
 
         for (j = 0; j < n; j++)
         {
@@ -1721,24 +1656,24 @@ public static class Geometry
             r1[1] = v[1 + j * DIM_NUM] - p[1];
             r1[2] = v[2 + j * DIM_NUM] - p[2];
 
-            jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
 
             b[0] = v[0 + jp1 * DIM_NUM] - v[0 + j * DIM_NUM];
             b[1] = v[1 + jp1 * DIM_NUM] - v[1 + j * DIM_NUM];
             b[2] = v[2 + jp1 * DIM_NUM] - v[2 + j * DIM_NUM];
 
-            normal1 = typeMethods.r8vec_cross_product_3d(a, r1);
+            double[] normal1 = typeMethods.r8vec_cross_product_3d(a, r1);
 
-            normal1_norm = typeMethods.r8vec_norm(DIM_NUM, normal1);
+            double normal1_norm = typeMethods.r8vec_norm(DIM_NUM, normal1);
 
-            normal2 = typeMethods.r8vec_cross_product_3d(r1, b);
+            double[] normal2 = typeMethods.r8vec_cross_product_3d(r1, b);
 
-            normal2_norm = typeMethods.r8vec_norm(DIM_NUM, normal2);
+            double normal2_norm = typeMethods.r8vec_norm(DIM_NUM, normal2);
 
-            s = typeMethods.r8vec_dot_product(DIM_NUM, normal1, normal2)
-                / (normal1_norm * normal2_norm);
+            double s = typeMethods.r8vec_dot_product(DIM_NUM, normal1, normal2)
+                       / (normal1_norm * normal2_norm);
 
-            angle = typeMethods.r8_acos(s);
+            double angle = typeMethods.r8_acos(s);
 
             s = typeMethods.r8vec_scalar_triple_product(b, a, plane);
 
@@ -1814,10 +1749,8 @@ public static class Geometry
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1831,7 +1764,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1893,10 +1826,8 @@ public static class Geometry
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1910,7 +1841,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1973,10 +1904,8 @@ public static class Geometry
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1990,7 +1919,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -2057,10 +1986,8 @@ public static class Geometry
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -2074,7 +2001,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -2142,10 +2069,8 @@ public static class Geometry
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -2159,7 +2084,7 @@ public static class Geometry
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -2220,18 +2145,16 @@ public static class Geometry
         //    last point has arclength equal to the length of the entire polyline.
         //
     {
-        int i;
         int j;
-        double[] s;
-        double temp;
 
-        s = new double[n];
+        double[] s = new double[n];
 
         s[0] = 0.0;
 
         for (j = 1; j < n; j++)
         {
-            temp = 0.0;
+            double temp = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 temp += Math.Pow(p[i + j * dim_num] - p[i + (j - 1) * dim_num], 2);
@@ -2299,12 +2222,6 @@ public static class Geometry
         //
     {
         int i;
-        int j;
-        double s;
-        double temp;
-        double tleft;
-        double trite;
-        double[] pt;
 
         switch (n)
         {
@@ -2316,7 +2233,7 @@ public static class Geometry
                 return null;
         }
 
-        pt = new double[dim_num];
+        double[] pt = new double[dim_num];
 
         switch (n)
         {
@@ -2331,14 +2248,15 @@ public static class Geometry
             }
             default:
             {
-                trite = 0.0;
+                double trite = 0.0;
                 for (i = 1; i <= n - 1; i++)
                 {
                     //
                     //  Find the distance between points I and I+1.
                     //
-                    tleft = trite;
-                    temp = 0.0;
+                    double tleft = trite;
+                    double temp = 0.0;
+                    int j;
                     for (j = 0; j < dim_num; j++)
                     {
                         temp += (p[j + i * dim_num] - p[j + (i - 1) * dim_num])
@@ -2351,7 +2269,7 @@ public static class Geometry
                     //
                     if (t <= trite || i == n - 1)
                     {
-                        s = (t - tleft) / (trite - tleft);
+                        double s = (t - tleft) / (trite - tleft);
                         for (j = 0; j < dim_num; j++)
                         {
                             pt[j] = (1.0 - s) * p[j + (i - 1) * dim_num]
@@ -2414,16 +2332,14 @@ public static class Geometry
         //    Output, double POLYLINE_LENGTH_ND, the arclength of the polyline.
         //
     {
-        int i;
         int j;
-        double length;
-        double step;
 
-        length = 0.0;
+        double length = 0.0;
 
         for (j = 1; j < n; j++)
         {
-            step = 0.0;
+            double step = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 step += (p[i + j * dim_num] - p[i + (j - 1) * dim_num])
@@ -2483,24 +2399,19 @@ public static class Geometry
         //    on the polyline.
         //
     {
-        int i;
         int it;
-        int j;
-        double[] pt;
-        double[] s;
-        double st;
 
-        pt = new double[dim_num * nt];
+        double[] pt = new double[dim_num * nt];
 
-        s = polyline_arclength_nd(dim_num, n, p);
+        double[] s = polyline_arclength_nd(dim_num, n, p);
 
-        j = 1;
+        int j = 1;
 
         for (it = 1; it <= nt; it++)
         {
-            st = ((nt - it) * 0.0 +
-                  (it - 1) * s[n - 1])
-                 / (nt - 1);
+            double st = ((nt - it) * 0.0 +
+                         (it - 1) * s[n - 1])
+                        / (nt - 1);
 
             for (;;)
             {
@@ -2517,6 +2428,7 @@ public static class Geometry
                 j += 1;
             }
 
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 pt[i + (it - 1) * dim_num] = ((s[j] - st) * p[i + (j - 1) * dim_num]
@@ -2569,28 +2481,18 @@ public static class Geometry
         //    namely SK(1) = 0 and SK(NK+1) = LENGTH.
         //
     {
-        int i;
         int j;
-        int j2;
-        double[] sk;
-        double temp;
 
-        sk = new double[nk + 1];
+        double[] sk = new double[nk + 1];
 
         sk[0] = 0.0;
 
         for (j = 1; j <= nk; j++)
         {
-            if (j == nk)
-            {
-                j2 = 0;
-            }
-            else
-            {
-                j2 = j;
-            }
+            int j2 = j == nk ? 0 : j;
 
-            temp = 0.0;
+            double temp = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 temp += Math.Pow(pk[i + j2 * dim_num] - pk[i + (j - 1) * dim_num], 2);
@@ -2642,25 +2544,19 @@ public static class Geometry
         //    on the polyloop.
         //
     {
-        int i;
         int it;
-        int j;
-        int jp1;
-        double[] pt;
-        double[] sk;
-        double st;
 
-        pt = new double[dim_num * nt];
+        double[] pt = new double[dim_num * nt];
 
-        sk = polyloop_arclength_nd(dim_num, nk, pk);
+        double[] sk = polyloop_arclength_nd(dim_num, nk, pk);
 
-        j = 1;
+        int j = 1;
 
         for (it = 1; it <= nt; it++)
         {
-            st = ((nt - it) * 0.0 +
-                  (it - 1) * sk[nk])
-                 / (nt - 1);
+            double st = ((nt - it) * 0.0 +
+                         (it - 1) * sk[nk])
+                        / (nt - 1);
 
             for (;;)
             {
@@ -2677,8 +2573,9 @@ public static class Geometry
                 j += 1;
             }
 
-            jp1 = typeMethods.i4_wrap(j + 1, 1, nk);
+            int jp1 = typeMethods.i4_wrap(j + 1, 1, nk);
 
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 pt[i + (it - 1) * dim_num] =

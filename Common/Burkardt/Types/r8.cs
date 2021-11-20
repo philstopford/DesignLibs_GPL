@@ -2333,9 +2333,7 @@ public static partial class typeMethods
     {
         const double r8_e_save = 2.718281828459045235360287;
 
-        double value = r8_e_save;
-
-        return value;
+        return r8_e_save;
     }
 
     public static double r8_epsilon()
@@ -3042,7 +3040,7 @@ public static partial class typeMethods
     {
         int mn;
         int mx;
-        double value = 0;
+        double value;
 
         if (k < n - k)
         {

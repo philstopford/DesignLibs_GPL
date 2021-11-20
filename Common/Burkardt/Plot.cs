@@ -58,7 +58,6 @@ public static class Plot
         plot_unit.Add("set size ratio " + ratio + "");
         for (j = 0; j < n; j++)
         {
-            int y1 = j;
             int y2 = j + 1;
             int i;
             for (i = 0; i < m; i++)
@@ -68,11 +67,11 @@ public static class Plot
                 switch (c1[i + j * m])
                 {
                     case < 0:
-                        plot_unit.Add("set object rectangle from " + x1 + "," + y1 + " to "
+                        plot_unit.Add("set object rectangle from " + x1 + "," + j + " to "
                                       + x2 + "," + y2 + " fc rgb 'blue'");
                         break;
                     default:
-                        plot_unit.Add("set object rectangle from " + x1 + "," + y1 + " to "
+                        plot_unit.Add("set object rectangle from " + x1 + "," + j + " to "
                                       + x2 + "," + y2 + " fc rgb 'red'");
                         break;
                 }

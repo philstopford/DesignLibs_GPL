@@ -137,8 +137,7 @@ public static class LebedevRule
         //    Output, int GEN_OH, the number of points generated on this call.
         //
     {
-        double c;
-        int num = 0;
+        int num;
 
         switch (code)
         {
@@ -459,7 +458,7 @@ public static class LebedevRule
                 num = 24;
                 break;
             case 6:
-                c = Math.Sqrt(1.0 - a * a - b * b);
+                double c = Math.Sqrt(1.0 - a * a - b * b);
                 x[xIndex + 0] = a;
                 y[yIndex + 0] = b;
                 z[zIndex + 0] = c;
@@ -839,8 +838,8 @@ public static class LebedevRule
         const double a = 0.0;
         const double b = 0.0;
 
-        int n = 0;
-        double v = 0.1666666666666667;
+        const int n = 0;
+        const double v = 0.1666666666666667;
         gen_oh(1, a, b, v, ref x, ref y, ref z, ref w, xIndex: n, yIndex: n, zIndex: n, wIndex: n);
     }
 
@@ -914,8 +913,8 @@ public static class LebedevRule
         //    and weights of the points.
         //
     {
-        double a = 0.0;
-        double b = 0.0;
+        const double a = 0.0;
+        const double b = 0.0;
 
         int n = 0;
         double v = 0.4761904761904762e-1;
@@ -957,7 +956,7 @@ public static class LebedevRule
         //
     {
         double a = 0.0;
-        double b = 0.0;
+        const double b = 0.0;
 
         int n = 0;
         double v = 0.9523809523809524e-2;
@@ -1000,7 +999,7 @@ public static class LebedevRule
         //
     {
         double a = 0.0;
-        double b = 0.0;
+        const double b = 0.0;
 
         int n = 0;
         double v = 0.1269841269841270e-1;
@@ -1045,7 +1044,7 @@ public static class LebedevRule
         //
     {
         double a = 0.0;
-        double b = 0.0;
+        const double b = 0.0;
 
         int n = 0;
         double v = 0.5130671797338464e-3;
@@ -1093,7 +1092,7 @@ public static class LebedevRule
         //
     {
         double a = 0.0;
-        double b = 0.0;
+        const double b = 0.0;
 
         int n = 0;
         double v = 0.1154401154401154e-1;
@@ -1142,7 +1141,7 @@ public static class LebedevRule
         //
     {
         double a = 0.0;
-        double b = 0.0;
+        const double b = 0.0;
 
         int n = 0;
         double v = 0.3828270494937162e-2;
@@ -6494,7 +6493,7 @@ public static class LebedevRule
         //    Output, int ORDER_TABLE, the order of the rule.
         //
     {
-        int rule_max = 65;
+        const int rule_max = 65;
         int[] table =
         {
             6, 14, 26, 38, 50, 74, 86, 110, 146, 170,
@@ -6505,7 +6504,6 @@ public static class LebedevRule
             3590, 3722, 3890, 4010, 4154, 4334, 4466, 4610, 4802, 4934,
             5090, 5294, 5438, 5606, 5810
         };
-        int value;
 
         switch (rule)
         {
@@ -6528,7 +6526,7 @@ public static class LebedevRule
             }
         }
 
-        value = table[rule - 1];
+        int value = table[rule - 1];
 
         return value;
     }
@@ -6564,7 +6562,7 @@ public static class LebedevRule
         //    Output, int PRECISION_TABLE, the precision of the rule.
         //
     {
-        int rule_max = 65;
+        const int rule_max = 65;
         int[] table =
         {
             3, 5, 7, 9, 11, 13, 15, 17, 19, 21,
@@ -6575,7 +6573,6 @@ public static class LebedevRule
             103, 105, 107, 109, 111, 113, 115, 117, 119, 121,
             123, 125, 127, 129, 131
         };
-        int value;
 
         switch (rule)
         {
@@ -6598,7 +6595,7 @@ public static class LebedevRule
             }
         }
 
-        value = table[rule - 1];
+        int value = table[rule - 1];
 
         return value;
     }
@@ -6629,12 +6626,11 @@ public static class LebedevRule
         //
     {
         double ang_x = 0;
-        double fact;
 
 
         p = Math.Acos(z);
 
-        fact = Math.Sqrt(x * x + y * y);
+        double fact = Math.Sqrt(x * x + y * y);
 
         ang_x = y switch
         {

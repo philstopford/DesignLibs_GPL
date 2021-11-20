@@ -38,9 +38,8 @@ public static class Gamma
         //
     {
         double x2 = (x - a) / b;
-        double p2 = c;
 
-        double cdf = typeMethods.r8_gamma_inc(p2, x2);
+        double cdf = typeMethods.r8_gamma_inc(c, x2);
 
         return cdf;
     }

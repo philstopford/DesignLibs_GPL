@@ -58,7 +58,7 @@ public static class Plot
     {
         int delta;
         int element;
-        int element_order = 4;
+        const int element_order = 4;
         int i;
         int node;
         List<string> output_unit = new();

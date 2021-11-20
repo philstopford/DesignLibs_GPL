@@ -219,9 +219,7 @@ public static class Semicircular
         //    Output, double SEMICIRCULAR_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double semicircular_pdf(double x, double a, double b)

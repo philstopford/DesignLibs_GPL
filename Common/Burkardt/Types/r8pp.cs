@@ -164,8 +164,7 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    double aij;
-                    aij = i <= j ? a[i - 1 + j * (j - 1) / 2] : a[j - 1 + i * (i - 1) / 2];
+                    double aij = i <= j ? a[i - 1 + j * (j - 1) / 2] : a[j - 1 + i * (i - 1) / 2];
 
                     cout += aij.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }

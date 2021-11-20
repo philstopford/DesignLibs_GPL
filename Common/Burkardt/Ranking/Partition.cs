@@ -251,12 +251,7 @@ public static partial class Ranking
         // 
         int asum = typeMethods.i4vec_sum(npart, a);
 
-        if (asum != n)
-        {
-            return false;
-        }
-
-        return true;
+        return asum == n;
     }
 
     public static void partn_successor(int n, int nmax, ref int npart, ref int[] a, ref int rank )

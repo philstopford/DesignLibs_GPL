@@ -127,7 +127,7 @@ public static partial class typeMethods
             for (j = j2lo; j <= j2hi; j++)
             {
                 j2 = j + 1 - j2lo;
-                cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
+                cout += j2.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
             }
 
             Console.WriteLine(cout);

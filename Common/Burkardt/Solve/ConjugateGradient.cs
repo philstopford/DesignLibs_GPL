@@ -50,8 +50,8 @@ public static class ConjugateGradient
         ConjugateGradientData data = new();
 
         int it = 0;
-        int it_max = 100;
-        double tol = 1.0E-08;
+        const int it_max = 100;
+        const double tol = 1.0E-08;
         double bnrm2 = 0.0;
         for (i = 0; i < n; i++)
         {

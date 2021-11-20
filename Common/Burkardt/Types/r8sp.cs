@@ -253,12 +253,14 @@ public static partial class typeMethods
         //
         for (k = 0; k < nz_num - 1; k++)
         {
-            if (row[k] == row[k + 1])
+            if (row[k] != row[k + 1])
             {
-                if (col[k + 1] <= col[k])
-                {
-                    return false;
-                }
+                continue;
+            }
+
+            if (col[k + 1] <= col[k])
+            {
+                return false;
             }
         }
 

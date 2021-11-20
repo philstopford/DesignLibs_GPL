@@ -120,7 +120,7 @@ public static class CIQF
         //
         //  Compute the weights.
         //
-        int lu = 0;
+        const int lu = 0;
 
         double[] wts = CIQFS.ciqfs(nt, st, mlt, nwts, ref ndx, key, kind, alpha, beta, lu);
         //
@@ -128,13 +128,15 @@ public static class CIQF
         //
         SCQF.scqf(nt, st, mlt, wts, nwts, ndx, ref wts, ref st, kind, alpha, beta, a, b);
 
-        if (lo != 0)
+        if (lo == 0)
         {
-            int mop = m - 1;
-
-            CHKQF.chkqf(t, wts, mlt, nt, nwts, ndx, key, mop, mex, kind,
-                alpha, beta, lo, a, b);
+            return wts;
         }
+
+        int mop = m - 1;
+
+        CHKQF.chkqf(t, wts, mlt, nt, nwts, ndx, key, mop, mex, kind,
+            alpha, beta, lo, a, b);
 
         return wts;
     }

@@ -540,9 +540,7 @@ public static class VonMises
         //    Output, double VON_MISES_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double von_mises_pdf(double x, double a, double b)

@@ -88,7 +88,7 @@ public static class Tau
 
         int tau = dim_num switch
         {
-            >= 1 when dim_num <= DIM_MAX => tau_table[dim_num - 1],
+            >= 1 and <= DIM_MAX => tau_table[dim_num - 1],
             _ => -1
         };
 

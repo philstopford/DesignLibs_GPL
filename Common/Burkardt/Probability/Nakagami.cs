@@ -46,9 +46,8 @@ public static class Nakagami
             {
                 double y = (x - a) / b;
                 double x2 = c * y * y;
-                double p2 = c;
 
-                cdf = typeMethods.r8_gamma_inc(p2, x2);
+                cdf = typeMethods.r8_gamma_inc(c, x2);
                 break;
             }
         }

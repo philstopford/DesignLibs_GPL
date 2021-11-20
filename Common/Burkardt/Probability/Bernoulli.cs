@@ -68,8 +68,6 @@ public static class Bernoulli
         //    Output, int BERNOULLI_CDF_INV, the corresponding argument.
         //
     {
-        int x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -80,7 +78,7 @@ public static class Bernoulli
                 return 1;
         }
 
-        x = cdf <= 1.0 - a ? 0 : 1;
+        int x = cdf <= 1.0 - a ? 0 : 1;
 
         return x;
     }

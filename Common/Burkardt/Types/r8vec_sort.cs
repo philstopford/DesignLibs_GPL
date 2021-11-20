@@ -1920,16 +1920,13 @@ public static partial class typeMethods
         //    Output, double R8VEC_SORTED_MERGE_A[NC], the merged unique sorted array.
         //
     {
-        int na2 = na;
-        int nb2 = nb;
-
         int ja = 0;
         int jb = 0;
         nc = 0;
         int nd = 0;
         double[] d = new double[na + nb];
 
-        int order = r8vec_order_type(na2, a);
+        int order = r8vec_order_type(na, a);
 
         switch (order)
         {
@@ -1941,7 +1938,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        order = r8vec_order_type(nb2, b);
+        order = r8vec_order_type(nb, b);
 
         switch (order)
         {
@@ -1959,9 +1956,9 @@ public static partial class typeMethods
             //  If we've used up all the entries of A, stick the rest of B on the end.
             //
             int j;
-            if (na2 <= ja)
+            if (na <= ja)
             {
-                for (j = 1; j <= nb2 - jb; j++)
+                for (j = 1; j <= nb - jb; j++)
                 {
                     jb += 1;
                     switch (nd)
@@ -1989,9 +1986,9 @@ public static partial class typeMethods
             //  If we've used up all the entries of B, stick the rest of A on the end.
             //
 
-            if (nb2 <= jb)
+            if (nb <= jb)
             {
-                for (j = 1; j <= na2 - ja; j++)
+                for (j = 1; j <= na - ja; j++)
                 {
                     ja += 1;
                     switch (nd)

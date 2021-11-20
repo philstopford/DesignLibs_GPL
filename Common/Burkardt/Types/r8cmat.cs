@@ -230,8 +230,7 @@ public static partial class typeMethods
                 _ => 1
             };
 
-            int i2hi;
-            i2hi = ihi < m ? ihi : m;
+            int i2hi = ihi < m ? ihi : m;
 
             int i;
             for (i = i2lo; i <= i2hi; i++)

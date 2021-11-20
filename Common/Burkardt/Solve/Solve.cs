@@ -125,17 +125,19 @@ public static class Solve
             //
             for (i = k + 1; i < n; i++)
             {
-                if (a2[i][k] != 0.0)
+                if (a2[i][k] == 0.0)
                 {
-                    t = -a2[i][k];
-                    a2[i][k] = 0.0;
-                    for (j = k + 1; j < n; j++)
-                    {
-                        a2[i][j] += t * a2[k][j];
-                    }
-
-                    x[i] += t * x[k];
+                    continue;
                 }
+
+                t = -a2[i][k];
+                a2[i][k] = 0.0;
+                for (j = k + 1; j < n; j++)
+                {
+                    a2[i][j] += t * a2[k][j];
+                }
+
+                x[i] += t * x[k];
             }
         }
 
@@ -274,17 +276,19 @@ public static class Solve
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
-
-                    x[i - 1] += t * x[jcol - 1];
+                    continue;
                 }
+
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                x[i - 1] += t * x[jcol - 1];
             }
         }
 
@@ -423,17 +427,19 @@ public static class Solve
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
-
-                    x[i - 1] += t * x[jcol - 1];
+                    continue;
                 }
+
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                x[i - 1] += t * x[jcol - 1];
             }
         }
 
@@ -525,11 +531,13 @@ public static class Solve
             int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
-                if (piv < typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n]))
+                if (!(piv < typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n])))
                 {
-                    piv = typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n]);
-                    ipiv = i;
+                    continue;
                 }
+
+                piv = typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n]);
+                ipiv = i;
             }
 
             switch (piv)
@@ -582,19 +590,21 @@ public static class Solve
             //
             for (i = jcol + 1; i <= n; i++)
             {
-                if (a[i - 1 + (jcol - 1) * n] != 0.0)
+                if (a[i - 1 + (jcol - 1) * n] == 0.0)
                 {
-                    t = -a[i - 1 + (jcol - 1) * n];
-                    a[i - 1 + (jcol - 1) * n] = 0.0;
-                    for (j = jcol + 1; j <= n; j++)
-                    {
-                        a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
-                    }
+                    continue;
+                }
 
-                    for (j = 0; j < nb; j++)
-                    {
-                        x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
-                    }
+                t = -a[i - 1 + (jcol - 1) * n];
+                a[i - 1 + (jcol - 1) * n] = 0.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * n] += t * a[jcol - 1 + (j - 1) * n];
+                }
+
+                for (j = 0; j < nb; j++)
+                {
+                    x[i - 1 + j * n] += t * x[jcol - 1 + j * n];
                 }
             }
         }

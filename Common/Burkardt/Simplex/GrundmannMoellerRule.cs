@@ -197,14 +197,13 @@ public static class GrundmannMoellerRule
     {
         int i;
 
-        int s = rule;
-        int d = 2 * s + 1;
+        int d = 2 * rule + 1;
         int k = 0;
         double one_pm = 1.0;
 
         int[] beta = new int[m + 1];
 
-        for (i = 0; i <= s; i++)
+        for (i = 0; i <= rule; i++)
         {
             double weight = one_pm;
 
@@ -223,7 +222,7 @@ public static class GrundmannMoellerRule
                     weight *= d + m - 2 * i;
                 }
 
-                if (j <= 2 * s)
+                if (j <= 2 * rule)
                 {
                     weight /= 2.0;
                 }
@@ -241,7 +240,7 @@ public static class GrundmannMoellerRule
 
             one_pm = -one_pm;
 
-            int beta_sum = s - i;
+            int beta_sum = rule - i;
             bool more = false;
             int h = 0;
             int t = 0;

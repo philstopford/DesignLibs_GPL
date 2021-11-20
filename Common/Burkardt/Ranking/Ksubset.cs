@@ -235,12 +235,14 @@ public static partial class Ranking
 
         for (i = k - 1; 1 <= i; i--)
         {
-            if (t[k - i] + 1 < t[k - i - 1])
+            if (t[k - i] + 1 >= t[k - i - 1])
             {
-                t[k - i] += 1;
-                rank += 1;
-                return;
+                continue;
             }
+
+            t[k - i] += 1;
+            rank += 1;
+            return;
         }
 
         if (t[0] < n)
@@ -546,13 +548,15 @@ public static partial class Ranking
                 _ => t[i - 2]
             };
 
-            if (tim1 + 1 <= t[i - 1] - 1)
+            if (tim1 + 1 > t[i - 1] - 1)
             {
-                int j;
-                for (j = tim1 + 1; j <= t[i - 1] - 1; j++)
-                {
-                    rank += typeMethods.i4_choose(n - j, k - i);
-                }
+                continue;
+            }
+
+            int j;
+            for (j = tim1 + 1; j <= t[i - 1] - 1; j++)
+            {
+                rank += typeMethods.i4_choose(n - j, k - i);
             }
         }
 

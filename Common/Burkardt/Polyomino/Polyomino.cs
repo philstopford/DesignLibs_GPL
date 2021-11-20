@@ -115,11 +115,13 @@ public static class Polyomino
         {
             for (j = 0; j < np; j++)
             {
-                if (p[i + j * mp] != 0)
+                if (p[i + j * mp] == 0)
                 {
-                    i_max = i;
-                    break;
+                    continue;
                 }
+
+                i_max = i;
+                break;
             }
 
             if (i_max != mp)
@@ -133,11 +135,13 @@ public static class Polyomino
         {
             for (i = 0; i < mp; i++)
             {
-                if (p[i + j * mp] != 0)
+                if (p[i + j * mp] == 0)
                 {
-                    j_min = j;
-                    break;
+                    continue;
                 }
+
+                j_min = j;
+                break;
             }
 
             if (j_min != -1)
@@ -151,11 +155,13 @@ public static class Polyomino
         {
             for (i = 0; i < mp; i++)
             {
-                if (p[i + j * mp] != 0)
+                if (p[i + j * mp] == 0)
                 {
-                    j_max = j;
-                    break;
+                    continue;
                 }
+
+                j_max = j;
+                break;
             }
 
             if (j_max != np)
@@ -874,34 +880,36 @@ public static class Polyomino
             bool first = true;
             for (j = 0; j < n; j++)
             {
-                if (a[i + j * m] != 0)
+                if (a[i + j * m] == 0)
                 {
-                    switch (a[i + j * m])
-                    {
-                        case < 0:
-                            cout += " -";
-                            break;
-                        default:
-                        {
-                            switch (first)
-                            {
-                                case false:
-                                    cout += " +";
-                                    break;
-                            }
-
-                            break;
-                        }
-                    }
-
-                    cout += Math.Abs(a[i + j * m]) switch
-                    {
-                        1 => " x" + j + 1,
-                        _ => " " + Math.Abs(a[i + j * m]) + " x" + j + 1
-                    };
-
-                    first = false;
+                    continue;
                 }
+
+                switch (a[i + j * m])
+                {
+                    case < 0:
+                        cout += " -";
+                        break;
+                    default:
+                    {
+                        switch (first)
+                        {
+                            case false:
+                                cout += " +";
+                                break;
+                        }
+
+                        break;
+                    }
+                }
+
+                cout += Math.Abs(a[i + j * m]) switch
+                {
+                    1 => " x" + j + 1,
+                    _ => " " + Math.Abs(a[i + j * m]) + " x" + j + 1
+                };
+
+                first = false;
             }
 
             output.Add(cout + " = " + b[i] + "");

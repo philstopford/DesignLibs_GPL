@@ -45,7 +45,7 @@ public static class Maxwell
             default:
             {
                 double x2 = x / a;
-                double p2 = 1.5;
+                const double p2 = 1.5;
 
                 cdf = typeMethods.r8_gamma_inc(p2, x2);
                 break;
@@ -330,7 +330,7 @@ public static class Maxwell
         //    Output, double MAXWELL_SAMPLE, a sample of the PDF.
         //
     {
-        double a2 = 3.0;
+        const double a2 = 3.0;
         double x = Chi.chi_square_sample(a2, ref seed);
 
         x = a * Math.Sqrt(x);

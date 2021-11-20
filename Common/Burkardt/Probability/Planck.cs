@@ -85,9 +85,7 @@ public static class Planck
 //    Output, double PLANCK_MEAN, the mean of the PDF.
 //
     {
-        double mean;
-
-        mean = (b + 1.0) * typeMethods.r8_zeta(b + 2.0) / typeMethods.r8_zeta(b + 1.0);
+        double mean = (b + 1.0) * typeMethods.r8_zeta(b + 2.0) / typeMethods.r8_zeta(b + 1.0);
 
         return mean;
     }

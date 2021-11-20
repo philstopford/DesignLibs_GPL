@@ -53,15 +53,11 @@ public static class Euler
         //    Output, double EULER_POLY, the value of E(N,X).
         //
     {
-        double bx1;
-        double bx2;
-        double value = 0;
+        double bx1 = Bernoulli.bernoulli_poly2 ( n+1, x );
+        double bx2 = Bernoulli.bernoulli_poly2 ( n+1, 0.5 * x );
 
-        bx1 = Bernoulli.bernoulli_poly2 ( n+1, x );
-        bx2 = Bernoulli.bernoulli_poly2 ( n+1, 0.5 * x );
-
-        value = 2.0 * ( bx1 - bx2 * Math.Pow ( 2, n+1 ) ) 
-                / (n + 1);
+        double value = 2.0 * ( bx1 - bx2 * Math.Pow ( 2, n+1 ) ) 
+                       / (n + 1);
 
         return value;
     }

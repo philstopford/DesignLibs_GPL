@@ -200,15 +200,11 @@ public static class Cube
         double s = 1.0 / Math.Sqrt(3.0);
         const double w = 1.0 / 8.0;
 
-        double x = s;
-        double y = s;
-        double z = s;
-
         double quad = w * (
-            func(settings, x, y, z) + func(settings, x, y, -z)
-                                    + func(settings, x, -y, z) + func(settings, x, -y, -z)
-                                    + func(settings, -x, y, z) + func(settings, -x, y, -z)
-                                    + func(settings, -x, -y, z) + func(settings, -x, -y, -z));
+            func(settings, s, s, s) + func(settings, s, s, -s)
+                                    + func(settings, s, -s, s) + func(settings, s, -s, -s)
+                                    + func(settings, -s, s, s) + func(settings, -s, s, -s)
+                                    + func(settings, -s, -s, s) + func(settings, -s, -s, -s));
 
         double volume = cube_unit_volume_nd(3);
         double result = quad * volume;

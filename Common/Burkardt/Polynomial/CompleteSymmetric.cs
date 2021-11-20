@@ -59,9 +59,6 @@ public static class CompleteSymmetric
     {
         int i;
         int nn;
-        int rr;
-        double[] tau;
-        double value = 0;
 
         switch (n)
         {
@@ -81,7 +78,7 @@ public static class CompleteSymmetric
                 return 1;
         }
 
-        tau = new double[1 + Math.Max(n, r)];
+        double[] tau = new double[1 + Math.Max(n, r)];
 
         for (i = 0; i <= Math.Max(n, r); i++)
         {
@@ -91,13 +88,14 @@ public static class CompleteSymmetric
         tau[0] = 1.0;
         for (nn = 1; nn <= n; nn++)
         {
+            int rr;
             for (rr = 1; rr <= r; rr++)
             {
                 tau[rr] += x[nn - 1] * tau[rr - 1];
             }
         }
 
-        value = tau[r];
+        double value = tau[r];
 
         return value;
     }

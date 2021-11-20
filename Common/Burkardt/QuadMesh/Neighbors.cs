@@ -64,7 +64,7 @@ public static class Neighbors
         //
     {
         int element;
-        int element_order = 4;
+        const int element_order = 4;
         int i;
         int j;
 

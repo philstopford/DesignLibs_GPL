@@ -161,21 +161,18 @@ public static class Laguerre
         //    Input, double B[ORDER], C[ORDER], the recursion coefficients.
         //
     {
-        double dp0;
-        double dp1;
         int i;
-        double p0;
 
         p1 = 1.0;
-        dp1 = 0.0;
+        double dp1 = 0.0;
 
         p2 = x - alpha - 1.0;
         dp2 = 1.0;
 
         for (i = 1; i < order; i++)
         {
-            p0 = p1;
-            dp0 = dp1;
+            double p0 = p1;
+            double dp0 = dp1;
 
             p1 = p2;
             dp1 = dp2;
@@ -230,19 +227,17 @@ public static class Laguerre
         //    Input, double B[ORDER], C[ORDER], the recursion coefficients.
         //
     {
-        double d;
-        double eps;
         double p2 = 0;
         int step;
-        int step_max = 10;
+        const int step_max = 10;
 
-        eps = typeMethods.r8_epsilon();
+        double eps = typeMethods.r8_epsilon();
 
         for (step = 1; step <= step_max; step++)
         {
             laguerre_recur(ref p2, ref dp2, ref p1, x, order, alpha, b, c);
 
-            d = p2 / dp2;
+            double d = p2 / dp2;
             x -= d;
 
             if (Math.Abs(d) <= eps * (Math.Abs(x) + 1.0))
@@ -642,14 +637,8 @@ public static class Laguerre
         int i;
         int j;
         int k;
-        double[] l_table;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
 
         for (j = 0; j <= p; j++)
         {
@@ -659,17 +648,17 @@ public static class Laguerre
             }
         }
 
-        order = (3 * p + 4) / 2;
+        int order = (3 * p + 4) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         QuadratureRule.l_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            l_table = l_polynomial(1, p, x_table, xIndex: +k);
+            double x = x_table[k];
+            double[] l_table = l_polynomial(1, p, x_table, xIndex: +k);
             for (j = 0; j <= p; j++)
             {
                 for (i = 0; i <= p; i++)
@@ -800,7 +789,6 @@ public static class Laguerre
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -808,7 +796,7 @@ public static class Laguerre
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -891,7 +879,6 @@ public static class Laguerre
         //    of the Laguerre polynomials of degree 0 through N. 
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -901,7 +888,7 @@ public static class Laguerre
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -1142,31 +1129,27 @@ public static class Laguerre
         //    Output, double L_POLYNOMIAL_ZEROS[N], the zeros.
         //
     {
-        double[] bj;
         int i;
-        double[] w;
-        double[] x;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = 1.0;
+        double zemu = 1.0;
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
         for (i = 0; i < n; i++)
         {
             bj[i] = i + 1;
         }
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 2 * i + 1;
         }
 
-        w = new double[n];
+        double[] w = new double[n];
         w[0] = Math.Sqrt(zemu);
         for (i = 1; i < n; i++)
         {
@@ -1227,14 +1210,8 @@ public static class Laguerre
         int i;
         int j;
         int k;
-        double[] l_table;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
 
         for (j = 0; j <= p; j++)
         {
@@ -1244,17 +1221,17 @@ public static class Laguerre
             }
         }
 
-        order = p + 1 + (e + 1) / 2;
+        int order = p + 1 + (e + 1) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         QuadratureRule.l_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            l_table = l_polynomial(1, p, x_table, xIndex: +k);
+            double x = x_table[k];
+            double[] l_table = l_polynomial(1, p, x_table, xIndex: +k);
 
             switch (e)
             {

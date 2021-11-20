@@ -440,20 +440,15 @@ public static class Permutation
                         }
                         else
                         {
-                            switch (n)
+                            fnm = n switch
                             {
-                                case 1:
-                                    fnm = m switch
-                                    {
-                                        1 => 1,
-                                        _ => 0
-                                    };
-
-                                    break;
-                                default:
-                                    fnm = typeMethods.i4_choose(n, m) * Derange.derange_enum(n - m);
-                                    break;
-                            }
+                                1 => m switch
+                                {
+                                    1 => 1,
+                                    _ => 0
+                                },
+                                _ => typeMethods.i4_choose(n, m) * Derange.derange_enum(n - m)
+                            };
                         }
 
                         break;

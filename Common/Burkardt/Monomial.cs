@@ -758,8 +758,7 @@ public static class Monomial
         //  Convert to KSUBSET format.
         //
         int ns = nm + m - 1;
-        int ks = m;
-        int[] xs = new int[ks];
+        int[] xs = new int[m];
         xs[0] = x[0] + 1;
         for (i = 2; i < m; i++)
         {
@@ -771,7 +770,7 @@ public static class Monomial
         //
         int rank = 1;
 
-        for (i = 1; i <= ks; i++)
+        for (i = 1; i <= m; i++)
         {
             int tim1 = i switch
             {
@@ -787,7 +786,7 @@ public static class Monomial
             int j;
             for (j = tim1 + 1; j <= xs[i - 1] - 1; j++)
             {
-                rank += typeMethods.i4_choose(ns - j, ks - i);
+                rank += typeMethods.i4_choose(ns - j, m - i);
             }
         }
 

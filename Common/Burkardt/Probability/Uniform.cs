@@ -79,9 +79,7 @@ public static class Uniform
                 return 1;
             default:
             {
-                double x = cdf;
-
-                return x;
+                return cdf;
             }
         }
     }
@@ -110,7 +108,7 @@ public static class Uniform
         //    Output, double UNIFORM_01_MEAN, the mean of the discrete uniform PDF.
         //
     {
-        double mean = 0.5;
+        const double mean = 0.5;
 
         return mean;
     }
@@ -286,7 +284,7 @@ public static class Uniform
         //    Output, double UNIFORM_01_VARIANCE, the variance of the PDF.
         //
     {
-        double variance = 1.0 / 12.0;
+        const double variance = 1.0 / 12.0;
 
         return variance;
     }
@@ -763,15 +761,16 @@ public static class Uniform
         //    are legal.
         //
     {
-        if (b < a)
+        if (b >= a)
         {
-            Console.WriteLine(" ");
-            Console.WriteLine("UNIFORM_DISCRETE_CHECK - Warning!");
-            Console.WriteLine("  B < A.");
-            return false;
+            return true;
         }
 
-        return true;
+        Console.WriteLine(" ");
+        Console.WriteLine("UNIFORM_DISCRETE_CHECK - Warning!");
+        Console.WriteLine("  B < A.");
+        return false;
+
     }
 
     public static double uniform_discrete_mean(int a, int b)

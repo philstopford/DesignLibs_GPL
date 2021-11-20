@@ -35,13 +35,12 @@ public static class MonteCarlo
         //    Output, double POLYGON_AREA, the area of the polygon.
         //
     {
-        double area;
         int[] e = new int[2];
 
         e[0] = 0;
         e[1] = 0;
 
-        area = polygon_monomial_integral(nv, v, e);
+        double area = polygon_monomial_integral(nv, v, e);
 
         return area;
     }
@@ -90,34 +89,26 @@ public static class MonteCarlo
         //
     {
         int i;
-        int k;
-        int l;
-        double nu_pq;
-        int p;
-        int q;
-        double s_pq;
-        double xi;
-        double xj;
-        double yi;
-        double yj;
 
-        p = e[0];
-        q = e[1];
+        int p = e[0];
+        int q = e[1];
 
-        nu_pq = 0.0;
+        double nu_pq = 0.0;
 
-        xj = v[0 + (nv - 1) * 2];
-        yj = v[1 + (nv - 1) * 2];
+        double xj = v[0 + (nv - 1) * 2];
+        double yj = v[1 + (nv - 1) * 2];
 
         for (i = 0; i < nv; i++)
         {
-            xi = v[0 + i * 2];
-            yi = v[1 + i * 2];
+            double xi = v[0 + i * 2];
+            double yi = v[1 + i * 2];
 
-            s_pq = 0.0;
+            double s_pq = 0.0;
 
+            int k;
             for (k = 0; k <= p; k++)
             {
+                int l;
                 for (l = 0; l <= q; l++)
                 {
                     s_pq += typeMethods.r8_choose(k + l, l) * typeMethods.r8_choose(p + q - k - l, q - l)
@@ -174,35 +165,24 @@ public static class MonteCarlo
         //    Output, double POLYGON_SAMPLE[2*N], the points.
         //
     {
-        double[] area_cumulative;
-        double area_polygon;
-        double[] area_relative;
-        double[] area_triangle;
-        double area_percent;
         int i;
         int j;
-        int k;
-        double[] r;
-        double[] s;
-        int[] triangles;
-        double[] x;
-        double[] y;
         //
         //  Triangulate the polygon.
         //
-        x = new double[nv];
-        y = new double[nv];
+        double[] x = new double[nv];
+        double[] y = new double[nv];
         for (i = 0; i < nv; i++)
         {
             x[i] = v[0 + i * 2];
             y[i] = v[1 + i * 2];
         }
 
-        triangles = polygon_triangulate(nv, x, y);
+        int[] triangles = polygon_triangulate(nv, x, y);
         //
         //  Determine the areas of each triangle.
         //
-        area_triangle = new double[nv - 2];
+        double[] area_triangle = new double[nv - 2];
 
         for (i = 0; i < nv - 2; i++)
         {
@@ -215,9 +195,9 @@ public static class MonteCarlo
         //
         //  Normalize the areas.
         //
-        area_polygon = typeMethods.r8vec_sum(nv - 2, area_triangle);
+        double area_polygon = typeMethods.r8vec_sum(nv - 2, area_triangle);
 
-        area_relative = new double[nv - 2];
+        double[] area_relative = new double[nv - 2];
 
         for (i = 0; i < nv - 2; i++)
         {
@@ -227,7 +207,7 @@ public static class MonteCarlo
         //
         //  Replace each area by the sum of itself and all previous ones.
         //
-        area_cumulative = new double[nv - 2];
+        double[] area_cumulative = new double[nv - 2];
 
         area_cumulative[0] = area_relative[0];
         for (i = 1; i < nv - 2; i++)
@@ -235,15 +215,16 @@ public static class MonteCarlo
             area_cumulative[i] = area_relative[i] + area_cumulative[i - 1];
         }
 
-        s = new double[2 * n];
+        double[] s = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
             //
             //  Choose triangle I at random, based on areas.
             //
-            area_percent = UniformRNG.r8_uniform_01(ref seed);
+            double area_percent = UniformRNG.r8_uniform_01(ref seed);
 
+            int k;
             for (k = 0; k < nv - 2; k++)
             {
                 i = k;
@@ -257,7 +238,7 @@ public static class MonteCarlo
             //
             //  Now choose a point at random in triangle I.
             //
-            r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+            double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
             switch (r[0] + r[1])
             {
@@ -325,20 +306,9 @@ public static class MonteCarlo
         //    triangulation.
         //
     {
-        double area;
-        bool[] ear;
-        int i;
-        int i0;
         int i1;
-        int i2;
         int i3;
-        int i4;
-        int[] next;
         int node;
-        int node_m1;
-        int[] prev;
-        int triangle_num;
-        int[] triangles;
         switch (n)
         {
             //
@@ -354,7 +324,7 @@ public static class MonteCarlo
         //
         //  Consecutive vertices cannot be equal.
         //
-        node_m1 = n - 1;
+        int node_m1 = n - 1;
         for (node = 0; node < n; node++)
         {
             if (Math.Abs(x[node_m1] - x[node]) <= double.Epsilon && Math.Abs(y[node_m1] - y[node]) <= double.Epsilon)
@@ -371,7 +341,7 @@ public static class MonteCarlo
         //
         //  Area must be positive.
         //
-        area = 0.0;
+        double area = 0.0;
         for (node = 0; node < n - 2; node++)
         {
             area += 0.5 *
@@ -390,16 +360,16 @@ public static class MonteCarlo
                 return null;
         }
 
-        triangles = new int[3 * (n - 2)];
+        int[] triangles = new int[3 * (n - 2)];
         //
         //  PREV and NEXT point to the previous and next nodes.
         //
-        prev = new int[n];
-        next = new int[n];
+        int[] prev = new int[n];
+        int[] next = new int[n];
 
-        i = 0;
+        int i = 0;
         prev[i] = n - 1;
-        next[i] = i + 1;
+        next[i] = 1;
 
         for (i = 1; i < n - 1; i++)
         {
@@ -414,15 +384,15 @@ public static class MonteCarlo
         //  EAR indicates whether the node and its immediate neighbors form an ear
         //  that can be sliced off immediately.
         //
-        ear = new bool[n];
+        bool[] ear = new bool[n];
         for (i = 0; i < n; i++)
         {
             ear[i] = Properties.diagonal(prev[i], next[i], n, prev, next, x, y);
         }
 
-        triangle_num = 0;
+        int triangle_num = 0;
 
-        i2 = 0;
+        int i2 = 0;
 
         while (triangle_num < n - 3)
         {
@@ -434,9 +404,9 @@ public static class MonteCarlo
                 //
                 case true:
                     i3 = next[i2];
-                    i4 = next[i3];
+                    int i4 = next[i3];
                     i1 = prev[i2];
-                    i0 = prev[i1];
+                    int i0 = prev[i1];
                     //
                     //  Make vertex I2 disappear.
                     //

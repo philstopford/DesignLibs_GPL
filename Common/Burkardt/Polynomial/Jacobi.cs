@@ -57,9 +57,6 @@ public static class Jacobi
     {
         int i;
         double i_r8;
-        double mu;
-        double nab;
-        double nu;
 
         switch (a)
         {
@@ -79,12 +76,12 @@ public static class Jacobi
                 return;
         }
 
-        nu = (b - a) / (a + b + 2.0);
+        double nu = (b - a) / (a + b + 2.0);
 
-        mu = Math.Pow(2.0, a + b + 1.0)
-             * typeMethods.r8_gamma(a + 1.0)
-             * typeMethods.r8_gamma(b + 1.0)
-             / typeMethods.r8_gamma(a + b + 2.0);
+        double mu = Math.Pow(2.0, a + b + 1.0)
+                    * typeMethods.r8_gamma(a + 1.0)
+                    * typeMethods.r8_gamma(b + 1.0)
+                    / typeMethods.r8_gamma(a + b + 2.0);
 
         alpha[0] = nu;
         beta[0] = mu;
@@ -110,7 +107,7 @@ public static class Jacobi
         for (i = 2; i < n; i++)
         {
             i_r8 = i + 1;
-            nab = 2.0 * (i_r8 - 1.0) + a + b;
+            double nab = 2.0 * (i_r8 - 1.0) + a + b;
             beta[i] = 4.0 * (i_r8 - 1.0 + a) * (i_r8 - 1.0 + b)
                       * (i_r8 - 1.0) * (i_r8 - 1.0 + a + b)
                       / nab / nab
@@ -198,13 +195,7 @@ public static class Jacobi
         //    Output, double J_POLYNOMIAL[M*(N+1)], the values.
         //
     {
-        double c1;
-        double c2;
-        double c3;
-        double c4;
         int i;
-        int j;
-        double[] v;
 
         switch (alpha)
         {
@@ -232,7 +223,7 @@ public static class Jacobi
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -253,21 +244,22 @@ public static class Jacobi
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 2; j <= n; j++)
             {
-                c1 = 2.0 * j * (j + alpha + beta)
-                     * (2 * j - 2 + alpha + beta);
+                double c1 = 2.0 * j * (j + alpha + beta)
+                            * (2 * j - 2 + alpha + beta);
 
-                c2 = (2 * j - 1 + alpha + beta)
-                     * (2 * j + alpha + beta)
-                     * (2 * j - 2 + alpha + beta);
+                double c2 = (2 * j - 1 + alpha + beta)
+                            * (2 * j + alpha + beta)
+                            * (2 * j - 2 + alpha + beta);
 
-                c3 = (2 * j - 1 + alpha + beta)
-                     * (alpha + beta) * (alpha - beta);
+                double c3 = (2 * j - 1 + alpha + beta)
+                            * (alpha + beta) * (alpha - beta);
 
-                c4 = -(double) 2 * (j - 1 + alpha)
-                                 * (j - 1 + beta)
-                                 * (2 * j + alpha + beta);
+                double c4 = -(double) 2 * (j - 1 + alpha)
+                                        * (j - 1 + beta)
+                                        * (2 * j + alpha + beta);
 
                 v[i + j * m] = ((c3 + c2 * x[i]) * v[i + (j - 1) * m] + c4 * v[i + (j - 2) * m]) / c1;
             }
@@ -320,14 +312,9 @@ public static class Jacobi
         //    Output, double POLS[N+1], the polynomial values.
         //
     {
-        double alpha;
-        double beta;
         int k;
-        double pk;
-        double pkm1;
-        double pkp1;
 
-        pkp1 = 1.0;
+        double pkp1 = 1.0;
         pols[polsIndex + 0] = pkp1;
 
         switch (n)
@@ -336,7 +323,7 @@ public static class Jacobi
                 return;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = a / 2.0 - b / 2.0
                + (1.0 + a / 2.0 + b / 2.0) * x;
         pols[polsIndex + 1] = pkp1;
@@ -349,15 +336,15 @@ public static class Jacobi
 
         for (k = 2; k <= n; k++)
         {
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
 
-            alpha = (2.0 * k + a + b - 1.0)
-                    * (a * a - b * b + (2.0 * k + a + b - 2.0)
-                        * (2.0 * k + a + b) * x);
+            double alpha = (2.0 * k + a + b - 1.0)
+                           * (a * a - b * b + (2.0 * k + a + b - 2.0)
+                               * (2.0 * k + a + b) * x);
 
-            beta = 2.0 * (k + a - 1.0) * (k + b - 1.0)
-                   * (2.0 * k + a + b);
+            double beta = 2.0 * (k + a - 1.0) * (k + b - 1.0)
+                          * (2.0 * k + a + b);
 
             pkp1 = (alpha * pk - beta * pkm1)
                    / (2.0 * k * (k + a + b)
@@ -414,22 +401,12 @@ public static class Jacobi
         //    Output, double DERS[N+1], the polynomial derivative values.
         //
     {
-        double alpha1;
-        double alpha2;
-        double beta;
-        double dk;
-        double dkm1;
-        double dkp1;
-        double gamma;
         int k;
-        double pk;
-        double pkm1;
-        double pkp1;
 
-        pkp1 = 1.0;
+        double pkp1 = 1.0;
         pols[0] = pkp1;
 
-        dkp1 = 0.0;
+        double dkp1 = 0.0;
         ders[0] = dkp1;
 
         switch (n)
@@ -438,12 +415,12 @@ public static class Jacobi
                 return;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = a / 2.0 - b / 2.0
                + (1.0 + a / 2.0 + b / 2.0) * x;
         pols[1] = pkp1;
 
-        dk = dkp1;
+        double dk = dkp1;
         dkp1 = 1.0 + a / 2.0 + b / 2.0;
         ders[1] = dkp1;
 
@@ -455,19 +432,19 @@ public static class Jacobi
 
         for (k = 2; k <= n; k++)
         {
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
-            dkm1 = dk;
+            double dkm1 = dk;
             dk = dkp1;
 
-            alpha1 = (2.0 * k + a + b - 1.0) * (a * a - b * b);
-            alpha2 = (2.0 * k + a + b - 1.0)
-                     * ((2.0 * k + a + b - 2.0)
-                        * (2.0 * k + a + b));
-            beta = 2.0 * (k + a - 1.0) * (k + b - 1.0)
-                   * (2.0 * k + a + b);
-            gamma = 2.0 * k * (k + a + b)
-                    * (2.0 * k + a + b - 2.0);
+            double alpha1 = (2.0 * k + a + b - 1.0) * (a * a - b * b);
+            double alpha2 = (2.0 * k + a + b - 1.0)
+                            * ((2.0 * k + a + b - 2.0)
+                               * (2.0 * k + a + b));
+            double beta = 2.0 * (k + a - 1.0) * (k + b - 1.0)
+                          * (2.0 * k + a + b);
+            double gamma = 2.0 * k * (k + a + b)
+                           * (2.0 * k + a + b - 2.0);
             pkp1 = ((alpha1 + alpha2 * x) * pk - beta * pkm1) / gamma;
             dkp1 = ((alpha1 + alpha2 * x) * dk
                 - beta * dkm1 + alpha2 * pk) / gamma;
@@ -556,11 +533,6 @@ public static class Jacobi
         //    polynomials at the point X.
         //
     {
-        double c1;
-        double c2;
-        double c3;
-        double c4;
-        double[] cx;
         int i;
 
         switch (alpha)
@@ -589,7 +561,7 @@ public static class Jacobi
                 return null;
         }
 
-        cx = new double[n + 1];
+        double[] cx = new double[n + 1];
 
         cx[0] = 1.0;
 
@@ -604,19 +576,19 @@ public static class Jacobi
 
         for (i = 2; i <= n; i++)
         {
-            c1 = 2.0 * i * (i + alpha + beta)
-                 * (2 * i - 2 + alpha + beta);
+            double c1 = 2.0 * i * (i + alpha + beta)
+                        * (2 * i - 2 + alpha + beta);
 
-            c2 = (2 * i - 1 + alpha + beta)
-                 * (2 * i + alpha + beta)
-                 * (2 * i - 2 + alpha + beta);
+            double c2 = (2 * i - 1 + alpha + beta)
+                        * (2 * i + alpha + beta)
+                        * (2 * i - 2 + alpha + beta);
 
-            c3 = (2 * i - 1 + alpha + beta)
-                 * (alpha + beta) * (alpha - beta);
+            double c3 = (2 * i - 1 + alpha + beta)
+                        * (alpha + beta) * (alpha - beta);
 
-            c4 = -(double)2 * (i - 1 + alpha)
-                            * (i - 1 + beta)
-                            * (2 * i + alpha + beta);
+            double c4 = -(double)2 * (i - 1 + alpha)
+                                   * (i - 1 + beta)
+                                   * (2 * i + alpha + beta);
 
             cx[i] = ((c3 + c2 * x) * cx[i - 1] + c4 * cx[i - 2]) / c1;
         }
@@ -671,21 +643,18 @@ public static class Jacobi
         //    Input, double B[ORDER], C[ORDER], the recursion coefficients.
         //
     {
-        double dp0;
-        double dp1;
         int i;
-        double p0;
 
         p1 = 1.0;
-        dp1 = 0.0;
+        double dp1 = 0.0;
 
         p2 = x + (alpha - beta) / (alpha + beta + 2.0);
         dp2 = 1.0;
 
         for (i = 2; i <= order; i++)
         {
-            p0 = p1;
-            dp0 = dp1;
+            double p0 = p1;
+            double dp0 = dp1;
 
             p1 = p2;
             dp1 = dp2;
@@ -741,19 +710,17 @@ public static class Jacobi
         //    Input, double B[ORDER], C[ORDER], the recursion coefficients.
         //
     {
-        double d;
-        double eps;
         double p2 = 0;
         int step;
-        int step_max = 10;
+        const int step_max = 10;
 
-        eps = typeMethods.r8_epsilon();
+        double eps = typeMethods.r8_epsilon();
 
         for (step = 1; step <= step_max; step++)
         {
             jacobi_recur(ref p2, ref dp2, ref p1, x, order, alpha, beta, b, c);
 
-            d = p2 / dp2;
+            double d = p2 / dp2;
             x -= d;
 
             if (Math.Abs(d) <= eps * (Math.Abs(x) + 1.0))
@@ -801,34 +768,26 @@ public static class Jacobi
         //    Output, double J_POLYNOMIAL_ZEROS[N], the zeros.
         //
     {
-        double a2b2;
-        double ab;
-        double abi;
-        double[] bj;
         int i;
-        double i_r8;
-        double[] w;
-        double[] x;
-        double zemu;
 
-        ab = alpha + beta;
-        abi = 2.0 + ab;
+        double ab = alpha + beta;
+        double abi = 2.0 + ab;
         //
         //  Define the zero-th moment.
         //
-        zemu = Math.Pow(2.0, ab + 1.0) * Helpers.Gamma(alpha + 1.0)
-                                       * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
+        double zemu = Math.Pow(2.0, ab + 1.0) * Helpers.Gamma(alpha + 1.0)
+                                              * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
         //
         //  Define the Jacobi matrix.
         //
-        x = new double[n];
+        double[] x = new double[n];
         x[0] = (beta - alpha) / abi;
         for (i = 1; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        bj = new double[n];
+        double[] bj = new double[n];
 
         bj[0] = 4.0 * (1.0 + alpha) * (1.0 + beta)
                 / ((abi + 1.0) * abi * abi);
@@ -837,11 +796,11 @@ public static class Jacobi
             bj[i] = 0.0;
         }
 
-        a2b2 = beta * beta - alpha * alpha;
+        double a2b2 = beta * beta - alpha * alpha;
 
         for (i = 1; i < n; i++)
         {
-            i_r8 = i + 1;
+            double i_r8 = i + 1;
             abi = 2.0 * i_r8 + ab;
             x[i] = a2b2 / ((abi - 2.0) * abi);
             abi *= abi;
@@ -854,7 +813,7 @@ public static class Jacobi
             bj[i] = Math.Sqrt(bj[i]);
         }
 
-        w = new double[n];
+        double[] w = new double[n];
 
         w[0] = Math.Sqrt(zemu);
         for (i = 1; i < n; i++)

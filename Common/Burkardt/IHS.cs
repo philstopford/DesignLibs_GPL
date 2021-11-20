@@ -5,7 +5,8 @@ namespace Burkardt.IHSNS;
 
 public class covariance
 {
-    public double average, std, covc;
+    public double average, std;
+    public readonly double covc;
 
     public covariance(int dim_num, int n, int[] x)
     {

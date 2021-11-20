@@ -36,9 +36,7 @@ public static partial class SobolSampler
     {
         double[] r = new double[m*n];
 
-        int seed = skip;
-
-        SobolConfigLarge config = new(m) {seed = seed};
+        SobolConfigLarge config = new(m) {seed = skip};
 
         for (int j = 0; j < n; j++ )
         {

@@ -205,15 +205,14 @@ public static class Congruence
             y = (1 - x * q[k - 2]) / q[k - 1];
         }
 
-        switch (swap)
+        (x, y) = swap switch
         {
             //
             //  Step 5: Undo the swapping.
             //
-            case true:
-                (x, y) = (y, x);
-                break;
-        }
+            true => (y, x),
+            _ => (x, y)
+        };
 
         //
         //  Step 6: Now apply signs to X and Y so that X * A + Y * B = 1.

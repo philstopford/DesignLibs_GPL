@@ -114,7 +114,7 @@ public static class Misc
         //    Euler-Mascheroni constant.
         //
     {
-        double value = 0.577215664901532860606512090082402431042;
+        const double value = 0.577215664901532860606512090082402431042;
 
         return value;
     }

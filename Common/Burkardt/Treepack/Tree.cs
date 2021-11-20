@@ -315,7 +315,6 @@ public static class Tree
         int i;
         int invals;
         int j;
-        int k;
 
         for (i = 0; i < nnode; i++)
         {
@@ -384,6 +383,7 @@ public static class Tree
                 degree[j - 1] = 0;
             }
 
+            int k;
             for (j = 1; j <= nedge; j++)
             {
                 k = inode[j - 1];

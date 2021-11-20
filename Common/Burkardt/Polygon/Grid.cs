@@ -36,9 +36,7 @@ public static class Grid
         //    Output, int POLYGON_GRID_COUNT, the number of grid points.
         //
     {
-        int ng;
-
-        ng = 1 + nv * n * (n + 1) / 2;
+        int ng = 1 + nv * n * (n + 1) / 2;
 
         return ng;
     }
@@ -80,14 +78,10 @@ public static class Grid
         //
     {
         List<string> command_unit = new();
-        string command_filename;
         List<string> grid_unit = new();
-        string grid_filename;
         int j;
-        string plot_filename;
         double[] vc = new double[2];
         List<string> vertex_unit = new();
-        string vertex_filename;
         //
         //  Determine the centroid.
         //
@@ -104,7 +98,7 @@ public static class Grid
         //
         //  Write the vertex file.
         //
-        vertex_filename = prefix + "_vertex.txt";
+        string vertex_filename = prefix + "_vertex.txt";
 
         for (j = 0; j < nv; j++)
         {
@@ -112,8 +106,8 @@ public static class Grid
                                  + "  " + v[1 + 2 * j] + "");
         }
 
-        vertex_unit.Add("  " + v[0 + 0 * j]
-                             + "  " + v[1 + 0 * j] + "");
+        vertex_unit.Add("  " + v[0]
+                             + "  " + v[1] + "");
         for (j = 0; j < nv; j++)
         {
             vertex_unit.Add("");
@@ -129,7 +123,7 @@ public static class Grid
         //
         //  Write the gridpoint file.
         //
-        grid_filename = prefix + "_grid.txt";
+        string grid_filename = prefix + "_grid.txt";
         for (j = 0; j < ng; j++)
         {
             grid_unit.Add("  " + xg[0 + j * 2]
@@ -142,9 +136,9 @@ public static class Grid
         //
         //  Write the command file.
         //
-        plot_filename = prefix + ".png";
+        string plot_filename = prefix + ".png";
 
-        command_filename = prefix + "_commands.txt";
+        string command_filename = prefix + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -205,17 +199,12 @@ public static class Grid
         //    grid points.
         //
     {
-        int i;
         int j;
-        int k;
         int l;
-        int lp1;
-        int p;
         double[] vc = new double[2];
-        double[] xg;
 
-        xg = new double[2 * ng];
-        p = 0;
+        double[] xg = new double[2 * ng];
+        int p = 0;
         //
         //  Determine the centroid.
         //
@@ -232,8 +221,8 @@ public static class Grid
         //
         //  The centroid is the first point.
         //
-        xg[0 + p * 2] = vc[0];
-        xg[1 + p * 2] = vc[1];
+        xg[0] = vc[0];
+        xg[1] = vc[1];
         p += 1;
         //
         //  Consider each triangle formed by two consecutive vertices and the centroid,
@@ -241,12 +230,13 @@ public static class Grid
         //
         for (l = 0; l < nv; l++)
         {
-            lp1 = (l + 1) % nv;
+            int lp1 = (l + 1) % nv;
+            int i;
             for (i = 1; i <= n; i++)
             {
                 for (j = 0; j <= n - i; j++)
                 {
-                    k = n - i - j;
+                    int k = n - i - j;
                     xg[0 + p * 2] = (i * v[0 + l * 2]
                                      + j * v[0 + lp1 * 2]
                                      + k * vc[0])

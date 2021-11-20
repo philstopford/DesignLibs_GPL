@@ -281,12 +281,14 @@ public static class MINFIT
                         break;
                     }
 
-                    if (1 < l)
+                    if (1 >= l)
                     {
-                        if (Math.Abs(q[l - 2]) <= eps)
-                        {
-                            break;
-                        }
+                        continue;
+                    }
+
+                    if (Math.Abs(q[l - 2]) <= eps)
+                    {
+                        break;
                     }
                 }
 

@@ -207,17 +207,19 @@ public static class Grid_ClenshawCurtis
                 int point;
                 for (point = 0; point < order_nd; point++)
                 {
-                    if (grid_level[point] == level)
+                    if (grid_level[point] != level)
                     {
-                        int dim;
-                        for (dim = 0; dim < dim_num; dim++)
-                        {
-                            grid_index[dim + point_num2 * dim_num] =
-                                grid_index2[dim + point * dim_num];
-                        }
-
-                        point_num2 += 1;
+                        continue;
                     }
+
+                    int dim;
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        grid_index[dim + point_num2 * dim_num] =
+                            grid_index2[dim + point * dim_num];
+                    }
+
+                    point_num2 += 1;
                 }
 
                 if (!more)
@@ -479,20 +481,23 @@ public static class Grid_ClenshawCurtis
                         int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            if (grid_index2[dim + point2 * dim_num] !=
-                                grid_index[dim + point * dim_num])
+                            if (grid_index2[dim + point2 * dim_num] == grid_index[dim + point * dim_num])
                             {
-                                all_equal = false;
-                                break;
+                                continue;
                             }
-                        }
 
-                        if (all_equal)
-                        {
-                            grid_weight[point] += coeff * grid_weight2[point2];
-                            found = true;
+                            all_equal = false;
                             break;
                         }
+
+                        if (!all_equal)
+                        {
+                            continue;
+                        }
+
+                        grid_weight[point] += coeff * grid_weight2[point2];
+                        found = true;
+                        break;
                     }
 
                     switch (found)

@@ -111,7 +111,7 @@ public static class Pyramid
         //    Output, double PYRA_UNIT_VOLUME, the volume of the pyramid.
         //
     {
-        double volume = 4.0 / 3.0;
+        const double volume = 4.0 / 3.0;
 
         return volume;
     }

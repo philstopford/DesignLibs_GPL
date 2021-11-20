@@ -227,12 +227,7 @@ public static partial class Ranking
         // 
         //  The entries must add up to N.
         // 
-        if (typeMethods.i4vec_sum(npart, a) != n)
-        {
-            return false;
-        }
-
-        return true;
+        return typeMethods.i4vec_sum(npart, a) == n;
     }
 
     public static int[] part_sf_conjugate(int n, int npart, int[] a, ref int npart2 )
@@ -554,29 +549,31 @@ public static partial class Ranking
 
         for (i = ihi; 2 <= i; i--)
         {
-            if (a[i - 1] < a[i - 2])
+            if (a[i - 1] >= a[i - 2])
             {
-                int asum = -1;
-                for (j = i + 1; j <= npart; j++)
-                {
-                    asum += a[j - 1];
-                }
-
-                a[i - 1] += 1;
-                for (j = i + 1; j <= npart; j++)
-                {
-                    a[j - 1] = 0;
-                }
-
-                npart = i + asum;
-                for (j = i + 1; j <= npart; j++)
-                {
-                    a[j - 1] = 1;
-                }
-
-                rank += 1;
-                return;
+                continue;
             }
+
+            int asum = -1;
+            for (j = i + 1; j <= npart; j++)
+            {
+                asum += a[j - 1];
+            }
+
+            a[i - 1] += 1;
+            for (j = i + 1; j <= npart; j++)
+            {
+                a[j - 1] = 0;
+            }
+
+            npart = i + asum;
+            for (j = i + 1; j <= npart; j++)
+            {
+                a[j - 1] = 1;
+            }
+
+            rank += 1;
+            return;
         }
 
         switch (npart)

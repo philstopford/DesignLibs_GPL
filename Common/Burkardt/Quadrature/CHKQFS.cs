@@ -243,7 +243,7 @@ public static class CHKQFS
                 for (jl = 2; jl <= Math.Min(mlt[k - 1], mex - j + 1); jl++)
                 {
                     int kjl = j + jl - 1;
-                    tmpx *= (kjl - 1);
+                    tmpx *= kjl - 1;
                     qm[kjl - 1] += tmpx * wts[l + jl - 2] / px;
                     switch (key)
                     {
@@ -267,7 +267,7 @@ public static class CHKQFS
         //
         //  For some strange weight functions W(1) may vanish.
         //
-        erest /= (Math.Abs(w[0]) + 1.0);
+        erest /= Math.Abs(w[0]) + 1.0;
 
         switch (lo)
         {

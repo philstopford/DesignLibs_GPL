@@ -304,8 +304,7 @@ public static partial class typeMethods
                 int j;
                 for (j = 0; j < 4; j++)
                 {
-                    int inc;
-                    inc = j < k ? 0 : 1;
+                    int inc = j < k ? 0 : 1;
 
                     b[i + j * 4] = a[i + 1 + (j + inc) * 5];
                 }

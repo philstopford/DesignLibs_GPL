@@ -136,9 +136,7 @@ public static class InverseGaussian
         //    Output, double INVERSE_GAUSSIAN_MEAN, the mean of the PDF.
         //
     {
-        double mean = a;
-
-        return mean;
+        return a;
     }
 
     public static double inverse_gaussian_pdf(double x, double a, double b)

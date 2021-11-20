@@ -783,7 +783,7 @@ public static class English
 
         double pdf = x switch
         {
-            >= 1 when x <= SENTENCE_LENGTH_MAX => pdf_vec[x - 1] / pdf_sum,
+            >= 1 and <= SENTENCE_LENGTH_MAX => pdf_vec[x - 1] / pdf_sum,
             _ => 0.0
         };
 
@@ -1306,7 +1306,7 @@ public static class English
 
         double pdf = x switch
         {
-            >= 1 when x <= WORD_LENGTH_MAX => pdf_vec[x - 1] / pdf_sum,
+            >= 1 and <= WORD_LENGTH_MAX => pdf_vec[x - 1] / pdf_sum,
             _ => 0.0
         };
 

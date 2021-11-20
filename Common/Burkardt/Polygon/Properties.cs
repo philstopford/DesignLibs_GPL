@@ -50,13 +50,11 @@ public static class Properties
         //
     {
         int i;
-        double norm;
-        double[] p4;
 
-        p4 = new double[2];
+        double[] p4 = new double[2];
 
-        norm = Math.Sqrt((p1[p1Index + 0] - p2[p2Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
-                         + (p1[p1Index + 1] - p2[p2Index + 1]) * (p1[p1Index + 1] - p2[p2Index + 1]));
+        double norm = Math.Sqrt((p1[p1Index + 0] - p2[p2Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
+                                + (p1[p1Index + 1] - p2[p2Index + 1]) * (p1[p1Index + 1] - p2[p2Index + 1]));
 
         for (i = 0; i < 2; i++)
         {
@@ -129,7 +127,7 @@ public static class Properties
     {
         double[] p = new double[2];
             
-        double value = 0;
+        double value;
 
         p[0] = (p3[p3Index + 0] - p2[p2Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
                + (p3[p3Index + 1] - p2[p2Index + 1]) * (p1[p1Index + 1] - p2[p2Index + 1]);
@@ -203,10 +201,6 @@ public static class Properties
         //
     {
         bool value;
-        double xmax;
-        double xmin;
-        double ymax;
-        double ymin;
 
         if (!collinear(xa, ya, xb, yb, xc, yc))
         {
@@ -214,14 +208,14 @@ public static class Properties
         }
         else if (Math.Abs(ya - yb) < Math.Abs(xa - xb))
         {
-            xmax = Math.Max(xa, xb);
-            xmin = Math.Min(xa, xb);
+            double xmax = Math.Max(xa, xb);
+            double xmin = Math.Min(xa, xb);
             value = xmin <= xc && xc <= xmax;
         }
         else
         {
-            ymax = Math.Max(ya, yb);
-            ymin = Math.Min(ya, yb);
+            double ymax = Math.Max(ya, yb);
+            double ymin = Math.Min(ya, yb);
             value = ymin <= yc && yc <= ymax;
         }
 
@@ -278,23 +272,18 @@ public static class Properties
         //    to be collinear.
         //
     {
-        double area;
         const double r8_eps = 2.220446049250313E-016;
-        double side_ab_sq;
-        double side_bc_sq;
-        double side_ca_sq;
-        double side_max_sq;
         bool value;
 
-        area = 0.5 * (
+        double area = 0.5 * (
             (xb - xa) * (yc - ya)
             - (xc - xa) * (yb - ya));
 
-        side_ab_sq = Math.Pow(xa - xb, 2) + Math.Pow(ya - yb, 2);
-        side_bc_sq = Math.Pow(xb - xc, 2) + Math.Pow(yb - yc, 2);
-        side_ca_sq = Math.Pow(xc - xa, 2) + Math.Pow(yc - ya, 2);
+        double side_ab_sq = Math.Pow(xa - xb, 2) + Math.Pow(ya - yb, 2);
+        double side_bc_sq = Math.Pow(xb - xc, 2) + Math.Pow(yb - yc, 2);
+        double side_ca_sq = Math.Pow(xc - xa, 2) + Math.Pow(yc - ya, 2);
 
-        side_max_sq = Math.Max(side_ab_sq, Math.Max(side_bc_sq, side_ca_sq));
+        double side_max_sq = Math.Max(side_ab_sq, Math.Max(side_bc_sq, side_ca_sq));
 
         switch (side_max_sq)
         {
@@ -303,14 +292,7 @@ public static class Properties
                 break;
             default:
             {
-                if (2.0 * Math.Abs(area) <= r8_eps * side_max_sq)
-                {
-                    value = true;
-                }
-                else
-                {
-                    value = false;
-                }
+                value = 2.0 * Math.Abs(area) <= r8_eps * side_max_sq;
 
                 break;
             }
@@ -364,16 +346,11 @@ public static class Properties
         //    Output, bool DIAGONAL, the value of the test.
         //
     {
-        bool value;
-        bool value1;
-        bool value2;
-        bool value3;
+        bool value1 = in_cone(im1, ip1, n, prev, next, x, y);
+        bool value2 = in_cone(ip1, im1, n, prev, next, x, y);
+        bool value3 = diagonalie(im1, ip1, n, next, x, y);
 
-        value1 = in_cone(im1, ip1, n, prev, next, x, y);
-        value2 = in_cone(ip1, im1, n, prev, next, x, y);
-        value3 = diagonalie(im1, ip1, n, next, x, y);
-
-        value = value1 && value2 && value3;
+        bool value = value1 && value2 && value3;
 
         return value;
     }
@@ -420,17 +397,10 @@ public static class Properties
         //    Output, bool DIAGONALIE, the value of the test.
         //
     {
-        int first;
-        int j;
-        int jp1;
-        bool value;
-        bool value2;
+        int j = im1;
+        int jp1 = next[im1];
 
-        first = im1;
-        j = first;
-        jp1 = next[first];
-
-        value = true;
+        bool value = true;
         //
         //  For each edge VERTEX(J):VERTEX(JP1) of the polygon:
         //
@@ -444,7 +414,7 @@ public static class Properties
             }
             else
             {
-                value2 = intersect(x[im1], y[im1], x[ip1], y[ip1], x[j], y[j],
+                bool value2 = intersect(x[im1], y[im1], x[ip1], y[ip1], x[j], y[j],
                     x[jp1], y[jp1]);
 
                 if (value2)
@@ -457,7 +427,7 @@ public static class Properties
             j = jp1;
             jp1 = next[j];
 
-            if (j == first)
+            if (j == im1)
             {
                 break;
             }
@@ -511,30 +481,23 @@ public static class Properties
         //    Output, bool IN_CONE, the value of the test.
         //
     {
-        int i;
-        int im2;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
-        double t5;
         bool value;
 
-        im2 = prev[im1];
-        i = next[im1];
+        int im2 = prev[im1];
+        int i = next[im1];
 
-        t1 = triangle_area(x[im1], y[im1], x[i], y[i], x[im2], y[im2]);
+        double t1 = triangle_area(x[im1], y[im1], x[i], y[i], x[im2], y[im2]);
 
         switch (t1)
         {
             case >= 0.0:
-                t2 = triangle_area(x[im1], y[im1], x[ip1], y[ip1], x[im2], y[im2]);
-                t3 = triangle_area(x[ip1], y[ip1], x[im1], y[im1], x[i], y[i]);
+                double t2 = triangle_area(x[im1], y[im1], x[ip1], y[ip1], x[im2], y[im2]);
+                double t3 = triangle_area(x[ip1], y[ip1], x[im1], y[im1], x[i], y[i]);
                 value = 0.0 < t2 && 0.0 < t3;
                 break;
             default:
-                t4 = triangle_area(x[im1], y[im1], x[ip1], y[ip1], x[i], y[i]);
-                t5 = triangle_area(x[ip1], y[ip1], x[im1], y[im1], x[im2], y[im2]);
+                double t4 = triangle_area(x[im1], y[im1], x[ip1], y[ip1], x[i], y[i]);
+                double t5 = triangle_area(x[ip1], y[ip1], x[im1], y[im1], x[im2], y[im2]);
                 value = !(0.0 <= t4 && 0.0 <= t5);
                 break;
         }
@@ -648,15 +611,7 @@ public static class Properties
         //    Output, bool INTERSECT_PROP, the result of the test.
         //
     {
-        double t1;
-        double t2;
-        double t3;
-        double t4;
         bool value;
-        bool value1;
-        bool value2;
-        bool value3;
-        bool value4;
 
         if (collinear(xa, ya, xb, yb, xc, yc))
         {
@@ -676,15 +631,15 @@ public static class Properties
         }
         else
         {
-            t1 = triangle_area(xa, ya, xb, yb, xc, yc);
-            t2 = triangle_area(xa, ya, xb, yb, xd, yd);
-            t3 = triangle_area(xc, yc, xd, yd, xa, ya);
-            t4 = triangle_area(xc, yc, xd, yd, xb, yb);
+            double t1 = triangle_area(xa, ya, xb, yb, xc, yc);
+            double t2 = triangle_area(xa, ya, xb, yb, xd, yd);
+            double t3 = triangle_area(xc, yc, xd, yd, xa, ya);
+            double t4 = triangle_area(xc, yc, xd, yd, xb, yb);
 
-            value1 = 0.0 < t1;
-            value2 = 0.0 < t2;
-            value3 = 0.0 < t3;
-            value4 = 0.0 < t4;
+            bool value1 = 0.0 < t1;
+            bool value2 = 0.0 < t2;
+            bool value3 = 0.0 < t3;
+            bool value4 = 0.0 < t4;
 
             value = l4_xor(value1, value2) && l4_xor(value3, value4);
         }
@@ -723,14 +678,10 @@ public static class Properties
         //    Output, bool L4_XOR, the exclusive OR of L1 and L2.
         //
     {
-        bool value;
-        bool value1;
-        bool value2;
+        bool value1 = l1 && !l2;
+        bool value2 = !l1 && l2;
 
-        value1 = l1 && !l2;
-        value2 = !l1 && l2;
-
-        value = value1 || value2;
+        bool value = value1 || value2;
 
         return value;
     }
@@ -769,10 +720,7 @@ public static class Properties
         //    in radians.
         //
     {
-        double[] angle;
         int i;
-        int im1;
-        int ip1;
 
         switch (n)
         {
@@ -780,7 +728,7 @@ public static class Properties
                 return null;
         }
 
-        angle = new double[n];
+        double[] angle = new double[n];
 
         switch (n)
         {
@@ -797,8 +745,8 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = typeMethods.i4_wrap(i - 1, 0, n - 1);
-            ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
+            int im1 = typeMethods.i4_wrap(i - 1, 0, n - 1);
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
 
             angle[i] = angle_rad(v, v, v, p1Index: + im1 * 2, p2Index: + i * 2, p3Index: + ip1 * 2);
         }
@@ -844,17 +792,14 @@ public static class Properties
         //    Output, double POLYGON_AREA, the area of the polygon.
         //
     {
-        double area;
         int i;
-        int im1;
-        int ip1;
 
-        area = 0.0;
+        double area = 0.0;
 
         for (i = 0; i < n; i++)
         {
-            im1 = i - 1;
-            ip1 = i + 1;
+            int im1 = i - 1;
+            int ip1 = i + 1;
 
             im1 = im1 switch
             {
@@ -923,15 +868,13 @@ public static class Properties
         //    Output, double POLYGON_AREA_2, the area of the polygon.
         //
     {
-        double area;
-        double area_triangle;
         int i;
 
-        area = 0.0;
+        double area = 0.0;
 
         for (i = 0; i < n - 2; i++)
         {
-            area_triangle = triangle_area(
+            double area_triangle = triangle_area(
                 v[0 + i * 2], v[1 + i * 2],
                 v[0 + (i + 1) * 2], v[1 + (i + 1) * 2],
                 v[0 + (n - 1) * 2], v[1 + (n - 1) * 2]);
@@ -1003,15 +946,11 @@ public static class Properties
         //    Output, double[] POLYGON_CENTROID[2], the coordinates of the centroid.
         //
     {
-        double area;
-        double[] centroid;
         int i;
-        int ip1;
         int j;
-        double temp;
 
-        area = 0.0;
-        centroid = new double[2];
+        double area = 0.0;
+        double[] centroid = new double[2];
 
         for (j = 0; j < 2; j++)
         {
@@ -1020,6 +959,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
+            int ip1;
             if (i < n - 1)
             {
                 ip1 = i + 1;
@@ -1029,7 +969,7 @@ public static class Properties
                 ip1 = 0;
             }
 
-            temp = v[0 + i * 2] * v[1 + ip1 * 2] - v[0 + ip1 * 2] * v[1 + i * 2];
+            double temp = v[0 + i * 2] * v[1 + ip1 * 2] - v[0 + ip1 * 2] * v[1 + i * 2];
 
             area += temp;
 
@@ -1087,14 +1027,11 @@ public static class Properties
         //    Output, double POLYGON_CENTROID_2[2], the coordinates of the centroid.
         //
     {
-        double area;
-        double area_triangle;
-        double[] centroid;
         int i;
         int j;
 
-        area = 0.0;
-        centroid = new double[2];
+        double area = 0.0;
+        double[] centroid = new double[2];
 
         for (j = 0; j < 2; j++)
         {
@@ -1103,7 +1040,7 @@ public static class Properties
 
         for (i = 0; i < n - 2; i++)
         {
-            area_triangle = triangle_area(
+            double area_triangle = triangle_area(
                 v[0 + i * 2], v[1 + i * 2],
                 v[0 + (i + 1) * 2], v[1 + (i + 1) * 2],
                 v[0 + (n - 1) * 2], v[1 + (n - 1) * 2]);
@@ -1168,19 +1105,16 @@ public static class Properties
         //
     {
         int i;
-        bool value;
-        double x1;
-        double x2;
-        double y1;
-        double y2;
 
-        value = false;
+        bool value = false;
 
         for (i = 0; i < n; i++)
         {
-            x1 = v[0 + i * 2];
-            y1 = v[1 + i * 2];
+            double x1 = v[0 + i * 2];
+            double y1 = v[1 + i * 2];
 
+            double x2;
+            double y2;
             if (i < n - 1)
             {
                 x2 = v[0 + (i + 1) * 2];
@@ -1303,20 +1237,17 @@ public static class Properties
         //    Output, double POLYGON_DIAMETER, the diameter of the polygon.
         //
     {
-        double diameter;
         int i;
-        int j;
-        double t;
 
-        diameter = 0.0;
+        double diameter = 0.0;
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = i + 1; j < n; j++)
             {
-                t =
-                    Math.Sqrt((v[0 + i * 2] - v[0 + j * 2]) * (v[0 + i * 2] - v[0 + j * 2])
-                              + (v[1 + i * 2] - v[1 + j * 2]) * (v[1 + i * 2] - v[1 + j * 2]));
+                double t = Math.Sqrt((v[0 + i * 2] - v[0 + j * 2]) * (v[0 + i * 2] - v[0 + j * 2])
+                                     + (v[1 + i * 2] - v[1 + j * 2]) * (v[1 + i * 2] - v[1 + j * 2]));
                 if (diameter < t)
                 {
                     diameter = t;
@@ -1368,23 +1299,16 @@ public static class Properties
         //    Output, double POLYGON_EXPAND[2*N], the "expanded" coordinates.
         //
     {
-        double angle;
-        double h2;
-        int i;
         int j;
-        int jm1;
-        int jp1;
-        double[] p4;
-        double[] w;
 
-        w = new double[2 * n];
+        double[] w = new double[2 * n];
         //
         //  Consider each angle, formed by the nodes P(I-1), P(I), P(I+1).
         //
         for (j = 0; j < n; j++)
         {
-            jm1 = typeMethods.i4_wrap(j - 1, 0, n - 1);
-            jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
+            int jm1 = typeMethods.i4_wrap(j - 1, 0, n - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
             //
             //        P1
             //        /
@@ -1393,17 +1317,18 @@ public static class Properties
             //     / .
             //    P2--------->P3
             //
-            p4 = angle_half(v, v, v, p1Index: + jm1 * 2, p2Index: + j * 2, p3Index: + jp1 * 2);
+            double[] p4 = angle_half(v, v, v, p1Index: + jm1 * 2, p2Index: + j * 2, p3Index: + jp1 * 2);
             //
             //  Compute the value of the half angle.
             //
-            angle = angle_rad(v, v, p4, p1Index: + jm1 * 2, p2Index: + j * 2);
+            double angle = angle_rad(v, v, p4, p1Index: + jm1 * 2, p2Index: + j * 2);
             //
             //  The stepsize along the ray must be adjusted so that the sides
             //  move out by H.
             //
-            h2 = h / Math.Sin(angle);
+            double h2 = h / Math.Sin(angle);
 
+            int i;
             for (i = 0; i < 2; i++)
             {
                 w[i + j * 2] = v[i + j * 2] - h2 * (p4[i] - v[i + j * 2]);
@@ -1453,9 +1378,6 @@ public static class Properties
         //    Output, double &SIDE, the length of one side of the polygon.
         //
     {
-        double angle;
-            
-
         switch (n)
         {
             case < 3:
@@ -1466,7 +1388,7 @@ public static class Properties
                 return;
         }
 
-        angle = Math.PI / n;
+        double angle = Math.PI / n;
         area = n * radin * radin * Math.Tan(angle);
         side = 2.0 * radin * Math.Tan(angle);
         radout = 0.5 * side / Math.Sin(angle);
@@ -1521,10 +1443,8 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1538,7 +1458,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1596,10 +1516,8 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1613,7 +1531,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1676,10 +1594,8 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1693,7 +1609,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1760,10 +1676,8 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1777,7 +1691,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1843,10 +1757,8 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1860,7 +1772,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -1924,10 +1836,8 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double result;
 
-        result = 0.0;
+        double result = 0.0;
 
         switch (n)
         {
@@ -1941,7 +1851,7 @@ public static class Properties
 
         for (i = 0; i < n; i++)
         {
-            im1 = i switch
+            int im1 = i switch
             {
                 0 => n - 1,
                 _ => i - 1
@@ -2011,23 +1921,16 @@ public static class Properties
         //     2, the polygon is convex and clockwise.
         //
     {
-        int NOT_CONVEX = -1;
-        int DEGENERATE_CONVEX = 0;
-        int CONVEX_CCW = 1;
-        int CONVEX_CW = 2;
+        const int NOT_CONVEX = -1;
+        const int DEGENERATE_CONVEX = 0;
+        const int CONVEX_CCW = 1;
+        const int CONVEX_CW = 2;
 
-        double angle;
-        double cross;
-        double dot;
-        double exterior_total;
         int i;
-        int ip1;
-        int ip2;
-        double sense;
-        double TOL = 1.0;
+        const double TOL = 1.0;
         int value = 0;
 
-        exterior_total = 0.0;
+        double exterior_total = 0.0;
         switch (n)
         {
             //
@@ -2037,22 +1940,22 @@ public static class Properties
                 return DEGENERATE_CONVEX;
         }
 
-        sense = 0.0;
+        double sense = 0.0;
         //
         //  Consider each polygonal vertex I.
         //
         for (i = 0; i < n; i++)
         {
-            ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
-            ip2 = typeMethods.i4_wrap(i + 2, 0, n - 1);
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
+            int ip2 = typeMethods.i4_wrap(i + 2, 0, n - 1);
 
-            dot = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[0 + i * 2] - v[0 + ip1 * 2])
-                  + (v[1 + ip2 * 2] - v[1 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2]);
+            double dot = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[0 + i * 2] - v[0 + ip1 * 2])
+                         + (v[1 + ip2 * 2] - v[1 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2]);
 
-            cross = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2])
-                    - (v[0 + i * 2] - v[0 + ip1 * 2]) * (v[1 + ip2 * 2] - v[1 + ip1 * 2]);
+            double cross = (v[0 + ip2 * 2] - v[0 + ip1 * 2]) * (v[1 + i * 2] - v[1 + ip1 * 2])
+                           - (v[0 + i * 2] - v[0 + ip1 * 2]) * (v[1 + ip2 * 2] - v[1 + ip1 * 2]);
 
-            angle = Math.Atan2(cross, dot);
+            double angle = Math.Atan2(cross, dot);
             switch (sense)
             {
                 //
@@ -2205,9 +2108,6 @@ public static class Properties
         //    Output, double &SIDE, the length of one side of the polygon.
         //
     {
-        double angle;
-            
-
         switch (n)
         {
             case < 3:
@@ -2218,7 +2118,7 @@ public static class Properties
                 return;
         }
 
-        angle = Math.PI / n;
+        double angle = Math.PI / n;
         area = 0.5 * n * radout * radout * Math.Sin(2.0 * angle);
         side = 2.0 * radout * Math.Sin(angle);
         radin = 0.5 * side / Math.Tan(angle);
@@ -2259,18 +2159,15 @@ public static class Properties
         //
     {
         int i;
-        int im1;
-        double l;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
-        im1 = n - 1;
+        int im1 = n - 1;
 
         for (i = 0; i < n; i++)
         {
-            l = Math.Sqrt(Math.Pow(v[0 + im1 * 2] - v[0 + i * 2], 2)
-                          + Math.Pow(v[1 + im1 * 2] - v[1 + i * 2], 2));
+            double l = Math.Sqrt(Math.Pow(v[0 + im1 * 2] - v[0 + i * 2], 2)
+                                 + Math.Pow(v[1 + im1 * 2] - v[1 + i * 2], 2));
             value += l;
             im1 = i;
         }
@@ -2313,35 +2210,27 @@ public static class Properties
         //    Output, double POLYGON_PERIMETER_QUAD, the estimated integral.
         //
     {
-        double dxy;
-        double fxy;
         int i;
-        int ip1;
-        int j;
-        double l;
-        int m;
-        double value = 0;
-        double x;
-        double y;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (i = 0; i < n; i++)
         {
-            ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
-            l = Math.Sqrt(Math.Pow(v[0 + ip1 * 2] - v[0 + i * 2], 2) + Math.Pow(v[1 + ip1 * 2] - v[1 + i * 2], 2));
-            m = (int)Math.Ceiling(l / hmax);
-            dxy = l / m;
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, n - 1);
+            double l = Math.Sqrt(Math.Pow(v[0 + ip1 * 2] - v[0 + i * 2], 2) + Math.Pow(v[1 + ip1 * 2] - v[1 + i * 2], 2));
+            int m = (int)Math.Ceiling(l / hmax);
+            double dxy = l / m;
 
+            int j;
             for (j = 1; j <= 2 * m - 1; j += 2)
             {
-                x = ((2 * m - j) * v[0 + i * 2]
-                     + j * v[0 + ip1 * 2])
-                    / (2 * m);
-                y = ((2 * m - j) * v[1 + i * 2]
-                     + j * v[1 + ip1 * 2])
-                    / (2 * m);
-                fxy = f(x, y);
+                double x = ((2 * m - j) * v[0 + i * 2]
+                            + j * v[0 + ip1 * 2])
+                           / (2 * m);
+                double y = ((2 * m - j) * v[1 + i * 2]
+                            + j * v[1 + ip1 * 2])
+                           / (2 * m);
+                double fxy = f(x, y);
                 value += fxy * dxy;
             }
         }
@@ -2381,20 +2270,17 @@ public static class Properties
         //    polygon.
         //
     {
-        double dist;
-        double dist2;
         int j;
-        int jp1;
         //
         //  Find the distance to each of the line segments.
         //
-        dist = typeMethods.r8_huge();
+        double dist = typeMethods.r8_huge();
 
         for (j = 0; j < n; j++)
         {
-            jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
 
-            dist2 = segment_point_dist(v, v, p, p1Index: + j * 2, p2Index: + jp1 * 2);
+            double dist2 = segment_point_dist(v, v, p, p1Index: + j * 2, p2Index: + jp1 * 2);
 
             if (dist2 < dist)
             {
@@ -2437,29 +2323,24 @@ public static class Properties
         //    Output, double POLYGON_POINT_NEAR[2], the nearest point to P.
         //
     {
-        double dist;
-        double dist2;
         int j;
-        int jp1;
-        double[] pn;
-        double[] pn2;
         //
         //  Find the distance to each of the line segments that make up the edges
         //  of the polygon.
         //
-        dist = typeMethods.r8_huge();
+        double dist = typeMethods.r8_huge();
 
-        pn = new double[2];
+        double[] pn = new double[2];
         pn[0] = 0.0;
         pn[1] = 0.0;
 
         for (j = 0; j < n; j++)
         {
-            jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
+            int jp1 = typeMethods.i4_wrap(j + 1, 0, n - 1);
 
-            pn2 = segment_point_near(v, v, p, p1Index: + j * 2, p2Index: + jp1 * 2);
+            double[] pn2 = segment_point_near(v, v, p, p1Index: + j * 2, p2Index: + jp1 * 2);
 
-            dist2 = Math.Sqrt(Math.Pow(pn2[0] - p[0], 2) + Math.Pow(pn2[1] - p[1], 2));
+            double dist2 = Math.Sqrt(Math.Pow(pn2[0] - p[0], 2) + Math.Pow(pn2[1] - p[1], 2));
 
             if (dist2 < dist)
             {
@@ -2507,35 +2388,24 @@ public static class Properties
         //    Output, double POLYGON_SAMPLE[2*N], the points.
         //
     {
-        double[] area_cumulative;
-        double area_polygon;
-        double[] area_relative;
-        double[] area_triangle;
-        double area_percent;
         int i;
         int j;
-        int k;
-        double[] r;
-        double[] s;
-        int[] triangles;
-        double[] x;
-        double[] y;
         //
         //  Triangulate the polygon.
         //
-        x = new double[nv];
-        y = new double[nv];
+        double[] x = new double[nv];
+        double[] y = new double[nv];
         for (i = 0; i < nv; i++)
         {
             x[i] = v[0 + i * 2];
             y[i] = v[1 + i * 2];
         }
 
-        triangles = Triangulate.polygon_triangulate(nv, x, y);
+        int[] triangles = Triangulate.polygon_triangulate(nv, x, y);
         //
         //  Determine the areas of each triangle.
         //
-        area_triangle = new double[nv - 2];
+        double[] area_triangle = new double[nv - 2];
 
         for (i = 0; i < nv - 2; i++)
         {
@@ -2548,9 +2418,9 @@ public static class Properties
         //
         //  Normalize the areas.
         //
-        area_polygon = typeMethods.r8vec_sum(nv - 2, area_triangle);
+        double area_polygon = typeMethods.r8vec_sum(nv - 2, area_triangle);
 
-        area_relative = new double[nv - 2];
+        double[] area_relative = new double[nv - 2];
 
         for (i = 0; i < nv - 2; i++)
         {
@@ -2560,7 +2430,7 @@ public static class Properties
         //
         //  Replace each area by the sum of itself and all previous ones.
         //
-        area_cumulative = new double[nv - 2];
+        double[] area_cumulative = new double[nv - 2];
 
         area_cumulative[0] = area_relative[0];
         for (i = 1; i < nv - 2; i++)
@@ -2568,15 +2438,16 @@ public static class Properties
             area_cumulative[i] = area_relative[i] + area_cumulative[i - 1];
         }
 
-        s = new double[2 * n];
+        double[] s = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
             //
             //  Choose triangle I at random, based on areas.
             //
-            area_percent = UniformRNG.r8_uniform_01(ref seed);
+            double area_percent = UniformRNG.r8_uniform_01(ref seed);
 
+            int k;
             for (k = 0; k < nv - 2; k++)
             {
                 i = k;
@@ -2590,7 +2461,7 @@ public static class Properties
             //
             //  Now choose a point at random in triangle I.
             //
-            r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+            double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
             switch (r[0] + r[1])
             {
@@ -2651,9 +2522,6 @@ public static class Properties
         //    the polygon.
         //
     {
-        double angle;
-            
-
         switch (n)
         {
             case < 3:
@@ -2664,7 +2532,7 @@ public static class Properties
                 return;
         }
 
-        angle = Math.PI / n;
+        double angle = Math.PI / n;
         area = 0.25 * n * side * side / Math.Tan(angle);
         radin = 0.5 * side / Math.Tan(angle);
         radout = 0.5 * side / Math.Sin(angle);
@@ -2717,8 +2585,6 @@ public static class Properties
         //    to the line segment.
         //
     {
-        double bot;
-        double dist;
         int i;
         double t;
         double[] pn = new double[2];
@@ -2731,7 +2597,7 @@ public static class Properties
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < 2; i++)
             {
                 bot += Math.Pow(p2[p2Index + i] - p1[p1Index + i], 2);
@@ -2761,7 +2627,7 @@ public static class Properties
             pn[i] = p1[p1Index + i] + t * (p2[p2Index + i] - p1[p1Index + i]);
         }
 
-        dist = 0.0;
+        double dist = 0.0;
         for (i = 0; i < 2; i++)
         {
             dist += Math.Pow(p[i] - pn[i], 2);
@@ -2814,9 +2680,7 @@ public static class Properties
         //    which is nearest P.
         //
     {
-        double bot;
         int i;
-        double[] pn;
         double t;
         //
         //  If the line segment is actually a point, then the answer is easy.
@@ -2827,7 +2691,7 @@ public static class Properties
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < 2; i++)
             {
                 bot += Math.Pow(p2[p2Index + i] - p1[p1Index + i], 2);
@@ -2852,7 +2716,7 @@ public static class Properties
             };
         }
 
-        pn = new double[2];
+        double[] pn = new double[2];
 
         for (i = 0; i < 2; i++)
         {
@@ -2937,12 +2801,10 @@ public static class Properties
         //    to the triangle.
         //
     {
-        int N = 2;
-        int RHS_NUM = 1;
+        const int N = 2;
+        const int RHS_NUM = 1;
 
         double[] a = new double[N * (N + RHS_NUM)];
-        double[] c;
-        int info;
         //
         //  Set up the linear system
         //
@@ -2962,7 +2824,7 @@ public static class Properties
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
 
         if (info != 0)
         {
@@ -2973,7 +2835,7 @@ public static class Properties
             return null;
         }
 
-        c = new double[3];
+        double[] c = new double[3];
 
         c[0] = a[0 + 2 * N];
         c[1] = a[1 + 2 * N];
@@ -3018,13 +2880,11 @@ public static class Properties
         //    is inside the triangle or on its boundary, and FALSE otherwise.
         //
     {
-        double[] c;
         int i;
-        bool value;
 
-        c = triangle_barycentric(t, p);
+        double[] c = triangle_barycentric(t, p);
 
-        value = true;
+        bool value = true;
 
         for (i = 0; i < 3; i++)
         {

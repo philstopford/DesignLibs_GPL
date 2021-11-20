@@ -54,16 +54,14 @@ public static class Geometry
         //
     {
         int j;
-        double normsq;
-        double tolsq;
 
-        tolsq = 100.0 * typeMethods.r8_epsilon();
+        double tolsq = 100.0 * typeMethods.r8_epsilon();
         tolsq *= tolsq;
 
         for (j = 0; j < n; j++)
         {
-            normsq = (pset[0 + j * 2] - p[0]) * (pset[0 + j * 2] - p[0])
-                     + (pset[1 + j * 2] - p[1]) * (pset[1 + j * 2] - p[1]);
+            double normsq = (pset[0 + j * 2] - p[0]) * (pset[0 + j * 2] - p[0])
+                            + (pset[1 + j * 2] - p[1]) * (pset[1 + j * 2] - p[1]);
 
             if (normsq < tolsq)
             {
@@ -165,12 +163,10 @@ public static class Geometry
         //    equidistant from both points.
         //
     {
-        double norm;
-
         f = 0.5 * (p1[0] + p2[0]);
         g = 0.5 * (p1[1] + p2[1]);
 
-        norm = Math.Sqrt(Math.Pow(f, 2) + Math.Pow(g, 2));
+        double norm = Math.Sqrt(Math.Pow(f, 2) + Math.Pow(g, 2));
 
         switch (norm)
         {
@@ -237,18 +233,15 @@ public static class Geometry
         //    centroid of the set, between 0 and N-1.
         //
     {
-        int cent;
-        double dist;
-        double dist_min;
         int i;
-        int j;
 
-        dist_min = 0.0;
-        cent = -1;
+        double dist_min = 0.0;
+        int cent = -1;
 
         for (i = 0; i < n; i++)
         {
-            dist = 0.0;
+            double dist = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 dist = dist + (p[0 + i * 2] - p[0 + j * 2]) * (p[0 + i * 2] - p[0 + j * 2])
@@ -314,16 +307,9 @@ public static class Geometry
         //    Output, double POINTS_COLIN_2D, an estimate of colinearity,
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area_triangle;
-        double area2;
         double colin;
-        double perim;
-        double s12;
-        double s23;
-        double s31;
-        double side;
         double[] t = new double[DIM_NUM * 3];
 
         t[0 + 0 * 2] = p1[0];
@@ -333,7 +319,7 @@ public static class Geometry
         t[0 + 2 * 2] = p3[0];
         t[1 + 2 * 2] = p3[1];
 
-        area_triangle = typeMethods.triangle_area_2d(t);
+        double area_triangle = typeMethods.triangle_area_2d(t);
 
         switch (area_triangle)
         {
@@ -341,15 +327,15 @@ public static class Geometry
                 colin = 0.0;
                 break;
             default:
-                s12 = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2));
-                s23 = Math.Sqrt(Math.Pow(p3[0] - p2[0], 2) + Math.Pow(p3[1] - p2[1], 2));
-                s31 = Math.Sqrt(Math.Pow(p1[0] - p3[0], 2) + Math.Pow(p1[1] - p3[1], 2));
+                double s12 = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2));
+                double s23 = Math.Sqrt(Math.Pow(p3[0] - p2[0], 2) + Math.Pow(p3[1] - p2[1], 2));
+                double s31 = Math.Sqrt(Math.Pow(p1[0] - p3[0], 2) + Math.Pow(p1[1] - p3[1], 2));
 
-                perim = s12 + s23 + s31;
+                double perim = s12 + s23 + s31;
 
-                side = perim / 3.0;
+                double side = perim / 3.0;
 
-                area2 = 0.25 * Math.Sqrt(3.0) * side * side;
+                double area2 = 0.25 * Math.Sqrt(3.0) * side * side;
 
                 colin = Math.Abs(area_triangle) / area2;
                 break;
@@ -395,16 +381,9 @@ public static class Geometry
         //    Output, double POINTS_COLIN_3D, an estimate of colinearity.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area_triangle;
-        double area2;
         double colin;
-        double perim;
-        double s12;
-        double s23;
-        double s31;
-        double side;
         double[] t = new double[DIM_NUM * 3];
 
         t[0 + 0 * 3] = p1[0];
@@ -417,7 +396,7 @@ public static class Geometry
         t[1 + 2 * 3] = p3[1];
         t[2 + 2 * 3] = p3[2];
 
-        area_triangle = typeMethods.triangle_area_3d(t);
+        double area_triangle = typeMethods.triangle_area_3d(t);
 
         switch (area_triangle)
         {
@@ -425,21 +404,21 @@ public static class Geometry
                 colin = 0.0;
                 break;
             default:
-                s12 = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2)
-                                + Math.Pow(p2[1] - p1[1], 2)
-                                + Math.Pow(p2[2] - p1[2], 2));
-                s23 = Math.Sqrt(Math.Pow(p3[0] - p2[0], 2)
-                                + Math.Pow(p3[1] - p2[1], 2)
-                                + Math.Pow(p3[2] - p2[2], 2));
-                s31 = Math.Sqrt(Math.Pow(p1[0] - p3[0], 2)
-                                + Math.Pow(p1[1] - p3[1], 2)
-                                + Math.Pow(p1[2] - p3[2], 2));
+                double s12 = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2)
+                                       + Math.Pow(p2[1] - p1[1], 2)
+                                       + Math.Pow(p2[2] - p1[2], 2));
+                double s23 = Math.Sqrt(Math.Pow(p3[0] - p2[0], 2)
+                                       + Math.Pow(p3[1] - p2[1], 2)
+                                       + Math.Pow(p3[2] - p2[2], 2));
+                double s31 = Math.Sqrt(Math.Pow(p1[0] - p3[0], 2)
+                                       + Math.Pow(p1[1] - p3[1], 2)
+                                       + Math.Pow(p1[2] - p3[2], 2));
 
-                perim = s12 + s23 + s31;
+                double perim = s12 + s23 + s31;
 
-                side = perim / 3.0;
+                double side = perim / 3.0;
 
-                area2 = 0.25 * Math.Sqrt(3.0) * side * side;
+                double area2 = 0.25 * Math.Sqrt(3.0) * side * side;
 
                 colin = Math.Abs(area_triangle) / area2;
                 break;
@@ -475,10 +454,8 @@ public static class Geometry
         //    Output, double POINTS_DIST_2D, the distance between the points.
         //
     {
-        double dist;
-
-        dist = Math.Sqrt(Math.Pow(p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length], 2)
-                         + Math.Pow(p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length], 2));
+        double dist = Math.Sqrt(Math.Pow(p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length], 2)
+                                + Math.Pow(p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length], 2));
 
         return dist;
     }
@@ -510,11 +487,9 @@ public static class Geometry
         //    Output, double POINTS_DIST_3D, the distance between the points.
         //
     {
-        double dist;
-
-        dist = Math.Sqrt(Math.Pow(p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length], 2)
-                         + Math.Pow(p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length], 2)
-                         + Math.Pow(p1[(2 + p1Index) % p1.Length] - p2[(2 + p2Index) % p2.Length], 2));
+        double dist = Math.Sqrt(Math.Pow(p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length], 2)
+                                + Math.Pow(p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length], 2)
+                                + Math.Pow(p1[(2 + p1Index) % p1.Length] - p2[(2 + p2Index) % p2.Length], 2));
 
         return dist;
     }
@@ -548,10 +523,9 @@ public static class Geometry
         //    Output, double POINTS_DIST_ND, the distance between the points.
         //
     {
-        double dist;
         int i;
 
-        dist = 0.0;
+        double dist = 0.0;
         for (i = 0; i < dim_num; i++)
         {
             dist += (p1[i] - p2[i]) * (p1[i] - p2[i]);
@@ -601,16 +575,9 @@ public static class Geometry
         //    These indices are 1-based, not 0-based!
         //
     {
-        double angle;
-        double angle_max;
-        double di;
-        double dr;
-        int first;
         int i;
         double[] p_xy = new double[2];
-        int q;
         double[] q_xy = new double[2];
-        int r;
         double[] r_xy = new double[2];
 
         hull_num = 0;
@@ -635,11 +602,14 @@ public static class Geometry
                 hull[hull_num] = 1;
                 hull_num += 1;
 
-                if (Math.Abs(node_xy[0 + 0 * 2] - node_xy[0 + 1 * 2]) > double.Epsilon || Math.Abs(node_xy[1 + 0 * 2] - node_xy[1 + 1 * 2]) > double.Epsilon)
+                if (!(Math.Abs(node_xy[0 + 0 * 2] - node_xy[0 + 1 * 2]) > double.Epsilon) &&
+                    !(Math.Abs(node_xy[1 + 0 * 2] - node_xy[1 + 1 * 2]) > double.Epsilon))
                 {
-                    hull[hull_num] = 2;
-                    hull_num += 1;
+                    return;
                 }
+
+                hull[hull_num] = 2;
+                hull_num += 1;
 
                 return;
             }
@@ -649,7 +619,7 @@ public static class Geometry
         //  Find the leftmost point, and take the bottom-most in a tie.
         //  Call it "Q".
         //
-        q = 1;
+        int q = 1;
         for (i = 2; i <= node_num; i++)
         {
             if (node_xy[0 + (i - 1) * 2] < node_xy[0 + (q - 1) * 2] ||
@@ -665,7 +635,7 @@ public static class Geometry
         //
         //  Remember the starting point.
         //
-        first = q;
+        int first = q;
         hull[hull_num] = q;
         hull_num += 1;
         //
@@ -682,14 +652,14 @@ public static class Geometry
         //
         for (;;)
         {
-            r = 0;
-            angle_max = 0.0;
+            int r = 0;
+            double angle_max = 0.0;
 
             for (i = 1; i <= node_num; i++)
             {
                 if (i != q && (Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > double.Epsilon || Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > double.Epsilon))
                 {
-                    angle = Angle.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
+                    double angle = Angle.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
 
                     if (r == 0 || angle_max < angle)
                     {
@@ -703,11 +673,11 @@ public static class Geometry
                     //
                     else if (Math.Abs(angle - angle_max) <= double.Epsilon)
                     {
-                        di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
-                                       + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
+                        double di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
+                                              + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
 
-                        dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
-                                       + Math.Pow(r_xy[1] - q_xy[1], 2));
+                        double dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
+                                              + Math.Pow(r_xy[1] - q_xy[1], 2));
 
                         if (di < dr)
                         {
@@ -793,32 +763,26 @@ public static class Geometry
         //    barely visible.
         //
     {
-        int circle_size = 3;
+        const int circle_size = 3;
         int delta;
         List<string> file_unit = new();
         int node;
-        double x_max;
-        double x_min;
         int x_ps;
         int x_ps_max = 576;
         int x_ps_max_clip = 594;
         int x_ps_min = 36;
         int x_ps_min_clip = 18;
-        double x_scale;
-        double y_max;
-        double y_min;
         int y_ps;
         int y_ps_max = 666;
         int y_ps_max_clip = 684;
         int y_ps_min = 126;
         int y_ps_min_clip = 108;
-        double y_scale;
         //
         //  We need to do some figuring here, so that we can determine
         //  the range of the data, and hence the height and width
         //  of the piece of paper.
         //
-        x_max = -typeMethods.r8_huge();
+        double x_max = -typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (x_max < node_xy[0 + node * 2])
@@ -827,7 +791,7 @@ public static class Geometry
             }
         }
 
-        x_min = typeMethods.r8_huge();
+        double x_min = typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[0 + node * 2] < x_min)
@@ -836,13 +800,13 @@ public static class Geometry
             }
         }
 
-        x_scale = x_max - x_min;
+        double x_scale = x_max - x_min;
 
         x_max += 0.05 * x_scale;
         x_min -= 0.05 * x_scale;
         x_scale = x_max - x_min;
 
-        y_max = -typeMethods.r8_huge();
+        double y_max = -typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (y_max < node_xy[1 + node * 2])
@@ -851,7 +815,7 @@ public static class Geometry
             }
         }
 
-        y_min = typeMethods.r8_huge();
+        double y_min = typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             if (node_xy[1 + node * 2] < y_min)
@@ -860,7 +824,7 @@ public static class Geometry
             }
         }
 
-        y_scale = y_max - y_min;
+        double y_scale = y_max - y_min;
 
         y_max += 0.05 * y_scale;
         y_min -= 0.05 * y_scale;
@@ -1083,29 +1047,29 @@ public static class Geometry
         //    point in PSET to P.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double d;
-        int i;
         int j;
-        int p_min;
 
         d_min = typeMethods.r8_huge();
-        p_min = 0;
+        int p_min = 0;
 
         for (j = 0; j < nset; j++)
         {
-            d = 0.0;
+            double d = 0.0;
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 d += Math.Pow(ptest[i] - pset[i + j * DIM_NUM], 2);
             }
 
-            if (d < d_min)
+            if (!(d < d_min))
             {
-                d_min = d;
-                p_min = j;
+                continue;
             }
+
+            d_min = d;
+            p_min = j;
         }
 
         d_min = Math.Sqrt(d_min);
@@ -1153,29 +1117,29 @@ public static class Geometry
         //    point in PSET to P.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double d;
-        int i;
         int j;
-        int p_min;
 
         d_min = typeMethods.r8_huge();
-        p_min = 0;
+        int p_min = 0;
 
         for (j = 0; j < nset; j++)
         {
-            d = 0.0;
+            double d = 0.0;
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 d += Math.Pow(ptest[i] - pset[i + j * DIM_NUM], 2);
             }
 
-            if (d < d_min)
+            if (!(d < d_min))
             {
-                d_min = d;
-                p_min = j;
+                continue;
             }
+
+            d_min = d;
+            p_min = j;
         }
 
         d_min = Math.Sqrt(d_min);
@@ -1223,27 +1187,27 @@ public static class Geometry
         //    point in PSET to P.
         //
     {
-        double d;
-        int i;
         int j;
-        int p_min;
 
         d_min = typeMethods.r8_huge();
-        p_min = 0;
+        int p_min = 0;
 
         for (j = 0; j < nset; j++)
         {
-            d = 0.0;
+            double d = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 d += Math.Pow(ptest[i] - pset[i + j * dim_num], 2);
             }
 
-            if (d < d_min)
+            if (!(d < d_min))
             {
-                d_min = d;
-                p_min = j;
+                continue;
             }
+
+            d_min = d;
+            p_min = j;
         }
 
         d_min = Math.Sqrt(d_min);
@@ -1291,35 +1255,34 @@ public static class Geometry
         //    nearest point in PSET to each point in PTEST.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double d;
-        double d_min;
-        int i;
-        int[] nearest;
-        int set;
         int test;
 
-        nearest = new int[ntest];
+        int[] nearest = new int[ntest];
 
         for (test = 0; test < ntest; test++)
         {
-            d_min = typeMethods.r8_huge();
+            double d_min = typeMethods.r8_huge();
             nearest[test] = -1;
 
+            int set;
             for (set = 0; set < nset; set++)
             {
-                d = 0.0;
+                double d = 0.0;
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     d += Math.Pow(ptest[i + test * DIM_NUM] - pset[i + set * DIM_NUM], 2);
                 }
 
-                if (d < d_min)
+                if (!(d < d_min))
                 {
-                    d_min = d;
-                    nearest[test] = set;
+                    continue;
                 }
+
+                d_min = d;
+                nearest[test] = set;
             }
         }
 
@@ -1366,35 +1329,34 @@ public static class Geometry
         //    nearest point in PSET to each point in PTEST.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double d;
-        double d_min;
-        int i;
-        int[] nearest;
-        int set;
         int test;
 
-        nearest = new int[ntest];
+        int[] nearest = new int[ntest];
 
         for (test = 0; test < ntest; test++)
         {
-            d_min = typeMethods.r8_huge();
+            double d_min = typeMethods.r8_huge();
             nearest[test] = -1;
 
+            int set;
             for (set = 0; set < nset; set++)
             {
-                d = 0.0;
+                double d = 0.0;
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     d += Math.Pow(ptest[i + test * DIM_NUM] - pset[i + set * DIM_NUM], 2);
                 }
 
-                if (d < d_min)
+                if (!(d < d_min))
                 {
-                    d_min = d;
-                    nearest[test] = set;
+                    continue;
                 }
+
+                d_min = d;
+                nearest[test] = set;
             }
         }
 

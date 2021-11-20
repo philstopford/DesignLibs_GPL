@@ -39,13 +39,10 @@ public static partial class typeMethods
     {
         int i;
 
-        bool check = true;
-
         switch (n)
         {
             case < 1:
-                check = false;
-                return check;
+                return false;
         }
 
         for (i = 0; i < n; i++)
@@ -55,11 +52,10 @@ public static partial class typeMethods
                 continue;
             }
 
-            check = false;
-            return check;
+            return false;
         }
 
-        return check;
+        return true;
     }
 
     public static int gray_code_enum(int n)

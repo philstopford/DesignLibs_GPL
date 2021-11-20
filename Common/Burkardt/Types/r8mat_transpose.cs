@@ -177,7 +177,6 @@ public static partial class typeMethods
         const int INCX = 5;
 
         int i2lo;
-        int i2lo_hi;
 
         Console.WriteLine();
         Console.WriteLine(title);
@@ -195,7 +194,7 @@ public static partial class typeMethods
             _ => ilo
         };
 
-        i2lo_hi = ihi < m ? m : ihi;
+        int i2lo_hi = ihi < m ? m : ihi;
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
@@ -237,8 +236,7 @@ public static partial class typeMethods
                 _ => jlo
             };
 
-            int j2hi;
-            j2hi = n < jhi ? n : jhi;
+            int j2hi = n < jhi ? n : jhi;
 
             int j;
             for (j = j2lo; j <= j2hi; j++)

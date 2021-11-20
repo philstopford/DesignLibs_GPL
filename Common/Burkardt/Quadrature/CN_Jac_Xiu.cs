@@ -118,7 +118,7 @@ public static class CN_Jac_Xiu
             }
         }
 
-        int expon = 0;
+        const int expon = 0;
         double volume_1d = C1.c1_jac_monomial_integral(alpha, beta, expon);
         double volume = Math.Pow(volume_1d, n);
 

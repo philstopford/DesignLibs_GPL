@@ -76,12 +76,7 @@ public static partial class Ranking
             }
         }
 
-        if (one_count != zero_count)
-        {
-            return false;
-        }
-
-        return true;
+        return one_count == zero_count;
     }
 
     public static int bal_seq_enum(int n)

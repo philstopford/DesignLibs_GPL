@@ -78,10 +78,6 @@ public static class Bernoulli
     {
         int b;
         int j;
-        int jfact;
-        int jhi;
-        int m;
-        int[] s;
 
         switch (n)
         {
@@ -107,12 +103,12 @@ public static class Bernoulli
                 return b;
         }
 
-        jhi = Math.Min(n, k);
-        m = Math.Max(n, k) + 1;
+        int jhi = Math.Min(n, k);
+        int m = Math.Max(n, k) + 1;
 
-        s = Stirling.stirling2(m, m);
+        int[] s = Stirling.stirling2(m, m);
 
-        jfact = 1;
+        int jfact = 1;
         b = 0;
 
         for (j = 0; j <= jhi; j++)
@@ -187,23 +183,20 @@ public static class Bernoulli
         //    Output, double BERNOULLI_POLY, the value of B(N,X).
         //
     {
-        int[] c;
         int i;
-        double value = 0;
-        double[] work;
 
-        work = new double[n + 1];
+        double[] work = new double[n + 1];
         Sequence.Bernoulli.bernoulli_number(n, ref work);
         //
         //  Get row N of Pascal's triangle.
         //
-        c = new int[n + 1];
+        int[] c = new int[n + 1];
         for (i = 0; i <= n; i++)
         {
             Comb.comb_row_next(n, ref c);
         }
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 1; i <= n; i++)
         {
             value = value * x + work[i] * c[i];
@@ -274,13 +267,11 @@ public static class Bernoulli
         //    Output, double BERNOULLI_POLY2, the value of B(N,X).
         //
     {
-        double fact;
         int i;
-        double value = 0;
 
-        fact = 1.0;
+        double fact = 1.0;
 
-        value = Sequence.Bernoulli.bernoulli_number3(0);
+        double value = Sequence.Bernoulli.bernoulli_number3(0);
 
         for (i = 1; i <= n; i++)
         {

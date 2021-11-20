@@ -69,11 +69,9 @@ public static partial class Matrix
         int la;
         int lb;
         int lm;
-        int m;
         double t;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -81,7 +79,7 @@ public static partial class Matrix
         }
 
         //
-        m = mu + ml + 1;
+        int m = mu + ml + 1;
         switch (job)
         {
             //
@@ -271,10 +269,9 @@ public static partial class Matrix
         int la;
         int lb;
         int lm;
-        int m;
         double t;
 
-        m = mu + ml + 1;
+        int m = mu + ml + 1;
         switch (job)
         {
             //
@@ -345,12 +342,14 @@ public static partial class Matrix
                             lm = Math.Min(ml, n - k);
                             b[k - 1] += BLAS1D.ddot(lm, abd, 1, b, 1,  + m + (k - 1) * lda, + k);
                             l = ipvt[k - 1];
-                            if (l != k)
+                            if (l == k)
                             {
-                                t = b[l - 1];
-                                b[l - 1] = b[k - 1];
-                                b[k - 1] = t;
+                                continue;
                             }
+
+                            t = b[l - 1];
+                            b[l - 1] = b[k - 1];
+                            b[k - 1] = t;
                         }
 
                         break;

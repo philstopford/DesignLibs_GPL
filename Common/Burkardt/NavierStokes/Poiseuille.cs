@@ -41,30 +41,13 @@ public static class Poiseuille
         //    V and P equations.
         //
     {
-        double dpdx;
-        double dpdy;
-        double dudt;
-        double dudx;
-        double dudxx;
-        double dudy;
-        double dudyy;
-        double dvdt;
-        double dvdx;
-        double dvdxx;
-        double dvdy;
-        double dvdyy;
-        double[] f;
-        double[] g;
-        double[] h;
         int i;
-        double u;
-        double v;
         //
         //  Get the right hand sides.
         //
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
         rhs_poiseuille ( nu, rho, n, x, y, t, ref f, ref g, ref h );
         //
@@ -72,22 +55,22 @@ public static class Poiseuille
         //
         for ( i = 0; i < n; i++ )
         {
-            u = 1.0 - y[i] * y[i];
-            dudt = 0.0;
-            dudx = 0.0;
-            dudxx = 0.0;
-            dudy = - 2.0 * y[i];
-            dudyy = - 2.0;
+            double u = 1.0 - y[i] * y[i];
+            double dudt = 0.0;
+            double dudx = 0.0;
+            double dudxx = 0.0;
+            double dudy = - 2.0 * y[i];
+            double dudyy = - 2.0;
 
-            v = 0.0;
-            dvdt = 0.0;
-            dvdx = 0.0;
-            dvdxx = 0.0;
-            dvdy = 0.0;
-            dvdyy = 0.0;
+            double v = 0.0;
+            double dvdt = 0.0;
+            double dvdx = 0.0;
+            double dvdxx = 0.0;
+            double dvdy = 0.0;
+            double dvdyy = 0.0;
 
-            dpdx = - 2.0 * rho * nu;
-            dpdy = 0.0;
+            double dpdx = - 2.0 * rho * nu;
+            double dpdy = 0.0;
             //
             //  Evaluate the residuals.
             //

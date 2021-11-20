@@ -36,11 +36,10 @@ public static class Diagonal
         //    index J such that IA[J] = JA[J] = I.
         //
     {
-        int[] diag;
         int i;
         int j;
 
-        diag = new int[n];
+        int[] diag = new int[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -49,20 +48,22 @@ public static class Diagonal
 
         for ( j = 0; j < m; j++ )
         {
-            if ( ia[j] == ja[j] )
+            if (ia[j] != ja[j])
             {
-                i = ia[j] - 1;
-                if ( diag[i] != -1 )
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("DIAG_INDEX - Fatal error!");
-                    Console.WriteLine("  Multiple occurrences of diagonal pairs.");
-                    Console.WriteLine("  IA[" + j       + "] = JA[" + j       + "] = " + ia[j] + " and");
-                    Console.WriteLine("  IA[" + diag[i] + "] = JA[" + diag[i] + "] = " + ia[j] + "");
-                    return null;
-                }
-                diag[i] = j;
+                continue;
             }
+
+            i = ia[j] - 1;
+            if ( diag[i] != -1 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("DIAG_INDEX - Fatal error!");
+                Console.WriteLine("  Multiple occurrences of diagonal pairs.");
+                Console.WriteLine("  IA[" + j       + "] = JA[" + j       + "] = " + ia[j] + " and");
+                Console.WriteLine("  IA[" + diag[i] + "] = JA[" + diag[i] + "] = " + ia[j] + "");
+                return null;
+            }
+            diag[i] = j;
         }
 
         for ( i = 0; i < n; i++ )

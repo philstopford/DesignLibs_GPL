@@ -82,33 +82,16 @@ public static class TQL2
         //    30 iterations.
         //
     {
-        double c;
-        double c2;
         double c3 = 0;
-        double dl1;
-        double el1;
-        double f;
-        double g;
-        double h;
         int i;
-        int ierr;
         int ii;
         int j;
         int k;
         int l;
-        int l1;
-        int l2;
-        int m;
-        int mml;
         double p;
-        double r;
-        double s;
         double s2 = 0;
-        double t;
-        double tst1;
-        double tst2;
 
-        ierr = 0;
+        int ierr = 0;
 
         switch (n)
         {
@@ -121,18 +104,20 @@ public static class TQL2
             e[i - 1] = e[i];
         }
 
-        f = 0.0;
-        tst1 = 0.0;
+        double f = 0.0;
+        double tst1 = 0.0;
         e[n - 1] = 0.0;
 
         for (l = 0; l < n; l++)
         {
             j = 0;
-            h = Math.Abs(d[l]) + Math.Abs(e[l]);
+            double h = Math.Abs(d[l]) + Math.Abs(e[l]);
             tst1 = Math.Max(tst1, h);
             //
             //  Look for a small sub-diagonal element.
             //
+            int m;
+            double tst2;
             for (m = l; m < n; m++)
             {
                 tst2 = tst1 + Math.Abs(e[m]);
@@ -157,14 +142,14 @@ public static class TQL2
                     //
                     //  Form shift.
                     //
-                    l1 = l + 1;
-                    l2 = l1 + 1;
-                    g = d[l];
+                    int l1 = l + 1;
+                    int l2 = l1 + 1;
+                    double g = d[l];
                     p = (d[l1] - g) / (2.0 * e[l]);
-                    r = Helpers.pythag(p, 1.0);
+                    double r = Helpers.pythag(p, 1.0);
                     d[l] = e[l] / (p + typeMethods.r8_sign(p) * Math.Abs(r));
                     d[l1] = e[l] * (p + typeMethods.r8_sign(p) * Math.Abs(r));
-                    dl1 = d[l1];
+                    double dl1 = d[l1];
                     h = g - d[l];
                     for (i = l2; i < n; i++)
                     {
@@ -176,11 +161,11 @@ public static class TQL2
                     //  QL transformation.
                     //
                     p = d[m];
-                    c = 1.0;
-                    c2 = c;
-                    el1 = e[l1];
-                    s = 0.0;
-                    mml = m - l;
+                    double c = 1.0;
+                    double c2 = c;
+                    double el1 = e[l1];
+                    double s = 0.0;
+                    int mml = m - l;
 
                     for (ii = 1; ii <= mml; ii++)
                     {
@@ -245,9 +230,7 @@ public static class TQL2
                 d[i] = p;
                 for (j = 0; j < n; j++)
                 {
-                    t = z[j + i * n];
-                    z[j + i * n] = z[j + k * n];
-                    z[j + k * n] = t;
+                    (z[j + i * n], z[j + k * n]) = (z[j + k * n], z[j + i * n]);
                 }
             }
         }

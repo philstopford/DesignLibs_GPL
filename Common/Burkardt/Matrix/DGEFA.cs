@@ -48,21 +48,17 @@ public static partial class Matrix
         //    Output, double DGE_DET, the determinant of the matrix.
         //
     {
-        double det;
-        int i;
-        int j;
         int k;
-        int l;
-        double t;
 
-        det = 1.0;
+        double det = 1.0;
 
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L, the index of the pivot row.
             //
-            l = k;
+            int l = k;
+            int i;
             for (i = k + 1; i <= n; i++)
             {
                 if (Math.Abs(a[l - 1 + (k - 1) * n]) < Math.Abs(a[i - 1 + (k - 1) * n]))
@@ -82,6 +78,7 @@ public static partial class Matrix
             //
             //  Interchange rows L and K if necessary.
             //
+            double t;
             if (l != k)
             {
                 t = a[l - 1 + (k - 1) * n];
@@ -100,6 +97,7 @@ public static partial class Matrix
             //
             //  Row elimination with column indexing.
             //
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 if (l != k)
@@ -168,10 +166,9 @@ public static partial class Matrix
         //    Output, double DGE_DET, the determinant of the matrix.
         //
     {
-        double det;
         int i;
 
-        det = 1.0;
+        double det = 1.0;
 
         for (i = 0; i < n; i++)
         {
@@ -240,22 +237,17 @@ public static partial class Matrix
         //    nonzero, the factorization failed on the DGE_FA-th step.
         //
     {
-        int i;
-        int ii;
-        int info;
-        int j;
         int k;
-        int l;
-        double t;
 
-        info = 0;
+        int info = 0;
 
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L, the index of the pivot row.
             //
-            l = k;
+            int l = k;
+            int i;
             for (i = k + 1; i <= n; i++)
             {
                 if (Math.Abs(a[l - 1 + (k - 1) * n]) < Math.Abs(a[i - 1 + (k - 1) * n]))
@@ -281,6 +273,7 @@ public static partial class Matrix
             //
             //  Interchange rows L and K if necessary.
             //
+            double t;
             if (l != k)
             {
                 t = a[l - 1 + (k - 1) * n];
@@ -291,6 +284,7 @@ public static partial class Matrix
             //
             //  Normalize the values that lie below the pivot entry A(K,K).
             //
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 a[j - 1 + (k - 1) * n] = -a[j - 1 + (k - 1) * n] / a[k - 1 + (k - 1) * n];
@@ -308,6 +302,7 @@ public static partial class Matrix
                     a[k - 1 + (j - 1) * n] = t;
                 }
 
+                int ii;
                 for (ii = k; ii < n; ii++)
                 {
                     a[ii + (j - 1) * n] += a[ii + (k - 1) * n] * a[k - 1 + (j - 1) * n];
@@ -382,22 +377,18 @@ public static partial class Matrix
         //    Use RCOND in DGECO for a reliable indication of singularity.
         //
     {
-        int info;
-        int j;
         int k;
-        int l;
-        double t;
         //
         //  Gaussian elimination with partial pivoting.
         //
-        info = 0;
+        int info = 0;
 
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L = pivot index.
             //
-            l = BLAS1D.idamax(n - k + 1, a, 1,  + (k - 1) + (k - 1) * lda) + k - 1;
+            int l = BLAS1D.idamax(n - k + 1, a, 1,  + (k - 1) + (k - 1) * lda) + k - 1;
             ipvt[k - 1] = l;
             switch (a[l - 1 + (k - 1) * lda])
             {
@@ -412,6 +403,7 @@ public static partial class Matrix
             //
             //  Interchange if necessary.
             //
+            double t;
             if (l != k)
             {
                 t = a[l - 1 + (k - 1) * lda];
@@ -428,6 +420,7 @@ public static partial class Matrix
             //
             //  Row elimination with column indexing.
             //
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 t = a[l - 1 + (j - 1) * lda];

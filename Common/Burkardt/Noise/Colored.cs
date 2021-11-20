@@ -55,20 +55,10 @@ public static class Colored
         //    power law.
         //
     {
-        double[] h_a;
         double h_azero = 0;
-        double[] h_b;
-        double[] hfa;
         int i;
-        double[] w_a;
         double w_azero = 0;
-        double[] w_b;
-        double[] wfa;
-        double wi;
-        double wr;
-        double[] x;
-        double[] x2;
-            
+
         //
         //  Set the deviation of the noise.
         //
@@ -76,7 +66,7 @@ public static class Colored
         //
         //  Generate the coefficients Hk.
         //
-        hfa = new double[2 * n];
+        double[] hfa = new double[2 * n];
         hfa[0] = 1.0;
         for (i = 1; i < n; i++)
         {
@@ -92,7 +82,7 @@ public static class Colored
         //
         //  Fill Wk with white noise.
         //
-        wfa = new double[2 * n];
+        double[] wfa = new double[2 * n];
 
         for (i = 0; i < n; i++)
         {
@@ -107,13 +97,13 @@ public static class Colored
         //
         //  Perform the discrete Fourier transforms of Hk and Wk.
         //
-        h_a = new double[n];
-        h_b = new double[n];
+        double[] h_a = new double[n];
+        double[] h_b = new double[n];
 
         Slow.r8vec_sftf(2 * n, hfa, ref h_azero, ref h_a, ref h_b);
 
-        w_a = new double[n];
-        w_b = new double[n];
+        double[] w_a = new double[n];
+        double[] w_b = new double[n];
 
         Slow.r8vec_sftf(2 * n, wfa, ref w_azero, ref w_a, ref w_b);
         //
@@ -123,8 +113,8 @@ public static class Colored
 
         for (i = 0; i < n; i++)
         {
-            wr = w_a[i];
-            wi = w_b[i];
+            double wr = w_a[i];
+            double wi = w_b[i];
             w_a[i] = wr * h_a[i] - wi * h_b[i];
             w_b[i] = wi * h_a[i] + wr * h_b[i];
         }
@@ -146,11 +136,11 @@ public static class Colored
         //
         //  Take the inverse Fourier transform of the result.
         //
-        x2 = Slow.r8vec_sftb(2 * n, w_azero, w_a, w_b);
+        double[] x2 = Slow.r8vec_sftb(2 * n, w_azero, w_a, w_b);
         //
         //  Only return the first N inverse Fourier transform values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = x2[i];

@@ -90,18 +90,15 @@ public static partial class Matrix
         //    Output, double KAHAN[M*N], the matrix.
         //
     {
-        double[] a;
-        double csi;
         int i;
-        int j;
-        double si;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (i = 0; i < m; i++)
         {
-            si = Math.Pow(Math.Sin(alpha), i + 1);
-            csi = -Math.Cos(alpha) * si;
+            double si = Math.Pow(Math.Sin(alpha), i + 1);
+            double csi = -Math.Cos(alpha) * si;
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j < i)
@@ -152,15 +149,12 @@ public static partial class Matrix
         //    Output, double KAHAN_INVERSE[N*N], the matrix.
         //
     {
-        double[] a;
-        double ci;
         int i;
         int j;
-        double si;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
-        ci = Math.Cos(alpha);
+        double ci = Math.Cos(alpha);
 
         for (j = 0; j < n; j++)
         {
@@ -190,7 +184,7 @@ public static partial class Matrix
         //
         for (j = 0; j < n; j++)
         {
-            si = Math.Pow(Math.Sin(alpha), j + 1);
+            double si = Math.Pow(Math.Sin(alpha), j + 1);
             for (i = 0; i < n; i++)
             {
                 a[i + j * n] /= si;

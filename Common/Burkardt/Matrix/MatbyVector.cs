@@ -41,13 +41,9 @@ public static class MatbyVector
         //    Output, double MV_GB[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int jhi;
-        int jlo;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {
@@ -56,8 +52,9 @@ public static class MatbyVector
 
         for (i = 0; i < m; i++)
         {
-            jlo = Math.Max(0, i - ml);
-            jhi = Math.Min(n - 1, i + mu);
+            int jlo = Math.Max(0, i - ml);
+            int jhi = Math.Min(n - 1, i + mu);
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[i] += a[i - j + ml + mu + j * (2 * ml + mu + 1)] * x[j];
@@ -113,15 +110,14 @@ public static class MatbyVector
         //    Output, double MV_GE[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {
             b[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 b[i] += a[i + j * m] * x[j];
@@ -168,11 +164,10 @@ public static class MatbyVector
         //    Output, double MV_ST[M], the product A*X.
         //
     {
-        double[] b;
         int i;
         int k;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {

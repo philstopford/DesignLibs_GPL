@@ -97,20 +97,15 @@ public static partial class Minpack
         //    that the i-th gradient is probably incorrect.
         //
     {
-        double eps;
-        double epsf;
-        double epslog;
-        double epsmch;
         const double factor = 100.0;
-        int i;
         int j;
         double temp;
         //
         //  EPSMCH is the machine precision.
         //
-        epsmch = typeMethods.r8_epsilon();
+        double epsmch = typeMethods.r8_epsilon();
         //
-        eps = Math.Sqrt(epsmch);
+        double eps = Math.Sqrt(epsmch);
         switch (mode)
         {
             //
@@ -134,8 +129,9 @@ public static partial class Minpack
             //
             default:
             {
-                epsf = factor * epsmch;
-                epslog = Math.Log10(eps);
+                double epsf = factor * epsmch;
+                double epslog = Math.Log10(eps);
+                int i;
                 for (i = 0; i < m; i++)
                 {
                     err[i] = 0.0;
@@ -157,26 +153,26 @@ public static partial class Minpack
 
                 for (i = 0; i < m; i++)
                 {
-                    temp = 1.0;
-                    if (fvec[i] != 0.0 &&
-                        fvecp[i] != 0.0 &&
-                        epsf * Math.Abs(fvec[i]) <= Math.Abs(fvecp[i] - fvec[i]))
+                    if (fvec[i] == 0.0 || fvecp[i] == 0.0 ||
+                        !(epsf * Math.Abs(fvec[i]) <= Math.Abs(fvecp[i] - fvec[i])))
                     {
-                        temp = eps * Math.Abs((fvecp[i] - fvec[i]) / eps - err[i])
-                               / (Math.Abs(fvec[i]) + Math.Abs(fvecp[i]));
+                        continue;
+                    }
 
-                        if (temp <= epsmch)
-                        {
-                            err[i] = 1.0;
-                        }
-                        else if (temp < eps)
-                        {
-                            err[i] = (Math.Log10(temp) - epslog) / epslog;
-                        }
-                        else
-                        {
-                            err[i] = 0.0;
-                        }
+                    temp = eps * Math.Abs((fvecp[i] - fvec[i]) / eps - err[i])
+                           / (Math.Abs(fvec[i]) + Math.Abs(fvecp[i]));
+
+                    if (temp <= epsmch)
+                    {
+                        err[i] = 1.0;
+                    }
+                    else if (temp < eps)
+                    {
+                        err[i] = (Math.Log10(temp) - epslog) / epslog;
+                    }
+                    else
+                    {
+                        err[i] = 0.0;
                     }
                 }
 

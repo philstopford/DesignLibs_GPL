@@ -73,30 +73,23 @@ public static class Burgers
         //    the Burgers equation at each space and time grid point.
         //
     {
-        double bot;
-        double c;
-        int qi;
-        int qn = 8;
-        double[] qw;
-        double[] qx;
+        const int qn = 8;
         int vti;
-        int vxi;
-        double[] vu;
-        double top;
         //
         //  Compute the rule.
         //
-        qx = new double[qn];
-        qw = new double[qn];
+        double[] qx = new double[qn];
+        double[] qw = new double[qn];
 
         HermiteQuadrature.hermite_ek_compute(qn, ref qx, ref qw);
         //
         //  Evaluate U(X,T) for later times.
         //
-        vu = new double[vxn * vtn];
+        double[] vu = new double[vxn * vtn];
 
         for (vti = 0; vti < vtn; vti++)
         {
+            int vxi;
             switch (vt[vti])
             {
                 case 0.0:
@@ -112,11 +105,12 @@ public static class Burgers
                 {
                     for (vxi = 0; vxi < vxn; vxi++)
                     {
-                        top = 0.0;
-                        bot = 0.0;
+                        double top = 0.0;
+                        double bot = 0.0;
+                        int qi;
                         for (qi = 0; qi < qn; qi++)
                         {
-                            c = 2.0 * Math.Sqrt(nu * vt[vti]);
+                            double c = 2.0 * Math.Sqrt(nu * vt[vti]);
 
                             top -= qw[qi] * c * Math.Sin(Math.PI * (vx[vxi] - c * qx[qi]))
                                    * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
@@ -209,27 +203,21 @@ public static class Burgers
         //    Burgers equation at each space and time grid point.
         //
     {
-        double a;
-        double b;
-        double c;
-        double dphi;
-        int i;
         int j;
-        double phi;
-        double[] u;
 
-        u = new double[xn * tn];
+        double[] u = new double[xn * tn];
 
         for (j = 0; j < tn; j++)
         {
+            int i;
             for (i = 0; i < xn; i++)
             {
-                a = x[i] - 4.0 * t[j];
-                b = x[i] - 4.0 * t[j] - 2.0 * Math.PI;
-                c = 4.0 * nu * (t[j] + 1.0);
-                phi = Math.Exp(-a * a / c) + Math.Exp(-b * b / c);
-                dphi = -2.0 * a * Math.Exp(-a * a / c) / c
-                       - 2.0 * b * Math.Exp(-b * b / c) / c;
+                double a = x[i] - 4.0 * t[j];
+                double b = x[i] - 4.0 * t[j] - 2.0 * Math.PI;
+                double c = 4.0 * nu * (t[j] + 1.0);
+                double phi = Math.Exp(-a * a / c) + Math.Exp(-b * b / c);
+                double dphi = -2.0 * a * Math.Exp(-a * a / c) / c
+                              - 2.0 * b * Math.Exp(-b * b / c) / c;
                 u[i + j * xn] = 4.0 - 2.0 * nu * dphi / phi;
             }
         }
@@ -348,71 +336,43 @@ public static class Burgers
         //
     {
         int i;
-        double px;
-        double py;
-        double pz;
-            
-        double u;
-        double ut;
-        double ux;
-        double uxx;
-        double uy;
-        double uyy;
-        double uz;
-        double uzz;
-        double v;
-        double vt;
-        double vx;
-        double vxx;
-        double vy;
-        double vyy;
-        double vz;
-        double vzz;
-        double w;
-        double wt;
-        double wx;
-        double wxx;
-        double wy;
-        double wyy;
-        double wz;
-        double wzz;
 
         for (i = 0; i < n; i++)
         {
             //
             //  Form the functions and derivatives.
             //
-            u = 2.0 * x[i];
-            ux = 2.0;
-            uxx = 0.0;
-            uy = 0.0;
-            uyy = 0.0;
-            uz = 0.0;
-            uzz = 0.0;
-            ut = 0.0;
+            double u = 2.0 * x[i];
+            const double ux = 2.0;
+            const double uxx = 0.0;
+            const double uy = 0.0;
+            const double uyy = 0.0;
+            const double uz = 0.0;
+            const double uzz = 0.0;
+            const double ut = 0.0;
 
-            v = -2.0 * y[i];
-            vx = 0.0;
-            vxx = 0.0;
-            vy = -2.0;
-            vyy = 0.0;
-            vz = 0.0;
-            vzz = 0.0;
-            vt = 0.0;
+            double v = -2.0 * y[i];
+            const double vx = 0.0;
+            const double vxx = 0.0;
+            const double vy = -2.0;
+            const double vyy = 0.0;
+            const double vz = 0.0;
+            const double vzz = 0.0;
+            const double vt = 0.0;
 
-            w = Helpers.Erf(y[i] / Math.Sqrt(nu));
-            wx = 0.0;
-            wxx = 0.0;
-            wy = 2.0 * Math.Sqrt(1.0 / nu / Math.PI) * Math.Exp(-y[i] * y[i] / nu);
-            wyy = -4.0 * Math.Sqrt(1.0 / nu / Math.PI) * y[i] * Math.Exp(-y[i] * y[i] / nu) / nu;
-            wz = 0.0;
-            wzz = 0.0;
-            wt = 0.0;
+            double w = Helpers.Erf(y[i] / Math.Sqrt(nu));
+            const double wx = 0.0;
+            const double wxx = 0.0;
+            double wy = 2.0 * Math.Sqrt(1.0 / nu / Math.PI) * Math.Exp(-y[i] * y[i] / nu);
+            double wyy = -4.0 * Math.Sqrt(1.0 / nu / Math.PI) * y[i] * Math.Exp(-y[i] * y[i] / nu) / nu;
+            const double wz = 0.0;
+            const double wzz = 0.0;
+            const double wt = 0.0;
 
             //  p = - 2.0 * ( x[i] * x[i] + y[i] * y[i] );
-            px = -4.0 * x[i];
-            py = -4.0 * y[i];
-            pz = 0.0;
+            double px = -4.0 * x[i];
+            double py = -4.0 * y[i];
+            const double pz = 0.0;
             //
             //  Evaluate the residuals.
             //

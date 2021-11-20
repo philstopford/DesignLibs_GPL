@@ -134,17 +134,15 @@ public static class Pink
     {
         int i;
         int j;
-        double[] r;
-        double xbar;
 
-        r = new double[m + 1];
+        double[] r = new double[m + 1];
 
         for (i = 0; i <= m; i++)
         {
             r[i] = 0.0;
         }
 
-        xbar = 0.0;
+        double xbar = 0.0;
         for (j = 0; j < n; j++)
         {
             xbar += x[j];
@@ -231,18 +229,15 @@ public static class Pink
     {
         int i;
         int j;
-        double[] r;
-        double xbar;
-        double ybar;
 
-        r = new double[m + 1];
+        double[] r = new double[m + 1];
 
         for (i = 0; i <= m; i++)
         {
             r[i] = 0.0;
         }
 
-        xbar = 0.0;
+        double xbar = 0.0;
         for (j = 0; j < n; j++)
         {
             xbar += x[j];
@@ -250,7 +245,7 @@ public static class Pink
 
         xbar /= n;
 
-        ybar = 0.0;
+        double ybar = 0.0;
         for (j = 0; j < n; j++)
         {
             ybar += x[j];
@@ -319,8 +314,6 @@ public static class Pink
         //
     {
         int i;
-        int j;
-        double y;
 
         switch (b)
         {
@@ -331,9 +324,9 @@ public static class Pink
                 return 1;
         }
 
-        y = 0.0;
+        double y = 0.0;
 
-        j = 1;
+        int j = 1;
         for (i = 0; i < b; i++)
         {
             y += ranh(j, ref u[i], ref q[i]);
@@ -392,8 +385,6 @@ public static class Pink
         //    Output, double RANH, the input value of U.
         //
     {
-        double y;
-
         switch (d)
         {
             case < 1:
@@ -406,7 +397,7 @@ public static class Pink
         //
         //  Hold this sample for D calls.
         //
-        y = u;
+        double y = u;
         //
         //  Decrement Q and wrap mod D.
         //

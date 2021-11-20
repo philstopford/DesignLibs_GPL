@@ -4,7 +4,7 @@ using Triangle = Burkardt.TriangleNS.Triangle;
 
 namespace Burkardt.MatrixNS;
 
-public class Mass
+public static class Mass
 {
     public static double[] mass_matrix_t3(int node_num, int element_num, int[] element_node,
             double[] node_xy )
@@ -62,31 +62,16 @@ public class Mass
         //    Output, double MASS_MATRIX_T3= new double[NODE_NUM*NODE_NUM], the mass matrix.
         //
     {
-        int ELEMENT_ORDER = 3;
+        const int ELEMENT_ORDER = 3;
 
-        double[] a;
-        double area;
         double[] dwdr = new double[ELEMENT_ORDER];
         double[] dwds = new double[ELEMENT_ORDER];
         int element;
         int global1;
         int global2;
-        int local1;
-        int local2;
-        int p1;
-        int p2;
-        int p3;
-        int quad;
-        int quad_num;
-        double r;
-        double[] rtab;
-        int rule;
-        double s;
-        double[] stab;
         double[] w = new double[ELEMENT_ORDER];
-        double[] weight;
 
-        a = new double[node_num * node_num];
+        double[] a = new double[node_num * node_num];
         //
         //  Zero out the matrix.
         //
@@ -101,12 +86,12 @@ public class Mass
         //
         //  Get the weights and abscissas for a unit triangle.
         //
-        rule = 4;
-        quad_num = Triangle.triangle_unit_size(rule);
+        const int rule = 4;
+        int quad_num = Triangle.triangle_unit_size(rule);
 
-        rtab = new double[quad_num];
-        stab = new double[quad_num];
-        weight = new double[quad_num];
+        double[] rtab = new double[quad_num];
+        double[] stab = new double[quad_num];
+        double[] weight = new double[quad_num];
 
         Triangle.triangle_unit_set(rule, rtab, stab, weight);
         //
@@ -114,11 +99,11 @@ public class Mass
         //
         for (element = 0; element < element_num; element++)
         {
-            p1 = element_node[0 + element * 3] - 1;
-            p2 = element_node[1 + element * 3] - 1;
-            p3 = element_node[2 + element * 3] - 1;
+            int p1 = element_node[0 + element * 3] - 1;
+            int p2 = element_node[1 + element * 3] - 1;
+            int p3 = element_node[2 + element * 3] - 1;
 
-            area = 0.5 * Math.Abs(
+            double area = 0.5 * Math.Abs(
                 node_xy[0 + p1 * 2] * (node_xy[1 + p2 * 2] - node_xy[1 + p3 * 2])
                 + node_xy[0 + p2 * 2] * (node_xy[1 + p3 * 2] - node_xy[1 + p1 * 2])
                 + node_xy[0 + p3 * 2] * (node_xy[1 + p1 * 2] - node_xy[1 + p2 * 2]));
@@ -144,15 +129,17 @@ public class Mass
             //
             //  For each quadrature point in the element...
             //
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
-                r = rtab[quad];
-                s = stab[quad];
+                double r = rtab[quad];
+                double s = stab[quad];
 
                 Shape.shape_t3(r, s, w, ref dwdr, ref dwds);
                 //
                 //  For each basis function PHI(I) associated with a node in the element,
                 //
+                int local1;
                 for (local1 = 0; local1 < 3; local1++)
                 {
                     global1 = element_node[local1 + element * 3] - 1;
@@ -160,6 +147,7 @@ public class Mass
                     //  For each "neighbor" basis function PHI(J) associated with a node in
                     //  the element.
                     //
+                    int local2;
                     for (local2 = 0; local2 < 3; local2++)
                     {
                         global2 = element_node[local2 + element * 3] - 1;
@@ -229,31 +217,16 @@ public class Mass
         //    Output, double MASS_MATRIX_T6= new double[NODE_NUM*NODE_NUM], the mass matrix.
         //
     {
-        int ELEMENT_ORDER = 6;
+        const int ELEMENT_ORDER = 6;
 
-        double[] a;
-        double area;
         double[] dwdr = new double[ELEMENT_ORDER];
         double[] dwds = new double[ELEMENT_ORDER];
         int element;
         int global1;
         int global2;
-        int local1;
-        int local2;
-        int p1;
-        int p2;
-        int p3;
-        int quad;
-        int quad_num;
-        double r;
-        double[] rtab;
-        int rule;
-        double s;
-        double[] stab;
         double[] w = new double[ELEMENT_ORDER];
-        double[] weight;
 
-        a = new double[node_num * node_num];
+        double[] a = new double[node_num * node_num];
         //
         //  Zero out the matrix.
         //
@@ -268,12 +241,12 @@ public class Mass
         //
         //  Get the weights and abscissas for a unit triangle.
         //
-        rule = 12;
-        quad_num = Triangle.triangle_unit_size(rule);
+        const int rule = 12;
+        int quad_num = Triangle.triangle_unit_size(rule);
 
-        rtab = new double[quad_num];
-        stab = new double[quad_num];
-        weight = new double[quad_num];
+        double[] rtab = new double[quad_num];
+        double[] stab = new double[quad_num];
+        double[] weight = new double[quad_num];
 
         Triangle.triangle_unit_set(rule, rtab, stab, weight);
         //
@@ -281,11 +254,11 @@ public class Mass
         //
         for (element = 0; element < element_num; element++)
         {
-            p1 = element_node[0 + element * 6] - 1;
-            p2 = element_node[1 + element * 6] - 1;
-            p3 = element_node[2 + element * 6] - 1;
+            int p1 = element_node[0 + element * 6] - 1;
+            int p2 = element_node[1 + element * 6] - 1;
+            int p3 = element_node[2 + element * 6] - 1;
 
-            area = 0.5 * Math.Abs(
+            double area = 0.5 * Math.Abs(
                 node_xy[0 + p1 * 2] * (node_xy[1 + p2 * 2] - node_xy[1 + p3 * 2])
                 + node_xy[0 + p2 * 2] * (node_xy[1 + p3 * 2] - node_xy[1 + p1 * 2])
                 + node_xy[0 + p3 * 2] * (node_xy[1 + p1 * 2] - node_xy[1 + p2 * 2]));
@@ -311,15 +284,17 @@ public class Mass
             //
             //  For each quadrature point in the element...
             //
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
-                r = rtab[quad];
-                s = stab[quad];
+                double r = rtab[quad];
+                double s = stab[quad];
 
                 Shape.shape_t6(r, s, w, ref dwdr, ref dwds);
                 //
                 //  For each basis function PHI(I) associated with a node in the element,
                 //
+                int local1;
                 for (local1 = 0; local1 < 6; local1++)
                 {
                     global1 = element_node[local1 + element * 6] - 1;
@@ -327,6 +302,7 @@ public class Mass
                     //  For each "neighbor" basis function PHI(J) associated with a node in
                     //  the element.
                     //
+                    int local2;
                     for (local2 = 0; local2 < 6; local2++)
                     {
                         global2 = element_node[local2 + element * 6] - 1;

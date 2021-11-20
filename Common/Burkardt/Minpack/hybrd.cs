@@ -172,33 +172,13 @@ public static partial class Minpack
         //       wa1, wa2, wa3, and wa4 are work arrays of length n.
         //
     {
-        double actred;
         double delta = 0;
-        double epsmch;
-        double fnorm;
-        double fnorm1;
-        int i;
-        int iflag;
-        int info;
-        int iter;
         int[] iwa = new int[1];
         int j;
-        bool jeval;
-        int l;
-        int msum;
-        int ncfail;
-        int ncsuc;
-        int nslow1;
-        int nslow2;
         const double p001 = 0.001;
         const double p0001 = 0.0001;
         const double p1 = 0.1;
         const double p5 = 0.5;
-        double pnorm;
-        double prered;
-        double ratio;
-        double sum;
-        double temp;
         double xnorm = 0;
         //
         //  Certain loops in this function were kept closer to their original FORTRAN77
@@ -210,10 +190,10 @@ public static partial class Minpack
         //
         //  EPSMCH is the machine precision.
         //
-        epsmch = typeMethods.r8_epsilon();
+        double epsmch = typeMethods.r8_epsilon();
 
-        info = 0;
-        iflag = 0;
+        int info = 0;
+        int iflag = 0;
         nfev = 0;
         switch (n)
         {
@@ -305,25 +285,25 @@ public static partial class Minpack
                 return info;
         }
 
-        fnorm = Helpers.enorm(n, fvec);
+        double fnorm = Helpers.enorm(n, fvec);
         //
         //  Determine the number of calls to FCN needed to compute the jacobian matrix.
         //
-        msum = Math.Min(ml + mu + 1, n);
+        int msum = Math.Min(ml + mu + 1, n);
         //
         //  Initialize iteration counter and monitors.
         //
-        iter = 1;
-        ncsuc = 0;
-        ncfail = 0;
-        nslow1 = 0;
-        nslow2 = 0;
+        int iter = 1;
+        int ncsuc = 0;
+        int ncfail = 0;
+        int nslow1 = 0;
+        int nslow2 = 0;
         //
         //  Beginning of the outer loop.
         //
         for (;;)
         {
-            jeval = true;
+            bool jeval = true;
             //
             //  Calculate the jacobian matrix.
             //
@@ -395,11 +375,14 @@ public static partial class Minpack
             //
             //  Form Q' * FVEC and store in QTF.
             //
+            int i;
             for (i = 0; i < n; i++)
             {
                 qtf[qtfIndex + i] = fvec[i];
             }
 
+            double temp;
+            double sum;
             for (j = 0; j < n; j++)
             {
                 if (fjac[fjacIndex + j + j * ldfjac] != 0.0)
@@ -423,6 +406,7 @@ public static partial class Minpack
             //
             //  DO NOT ADJUST THIS LOOP, BECAUSE OF L.
             //
+            int l;
             for (j = 1; j <= n; j++)
             {
                 l = j;
@@ -508,7 +492,7 @@ public static partial class Minpack
                     wa3[wa3Index + j] = diag[j] * wa1[wa1Index + j];
                 }
 
-                pnorm = Helpers.enorm(n, wa3);
+                double pnorm = Helpers.enorm(n, wa3);
                 delta = iter switch
                 {
                     //
@@ -531,10 +515,11 @@ public static partial class Minpack
                         return info;
                 }
 
-                fnorm1 = Helpers.enorm(n, wa4);
+                double fnorm1 = Helpers.enorm(n, wa4);
                 //
                 //  Compute the scaled actual reduction.
                 //
+                double actred;
                 if (fnorm1 < fnorm)
                 {
                     actred = 1.0 - fnorm1 / fnorm * (fnorm1 / fnorm);
@@ -564,6 +549,7 @@ public static partial class Minpack
 
                 temp = Helpers.enorm(n, wa3);
 
+                double prered;
                 if (temp < fnorm)
                 {
                     prered = 1.0 - temp / fnorm * (temp / fnorm);
@@ -573,7 +559,7 @@ public static partial class Minpack
                     prered = 0.0;
                 }
 
-                ratio = prered switch
+                double ratio = prered switch
                 {
                     //
                     //  Compute the ratio of the actual to the predicted reduction.
@@ -834,21 +820,9 @@ public static partial class Minpack
         //         (n*(3*n+13))/2.
         //
     {
-        double epsfcn;
-        double factor;
-        int index;
-        int info;
         int j;
-        int lr;
-        int maxfev;
-        int ml;
-        int mode;
-        int mu;
-        int nfev;
-        int nprint;
-        double xtol;
 
-        info = 0;
+        int info = 0;
         switch (n)
         {
             //
@@ -872,24 +846,23 @@ public static partial class Minpack
         //
         //  Call HYBRD.
         //
-        xtol = tol;
-        maxfev = 200 * (n + 1);
-        ml = n - 1;
-        mu = n - 1;
-        epsfcn = 0.0;
+        int maxfev = 200 * (n + 1);
+        int ml = n - 1;
+        int mu = n - 1;
+        double epsfcn = 0.0;
         for (j = 0; j < n; j++)
         {
             wa[j] = 1.0;
         }
 
-        mode = 2;
-        factor = 100.0;
-        nprint = 0;
-        nfev = 0;
-        lr = n * (n + 1) / 2;
-        index = 6 * n + lr;
+        int mode = 2;
+        double factor = 100.0;
+        int nprint = 0;
+        int nfev = 0;
+        int lr = n * (n + 1) / 2;
+        int index = 6 * n + lr;
 
-        info = hybrd(fcn, n, x, fvec, xtol, maxfev, ml, mu, epsfcn, wa, mode,
+        info = hybrd(fcn, n, x, fvec, tol, maxfev, ml, mu, epsfcn, wa, mode,
             factor, nprint, nfev, wa, n, wa, lr,
             wa, wa, wa, wa, wa, fjacIndex:index, rIndex:  + 6 * n, qtfIndex : n, wa1Index:  + 2 * n,
             wa2Index: + 3 * n, wa3Index:  + 4 * n, wa4Index:  + 5 * n);

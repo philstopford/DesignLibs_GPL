@@ -40,10 +40,6 @@ public static class YoungTableau
         //    Output, int YTB_ENUM, the number of Young tableau of N.
         //
     {
-        int a1;
-        int a2;
-        int a3;
-        int i;
         int num;
 
         switch (n)
@@ -59,11 +55,12 @@ public static class YoungTableau
                 break;
             default:
             {
-                a2 = 1;
-                a3 = 2;
+                int a2 = 1;
+                int a3 = 2;
+                int i;
                 for (i = 3; i <= n; i++)
                 {
-                    a1 = a2;
+                    int a1 = a2;
                     a2 = a3;
                     a3 = a2 + (i - 1) * a1;
                 }
@@ -128,26 +125,22 @@ public static class YoungTableau
         //    the program also sets MORE = FALSE.
         //
     {
-        int i;
-        int ir;
-        int it;
         int j;
-        int k;
-        int isave;
 
-        it = n;
+        int it = n;
 
         switch (more)
         {
             case true:
             {
                 lambda[0] = 1;
+                int i;
                 for (i = 1; i < n; i++)
                 {
                     lambda[i] = 0;
                 }
 
-                isave = 0;
+                int isave = 0;
 
                 for (i = 2; i <= n; i++)
                 {
@@ -186,8 +179,8 @@ public static class YoungTableau
             }
         }
 
-        k = 1;
-        ir = 1;
+        int k = 1;
+        int ir = 1;
 
         for (;;)
         {
@@ -263,12 +256,7 @@ public static class YoungTableau
         //    Input, string TITLE, a title.
         //
     {
-        int j;
-        int[] jarray;
-        int row_i;
-        int row_length;
-
-        jarray = new int[n];
+        int[] jarray = new int[n];
 
         switch (title.Length)
         {
@@ -278,14 +266,15 @@ public static class YoungTableau
                 break;
         }
 
-        row_i = 0;
+        int row_i = 0;
 
         for (;;)
         {
             row_i += 1;
 
-            row_length = 0;
+            int row_length = 0;
 
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (a[j] == row_i)
@@ -356,9 +345,7 @@ public static class YoungTableau
         //
     {
         int i;
-        int ih;
         int j;
-        int k;
         int m;
 
         for (i = 0; i < n; i++)
@@ -367,7 +354,7 @@ public static class YoungTableau
         }
 
         i = 0;
-        k = 0;
+        int k = 0;
 
         for (;;)
         {
@@ -402,7 +389,7 @@ public static class YoungTableau
 
             for (;;)
             {
-                ih = a[j - 1] + lambda[i - 1] - i - j;
+                int ih = a[j - 1] + lambda[i - 1] - i - j;
 
                 if (ih == 0)
                 {

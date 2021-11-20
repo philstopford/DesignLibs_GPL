@@ -48,16 +48,10 @@ public static class ToeplitzMatrix
         //    Output, double T_CHOLESKY_LOWER[N*N], the lower Cholesky factor.
         //
     {
-        double div;
-        double[] g;
-        double g1j;
-        double g2j;
         int i;
         int j;
-        double[] l;
-        double rho;
 
-        g = new double[2 * n];
+        double[] g = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -70,7 +64,7 @@ public static class ToeplitzMatrix
             g[1 + j * 2] = t[j];
         }
 
-        l = new double[n * n];
+        double[] l = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -94,12 +88,12 @@ public static class ToeplitzMatrix
 
         for (i = 1; i < n; i++)
         {
-            rho = -g[1 + i * 2] / g[0 + i * 2];
-            div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
+            double rho = -g[1 + i * 2] / g[0 + i * 2];
+            double div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
             for (j = i; j < n; j++)
             {
-                g1j = g[0 + j * 2];
-                g2j = g[1 + j * 2];
+                double g1j = g[0 + j * 2];
+                double g2j = g[1 + j * 2];
                 g[0 + j * 2] = (g1j + rho * g2j) / div;
                 g[1 + j * 2] = (rho * g1j + g2j) / div;
             }
@@ -164,16 +158,10 @@ public static class ToeplitzMatrix
         //    Output, double T_CHOLESKY_UPPER[N*N], the upper Cholesky factor.
         //
     {
-        double div;
-        double[] g;
-        double g1j;
-        double g2j;
         int i;
         int j;
-        double[] r;
-        double rho;
 
-        g = new double[2 * n];
+        double[] g = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -186,7 +174,7 @@ public static class ToeplitzMatrix
             g[1 + j * 2] = t[j];
         }
 
-        r = new double[n * n];
+        double[] r = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -210,13 +198,13 @@ public static class ToeplitzMatrix
 
         for (i = 1; i < n; i++)
         {
-            rho = -g[1 + i * 2] / g[0 + i * 2];
-            div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
+            double rho = -g[1 + i * 2] / g[0 + i * 2];
+            double div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
 
             for (j = i; j < n; j++)
             {
-                g1j = g[0 + j * 2];
-                g2j = g[1 + j * 2];
+                double g1j = g[0 + j * 2];
+                double g2j = g[1 + j * 2];
                 g[0 + j * 2] = (g1j + rho * g2j) / div;
                 g[1 + j * 2] = (rho * g1j + g2j) / div;
             }
@@ -283,15 +271,10 @@ public static class ToeplitzMatrix
         //    Output, double TOEP_CHOLESKY_LOWER[N*N], the lower Cholesky factor.
         //
     {
-        double div;
-        double g1j;
-        double g2j;
         int i;
         int j;
-        double[] l;
-        double rho;
 
-        l = new double[n * n];
+        double[] l = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -315,12 +298,12 @@ public static class ToeplitzMatrix
 
         for (i = 1; i < n; i++)
         {
-            rho = -g[1 + i * 2] / g[0 + i * 2];
-            div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
+            double rho = -g[1 + i * 2] / g[0 + i * 2];
+            double div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
             for (j = i; j < n; j++)
             {
-                g1j = g[0 + j * 2];
-                g2j = g[1 + j * 2];
+                double g1j = g[0 + j * 2];
+                double g2j = g[1 + j * 2];
                 g[0 + j * 2] = (g1j + rho * g2j) / div;
                 g[1 + j * 2] = (rho * g1j + g2j) / div;
             }
@@ -387,15 +370,10 @@ public static class ToeplitzMatrix
         //    Output, double TOEP_CHOLESKY_UPPER[N*N], the upper Cholesky factor.
         //
     {
-        double div;
-        double g1j;
-        double g2j;
         int i;
         int j;
-        double[] r;
-        double rho;
 
-        r = new double[n * n];
+        double[] r = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -419,13 +397,13 @@ public static class ToeplitzMatrix
 
         for (i = 1; i < n; i++)
         {
-            rho = -g[1 + i * 2] / g[0 + i * 2];
-            div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
+            double rho = -g[1 + i * 2] / g[0 + i * 2];
+            double div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
 
             for (j = i; j < n; j++)
             {
-                g1j = g[0 + j * 2];
-                g2j = g[1 + j * 2];
+                double g1j = g[0 + j * 2];
+                double g2j = g[1 + j * 2];
                 g[0 + j * 2] = (g1j + rho * g2j) / div;
                 g[1 + j * 2] = (rho * g1j + g2j) / div;
             }
@@ -488,16 +466,10 @@ public static class ToeplitzMatrix
         //    Output, double TOEPLITZ_CHOLESKY_LOWER[N*N], the lower Cholesky factor.
         //
     {
-        double div;
-        double[] g;
-        double g1j;
-        double g2j;
         int i;
         int j;
-        double[] l;
-        double rho;
 
-        l = new double[n * n];
+        double[] l = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -507,7 +479,7 @@ public static class ToeplitzMatrix
             }
         }
 
-        g = new double[2 * n];
+        double[] g = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -534,13 +506,13 @@ public static class ToeplitzMatrix
 
         for (i = 1; i < n; i++)
         {
-            rho = -g[1 + i * 2] / g[0 + i * 2];
-            div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
+            double rho = -g[1 + i * 2] / g[0 + i * 2];
+            double div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
 
             for (j = i; j < n; j++)
             {
-                g1j = g[0 + j * 2];
-                g2j = g[1 + j * 2];
+                double g1j = g[0 + j * 2];
+                double g2j = g[1 + j * 2];
                 g[0 + j * 2] = (g1j + rho * g2j) / div;
                 g[1 + j * 2] = (rho * g1j + g2j) / div;
             }
@@ -603,16 +575,10 @@ public static class ToeplitzMatrix
         //    Output, double TOEPLITZ_CHOLESKY_UPPER[N*N], the upper Cholesky factor.
         //
     {
-        double div;
-        double[] g;
-        double g1j;
-        double g2j;
         int i;
         int j;
-        double[] r;
-        double rho;
 
-        r = new double[n * n];
+        double[] r = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -622,7 +588,7 @@ public static class ToeplitzMatrix
             }
         }
 
-        g = new double[2 * n];
+        double[] g = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -649,12 +615,12 @@ public static class ToeplitzMatrix
 
         for (i = 1; i < n; i++)
         {
-            rho = -g[1 + i * 2] / g[0 + i * 2];
-            div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
+            double rho = -g[1 + i * 2] / g[0 + i * 2];
+            double div = Math.Sqrt((1.0 - rho) * (1.0 + rho));
             for (j = i; j < n; j++)
             {
-                g1j = g[0 + j * 2];
-                g2j = g[1 + j * 2];
+                double g1j = g[0 + j * 2];
+                double g2j = g[1 + j * 2];
                 g[0 + j * 2] = (g1j + rho * g2j) / div;
                 g[1 + j * 2] = (rho * g1j + g2j) / div;
             }

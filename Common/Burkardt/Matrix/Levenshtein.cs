@@ -48,13 +48,10 @@ public static class Levenshtein
         //    two strings.
         //
     {
-        int[] d;
-        int distance;
         int i;
         int j;
-        int substitution_cost;
 
-        d = new int[(m + 1) * (n + 1)];
+        int[] d = new int[(m + 1) * (n + 1)];
 
         d[0 + 0 * (m + 1)] = 0;
         //
@@ -79,14 +76,7 @@ public static class Levenshtein
         {
             for (i = 1; i <= m; i++)
             {
-                if (s[i - 1] == t[j - 1])
-                {
-                    substitution_cost = 0;
-                }
-                else
-                {
-                    substitution_cost = 1;
-                }
+                int substitution_cost = s[i - 1] == t[j - 1] ? 0 : 1;
 
                 d[i + j * (m + 1)] = Math.Min(d[i - 1 + j * (m + 1)] + 1,
                     Math.Min(d[i + (j - 1) * (m + 1)] + 1,
@@ -94,7 +84,7 @@ public static class Levenshtein
             }
         }
 
-        distance = d[m + n * (m + 1)];
+        int distance = d[m + n * (m + 1)];
 
         return distance;
     }
@@ -144,12 +134,10 @@ public static class Levenshtein
         //    Output, int LEVENSHTEIN_MATRIX[(M+1)*(N+1)], the Levenshtein matrix.
         //
     {
-        int[] d;
         int i;
         int j;
-        int substitution_cost;
 
-        d = new int[(m + 1) * (n + 1)];
+        int[] d = new int[(m + 1) * (n + 1)];
 
         d[0 + 0 * (m + 1)] = 0;
         //
@@ -174,14 +162,7 @@ public static class Levenshtein
         {
             for (i = 1; i <= m; i++)
             {
-                if (s[i - 1] == t[j - 1])
-                {
-                    substitution_cost = 0;
-                }
-                else
-                {
-                    substitution_cost = 1;
-                }
+                int substitution_cost = s[i - 1] == t[j - 1] ? 0 : 1;
 
                 d[i + j * (m + 1)] = Math.Min(d[i - 1 + j * (m + 1)] + 1,
                     Math.Min(d[i + (j - 1) * (m + 1)] + 1,

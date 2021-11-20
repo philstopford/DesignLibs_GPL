@@ -53,10 +53,9 @@ public static class MoebiusMatrix
     {
         int i;
         int j;
-        int[] p1;
         int[] p2;
 
-        p1 = new int[n];
+        int[] p1 = new int[n];
 //
 //  Compute a reordering of the elements of the partially ordered matrix.
 //

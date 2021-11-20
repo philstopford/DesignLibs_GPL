@@ -68,19 +68,16 @@ public static partial class Matrix
         //    Output, double DGB_MXV[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int jhi;
-        int jlo;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 1; i <= m; i++)
         {
             b[i - 1] = 0.0;
-            jlo = Math.Max(1, i - ml);
-            jhi = Math.Min(n, i + mu);
+            int jlo = Math.Max(1, i - ml);
+            int jhi = Math.Min(n, i + mu);
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[i - 1] += a[i - j + ml + mu + (j - 1) * (2 * ml + mu + 1)] * x[j - 1];
@@ -144,14 +141,9 @@ public static partial class Matrix
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
         int col = 2 * ml + mu + 1;
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
 
         Console.WriteLine("");
@@ -161,12 +153,13 @@ public static partial class Matrix
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
             string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
@@ -178,12 +171,13 @@ public static partial class Matrix
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo - mu - ml);
 
-            i2hi = Math.Min(ihi, m);
+            int i2hi = Math.Min(ihi, m);
             i2hi = Math.Min(i2hi, j2hi + ml);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //

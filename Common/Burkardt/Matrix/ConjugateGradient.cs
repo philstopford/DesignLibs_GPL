@@ -61,31 +61,23 @@ public static class ConjugateGradient
         //    On output, the approximate solution vector.  
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = MatbyVector.mv_gb(n, n, ml, mu, a, x);
+        double[] ap = MatbyVector.mv_gb(n, n, ml, mu, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -107,15 +99,15 @@ public static class ConjugateGradient
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = typeMethods.r8vec_dot_product(n, p, ap);
-            pr = typeMethods.r8vec_dot_product(n, p, r);
+            double pap = typeMethods.r8vec_dot_product(n, p, ap);
+            double pr = typeMethods.r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -137,9 +129,9 @@ public static class ConjugateGradient
             //    BETA = - RAP / PAP.
             //
 
-            rap = typeMethods.r8vec_dot_product(n, r, ap);
+            double rap = typeMethods.r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -207,31 +199,23 @@ public static class ConjugateGradient
         //    On output,  the approximate solution vector.  
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = MatbyVector.mv_ge(n, n, a, x);
+        double[] ap = MatbyVector.mv_ge(n, n, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -254,15 +238,15 @@ public static class ConjugateGradient
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = typeMethods.r8vec_dot_product(n, p, ap);
-            pr = typeMethods.r8vec_dot_product(n, p, r);
+            double pap = typeMethods.r8vec_dot_product(n, p, ap);
+            double pr = typeMethods.r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -284,9 +268,9 @@ public static class ConjugateGradient
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = typeMethods.r8vec_dot_product(n, r, ap);
+            double rap = typeMethods.r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -359,31 +343,23 @@ public static class ConjugateGradient
         //    On output, the approximate solution vector.  
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = MatbyVector.mv_st(n, n, nz_num, row, col, a, x);
+        double[] ap = MatbyVector.mv_st(n, n, nz_num, row, col, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -405,15 +381,15 @@ public static class ConjugateGradient
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = typeMethods.r8vec_dot_product(n, p, ap);
-            pr = typeMethods.r8vec_dot_product(n, p, r);
+            double pap = typeMethods.r8vec_dot_product(n, p, ap);
+            double pr = typeMethods.r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -435,9 +411,9 @@ public static class ConjugateGradient
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = typeMethods.r8vec_dot_product(n, r, ap);
+            double rap = typeMethods.r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.

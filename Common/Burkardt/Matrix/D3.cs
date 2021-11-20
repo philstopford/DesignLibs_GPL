@@ -52,10 +52,9 @@ public static class D3
 //    Output, double D3_MXV[N], the product A * x.
 //
     {
-        double[] b;
         int i;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -129,9 +128,7 @@ public static class D3
 //
     {
         int i;
-        double[] x;
-        double xmult;
-//
+        //
 //  Check.
 //
         for ( i = 0; i < n; i++ )
@@ -142,7 +139,7 @@ public static class D3
                     return null;
             }
         }
-        x = new double[n];
+        double[] x = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -151,7 +148,7 @@ public static class D3
 
         for ( i = 1; i < n; i++ )
         {
-            xmult = a[2+(i-1)*3] / a[1+(i-1)*3];
+            double xmult = a[2+(i-1)*3] / a[1+(i-1)*3];
             a[1+i*3] -= xmult * a[0+i*3];
             x[i] -= xmult * x[i-1];
         }
@@ -264,29 +261,24 @@ public static class D3
 //    column, and the last row and column, to be printed.
 //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
 //
 //  Print the columns of the matrix, in strips of 5.
 //
         for ( j2lo = jlo; j2lo <= jhi; j2lo += INCX )
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min ( j2hi, n );
             j2hi = Math.Min ( j2hi, jhi );
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
             string cout = "  Col: ";
+            int j2;
+            int j;
             for ( j = j2lo; j <= j2hi; j++ )
             {
                 j2 = j + 1 - j2lo;
@@ -299,12 +291,13 @@ public static class D3
 //
 //  Determine the range of the rows in this strip.
 //
-            i2lo = Math.Max ( ilo, 1 );
+            int i2lo = Math.Max ( ilo, 1 );
             i2lo = Math.Max ( i2lo, j2lo - 1 );
 
-            i2hi = Math.Min ( ihi, n );
+            int i2hi = Math.Min ( ihi, n );
             i2hi = Math.Min ( i2hi, j2hi + 1 );
 
+            int i;
             for ( i = i2lo; i <= i2hi; i++ )
             {
 //
@@ -383,17 +376,13 @@ public static class D3
 //    Output, double D3_UNIFORM[3*N], the D3 matrix.
 //
     {
-        double[] a;
         int i;
-        double[] u;
-        double[] v;
-        double[] w;
 
-        a = new double[3*n];
+        double[] a = new double[3*n];
 
-        u = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
-        v = UniformRNG.r8vec_uniform_new ( n,   0.0, 1.0, ref seed );
-        w = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
+        double[] u = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
+        double[] v = UniformRNG.r8vec_uniform_new ( n,   0.0, 1.0, ref seed );
+        double[] w = UniformRNG.r8vec_uniform_new ( n-1, 0.0, 1.0, ref seed );
 
         a[0+0*3] = 0.0;
         for ( i = 1; i < n; i++ )

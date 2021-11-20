@@ -109,21 +109,16 @@ public static partial class Minpack
         //         least n, then the jacobian is considered dense, and wa2 is
         //         not referenced.
     {
-        double eps;
-        double epsmch;
         double h = 0;
         int i;
         int j;
-        int k;
-        int msum;
-        double temp;
         //
         //  EPSMCH is the machine precision.
         //
-        epsmch = typeMethods.r8_epsilon();
+        double epsmch = typeMethods.r8_epsilon();
 
-        eps = Math.Sqrt(Math.Max(epsfcn, epsmch));
-        msum = ml + mu + 1;
+        double eps = Math.Sqrt(Math.Max(epsfcn, epsmch));
+        int msum = ml + mu + 1;
         //
         //  Computation of dense approximate jacobian.
         //
@@ -131,7 +126,7 @@ public static partial class Minpack
         {
             for (j = 0; j < n; j++)
             {
-                temp = x[j];
+                double temp = x[j];
                 h = h switch
                 {
                     0.0 => eps,
@@ -159,6 +154,7 @@ public static partial class Minpack
         //
         else
         {
+            int k;
             for (k = 0; k < msum; k++)
             {
                 for (j = k; j < n; j += msum)
@@ -290,22 +286,17 @@ public static partial class Minpack
         //    Workspace, double WA[M].
         //
     {
-        double eps;
-        double epsmch;
-        double h;
-        int i;
         int j;
-        double temp;
         //
         //  EPSMCH is the machine precision.
         //
-        epsmch = typeMethods.r8_epsilon();
-        eps = Math.Sqrt(Math.Max(epsfcn, epsmch));
+        double epsmch = typeMethods.r8_epsilon();
+        double eps = Math.Sqrt(Math.Max(epsfcn, epsmch));
 
         for (j = 0; j < n; j++)
         {
-            temp = x[j];
-            h = temp switch
+            double temp = x[j];
+            double h = temp switch
             {
                 0.0 => eps,
                 _ => eps * Math.Abs(temp)
@@ -321,6 +312,7 @@ public static partial class Minpack
             }
 
             x[j] = temp;
+            int i;
             for (i = 0; i < m; i++)
             {
                 fjac[i + j * ldfjac] = (wa[i] - fvec[i]) / h;

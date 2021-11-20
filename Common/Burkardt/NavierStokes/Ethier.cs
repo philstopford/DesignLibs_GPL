@@ -63,40 +63,27 @@ public static class Ethier
         //    pressure at each of the points.
         //
     {
-        double cxy;
-        double cyz;
-        double czx;
-        double e2t;
-        double ex;
-        double exy;
-        double ey;
-        double eyz;
-        double ez;
-        double ezx;
         int i;
-        double sxy;
-        double syz;
-        double szx;
 
         for (i = 0; i < n; i++)
         {
-            ex = Math.Exp(a * x[i]);
-            ey = Math.Exp(a * y[i]);
-            ez = Math.Exp(a * z[i]);
+            double ex = Math.Exp(a * x[i]);
+            double ey = Math.Exp(a * y[i]);
+            double ez = Math.Exp(a * z[i]);
 
-            e2t = Math.Exp(-d * d * t[i]);
+            double e2t = Math.Exp(-d * d * t[i]);
 
-            exy = Math.Exp(a * (x[i] + y[i]));
-            eyz = Math.Exp(a * (y[i] + z[i]));
-            ezx = Math.Exp(a * (z[i] + x[i]));
+            double exy = Math.Exp(a * (x[i] + y[i]));
+            double eyz = Math.Exp(a * (y[i] + z[i]));
+            double ezx = Math.Exp(a * (z[i] + x[i]));
 
-            sxy = Math.Sin(a * x[i] + d * y[i]);
-            syz = Math.Sin(a * y[i] + d * z[i]);
-            szx = Math.Sin(a * z[i] + d * x[i]);
+            double sxy = Math.Sin(a * x[i] + d * y[i]);
+            double syz = Math.Sin(a * y[i] + d * z[i]);
+            double szx = Math.Sin(a * z[i] + d * x[i]);
 
-            cxy = Math.Cos(a * x[i] + d * y[i]);
-            cyz = Math.Cos(a * y[i] + d * z[i]);
-            czx = Math.Cos(a * z[i] + d * x[i]);
+            double cxy = Math.Cos(a * x[i] + d * y[i]);
+            double cyz = Math.Cos(a * y[i] + d * z[i]);
+            double czx = Math.Cos(a * z[i] + d * x[i]);
 
             u[i] = -a * (ex * syz + ez * cxy) * e2t;
             v[i] = -a * (ey * szx + ex * cyz) * e2t;
@@ -151,138 +138,94 @@ public static class Ethier
         //    Output, double UR[N], VR[N], WR[N], PR[N], the residuals.
         //
     {
-        double cxy;
-        double cyz;
-        double czx;
-        double e2t;
-        double e2x;
-        double e2y;
-        double e2z;
-        double e4t;
-        double ex;
-        double exy;
-        double ey;
-        double eyz;
-        double ez;
-        double ezx;
         int i;
-        double px;
-        double py;
-        double pz;
-        double sxy;
-        double syz;
-        double szx;
-        double u;
-        double ut;
-        double ux;
-        double uxx;
-        double uy;
-        double uyy;
-        double uz;
-        double uzz;
-        double v;
-        double vt;
-        double vx;
-        double vxx;
-        double vy;
-        double vyy;
-        double vz;
-        double vzz;
-        double w;
-        double wt;
-        double wx;
-        double wxx;
-        double wy;
-        double wyy;
-        double wz;
-        double wzz;
         //
         //  Make some temporaries.
         //
         for (i = 0; i < n; i++)
         {
-            ex = Math.Exp(a * x[i]);
-            ey = Math.Exp(a * y[i]);
-            ez = Math.Exp(a * z[i]);
+            double ex = Math.Exp(a * x[i]);
+            double ey = Math.Exp(a * y[i]);
+            double ez = Math.Exp(a * z[i]);
 
-            e2x = Math.Exp(2.0 * a * x[i]);
-            e2y = Math.Exp(2.0 * a * y[i]);
-            e2z = Math.Exp(2.0 * a * z[i]);
+            double e2x = Math.Exp(2.0 * a * x[i]);
+            double e2y = Math.Exp(2.0 * a * y[i]);
+            double e2z = Math.Exp(2.0 * a * z[i]);
 
-            e2t = Math.Exp(-d * d * t[i]);
-            e4t = Math.Exp(-2.0 * d * d * t[i]);
+            double e2t = Math.Exp(-d * d * t[i]);
+            double e4t = Math.Exp(-2.0 * d * d * t[i]);
 
-            exy = Math.Exp(a * (x[i] + y[i]));
-            eyz = Math.Exp(a * (y[i] + z[i]));
-            ezx = Math.Exp(a * (z[i] + x[i]));
+            double exy = Math.Exp(a * (x[i] + y[i]));
+            double eyz = Math.Exp(a * (y[i] + z[i]));
+            double ezx = Math.Exp(a * (z[i] + x[i]));
 
-            sxy = Math.Sin(a * x[i] + d * y[i]);
-            syz = Math.Sin(a * y[i] + d * z[i]);
-            szx = Math.Sin(a * z[i] + d * x[i]);
+            double sxy = Math.Sin(a * x[i] + d * y[i]);
+            double syz = Math.Sin(a * y[i] + d * z[i]);
+            double szx = Math.Sin(a * z[i] + d * x[i]);
 
-            cxy = Math.Cos(a * x[i] + d * y[i]);
-            cyz = Math.Cos(a * y[i] + d * z[i]);
-            czx = Math.Cos(a * z[i] + d * x[i]);
+            double cxy = Math.Cos(a * x[i] + d * y[i]);
+            double cyz = Math.Cos(a * y[i] + d * z[i]);
+            double czx = Math.Cos(a * z[i] + d * x[i]);
             //
             //  Form the functions and derivatives.
             //
-            u = -a * (ex * syz
-                      + ez * cxy) * e2t;
-            ux = -a * (a * ex * syz
-                       - a * ez * sxy) * e2t;
-            uxx = -a * (a * a * ex * syz
-                        - a * a * ez * cxy) * e2t;
-            uy = -a * (a * ex * cyz
-                       - d * ez * sxy) * e2t;
-            uyy = -a * (-a * a * ex * syz
-                        - d * d * ez * cxy) * e2t;
-            uz = -a * (d * ex * cyz
-                       + a * ez * cxy) * e2t;
-            uzz = -a * (-d * d * ex * syz
-                        + a * a * ez * cxy) * e2t;
-            ut = +d * d * a * (ex * syz
-                               + ez * cxy) * e2t;
+            double u = -a * (ex * syz
+                             + ez * cxy) * e2t;
+            double ux = -a * (a * ex * syz
+                              - a * ez * sxy) * e2t;
+            double uxx = -a * (a * a * ex * syz
+                               - a * a * ez * cxy) * e2t;
+            double uy = -a * (a * ex * cyz
+                              - d * ez * sxy) * e2t;
+            double uyy = -a * (-a * a * ex * syz
+                               - d * d * ez * cxy) * e2t;
+            double uz = -a * (d * ex * cyz
+                              + a * ez * cxy) * e2t;
+            double uzz = -a * (-d * d * ex * syz
+                               + a * a * ez * cxy) * e2t;
+            double ut = +d * d * a * (ex * syz
+                                      + ez * cxy) * e2t;
 
-            v = -a * (ey * szx
-                      + ex * cyz) * e2t;
-            vx = -a * (d * ey * czx
-                       + a * ex * cyz) * e2t;
-            vxx = -a * (-d * d * ey * szx
-                        + a * a * ex * cyz) * e2t;
-            vy = -a * (a * ey * szx
-                       - a * ex * syz) * e2t;
-            vyy = -a * (a * a * ey * szx
-                        - a * a * ex * cyz) * e2t;
-            vz = -a * (a * ey * czx
-                       - d * ex * syz) * e2t;
-            vzz = -a * (-a * a * ey * szx
-                        - d * d * ex * cyz) * e2t;
-            vt = +d * d * a * (ey * szx
-                               + ex * cyz) * e2t;
+            double v = -a * (ey * szx
+                             + ex * cyz) * e2t;
+            double vx = -a * (d * ey * czx
+                              + a * ex * cyz) * e2t;
+            double vxx = -a * (-d * d * ey * szx
+                               + a * a * ex * cyz) * e2t;
+            double vy = -a * (a * ey * szx
+                              - a * ex * syz) * e2t;
+            double vyy = -a * (a * a * ey * szx
+                               - a * a * ex * cyz) * e2t;
+            double vz = -a * (a * ey * czx
+                              - d * ex * syz) * e2t;
+            double vzz = -a * (-a * a * ey * szx
+                               - d * d * ex * cyz) * e2t;
+            double vt = +d * d * a * (ey * szx
+                                      + ex * cyz) * e2t;
 
-            w = -a * (ez * sxy
-                      + ey * czx) * e2t;
-            wx = -a * (a * ez * cxy
-                       - d * ey * szx) * e2t;
-            wxx = -a * (-a * a * ez * sxy
-                        - d * d * ey * czx) * e2t;
-            wy = -a * (d * ez * cxy
-                       + a * ey * czx) * e2t;
-            wyy = -a * (-d * d * ez * sxy
-                        + a * a * ey * czx) * e2t;
-            wz = -a * (a * ez * sxy
-                       - a * ey * szx) * e2t;
-            wzz = -a * (a * a * ez * sxy
-                        - a * a * ey * czx) * e2t;
-            wt = +d * d * a * (ez * sxy
-                               + ey * czx) * e2t;
+            double w = -a * (ez * sxy
+                             + ey * czx) * e2t;
+            double wx = -a * (a * ez * cxy
+                              - d * ey * szx) * e2t;
+            double wxx = -a * (-a * a * ez * sxy
+                               - d * d * ey * czx) * e2t;
+            double wy = -a * (d * ez * cxy
+                              + a * ey * czx) * e2t;
+            double wyy = -a * (-d * d * ez * sxy
+                               + a * a * ey * czx) * e2t;
+            double wz = -a * (a * ez * sxy
+                              - a * ey * szx) * e2t;
+            double wzz = -a * (a * a * ez * sxy
+                               - a * a * ey * czx) * e2t;
+            double wt = +d * d * a * (ez * sxy
+                                      + ey * czx) * e2t;
 
             //  p = - 0.5 * a * a * e4t * ( 
             //    + e2x + 2.0 * sxy * czx * eyz 
             //    + e2y + 2.0 * syz * cxy * ezx 
             //    + e2z + 2.0 * szx * cyz * exy );
 
-            px = -0.5 * a * a * e4t * (
+            double px = -0.5 * a * a * e4t * (
                 +2.0 * a * e2x
                 + 2.0 * a * cxy * czx * eyz
                 - 2.0 * d * sxy * szx * eyz
@@ -291,7 +234,7 @@ public static class Ethier
                 + 2.0 * d * czx * cyz * exy
                 + 2.0 * a * szx * cyz * exy);
 
-            py = -0.5 * a * a * e4t * (
+            double py = -0.5 * a * a * e4t * (
                 +2.0 * d * cxy * czx * eyz
                 + 2.0 * a * sxy * czx * eyz
                 + 2.0 * a * e2y
@@ -300,7 +243,7 @@ public static class Ethier
                 - 2.0 * a * szx * syz * exy
                 + 2.0 * a * szx * cyz * exy);
 
-            pz = -0.5 * a * a * e4t * (
+            double pz = -0.5 * a * a * e4t * (
                 -2.0 * a * sxy * szx * eyz
                 + 2.0 * a * sxy * czx * eyz
                 + 2.0 * d * cyz * cxy * ezx

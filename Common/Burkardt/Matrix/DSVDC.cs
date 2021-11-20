@@ -102,56 +102,24 @@ public static class DSVDC
         //    its superdiagonal.  Thus the singular values of A and B are the same.
         //
     {
-        double b = 0;
-        double c = 0;
         double cs = 0;
-        double el = 0;
-        double emm1 = 0;
-        double f = 0;
-        double g = 0;
-        int i = 0;
-        int info = 0;
-        int iter = 0;
-        int j = 0;
-        int jobu = 0;
-        int k = 0;
-        int kase = 0;
-        int kk = 0;
-        int l = 0;
-        int ll = 0;
-        int lls = 0;
+        int i;
+        int j;
+        int l;
+        int ll;
         int ls = 0;
-        int lu = 0;
-        int maxit = 30;
-        int mm = 0;
-        int mm1 = 0;
-        int mn = 0;
-        int nct = 0;
-        int nctp1 = 0;
-        int ncu = 0;
-        int nrt = 0;
-        int nrtp1 = 0;
-        double scale = 0;
-        double shift = 0;
-        double sl = 0;
-        double sm = 0;
-        double smm1 = 0;
+        const int maxit = 30;
         double sn = 0;
-        double t = 0;
-        double t1 = 0;
-        double test = 0;
-        bool wantu = false;
-        bool wantv = false;
-        double ztest = 0;
+        double t;
         //
         //  Determine what is to be computed.
         //
-        info = 0;
-        wantu = false;
-        wantv = false;
-        jobu = job % 100 / 10;
+        int info = 0;
+        bool wantu = false;
+        bool wantv = false;
+        int jobu = job % 100 / 10;
 
-        ncu = jobu switch
+        int ncu = jobu switch
         {
             > 1 => Math.Min(m, n),
             _ => m
@@ -171,9 +139,9 @@ public static class DSVDC
         //  Reduce A to bidiagonal form, storing the diagonal elements
         //  in S and the super-diagonal elements in E.
         //
-        nct = Math.Min(m - 1, n);
-        nrt = Math.Max(0, Math.Min(m, n - 2));
-        lu = Math.Max(nct, nrt);
+        int nct = Math.Min(m - 1, n);
+        int nrt = Math.Max(0, Math.Min(m, n - 2));
+        int lu = Math.Max(nct, nrt);
 
         for (l = 1; l <= lu; l++)
         {
@@ -296,9 +264,9 @@ public static class DSVDC
         //
         //  Set up the final bidiagonal matrix of order MN.
         //
-        mn = Math.Min(m + 1, n);
-        nctp1 = nct + 1;
-        nrtp1 = nrt + 1;
+        int mn = Math.Min(m + 1, n);
+        int nctp1 = nct + 1;
+        int nrtp1 = nrt + 1;
 
         if (nct < n)
         {
@@ -408,8 +376,8 @@ public static class DSVDC
         //
         //  Main iteration loop for the singular values.
         //
-        mm = mn;
-        iter = 0;
+        int mm = mn;
+        int iter = 0;
 
         while (0 < mn)
         {
@@ -434,6 +402,8 @@ public static class DSVDC
             //               S(L), ..., S(MN) are not negligible (QR step).
             //  KASE = 4     if E(MN-1) is negligible (convergence).
             //
+            double test = 0;
+            double ztest = 0;
             for (ll = 1; ll <= mn; ll++)
             {
                 l = mn - ll;
@@ -446,19 +416,23 @@ public static class DSVDC
                 test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
                 ztest = test + Math.Abs(e[l - 1]);
 
-                if (Math.Abs(ztest - test) <= double.Epsilon)
+                if (!(Math.Abs(ztest - test) <= double.Epsilon))
                 {
-                    e[l - 1] = 0.0;
-                    break;
+                    continue;
                 }
+
+                e[l - 1] = 0.0;
+                break;
             }
 
+            int kase = 0;
             if (l == mn - 1)
             {
                 kase = 4;
             }
             else
             {
+                int lls = 0;
                 for (lls = l + 1; lls <= mn + 1; lls++)
                 {
                     ls = mn - lls + l + 1;
@@ -505,6 +479,10 @@ public static class DSVDC
             }
 
             l += 1;
+            double f = 0;
+            double t1 = 0;
+            int mm1 = 0;
+            int k = 0;
             switch (kase)
             {
                 //
@@ -516,6 +494,7 @@ public static class DSVDC
                     f = e[mn - 2];
                     e[mn - 2] = 0.0;
 
+                    int kk = 0;
                     for (kk = 1; kk <= mm1; kk++)
                     {
                         k = mm1 - kk + l;
@@ -572,19 +551,19 @@ public static class DSVDC
                     //
                     //  Calculate the shift.
                     //
-                    scale = Math.Max(Math.Abs(s[mn - 1]),
+                    double scale = Math.Max(Math.Abs(s[mn - 1]),
                         Math.Max(Math.Abs(s[mn - 2]),
                             Math.Max(Math.Abs(e[mn - 2]),
                                 Math.Max(Math.Abs(s[l - 1]), Math.Abs(e[l - 1])))));
 
-                    sm = s[mn - 1] / scale;
-                    smm1 = s[mn - 2] / scale;
-                    emm1 = e[mn - 2] / scale;
-                    sl = s[l - 1] / scale;
-                    el = e[l - 1] / scale;
-                    b = ((smm1 + sm) * (smm1 - sm) + emm1 * emm1) / 2.0;
-                    c = sm * emm1 * (sm * emm1);
-                    shift = 0.0;
+                    double sm = s[mn - 1] / scale;
+                    double smm1 = s[mn - 2] / scale;
+                    double emm1 = e[mn - 2] / scale;
+                    double sl = s[l - 1] / scale;
+                    double el = e[l - 1] / scale;
+                    double b = ((smm1 + sm) * (smm1 - sm) + emm1 * emm1) / 2.0;
+                    double c = sm * emm1 * (sm * emm1);
+                    double shift = 0.0;
 
                     if (b != 0.0 || c != 0.0)
                     {
@@ -598,7 +577,7 @@ public static class DSVDC
                     }
 
                     f = (sl + sm) * (sl - sm) - shift;
-                    g = sl * el;
+                    double g = sl * el;
                     //
                     //  Chase zeros.
                     //

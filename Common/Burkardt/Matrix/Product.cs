@@ -56,25 +56,16 @@ public static class MatrixProduct
         //    multiplication to do, and so on.
         //
     {
-        int STACK_MAX = 100;
+        const int STACK_MAX = 100;
 
-        int[] best;
-        int[] cost2;
-        int cost3;
         int i;
-        int i1;
-        int i2;
-        int i3;
         int j;
-        int k;
         int[] stack = new int[STACK_MAX];
-        int stack_num;
-        int step;
         //
         //  Initialize the cost matrix.
         //
-        best = new int[n * n];
-        cost2 = new int[n * n];
+        int[] best = new int[n * n];
+        int[] cost2 = new int[n * n];
 
         for (i = 0; i < n; i++)
         {
@@ -107,10 +98,11 @@ public static class MatrixProduct
         {
             for (i = 1; i <= n - j; i++)
             {
+                int k;
                 for (k = i + 1; k <= i + j; k++)
                 {
-                    cost3 = cost2[i - 1 + (k - 2) * n] + cost2[k - 1 + (i + j - 1) * n]
-                                                       + rank[i - 1] * rank[k - 1] * rank[i + j];
+                    int cost3 = cost2[i - 1 + (k - 2) * n] + cost2[k - 1 + (i + j - 1) * n]
+                                                           + rank[i - 1] * rank[k - 1] * rank[i + j];
 
                     if (cost3 < cost2[i - 1 + (i + j - 1) * n])
                     {
@@ -128,10 +120,10 @@ public static class MatrixProduct
         //
         //  Backtrack to determine the optimal order.
         //
-        stack_num = 0;
+        int stack_num = 0;
 
-        i1 = 1;
-        i2 = n;
+        int i1 = 1;
+        int i2 = n;
 
         if (i1 + 1 < i2)
         {
@@ -141,14 +133,14 @@ public static class MatrixProduct
             stack_num += 1;
         }
 
-        step = n - 1;
+        int step = n - 1;
         //
         //  Take an item off the stack.
         //
         while (0 < stack_num)
         {
             stack_num -= 1;
-            i3 = stack[stack_num];
+            int i3 = stack[stack_num];
             stack_num -= 1;
             i1 = stack[stack_num];
 

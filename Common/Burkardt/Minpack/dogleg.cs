@@ -75,33 +75,25 @@ public static partial class Minpack
         //    Workspace, WA2[N].
         //
     {
-        double alpha;
-        double bnorm;
-        double epsmch;
-        double gnorm;
         int i;
         int j;
-        int jj;
-        int jp1;
         int k;
         int l;
-        double qnorm;
-        double sgnorm;
         double sum;
         double temp;
         //
         //  EPSMCH is the machine precision.
         //
-        epsmch = typeMethods.r8_epsilon();
+        double epsmch = typeMethods.r8_epsilon();
         //
         //  Calculate the Gauss-Newton direction.
         //
-        jj = n * (n + 1) / 2 + 1;
+        int jj = n * (n + 1) / 2 + 1;
 
         for (k = 1; k <= n; k++)
         {
             j = n - k + 1;
-            jp1 = j + 1;
+            int jp1 = j + 1;
             jj -= k;
             l = jj + 1;
             sum = 0.0;
@@ -145,7 +137,7 @@ public static partial class Minpack
             wa2[wa2Index + j] = diag[j] * x[xIndex + j];
         }
 
-        qnorm = Helpers.enorm(n, wa2, wa2Index);
+        double qnorm = Helpers.enorm(n, wa2, wa2Index);
 
         if (qnorm <= delta)
         {
@@ -173,9 +165,9 @@ public static partial class Minpack
         //  Calculate the norm of the scaled gradient and test for
         //  the special case in which the scaled gradient is zero.
         //
-        gnorm = Helpers.enorm(n, wa1, xIndex:wa1Index);
-        sgnorm = 0.0;
-        alpha = delta / qnorm;
+        double gnorm = Helpers.enorm(n, wa1, xIndex:wa1Index);
+        double sgnorm = 0.0;
+        double alpha = delta / qnorm;
         //
         //  Calculate the point along the scaled gradient
         //  at which the quadratic is minimized.
@@ -209,7 +201,7 @@ public static partial class Minpack
             //
             if (sgnorm < delta)
             {
-                bnorm = Helpers.enorm(n, qtb, qtbIndex);
+                double bnorm = Helpers.enorm(n, qtb, qtbIndex);
                 temp = bnorm / gnorm * (bnorm / qnorm) * (sgnorm / delta);
                 temp = temp - delta / qnorm * (sgnorm / delta) * (sgnorm / delta)
                        + Math.Sqrt(Math.Pow(temp - delta / qnorm, 2)

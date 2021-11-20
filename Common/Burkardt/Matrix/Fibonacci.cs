@@ -77,14 +77,13 @@ public static class Fibonacci
         //    Output, double FIBONACCI2[N*N], the matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 switch (i)

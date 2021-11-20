@@ -47,27 +47,20 @@ public static class VandermondeMatrix
         //    Output, double BIVAND1[((N+1)*N)/2*((N+1)*N)/2], the matrix.
         //
     {
-        double[] a;
-        int e;
-        int e1;
-        int e2;
         int ii;
-        int j1;
-        int j2;
-        int jj;
-        int n2;
 
-        n2 = n * (n + 1) / 2;
-        a = new double[n2 * n2];
+        int n2 = n * (n + 1) / 2;
+        double[] a = new double[n2 * n2];
 
-        e1 = 0;
-        e2 = 0;
-        e = 0;
+        int e1 = 0;
+        int e2 = 0;
+        int e = 0;
 
         for (ii = 0; ii < n2; ii++)
         {
-            j1 = 0;
-            j2 = 0;
+            int j1 = 0;
+            int j2 = 0;
+            int jj;
             for (jj = 0; jj < n2; jj++)
             {
                 a[ii + jj * n2] = ii switch
@@ -148,24 +141,21 @@ public static class VandermondeMatrix
         //    Output, double BIVAND1[(N*N)*(N*N)], the matrix.
         //
     {
-        double[] a;
-        int i;
-        int ix;
         int iy;
-        int j;
-        int jx;
-        int jy;
 
-        a = new double[n * n * n * n];
+        double[] a = new double[n * n * n * n];
 
-        i = 0;
+        int i = 0;
         for (iy = 0; iy < n; iy++)
         {
+            int ix;
             for (ix = 0; ix < n; ix++)
             {
-                j = 0;
+                int j = 0;
+                int jy;
                 for (jy = 0; jy < n; jy++)
                 {
+                    int jx;
                     for (jx = 0; jx < n; jx++)
                     {
                         a[i + j * n * n] = Math.Pow(alpha[jx], ix) * Math.Pow(beta[jy], iy);
@@ -221,9 +211,8 @@ public static class VandermondeMatrix
     {
         int j;
         int k;
-        double[] x;
 
-        x = typeMethods.r8vec_copy_new(n, b);
+        double[] x = typeMethods.r8vec_copy_new(n, b);
 
         for (k = 0; k < n - 1; k++)
         {
@@ -302,7 +291,6 @@ public static class VandermondeMatrix
         //    output, factorization data for the NxN linear system.
         //
     {
-        double cn;
         int j;
 
         c[n - 1] = b[n - 1];
@@ -317,7 +305,7 @@ public static class VandermondeMatrix
             _ => 0.0
         };
 
-        cn = c[0];
+        double cn = c[0];
         x[n - 1] = c[0];
 
         for (j = n - 1; 1 <= j; j--)
@@ -368,9 +356,8 @@ public static class VandermondeMatrix
     {
         int j;
         int k;
-        double[] x;
 
-        x = typeMethods.r8vec_copy_new(n, b);
+        double[] x = typeMethods.r8vec_copy_new(n, b);
 
         for (k = 0; k < n - 1; k++)
         {
@@ -460,8 +447,6 @@ public static class VandermondeMatrix
         //    NxN linear system.
         //
     {
-        double delta;
-        double dn;
         int j;
 
         d[n - 1] = b[n - 1];
@@ -470,12 +455,12 @@ public static class VandermondeMatrix
             d[j - 1] = d[j] - alpha[n - j - 1] * d[j - 1];
         }
 
-        dn = d[0];
+        double dn = d[0];
         u[n - 1] = 1.0;
 
         for (j = 1; j <= n - 1; j++)
         {
-            delta = alpha[n - 1] - alpha[j - 1];
+            double delta = alpha[n - 1] - alpha[j - 1];
             u[j - 1] = -u[j - 1] * delta;
             u[n - 1] *= delta;
             x[j - 1] += dn / u[j - 1];
@@ -551,16 +536,14 @@ public static class VandermondeMatrix
         //    Output, double CHEBY_VAN1[M*N], the matrix.
         //
     {
-        int i;
         int j;
-        double[] v;
-        double xi;
 
-        v = new double[m * n];
+        double[] v = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            xi = (-(b - x[j]) + (x[j] - a)) / (b - a);
+            double xi = (-(b - x[j]) + (x[j] - a)) / (b - a);
+            int i;
             for (i = 0; i < m; i++)
             {
                 v[i + j * m] = i switch
@@ -626,16 +609,14 @@ public static class VandermondeMatrix
         //    Output, double LEGENDRE_VAN[M*N], the matrix.
         //
     {
-        int i;
         int j;
-        double[] v;
-        double xi;
 
-        v = new double[m * n];
+        double[] v = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
-            xi = (-(b - x[j]) + (x[j] - a)) / (b - a);
+            double xi = (-(b - x[j]) + (x[j] - a)) / (b - a);
+            int i;
             for (i = 0; i < m; i++)
             {
                 v[i + j * m] = i switch
@@ -718,14 +699,13 @@ public static class VandermondeMatrix
         //    Output, double VAND1[N*N], the matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 a[i + j * n] = i switch
@@ -788,11 +768,10 @@ public static class VandermondeMatrix
         //    Output, double VANDERMONDE_APPROX_1D_MATRIX[N*(M+1)], the Vandermonde matrix for X.
         //
     {
-        double[] a;
         int i;
         int j;
 
-        a = new double[n * (m + 1)];
+        double[] a = new double[n * (m + 1)];
 
         for (i = 0; i < n; i++)
         {
@@ -872,21 +851,18 @@ public static class VandermondeMatrix
         //    Output, double VANDERMONDE_APPROX_2D_MATRIX[N*TM], the Vandermonde matrix for X.
         //
     {
-        double[] a;
-        int ex;
-        int ey;
-        int i;
-        int j;
         int s;
 
-        a = new double[n * tm];
-        j = 0;
+        double[] a = new double[n * tm];
+        int j = 0;
 
         for (s = 0; s <= m; s++)
         {
+            int ex;
             for (ex = s; 0 <= ex; ex--)
             {
-                ey = s - ex;
+                int ey = s - ex;
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     a[i + j * n] = Math.Pow(x[i], ex) * Math.Pow(y[i], ey);

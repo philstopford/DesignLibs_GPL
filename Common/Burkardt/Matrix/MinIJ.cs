@@ -98,14 +98,13 @@ public static partial class Matrix
         //    Output, double MINIJ[M*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = Math.Min(i + 1, j + 1);

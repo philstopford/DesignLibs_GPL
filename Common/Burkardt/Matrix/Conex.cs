@@ -65,15 +65,14 @@ public static partial class Matrix
         //    Output, double CONEX1[4*4], the matrix.
         //
     {
-        double[] a;
-        int n = 4;
+        const int n = 4;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
-        a[0 + 0 * n] = 1.0;
-        a[1 + 0 * n] = 0.0;
-        a[2 + 0 * n] = 0.0;
-        a[3 + 0 * n] = 0.0;
+        a[0] = 1.0;
+        a[1] = 0.0;
+        a[2] = 0.0;
+        a[3] = 0.0;
 
         a[0 + 1 * n] = -1.0;
         a[1 + 1 * n] = 1.0;
@@ -120,15 +119,14 @@ public static partial class Matrix
         //    Output, double CONEX1_INVERSE[4*4], the matrix.
         //
     {
-        double[] a;
-        int n = 4;
+        const int n = 4;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
-        a[0 + 0 * n] = 1.0;
-        a[1 + 0 * n] = 0.0;
-        a[2 + 0 * n] = 0.0;
-        a[3 + 0 * n] = 0.0;
+        a[0] = 1.0;
+        a[1] = 0.0;
+        a[2] = 0.0;
+        a[3] = 0.0;
 
         a[0 + 1 * n] = 1.0 - alpha;
         a[1 + 1 * n] = 1.0 + alpha;
@@ -207,10 +205,9 @@ public static partial class Matrix
         //    Output, double CONEX2[3*3], the matrix.
         //
     {
-        double[] a;
-        int n = 3;
+        const int n = 3;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         switch (alpha)
         {
@@ -221,9 +218,9 @@ public static partial class Matrix
                 return null;
         }
 
-        a[0 + 0 * n] = 1.0;
-        a[1 + 0 * n] = 0.0;
-        a[2 + 0 * n] = 0.0;
+        a[0] = 1.0;
+        a[1] = 0.0;
+        a[2] = 0.0;
 
         a[0 + 1 * n] = (alpha - 1.0) * (alpha + 1.0) / alpha / alpha;
         a[1 + 1 * n] = 1.0 / alpha;
@@ -264,10 +261,9 @@ public static partial class Matrix
         //    Output, double CONEX2_INVERSE[3*3], the matrix.
         //
     {
-        double[] a;
-        int n = 3;
+        const int n = 3;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         switch (alpha)
         {
@@ -278,9 +274,9 @@ public static partial class Matrix
                 return null;
         }
 
-        a[0 + 0 * n] = 1.0;
-        a[1 + 0 * n] = 0.0;
-        a[2 + 0 * n] = 0.0;
+        a[0] = 1.0;
+        a[1] = 0.0;
+        a[2] = 0.0;
 
         a[0 + 1 * n] = (1.0 - alpha) * (1.0 + alpha) / alpha;
         a[1 + 1 * n] = alpha;
@@ -363,14 +359,13 @@ public static partial class Matrix
         //    Output, double CONEX3[N*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (j < i)
@@ -439,14 +434,13 @@ public static partial class Matrix
         //    Output, double CONEX3_INVERSE[N*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i < n - 1)
@@ -506,7 +500,6 @@ public static partial class Matrix
         //    Output, double CONEX4[4*4], the matrix.
         //
     {
-        double[] a;
         double[] a_save = {
                 7.0, 6.0, 5.0, 5.0,
                 10.0, 8.0, 7.0, 7.0,
@@ -515,7 +508,7 @@ public static partial class Matrix
             }
             ;
 
-        a = typeMethods.r8mat_copy_new(4, 4, a_save);
+        double[] a = typeMethods.r8mat_copy_new(4, 4, a_save);
 
         return a;
     }
@@ -545,7 +538,6 @@ public static partial class Matrix
         //    Output, double CONEX4_INVERSE[4*4], the matrix.
         //
     {
-        double[] a;
         double[] a_save = {
                 -41.0, 25.0, 10.0, -6.0,
                 -17.0, 10.0, 5.0, -3.0,
@@ -554,7 +546,7 @@ public static partial class Matrix
             }
             ;
 
-        a = typeMethods.r8mat_copy_new(4, 4, a_save);
+        double[] a = typeMethods.r8mat_copy_new(4, 4, a_save);
 
         return a;
     }

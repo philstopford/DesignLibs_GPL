@@ -87,7 +87,6 @@ public static class WathenMatrix
         //    Output, double WATHEN[N*N], the matrix.
         //
     {
-        double[] a;
         double[] em = {
                 6.0, -6.0, 2.0, -8.0, 3.0, -8.0, 2.0, -6.0,
                 -6.0, 32.0, -6.0, 20.0, -8.0, 16.0, -8.0, 20.0,
@@ -101,12 +100,9 @@ public static class WathenMatrix
             ;
         int i;
         int j;
-        int kcol;
-        int krow;
         int[] node = new int[8];
-        double rho;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -134,11 +130,13 @@ public static class WathenMatrix
                 //
                 //  The density RHO can also be set to a random positive value.
                 //
+                int krow;
                 for (krow = 0; krow < 8; krow++)
                 {
+                    int kcol;
                     for (kcol = 0; kcol < 8; kcol++)
                     {
-                        rho = 1.0;
+                        double rho = 1.0;
 
                         if (node[krow] < 0 || n <= node[krow] ||
                             node[kcol] < 0 || n <= node[kcol])
@@ -301,7 +299,6 @@ public static class WathenMatrix
         //    Output, double WATHEN_GB[(9*NX+13)*N], the matrix.
         //
     {
-        double[] a;
         double[] em =
         {
             6.0, -6.0, 2.0, -8.0, 3.0, -8.0, 2.0, -6.0,
@@ -314,21 +311,13 @@ public static class WathenMatrix
             -6.0, 20.0, -8.0, 16.0, -8.0, 20.0, -6.0, 32.0
         };
         int i;
-        int ii;
         int j;
-        int jj;
-        int kcol;
-        int krow;
-        int lda;
-        int ml;
-        int mu;
         int[] node = new int[8];
-        double rho;
 
-        ml = 3 * nx + 4;
-        mu = 3 * nx + 4;
-        lda = 2 * ml + mu + 1;
-        a = new double[lda * n];
+        int ml = 3 * nx + 4;
+        int mu = 3 * nx + 4;
+        int lda = 2 * ml + mu + 1;
+        double[] a = new double[lda * n];
 
         for (j = 0; j < n; j++)
         {
@@ -351,14 +340,16 @@ public static class WathenMatrix
                 node[6] = node[4] + 2;
                 node[7] = node[3] + 1;
 
-                rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
+                double rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
 
+                int krow;
                 for (krow = 0; krow < 8; krow++)
                 {
-                    ii = node[krow];
+                    int ii = node[krow];
+                    int kcol;
                     for (kcol = 0; kcol < 8; kcol++)
                     {
-                        jj = node[kcol];
+                        int jj = node[kcol];
                         a[ii - jj + ml + mu + jj * lda] += rho * em[krow + kcol * 8];
                     }
                 }
@@ -456,7 +447,6 @@ public static class WathenMatrix
         //    Output, double WATHEN_GE[N*N], the matrix.
         //
     {
-        double[] a;
         double[] em =
         {
             6.0, -6.0, 2.0, -8.0, 3.0, -8.0, 2.0, -6.0,
@@ -469,15 +459,10 @@ public static class WathenMatrix
             -6.0, 20.0, -8.0, 16.0, -8.0, 20.0, -6.0, 32.0
         };
         int i;
-        int ii;
         int j;
-        int jj;
-        int kcol;
-        int krow;
         int[] node = new int[8];
-        double rho;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -500,14 +485,16 @@ public static class WathenMatrix
                 node[6] = node[4] + 2;
                 node[7] = node[3] + 1;
 
-                rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
+                double rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
 
+                int krow;
                 for (krow = 0; krow < 8; krow++)
                 {
-                    ii = node[krow];
+                    int ii = node[krow];
+                    int kcol;
                     for (kcol = 0; kcol < 8; kcol++)
                     {
-                        jj = node[kcol];
+                        int jj = node[kcol];
                         a[ii + jj * n] += rho * em[krow + kcol * 8];
                     }
                 }
@@ -560,9 +547,7 @@ public static class WathenMatrix
         //    Output, int WATHEN_ORDER, the order of the matrix.
         //
     {
-        int n;
-
-        n = 3 * nx * ny + 2 * nx + 2 * ny + 1;
+        int n = 3 * nx * ny + 2 * nx + 2 * ny + 1;
 
         return n;
     }
@@ -665,7 +650,6 @@ public static class WathenMatrix
         //    Output, double WATHEN_ST[NZ_NUM], the nonzero entries of the matrix.
         //
     {
-        double[] a;
         double[] em =
         {
             6.0, -6.0, 2.0, -8.0, 3.0, -8.0, 2.0, -6.0,
@@ -677,15 +661,11 @@ public static class WathenMatrix
             2.0, -8.0, 3.0, -8.0, 2.0, -6.0, 6.0, -6.0,
             -6.0, 20.0, -8.0, 16.0, -8.0, 20.0, -6.0, 32.0
         };
-        int i;
         int j;
         int k;
-        int kcol;
-        int krow;
         int[] node = new int[8];
-        double rho;
 
-        a = new double[nz_num];
+        double[] a = new double[nz_num];
 
         for (k = 0; k < nz_num; k++)
         {
@@ -698,6 +678,7 @@ public static class WathenMatrix
 
         for (j = 0; j < nx; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
                 node[0] = 3 * (j + 1) * nx + 2 * (j + 1) + 2 * (i + 1);
@@ -709,10 +690,12 @@ public static class WathenMatrix
                 node[6] = node[4] + 2;
                 node[7] = node[3] + 1;
 
-                rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
+                double rho = 100.0 * UniformRNG.r8_uniform_01(ref seed);
 
+                int krow;
                 for (krow = 0; krow < 8; krow++)
                 {
+                    int kcol;
                     for (kcol = 0; kcol < 8; kcol++)
                     {
                         row[k] = node[krow];
@@ -767,9 +750,7 @@ public static class WathenMatrix
         //    the matrix.
         //
     {
-        int nz_num;
-
-        nz_num = nx * ny * 64;
+        int nz_num = nx * ny * 64;
 
         return nz_num;
     }
@@ -839,16 +820,15 @@ public static class WathenMatrix
         //    double wathen_xy[N*2], the X and Y coordinates of nodes.
         //
     {
-        int i;
         int j;
-        int k;
 
         double[] xy = new double[n * 2];
 
-        k = 0;
+        int k = 0;
 
         for (j = 0; j <= 2 * ny; j++)
         {
+            int i;
             switch (j % 2)
             {
                 case 0:

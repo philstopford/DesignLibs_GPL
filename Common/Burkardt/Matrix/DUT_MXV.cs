@@ -42,15 +42,14 @@ public static partial class Matrix
         //    Output, double DUT_MXV[M], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for ( i = 0; i < m; i++ )
         {
             b[i] = 0.0;
+            int j;
             for ( j = i; j < n; j++ )
             {
                 b[i] += a[i+j*m] * x[j];

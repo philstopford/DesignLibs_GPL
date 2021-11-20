@@ -139,7 +139,6 @@ public static class Data
         //    corresponding to the input.
         //
     {
-        double[] diftab;
         int i;
         int j;
         //
@@ -165,7 +164,7 @@ public static class Data
         //
         //  Copy the Y data into DIFTAB.
         //
-        diftab = new double[ntab];
+        double[] diftab = new double[ntab];
 
         for (i = 0; i < ntab; i++)
         {
@@ -223,7 +222,6 @@ public static class Data
         //
     {
         int i;
-        int j;
 
         if (!typeMethods.r8vec_distinct(ntab, xtab))
         {
@@ -265,6 +263,7 @@ public static class Data
         for (i = 1; i <= ntab - 1; i++)
         {
             cout = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            int j;
             for (j = ntab - 1; i <= j; j--)
             {
                 diftab[j] = (diftab[j] - diftab[j - 1]) / (xtab[j] - xtab[j - i]);

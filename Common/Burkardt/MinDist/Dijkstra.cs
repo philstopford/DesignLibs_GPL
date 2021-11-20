@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.MinDist;
 
@@ -50,16 +51,14 @@ public static class Dijkstra
         //    to each node.
         //
     {
-        bool[] connected;
         int i;
         int md = 0;
-        int[] mind;
         int mv = 0;
         int step;
         //
         //  Start out with only node 0 connected to the tree.
         //
-        connected = new bool[ohd.Length];
+        bool[] connected = new bool[ohd.Length];
         connected[0] = true;
         for (i = 1; i < connected.Length; i++)
         {
@@ -69,7 +68,7 @@ public static class Dijkstra
         //
         //  Initialize the minimum distance to the one-step distance.
         //
-        mind = new int[ohd.Length];
+        int[] mind = new int[ohd.Length];
 
         for (i = 0; i < mind.Length; i++)
         {
@@ -144,9 +143,8 @@ public static class Dijkstra
         //
     {
         int i;
-        int i4_huge = 2147483647;
 
-        d = i4_huge;
+        d = typeMethods.i4_huge();
         v = -1;
         for ( i = 0; i < mind.Length; i++ )
         {

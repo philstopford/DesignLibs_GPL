@@ -51,7 +51,6 @@ public static class PartialOrdering
         //
     {
         int i;
-        int j;
 
         switch (n)
         {
@@ -64,6 +63,7 @@ public static class PartialOrdering
 
         for ( i = 0; i < n; i++ )
         {
+            int j;
             for ( j = i + 1; j < n; j++ )
             {
                 switch (a[i+j*n])

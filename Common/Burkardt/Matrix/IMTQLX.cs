@@ -68,24 +68,15 @@ public static class IMTQLX
         //    input symmetric tridiagonal matrix.
         //
     {
-        double b;
-        double c;
-        double f;
-        double g;
         int i;
         int ii;
-        int itn = 30;
+        const int itn = 30;
         int j;
-        int k;
         int l;
         int m = 0;
-        int mml;
         double p;
-        double prec;
-        double r;
-        double s;
 
-        prec = 2.2204460492503131e-16; // typeMethods.r8_epsilon();// typeMethods.r8_epsilon();
+        double prec = 2.2204460492503131e-16;
 
         switch (n)
         {
@@ -128,19 +119,19 @@ public static class IMTQLX
                 }
 
                 j += 1;
-                g = (d[l] - p) / (2.0 * e[l - 1]);
-                r = Math.Sqrt(g * g + 1.0);
+                double g = (d[l] - p) / (2.0 * e[l - 1]);
+                double r = Math.Sqrt(g * g + 1.0);
                 g = d[m - 1] - p + e[l - 1] / (g + Math.Abs(r) * typeMethods.r8_sign(g));
-                s = 1.0;
-                c = 1.0;
+                double s = 1.0;
+                double c = 1.0;
                 p = 0.0;
-                mml = m - l;
+                int mml = m - l;
 
                 for (ii = 1; ii <= mml; ii++)
                 {
                     i = m - ii;
-                    f = s * e[i - 1];
-                    b = c * e[i - 1];
+                    double f = s * e[i - 1];
+                    double b = c * e[i - 1];
 
                     if (Math.Abs(g) <= Math.Abs(f))
                     {
@@ -181,7 +172,7 @@ public static class IMTQLX
         for (ii = 2; ii <= m; ii++)
         {
             i = ii - 1;
-            k = i;
+            int k = i;
             p = d[i - 1];
 
             for (j = ii; j <= n; j++)

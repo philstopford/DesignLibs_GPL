@@ -50,7 +50,7 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int[] face_order_save =
         {
@@ -182,7 +182,7 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int[] face_order_save =
         {

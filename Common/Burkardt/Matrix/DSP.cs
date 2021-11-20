@@ -54,13 +54,10 @@ public static class DSP
         //    On output, adjusted to account for Dirichlet boundary conditions.
         //
     {
-        int column;
-        int DIRICHLET = 2;
-        int node;
-        double[] node_bc;
+        const int DIRICHLET = 2;
         int nz;
             
-        node_bc = dirichlet_condition(node_num, node_xy);
+        double[] node_bc = dirichlet_condition(node_num, node_xy);
         //
         //  Consider every matrix entry, NZ.
         //
@@ -70,21 +67,23 @@ public static class DSP
         //
         for (nz = 0; nz < nz_num; nz++)
         {
-            node = ia[nz];
+            int node = ia[nz];
 
-            if (node_condition[node - 1] == DIRICHLET)
+            if (node_condition[node - 1] != DIRICHLET)
             {
-                column = ja[nz];
+                continue;
+            }
 
-                if (column == node)
-                {
-                    a[nz] = 1.0;
-                    f[node - 1] = node_bc[node - 1];
-                }
-                else
-                {
-                    a[nz] = 0.0;
-                }
+            int column = ja[nz];
+
+            if (column == node)
+            {
+                a[nz] = 1.0;
+                f[node - 1] = node_bc[node - 1];
+            }
+            else
+            {
+                a[nz] = 0.0;
             }
         }
     }
@@ -147,8 +146,6 @@ public static class DSP
         //    function and its first derivatives at a quadrature point.
         //
     {
-        double area;
-        int basis;
         double bi = 0;
         double bj = 0;
         double dbidx = 0;
@@ -156,32 +153,17 @@ public static class DSP
         double dbjdx = 0;
         double dbjdy = 0;
         int element;
-        int i;
-        int j;
-        int k;
         int node;
         int nz;
         double[] p = new double[2];
-        double[] phys_h;
-        double[] phys_k;
-        double[] phys_rhs;
-        double[] phys_xy;
-        int quad;
-        double[] quad_w;
-        double[] quad_xy;
         double[] t3 = new double[2 * 3];
-        int test;
-        double[] w;
 
-        phys_h = new double[quad_num];
-        phys_k = new double[quad_num];
-        phys_rhs = new double[quad_num];
-        phys_xy = new double[2 * quad_num];
+        double[] phys_xy = new double[2 * quad_num];
 
-        quad_w = new double[quad_num];
-        quad_xy = new double[2 * quad_num];
+        double[] quad_w = new double[quad_num];
+        double[] quad_xy = new double[2 * quad_num];
 
-        w = new double[quad_num];
+        double[] w = new double[quad_num];
         //
         //  Initialize the arrays to zero.
         //
@@ -207,6 +189,8 @@ public static class DSP
             //
             //  Make a copy of the element.
             //
+            int j;
+            int i;
             for (j = 0; j < 3; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -220,16 +204,17 @@ public static class DSP
             //
             Reference.reference_to_physical_t3(t3, quad_num, quad_xy, ref phys_xy);
 
-            area = Math.Abs(typeMethods.triangle_area_2d(t3));
+            double area = Math.Abs(typeMethods.triangle_area_2d(t3));
 
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
                 w[quad] = quad_w[quad] * area;
             }
 
-            phys_rhs = rhs(quad_num, phys_xy);
-            phys_h = h_coef(quad_num, phys_xy);
-            phys_k = k_coef(quad_num, phys_xy);
+            double[] phys_rhs = rhs(quad_num, phys_xy);
+            double[] phys_h = h_coef(quad_num, phys_xy);
+            double[] phys_k = k_coef(quad_num, phys_xy);
             //
             //  Consider the QUAD-th quadrature point.
             //
@@ -243,6 +228,7 @@ public static class DSP
                 //  We generate an integral for every node associated with an unknown.
                 //  But if a node is associated with a boundary condition, we do nothing.
                 //
+                int test;
                 for (test = 1; test <= 3; test++)
                 {
                     i = element_node[test - 1 + element * 3];
@@ -254,13 +240,14 @@ public static class DSP
                     //  Consider the BASIS-th basis function, which is used to form the
                     //  value of the solution function.
                     //
+                    int basis;
                     for (basis = 1; basis <= 3; basis++)
                     {
                         j = element_node[basis - 1 + element * 3];
 
                         Basis11.basis_one_t3(t3, basis, p, ref bj, ref dbjdx, ref dbjdy);
 
-                        k = dsp_ij_to_k(nz_num, ia, ja, i, j);
+                        int k = dsp_ij_to_k(nz_num, ia, ja, i, j);
 
                         a[k - 1] += w[quad] * (
                             phys_h[quad] * (dbidx * dbjdx + dbidy * dbjdy)
@@ -323,13 +310,10 @@ public static class DSP
         //    Output, int DSP_IJ_TO_K, the DSP index of the (I,J) entry.
         //
     {
-        int hi;
         int k;
-        int lo;
-        int md;
 
-        lo = 1;
-        hi = nz_num;
+        int lo = 1;
+        int hi = nz_num;
 
         for (;;)
         {
@@ -339,7 +323,7 @@ public static class DSP
                 break;
             }
 
-            md = (lo + hi) / 2;
+            int md = (lo + hi) / 2;
 
             if (row[md - 1] < i || row[md - 1] == i && col[md - 1] < j)
             {
@@ -415,19 +399,10 @@ public static class DSP
         //    Input, string TITLE, a title to print.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
         double[] aij = new double[INCX];
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        int k;
-        bool nonzero;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -436,15 +411,16 @@ public static class DSP
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
 
             string cout = "  Col:  ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "       ";
@@ -456,20 +432,23 @@ public static class DSP
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, m);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, m);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                nonzero = false;
+                bool nonzero = false;
+                int j2;
                 for (j2 = 0; j2 < INCX; j2++)
                 {
                     aij[j2] = 0.0;
                 }
 
+                int k;
                 for (k = 1; k <= nz_num; k++)
                 {
                     if (i == row[k - 1] && j2lo <= col[k - 1] && col[k - 1] <= j2hi)

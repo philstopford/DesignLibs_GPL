@@ -45,8 +45,6 @@ public static class NavierStokes2DExact
     {
         int i;
         int j;
-        double xi;
-        double yj;
 
         switch (x_num)
         {
@@ -66,9 +64,9 @@ public static class NavierStokes2DExact
             {
                 for (i = 0; i < x_num; i++)
                 {
-                    xi = ((x_num - i - 1) * x_lo
-                          + i * x_hi)
-                         / (x_num - 1);
+                    double xi = ((x_num - i - 1) * x_lo
+                                 + i * x_hi)
+                                / (x_num - 1);
                     for (j = 0; j < y_num; j++)
                     {
                         x[i + j * x_num] = xi;
@@ -97,9 +95,9 @@ public static class NavierStokes2DExact
             {
                 for (j = 0; j < y_num; j++)
                 {
-                    yj = ((y_num - j - 1) * y_lo
-                          + j * y_hi)
-                         / (y_num - 1);
+                    double yj = ((y_num - j - 1) * y_lo
+                                 + j * y_hi)
+                                / (y_num - 1);
                     for (i = 0; i < x_num; i++)
                     {
                         y[i + j * x_num] = yj;
@@ -146,16 +144,13 @@ public static class NavierStokes2DExact
         //    double S, a scale factor for the velocity vectors.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        string plot_filename;
         //
         //  Write the data file.
         //
-        data_filename = header + "_data.txt";
+        string data_filename = header + "_data.txt";
 
 
         for (i = 0; i < n; i++)
@@ -176,8 +171,8 @@ public static class NavierStokes2DExact
         //
         //  Write the command file.
         //
-        command_filename = header + "_commands.txt";
-        plot_filename = header + ".png";
+        string command_filename = header + "_commands.txt";
+        string plot_filename = header + ".png";
 
         command_unit.Add("#  " + command_filename + "");
         command_unit.Add("#");

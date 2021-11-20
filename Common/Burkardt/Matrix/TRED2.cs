@@ -75,15 +75,12 @@ public static class TRED2
         //    produced in the reduction.
         //
     {
-        double f;
         double g;
         double h;
-        double hh;
         int i;
         int j;
         int k;
         int l;
-        double scale;
 
         for (j = 0; j < n; j++)
         {
@@ -105,7 +102,7 @@ public static class TRED2
             //
             //  Scale row.
             //
-            scale = 0.0;
+            double scale = 0.0;
             for (k = 0; k <= l; k++)
             {
                 scale += Math.Abs(d[k]);
@@ -140,7 +137,7 @@ public static class TRED2
                 h += d[k] * d[k];
             }
 
-            f = d[l];
+            double f = d[l];
             g = -Math.Sqrt(h) * typeMethods.r8_sign(f);
             e[i] = scale * g;
             h -= f * g;
@@ -182,7 +179,7 @@ public static class TRED2
                 f += e[k] * d[k];
             }
 
-            hh = 0.5 * f / h;
+            double hh = 0.5 * f / h;
             //
             //  Form Q.
             //

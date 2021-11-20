@@ -70,8 +70,6 @@ public static partial class Matrix
         //    function and its first derivatives at a quadrature point.
         //
     {
-        double area;
-        int basis;
         double bi = 0;
         double bj = 0;
         double dbidx = 0;
@@ -80,27 +78,17 @@ public static partial class Matrix
         double dbjdy = 0;
         int element;
         int i;
-        int j;
         int node;
         double[] p = new double[2];
-        double[] phys_h;
-        double[] phys_k;
-        double[] phys_rhs;
-        double[] phys_xy;
-        int quad;
-        double[] quad_w;
-        double[] quad_xy;
         double[] t3 = new double[2 * 3];
-        int test;
-        double[] w;
 
-        phys_h = new double[quad_num];
-        phys_k = new double[quad_num];
-        phys_rhs = new double[quad_num];
-        phys_xy = new double[2 * quad_num];
-        quad_w = new double[quad_num];
-        quad_xy = new double[2 * quad_num];
-        w = new double[quad_num];
+        double[] phys_h = new double[quad_num];
+        double[] phys_k = new double[quad_num];
+        double[] phys_rhs = new double[quad_num];
+        double[] phys_xy = new double[2 * quad_num];
+        double[] quad_w = new double[quad_num];
+        double[] quad_xy = new double[2 * quad_num];
+        double[] w = new double[quad_num];
         //
         //  Initialize the arrays to zero.
         //
@@ -129,6 +117,7 @@ public static partial class Matrix
             //
             //  Make a copy of the element.
             //
+            int j;
             for (j = 0; j < 3; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -142,8 +131,9 @@ public static partial class Matrix
             //
             Reference.reference_to_physical_t3(t3, quad_num, quad_xy, ref phys_xy);
 
-            area = Math.Abs(typeMethods.triangle_area_2d(t3));
+            double area = Math.Abs(typeMethods.triangle_area_2d(t3));
 
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
                 w[quad] = quad_w[quad] * area;
@@ -165,6 +155,7 @@ public static partial class Matrix
                 //  We generate an integral for every node associated with an unknown.
                 //  But if a node is associated with a boundary condition, we do nothing.
                 //
+                int test;
                 for (test = 1; test <= 3; test++)
                 {
                     i = element_node[test - 1 + element * 3];
@@ -176,6 +167,7 @@ public static partial class Matrix
                     //  Consider the BASIS-th basis function, which is used to form the
                     //  value of the solution function.
                     //
+                    int basis;
                     for (basis = 1; basis <= 3; basis++)
                     {
                         j = element_node[basis - 1 + element * 3];
@@ -237,22 +229,19 @@ public static partial class Matrix
         //    boundary conditions.
         //
     {
-        int column;
-        int column_high;
-        int column_low;
-        int DIRICHLET = 2;
+        const int DIRICHLET = 2;
         int node;
-        double[] node_bc;
 
-        node_bc = dirichlet_condition(node_num, node_xy);
+        double[] node_bc = dirichlet_condition(node_num, node_xy);
 
         for (node = 0; node < node_num; node++)
         {
             if (node_condition[node] == DIRICHLET)
             {
-                column_low = Math.Max(node + 1 - ib, 1);
-                column_high = Math.Min(node + 1 + ib, node_num);
+                int column_low = Math.Max(node + 1 - ib, 1);
+                int column_high = Math.Min(node + 1 + ib, node_num);
 
+                int column;
                 for (column = column_low; column <= column_high; column++)
                 {
                     a[node + 1 - column + 2 * ib + (column - 1) * (3 * ib + 1)] = 0.0;
@@ -331,8 +320,6 @@ public static partial class Matrix
         //    function and its first derivatives at a quadrature point.
         //
     {
-        double area;
-        int basis;
         double bi = 0;
         double bj = 0;
         double dbidx = 0;
@@ -341,30 +328,19 @@ public static partial class Matrix
         double dbjdy = 0;
         int element;
         int i;
-        int j;
         int node;
-        double[] node_r;
         double[] p = new double[2];
-        double[] phys_h;
-        double[] phys_k;
-        double[] phys_rhs;
-        double[] phys_xy;
-        int quad;
-        double[] quad_w;
-        double[] quad_xy;
         double[] t3 = new double[2 * 3];
-        int test;
-        double[] w;
 
-        phys_h = new double[quad_num];
-        phys_k = new double[quad_num];
-        phys_rhs = new double[quad_num];
-        phys_xy = new double[2 * quad_num];
+        double[] phys_h = new double[quad_num];
+        double[] phys_k = new double[quad_num];
+        double[] phys_rhs = new double[quad_num];
+        double[] phys_xy = new double[2 * quad_num];
 
-        quad_w = new double[quad_num];
-        quad_xy = new double[2 * quad_num];
+        double[] quad_w = new double[quad_num];
+        double[] quad_xy = new double[2 * quad_num];
 
-        w = new double[quad_num];
+        double[] w = new double[quad_num];
         //
         //  Initialize the arrays to zero.
         //
@@ -394,6 +370,7 @@ public static partial class Matrix
             //
             //  Make a copy of the element.
             //
+            int j;
             for (j = 0; j < 3; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -407,8 +384,9 @@ public static partial class Matrix
             //
             Reference.reference_to_physical_t3(t3, quad_num, quad_xy, ref phys_xy);
 
-            area = Math.Abs(typeMethods.triangle_area_2d(t3));
+            double area = Math.Abs(typeMethods.triangle_area_2d(t3));
 
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
                 w[quad] = quad_w[quad] * area;
@@ -431,6 +409,7 @@ public static partial class Matrix
                 //  We generate an integral for every node associated with an unknown.
                 //  But if a node is associated with a boundary condition, we do nothing.
                 //
+                int test;
                 for (test = 1; test <= 3; test++)
                 {
                     i = element_node[test - 1 + element * 3];
@@ -442,6 +421,7 @@ public static partial class Matrix
                     //  Consider another basis function, which is used to form the
                     //  value of the solution function.
                     //
+                    int basis;
                     for (basis = 1; basis <= 3; basis++)
                     {
                         j = element_node[basis - 1 + element * 3];
@@ -464,7 +444,7 @@ public static partial class Matrix
         //
         //  Compute A*U.
         //
-        node_r = dgb_mxv(node_num, node_num, ib, ib, a, node_u);
+        double[] node_r = dgb_mxv(node_num, node_num, ib, ib, a, node_u);
         //
         //  Set RES = A * U - F.
         //

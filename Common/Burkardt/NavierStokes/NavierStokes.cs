@@ -50,13 +50,9 @@ public static class NavierStokes
         //    Output, int NS_T6_VAR_COUNT, the number of variables.
         //
     {
-        int count;
         int element;
-        int element_order = 6;
+        const int element_order = 6;
         int node;
-        int num;
-        int order;
-        int var_num;
         //
         //  Our job is easy once we determine which nodes are vertices.
         //  So to begin with, let VAR_NODE count the number of variables
@@ -69,6 +65,7 @@ public static class NavierStokes
 
         for (element = 0; element < element_num; element++)
         {
+            int order;
             for (order = 0; order < 3; order++)
             {
                 node = element_node[order + element * element_order];
@@ -79,7 +76,7 @@ public static class NavierStokes
         //
         //  Count them.
         //
-        var_num = 0;
+        int var_num = 0;
         for (node = 0; node < node_num; node++)
         {
             var_num += var_node[node];
@@ -88,11 +85,11 @@ public static class NavierStokes
         //
         //  Make pointers.
         //
-        count = 1;
+        int count = 1;
 
         for (node = 0; node < node_num; node++)
         {
-            num = var_node[node];
+            int num = var_node[node];
             var_node[node] = count;
             count += num;
         }
@@ -171,9 +168,8 @@ public static class NavierStokes
         //
     {
         int i;
-        int[] var;
 
-        var = new int[var_num];
+        int[] var = new int[var_num];
 
         for (i = 0; i < var_num; i++)
         {
@@ -292,35 +288,14 @@ public static class NavierStokes
         //    adjacencies.
         //
     {
-        int adj_num;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
         int node;
         int p1;
-        int p2;
-        int p3;
         int triangle;
-        int triangle_order = 6;
-        int triangle2;
+        const int triangle_order = 6;
         int u1;
-        int u2;
-        int u3;
-        int u4;
-        int u5;
-        int u6;
         int v1;
-        int v2;
-        int v3;
-        int v4;
-        int v5;
-        int v6;
         int variable;
 
-        adj_num = 0;
         //
         //  Set every variable to be adjacent to itself.
         //
@@ -361,33 +336,33 @@ public static class NavierStokes
         //
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            n1 = triangle_node[0 + triangle * triangle_order] - 1;
-            n2 = triangle_node[1 + triangle * triangle_order] - 1;
-            n3 = triangle_node[2 + triangle * triangle_order] - 1;
-            n4 = triangle_node[3 + triangle * triangle_order] - 1;
-            n5 = triangle_node[4 + triangle * triangle_order] - 1;
-            n6 = triangle_node[5 + triangle * triangle_order] - 1;
+            int n1 = triangle_node[0 + triangle * triangle_order] - 1;
+            int n2 = triangle_node[1 + triangle * triangle_order] - 1;
+            int n3 = triangle_node[2 + triangle * triangle_order] - 1;
+            int n4 = triangle_node[3 + triangle * triangle_order] - 1;
+            int n5 = triangle_node[4 + triangle * triangle_order] - 1;
+            int n6 = triangle_node[5 + triangle * triangle_order] - 1;
 
             u1 = node_u_variable[n1] - 1;
             v1 = node_v_variable[n1] - 1;
             p1 = node_p_variable[n1] - 1;
 
-            u2 = node_u_variable[n2] - 1;
-            v2 = node_v_variable[n2] - 1;
-            p2 = node_p_variable[n2] - 1;
+            int u2 = node_u_variable[n2] - 1;
+            int v2 = node_v_variable[n2] - 1;
+            int p2 = node_p_variable[n2] - 1;
 
-            u3 = node_u_variable[n3] - 1;
-            v3 = node_v_variable[n3] - 1;
-            p3 = node_p_variable[n3] - 1;
+            int u3 = node_u_variable[n3] - 1;
+            int v3 = node_v_variable[n3] - 1;
+            int p3 = node_p_variable[n3] - 1;
 
-            u4 = node_u_variable[n4] - 1;
-            v4 = node_v_variable[n4] - 1;
+            int u4 = node_u_variable[n4] - 1;
+            int v4 = node_v_variable[n4] - 1;
 
-            u5 = node_u_variable[n5] - 1;
-            v5 = node_v_variable[n5] - 1;
+            int u5 = node_u_variable[n5] - 1;
+            int v5 = node_v_variable[n5] - 1;
 
-            u6 = node_u_variable[n6] - 1;
-            v6 = node_v_variable[n6] - 1;
+            int u6 = node_u_variable[n6] - 1;
+            int v6 = node_v_variable[n6] - 1;
             //
             //  For sure, we add the new adjacencies:
             //
@@ -430,7 +405,7 @@ public static class NavierStokes
             //    U1 V1 P1 <=> U4 V4
             //    U2 V2 P2 <=> U4 V4
             //
-            triangle2 = triangle_neighbor[0 + triangle * 3];
+            int triangle2 = triangle_neighbor[0 + triangle * 3];
 
             if (triangle2 < 0 || triangle < triangle2)
             {
@@ -509,7 +484,7 @@ public static class NavierStokes
             adj_col[variable] = adj_col[variable - 1] + adj_col[variable];
         }
 
-        adj_num = adj_col[variable_num] - 1;
+        int adj_num = adj_col[variable_num] - 1;
 
         return adj_num;
     }
@@ -618,17 +593,13 @@ public static class NavierStokes
         //    Navier Stokes variable adjacencies.
         //
     {
-        int adj_num;
         int node;
-        int p1;
         int triangle;
-        int triangle2;
 
-        adj_num = 0;
         //
         //  Set every variable to be adjacent to itself.
         //
-        adj_num = variable_num;
+        int adj_num = variable_num;
         //
         //  Set every variable to be adjacent to the other variables associated with
         //  that node.
@@ -641,7 +612,7 @@ public static class NavierStokes
         {
             adj_num += 2;
 
-            p1 = node_p_variable[node] - 1;
+            int p1 = node_p_variable[node] - 1;
 
             switch (p1)
             {
@@ -680,7 +651,7 @@ public static class NavierStokes
             //    U1 V1 P1 <=> U4 V4
             //    U2 V2 P2 <=> U4 V4
             //
-            triangle2 = triangle_neighbor[0 + triangle * 3];
+            int triangle2 = triangle_neighbor[0 + triangle * 3];
 
             if (triangle2 < 0 || triangle < triangle2)
             {
@@ -836,41 +807,19 @@ public static class NavierStokes
         //    the location in ADJ_ROW which can store the next row index.
         //
     {
-        int[] adj_col_free;
-        int k1;
-        int k2;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        int n5;
-        int n6;
         int node;
         int p1;
-        int p2;
-        int p3;
         int triangle;
-        int triangle2;
         int u1;
-        int u2;
-        int u3;
-        int u4;
-        int u5;
-        int u6;
         int v;
         int v1;
-        int v2;
-        int v3;
-        int v4;
-        int v5;
-        int v6;
 
         for (v = 0; v < adj_num; v++)
         {
             adj_row[v] = -1;
         }
 
-        adj_col_free = new int[variable_num];
+        int[] adj_col_free = new int[variable_num];
 
         for (v = 0; v < variable_num; v++)
         {
@@ -916,33 +865,34 @@ public static class NavierStokes
         //
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            n1 = triangle_node[0 + triangle * 6];
-            n2 = triangle_node[1 + triangle * 6];
-            n3 = triangle_node[2 + triangle * 6];
-            n4 = triangle_node[3 + triangle * 6];
-            n5 = triangle_node[4 + triangle * 6];
-            n6 = triangle_node[5 + triangle * 6];
+            int n1 = triangle_node[0 + triangle * 6];
+            int n2 = triangle_node[1 + triangle * 6];
+            int n3 = triangle_node[2 + triangle * 6];
+            int 
+                n4 = triangle_node[3 + triangle * 6];
+            int n5 = triangle_node[4 + triangle * 6];
+            int n6 = triangle_node[5 + triangle * 6];
 
             u1 = node_u_variable[n1 - 1];
             v1 = node_v_variable[n1 - 1];
             p1 = node_p_variable[n1 - 1];
 
-            u2 = node_u_variable[n2 - 1];
-            v2 = node_v_variable[n2 - 1];
-            p2 = node_p_variable[n2 - 1];
+            int u2 = node_u_variable[n2 - 1];
+            int v2 = node_v_variable[n2 - 1];
+            int p2 = node_p_variable[n2 - 1];
 
-            u3 = node_u_variable[n3 - 1];
-            v3 = node_v_variable[n3 - 1];
-            p3 = node_p_variable[n3 - 1];
+            int u3 = node_u_variable[n3 - 1];
+            int v3 = node_v_variable[n3 - 1];
+            int p3 = node_p_variable[n3 - 1];
 
-            u4 = node_u_variable[n4 - 1];
-            v4 = node_v_variable[n4 - 1];
+            int u4 = node_u_variable[n4 - 1];
+            int v4 = node_v_variable[n4 - 1];
 
-            u5 = node_u_variable[n5 - 1];
-            v5 = node_v_variable[n5 - 1];
+            int u5 = node_u_variable[n5 - 1];
+            int v5 = node_v_variable[n5 - 1];
 
-            u6 = node_u_variable[n6 - 1];
-            v6 = node_v_variable[n6 - 1];
+            int u6 = node_u_variable[n6 - 1];
+            int v6 = node_v_variable[n6 - 1];
             //
             //  For sure, we add the new adjacencies:
             //
@@ -1000,7 +950,7 @@ public static class NavierStokes
             //    U1 V1 P1 <=> U4 V4
             //    U2 V2 P2 <=> U4 V4
             //
-            triangle2 = triangle_neighbor[0 + triangle * 3];
+            int triangle2 = triangle_neighbor[0 + triangle * 3];
 
             if (triangle2 < 0 || triangle < triangle2)
             {
@@ -1107,8 +1057,8 @@ public static class NavierStokes
         //
         for (v = 0; v < variable_num; v++)
         {
-            k1 = adj_col[v];
-            k2 = adj_col[v + 1] - 1;
+            int k1 = adj_col[v];
+            int k2 = adj_col[v + 1] - 1;
 
             typeMethods.i4vec_sort_heap_a(k2 + 1 - k1, ref adj_row, aIndex: + k1 - 1);
         }

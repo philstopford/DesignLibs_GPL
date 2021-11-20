@@ -31,13 +31,12 @@ public static partial class Matrix
         //    Output, int NONZEROS, the number of nonzero entries.
         //
     {
-        int i;
         int j;
-        int nnz;
 
-        nnz = 0;
+        int nnz = 0;
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 if ( a[i+j*m] != 0.0 )

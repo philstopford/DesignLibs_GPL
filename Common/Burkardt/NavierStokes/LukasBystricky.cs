@@ -43,31 +43,14 @@ public static class LukasBystricky
         //    V and P equations.
         //
     {
-        double dpdx;
-        double dpdy;
-        double dudt;
-        double dudx;
-        double dudxx;
-        double dudy;
-        double dudyy;
-        double dvdt;
-        double dvdx;
-        double dvdxx;
-        double dvdy;
-        double dvdyy;
-        double[] f;
-        double[] g;
-        double[] h;
         int i;
-            
-        double u;
-        double v;
+
         //
         //  Get the right hand sides.
         //
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
         rhs_lukas(nu, rho, n, x, y, t, ref f, ref g, ref h);
         //
@@ -75,22 +58,22 @@ public static class LukasBystricky
         //
         for (i = 0; i < n; i++)
         {
-            u = -Math.Cos(Math.PI * x[i]) / Math.PI;
-            dudt = 0.0;
-            dudx = Math.Sin(Math.PI * x[i]);
-            dudxx = Math.PI * Math.Cos(Math.PI * x[i]);
-            dudy = 0.0;
-            dudyy = 0.0;
+            double u = -Math.Cos(Math.PI * x[i]) / Math.PI;
+            const double dudt = 0.0;
+            double dudx = Math.Sin(Math.PI * x[i]);
+            double dudxx = Math.PI * Math.Cos(Math.PI * x[i]);
+            const double dudy = 0.0;
+            const double dudyy = 0.0;
 
-            v = -y[i] * Math.Sin(Math.PI * x[i]);
-            dvdt = 0.0;
-            dvdx = -Math.PI * y[i] * Math.Cos(Math.PI * x[i]);
-            dvdxx = +Math.PI * Math.PI * y[i] * Math.Sin(Math.PI * x[i]);
-            dvdy = -Math.Sin(Math.PI * x[i]);
-            dvdyy = 0.0;
+            double v = -y[i] * Math.Sin(Math.PI * x[i]);
+            const double dvdt = 0.0;
+            double dvdx = -Math.PI * y[i] * Math.Cos(Math.PI * x[i]);
+            double dvdxx = +Math.PI * Math.PI * y[i] * Math.Sin(Math.PI * x[i]);
+            double dvdy = -Math.Sin(Math.PI * x[i]);
+            const double dvdyy = 0.0;
 
-            dpdx = 0.0;
-            dpdy = 0.0;
+            const double dpdx = 0.0;
+            const double dpdy = 0.0;
             //
             //  Evaluate the residuals.
             //
@@ -142,39 +125,23 @@ public static class LukasBystricky
         //    double F[N], G[N], H[N], the right hand sides.
         //
     {
-        double[] dpdx;
-        double[] dpdy;
-        double[] dudt;
-        double[] dudx;
-        double[] dudxx;
-        double[] dudy;
-        double[] dudyy;
-        double[] dvdt;
-        double[] dvdx;
-        double[] dvdxx;
-        double[] dvdy;
-        double[] dvdyy;
         int i;
-        double[] p;
-            
-        double[] u;
-        double[] v;
 
-        dpdx = new double[n];
-        dpdy = new double[n];
-        dudt = new double[n];
-        dudx = new double[n];
-        dudxx = new double[n];
-        dudy = new double[n];
-        dudyy = new double[n];
-        dvdt = new double[n];
-        dvdx = new double[n];
-        dvdxx = new double[n];
-        dvdy = new double[n];
-        dvdyy = new double[n];
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] dpdx = new double[n];
+        double[] dpdy = new double[n];
+        double[] dudt = new double[n];
+        double[] dudx = new double[n];
+        double[] dudxx = new double[n];
+        double[] dudy = new double[n];
+        double[] dudyy = new double[n];
+        double[] dvdt = new double[n];
+        double[] dvdx = new double[n];
+        double[] dvdxx = new double[n];
+        double[] dvdy = new double[n];
+        double[] dvdyy = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
         for (i = 0; i < n; i++)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Burkardt.Error;
 using Burkardt.Types;
 
 namespace Burkardt.MatrixNS;
@@ -43,45 +44,35 @@ public static partial class Matrix
         //    Output, Complex C8MAT_EXPM1[N*N], the estimate for exp(A).
         //
     {
-        Complex[] a2;
-        double a_norm;
-        double c;
-        Complex[] d;
-        Complex[] e;
-        int ee;
         int k;
         const double one = 1.0;
-        bool p;
         const int q = 6;
-        int s;
-        double t;
-        Complex[] x;
 
-        a2 = typeMethods.c8mat_copy_new(n, n, a);
+        Complex[] a2 = typeMethods.c8mat_copy_new(n, n, a);
 
-        a_norm = typeMethods.c8mat_norm_li(n, n, a2);
+        double a_norm = typeMethods.c8mat_norm_li(n, n, a2);
 
-        ee = (int) typeMethods.r8_log_2(a_norm) + 1;
+        int ee = (int) typeMethods.r8_log_2(a_norm) + 1;
 
-        s = Math.Max(0, ee + 1);
+        int s = Math.Max(0, ee + 1);
 
-        t = 1.0 / Math.Pow(2.0, s);
+        double t = 1.0 / Math.Pow(2.0, s);
 
         typeMethods.c8mat_scale_r8(n, n, t, ref a2);
 
-        x = typeMethods.c8mat_copy_new(n, n, a2);
+        Complex[] x = typeMethods.c8mat_copy_new(n, n, a2);
 
-        c = 0.5;
+        double c = 0.5;
 
-        e = typeMethods.c8mat_identity_new(n);
+        Complex[] e = typeMethods.c8mat_identity_new(n);
 
         typeMethods.c8mat_add_r8(n, n, one, e, c, a2, ref e);
 
-        d = typeMethods.c8mat_identity_new(n);
+        Complex[] d = typeMethods.c8mat_identity_new(n);
 
         typeMethods.c8mat_add_r8(n, n, one, d, -c, a2, ref d);
 
-        p = true;
+        bool p = true;
 
         for (k = 2; k <= q; k++)
         {
@@ -156,45 +147,35 @@ public static partial class Matrix
         //    Output, double R8MAT_EXPM1[N*N], the estimate for exp(A).
         //
     {
-        double[] a2;
-        double a_norm;
-        double c;
-        double[] d;
-        double[] e;
-        int ee;
         int k;
         const double one = 1.0;
-        bool p;
         const int q = 6;
-        int s;
-        double t;
-        double[] x;
 
-        a2 = typeMethods.r8mat_copy_new(n, n, a);
+        double[] a2 = typeMethods.r8mat_copy_new(n, n, a);
 
-        a_norm = typeMethods.r8mat_norm_li(n, n, a2);
+        double a_norm = typeMethods.r8mat_norm_li(n, n, a2);
 
-        ee = (int) typeMethods.r8_log_2(a_norm) + 1;
+        int ee = (int) typeMethods.r8_log_2(a_norm) + 1;
 
-        s = Math.Max(0, ee + 1);
+        int s = Math.Max(0, ee + 1);
 
-        t = 1.0 / Math.Pow(2.0, s);
+        double t = 1.0 / Math.Pow(2.0, s);
 
         typeMethods.r8mat_scale(n, n, t, ref a2);
 
-        x = typeMethods.r8mat_copy_new(n, n, a2);
+        double[] x = typeMethods.r8mat_copy_new(n, n, a2);
 
-        c = 0.5;
+        double c = 0.5;
 
-        e = typeMethods.r8mat_identity_new(n);
+        double[] e = typeMethods.r8mat_identity_new(n);
 
         typeMethods.r8mat_add(n, n, one, e, c, a2, e);
 
-        d = typeMethods.r8mat_identity_new(n);
+        double[] d = typeMethods.r8mat_identity_new(n);
 
         typeMethods.r8mat_add(n, n, one, d, -c, a2, d);
 
-        p = true;
+        bool p = true;
 
         for (k = 2; k <= q; k++)
         {
@@ -277,17 +258,13 @@ public static partial class Matrix
         //    Output, double R8MAT_EXPM2[N*N], the estimate for exp(A).
         //
     {
-        double[] e;
-        double[] f;
-        int k;
         const double one = 1.0;
-        double s;
 
-        e = typeMethods.r8mat_zeros_new(n, n);
+        double[] e = typeMethods.r8mat_zeros_new(n, n);
 
-        f = typeMethods.r8mat_identity_new(n);
+        double[] f = typeMethods.r8mat_identity_new(n);
 
-        k = 1;
+        int k = 1;
 
         while (typeMethods.r8mat_is_significant(n, n, e, f))
         {
@@ -295,7 +272,7 @@ public static partial class Matrix
 
             typeMethods.r8mat_mm(n, n, n, a, f, ref f);
 
-            s = 1.0 / k;
+            double s = 1.0 / k;
 
             typeMethods.r8mat_scale(n, n, s, ref f);
 
@@ -353,11 +330,10 @@ public static partial class Matrix
         //    Output, double R8MAT_EXPM3[N*N], the estimate for exp(A).
         //
     {
-        double[] e = null;
         //
         //  [ V, D ] = eig ( A );
         //  E = V * diag ( exp ( diag ( D ) ) ) / V;
         //
-        return e;
+        return null;
     }
 }

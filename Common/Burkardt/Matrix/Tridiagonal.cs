@@ -107,14 +107,13 @@ public static class Tridiagonal
         //    Output, double TRIS[M*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (j == i - 1)
@@ -172,18 +171,15 @@ public static class Tridiagonal
         //    Output, complex <double> TRIS_EIGENVALUES[N], the eigenvalues.
         //
     {
-        double angle;
-        Complex arg;
         int i;
-        Complex[] lambda;
-            
 
-        lambda = new Complex[n];
+
+        Complex[] lambda = new Complex[n];
 
         for (i = 0; i < n; i++)
         {
-            angle = (i + 1) * Math.PI / (n + 1);
-            arg = new Complex(x * z, 0.0);
+            double angle = (i + 1) * Math.PI / (n + 1);
+            Complex arg = new Complex(x * z, 0.0);
             lambda[i] = y + 2.0 * Complex.Sqrt(arg) * Math.Cos(angle);
         }
 

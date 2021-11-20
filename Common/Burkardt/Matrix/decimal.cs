@@ -45,29 +45,20 @@ public static class DecimalMatrix
         //
     {
         bool even = false;
-        int i;
-        int[] iarray;
-        int ibot;
-        int ibot1;
-        int ibot2;
-        int itop;
-        int itop1;
-        int itop2;
-        bool more = false;
 
         dtop = 0;
         dbot = 1;
 
-        iarray = new int[n];
+        int[] iarray = new int[n];
         //
         //  Compute the next permutation.
         //
-        more = false;
+        bool more = false;
 
         for (;;)
         {
             Permutation.perm0_next(n, iarray, ref more, ref even);
-            itop = even switch
+            int itop = even switch
             {
                 //
                 //  The sign of this term depends on the sign of the permutation.
@@ -76,17 +67,18 @@ public static class DecimalMatrix
                 _ => -1
             };
 
-            ibot = 0;
+            int ibot = 0;
             //
             //  Choose one item from each row, as specified by the permutation,
             //  and multiply them.
             //
+            int i;
             for (i = 0; i < n; i++)
             {
-                itop1 = itop;
-                ibot1 = ibot;
-                itop2 = atop[i + iarray[i] * n];
-                ibot2 = abot[i + iarray[i] * n];
+                int itop1 = itop;
+                int ibot1 = ibot;
+                int itop2 = atop[i + iarray[i] * n];
+                int ibot2 = abot[i + iarray[i] * n];
 
                 typeMethods.dec_mul(itop1, ibot1, itop2, ibot2, dec_digit, ref itop, ref ibot);
 
@@ -133,20 +125,14 @@ public static class DecimalMatrix
         //    Input, string TITLE, a title.
         //
     {
-        int exponent;
         int i;
         int j;
-        int jmax;
         int jmin;
-        int kmax;
-        int mantissa;
-        int ncolum = 80;
-        int npline;
-        string s;
+        const int ncolum = 80;
         //
         //  Figure out how wide we must make each column.
         //
-        kmax = 0;
+        int kmax = 0;
 
         for (i = 0; i < m; i++)
         {
@@ -157,13 +143,13 @@ public static class DecimalMatrix
         }
 
         kmax += 2;
-        npline = ncolum / kmax;
+        int npline = ncolum / kmax;
         //
         //  Now do the printing.
         //
         for (jmin = 0; jmin < n; jmin += npline)
         {
-            jmax = Math.Min(jmin + npline - 1, n - 1);
+            int jmax = Math.Min(jmin + npline - 1, n - 1);
 
             switch (title.Length)
             {
@@ -184,9 +170,9 @@ public static class DecimalMatrix
                 string cout = "";
                 for (j = jmin; j <= jmax; j++)
                 {
-                    mantissa = a[i + j * m];
-                    exponent = b[i + j * m];
-                    s = typeMethods.dec_to_s(mantissa, exponent);
+                    int mantissa = a[i + j * m];
+                    int exponent = b[i + j * m];
+                    string s = typeMethods.dec_to_s(mantissa, exponent);
                     cout += s.PadLeft(kmax) + "  ";
                 }
 

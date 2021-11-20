@@ -55,31 +55,14 @@ public static class Taylor
         //    V and P equations.
         //
     {
-        double dpdx;
-        double dpdy;
-        double dudt;
-        double dudx;
-        double dudxx;
-        double dudy;
-        double dudyy;
-        double dvdt;
-        double dvdx;
-        double dvdxx;
-        double dvdy;
-        double dvdyy;
-        double[] f;
-        double[] g;
-        double[] h;
         int i;
 
-        double u;
-        double v;
         //
         //  Get the right hand sides.
         //
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
         rhs_taylor(nu, rho, n, x, y, t, ref f, ref g, ref h);
         //
@@ -87,34 +70,33 @@ public static class Taylor
         //
         for (i = 0; i < n; i++)
         {
-            u = -
+            double u = -
                 Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
-            dudx = Math.PI
-                   * Math.Sin(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
-            dudxx = Math.PI * Math.PI
-                            * Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
-            dudy = -Math.PI
-                   * Math.Cos(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
-            dudyy = Math.PI * Math.PI
-                            * Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
-            dudt = +2.0 * nu * Math.PI * Math.PI
-                   * Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
+            double dudx = Math.PI
+                          * Math.Sin(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
+            double dudxx = Math.PI * Math.PI
+                                   * Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
+            double dudy = -Math.PI
+                          * Math.Cos(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
+            double dudyy = Math.PI * Math.PI
+                                   * Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
+            double dudt = +2.0 * nu * Math.PI * Math.PI
+                          * Math.Cos(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
 
-            v =
-                Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
-            dvdx = Math.PI
-                   * Math.Cos(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
-            dvdxx = -Math.PI * Math.PI
-                             * Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
-            dvdy = -Math.PI
-                   * Math.Sin(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
-            dvdyy = -Math.PI * Math.PI
-                             * Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
-            dvdt = -2.0 * nu * Math.PI * Math.PI
-                   * Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
+            double v = Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
+            double dvdx = Math.PI
+                          * Math.Cos(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
+            double dvdxx = -Math.PI * Math.PI
+                                    * Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
+            double dvdy = -Math.PI
+                          * Math.Sin(Math.PI * x[i]) * Math.Sin(Math.PI * y[i]);
+            double dvdyy = -Math.PI * Math.PI
+                                    * Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
+            double dvdt = -2.0 * nu * Math.PI * Math.PI
+                          * Math.Sin(Math.PI * x[i]) * Math.Cos(Math.PI * y[i]);
 
-            dpdx = +0.5 * rho * Math.PI * Math.Sin(2.0 * Math.PI * x[i]);
-            dpdy = +0.5 * rho * Math.PI * Math.Sin(2.0 * Math.PI * y[i]);
+            double dpdx = +0.5 * rho * Math.PI * Math.Sin(2.0 * Math.PI * x[i]);
+            double dpdy = +0.5 * rho * Math.PI * Math.Sin(2.0 * Math.PI * y[i]);
             //
             //  Time scaling.
             //

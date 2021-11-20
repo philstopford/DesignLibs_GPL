@@ -55,7 +55,6 @@ public static class BellmanFord
         int i;
         int j;
         const double r8_big = 1.0E+30;
-        double t;
         int u;
         int v;
         //
@@ -87,12 +86,14 @@ public static class BellmanFord
             {
                 u = e[1 + j * 2];
                 v = e[0 + j * 2];
-                t = v_weight[u] + e_weight[j];
-                if (t < v_weight[v])
+                double t = v_weight[u] + e_weight[j];
+                if (!(t < v_weight[v]))
                 {
-                    v_weight[v] = t;
-                    predecessor[v] = u;
+                    continue;
                 }
+
+                v_weight[v] = t;
+                predecessor[v] = u;
             }
         }
 
@@ -103,13 +104,15 @@ public static class BellmanFord
         {
             u = e[1 + j * 2];
             v = e[0 + j * 2];
-            if (v_weight[u] + e_weight[j] < v_weight[v])
+            if (!(v_weight[u] + e_weight[j] < v_weight[v]))
             {
-                Console.WriteLine("");
-                Console.WriteLine("BELLMAN_FORD - Fatal error!");
-                Console.WriteLine("  Graph contains a cycle with negative weight.");
-                return;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("BELLMAN_FORD - Fatal error!");
+            Console.WriteLine("  Graph contains a cycle with negative weight.");
+            return;
         }
     }
 }

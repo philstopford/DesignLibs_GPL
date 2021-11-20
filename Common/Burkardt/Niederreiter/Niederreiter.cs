@@ -31,10 +31,10 @@ public static class Niederreiter
     //
     //    Global, int SUB[Q_MAX][Q_MAX], the field subtraction table.
     //
-    private static int DEG_MAX = 50;
+    private const int DEG_MAX = 50;
     private static int P;
     private static int Q;
-    private static int Q_MAX = 50;
+    private const int Q_MAX = 50;
 
     private static int[,] add = new int[Q_MAX, Q_MAX];
     private static int[,] mul = new int[Q_MAX, Q_MAX];
@@ -78,7 +78,7 @@ public static class Niederreiter
     private static int DIM_MAX = 50;
 
     //const int FIG_MAX = 20;
-    private static int FIG_MAX = 31;
+    private const int FIG_MAX = 31;
 
     private static int[,,] C = new int [DIM_MAX, FIG_MAX, FIG_MAX];
     private static int[] COUNT = new int[FIG_MAX];
@@ -160,27 +160,24 @@ public static class Niederreiter
         //
     {
         //const int maxe = 5;
-        int maxe = 8;
+        const int maxe = 8;
 
-        int v_max = FIG_MAX + maxe;
+        const int v_max = FIG_MAX + maxe;
 
         int[] b = new int[DEG_MAX + 2];
         int e;
-        string[] input;
-        string input_filename = "gfplys.txt";
+        const string input_filename = "gfplys.txt";
         int i;
         int j;
         int k;
         //const int npols = 25;
         const int npols = 50;
         int[] px = new int[maxe + 2];
-        int r;
-        int u;
         int[] v = new int[v_max + 1];
         //
         //  Read the irreducible polynomials.
         //
-        input = File.ReadAllLines(input_filename);
+        string[] input = File.ReadAllLines(input_filename);
 
         int index = 0;
 
@@ -240,7 +237,7 @@ public static class Niederreiter
             //  Niederreiter (page 56, after equation (7), defines two variables 
             //  Q and U.  We do not need Q explicitly, but we do need U.
             //
-            u = 0;
+            int u = 0;
 
             for (j = 0; j < NFIGS; j++)
             {
@@ -260,6 +257,7 @@ public static class Niederreiter
                 //  (page 65, near the bottom), and then gets C from A (page 56,
                 //  equation (7)).  However this can be done in one step.
                 //
+                int r;
                 for (r = 0; r < NFIGS; r++)
                 {
                     C[i, j, r] = v[r + u];
@@ -351,14 +349,10 @@ public static class Niederreiter
         //    0 < NONZER < Q.  Within these limits, the user can do what he likes.  
         //
     {
-        int arbit = 1;
-        int[] b2;
-        int bigm;
+        const int arbit = 1;
         int[] h = new int[DEG_MAX + 2];
         int i;
-        int kj;
-        int m;
-        int nonzer = 1;
+        const int nonzer = 1;
         int r;
         int term;
 
@@ -374,28 +368,28 @@ public static class Niederreiter
             h[i] = b[i];
         }
 
-        bigm = h[0];
+        int bigm = h[0];
         //
         //  Now multiply B by PX so B becomes PX^J.
         //
         //  In section 2.3, the values of Bi are defined with a minus sign:
         //  don't forget this if you use them later!
         //
-        b2 = plymul(px, b);
+        int[] b2 = plymul(px, b);
 
         for (i = 0; i < DEG_MAX + 2; i++)
         {
             b[i] = b2[i];
         }
 
-        m = b[0];
+        int m = b[0];
         //
         //  Now choose a value of Kj as defined in section 3.3.
         //  We must have 0 <= Kj < E*J = M.
         //  The limit condition on Kj does not seem very relevant
         //  in this program.
         //
-        kj = bigm;
+        int kj = bigm;
         //
         //  Now choose values of V in accordance with the conditions in
         //  section 3.3
@@ -505,12 +499,8 @@ public static class Niederreiter
         //    Output, double QUASI[], the next vector in the sequence.
         //
     {
-        int diff;
         int i;
         int j;
-        int nq;
-        int oldcnt;
-        int r;
         //
         //  Multiply the numerators in NEXTQ by RECIP to get the next
         //  quasi-random vector.
@@ -528,7 +518,7 @@ public static class Niederreiter
         //  N being implicit, and D(I,J) corresponds to XI(N,J), again
         //  with N implicit.  Finally COUNT(R) corresponds to AR(N).
         //
-        r = 0;
+        int r = 0;
 
         for (;;)
         {
@@ -540,7 +530,7 @@ public static class Niederreiter
                 return;
             }
 
-            oldcnt = COUNT[r];
+            int oldcnt = COUNT[r];
 
             if (COUNT[r] < Q - 1)
             {
@@ -551,7 +541,7 @@ public static class Niederreiter
                 COUNT[r] = 0;
             }
 
-            diff = sub[COUNT[r], oldcnt];
+            int diff = sub[COUNT[r], oldcnt];
             //
             //  Digit R has just changed.  DIFF says how much it changed
             //  by.  We use this to update the values of array D.
@@ -582,7 +572,7 @@ public static class Niederreiter
         //
         for (i = 0; i < DIMEN; i++)
         {
-            nq = 0;
+            int nq = 0;
             for (j = 0; j < NFIGS; j++)
             {
                 nq += D[i, j] * QPOW[j];
@@ -657,10 +647,8 @@ public static class Niederreiter
     {
         int i;
         int j;
-        int nbits = 31;
-        int nq;
+        const int nbits = 31;
         int r;
-        double temp;
 
         DIMEN = dim;
 
@@ -684,7 +672,7 @@ public static class Niederreiter
         //
         //  Calculate how many figures to use in base Q = BASE
         //
-        temp = Math.Log(Math.Pow(2.0, nbits) - 1.0) / Math.Log(Q);
+        double temp = Math.Log(Math.Pow(2.0, nbits) - 1.0) / Math.Log(Q);
 
         NFIGS = Math.Min(FIG_MAX, (int) temp);
         //
@@ -753,7 +741,7 @@ public static class Niederreiter
         //
         for (i = 0; i < DIMEN; i++)
         {
-            nq = 0;
+            int nq = 0;
             for (j = 0; j < NFIGS; j++)
             {
                 nq += D[i, j] * QPOW[j];
@@ -802,11 +790,9 @@ public static class Niederreiter
         //    Output, double R[DIM_NUM], the element of the sequence.
         //
     {
-        int skip;
-
         if (data.dim_num_save < 1 || dim_num != data.dim_num_save || seed <= 0)
         {
-            skip = 1;
+            int skip = 1;
 
             inlo(dim_num, base_, skip);
 
@@ -899,7 +885,6 @@ public static class Niederreiter
         //    file to which the output should be written.
         //
     {
-        int dim;
         int j;
         List<string> output = new()
         {
@@ -917,6 +902,7 @@ public static class Niederreiter
         for (j = 0; j < n; j++)
         {
             string cout = "";
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += "  " + r[dim + j * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10);
@@ -972,18 +958,13 @@ public static class Niederreiter
         //    Output, int PLYMUL[DEG_MAX+2], the product polynomial.
         //
     {
-        int dega;
-        int degb;
         int degc;
         int i;
-        int j;
-        int[] pc;
-        int term;
 
-        pc = new int[DEG_MAX + 2];
+        int[] pc = new int[DEG_MAX + 2];
 
-        dega = pa[0];
-        degb = pb[0];
+        int dega = pa[0];
+        int degb = pb[0];
 
         if (dega == -1 || degb == -1)
         {
@@ -1004,7 +985,8 @@ public static class Niederreiter
 
         for (i = 0; i <= degc; i++)
         {
-            term = 0;
+            int term = 0;
+            int j;
             for (j = Math.Max(0, i - dega); j <= Math.Min(degb, i); j++)
             {
                 term = add[term, mul[pa[i - j + 1], pb[j + 1]]];

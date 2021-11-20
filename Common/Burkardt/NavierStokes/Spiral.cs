@@ -50,44 +50,26 @@ public static class Spiral
         //    double UR[N], VR[N], PR[N], the right hand sides.
         //
     {
-        double[] dpdx;
-        double[] dpdy;
-        double[] dudt;
-        double[] dudx;
-        double[] dudxx;
-        double[] dudy;
-        double[] dudyy;
-        double[] dvdt;
-        double[] dvdx;
-        double[] dvdxx;
-        double[] dvdy;
-        double[] dvdyy;
-        double[] f;
-        double[] g;
-        double[] h;
         int i;
-        double[] p;
-        double[] u;
-        double[] v;
 
-        dpdx = new double[n];
-        dpdy = new double[n];
-        dudt = new double[n];
-        dudx = new double[n];
-        dudxx = new double[n];
-        dudy = new double[n];
-        dudyy = new double[n];
-        dvdt = new double[n];
-        dvdx = new double[n];
-        dvdxx = new double[n];
-        dvdy = new double[n];
-        dvdyy = new double[n];
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] dpdx = new double[n];
+        double[] dpdy = new double[n];
+        double[] dudt = new double[n];
+        double[] dudx = new double[n];
+        double[] dudxx = new double[n];
+        double[] dudy = new double[n];
+        double[] dudyy = new double[n];
+        double[] dvdt = new double[n];
+        double[] dvdx = new double[n];
+        double[] dvdxx = new double[n];
+        double[] dvdy = new double[n];
+        double[] dvdyy = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
         //
         //  Get the right hand side functions.
         //
@@ -211,38 +193,23 @@ public static class Spiral
         //    double F[N], G[N], H[N], the right hand sides.
         //
     {
-        double[] dpdx;
-        double[] dpdy;
-        double[] dudt;
-        double[] dudx;
-        double[] dudxx;
-        double[] dudy;
-        double[] dudyy;
-        double[] dvdt;
-        double[] dvdx;
-        double[] dvdxx;
-        double[] dvdy;
-        double[] dvdyy;
         int i;
-        double[] p;
-        double[] u;
-        double[] v;
 
-        dpdx = new double[n];
-        dpdy = new double[n];
-        dudt = new double[n];
-        dudx = new double[n];
-        dudxx = new double[n];
-        dudy = new double[n];
-        dudyy = new double[n];
-        dvdt = new double[n];
-        dvdx = new double[n];
-        dvdxx = new double[n];
-        dvdy = new double[n];
-        dvdyy = new double[n];
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] dpdx = new double[n];
+        double[] dpdy = new double[n];
+        double[] dudt = new double[n];
+        double[] dudx = new double[n];
+        double[] dudxx = new double[n];
+        double[] dudy = new double[n];
+        double[] dudyy = new double[n];
+        double[] dvdt = new double[n];
+        double[] dvdx = new double[n];
+        double[] dvdxx = new double[n];
+        double[] dvdy = new double[n];
+        double[] dvdyy = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
         for (i = 0; i < n; i++)
         {

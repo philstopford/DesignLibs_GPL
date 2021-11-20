@@ -71,13 +71,11 @@ public static class Niederreiter2
         //    Local, int MAXV, the maximum possible index used in V.
         //
     {
-        int MAXE = 6;
+        const int MAXE = 6;
 
         int[,] add = new int [2,2];
         int[] b = new int[MAXDEG + 1];
-        int b_deg;
         int[,] ci = new int[NBITS,NBITS];
-        int e;
         int i;
         int[,] irred =
             {
@@ -148,15 +146,10 @@ public static class Niederreiter2
                 1, 1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6
             }
             ;
-        int j;
         int maxv = NBITS + MAXE;
         int[,] mul = new int[2,2];
         int[] px = new int[MAXDEG + 1];
-        int px_deg;
-        int r;
         int[,] sub = new int[2,2];
-        int term;
-        int u;
         int[] v = new int[NBITS + MAXE + 1];
         //
         //  Prepare to work in Z2.
@@ -175,23 +168,25 @@ public static class Niederreiter2
             //  M is the degree of B.  Subsequently B will hold higher
             //  powers of PX.
             //
-            e = irred_deg[i];
+            int e = irred_deg[i];
 
-            px_deg = irred_deg[i];
+            int px_deg = irred_deg[i];
 
+            int j;
             for (j = 0; j <= px_deg; j++)
             {
                 px[j] = irred[i,j];
             }
 
-            b_deg = 0;
+            int b_deg = 0;
             b[0] = 1;
             //
             //  Niederreiter (page 56, after equation (7), defines two
             //  variables Q and U.  We do not need Q explicitly, but we do need U.
             //
-            u = 0;
+            int u = 0;
 
+            int r;
             for (j = 0; j < NBITS; j++)
             {
                 switch (u)
@@ -237,7 +232,7 @@ public static class Niederreiter2
             //
             for (r = 0; r < NBITS; r++)
             {
-                term = 0;
+                int term = 0;
                 for (j = 0; j < NBITS; j++)
                 {
                     term = 2 * term + ci[j,r];
@@ -332,13 +327,8 @@ public static class Niederreiter2
         //    0 < NONZER < 2.
         //
     {
-        int bigm;
         int[] h = new int[MAXDEG + 1];
-        int h_deg;
         int i;
-        int kj;
-        int m;
-        int pb_deg;
         int r;
         int term;
         //
@@ -347,32 +337,32 @@ public static class Niederreiter2
         //  In section 3.3, the values of Hi are defined with a minus sign:
         //  don't forget this if you use them later!
         //
-        h_deg = b_deg;
+        int h_deg = b_deg;
 
         for (i = 0; i <= h_deg; i++)
         {
             h[i] = b[i];
         }
 
-        bigm = h_deg;
+        int bigm = h_deg;
         //
         //  Multiply B by PX so B becomes PX**J.
         //  In section 2.3, the values of Bi are defined with a minus sign:
         //  don't forget this if you use them later!
         //
-        pb_deg = b_deg;
+        int pb_deg = b_deg;
 
         plymul2(add, mul, px_deg, px, pb_deg, b, ref pb_deg, b);
 
         b_deg = pb_deg;
-        m = b_deg;
+        int m = b_deg;
         //
         //  Now choose a value of Kj as defined in section 3.3.
         //  We must have 0 <= Kj < E*J = M.
         //  The limit condition on Kj does not seem very relevant
         //  in this program.
         //
-        kj = bigm;
+        int kj = bigm;
         //
         //  Choose values of V in accordance with the conditions in section 3.3.
         //
@@ -439,8 +429,8 @@ public static class Niederreiter2
         public int dim_save;
             
         public int[,] cj = new int[DIM_MAX, NBITS];
-        public int[] nextq = new int[DIM_MAX];
-        public double RECIP = 1.0 / (1 << NBITS);
+        public readonly int[] nextq = new int[DIM_MAX];
+        public readonly double RECIP = 1.0 / (1 << NBITS);
 
         public NiederReiter2CalcData calcdata = new();
 
@@ -501,7 +491,6 @@ public static class Niederreiter2
         //    the values of XI(N), multiply by RECIP.
         //
     {
-        int gray;
         int i;
         int r;
         //
@@ -541,7 +530,7 @@ public static class Niederreiter2
         //
         if (seed != data.seed_save + 1)
         {
-            gray = seed ^ (seed / 2);
+            int gray = seed ^ (seed / 2);
 
             for (i = 0; i < data.dim_save; i++)
             {
@@ -645,9 +634,8 @@ public static class Niederreiter2
         //
     {
         int j;
-        double[] r;
 
-        r = new double[dim_num * n];
+        double[] r = new double[dim_num * n];
 
         for (j = 0; j < n; j++)
         {
@@ -706,11 +694,8 @@ public static class Niederreiter2
         //
     {
         int i;
-        int j;
-        int jhi;
         int jlo = 0;
         int[] pt = new int[MAXDEG + 1];
-        int term;
 
         if (pa_deg == -1 || pb_deg == -1)
         {
@@ -737,14 +722,15 @@ public static class Niederreiter2
                 _ => i - pa_deg
             };
 
-            jhi = pb_deg;
+            int jhi = pb_deg;
             if (i < jhi)
             {
                 jhi = i;
             }
 
-            term = 0;
+            int term = 0;
 
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 term = add[term,mul[pa[i - j],pb[j]]];

@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P19_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        double alpha = 0.0;
 
         return alpha;
     }
@@ -62,18 +60,10 @@ public static partial class Integrands
         //
     {
         const double beta = 0.5;
-        double exact;
-            
 
-        switch (beta)
-        {
-            case 1.0:
-                exact = 1.0 / 10.0;
-                break;
-        }
 
-        exact = (1.0 - beta) * Math.PI
-                / (Math.Pow(10.0, beta) * Math.Sin(Math.PI * beta));
+        double exact = (1.0 - beta) * Math.PI
+                       / (Math.Pow(10.0, beta) * Math.Sin(Math.PI * beta));
 
         return exact;
     }
@@ -123,10 +113,9 @@ public static partial class Integrands
         //    Output, double P61_FUN[N], the integrand values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -166,9 +155,7 @@ public static partial class Integrands
         //    Output, string P19_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "x^(beta-1) / ( 1 + 10 x )^2";
+        string title = "x^(beta-1) / ( 1 + 10 x )^2";
 
         return title;
     }

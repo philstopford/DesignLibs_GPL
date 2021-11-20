@@ -109,17 +109,15 @@ public static class QuadratureRule
         //    Output, double W[N], the weights.
         //
     {
-        double[] bj;
         int i;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = 1.0;
+        const double zemu = 1.0;
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -229,9 +227,7 @@ public static class QuadratureRule
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gen_laguerre_compute(order, alpha, ref x, ref w);
     }
@@ -267,9 +263,7 @@ public static class QuadratureRule
         //    Output, double W[ORDER], the weights.
         //
     {
-        double[] x;
-
-        x = new double[order];
+        double[] x = new double[order];
 
         gen_laguerre_compute ( order, alpha, ref x, ref w );
     }
@@ -309,9 +303,7 @@ public static class QuadratureRule
         //    Output, double W[ORDER], the weights.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gen_laguerre_compute_weights ( order, alpha, ref w );
 
@@ -377,18 +369,16 @@ public static class QuadratureRule
         //    Output, double W[N], the weights.
         //
     {
-        double[] bj;
         int i;
         double i_r8;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = typeMethods.r8_gamma(alpha + 1.0);
+        double zemu = typeMethods.r8_gamma(alpha + 1.0);
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -462,18 +452,15 @@ public static class QuadratureRule
         //    Output, double MONOMIAL_QUADRATURE_GEN_LAGUERRE, the quadrature error.
         //
     {
-        double exact;
         int i;
-        double quad;
-        double quad_error;
         //
         //  Get the exact value of the integral.
         //
-        exact = Integral.gen_laguerre_integral ( expon, alpha );
+        double exact = Integral.gen_laguerre_integral ( expon, alpha );
         //
         //  Evaluate the unweighted monomial at the quadrature points.
         //
-        quad = 0.0;
+        double quad = 0.0;
 
         switch (option)
         {
@@ -499,7 +486,7 @@ public static class QuadratureRule
         //
         //  Error:
         //
-        quad_error = Math.Abs ( quad - exact ) / exact;
+        double quad_error = Math.Abs ( quad - exact ) / exact;
 
         return quad_error;
     }
@@ -542,11 +529,9 @@ public static class QuadratureRule
     {
         int dim;
         int order;
-        double[] w_1d;
-        double[] w_nd;
         typeMethods.r8vecDPData data = new();
 
-        w_nd = new double[order_nd];
+        double[] w_nd = new double[order_nd];
   
         for ( order = 0; order < order_nd; order++ )
         {
@@ -555,7 +540,7 @@ public static class QuadratureRule
 
         for ( dim = 0; dim < dim_num; dim++ )
         {
-            w_1d = new double[order_1d[dim]];
+            double[] w_1d = new double[order_1d[dim]];
     
             laguerre_weights ( order_1d[dim], ref w_1d );
 
@@ -611,9 +596,7 @@ public static class QuadratureRule
         //
     {
         int dim;
-        int level;
         int point;
-        int pointer;
         int[] skip = { 0, 1, 4, 11, 26, 57, 120, 247 };
         double[] x =
         {
@@ -894,9 +877,9 @@ public static class QuadratureRule
         {
             for (dim = 0; dim < dim_num; dim++)
             {
-                level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1) - 1;
+                int level = (int)Math.Log2(grid_base[gridBaseIndex + dim] + 1) - 1;
 
-                pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num];
+                int pointer = skip[level] + grid_index[gridIndex + dim + point * dim_num];
 
                 switch (pointer)
                 {
@@ -1005,20 +988,13 @@ public static class QuadratureRule
         //    ALPHA must be nonnegative.
         //
     {
-        double[] b;
-        double[] c;
-        double cc;
         double dp2 = 0;
         int i;
         double p1 = 0;
-        double prod;
-        double r1;
-        double r2;
-        double ratio;
         double x = 0;
 
-        b = new double[order];
-        c = new double[order];
+        double[] b = new double[order];
+        double[] c = new double[order];
         //
         //  Set the recursion coefficients.
         //
@@ -1032,13 +1008,13 @@ public static class QuadratureRule
             c[i] = i * (alpha + i);
         }
 
-        prod = 1.0;
+        double prod = 1.0;
         for (i = 1; i < order; i++)
         {
             prod *= c[i];
         }
 
-        cc = typeMethods.r8_gamma(alpha + 1.0) * prod;
+        double cc = typeMethods.r8_gamma(alpha + 1.0) * prod;
 
         for (i = 0; i < order; i++)
         {
@@ -1056,13 +1032,13 @@ public static class QuadratureRule
                          (1.0 + 0.9 * alpha + 2.5 * order);
                     break;
                 default:
-                    r1 = (1.0 + 2.55 * (i - 1))
-                         / (1.9 * (i - 1));
+                    double r1 = (1.0 + 2.55 * (i - 1))
+                                / (1.9 * (i - 1));
 
-                    r2 = 1.26 * (i - 1) * alpha /
-                         (1.0 + 3.5 * (i - 1));
+                    double r2 = 1.26 * (i - 1) * alpha /
+                                (1.0 + 3.5 * (i - 1));
 
-                    ratio = (r1 + r2) / (1.0 + 0.3 * alpha);
+                    double ratio = (r1 + r2) / (1.0 + 0.3 * alpha);
 
                     x += ratio * (x - xtab[i - 2]);
                     break;
@@ -1117,17 +1093,15 @@ public static class QuadratureRule
         //    Output, double W[N], the weights.
         //
     {
-        double[] bj;
         int i;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = 1.0;
+        const double zemu = 1.0;
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
         for ( i = 0; i < n; i++ )
         {
             bj[i] = i + 1;
@@ -1185,9 +1159,7 @@ public static class QuadratureRule
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double[] w;
-
-        w = new double[order];
+        double[] w = new double[order];
 
         gen_laguerre_compute ( order, alpha, ref x, ref w );
     }
@@ -1227,9 +1199,7 @@ public static class QuadratureRule
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double alpha;
-
-        alpha = p[0];
+        double alpha = p[0];
 
         gen_laguerre_compute_points ( order, alpha, ref x );
 
@@ -1263,9 +1233,7 @@ public static class QuadratureRule
         //    Output, double X[ORDER], the abscissas.
         //
     {
-        double[] w;
-
-        w = new double[order];
+        double[] w = new double[order];
 
         laguerre_compute ( order, ref x, ref w );
     }
@@ -1333,9 +1301,7 @@ public static class QuadratureRule
         //    Output, double W[ORDER], the weights.
         //
     {
-        double[] x;
-
-        x = new double[order];
+        double[] x = new double[order];
 
         laguerre_compute ( order, ref x, ref w );
     }
@@ -1418,16 +1384,10 @@ public static class QuadratureRule
         // 
     {
         int i;
-        string output_r;
-        string output_w;
-        string output_x;
-        double[] r;
-        double[] w;
-        double[] x;
 
-        r = new double[2];
-        w = new double[order];
-        x = new double[order];
+        double[] r = new double[2];
+        double[] w = new double[order];
+        double[] x = new double[order];
 
         r[0] = a;
         r[1] = typeMethods.r8_huge();
@@ -1642,6 +1602,9 @@ public static class QuadratureRule
             }
             default:
             {
+                string output_r;
+                string output_x;
+                string output_w;
                 switch (option)
                 {
                     case 0:

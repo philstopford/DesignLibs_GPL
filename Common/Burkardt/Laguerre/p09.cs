@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P09_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -61,9 +59,7 @@ public static partial class Integrands
         //    Output, double P09_EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-
-        exact = 24.0;
+        const double exact = 24.0;
 
         return exact;
     }
@@ -106,11 +102,10 @@ public static partial class Integrands
         //    Output, double P09_FUN[N], the function values.
         //
     {
-        double exponent_min = -80.0;
-        double[] f;
+        const double exponent_min = -80.0;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -152,9 +147,7 @@ public static partial class Integrands
         //    Output, string P09_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "Gamma(Z=5) function";
+        const string title = "Gamma(Z=5) function";
 
         return title;
     }

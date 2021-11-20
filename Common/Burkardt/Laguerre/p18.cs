@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P18_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        double alpha = 0.0;
 
         return alpha;
     }
@@ -67,9 +65,7 @@ public static partial class Integrands
         //    Output, double P18_EXACT, the value of the integral.
         //
     {
-        double exact;
-
-        exact = Math.Pow(2.0, 3.0 * data.beta + 1.0);
+        double exact = Math.Pow(2.0, 3.0 * data.beta + 1.0);
 
         return exact;
     }
@@ -114,10 +110,9 @@ public static partial class Integrands
         //    Output, double P18_FUN[N], the integrand values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -152,9 +147,7 @@ public static partial class Integrands
         //    Output, string P18_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "x^2 * exp ( - x / 2^beta )";
+        const string title = "x^2 * exp ( - x / 2^beta )";
 
         return title;
     }

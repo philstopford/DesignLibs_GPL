@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P03_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 2.0;
+        const double alpha = 2.0;
 
         return alpha;
     }
@@ -61,9 +59,7 @@ public static partial class Integrands
         //    Output, double P03_EXACT, the value of the integral.
         //
     {
-        double exact;
-
-        exact = 13.628;
+        const double exact = 13.628;
 
         return exact;
     }
@@ -116,10 +112,9 @@ public static partial class Integrands
         //    Output, double P03_FUN[N], the function values.
         //
     {
-        double[] f;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -154,9 +149,7 @@ public static partial class Integrands
         //    Output, string P03_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "1 / ( x^1.01 )";
+        const string title = "1 / ( x^1.01 )";
 
         return title;
     }

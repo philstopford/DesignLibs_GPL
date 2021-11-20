@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P08_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -61,10 +59,7 @@ public static partial class Integrands
         //    Output, double P08_EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-            
-
-        exact = Math.PI * Math.PI / 6.0;
+        const double exact = Math.PI * Math.PI / 6.0;
 
         return exact;
     }
@@ -111,11 +106,10 @@ public static partial class Integrands
         //    Output, double P08_FUN[N], the function values.
         //
     {
-        double exponent_max = 80.0;
-        double[] f;
+        const double exponent_max = 80.0;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -168,9 +162,7 @@ public static partial class Integrands
         //    Output, string P08_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "Debye function";
+        const string title = "Debye function";
 
         return title;
     }

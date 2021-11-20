@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P06_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 2.0;
+        const double alpha = 2.0;
 
         return alpha;
     }
@@ -61,9 +59,7 @@ public static partial class Integrands
         //    Output, double P06_EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-
-        exact = 0.00056103711148387120640;
+        const double exact = 0.00056103711148387120640;
 
         return exact;
     }
@@ -116,11 +112,10 @@ public static partial class Integrands
         //    Output, double P06_FUN[N], the function values.
         //
     {
-        double exponent_min = -80.0;
-        double[] f;
+        const double exponent_min = -80.0;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -162,9 +157,7 @@ public static partial class Integrands
         //    Output, string P06_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "Complementary error function";
+        const string title = "Complementary error function";
 
         return title;
     }

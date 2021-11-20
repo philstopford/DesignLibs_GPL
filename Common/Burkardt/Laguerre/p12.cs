@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P12_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -61,9 +59,7 @@ public static partial class Integrands
         //    Output, double EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-
-        exact = 0.5;
+        const double exact = 0.5;
 
         return exact;
     }
@@ -115,10 +111,9 @@ public static partial class Integrands
         //
     {
         double exponent_min = -80.0;
-        double[] f;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -160,9 +155,7 @@ public static partial class Integrands
         //    Output, string P12_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "exp ( - x ) * cos ( x )";
+        const string title = "exp ( - x ) * cos ( x )";
 
         return title;
     }

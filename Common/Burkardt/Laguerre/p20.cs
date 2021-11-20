@@ -29,17 +29,14 @@ public static partial class Integrands
         //    Output, double P20_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
 
     public class p20Data
     {
-        public double beta = 1.0;
-            
+        public const double beta = 1.0;
     }
 
     public static double p20_exact(ref p20Data data)
@@ -67,15 +64,12 @@ public static partial class Integrands
         //    Output, double P20_EXACT, the value of the integral.
         //
     {
-        double exact;
-
-        exact =
-        (
-            Math.Log(1.5) / Math.Pow(2.0, data.beta)
-            - 1.0 / Math.Pow(2.0, data.beta + 1.0) *
-            Math.Log((16.0 + Math.Pow(0.25, data.beta)) / (1.0 + Math.Pow(0.25, data.beta)))
-            - Math.Atan(Math.Pow(2.0, data.beta + 2.0)) - Math.Atan(Math.Pow(2.0, data.beta))
-        ) / (1.0 + Math.Pow(0.25, data.beta));
+        double exact = (
+            Math.Log(1.5) / Math.Pow(2.0, p20Data.beta)
+            - 1.0 / Math.Pow(2.0, p20Data.beta + 1.0) *
+            Math.Log((16.0 + Math.Pow(0.25, p20Data.beta)) / (1.0 + Math.Pow(0.25, p20Data.beta)))
+            - Math.Atan(Math.Pow(2.0, p20Data.beta + 2.0)) - Math.Atan(Math.Pow(2.0, p20Data.beta))
+        ) / (1.0 + Math.Pow(0.25, p20Data.beta));
 
         return exact;
     }
@@ -121,22 +115,21 @@ public static partial class Integrands
         //    Output, double P20_FUN[N], the integrand values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, data.beta) == 0.0 || Math.Abs(x[i] - 2.0) <= double.Epsilon)
+            if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, p20Data.beta) == 0.0 || Math.Abs(x[i] - 2.0) <= double.Epsilon)
             {
                 fx[i] = 0.0;
             }
             else
             {
                 fx[i] = 1.0 /
-                        (Math.Pow(2.0, data.beta)
-                         * (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, data.beta))
+                        (Math.Pow(2.0, p20Data.beta)
+                         * (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, p20Data.beta))
                          * (x[i] - 2.0));
             }
         }
@@ -169,9 +162,7 @@ public static partial class Integrands
         //    Output, string P20_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "1 / ( 2^beta * ( ( x - 1 )^2 + (1/4)^beta ) * ( x - 2 ) )";
+        string title = "1 / ( 2^beta * ( ( x - 1 )^2 + (1/4)^beta ) * ( x - 2 ) )";
 
         return title;
     }

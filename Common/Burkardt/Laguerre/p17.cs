@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P17_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -62,11 +60,10 @@ public static partial class Integrands
         //
     {
         const double beta = 2.0;
-        double exact;
-            
 
-        exact = Math.Sqrt(Math.PI) * Math.Cos(0.5 * Math.Atan(Math.Pow(2.0, beta)))
-                / Math.Sqrt(Math.Sqrt(1.0 + Math.Pow(0.25, beta)));
+
+        double exact = Math.Sqrt(Math.PI) * Math.Cos(0.5 * Math.Atan(Math.Pow(2.0, beta)))
+                       / Math.Sqrt(Math.Sqrt(1.0 + Math.Pow(0.25, beta)));
 
         return exact;
     }
@@ -117,10 +114,9 @@ public static partial class Integrands
         //    Output, double P17_FUN[N], the integrand values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -159,9 +155,7 @@ public static partial class Integrands
         //    Output, string P17_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "exp ( - x / 2^beta ) * cos ( x ) / Math.Sqrt ( x )";
+        string title = "exp ( - x / 2^beta ) * cos ( x ) / Math.Sqrt ( x )";
 
         return title;
     }

@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P04_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 2.0;
+        const double alpha = 2.0;
 
         return alpha;
     }
@@ -61,9 +59,7 @@ public static partial class Integrands
         //    Output, double P04_EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-
-        exact = -0.0046848541335080643181;
+        const double exact = -0.0046848541335080643181;
 
         return exact;
     }
@@ -116,10 +112,9 @@ public static partial class Integrands
         //    Output, double P04_FUN[N], the function values.
         //
     {
-        double[] f;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -158,9 +153,7 @@ public static partial class Integrands
         //    Output, string P04_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "Sine integral";
+        const string title = "Sine integral";
 
         return title;
     }

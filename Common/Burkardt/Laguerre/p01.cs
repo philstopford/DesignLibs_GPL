@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P01_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 2.0;
+        const double alpha = 2.0;
 
         return alpha;
     }
@@ -57,9 +55,7 @@ public static partial class Integrands
         //    Output, double P01_EXACT, the value of the integral.
         //
     {
-        double exact;
-
-        exact = 0.19524754198276439152;
+        const double exact = 0.19524754198276439152;
 
         return exact;
     }
@@ -112,10 +108,9 @@ public static partial class Integrands
         //    Output, double P01_FUN[N], the function values.
         //
     {
-        double[] f;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -150,9 +145,7 @@ public static partial class Integrands
         //    Output, string P01_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "1 / ( x * log ( x )^2 )";
+        const string title = "1 / ( x * log ( x )^2 )";
 
         return title;
     }

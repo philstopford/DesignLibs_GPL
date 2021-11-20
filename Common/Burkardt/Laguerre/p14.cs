@@ -29,9 +29,7 @@ public static partial class Integrands
         //    Output, double P14_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -61,9 +59,7 @@ public static partial class Integrands
         //    Output, double EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-
-        exact = 1.0634618101722400407;
+        const double exact = 1.0634618101722400407;
 
         return exact;
     }
@@ -115,11 +111,10 @@ public static partial class Integrands
         //    Output, double P14_FUN[N], the function values.
         //
     {
-        double exponent_min = -80.0;
-        double[] f;
+        const double exponent_min = -80.0;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -165,9 +160,7 @@ public static partial class Integrands
         //    Output, string P14_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "sin ( exp(-x) + exp(-4x) )";
+        const string title = "sin ( exp(-x) + exp(-4x) )";
 
         return title;
     }

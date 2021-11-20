@@ -30,9 +30,7 @@ public static partial class Integrands
         //    Output, double P15_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -62,10 +60,7 @@ public static partial class Integrands
         //    Output, double EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-            
-
-        exact = -Math.PI * Math.Log(10.0) / 20.0;
+        double exact = -Math.PI * Math.Log(10.0) / 20.0;
 
         return exact;
     }
@@ -112,10 +107,9 @@ public static partial class Integrands
         //    Output, double P15_FUN[N], the function values.
         //
     {
-        double[] f;
         int i;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -154,9 +148,7 @@ public static partial class Integrands
         //    Output, string P15_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "log(x) / ( 1 + 100 x^2 )";
+        const string title = "log(x) / ( 1 + 100 x^2 )";
 
         return title;
     }

@@ -290,19 +290,13 @@ public static partial class Integrands
         //    Output, double P00_EXP_TRANSFORM, the approximate integral.
         //
     {
-        double alpha;
-        double[] fu;
         int i;
-        double result;
-        double[] u;
-        double[] u_log;
-        double[] weight;
 
-        u = new double[order];
-        u_log = new double[order];
-        weight = new double[order];
+        double[] u = new double[order];
+        double[] u_log = new double[order];
+        double[] weight = new double[order];
 
-        alpha = p00_alpha(problem);
+        double alpha = p00_alpha(problem);
         //
         //  Get the abscissas and weights for Gauss-Legendre quadrature.
         //
@@ -336,7 +330,7 @@ public static partial class Integrands
         //
         //  Evaluate F ( -LOG(U) ).
         //
-        fu = p00_fun(ref data, problem, order, u_log);
+        double[] fu = p00_fun(ref data, problem, order, u_log);
         //
         //  The integrand is F ( -LOG(U) ) / U
         //
@@ -348,7 +342,7 @@ public static partial class Integrands
         //
         //  Sum.
         //
-        result = typeMethods.r8vec_dot_product(order, weight, fu);
+        double result = typeMethods.r8vec_dot_product(order, weight, fu);
 
         return result;
     }
@@ -488,20 +482,14 @@ public static partial class Integrands
         //    Output, double P00_GAUSS_LAGUERRE, the approximate integral.
         //
     {
-        double alpha;
-        double alpha2;
-        double[] fx;
         int i;
-        double result;
-        double[] weight;
-        double[] xtab;
 
-        weight = new double[order];
-        xtab = new double[order];
+        double[] weight = new double[order];
+        double[] xtab = new double[order];
 
-        alpha = p00_alpha(problem);
+        double alpha = p00_alpha(problem);
 
-        alpha2 = 0.0;
+        double alpha2 = 0.0;
         QuadratureRule.laguerre_compute(order, ref xtab, ref weight, alpha2);
 
         for (i = 0; i < order; i++)
@@ -509,7 +497,7 @@ public static partial class Integrands
             xtab[i] += alpha;
         }
 
-        fx = p00_fun(ref data, problem, order, xtab);
+        double[] fx = p00_fun(ref data, problem, order, xtab);
         //
         //  The Gauss-Laguerre rule assumes a weight of EXP(-X).
         //
@@ -521,7 +509,7 @@ public static partial class Integrands
             fx[i] *= Math.Exp(xtab[i]);
         }
 
-        result = Math.Exp(-alpha) * typeMethods.r8vec_dot_product(order, weight, fx);
+        double result = Math.Exp(-alpha) * typeMethods.r8vec_dot_product(order, weight, fx);
 
         return result;
     }
@@ -551,9 +539,7 @@ public static partial class Integrands
         //    Output, int P00_PROBLEM_NUM, the number of test problems.
         //
     {
-        int problem_num;
-
-        problem_num = 20;
+        const int problem_num = 20;
 
         return problem_num;
     }
@@ -619,19 +605,13 @@ public static partial class Integrands
         //    Output, double P00_RAT_TRANSFORM, the approximate integral.
         //
     {
-        double alpha;
-        double[] fu;
         int i;
-        double result;
-        double[] u;
-        double[] u_rat;
-        double[] weight;
 
-        u = new double[order];
-        u_rat = new double[order];
-        weight = new double[order];
+        double[] u = new double[order];
+        double[] u_rat = new double[order];
+        double[] weight = new double[order];
 
-        alpha = p00_alpha(problem);
+        double alpha = p00_alpha(problem);
         //
         //  Get the abscissas and weights for Gauss-Legendre quadrature.
         //
@@ -665,7 +645,7 @@ public static partial class Integrands
         //
         //  Evaluate F ( ( 1 - U ) / U ).
         //
-        fu = p00_fun(ref data, problem, order, u_rat);
+        double[] fu = p00_fun(ref data, problem, order, u_rat);
         //
         //  The integrand is F ( ( 1 - U ) / U ) / U^2
         //
@@ -677,7 +657,7 @@ public static partial class Integrands
         //
         //  Sum.
         //
-        result = typeMethods.r8vec_dot_product(order, weight, fu);
+        double result = typeMethods.r8vec_dot_product(order, weight, fu);
 
         return result;
     }

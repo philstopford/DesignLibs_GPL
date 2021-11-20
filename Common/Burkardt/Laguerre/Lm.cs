@@ -152,7 +152,6 @@ public static partial class Functions
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -160,7 +159,7 @@ public static partial class Functions
                 return null;
         }
 
-        v = new double[mm * (n + 1)];
+        double[] v = new double[mm * (n + 1)];
 
         for (j = 0; j <= n; j++)
         {
@@ -238,7 +237,6 @@ public static partial class Functions
         //    of the Laguerre polynomials of degree 0 through N. 
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -248,7 +246,7 @@ public static partial class Functions
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -266,7 +264,7 @@ public static partial class Functions
                 return c;
         }
 
-        c[1 + 0 * (n + 1)] = m + 1;
+        c[1] = m + 1;
         c[1 + 1 * (n + 1)] = -1.0;
 
         for (i = 2; i <= n; i++)
@@ -475,31 +473,27 @@ public static partial class Functions
         //    Output, double X[N], the zeros.
         //
     {
-        double[] bj;
         int i;
-        double[] w;
-        double[] x;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = typeMethods.r8_factorial(m);
+        double zemu = typeMethods.r8_factorial(m);
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
         for (i = 0; i < n; i++)
         {
             bj[i] = (double) (i + 1) * (i + 1 + m);
         }
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 2 * i + 1 + m;
         }
 
-        w = new double[n];
+        double[] w = new double[n];
         w[0] = Math.Sqrt(zemu);
         for (i = 1; i < n; i++)
         {
@@ -554,17 +548,15 @@ public static partial class Functions
         //    Output, double W[N], the weights.
         //
     {
-        double[] bj;
         int i;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = typeMethods.r8_factorial(m);
+        double zemu = typeMethods.r8_factorial(m);
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
         for (i = 0; i < n; i++)
         {
             bj[i] = (double) (i + 1) * (i + 1 + m);

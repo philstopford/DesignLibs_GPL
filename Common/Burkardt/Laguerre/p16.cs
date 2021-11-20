@@ -30,9 +30,7 @@ public static partial class Integrands
         //    Output, double P16_ALPHA, the value of ALPHA.
         //
     {
-        double alpha;
-
-        alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -62,9 +60,7 @@ public static partial class Integrands
         //    Output, double EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-
-        exact = 1.0;
+        const double exact = 1.0;
 
         return exact;
     }
@@ -111,11 +107,10 @@ public static partial class Integrands
         //    Output, double P16_FUN[N], the function values.
         //
     {
-        double[] f;
         int i;
             
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -154,9 +149,7 @@ public static partial class Integrands
         //    Output, string P16_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "cos ( Math.PI x / 2 ) / sqrt ( x )";
+        const string title = "cos ( Math.PI x / 2 ) / sqrt ( x )";
 
         return title;
     }

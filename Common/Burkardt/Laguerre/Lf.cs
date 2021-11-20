@@ -71,7 +71,6 @@ public static partial class Functions
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -79,7 +78,7 @@ public static partial class Functions
                 return null;
         }
 
-        v = new double[mm * (n + 1)];
+        double[] v = new double[mm * (n + 1)];
 
         for (i = 0; i < mm; i++)
         {
@@ -347,34 +346,30 @@ public static partial class Functions
         //    Output, double LF_FUNCTION_ZEROS[N], the zeros.
         //
     {
-        double[] bj;
         int i;
         double i_r8;
-        double[] w;
-        double[] x;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = typeMethods.r8_gamma(alpha + 1.0);
+        double zemu = typeMethods.r8_gamma(alpha + 1.0);
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
         for (i = 0; i < n; i++)
         {
             i_r8 = i;
             bj[i] = (i_r8 + 1.0) * (i_r8 + 1.0 + alpha);
         }
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             i_r8 = i;
             x[i] = 2.0 * i_r8 + 1.0 + alpha;
         }
 
-        w = new double[n];
+        double[] w = new double[n];
         w[0] = Math.Sqrt(zemu);
         for (i = 1; i < n; i++)
         {
@@ -430,12 +425,9 @@ public static partial class Functions
         //    Output, double LF_INTEGRAL, the value of the integral.
         //
     {
-        double arg;
-        double value = 0;
+        double arg = alpha + (n + 1);
 
-        arg = alpha + (n + 1);
-
-        value = typeMethods.r8_gamma(arg);
+        double value = typeMethods.r8_gamma(arg);
 
         return value;
     }
@@ -480,18 +472,16 @@ public static partial class Functions
         //    Output, double W[N], the weights.
         //
     {
-        double[] bj;
         int i;
         double i_r8;
-        double zemu;
         //
         //  Define the zero-th moment.
         //
-        zemu = typeMethods.r8_gamma(alpha + 1.0);
+        double zemu = typeMethods.r8_gamma(alpha + 1.0);
         //
         //  Define the Jacobi matrix.
         //
-        bj = new double[n];
+        double[] bj = new double[n];
         for (i = 0; i < n; i++)
         {
             i_r8 = i;

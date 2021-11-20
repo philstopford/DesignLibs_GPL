@@ -70,76 +70,43 @@ public static partial class RungeKutta
         //    Output, double RK4_TV_STEP, the value at time T+H.
         //
     {
-        double a21;
-        double a31;
-        double a32;
-        double a41;
-        double a42;
-        double a43;
-        double a51;
-        double a52;
-        double a53;
-        double a54;
-        double k1;
-        double k2;
-        double k3;
-        double k4;
-        double q1;
-        double q2;
-        double q3;
-        double q4;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
-        double w1;
-        double w2;
-        double w3;
-        double w4;
-        double x1;
-        double x2;
-        double x3;
-        double x4;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 0.66667754298442;
-        a31 = 0.63493935027993;
-        a32 = 0.00342761715422;
-        a41 = -2.32428921184321;
-        a42 = 2.69723745129487;
-        a43 = 0.29093673271592;
-        a51 = 0.25001351164789;
-        a52 = 0.67428574806272;
-        a53 = -0.00831795169360;
-        a54 = 0.08401868181222;
+        const double a21 = 0.66667754298442;
+        const double a31 = 0.63493935027993;
+        const double a32 = 0.00342761715422;
+        const double a41 = -2.32428921184321;
+        const double a42 = 2.69723745129487;
+        const double a43 = 0.29093673271592;
+        const double a51 = 0.25001351164789;
+        const double a52 = 0.67428574806272;
+        const double a53 = -0.00831795169360;
+        const double a54 = 0.08401868181222;
 
-        q1 = 3.99956364361748;
-        q2 = 1.64524970733585;
-        q3 = 1.59330355118722;
-        q4 = 0.26330006501868;
+        const double q1 = 3.99956364361748;
+        const double q2 = 1.64524970733585;
+        const double q3 = 1.59330355118722;
+        const double q4 = 0.26330006501868;
 
-        t1 = t;
-        x1 = x;
-        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-        k1 = h * fv(t1, x1) + h * gv(t1, x1) * w1;
+        double w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        double k1 = h * fv(t, x) + h * gv(t, x) * w1;
 
-        t2 = t1 + a21 * h;
-        x2 = x1 + a21 * k1;
-        w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
-        k2 = h * fv(t2, x2) + h * gv(t2, x2) * w2;
+        double t2 = t + a21 * h;
+        double x2 = x + a21 * k1;
+        double w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
+        double k2 = h * fv(t2, x2) + h * gv(t2, x2) * w2;
 
-        t3 = t1 + a31 * h + a32 * h;
-        x3 = x1 + a31 * k1 + a32 * k2;
-        w3 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q3 * q / h);
-        k3 = h * fv(t3, x3) + h * gv(t3, x3) * w3;
+        double t3 = t + a31 * h + a32 * h;
+        double x3 = x + a31 * k1 + a32 * k2;
+        double w3 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q3 * q / h);
+        double k3 = h * fv(t3, x3) + h * gv(t3, x3) * w3;
 
-        t4 = t1 + a41 * h + a42 * h + a43 * h;
-        x4 = x1 + a41 * k1 + a42 * k2 + a43 * k3;
-        w4 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q4 * q / h);
-        k4 = h * fv(t4, x4) + h * gv(t4, x4) * w4;
+        double t4 = t + a41 * h + a42 * h + a43 * h;
+        double x4 = x + a41 * k1 + a42 * k2 + a43 * k3;
+        double w4 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q4 * q / h);
+        double k4 = h * fv(t4, x4) + h * gv(t4, x4) * w4;
 
-        xstar = x1 + a51 * k1 + a52 * k2 + a53 * k3 + a54 * k4;
+        double xstar = x + a51 * k1 + a52 * k2 + a53 * k3 + a54 * k4;
 
         return xstar;
     }
@@ -208,69 +175,42 @@ public static partial class RungeKutta
         //    Output, double RK4_TI_STEP, the value at time T+H.
         //
     {
-        double a21;
-        double a31;
-        double a32;
-        double a41;
-        double a42;
         //double a43;
-        double a51;
-        double a52;
-        double a53;
-        double a54;
-        double k1;
-        double k2;
-        double k3;
-        double k4;
-        double q1;
-        double q2;
-        double q3;
-        double q4;
         //double t1;
-        double w1;
-        double w2;
-        double w3;
-        double w4;
-        double x1;
-        double x2;
-        double x3;
-        double x4;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 2.71644396264860;
-        a31 = -6.95653259006152;
-        a32 = 0.78313689457981;
-        a41 = 0.0;
-        a42 = 0.48257353309214;
+        const double a21 = 2.71644396264860;
+        const double a31 = -6.95653259006152;
+        const double a32 = 0.78313689457981;
+        const double a41 = 0.0;
+        const double a42 = 0.48257353309214;
         //a43 =   0.26171080165848;
-        a51 = 0.47012396888046;
-        a52 = 0.36597075368373;
-        a53 = 0.08906615686702;
-        a54 = 0.07483912056879;
+        const double a51 = 0.47012396888046;
+        const double a52 = 0.36597075368373;
+        const double a53 = 0.08906615686702;
+        const double a54 = 0.07483912056879;
 
-        q1 = 2.12709852335625;
-        q2 = 2.73245878238737;
-        q3 = 11.22760917474960;
-        q4 = 13.36199560336697;
+        const double q1 = 2.12709852335625;
+        const double q2 = 2.73245878238737;
+        const double q3 = 11.22760917474960;
+        const double q4 = 13.36199560336697;
 
-        x1 = x;
-        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-        k1 = h * fi(x1) + h * gi(x1) * w1;
+        double w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        double k1 = h * fi(x) + h * gi(x) * w1;
 
-        x2 = x1 + a21 * k1;
-        w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
-        k2 = h * fi(x2) + h * gi(x2) * w2;
+        double x2 = x + a21 * k1;
+        double w2 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q2 * q / h);
+        double k2 = h * fi(x2) + h * gi(x2) * w2;
 
-        x3 = x1 + a31 * k1 + a32 * k2;
-        w3 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q3 * q / h);
-        k3 = h * fi(x3) + h * gi(x3) * w3;
+        double x3 = x + a31 * k1 + a32 * k2;
+        double w3 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q3 * q / h);
+        double k3 = h * fi(x3) + h * gi(x3) * w3;
 
-        x4 = x1 + a41 * k1 + a42 * k2;
-        w4 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q4 * q / h);
-        k4 = h * fi(x4) + h * gi(x4) * w4;
+        double x4 = x + a41 * k1 + a42 * k2;
+        double w4 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q4 * q / h);
+        double k4 = h * fi(x4) + h * gi(x4) * w4;
 
-        xstar = x1 + a51 * k1 + a52 * k2 + a53 * k3 + a54 * k4;
+        double xstar = x + a51 * k1 + a52 * k2 + a53 * k3 + a54 * k4;
 
         return xstar;
     }
@@ -326,53 +266,42 @@ public static partial class RungeKutta
         //    at time T0+DT.
         //
     {
-        double[] f0;
-        double[] f1;
-        double[] f2;
-        double[] f3;
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double[] u;
-        double[] u1;
-        double[] u2;
-        double[] u3;
         //
         //  Get four sample values of the derivative.
         //
-        f0 = f(t0, m, u0, index);
+        double[] f0 = f(t0, m, u0, index);
 
-        t1 = t0 + dt / 2.0;
-        u1 = new double[m];
+        double t1 = t0 + dt / 2.0;
+        double[] u1 = new double[m];
         for (i = 0; i < m; i++)
         {
             u1[i] = u0[index + i] + dt * f0[i] / 2.0;
         }
 
-        f1 = f(t1, m, u1, 0);
+        double[] f1 = f(t1, m, u1, 0);
 
-        t2 = t0 + dt / 2.0;
-        u2 = new double[m];
+        double t2 = t0 + dt / 2.0;
+        double[] u2 = new double[m];
         for (i = 0; i < m; i++)
         {
             u2[i] = u0[index + i] + dt * f1[i] / 2.0;
         }
 
-        f2 = f(t2, m, u2, 0);
+        double[] f2 = f(t2, m, u2, 0);
 
-        t3 = t0 + dt;
-        u3 = new double[m];
+        double t3 = t0 + dt;
+        double[] u3 = new double[m];
         for (i = 0; i < m; i++)
         {
             u3[i] = u0[index + i] + dt * f2[i];
         }
 
-        f3 = f(t3, m, u3, 0);
+        double[] f3 = f(t3, m, u3, 0);
         //
         //  Combine them to estimate the solution.
         //
-        u = new double[m];
+        double[] u = new double[m];
         for (i = 0; i < m; i++)
         {
             u[i] = u0[index + i] + dt * (f0[i] + 2.0 * f1[i] + 2.0 * f2[i] + f3[i]) / 6.0;

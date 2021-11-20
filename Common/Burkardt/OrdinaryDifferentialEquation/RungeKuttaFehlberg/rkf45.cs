@@ -82,10 +82,9 @@ public static class RungeKuttaFehlberg
         //    Output, float S[NEQN], the estimate of the solution at T+H.
         //
     {
-        float ch;
         int i;
 
-        ch = h / 4.0f;
+        float ch = h / 4.0f;
 
         for (i = 0; i < neqn; i++)
         {
@@ -338,39 +337,16 @@ public static class RungeKuttaFehlberg
         //    problem that should be addressed.
         //
     {
-        int MAXNFE = 3000;
+        const int MAXNFE = 3000;
 
-        float ae;
-        float dt;
-        float ee;
-        float eeoet;
-        float eps;
-        float esttol;
-        float et;
-        float[] f1;
-        float[] f2;
-        float[] f3;
-        float[] f4;
-        float[] f5;
-        int flag_return;
-        bool hfaild;
-        float hmin;
         int i;
         int k;
-        int mflag;
-        bool output;
-        float relerr_min;
-        float s;
-        float scale;
-        float tol;
-        float toln;
-        float ypk;
 
-        flag_return = flag;
+        int flag_return = flag;
         //
         //  Check the input parameters.
         //
-        eps = typeMethods.r4_epsilon();
+        float eps = typeMethods.r4_epsilon();
 
         switch (neqn)
         {
@@ -400,7 +376,7 @@ public static class RungeKuttaFehlberg
                 return flag_return;
         }
 
-        mflag = Math.Abs(flag_return);
+        int mflag = Math.Abs(flag_return);
         //
         //  Is this a continuation call?
         //
@@ -516,7 +492,7 @@ public static class RungeKuttaFehlberg
         //  to avoid limiting precision difficulties arising from impossible 
         //  accuracy requests.
         //
-        relerr_min = 2.0f * typeMethods.r4_epsilon() + data.remin;
+        float relerr_min = 2.0f * typeMethods.r4_epsilon() + data.remin;
         //
         //  Is the relative error tolerance too small?
         //
@@ -528,7 +504,7 @@ public static class RungeKuttaFehlberg
             return flag_return;
         }
 
-        dt = tout - t;
+        float dt = tout - t;
         //
         //  Initialization:
         //
@@ -538,11 +514,11 @@ public static class RungeKuttaFehlberg
         //  set the counter for function evaluations, NFE;
         //  estimate the starting stepsize.
         //
-        f1 = new float[neqn];
-        f2 = new float[neqn];
-        f3 = new float[neqn];
-        f4 = new float[neqn];
-        f5 = new float[neqn];
+        float[] f1 = new float[neqn];
+        float[] f2 = new float[neqn];
+        float[] f3 = new float[neqn];
+        float[] f4 = new float[neqn];
+        float[] f5 = new float[neqn];
 
         switch (mflag)
         {
@@ -569,15 +545,15 @@ public static class RungeKuttaFehlberg
             {
                 data.init = 1;
                 data.h = Math.Abs(dt);
-                toln = 0.0f;
+                float toln = 0.0f;
 
                 for (k = 0; k < neqn; k++)
                 {
-                    tol = relerr * Math.Abs(y[k]) + abserr;
+                    float tol = relerr * Math.Abs(y[k]) + abserr;
                     if (0.0 < tol)
                     {
                         toln = tol;
-                        ypk = Math.Abs(yp[k]);
+                        float ypk = Math.Abs(yp[k]);
                         if (tol < ypk * Math.Pow(data.h, 5))
                         {
                             data.h = (float) Math.Pow(tol / ypk, 0.2);
@@ -646,23 +622,23 @@ public static class RungeKuttaFehlberg
         //
         //  Initialize the output point indicator.
         //
-        output = false;
+        bool output = false;
         //
         //  To avoid premature underflow in the error tolerance function,
         //  scale the error tolerances.
         //
-        scale = 2.0f / relerr;
-        ae = scale * abserr;
+        float scale = 2.0f / relerr;
+        float ae = scale * abserr;
         //
         //  Step by step integration.
         //
         for (;;)
         {
-            hfaild = false;
+            bool hfaild = false;
             //
             //  Set the smallest allowable stepsize.
             //
-            hmin = 26.0f * eps * Math.Abs(t);
+            float hmin = 26.0f * eps * Math.Abs(t);
             //
             //  Adjust the stepsize if necessary to hit the output point.
             //
@@ -719,6 +695,8 @@ public static class RungeKuttaFehlberg
             //  Test the number of derivative function evaluations.
             //  If okay, try to advance the integration from T to T+H.
             //
+            float esttol;
+            float s;
             for (;;)
             {
                 //
@@ -742,11 +720,11 @@ public static class RungeKuttaFehlberg
                 //  measured with respect to the average of the magnitudes of the
                 //  solution at the beginning and end of the step.
                 //
-                eeoet = 0.0f;
+                float eeoet = 0.0f;
 
                 for (k = 0; k < neqn; k++)
                 {
-                    et = Math.Abs(y[k]) + Math.Abs(f1[k]) + ae;
+                    float et = Math.Abs(y[k]) + Math.Abs(f1[k]) + ae;
 
                     if (et <= 0.0)
                     {
@@ -754,7 +732,7 @@ public static class RungeKuttaFehlberg
                         return flag_return;
                     }
 
-                    ee = (float) Math.Abs
+                    float ee = (float) Math.Abs
                     (-2090.0 * yp[k]
                      + (21970.0 * f3[k] - 15048.0 * f4[k])
                      + (22528.0 * f2[k] - 27360.0 * f5[k])
@@ -930,10 +908,9 @@ public static class RungeKuttaFehlberg
         //    Output, double S[NEQN], the estimate of the solution at T+H.
         //
     {
-        double ch;
         int i;
 
-        ch = h / 4.0;
+        double ch = h / 4.0;
 
         for (i = 0; i < neqn; i++)
         {
@@ -1185,39 +1162,17 @@ public static class RungeKuttaFehlberg
         //    problem that should be addressed.
         //
     {
-        int MAXNFE = 3000;
+        const int MAXNFE = 3000;
 
-        double ae;
-        double dt;
-        double ee;
-        double eeoet;
-        double eps;
-        double esttol;
-        double et;
-        double[] f1;
-        double[] f2;
-        double[] f3;
-        double[] f4;
-        double[] f5;
-        int flag_return;
-        bool hfaild;
-        double hmin;
         int i;
         int k;
-        int mflag;
-        bool output;
-        double relerr_min;
         double s = 0;
-        double scale;
-        double tol;
-        double toln;
-        double ypk;
 
-        flag_return = flag;
+        int flag_return = flag;
         //
         //  Check the input parameters.
         //
-        eps = typeMethods.r8_epsilon();
+        double eps = typeMethods.r8_epsilon();
 
         switch (neqn)
         {
@@ -1261,7 +1216,7 @@ public static class RungeKuttaFehlberg
                 return flag_return;
         }
 
-        mflag = Math.Abs(flag_return);
+        int mflag = Math.Abs(flag_return);
         //
         //  Is this a continuation call?
         //
@@ -1377,7 +1332,7 @@ public static class RungeKuttaFehlberg
         //  to avoid limiting precision difficulties arising from impossible 
         //  accuracy requests.
         //
-        relerr_min = 2.0 * typeMethods.r8_epsilon() + data.remin;
+        double relerr_min = 2.0 * typeMethods.r8_epsilon() + data.remin;
         //
         //  Is the relative error tolerance too small?
         //
@@ -1389,7 +1344,7 @@ public static class RungeKuttaFehlberg
             return flag_return;
         }
 
-        dt = tout - t;
+        double dt = tout - t;
         //
         //  Initialization:
         //
@@ -1399,11 +1354,11 @@ public static class RungeKuttaFehlberg
         //  set the counter for function evaluations, NFE;
         //  estimate the starting stepsize.
         //
-        f1 = new double[neqn];
-        f2 = new double[neqn];
-        f3 = new double[neqn];
-        f4 = new double[neqn];
-        f5 = new double[neqn];
+        double[] f1 = new double[neqn];
+        double[] f2 = new double[neqn];
+        double[] f3 = new double[neqn];
+        double[] f4 = new double[neqn];
+        double[] f5 = new double[neqn];
 
         switch (mflag)
         {
@@ -1430,17 +1385,17 @@ public static class RungeKuttaFehlberg
             {
                 data.init = 1;
                 data.h = Math.Abs(dt);
-                toln = 0.0;
+                double toln = 0.0;
 
                 for (k = 0; k < neqn; k++)
                 {
-                    tol = relerr * Math.Abs(y[k]) + abserr;
+                    double tol = relerr * Math.Abs(y[k]) + abserr;
                     switch (tol)
                     {
                         case > 0.0:
                         {
                             toln = tol;
-                            ypk = Math.Abs(yp[k]);
+                            double ypk = Math.Abs(yp[k]);
                             if (tol < ypk * Math.Pow(data.h, 5))
                             {
                                 data.h = Math.Pow(tol / ypk, 0.2);
@@ -1513,23 +1468,23 @@ public static class RungeKuttaFehlberg
         //
         //  Initialize the output point indicator.
         //
-        output = false;
+        bool output = false;
         //
         //  To avoid premature underflow in the error tolerance function,
         //  scale the error tolerances.
         //
-        scale = 2.0 / relerr;
-        ae = scale * abserr;
+        double scale = 2.0 / relerr;
+        double ae = scale * abserr;
         //
         //  Step by step integration.
         //
         for (;;)
         {
-            hfaild = false;
+            bool hfaild = false;
             //
             //  Set the smallest allowable stepsize.
             //
-            hmin = 26.0 * eps * Math.Abs(t);
+            double hmin = 26.0 * eps * Math.Abs(t);
             //
             //  Adjust the stepsize if necessary to hit the output point.
             //
@@ -1586,6 +1541,7 @@ public static class RungeKuttaFehlberg
             //  Test the number of derivative function evaluations.
             //  If okay, try to advance the integration from T to T+H.
             //
+            double esttol;
             for (;;)
             {
                 //
@@ -1609,11 +1565,11 @@ public static class RungeKuttaFehlberg
                 //  measured with respect to the average of the magnitudes of the
                 //  solution at the beginning and end of the step.
                 //
-                eeoet = 0.0;
+                double eeoet = 0.0;
 
                 for (k = 0; k < neqn; k++)
                 {
-                    et = Math.Abs(y[k]) + Math.Abs(f1[k]) + ae;
+                    double et = Math.Abs(y[k]) + Math.Abs(f1[k]) + ae;
 
                     switch (et)
                     {
@@ -1621,7 +1577,7 @@ public static class RungeKuttaFehlberg
                             flag_return = 5;
                             return flag_return;
                         default:
-                            ee = Math.Abs
+                            double ee = Math.Abs
                             (-2090.0 * yp[k]
                              + (21970.0 * f3[k] - 15048.0 * f4[k])
                              + (22528.0 * f2[k] - 27360.0 * f5[k])

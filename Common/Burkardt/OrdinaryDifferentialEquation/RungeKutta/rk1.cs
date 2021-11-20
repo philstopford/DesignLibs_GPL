@@ -70,25 +70,16 @@ public static partial class RungeKutta
         //    Output, double RK1_TV_STEP the value at time T+H.
         //
     {
-        double a21;
-        double k1;
-        double q1;
-        double t1;
-        double w1;
-        double x1;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 1.0;
+        const double a21 = 1.0;
 
-        q1 = 1.0;
+        const double q1 = 1.0;
 
-        t1 = t;
-        x1 = x;
-        w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
-        k1 = h * fv(t1, x1) + h * gv(t1, x1) * w1;
+        double w1 = typeMethods.r8_normal_01(ref data, ref seed) * Math.Sqrt(q1 * q / h);
+        double k1 = h * fv(t, x) + h * gv(t, x) * w1;
 
-        xstar = x1 + a21 * k1;
+        double xstar = x + a21 * k1;
 
         return xstar;
     }
@@ -157,23 +148,16 @@ public static partial class RungeKutta
         //    Output, double RK1_TI_STEP, the value at time T+H.
         //
     {
-        double a21;
-        double k1;
-        double q1;
-        double w1;
-        double x1;
-        double xstar;
         typeMethods.r8NormalData data = new();
 
-        a21 = 1.0;
+        const double a21 = 1.0;
 
-        q1 = 1.0;
+        const double q1 = 1.0;
 
-        x1 = x;
-        w1 = typeMethods.r8_normal_01 (ref data, ref seed ) * Math.Sqrt ( q1 * q / h );
-        k1 = h * fi ( x1 ) + h * gi ( x1 ) * w1;
+        double w1 = typeMethods.r8_normal_01 (ref data, ref seed ) * Math.Sqrt ( q1 * q / h );
+        double k1 = h * fi ( x ) + h * gi ( x ) * w1;
 
-        xstar = x1 + a21 * k1;
+        double xstar = x + a21 * k1;
 
         return xstar;
     }

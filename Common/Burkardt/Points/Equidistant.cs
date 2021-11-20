@@ -30,9 +30,8 @@ public static partial class Points
         //
     {
         int i;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -69,10 +68,7 @@ public static partial class Points
         //    Input, double EQUIDISTANT2[N], the points.
         //
     {
-        int i;
-        double[] x;
-
-        x = new double[n];
+        double[] x = new double[n];
 
         switch (n)
         {
@@ -81,6 +77,7 @@ public static partial class Points
                 break;
             default:
             {
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     x[i] = (-n + 1 + 2 * i) / (double) (n - 1);
@@ -121,9 +118,8 @@ public static partial class Points
         //
     {
         int i;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {

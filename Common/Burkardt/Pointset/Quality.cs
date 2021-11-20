@@ -59,59 +59,44 @@ public static class Quality
         //    Output, double ALPHA_MEASURE, the ALPHA quality measure.
         //
     {
-        double a_angle;
-        int a_index;
-        double a_x;
-        double a_y;
-        double ab_len;
-        double alpha;
-        double b_angle;
-        int b_index;
-        double b_x;
-        double b_y;
-        double bc_len;
-        double c_angle;
-        int c_index;
-        double c_x;
-        double c_y;
-        double ca_len;
-        double pi = 3.141592653589793;
         int triangle;
-        double value = 0;
 
-        alpha = typeMethods.r8_huge();
+        double alpha = typeMethods.r8_huge();
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            a_index = triangle_node[0 + triangle * 3];
-            b_index = triangle_node[1 + triangle * 3];
-            c_index = triangle_node[2 + triangle * 3];
+            int a_index = triangle_node[0 + triangle * 3];
+            int b_index = triangle_node[1 + triangle * 3];
+            int c_index = triangle_node[2 + triangle * 3];
 
-            a_x = z[0 + (a_index - 1) * 2];
-            a_y = z[1 + (a_index - 1) * 2];
-            b_x = z[0 + (b_index - 1) * 2];
-            b_y = z[1 + (b_index - 1) * 2];
-            c_x = z[0 + (c_index - 1) * 2];
-            c_y = z[1 + (c_index - 1) * 2];
+            double a_x = z[0 + (a_index - 1) * 2];
+            double a_y = z[1 + (a_index - 1) * 2];
+            double b_x = z[0 + (b_index - 1) * 2];
+            double b_y = z[1 + (b_index - 1) * 2];
+            double c_x = z[0 + (c_index - 1) * 2];
+            double c_y = z[1 + (c_index - 1) * 2];
 
-            ab_len = Math.Sqrt(Math.Pow(a_x - b_x, 2) + Math.Pow(a_y - b_y, 2));
-            bc_len = Math.Sqrt(Math.Pow(b_x - c_x, 2) + Math.Pow(b_y - c_y, 2));
-            ca_len = Math.Sqrt(Math.Pow(c_x - a_x, 2) + Math.Pow(c_y - a_y, 2));
+            double ab_len = Math.Sqrt(Math.Pow(a_x - b_x, 2) + Math.Pow(a_y - b_y, 2));
+            double bc_len = Math.Sqrt(Math.Pow(b_x - c_x, 2) + Math.Pow(b_y - c_y, 2));
+            double ca_len = Math.Sqrt(Math.Pow(c_x - a_x, 2) + Math.Pow(c_y - a_y, 2));
+            double c_angle;
+            double a_angle;
+            double b_angle;
             switch (ab_len)
             {
                 //
                 //  Take care of a ridiculous special case.
                 //
                 case 0.0 when bc_len == 0.0 && ca_len == 0.0:
-                    a_angle = 2.0 * pi / 3.0;
-                    b_angle = 2.0 * pi / 3.0;
-                    c_angle = 2.0 * pi / 3.0;
+                    a_angle = 2.0 * Math.PI / 3.0;
+                    b_angle = 2.0 * Math.PI / 3.0;
+                    c_angle = 2.0 * Math.PI / 3.0;
                     break;
                 default:
                 {
                     if (ca_len == 0.0 || ab_len == 0.0)
                     {
-                        a_angle = pi;
+                        a_angle = Math.PI;
                     }
                     else
                     {
@@ -122,7 +107,7 @@ public static class Quality
 
                     if (ab_len == 0.0 || bc_len == 0.0)
                     {
-                        b_angle = pi;
+                        b_angle = Math.PI;
                     }
                     else
                     {
@@ -133,7 +118,7 @@ public static class Quality
 
                     if (bc_len == 0.0 || ca_len == 0.0)
                     {
-                        c_angle = pi;
+                        c_angle = Math.PI;
                     }
                     else
                     {
@@ -154,7 +139,7 @@ public static class Quality
         //
         //  Normalize angles from [0,60] degrees into qualities in [0,1].
         //
-        value = alpha * 3.0 / pi;
+        double value = alpha * 3.0 / Math.PI;
 
         return value;
     }
@@ -207,39 +192,29 @@ public static class Quality
         //    Output, double AREA_MEASURE, the AREA quality measure.
         //
     {
-        double area;
-        double area_max;
-        double area_min;
         int triangle;
-        double value = 0;
-        double x1;
-        double x2;
-        double x3;
-        double y1;
-        double y2;
-        double y3;
 
-        area_max = 0.0;
-        area_min = typeMethods.r8_huge();
+        double area_max = 0.0;
+        double area_min = typeMethods.r8_huge();
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            x1 = z[0 + (triangle_node[0 + triangle * 3] - 1) * 2];
-            y1 = z[1 + (triangle_node[0 + triangle * 3] - 1) * 2];
-            x2 = z[0 + (triangle_node[1 + triangle * 3] - 1) * 2];
-            y2 = z[1 + (triangle_node[1 + triangle * 3] - 1) * 2];
-            x3 = z[0 + (triangle_node[2 + triangle * 3] - 1) * 2];
-            y3 = z[1 + (triangle_node[2 + triangle * 3] - 1) * 2];
+            double x1 = z[0 + (triangle_node[0 + triangle * 3] - 1) * 2];
+            double y1 = z[1 + (triangle_node[0 + triangle * 3] - 1) * 2];
+            double x2 = z[0 + (triangle_node[1 + triangle * 3] - 1) * 2];
+            double y2 = z[1 + (triangle_node[1 + triangle * 3] - 1) * 2];
+            double x3 = z[0 + (triangle_node[2 + triangle * 3] - 1) * 2];
+            double y3 = z[1 + (triangle_node[2 + triangle * 3] - 1) * 2];
 
-            area = 0.5 * Math.Abs(x1 * (y2 - y3)
-                                  + x2 * (y3 - y1)
-                                  + x3 * (y1 - y2));
+            double area = 0.5 * Math.Abs(x1 * (y2 - y3)
+                                         + x2 * (y3 - y1)
+                                         + x3 * (y1 - y2));
 
             area_min = Math.Min(area_min, area);
             area_max = Math.Max(area_max, area);
         }
 
-        value = area_max switch
+        double value = area_max switch
         {
             > 0.0 => area_min / area_max,
             _ => 0.0
@@ -308,15 +283,12 @@ public static class Quality
         //    Output, double BETA_MEASURE, the BETA quality measure.
         //
     {
-        double[] gamma;
-        double gamma_ave;
         double gamma_std;
         int i;
-        double value = 0;
 
-        gamma = Spacing.pointset_spacing(dim_num, n, z);
+        double[] gamma = Spacing.pointset_spacing(dim_num, n, z);
 
-        gamma_ave = 0.0;
+        double gamma_ave = 0.0;
         for (i = 0; i < n; i++)
         {
             gamma_ave += gamma[i];
@@ -342,7 +314,7 @@ public static class Quality
                 break;
         }
 
-        value = gamma_ave switch
+        double value = gamma_ave switch
         {
             > 0.0 => gamma_std / gamma_ave,
             _ => 0.0
@@ -428,22 +400,14 @@ public static class Quality
         //    Output, double CHI_MEASURE, the CHI quality measure.
         //
     {
-        double chi;
-        double[] chi_vec;
         int[] closest = new int[1];
-        double dist;
-        double[] gamma;
-        double[] h;
-        int i;
         int j;
         int k;
-        int seed;
-        double[] x;
 
-        seed = seed_init;
+        int seed = seed_init;
 
-        chi_vec = new double[n];
-        h = new double[n];
+        double[] chi_vec = new double[n];
+        double[] h = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -453,12 +417,13 @@ public static class Quality
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
 
-            dist = 0.0;
+            double dist = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 dist += Math.Pow(x[i] - z[i + closest[0] * dim_num], 2);
@@ -468,9 +433,9 @@ public static class Quality
 
         }
 
-        gamma = Spacing.pointset_spacing(dim_num, n, z);
+        double[] gamma = Spacing.pointset_spacing(dim_num, n, z);
 
-        chi = 0.0;
+        double chi = 0.0;
 
         for (j = 0; j < n; j++)
         {
@@ -551,29 +516,20 @@ public static class Quality
         //    Output, double D_MEASURE, the D quality measure.
         //
     {
-        double[] a;
-        double[] centroid;
         int[] closest = new int[1];
-        double d;
-        double di;
-        int[] hit;
         int i;
         int i1;
         int i2;
         int j;
         int k;
-        double[] moment;
-        int seed;
-        double[] tri;
-        double[] x;
 
-        a = new double[dim_num * dim_num];
-        centroid = new double[dim_num * n];
-        hit = new int[n];
-        moment = new double[dim_num * dim_num * n];
-        tri = new double[n];
+        double[] a = new double[dim_num * dim_num];
+        double[] centroid = new double[dim_num * n];
+        int[] hit = new int[n];
+        double[] moment = new double[dim_num * dim_num * n];
+        double[] tri = new double[n];
 
-        seed = seed_init;
+        int seed = seed_init;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < dim_num; i++)
@@ -601,7 +557,7 @@ public static class Quality
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
@@ -675,7 +631,7 @@ public static class Quality
             }
         }
 
-        d = 0.0;
+        double d = 0.0;
 
         for (j = 0; j < n; j++)
         {
@@ -687,7 +643,7 @@ public static class Quality
                 }
             }
 
-            di = Matrix.dge_det(dim_num, ref a);
+            double di = Matrix.dge_det(dim_num, ref a);
 
             d = Math.Max(d, di);
 
@@ -767,18 +723,12 @@ public static class Quality
         //
     {
         int[] closest = new int[1];
-        double dist;
-        double e;
-        double[] e_vec;
-        int i;
         int j;
         int k;
-        int seed;
-        double[] x;
 
-        seed = seed_init;
+        int seed = seed_init;
 
-        e_vec = new double[n];
+        double[] e_vec = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -788,12 +738,13 @@ public static class Quality
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
 
-            dist = 0.0;
+            double dist = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 dist += Math.Pow(x[i] - z[i + closest[0] * dim_num], 2);
@@ -803,7 +754,7 @@ public static class Quality
 
         }
 
-        e = 0.0;
+        double e = 0.0;
         for (j = 0; j < n; j++)
         {
             e += e_vec[j];
@@ -858,20 +809,18 @@ public static class Quality
         //    cell generator.
         //
     {
-        double dist_sq_min;
-        double dist_sq;
-        int i;
-        int jr;
         int js;
 
         for ( js = 0; js < sample_num; js++ )
         {
-            dist_sq_min = typeMethods.r8_huge ( );
+            double dist_sq_min = typeMethods.r8_huge ( );
             nearest[js] = -1;
 
+            int jr;
             for ( jr = 0; jr < n; jr++ )
             {
-                dist_sq = 0.0;
+                double dist_sq = 0.0;
+                int i;
                 for ( i = 0; i < dim_num; i++ )
                 {
                     dist_sq += ( s[i+js*dim_num] - r[i+jr*dim_num] )
@@ -956,14 +905,8 @@ public static class Quality
         //    of the minimum squared distance to a distinct point.
         //
     {
-        int i;
         int j1;
-        int j2;
-        double dist_sq;
-        double dist_sq_min;
         double gamma;
-        double gamma_sq_max;
-        double gamma_sq_min;
         switch (n)
         {
             //
@@ -974,19 +917,21 @@ public static class Quality
                 return gamma;
         }
 
-        gamma_sq_max = 0.0;
-        gamma_sq_min = typeMethods.r8_huge();
+        double gamma_sq_max = 0.0;
+        double gamma_sq_min = typeMethods.r8_huge();
 
         for (j1 = 0; j1 < n; j1++)
         {
-            dist_sq_min = typeMethods.r8_huge();
+            double dist_sq_min = typeMethods.r8_huge();
 
+            int j2;
             for (j2 = 0; j2 < n; j2++)
             {
                 if (j2 != j1)
                 {
 
-                    dist_sq = 0.0;
+                    double dist_sq = 0.0;
+                    int i;
                     for (i = 0; i < dim_num; i++)
                     {
                         dist_sq += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
@@ -1077,25 +1022,21 @@ public static class Quality
         //
     {
         int[] closest = new int[1];
-        double dist;
-        double h;
-        int i;
         int k;
-        int seed;
-        double[] x;
 
-        seed = seed_init;
-        h = 0.0;
+        int seed = seed_init;
+        double h = 0.0;
 
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
 
-            dist = 0.0;
+            double dist = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 dist += Math.Pow(x[i] - z[i + closest[0] * dim_num], 2);
@@ -1177,8 +1118,6 @@ public static class Quality
         //
     {
         int j;
-        double[] gamma;
-        double gamma_ave;
         double lambda;
         switch (n)
         {
@@ -1193,11 +1132,11 @@ public static class Quality
         //
         //  Compute the minimum spacing between distinct points of the set.
         //
-        gamma = Spacing.pointset_spacing(dim_num, n, z);
+        double[] gamma = Spacing.pointset_spacing(dim_num, n, z);
         //
         //  Average the minimum spacing.
         //
-        gamma_ave = 0.0;
+        double gamma_ave = 0.0;
         for (j = 0; j < n; j++)
         {
             gamma_ave += gamma[j];
@@ -1299,19 +1238,11 @@ public static class Quality
     {
         int k;
         int[] closest = new int[1];
-        double dist;
-        double[] h;
-        double h_max;
-        double h_min;
-        int i;
         int j;
-        double mu;
-        int seed;
-        double[] x;
 
-        h = new double[n];
+        double[] h = new double[n];
 
-        seed = seed_init;
+        int seed = seed_init;
 
         for (j = 0; j < n; j++)
         {
@@ -1321,12 +1252,13 @@ public static class Quality
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
 
-            dist = 0.0;
+            double dist = 0.0;
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 dist += Math.Pow(x[i] - z[i + closest[0] * dim_num], 2);
@@ -1336,7 +1268,7 @@ public static class Quality
 
         }
 
-        h_max = h[0];
+        double h_max = h[0];
         for (j = 1; j < n; j++)
         {
             h_max = Math.Max(h_max, h[j]);
@@ -1344,7 +1276,7 @@ public static class Quality
 
         h_max = Math.Sqrt(h_max);
 
-        h_min = h[0];
+        double h_min = h[0];
         for (j = 1; j < n; j++)
         {
             h_min = Math.Min(h_min, h[j]);
@@ -1352,7 +1284,7 @@ public static class Quality
 
         h_min = Math.Sqrt(h_min);
 
-        mu = h_min switch
+        double mu = h_min switch
         {
             0.0 => typeMethods.r8_huge(),
             _ => h_max / h_min
@@ -1429,20 +1361,13 @@ public static class Quality
         //
     {
         int[] closest = new int[1];
-        int[] hit;
         int j;
         int k;
-        double nu;
-        int seed;
-        double[] volume;
-        double volume_max;
-        double volume_min;
-        double[] x;
 
-        hit = new int[n];
-        volume = new double[n];
+        int[] hit = new int[n];
+        double[] volume = new double[n];
 
-        seed = seed_init;
+        int seed = seed_init;
 
         for (j = 0; j < n; j++)
         {
@@ -1452,7 +1377,7 @@ public static class Quality
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
@@ -1466,19 +1391,19 @@ public static class Quality
             volume[j] = hit[j] / (double) ns;
         }
 
-        volume_max = 0.0;
+        double volume_max = 0.0;
         for (j = 0; j < n; j++)
         {
             volume_max = Math.Max(volume_max, volume[j]);
         }
 
-        volume_min = typeMethods.r8_huge();
+        double volume_min = typeMethods.r8_huge();
         for (j = 0; j < n; j++)
         {
             volume_min = Math.Min(volume_min, volume[j]);
         }
 
-        nu = volume_min switch
+        double nu = volume_min switch
         {
             0.0 => typeMethods.r8_huge(),
             _ => volume_max / volume_min
@@ -1571,16 +1496,8 @@ public static class Quality
         //    Output, double Q_MEASURE, the Q quality measure.
         //
     {
-        int a_index;
-        double ab_length;
-        int b_index;
-        double bc_length;
-        int c_index;
-        double ca_length;
-        double q;
-        double q_min;
         int triangle;
-        double value = 0;
+        double value;
 
         switch (triangle_num)
         {
@@ -1589,30 +1506,30 @@ public static class Quality
                 return value;
         }
 
-        q_min = typeMethods.r8_huge();
+        double q_min = typeMethods.r8_huge();
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
-            a_index = triangle_node[0 + triangle * 3];
-            b_index = triangle_node[1 + triangle * 3];
-            c_index = triangle_node[2 + triangle * 3];
+            int a_index = triangle_node[0 + triangle * 3];
+            int b_index = triangle_node[1 + triangle * 3];
+            int c_index = triangle_node[2 + triangle * 3];
 
-            ab_length = Math.Sqrt(
+            double ab_length = Math.Sqrt(
                 Math.Pow(z[0 + (a_index - 1) * 2] - z[0 + (b_index - 1) * 2], 2)
                 + Math.Pow(z[1 + (a_index - 1) * 2] - z[1 + (b_index - 1) * 2], 2));
 
-            bc_length = Math.Sqrt(
+            double bc_length = Math.Sqrt(
                 Math.Pow(z[0 + (b_index - 1) * 2] - z[0 + (c_index - 1) * 2], 2)
                 + Math.Pow(z[1 + (b_index - 1) * 2] - z[1 + (c_index - 1) * 2], 2));
 
-            ca_length = Math.Sqrt(
+            double ca_length = Math.Sqrt(
                 Math.Pow(z[0 + (c_index - 1) * 2] - z[0 + (a_index - 1) * 2], 2)
                 + Math.Pow(z[1 + (c_index - 1) * 2] - z[1 + (a_index - 1) * 2], 2));
 
-            q = (bc_length + ca_length - ab_length)
-                * (ca_length + ab_length - bc_length)
-                * (ab_length + bc_length - ca_length)
-                / (ab_length * bc_length * ca_length);
+            double q = (bc_length + ca_length - ab_length)
+                       * (ca_length + ab_length - bc_length)
+                       * (ab_length + bc_length - ca_length)
+                       / (ab_length * bc_length * ca_length);
 
             q_min = Math.Min(q_min, q);
         }
@@ -1677,11 +1594,8 @@ public static class Quality
         //    Output, double R0_MEASURE, the R0 quality measure.
         //
     {
-        double dist;
-        int i;
         int j1;
-        int j2;
-        double value = 0;
+        double value;
         switch (n)
         {
             //
@@ -1696,11 +1610,13 @@ public static class Quality
 
         for (j1 = 0; j1 < n; j1++)
         {
+            int j2;
             for (j2 = 0; j2 < n; j2++)
             {
                 if (j2 != j1)
                 {
-                    dist = 0.0;
+                    double dist = 0.0;
+                    int i;
                     for (i = 0; i < dim_num; i++)
                     {
                         dist += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
@@ -1773,22 +1689,13 @@ public static class Quality
         //    maximal nonintersecting sphere around each point.
         //
     {
-        double distance_j;
-        bool done;
-        int FIXED = 0;
-        int FREE = 1;
+        const int FIXED = 0;
+        const int FREE = 1;
         int i;
         int j;
-        int j1;
-        int j2;
-        int next;
-        double[] radius;
-        double radius_i;
-        double radius_min;
-        int[] status;
 
-        radius = new double[n];
-        status = new int[n];
+        double[] radius = new double[n];
+        int[] status = new int[n];
 
         switch (walls)
         {
@@ -1836,15 +1743,17 @@ public static class Quality
             //
             //  If all points are fixed, we're done.
             //
-            done = true;
+            bool done = true;
 
             for (j = 0; j < n; j++)
             {
-                if (status[j] != FIXED)
+                if (status[j] == FIXED)
                 {
-                    done = false;
-                    break;
+                    continue;
                 }
+
+                done = false;
+                break;
             }
 
             if (done)
@@ -1857,65 +1766,64 @@ public static class Quality
             //  Imagine an expanding sphere at each free point, and determine
             //  which such sphere will first have to stop expanding.
             //
-            next = -1;
-            radius_min = typeMethods.r8_huge();
+            int next = -1;
+            double radius_min = typeMethods.r8_huge();
 
+            int j1;
             for (j1 = 0; j1 < n; j1++)
             {
-                if (status[j1] == FREE)
+                if (status[j1] != FREE)
                 {
-                    switch (walls)
-                    {
-                        case true:
-                        {
-                            radius_i = typeMethods.r8_huge();
-                            for (i = 0; i < dim_num; i++)
-                            {
-                                radius_i = Math.Min(radius_i, z[i + j1 * dim_num]);
-                            }
-
-                            for (i = 0; i < dim_num; i++)
-                            {
-                                radius_i = Math.Min(radius_i, 1.0 - z[i + j1 * dim_num]);
-                            }
-
-                            break;
-                        }
-                        default:
-                            radius_i = typeMethods.r8_huge();
-                            break;
-                    }
-
-                    for (j2 = 0; j2 < n; j2++)
-                    {
-                        if (j2 != j1)
-                        {
-                            distance_j = 0.0;
-                            for (i = 0; i < dim_num; i++)
-                            {
-                                distance_j += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
-                            }
-
-                            distance_j = Math.Sqrt(distance_j);
-
-                            if (status[j2] == FREE)
-                            {
-                                radius_i = Math.Min(radius_i, distance_j / 2.0);
-                            }
-                            else
-                            {
-                                radius_i = Math.Min(radius_i, distance_j - radius[j2]);
-                            }
-                        }
-                    }
-
-                    if (radius_i < radius_min)
-                    {
-                        next = j1;
-                        radius_min = radius_i;
-                    }
-
+                    continue;
                 }
+
+                double radius_i;
+                switch (walls)
+                {
+                    case true:
+                    {
+                        radius_i = typeMethods.r8_huge();
+                        for (i = 0; i < dim_num; i++)
+                        {
+                            radius_i = Math.Min(radius_i, z[i + j1 * dim_num]);
+                        }
+
+                        for (i = 0; i < dim_num; i++)
+                        {
+                            radius_i = Math.Min(radius_i, 1.0 - z[i + j1 * dim_num]);
+                        }
+
+                        break;
+                    }
+                    default:
+                        radius_i = typeMethods.r8_huge();
+                        break;
+                }
+
+                int j2;
+                for (j2 = 0; j2 < n; j2++)
+                {
+                    if (j2 != j1)
+                    {
+                        double distance_j = 0.0;
+                        for (i = 0; i < dim_num; i++)
+                        {
+                            distance_j += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
+                        }
+
+                        distance_j = Math.Sqrt(distance_j);
+
+                        radius_i = status[j2] == FREE ? Math.Min(radius_i, distance_j / 2.0) : Math.Min(radius_i, distance_j - radius[j2]);
+                    }
+                }
+
+                if (!(radius_i < radius_min))
+                {
+                    continue;
+                }
+
+                next = j1;
+                radius_min = radius_i;
 
             }
 
@@ -2014,15 +1922,8 @@ public static class Quality
         //
     {
         int i;
-        int j;
-        double[] radius;
-        double radius_ave;
-        double radius_max;
-        double radius_min;
-        double sphere;
-        bool verbose = false;
-        double volume;
-        bool walls = true;
+        const bool verbose = false;
+        const bool walls = true;
 
         if (!typeMethods.r8mat_in_01(dim_num, n, z))
         {
@@ -2032,12 +1933,12 @@ public static class Quality
             return typeMethods.r8_huge();
         }
 
-        radius = radius_maximus(dim_num, n, z, walls);
+        double[] radius = radius_maximus(dim_num, n, z, walls);
 
-        sphere = 0.0;
+        double sphere = 0.0;
         for (i = 0; i < n; i++)
         {
-            volume = Sphere.sphere_volume_nd(dim_num, radius[i]);
+            double volume = Sphere.sphere_volume_nd(dim_num, radius[i]);
             sphere += volume;
         }
 
@@ -2045,9 +1946,10 @@ public static class Quality
         {
             case true:
             {
-                radius_ave = 0.0;
-                radius_min = typeMethods.r8_huge();
-                radius_max = 0.0;
+                double radius_ave = 0.0;
+                double radius_min = typeMethods.r8_huge();
+                double radius_max = 0.0;
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     radius_ave += radius[j];
@@ -2150,27 +2052,19 @@ public static class Quality
         //    Output, double TAU_MEASURE, a quality measure.
         //
     {
-        double[] centroid;
         int[] closest = new int[1];
-        int[] hit;
         int i;
         int i1;
         int i2;
         int j;
         int k;
-        double[] moment;
-        int seed;
-        double[] t;
-        double t_bar;
-        double tau;
-        double[] x;
 
-        centroid = new double[dim_num * n];
-        hit = new int[n];
-        moment = new double[dim_num * dim_num * n];
-        t = new double[n];
+        double[] centroid = new double[dim_num * n];
+        int[] hit = new int[n];
+        double[] moment = new double[dim_num * dim_num * n];
+        double[] t = new double[n];
 
-        seed = seed_init;
+        int seed = seed_init;
 
         for (j = 0; j < n; j++)
         {
@@ -2199,7 +2093,7 @@ public static class Quality
         for (k = 1; k <= ns; k++)
         {
             GeometrySampleResult result = sample_routine(dim_num, 1, seed);
-            x = result.result;
+            double[] x = result.result;
             seed = result.seed;
 
             find_closest(dim_num, n, 1, x, z, closest);
@@ -2265,7 +2159,7 @@ public static class Quality
             }
         }
 
-        t_bar = 0.0;
+        double t_bar = 0.0;
 
         for (j = 0; j < n; j++)
         {
@@ -2274,7 +2168,7 @@ public static class Quality
 
         t_bar /= n;
 
-        tau = 0.0;
+        double tau = 0.0;
         for (j = 0; j < n; j++)
         {
             tau = Math.Max(tau, Math.Abs(t[j] - t_bar));

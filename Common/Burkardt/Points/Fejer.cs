@@ -32,16 +32,13 @@ public static partial class Points
         //
     {
         int i;
-            
-        double theta;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            theta = Math.PI * (2 * n - 1 - 2 * i) 
-                    / (2 * n);
+            double theta = Math.PI * (2 * n - 1 - 2 * i) 
+                           / (2 * n);
             x[i] = Math.Cos ( theta );
         }
         return x;
@@ -75,16 +72,13 @@ public static partial class Points
         //
     {
         int i;
-            
-        double theta;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            theta = Math.PI * (n - i) 
-                    / (n + 1);
+            double theta = Math.PI * (n - i) 
+                           / (n + 1);
             x[i] = Math.Cos ( theta );
         }
 

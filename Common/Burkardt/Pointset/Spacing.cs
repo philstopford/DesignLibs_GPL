@@ -42,29 +42,29 @@ public static class Spacing
         //    point and a distinct point in the set.
         //
     {
-        double dist;
-        int i;
         int j1;
-        int j2;
-        double[] gamma;
 
-        gamma = new double[n];
+        double[] gamma = new double[n];
 
         for ( j1 = 0; j1 < n; j1++ )
         {
             gamma[j1] = typeMethods.r8_huge ( );
 
+            int j2;
             for ( j2 = 0; j2 < n; j2++ )
             {
-                if ( j2 != j1 )
+                if (j2 == j1)
                 {
-                    dist = 0.0;
-                    for ( i = 0; i < dim_num; i++ )
-                    {
-                        dist += Math.Pow ( z[i+j1*dim_num] - z[i+j2*dim_num], 2 );
-                    }
-                    gamma[j1] = Math.Min ( gamma[j1], dist );
+                    continue;
                 }
+
+                double dist = 0.0;
+                int i;
+                for ( i = 0; i < dim_num; i++ )
+                {
+                    dist += Math.Pow ( z[i+j1*dim_num] - z[i+j2*dim_num], 2 );
+                }
+                gamma[j1] = Math.Min ( gamma[j1], dist );
             }
         }
 
@@ -75,5 +75,4 @@ public static class Spacing
 
         return gamma;
     }
-    //*****
 }

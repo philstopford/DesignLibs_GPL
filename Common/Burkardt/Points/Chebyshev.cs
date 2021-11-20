@@ -31,16 +31,13 @@ public static partial class Points
         //    Input, double CHEBYSHEV1[N], the points.
         //
     {
-        double angle;
         int i;
-            
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            angle = Math.PI * (2 * i + 1) / (2 * n);
+            double angle = Math.PI * (2 * i + 1) / (2 * n);
             x[i] = Math.Cos(angle);
         }
 
@@ -74,12 +71,7 @@ public static partial class Points
         //    Input, double CHEBYSHEV2[N], the points.
         //
     {
-        double angle;
-        int i;
-            
-        double[] x;
-
-        x = new double[n];
+        double[] x = new double[n];
 
         switch (n)
         {
@@ -88,9 +80,10 @@ public static partial class Points
                 break;
             default:
             {
+                int i;
                 for (i = 0; i < n; i++)
                 {
-                    angle = Math.PI * (n - i - 1) / (n - 1);
+                    double angle = Math.PI * (n - i - 1) / (n - 1);
                     x[i] = Math.Cos(angle);
                 }
 
@@ -133,17 +126,14 @@ public static partial class Points
         //    Input, double CHEBYSHEV3[N], the points.
         //
     {
-        double angle;
         int i;
-            
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            angle = Math.PI * (2 * n - 2 * i - 1)
-                    / (2 * n + 1);
+            double angle = Math.PI * (2 * n - 2 * i - 1)
+                           / (2 * n + 1);
             x[i] = Math.Cos(angle);
         }
 
@@ -182,17 +172,14 @@ public static partial class Points
         //    Input, double CHEBYSHEV4[N], the points.
         //
     {
-        double angle;
         int i;
-            
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            angle = Math.PI * (2 * n - 2 * i)
-                    / (2 * n + 1);
+            double angle = Math.PI * (2 * n - 2 * i)
+                           / (2 * n + 1);
             x[i] = Math.Cos(angle);
         }
 
